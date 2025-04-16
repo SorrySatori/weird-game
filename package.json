@@ -1,0 +1,15 @@
+{
+  "name": "weird-game",
+  "version": "1.0.0",
+  "description": "A 2D point-and-click adventure game made with Phaser.js",
+  "main": "main.js",
+  "scripts": {
+    "start": "http-server -c-1"
+  },
+  "dependencies": {
+    "phaser": "^3.70.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

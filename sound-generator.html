@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sound Generator</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #7fff8e;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .sound-container {
+            border: 1px solid #2d2d2d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        button {
+            background: #2d2d2d;
+            color: #7fff8e;
+            border: 1px solid #7fff8e;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #3d3d3d;
+        }
+        .controls {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weird Game Sound Generator</h1>
+
+    <div class="sound-container">
+        <h2>Background Music</h2>
+        <p>A dark, atmospheric drone with eerie harmonics</p>
+        <audio id="bgMusic" controls></audio>
+        <div class="controls">
+            <button onclick="generateBackgroundMusic()">Generate & Play</button>
+            <button onclick="downloadCurrentAudio('bgMusic', 'background-music.wav')">Download</button>
+        </div>
+    </div>
+
+    <div class="sound-container">
+        <h2>Hover Sound</h2>
+        <p>An ethereal ascending tone</p>
+        <audio id="hoverSound" controls></audio>
+        <div class="controls">
+            <button onclick="generateHoverSound()">Generate & Play</button>
+            <button onclick="downloadCurrentAudio('hoverSound', 'hover.wav')">Download</button>
+        </div>
+    </div>
+
+    <div class="sound-container">
+        <h2>Click Sound</h2>
+        <p>A quick, descending tone</p>
+        <audio id="clickSound" controls></audio>
+        <div class="controls">
+            <button onclick="generateClickSound()">Generate & Play</button>
+            <button onclick="downloadCurrentAudio('clickSound', 'click.wav')">Download</button>
+        </div>
+    </div>
+
+    <script>
+        const sampleRate = 44100;
+        
+        function generateSineWave(frequency, duration, amplitude = 1) {
+            const samples = duration * sampleRate;
+            const wave = new Float32Array(samples);
+            
+            for (let i = 0; i < samples; i++) {
+                wave[i] = Math.sin(2 * Math.PI * frequency * i / sampleRate) * amplitude;
+            }
+            
+            return wave;
+        }
+
+        function applyEnvelope(wave, attack, decay, sustain, release) {
+            const samples = wave.length;
+            const attackSamples = attack * sampleRate;
+            const decaySamples = decay * sampleRate;
+            const releaseSamples = release * sampleRate;
+            
+            for (let i = 0; i < samples; i++) {
+                let envelope = 1;
+                
+                if (i < attackSamples) {
+                    envelope = i / attackSamples;
+                } else if (i < attackSamples + decaySamples) {
+                    envelope = 1 - (1 - sustain) * ((i - attackSamples) / decaySamples);
+                } else if (i > samples - releaseSamples) {
+                    envelope = sustain * (1 - (i - (samples - releaseSamples)) / releaseSamples);
+                } else {
+                    envelope = sustain;
+                }
+                
+                wave[i] *= envelope;
+            }
+            
+            return wave;
+        }
+
+        function createWavBlob(audioData) {
+            const buffer = new ArrayBuffer(44 + audioData.length * 2);
+            const view = new DataView(buffer);
+            
+            // Write WAV header
+            const writeString = (view, offset, string) => {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            };
+            
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + audioData.length * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, audioData.length * 2, true);
+            
+            // Write audio data
+            const samples = new Int16Array(buffer, 44, audioData.length);
+            for (let i = 0; i < audioData.length; i++) {
+                samples[i] = audioData[i] * 32767;
+            }
+            
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        function generateBackgroundMusic() {
+            const duration = 10;
+            const output = new Float32Array(duration * sampleRate);
+            
+            // Base drone
+            const baseDrone = generateSineWave(55, duration, 0.3);
+            for (let i = 0; i < output.length; i++) {
+                output[i] += baseDrone[i];
+            }
+            
+            // Harmonics
+            for (let i = 0; i < 5; i++) {
+                const freq = 55 * (2 + i);
+                const harmonic = generateSineWave(freq, duration, 0.1);
+                const envelope = new Float32Array(duration * sampleRate);
+                
+                // Create pulsing effect
+                for (let j = 0; j < envelope.length; j++) {
+                    const time = j / sampleRate;
+                    envelope[j] = 0.5 + 0.5 * Math.sin(2 * Math.PI * 0.2 * time + i);
+                }
+                
+                for (let j = 0; j < output.length; j++) {
+                    output[j] += harmonic[j] * envelope[j];
+                }
+            }
+            
+            const blob = createWavBlob(output);
+            playBlob(blob, 'bgMusic');
+        }
+
+        function generateHoverSound() {
+            const duration = 0.2;
+            let output = generateSineWave(440, duration);
+            
+            // Frequency modulation
+            for (let i = 0; i < output.length; i++) {
+                const time = i / sampleRate;
+                output[i] *= Math.sin(2 * Math.PI * (440 + 440 * time / duration) * time);
+            }
+            
+            output = applyEnvelope(output, 0.05, 0.1, 0.5, 0.05);
+            
+            const blob = createWavBlob(output);
+            playBlob(blob, 'hoverSound');
+        }
+
+        function generateClickSound() {
+            const duration = 0.1;
+            let output = generateSineWave(880, duration);
+            
+            // Frequency modulation
+            for (let i = 0; i < output.length; i++) {
+                const time = i / sampleRate;
+                output[i] *= Math.sin(2 * Math.PI * (880 - 440 * time / duration) * time);
+            }
+            
+            output = applyEnvelope(output, 0.01, 0.05, 0.5, 0.04);
+            
+            const blob = createWavBlob(output);
+            playBlob(blob, 'clickSound');
+        }
+
+        function playBlob(blob, elementId) {
+            const audio = document.getElementById(elementId);
+            audio.src = URL.createObjectURL(blob);
+            audio.play();
+        }
+
+        function downloadCurrentAudio(elementId, filename) {
+            const audio = document.getElementById(elementId);
+            if (audio.src) {
+                const a = document.createElement('a');
+                a.href = audio.src;
+                a.download = filename;
+                a.click();
+            } else {
+                alert('Please generate the sound first!');
+            }
+        }
+    </script>
+</body>
+</html>

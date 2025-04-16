@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NPC Generator</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #7fff8e;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        canvas {
+            border: 2px solid #333;
+            margin: 10px;
+        }
+        button {
+            background: #2d2d2d;
+            color: #7fff8e;
+            border: 1px solid #7fff8e;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #3d3d3d;
+        }
+    </style>
+</head>
+<body>
+    <h2>Mysterious Stranger NPC</h2>
+    <canvas id="npcCanvas" width="256" height="64"></canvas>
+    <br>
+    <button onclick="generateNPC()">Regenerate NPC</button>
+    <button onclick="downloadNPC()">Download NPC</button>
+
+    <script>
+        function generateNPC() {
+            const canvas = document.getElementById('npcCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Generate 4 animation frames
+            for (let frame = 0; frame < 4; frame++) {
+                const x = frame * 64;
+                
+                // Draw shadowy cloak
+                ctx.fillStyle = '#1a1a1a';
+                ctx.beginPath();
+                ctx.moveTo(x + 32, 10);
+                ctx.lineTo(x + 48, 60);
+                ctx.lineTo(x + 16, 60);
+                ctx.closePath();
+                ctx.fill();
+
+                // Add mysterious glow
+                const gradient = ctx.createRadialGradient(x + 32, 35, 5, x + 32, 35, 25);
+                gradient.addColorStop(0, 'rgba(127, 255, 142, 0.2)');
+                gradient.addColorStop(1, 'rgba(127, 255, 142, 0)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x + 7, 10, 50, 50);
+
+                // Draw hood
+                ctx.fillStyle = '#2d2d2d';
+                ctx.beginPath();
+                ctx.arc(x + 32, 20, 12, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Add floating effect based on frame
+                const floatOffset = Math.sin(frame * Math.PI/2) * 2;
+                ctx.translate(0, floatOffset);
+
+                // Add glowing runes
+                ctx.fillStyle = '#7fff8e';
+                for (let i = 0; i < 3; i++) {
+                    const runeX = x + 20 + i * 10;
+                    const runeY = 40 + Math.sin(frame + i) * 2;
+                    ctx.fillRect(runeX, runeY, 2, 2);
+                }
+
+                ctx.translate(0, -floatOffset);
+            }
+        }
+
+        function downloadNPC() {
+            const canvas = document.getElementById('npcCanvas');
+            const link = document.createElement('a');
+            link.download = 'mysterious-stranger.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Generate initial NPC
+        generateNPC();
+    </script>
+</body>
+</html>

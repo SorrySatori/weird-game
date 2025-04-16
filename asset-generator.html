@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset Generator</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        canvas {
+            border: 2px solid #333;
+            margin: 10px;
+        }
+        .asset-container {
+            margin-bottom: 20px;
+        }
+        button {
+            background: #2d2d2d;
+            color: #7fff8e;
+            border: 1px solid #7fff8e;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #3d3d3d;
+        }
+    </style>
+</head>
+<body>
+    <div class="asset-container">
+        <h2>City Background</h2>
+        <canvas id="cityCanvas" width="800" height="600"></canvas>
+        <br>
+        <button onclick="downloadCanvas('cityCanvas', 'city.png')">Download City Background</button>
+    </div>
+
+    <div class="asset-container">
+        <h2>Ground Texture</h2>
+        <canvas id="groundCanvas" width="800" height="100"></canvas>
+        <br>
+        <button onclick="downloadCanvas('groundCanvas', 'ground.png')">Download Ground Texture</button>
+    </div>
+
+    <div class="asset-container">
+        <h2>Fungus Priest Spritesheet</h2>
+        <canvas id="priestCanvas" width="256" height="64"></canvas>
+        <br>
+        <button onclick="downloadCanvas('priestCanvas', 'priest.png')">Download Priest Spritesheet</button>
+    </div>
+
+    <script>
+        function drawCity() {
+            const canvas = document.getElementById('cityCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Dark background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Add stars
+            for (let i = 0; i < 100; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * (canvas.height * 0.7);
+                const size = Math.random() * 2;
+                ctx.fillStyle = `rgba(127, 255, 142, ${Math.random() * 0.5})`;
+                ctx.fillRect(x, y, size, size);
+            }
+
+            // Draw weird buildings
+            for (let i = 0; i < 10; i++) {
+                const x = i * 80 + Math.random() * 40;
+                const height = 200 + Math.random() * 300;
+                const width = 60 + Math.random() * 20;
+                
+                // Building base
+                ctx.fillStyle = '#2d2d2d';
+                ctx.fillRect(x, canvas.height - height, width, height);
+                
+                // Windows
+                for (let j = 0; j < height/30; j++) {
+                    if (Math.random() > 0.3) {
+                        ctx.fillStyle = `rgba(127, 255, 142, ${Math.random() * 0.3})`;
+                        ctx.fillRect(x + 10, canvas.height - height + j * 30 + 10, width - 20, 10);
+                    }
+                }
+                
+                // Weird architectural details
+                ctx.fillStyle = '#3d3d3d';
+                ctx.beginPath();
+                ctx.moveTo(x, canvas.height - height);
+                ctx.lineTo(x + width/2, canvas.height - height - 30);
+                ctx.lineTo(x + width, canvas.height - height);
+                ctx.fill();
+            }
+
+            // Add fog
+            ctx.fillStyle = 'rgba(127, 255, 142, 0.1)';
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.ellipse(
+                    Math.random() * canvas.width,
+                    canvas.height - 100 - Math.random() * 200,
+                    100,
+                    50,
+                    0,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+        }
+
+        function drawGround() {
+            const canvas = document.getElementById('groundCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Base color
+            ctx.fillStyle = '#2d2d2d';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Add texture
+            for (let i = 0; i < 200; i++) {
+                ctx.fillStyle = `rgba(127, 255, 142, ${Math.random() * 0.2})`;
+                ctx.beginPath();
+                ctx.ellipse(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    Math.random() * 10,
+                    Math.random() * 5,
+                    Math.random() * Math.PI,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+        }
+
+        function drawPriest() {
+            const canvas = document.getElementById('priestCanvas');
+            const ctx = canvas.getContext('2d');
+            const frameWidth = 64;
+
+            // Clear canvas
+            ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw 4 animation frames
+            for (let frame = 0; frame < 4; frame++) {
+                const x = frame * frameWidth;
+                
+                // Draw robe base
+                ctx.fillStyle = '#2d2d2d';
+                ctx.beginPath();
+                ctx.moveTo(x + 32, 10);
+                ctx.lineTo(x + 45, 60);
+                ctx.lineTo(x + 19, 60);
+                ctx.closePath();
+                ctx.fill();
+
+                // Draw hood
+                ctx.fillStyle = '#3d3d3d';
+                ctx.beginPath();
+                ctx.arc(x + 32, 15, 10, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw glowing eyes
+                ctx.fillStyle = '#7fff8e';
+                ctx.beginPath();
+                ctx.arc(x + 29, 15, 2, 0, Math.PI * 2);
+                ctx.arc(x + 35, 15, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Add animation pose
+                const offset = Math.sin(frame * Math.PI/2) * 3;
+                ctx.fillStyle = '#2d2d2d';
+                ctx.fillRect(x + 25 + offset, 60, 4, 4);
+                ctx.fillRect(x + 35 - offset, 60, 4, 4);
+            }
+        }
+
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Generate assets
+        drawCity();
+        drawGround();
+        drawPriest();
+    </script>
+</body>
+</html>

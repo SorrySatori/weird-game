@@ -1,0 +1,124 @@
+class MainScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MainScene' });
+        console.log('MainScene constructor called');
+    }
+
+    preload() {
+        console.log('MainScene preload started');
+        // Load images
+        this.load.image('background', 'assets/images/background.png');
+        this.load.image('cursor', 'assets/images/cursor.png');
+        
+        // Load sound assets
+        this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
+        this.load.audio('hoverSound', 'assets/sounds/hover.wav');
+        this.load.audio('clickSound', 'assets/sounds/click.wav');
+
+        // Handle load errors
+        this.load.on('loaderror', (fileObj) => {
+            console.log('Error loading asset:', fileObj.key);
+        });
+    }
+
+    create() {
+        console.log('MainScene create started');
+        try {
+            // Create an invisible rectangle that covers the entire game area
+            const gameArea = this.add.rectangle(0, 0, 800, 600, 0x000000, 0);
+            gameArea.setOrigin(0, 0);
+            gameArea.setInteractive();
+
+            // Add background
+            const bg = this.add.image(400, 300, 'background');
+            bg.setDisplaySize(800, 600);
+
+            // Start background music
+            this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+            this.backgroundMusic.play();
+
+            // Add hover and click sounds
+            this.hoverSound = this.sound.add('hoverSound');
+            this.clickSound = this.sound.add('clickSound');
+
+            // Add title text
+            const title = this.add.text(400, 200, 'Weird Game', {
+                fontSize: '72px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial',
+                stroke: '#0a2712',
+                strokeThickness: 8,
+                shadow: { color: '#2fff91', blur: 10, stroke: true, fill: true }
+            });
+            title.setOrigin(0.5);
+
+            // Create button background
+            const buttonBg = this.add.rectangle(400, 400, 200, 60, 0x0a2712, 0.4);
+            buttonBg.setStrokeStyle(2, 0x7fff8e);
+            buttonBg.setInteractive();
+            buttonBg.setDepth(1);
+
+            // Add start button text
+            const startButton = this.add.text(400, 400, 'Start Game', {
+                fontSize: '32px',
+                fill: '#7fff8e',
+                padding: { x: 20, y: 10 }
+            });
+            startButton.setOrigin(0.5);
+            startButton.setDepth(2);
+
+            // Set up custom cursor
+            this.input.setDefaultCursor('none');
+            this.cursor = this.add.image(0, 0, 'cursor');
+            this.cursor.setScale(0.008);
+            this.cursor.setAlpha(0.8);
+            this.cursor.setDepth(1000); // Make sure cursor is always on top
+            
+            this.input.on('pointermove', (pointer) => {
+                this.cursor.setPosition(pointer.x, pointer.y);
+            });
+
+            // Add hover effects to button background
+            buttonBg.on('pointerover', () => {
+                console.log('Button hover started');
+                buttonBg.setFillStyle(0x0a2712, 0.6);
+                startButton.setStyle({ fill: '#b3ffcc' });
+                startButton.setScale(1.1);
+                buttonBg.setScale(1.1);
+                this.hoverSound.play();
+            });
+
+            buttonBg.on('pointerout', () => {
+                console.log('Button hover ended');
+                buttonBg.setFillStyle(0x0a2712, 0.4);
+                startButton.setStyle({ fill: '#7fff8e' });
+                startButton.setScale(1);
+                buttonBg.setScale(1);
+            });
+
+            // Add click handler to button background
+            buttonBg.on('pointerdown', () => {
+                console.log('Button clicked!');
+                this.clickSound.play();
+                this.backgroundMusic.stop();
+                this.scene.start('GameScene');
+            });
+
+            // Add global click handler to debug
+            this.input.on('pointerdown', (pointer) => {
+                console.log('Click detected at:', pointer.x, pointer.y);
+            });
+
+        } catch (error) {
+            console.error('Error in create():', error);
+        }
+    }
+
+    update() {
+        // Game loop updates will go here
+    }
+}
+
+if (typeof window !== 'undefined') {
+    window.MainScene = MainScene;
+}
