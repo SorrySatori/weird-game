@@ -19,6 +19,7 @@ class GameScene extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64
         });
+        this.load.image('fungalPriestAvatar', 'assets/images/fungal-priest.png');
 
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
@@ -173,6 +174,15 @@ class GameScene extends Phaser.Scene {
                 this.scene.start('MainScene');
             });
 
+            // Avatar sprite for dialog (hidden by default)
+            this.avatar = this.add.image(-250, 0, 'fungalPriestAvatar');
+            this.avatar.setDisplaySize(128, 128);
+            this.avatar.setVisible(false);
+            // Move avatar to top right corner
+            this.avatar.setPosition(800 - 64, 64); // Assuming 800x600 game size
+            // Ensure avatar is above background but below dialog box
+            this.avatar.setDepth(999);
+
         } catch (error) {
             console.error('Error in create():', error);
         }
@@ -238,6 +248,11 @@ class GameScene extends Phaser.Scene {
         // Destroy previous dialog if it exists
         if (this.dialogBox) {
             this.dialogBox.destroy();
+        }
+        if (this.avatar) {
+            this.avatar.setVisible(true);
+            // Keep avatar at top right
+            this.avatar.setPosition(800 - 64, 64);
         }
 
         this.dialogVisible = true;
@@ -308,6 +323,7 @@ class GameScene extends Phaser.Scene {
             this.hideDialog();
         });
         this.dialogOptions.add(closeElements);
+
     }
 
     hideDialog() {
@@ -315,6 +331,10 @@ class GameScene extends Phaser.Scene {
         if (this.dialogBox) {
             this.dialogBox.destroy();
             this.dialogBox = null;
+        }
+        // Hide avatar on dialog close
+        if (this.avatar) {
+            this.avatar.setVisible(false);
         }
     }
 
