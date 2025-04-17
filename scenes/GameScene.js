@@ -23,6 +23,7 @@ class GameScene extends Phaser.Scene {
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
         this.load.audio('clickSound', 'assets/sounds/click.wav');
+        this.load.audio('dialogMurmur', 'assets/sounds/dialog-murmur.wav');
 
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {
@@ -46,6 +47,9 @@ class GameScene extends Phaser.Scene {
 
             // Add click sound
             this.clickSound = this.sound.add('clickSound');
+            
+            // Add dialog murmur sound
+            this.dialogMurmur = this.sound.add('dialogMurmur');
 
             // Set up custom cursor for non-interactive areas
             this.cursor = this.add.image(0, 0, 'cursor');
@@ -196,7 +200,7 @@ class GameScene extends Phaser.Scene {
         });
 
         optionBg.on('pointerdown', () => {
-            this.clickSound.play();
+            this.dialogMurmur.play();
             
             // Disable interaction to prevent multiple clicks
             optionBg.disableInteractive();
@@ -217,6 +221,11 @@ class GameScene extends Phaser.Scene {
                 ease: 'Power2',
                 onComplete: () => {
                     this.dialogOptionsY = 200; // Update tracked position
+                    // Play dialog murmur sound before showing next dialog
+                    this.dialogMurmur.play({
+                        volume: 0.8,
+                        rate: 0.8
+                    });
                     callback();
                 }
             });
@@ -243,6 +252,33 @@ class GameScene extends Phaser.Scene {
         const dialogBg = this.add.rectangle(0, 0, 600, 300, 0x0a2712, 0.9);
         dialogBg.setStrokeStyle(2, 0x7fff8e);
         this.dialogBox.add(dialogBg);
+
+        // Add 'X' close button
+        const closeBtn = this.add.container(280, -130);
+        const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
+        closeBg.setStrokeStyle(1, 0x7fff8e);
+        const closeText = this.add.text(0, 0, 'X', {
+            fontSize: '24px',
+            fill: '#7fff8e'
+        });
+        closeText.setOrigin(0.5);
+        closeBtn.add([closeBg, closeText]);
+        this.dialogBox.add(closeBtn);
+
+        // Make close button interactive
+        closeBg.setInteractive({ useHandCursor: true });
+        closeBg.on('pointerover', () => {
+            closeBg.setFillStyle(0x0a2712, 0.8);
+            closeText.setStyle({ fill: '#b3ffcc' });
+        });
+        closeBg.on('pointerout', () => {
+            closeBg.setFillStyle(0x0a2712, 0.6);
+            closeText.setStyle({ fill: '#7fff8e' });
+        });
+        closeBg.on('pointerdown', () => {
+            this.clickSound.play();
+            this.hideDialog();
+        });
 
         // Dialog text
         this.dialogText = this.add.text(-280, -120, content.text, {
@@ -285,7 +321,7 @@ class GameScene extends Phaser.Scene {
     get dialogContent() {
         return {
             main: {
-                text: "Greetings, seeker of truth. I am but a whisper in this strange city.",
+                text: "Greetings, seeker of truth. I am but a whisper in this strange city, messenger of the fungal gods",
                 options: [
                     { text: "Tell me more about the city", next: 'city' },
                     { text: "Who are the fungal gods?", next: 'gods' }
