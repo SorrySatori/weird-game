@@ -1,6 +1,6 @@
 class GameScene extends Phaser.Scene {
-    constructor() {
-        super({ key: 'GameScene' });
+    constructor(config = { key: 'GameScene' }) {
+        super(config);
         this.dialogVisible = false;
         this.dialogState = 'main';
         this.dialogOptionsY = 0; // Track options position
@@ -33,11 +33,19 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-        try {
-            // Add the city background
-            const bg = this.add.image(400, 300, 'cityBackground');
-            bg.setDisplaySize(800, 600);
+        this.createCityBackground();
+        this.initSceneMechanics();
+    }
 
+    createCityBackground() {
+        // Add the city background
+        const bg = this.add.image(400, 300, 'cityBackground');
+        bg.setDisplaySize(800, 600);
+        bg.setDepth(-1);
+    }
+
+    initSceneMechanics() {
+        try {
             // Add ground/street platform
             const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
             ground.setDisplaySize(800, 100);
@@ -66,40 +74,38 @@ class GameScene extends Phaser.Scene {
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
 
-            // Create the Mysterious Stranger NPC
-            this.stranger = this.add.sprite(600, 470, 'stranger');
-            this.stranger.setScale(2);
-            this.stranger.setInteractive({ useHandCursor: true });
-            
-            // Handle cursor visibility
-            this.input.on('gameobjectover', (pointer, gameObject) => {
-                if (gameObject.input.useHandCursor) {
-                    this.cursor.setAlpha(0);
-                }
-            });
-            
-            this.input.on('gameobjectout', (pointer, gameObject) => {
-                if (gameObject.input.useHandCursor) {
-                    this.cursor.setAlpha(0.8);
-                }
-            });
-
-            // Create NPC idle animation
-            this.anims.create({
-                key: 'stranger-idle',
-                frames: this.anims.generateFrameNumbers('stranger', { start: 0, end: 3 }),
-                frameRate: 4,
-                repeat: -1
-            });
-            this.stranger.play('stranger-idle');
-
-            // Add click handler for NPC
-            this.stranger.on('pointerdown', () => {
-                if (!this.dialogVisible) {
-                    this.clickSound.play();
-                    this.showDialog('main');
-                }
-            });
+            // Only add the Stranger if not EggCatedralScene
+            if (!this.isEggCatedral()) {
+                this.stranger = this.add.sprite(600, 470, 'stranger');
+                this.stranger.setScale(2);
+                this.stranger.setInteractive({ useHandCursor: true });
+                // Handle cursor visibility for stranger
+                this.input.on('gameobjectover', (pointer, gameObject) => {
+                    if (gameObject.input.useHandCursor) {
+                        this.cursor.setAlpha(0);
+                    }
+                });
+                this.input.on('gameobjectout', (pointer, gameObject) => {
+                    if (gameObject.input.useHandCursor) {
+                        this.cursor.setAlpha(0.8);
+                    }
+                });
+                // Create NPC idle animation
+                this.anims.create({
+                    key: 'stranger-idle',
+                    frames: this.anims.generateFrameNumbers('stranger', { start: 0, end: 3 }),
+                    frameRate: 4,
+                    repeat: -1
+                });
+                this.stranger.play('stranger-idle');
+                // Add click handler for NPC
+                this.stranger.on('pointerdown', () => {
+                    if (!this.dialogVisible) {
+                        this.clickSound.play();
+                        this.showDialog('main');
+                    }
+                });
+            }
 
             // Create walking animation
             this.anims.create({
@@ -186,6 +192,11 @@ class GameScene extends Phaser.Scene {
         } catch (error) {
             console.error('Error in create():', error);
         }
+    }
+
+    // Helper to determine if this is EggCatedralScene
+    isEggCatedral() {
+        return this.scene && this.scene.key === 'EggCatedralScene';
     }
 
     createDialogOption(text, y, callback) {
@@ -366,6 +377,14 @@ class GameScene extends Phaser.Scene {
 
     update() {
         // Game loop updates will go here
+        // Check if priest reaches right edge (adjusted threshold)
+        if (this.priest && this.priest.x >= 750 && !this.isEggCatedral()) {
+            this.scene.start('EggCatedralScene');
+        }
+        // In EggCatedralScene, check if priest reaches the left edge
+        if (this.priest && this.priest.x <= 50 && this.isEggCatedral()) {
+            this.scene.start('GameScene');
+        }
     }
 }
 

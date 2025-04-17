@@ -2,7 +2,7 @@ const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    scene: [MainScene, GameScene],
+    scene: [MainScene, GameScene, EggCatedralScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
