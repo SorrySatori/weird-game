@@ -2,7 +2,14 @@ const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    scene: [MainScene, GameScene, EggCatedralScene],
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
+    scene: [MainScene, GameScene, EggCatedralScene, CathedralEntrance],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {

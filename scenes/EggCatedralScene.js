@@ -36,8 +36,8 @@ class EggCatedralScene extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        // Optionally: start a new scene or show dialog
-                        this.scene.start('GameScene');
+                        // Direct to the Cathedral Entrance scene instead of GameScene
+                        this.scene.start('CathedralEntrance');
                     });
                 }
             });
