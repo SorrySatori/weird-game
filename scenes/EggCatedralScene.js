@@ -14,11 +14,15 @@ class EggCatedralScene extends GameScene {
         const bg = this.add.image(400, 300, 'eggCatedralBg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
+        
         // Add invisible clickable door at entrance (adjust position/size as needed)
-        this.door = this.add.image(400, 400, 'door').setDisplaySize(100, 120).setAlpha(0.01).setInteractive({ useHandCursor: true });
+        this.door = this.add.image(450, 300, 'door').setDisplaySize(100, 120).setAlpha(0.01).setInteractive({ useHandCursor: true });
         this.door.setDepth(10);
+        
+        
         // Use all mechanics from GameScene except city background
         this.initSceneMechanics();
+        
         // Door click logic
         this.door.on('pointerdown', () => {
             // Move priest to door, then fade out

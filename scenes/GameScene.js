@@ -74,8 +74,56 @@ class GameScene extends Phaser.Scene {
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
             
-            // Apply a brown/fungal tint to make it look like a fungal priest
-            this.priest.setTint(0xA67C52);  // Brownish fungal color
+            // Apply a darker brown fungal tint
+            this.priest.setTint(0x8B4513);  // Darker brown for more fungal look
+            
+            // Create a simpler staff for the priest
+            this.staff = this.add.graphics();
+            this.staff.lineStyle(3, 0x8B4513, 1); // Thinner brown staff stick
+            this.staff.lineBetween(0, 0, 0, -50); // Slightly shorter staff
+            
+            // Add a glowing orb at the top of the staff
+            this.staffOrb = this.add.circle(0, -55, 6, 0x00FF00, 0.8);
+            this.staffOrb.setBlendMode(Phaser.BlendModes.ADD);
+            
+            // Remove the separate arms and hands graphics
+            if (this.lowerArm) this.lowerArm.destroy();
+            if (this.upperArm) this.upperArm.destroy();
+            if (this.priestHand) this.priestHand.destroy();
+            if (this.priestHandUpper) this.priestHandUpper.destroy();
+            
+            // Add pulsating effect to the staff orb
+            this.tweens.add({
+                targets: this.staffOrb,
+                alpha: 0.4,
+                duration: 1000,
+                yoyo: true,
+                repeat: -1,
+                ease: 'Sine.easeInOut'
+            });
+            
+            // Position the staff relative to the priest
+            this.updateStaffPosition(1); // 1 = facing right
+            
+            // Add a green glow effect for the fungal appearance
+            const glowFX = this.add.sprite(100, 470, 'priest');
+            glowFX.setScale(2.1);  // Slightly larger than the character
+            glowFX.setTint(0x00FF00);  // Green glow
+            glowFX.setAlpha(0.2);  // Transparent glow
+            glowFX.setBlendMode(Phaser.BlendModes.ADD);  // Additive blending for glow effect
+            
+            // Make the glow follow the priest
+            this.priestGlow = glowFX;
+            
+            // Add pulsating effect to the glow
+            this.tweens.add({
+                targets: this.priestGlow,
+                alpha: 0.3,
+                duration: 1500,
+                yoyo: true,
+                repeat: -1,
+                ease: 'Sine.easeInOut'
+            });
 
             // Create walking animation
             this.anims.create({
@@ -136,13 +184,21 @@ class GameScene extends Phaser.Scene {
                     const direction = targetX < this.priest.x ? -1 : 1;
                     this.clickSound.play();
                     this.priest.setScale(2 * direction, 2);
+                    this.priestGlow.setScale(2.1 * direction, 2.1);  // Flip the glow too
+                    this.priestGlow.x = this.priest.x;  // Keep glow aligned with priest
+                    this.updateStaffPosition(direction); // Update staff position
                     this.priest.play('walk');
                     
                     this.tweens.add({
-                        targets: this.priest,
+                        targets: [this.priest, this.priestGlow],  // Move both priest and glow
                         x: targetX,
                         duration: Math.abs(targetX - this.priest.x) * 5,
                         ease: 'Linear',
+                        onUpdate: () => {
+                            // Update staff position as priest moves
+                            const direction = targetX < this.priest.x ? -1 : 1;
+                            this.updateStaffPosition(direction);
+                        },
                         onComplete: () => {
                             this.priest.play('idle');
                         }
@@ -450,6 +506,17 @@ class GameScene extends Phaser.Scene {
                 ]
             }
         };
+    }
+
+    updateStaffPosition(direction) {
+        // Position staff based on direction priest is facing
+        const offsetX = direction > 0 ? 15 : -15; // Staff closer to body
+        
+        // Position the staff
+        this.staff.x = this.priest.x + offsetX;
+        this.staff.y = this.priest.y - 10;
+        this.staffOrb.x = this.staff.x;
+        this.staffOrb.y = this.staff.y - 55; // Adjusted for shorter staff
     }
 
     update() {
