@@ -515,8 +515,8 @@ class GameScene extends Phaser.Scene {
         // Clear all slots
         this.inventorySlots.forEach(slot => {
             // Remove any item sprites but keep the background
-            for (let i = slot.list.length - 1; i > 0; i--) {
-                slot.list[i].destroy();
+            while (slot.list.length > 1) {
+                slot.remove(slot.list[slot.list.length - 1], true);
             }
         });
         
@@ -532,17 +532,19 @@ class GameScene extends Phaser.Scene {
                 if (item.spriteKey) {
                     // If item has a sprite, use it
                     const itemSprite = this.add.image(0, 0, item.spriteKey);
-                    itemSprite.setDisplaySize(60, 60);
+                    itemSprite.setDisplaySize(40, 40); // Smaller and fits inside slot
+                    itemSprite.setOrigin(0.5, 0.5);
+                    itemSprite.setPosition(0, 0);
                     slot.add(itemSprite);
                 } else {
                     // Otherwise create a colored circle with the first letter
                     const itemCircle = this.add.graphics();
                     itemCircle.fillStyle(item.color || 0x7fff8e, 1);
-                    itemCircle.fillCircle(0, 0, 30);
+                    itemCircle.fillCircle(0, 0, 24);
                     slot.add(itemCircle);
                     
                     const itemText = this.add.text(0, 0, item.name.charAt(0).toUpperCase(), {
-                        fontSize: '24px',
+                        fontSize: '20px',
                         fill: '#0a2712'
                     });
                     itemText.setOrigin(0.5);
@@ -551,8 +553,8 @@ class GameScene extends Phaser.Scene {
                 
                 // Add item count if stackable
                 if (item.count && item.count > 1) {
-                    const countText = this.add.text(20, 20, `x${item.count}`, {
-                        fontSize: '16px',
+                    const countText = this.add.text(16, 16, `x${item.count}`, {
+                        fontSize: '14px',
                         fill: '#7fff8e',
                         stroke: '#0a2712',
                         strokeThickness: 4
@@ -1332,8 +1334,8 @@ class GameScene extends Phaser.Scene {
         // Clear all slots
         this.inventorySlots.forEach(slot => {
             // Remove any item sprites but keep the background
-            for (let i = slot.list.length - 1; i > 0; i--) {
-                slot.list[i].destroy();
+            while (slot.list.length > 1) {
+                slot.remove(slot.list[slot.list.length - 1], true);
             }
         });
         
@@ -1349,17 +1351,19 @@ class GameScene extends Phaser.Scene {
                 if (item.spriteKey) {
                     // If item has a sprite, use it
                     const itemSprite = this.add.image(0, 0, item.spriteKey);
-                    itemSprite.setDisplaySize(60, 60);
+                    itemSprite.setDisplaySize(40, 40); // Smaller and fits inside slot
+                    itemSprite.setOrigin(0.5, 0.5);
+                    itemSprite.setPosition(0, 0);
                     slot.add(itemSprite);
                 } else {
                     // Otherwise create a colored circle with the first letter
                     const itemCircle = this.add.graphics();
                     itemCircle.fillStyle(item.color || 0x7fff8e, 1);
-                    itemCircle.fillCircle(0, 0, 30);
+                    itemCircle.fillCircle(0, 0, 24);
                     slot.add(itemCircle);
                     
                     const itemText = this.add.text(0, 0, item.name.charAt(0).toUpperCase(), {
-                        fontSize: '24px',
+                        fontSize: '20px',
                         fill: '#0a2712'
                     });
                     itemText.setOrigin(0.5);
@@ -1368,8 +1372,8 @@ class GameScene extends Phaser.Scene {
                 
                 // Add item count if stackable
                 if (item.count && item.count > 1) {
-                    const countText = this.add.text(20, 20, `x${item.count}`, {
-                        fontSize: '16px',
+                    const countText = this.add.text(16, 16, `x${item.count}`, {
+                        fontSize: '14px',
                         fill: '#7fff8e',
                         stroke: '#0a2712',
                         strokeThickness: 4
