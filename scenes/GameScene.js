@@ -4,6 +4,7 @@ class GameScene extends Phaser.Scene {
         this.dialogVisible = false;
         this.dialogState = 'main';
         this.dialogOptionsY = 0; // Track options position
+        this.isTransitioning = false; // Flag to prevent multiple transitions
     }
 
     preload() {
@@ -521,13 +522,18 @@ class GameScene extends Phaser.Scene {
 
     update() {
         // Game loop updates will go here
-        // Check if priest reaches right edge (adjusted threshold)
-        if (this.priest && this.priest.x >= 750 && !this.isEggCatedral()) {
-            this.scene.start('EggCatedralScene');
-        }
-        // In EggCatedralScene, check if priest reaches the left edge
-        if (this.priest && this.priest.x <= 50 && this.isEggCatedral()) {
-            this.scene.start('GameScene');
+        
+        // Only handle scene transitions in the main GameScene, not in scenes that extend it
+        if (this.scene.key === 'GameScene') {
+            // Check if priest reaches right edge (adjusted threshold)
+            if (this.priest && this.priest.x >= 750 && !this.isTransitioning) {
+                this.isTransitioning = true;
+                this.cameras.main.fadeOut(800, 0, 0, 0);
+                this.cameras.main.once('camerafadeoutcomplete', () => {
+                    this.scene.start('EggCatedralScene');
+                    this.isTransitioning = false;
+                });
+            }
         }
     }
 }
