@@ -383,12 +383,10 @@ class GameScene extends Phaser.Scene {
         closeBg.on('pointerover', () => {
             closeBg.setFillStyle(0x0a2712, 0.8);
             closeText.setStyle({ fill: '#b3ffcc' });
-            this.cursor.setAlpha(0); // Hide custom cursor on button
         });
         closeBg.on('pointerout', () => {
             closeBg.setFillStyle(0x0a2712, 0.6);
             closeText.setStyle({ fill: '#7fff8e' });
-            this.cursor.setAlpha(0.8); // Show custom cursor again
         });
         closeBg.on('pointerdown', () => {
             if (this.clickSound) {
@@ -1202,12 +1200,10 @@ class GameScene extends Phaser.Scene {
         closeBg.on('pointerover', () => {
             closeBg.setFillStyle(0x0a2712, 0.8);
             closeText.setStyle({ fill: '#b3ffcc' });
-            this.cursor.setAlpha(0); // Hide custom cursor on button
         });
         closeBg.on('pointerout', () => {
             closeBg.setFillStyle(0x0a2712, 0.6);
             closeText.setStyle({ fill: '#7fff8e' });
-            this.cursor.setAlpha(0.8); // Show custom cursor again
         });
         closeBg.on('pointerdown', () => {
             if (this.clickSound) {
