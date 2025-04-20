@@ -320,6 +320,9 @@ class GameScene extends Phaser.Scene {
         if (this.dialogBox) {
             this.dialogBox.destroy();
         }
+        if (this.textMaskGraphics) {
+            this.textMaskGraphics.destroy();
+        }
         if (this.avatar) {
             this.avatar.setVisible(true);
             // Keep avatar at top right
@@ -335,12 +338,12 @@ class GameScene extends Phaser.Scene {
         this.dialogBox.setDepth(1000);
         
         // Dialog background
-        const dialogBg = this.add.rectangle(0, 0, 600, 300, 0x0a2712, 0.9);
+        const dialogBg = this.add.rectangle(0, 0, 600, 400, 0x0a2712, 0.9);
         dialogBg.setStrokeStyle(2, 0x7fff8e);
         this.dialogBox.add(dialogBg);
 
         // Add 'X' close button
-        const closeBtn = this.add.container(280, -130);
+        const closeBtn = this.add.container(280, -180);
         const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
         closeBg.setStrokeStyle(1, 0x7fff8e);
         const closeText = this.add.text(0, 0, 'X', {
@@ -366,43 +369,237 @@ class GameScene extends Phaser.Scene {
             this.hideDialog();
         });
 
-        // Dialog text
-        this.dialogText = this.add.text(-280, -120, content.text, {
-            fontSize: '24px',
+        // Create a separate container for text area with fixed height
+        const textContainer = this.add.container(0, -120);
+        this.dialogBox.add(textContainer);
+        
+        // Create background for text area
+        const textBgHeight = 120;
+        const textBg = this.add.rectangle(0, 0, 560, textBgHeight, 0x0a2712, 0.8);
+        textBg.setStrokeStyle(1, 0x7fff8e);
+        textContainer.add(textBg);
+        
+        // Create mask for scrollable text
+        this.textMaskGraphics = this.add.graphics();
+        this.textMaskGraphics.fillStyle(0xffffff);
+        this.textMaskGraphics.fillRect(400 - 270, 300 - 180, 540, textBgHeight - 10);
+        
+        // Create text with proper wrapping
+        this.dialogText = this.add.text(0, -(textBgHeight/2) + 10, content.text, {
+            fontSize: '22px',
             fill: '#7fff8e',
-            wordWrap: { width: 560 },
-            lineSpacing: 6
+            wordWrap: { width: 520 },
+            lineSpacing: 6,
+            align: 'center'
         });
-        this.dialogBox.add(this.dialogText);
-
-        // Create new dialog options container
-        this.dialogOptions = this.add.container(0, this.dialogOptionsY);
-        this.dialogBox.add(this.dialogOptions);
+        this.dialogText.setOrigin(0.5, 0);
+        textContainer.add(this.dialogText);
         
-        // Create dialog options with increased spacing
-        content.options.forEach((option, index) => {
-            const y = index * 60;
-            const elements = this.createDialogOption(option.text, y, () => {
-                this.showDialog(option.next);
+        // Set up text scrolling if needed
+        const textHeight = this.dialogText.height;
+        const textAreaHeight = textBgHeight - 20; // Account for padding
+        
+        if (textHeight > textAreaHeight) {
+            // Text needs scrolling
+            this.dialogText.setMask(new Phaser.Display.Masks.GeometryMask(this, this.textMaskGraphics));
+            
+            // Add scroll indicators
+            const upArrow = this.add.text(-260, -(textBgHeight/2) + 5, '▲', {
+                fontSize: '18px',
+                fill: '#7fff8e'
             });
-            this.dialogOptions.add(elements);
-        });
+            upArrow.setOrigin(0.5);
+            textContainer.add(upArrow);
+            
+            const downArrow = this.add.text(-260, (textBgHeight/2) - 5, '▼', {
+                fontSize: '18px',
+                fill: '#7fff8e'
+            });
+            downArrow.setOrigin(0.5);
+            textContainer.add(downArrow);
+            
+            // Make arrows interactive
+            upArrow.setInteractive({ useHandCursor: true });
+            upArrow.on('pointerover', () => upArrow.setStyle({ fill: '#b3ffcc' }));
+            upArrow.on('pointerout', () => upArrow.setStyle({ fill: '#7fff8e' }));
+            upArrow.on('pointerdown', () => {
+                this.clickSound.play();
+                if (this.dialogText.y < -(textBgHeight/2) + 10) {
+                    this.dialogText.y += 20;
+                    if (this.dialogText.y > -(textBgHeight/2) + 10) {
+                        this.dialogText.y = -(textBgHeight/2) + 10;
+                    }
+                }
+            });
+            
+            downArrow.setInteractive({ useHandCursor: true });
+            downArrow.on('pointerover', () => downArrow.setStyle({ fill: '#b3ffcc' }));
+            downArrow.on('pointerout', () => downArrow.setStyle({ fill: '#7fff8e' }));
+            downArrow.on('pointerdown', () => {
+                this.clickSound.play();
+                const minY = -(textBgHeight/2) + 10 - (textHeight - textAreaHeight);
+                if (this.dialogText.y > minY) {
+                    this.dialogText.y -= 20;
+                    if (this.dialogText.y < minY) {
+                        this.dialogText.y = minY;
+                    }
+                }
+            });
+            
+            // Add mouse wheel support
+            this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+                if (this.dialogVisible && pointer.y < 300) {
+                    const scrollAmount = deltaY > 0 ? -20 : 20;
+                    const newY = this.dialogText.y + scrollAmount;
+                    const minY = -(textBgHeight/2) + 10 - (textHeight - textAreaHeight);
+                    
+                    if (newY <= -(textBgHeight/2) + 10 && newY >= minY) {
+                        this.dialogText.y = newY;
+                    } else if (newY > -(textBgHeight/2) + 10) {
+                        this.dialogText.y = -(textBgHeight/2) + 10;
+                    } else if (newY < minY) {
+                        this.dialogText.y = minY;
+                    }
+                }
+            });
+        }
         
-        // Add close option at the bottom with proper spacing
-        const closeElements = this.createDialogOption('Close', content.options.length * 60, () => {
-            this.dialogOptionsY = 0;
-            this.hideDialog();
-        });
-        this.dialogOptions.add(closeElements);
-
+        // Create options container - positioned well below the text area
+        const optionsContainer = this.add.container(0, 0);
+        this.dialogBox.add(optionsContainer);
+        
+        // Create dialog options container
+        this.dialogOptions = this.add.container(0, 0);
+        optionsContainer.add(this.dialogOptions);
+        
+        // Create dialog options
+        const visibleOptionsCount = 4; // Maximum number of visible options
+        const optionHeight = 60;
+        
+        // Calculate total options including "Close"
+        const totalOptions = content.options.length + 1;
+        
+        // Determine if we need pagination
+        const needsPagination = totalOptions > visibleOptionsCount;
+        
+        // Track current page
+        this.currentOptionPage = 0;
+        const totalPages = Math.ceil(totalOptions / visibleOptionsCount);
+        
+        // Function to show options for current page
+        const showOptionsForPage = (page) => {
+            // Clear existing options
+            this.dialogOptions.removeAll(true);
+            
+            // Calculate start and end indices for current page
+            const startIdx = page * visibleOptionsCount;
+            const endIdx = Math.min(startIdx + visibleOptionsCount, content.options.length);
+            
+            // Add options for current page
+            for (let i = startIdx; i < endIdx; i++) {
+                const option = content.options[i];
+                const y = (i - startIdx) * optionHeight;
+                
+                const elements = this.createDialogOption(option.text, y, () => {
+                    this.showDialog(option.next);
+                });
+                this.dialogOptions.add(elements);
+            }
+            
+            // Add close option if it fits on this page
+            if (endIdx === content.options.length && (endIdx - startIdx) < visibleOptionsCount) {
+                const y = (endIdx - startIdx) * optionHeight;
+                const closeElements = this.createDialogOption('Close', y, () => {
+                    this.hideDialog();
+                });
+                this.dialogOptions.add(closeElements);
+            }
+            
+            // Add pagination controls if needed
+            if (needsPagination) {
+                // Add page indicator
+                const pageText = this.add.text(0, visibleOptionsCount * optionHeight + 20, 
+                    `Page ${page + 1}/${totalPages}`, {
+                    fontSize: '18px',
+                    fill: '#7fff8e'
+                });
+                pageText.setOrigin(0.5, 0);
+                this.dialogOptions.add(pageText);
+                
+                // Previous page button
+                if (page > 0) {
+                    const prevBtn = this.add.container(-100, visibleOptionsCount * optionHeight + 20);
+                    const prevBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
+                    prevBg.setStrokeStyle(1, 0x7fff8e);
+                    const prevText = this.add.text(0, 0, '< Prev', {
+                        fontSize: '18px',
+                        fill: '#7fff8e'
+                    });
+                    prevText.setOrigin(0.5);
+                    prevBtn.add([prevBg, prevText]);
+                    this.dialogOptions.add(prevBtn);
+                    
+                    prevBg.setInteractive({ useHandCursor: true });
+                    prevBg.on('pointerover', () => {
+                        prevBg.setFillStyle(0x0a2712, 0.8);
+                        prevText.setStyle({ fill: '#b3ffcc' });
+                    });
+                    prevBg.on('pointerout', () => {
+                        prevBg.setFillStyle(0x0a2712, 0.6);
+                        prevText.setStyle({ fill: '#7fff8e' });
+                    });
+                    prevBg.on('pointerdown', () => {
+                        this.clickSound.play();
+                        this.currentOptionPage--;
+                        showOptionsForPage(this.currentOptionPage);
+                    });
+                }
+                
+                // Next page button
+                if (page < totalPages - 1) {
+                    const nextBtn = this.add.container(100, visibleOptionsCount * optionHeight + 20);
+                    const nextBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
+                    nextBg.setStrokeStyle(1, 0x7fff8e);
+                    const nextText = this.add.text(0, 0, 'Next >', {
+                        fontSize: '18px',
+                        fill: '#7fff8e'
+                    });
+                    nextText.setOrigin(0.5);
+                    nextBtn.add([nextBg, nextText]);
+                    this.dialogOptions.add(nextBtn);
+                    
+                    nextBg.setInteractive({ useHandCursor: true });
+                    nextBg.on('pointerover', () => {
+                        nextBg.setFillStyle(0x0a2712, 0.8);
+                        nextText.setStyle({ fill: '#b3ffcc' });
+                    });
+                    nextBg.on('pointerout', () => {
+                        nextBg.setFillStyle(0x0a2712, 0.6);
+                        nextText.setStyle({ fill: '#7fff8e' });
+                    });
+                    nextBg.on('pointerdown', () => {
+                        this.clickSound.play();
+                        this.currentOptionPage++;
+                        showOptionsForPage(this.currentOptionPage);
+                    });
+                }
+            }
+        };
+        
+        // Show options for the first page
+        showOptionsForPage(0);
     }
 
     hideDialog() {
-        this.dialogVisible = false;
         if (this.dialogBox) {
             this.dialogBox.destroy();
             this.dialogBox = null;
         }
+        if (this.textMaskGraphics) {
+            this.textMaskGraphics.destroy();
+            this.textMaskGraphics = null;
+        }
+        this.dialogVisible = false;
         // Hide avatar on dialog close
         if (this.avatar) {
             this.avatar.setVisible(false);
