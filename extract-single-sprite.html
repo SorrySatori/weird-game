@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Single Sprite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4zjOaXUAAAAGJJREFUOE9j+P//P0MymABiDgYGhm8gAVLACYbP/4MBLoDMZgQxQIJYACMOAdgAXpORDcAFcBqAbABWNiYAG4DLECYYI7CAsAEYBqBrRDcAw3JkA3ABrAbAJHAagM0QUgAAUaPpgkbkFboAAAAASUVORK5CYII=') repeat;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .controls {
+            margin: 15px 0;
+        }
+        .preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h3 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .grid-controls {
+            margin: 10px 0;
+        }
+        .grid-controls input {
+            width: 50px;
+            margin: 0 5px;
+        }
+        .grid-controls label {
+            margin-right: 10px;
+        }
+        .cell-selector {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Extract Single Sprite</h1>
+        <p>This tool will help you extract a single character from a sprite sheet.</p>
+        
+        <div class="controls">
+            <button id="loadGameImage">Load FungalPriestSprite.png</button>
+            <div class="grid-controls">
+                <label>Grid Columns: <input type="number" id="gridCols" value="3" min="1" max="10"></label>
+                <label>Grid Rows: <input type="number" id="gridRows" value="3" min="1" max="10"></label>
+                <button id="applyGrid">Apply Grid</button>
+            </div>
+            <div class="cell-selector">
+                <label>Select cell: Row <input type="number" id="cellRow" value="0" min="0" max="2"> 
+                Column <input type="number" id="cellCol" value="0" min="0" max="2"></label>
+                <button id="extractCell">Extract Cell</button>
+            </div>
+            <button id="makeTransparent">Make Transparent</button>
+            <button id="download">Download Single Sprite</button>
+            <button id="saveToGame">Save As SingleFungalPriest.png</button>
+        </div>
+        
+        <div class="preview">
+            <h3>Original Image with Grid</h3>
+            <canvas id="originalCanvas"></canvas>
+            
+            <h3>Extracted Cell</h3>
+            <canvas id="extractedCanvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const loadGameImageBtn = document.getElementById('loadGameImage');
+        const applyGridBtn = document.getElementById('applyGrid');
+        const extractCellBtn = document.getElementById('extractCell');
+        const makeTransparentBtn = document.getElementById('makeTransparent');
+        const downloadBtn = document.getElementById('download');
+        const saveToGameBtn = document.getElementById('saveToGame');
+        const originalCanvas = document.getElementById('originalCanvas');
+        const extractedCanvas = document.getElementById('extractedCanvas');
+        const gridColsInput = document.getElementById('gridCols');
+        const gridRowsInput = document.getElementById('gridRows');
+        const cellRowInput = document.getElementById('cellRow');
+        const cellColInput = document.getElementById('cellCol');
+        
+        // Get canvas contexts
+        const originalCtx = originalCanvas.getContext('2d');
+        const extractedCtx = extractedCanvas.getContext('2d');
+        
+        // Store the loaded image
+        let loadedImage = null;
+        let cellWidth = 0;
+        let cellHeight = 0;
+        
+        // Load the game image
+        loadGameImageBtn.addEventListener('click', () => {
+            const img = new Image();
+            img.onload = () => {
+                loadedImage = img;
+                drawOriginalImage();
+                applyGrid();
+            };
+            img.onerror = () => {
+                alert('Failed to load FungalPriestSprite.png. Make sure the file exists in the assets/images directory.');
+            };
+            img.src = 'assets/images/FungalPriestSprite.png';
+        });
+        
+        // Draw the original image on the canvas
+        function drawOriginalImage() {
+            if (!loadedImage) return;
+            
+            // Set canvas dimensions to match the image
+            originalCanvas.width = loadedImage.width;
+            originalCanvas.height = loadedImage.height;
+            
+            // Draw the image on the original canvas
+            originalCtx.clearRect(0, 0, originalCanvas.width, originalCanvas.height);
+            originalCtx.drawImage(loadedImage, 0, 0);
+        }
+        
+        // Apply grid to the original image
+        applyGridBtn.addEventListener('click', applyGrid);
+        
+        function applyGrid() {
+            if (!loadedImage) {
+                alert('Please load an image first.');
+                return;
+            }
+            
+            const cols = parseInt(gridColsInput.value);
+            const rows = parseInt(gridRowsInput.value);
+            
+            if (isNaN(cols) || isNaN(rows) || cols < 1 || rows < 1) {
+                alert('Please enter valid grid dimensions.');
+                return;
+            }
+            
+            // Update cell dimensions
+            cellWidth = Math.floor(loadedImage.width / cols);
+            cellHeight = Math.floor(loadedImage.height / rows);
+            
+            // Redraw the original image
+            drawOriginalImage();
+            
+            // Draw the grid
+            originalCtx.strokeStyle = 'red';
+            originalCtx.lineWidth = 2;
+            
+            // Draw vertical lines
+            for (let i = 1; i < cols; i++) {
+                originalCtx.beginPath();
+                originalCtx.moveTo(i * cellWidth, 0);
+                originalCtx.lineTo(i * cellWidth, loadedImage.height);
+                originalCtx.stroke();
+            }
+            
+            // Draw horizontal lines
+            for (let i = 1; i < rows; i++) {
+                originalCtx.beginPath();
+                originalCtx.moveTo(0, i * cellHeight);
+                originalCtx.lineTo(loadedImage.width, i * cellHeight);
+                originalCtx.stroke();
+            }
+            
+            // Update cell selector max values
+            cellRowInput.max = rows - 1;
+            cellColInput.max = cols - 1;
+        }
+        
+        // Extract a single cell
+        extractCellBtn.addEventListener('click', extractCell);
+        
+        function extractCell() {
+            if (!loadedImage || cellWidth === 0 || cellHeight === 0) {
+                alert('Please load an image and apply a grid first.');
+                return;
+            }
+            
+            const row = parseInt(cellRowInput.value);
+            const col = parseInt(cellColInput.value);
+            
+            if (isNaN(row) || isNaN(col) || row < 0 || col < 0) {
+                alert('Please enter valid cell coordinates.');
+                return;
+            }
+            
+            // Set extracted canvas dimensions
+            extractedCanvas.width = cellWidth;
+            extractedCanvas.height = cellHeight;
+            
+            // Clear the extracted canvas
+            extractedCtx.clearRect(0, 0, extractedCanvas.width, extractedCanvas.height);
+            
+            // Draw the selected cell on the extracted canvas
+            extractedCtx.drawImage(
+                loadedImage,
+                col * cellWidth, row * cellHeight, cellWidth, cellHeight,
+                0, 0, cellWidth, cellHeight
+            );
+        }
+        
+        // Make the extracted cell background transparent
+        makeTransparentBtn.addEventListener('click', () => {
+            if (extractedCanvas.width === 0 || extractedCanvas.height === 0) {
+                alert('Please extract a cell first.');
+                return;
+            }
+            
+            // Get the image data
+            const imageData = extractedCtx.getImageData(0, 0, extractedCanvas.width, extractedCanvas.height);
+            const data = imageData.data;
+            
+            // Get the color of the top-left pixel (usually the background color)
+            const bgColor = {
+                r: data[0],
+                g: data[1],
+                b: data[2]
+            };
+            
+            console.log(`Background color detected: RGB(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`);
+            
+            // Set a threshold for color matching (to account for slight variations)
+            const threshold = 30;
+            
+            // Make background pixels transparent
+            let transparentPixelsCount = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                // If the pixel color is close to the background color
+                if (
+                    Math.abs(data[i] - bgColor.r) < threshold &&
+                    Math.abs(data[i + 1] - bgColor.g) < threshold &&
+                    Math.abs(data[i + 2] - bgColor.b) < threshold
+                ) {
+                    // Make it transparent
+                    data[i + 3] = 0;
+                    transparentPixelsCount++;
+                }
+            }
+            
+            console.log(`Made ${transparentPixelsCount} pixels transparent`);
+            
+            // Put the modified image data back on the canvas
+            extractedCtx.putImageData(imageData, 0, 0);
+        });
+        
+        // Download the extracted cell
+        downloadBtn.addEventListener('click', () => {
+            if (extractedCanvas.width === 0 || extractedCanvas.height === 0) {
+                alert('Please extract a cell first.');
+                return;
+            }
+            
+            try {
+                // Create a temporary link element
+                const link = document.createElement('a');
+                // Set download attribute with filename
+                link.download = 'SingleFungalPriest.png';
+                // Convert canvas to data URL
+                const dataURL = extractedCanvas.toDataURL('image/png');
+                link.href = dataURL;
+                // Append to document
+                document.body.appendChild(link);
+                // Trigger click
+                link.click();
+                // Clean up
+                document.body.removeChild(link);
+                console.log('Download initiated');
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Error downloading: ' + error.message);
+            }
+        });
+        
+        // Save the extracted cell to the game
+        saveToGameBtn.addEventListener('click', () => {
+            if (extractedCanvas.width === 0 || extractedCanvas.height === 0) {
+                alert('Please extract a cell first.');
+                return;
+            }
+            
+            alert('To save the image to your game, please download it using the "Download Single Sprite" button and then manually place it in your assets/images directory as SingleFungalPriest.png');
+        });
+    </script>
+</body>
+</html>

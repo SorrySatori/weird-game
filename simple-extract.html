@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Sprite Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            background: #f0f0f0;
+        }
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .instructions {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-left: 4px solid #4CAF50;
+            margin-bottom: 20px;
+        }
+        .preview {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Sprite Extractor</h1>
+    
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Click "Load FungalPriestSprite" to load the sprite</li>
+            <li>The tool will automatically extract the middle character from the top row</li>
+            <li>Click "Make Background Transparent" to remove the background</li>
+            <li>Right-click on the extracted image and select "Save Image As..." to save it</li>
+            <li>Save it as "SingleFungalPriest.png" in your assets/images directory</li>
+        </ol>
+    </div>
+    
+    <div>
+        <button id="loadSprite">Load FungalPriestSprite</button>
+        <button id="makeTransparent">Make Background Transparent</button>
+    </div>
+    
+    <div class="preview">
+        <h3>Original Sprite:</h3>
+        <canvas id="originalCanvas"></canvas>
+        
+        <h3>Extracted Character (Right-click and "Save Image As..."):</h3>
+        <canvas id="extractedCanvas"></canvas>
+    </div>
+    
+    <script>
+        const loadSpriteBtn = document.getElementById('loadSprite');
+        const makeTransparentBtn = document.getElementById('makeTransparent');
+        const originalCanvas = document.getElementById('originalCanvas');
+        const extractedCanvas = document.getElementById('extractedCanvas');
+        
+        const originalCtx = originalCanvas.getContext('2d');
+        const extractedCtx = extractedCanvas.getContext('2d');
+        
+        let loadedImage = null;
+        
+        loadSpriteBtn.addEventListener('click', () => {
+            const img = new Image();
+            img.onload = () => {
+                loadedImage = img;
+                
+                // Draw original image
+                originalCanvas.width = img.width;
+                originalCanvas.height = img.height;
+                originalCtx.drawImage(img, 0, 0);
+                
+                // Extract middle character from top row (assuming 3x3 grid)
+                const cellWidth = Math.floor(img.width / 3);
+                const cellHeight = Math.floor(img.height / 3);
+                
+                // Set extracted canvas size
+                extractedCanvas.width = cellWidth;
+                extractedCanvas.height = cellHeight;
+                
+                // Draw the middle character from top row
+                extractedCtx.drawImage(
+                    img,
+                    cellWidth, 0, cellWidth, cellHeight,  // Source: middle of top row
+                    0, 0, cellWidth, cellHeight           // Destination: full canvas
+                );
+                
+                console.log(`Extracted character with dimensions: ${cellWidth}x${cellHeight}`);
+            };
+            
+            img.onerror = () => {
+                alert('Failed to load the sprite. Make sure the file exists at the correct path.');
+            };
+            
+            img.src = 'assets/images/FungalPriestSprite.png';
+        });
+        
+        makeTransparentBtn.addEventListener('click', () => {
+            if (!loadedImage) {
+                alert('Please load the sprite first.');
+                return;
+            }
+            
+            // Get image data
+            const imageData = extractedCtx.getImageData(0, 0, extractedCanvas.width, extractedCanvas.height);
+            const data = imageData.data;
+            
+            // Get top-left pixel color (usually background)
+            const bgColor = {
+                r: data[0],
+                g: data[1],
+                b: data[2]
+            };
+            
+            console.log(`Background color: RGB(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`);
+            
+            // Set threshold for color matching
+            const threshold = 30;
+            
+            // Make background transparent
+            let transparentPixels = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                if (
+                    Math.abs(data[i] - bgColor.r) < threshold &&
+                    Math.abs(data[i + 1] - bgColor.g) < threshold &&
+                    Math.abs(data[i + 2] - bgColor.b) < threshold
+                ) {
+                    data[i + 3] = 0; // Set alpha to 0 (transparent)
+                    transparentPixels++;
+                }
+            }
+            
+            // Put the modified image data back
+            extractedCtx.putImageData(imageData, 0, 0);
+            console.log(`Made ${transparentPixels} pixels transparent`);
+            
+            alert('Background made transparent! Right-click on the extracted image and select "Save Image As..." to save it as SingleFungalPriest.png');
+        });
+    </script>
+</body>
+</html>

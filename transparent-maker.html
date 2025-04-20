@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Image Transparent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        canvas {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4zjOaXUAAAAGJJREFUOE9j+P//P0MymABiDgYGhm8gAVLACYbP/4MBLoDMZgQxQIJYACMOAdgAXpORDcAFcBqAbABWNiYAG4DLECYYI7CAsAEYBqBrRDcAw3JkA3ABrAbAJHAagM0QUgAAUaPpgkbkFboAAAAASUVORK5CYII=') repeat;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .controls {
+            margin: 15px 0;
+        }
+        .preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h3 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Make Image Transparent</h1>
+        <p>This tool will make the background of your image transparent.</p>
+        
+        <div class="controls">
+            <input type="file" id="imageInput" accept="image/*">
+            <button id="loadImage">Load Image</button>
+            <button id="loadGameImage">Load FungalPriestSprite.png</button>
+            <button id="makeTransparent">Make Transparent</button>
+            <button id="download">Download Transparent Image</button>
+            <button id="saveToGame">Save To Game</button>
+        </div>
+        
+        <div class="preview">
+            <h3>Original Image</h3>
+            <canvas id="originalCanvas"></canvas>
+            
+            <h3>Transparent Image</h3>
+            <canvas id="transparentCanvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const imageInput = document.getElementById('imageInput');
+        const loadImageBtn = document.getElementById('loadImage');
+        const loadGameImageBtn = document.getElementById('loadGameImage');
+        const makeTransparentBtn = document.getElementById('makeTransparent');
+        const downloadBtn = document.getElementById('download');
+        const saveToGameBtn = document.getElementById('saveToGame');
+        const originalCanvas = document.getElementById('originalCanvas');
+        const transparentCanvas = document.getElementById('transparentCanvas');
+        
+        // Get canvas contexts
+        const originalCtx = originalCanvas.getContext('2d');
+        const transparentCtx = transparentCanvas.getContext('2d');
+        
+        // Store the loaded image
+        let loadedImage = null;
+        
+        // Load image from file input
+        loadImageBtn.addEventListener('click', () => {
+            if (imageInput.files.length === 0) {
+                alert('Please select an image file first.');
+                return;
+            }
+            
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedImage = img;
+                    drawOriginalImage();
+                };
+                img.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        });
+        
+        // Load the game image
+        loadGameImageBtn.addEventListener('click', () => {
+            const img = new Image();
+            img.onload = () => {
+                loadedImage = img;
+                drawOriginalImage();
+            };
+            img.onerror = () => {
+                alert('Failed to load FungalPriestSprite.png. Make sure the file exists in the assets/images directory.');
+            };
+            img.src = 'assets/images/FungalPriestSprite.png';
+        });
+        
+        // Draw the original image on the canvas
+        function drawOriginalImage() {
+            if (!loadedImage) return;
+            
+            // Set canvas dimensions to match the image
+            originalCanvas.width = loadedImage.width;
+            originalCanvas.height = loadedImage.height;
+            transparentCanvas.width = loadedImage.width;
+            transparentCanvas.height = loadedImage.height;
+            
+            // Draw the image on the original canvas
+            originalCtx.clearRect(0, 0, originalCanvas.width, originalCanvas.height);
+            originalCtx.drawImage(loadedImage, 0, 0);
+            
+            // Clear the transparent canvas
+            transparentCtx.clearRect(0, 0, transparentCanvas.width, transparentCanvas.height);
+        }
+        
+        // Make the image background transparent
+        makeTransparentBtn.addEventListener('click', () => {
+            if (!loadedImage) {
+                alert('Please load an image first.');
+                return;
+            }
+            
+            // Get the image data from the original canvas
+            const imageData = originalCtx.getImageData(0, 0, originalCanvas.width, originalCanvas.height);
+            const data = imageData.data;
+            
+            // Get the color of the top-left pixel (usually the background color)
+            const bgColor = {
+                r: data[0],
+                g: data[1],
+                b: data[2]
+            };
+            
+            console.log(`Background color detected: RGB(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`);
+            
+            // Set a threshold for color matching (to account for slight variations)
+            const threshold = 30;
+            
+            // Make background pixels transparent
+            let transparentPixelsCount = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                // If the pixel color is close to the background color
+                if (
+                    Math.abs(data[i] - bgColor.r) < threshold &&
+                    Math.abs(data[i + 1] - bgColor.g) < threshold &&
+                    Math.abs(data[i + 2] - bgColor.b) < threshold
+                ) {
+                    // Make it transparent
+                    data[i + 3] = 0;
+                    transparentPixelsCount++;
+                }
+            }
+            
+            console.log(`Made ${transparentPixelsCount} pixels transparent`);
+            
+            // Draw the modified image data on the transparent canvas
+            transparentCtx.putImageData(imageData, 0, 0);
+        });
+        
+        // Download the transparent image
+        downloadBtn.addEventListener('click', () => {
+            if (!transparentCanvas.toDataURL) {
+                alert('Canvas is empty. Please make an image transparent first.');
+                return;
+            }
+            
+            const link = document.createElement('a');
+            link.download = 'FungalPriestSprite-transparent.png';
+            link.href = transparentCanvas.toDataURL('image/png');
+            link.click();
+        });
+        
+        // Save the transparent image to the game
+        saveToGameBtn.addEventListener('click', () => {
+            if (!transparentCanvas.toDataURL) {
+                alert('Canvas is empty. Please make an image transparent first.');
+                return;
+            }
+            
+            // Convert canvas to blob
+            transparentCanvas.toBlob((blob) => {
+                // Create a FormData object
+                const formData = new FormData();
+                formData.append('image', blob, 'FungalPriestSprite.png');
+                
+                // Send the image to the server
+                fetch('/save-transparent-image', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Image saved successfully!');
+                    } else {
+                        alert('Failed to save image: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error saving image. Please download the image and replace it manually.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

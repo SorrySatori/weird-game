@@ -73,7 +73,29 @@ class GameScene extends Phaser.Scene {
             // Create the Fungus Priest character
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
+            
+            // Apply a brown/fungal tint to make it look like a fungal priest
+            this.priest.setTint(0xA67C52);  // Brownish fungal color
 
+            // Create walking animation
+            this.anims.create({
+                key: 'walk',
+                frames: this.anims.generateFrameNumbers('priest', { start: 0, end: 3 }),
+                frameRate: 8,
+                repeat: -1
+            });
+
+            // Create idle animation
+            this.anims.create({
+                key: 'idle',
+                frames: this.anims.generateFrameNumbers('priest', { start: 0, end: 0 }),
+                frameRate: 1,
+                repeat: 0
+            });
+
+            // Set initial animation
+            this.priest.play('idle');
+            
             // Only add the Stranger if not EggCatedralScene
             if (!this.isEggCatedral()) {
                 this.stranger = this.add.sprite(600, 470, 'stranger');
@@ -107,25 +129,6 @@ class GameScene extends Phaser.Scene {
                 });
             }
 
-            // Create walking animation
-            this.anims.create({
-                key: 'walk',
-                frames: this.anims.generateFrameNumbers('priest', { start: 0, end: 3 }),
-                frameRate: 8,
-                repeat: -1
-            });
-
-            // Create idle animation
-            this.anims.create({
-                key: 'idle',
-                frames: this.anims.generateFrameNumbers('priest', { start: 0, end: 0 }),
-                frameRate: 1,
-                repeat: 0
-            });
-
-            // Set initial animation
-            this.priest.play('idle');
-
             // Add click/tap handler for movement
             this.input.on('pointerdown', (pointer) => {
                 if (!this.dialogVisible && pointer.y < 500) {
@@ -134,7 +137,7 @@ class GameScene extends Phaser.Scene {
                     this.clickSound.play();
                     this.priest.setScale(2 * direction, 2);
                     this.priest.play('walk');
-
+                    
                     this.tweens.add({
                         targets: this.priest,
                         x: targetX,
