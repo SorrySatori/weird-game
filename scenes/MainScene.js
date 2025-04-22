@@ -101,7 +101,7 @@ class MainScene extends Phaser.Scene {
                 console.log('Button clicked!');
                 this.clickSound.play();
                 this.backgroundMusic.stop();
-                this.scene.start('GameScene');
+                this.scene.start('EntryScene');
             });
 
             // Add global click handler to debug

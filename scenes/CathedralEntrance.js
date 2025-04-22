@@ -120,6 +120,8 @@ class CathedralEntrance extends GameScene {
     }
 
     create() {
+        // Ensure shared mechanics (priest, inventory, etc) are initialized
+        this.initSceneMechanics();
         // Call parent create but skip city background creation
         this.createCityBackground = () => {}; // Temporarily override to do nothing
         super.create(); // This will call all the mechanics setup but with empty city background
