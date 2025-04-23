@@ -9,7 +9,7 @@ class GameScene extends Phaser.Scene {
 
     preload() {
         // Load the game assets
-        this.load.image('cityBackground', 'assets/images/city.png');
+        this.load.image('cityBackground', 'assets/images/city.jpg');
         this.load.image('ground', 'assets/images/ground.png');
         this.load.image('cursor', 'assets/images/cursor.png');
         this.load.spritesheet('priest', 'assets/images/priest.png', {
