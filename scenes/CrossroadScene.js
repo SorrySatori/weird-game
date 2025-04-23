@@ -17,18 +17,18 @@ class CrossroadScene extends GameScene {
         bg.setDepth(-1);
         
         // Add invisible clickable door at entrance (adjust position/size as needed)
-        this.door = this.add.image(450, 300, 'door').setDisplaySize(100, 120).setAlpha(0.01).setInteractive({ useHandCursor: true });
+        this.door = this.add.image(650, 400, 'door').setDisplaySize(100, 200).setAlpha(0.01).setInteractive({ useHandCursor: true });
         this.door.setDepth(10);
         
-        // Add invisible clickable area at the right border for VoxMarket
-        this.marketEntrance = this.add.image(780, 470, 'door')
-            .setDisplaySize(40, 200)
+        // Add invisible clickable area for Shed13 entrance
+        this.marketEntrance = this.add.image(100, 400, 'door')
+            .setDisplaySize(120, 200)  // Made even wider to better match the large door
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
         this.marketEntrance.setDepth(10);
 
-        // Add invisible clickable area at the left border for VoxMarket
-        this.entrySceneEntrance = this.add.image(50, 470, 'door')
+        // Add invisible clickable area at the right border for EntryScene
+        this.entrySceneEntrance = this.add.image(750, 470, 'door')
             .setDisplaySize(40, 200)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
@@ -48,7 +48,7 @@ class CrossroadScene extends GameScene {
             this.tweens.add({
                 targets: priest,
                 x: this.door.x,
-                y: this.door.y + 40, // Move slightly below door center
+                y: 470, // Keep priest at ground level
                 duration: 1000,
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
@@ -74,7 +74,7 @@ class CrossroadScene extends GameScene {
             
             this.tweens.add({
                 targets: priest,
-                x: 780,
+                x: 100,  // Updated to match new marketEntrance position
                 y: 470, // Ground level
                 duration: 1000,
                 onComplete: () => {
@@ -99,7 +99,7 @@ class CrossroadScene extends GameScene {
             
             this.tweens.add({
                 targets: priest,
-                x: 50,
+                x: 750,
                 y: 470, // Ground level
                 duration: 1000,
                 onComplete: () => {
