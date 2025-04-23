@@ -16,10 +16,6 @@ class CrossroadScene extends GameScene {
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
-        // Add invisible clickable door at entrance (adjust position/size as needed)
-        this.door = this.add.image(650, 400, 'door').setDisplaySize(100, 200).setAlpha(0.01).setInteractive({ useHandCursor: true });
-        this.door.setDepth(10);
-        
         // Add invisible clickable area for Shed13 entrance
         this.marketEntrance = this.add.image(100, 400, 'door')
             .setDisplaySize(120, 200)  // Made even wider to better match the large door
@@ -27,75 +23,84 @@ class CrossroadScene extends GameScene {
             .setInteractive({ useHandCursor: true });
         this.marketEntrance.setDepth(10);
 
+        // Add invisible clickable area for VoxMarket entrance
+        this.voxMarketEntrance = this.add.image(650, 400, 'door')
+            .setDisplaySize(100, 200)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true });
+        this.voxMarketEntrance.setDepth(10);
+
+        // Add invisible clickable area for Scraper entrance
+        this.scraperEntrance = this.add.image(400, 400, 'door')
+            .setDisplaySize(100, 200)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true });
+        this.scraperEntrance.setDepth(10);
+
         // Add invisible clickable area at the right border for EntryScene
-        this.entrySceneEntrance = this.add.image(750, 470, 'door')
+        this.scraperSceneEntrance = this.add.image(750, 470, 'door')
             .setDisplaySize(40, 200)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
-        this.entrySceneEntrance.setDepth(10);
+        this.scraperSceneEntrance.setDepth(10);
         
         // Use all mechanics from GameScene except city background
         this.initSceneMechanics();
 
-        // Door click logic
-        this.door.on('pointerdown', () => {
-            // Move priest to door, then fade out
+        // Shed13 entrance click logic
+        this.marketEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
             const priest = this.priest;
             priest.play('walk');
-
             this.tweens.killTweensOf(priest);
-
+            
             this.tweens.add({
                 targets: priest,
-                x: this.door.x,
-                y: 470, // Keep priest at ground level
+                x: 100,
+                y: 470, // Ground level
                 duration: 1000,
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        // Direct to the VoxMarket scene
-                        this.scene.start('VoxMarket');
+                        this.scene.start('Shed13Scene');
                     });
                 }
             });
         });
-        
-        // Market entrance click logic
-        this.marketEntrance.on('pointerdown', () => {
-            // Move priest to market entrance, then fade out
+
+        // VoxMarket entrance click logic
+        this.voxMarketEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
             const priest = this.priest;
             priest.play('walk');
-            
-            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
-            
-            // Set transition flag
-            this.isTransitioning = true;
             
             this.tweens.add({
                 targets: priest,
-                x: 100,  // Updated to match new marketEntrance position
+                x: 650,
                 y: 470, // Ground level
                 duration: 1000,
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
                         this.scene.start('VoxMarket');
-                        this.isTransitioning = false; // Reset transition flag
                     });
                 }
             });
         });
-        this.entrySceneEntrance.on('pointerdown', () => {
-            // Move priest to entry scene entrance, then fade out
+
+        // ScraperScene entrance click logic
+        this.scraperSceneEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
             const priest = this.priest;
             priest.play('walk');
-            
-            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
-            
-            // Set transition flag
-            this.isTransitioning = true;
             
             this.tweens.add({
                 targets: priest,
@@ -105,8 +110,7 @@ class CrossroadScene extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('EntryScene');
-                        this.isTransitioning = false; // Reset transition flag
+                        this.scene.start('ScraperScene');
                     });
                 }
             });

@@ -9,7 +9,7 @@ const config = {
             debug: false
         }
     },
-    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene],
+    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene, ScraperScene, Shed13Scene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
