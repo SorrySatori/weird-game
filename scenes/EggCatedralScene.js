@@ -27,6 +27,13 @@ class EggCatedralScene extends GameScene {
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
         this.marketEntrance.setDepth(10);
+
+        // Add invisible clickable area at the left border for VoxMarket
+        this.entrySceneEntrance = this.add.image(50, 470, 'door')
+            .setDisplaySize(40, 200)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true });
+        this.entrySceneEntrance.setDepth(10);
         
         // Use all mechanics from GameScene except city background
         this.initSceneMechanics();
@@ -61,6 +68,9 @@ class EggCatedralScene extends GameScene {
             // Move priest to door, then fade out
             const priest = this.priest;
             priest.play('walk');
+
+            this.tweens.killTweensOf(priest);
+
             this.tweens.add({
                 targets: priest,
                 x: this.door.x,
@@ -102,7 +112,34 @@ class EggCatedralScene extends GameScene {
                 }
             });
         });
+        this.entrySceneEntrance.on('pointerdown', () => {
+            // Move priest to entry scene entrance, then fade out
+            const priest = this.priest;
+            priest.play('walk');
+            
+            // Kill any existing tweens
+            this.tweens.killTweensOf(priest);
+            
+            // Set transition flag
+            this.isTransitioning = true;
+            
+            this.tweens.add({
+                targets: priest,
+                x: 50,
+                y: 470, // Ground level
+                duration: 1000,
+                onComplete: () => {
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('EntryScene');
+                        this.isTransitioning = false; // Reset transition flag
+                    });
+                }
+            });
+        });
+
     }
+    
 
     update() {
         super.update();

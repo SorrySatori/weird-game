@@ -70,7 +70,7 @@ class GameScene extends Phaser.Scene {
             // Create the Fungus Priest character
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
-            
+            this.isTransitioning = false
             // Apply a darker brown fungal tint
             this.priest.setTint(0x8B4513);  // Darker brown for more fungal look
             
