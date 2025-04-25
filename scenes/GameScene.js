@@ -1509,9 +1509,76 @@ export default class GameScene extends Phaser.Scene {
     modifyGrowthDecay(growthChange) {
         this.growthDecaySystem.updateBalance(growthChange);
     }
+
+    showNotification(text, color = 0x00ff00) {
+        // Create notification container
+        const notification = this.add.container(400, 550);
+        notification.setDepth(1000);
+
+        // Create background
+        const bg = this.add.graphics();
+        bg.fillStyle(0x000000, 0.8);
+        bg.fillRoundedRect(-100, -15, 200, 30, 5);
+        
+        // Create text
+        const message = this.add.text(0, 0, text, {
+            font: '14px Arial',
+            fill: '#' + color.toString(16).padStart(6, '0'),
+            align: 'center'
+        });
+        message.setOrigin(0.5);
+        
+        // Add to container
+        notification.add([bg, message]);
+        
+        // Animate in
+        notification.setAlpha(0);
+        notification.y = 570;
+        
+        this.tweens.add({
+            targets: notification,
+            y: 550,
+            alpha: 1,
+            duration: 200,
+            ease: 'Power1',
+            onComplete: () => {
+                // Hold for 2 seconds then fade out
+                this.time.delayedCall(2000, () => {
+                    this.tweens.add({
+                        targets: notification,
+                        y: 530,
+                        alpha: 0,
+                        duration: 200,
+                        ease: 'Power1',
+                        onComplete: () => {
+                            notification.destroy();
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    modifyGrowthDecay(growthChange, decayChange) {
+        const system = this.growthDecaySystem;
+        if (system) {
+            if (growthChange) {
+                system.updateBalance(growthChange);
+                const message = growthChange > 0 ? 'Growth increased!' : 'Growth decreased!';
+                const color = growthChange > 0 ? 0x00ff00 : 0xff0000;
+                this.showNotification(message, color);
+            }
+            if (decayChange) {
+                system.updateBalance(-decayChange); // Negative because decay is opposite of growth
+                const message = decayChange > 0 ? 'Decay increased!' : 'Decay decreased!';
+                const color = decayChange > 0 ? 0x8b4513 : 0x00ff00;
+                this.showNotification(message, color);
+            }
+        }
+    }
 }
-    
-    // ... rest of your code remains the same ...
+
+// ... rest of your code remains the same ...
 // Make the scene available globally
 if (typeof window !== 'undefined') {
     window.GameScene = GameScene;

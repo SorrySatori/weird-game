@@ -90,6 +90,7 @@ export default class CathedralEntrance extends GameScene {
                 text: "When the cathedral's inner chambers completely fill with spores, the Great Fruiting will begin. The walls will burst, spreading our consciousness across the stars.",
                 options: [
                     { text: "That sounds apocalyptic", next: "templeGuardApocalypse" },
+                    { text: "That sounds fascinating", next: "templeGuardFascinating" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
                 ]
             },
@@ -98,6 +99,12 @@ export default class CathedralEntrance extends GameScene {
                 options: [
                     { text: "That's... familiar", next: "templeGuardDisturbing" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
+                ]
+            },
+            templeGuardFascinating: {
+                text: "Fascinating, isn't it? The city will become a vast fruiting body, sending spores to colonize new worlds. It is our destiny.",
+                options: [
+                    { text: "I see", next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardApocalypse: {
@@ -458,5 +465,39 @@ export default class CathedralEntrance extends GameScene {
             this.templeGuard.destroy();
             this.templeGuard = null;
         }
+    }
+    
+    showDialog(dialogKey) {
+        // Check if the option should be removed
+        const shouldRemoveOptions = (dialogKey === 'templeGuardFruiting' && 
+            this._templeGuardDialogContent.templeGuardFruiting.options.length > 1);
+        
+        // If player chose one of the special options, modify Growth/Decay
+        if (dialogKey === 'templeGuardFascinating') {
+            this.modifyGrowthDecay(1, 0); // Increase Growth by 1
+            
+            // Remove both options from the Fruiting dialog
+            if (this._templeGuardDialogContent.templeGuardFruiting) {
+                this._templeGuardDialogContent.templeGuardFruiting.options = 
+                    this._templeGuardDialogContent.templeGuardFruiting.options.filter(
+                        option => option.next !== 'templeGuardFascinating' && 
+                                 option.next !== 'templeGuardApocalypse'
+                    );
+            }
+        } else if (dialogKey === 'templeGuardApocalypse') {
+            this.modifyGrowthDecay(0, 1); // Increase Decay by 1
+            
+            // Remove both options from the Fruiting dialog
+            if (this._templeGuardDialogContent.templeGuardFruiting) {
+                this._templeGuardDialogContent.templeGuardFruiting.options = 
+                    this._templeGuardDialogContent.templeGuardFruiting.options.filter(
+                        option => option.next !== 'templeGuardFascinating' && 
+                                 option.next !== 'templeGuardApocalypse'
+                    );
+            }
+        }
+
+        // Show the dialog content
+        super.showDialog(dialogKey);
     }
 }
