@@ -24,6 +24,8 @@ class GameScene extends Phaser.Scene {
 
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
+        this.load.audio('cathedralTheme', 'assets/sounds/cathedral-theme.wav');
+        this.load.audio('marketTheme', 'assets/sounds/market-theme.wav');
         this.load.audio('clickSound', 'assets/sounds/click.wav');
         this.load.audio('dialogMurmur', 'assets/sounds/dialog-murmur.wav');
 
@@ -44,9 +46,8 @@ class GameScene extends Phaser.Scene {
             const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
             ground.setDisplaySize(800, 100);
 
-            // Start background music
-            this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
-            this.backgroundMusic.play();
+            // Initialize music system
+            this.initMusicSystem();
 
             // Initialize inventory system
             this.initInventory();
@@ -590,6 +591,62 @@ class GameScene extends Phaser.Scene {
                         }
                     });
                 });
+            }
+        });
+    }
+
+    makeItemCollectable(item, sprite) {
+        // Make the item sprite interactive
+        sprite.setInteractive({ useHandCursor: true });
+
+        // Create item description container if it doesn't exist
+        if (!this.worldItemDescription) {
+            this.worldItemDescription = this.add.container(0, 0);
+            this.worldItemDescription.setDepth(1000);
+            this.worldItemDescription.setVisible(false);
+
+            // Description background
+            const descBg = this.add.rectangle(0, 0, 200, 80, 0x0a2712, 0.9);
+            descBg.setStrokeStyle(1, 0x7fff8e);
+            this.worldItemDescription.add(descBg);
+
+            // Description text
+            this.worldDescriptionText = this.add.text(0, 0, '', {
+                fontSize: '16px',
+                fill: '#7fff8e',
+                align: 'center',
+                wordWrap: { width: 180 }
+            });
+            this.worldDescriptionText.setOrigin(0.5);
+            this.worldItemDescription.add(this.worldDescriptionText);
+        }
+
+        // Show description on hover
+        sprite.on('pointerover', () => {
+            this.cursor.setAlpha(0); // Hide custom cursor
+            this.worldDescriptionText.setText(item.description || item.name);
+            
+            // Position tooltip above the item
+            const tooltipX = sprite.x;
+            const tooltipY = sprite.y - sprite.displayHeight/2 - 50;
+            this.worldItemDescription.setPosition(tooltipX, tooltipY);
+            this.worldItemDescription.setVisible(true);
+        });
+
+        // Hide description when not hovering
+        sprite.on('pointerout', () => {
+            this.cursor.setAlpha(0.8); // Show custom cursor
+            this.worldItemDescription.setVisible(false);
+        });
+
+        // Add item to inventory on click
+        sprite.on('pointerdown', () => {
+            if (this.clickSound) this.clickSound.play();
+            if (this.addItemToInventory(item)) {
+                // Successfully added to inventory
+                this.showItemNotification(item);
+                sprite.destroy(); // Remove from world
+                this.worldItemDescription.setVisible(false);
             }
         });
     }
@@ -1316,6 +1373,63 @@ class GameScene extends Phaser.Scene {
         });
     }
 
+    transitionToScene(newScene) {
+        if (this.isTransitioning) return;
+        this.isTransitioning = true;
+        
+        // Stop any player movement
+        if (this.priest) {
+            this.priest.play('idle');
+        }
+        
+        // Fade out
+        this.cameras.main.fadeOut(800, 0, 0, 0);
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+            // Stop ALL audio
+            this.sound.stopAll();
+            
+            // Stop current scene and start new one
+            this.scene.stop();
+            this.scene.start(newScene);
+            this.isTransitioning = false;
+        });
+    }
+
+    initMusicSystem() {
+        // Initialize background music if not already done
+        if (!this.backgroundMusic) {
+            this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+        }
+        
+        // Initialize scene-specific music
+        this.sceneMusic = null;
+    }
+
+    playSceneMusic(key) {
+        // Stop ALL audio currently playing in the game
+        this.sound.stopAll();
+        
+        // Play new scene music
+        if (key) {
+            this.sceneMusic = this.sound.add(key, { loop: true });
+            this.sceneMusic.play();
+        }
+    }
+
+    restoreBackgroundMusic() {
+        // Stop ALL audio currently playing in the game
+        this.sound.stopAll();
+        
+        // Create and play background music
+        this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+        this.backgroundMusic.play();
+    }
+
+    shutdown() {
+        // Stop ALL audio
+        this.sound.stopAll();
+    }
+
     // Update the staff position relative to the priest
     updateStaffPosition(direction) {
         if (!this.staff || !this.staffOrb) return;
@@ -1344,6 +1458,22 @@ class GameScene extends Phaser.Scene {
     update() {
         // Base implementation for game loop updates
         // Child scenes should override this method for scene-specific behavior
+    }
+
+    shutdown() {
+        // Stop any playing scene music
+        if (this.sceneMusic && this.sceneMusic.isPlaying) {
+            this.sceneMusic.stop();
+            this.sceneMusic.destroy();
+            this.sceneMusic = null;
+        }
+        
+        // Stop background music if playing
+        if (this.backgroundMusic && this.backgroundMusic.isPlaying) {
+            this.backgroundMusic.stop();
+            this.backgroundMusic.destroy();
+            this.backgroundMusic = null;
+        }
     }
 }
     

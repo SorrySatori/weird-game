@@ -12,6 +12,9 @@ class EntryScene extends GameScene {
         this.createCityBackground();
         this.initSceneMechanics();
         this.createStranger();
+        
+        // Start background music
+        this.playSceneMusic('backgroundMusic');
     }
 
     createCityBackground() {

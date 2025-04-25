@@ -9,6 +9,7 @@ class EggCatedralScene extends GameScene {
         this.load.image('eggCatedralBg', 'assets/images/egg-catedral.png');
         this.load.image('door', 'assets/images/door.png'); // Placeholder transparent image for clickable door
         this.load.image('box', 'assets/images/box.png'); // Load the box asset
+        // Audio is already loaded in GameScene's preload
     }
 
     create() {
@@ -37,6 +38,9 @@ class EggCatedralScene extends GameScene {
         
         // Use all mechanics from GameScene except city background
         this.initSceneMechanics();
+
+        // Start cathedral theme
+        this.playSceneMusic('cathedralTheme');
 
         // Add box on the ground (visible, clickable)
         this.box = this.add.image(300, 520, 'box');
@@ -142,18 +146,31 @@ class EggCatedralScene extends GameScene {
     
 
     update() {
+        // Call parent update for all standard mechanics
         super.update();
-        
-        // Check if player is at the right edge of the screen
-        if (this.priest && this.priest.x > 780 && !this.isTransitioning) {
-            this.isTransitioning = true;
-            this.priest.play('idle');
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('CrossroadScene');
-                this.isTransitioning = false; // Reset transition flag
-            });
+
+        // Check for door click
+        this.door.on('pointerdown', () => {
+            if (!this.isTransitioning) {
+                this.transitionToScene('CathedralEntrance');
+            }
+        });
+
+        // Check if player is at the right edge and not already transitioning
+        if (this.priest && this.priest.x > 720 && !this.isTransitioning) {
+            this.transitionToScene('VoxMarket');
         }
+
+        // Check if player is at the left edge and not already transitioning
+        if (this.priest && this.priest.x < 80 && !this.isTransitioning) {
+            this.transitionToScene('EntryScene');
+        }
+    }
+
+    shutdown() {
+        // Restore background music when leaving the scene
+        this.restoreBackgroundMusic();
+        super.shutdown();
     }
 }
 

@@ -122,6 +122,9 @@ class CathedralEntrance extends GameScene {
     create() {
         // Ensure shared mechanics (priest, inventory, etc) are initialized
         this.initSceneMechanics();
+        // Play cathedral theme
+        this.playSceneMusic('cathedralTheme');
+
         // Call parent create but skip city background creation
         this.createCityBackground = () => {}; // Temporarily override to do nothing
         super.create(); // This will call all the mechanics setup but with empty city background
@@ -445,17 +448,20 @@ class CathedralEntrance extends GameScene {
         // Call parent update for all standard mechanics
         super.update();
         
-        // Check if player is in exit area and not already transitioning
-        if (this.priest && this.priest.y > 525 && !this.isTransitioning) {
-            this.isTransitioning = true; // Set flag to prevent multiple transitions
-            
-            // Stop any player movement
-            this.priest.play('idle');
-            
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('EggCatedralScene');
-            });
+        // Check if player is near the exit and not already transitioning
+        if (this.priest && this.priest.x < 80 && !this.isTransitioning) {
+            this.transitionToScene('EggCatedralScene');
+        }
+    }
+    
+    shutdown() {
+        // Call parent shutdown to stop audio
+        super.shutdown();
+        
+        // Additional cleanup specific to CathedralEntrance
+        if (this.templeGuard) {
+            this.templeGuard.destroy();
+            this.templeGuard = null;
         }
     }
 }

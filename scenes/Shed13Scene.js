@@ -8,6 +8,7 @@ class Shed13Scene extends GameScene {
         super.preload();
         this.load.image('shed13Bg', 'assets/images/Shed13.png');
         this.load.image('exitArea', 'assets/images/door.png');
+        this.load.image('mysteriousSpore', 'assets/images/spore.png');
     }
 
     create() {
@@ -18,6 +19,21 @@ class Shed13Scene extends GameScene {
         const bg = this.add.image(400, 300, 'shed13Bg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
+        
+        // Add a collectable spore
+        const spore = this.add.image(300, 450, 'mysteriousSpore');
+        spore.setScale(0.5);
+        // Add a subtle glow effect
+        spore.preFX.addGlow(0x7fff8e, 4, 0, false, 0.5, 16);
+        
+        // Make the spore collectable with description
+        this.makeItemCollectable({
+            id: 'mysterious_spore',
+            name: 'Mysterious Spore',
+            description: 'A peculiar spore found in Shed13. It pulses with an otherworldly energy.',
+            spriteKey: 'mysteriousSpore',
+            stackable: true
+        }, spore);
         
         // Add invisible clickable exit area at the right side
         this.exitArea = this.add.image(750, 470, 'exitArea')

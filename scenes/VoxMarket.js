@@ -8,11 +8,16 @@ class VoxMarket extends GameScene {
         super.preload();
         this.load.image('voxMarketBg', 'assets/images/Voxmarket.png');
         this.load.image('exitArea', 'assets/images/door.png'); // Reusing door image for exit area
+        // Audio is already loaded in GameScene's preload
     }
 
     create() {
         // Ensure shared mechanics (priest, inventory, etc) are initialized
         this.initSceneMechanics();
+        
+        // Play market theme
+        this.playSceneMusic('marketTheme');
+        
         // Call parent create but skip city background creation
         this.createCityBackground = () => {}; // Temporarily override to do nothing
         super.create(); // This will call all the mechanics setup but with empty city background
@@ -81,22 +86,19 @@ class VoxMarket extends GameScene {
         }
     }
 
+    shutdown() {
+        // Restore background music when leaving the scene
+        this.restoreBackgroundMusic();
+        super.shutdown();
+    }
+
     update() {
         // Call parent update for all standard mechanics
         super.update();
         
         // Check if player is in exit area and not already transitioning
         if (this.priest && this.priest.x < 80 && !this.isTransitioning) {
-            this.isTransitioning = true; // Set flag to prevent multiple transitions
-            
-            // Stop any player movement
-            this.priest.play('idle');
-            
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('EggCatedralScene');
-                this.isTransitioning = false; // Reset transition flag
-            });
+            this.transitionToScene('EggCatedralScene');
         }
     }
     
