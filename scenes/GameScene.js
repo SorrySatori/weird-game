@@ -26,7 +26,7 @@ class GameScene extends Phaser.Scene {
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
         this.load.audio('cathedralTheme', 'assets/sounds/cathedral-theme.wav');
         this.load.audio('marketTheme', 'assets/sounds/market-theme.wav');
-        this.load.audio('clickSound', 'assets/sounds/click.wav');
+        this.load.audio('clickSound', 'assets/sounds/click.mp3');
         this.load.audio('dialogMurmur', 'assets/sounds/dialog-murmur.wav');
 
         // Handle load errors

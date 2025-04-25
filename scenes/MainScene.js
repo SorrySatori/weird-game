@@ -13,7 +13,7 @@ class MainScene extends Phaser.Scene {
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
         this.load.audio('hoverSound', 'assets/sounds/hover.wav');
-        this.load.audio('clickSound', 'assets/sounds/click.wav');
+        this.load.audio('clickSound', 'assets/sounds/click.mp3');
 
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {
