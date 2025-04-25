@@ -72,7 +72,8 @@ export default class GameScene extends Phaser.Scene {
         // Initialize Quest system
         this.questSystem = QuestSystem.getInstance();
         this.questSystem.setScene(this);
-        this.questLog = new QuestLog(this, 700, 120);
+        // Position quest log button at the same Y level as inventory (550)
+        this.questLog = new QuestLog(this, 700, 550);
     }
 
     initSceneMechanics() {
