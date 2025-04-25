@@ -1,4 +1,6 @@
-class EntryScene extends GameScene {
+import GameScene from './GameScene.js';
+
+export default class EntryScene extends GameScene {
     constructor() {
         super({ key: 'EntryScene' });
     }
@@ -9,8 +11,10 @@ class EntryScene extends GameScene {
     }
 
     create() {
-        this.createCityBackground();
-        this.initSceneMechanics();
+        // Call parent create first to initialize mechanics
+        super.create();
+        
+        // Create stranger after mechanics are initialized
         this.createStranger();
         
         // Start background music
@@ -67,11 +71,16 @@ class EntryScene extends GameScene {
         
         // Check if priest reaches right edge (adjusted threshold)
         if (this.priest && this.priest.x >= 750 && !this.isTransitioning) {
-            this.isTransitioning = true;
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('EggCatedralScene');
-                this.isTransitioning = false;
+            const targetX = 100; // Starting position in EggCatedralScene
+            
+            // Move priest to edge first
+            this.tweens.add({
+                targets: this.priest,
+                x: 750,
+                duration: Math.abs(750 - this.priest.x) * 5,
+                onComplete: () => {
+                    this.transitionToScene('EggCatedralScene');
+                }
             });
         }
     }
@@ -176,8 +185,4 @@ class EntryScene extends GameScene {
             }
         };
     }
-}
-
-if (typeof window !== 'undefined') {
-    window.EntryScene = EntryScene;
 }

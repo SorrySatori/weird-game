@@ -1,4 +1,6 @@
-class ScraperScene extends GameScene {
+import GameScene from './GameScene.js';
+
+export default class ScraperScene extends GameScene {
     constructor() {
         super({ key: 'ScraperScene' });
         this.isTransitioning = false;
@@ -11,8 +13,8 @@ class ScraperScene extends GameScene {
     }
 
     create() {
-        // Ensure shared mechanics (priest, inventory, etc) are initialized
-        this.initSceneMechanics();
+        // Call parent create first to initialize mechanics
+        super.create();
         
         // Set scraper background
         const bg = this.add.image(400, 300, 'scraperBg');

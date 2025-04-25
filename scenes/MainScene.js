@@ -1,4 +1,4 @@
-class MainScene extends Phaser.Scene {
+export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainScene' });
         console.log('MainScene constructor called');
@@ -117,8 +117,4 @@ class MainScene extends Phaser.Scene {
     update() {
         // Game loop updates will go here
     }
-}
-
-if (typeof window !== 'undefined') {
-    window.MainScene = MainScene;
 }

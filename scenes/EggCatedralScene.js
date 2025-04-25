@@ -1,4 +1,6 @@
-class EggCatedralScene extends GameScene {
+import GameScene from './GameScene.js';
+
+export default class EggCatedralScene extends GameScene {
     constructor() {
         super({ key: 'EggCatedralScene' });
         this.isTransitioning = false; // Add flag to track transition state
@@ -13,6 +15,9 @@ class EggCatedralScene extends GameScene {
     }
 
     create() {
+        // Call parent create first to initialize mechanics
+        super.create();
+        
         // Set egg cathedral background
         const bg = this.add.image(400, 300, 'eggCatedralBg');
         bg.setDisplaySize(800, 600);
@@ -36,9 +41,6 @@ class EggCatedralScene extends GameScene {
             .setInteractive({ useHandCursor: true });
         this.entrySceneEntrance.setDepth(10);
         
-        // Use all mechanics from GameScene except city background
-        this.initSceneMechanics();
-
         // Start cathedral theme
         this.playSceneMusic('cathedralTheme');
 
@@ -172,8 +174,4 @@ class EggCatedralScene extends GameScene {
         this.restoreBackgroundMusic();
         super.shutdown();
     }
-}
-
-if (typeof window !== 'undefined') {
-    window.EggCatedralScene = EggCatedralScene;
 }

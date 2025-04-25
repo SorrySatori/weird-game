@@ -1,3 +1,13 @@
+import MainScene from './scenes/MainScene.js';
+import EntryScene from './scenes/EntryScene.js';
+import GameScene from './scenes/GameScene.js';
+import EggCatedralScene from './scenes/EggCatedralScene.js';
+import CathedralEntrance from './scenes/CathedralEntrance.js';
+import VoxMarket from './scenes/VoxMarket.js';
+import CrossroadScene from './scenes/CrossroadScene.js';
+import ScraperScene from './scenes/ScraperScene.js';
+import Shed13Scene from './scenes/Shed13Scene.js';
+
 const config = {
     type: Phaser.AUTO,
     width: 800,

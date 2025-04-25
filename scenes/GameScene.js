@@ -1,10 +1,18 @@
-class GameScene extends Phaser.Scene {
+import GrowthDecaySystem from '../systems/GrowthDecaySystem.js';
+import GrowthDecayIndicator from '../ui/GrowthDecayIndicator.js';
+
+export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
         super(config);
         this.dialogVisible = false;
         this.dialogState = 'main';
         this.dialogOptionsY = 0; // Track options position
         this.isTransitioning = false; // Flag to prevent multiple transitions
+    }
+
+    init() {
+        // Reset transition flag when scene starts
+        this.isTransitioning = false;
     }
 
     preload() {
@@ -29,6 +37,9 @@ class GameScene extends Phaser.Scene {
         this.load.audio('clickSound', 'assets/sounds/click.mp3');
         this.load.audio('dialogMurmur', 'assets/sounds/dialog-murmur.wav');
 
+        // Load Growth/Decay indicator image
+        this.load.image('growthDecay', 'assets/images/growthDecay.jpg');
+
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {
             console.log('Error loading asset:', fileObj.key);
@@ -36,21 +47,35 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-        // This is now an abstract base class
-        // Child scenes should implement their own create method
+        // Create background if needed
+        if (typeof this.createCityBackground === 'function') {
+            this.createCityBackground();
+        }
+        
+        // Initialize scene mechanics
+        this.initSceneMechanics();
+
+        // Add fade-in effect
+        this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 
     initSceneMechanics() {
         try {
             // Add ground/street platform
             const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
-            ground.setDisplaySize(800, 100);
+            ground.setDepth(1);
 
-            // Initialize music system
-            this.initMusicSystem();
+            // Initialize Growth/Decay system
+            this.growthDecaySystem = GrowthDecaySystem.getInstance();
+            
+            // Add Growth/Decay indicator to the top-left corner
+            this.growthDecayIndicator = new GrowthDecayIndicator(this, 20, 20);
 
             // Initialize inventory system
             this.initInventory();
+
+            // Initialize music system
+            this.initMusicSystem();
 
             // Add click sound
             this.clickSound = this.sound.add('clickSound');
@@ -71,7 +96,6 @@ class GameScene extends Phaser.Scene {
             // Create the Fungus Priest character
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
-            this.isTransitioning = false
             // Apply a darker brown fungal tint
             this.priest.setTint(0x8B4513);  // Darker brown for more fungal look
             
@@ -83,12 +107,6 @@ class GameScene extends Phaser.Scene {
             // Add a glowing orb at the top of the staff
             this.staffOrb = this.add.circle(0, -55, 6, 0x00FF00, 0.8);
             this.staffOrb.setBlendMode(Phaser.BlendModes.ADD);
-            
-            // Remove the separate arms and hands graphics
-            if (this.lowerArm) this.lowerArm.destroy();
-            if (this.upperArm) this.upperArm.destroy();
-            if (this.priestHand) this.priestHand.destroy();
-            if (this.priestHandUpper) this.priestHandUpper.destroy();
             
             // Add pulsating effect to the staff orb
             this.tweens.add({
@@ -171,53 +189,15 @@ class GameScene extends Phaser.Scene {
                 }
             });
 
-            // Add menu button with our established style
-            const menuButtonBg = this.add.rectangle(50, 50, 100, 40, 0x0a2712, 0.4);
-            menuButtonBg.setStrokeStyle(2, 0x7fff8e);
-            menuButtonBg.setInteractive({ useHandCursor: true });
-            menuButtonBg.setDepth(1);
-
-            const menuText = this.add.text(50, 50, 'Menu', {
-                fontSize: '24px',
-                fill: '#7fff8e'
-            });
-            menuText.setOrigin(0.5);
-            menuText.setDepth(2);
-
-            menuButtonBg.on('pointerover', () => {
-                menuButtonBg.setFillStyle(0x0a2712, 0.6);
-                menuText.setStyle({ fill: '#b3ffcc' });
-                menuButtonBg.setScale(1.1);
-                menuText.setScale(1.1);
-            });
-
-            menuButtonBg.on('pointerout', () => {
-                menuButtonBg.setFillStyle(0x0a2712, 0.4);
-                menuText.setStyle({ fill: '#7fff8e' });
-                menuButtonBg.setScale(1);
-                menuText.setScale(1);
-            });
-
-            menuButtonBg.on('pointerdown', () => {
-                this.clickSound.play();
-                this.backgroundMusic.stop();
-                this.scene.start('MainScene');
-            });
-
-            // Avatar sprite for dialog (hidden by default)
-            this.avatar = this.add.image(-250, 0, 'fungalPriestAvatar');
-            this.avatar.setDisplaySize(128, 128);
-            this.avatar.setVisible(false);
-            // Move avatar to top right corner
-            this.avatar.setPosition(800 - 64, 64); // Assuming 800x600 game size
-            // Ensure avatar is above background but below dialog box
-            this.avatar.setDepth(999);
-            
-            // Initialize inventory system
-            this.initInventory();
+            // Initialize dialog system
+            this.dialogVisible = false;
+            this.dialogText = null;
+            this.dialogBox = null;
+            this.dialogOptions = [];
+            this.dialogCallback = null;
 
         } catch (error) {
-            console.error('Error in create():', error);
+            console.error('Error in initSceneMechanics():', error);
         }
     }
 
@@ -1377,7 +1357,7 @@ class GameScene extends Phaser.Scene {
         if (this.isTransitioning) return;
         this.isTransitioning = true;
         
-        // Stop any player movement
+        // Stop any player movement and set to idle
         if (this.priest) {
             this.priest.play('idle');
         }
@@ -1388,10 +1368,8 @@ class GameScene extends Phaser.Scene {
             // Stop ALL audio
             this.sound.stopAll();
             
-            // Stop current scene and start new one
-            this.scene.stop();
+            // Start new scene
             this.scene.start(newScene);
-            this.isTransitioning = false;
         });
     }
 
@@ -1426,8 +1404,59 @@ class GameScene extends Phaser.Scene {
     }
 
     shutdown() {
-        // Stop ALL audio
+        // Clean up all audio
         this.sound.stopAll();
+        
+        // Clean up character and effects
+        if (this.priest) {
+            this.priest.destroy();
+            this.priest = null;
+        }
+        if (this.priestGlow) {
+            this.priestGlow.destroy();
+            this.priestGlow = null;
+        }
+        if (this.staff) {
+            this.staff.destroy();
+            this.staff = null;
+        }
+        if (this.staffOrb) {
+            this.staffOrb.destroy();
+            this.staffOrb = null;
+        }
+        if (this.cursor) {
+            this.cursor.destroy();
+            this.cursor = null;
+        }
+        
+        // Clean up dialog system
+        if (this.dialogBox) {
+            this.dialogBox.destroy();
+            this.dialogBox = null;
+        }
+        if (this.dialogText) {
+            this.dialogText.destroy();
+            this.dialogText = null;
+        }
+        this.dialogOptions.forEach(option => option.destroy());
+        this.dialogOptions = [];
+        this.dialogVisible = false;
+        this.dialogCallback = null;
+
+        // Remove all event listeners
+        this.input.removeAllListeners();
+        
+        // Clean up Growth/Decay indicator if it exists
+        if (this.growthDecayIndicator) {
+            // Call its cleanup method if it exists
+            if (typeof this.growthDecayIndicator.cleanup === 'function') {
+                this.growthDecayIndicator.cleanup();
+            }
+            this.growthDecayIndicator = null;
+        }
+
+        // Call parent shutdown
+        super.shutdown();
     }
 
     // Update the staff position relative to the priest
@@ -1474,6 +1503,11 @@ class GameScene extends Phaser.Scene {
             this.backgroundMusic.destroy();
             this.backgroundMusic = null;
         }
+    }
+
+    // Helper method for other scenes to modify Growth/Decay balance
+    modifyGrowthDecay(growthChange) {
+        this.growthDecaySystem.updateBalance(growthChange);
     }
 }
     

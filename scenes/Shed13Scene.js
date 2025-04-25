@@ -1,4 +1,6 @@
-class Shed13Scene extends GameScene {
+import GameScene from './GameScene.js';
+
+export default class Shed13Scene extends GameScene {
     constructor() {
         super({ key: 'Shed13Scene' });
         this.isTransitioning = false;
@@ -12,8 +14,8 @@ class Shed13Scene extends GameScene {
     }
 
     create() {
-        // Ensure shared mechanics (priest, inventory, etc) are initialized
-        this.initSceneMechanics();
+        // Call parent create first to initialize mechanics
+        super.create();
         
         // Set shed13 background
         const bg = this.add.image(400, 300, 'shed13Bg');

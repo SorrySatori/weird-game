@@ -1,4 +1,6 @@
-class CathedralEntrance extends GameScene {
+import GameScene from './GameScene.js';
+
+export default class CathedralEntrance extends GameScene {
     constructor() {
         super({ key: 'CathedralEntrance' });
         this.isTransitioning = false; // Add flag to track transition state
@@ -120,27 +122,20 @@ class CathedralEntrance extends GameScene {
     }
 
     create() {
-        // Ensure shared mechanics (priest, inventory, etc) are initialized
-        this.initSceneMechanics();
-        // Play cathedral theme
-        this.playSceneMusic('cathedralTheme');
-
-        // Call parent create but skip city background creation
-        this.createCityBackground = () => {}; // Temporarily override to do nothing
-        super.create(); // This will call all the mechanics setup but with empty city background
-        this.createCityBackground = GameScene.prototype.createCityBackground; // Restore original function
+        // Call parent create first to initialize mechanics
+        super.create();
         
         // Set cathedral entrance background
         const bg = this.add.image(400, 300, 'cathedralEntranceBg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
-        // Add invisible clickable exit area at the bottom of the screen
-        this.exitArea = this.add.image(400, 550, 'exitArea')
-            .setDisplaySize(800, 50)
+        // Add invisible clickable area at the bottom for EggCatedral
+        this.eggCatedralEntrance = this.add.image(400, 550, 'door')
+            .setDisplaySize(200, 40)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
+        this.eggCatedralEntrance.setDepth(10);
         
         // Position the priest at the bottom center when entering this scene
         this.priest.x = 200;
@@ -156,7 +151,7 @@ class CathedralEntrance extends GameScene {
         }
         
         // Exit area click logic
-        this.exitArea.on('pointerdown', () => {
+        this.eggCatedralEntrance.on('pointerdown', () => {
             // Move priest to exit area, then fade out
             const priest = this.priest;
             priest.play('walk');
@@ -464,9 +459,4 @@ class CathedralEntrance extends GameScene {
             this.templeGuard = null;
         }
     }
-}
-
-// Make the scene available globally
-if (typeof window !== 'undefined') {
-    window.CathedralEntrance = CathedralEntrance;
 }

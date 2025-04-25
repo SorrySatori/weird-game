@@ -1,4 +1,6 @@
-class CrossroadScene extends GameScene {
+import GameScene from './GameScene.js';
+
+export default class CrossroadScene extends GameScene {
     constructor() {
         super({ key: 'CrossroadScene' });
         this.isTransitioning = false; // Add flag to track transition state
@@ -11,6 +13,9 @@ class CrossroadScene extends GameScene {
     }
 
     create() {
+        // Call parent create first to initialize mechanics
+        super.create();
+        
         // Set crossroad background
         const bg = this.add.image(400, 300, 'crossroadBg');
         bg.setDisplaySize(800, 600);
@@ -44,9 +49,6 @@ class CrossroadScene extends GameScene {
             .setInteractive({ useHandCursor: true });
         this.scraperSceneEntrance.setDepth(10);
         
-        // Use all mechanics from GameScene except city background
-        this.initSceneMechanics();
-
         // Shed13 entrance click logic
         this.marketEntrance.on('pointerdown', () => {
             if (this.isTransitioning) return;
@@ -133,8 +135,4 @@ class CrossroadScene extends GameScene {
             });
         }
     }
-}
-
-if (typeof window !== 'undefined') {
-    window.CrossroadScene = CrossroadScene;
 }

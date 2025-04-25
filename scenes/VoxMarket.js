@@ -1,4 +1,6 @@
-class VoxMarket extends GameScene {
+import GameScene from './GameScene.js';
+
+export default class VoxMarket extends GameScene {
     constructor() {
         super({ key: 'VoxMarket' });
         this.isTransitioning = false; // Add flag to track transition state
@@ -12,16 +14,11 @@ class VoxMarket extends GameScene {
     }
 
     create() {
-        // Ensure shared mechanics (priest, inventory, etc) are initialized
-        this.initSceneMechanics();
+        // Call parent create first to initialize mechanics
+        super.create();
         
         // Play market theme
         this.playSceneMusic('marketTheme');
-        
-        // Call parent create but skip city background creation
-        this.createCityBackground = () => {}; // Temporarily override to do nothing
-        super.create(); // This will call all the mechanics setup but with empty city background
-        this.createCityBackground = GameScene.prototype.createCityBackground; // Restore original function
         
         // Set vox market background
         const bg = this.add.image(400, 200, 'voxMarketBg');
@@ -169,9 +166,4 @@ class VoxMarket extends GameScene {
         // Set the ground depth
         groundGraphics.setDepth(0);
     }
-}
-
-// Make the scene available globally
-if (typeof window !== 'undefined') {
-    window.VoxMarket = VoxMarket;
 }
