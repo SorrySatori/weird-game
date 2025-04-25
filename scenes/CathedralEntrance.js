@@ -468,15 +468,9 @@ export default class CathedralEntrance extends GameScene {
     }
     
     showDialog(dialogKey) {
-        // Check if the option should be removed
-        const shouldRemoveOptions = (dialogKey === 'templeGuardFruiting' && 
-            this._templeGuardDialogContent.templeGuardFruiting.options.length > 1);
-        
-        // If player chose one of the special options, modify Growth/Decay
+        // Handle Growth/Decay changes
         if (dialogKey === 'templeGuardFascinating') {
-            this.modifyGrowthDecay(1, 0); // Increase Growth by 1
-            
-            // Remove both options from the Fruiting dialog
+            this.modifyGrowthDecay(1, 0);
             if (this._templeGuardDialogContent.templeGuardFruiting) {
                 this._templeGuardDialogContent.templeGuardFruiting.options = 
                     this._templeGuardDialogContent.templeGuardFruiting.options.filter(
@@ -485,9 +479,7 @@ export default class CathedralEntrance extends GameScene {
                     );
             }
         } else if (dialogKey === 'templeGuardApocalypse') {
-            this.modifyGrowthDecay(0, 1); // Increase Decay by 1
-            
-            // Remove both options from the Fruiting dialog
+            this.modifyGrowthDecay(0, 1);
             if (this._templeGuardDialogContent.templeGuardFruiting) {
                 this._templeGuardDialogContent.templeGuardFruiting.options = 
                     this._templeGuardDialogContent.templeGuardFruiting.options.filter(
@@ -495,6 +487,25 @@ export default class CathedralEntrance extends GameScene {
                                  option.next !== 'templeGuardApocalypse'
                     );
             }
+        }
+
+        // Handle quest updates
+        if (dialogKey === 'bishopOfThreshold' && !this.questSystem.getQuest('find_bishop')) {
+            this.questSystem.addQuest(
+                'find_bishop',
+                'Find the Bishop of Threshold',
+                'The temple guard mentioned that the Bishop of Threshold might help me gain access to the cathedral. I should seek her out.'
+            );
+        } else if (dialogKey === 'templeGuardVoxmarket' && this.questSystem.getQuest('find_bishop')) {
+            this.questSystem.updateQuest(
+                'find_bishop',
+                'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.'
+            );
+        } else if (dialogKey === 'templeGuardShed13' && this.questSystem.getQuest('find_bishop')) {
+            this.questSystem.updateQuest(
+                'find_bishop',
+                'Shed 13, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.'
+            );
         }
 
         // Show the dialog content

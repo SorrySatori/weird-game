@@ -1,5 +1,7 @@
 import GrowthDecaySystem from '../systems/GrowthDecaySystem.js';
 import GrowthDecayIndicator from '../ui/GrowthDecayIndicator.js';
+import QuestSystem from '../systems/QuestSystem.js';
+import QuestLog from '../ui/QuestLog.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -52,6 +54,9 @@ export default class GameScene extends Phaser.Scene {
             this.createCityBackground();
         }
         
+        // Initialize systems
+        this.initSystems();
+        
         // Initialize scene mechanics
         this.initSceneMechanics();
 
@@ -59,17 +64,22 @@ export default class GameScene extends Phaser.Scene {
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 
+    initSystems() {
+        // Initialize Growth/Decay system
+        this.growthDecaySystem = GrowthDecaySystem.getInstance();
+        this.growthDecayIndicator = new GrowthDecayIndicator(this, 20, 20);
+
+        // Initialize Quest system
+        this.questSystem = QuestSystem.getInstance();
+        this.questSystem.setScene(this);
+        this.questLog = new QuestLog(this, 700, 120);
+    }
+
     initSceneMechanics() {
         try {
             // Add ground/street platform
             const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
             ground.setDepth(1);
-
-            // Initialize Growth/Decay system
-            this.growthDecaySystem = GrowthDecaySystem.getInstance();
-            
-            // Add Growth/Decay indicator to the top-left corner
-            this.growthDecayIndicator = new GrowthDecayIndicator(this, 20, 20);
 
             // Initialize inventory system
             this.initInventory();
