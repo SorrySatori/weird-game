@@ -8,11 +8,18 @@ export default class EntryScene extends GameScene {
     preload() {
         super.preload();
         // Load any EntryScene-specific assets here
+        this.load.image('desolateUrban', 'assets/images/Desolate Urban Landscape.png');
     }
 
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        
+        // Create the parallax layers
+        this.createParallaxLayers();
+        
+        // Create city background after parallax layers
+        this.createCityBackground();
         
         // Create stranger after mechanics are initialized
         this.createStranger();
@@ -25,7 +32,31 @@ export default class EntryScene extends GameScene {
         // Add the city background
         const bg = this.add.image(400, 300, 'cityBackground');
         bg.setDisplaySize(800, 600);
-        bg.setDepth(-1);
+        bg.setDepth(-2); // Set lower depth for background
+    }
+
+    createParallaxLayers() {
+        const layer1X = 470;
+        const layer2X = layer1X + 800;
+
+        // Create two copies of the foreground for infinite scrolling
+        this.foreground1 = this.add.image(layer1X, 220, 'desolateUrban');
+        this.foreground2 = this.add.image(layer2X, 220, 'desolateUrban');
+
+        // Set up both layers
+        [this.foreground1, this.foreground2].forEach(fg => {
+            fg.setDisplaySize(800, 600);
+            fg.setDepth(0);
+            fg.setBlendMode(Phaser.BlendModes.MULTIPLY);
+        });
+
+        // Flip the second layer horizontally
+        this.foreground2.setScale(-1, 1);
+        
+        // Store initial positions using the same constants
+        this.foreground1.initialX = layer1X;
+        this.foreground2.initialX = layer2X;
+        this.priest.initialX = this.priest.x;
     }
 
     createStranger() {
@@ -68,7 +99,49 @@ export default class EntryScene extends GameScene {
 
     update() {
         super.update();
-        
+
+        // Update parallax based on character movement
+        if (this.priest && this.foreground1 && this.foreground2 && !this.dialogVisible) {
+            // Calculate how far the character has moved from their initial position
+            const characterOffset = this.priest.x - this.priest.initialX;
+            
+            // Apply inverse parallax effect (move foreground in opposite direction)
+            const parallaxSpeed = 0.3;
+            
+            // Update both foreground positions
+            this.foreground1.x = this.foreground1.initialX - (characterOffset * parallaxSpeed);
+            this.foreground2.x = this.foreground2.initialX - (characterOffset * parallaxSpeed);
+            
+            // Keep vertical positions fixed
+            this.foreground1.y = 220;
+            this.foreground2.y = 220;
+
+            // Check if we need to reset positions
+            const screenWidth = 800;
+            const resetThreshold = screenWidth / 2;
+
+            // If first image moves too far left, move it to the right
+            if (this.foreground1.x < -resetThreshold) {
+                this.foreground1.x += screenWidth;
+                this.foreground1.initialX += screenWidth;
+            }
+            // If second image moves too far left, move it to the right
+            if (this.foreground2.x < -resetThreshold) {
+                this.foreground2.x += screenWidth;
+                this.foreground2.initialX += screenWidth;
+            }
+            // If first image moves too far right, move it to the left
+            if (this.foreground1.x > screenWidth * 1.5) {
+                this.foreground1.x -= screenWidth;
+                this.foreground1.initialX -= screenWidth;
+            }
+            // If second image moves too far right, move it to the left
+            if (this.foreground2.x > screenWidth * 1.5) {
+                this.foreground2.x -= screenWidth;
+                this.foreground2.initialX -= screenWidth;
+            }
+        }
+
         // Check if priest reaches right edge (adjusted threshold)
         if (this.priest && this.priest.x >= 750 && !this.isTransitioning) {
             const targetX = 100; // Starting position in EggCatedralScene

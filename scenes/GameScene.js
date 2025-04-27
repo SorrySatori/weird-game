@@ -10,6 +10,7 @@ export default class GameScene extends Phaser.Scene {
         this.dialogState = 'main';
         this.dialogOptionsY = 0; // Track options position
         this.isTransitioning = false; // Flag to prevent multiple transitions
+        this.cursors = null; // Initialize cursors reference
     }
 
     init() {
@@ -60,8 +61,96 @@ export default class GameScene extends Phaser.Scene {
         // Initialize scene mechanics
         this.initSceneMechanics();
 
+        // Initialize movement state
+        this.movementState = {
+            left: false,
+            right: false
+        };
+
+        // Set up keyboard listeners
+        this.input.keyboard.on('keydown-LEFT', () => {
+            console.log('Left key down');
+            this.movementState.left = true;
+        });
+
+        this.input.keyboard.on('keyup-LEFT', () => {
+            console.log('Left key up');
+            this.movementState.left = false;
+        });
+
+        this.input.keyboard.on('keydown-RIGHT', () => {
+            console.log('Right key down');
+            this.movementState.right = true;
+        });
+
+        this.input.keyboard.on('keyup-RIGHT', () => {
+            console.log('Right key up');
+            this.movementState.right = false;
+        });
+
+        this.input.keyboard.on('keydown-A', () => {
+            console.log('A key down');
+            this.movementState.left = true;
+        });
+
+        this.input.keyboard.on('keyup-A', () => {
+            console.log('A key up');
+            this.movementState.left = false;
+        });
+
+        this.input.keyboard.on('keydown-D', () => {
+            console.log('D key down');
+            this.movementState.right = true;
+        });
+
+        this.input.keyboard.on('keyup-D', () => {
+            console.log('D key up');
+            this.movementState.right = false;
+        });
+
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
+    }
+
+    update() {
+        // Handle keyboard movement
+        if (this.priest && !this.dialogVisible) {
+            const speed = 4;
+            let moved = false;
+
+            if (this.movementState.left) {
+                this.priest.x -= speed;
+                this.priest.setScale(-2, 2);
+                this.priestGlow.setScale(-2.1, 2.1);
+                this.updateStaffPosition(-1);
+                moved = true;
+            } 
+            else if (this.movementState.right) {
+                this.priest.x += speed;
+                this.priest.setScale(2, 2);
+                this.priestGlow.setScale(2.1, 2.1);
+                this.updateStaffPosition(1);
+                moved = true;
+            }
+
+            // Update animations
+            if (moved) {
+                if (!this.priest.anims.isPlaying || this.priest.anims.currentAnim.key !== 'walk') {
+                    this.priest.play('walk');
+                }
+            } else if (this.priest.anims.currentAnim && this.priest.anims.currentAnim.key === 'walk') {
+                this.priest.play('idle');
+            }
+
+            // Update visual effects
+            this.priestGlow.x = this.priest.x;
+            this.priestGlow.y = this.priest.y;
+        }
+
+        // Call super.update() if it exists
+        if (typeof super.update === 'function') {
+            super.update();
+        }
     }
 
     initSystems() {
@@ -110,6 +199,10 @@ export default class GameScene extends Phaser.Scene {
             // Apply a darker brown fungal tint
             this.priest.setTint(0x8B4513);  // Darker brown for more fungal look
             
+            // Enable physics for the priest
+            this.physics.world.enable(this.priest);
+            this.priest.body.setCollideWorldBounds(true);
+            
             // Create a simpler staff for the priest
             this.staff = this.add.graphics();
             this.staff.lineStyle(3, 0x8B4513, 1); // Thinner brown staff stick
@@ -146,7 +239,7 @@ export default class GameScene extends Phaser.Scene {
             this.tweens.add({
                 targets: this.priestGlow,
                 alpha: 0.3,
-                duration: 1500,
+                duration: 1000,
                 yoyo: true,
                 repeat: -1,
                 ease: 'Sine.easeInOut'
@@ -175,44 +268,42 @@ export default class GameScene extends Phaser.Scene {
             this.input.on('pointerdown', (pointer) => {
                 if (!this.dialogVisible && pointer.y < 500) {
                     const targetX = pointer.x;
-                    const direction = targetX < this.priest.x ? -1 : 1;
-                    this.clickSound.play();
-                    this.priest.setScale(2 * direction, 2);
-                    this.priestGlow.setScale(2.1 * direction, 2.1);  // Flip the glow too
-                    this.priestGlow.x = this.priest.x;  // Keep glow aligned with priest
-                    this.updateStaffPosition(direction); // Update staff position
-                    this.priest.play('walk');
-                    
-                    this.tweens.add({
-                        targets: [this.priest, this.priestGlow],  // Move both priest and glow
-                        x: targetX,
-                        duration: Math.abs(targetX - this.priest.x) * 5,
-                        ease: 'Linear',
-                        onUpdate: () => {
-                            // Update staff position as priest moves
-                            const direction = targetX < this.priest.x ? -1 : 1;
-                            this.updateStaffPosition(direction);
-                        },
-                        onComplete: () => {
-                            this.priest.play('idle');
-                        }
-                    });
+                    this.movePriestTo(targetX);
                 }
             });
 
-            // Initialize dialog system
-            this.dialogVisible = false;
-            this.dialogText = null;
-            this.dialogBox = null;
-            this.dialogOptions = [];
-            this.dialogCallback = null;
-
+            // Add keyboard controls
         } catch (error) {
             console.error('Error in initSceneMechanics():', error);
         }
     }
 
-    // Helper to determine if this is EggCatedralScene
+    movePriestTo(targetX) {
+        if (!this.priest || this.dialogVisible) return;
+        
+        const direction = targetX < this.priest.x ? -1 : 1;
+        this.clickSound.play();
+        this.priest.setScale(2 * direction, 2);
+        this.priestGlow.setScale(2.1 * direction, 2.1);
+        this.priestGlow.x = this.priest.x;
+        this.updateStaffPosition(direction);
+        this.priest.play('walk');
+        
+        this.tweens.add({
+            targets: [this.priest, this.priestGlow],
+            x: targetX,
+            duration: Math.abs(targetX - this.priest.x) * 5,
+            ease: 'Linear',
+            onUpdate: () => {
+                const direction = targetX < this.priest.x ? -1 : 1;
+                this.updateStaffPosition(direction);
+            },
+            onComplete: () => {
+                this.priest.play('idle');
+            }
+        });
+    }
+
     isEggCatedral() {
         return this.scene && this.scene.key === 'EggCatedralScene';
     }

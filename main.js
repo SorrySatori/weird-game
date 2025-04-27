@@ -19,12 +19,17 @@ const config = {
             debug: false
         }
     },
+    input: {
+        keyboard: true,
+        gamepad: false
+    },
     scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene, ScraperScene, Shed13Scene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        fullscreenTarget: 'game'
     }
 };
 
