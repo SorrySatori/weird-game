@@ -5,95 +5,139 @@ export default class Shed13Scene extends GameScene {
         super({ key: 'Shed13Scene' });
         this.isTransitioning = false;
         this.visitedDialogs = new Set();
-    }
-
-    get dialogContent() {
-        return {
+        
+        // Store all dialog content in a separate property
+        this._dialogContent = {
             start: {
                 text: "Another stray wanderin' down the veins of Shed13...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", next: "background" },
-                    { text: "I'm looking for the Bishop of Threshold. Have you seen her?", next: "bishop" },
+                    { text: "I'm looking for the Bishop. Have you seen her?", next: "bishop" },
                     { text: "Goodbye", next: "end" }
                 ]
             },
             background: {
                 text: "Used to keep the machines running in the old days. Now I'm with the Rust Choir. We sing the old machines awake... or lull the new flesh to sleep. Depends who's buying.",
                 options: [
-                    ...(this.visitedDialogs.has('rustChoir') ? [] : [{ text: "Tell me about the Rust Choir", next: "rustChoir" }]),
+                    { text: "Tell me about the Rust Choir", next: "rustChoir" },
                     { text: "Back to other topics", next: "start" }
                 ]
             },
             rustChoir: {
                 text: "We celebrate entropy, collapse as transformation, we... worship 'final songs'. We like to trade in secrets, especially old tech. If you are interested to know more, visit the old Scraper and talk to Brukk's people.",
                 options: [
-                    ...(this.visitedDialogs.has('brukk') ? [] : [{ text: "Who is Brukk?", next: "brukk" }]),
+                    { text: "Who is Brukk?", next: "brukk" },
                     { text: "Back to other topics", next: "start" }
-                ],
-                onVisit: () => {
-                    this.visitedDialogs.add('rustChoir');
-                    this.modifyFactionReputation('RustChoir', 10);
-                }
+                ]
             },
             brukk: {
                 text: "Brukk is our leader if we had any... He is the keeper of the old tech, the one who can help you find what you're looking for. That's all I can tell you.",
                 options: [
                     { text: "Back to other topics", next: "start" }
-                ],
-                onVisit: () => {
-                    this.visitedDialogs.add('brukk');
-                    this.modifyFactionReputation('RustChoir', 10);
-                }
+                ]
             },
             bishop: {
                 text: "Ahhh, the shrouded one... yeah, she passed through, glimmer-eyed and restless. But info ain't free, friend.",
                 options: [
                     { text: "What do you want?", next: "rustReclamation" },
-                    ...(this.visitedDialogs.has('threat') ? [] : [{ text: "Give me the answer. Right now... or else.", next: "threat" }]),
-                    ...(this.visitedDialogs.has('recoverTech') ? [] : [{ text: "I can help you recover tech carefully.", next: "recoverTech" }]),
+                    { text: "I can help you recover old tech carefully", next: "recoverTech" },
+                    { text: 'Tell me what I want to know... or else.', next: 'threat'},
                     { text: "Back to other topics", next: "start" }
                 ]
             },
             threat: {
-                text: "Heh... brave words from soft lungs.\nBut here, threats are like throwing paper at iron walls.\n(His voice lowers dangerously.)\nYou want answers? You bring me value. You bring me rust that sings.\nOr you'll leave here empty, maybe even emptier.",
+                text: "Heh... brave words from soft lungs. But here,  threats are like throwing paper at iron walls. (His voice lowers dangerously.) You want answers? You bring me value. You bring me rust that sings. Or you'll leave here empty, maybe even emptier.",
                 options: [
-                    { text: "What do you want?", next: "rustReclamation" },
+                    { text: "Ok, tell me more", next: "recoverTech" },
                     { text: "Back to other topics", next: "start" }
-                ],
-                onVisit: () => {
-                    this.visitedDialogs.add('threat');
-                    this.modifyGrowthDecay(0, 1);
-                }
-            },
-            recoverTech: {
-                text: "Now that is a tune I can hum to.\nShed13's 3rd Sublevel got swallowed when the fold pressure rose.*\nThere's a derelict core I need pulled out — still breathing, barely.\n(He hands you a jagged scrap map.)\nFind it, and maybe I'll find my memory about your Bishop friend.",
-                options: [
-                    ...(this.visitedDialogs.has('rustReclamation') ? [] : [{ text: "Tell me about the Rust Reclamation", next: "rustReclamation" }]),
-                    { text: "Back to other topics", next: "start" }
-                ],
-                onVisit: () => {
-                    if (!this.visitedDialogs.has('recoverTech')) {
-                        this.visitedDialogs.add('recoverTech');
-                        this.visitedDialogs.add('threat'); // Remove threat option
-                        this.modifyGrowthDecay(1, 0);
-                    }
-                }
+                ]
             },
             rustReclamation: {
                 text: "Actually, there is something you can do for me. As a favor, I can tell you more about where I saw the bishop lately.",
                 options: [
                     { text: "Ok, tell me more", next: "recoverTech" },
                     { text: "Back to other topics", next: "start" }
-                ],
-                onVisit: () => {
-                    this.visitedDialogs.add('rustReclamation');
-                }
+                ]
+            },
+            recoverTech: {
+                text: "Now that is a tune I can hum to.Shed13's 3rd Sublevel got swallowed when the fold pressure rose.There's a derelict core I need pulled out — still breathing, barely.\n(He hands you a jagged scrap map.) Find it, and maybe I'll find my memory about your Bishop friend.",
+                options: [
+                    { text: "Back to other topics", next: "start" }
+                ]
             },
             end: {
                 text: "Come back if you need anything... unusual.",
                 options: []
             }
         };
+    }
+
+    get dialogContent() {
+        // Filter dialog options based on visited states and quest status
+        const questSystem = this.registry.get('questSystem');
+        const hasFindBishopQuest = questSystem?.quests?.has('find_bishop');
+
+        // If player already chose recoverTech, show different start dialog
+        // if (this.visitedDialogs.has('recoverTech')) {
+        //     return {
+        //         start: {
+        //             text: "Just bring me the living core, then I will talk more",
+        //             options: [
+        //                 { text: "Close", next: "end" }
+        //             ]
+        //         },
+        //         end: this._dialogContent.end
+        //     };
+        // }
+
+        // Filter options based on conditions
+        const content = JSON.parse(JSON.stringify(this._dialogContent)); // Deep clone
+        
+        // Modify start options
+        content.start.options = [
+            { text: "Who are you exactly?", next: "background" },
+            ...(hasFindBishopQuest ? [{ text: "I'm looking for the Bishop. Have you seen her?", next: "bishop" }] : []),
+            { text: "Goodbye", next: "end" }
+        ];
+
+        // Filter background options
+        if (this.visitedDialogs.has('rustChoir')) {
+            content.background.options = [
+                { text: "Back to other topics", next: "start" }
+            ];
+        }
+
+        return content;
+    }
+
+    showDialog(dialogKey) {
+        // Handle faction reputation changes
+        if (dialogKey === 'rustChoir' || dialogKey === 'brukk') {
+            this.modifyFactionReputation('RustChoir', 10);
+        }
+
+        // Handle quest updates
+        const questSystem = this.registry.get('questSystem');
+        if (questSystem) {
+            if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
+                questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.");
+                this.showNotification('Quest Updated: Find Bishop');
+            } else if (dialogKey === 'recoverTech') {
+                this.questSystem.addQuest(
+                    'rust_reclamation',
+                    'Rust Reclamation',
+                    "Gnur needs help recovering a 'living core' from Shed13's 3rd Sublevel. The area was swallowed by fold pressure, making this a dangerous but potentially rewarding task.",
+                );
+                this.showNotification('New Quest: Rust Reclamation');
+                this.modifyGrowthDecay(1, 0);
+            }
+        }
+
+        // Track visited dialogs
+        this.visitedDialogs.add(dialogKey);
+
+        // Show the dialog content
+        super.showDialog(dialogKey);
     }
 
     preload() {
@@ -220,14 +264,6 @@ export default class Shed13Scene extends GameScene {
                 }
             });
         });
-    }
-
-    showDialog(state) {
-        const dialogState = this.dialogContent[state];
-        if (dialogState.onVisit) {
-            dialogState.onVisit();
-        }
-        super.showDialog(state);
     }
 
     update() {
