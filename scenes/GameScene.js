@@ -2,6 +2,7 @@ import GrowthDecaySystem from '../systems/GrowthDecaySystem.js';
 import GrowthDecayIndicator from '../ui/GrowthDecayIndicator.js';
 import QuestSystem from '../systems/QuestSystem.js';
 import QuestLog from '../ui/QuestLog.js';
+import FactionReputation from '../systems/FactionReputation.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -155,14 +156,25 @@ export default class GameScene extends Phaser.Scene {
 
     initSystems() {
         // Initialize Growth/Decay system
-        this.growthDecaySystem = GrowthDecaySystem.getInstance();
+        if (!this.registry.get('growthDecaySystem')) {
+            this.registry.set('growthDecaySystem', new GrowthDecaySystem());
+        }
+        this.growthDecaySystem = this.registry.get('growthDecaySystem');
         this.growthDecayIndicator = new GrowthDecayIndicator(this, 20, 20);
 
         // Initialize Quest system
-        this.questSystem = QuestSystem.getInstance();
+        if (!this.registry.get('questSystem')) {
+            this.registry.set('questSystem', new QuestSystem());
+        }
+        this.questSystem = this.registry.get('questSystem');
         this.questSystem.setScene(this);
         // Position quest log button at the same Y level as inventory (550)
         this.questLog = new QuestLog(this, 700, 550);
+
+        // Initialize Faction Reputation system
+        if (!this.registry.get('factionReputation')) {
+            this.registry.set('factionReputation', new FactionReputation());
+        }
     }
 
     initSceneMechanics() {
@@ -1676,6 +1688,18 @@ export default class GameScene extends Phaser.Scene {
                 const color = decayChange > 0 ? 0x8b4513 : 0x00ff00;
                 this.showNotification(message, color);
             }
+        }
+    }
+
+    modifyFactionReputation(faction, amount) {
+        const factionSystem = this.registry.get('factionReputation');
+        const result = factionSystem.modifyReputation(faction, amount);
+        if (result) {
+            const sign = amount > 0 ? '+' : '';
+            this.showNotification(
+                `${result.faction} Reputation ${sign}${amount}`,
+                result.amount > 0 ? 0xb87333 : 0x8B0000
+            );
         }
     }
 }
