@@ -77,30 +77,20 @@ export default class Shed13Scene extends GameScene {
         const questSystem = this.registry.get('questSystem');
         const hasFindBishopQuest = questSystem?.quests?.has('find_bishop');
 
-        // If player already chose recoverTech, show different start dialog
-        // if (this.visitedDialogs.has('recoverTech')) {
-        //     return {
-        //         start: {
-        //             text: "Just bring me the living core, then I will talk more",
-        //             options: [
-        //                 { text: "Close", next: "end" }
-        //             ]
-        //         },
-        //         end: this._dialogContent.end
-        //     };
-        // }
-
         // Filter options based on conditions
         const content = JSON.parse(JSON.stringify(this._dialogContent)); // Deep clone
         
         // Modify start options
-        content.start.options = [
-            { text: "Who are you exactly?", next: "background" },
-            ...(hasFindBishopQuest ? [{ text: "I'm looking for the Bishop. Have you seen her?", next: "bishop" }] : []),
-            { text: "Goodbye", next: "end" }
-        ];
+        content.start.options = this.visitedDialogs.has('recoverTech') ?
+            []
+            :
+            [
+                { text: "Who are you exactly?", next: "background" },
+                ...(hasFindBishopQuest ? [{ text: "I'm looking for the Bishop. Have you seen her?", next: "bishop" }] : []),
+                { text: "Goodbye", next: "end" }
+            ]
 
-        // Filter background options
+        // Filter background optionqs
         if (this.visitedDialogs.has('rustChoir')) {
             content.background.options = [
                 { text: "Back to other topics", next: "start" }
@@ -135,6 +125,9 @@ export default class Shed13Scene extends GameScene {
 
         // Track visited dialogs
         this.visitedDialogs.add(dialogKey);
+
+        if (this.visitedDialogs.has('recoverTech'))
+            this._dialogContent.start.text = "Just bring me the living core, then I will talk more"
 
         // Show the dialog content
         super.showDialog(dialogKey);
