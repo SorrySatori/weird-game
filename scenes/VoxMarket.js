@@ -44,9 +44,6 @@ export default class VoxMarket extends GameScene {
         this.priest.x = 750;
         this.priest.y = 470; // Position on the ground
         
-        // Update priest's staff position
-        this.updateStaffPosition(-1); // Face left initially
-        
         // Update priest's glow position
         if (this.priestGlow) {
             this.priestGlow.x = this.priest.x;

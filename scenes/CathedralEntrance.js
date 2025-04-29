@@ -148,9 +148,6 @@ export default class CathedralEntrance extends GameScene {
         this.priest.x = 200;
         this.priest.y = 470; // Position on the ground
         
-        // Update priest's staff position
-        this.updateStaffPosition(1);
-        
         // Update priest's glow position
         if (this.priestGlow) {
             this.priestGlow.x = this.priest.x;

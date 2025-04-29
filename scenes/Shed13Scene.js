@@ -226,9 +226,6 @@ export default class Shed13Scene extends GameScene {
         this.priest.x = 100;
         this.priest.y = 470;
         
-        // Update priest's staff position (facing right)
-        this.updateStaffPosition(1);
-        
         // Update priest's glow position
         if (this.priestGlow) {
             this.priestGlow.x = this.priest.x;

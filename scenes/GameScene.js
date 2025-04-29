@@ -123,14 +123,12 @@ export default class GameScene extends Phaser.Scene {
                 this.priest.x -= speed;
                 this.priest.setScale(-2, 2);
                 this.priestGlow.setScale(-2.1, 2.1);
-                this.updateStaffPosition(-1);
                 moved = true;
             } 
             else if (this.movementState.right) {
                 this.priest.x += speed;
                 this.priest.setScale(2, 2);
                 this.priestGlow.setScale(2.1, 2.1);
-                this.updateStaffPosition(1);
                 moved = true;
             }
 
@@ -208,34 +206,10 @@ export default class GameScene extends Phaser.Scene {
             // Create the Fungus Priest character
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
-            // Apply a darker brown fungal tint
-            this.priest.setTint(0x8B4513);  // Darker brown for more fungal look
             
             // Enable physics for the priest
             this.physics.world.enable(this.priest);
             this.priest.body.setCollideWorldBounds(true);
-            
-            // Create a simpler staff for the priest
-            this.staff = this.add.graphics();
-            this.staff.lineStyle(3, 0x8B4513, 1); // Thinner brown staff stick
-            this.staff.lineBetween(0, 0, 0, -50); // Slightly shorter staff
-            
-            // Add a glowing orb at the top of the staff
-            this.staffOrb = this.add.circle(0, -55, 6, 0x00FF00, 0.8);
-            this.staffOrb.setBlendMode(Phaser.BlendModes.ADD);
-            
-            // Add pulsating effect to the staff orb
-            this.tweens.add({
-                targets: this.staffOrb,
-                alpha: 0.4,
-                duration: 1000,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-            
-            // Position the staff relative to the priest
-            this.updateStaffPosition(1); // 1 = facing right
             
             // Add a green glow effect for the fungal appearance
             const glowFX = this.add.sprite(100, 470, 'priest');
@@ -298,7 +272,6 @@ export default class GameScene extends Phaser.Scene {
         this.priest.setScale(2 * direction, 2);
         this.priestGlow.setScale(2.1 * direction, 2.1);
         this.priestGlow.x = this.priest.x;
-        this.updateStaffPosition(direction);
         this.priest.play('walk');
         
         this.tweens.add({
@@ -308,7 +281,6 @@ export default class GameScene extends Phaser.Scene {
             ease: 'Linear',
             onUpdate: () => {
                 const direction = targetX < this.priest.x ? -1 : 1;
-                this.updateStaffPosition(direction);
             },
             onComplete: () => {
                 this.priest.play('idle');
@@ -1530,14 +1502,6 @@ export default class GameScene extends Phaser.Scene {
             this.priestGlow.destroy();
             this.priestGlow = null;
         }
-        if (this.staff) {
-            this.staff.destroy();
-            this.staff = null;
-        }
-        if (this.staffOrb) {
-            this.staffOrb.destroy();
-            this.staffOrb = null;
-        }
         if (this.cursor) {
             this.cursor.destroy();
             this.cursor = null;
@@ -1571,26 +1535,6 @@ export default class GameScene extends Phaser.Scene {
 
         // Call parent shutdown
         super.shutdown();
-    }
-
-    // Update the staff position relative to the priest
-    updateStaffPosition(direction) {
-        if (!this.staff || !this.staffOrb) return;
-        
-        // Position staff and orb relative to priest
-        const offsetX = direction > 0 ? 15 : -15; // Staff on right or left side based on direction
-        const offsetY = -20; // Staff slightly above priest's center
-        
-        this.staff.x = this.priest.x + offsetX;
-        this.staff.y = this.priest.y + offsetY;
-        
-        this.staffOrb.x = this.staff.x;
-        this.staffOrb.y = this.staff.y - 55; // Orb at top of staff
-        
-        // Clear and redraw staff with correct direction
-        this.staff.clear();
-        this.staff.lineStyle(3, 0x8B4513, 1);
-        this.staff.lineBetween(0, 0, 0, -50);
     }
 
     // Check if the current scene is EggCatedralScene
