@@ -22,21 +22,20 @@ export default class Shed13FloorsScene extends GameScene {
         bg.setDepth(-1);
         
         // Add invisible clickable area for Shed13 entrance
-        this.welcomeEntrance = this.add.image(110, 400, 'door')
-            .setDisplaySize(120, 200)  // Made even wider to better match the large door
+        this.welcomeEntrance = this.add.image(110, 450, 'door')
+            .setDisplaySize(120, 100)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
         this.welcomeEntrance.setDepth(10);
 
-        // Add invisible clickable area for VoxMarket entrance
-        // this.exitEntrance = this.add.image(650, 400, 'door')
-        //     .setDisplaySize(100, 200)
-        //     .setAlpha(0.01)
-        //     .setInteractive({ useHandCursor: true });
-        // this.exitEntrance.setDepth(10);
+        this.secondFloorEntrance = this.add.image(650, 450, 'door')
+            .setDisplaySize(100, 100)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true });
+        this.secondFloorEntrance.setDepth(10);
 
-        this.exitEntrance = this.add.image(450, 400, 'door')
-        .setDisplaySize(100, 200)
+        this.exitEntrance = this.add.image(450, 450, 'door')
+        .setDisplaySize(100, 100)
         .setAlpha(0.01)
         .setInteractive({ useHandCursor: true });
     this.exitEntrance.setDepth(10);
@@ -87,6 +86,40 @@ export default class Shed13FloorsScene extends GameScene {
                 }
             });
         });
+
+        // Second floor entrance click logic
+        this.secondFloorEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
+            const priest = this.priest;
+            this.tweens.killTweensOf(priest);
+            // Instantly move priest to second floor
+            priest.x = 400; // Center of the platform
+            priest.y = 280; // Second floor height
+            priest.play('idle');
+
+            // Optionally, you can add a small fade/flash effect for teleportation
+            this.cameras.main.flash(300, 127, 255, 142);
+
+            // Allow further transitions after a short delay
+            this.time.delayedCall(400, () => {
+                this.isTransitioning = false;
+            });
+        });
+
+        // Draw walkable straight line (platform) on second floor
+        this.secondFloorPlatform = this.add.graphics();
+        // Use background-matching color and subtle opacity
+        this.secondFloorPlatform.fillStyle(0x1a2420, 0.7); // Match dark greenish-gray, slightly transparent
+        this.secondFloorPlatform.fillRect(0, 340, 800, 8); // x, y, width, height
+        this.secondFloorPlatform.setDepth(2);
+
+        // Optionally, add physics body for collision (if priest uses arcade physics)
+        if (this.physics && this.priest && this.physics.add) {
+            this.physics.add.existing(this.secondFloorPlatform, true);
+            this.physics.add.collider(this.priest, this.secondFloorPlatform);
+        }
     }
     
 
