@@ -156,6 +156,34 @@ export default class Shed13Scene extends GameScene {
         this.gnur.setDisplaySize(80, 80); // Set a fixed size
         this.gnur.setDepth(1); // Ensure it's above background
         this.gnur.setInteractive({ useHandCursor: true });
+
+        this.entrance = this.add.image(650, 400, 'door')
+        .setDisplaySize(100, 200)
+        .setAlpha(0.01)
+        .setInteractive({ useHandCursor: true });
+        this.entrance.setDepth(10);
+
+        this.entrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
+            const priest = this.priest;
+            priest.play('walk');
+            this.tweens.killTweensOf(priest);
+            
+            this.tweens.add({
+                targets: priest,
+                x: 100,
+                y: 470, // Ground level
+                duration: 1000,
+                onComplete: () => {
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('Shed13FloorsScene');
+                    });
+                }
+            });
+        });
         
         // Add walking animation to Gnur
         this.tweens.add({

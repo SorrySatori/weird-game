@@ -7,6 +7,8 @@ import VoxMarket from './scenes/VoxMarket.js';
 import CrossroadScene from './scenes/CrossroadScene.js';
 import ScraperScene from './scenes/ScraperScene.js';
 import Shed13Scene from './scenes/Shed13Scene.js';
+import Shed13FloorsScene from './scenes/Shed13FloorsScene.js';
+import Shed13GateScene from './scenes/Shed13GateScene.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -23,7 +25,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene, ScraperScene, Shed13Scene],
+    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
