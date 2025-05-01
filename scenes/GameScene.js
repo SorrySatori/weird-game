@@ -781,6 +781,49 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
+    showNotification(entityName, notifText, amount) {
+        // Create notification container
+        const notification = this.add.container(400, 100);
+        notification.setDepth(2000);
+
+        // Notification background
+        const notifBg = this.add.rectangle(0, 0, 300, 60, 0x0a2712, 0.9);
+        notifBg.setStrokeStyle(2, 0x7fff8e);
+        notification.add(notifBg);
+
+        // Notification text
+        const text = this.add.text(0, 0, `${entityName} ${notifText} ${amount}.`, {
+            fontSize: '18px',
+            fill: '#7fff8e'
+        });
+        text.setOrigin(0.5);
+        notification.add(text);
+
+        // Animate notification
+        this.tweens.add({
+            targets: notification,
+            y: 80,
+            alpha: { from: 0, to: 1 },
+            duration: 500,
+            ease: 'Power2',
+            onComplete: () => {
+                // Hold for a moment then fade out
+                this.time.delayedCall(2000, () => {
+                    this.tweens.add({
+                        targets: notification,
+                        y: 60,
+                        alpha: 0,
+                        duration: 500,
+                        ease: 'Power2',
+                        onComplete: () => {
+                            notification.destroy();
+                        }
+                    });
+                });
+            }
+        });
+    }
+
     makeItemCollectable(item, sprite) {
         // Make the item sprite interactive
         sprite.setInteractive({ useHandCursor: true });

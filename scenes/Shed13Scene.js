@@ -108,6 +108,7 @@ export default class Shed13Scene extends GameScene {
             const factionSystem = this.registry.get('factionSystem');
             if (factionSystem) {
                 factionSystem.modifyReputation('RustChoir', 10);
+                this.showNotification('RustChoir', ':reputation increased by', 10);
             }
         }
 
@@ -136,18 +137,6 @@ export default class Shed13Scene extends GameScene {
     create() {
         super.create();
 
-        // Initialize faction system if not already in registry
-        if (!this.registry.get('factionSystem')) {
-            this.registry.set('factionSystem', {
-                reputations: new Map([
-                    ['RustChoir', 0]
-                ]),
-                modifyReputation: (faction, amount) => {
-                    const currentRep = this.registry.get('factionSystem').reputations.get(faction) || 0;
-                    this.registry.get('factionSystem').reputations.set(faction, currentRep + amount);
-                }
-            });
-        }
 
         // Set up scene background and elements
         const bg = this.add.image(400, 300, 'shed13Bg');
