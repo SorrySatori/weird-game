@@ -177,6 +177,40 @@ export default class GameScene extends Phaser.Scene {
 
     initSceneMechanics() {
         try {
+            // Hide the system cursor for the entire game
+            this.game.canvas.style.cursor = 'none';
+
+            // Set up custom cursor for non-interactive areas
+            this.cursor = this.add.image(0, 0, 'cursor');
+            this.cursor.setScale(0.008);
+            this.cursor.setAlpha(0.8);
+            this.cursor.setDepth(1000);
+
+            // Track if cursor is in pointer mode
+            this.isPointerCursor = false;
+
+            // Update cursor position on pointer move
+            this.input.on('pointermove', (pointer) => {
+                this.cursor.x = pointer.x;
+                this.cursor.y = pointer.y;
+            });
+
+            // Change cursor on interactive elements
+            this.input.on('gameobjectover', (pointer, gameObject) => {
+                if (gameObject.input && gameObject.input.enabled) {
+                    this.cursor.setScale(0.016);  // Make cursor bigger for pointer
+                    this.isPointerCursor = true;
+                }
+            });
+
+            // Reset cursor when leaving interactive elements
+            this.input.on('gameobjectout', (pointer, gameObject) => {
+                if (this.isPointerCursor) {
+                    this.cursor.setScale(0.008);  // Reset to original size
+                    this.isPointerCursor = false;
+                }
+            });
+
             // Add ground/street platform
             const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
             ground.setDepth(1);
@@ -192,16 +226,6 @@ export default class GameScene extends Phaser.Scene {
             
             // Add dialog murmur sound
             this.dialogMurmur = this.sound.add('dialogMurmur');
-
-            // Set up custom cursor for non-interactive areas
-            this.cursor = this.add.image(0, 0, 'cursor');
-            this.cursor.setScale(0.008);
-            this.cursor.setAlpha(0.8);
-            this.cursor.setDepth(1000);
-            
-            this.input.on('pointermove', (pointer) => {
-                this.cursor.setPosition(pointer.x, pointer.y);
-            });
 
             // Create the Fungus Priest character
             this.priest = this.add.sprite(100, 470, 'priest');
