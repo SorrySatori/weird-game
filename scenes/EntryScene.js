@@ -152,7 +152,7 @@ export default class EntryScene extends GameScene {
                 x: 750,
                 duration: Math.abs(750 - this.priest.x) * 5,
                 onComplete: () => {
-                    this.transitionToScene('EggCatedralScene');
+                    this.transitionToScene('CrossroadScene');
                 }
             });
         }

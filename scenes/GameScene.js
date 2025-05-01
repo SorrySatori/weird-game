@@ -815,6 +815,12 @@ export default class GameScene extends Phaser.Scene {
         this.dialogVisible = true;
         this.dialogState = state;
         const content = this.dialogContent[state];
+
+        // Check if this state has an onShow handler
+        if (content && content.onShow) {
+            content.onShow();
+            return; // Don't show dialog if onShow is defined
+        }
         
         // Create new dialog box
         this.dialogBox = this.add.container(400, 300);
@@ -1588,8 +1594,38 @@ export default class GameScene extends Phaser.Scene {
     }
 
     // Helper method for other scenes to modify Growth/Decay balance
-    modifyGrowthDecay(growthChange) {
-        this.growthDecaySystem.updateBalance(growthChange);
+    modifyGrowthDecay(growthChange, decayChange) {
+        const system = this.growthDecaySystem;
+        if (system) {
+            if (growthChange) {
+                const actualChange = system.updateBalance(growthChange);
+                if (actualChange !== 0) {
+                    const message = actualChange > 0 ? 'Growth increased!' : 'Growth decreased!';
+                    const color = actualChange > 0 ? 0x00ff00 : 0xff0000;
+                    this.showNotification(message, color);
+                }
+            }
+            if (decayChange) {
+                const actualChange = system.updateBalance(-decayChange); // Negative because decay is opposite of growth
+                if (actualChange !== 0) {
+                    const message = decayChange > 0 ? 'Decay increased!' : 'Decay decreased!';
+                    const color = decayChange > 0 ? 0x8b4513 : 0x00ff00;
+                    this.showNotification(message, color);
+                }
+            }
+        }
+    }
+
+    modifyFactionReputation(faction, amount) {
+        const factionSystem = this.registry.get('factionReputation');
+        const result = factionSystem.modifyReputation(faction, amount);
+        if (result) {
+            const sign = amount > 0 ? '+' : '';
+            this.showNotification(
+                `${result.faction} Reputation ${sign}${amount}`,
+                result.amount > 0 ? 0xb87333 : 0x8B0000
+            );
+        }
     }
 
     showNotification(text, color = 0x00ff00) {
@@ -1639,36 +1675,6 @@ export default class GameScene extends Phaser.Scene {
                 });
             }
         });
-    }
-
-    modifyGrowthDecay(growthChange, decayChange) {
-        const system = this.growthDecaySystem;
-        if (system) {
-            if (growthChange) {
-                system.updateBalance(growthChange);
-                const message = growthChange > 0 ? 'Growth increased!' : 'Growth decreased!';
-                const color = growthChange > 0 ? 0x00ff00 : 0xff0000;
-                this.showNotification(message, color);
-            }
-            if (decayChange) {
-                system.updateBalance(-decayChange); // Negative because decay is opposite of growth
-                const message = decayChange > 0 ? 'Decay increased!' : 'Decay decreased!';
-                const color = decayChange > 0 ? 0x8b4513 : 0x00ff00;
-                this.showNotification(message, color);
-            }
-        }
-    }
-
-    modifyFactionReputation(faction, amount) {
-        const factionSystem = this.registry.get('factionReputation');
-        const result = factionSystem.modifyReputation(faction, amount);
-        if (result) {
-            const sign = amount > 0 ? '+' : '';
-            this.showNotification(
-                `${result.faction} Reputation ${sign}${amount}`,
-                result.amount > 0 ? 0xb87333 : 0x8B0000
-            );
-        }
     }
 }
 
