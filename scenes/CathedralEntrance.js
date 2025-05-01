@@ -493,16 +493,19 @@ export default class CathedralEntrance extends GameScene {
                 'Find the Bishop of Threshold',
                 'The temple guard mentioned that the Bishop of Threshold might help me gain access to the cathedral. I should seek her out.'
             );
+            this.showNotification('New Quest', 'Find the Bishop of Threshold', 0x7fff8e);
         } else if (dialogKey === 'templeGuardVoxmarket' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
                 'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.'
             );
+            this.showNotification('Quest Updated', 'Find the Bishop of Threshold', 0x7fff8e);
         } else if (dialogKey === 'templeGuardShed13' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
                 'Shed 13, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.'
             );
+            this.showNotification('Quest Updated', 'Find the Bishop of Threshold', 0x7fff8e);
         }
 
         // Show the dialog content

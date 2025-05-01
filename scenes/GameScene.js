@@ -781,22 +781,44 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
-    showNotification(entityName, notifText, amount) {
+    showNotification(entityName, notifText, amount = '') {
         // Create notification container
         const notification = this.add.container(400, 100);
         notification.setDepth(2000);
+        notification.setScrollFactor(0);
 
-        // Notification background
-        const notifBg = this.add.rectangle(0, 0, 300, 60, 0x0a2712, 0.9);
-        notifBg.setStrokeStyle(2, 0x7fff8e);
+        // Notification background with gradient
+        const notifBg = this.add.graphics();
+        notifBg.fillStyle(0x0a2712, 0.95);
+        notifBg.fillRect(-150, -30, 300, 60);
+        notifBg.lineStyle(2, 0x7fff8e);
+        notifBg.strokeRect(-150, -30, 300, 60);
+        
+        // Add glow effect
+        const glowBg = this.add.graphics();
+        glowBg.lineStyle(4, 0x7fff8e, 0.1);
+        glowBg.strokeRect(-152, -32, 304, 64);
+        notification.add(glowBg);
         notification.add(notifBg);
 
-        // Notification text
-        const text = this.add.text(0, 0, `${entityName} ${notifText} ${amount}.`, {
+        // Format the message
+        let message = entityName;
+        if (notifText) {
+            message += ' ' + notifText;
+        }
+        if (amount !== '') {
+            message += ' ' + amount;
+        }
+
+        // Notification text with shadow
+        const text = this.add.text(0, 0, message, {
             fontSize: '18px',
-            fill: '#7fff8e'
+            fill: '#7fff8e',
+            align: 'center',
+            padding: { x: 10, y: 5 }
         });
         text.setOrigin(0.5);
+        text.setShadow(2, 2, '#0a2712', 2, true, true);
         notification.add(text);
 
         // Animate notification
