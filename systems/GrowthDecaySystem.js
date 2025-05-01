@@ -1,5 +1,6 @@
-class GrowthDecaySystem {
+class GrowthDecaySystem extends Phaser.Events.EventEmitter {
     constructor() {
+        super();
         if (GrowthDecaySystem.instance) {
             return GrowthDecaySystem.instance;
         }
@@ -18,13 +19,39 @@ class GrowthDecaySystem {
     }
 
     // Update both values ensuring they stay in balance
-    updateBalance(growthChange) {
-        // Ensure total always equals 100
-        this.growth = Math.max(0, Math.min(100, this.growth + growthChange));
-        this.decay = 100 - this.growth;
+    modifyBalance(growthChange, decayChange) {
+        let totalChange = 0;
+        
+        if (growthChange) {
+            // Update growth and ensure it stays within bounds
+            const oldGrowth = this.growth;
+            this.growth = Math.max(0, Math.min(100, this.growth + growthChange));
+            totalChange = this.growth - oldGrowth;
+            
+            // Decay is inverse of growth
+            this.decay = 100 - this.growth;
+            
+            // Emit event for growth change
+            this.emit('growthChanged', totalChange);
+        }
+        
+        if (decayChange) {
+            // Decay change affects growth inversely
+            const oldDecay = this.decay;
+            this.decay = Math.max(0, Math.min(100, this.decay + decayChange));
+            const decayDelta = this.decay - oldDecay;
+            
+            // Growth is inverse of decay
+            this.growth = 100 - this.decay;
+            
+            // Emit event for decay change
+            this.emit('decayChanged', decayDelta);
+        }
         
         // Notify all subscribers (UI elements) of the change
         this.notifySubscribers();
+        
+        return totalChange;
     }
 
     // Subscribe UI elements for updates

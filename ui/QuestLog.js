@@ -1,7 +1,7 @@
 export default class QuestLog {
-    constructor(scene, x, y) {
+    constructor(scene, x = 750, y = 50) {
         this.scene = scene;
-        this.questSystem = scene.questSystem;
+        this.questSystem = scene.registry.get('questSystem');
         
         // Create quest log button
         this.createQuestButton(x, y);
@@ -21,6 +21,8 @@ export default class QuestLog {
     createQuestButton(x, y) {
         // Create container for the button
         this.buttonContainer = this.scene.add.container(x, y);
+        this.buttonContainer.setDepth(100);
+        this.buttonContainer.setScrollFactor(0);
         
         // Create mushroom-shaped button background
         const buttonBg = this.scene.add.graphics();
@@ -52,91 +54,91 @@ export default class QuestLog {
         this.buttonContainer.on('pointerdown', () => {
             this.toggleQuestLog();
         });
-        
-        // Set depth
-        this.buttonContainer.setDepth(100);
     }
 
     createQuestPanel() {
-        // Create container for the panel
-        this.panel = this.scene.add.container(400, 300);
-        this.panel.setDepth(1000);
-        this.panel.visible = false;
+        // Create container for the quest log
+        this.questPanel = this.scene.add.container(400, 300);
+        this.questPanel.setDepth(200);
+        this.questPanel.setScrollFactor(0);
+        this.questPanel.visible = false;
         
-        // Create semi-transparent background
+        // Create background
         const bg = this.scene.add.graphics();
-        bg.fillStyle(0x000000, 0.9);
-        bg.fillRect(-300, -200, 600, 400);
-        bg.lineStyle(2, 0x2a623d);
-        bg.strokeRect(-300, -200, 600, 400);
+        bg.fillStyle(0x0a2712, 0.95);
+        bg.fillRect(-200, -250, 400, 500);
+        bg.lineStyle(2, 0x7fff8e);
+        bg.strokeRect(-200, -250, 400, 500);
         
         // Add title
-        const title = this.scene.add.text(0, -180, 'QUEST LOG', {
-            font: 'bold 24px Arial',
+        const title = this.scene.add.text(0, -220, 'Quest Log', {
+            font: '24px Arial',
             fill: '#7fff8e',
             align: 'center'
         });
         title.setOrigin(0.5);
         
-        // Add close button
-        const closeBtn = this.scene.add.text(270, -190, 'X', {
-            font: 'bold 20px Arial',
-            fill: '#7fff8e'
-        });
-        closeBtn.setInteractive({ useHandCursor: true });
-        closeBtn.on('pointerdown', () => {
-            this.hideQuestLog();
-        });
-        
         // Create quest content container
-        this.questContent = this.scene.add.container(0, 0);
+        this.questContent = this.scene.add.container(0, -180);
         
         // Add all elements to panel
-        this.panel.add([bg, title, closeBtn, this.questContent]);
+        this.questPanel.add([bg, title, this.questContent]);
+        
+        // Add close button
+        const closeButton = this.scene.add.text(170, -240, 'X', {
+            font: '20px Arial',
+            fill: '#7fff8e'
+        });
+        closeButton.setInteractive({ useHandCursor: true });
+        closeButton.on('pointerdown', () => {
+            this.hideQuestLog();
+        });
+        this.questPanel.add(closeButton);
     }
 
     updateQuestDisplay() {
         // Clear existing content
-        this.questContent.removeAll();
+        this.questContent.removeAll(true);
         
+        // Get all quests
         const quests = this.questSystem.getAllQuests();
-        let yOffset = -140;
         
+        let yOffset = 0;
         quests.forEach(quest => {
-            // Add quest title
-            const title = this.scene.add.text(-280, yOffset, quest.title, {
-                font: 'bold 16px Arial',
-                fill: quest.isComplete ? '#888888' : '#7fff8e'
+            // Quest title
+            const title = this.scene.add.text(-180, yOffset, quest.title, {
+                font: '18px Arial',
+                fill: quest.isComplete ? '#00ff00' : '#7fff8e',
+                wordWrap: { width: 360 }
             });
             
-            // Add quest description
-            const description = this.scene.add.text(-280, yOffset + 25, quest.description, {
+            // Quest description
+            const desc = this.scene.add.text(-180, yOffset + 25, quest.description, {
                 font: '14px Arial',
-                fill: '#ffffff',
-                wordWrap: { width: 540 },
-                lineSpacing: 5
+                fill: '#7fff8e',
+                wordWrap: { width: 360 }
             });
             
-            // Add updates
-            let updateOffset = yOffset + description.height + 35;
+            this.questContent.add([title, desc]);
+            
+            // Add updates if any
+            let updateOffset = yOffset + 50;
             quest.updates.forEach(update => {
-                const updateText = this.scene.add.text(-260, updateOffset, '• ' + update.text, {
+                const updateText = this.scene.add.text(-160, updateOffset, '• ' + update.text, {
                     font: '12px Arial',
-                    fill: '#aaaaaa',
-                    wordWrap: { width: 520 },
-                    lineSpacing: 5
+                    fill: '#5c9b6b',
+                    wordWrap: { width: 340 }
                 });
                 this.questContent.add(updateText);
-                updateOffset += updateText.height + 10;
+                updateOffset += 20;
             });
             
-            this.questContent.add([title, description]);
             yOffset = updateOffset + 20;
         });
     }
 
     toggleQuestLog() {
-        if (this.panel.visible) {
+        if (this.questPanel.visible) {
             this.hideQuestLog();
         } else {
             this.showQuestLog();
@@ -144,12 +146,12 @@ export default class QuestLog {
     }
 
     showQuestLog() {
-        this.panel.visible = true;
+        this.questPanel.visible = true;
         this.updateQuestDisplay();
     }
 
     hideQuestLog() {
-        this.panel.visible = false;
+        this.questPanel.visible = false;
     }
 
     cleanup() {
@@ -157,8 +159,8 @@ export default class QuestLog {
         if (this.buttonContainer) {
             this.buttonContainer.destroy();
         }
-        if (this.panel) {
-            this.panel.destroy();
+        if (this.questPanel) {
+            this.questPanel.destroy();
         }
     }
 }

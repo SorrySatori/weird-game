@@ -1,5 +1,6 @@
-class QuestSystem {
+class QuestSystem extends Phaser.Events.EventEmitter {
     constructor() {
+        super();
         if (QuestSystem.instance) {
             return QuestSystem.instance;
         }
@@ -8,6 +9,11 @@ class QuestSystem {
         this.quests = new Map();
         this.subscribers = new Set();
         this.scene = null;
+        
+        // Initialize event emitter
+        if (!this.events) {
+            this.events = new Phaser.Events.EventEmitter();
+        }
     }
 
     static getInstance() {
@@ -33,12 +39,6 @@ class QuestSystem {
         this.scene = scene;
     }
 
-    showNotification() {
-        if (this.scene) {
-            this.scene.showNotification('Quest Log Updated', 0x7fff8e);
-        }
-    }
-
     addQuest(id, title, description) {
         if (!this.quests.has(id)) {
             this.quests.set(id, {
@@ -50,7 +50,8 @@ class QuestSystem {
                 dateStarted: new Date()
             });
             this.notifySubscribers();
-            this.showNotification();
+            // Emit event directly from this instance
+            this.emit('questAdded', id, title);
         }
     }
 
@@ -62,7 +63,8 @@ class QuestSystem {
                 date: new Date()
             });
             this.notifySubscribers();
-            this.showNotification();
+            // Emit event directly from this instance
+            this.emit('questUpdated', id, quest.title);
         }
     }
 
@@ -72,7 +74,8 @@ class QuestSystem {
             quest.isComplete = true;
             quest.dateCompleted = new Date();
             this.notifySubscribers();
-            this.showNotification();
+            // Emit event directly from this instance
+            this.emit('questCompleted', id, quest.title);
         }
     }
 

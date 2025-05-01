@@ -108,23 +108,20 @@ export default class Shed13Scene extends GameScene {
             const factionSystem = this.registry.get('factionSystem');
             if (factionSystem) {
                 factionSystem.modifyReputation('RustChoir', 10);
-                this.showNotification('Rust Choir reputation increased', 0x7fff8e);
             }
         }
 
         // Handle quest updates
-        const questSystem = this.questSystem
+        const questSystem = this.registry.get('questSystem');
         if (questSystem) {
             if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
                 questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.");
-                this.showNotification('Quest Updated: Find Bishop', 0x7fff8e);
             } else if (dialogKey === 'recoverTech') {
                 questSystem.addQuest(
                     'rust_reclamation',
                     'Rust Reclamation',
                     "Gnur needs help recovering a 'living core' from Shed13's 3rd Sublevel. The area was swallowed by fold pressure, making this a dangerous but potentially rewarding task."
                 );
-                this.showNotification('New Quest: Rust Reclamation', 0x7fff8e);
                 this.modifyGrowthDecay(1, 0);
             }
         }
@@ -258,7 +255,7 @@ export default class Shed13Scene extends GameScene {
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
         this.exitArea.setDepth(10);
-        
+
         // Position the priest at the left side when entering
         this.priest.x = 100;
         this.priest.y = 470;
@@ -280,7 +277,7 @@ export default class Shed13Scene extends GameScene {
 
             this.tweens.add({
                 targets: priest,
-                x: 750,
+                x: 700,
                 y: 470,
                 duration: 1000,
                 onComplete: () => {

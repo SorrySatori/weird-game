@@ -120,7 +120,21 @@ export default class GameScene extends Phaser.Scene {
 
     initSystems() {
         // Initialize Growth/Decay system
-        this.growthDecaySystem = new GrowthDecaySystem();
+        if (!this.registry.get('growthDecaySystem')) {
+            const growthDecaySystem = new GrowthDecaySystem();
+            this.registry.set('growthDecaySystem', growthDecaySystem);
+            
+            growthDecaySystem.on('growthChanged', (amount) => {
+                const message = amount > 0 ? 'Growth increased!' : 'Growth decreased!';
+                this.showNotification(message, amount > 0 ? 0x00ff00 : 0xff0000);
+            });
+            
+            growthDecaySystem.on('decayChanged', (amount) => {
+                const message = amount > 0 ? 'Decay increased!' : 'Decay decreased!';
+                this.showNotification(message, amount > 0 ? 0x8b4513 : 0x00ff00);
+            });
+        }
+        this.growthDecaySystem = this.registry.get('growthDecaySystem');
         this.growthDecayIndicator = new GrowthDecayIndicator(this);
 
         // Initialize Symbiont system
@@ -129,9 +143,40 @@ export default class GameScene extends Phaser.Scene {
         }
         this.symbiontSystem = this.registry.get('symbiontSystem');
 
-        // Initialize Quest system
-        this.questSystem = new QuestSystem(this);
+        // Initialize Quest system if not already initialized
+        if (!this.registry.get('questSystem')) {
+            const questSystem = new QuestSystem();
+            questSystem.setScene(this);
+            this.registry.set('questSystem', questSystem);
+            
+            // Add quest system event handlers
+            questSystem.on('questAdded', (questId, title) => {
+                this.showNotification(`New Quest: ${title}`, 0x7fff8e);
+            });
+            
+            questSystem.on('questUpdated', (questId, title) => {
+                this.showNotification(`Quest Updated: ${title}`, 0x7fff8e);
+            });
+            
+            questSystem.on('questCompleted', (questId, title) => {
+                this.showNotification(`Quest Completed: ${title}`, 0x7fff8e);
+            });
+        }
+        this.questSystem = this.registry.get('questSystem');
         this.questLog = new QuestLog(this);
+
+        // Initialize Faction system if not already initialized
+        if (!this.registry.get('factionSystem')) {
+            const factionSystem = new FactionReputation();
+            this.registry.set('factionSystem', factionSystem);
+            
+            // Add faction system event handlers
+            factionSystem.on('reputationChanged', (faction, amount) => {
+                const changeText = amount > 0 ? 'increased' : 'decreased';
+                this.showNotification(`${faction} reputation ${changeText}`, 0x7fff8e);
+            });
+        }
+        this.factionSystem = this.registry.get('factionSystem');
     }
 
     createSymbiontUI() {
@@ -1689,29 +1734,13 @@ export default class GameScene extends Phaser.Scene {
 
     // Helper method for other scenes to modify Growth/Decay balance
     modifyGrowthDecay(growthChange, decayChange) {
-        const system = this.growthDecaySystem;
-        if (system) {
-            if (growthChange) {
-                const actualChange = system.updateBalance(growthChange);
-                if (actualChange !== 0) {
-                    const message = actualChange > 0 ? 'Growth increased!' : 'Growth decreased!';
-                    const color = actualChange > 0 ? 0x00ff00 : 0xff0000;
-                    this.showNotification(message, color);
-                }
-            }
-            if (decayChange) {
-                const actualChange = system.updateBalance(-decayChange); // Negative because decay is opposite of growth
-                if (actualChange !== 0) {
-                    const message = decayChange > 0 ? 'Decay increased!' : 'Decay decreased!';
-                    const color = decayChange > 0 ? 0x8b4513 : 0x00ff00;
-                    this.showNotification(message, color);
-                }
-            }
+        if (this.growthDecaySystem) {
+            this.growthDecaySystem.modifyBalance(growthChange, decayChange);
         }
     }
 
     modifyFactionReputation(faction, amount) {
-        const factionSystem = this.registry.get('factionReputation');
+        const factionSystem = this.registry.get('factionSystem');
         const result = factionSystem.modifyReputation(faction, amount);
         if (result) {
             const sign = amount > 0 ? '+' : '';
@@ -1722,46 +1751,41 @@ export default class GameScene extends Phaser.Scene {
         }
     }
 
-    showNotification(text, color = 0x00ff00) {
+    showNotification(text, color = 0x7fff8e) {
         // Create notification container
-        const notification = this.add.container(400, 550);
-        notification.setDepth(1000);
-
-        // Create background
-        const bg = this.add.graphics();
-        bg.fillStyle(0x000000, 0.8);
-        bg.fillRoundedRect(-100, -15, 200, 30, 5);
+        const notification = this.add.container(400, 100);
+        notification.setDepth(2000);
+        notification.setScrollFactor(0);
         
-        // Create text
-        const message = this.add.text(0, 0, text, {
-            font: '14px Arial',
-            fill: '#' + color.toString(16).padStart(6, '0'),
-            align: 'center'
+        // Notification background
+        const notifBg = this.add.rectangle(0, 0, 300, 60, 0x0a2712, 0.9);
+        notifBg.setStrokeStyle(2, color);
+        notification.add(notifBg);
+        
+        // Notification text
+        const notifText = this.add.text(0, 0, text, {
+            fontSize: '18px',
+            fill: '#' + color.toString(16).padStart(6, '0')
         });
-        message.setOrigin(0.5);
+        notifText.setOrigin(0.5);
+        notification.add(notifText);
         
-        // Add to container
-        notification.add([bg, message]);
-        
-        // Animate in
-        notification.setAlpha(0);
-        notification.y = 570;
-        
+        // Animate notification
         this.tweens.add({
             targets: notification,
-            y: 550,
-            alpha: 1,
-            duration: 200,
-            ease: 'Power1',
+            y: 80,
+            alpha: { from: 0, to: 1 },
+            duration: 500,
+            ease: 'Power2',
             onComplete: () => {
-                // Hold for 2 seconds then fade out
+                // Hold for a moment then fade out
                 this.time.delayedCall(2000, () => {
                     this.tweens.add({
                         targets: notification,
-                        y: 530,
+                        y: 60,
                         alpha: 0,
-                        duration: 200,
-                        ease: 'Power1',
+                        duration: 500,
+                        ease: 'Power2',
                         onComplete: () => {
                             notification.destroy();
                         }
