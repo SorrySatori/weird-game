@@ -5,14 +5,17 @@ export default class Shed13Scene extends GameScene {
         super({ key: 'Shed13Scene' });
         this.isTransitioning = false;
         this.visitedDialogs = new Set();
-        
-        // Store all dialog content in a separate property
-        this._dialogContent = {
+        this._dialogTextCache = {}; // Cache for dynamic dialog text
+    }
+
+    get dialogContent() {
+        // Get base content
+        const content = {
+            ...super.dialogContent,
             start: {
-                text: "Another stray wanderin' down the veins of Shed13...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
+                text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed13...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", next: "background" },
-                    { text: "I'm looking for the Bishop. Have you seen her?", next: "bishop" },
                     { text: "Goodbye", next: "end" }
                 ]
             },
@@ -46,7 +49,7 @@ export default class Shed13Scene extends GameScene {
                 ]
             },
             threat: {
-                text: "Heh... brave words from soft lungs. But here,  threats are like throwing paper at iron walls. (His voice lowers dangerously.) You want answers? You bring me value. You bring me rust that sings. Or you'll leave here empty, maybe even emptier.",
+                text: "Heh... brave words from soft lungs. But here, threats are like throwing paper at iron walls. (His voice lowers dangerously.) You want answers? You bring me value. You bring me rust that sings. Or you'll leave here empty, maybe even emptier.",
                 options: [
                     { text: "Ok, tell me more", next: "recoverTech" },
                     { text: "Back to other topics", next: "start" }
@@ -60,41 +63,40 @@ export default class Shed13Scene extends GameScene {
                 ]
             },
             recoverTech: {
-                text: "Now that is a tune I can hum to.Shed13's 3rd Sublevel got swallowed when the fold pressure rose.There's a derelict core I need pulled out — still breathing, barely.\n(He hands you a jagged scrap map.) Find it, and maybe I'll find my memory about your Bishop friend.",
+                text: "Now that is a tune I can hum to. Shed13's 3rd Sublevel got swallowed when the fold pressure rose. There's a derelict core I need pulled out — still breathing, barely.\n(He hands you a jagged scrap map.) Find it, and maybe I'll find my memory about your Bishop friend.",
                 options: [
                     { text: "Back to other topics", next: "start" }
                 ]
             },
             end: {
                 text: "Come back if you need anything... unusual.",
-                options: []
+                options: [],
+                onShow: () => {
+                    this.hideDialog();
+                }
             }
         };
-    }
 
-    get dialogContent() {
-        // Filter dialog options based on visited states and quest status
-        const questSystem = this.registry.get('questSystem');
-        const hasFindBishopQuest = questSystem?.quests?.has('find_bishop');
+        // Check if find_bishop quest exists
+        if (this.questSystem.getQuest('find_bishop')) {
+            // Add bishop dialog option to start options if quest exists
+            content.start.options.splice(1, 0, { 
+                text: "I'm looking for the Bishop. Have you seen her?", 
+                next: "bishop" 
+            });
+        }
 
-        // Filter options based on conditions
-        const content = JSON.parse(JSON.stringify(this._dialogContent)); // Deep clone
-        
-        // Modify start options
-        content.start.options = this.visitedDialogs.has('recoverTech') ?
-            []
-            :
-            [
-                { text: "Who are you exactly?", next: "background" },
-                ...(hasFindBishopQuest ? [{ text: "I'm looking for the Bishop. Have you seen her?", next: "bishop" }] : []),
-                { text: "Goodbye", next: "end" }
-            ]
-
-        // Filter background optionqs
+        // Filter background options if rustChoir has been visited
         if (this.visitedDialogs.has('rustChoir')) {
             content.background.options = [
                 { text: "Back to other topics", next: "start" }
             ];
+        }
+
+        // Update start text if recoverTech has been visited
+        if (this.visitedDialogs.has('recoverTech')) {
+            content.start.text = "Just bring me the living core, then I will talk more";
+            content.start.options = [];
         }
 
         return content;
@@ -103,22 +105,26 @@ export default class Shed13Scene extends GameScene {
     showDialog(dialogKey) {
         // Handle faction reputation changes
         if (dialogKey === 'rustChoir' || dialogKey === 'brukk') {
-            this.modifyFactionReputation('RustChoir', 10);
+            const factionSystem = this.registry.get('factionSystem');
+            if (factionSystem) {
+                factionSystem.modifyReputation('RustChoir', 10);
+                this.showNotification('Rust Choir reputation increased', 0x7fff8e);
+            }
         }
 
         // Handle quest updates
-        const questSystem = this.registry.get('questSystem');
+        const questSystem = this.questSystem
         if (questSystem) {
             if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
                 questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.");
-                this.showNotification('Quest Updated: Find Bishop');
+                this.showNotification('Quest Updated: Find Bishop', 0x7fff8e);
             } else if (dialogKey === 'recoverTech') {
-                this.questSystem.addQuest(
+                questSystem.addQuest(
                     'rust_reclamation',
                     'Rust Reclamation',
-                    "Gnur needs help recovering a 'living core' from Shed13's 3rd Sublevel. The area was swallowed by fold pressure, making this a dangerous but potentially rewarding task.",
+                    "Gnur needs help recovering a 'living core' from Shed13's 3rd Sublevel. The area was swallowed by fold pressure, making this a dangerous but potentially rewarding task."
                 );
-                this.showNotification('New Quest: Rust Reclamation');
+                this.showNotification('New Quest: Rust Reclamation', 0x7fff8e);
                 this.modifyGrowthDecay(1, 0);
             }
         }
@@ -126,31 +132,34 @@ export default class Shed13Scene extends GameScene {
         // Track visited dialogs
         this.visitedDialogs.add(dialogKey);
 
-        if (this.visitedDialogs.has('recoverTech'))
-            this._dialogContent.start.text = "Just bring me the living core, then I will talk more"
-
         // Show the dialog content
         super.showDialog(dialogKey);
     }
 
-    preload() {
-        super.preload();
-        this.load.image('shed13Bg', 'assets/images/Shed13.png');
-        this.load.image('exitArea', 'assets/images/door.png');
-        this.load.image('mysteriousSpore', 'assets/images/spore.png');
-        // Load Gnur sprite
-        this.load.image('gnur', './assets/images/Gnur.png');
-    }
-
     create() {
-        // Call parent create first to initialize mechanics
         super.create();
-        
-        // Set shed13 background
+
+        // Initialize faction system if not already in registry
+        if (!this.registry.get('factionSystem')) {
+            this.registry.set('factionSystem', {
+                reputations: new Map([
+                    ['RustChoir', 0]
+                ]),
+                modifyReputation: (faction, amount) => {
+                    const currentRep = this.registry.get('factionSystem').reputations.get(faction) || 0;
+                    this.registry.get('factionSystem').reputations.set(faction, currentRep + amount);
+                }
+            });
+        }
+
+        // Set up scene background and elements
         const bg = this.add.image(400, 300, 'shed13Bg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
-        
+
+        // Add fade-in effect
+        this.cameras.main.fadeIn(800, 0, 0, 0);
+
         // Add Gnur NPC with proper size
         this.gnur = this.add.sprite(400, 470, 'gnur');
         this.gnur.setDisplaySize(80, 80); // Set a fixed size
@@ -158,9 +167,9 @@ export default class Shed13Scene extends GameScene {
         this.gnur.setInteractive({ useHandCursor: true });
 
         this.entrance = this.add.image(650, 400, 'door')
-        .setDisplaySize(100, 200)
-        .setAlpha(0.01)
-        .setInteractive({ useHandCursor: true });
+            .setDisplaySize(100, 200)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true });
         this.entrance.setDepth(10);
 
         this.entrance.on('pointerdown', () => {
@@ -282,6 +291,15 @@ export default class Shed13Scene extends GameScene {
                 }
             });
         });
+    }
+
+    preload() {
+        super.preload();
+        this.load.image('shed13Bg', 'assets/images/Shed13.png');
+        this.load.image('exitArea', 'assets/images/door.png');
+        this.load.image('mysteriousSpore', 'assets/images/spore.png');
+        // Load Gnur sprite
+        this.load.image('gnur', './assets/images/Gnur.png');
     }
 
     update() {

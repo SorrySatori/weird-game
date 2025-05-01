@@ -61,10 +61,15 @@ export default class SymbiontSystem {
         if (symbiontId === 'thorne-still') {
             const messages = [
                 "In the spaces between reality, truth flows like mercury...",
-                "The patterns... they speak of what was and what will be...",
+                "Flesh is just wet soil for the next thing",
                 "I see the threads that bind this world together...",
                 "The void whispers secrets to those who listen...",
-                "Time is but a circle in the eyes of the eternal...",
+                "Hold still. I’m aligning your inner moss...",
+                "Technically, I’m a certified emotional support parasite.",
+                "This body has too many elbows. I’m starting a petition.",
+                "We should really talk about your hydration levels.",
+                "If you die, can I keep your kneecaps?",
+                "I once knew a mushroom who had ambition. It didn’t end well."
             ];
             const message = messages[Math.floor(Math.random() * messages.length)];
             symbiont.lastSpoke = now;

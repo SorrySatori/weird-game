@@ -6,6 +6,13 @@ export default class VoxMarket extends GameScene {
         this.isTransitioning = false; // Add flag to track transition state
     }
 
+    get dialogContent() {
+        return {
+            ...super.dialogContent, // Include parent dialog content for symbiont dialogs
+            // Add VoxMarket specific dialogs here if needed
+        };
+    }
+
     preload() {
         super.preload();
         this.load.image('voxMarketBg', 'assets/images/Voxmarket.png');
@@ -49,6 +56,9 @@ export default class VoxMarket extends GameScene {
             this.priestGlow.x = this.priest.x;
             this.priestGlow.y = this.priest.y;
         }
+        
+        // Add fade-in effect
+        this.cameras.main.fadeIn(800, 0, 0, 0);
         
         // Exit area click logic
         this.exitArea.on('pointerdown', () => {

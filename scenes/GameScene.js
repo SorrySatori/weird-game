@@ -124,7 +124,10 @@ export default class GameScene extends Phaser.Scene {
         this.growthDecayIndicator = new GrowthDecayIndicator(this);
 
         // Initialize Symbiont system
-        this.symbiontSystem = new SymbiontSystem(this);
+        if (!this.registry.get('symbiontSystem')) {
+            this.registry.set('symbiontSystem', new SymbiontSystem(this));
+        }
+        this.symbiontSystem = this.registry.get('symbiontSystem');
 
         // Initialize Quest system
         this.questSystem = new QuestSystem(this);
@@ -216,7 +219,6 @@ export default class GameScene extends Phaser.Scene {
         });
 
         symbiontIcon.on('pointerdown', () => {
-            const symbiont = this.symbiontSystem.symbionts.get(id);
             this.showDialog('symbiontDialog');
         });
 
@@ -1181,6 +1183,13 @@ export default class GameScene extends Phaser.Scene {
                         next: 'symbiontDialog'
                     }
                 ]
+            },
+            closeDialog: {
+                text: '',
+                options: [],
+                onShow: () => {
+                    this.hideDialog();
+                }
             }
         };
     }
