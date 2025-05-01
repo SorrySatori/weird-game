@@ -3,6 +3,7 @@ import GrowthDecayIndicator from '../ui/GrowthDecayIndicator.js';
 import QuestSystem from '../systems/QuestSystem.js';
 import QuestLog from '../ui/QuestLog.js';
 import FactionReputation from '../systems/FactionReputation.js';
+import SymbiontSystem from '../systems/SymbiontSystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -12,6 +13,15 @@ export default class GameScene extends Phaser.Scene {
         this.dialogOptionsY = 0; // Track options position
         this.isTransitioning = false; // Flag to prevent multiple transitions
         this.cursors = null; // Initialize cursors reference
+        this.movementState = {
+            left: false,
+            right: false,
+            up: false,
+            down: false
+        };
+        this.symbiontContainer = null;
+        this.symbiontSlots = [];
+        this.symbiontIcons = new Map();
     }
 
     init() {
@@ -59,55 +69,11 @@ export default class GameScene extends Phaser.Scene {
         // Initialize systems
         this.initSystems();
         
+        // Create symbiont UI
+        this.createSymbiontUI();
+        
         // Initialize scene mechanics
         this.initSceneMechanics();
-
-        // Initialize movement state
-        this.movementState = {
-            left: false,
-            right: false
-        };
-
-        // Set up keyboard listeners
-        this.input.keyboard.on('keydown-LEFT', () => {
-            console.log('Left key down');
-            this.movementState.left = true;
-        });
-
-        this.input.keyboard.on('keyup-LEFT', () => {
-            console.log('Left key up');
-            this.movementState.left = false;
-        });
-
-        this.input.keyboard.on('keydown-RIGHT', () => {
-            console.log('Right key down');
-            this.movementState.right = true;
-        });
-
-        this.input.keyboard.on('keyup-RIGHT', () => {
-            console.log('Right key up');
-            this.movementState.right = false;
-        });
-
-        this.input.keyboard.on('keydown-A', () => {
-            console.log('A key down');
-            this.movementState.left = true;
-        });
-
-        this.input.keyboard.on('keyup-A', () => {
-            console.log('A key up');
-            this.movementState.left = false;
-        });
-
-        this.input.keyboard.on('keydown-D', () => {
-            console.log('D key down');
-            this.movementState.right = true;
-        });
-
-        this.input.keyboard.on('keyup-D', () => {
-            console.log('D key up');
-            this.movementState.right = false;
-        });
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
@@ -154,25 +120,108 @@ export default class GameScene extends Phaser.Scene {
 
     initSystems() {
         // Initialize Growth/Decay system
-        if (!this.registry.get('growthDecaySystem')) {
-            this.registry.set('growthDecaySystem', new GrowthDecaySystem());
-        }
-        this.growthDecaySystem = this.registry.get('growthDecaySystem');
-        this.growthDecayIndicator = new GrowthDecayIndicator(this, 20, 20);
+        this.growthDecaySystem = new GrowthDecaySystem();
+        this.growthDecayIndicator = new GrowthDecayIndicator(this);
+
+        // Initialize Symbiont system
+        this.symbiontSystem = new SymbiontSystem(this);
 
         // Initialize Quest system
-        if (!this.registry.get('questSystem')) {
-            this.registry.set('questSystem', new QuestSystem());
-        }
-        this.questSystem = this.registry.get('questSystem');
-        this.questSystem.setScene(this);
-        // Position quest log button at the same Y level as inventory (550)
-        this.questLog = new QuestLog(this, 700, 550);
+        this.questSystem = new QuestSystem(this);
+        this.questLog = new QuestLog(this);
+    }
 
-        // Initialize Faction Reputation system
-        if (!this.registry.get('factionReputation')) {
-            this.registry.set('factionReputation', new FactionReputation());
+    createSymbiontUI() {
+        const startX = 60;
+        const startY = 480;
+        const spacing = 40;
+        const slotSize = 30;
+
+        // Create container for slots
+        this.symbiontContainer = this.add.container(0, 0);
+        this.symbiontContainer.setDepth(100);
+        this.symbiontContainer.setScrollFactor(0); // Make it persist across scenes
+
+        this.symbiontSlots = [];
+        this.symbiontIcons = new Map();
+
+        for (let i = 0; i < this.symbiontSystem.maxSlots; i++) {
+            // Create slot background
+            const slot = this.add.rectangle(startX + (i * spacing), startY, slotSize, slotSize, 0x1a3b23)
+                .setStrokeStyle(1, 0x7fff8e)
+                .setDepth(100)
+                .setAlpha(i < this.symbiontSystem.unlockedSlots ? 1 : 0.3);
+
+            this.symbiontSlots.push(slot);
+            this.symbiontContainer.add(slot);
+
+            if (i >= this.symbiontSystem.unlockedSlots) {
+                const lockText = this.add.text(slot.x, slot.y, '', {
+                    fontSize: '16px',
+                    color: '#7fff8e'
+                }).setOrigin(0.5).setDepth(101);
+                this.symbiontContainer.add(lockText);
+            }
         }
+
+        // Restore any existing symbionts
+        if (this.symbiontSystem) {
+            this.symbiontSystem.symbionts.forEach((data, id) => {
+                this.addSymbiontIcon(id, data);
+            });
+        }
+    }
+
+    addSymbiontIcon(id, data) {
+        const slot = this.symbiontSystem.symbionts.size - 1;
+        const x = 60 + (slot * 40);
+        const y = 480;
+        
+        // Create glowing circle for symbiont
+        const symbiontIcon = this.add.circle(x, y, 12, 0x7fff8e)
+            .setDepth(102)
+            .setInteractive({ useHandCursor: true });
+        
+        // Add pulsing animation
+        this.tweens.add({
+            targets: symbiontIcon,
+            scale: 1.2,
+            alpha: 0.8,
+            duration: 1000,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
+
+        // Add hover tooltip
+        symbiontIcon.on('pointerover', () => {
+            const tooltipBg = this.add.rectangle(x, y - 40, 200, 60, 0x0a2712, 0.9)
+                .setStrokeStyle(1, 0x7fff8e);
+            const tooltipText = this.add.text(x, y - 40, 
+                `${data.name}\nPower: ${data.power}\nAbility: ${data.ability}`, {
+                fontSize: '12px',
+                color: '#7fff8e',
+                align: 'center'
+            }).setOrigin(0.5);
+            
+            this.activeTooltip = this.add.container(0, 0, [tooltipBg, tooltipText])
+                .setDepth(103);
+        });
+
+        symbiontIcon.on('pointerout', () => {
+            if (this.activeTooltip) {
+                this.activeTooltip.destroy();
+                this.activeTooltip = null;
+            }
+        });
+
+        symbiontIcon.on('pointerdown', () => {
+            const symbiont = this.symbiontSystem.symbionts.get(id);
+            this.showDialog('symbiontDialog');
+        });
+
+        this.symbiontContainer.add(symbiontIcon);
+        this.symbiontIcons.set(id, symbiontIcon);
     }
 
     initSceneMechanics() {
@@ -1096,8 +1145,44 @@ export default class GameScene extends Phaser.Scene {
     }
 
     get dialogContent() {
-        // This is now a base implementation that child scenes should override
-        return {};
+        return {
+            ...super.dialogContent,
+            symbiontDialog: {
+                text: 'Thorne-Still whispers in your mind: "I sense the threads of reality growing thinner here. My power grows with decay, but too much growth will force me to leave. Use my Suture-Reality ability wisely..."',
+                options: [
+                    {
+                        text: 'Ask about Suture-Reality',
+                        next: 'symbiontAbility'
+                    },
+                    {
+                        text: 'Ask about the threads of reality',
+                        next: 'symbiontLore'
+                    },
+                    {
+                        text: 'Close',
+                        next: 'closeDialog'
+                    }
+                ]
+            },
+            symbiontAbility: {
+                text: 'Suture-Reality allows us to temporarily repair areas where reality has become unstable. The more decay present, the stronger this ability becomes. But be warned - it requires at least 30% decay to function.',
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'symbiontDialog'
+                    }
+                ]
+            },
+            symbiontLore: {
+                text: 'Reality is like fabric, and in some places it has begun to fray. I was born in these spaces between what is and what could be. There are others like me, but we are few, and we must choose our hosts carefully.',
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'symbiontDialog'
+                    }
+                ]
+            }
+        };
     }
 
     initInventory() {

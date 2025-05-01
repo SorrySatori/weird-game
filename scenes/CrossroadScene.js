@@ -16,7 +16,10 @@ export default class CrossroadScene extends GameScene {
 
     create() {
         super.create();
-        
+
+        // Create symbiont UI
+        this.createSymbiontUI();
+
         // Set crossroad background
         const bg = this.add.image(400, 300, 'crossroadBg');
         bg.setDisplaySize(800, 600);
@@ -50,19 +53,21 @@ export default class CrossroadScene extends GameScene {
             .setInteractive({ useHandCursor: true });
         this.scraperSceneEntrance.setDepth(10);
 
-        // Add corpse clickable area
-        this.corpseInteraction = this.add.rectangle(400, 300, 100, 150, 0x000000, 0)
-            .setInteractive({ useHandCursor: true });
-        this.corpseInteraction.setDepth(10);
-        
-        this.corpseInteraction.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.showCorpseDialog();
-        });
+        // Add corpse sprite
+        this.corpse = this.add.image(400, 300, 'door');
+        this.corpse.setAlpha(0.01)
+        this.corpse.setScale(2);
+        this.corpse.setInteractive({ useHandCursor: true });
+        this.corpse.on('pointerdown', () => this.showCorpseDialog());
 
-        // Add symbiont slots to inventory
-        this.createSymbiontSlots();
+        // Add fade-in effect
+        this.cameras.main.fadeIn(800, 0, 0, 0);
 
+        // Add scene transitions
+        this.setupSceneTransitions();
+    }
+
+    setupSceneTransitions() {
         // Shed13 entrance click logic
         this.marketEntrance.on('pointerdown', () => {
             if (this.isTransitioning) return;
@@ -133,11 +138,19 @@ export default class CrossroadScene extends GameScene {
         });
     }
 
-    createSymbiontSlots() {
+    createSymbiontUI() {
         const startX = 60;
         const startY = 480;
         const spacing = 40;
         const slotSize = 30;
+
+        // Create container for slots
+        this.symbiontContainer = this.add.container(0, 0);
+        this.symbiontContainer.setDepth(100);
+        this.symbiontContainer.setScrollFactor(0);
+
+        this.symbiontSlots = [];
+        this.symbiontIcons = new Map();
 
         for (let i = 0; i < this.symbiontSystem.maxSlots; i++) {
             // Create slot background
@@ -146,13 +159,28 @@ export default class CrossroadScene extends GameScene {
                 .setDepth(100)
                 .setAlpha(i < this.symbiontSystem.unlockedSlots ? 1 : 0.3);
 
+            this.symbiontSlots.push(slot);
+            this.symbiontContainer.add(slot);
+
             if (i >= this.symbiontSystem.unlockedSlots) {
-                this.add.text(slot.x, slot.y, '', {
+                const lockText = this.add.text(slot.x, slot.y, '', {
                     fontSize: '16px',
                     color: '#7fff8e'
                 }).setOrigin(0.5).setDepth(101);
+                this.symbiontContainer.add(lockText);
             }
         }
+
+        // Restore any existing symbionts
+        if (this.symbiontSystem) {
+            this.symbiontSystem.symbionts.forEach((data, id) => {
+                this.addSymbiontIcon(id, data);
+            });
+        }
+    }
+
+    createSymbiontSlots() {
+        // Removed
     }
 
     get dialogContent() {
@@ -244,24 +272,11 @@ export default class CrossroadScene extends GameScene {
                         // Show notification about gaining the symbiont
                         this.showNotification('Gained Symbiont: Thorne-Still', 0x7fff8e);
                         
-                        // Add symbiont icon using a circle instead of an image
-                        const slot = this.symbiontSystem.symbionts.size - 1;
-                        const x = 60 + (slot * 40);
-                        const y = 480;
-                        
-                        // Create glowing circle for symbiont
-                        const symbiontIcon = this.add.circle(x, y, 12, 0x7fff8e)
-                            .setDepth(102);
-                        
-                        // Add pulsing animation
-                        this.tweens.add({
-                            targets: symbiontIcon,
-                            scale: 1.2,
-                            alpha: 0.8,
-                            duration: 1000,
-                            yoyo: true,
-                            repeat: -1,
-                            ease: 'Sine.easeInOut'
+                        // Add symbiont icon using GameScene's method
+                        this.addSymbiontIcon('thorne-still', {
+                            name: 'Thorne-Still',
+                            power: 0,
+                            ability: 'Suture-Reality'
                         });
                     }
                     this.hideDialog();
