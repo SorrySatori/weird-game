@@ -108,7 +108,7 @@ export default class Shed13Scene extends GameScene {
             const factionSystem = this.registry.get('factionSystem');
             if (factionSystem) {
                 factionSystem.modifyReputation('RustChoir', 10);
-                this.showNotification('Rust Choir', 'reputation increased by', 10);
+                this.showNotification('Rust Choir Reputation +10');
             }
         }
 
@@ -117,14 +117,14 @@ export default class Shed13Scene extends GameScene {
         if (questSystem) {
             if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
                 questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.");
-                this.showNotification('Quest Updated', 'Find the Bishop of Threshold');
+                this.showNotification('Quest updated: Find the Bishop of Threshold');
             } else if (dialogKey === 'recoverTech') {
                 questSystem.addQuest(
                     'rust_reclamation',
                     'Rust Reclamation',
                     "Gnur needs help recovering a 'living core' from Shed13's 3rd Sublevel. The area was swallowed by fold pressure, making this a dangerous but potentially rewarding task."
                 );
-                this.showNotification('New Quest', 'Rust Reclamation');
+                this.showNotification('Quest added: Rust Reclamation');
                 this.modifyGrowthDecay(1, 0);
             }
         }

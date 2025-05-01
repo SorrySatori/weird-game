@@ -781,44 +781,46 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
-    showNotification(entityName, notifText, amount = '') {
+    showNotification(title, subtitle = '', amount = '') {
         // Create notification container
         const notification = this.add.container(400, 100);
         notification.setDepth(2000);
         notification.setScrollFactor(0);
 
-        // Notification background with gradient
-        const notifBg = this.add.graphics();
-        notifBg.fillStyle(0x0a2712, 0.95);
-        notifBg.fillRect(-150, -30, 300, 60);
-        notifBg.lineStyle(2, 0x7fff8e);
-        notifBg.strokeRect(-150, -30, 300, 60);
-        
-        // Add glow effect
-        const glowBg = this.add.graphics();
-        glowBg.lineStyle(4, 0x7fff8e, 0.1);
-        glowBg.strokeRect(-152, -32, 304, 64);
-        notification.add(glowBg);
-        notification.add(notifBg);
-
-        // Format the message
-        let message = entityName;
-        if (notifText) {
-            message += ' ' + notifText;
+        // Format the message in a single line
+        let message = title;
+        if (subtitle) {
+            if (typeof subtitle === 'string' && subtitle.toLowerCase().includes('quest')) {
+                message = subtitle; // For quests, just show the quest name
+            } else {
+                message += ' ' + subtitle;
+            }
         }
         if (amount !== '') {
             message += ' ' + amount;
         }
 
-        // Notification text with shadow
+        // Create the green box background (similar to symbiont notification)
+        const padding = 20;
         const text = this.add.text(0, 0, message, {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center',
-            padding: { x: 10, y: 5 }
         });
         text.setOrigin(0.5);
-        text.setShadow(2, 2, '#0a2712', 2, true, true);
+
+        const boxWidth = text.width + (padding * 2);
+        const boxHeight = text.height + (padding * 2);
+        
+        const box = this.add.graphics();
+        // Dark green semi-transparent background
+        box.fillStyle(0x0a2712, 0.9);
+        box.fillRect(-boxWidth/2, -boxHeight/2, boxWidth, boxHeight);
+        // Bright green border
+        box.lineStyle(2, 0x7fff8e);
+        box.strokeRect(-boxWidth/2, -boxHeight/2, boxWidth, boxHeight);
+
+        notification.add(box);
         notification.add(text);
 
         // Animate notification
@@ -846,60 +848,147 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
-    makeItemCollectable(item, sprite) {
-        // Make the item sprite interactive
-        sprite.setInteractive({ useHandCursor: true });
+    transitionToScene(newScene) {
+        if (this.isTransitioning) return;
+        this.isTransitioning = true;
+        
+        // Stop any player movement and set to idle
+        if (this.priest) {
+            this.priest.play('idle');
+        }
+        
+        // Fade out
+        this.cameras.main.fadeOut(800, 0, 0, 0);
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+            // Stop ALL audio
+            this.sound.stopAll();
+            
+            // Start new scene
+            this.scene.start(newScene);
+        });
+    }
 
-        // Create item description container if it doesn't exist
-        if (!this.worldItemDescription) {
-            this.worldItemDescription = this.add.container(0, 0);
-            this.worldItemDescription.setDepth(1000);
-            this.worldItemDescription.setVisible(false);
+    initMusicSystem() {
+        // Initialize background music if not already done
+        if (!this.backgroundMusic) {
+            this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+        }
+        
+        // Initialize scene-specific music
+        this.sceneMusic = null;
+    }
 
-            // Description background
-            const descBg = this.add.rectangle(0, 0, 200, 80, 0x0a2712, 0.9);
-            descBg.setStrokeStyle(1, 0x7fff8e);
-            this.worldItemDescription.add(descBg);
+    playSceneMusic(key) {
+        // Stop ALL audio currently playing in the game
+        this.sound.stopAll();
+        
+        // Play new scene music
+        if (key) {
+            this.sceneMusic = this.sound.add(key, { loop: true });
+            this.sceneMusic.play();
+        }
+    }
 
-            // Description text
-            this.worldDescriptionText = this.add.text(0, 0, '', {
-                fontSize: '16px',
-                fill: '#7fff8e',
-                align: 'center',
-                wordWrap: { width: 180 }
-            });
-            this.worldDescriptionText.setOrigin(0.5);
-            this.worldItemDescription.add(this.worldDescriptionText);
+    restoreBackgroundMusic() {
+        // Stop ALL audio currently playing in the game
+        this.sound.stopAll();
+        
+        // Create and play background music
+        this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
+        this.backgroundMusic.play();
+    }
+
+    shutdown() {
+        // Clean up all audio
+        this.sound.stopAll();
+        
+        // Clean up character and effects
+        if (this.priest) {
+            this.priest.destroy();
+            this.priest = null;
+        }
+        if (this.priestGlow) {
+            this.priestGlow.destroy();
+            this.priestGlow = null;
+        }
+        if (this.cursor) {
+            this.cursor.destroy();
+            this.cursor = null;
+        }
+        
+        // Clean up dialog system
+        if (this.dialogBox) {
+            this.dialogBox.destroy();
+            this.dialogBox = null;
+        }
+        if (this.dialogText) {
+            this.dialogText.destroy();
+            this.dialogText = null;
+        }
+        this.dialogOptions.forEach(option => option.destroy());
+        this.dialogOptions = [];
+        this.dialogVisible = false;
+        this.dialogCallback = null;
+
+        // Remove all event listeners
+        this.input.removeAllListeners();
+        
+        // Clean up Growth/Decay indicator if it exists
+        if (this.growthDecayIndicator) {
+            // Call its cleanup method if it exists
+            if (typeof this.growthDecayIndicator.cleanup === 'function') {
+                this.growthDecayIndicator.cleanup();
+            }
+            this.growthDecayIndicator = null;
         }
 
-        // Show description on hover
-        sprite.on('pointerover', () => {
-            this.cursor.setAlpha(0); // Hide custom cursor
-            this.worldDescriptionText.setText(item.description || item.name);
-            
-            // Position tooltip above the item
-            const tooltipX = sprite.x;
-            const tooltipY = sprite.y - sprite.displayHeight/2 - 50;
-            this.worldItemDescription.setPosition(tooltipX, tooltipY);
-            this.worldItemDescription.setVisible(true);
-        });
+        // Call parent shutdown
+        super.shutdown();
+    }
 
-        // Hide description when not hovering
-        sprite.on('pointerout', () => {
-            this.cursor.setAlpha(0.8); // Show custom cursor
-            this.worldItemDescription.setVisible(false);
-        });
+    // Check if the current scene is EggCatedralScene
+    isEggCatedral() {
+        return this.constructor.name === 'EggCatedralScene';
+    }
 
-        // Add item to inventory on click
-        sprite.on('pointerdown', () => {
-            if (this.clickSound) this.clickSound.play();
-            if (this.addItemToInventory(item)) {
-                // Successfully added to inventory
-                this.showItemNotification(item);
-                sprite.destroy(); // Remove from world
-                this.worldItemDescription.setVisible(false);
-            }
-        });
+    update() {
+        // Base implementation for game loop updates
+        // Child scenes should override this method for scene-specific behavior
+    }
+
+    shutdown() {
+        // Stop any playing scene music
+        if (this.sceneMusic && this.sceneMusic.isPlaying) {
+            this.sceneMusic.stop();
+            this.sceneMusic.destroy();
+            this.sceneMusic = null;
+        }
+        
+        // Stop background music if playing
+        if (this.backgroundMusic && this.backgroundMusic.isPlaying) {
+            this.backgroundMusic.stop();
+            this.backgroundMusic.destroy();
+            this.backgroundMusic = null;
+        }
+    }
+
+    // Helper method for other scenes to modify Growth/Decay balance
+    modifyGrowthDecay(growthChange, decayChange) {
+        if (this.growthDecaySystem) {
+            this.growthDecaySystem.modifyBalance(growthChange, decayChange);
+        }
+    }
+
+    modifyFactionReputation(faction, amount) {
+        const factionSystem = this.registry.get('factionSystem');
+        const result = factionSystem.modifyReputation(faction, amount);
+        if (result) {
+            const sign = amount > 0 ? '+' : '';
+            this.showNotification(
+                `${result.faction} Reputation ${sign}${amount}`,
+                result.amount > 0 ? 0xb87333 : 0x8B0000
+            );
+        }
     }
 
     // Dialog option creation
@@ -1673,195 +1762,65 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
-    transitionToScene(newScene) {
-        if (this.isTransitioning) return;
-        this.isTransitioning = true;
-        
-        // Stop any player movement and set to idle
-        if (this.priest) {
-            this.priest.play('idle');
+    makeItemCollectable(item, sprite) {
+        // Make the item sprite interactive
+        sprite.setInteractive({ useHandCursor: true });
+
+        // Create item description container if it doesn't exist
+        if (!this.worldItemDescription) {
+            this.worldItemDescription = this.add.container(0, 0);
+            this.worldItemDescription.setDepth(1000);
+            this.worldItemDescription.setVisible(false);
+
+            // Description background
+            const descBg = this.add.rectangle(0, 0, 200, 80, 0x0a2712, 0.9);
+            descBg.setStrokeStyle(1, 0x7fff8e);
+            this.worldItemDescription.add(descBg);
+
+            // Description text
+            this.worldDescriptionText = this.add.text(0, 0, '', {
+                fontSize: '16px',
+                fill: '#7fff8e',
+                align: 'center',
+                wordWrap: { width: 180 }
+            });
+            this.worldDescriptionText.setOrigin(0.5);
+            this.worldItemDescription.add(this.worldDescriptionText);
         }
-        
-        // Fade out
-        this.cameras.main.fadeOut(800, 0, 0, 0);
-        this.cameras.main.once('camerafadeoutcomplete', () => {
-            // Stop ALL audio
-            this.sound.stopAll();
+
+        // Show description on hover
+        sprite.on('pointerover', () => {
+            this.cursor.setAlpha(0); // Hide custom cursor
+            this.worldDescriptionText.setText(item.description || item.name);
             
-            // Start new scene
-            this.scene.start(newScene);
+            // Position tooltip above the item
+            const tooltipX = sprite.x;
+            const tooltipY = sprite.y - sprite.displayHeight/2 - 50;
+            this.worldItemDescription.setPosition(tooltipX, tooltipY);
+            this.worldItemDescription.setVisible(true);
         });
-    }
 
-    initMusicSystem() {
-        // Initialize background music if not already done
-        if (!this.backgroundMusic) {
-            this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
-        }
-        
-        // Initialize scene-specific music
-        this.sceneMusic = null;
-    }
-
-    playSceneMusic(key) {
-        // Stop ALL audio currently playing in the game
-        this.sound.stopAll();
-        
-        // Play new scene music
-        if (key) {
-            this.sceneMusic = this.sound.add(key, { loop: true });
-            this.sceneMusic.play();
-        }
-    }
-
-    restoreBackgroundMusic() {
-        // Stop ALL audio currently playing in the game
-        this.sound.stopAll();
-        
-        // Create and play background music
-        this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
-        this.backgroundMusic.play();
-    }
-
-    shutdown() {
-        // Clean up all audio
-        this.sound.stopAll();
-        
-        // Clean up character and effects
-        if (this.priest) {
-            this.priest.destroy();
-            this.priest = null;
-        }
-        if (this.priestGlow) {
-            this.priestGlow.destroy();
-            this.priestGlow = null;
-        }
-        if (this.cursor) {
-            this.cursor.destroy();
-            this.cursor = null;
-        }
-        
-        // Clean up dialog system
-        if (this.dialogBox) {
-            this.dialogBox.destroy();
-            this.dialogBox = null;
-        }
-        if (this.dialogText) {
-            this.dialogText.destroy();
-            this.dialogText = null;
-        }
-        this.dialogOptions.forEach(option => option.destroy());
-        this.dialogOptions = [];
-        this.dialogVisible = false;
-        this.dialogCallback = null;
-
-        // Remove all event listeners
-        this.input.removeAllListeners();
-        
-        // Clean up Growth/Decay indicator if it exists
-        if (this.growthDecayIndicator) {
-            // Call its cleanup method if it exists
-            if (typeof this.growthDecayIndicator.cleanup === 'function') {
-                this.growthDecayIndicator.cleanup();
-            }
-            this.growthDecayIndicator = null;
-        }
-
-        // Call parent shutdown
-        super.shutdown();
-    }
-
-    // Check if the current scene is EggCatedralScene
-    isEggCatedral() {
-        return this.constructor.name === 'EggCatedralScene';
-    }
-
-    update() {
-        // Base implementation for game loop updates
-        // Child scenes should override this method for scene-specific behavior
-    }
-
-    shutdown() {
-        // Stop any playing scene music
-        if (this.sceneMusic && this.sceneMusic.isPlaying) {
-            this.sceneMusic.stop();
-            this.sceneMusic.destroy();
-            this.sceneMusic = null;
-        }
-        
-        // Stop background music if playing
-        if (this.backgroundMusic && this.backgroundMusic.isPlaying) {
-            this.backgroundMusic.stop();
-            this.backgroundMusic.destroy();
-            this.backgroundMusic = null;
-        }
-    }
-
-    // Helper method for other scenes to modify Growth/Decay balance
-    modifyGrowthDecay(growthChange, decayChange) {
-        if (this.growthDecaySystem) {
-            this.growthDecaySystem.modifyBalance(growthChange, decayChange);
-        }
-    }
-
-    modifyFactionReputation(faction, amount) {
-        const factionSystem = this.registry.get('factionSystem');
-        const result = factionSystem.modifyReputation(faction, amount);
-        if (result) {
-            const sign = amount > 0 ? '+' : '';
-            this.showNotification(
-                `${result.faction} Reputation ${sign}${amount}`,
-                result.amount > 0 ? 0xb87333 : 0x8B0000
-            );
-        }
-    }
-
-    showNotification(text, color = 0x7fff8e) {
-        // Create notification container
-        const notification = this.add.container(400, 100);
-        notification.setDepth(2000);
-        notification.setScrollFactor(0);
-        
-        // Notification background
-        const notifBg = this.add.rectangle(0, 0, 300, 60, 0x0a2712, 0.9);
-        notifBg.setStrokeStyle(2, color);
-        notification.add(notifBg);
-        
-        // Notification text
-        const notifText = this.add.text(0, 0, text, {
-            fontSize: '18px',
-            fill: '#' + color.toString(16).padStart(6, '0')
+        // Hide description when not hovering
+        sprite.on('pointerout', () => {
+            this.cursor.setAlpha(0.8); // Show custom cursor
+            this.worldItemDescription.setVisible(false);
         });
-        notifText.setOrigin(0.5);
-        notification.add(notifText);
-        
-        // Animate notification
-        this.tweens.add({
-            targets: notification,
-            y: 80,
-            alpha: { from: 0, to: 1 },
-            duration: 500,
-            ease: 'Power2',
-            onComplete: () => {
-                // Hold for a moment then fade out
-                this.time.delayedCall(2000, () => {
-                    this.tweens.add({
-                        targets: notification,
-                        y: 60,
-                        alpha: 0,
-                        duration: 500,
-                        ease: 'Power2',
-                        onComplete: () => {
-                            notification.destroy();
-                        }
-                    });
-                });
+
+        // Add item to inventory on click
+        sprite.on('pointerdown', () => {
+            if (this.clickSound) this.clickSound.play();
+            if (this.addItemToInventory(item)) {
+                // Successfully added to inventory
+                this.showItemNotification(item);
+                sprite.destroy(); // Remove from world
+                this.worldItemDescription.setVisible(false);
             }
         });
     }
+
+    // ... rest of your code remains the same ...
 }
 
-// ... rest of your code remains the same ...
 // Make the scene available globally
 if (typeof window !== 'undefined') {
     window.GameScene = GameScene;
