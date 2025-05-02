@@ -1,5 +1,4 @@
 import GameScene from './GameScene.js';
-import SymbiontSystem from '../systems/SymbiontSystem.js';
 
 export default class CrossroadScene extends GameScene {
     constructor() {
@@ -280,7 +279,7 @@ export default class CrossroadScene extends GameScene {
 
                     if (success) {
                         // Show notification about gaining the symbiont
-                        this.showNotification('Gained Symbiont: Thorne-Still', 0x7fff8e);
+                        this.showNotification('Gained Symbiont: Thorne-Still');
                         
                         // Add symbiont icon
                         this.addSymbiontIcon('thorne-still', {
@@ -333,14 +332,6 @@ export default class CrossroadScene extends GameScene {
                 if (effect.type === 'leave') {
                     this.showNotification(effect.message, 0xff0000);
                 }
-            }
-        }
-
-        // Random symbiont messages
-        if (this.symbiontSystem && Math.random() < 0.001) { // 0.1% chance per frame
-            const message = this.symbiontSystem.getRandomMessage('thorne-still');
-            if (message) {
-                this.showNotification(message, 0x7fff8e);
             }
         }
     }

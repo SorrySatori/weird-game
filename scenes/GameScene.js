@@ -143,6 +143,13 @@ export default class GameScene extends Phaser.Scene {
         }
         this.symbiontSystem = this.registry.get('symbiontSystem');
 
+        if (this.symbiontSystem.symbionts.size > 0) {
+            const message = this.symbiontSystem.getRandomMessage('thorne-still');
+            if (message) {
+                this.showNotification(message, '', '', 10000);
+            }
+        }
+
         // Initialize Quest system if not already initialized
         if (!this.registry.get('questSystem')) {
             const questSystem = new QuestSystem();
@@ -781,7 +788,7 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
-    showNotification(title, subtitle = '', amount = '') {
+    showNotification(title, subtitle = '', amount = '', duration = 500) {
         // Create notification container
         const notification = this.add.container(400, 100);
         notification.setDepth(2000);
@@ -828,7 +835,7 @@ export default class GameScene extends Phaser.Scene {
             targets: notification,
             y: 80,
             alpha: { from: 0, to: 1 },
-            duration: 500,
+            duration,
             ease: 'Power2',
             onComplete: () => {
                 // Hold for a moment then fade out
@@ -837,7 +844,7 @@ export default class GameScene extends Phaser.Scene {
                         targets: notification,
                         y: 60,
                         alpha: 0,
-                        duration: 500,
+                        duration,
                         ease: 'Power2',
                         onComplete: () => {
                             notification.destroy();
