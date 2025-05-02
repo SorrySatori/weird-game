@@ -2,6 +2,7 @@ export default class QuestLog {
     constructor(scene, x = 750, y = 50) {
         this.scene = scene;
         this.questSystem = scene.registry.get('questSystem');
+        this.expandedQuests = new Set();
         
         // Create quest log button
         this.createQuestButton(x, y);
@@ -15,6 +16,19 @@ export default class QuestLog {
         // Add keyboard shortcut
         this.scene.input.keyboard.on('keydown-Q', () => {
             this.toggleQuestLog();
+        });
+
+        // Track mouse wheel for scrolling
+        this.scene.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+            if (this.questPanel.visible && this.questContent) {
+                const scrollSpeed = 0.5;
+                const newY = Phaser.Math.Clamp(
+                    this.questContent.y - deltaY * scrollSpeed,
+                    -this.contentHeight + 400, // Allow scrolling up to content height minus visible area
+                    0 // Don't scroll past the top
+                );
+                this.questContent.setY(newY);
+            }
         });
     }
 
@@ -78,8 +92,16 @@ export default class QuestLog {
         });
         title.setOrigin(0.5);
         
+        // Create mask for scrollable content
+        const maskGraphics = this.scene.add.graphics();
+        maskGraphics.fillStyle(0xffffff);
+        maskGraphics.fillRect(200, 50, 360, 400); // Mask dimensions
+        maskGraphics.setVisible(false); // Hide the mask graphics while keeping the mask effect
+        
         // Create quest content container
         this.questContent = this.scene.add.container(0, -180);
+        const mask = maskGraphics.createGeometryMask();
+        this.questContent.setMask(mask);
         
         // Add all elements to panel
         this.questPanel.add([bg, title, this.questContent]);
@@ -96,6 +118,64 @@ export default class QuestLog {
         this.questPanel.add(closeButton);
     }
 
+    createQuestEntry(quest, yOffset) {
+        const container = this.scene.add.container(-180, yOffset);
+        const isExpanded = this.expandedQuests.has(quest.title);
+
+        // Create header with toggle button
+        const toggleButton = this.scene.add.text(-20, 0, isExpanded ? '▼' : '▶', {
+            font: 'bold 16px Arial',
+            fill: '#7fff8e'
+        });
+
+        // Quest title (header)
+        const title = this.scene.add.text(0, 0, quest.title, {
+            font: 'bold 20px Arial',
+            fill: quest.isComplete ? '#00ff00' : '#7fff8e',
+            wordWrap: { width: 340 }
+        });
+
+        // Make header interactive
+        const headerZone = this.scene.add.zone(-20, 0, 380, 30);
+        headerZone.setOrigin(0);
+        headerZone.setInteractive({ useHandCursor: true });
+        headerZone.on('pointerdown', () => {
+            this.toggleQuestExpansion(quest.title);
+        });
+
+        container.add([toggleButton, title, headerZone]);
+        let height = 40;
+
+        // Add description and updates if expanded
+        if (isExpanded) {
+            const desc = this.scene.add.text(0, 35, quest.description, {
+                font: '16px Arial',
+                fill: '#7fff8e',
+                wordWrap: { width: 340 },
+                lineSpacing: 5
+            });
+            container.add(desc);
+            height += desc.height + 15;
+
+            // Add updates
+            let updateY = height;
+            quest.updates.forEach(update => {
+                const updateText = this.scene.add.text(20, updateY, '• ' + update.text, {
+                    font: '14px Arial',
+                    fill: '#5c9b6b',
+                    wordWrap: { width: 320 },
+                    lineSpacing: 5
+                });
+                container.add(updateText);
+                updateY += updateText.height + 10;
+            });
+            height = updateY;
+        }
+
+        this.questContent.add(container);
+        return height;
+    }
+
     updateQuestDisplay() {
         // Clear existing content
         this.questContent.removeAll(true);
@@ -105,36 +185,21 @@ export default class QuestLog {
         
         let yOffset = 0;
         quests.forEach(quest => {
-            // Quest title
-            const title = this.scene.add.text(-180, yOffset, quest.title, {
-                font: '18px Arial',
-                fill: quest.isComplete ? '#00ff00' : '#7fff8e',
-                wordWrap: { width: 360 }
-            });
-            
-            // Quest description
-            const desc = this.scene.add.text(-180, yOffset + 25, quest.description, {
-                font: '14px Arial',
-                fill: '#7fff8e',
-                wordWrap: { width: 360 }
-            });
-            
-            this.questContent.add([title, desc]);
-            
-            // Add updates if any
-            let updateOffset = yOffset + 50;
-            quest.updates.forEach(update => {
-                const updateText = this.scene.add.text(-160, updateOffset, '• ' + update.text, {
-                    font: '12px Arial',
-                    fill: '#5c9b6b',
-                    wordWrap: { width: 340 }
-                });
-                this.questContent.add(updateText);
-                updateOffset += 20;
-            });
-            
-            yOffset = updateOffset + 20;
+            const height = this.createQuestEntry(quest, yOffset);
+            yOffset += height + 20; // Add spacing between quests
         });
+
+        // Store total content height for scrolling calculations
+        this.contentHeight = yOffset;
+    }
+
+    toggleQuestExpansion(questTitle) {
+        if (this.expandedQuests.has(questTitle)) {
+            this.expandedQuests.delete(questTitle);
+        } else {
+            this.expandedQuests.add(questTitle);
+        }
+        this.updateQuestDisplay();
     }
 
     toggleQuestLog() {

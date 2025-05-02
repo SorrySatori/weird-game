@@ -77,7 +77,7 @@ export default class VoxMarket extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('EggCatedralScene');
+                        this.scene.start('CrossroadScene');
                         this.isTransitioning = false; // Reset transition flag
                     });
                 }
@@ -102,7 +102,7 @@ export default class VoxMarket extends GameScene {
         
         // Check if player is in exit area and not already transitioning
         if (this.priest && this.priest.x < 80 && !this.isTransitioning) {
-            this.transitionToScene('EggCatedralScene');
+            this.transitionToScene('CrossroadScene');
         }
     }
     
