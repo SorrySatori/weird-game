@@ -39,6 +39,13 @@ export default class Shed13GateScene extends GameScene {
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
         this.exitArea.setDepth(10);
+
+        // Add invisible clickable exit area at the right of the screen for courtyard
+        this.courtyardExit = this.add.image(750, 470, 'exitArea')
+            .setDisplaySize(50, 200)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true });
+        this.courtyardExit.setDepth(10);
         
         // Position the priest at the right side when entering this scene
         this.priest.x = 750;
@@ -73,6 +80,30 @@ export default class Shed13GateScene extends GameScene {
                 }
             });
         });
+
+        // Courtyard exit click logic
+        this.courtyardExit.on('pointerdown', () => {
+            // Move priest to courtyard exit area, then fade out
+            const priest = this.priest;
+            priest.play('walk');
+            
+            // Stop any existing tweens on the priest
+            this.tweens.killTweensOf(priest);
+            
+            this.tweens.add({
+                targets: priest,
+                x: 750,
+                y: 470,
+                duration: 1000,
+                onComplete: () => {
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('ShedCourtyard');
+                        this.isTransitioning = false;
+                    });
+                }
+            });
+        });
         
         // Remove the NPC if it exists
         if (this.stranger) {
@@ -89,6 +120,13 @@ export default class Shed13GateScene extends GameScene {
     update() {
         // Call parent update for all standard mechanics
         super.update();
+
+        // Instead of using setCursor, we'll handle the cursor through the zone's useHandCursor property
+        if (this.priest && this.priest.x > 750) {
+            this.courtyardExit.input.cursor = 'pointer';
+        } else {
+            this.courtyardExit.input.cursor = 'default';
+        }
     }
     
     // Create a custom ground for the market scene that matches the aesthetic

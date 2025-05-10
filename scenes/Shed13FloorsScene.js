@@ -58,8 +58,23 @@ export default class Shed13FloorsScene extends GameScene {
             .setAlpha(0.01)
             .setInteractive();
 
+        this.assessmentEntrance = this.add.image(200, 340, 'door')
+            .setDisplaySize(80, 80)
+            .setAlpha(0.01)
+            .setInteractive();
+
         // --- Entrance back to second floor ---
         this.thirdToSecondEntrance = this.add.image(690, 120, 'door')
+            .setDisplaySize(80, 80)
+            .setAlpha(0.01)
+            .setInteractive();
+
+            this.registrationEntrance = this.add.image(150, 120, 'door')
+            .setDisplaySize(80, 80)
+            .setAlpha(0.01)
+            .setInteractive();
+
+            this.applicationsEntrance = this.add.image(400, 120, 'door')
             .setDisplaySize(80, 80)
             .setAlpha(0.01)
             .setInteractive();
@@ -71,7 +86,10 @@ export default class Shed13FloorsScene extends GameScene {
             this.exitEntrance,
             this.thirdFloorEntrance,
             this.secondToFirstEntrance,
-            this.thirdToSecondEntrance
+            this.thirdToSecondEntrance,
+            this.assessmentEntrance,
+            this.registrationEntrance,
+            this.applicationsEntrance
         ];
 
         entrances.forEach(entrance => {
@@ -86,7 +104,7 @@ export default class Shed13FloorsScene extends GameScene {
         // Helper to update entrance availability based on current floor
         this.updateEntranceAvailability = (currentFloor) => {
             // Disable all entrances first
-            [this.welcomeEntrance, this.exitEntrance, this.secondFloorEntrance, 
+            [this.welcomeEntrance, this.exitEntrance, this.secondFloorEntrance, this.assessmentEntrance,
              this.thirdFloorEntrance, this.secondToFirstEntrance, this.thirdToSecondEntrance].forEach(entrance => {
                 if (entrance) {
                     entrance.disableInteractive();
@@ -104,6 +122,7 @@ export default class Shed13FloorsScene extends GameScene {
                 case 2:
                     this.secondToFirstEntrance.setInteractive().setAlpha(0.01);
                     this.thirdFloorEntrance.setInteractive().setAlpha(0.01);
+                    this.assessmentEntrance.setInteractive().setAlpha(0.01);
                     break;
                 case 3:
                     this.thirdToSecondEntrance.setInteractive().setAlpha(0.01);
@@ -167,6 +186,78 @@ export default class Shed13FloorsScene extends GameScene {
                         this.time.delayedCall(400, () => {
                             this.isTransitioning = false;
                         });
+                    });
+                }
+            });
+        });
+
+        this.assessmentEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
+            const priest = this.priest;
+            priest.play('walk');
+            this.tweens.killTweensOf(priest);
+            
+            // First move to the entrance
+            this.tweens.add({
+                targets: priest,
+                x: 200,
+                y: 340, // Second floor height
+                duration: 800,
+                onComplete: () => {
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('ShedAbandonedOfficeScene');
+                        this.isTransitioning = false;
+                    });
+                }
+            });
+        });
+
+        this.registrationEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
+            const priest = this.priest;
+            priest.play('walk');
+            this.tweens.killTweensOf(priest);
+            
+            // First move to the entrance
+            this.tweens.add({
+                targets: priest,
+                x: 690,
+                y: this.getThirdFloorY(690),
+                duration: 800,
+                onComplete: () => {
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('ShedRegistrationScene');
+                        this.isTransitioning = false;
+                    });
+                }
+            });
+        });
+
+        this.applicationsEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+
+            const priest = this.priest;
+            priest.play('walk');
+            this.tweens.killTweensOf(priest);
+            
+            // First move to the entrance
+            this.tweens.add({
+                targets: priest,
+                x: 690,
+                y: this.getThirdFloorY(690),
+                duration: 800,
+                onComplete: () => {
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('ShedApplicationsScene');
+                        this.isTransitioning = false;
                     });
                 }
             });
