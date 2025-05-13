@@ -744,6 +744,17 @@ export default class GameScene extends Phaser.Scene {
         
         return true;
     }
+
+    removeItemFromInventory(itemId) {
+        const inventory = this.registry.get('inventory');
+        const itemIndex = inventory.items.findIndex(item => item.id === itemId);
+        if (itemIndex !== -1) {
+            inventory.items.splice(itemIndex, 1);
+            this.registry.set('inventory', inventory);
+            return true;
+        }
+        return false;
+    }
     
     showItemNotification(item) {
         // Create notification container

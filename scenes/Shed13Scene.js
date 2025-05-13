@@ -10,6 +10,8 @@ export default class Shed13Scene extends GameScene {
 
     get dialogContent() {
         // Get base content
+        const inventory = this.registry.get('inventory');
+        console.log('inventory', inventory);
         const content = {
             ...super.dialogContent,
             start: {
@@ -68,6 +70,22 @@ export default class Shed13Scene extends GameScene {
                     { text: "Back to other topics", next: "start" }
                 ]
             },
+            complete_quest: {
+                text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
+                options: [
+                    { text: "Thank you for the information", next: "end" }
+                ],
+                onShow: () => {
+                    // Remove living-core from inventory
+                    this.removeItemFromInventory('living-core');
+                    
+                    // Complete rust_reclamation quest
+                    this.questSystem.completeQuest('rust_reclamation');
+                    
+                    // Update find_bishop quest with new information
+                    this.questSystem.updateQuest('find_bishop', "Gnur told me that the Bishop has been seen meeting with Dr. Elphi. She lives in Scraper 1140. This seems like a promising lead.");
+                }
+            },
             end: {
                 text: "Come back if you need anything... unusual.",
                 options: [],
@@ -78,11 +96,20 @@ export default class Shed13Scene extends GameScene {
         };
 
         // Check if find_bishop quest exists
-        if (this.questSystem.getQuest('find_bishop')) {
+        if (this.questSystem.getQuest('find_bishop') && !this.visitedDialogs.has('bishop')) {
             // Add bishop dialog option to start options if quest exists
             content.start.options.splice(1, 0, { 
                 text: "I'm looking for the Bishop. Have you seen her?", 
                 next: "bishop" 
+            });
+        }
+
+        // Add quest completion option if player has the quest and the living-core
+        if (this.questSystem.getQuest('rust_reclamation') &&
+            inventory.items.some(item => item.id ==='living-core')) {
+            content.start.options.splice(1, 0, {
+                text: "I have the living core you wanted",
+                next: "complete_quest"
             });
         }
 
@@ -94,7 +121,7 @@ export default class Shed13Scene extends GameScene {
         }
 
         // Update start text if recoverTech has been visited
-        if (this.visitedDialogs.has('recoverTech')) {
+        if (this.visitedDialogs.has('recoverTech') && !inventory.items.some(item => item.id ==='living-core')) {
             content.start.text = "Just bring me the living core, then I will talk more";
             content.start.options = [];
         }
