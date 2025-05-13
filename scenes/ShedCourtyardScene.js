@@ -11,11 +11,36 @@ export default class ShedCourtyardScene extends GameScene {
                 text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've been here for days trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
                 options: [
                     { text: "Why do you need extra arms?", next: "explain_need" },
+                    { text: "Board games? What do you mean?", next: "board_games" },
+                    { text: "Who are you?", next: "who_are_you" },
                     { text: "Good luck with that!", next: "goodbye" }
                 ]
             },
             explain_need: {
                 text: "Have you ever tried to playtest a complex strategy game by yourself? Moving pieces, managing resources, tracking multiple player states... It's a nightmare! With four arms, I could revolutionize solo playtesting. But the paperwork here... it's endless!",
+                options: [
+                    { text: "I could help you with the application process.", next: "start_quest" },
+                    { text: "Sounds complicated. Good luck!", next: "goodbye" }
+                ]
+            },
+            board_games: {
+                text: "You did heard about a thing called a board game, didn't you? Well, I'm a best damn board game designer in this forsaken place. My games are not like the simple things for children you probably know, they provide a unique gameplay experience. With four arms, I can handle complex interactions and manage multiple player states more effectively. But the bureaucracy... it's a nightmare!",
+                options: [
+                    { text: "I could help you with the application process.", next: "start_quest" },
+                    { text: "Who are you?", next: "who_are_you" },
+                    { text: "Sounds complicated. Good luck!", next: "goodbye" }
+                ]
+            },
+            who_are_you: {
+                text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of table-top divination wars. My creations are literally microcosmic games—wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might heard from some calling me conservative, merely because I reject illusion-tech and mindplay, they are usualy morally unstable. Players are gods, but rules are sacred. ",
+                options: [
+                    { text: "Why do you need extra arms?", next: "explain_need" },
+                    { text: "Table top divination wars? What do you mean?", next: "divination_wars" },
+                    { text: "Sounds complicated. Good luck!", next: "goodbye" }
+                ]
+            },
+            divination_wars: {
+                text: "Ah, yes... terrible times. Maybe you should ask a historian about that. Or I can tell you more, but first I need to get out of this bureaucratic nightmare.",
                 options: [
                     { text: "I could help you with the application process.", next: "start_quest" },
                     { text: "Sounds complicated. Good luck!", next: "goodbye" }
@@ -53,9 +78,10 @@ export default class ShedCourtyardScene extends GameScene {
             },
             goodbye: {
                 text: "May the spores guide your path...",
-                options: [
-                    { text: "Leave", next: null }
-                ]
+                options: [],
+                onShow: () => {
+                    this.hideDialog();
+                }
             }
         };
     }
