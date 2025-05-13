@@ -34,14 +34,15 @@ export default class Shed13GateScene extends GameScene {
         }
         
         // Add invisible clickable exit area at the left of the screen
-        this.exitArea = this.add.image(50, 470, 'exitArea')
+        this.exitArea = this.add.image(750, 470, 'exitArea')
             .setDisplaySize(50, 200)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
         this.exitArea.setDepth(10);
 
         // Add invisible clickable exit area at the right of the screen for courtyard
-        this.courtyardExit = this.add.image(750, 470, 'exitArea')
+
+        this.courtyardExit = this.add.image(50, 470, 'exitArea')
             .setDisplaySize(50, 200)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
@@ -68,7 +69,7 @@ export default class Shed13GateScene extends GameScene {
             
             this.tweens.add({
                 targets: priest,
-                x: 50,
+                x: 750,
                 y: 470,
                 duration: 1000,
                 onComplete: () => {
@@ -92,7 +93,7 @@ export default class Shed13GateScene extends GameScene {
             
             this.tweens.add({
                 targets: priest,
-                x: 750,
+                x: 50,
                 y: 470,
                 duration: 1000,
                 onComplete: () => {

@@ -16,7 +16,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             city: {
-                text: "This city... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is one vast mycelial network, connecting all who dwell here in ways we cannot comprehend.",
+                text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is one vast mycelial network, connecting all who dwell here in ways we cannot comprehend.",
                 options: [
                     { text: "Ask about the gods", next: 'gods' },
                     { text: "Tell me more about city locations.", next: 'locations' },
