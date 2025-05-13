@@ -73,6 +73,12 @@
         <button onclick="downloadCanvas('livingCoreCanvas', 'living-core.png')">Download Living Core</button>
     </div>
 
+    <div class="asset-container">
+        <h3>Direction Arrow</h3>
+        <canvas id="arrowCanvas" width="32" height="32"></canvas>
+        <button onclick="downloadCanvas('arrowCanvas', 'arrow.png')">Download Arrow</button>
+    </div>
+
     <script>
         function drawCity() {
             const canvas = document.getElementById('cityCanvas');
@@ -260,6 +266,39 @@
             }
             
             ctx.globalAlpha = 1;
+        }
+
+        function drawArrow() {
+            const canvas = document.getElementById('arrowCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Set up arrow style
+            ctx.strokeStyle = '#7fff8e';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Draw arrow shaft
+            ctx.beginPath();
+            ctx.moveTo(8, 16);
+            ctx.lineTo(20, 16);
+            ctx.stroke();
+            
+            // Draw arrow head
+            ctx.beginPath();
+            ctx.moveTo(20, 16);
+            ctx.lineTo(16, 12);
+            ctx.moveTo(20, 16);
+            ctx.lineTo(16, 20);
+            ctx.stroke();
+            
+            // Add glow effect
+            ctx.shadowColor = '#7fff8e';
+            ctx.shadowBlur = 4;
+            ctx.stroke();
         }
 
         function downloadCanvas(canvasId, filename) {
@@ -570,6 +609,7 @@
         drawGround();
         drawPriest();
         drawLivingCore();
+        drawArrow();
     </script>
 </body>
 </html>
