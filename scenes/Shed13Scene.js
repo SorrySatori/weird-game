@@ -73,17 +73,31 @@ export default class Shed13Scene extends GameScene {
             complete_quest: {
                 text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
                 options: [
-                    { text: "Thank you for the information", next: "end" }
+                    { text: "Thank you for the information", next: "complete_quest_end" }
+                ],
+            },
+            complete_quest_end: {
+                text: "(Gnur returns to his work, humming a strange metallic tune.)",
+                options: [
+                    { text: "Leave", next: "end" }
                 ],
                 onShow: () => {
-                    // Remove living-core from inventory
-                    this.removeItemFromInventory('living-core');
-                    
-                    // Complete rust_reclamation quest
-                    this.questSystem.completeQuest('rust_reclamation');
-                    
-                    // Update find_bishop quest with new information
-                    this.questSystem.updateQuest('find_bishop', "Gnur told me that the Bishop has been seen meeting with Dr. Elphi. She lives in Scraper 1140. This seems like a promising lead.");
+                    // Only complete the quest if we haven't already
+                    const quest = this.questSystem.getQuest('rust_reclamation');
+                    if (quest && !quest.isComplete) {
+                        // Remove living-core from inventory
+                        this.removeItemFromInventory('living-core');
+
+                        this.showNotification('Quest completed: Rust Reclamation');
+                        this.modifyGrowthDecay(0, 1);
+                        
+                        // Complete rust_reclamation quest
+                        this.questSystem.updateQuest('rust_reclamation', 'I have given Gnur the living core. He seems satisfied.');
+                        this.questSystem.completeQuest('rust_reclamation');
+                        
+                        // Update find_bishop quest with new information
+                        this.questSystem.updateQuest('find_bishop', 'The Bishop was last seen heading to Scraper 1140 to meet with Dr. Elphi.');
+                    }
                 }
             },
             end: {
@@ -131,7 +145,7 @@ export default class Shed13Scene extends GameScene {
 
     showDialog(dialogKey) {
         // Handle faction reputation changes
-        if (dialogKey === 'rustChoir' || dialogKey === 'brukk') {
+        if (dialogKey === 'rustChoir' || dialogKey === 'brukk' || dialogKey === 'complete_quest') {
             const factionSystem = this.registry.get('factionSystem');
             if (factionSystem) {
                 factionSystem.modifyReputation('RustChoir', 10);

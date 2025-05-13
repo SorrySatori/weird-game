@@ -84,8 +84,55 @@ export default class QuestLog {
         bg.lineStyle(2, 0x7fff8e);
         bg.strokeRect(-200, -250, 400, 500);
         
-        // Add title
-        const title = this.scene.add.text(0, -220, 'Quest Log', {
+        // Create tab buttons
+        const activeTabStyle = { font: 'bold 20px Arial', fill: '#7fff8e' };
+        const inactiveTabStyle = { font: '20px Arial', fill: '#5c9b6b' };
+        
+        this.activeTab = 'active';
+        
+        // Create tab backgrounds
+        const tabBg = this.scene.add.graphics();
+        tabBg.fillStyle(0x0a2712);
+        tabBg.fillRect(-200, -250, 190, 35); // Active tab background
+        tabBg.fillStyle(0x081d0d);
+        tabBg.fillRect(0, -250, 190, 35); // Finished tab background
+        
+        this.activeTabButton = this.scene.add.text(-180, -240, 'Active Quests', activeTabStyle);
+        this.finishedTabButton = this.scene.add.text(20, -240, 'Finished Quests', inactiveTabStyle);
+        
+        this.activeTabButton.setInteractive({ useHandCursor: true });
+        this.finishedTabButton.setInteractive({ useHandCursor: true });
+        
+        this.activeTabButton.on('pointerdown', () => {
+            if (this.activeTab !== 'active') {
+                this.activeTab = 'active';
+                this.activeTabButton.setStyle(activeTabStyle);
+                this.finishedTabButton.setStyle(inactiveTabStyle);
+                tabBg.clear();
+                tabBg.fillStyle(0x0a2712);
+                tabBg.fillRect(-200, -250, 190, 35);
+                tabBg.fillStyle(0x081d0d);
+                tabBg.fillRect(0, -250, 190, 35);
+                this.updateQuestDisplay();
+            }
+        });
+        
+        this.finishedTabButton.on('pointerdown', () => {
+            if (this.activeTab !== 'finished') {
+                this.activeTab = 'finished';
+                this.finishedTabButton.setStyle(activeTabStyle);
+                this.activeTabButton.setStyle(inactiveTabStyle);
+                tabBg.clear();
+                tabBg.fillStyle(0x081d0d);
+                tabBg.fillRect(-200, -250, 190, 35);
+                tabBg.fillStyle(0x0a2712);
+                tabBg.fillRect(0, -250, 190, 35);
+                this.updateQuestDisplay();
+            }
+        });
+        
+        // Add title below tabs
+        const title = this.scene.add.text(0, -200, 'Quest Log', {
             font: '24px Arial',
             fill: '#7fff8e',
             align: 'center'
@@ -104,7 +151,7 @@ export default class QuestLog {
         this.questContent.setMask(mask);
         
         // Add all elements to panel
-        this.questPanel.add([bg, title, this.questContent]);
+        this.questPanel.add([bg, tabBg, this.activeTabButton, this.finishedTabButton, title, this.questContent]);
         
         // Add close button
         const closeButton = this.scene.add.text(170, -240, 'X', {
@@ -185,8 +232,12 @@ export default class QuestLog {
         
         let yOffset = 0;
         quests.forEach(quest => {
-            const height = this.createQuestEntry(quest, yOffset);
-            yOffset += height + 20; // Add spacing between quests
+            // Only show quests based on the active tab
+            if ((this.activeTab === 'active' && !quest.isComplete) || 
+                (this.activeTab === 'finished' && quest.isComplete)) {
+                const height = this.createQuestEntry(quest, yOffset);
+                yOffset += height + 20; // Add spacing between quests
+            }
         });
 
         // Store total content height for scrolling calculations

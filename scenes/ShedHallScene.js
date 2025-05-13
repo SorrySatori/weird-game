@@ -31,7 +31,7 @@ export default class ShedHallScene extends GameScene {
                     
                     this.modifyGrowthDecay(0,2);
                     this.addItemToInventory({ id: 'living-core', name: 'Living Core', description: 'A pulsating core of living metal, forcefully extracted from the Shed.', spriteKey: 'living-core', stackable: false });
-                    questSystem.updateQuest('rust_reclamation', 'Retrieved the Living Core, though the forceful extraction has increased decay.');
+                    questSystem.updateQuest('rust_reclamation', 'I have retrieved the Living Core, with a bit of good old violence.');
                     if (this._livingCore) {
                         this._livingCore.destroy();
                         this._livingCore = null;
