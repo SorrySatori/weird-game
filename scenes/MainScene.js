@@ -8,7 +8,6 @@ export default class MainScene extends Phaser.Scene {
         console.log('MainScene preload started');
         // Load images
         this.load.image('background', 'assets/images/background.png');
-        this.load.image('cursor', 'assets/images/cursor.png');
         
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
@@ -68,7 +67,7 @@ export default class MainScene extends Phaser.Scene {
             // Add fullscreen button with matching style
             const fullscreenBg = this.add.rectangle(400, 480, 200, 60, 0x0a2712, 0.4);
             fullscreenBg.setStrokeStyle(2, 0x7fff8e);
-            fullscreenBg.setInteractive({ useHandCursor: false });
+            fullscreenBg.setInteractive({ useHandCursor: true });
 
             const fullscreenText = this.add.text(400, 480, 'Fullscreen', {
                 fontSize: '32px',
@@ -122,16 +121,6 @@ export default class MainScene extends Phaser.Scene {
                 }
             });
 
-            // Set up custom cursor
-            this.input.setDefaultCursor('none');
-            this.cursor = this.add.image(0, 0, 'cursor');
-            this.cursor.setScale(0.008);
-            this.cursor.setAlpha(0.8);
-            this.cursor.setDepth(1000); // Make sure cursor is always on top
-            
-            this.input.on('pointermove', (pointer) => {
-                this.cursor.setPosition(pointer.x, pointer.y);
-            });
 
             // Add global click handler to debug
             this.input.on('pointerdown', (pointer) => {

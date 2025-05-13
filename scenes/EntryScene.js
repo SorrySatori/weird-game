@@ -172,13 +172,11 @@ export default class EntryScene extends GameScene {
         // Handle cursor visibility for stranger
         this.input.on('gameobjectover', (pointer, gameObject) => {
             if (gameObject === this.stranger) {
-                this.cursor.setAlpha(0);
             }
         });
         
         this.input.on('gameobjectout', (pointer, gameObject) => {
             if (gameObject === this.stranger) {
-                this.cursor.setAlpha(0.8);
             }
         });
         

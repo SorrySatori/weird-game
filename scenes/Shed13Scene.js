@@ -249,21 +249,15 @@ export default class Shed13Scene extends GameScene {
             repeat: -1
         });
         
+        // Handle Gnur interactivity
+        this.gnur.setInteractive({ useHandCursor: true });
+        
         // Add interaction with Gnur
         this.gnur.on('pointerdown', () => {
             if (!this.dialogVisible) {
-                this.dialogState = 'start';
+                this.dialogState = 'start';  // Set initial dialog state
                 this.showDialog(this.dialogState);
             }
-        });
-        
-        // Handle cursor visibility for Gnur
-        this.gnur.on('pointerover', () => {
-            this.cursor.setAlpha(0);
-        });
-        
-        this.gnur.on('pointerout', () => {
-            this.cursor.setAlpha(0.8);
         });
 
         // Add a collectable spore

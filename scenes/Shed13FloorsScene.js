@@ -34,50 +34,50 @@ export default class Shed13FloorsScene extends GameScene {
         this.welcomeEntrance = this.add.image(110, 450, 'door')
             .setDisplaySize(120, 100)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
         this.secondFloorEntrance = this.add.image(650, 450, 'door')
             .setDisplaySize(100, 100)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
         this.exitEntrance = this.add.image(450, 450, 'door')
             .setDisplaySize(100, 100)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
         // --- Hidden entrance to third floor ---
         this.thirdFloorEntrance = this.add.image(690, 250, 'door')
             .setDisplaySize(80, 80)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
         // --- Entrance back to first floor ---
         this.secondToFirstEntrance = this.add.image(400, 340, 'door')
             .setDisplaySize(80, 80)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
         this.assessmentEntrance = this.add.image(200, 340, 'door')
             .setDisplaySize(80, 80)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
         // --- Entrance back to second floor ---
         this.thirdToSecondEntrance = this.add.image(690, 120, 'door')
             .setDisplaySize(80, 80)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
             this.registrationEntrance = this.add.image(150, 120, 'door')
             .setDisplaySize(80, 80)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
             this.applicationsEntrance = this.add.image(400, 120, 'door')
             .setDisplaySize(80, 80)
             .setAlpha(0.01)
-            .setInteractive();
+            .setInteractive({ useHandCursor: true });
 
         // Set up pointer events for all entrances
         const entrances = [
@@ -115,17 +115,17 @@ export default class Shed13FloorsScene extends GameScene {
             // Enable only entrances for current floor
             switch(currentFloor) {
                 case 1:
-                    this.welcomeEntrance.setInteractive().setAlpha(0.01);
-                    this.exitEntrance.setInteractive().setAlpha(0.01);
-                    this.secondFloorEntrance.setInteractive().setAlpha(0.01);
+                    this.welcomeEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
+                    this.exitEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
+                    this.secondFloorEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
                     break;
                 case 2:
-                    this.secondToFirstEntrance.setInteractive().setAlpha(0.01);
-                    this.thirdFloorEntrance.setInteractive().setAlpha(0.01);
-                    this.assessmentEntrance.setInteractive().setAlpha(0.01);
+                    this.secondToFirstEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
+                    this.thirdFloorEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
+                    this.assessmentEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
                     break;
                 case 3:
-                    this.thirdToSecondEntrance.setInteractive().setAlpha(0.01);
+                    this.thirdToSecondEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
                     break;
             }
         };
@@ -359,7 +359,7 @@ export default class Shed13FloorsScene extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
+                        this.scene.start('Shed13Scene');
                     });
                 }
             });

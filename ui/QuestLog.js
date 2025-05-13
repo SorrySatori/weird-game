@@ -263,11 +263,13 @@ export default class QuestLog {
 
     showQuestLog() {
         this.questPanel.visible = true;
+        this.scene.registry.set('questLogVisible', true);
         this.updateQuestDisplay();
     }
 
     hideQuestLog() {
         this.questPanel.visible = false;
+        this.scene.registry.set('questLogVisible', false);
     }
 
     cleanup() {

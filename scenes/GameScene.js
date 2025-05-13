@@ -12,7 +12,6 @@ export default class GameScene extends Phaser.Scene {
         this.dialogState = 'main';
         this.dialogOptionsY = 0; // Track options position
         this.isTransitioning = false; // Flag to prevent multiple transitions
-        this.cursors = null; // Initialize cursors reference
         this.movementState = {
             left: false,
             right: false,
@@ -280,37 +279,48 @@ export default class GameScene extends Phaser.Scene {
 
     initSceneMechanics() {
         try {
-            // Hide the system cursor for the entire game
-            this.game.canvas.style.cursor = 'none';
 
-            // Set up custom cursor for non-interactive areas
-            this.cursor = this.add.image(0, 0, 'cursor');
-            this.cursor.setScale(0.008);
-            this.cursor.setAlpha(0.8);
-            this.cursor.setDepth(1000);
-
-            // Track if cursor is in pointer mode
-            this.isPointerCursor = false;
-
-            // Update cursor position on pointer move
-            this.input.on('pointermove', (pointer) => {
-                this.cursor.x = pointer.x;
-                this.cursor.y = pointer.y;
-            });
-
-            // Change cursor on interactive elements
-            this.input.on('gameobjectover', (pointer, gameObject) => {
-                if (gameObject.input && gameObject.input.enabled) {
-                    this.cursor.setScale(0.016);  // Make cursor bigger for pointer
-                    this.isPointerCursor = true;
+            // Set up keyboard input
+            this.input.keyboard.on('keydown-LEFT', () => {
+                if (!this.dialogVisible && !this.isInteractingWithUI()) {
+                    this.movementState.left = true;
                 }
             });
+            this.input.keyboard.on('keyup-LEFT', () => {
+                this.movementState.left = false;
+            });
 
-            // Reset cursor when leaving interactive elements
-            this.input.on('gameobjectout', (pointer, gameObject) => {
-                if (this.isPointerCursor) {
-                    this.cursor.setScale(0.008);  // Reset to original size
-                    this.isPointerCursor = false;
+            this.input.keyboard.on('keydown-RIGHT', () => {
+                if (!this.dialogVisible && !this.isInteractingWithUI()) {
+                    this.movementState.right = true;
+                }
+            });
+            this.input.keyboard.on('keyup-RIGHT', () => {
+                this.movementState.right = false;
+            });
+
+            this.input.keyboard.on('keydown-UP', () => {
+                if (!this.dialogVisible && !this.isInteractingWithUI()) {
+                    this.movementState.up = true;
+                }
+            });
+            this.input.keyboard.on('keyup-UP', () => {
+                this.movementState.up = false;
+            });
+
+            this.input.keyboard.on('keydown-DOWN', () => {
+                if (!this.dialogVisible && !this.isInteractingWithUI()) {
+                    this.movementState.down = true;
+                }
+            });
+            this.input.keyboard.on('keyup-DOWN', () => {
+                this.movementState.down = false;
+            });
+
+            // Toggle inventory with 'I' key
+            this.input.keyboard.on('keydown-I', () => {
+                if (!this.dialogVisible) {
+                    this.toggleInventory();
                 }
             });
 
@@ -467,14 +477,10 @@ export default class GameScene extends Phaser.Scene {
         // Add hover effects
         this.inventoryButton.on('pointerover', () => {
             this.inventoryButton.setScale(1.1);
-            document.body.style.cursor = 'pointer';
-            this.cursor.setAlpha(0); // Hide custom cursor on button
         });
         
         this.inventoryButton.on('pointerout', () => {
             this.inventoryButton.setScale(1);
-            document.body.style.cursor = 'default';
-            this.cursor.setAlpha(0.8); // Show custom cursor again
         });
         
         // Open inventory on click
@@ -519,6 +525,7 @@ export default class GameScene extends Phaser.Scene {
         const closeBtn = this.add.container(230, -170);
         const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
         closeBg.setStrokeStyle(1, 0x7fff8e);
+        closeBg.setInteractive({ useHandCursor: true });
         const closeText = this.add.text(0, 0, 'X', {
             fontSize: '24px',
             fill: '#7fff8e'
@@ -528,7 +535,6 @@ export default class GameScene extends Phaser.Scene {
         this.inventoryPanel.add(closeBtn);
         
         // Make close button interactive
-        closeBg.setInteractive({ useHandCursor: true });
         closeBg.on('pointerover', () => {
             closeBg.setFillStyle(0x0a2712, 0.8);
             closeText.setStyle({ fill: '#b3ffcc' });
@@ -576,7 +582,6 @@ export default class GameScene extends Phaser.Scene {
                 slotBg.setInteractive({ useHandCursor: true });
                 slotBg.on('pointerover', () => {
                     slotBg.setStrokeStyle(2, 0x7fff8e, 1);
-                    this.cursor.setAlpha(0); // Hide custom cursor on slot
                     
                     // Show item description if there's an item
                     const inventory = this.registry.get('inventory');
@@ -586,7 +591,6 @@ export default class GameScene extends Phaser.Scene {
                 });
                 slotBg.on('pointerout', () => {
                     slotBg.setStrokeStyle(2, 0x7fff8e, 0.5);
-                    this.cursor.setAlpha(0.8); // Show custom cursor again
                     
                     // Hide description
                     if (this.itemDescription) {
@@ -929,10 +933,6 @@ export default class GameScene extends Phaser.Scene {
             this.priestGlow.destroy();
             this.priestGlow = null;
         }
-        if (this.cursor) {
-            this.cursor.destroy();
-            this.cursor = null;
-        }
         
         // Clean up dialog system
         if (this.dialogBox) {
@@ -1103,6 +1103,7 @@ export default class GameScene extends Phaser.Scene {
         const closeBtn = this.add.container(280, -180);
         const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
         closeBg.setStrokeStyle(1, 0x7fff8e);
+        closeBg.setInteractive({ useHandCursor: true });
         const closeText = this.add.text(0, 0, 'X', {
             fontSize: '24px',
             fill: '#7fff8e'
@@ -1112,7 +1113,6 @@ export default class GameScene extends Phaser.Scene {
         this.dialogBox.add(closeBtn);
 
         // Make close button interactive
-        closeBg.setInteractive({ useHandCursor: true });
         closeBg.on('pointerover', () => {
             closeBg.setFillStyle(0x0a2712, 0.8);
             closeText.setStyle({ fill: '#b3ffcc' });
@@ -1288,6 +1288,7 @@ export default class GameScene extends Phaser.Scene {
                     const prevBtn = this.add.container(-100, visibleOptionsCount * optionHeight + 20);
                     const prevBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
                     prevBg.setStrokeStyle(1, 0x7fff8e);
+                    prevBg.setInteractive({ useHandCursor: true });
                     const prevText = this.add.text(0, 0, '< Prev', {
                         fontSize: '18px',
                         fill: '#7fff8e'
@@ -1296,7 +1297,6 @@ export default class GameScene extends Phaser.Scene {
                     prevBtn.add([prevBg, prevText]);
                     this.dialogOptions.add(prevBtn);
                     
-                    prevBg.setInteractive({ useHandCursor: true });
                     prevBg.on('pointerover', () => {
                         prevBg.setFillStyle(0x0a2712, 0.8);
                         prevText.setStyle({ fill: '#b3ffcc' });
@@ -1317,6 +1317,7 @@ export default class GameScene extends Phaser.Scene {
                     const nextBtn = this.add.container(100, visibleOptionsCount * optionHeight + 20);
                     const nextBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
                     nextBg.setStrokeStyle(1, 0x7fff8e);
+                    nextBg.setInteractive({ useHandCursor: true });
                     const nextText = this.add.text(0, 0, 'Next >', {
                         fontSize: '18px',
                         fill: '#7fff8e'
@@ -1325,7 +1326,6 @@ export default class GameScene extends Phaser.Scene {
                     nextBtn.add([nextBg, nextText]);
                     this.dialogOptions.add(nextBtn);
                     
-                    nextBg.setInteractive({ useHandCursor: true });
                     nextBg.on('pointerover', () => {
                         nextBg.setFillStyle(0x0a2712, 0.8);
                         nextText.setStyle({ fill: '#b3ffcc' });
@@ -1449,6 +1449,7 @@ export default class GameScene extends Phaser.Scene {
             fill: '#7fff8e'
         });
         invText.setOrigin(0.5);
+        invText.setInteractive({ useHandCursor: true });
         
         // Add all elements to the button container
         this.inventoryButton.add([mushroomCap, mushroomStem, spots, invText]);
@@ -1459,14 +1460,10 @@ export default class GameScene extends Phaser.Scene {
         // Add hover effects
         this.inventoryButton.on('pointerover', () => {
             this.inventoryButton.setScale(1.1);
-            document.body.style.cursor = 'pointer';
-            this.cursor.setAlpha(0); // Hide custom cursor on button
         });
         
         this.inventoryButton.on('pointerout', () => {
             this.inventoryButton.setScale(1);
-            document.body.style.cursor = 'default';
-            this.cursor.setAlpha(0.8); // Show custom cursor again
         });
         
         // Open inventory on click
@@ -1511,6 +1508,7 @@ export default class GameScene extends Phaser.Scene {
         const closeBtn = this.add.container(230, -170);
         const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
         closeBg.setStrokeStyle(1, 0x7fff8e);
+        closeBg.setInteractive({ useHandCursor: true });
         const closeText = this.add.text(0, 0, 'X', {
             fontSize: '24px',
             fill: '#7fff8e'
@@ -1520,7 +1518,6 @@ export default class GameScene extends Phaser.Scene {
         this.inventoryPanel.add(closeBtn);
         
         // Make close button interactive
-        closeBg.setInteractive({ useHandCursor: true });
         closeBg.on('pointerover', () => {
             closeBg.setFillStyle(0x0a2712, 0.8);
             closeText.setStyle({ fill: '#b3ffcc' });
@@ -1568,7 +1565,6 @@ export default class GameScene extends Phaser.Scene {
                 slotBg.setInteractive({ useHandCursor: true });
                 slotBg.on('pointerover', () => {
                     slotBg.setStrokeStyle(2, 0x7fff8e, 1);
-                    this.cursor.setAlpha(0); // Hide custom cursor on slot
                     
                     // Show item description if there's an item
                     const inventory = this.registry.get('inventory');
@@ -1578,7 +1574,6 @@ export default class GameScene extends Phaser.Scene {
                 });
                 slotBg.on('pointerout', () => {
                     slotBg.setStrokeStyle(2, 0x7fff8e, 0.5);
-                    this.cursor.setAlpha(0.8); // Show custom cursor again
                     
                     // Hide description
                     if (this.itemDescription) {
@@ -1808,7 +1803,6 @@ export default class GameScene extends Phaser.Scene {
 
         // Show description on hover
         sprite.on('pointerover', () => {
-            this.cursor.setAlpha(0); // Hide custom cursor
             this.worldDescriptionText.setText(item.description || item.name);
             
             // Position tooltip above the item
@@ -1820,7 +1814,6 @@ export default class GameScene extends Phaser.Scene {
 
         // Hide description when not hovering
         sprite.on('pointerout', () => {
-            this.cursor.setAlpha(0.8); // Show custom cursor
             this.worldItemDescription.setVisible(false);
         });
 
