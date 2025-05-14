@@ -6,6 +6,11 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
                 reputation: 0,
                 name: "Rust Choir",
                 color: 0xb87333 // Copper color for Rust Choir
+            },
+            PithReclaimers: {
+                reputation: 0,
+                name: "Pith Reclaimers",
+                color: 0xb87333 // Copper color for Rust Choir
             }
         };
         
