@@ -10,7 +10,6 @@ export default class ShedApplicationsScene extends GameScene {
 
     get dialogContent() {
         // Get base content
-        const inventory = this.registry.get('inventory');
         const content = {
             ...super.dialogContent,
             start: {
@@ -66,10 +65,11 @@ export default class ShedApplicationsScene extends GameScene {
                 ],
             },
             promise_made: {
-                text: "(Visibly relieved) Good... good. The Pith Reclaimers will remember this. If you're interested in learning more, find Edgar Eskola at the Screaming Cork. He has... perspectives on proper preservation protocols.",
+                text: "(Visibly relieved) Good... good. The Pith Reclaimers will remember this. What Gnur promised you for the living core?",
                 options: [
-                    { text: "Back to other topics", next: "start" },
-                    { text: "Who are the Pith Reclaimers?", next: "pith_reclaimers"}
+                    { text: "He promised me a to tell where to find the Bishop", next: "bishop_location" },
+                    { text: "Sorry, but that's private information", next: "private"},
+                    { text: "Who are the Pith Reclaimers?", next: "pith_reclaimers"},
                 ],
                 onShow: () => {
                     const factionSystem = this.registry.get('factionSystem');
@@ -80,7 +80,35 @@ export default class ShedApplicationsScene extends GameScene {
                     }
                     this.modifyGrowthDecay(2, 0);
                     this.showNotification('Growth +2');
+
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem) {
+                        questSystem.updateQuest('rust_reclamation', 'I promised the clerk in Shed 521 I will not mess with the living core. It seems it is more important for the building than Gnur told me.');
+                        this.showNotification('Quest updated: Rust Reclamation');
+                    }
                 }
+            },
+            bishop_location: {
+                text: "The Bishop? Hmm... I can't tell you where she is. But look for Edgar Eskola at the Screaming Cork tavern. I think he might know something.",
+                options: [
+                    { text: "Back to other topics", next: "start" },
+                    { text: "Who are the Pith Reclaimers?", next: "pith_reclaimers"},
+                    { text: "Who is Edgar Eskola?", next: "edgar"}
+                ],
+                onShow: () => {
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('find_bishop')) {
+                        questSystem.updateQuest('find_bishop', 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.');
+                        this.showNotification('Quest updated: Find the Bishop of Threshold');
+                    }
+                }
+            },
+            private: {
+                text: "I see, no problem. Is there anything else I can help you with?",
+                options: [
+                    { text: "Back to other topics", next: "start" },
+                    { text: "Who are the Pith Reclaimers?", next: "pith_reclaimers"},
+                ],
             },
             pith_reclaimers: {
                 text: "The Pith Reclaimers are... guardians of neutrality. We preserve peace and order in the city. Some of us collect... unique items, but we don't sell them.",
@@ -96,6 +124,12 @@ export default class ShedApplicationsScene extends GameScene {
                     }
                 }
             },
+            edgar: {
+                text: "Edgar Eskola? (raises eyebrow). He is one of the mišutkenn. Heard about them? They are semi-ursine, sentient humanoids with patchy fur, deep-set amber eyes, and dream-reactive physiology. Usually gentle souls, but they can be... unpredictable.",
+                options: [
+                    { text: "Back to other topics", next: "start" }
+                ]
+            },
             no_promise: {
                 text: "(Straightens papers disapprovingly) Very well. But remember - proper protocols exist for a reason.",
                 options: [
@@ -103,21 +137,94 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             ortolan_inquiry: {
-                text: "Ortolan Arms? (shuffles through papers) Ah yes, their permit applications are... concerning. Multiple violations of safety protocols. I've documented everything in triplicate, but our enforcement division is... understaffed.",
+                text: "Ortolan Arms? (shuffles through papers) Additional arms, you say. Are they intentional?",
                 options: [
-                    { text: "I could help investigate", next: "ortolan_help" },
+                    { text: "He needs them. He’s an artisan.", next: "ortolan_artisan" },
+                    { text: "He didn’t choose this. The arms were... a gift.", next: "ortolan_gift" },
+                    { text: "They’re not his arms. He’s borrowing them.", next: "ortolan_borrow" },
                     { text: "Back to other topics", next: "start" }
                 ]
             },
-            ortolan_help: {
-                text: "Excellent! (pulls out a form) Just sign here... and here... and initial these 47 spots... Perfect! Now we can properly document any violations you find.",
+            ortolan_borrow: {
+                text: "Then he is harboring a flesh-fugitive. I’ll need an Absentee Consent Signature. From the original owner.",
+                options: [
+                    { text: "Back to other topics", next: "start" },
+                    { text: "Fine. I’ll lie. Or forge the documents?", next: "ortolan_lie" },
+                    { text: "Uhh... sorry I mean he needs them. He’s an artisan.", next: "ortolan_artisan" },
+                    { text: "Well, I was just joking. Of course they are his. But he didn’t choose this. The arms were... a gift.", next: "ortolan_gift" }
+                ]
+            },
+            ortolan_gift: {
+                text: "Unsolicited limbs are still taxable. But perhaps we can file under Inherited Deformity.",
+                options: [
+                    { text: "Can you process it today?", next: "ortolan_today" },
+                    { text: "Fine. I’ll lie. Or forge the documents?", next: "ortolan_lie" }
+                ],
+            },
+            ortolan_today: {
+                text: "Not without permission from the Registration office. Go there and ask for the Inherited Deformity Form.",
                 options: [
                     { text: "Back to other topics", next: "start" }
                 ],
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
-                    if (questSystem && questSystem.getQuest('ortolan_arms')) {
-                        questSystem.updateQuest('ortolan_arms', 'The clerk has provided official documentation to investigate Ortolan Arms. Any evidence found will be properly filed.');
+                    if (questSystem) {
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Inherited Deformity Form.');
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                }
+            },
+            ortolan_lie: {
+                text: "I’ll pretend not to hear that.",
+                options: [
+                    { text: "Back to other topics", next: "start" }
+                ],
+                onShow: () => {
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem) {
+                        questSystem.updateQuest('ortolan_arms', 'When I suggest to the clerk to forge the documents for Ortolan, he looked at me with a mix of surprise and annoyance. But can it be done? Where can I find some forger?');
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                }
+            },
+            ortolan_artisan: {
+                text: "Art is no defense against anatomy. But we do have the Artisan’s Exemption Form. Of course, it expired last cycle.",
+                options: [
+                    { text: "Can it be renewed?", next: "ortolan_renew" },
+                    { text: "What if I find another copy?", next: "ortolan_copy" },
+                    { text: "Forget the form. What else can I offer?", next: "ortolan_offer" },
+                    { text: "Back to other topics", next: "start" }
+                ],
+            },
+            ortolan_renew: {
+                text: "Only with a performance. Go ask to the Registration office.",
+                options: [
+                    { text: "Back to other topics", next: "start" }
+                ],
+                onShow: () => {
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem) {
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Artisan’s Exemption Form.');
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                }
+            },
+            ortolan_copy: {
+                text: "Are you deaf? I said, are you deaf? It expired last cycle.",
+                options: [
+                    { text: "Back to other topics", next: "start" },
+                    { text: "Can it be renewed?", next: "ortolan_renew" },
+                ],
+            },
+            ortolan_offer: {
+                text: "A gesture. Symbolic. Nonverbal. Go to the Registration office and do your best.",
+                options: [
+                    { text: "Uh... okay. Can I ask for other topics?", next: "start" }
+                ],
+                onShow: () => {
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem) {
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office and do my best with nonverbal gesture. I am not sure if I understand completely... ');
                         this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }
@@ -133,9 +240,7 @@ export default class ShedApplicationsScene extends GameScene {
 
         // Add quest-specific dialog options
         const questSystem = this.registry.get('questSystem');
-        console.log('Quest System:', questSystem);
-        console.log('rust_reclamation:', questSystem.getQuest('rust_reclamation'));
-        console.log('ortolan_arms:', questSystem.getQuest('ortolan_arms'));
+
         if (questSystem) {
             if (questSystem.getQuest('rust_reclamation') && !this.visitedDialogs.has('living_core_inquiry')) {
                 content.start.options.splice(1, 0, {
@@ -188,9 +293,9 @@ export default class ShedApplicationsScene extends GameScene {
         bg.setDepth(-1);
 
         // Add Clerk NPC with proper size
-        this.clerk = this.add.sprite(100, 440, 'clerk');
+        this.clerk = this.add.sprite(100, 400, 'clerk');
         this.clerk.setFlipX(true);
-        this.clerk.setDisplaySize(80, 120); // Set a fixed size
+        this.clerk.setDisplaySize(80, 180); // Set a fixed size
         this.clerk.setDepth(1); // Ensure it's above background
         this.clerk.setInteractive({ useHandCursor: true });
         

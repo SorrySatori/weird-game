@@ -21,7 +21,7 @@ export default class Shed13Scene extends GameScene {
                     { text: "Goodbye", next: "end" }
                 ]
             },
-            background: {
+                background: {
                 text: "Used to keep the machines running in the old days. Now I'm with the Rust Choir. We sing the old machines awake... or lull the new flesh to sleep. Depends who's buying.",
                 options: [
                     { text: "Tell me about the Rust Choir", next: "rustChoir" },
