@@ -102,7 +102,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('find_bishop')) {
-                        questSystem.updateQuest('find_bishop', 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.');
+                        questSystem.updateQuest('find_bishop', 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.', 'edgar_eskola_clue');
                         this.showNotification('Quest updated: Find the Bishop of Threshold');
                     }
                 }
@@ -173,7 +173,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Inherited Deformity Form.');
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Inherited Deformity Form.', 'deformity_form_clue');
                         this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }
@@ -186,7 +186,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'When I suggest to the clerk to forge the documents for Ortolan, he looked at me with a mix of surprise and annoyance. But can it be done? Where can I find some forger?');
+                        questSystem.updateQuest('ortolan_arms', 'When I suggest to the clerk to forge the documents for Ortolan, he looked at me with a mix of surprise and annoyance. But can it be done? Where can I find some forger?', 'forge_documents_suggestion');
                         this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }
@@ -208,7 +208,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Artisan’s Exemption Form.');
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Artisan\'s Exemption Form.', 'artisan_form_clue');
                         this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }
@@ -216,9 +216,8 @@ export default class ShedApplicationsScene extends GameScene {
             ortolan_copy: {
                 text: "Are you deaf? I said, are you deaf? It expired last cycle.",
                 options: [
-                    { text: "Back to other topics", next: "start" },
-                    { text: "Can it be renewed?", next: "ortolan_renew" },
-                ],
+                    { text: "Back to other topics", next: "start" }
+                ]
             },
             ortolan_offer: {
                 text: "A gesture. Symbolic. Nonverbal. Go to the Registration office and do your best.",
@@ -228,7 +227,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office and do my best with nonverbal gesture. I am not sure if I understand completely... ');
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office and do my best with nonverbal gesture. I am not sure if I understand completely... ', 'nonverbal_gesture_clue');
                         this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }

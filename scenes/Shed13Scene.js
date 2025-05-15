@@ -100,11 +100,11 @@ export default class Shed13Scene extends GameScene {
                         this.modifyGrowthDecay(0, 1);
                         
                         // Complete rust_reclamation quest
-                        this.questSystem.updateQuest('rust_reclamation', 'I have given Gnur the living core. He seems satisfied.');
+                        this.questSystem.updateQuest('rust_reclamation', 'I have given Gnur the living core. He seems satisfied.', 'core_delivered');
                         this.questSystem.completeQuest('rust_reclamation');
                         
                         // Update find_bishop quest with new information
-                        this.questSystem.updateQuest('find_bishop', 'The Bishop was last seen heading to Scraper 1140 to meet with Dr. Elphi.');
+                        this.questSystem.updateQuest('find_bishop', 'The Bishop was last seen heading to Scraper 1140 to meet with Dr. Elphi.', 'bishop_location_scraper');
                     }
                 }
             },
@@ -136,7 +136,7 @@ export default class Shed13Scene extends GameScene {
                         this.modifyGrowthDecay(5, 0); // Reward growth for making the ethical choice
                         
                         // Update and complete the quest (marking it as failed in the description)
-                        this.questSystem.updateQuest('rust_reclamation', 'I refused to help Gnur steal the living core after learning its importance. He was not happy about it.');
+                        this.questSystem.updateQuest('rust_reclamation', 'I refused to help Gnur steal the living core after learning its importance. He was not happy about it.', 'quest_refused');
                         this.questSystem.completeQuest('rust_reclamation'); // Using completeQuest as there's no failQuest method
                     }
                     const factionSystem = this.registry.get('factionSystem');
@@ -198,7 +198,7 @@ export default class Shed13Scene extends GameScene {
         const questSystem = this.registry.get('questSystem');
         if (questSystem) {
             if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
-                questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.");
+                questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.", 'bishop_clue_gnur');
                 this.showNotification('Quest updated: Find the Bishop of Threshold');
             } else if (dialogKey === 'recoverTech') {
                 questSystem.addQuest(
