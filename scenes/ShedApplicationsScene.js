@@ -83,7 +83,11 @@ export default class ShedApplicationsScene extends GameScene {
 
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('rust_reclamation', 'I promised the clerk in Shed 521 I will not mess with the living core. It seems it is more important for the building than Gnur told me.');
+                        questSystem.updateQuest(
+                            'rust_reclamation', 
+                            'I promised the clerk in Shed 521 I will not mess with the living core. It seems it is more important for the building than Gnur told me.',
+                            'promise_made' // Adding a key to identify this specific update
+                        );
                         this.showNotification('Quest updated: Rust Reclamation');
                     }
                 }

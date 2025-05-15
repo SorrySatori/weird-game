@@ -55,11 +55,12 @@ class QuestSystem extends Phaser.Events.EventEmitter {
         }
     }
 
-    updateQuest(id, newInfo) {
+    updateQuest(id, newInfo, key = null) {
         const quest = this.quests.get(id);
         if (quest) {
             quest.updates.push({
                 text: newInfo,
+                key: key, 
                 date: new Date()
             });
             this.notifySubscribers();

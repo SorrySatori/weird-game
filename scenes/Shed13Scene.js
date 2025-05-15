@@ -12,16 +12,24 @@ export default class Shed13Scene extends GameScene {
         // Get base content
         const inventory = this.registry.get('inventory');
         console.log('inventory', inventory);
+        
+        // Check if player made a promise to the clerk
+        const quest = this.questSystem.getQuest('rust_reclamation');
+        // Check if any update has the promise_made key
+        const promiseMade = quest && quest.updates && quest.updates.some(update => update.key === 'promise_made');
+        
         const content = {
             ...super.dialogContent,
             start: {
                 text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed13...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", next: "background" },
+                    // Add the option to confront Gnur about lying if player made the promise
+                    ...(promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : []),
                     { text: "Goodbye", next: "end" }
                 ]
             },
-                background: {
+            background: {
                 text: "Used to keep the machines running in the old days. Now I'm with the Rust Choir. We sing the old machines awake... or lull the new flesh to sleep. Depends who's buying.",
                 options: [
                     { text: "Tell me about the Rust Choir", next: "rustChoir" },
@@ -106,7 +114,40 @@ export default class Shed13Scene extends GameScene {
                 onShow: () => {
                     this.hideDialog();
                 }
-            }
+            },
+            // New dialog branch for confronting Gnur about lying
+            confront_about_lie: {
+                text: "(Gnur's expression darkens) What lies you talkin' about, outsider? I need that core. Ain't no lie in that.",
+                options: [
+                    { text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", next: "refuse_quest" },
+                    { text: "Never mind, I'll still get it for you.", next: "start" }
+                ]
+            },
+            refuse_quest: {
+                text: "(Gnur's eyes narrow to slits, a metallic growl escaping his throat)\n\nSo you've been talkin' to the paper-pushers, eh? Should've known better than to trust an outsider. Get out of my sight before I decide your lungs would make a fine addition to my collection.",
+                options: [
+                    { text: "Leave", next: "end" }
+                ],
+                onShow: () => {
+                    // Only fail the quest if we haven't already completed it
+                    const quest = this.questSystem.getQuest('rust_reclamation');
+                    if (quest && !quest.isComplete) {
+                        this.showNotification('Quest failed: Rust Reclamation');
+                        this.modifyGrowthDecay(5, 0); // Reward growth for making the ethical choice
+                        
+                        // Update and complete the quest (marking it as failed in the description)
+                        this.questSystem.updateQuest('rust_reclamation', 'I refused to help Gnur steal the living core after learning its importance. He was not happy about it.');
+                        this.questSystem.completeQuest('rust_reclamation'); // Using completeQuest as there's no failQuest method
+                    }
+                    const factionSystem = this.registry.get('factionSystem');
+                    if (factionSystem) {
+                        factionSystem.modifyReputation('RustChoir', -10);
+                        factionSystem.modifyReputation('PithReclaimers', +10);
+                        this.showNotification('Rust Choir Reputation -10');
+                        this.showNotification('Pith Reclaimers Reputation +10');
+                    }
+                }
+            },
         };
 
         // Check if find_bishop quest exists
@@ -137,7 +178,7 @@ export default class Shed13Scene extends GameScene {
         // Update start text if recoverTech has been visited
         if (this.visitedDialogs.has('recoverTech') && !inventory.items.some(item => item.id ==='living-core')) {
             content.start.text = "Just bring me the living core, then I will talk more";
-            content.start.options = [];
+            content.start.options = promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : [];
         }
 
         return content;
