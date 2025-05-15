@@ -216,7 +216,9 @@ export default class ShedApplicationsScene extends GameScene {
             ortolan_copy: {
                 text: "Are you deaf? I said, are you deaf? It expired last cycle.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", next: "start" },
+                    { text: "Can it be renewed?", next: "ortolan_renew" },
+                    { text: "Forget the form. What else can I offer?", next: "ortolan_offer" },
                 ]
             },
             ortolan_offer: {
