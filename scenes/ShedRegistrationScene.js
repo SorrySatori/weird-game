@@ -21,6 +21,7 @@ export default class ShedRegistrationScene extends GameScene {
         this.load.image('clerk2', 'assets/images/clerk2.png');
         this.load.image('vowelSeller', 'assets/images/vowelSeller.png');
         this.load.image('hollowWoman', 'assets/images/hollowWoman.png');
+        this.load.image('sleeplessMime', 'assets/images/mime.png');
 
     }
 
