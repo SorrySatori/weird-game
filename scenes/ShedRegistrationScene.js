@@ -12,12 +12,17 @@ export default class ShedRegistrationScene extends GameScene {
             hollowWoman: null
         };
     }
+    
+    // Safe version of modifyGrowthDecay that doesn't rely on the UI indicator
+    safeModifyGrowthDecay(growthChange, decayChange) {
+        // Get the growth/decay system from registry
+        this.modifyGrowthDecay(growthChange, decayChange);
+    }
 
     preload() {
         super.preload();
         this.load.image('registration-bg', 'assets/images/ShedRegistrationZone.png');
         this.load.image('door', 'assets/images/door.png');
-        this.load.image('clerk', 'assets/images/clerk.png');
         this.load.image('clerk2', 'assets/images/clerk2.png');
         this.load.image('vowelSeller', 'assets/images/vowelSeller.png');
         this.load.image('hollowWoman', 'assets/images/hollowWoman.png');
@@ -118,7 +123,7 @@ export default class ShedRegistrationScene extends GameScene {
         this.queueContainer = this.add.container(400, 450);
         
         // 1. Sleepless Mime (using clerk.png for now) - first in queue
-        this.sleeplessMime = this.add.sprite(-150, 0, 'clerk')
+        this.sleeplessMime = this.add.sprite(-150, 0, 'sleeplessMime')
             .setScale(0.4)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
@@ -187,7 +192,7 @@ export default class ShedRegistrationScene extends GameScene {
         });
         
         // 4. Senior Clerk (will appear after all others are interacted with)
-        this.seniorClerk = this.add.sprite(300, 350, 'clerk')
+        this.seniorClerk = this.add.sprite(300, 350, 'clerk2')
             .setScale(0.5)
             .setAlpha(0)
             .setInteractive({ useHandCursor: true });
@@ -258,8 +263,46 @@ export default class ShedRegistrationScene extends GameScene {
             // Show notification
             this.showNotification('All queue inhabitants have faded away');
             
+            // Make sure all NPC sprites are completely hidden
+            // Hide Sleepless Mime completely if still visible
+            if (this.sleeplessMime && this.sleeplessMime.visible) {
+                this.sleeplessMime.setVisible(false);
+                if (this.sleeplessMimeGlow) {
+                    this.sleeplessMimeGlow.setVisible(false);
+                }
+            }
+            
+            // Hide Vowel Seller completely if still visible
+            if (this.vowelSeller && this.vowelSeller.visible) {
+                this.vowelSeller.setVisible(false);
+                if (this.vowelSellerAsh) {
+                    this.vowelSellerAsh.setVisible(false);
+                }
+            }
+            
+            // Hide Hollow Woman completely if still visible
+            if (this.hollowWoman && this.hollowWoman.visible) {
+                this.hollowWoman.setVisible(false);
+                if (this.hollowWomanSeams) {
+                    this.hollowWomanSeams.setVisible(false);
+                }
+            }
+            
             // Delay before showing Senior Clerk
             this.time.delayedCall(2000, () => {
+                // Create the Senior Clerk if it doesn't exist yet
+                if (!this.seniorClerk) {
+                    this.seniorClerk = this.add.sprite(400, 400, 'clerk2')
+                        .setScale(0.5)
+                        .setAlpha(0);
+                    this.seniorClerk.setInteractive({ useHandCursor: true });
+                    this.seniorClerk.on('pointerdown', () => {
+                        if (this.dialogState === 'end' || !this.dialogState) {
+                            this.showDialog('seniorClerk_start');
+                        }
+                    });
+                }
+                
                 // Fade in the Senior Clerk
                 this.tweens.add({
                     targets: this.seniorClerk,
@@ -279,9 +322,16 @@ export default class ShedRegistrationScene extends GameScene {
     }
     
     get dialogContent() {
+        let questUpdates = [];
+        const questSystem = this.registry.get('questSystem');
+        if (questSystem && questSystem.getQuest('ortolan_arms')) {
+            questUpdates = questSystem.getQuest('ortolan_arms')?.updates;
+            console.log('updates', questUpdates)
+        }
         return {
             ...super.dialogContent,
             // 1. Sleepless Mime Dialog
+            
             sleeplessMime_start: {
                 text: "(The Sleepless Mime watches you intently. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands - forming a cube shape, like a die. They pantomime you holding it.)",
                 options: [
@@ -300,9 +350,9 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "Thank you for reminding me.", next: "sleeplessMime_end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     this.dreamQueueChoices.sleeplessMime = 'memory';
-                    this.modifyGrowthDecay(2, 0);
+                    this.safeModifyGrowthDecay(2, 0);
                     this.showNotification('Growth +2: A cherished memory returns');
                     this.npcsInteractedWith.add('sleeplessMime');
                     this.checkAllNPCsInteracted();
@@ -319,7 +369,7 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "This will be useful. Thank you.", next: "sleeplessMime_end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     this.dreamQueueChoices.sleeplessMime = 'rulebook';
                     // Add rulebook fragment to inventory
                     this.addItemToInventory({
@@ -338,7 +388,7 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "Continue waiting", next: "end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     // Fade out the Mime
                     this.tweens.add({
                         targets: [this.sleeplessMime, this.sleeplessMimeGlow],
@@ -365,13 +415,12 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "Thank you.", next: "vowelSeller_end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     this.dreamQueueChoices.vowelSeller = 'vowel';
-                    this.modifyGrowthDecay(0, 1);
+                    this.safeModifyGrowthDecay(0, 1);
                     this.showNotification('Decay +1: A minor memory fades');
                     this.showNotification('Effect: Some characters may recognize your true name');
                     this.npcsInteractedWith.add('vowelSeller');
-                    this.checkAllNPCsInteracted();
                 }
             },
             vowelSeller_spores: {
@@ -379,7 +428,7 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "I accept this gift.", next: "vowelSeller_end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     this.dreamQueueChoices.vowelSeller = 'silence';
                     // Add silent sentence to inventory
                     this.addItemToInventory({
@@ -390,7 +439,6 @@ export default class ShedRegistrationScene extends GameScene {
                     });
                     this.showNotification('Received: Silent Sentence');
                     this.npcsInteractedWith.add('vowelSeller');
-                    this.checkAllNPCsInteracted();
                 }
             },
             vowelSeller_end: {
@@ -398,7 +446,7 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "Continue waiting", next: "end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     // Fade out the Vowel Seller
                     this.tweens.add({
                         targets: [this.vowelSeller, this.vowelSellerAsh],
@@ -407,6 +455,7 @@ export default class ShedRegistrationScene extends GameScene {
                         onComplete: () => {
                             this.vowelSeller.setVisible(false);
                             this.vowelSellerAsh.setVisible(false);
+                            this.checkAllNPCsInteracted();
                         }
                     });
                 }
@@ -425,7 +474,7 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "I'll remember. Thank you.", next: "hollowWoman_end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     this.dreamQueueChoices.hollowWoman = 'narrative';
                     // Update quest if it exists
                     const questSystem = this.registry.get('questSystem');
@@ -446,9 +495,9 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "You're welcome.", next: "hollowWoman_end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     this.dreamQueueChoices.hollowWoman = 'empathy';
-                    this.modifyGrowthDecay(3, 0);
+                    this.safeModifyGrowthDecay(3, 0);
                     this.showNotification('Growth +3: Symbolic empathy strengthens you');
                     this.npcsInteractedWith.add('hollowWoman');
                     this.checkAllNPCsInteracted();
@@ -459,7 +508,7 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "Continue waiting", next: "end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     // Fade out the Hollow Woman
                     this.tweens.add({
                         targets: [this.hollowWoman, this.hollowWomanSeams],
@@ -497,14 +546,402 @@ export default class ShedRegistrationScene extends GameScene {
                 text: "'Based on your queue interactions, your application has been...'\n\n(They stamp a form with a flourish.)\n\n'...approved. You may proceed to the Registration Office proper. The Registrar will see you now.'",
                 options: [
                     { text: "Proceed to the Registration Office", next: "seniorClerk_proceed" }
-                ]
+                ],
+                onTrigger: () => {
+                    // Ensure dialog stays open when transitioning to the next state
+                    this.time.delayedCall(100, () => {
+                        // Make sure we're still in this dialog state before proceeding
+                        if (this.dialogState === 'seniorClerk_processing') {
+                            // Keep the dialog active but ready for the next state
+                            this.dialogActive = true;
+                        }
+                    });
+                }
             },
             seniorClerk_proceed: {
-                text: "(The Senior Clerk gestures to a door that wasn't there before, glowing with a soft green light.)\n\n'Remember what you've learned here. The queue is never just a queue in Shed13.'",
+                text: "(The Senior Clerk adjusts their spectacles and reviews your file.)\n\n'Now, let's begin the registration process. Based on your queue interactions, I see several possible paths forward.'",
+                options: [
+                    { text: "I'm ready to proceed.", next: "registration_start" }
+                ],
+                onTrigger: () => {
+                    // Clean up any existing UI elements first
+                    if (this.registrationDoor) {
+                        this.registrationDoor.destroy();
+                        this.registrationDoor = null;
+                    }
+                    if (this.doorGlow) {
+                        this.doorGlow.destroy();
+                        this.doorGlow = null;
+                    }
+                    if (this.registrationDesk) {
+                        this.registrationDesk.destroy();
+                        this.registrationDesk = null;
+                    }
+                    if (this.papers) {
+                        this.papers.destroy();
+                        this.papers = null;
+                    }
+                    if (this.deskGlow) {
+                        this.deskGlow.destroy();
+                        this.deskGlow = null;
+                    }
+                    
+                    // Create the registration desk with papers
+                    this.registrationDesk = this.add.image(600, 400, 'door')
+                        .setDisplaySize(150, 100)
+                        .setAlpha(0.7)
+                        .setTint(0x8B4513);
+                    
+                    // Add papers on desk
+                    this.papers = this.add.graphics();
+                    this.papers.fillStyle(0xFFFFFF, 0.9);
+                    this.papers.fillRect(550, 380, 80, 30);
+                    this.papers.fillRect(590, 370, 70, 40);
+                    
+                    // Add glow effect
+                    this.deskGlow = this.add.graphics();
+                    this.deskGlow.fillStyle(0x7fff8e, 0.2);
+                    this.deskGlow.fillCircle(600, 400, 80);
+                }
+            },
+            registration_start: {
+                text: "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed13 today?'",
+                options: [
+                    { text: "I'm here for general registration.", next: "registration_general" },
+                    { text: "I'd rather not say.", next: "registration_evasive" },
+                    ...(questUpdates.some(update => update.key === 'artisan_form_clue') ? [{ text: "I need an Artisan's Exemption Form.", next: "registration_artisan" }] : []),
+                    ...(questUpdates.some(update => update.key === 'deformity_form_clue') ? [{ text: "I need an Inherited Deformity Form.", next: "registration_deformity" }] : []),
+                    ...(questUpdates.some(update => update.key === 'nonverbal_gesture_clue') ? [{ text: "(Make a nonverbal gesture)", next: "registration_nonverbal" }] : []),
+                ],
+            },
+            registration_artisan: {
+                text: "'Ah, the Artisan's Exemption Form. A rare request.'",
+                options: [
+                    { text: "It's for Ortolan, a board game designer.", next: "registration_artisan_ortolan" },
+                    { text: "I need it for personal reasons.", next: "registration_artisan_personal" }
+                ]
+            },
+            registration_artisan_ortolan: {
+                text: "(The clerk's eyebrows raise slightly.)\n\n'Ortolan? The multi-limbed game designer? Interesting...'\n\n(They shuffle through papers and produce a complex form with intricate patterns.)\n\n'This form requires creative verification. Please demonstrate artistic merit.'",
+                options: [
+                    { text: "I can demonstrate my creativity.", next: "registration_creative_challenge" },
+                    { text: "Perhaps another form would be better.", next: "registration_reconsider" }
+                ]
+            },
+            registration_artisan_personal: {
+                text: "'Personal reasons are insufficient for this form. It requires documented creative output.'",
+                options: [
+                    { text: "I can demonstrate my creativity.", next: "registration_creative_challenge" },
+                    { text: "Perhaps another form would be better.", next: "registration_reconsider" }
+                ]
+            },
+            registration_creative_challenge: {
+                text: "'Very well. Please complete this pattern.'",
+                options: [
+                    ...(this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Show the rulebook fragment)", next: "registration_success_artisan" }] : []),
+                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "(Recite the bureaucratic incantation)", next: "registration_success_artisan" }] : []),
+                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Draw a fungal pattern)", next: "registration_success_artisan" }] : []),
+                    { text: "I can't do this.", next: "registration_failure" }
+                ],
+            },
+            registration_deformity: {
+                text: "'The Inherited Deformity Form? That's a sensitive document.'",
+                options: [
+                    { text: "It's for a friend with multiple arms.", next: "registration_deformity_friend" },
+                    { text: "I need to understand the classification system.", next: "registration_deformity_system" }
+                ]
+            },
+            registration_deformity_friend: {
+                text: "'Multiple arms? Interesting. The form requires proof of beneficial mutation versus detrimental deformity.'",
+                options: [
+                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "(Recite the bureaucratic incantation to bypass the clause)", next: "registration_success_deformity" }] : []),
+                    ...(this.dreamQueueChoices.hollowWoman === 'empathy' ? [{ text: "(Offer a symbolic gesture of shared experience)", next: "registration_success_deformity" }] : []),
+                    ...(this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Show the rulebook fragment)", next: "registration_success_deformity" }] : []),
+                    { text: "I don't have proof.", next: "registration_failure" }
+                ],
+            },
+            registration_deformity_system: {
+                text: "'The classification system is complex. It requires specialized knowledge.'",
+                options: [
+                    { text: "I have some experience with bureaucracy.", next: "registration_bureaucracy_challenge" },
+                    { text: "Perhaps I should try a different approach.", next: "registration_reconsider" }
+                ]
+            },
+            registration_bureaucracy_challenge: {
+                text: "'Demonstrate your understanding of Form Section 7-B.'",
+                options: [
+                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "Section 7-B relates to the Inherited Deformity clause, which can be bypassed with proper documentation.", next: "registration_success_deformity" }] : []),
+                    ...(this.dreamQueueChoices.vowelSeller === 'vowel' ? [{ text: "Section 7-B covers beneficial mutations.", next: "registration_partial_success" }] : []),
+                    { text: "I'm not familiar with Section 7-B.", next: "registration_failure" }
+                ],
+            },
+            registration_nonverbal: {
+                text: "(The clerk watches your gesture with interest.)\n\n'Ah, nonverbal communication. A rare approach in bureaucracy.'",
+                options: [
+                    ...(this.dreamQueueChoices.sleeplessMime === 'memory' || this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Mime a complex game being played)", next: "registration_success_nonverbal" }] : []),
+                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Present the Silent Sentence card)", next: "registration_success_nonverbal" }] : []),
+                    { text: "I can't do this.", next: "registration_failure" }
+                ],
+            },
+            registration_general: {
+                text: "'General registration requires specific purpose. Shed13 doesn't accept visitors without purpose.'",
+                options: [
+                    { text: "I'm interested in the fungal research.", next: "registration_fungal" },
+                    { text: "I'm here on behalf of someone else.", next: "registration_proxy" },
+                    { text: "Perhaps I should be more specific.", next: "registration_reconsider" }
+                ]
+            },
+            registration_fungal: {
+                text: "'Fungal research access requires specialized clearance and growth/decay balance verification.'",
+                options: [
+                    ...(this.dreamQueueChoices.hollowWoman === 'empathy' ? [{ text: "I can help you recover old tech carefully", next: "registration_success_fungal" }] : []),
+                    ...(this.dreamQueueChoices.sleeplessMime === 'memory' || this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "I can help you recover old tech carefully", next: "registration_success_fungal" }] : []),
+                    { text: "I don't have qualifications yet.", next: "registration_failure" }
+                ],
+            },
+            registration_proxy: {
+                text: "'Proxy registration requires authorization from the principal party.'",
+                options: [
+                    ...(this.dreamQueueChoices.vowelSeller === 'vowel' ? [{ text: "(Speak the principal's true name with the vowel you purchased)", next: "registration_success_proxy" }] : []),
+                    { text: "I don't have authorization.", next: "registration_failure" }
+                ],
+
+            },
+            registration_evasive: {
+                text: "(The clerk's expression hardens.)\n\n'Evasiveness is noted in your file. This complicates the process.'",
+                options: [
+                    { text: "I apologize. Let me be more specific.", next: "registration_reconsider" },
+                    { text: "I have my reasons for discretion.", next: "registration_discretion" }
+                ]
+            },
+            registration_discretion: {
+                text: "'Discretion requires additional verification.'",
+                options: [
+                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Present the Silent Sentence card)", next: "registration_partial_success" }] : []),
+                    { text: "I understand the need for verification.", next: "registration_failure" },
+                    { text: "I refuse further verification.", next: "registration_failure" }
+                ],
+            },
+            registration_reconsider: {
+                text: "'Very well. Let's start again.'",
+                options: [
+                    { text: "Continue", next: "registration_start" }
+                ]
+            },
+            registration_success_artisan: {
+                text: "(The clerk stamps the Artisan's Exemption Form with a flourish.)\n\n'Approved. The form grants creative exemption from standard limb restrictions. Ortolan will be pleased.'",
+                options: [
+                    { text: "Thank you.", next: "registration_complete_success" }
+                ],
+                onTrigger: () => {
+                    // Add form to inventory
+                    this.addItemToInventory({
+                        id: 'artisan-exemption-form',
+                        name: "Artisan's Exemption Form",
+                        description: "Official form granting exemption from standard limb restrictions for creative purposes. Approved for Ortolan.",
+                        stackable: false
+                    });
+                    this.showNotification('Received: Artisan\'s Exemption Form');
+                    
+                    // Update quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('ortolan_arms')) {
+                        questSystem.updateQuest(
+                            'ortolan_arms', 
+                            'I successfully obtained the Artisan\'s Exemption Form for Ortolan. This should help with the bureaucratic hurdles for additional arms.',
+                            'form_obtained'
+                        );
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                    
+                    // Increase Growth
+                    this.safeModifyGrowthDecay(3, 0);
+                    this.showNotification('Growth +3: Creative bureaucracy mastered');
+                }
+            },
+            registration_success_deformity: {
+                text: "(The clerk stamps the Inherited Deformity Form with precision.)\n\n'Approved. This form acknowledges beneficial mutation status for multiple limbs. A rare classification.'",
+                options: [
+                    { text: "Thank you.", next: "registration_complete_success" }
+                ],
+                onTrigger: () => {
+                    // Add form to inventory
+                    this.addItemToInventory({
+                        id: 'deformity-form',
+                        name: "Inherited Deformity Form",
+                        description: "Official form classifying multiple limbs as beneficial mutations rather than deformities. Approved for use.",
+                        stackable: false
+                    });
+                    this.showNotification('Received: Inherited Deformity Form');
+                    
+                    // Update quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('ortolan_arms')) {
+                        questSystem.updateQuest(
+                            'ortolan_arms', 
+                            'I successfully obtained the Inherited Deformity Form. This should help Ortolan with the bureaucratic hurdles for additional arms.',
+                            'form_obtained'
+                        );
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                    
+                    // Increase Growth
+                    this.safeModifyGrowthDecay(3, 0);
+                    this.showNotification('Growth +3: Bureaucratic mastery achieved');
+                }
+            },
+            registration_success_nonverbal: {
+                text: "(The clerk nods with unexpected understanding.)\n\n'Your nonverbal application is... approved. This special dispensation allows for limb modification without standard documentation.'",
+                options: [
+                    { text: "(Nod gratefully)", next: "registration_complete_success" }
+                ],
+                onTrigger: () => {
+                    // Add dispensation to inventory
+                    this.addItemToInventory({
+                        id: 'special-dispensation',
+                        name: "Special Dispensation",
+                        description: "A rare document allowing limb modification without standard paperwork. Obtained through nonverbal means.",
+                        stackable: false
+                    });
+                    this.showNotification('Received: Special Dispensation');
+                    
+                    // Update quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('ortolan_arms')) {
+                        questSystem.updateQuest(
+                            'ortolan_arms', 
+                            'I successfully obtained a Special Dispensation through nonverbal means. This should help Ortolan bypass the bureaucracy for additional arms.',
+                            'form_obtained'
+                        );
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                    
+                    // Increase Growth
+                    this.safeModifyGrowthDecay(4, 0);
+                    this.showNotification('Growth +4: Transcended verbal bureaucracy');
+                }
+            },
+            registration_success_fungal: {
+                text: "(The clerk stamps a form with a fungal seal.)\n\n'Approved for fungal research access. Level 2 clearance granted. The mycologists will be notified of your arrival.'",
+                options: [
+                    { text: "Thank you.", next: "registration_complete_success" }
+                ],
+                onTrigger: () => {
+                    // Add clearance to inventory
+                    this.addItemToInventory({
+                        id: 'fungal-clearance',
+                        name: "Fungal Research Clearance",
+                        description: "Level 2 clearance for accessing fungal research areas in Shed13. A valuable credential.",
+                        stackable: false
+                    });
+                    this.showNotification('Received: Fungal Research Clearance');
+                    
+                    // Increase Growth
+                    this.safeModifyGrowthDecay(2, 0);
+                    this.showNotification('Growth +2: Scientific recognition');
+                }
+            },
+            registration_success_proxy: {
+                text: "(The clerk's eyes widen slightly.)\n\n'The true name... I see. Proxy authorization granted. This document allows you to act on behalf of the named individual.'",
+                options: [
+                    { text: "Thank you.", next: "registration_complete_success" }
+                ],
+                onTrigger: () => {
+                    // Add proxy form to inventory
+                    this.addItemToInventory({
+                        id: 'proxy-authorization',
+                        name: "Proxy Authorization",
+                        description: "Official document allowing you to act on behalf of another individual in Shed13 bureaucratic matters.",
+                        stackable: false
+                    });
+                    this.showNotification('Received: Proxy Authorization');
+                    
+                    // Increase Growth
+                    this.safeModifyGrowthDecay(2, 0);
+                    this.showNotification('Growth +2: Identity flexibility');
+                }
+            },
+            registration_partial_success: {
+                text: "(The clerk hesitates, then stamps a form with a provisional mark.)\n\n'Partially approved. This temporary permit grants limited access. Full approval requires additional documentation in the future.'",
+                options: [
+                    { text: "I understand.", next: "registration_complete_partial" }
+                ],
+                onTrigger: () => {
+                    // Add temporary permit to inventory
+                    this.addItemToInventory({
+                        id: 'temporary-permit',
+                        name: "Temporary Permit",
+                        description: "A provisional document granting limited access. Not fully approved, but better than nothing.",
+                        stackable: false
+                    });
+                    this.showNotification('Received: Temporary Permit');
+                    
+                    // Update quest if relevant
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('ortolan_arms')) {
+                        questSystem.updateQuest(
+                            'ortolan_arms', 
+                            'I obtained a Temporary Permit that might help Ortolan, but it\'s not fully approved. I may need to find another solution.',
+                            'partial_progress'
+                        );
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                    
+                    // Balanced Growth/Decay
+                    this.safeModifyGrowthDecay(1, 1);
+                    this.showNotification('Growth +1, Decay +1: Bureaucratic compromise');
+                }
+            },
+            registration_failure: {
+                text: "(The clerk stamps 'REJECTED' on the form with finality.)\n\n'Your application is denied. Insufficient qualification, documentation, or purpose. You may reapply after a standard waiting period of 47 days.'",
+                options: [
+                    { text: "I see...", next: "registration_complete_failure" }
+                ],
+                onTrigger: () => {
+                    // Increase Decay
+                    this.safeModifyGrowthDecay(0, 3);
+                    this.showNotification('Decay +3: Bureaucratic rejection');
+                    
+                    // Update quest if relevant
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('ortolan_arms')) {
+                        questSystem.updateQuest(
+                            'ortolan_arms', 
+                            'My registration attempt failed. I\'ll need to find another way to help Ortolan with the arm situation.',
+                            'failed_attempt'
+                        );
+                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                    }
+                }
+            },
+            registration_complete_success: {
+                text: "(The Senior Clerk gestures to a door that wasn't there before, glowing with a soft green light.)\n\n'Your registration is complete. You may proceed through the green door to finalize your documentation.'",
                 options: [
                     { text: "Enter the door", next: "seniorClerk_end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
+                    // Clean up any existing UI elements first
+                    if (this.registrationDesk) {
+                        this.registrationDesk.destroy();
+                        this.registrationDesk = null;
+                    }
+                    if (this.papers) {
+                        this.papers.destroy();
+                        this.papers = null;
+                    }
+                    if (this.deskGlow) {
+                        this.deskGlow.destroy();
+                        this.deskGlow = null;
+                    }
+                    if (this.registrationDoor) {
+                        this.registrationDoor.destroy();
+                        this.registrationDoor = null;
+                    }
+                    if (this.doorGlow) {
+                        this.doorGlow.destroy();
+                        this.doorGlow = null;
+                    }
+                    
                     // Create the new door
                     this.registrationDoor = this.add.image(600, 400, 'door')
                         .setDisplaySize(100, 150)
@@ -522,12 +959,109 @@ export default class ShedRegistrationScene extends GameScene {
                     });
                 }
             },
+            registration_complete_partial: {
+                text: "(The Senior Clerk gestures to a door that wasn't there before, glowing with a muted yellow-green light.)\n\n'Your provisional registration is recorded. You may proceed, but expect additional scrutiny in sensitive areas.'",
+                options: [
+                    { text: "Enter the door", next: "seniorClerk_end" }
+                ],
+                onTrigger: () => {
+                    // Clean up any existing UI elements first
+                    if (this.registrationDesk) {
+                        this.registrationDesk.destroy();
+                        this.registrationDesk = null;
+                    }
+                    if (this.papers) {
+                        this.papers.destroy();
+                        this.papers = null;
+                    }
+                    if (this.deskGlow) {
+                        this.deskGlow.destroy();
+                        this.deskGlow = null;
+                    }
+                    if (this.registrationDoor) {
+                        this.registrationDoor.destroy();
+                        this.registrationDoor = null;
+                    }
+                    if (this.doorGlow) {
+                        this.doorGlow.destroy();
+                        this.doorGlow = null;
+                    }
+                    
+                    // Create the new door with yellow-green glow
+                    this.registrationDoor = this.add.image(600, 400, 'door')
+                        .setDisplaySize(100, 150)
+                        .setInteractive({ useHandCursor: true });
+                    
+                    // Add glow effect
+                    this.doorGlow = this.add.graphics();
+                    this.doorGlow.fillStyle(0xaaff4d, 0.3); // Yellow-green
+                    this.doorGlow.fillCircle(600, 400, 80);
+                    
+                    // Make the door interactive
+                    this.registrationDoor.on('pointerdown', () => {
+                        this.hideDialog();
+                        this.proceedToRegistrationOffice();
+                    });
+                }
+            },
+            registration_complete_failure: {
+                text: "(The Senior Clerk gestures to a door that wasn't there before, glowing with a dull red light.)\n\n'You may exit through this door. Your rejection has been recorded. Better luck in 47 days.'",
+                options: [
+                    { text: "Enter the door", next: "seniorClerk_end" }
+                ],
+                onTrigger: () => {
+                    // Clean up any existing UI elements first
+                    if (this.registrationDesk) {
+                        this.registrationDesk.destroy();
+                        this.registrationDesk = null;
+                    }
+                    if (this.papers) {
+                        this.papers.destroy();
+                        this.papers = null;
+                    }
+                    if (this.deskGlow) {
+                        this.deskGlow.destroy();
+                        this.deskGlow = null;
+                    }
+                    if (this.registrationDoor) {
+                        this.registrationDoor.destroy();
+                        this.registrationDoor = null;
+                    }
+                    if (this.doorGlow) {
+                        this.doorGlow.destroy();
+                        this.doorGlow = null;
+                    }
+                    
+                    // Create the new door with red glow
+                    this.registrationDoor = this.add.image(600, 400, 'door')
+                        .setDisplaySize(100, 150)
+                        .setInteractive({ useHandCursor: true });
+                    
+                    // Add glow effect
+                    this.doorGlow = this.add.graphics();
+                    this.doorGlow.fillStyle(0xff4d4d, 0.3); // Red
+                    this.doorGlow.fillCircle(600, 400, 80);
+                    
+                    // Make the door interactive
+                    this.registrationDoor.on('pointerdown', () => {
+                        this.hideDialog();
+                        this.proceedToRegistrationOffice();
+                    });
+                }
+            },
             seniorClerk_end: {
                 text: "(The Senior Clerk returns to their paperwork, seemingly forgetting your existence.)",
                 options: [
                     { text: "Approach the glowing door", next: "end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
+                    this.hideDialog();
+                }
+            },
+            end: {
+                text: "",
+                options: [],
+                onTrigger: () => {
                     this.hideDialog();
                 }
             }
@@ -547,5 +1081,23 @@ export default class ShedRegistrationScene extends GameScene {
             this.scene.start('Shed13FloorsScene');
             this.isTransitioning = false;
         });
+    }
+    
+    // Helper method to dynamically set dialog options
+    setDialogOptions(dialogKey, options) {
+        // Find the dialog in the current dialog content
+        const dialogContent = this.dialogContent;
+        
+        if (dialogContent[dialogKey]) {
+            // Update the options for this dialog
+            dialogContent[dialogKey].options = options;
+            
+            // If dialog is currently showing, refresh it
+            if (this.dialogState === dialogKey && this.dialogBox && this.dialogBox.visible) {
+                // Hide current dialog and show it again with updated options
+                this.hideDialog();
+                this.showDialog(dialogKey);
+            }
+        }
     }
 }

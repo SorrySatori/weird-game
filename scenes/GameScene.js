@@ -1079,12 +1079,17 @@ export default class GameScene extends Phaser.Scene {
             // Keep avatar at top right
             this.avatar.setPosition(800 - 64, 64);
         }
-
+        
         this.dialogVisible = true;
         this.dialogState = state;
         const content = this.dialogContent[state];
-
-        // Check if this state has an onShow handler
+        
+        // Check if this state has an onTrigger handler (runs without closing dialog)
+        if (content && content.onTrigger) {
+            content.onTrigger();
+        }
+        
+        // Check if this state has an onShow handler (closes dialog)
         if (content && content.onShow) {
             content.onShow();
             return; // Don't show dialog if onShow is defined
