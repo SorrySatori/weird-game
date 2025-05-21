@@ -56,6 +56,39 @@ export default class ScreamingCorkScene extends GameScene {
             50, // walk to x
             470 // walk to y
         );
+        
+        // Create entrance to the tavern interior (centered on the tavern door)
+        this.transitionManager.createTransitionZone(
+            400, // x position - centered on the door
+            470, // y position
+            100, // width
+            200, // height
+            'up', // direction
+            'ScreamingCorkInteriorScene', // target scene
+            100, // walk to x - position inside the tavern
+            470 // walk to y
+        );
+        
+        // Add a hint about the tavern entrance
+        const doorHint = this.add.text(400, 380, 'Enter Tavern', {
+            fontSize: '16px',
+            fill: '#7fff8e',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            padding: { x: 10, y: 5 }
+        });
+        doorHint.setOrigin(0.5);
+        doorHint.setAlpha(0);
+        doorHint.setDepth(10);
+        
+        // Show hint when hovering near the door
+        this.input.on('pointermove', (pointer) => {
+            // Check if pointer is near the door area
+            if (Math.abs(pointer.x - 400) < 50 && Math.abs(pointer.y - 470) < 100) {
+                doorHint.setAlpha(1);
+            } else {
+                doorHint.setAlpha(0);
+            }
+        });
     }
 
     update() {
