@@ -14,6 +14,7 @@ import ShedApplicationsScene from './scenes/ShedApplicationsScene.js';
 import ShedAbandonedOfficeScene from './scenes/ShedAbandonedOfficeScene.js';
 import ShedHallScene from './scenes/ShedHallScene.js';
 import ShedCourtyardScene from './scenes/ShedCourtyardScene.js';
+import ScreamingCorkScene from './scenes/ScreamingCorkScene.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -30,7 +31,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene],
+    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {

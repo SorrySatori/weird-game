@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
@@ -17,6 +18,7 @@ export default class ScraperScene extends GameScene {
         super.preload();
         this.load.image('scraperBg', 'assets/images/Scraper1140.png');
         this.load.image('exitArea', 'assets/images/door.png');
+        this.load.image('arrow', 'assets/images/arrow.png');
     }
 
     create() {
@@ -27,6 +29,9 @@ export default class ScraperScene extends GameScene {
         const bg = this.add.image(400, 300, 'scraperBg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
+        
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
         
         // Add invisible clickable exit area at the left side
         this.exitArea = this.add.image(50, 470, 'exitArea')
@@ -70,6 +75,18 @@ export default class ScraperScene extends GameScene {
                 }
             });
         });
+        
+        // Create exit to ScreamingCorkScene at the right edge
+        this.transitionManager.createTransitionZone(
+            750, // x position
+            470, // y position
+            80, // width
+            200, // height
+            'right', // direction
+            'ScreamingCorkScene', // target scene
+            750, // walk to x
+            470 // walk to y
+        );
     }
 
     update() {
