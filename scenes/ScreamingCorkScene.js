@@ -13,7 +13,7 @@ export default class ScreamingCorkScene extends GameScene {
             
             // Edgar Eskola dialog
             edgar_start: {
-                text: "Edgar Eskola shifts uncomfortably, his mišutkenn features catching the dim light. He glances at you with a mix of wariness and curiosity.",
+                text: "The ursine creature shifts uncomfortably. He glances at you with a mix of wariness and curiosity.",
                 options: [
                     { text: "Hello there.", next: "edgar_greeting" },
                     { text: "What are you doing here?", next: "edgar_purpose" },
@@ -26,8 +26,19 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Mmm. Hello," + "Not often people choose to speak with me. Most avoid mišutkenn if they can help it.",
                 options: [
                     { text: "Why is that?", next: "edgar_prejudice" },
+                    { text: "What are mišutkenn?", next: "edgar_what" },
                     { text: "Back to other topics", next: "edgar_start" }
                 ]
+            },
+            edgar_what: {
+                text: "Mišutkenn are... well, we're not exactly human. Or anything else, for that matter. We're... different.",
+                options: [
+                    { text: "Back to other topics", next: "edgar_start" }
+                ],
+                onTrigger: () => {
+                    this.showNotification('Growth increased');
+                    this.modifyGrowthDecay(1, 0);
+                }
             },
             edgar_prejudice: {
                 text: "History. Superstition. Fear of what's different. Take your pick. The founders of this city drove my ancestors from the Remaper Hills. Now we're just... tolerated. At best.",
@@ -54,8 +65,29 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Professional imaginator?", next: "edgar_imaginator" },
                     { text: "Why didn't they work out?", next: "edgar_jobs" },
+                    { text: "What would you like to do?", next: "edgar_dream_job" },
                     { text: "Back to other topics", next: "edgar_start" }
                 ]
+            },
+            edgar_dream_job: {
+                text: "I’ve tried everything. Janitor. Clerk. Meat assembler. Imaginator. But I’ve never been anything truly mine. I think… I want to write a book. But I don’t know what it’s about yet.",
+                options: [
+                    { text: "I can help you write the book", next: "edgar_book" },
+                    { text: "Back to other topics", next: "edgar_start" }
+                ]
+            },
+            edgar_book: {
+                text: "You would... do that for me? Thank you. I don't know what it's about yet. But I'm open to suggestions.",
+                options: [
+                    { text: "I will come back when I have an idea", next: "edgar_start" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.addQuest(
+                        'edgar_book',
+                        'Help Edgar to write a book',
+                        'Edgar Eskola mentioned he wants to write a book. I should help him.'
+                    );
+                }
             },
             edgar_imaginator: {
                 text: "I dreamed up locations and characters for Dr. Elphi Quarn's games. Turns out my imagination was too... wild. Too erratic, they said. My dreams were 'unusable.' Their loss.",
@@ -94,7 +126,11 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Your sympathy is... unexpected. But appreciated. Perhaps not everyone in this city is as thoughtless as I've come to believe.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.showNotification('Growth increased');
+                    this.modifyGrowthDecay(1, 0);
+                }
             }
         };
     }

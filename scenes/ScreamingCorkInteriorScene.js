@@ -17,7 +17,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     { text: "Who are you?", next: "ravla_who" },
                     { text: "What do you do here?", next: "ravla_job" },
-                    { text: "I need some documents...", next: "ravla_documents" },
                     { text: "Nevermind", next: "closeDialog" }
                 ]
             },
@@ -30,6 +29,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_job: {
                 text: "I provide services for those who need certain... paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
                 options: [
+                    { text: "I need some documents...", next: "ravla_documents" },
                     { text: "Back", next: "ravla_start" }
                 ]
             },
@@ -101,7 +101,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             heliodor_who: {
-                text: "I'm Heliodor. I keep an eye on things here, make sure everyone behaves. Used to work security at Shed 13, but... let's just say I prefer the company here.",
+                text: "We are Heliodor. We keep an eye on things here, make sure everyone behaves.",
                 options: [
                     { text: "Back", next: "heliodor_start" }
                 ]
@@ -113,7 +113,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             heliodor_rumors: {
-                text: "Hmm. Word is the Scrapers are getting more aggressive with their territory. And there's something strange happening at the Cathedral - more pilgrims going in than coming out.",
+                text: "Hmm. Word is the Rust Choir minions are getting more aggressive with their territory. And there's something strange happening at the Cathedral.",
                 options: [
                     { text: "Anything else?", next: "heliodor_more_rumors" },
                     { text: "Back", next: "heliodor_start" }
