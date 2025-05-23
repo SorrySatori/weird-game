@@ -1,5 +1,8 @@
+let SPOREBAR_ID = 1;
 export default class SporeBar {
+
     constructor(scene, x, y) {
+        this.id = SPOREBAR_ID++;
         this.scene = scene;
         
         // Create container for the spore bar
@@ -54,8 +57,12 @@ export default class SporeBar {
         
         // Subscribe to system updates
         if (scene.sporeSystem) {
-            scene.sporeSystem.subscribe(this.updateDisplay.bind(this));
+            this.boundUpdateDisplay = this.updateDisplay.bind(this);
+            scene.sporeSystem.subscribe(this.boundUpdateDisplay);
+            // Immediately sync UI to current spore level
+            this.updateDisplay(scene.sporeSystem.getSporeLevel());
         }
+
     }
     
     createTooltip() {
@@ -90,6 +97,8 @@ export default class SporeBar {
     }
     
     updateDisplay(sporeLevel) {
+        // Defensive: If UI elements are destroyed, do nothing
+        if (!this.fillBar || !this.valueText) return;
         // Update the fill bar width based on spore level
         const maxWidth = 146;
         const fillWidth = Math.max(0, (sporeLevel / 100) * maxWidth);
@@ -110,13 +119,22 @@ export default class SporeBar {
     
     cleanup() {
         // Unsubscribe from system updates
-        if (this.scene.sporeSystem) {
-            this.scene.sporeSystem.unsubscribe(this.updateDisplay.bind(this));
+        const system = this.scene.sporeSystem;
+        if (system && this.boundUpdateDisplay) {
+            system.unsubscribe(this.boundUpdateDisplay);
         }
         
         // Destroy all UI elements
         if (this.container) {
             this.container.destroy();
         }
+        // Null UI refs to help GC and avoid zombie calls
+        this.fillBar = null;
+        this.valueText = null;
+        this.background = null;
+        this.label = null;
+        this.tooltipBg = null;
+        this.tooltipText = null;
+        this.container = null;
     }
 }

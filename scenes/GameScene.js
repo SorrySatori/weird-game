@@ -4,6 +4,8 @@ import QuestSystem from '../systems/QuestSystem.js';
 import QuestLog from '../ui/QuestLog.js';
 import FactionReputation from '../systems/FactionReputation.js';
 import SymbiontSystem from '../systems/SymbiontSystem.js';
+import SporeSystem from '../systems/SporeSystem.js';
+import SporeBar from '../ui/SporeBar.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -183,6 +185,19 @@ export default class GameScene extends Phaser.Scene {
             });
         }
         this.factionSystem = this.registry.get('factionSystem');
+        
+        // Initialize Spore system
+        if (!this.registry.get('sporeSystem')) {
+            const sporeSystem = new SporeSystem();
+            this.registry.set('sporeSystem', sporeSystem);
+        }
+        this.sporeSystem = this.registry.get('sporeSystem');
+        
+        // Create Spore Bar UI, cleaning up any old one first
+        if (this.sporeBar) {
+            this.sporeBar.cleanup();
+        }
+        this.sporeBar = new SporeBar(this, 325, 10);
     }
 
     createSymbiontUI() {
@@ -919,6 +934,18 @@ export default class GameScene extends Phaser.Scene {
         this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
         this.backgroundMusic.play();
     }
+    
+    // Modify spore level by given amount
+    modifySpores(amount) {
+        if (!this.sporeSystem) return false;
+        return this.sporeSystem.modifySpores(amount);
+    }
+    
+    // Get current spore level
+    getSporeLevel() {
+        if (!this.sporeSystem) return 0;
+        return this.sporeSystem.getSporeLevel();
+    }
 
     shutdown() {
         // Clean up all audio
@@ -960,8 +987,27 @@ export default class GameScene extends Phaser.Scene {
             this.growthDecayIndicator = null;
         }
 
+        // Clean up spore system
+        if (this.sporeSystem) {
+            this.sporeSystem.cleanup();
+        }
+        
+        // Clean up spore bar
+        if (this.sporeBar) {
+            this.sporeBar.cleanup();
+            this.sporeBar = null;
+        }
+
         // Call parent shutdown
         super.shutdown();
+
+    // Defensive: also clean up spore bar on scene destroy
+    this.events.on('shutdown', () => {
+        if (this.sporeBar) this.sporeBar.cleanup();
+    });
+    this.events.on('destroy', () => {
+        if (this.sporeBar) this.sporeBar.cleanup();
+    });
     }
 
     // Check if the current scene is EggCatedralScene

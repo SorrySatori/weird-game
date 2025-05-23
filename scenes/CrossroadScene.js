@@ -247,7 +247,10 @@ export default class CrossroadScene extends GameScene {
             closeDialogAndGrow: {
                 text: '',
                 options: [],
-                onShow: () => {
+                onTrigger: () => {
+                    // Decrease spores by 10 (adjust as desired)
+                    this.modifySpores(-10);
+
                     // Increase Growth by 2
                     this.modifyGrowthDecay(2, 0);
                     
@@ -287,15 +290,15 @@ export default class CrossroadScene extends GameScene {
                             power: 0,
                             ability: 'Suture-Reality'
                         });
-                    }
-                    this.hideDialog();
                 }
+                this.hideDialog();
             }
-        };
-    }
+        }
+    };
+}
 
-    showCorpseDialog() {
-        this.showDialog('corpseMain');
+showCorpseDialog() {
+    this.showDialog('corpseMain');
     }
 
     update() {
