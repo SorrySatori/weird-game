@@ -6,6 +6,7 @@ import FactionReputation from '../systems/FactionReputation.js';
 import SymbiontSystem from '../systems/SymbiontSystem.js';
 import SporeSystem from '../systems/SporeSystem.js';
 import SporeBar from '../ui/SporeBar.js';
+import PlayerMovementSystem from '../systems/player/PlayerMovementSystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -14,20 +15,20 @@ export default class GameScene extends Phaser.Scene {
         this.dialogState = 'main';
         this.dialogOptionsY = 0; // Track options position
         this.isTransitioning = false; // Flag to prevent multiple transitions
-        this.movementState = {
-            left: false,
-            right: false,
-            up: false,
-            down: false
-        };
         this.symbiontContainer = null;
         this.symbiontSlots = [];
         this.symbiontIcons = new Map();
+        
+        // Player movement system will be initialized in init()
+        this.playerMovementSystem = null;
     }
 
     init() {
         // Reset transition flag when scene starts
         this.isTransitioning = false;
+        
+        // Initialize the player movement system
+        this.playerMovementSystem = new PlayerMovementSystem(this);
     }
 
     preload() {
@@ -81,36 +82,9 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update() {
-        // Handle keyboard movement
-        if (this.priest && !this.dialogVisible) {
-            const speed = 4;
-            let moved = false;
-
-            if (this.movementState.left) {
-                this.priest.x -= speed;
-                this.priest.setScale(-2, 2);
-                this.priestGlow.setScale(-2.1, 2.1);
-                moved = true;
-            } 
-            else if (this.movementState.right) {
-                this.priest.x += speed;
-                this.priest.setScale(2, 2);
-                this.priestGlow.setScale(2.1, 2.1);
-                moved = true;
-            }
-
-            // Update animations
-            if (moved) {
-                if (!this.priest.anims.isPlaying || this.priest.anims.currentAnim.key !== 'walk') {
-                    this.priest.play('walk');
-                }
-            } else if (this.priest.anims.currentAnim && this.priest.anims.currentAnim.key === 'walk') {
-                this.priest.play('idle');
-            }
-
-            // Update visual effects
-            this.priestGlow.x = this.priest.x;
-            this.priestGlow.y = this.priest.y;
+        // Update player movement if system is initialized
+        if (this.playerMovementSystem) {
+            this.playerMovementSystem.update();
         }
 
         // Call super.update() if it exists
@@ -294,44 +268,6 @@ export default class GameScene extends Phaser.Scene {
 
     initSceneMechanics() {
         try {
-
-            // Set up keyboard input
-            this.input.keyboard.on('keydown-LEFT', () => {
-                if (!this.dialogVisible && !this.isInteractingWithUI()) {
-                    this.movementState.left = true;
-                }
-            });
-            this.input.keyboard.on('keyup-LEFT', () => {
-                this.movementState.left = false;
-            });
-
-            this.input.keyboard.on('keydown-RIGHT', () => {
-                if (!this.dialogVisible && !this.isInteractingWithUI()) {
-                    this.movementState.right = true;
-                }
-            });
-            this.input.keyboard.on('keyup-RIGHT', () => {
-                this.movementState.right = false;
-            });
-
-            this.input.keyboard.on('keydown-UP', () => {
-                if (!this.dialogVisible && !this.isInteractingWithUI()) {
-                    this.movementState.up = true;
-                }
-            });
-            this.input.keyboard.on('keyup-UP', () => {
-                this.movementState.up = false;
-            });
-
-            this.input.keyboard.on('keydown-DOWN', () => {
-                if (!this.dialogVisible && !this.isInteractingWithUI()) {
-                    this.movementState.down = true;
-                }
-            });
-            this.input.keyboard.on('keyup-DOWN', () => {
-                this.movementState.down = false;
-            });
-
             // Toggle inventory with 'I' key
             this.input.keyboard.on('keydown-I', () => {
                 if (!this.dialogVisible) {
@@ -402,46 +338,22 @@ export default class GameScene extends Phaser.Scene {
             // Set initial animation
             this.priest.play('idle');
 
-            // Add click/tap handler for movement
-            this.input.on('pointerdown', (pointer) => {
-                if (!this.dialogVisible && pointer.y < 500) {
-                    const targetX = pointer.x;
-                    this.movePriestTo(targetX);
-                }
-            });
-
-            // Add keyboard controls
+            // Initialize the player movement system with the priest character
+            if (this.playerMovementSystem) {
+                this.playerMovementSystem.init(this.priest, this.priestGlow);
+                // Update dialog visibility state
+                this.playerMovementSystem.setDialogVisible(this.dialogVisible);
+            }
         } catch (error) {
             console.error('Error in initSceneMechanics():', error);
         }
     }
 
     movePriestTo(targetX) {
-        if (!this.priest || this.dialogVisible) return;
-        
-        const direction = targetX < this.priest.x ? -1 : 1;
-        this.clickSound.play();
-        this.priest.setScale(2 * direction, 2);
-        this.priestGlow.setScale(2.1 * direction, 2.1);
-        this.priestGlow.x = this.priest.x;
-        this.priest.play('walk');
-        
-        this.tweens.add({
-            targets: [this.priest, this.priestGlow],
-            x: targetX,
-            duration: Math.abs(targetX - this.priest.x) * 5,
-            ease: 'Linear',
-            onUpdate: () => {
-                const direction = targetX < this.priest.x ? -1 : 1;
-            },
-            onComplete: () => {
-                this.priest.play('idle');
-            }
-        });
-    }
-
-    isEggCatedral() {
-        return this.scene && this.scene.key === 'EggCatedralScene';
+        // Delegate to the player movement system
+        if (this.playerMovementSystem) {
+            this.playerMovementSystem.movePriestTo(targetX);
+        }
     }
 
     initInventory() {
@@ -1010,11 +922,6 @@ export default class GameScene extends Phaser.Scene {
     });
     }
 
-    // Check if the current scene is EggCatedralScene
-    isEggCatedral() {
-        return this.constructor.name === 'EggCatedralScene';
-    }
-
     update() {
         // Base implementation for game loop updates
         // Child scenes should override this method for scene-specific behavior
@@ -1033,6 +940,12 @@ export default class GameScene extends Phaser.Scene {
             this.backgroundMusic.stop();
             this.backgroundMusic.destroy();
             this.backgroundMusic = null;
+        }
+        
+        // Clean up player movement system
+        if (this.playerMovementSystem) {
+            this.playerMovementSystem.cleanup();
+            this.playerMovementSystem = null;
         }
     }
 
@@ -1127,6 +1040,11 @@ export default class GameScene extends Phaser.Scene {
         }
         
         this.dialogVisible = true;
+        
+        // Update dialog visibility in player movement system
+        if (this.playerMovementSystem) {
+            this.playerMovementSystem.setDialogVisible(true);
+        }
         this.dialogState = state;
         const content = this.dialogContent[state];
         
@@ -1408,6 +1326,12 @@ export default class GameScene extends Phaser.Scene {
             this.textMaskGraphics = null;
         }
         this.dialogVisible = false;
+        
+        // Update dialog visibility in player movement system
+        if (this.playerMovementSystem) {
+            this.playerMovementSystem.setDialogVisible(false);
+        }
+        
         // Hide avatar on dialog close
         if (this.avatar) {
             this.avatar.setVisible(false);
