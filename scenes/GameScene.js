@@ -7,6 +7,7 @@ import SymbiontSystem from '../systems/SymbiontSystem.js';
 import SporeSystem from '../systems/SporeSystem.js';
 import SporeBar from '../ui/SporeBar.js';
 import PlayerMovementSystem from '../systems/player/PlayerMovementSystem.js';
+import InventorySystem from '../systems/inventory/InventorySystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -19,8 +20,9 @@ export default class GameScene extends Phaser.Scene {
         this.symbiontSlots = [];
         this.symbiontIcons = new Map();
         
-        // Player movement system will be initialized in init()
+        // Systems will be initialized in init()
         this.playerMovementSystem = null;
+        this.inventorySystem = null;
     }
 
     init() {
@@ -29,6 +31,9 @@ export default class GameScene extends Phaser.Scene {
         
         // Initialize the player movement system
         this.playerMovementSystem = new PlayerMovementSystem(this);
+        
+        // Initialize the inventory system
+        this.inventorySystem = new InventorySystem(this);
     }
 
     preload() {
@@ -153,9 +158,10 @@ export default class GameScene extends Phaser.Scene {
             this.registry.set('factionSystem', factionSystem);
             
             // Add faction system event handlers
-            factionSystem.on('reputationChanged', (faction, amount) => {
-                const changeText = amount > 0 ? 'increased' : 'decreased';
-                this.showNotification(`${faction} reputation ${changeText}`, 0x7fff8e);
+            factionSystem.on('reputationChanged', (faction, oldValue, newValue) => {
+                const change = newValue - oldValue;
+                const sign = change > 0 ? '+' : '';
+                this.showNotification(`${faction} Reputation: ${sign}${change}`, 0x7fff8e);
             });
         }
         this.factionSystem = this.registry.get('factionSystem');
@@ -268,19 +274,16 @@ export default class GameScene extends Phaser.Scene {
 
     initSceneMechanics() {
         try {
-            // Toggle inventory with 'I' key
-            this.input.keyboard.on('keydown-I', () => {
-                if (!this.dialogVisible) {
-                    this.toggleInventory();
-                }
-            });
+            // Keyboard shortcuts are now handled by their respective systems
 
             // Add ground/street platform
             const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
             ground.setDepth(1);
 
             // Initialize inventory system
-            this.initInventory();
+            if (this.inventorySystem) {
+                this.inventorySystem.init();
+            }
 
             // Initialize music system
             this.initMusicSystem();
@@ -648,86 +651,27 @@ export default class GameScene extends Phaser.Scene {
     
     // Method to add an item to inventory
     addItemToInventory(item) {
-        const inventory = this.registry.get('inventory');
-        
-        // Check if item already exists (for stackable items)
-        if (item.stackable) {
-            const existingItem = inventory.items.find(i => i.id === item.id);
-            if (existingItem) {
-                existingItem.count = (existingItem.count || 1) + 1;
-                this.registry.set('inventory', inventory);
-                return true;
-            }
+        // Delegate to inventory system
+        if (this.inventorySystem) {
+            return this.inventorySystem.addItemToInventory(item);
         }
-        
-        // Check if inventory is full
-        if (inventory.items.length >= inventory.maxItems) {
-            console.log('Inventory is full!');
-            return false;
-        }
-        
-        // Add new item
-        inventory.items.push(item);
-        this.registry.set('inventory', inventory);
-        
-        // Show notification
-        this.showItemNotification(item);
-        
-        return true;
+        return false;
     }
 
     removeItemFromInventory(itemId) {
-        const inventory = this.registry.get('inventory');
-        const itemIndex = inventory.items.findIndex(item => item.id === itemId);
-        if (itemIndex !== -1) {
-            inventory.items.splice(itemIndex, 1);
-            this.registry.set('inventory', inventory);
-            return true;
+        // Delegate to inventory system
+        if (this.inventorySystem) {
+            return this.inventorySystem.removeItemFromInventory(itemId);
         }
         return false;
     }
     
-    showItemNotification(item) {
-        // Create notification container
-        const notification = this.add.container(400, 100);
-        notification.setDepth(2000);
-        
-        // Notification background
-        const notifBg = this.add.rectangle(0, 0, 300, 60, 0x0a2712, 0.9);
-        notifBg.setStrokeStyle(2, 0x7fff8e);
-        notification.add(notifBg);
-        
-        // Notification text
-        const text = this.add.text(0, 0, `Collected: ${item.name}`, {
-            fontSize: '18px',
-            fill: '#7fff8e'
-        });
-        text.setOrigin(0.5);
-        notification.add(text);
-        
-        // Animate notification
-        this.tweens.add({
-            targets: notification,
-            y: 80,
-            alpha: { from: 0, to: 1 },
-            duration: 500,
-            ease: 'Power2',
-            onComplete: () => {
-                // Hold for a moment then fade out
-                this.time.delayedCall(2000, () => {
-                    this.tweens.add({
-                        targets: notification,
-                        y: 60,
-                        alpha: 0,
-                        duration: 500,
-                        ease: 'Power2',
-                        onComplete: () => {
-                            notification.destroy();
-                        }
-                    });
-                });
-            }
-        });
+    hasItem(itemId) {
+        // Delegate to inventory system
+        if (this.inventorySystem) {
+            return this.inventorySystem.hasItem(itemId);
+        }
+        return false;
     }
 
     showNotification(title, subtitle = '', amount = '', duration = 500) {
@@ -946,6 +890,12 @@ export default class GameScene extends Phaser.Scene {
         if (this.playerMovementSystem) {
             this.playerMovementSystem.cleanup();
             this.playerMovementSystem = null;
+        }
+        
+        // Clean up inventory system
+        if (this.inventorySystem) {
+            this.inventorySystem.cleanup();
+            this.inventorySystem = null;
         }
     }
 
@@ -1386,370 +1336,6 @@ export default class GameScene extends Phaser.Scene {
         };
     }
 
-    initInventory() {
-        // Initialize inventory data
-        if (!this.registry.get('inventory')) {
-            this.registry.set('inventory', {
-                items: [],
-                maxItems: 12 // Maximum number of items in inventory
-            });
-        }
-        
-        // Create inventory button (mushroom shape)
-        this.inventoryButton = this.add.container(60, 540);
-        this.inventoryButton.setDepth(100);
-        
-        // Mushroom cap
-        const mushroomCap = this.add.graphics();
-        mushroomCap.fillStyle(0x2a623d, 1); // Dark green
-        mushroomCap.fillEllipse(0, -5, 20, 15);
-        mushroomCap.lineStyle(2, 0x7fff8e, 0.7); // Green glow outline
-        mushroomCap.strokeEllipse(0, -5, 20, 15);
-        
-        // Mushroom stem
-        const mushroomStem = this.add.graphics();
-        mushroomStem.fillStyle(0x1a3b23, 1); // Darker green
-        mushroomStem.fillRect(-5, -5, 10, 15);
-        
-        // Mushroom spots
-        const spots = this.add.graphics();
-        spots.fillStyle(0x7fff8e, 0.7); // Glowing green spots
-        spots.fillCircle(-8, -8, 2);
-        spots.fillCircle(5, -3, 3);
-        spots.fillCircle(0, -10, 2);
-        
-        // Text label
-        const invText = this.add.text(0, 15, 'Inventory', {
-            fontSize: '14px',
-            fill: '#7fff8e'
-        });
-        invText.setOrigin(0.5);
-        invText.setInteractive({ useHandCursor: true });
-        
-        // Add all elements to the button container
-        this.inventoryButton.add([mushroomCap, mushroomStem, spots, invText]);
-        
-        // Make button interactive
-        this.inventoryButton.setInteractive(new Phaser.Geom.Rectangle(-25, -20, 50, 50), Phaser.Geom.Rectangle.Contains);
-        
-        // Add hover effects
-        this.inventoryButton.on('pointerover', () => {
-            this.inventoryButton.setScale(1.1);
-        });
-        
-        this.inventoryButton.on('pointerout', () => {
-            this.inventoryButton.setScale(1);
-        });
-        
-        // Open inventory on click
-        this.inventoryButton.on('pointerdown', () => {
-            if (this.clickSound) {
-                this.clickSound.play();
-            }
-            this.toggleInventory();
-        });
-        
-        // Add keyboard shortcut ('I' key)
-        this.input.keyboard.on('keydown-I', () => {
-            this.toggleInventory();
-        });
-        
-        // Initialize inventory panel (hidden by default)
-        this.inventoryVisible = false;
-        this.createInventoryPanel();
-    }
-    
-    createInventoryPanel() {
-        // Create inventory panel container
-        this.inventoryPanel = this.add.container(400, 300);
-        this.inventoryPanel.setDepth(1000); // Above most elements
-        this.inventoryPanel.setVisible(false);
-        
-        // Inventory background
-        const invBg = this.add.rectangle(0, 0, 500, 400, 0x0a2712, 0.9);
-        invBg.setStrokeStyle(2, 0x7fff8e);
-        this.inventoryPanel.add(invBg);
-        
-        // Inventory title
-        const title = this.add.text(0, -170, 'SPORE COLLECTION', {
-            fontSize: '28px',
-            fill: '#7fff8e',
-            fontStyle: 'bold'
-        });
-        title.setOrigin(0.5);
-        this.inventoryPanel.add(title);
-        
-        // Close button
-        const closeBtn = this.add.container(230, -170);
-        const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
-        closeBg.setStrokeStyle(1, 0x7fff8e);
-        closeBg.setInteractive({ useHandCursor: true });
-        const closeText = this.add.text(0, 0, 'X', {
-            fontSize: '24px',
-            fill: '#7fff8e'
-        });
-        closeText.setOrigin(0.5);
-        closeBtn.add([closeBg, closeText]);
-        this.inventoryPanel.add(closeBtn);
-        
-        // Make close button interactive
-        closeBg.on('pointerover', () => {
-            closeBg.setFillStyle(0x0a2712, 0.8);
-            closeText.setStyle({ fill: '#b3ffcc' });
-        });
-        closeBg.on('pointerout', () => {
-            closeBg.setFillStyle(0x0a2712, 0.6);
-            closeText.setStyle({ fill: '#7fff8e' });
-        });
-        closeBg.on('pointerdown', () => {
-            if (this.clickSound) {
-                this.clickSound.play();
-            }
-            this.toggleInventory(false);
-        });
-        
-        // Create inventory slots container
-        this.slotsContainer = this.add.container(0, 0);
-        this.inventoryPanel.add(this.slotsContainer);
-        
-        // Create inventory slots (4x3 grid)
-        this.inventorySlots = [];
-        const slotSize = 80;
-        const padding = 10;
-        const startX = -180;
-        const startY = -100;
-        
-        for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 4; col++) {
-                const x = startX + col * (slotSize + padding);
-                const y = startY + row * (slotSize + padding);
-                
-                // Create slot background
-                const slotBg = this.add.rectangle(x, y, slotSize, slotSize, 0x0f2315, 1);
-                slotBg.setStrokeStyle(2, 0x7fff8e, 0.5);
-                
-                // Create slot container
-                const slot = this.add.container(x, y);
-                slot.add(slotBg);
-                
-                // Add slot index
-                const slotIndex = row * 4 + col;
-                slot.slotIndex = slotIndex;
-                
-                // Make slot interactive
-                slotBg.setInteractive({ useHandCursor: true });
-                slotBg.on('pointerover', () => {
-                    slotBg.setStrokeStyle(2, 0x7fff8e, 1);
-                    
-                    // Show item description if there's an item
-                    const inventory = this.registry.get('inventory');
-                    if (inventory.items[slotIndex]) {
-                        this.showItemDescription(inventory.items[slotIndex], x, y);
-                    }
-                });
-                slotBg.on('pointerout', () => {
-                    slotBg.setStrokeStyle(2, 0x7fff8e, 0.5);
-                    
-                    // Hide description
-                    if (this.itemDescription) {
-                        this.itemDescription.setVisible(false);
-                    }
-                });
-                
-                this.slotsContainer.add(slot);
-                this.inventorySlots.push(slot);
-            }
-        }
-        
-        // Create item description container (hidden initially)
-        this.itemDescription = this.add.container(0, 0);
-        this.itemDescription.setVisible(false);
-        this.inventoryPanel.add(this.itemDescription);
-        
-        // Description background
-        const descBg = this.add.rectangle(0, 0, 200, 80, 0x0a2712, 0.9);
-        descBg.setStrokeStyle(1, 0x7fff8e);
-        this.itemDescription.add(descBg);
-        
-        // Description text
-        this.descriptionText = this.add.text(0, 0, '', {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            align: 'center',
-            wordWrap: { width: 180 }
-        });
-        this.descriptionText.setOrigin(0.5);
-        this.itemDescription.add(this.descriptionText);
-        
-        // Empty inventory message
-        this.emptyText = this.add.text(0, 0, 'Your spore collection is empty.\nGather spores as you explore.', {
-            fontSize: '18px',
-            fill: '#7fff8e',
-            align: 'center'
-        });
-        this.emptyText.setOrigin(0.5);
-        this.inventoryPanel.add(this.emptyText);
-    }
-    
-    showItemDescription(item, slotX, slotY) {
-        // Position description near the slot but not overlapping
-        this.itemDescription.setPosition(slotX + 100, slotY);
-        
-        // Update description text
-        this.descriptionText.setText(item.description || item.name);
-        
-        // Show description
-        this.itemDescription.setVisible(true);
-    }
-    
-    toggleInventory(forceState) {
-        // If forceState is provided, set to that state, otherwise toggle
-        this.inventoryVisible = forceState !== undefined ? forceState : !this.inventoryVisible;
-        
-        // Update inventory panel visibility, only if it exists
-        if (this.inventoryPanel) {
-            this.inventoryPanel.setVisible(this.inventoryVisible);
-        }
-        
-        if (this.inventoryVisible) {
-            // Update inventory display
-            this.updateInventoryDisplay();
-        }
-    }
-    
-    updateInventoryDisplay() {
-        // Get current inventory
-        const inventory = this.registry.get('inventory');
-        
-        if (!this.inventorySlots || !this.emptyText) return;
-        
-        // Clear all slots
-        this.inventorySlots.forEach(slot => {
-            // Remove any item sprites but keep the background
-            while (slot.list.length > 1) {
-                slot.remove(slot.list[slot.list.length - 1], true);
-            }
-        });
-        
-        // Show/hide empty message
-        this.emptyText.setVisible(inventory.items.length === 0);
-        
-        // Add items to slots
-        inventory.items.forEach((item, index) => {
-            if (index < this.inventorySlots.length) {
-                const slot = this.inventorySlots[index];
-                
-                // Create item visual
-                if (item.spriteKey) {
-                    // If item has a sprite, use it
-                    const itemSprite = this.add.image(0, 0, item.spriteKey);
-                    itemSprite.setDisplaySize(40, 40); // Smaller and fits inside slot
-                    itemSprite.setOrigin(0.5, 0.5);
-                    itemSprite.setPosition(0, 0);
-                    slot.add(itemSprite);
-                } else {
-                    // Otherwise create a colored circle with the first letter
-                    const itemCircle = this.add.graphics();
-                    itemCircle.fillStyle(item.color || 0x7fff8e, 1);
-                    itemCircle.fillCircle(0, 0, 24);
-                    slot.add(itemCircle);
-                    
-                    const itemText = this.add.text(0, 0, item.name.charAt(0).toUpperCase(), {
-                        fontSize: '20px',
-                        fill: '#0a2712'
-                    });
-                    itemText.setOrigin(0.5);
-                    slot.add(itemText);
-                }
-                
-                // Add item count if stackable
-                if (item.count && item.count > 1) {
-                    const countText = this.add.text(16, 16, `x${item.count}`, {
-                        fontSize: '14px',
-                        fill: '#7fff8e',
-                        stroke: '#0a2712',
-                        strokeThickness: 4
-                    });
-                    countText.setOrigin(0.5);
-                    slot.add(countText);
-                }
-            }
-        });
-    }
-    
-    // Method to add an item to inventory
-    addItemToInventory(item) {
-        const inventory = this.registry.get('inventory');
-        
-        // Check if item already exists (for stackable items)
-        if (item.stackable) {
-            const existingItem = inventory.items.find(i => i.id === item.id);
-            if (existingItem) {
-                existingItem.count = (existingItem.count || 1) + 1;
-                this.registry.set('inventory', inventory);
-                return true;
-            }
-        }
-        
-        // Check if inventory is full
-        if (inventory.items.length >= inventory.maxItems) {
-            console.log('Inventory is full!');
-            return false;
-        }
-        
-        // Add new item
-        inventory.items.push(item);
-        this.registry.set('inventory', inventory);
-        
-        // Show notification
-        this.showItemNotification(item);
-        
-        return true;
-    }
-    
-    showItemNotification(item) {
-        // Create notification container
-        const notification = this.add.container(400, 100);
-        notification.setDepth(2000);
-        
-        // Notification background
-        const notifBg = this.add.rectangle(0, 0, 300, 60, 0x0a2712, 0.9);
-        notifBg.setStrokeStyle(2, 0x7fff8e);
-        notification.add(notifBg);
-        
-        // Notification text
-        const text = this.add.text(0, 0, `Collected: ${item.name}`, {
-            fontSize: '18px',
-            fill: '#7fff8e'
-        });
-        text.setOrigin(0.5);
-        notification.add(text);
-        
-        // Animate notification
-        this.tweens.add({
-            targets: notification,
-            y: 80,
-            alpha: { from: 0, to: 1 },
-            duration: 500,
-            ease: 'Power2',
-            onComplete: () => {
-                // Hold for a moment then fade out
-                this.time.delayedCall(2000, () => {
-                    this.tweens.add({
-                        targets: notification,
-                        y: 60,
-                        alpha: 0,
-                        duration: 500,
-                        ease: 'Power2',
-                        onComplete: () => {
-                            notification.destroy();
-                        }
-                    });
-                });
-            }
-        });
-    }
-
     makeItemCollectable(item, sprite) {
         // Make the item sprite interactive
         sprite.setInteractive({ useHandCursor: true });
@@ -1797,14 +1383,14 @@ export default class GameScene extends Phaser.Scene {
             if (this.clickSound) this.clickSound.play();
             if (this.addItemToInventory(item)) {
                 // Successfully added to inventory
-                this.showItemNotification(item);
+                this.showNotification(`Added to inventory: ${item.name}`);
                 sprite.destroy(); // Remove from world
                 this.worldItemDescription.setVisible(false);
             }
         });
     }
 
-    // ... rest of your code remains the same ...
+
 }
 
 // Make the scene available globally
