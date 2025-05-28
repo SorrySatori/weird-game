@@ -107,13 +107,13 @@ export default class InventorySystem {
         this.inventoryPanel.setDepth(1000); // Above most elements
         this.inventoryPanel.setVisible(false);
         
-        // Inventory background
-        const invBg = this.scene.add.rectangle(0, 0, 500, 400, 0x0a2712, 0.9);
+        // Inventory background - make it significantly larger to accommodate money indicator
+        const invBg = this.scene.add.rectangle(0, 0, 500, 520, 0x0a2712, 0.9);
         invBg.setStrokeStyle(2, 0x7fff8e);
         this.inventoryPanel.add(invBg);
         
         // Inventory title
-        const title = this.scene.add.text(0, -170, 'INVENTORY', {
+        const title = this.scene.add.text(0, -120, 'INVENTORY', {
             fontSize: '28px',
             fill: '#7fff8e',
             fontStyle: 'bold'
@@ -121,8 +121,11 @@ export default class InventorySystem {
         title.setOrigin(0.5);
         this.inventoryPanel.add(title);
         
+        // Add money indicator if money system exists
+        this.addMoneyIndicator();
+        
         // Close button
-        const closeBtn = this.scene.add.container(230, -170);
+        const closeBtn = this.scene.add.container(230, -240);
         const closeBg = this.scene.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
         closeBg.setStrokeStyle(1, 0x7fff8e);
         closeBg.setInteractive({ useHandCursor: true });
@@ -151,7 +154,7 @@ export default class InventorySystem {
         });
         
         // Create inventory slots container
-        this.slotsContainer = this.scene.add.container(0, 0);
+        this.slotsContainer = this.scene.add.container(170, 0);
         this.inventoryPanel.add(this.slotsContainer);
         
         // Create inventory slots (4x3 grid)
@@ -162,7 +165,7 @@ export default class InventorySystem {
         const startY = -100;
         
         for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 4; col++) {
+            for (let col = 0; col < 3; col++) {
                 const x = startX + col * (slotSize + padding);
                 const y = startY + row * (slotSize + padding);
                 
@@ -241,26 +244,47 @@ export default class InventorySystem {
     }
 
     /**
+     * Add money indicator to inventory panel
+     */
+    addMoneyIndicator() {
+        // Check if money system exists
+        if (!this.scene.moneySystem) return;
+        
+        // Get money UI container
+        const moneyContainer = this.scene.moneySystem.getUIContainer();
+        if (!moneyContainer) return;
+        
+        // Position money indicator at the bottom of inventory panel - with plenty of space
+        moneyContainer.setPosition(0, 240);
+        
+        // Add to inventory panel
+        this.inventoryPanel.add(moneyContainer);
+        
+        // Make it visible when inventory is open
+        moneyContainer.setVisible(true);
+    }
+
+    /**
      * Toggle inventory visibility
      * @param {boolean} forceState - Optional state to force
      */
     toggleInventory(forceState) {
-        // Toggle visibility or set to forced state
+        // Set visibility based on forceState or toggle current state
         this.inventoryVisible = forceState !== undefined ? forceState : !this.inventoryVisible;
         
-        // Update UI
-        this.inventoryPanel.setVisible(this.inventoryVisible);
-        
-        // Play sound if available
-        if (this.scene.menuOpenSound && this.inventoryVisible) {
-            this.scene.menuOpenSound.play();
-        } else if (this.scene.menuCloseSound && !this.inventoryVisible) {
-            this.scene.menuCloseSound.play();
+        // Update inventory panel visibility
+        if (this.inventoryPanel) {
+            this.inventoryPanel.setVisible(this.inventoryVisible);
         }
         
-        // If showing inventory, update contents
+        // Update inventory display if visible
         if (this.inventoryVisible) {
             this.updateInventoryDisplay();
+        }
+        
+        // Notify scene that inventory visibility changed
+        if (this.scene.events) {
+            this.scene.events.emit('inventoryVisibilityChanged', this.inventoryVisible);
         }
     }
 

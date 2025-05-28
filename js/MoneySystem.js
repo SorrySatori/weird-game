@@ -67,13 +67,14 @@ export default class MoneySystem {
      * @private
      */
     createUI() {
-        // Create container for money display
-        this.container = this.scene.add.container(this.options.position.x, this.options.position.y);
+        // Create container for money display - position will be set by the inventory system
+        this.container = this.scene.add.container(0, 0);
         this.container.setDepth(100); // Always on top
+        this.container.setVisible(false); // Hide by default, inventory system will show it
         
         // Add background
-        this.background = this.scene.add.rectangle(0, 0, 120, 40, 0x000000, 0.7);
-        this.background.setStrokeStyle(1, 0xFFD700);
+        this.background = this.scene.add.rectangle(0, 0, 120, 40, 0x0f2315, 1);
+        this.background.setStrokeStyle(2, 0x7fff8e, 0.5);
         this.container.add(this.background);
         
         // Add coin icon
@@ -87,7 +88,7 @@ export default class MoneySystem {
         this.moneyText = this.scene.add.text(10, 0, `${this.amount}`, {
             fontFamily: 'Arial',
             fontSize: '18px',
-            color: '#FFD700',
+            color: '#7fff8e',
             fontStyle: 'bold'
         });
         this.moneyText.setOrigin(0, 0.5);
@@ -116,6 +117,14 @@ export default class MoneySystem {
             yoyo: true,
             ease: 'Sine.easeInOut'
         });
+    }
+    
+    /**
+     * Get the UI container for positioning by other systems
+     * @returns {Phaser.GameObjects.Container} The money UI container
+     */
+    getUIContainer() {
+        return this.container;
     }
     
     /**
