@@ -8,6 +8,7 @@ import SporeSystem from '../systems/SporeSystem.js';
 import SporeBar from '../ui/SporeBar.js';
 import PlayerMovementSystem from '../systems/player/PlayerMovementSystem.js';
 import InventorySystem from '../systems/inventory/InventorySystem.js';
+import MoneySystem from '../js/MoneySystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -23,6 +24,7 @@ export default class GameScene extends Phaser.Scene {
         // Systems will be initialized in init()
         this.playerMovementSystem = null;
         this.inventorySystem = null;
+        this.moneySystem = null;
     }
 
     init() {
@@ -99,6 +101,16 @@ export default class GameScene extends Phaser.Scene {
     }
 
     initSystems() {
+        // Initialize Money System
+        this.moneySystem = new MoneySystem(this, {
+            initialAmount: 25, // Start with 25 gold
+            currencyName: 'gold',
+            position: {
+                x: 700,
+                y: 50
+            }
+        });
+        
         // Initialize Growth/Decay system
         if (!this.registry.get('growthDecaySystem')) {
             const growthDecaySystem = new GrowthDecaySystem();
@@ -799,8 +811,51 @@ export default class GameScene extends Phaser.Scene {
     
     // Get current spore level
     getSporeLevel() {
-        if (!this.sporeSystem) return 0;
-        return this.sporeSystem.getSporeLevel();
+        const sporeSystem = this.registry.get('sporeSystem');
+        return sporeSystem ? sporeSystem.getLevel() : 0;
+    }
+    
+    // Money system helper methods
+    
+    /**
+     * Add money to the player's wallet
+     * @param {number} amount - Amount to add
+     * @param {boolean} showNotification - Whether to show a notification
+     * @returns {number} New total amount
+     */
+    addMoney(amount, showNotification = true) {
+        if (!this.moneySystem) return 0;
+        return this.moneySystem.add(amount, showNotification);
+    }
+    
+    /**
+     * Subtract money from the player's wallet
+     * @param {number} amount - Amount to subtract
+     * @param {boolean} showNotification - Whether to show a notification
+     * @returns {boolean} Whether the transaction was successful
+     */
+    subtractMoney(amount, showNotification = true) {
+        if (!this.moneySystem) return false;
+        return this.moneySystem.subtract(amount, showNotification);
+    }
+    
+    /**
+     * Check if the player has enough money
+     * @param {number} amount - Amount to check
+     * @returns {boolean} Whether the player has enough money
+     */
+    hasEnoughMoney(amount) {
+        if (!this.moneySystem) return false;
+        return this.moneySystem.hasEnough(amount);
+    }
+    
+    /**
+     * Get the current money amount
+     * @returns {number} Current money amount
+     */
+    getMoney() {
+        if (!this.moneySystem) return 0;
+        return this.moneySystem.get();
     }
 
     shutdown() {

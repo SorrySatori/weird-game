@@ -1,10 +1,12 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import ShopSystem from '../js/ShopSystem.js';
 
 export default class ScreamingCorkInteriorScene extends GameScene {
     constructor() {
         super({ key: 'ScreamingCorkInteriorScene' });
         this.isTransitioning = false;
+        this.shopSystem = null;
     }
 
     get dialogContent() {
@@ -97,6 +99,10 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Who are you?", next: "heliodor_who" },
                     { text: "Tell me about this place", next: "heliodor_place" },
                     { text: "Heard any rumors lately?", next: "heliodor_rumors" },
+                    {
+                      text: "Do you have anything for sale?",
+                      next: 'openShop'
+                    },
                     { text: "Goodbye", next: "closeDialog" }
                 ]
             },
@@ -135,7 +141,43 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         }
                     }
                 }
-            }
+            },
+            openShop: {
+                text: "Take your time browsing. Quality goods at fair prices!",
+                options: [
+                    {
+                        text: "[Open Shop Interface]",
+                        next: 'shopInterface'
+                    },
+                    {
+                        text: "Actually, nevermind.",
+                        next: 'closeDialog'
+                    }
+                ]
+            },
+            shopInterface: {
+                text: "",
+                options: [],
+                onShow: () => {
+                    this.hideDialog();
+                    if (this.shopSystem) {
+                        this.shopSystem.open();
+                    }
+                }
+            },
+            heliodorMerchandise: {
+                text: "I have connections with traders from all over. Some items come from distant lands, others from local craftsmen. I pride myself on offering only the finest goods.",
+                options: [
+                    {
+                        text: "Show me what you have for sale.",
+                        next: 'openShop'
+                    },
+                    {
+                        text: "I'll come back later.",
+                        next: 'closeDialog'
+                    }
+                ]
+            },
         };
     }
 
@@ -203,6 +245,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.heliodor.setDepth(5);
         this.heliodor.setInteractive({ useHandCursor: true });
         
+        // Initialize shop system
+        this.initShopSystem();
+        
         // Add dialog interactions
         this.ravla.on('pointerdown', () => {
             if (this.dialogVisible) return;
@@ -256,6 +301,40 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
     update() {
         super.update();
+        
+        // Update money display if needed
+        if (this.shopSystem && this.shopSystem.isOpen) {
+            this.shopSystem.updateMoneyDisplay();
+        }
+    }
+    
+    /**
+     * Initialize the shop system with inventory
+     */
+    initShopSystem() {
+        // Sample shop inventory
+        const shopInventory = [
+            {
+                id: 'pliers',
+                name: 'Pliers',
+                description: 'A pair of pliers. Useful for repairing or extracting.',
+                price: 25,
+                type: 'tool',
+            },
+
+        ];
+        
+        // Create shop system
+        this.shopSystem = new ShopSystem(this, {
+            shopName: 'Screaming Cork Shop',
+            inventory: shopInventory,
+            position: {
+                x: 400,
+                y: 300
+            },
+            buyMultiplier: 1.0,
+            sellMultiplier: 0.5
+        });
     }
 }
 

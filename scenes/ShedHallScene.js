@@ -26,10 +26,10 @@ export default class ShedHallScene extends GameScene {
                 options: [
                     { text: "Take it", next: "force_extract_complete" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     const questSystem = QuestSystem.getInstance();
                     
-                    this.modifyGrowthDecay(0,2);
+                    this.modifyGrowthDecay(0,5);
                     this.addItemToInventory({ id: 'living-core', name: 'Living Core', description: 'A pulsating core of living metal, forcefully extracted from the Shed.', spriteKey: 'living-core', stackable: false });
                     questSystem.updateQuest('rust_reclamation', 'I have retrieved the Living Core, with a bit of good old violence.');
                     if (this._livingCore) {
@@ -49,11 +49,11 @@ export default class ShedHallScene extends GameScene {
                 options: [
                     { text: "Take it", next: "careful_extract_complete" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     const questSystem = QuestSystem.getInstance();
                     
                     this.modifyGrowthDecay(2,0);
-                    this.addItemToInventory('living-core', 1, 'A pulsating core of living metal, carefully extracted from the Shed.');
+                    this.addItemToInventory({ id: 'living-core', name: 'Living Core', description: 'A pulsating core of living metal, carefully extracted from the Shed.', spriteKey: 'living-core', stackable: false });
                     questSystem.updateQuest('rust_reclamation', 'Carefully extracted the Living Core using pliers, promoting growth in the process.');
                     if (this._livingCore) {
                         this._livingCore.destroy();
@@ -69,9 +69,7 @@ export default class ShedHallScene extends GameScene {
             },
             goodbye: {
                 text: "You step back from where the Living Core was.",
-                options: [
-                    { text: "Leave", next: null }
-                ]
+                options: []
             }
         };
     }
