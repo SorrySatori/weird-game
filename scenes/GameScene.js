@@ -8,7 +8,7 @@ import SporeSystem from '../systems/SporeSystem.js';
 import SporeBar from '../ui/SporeBar.js';
 import PlayerMovementSystem from '../systems/player/PlayerMovementSystem.js';
 import InventorySystem from '../systems/inventory/InventorySystem.js';
-import MoneySystem from '../js/MoneySystem.js';
+import MoneySystem from '../systems/inventory/MoneySystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {

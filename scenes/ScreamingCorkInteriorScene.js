@@ -1,6 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
-import ShopSystem from '../js/ShopSystem.js';
+import ShopSystem from '../systems/items/ShopSystem.js';
 
 export default class ScreamingCorkInteriorScene extends GameScene {
     constructor() {
