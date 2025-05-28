@@ -1,9 +1,9 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
-export default class ScraperScene extends GameScene {
+export default class BurningBearStreetScene extends GameScene {
     constructor() {
-        super({ key: 'ScraperScene' });
+        super({ key: 'BurningBearStreetScene' });
         this.isTransitioning = false;
     }
 
@@ -16,7 +16,7 @@ export default class ScraperScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('scraperBg', 'assets/images/Scraper1140.png');
+        this.load.image('burningBearStreetBg', 'assets/images/BurningBearStreet.png');
         this.load.image('exitArea', 'assets/images/door.png');
         this.load.image('arrow', 'assets/images/arrow.png');
     }
@@ -26,7 +26,7 @@ export default class ScraperScene extends GameScene {
         super.create();
         
         // Set scraper background
-        const bg = this.add.image(400, 300, 'scraperBg');
+        const bg = this.add.image(400, 300, 'burningBearStreetBg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
@@ -70,7 +70,7 @@ export default class ScraperScene extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
+                        this.scene.start('ScraperScene');
                     });
                 }
             });
@@ -83,7 +83,7 @@ export default class ScraperScene extends GameScene {
             80, // width
             200, // height
             'right', // direction
-            'BurningBearStreetScene', // target scene
+            'ScreamingCorkScene', // target scene
             750, // walk to x
             470 // walk to y
         );
@@ -96,5 +96,5 @@ export default class ScraperScene extends GameScene {
 
 // Make the scene available globally
 if (typeof window !== 'undefined') {
-    window.ScraperScene = ScraperScene;
+    window.BurningBearStreetScene = BurningBearStreetScene;
 }

@@ -174,7 +174,7 @@ export default class ScreamingCorkScene extends GameScene {
             80, // width
             200, // height
             'left', // direction
-            'ScraperScene', // target scene
+            'BurningBearStreetScene', // target scene
             50, // walk to x
             470 // walk to y
         );
