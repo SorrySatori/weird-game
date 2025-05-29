@@ -8,10 +8,10 @@ export default class VoxMarket extends GameScene {
         this.isTransitioning = false; // Add flag to track transition state
         this.shopSystem = null;
         this.kloorPath = [
-            { x: 200, y: 470, duration: 5000 },
-            { x: 400, y: 470, duration: 3000 },
-            { x: 600, y: 470, duration: 4000 },
-            { x: 400, y: 470, duration: 3000 }
+            { x: 200, y: 440, duration: 5000 },
+            { x: 400, y: 440, duration: 3000 },
+            { x: 600, y: 440, duration: 4000 },
+            { x: 400, y: 440, duration: 3000 }
         ];
         this.kloorPathIndex = 0;
     }
@@ -494,7 +494,7 @@ export default class VoxMarket extends GameScene {
      */
     createKloorVenn() {
         // Create Kloor Venn NPC
-        this.kloor = this.add.sprite(300, 470, 'kloor');
+        this.kloor = this.add.sprite(300, 440, 'kloor');
         this.kloor.setScale(0.15); // Adjust scale as needed
         this.kloor.setDepth(5);
         this.kloor.setInteractive({ useHandCursor: true });

@@ -707,14 +707,19 @@ export default class GameScene extends Phaser.Scene {
         if (amount !== '') {
             message += ' ' + amount;
         }
-
-        // Create the green box background (similar to symbiont notification)
+                
+        // Create the text with proper wrapping for long messages
         const padding = 20;
-        const text = this.add.text(0, 0, message, {
+        const maxWidth = 500; // Maximum width for the text box
+        
+        const textConfig = {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center',
-        });
+            wordWrap: { width: maxWidth - (padding * 2) } // Enable word wrapping
+        };
+        
+        const text = this.add.text(0, 0, message, textConfig);
         text.setOrigin(0.5);
 
         const boxWidth = text.width + (padding * 2);
