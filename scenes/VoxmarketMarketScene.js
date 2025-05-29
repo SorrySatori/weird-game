@@ -1,24 +1,23 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
-export default class VoxMarket extends GameScene {
+export default class VoxmarketMarketScene extends GameScene {
     constructor() {
-        super({ key: 'VoxMarket' });
+        super({ key: 'VoxmarketMarketScene' });
         this.isTransitioning = false; // Add flag to track transition state
     }
 
     get dialogContent() {
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
-            // Add VoxMarket specific dialogs here if needed
+            // Add VoxmarketMarket specific dialogs here if needed
         };
     }
 
     preload() {
         super.preload();
-        this.load.image('voxMarketBg', 'assets/images/Voxmarket.png');
-        this.load.image('exitArea', 'assets/images/door.png'); // Reusing door image for exit area
-        this.load.image('arrow', 'assets/images/arrow.png');
+        this.load.image('voxmarketMarketBg', 'assets/images/VoxmarketMarket.png');
+        this.load.image('arrow', 'assets/images/door.png'); // Arrow for transition zones
         // Audio is already loaded in GameScene's preload
     }
 
@@ -29,9 +28,9 @@ export default class VoxMarket extends GameScene {
         // Play market theme
         this.playSceneMusic('marketTheme');
         
-        // Set vox market background
-        const bg = this.add.image(400, 200, 'voxMarketBg');
-        bg.setDisplaySize(800, 750); // Further increased height to fully cover the ground
+        // Set voxmarket market background
+        const bg = this.add.image(400, 300, 'voxmarketMarketBg');
+        bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
         // Create a custom ground for the market scene
@@ -45,8 +44,8 @@ export default class VoxMarket extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Position the priest at the right side when entering this scene
-        this.priest.x = 750;
+        // Position the priest at the center when entering this scene
+        this.priest.x = 400;
         this.priest.y = 470; // Position on the ground
         
         // Update priest's glow position
@@ -58,77 +57,36 @@ export default class VoxMarket extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
-        // Create exit to CrossroadScene at the left edge
-        this.transitionManager.createTransitionZone(
-            50, // x position
-            470, // y position
-            50, // width
-            200, // height
-            'left', // direction
-            'CrossroadScene', // target scene
-            50, // walk to x
-            470 // walk to y
-        );
-        
-        // Create entrance to VoxmarketMarketScene at the top
+        // Create exit to VoxMarket at the bottom of the screen
         this.transitionManager.createTransitionZone(
             400, // x position
-            470, // y position
+            550, // y position
             200, // width
             50, // height
-            'up', // direction
-            'VoxmarketMarketScene', // target scene
+            'down', // direction
+            'VoxMarket', // target scene
             400, // walk to x
-            470 // walk to y
+            520 // walk to y
         );
         
-        // Create entrance to VoxmarketHallScene at the right
-        this.transitionManager.createTransitionZone(
-            550, // x position
-            470, // y position
-            50, // width
-            200, // height
-            'right', // direction
-            'VoxmarketHallScene', // target scene
-            550, // walk to x
-            470 // walk to y
-        );
-        
-        // Add hints for the entrances
-        const marketHint = this.add.text(400, 470, 'Market', {
+        // Add a hint about the exit
+        const exitHint = this.add.text(400, 520, 'Back to Main Market', {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             padding: { x: 10, y: 5 }
         });
-        marketHint.setOrigin(0.5);
-        marketHint.setAlpha(0);
-        marketHint.setDepth(10);
+        exitHint.setOrigin(0.5);
+        exitHint.setAlpha(0);
+        exitHint.setDepth(10);
         
-        const hallHint = this.add.text(550, 470, 'Hall', {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        hallHint.setOrigin(0.5);
-        hallHint.setAlpha(0);
-        hallHint.setDepth(10);
-        
-        // Show hints when hovering near the entrances
+        // Show hint when hovering near the exit
         this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the market entrance
-            if (Math.abs(pointer.x - 400) < 100 && Math.abs(pointer.y - 470) < 50) {
-                marketHint.setAlpha(1);
+            // Check if pointer is near the exit area
+            if (Math.abs(pointer.x - 400) < 100 && Math.abs(pointer.y - 550) < 50) {
+                exitHint.setAlpha(1);
             } else {
-                marketHint.setAlpha(0);
-            }
-            
-            // Check if pointer is near the hall entrance
-            if (Math.abs(pointer.x - 550) < 50 && Math.abs(pointer.y - 470) < 100) {
-                hallHint.setAlpha(1);
-            } else {
-                hallHint.setAlpha(0);
+                exitHint.setAlpha(0);
             }
         });
         

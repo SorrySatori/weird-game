@@ -4,6 +4,8 @@ import GameScene from './scenes/GameScene.js';
 import EggCatedralScene from './scenes/EggCatedralScene.js';
 import CathedralEntrance from './scenes/CathedralEntrance.js';
 import VoxMarket from './scenes/VoxMarket.js';
+import VoxmarketMarketScene from './scenes/VoxmarketMarketScene.js';
+import VoxmarketHallScene from './scenes/VoxmarketHallScene.js';
 import CrossroadScene from './scenes/CrossroadScene.js';
 import ScraperScene from './scenes/ScraperScene.js';
 import Shed13Scene from './scenes/Shed13Scene.js';
@@ -33,7 +35,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene],
+    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
