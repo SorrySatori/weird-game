@@ -811,8 +811,8 @@ export default class GameScene extends Phaser.Scene {
     
     // Get current spore level
     getSporeLevel() {
-        const sporeSystem = this.registry.get('sporeSystem');
-        return sporeSystem ? sporeSystem.getLevel() : 0;
+        if(!this.sporeSystem) return 0;
+        return this.sporeSystem.getSporeLevel();
     }
     
     // Money system helper methods

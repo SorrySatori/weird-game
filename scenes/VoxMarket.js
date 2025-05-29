@@ -1,16 +1,397 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import ShopSystem from '../systems/items/ShopSystem.js';
 
 export default class VoxMarket extends GameScene {
     constructor() {
         super({ key: 'VoxMarket' });
         this.isTransitioning = false; // Add flag to track transition state
+        this.shopSystem = null;
+        this.kloorPath = [
+            { x: 200, y: 470, duration: 5000 },
+            { x: 400, y: 470, duration: 3000 },
+            { x: 600, y: 470, duration: 4000 },
+            { x: 400, y: 470, duration: 3000 }
+        ];
+        this.kloorPathIndex = 0;
     }
 
     get dialogContent() {
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
-            // Add VoxMarket specific dialogs here if needed
+            
+            // Kloor Venn dialog
+            kloor_start: {
+                text: "Kloor Venn eyes you with a mixture of suspicion and interest. 'What do you want? I'm busy.'" ,
+                options: [
+                    { text: "Who are you?", next: "kloor_who" },
+                    { text: "What are you selling?", next: "kloor_selling" },
+                    { text: "I want to sell you some spores.", next: "kloor_buy_spores" },
+                    ...(this.registry.get('questSystem')?.getQuest('find_bishop') ? [
+                        { text: "Do you know anything about the Bishop of Threshold?", next: "kloor_bishop" }
+                    ] : []),
+                    ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
+                        { text: "About those Vestigels...", next: "kloor_vestigels_progress" }
+                    ] : []),
+                    { text: "Goodbye.", next: "closeDialog" }
+                ]
+            },
+            
+            kloor_who: {
+                text: "'The name's Kloor Venn. I'm a... pharmaceutical entrepreneur. I deal in specialized substances that expand the mind.' He taps his temple and grins.",
+                options: [
+                    { text: "What kind of substances?", next: "kloor_substances" },
+                    { text: "Back", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_substances: {
+                text: "'I specialize in Oltrac - a rare psychoactive compound derived from certain... biological materials.' He eyes your fungal growths with interest. 'Materials not unlike what you seem to be carrying around.'",
+                options: [
+                    { text: "Tell me more about Oltrac", next: "kloor_oltrac" },
+                    { text: "Back", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_oltrac: {
+                text: "'Oltrac comes in different varieties. Gray is common, Violet is more potent, and Amber... well, Amber Oltrac is something special. Opens doors in the mind that most don't even know exist. The quality depends on the source material.'",
+                options: [
+                    { text: "I want to buy some", next: "kloor_shop" },
+                    { text: "I could sell you some spores", next: "kloor_buy_spores" },
+                    { text: "Back", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_selling: {
+                text: "'I deal in Oltrac - finest mind-expanding substance in the Voxmarket. Opens your perception to the true nature of reality.' He lowers his voice. 'Interested in buying? Or perhaps... selling me some of those spores you're carrying?'",
+                options: [
+                    { text: "Show me what you have", next: "kloor_shop" },
+                    { text: "I could sell you some spores", next: "kloor_buy_spores" },
+                    { text: "Back", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_shop: {
+                text: "'Take a look at my wares. Quality guaranteed.'",
+                options: [
+                    { text: "Show me", next: "kloor_open_shop" },
+                    { text: "Not now", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_open_shop: {
+                text: "",
+                options: [],
+                onShow: () => {
+                    this.hideDialog();
+                    this.shopSystem.open();
+                }
+            },
+            
+            kloor_buy_spores: {
+                text: "Kloor's eyes light up with interest. 'I'm always in the market for quality spores. They're the key ingredient in my Oltrac. I'll pay you based on what I can make with them. How much are you willing to part with?'",
+                options: [
+                    { text: "Sell 10 spores", next: "kloor_sell_spores_10" },
+                    { text: "Sell 20 spores", next: "kloor_sell_spores_20" },
+                    { text: "Sell 30 spores", next: "kloor_sell_spores_30" },
+                    { text: "Not now", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_sell_spores_10: {
+                text: "",
+                options: [
+                    { text: "Back", next: "kloor_start" },
+                ],
+                onTrigger: () => {
+                    this.sellSporesToKloor(10);
+                }
+            },
+            
+            kloor_sell_spores_20: {
+                text: "",
+                options: [
+                    { text: "Back", next: "kloor_start" },
+                ],
+                onTrigger: () => {
+                    this.sellSporesToKloor(20);
+                }
+            },
+            
+            kloor_sell_spores_30: {
+                text: "",
+                options: [
+                    { text: "Back", next: "kloor_start" },
+                ],
+                onTrigger: () => {
+                    this.sellSporesToKloor(30);
+                }
+            },
+            
+            kloor_not_enough_spores: {
+                text: "Kloor frowns. 'You don't have enough spores. Come back when you've collected more.'",
+                options: [
+                    { text: "OK", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_transaction_result: {
+                text: "",
+                options: () => {
+                    const oltracType = this.registry.get('oltracType') || 'Gray';
+                    const paymentAmount = this.registry.get('oltracPayment') || 0;
+                    
+                    // Show the appropriate dialog based on Oltrac type and payment amount
+                    let dialogId = 'kloor_start';
+                    
+                    if (oltracType === 'Gray') {
+                        if (paymentAmount === 8) {
+                            dialogId = 'kloor_gray_oltrac_8';
+                        } else if (paymentAmount === 16) {
+                            dialogId = 'kloor_gray_oltrac_16';
+                        } else if (paymentAmount === 24) {
+                            dialogId = 'kloor_gray_oltrac_24';
+                        }
+                    } else if (oltracType === 'Violet') {
+                        if (paymentAmount === 15) {
+                            dialogId = 'kloor_violet_oltrac_15';
+                        } else if (paymentAmount === 30) {
+                            dialogId = 'kloor_violet_oltrac_30';
+                        } else if (paymentAmount === 45) {
+                            dialogId = 'kloor_violet_oltrac_45';
+                        }
+                    } else { // Amber
+                        if (paymentAmount === 25) {
+                            dialogId = 'kloor_amber_oltrac_25';
+                        } else if (paymentAmount === 50) {
+                            dialogId = 'kloor_amber_oltrac_50';
+                        } else if (paymentAmount === 75) {
+                            dialogId = 'kloor_amber_oltrac_75';
+                        }
+                    }
+                   return [
+                        { text: "Let's test the result", next: dialogId }
+                    ];
+                },
+                // onTrigger: () => {
+                //     const oltracType = this.registry.get('oltracType') || 'Gray';
+                //     const paymentAmount = this.registry.get('oltracPayment') || 0;
+                    
+                //     // Show the appropriate dialog based on Oltrac type and payment amount
+                //     let dialogId = 'kloor_start';
+                    
+                //     if (oltracType === 'Gray') {
+                //         if (paymentAmount === 8) {
+                //             dialogId = 'kloor_gray_oltrac_8';
+                //         } else if (paymentAmount === 16) {
+                //             dialogId = 'kloor_gray_oltrac_16';
+                //         } else if (paymentAmount === 24) {
+                //             dialogId = 'kloor_gray_oltrac_24';
+                //         }
+                //     } else if (oltracType === 'Violet') {
+                //         if (paymentAmount === 15) {
+                //             dialogId = 'kloor_violet_oltrac_15';
+                //         } else if (paymentAmount === 30) {
+                //             dialogId = 'kloor_violet_oltrac_30';
+                //         } else if (paymentAmount === 45) {
+                //             dialogId = 'kloor_violet_oltrac_45';
+                //         }
+                //     } else { // Amber
+                //         if (paymentAmount === 25) {
+                //             dialogId = 'kloor_amber_oltrac_25';
+                //         } else if (paymentAmount === 50) {
+                //             dialogId = 'kloor_amber_oltrac_50';
+                //         } else if (paymentAmount === 75) {
+                //             dialogId = 'kloor_amber_oltrac_75';
+                //         }
+                //     }
+                    
+                //     this.showDialog(dialogId);
+                // }
+            },
+            
+            kloor_gray_oltrac_8: {
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 8 gold coins. 'Pleasure doing business with you.'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_gray_oltrac_16: {
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 16 gold coins. 'Pleasure doing business with you.'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_gray_oltrac_24: {
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 24 gold coins. 'Pleasure doing business with you.'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_violet_oltrac_15: {
+                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 15 gold coins with a grin. 'Very good business indeed.'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_violet_oltrac_30: {
+                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 30 gold coins with a grin. 'Very good business indeed.'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_violet_oltrac_45: {
+                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 45 gold coins with a grin. 'Very good business indeed.'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_amber_oltrac_25: {
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 25 gold coins. 'Exceptional business! Come back anytime!'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_amber_oltrac_50: {
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 50 gold coins. 'Exceptional business! Come back anytime!'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_amber_oltrac_75: {
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 75 gold coins. 'Exceptional business! Come back anytime!'",
+                options: [
+                    { text: "Thanks", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_bishop: {
+                text: "Kloor's expression shifts to one of caution. 'The Bishop of Threshold? Yeah, I've seen her around. Not someone to mess with. She was here in the market recently, trading with some of the merchants.'",
+                options: [
+                    { text: "Do you know where she went?", next: "kloor_bishop_location" },
+                    { text: "What was she trading?", next: "kloor_bishop_trading" },
+                    { text: "Back", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_bishop_location: {
+                text: "'Can't say for certain. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But I heard she was heading toward the Hall. She has contacts there.'",
+                options: [
+                    { text: "Thanks for the information", next: "kloor_start" },
+                    { text: "What was she trading?", next: "kloor_bishop_trading" }
+                ]
+            },
+            
+            kloor_bishop_trading: {
+                text: "'Now that's interesting.' Kloor leans in closer. 'She had this strange currency - called Vestigels. Not like regular money. They're rare, experimental. Supposedly they hold... properties. A merchant named Zerren got one from her.'",
+                options: [
+                    { text: "Tell me more about these Vestigels", next: "kloor_vestigels" },
+                    { text: "Thanks for the information", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_vestigels: {
+                text: "'Vestigels are strange. They're like coins but... alive somehow. There are three known to exist in the market. I've been trying to get my hands on one to study its properties. Could be valuable for my... research.'",
+                options: [
+                    { text: "I could help you get one", next: "kloor_vestigels_help" },
+                    { text: "Sounds dangerous", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_vestigels_help: {
+                text: "'Really? That would be... useful.' Kloor's eyes narrow with suspicion, then he nods. 'If you can get me one of the Vestigels, I'll tell you everything I know about the Bishop's movements. Deal?'",
+                options: [
+                    { text: "Deal", next: "kloor_vestigels_quest_start" },
+                    { text: "I need to think about it", next: "kloor_start" }
+                ]
+            },
+            
+            kloor_vestigels_quest_start: {
+                text: "Perfect! Let me know when you have one.",
+                options: [
+                    { text: "OK", next: "kloor_start" }
+                ],
+                onTrigger: () => {
+                    // Start the quest if it doesn't exist yet
+                    if (!this.registry.get('questSystem')?.getQuest('the_three_vestigels')) {
+                        this.questSystem.addQuest(
+                            'the_three_vestigels',
+                            'The Three Vestigels',
+                            'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.'
+                        );
+                        this.showNotification('New Quest: The Three Vestigels');
+                    }
+                }
+            },
+            
+            kloor_vestigels_quest_info: {
+                text: "'Here's what I know: Zerren has one Vestigel. He's usually in the Market area. The other two are held by merchants named Liss and Dovan. Find one of them, get me a Vestigel, and I'll tell you what you need to know about the Bishop.'",
+                options: [
+                    { text: "I'll find one for you", next: "closeDialog" }
+                ]
+            },
+            
+            kloor_vestigels_progress: {
+                text: "'Any luck finding a Vestigel? Those things aren't easy to come by.'",
+                options: [
+                    { text: "Not yet", next: "kloor_start" },
+                    ...(this.hasItem('vestigel') ? [
+                        { text: "I have one right here", next: "kloor_vestigels_complete" }
+                    ] : [])
+                ]
+            },
+            
+            kloor_vestigels_complete: {
+                text: "Kloor's eyes widen as you show him the Vestigel. 'Incredible! You actually found one!' He carefully takes it from you, examining it with fascination. 'As promised, I'll tell you what I know about the Bishop.'",
+                options: [
+                    { text: "Tell me", next: "kloor_bishop_reveal" }
+                ],
+                onShow: () => {
+                    // Remove the Vestigel from inventory
+                    this.removeItemFromInventory('vestigel');
+                    
+                    // Complete the quest
+                    this.questSystem.completeQuest('the_three_vestigels');
+                    this.showNotification('Quest Completed: The Three Vestigels');
+                }
+            },
+            
+            kloor_bishop_reveal: {
+                text: "'The Bishop isn't just visiting the market - she's searching for something. Something called the Threshold Key. It's said to unlock a hidden chamber in the Cathedral. She believes it's somewhere in the Voxmarket Hall, in the possession of a collector named Thale.'",
+                options: [
+                    { text: "The Threshold Key?", next: "kloor_threshold_key" }
+                ]
+            },
+            
+            kloor_threshold_key: {
+                text: "'An ancient artifact, supposedly predating the city itself. The stories say it can open doors between realities. Dangerous stuff.' Kloor looks genuinely concerned. 'If you're planning to find the Bishop, look for Thale in the Hall. That's where she was headed.'",
+                options: [
+                    { text: "Thank you for the information", next: "kloor_quest_update" }
+                ]
+            },
+            
+            kloor_quest_update: {
+                text: "",
+                options: [],
+                onTrigger: () => {
+                    // Update the find_bishop quest
+                    if (this.questSystem.getQuest('find_bishop')) {
+                        this.questSystem.updateQuest(
+                            'find_bishop',
+                            'The Bishop is searching for something called the Threshold Key, believed to be in the possession of a collector named Thale in the Voxmarket Hall.'
+                        );
+                        this.showNotification('Quest Updated: Find the Bishop of Threshold');
+                    }
+                }
+            }
         };
     }
 
@@ -19,6 +400,15 @@ export default class VoxMarket extends GameScene {
         this.load.image('voxMarketBg', 'assets/images/Voxmarket.png');
         this.load.image('exitArea', 'assets/images/door.png'); // Reusing door image for exit area
         this.load.image('arrow', 'assets/images/arrow.png');
+        
+        // Load Kloor Venn drug dealer assets
+        this.load.image('kloor', 'assets/images/rat.png');
+        
+        // Load Oltrac drug images
+        this.load.image('grayOltrac', 'assets/images/door.png'); // Placeholder for Gray Oltrac
+        this.load.image('violetOltrac', 'assets/images/door.png'); // Placeholder for Violet Oltrac
+        this.load.image('amberOltrac', 'assets/images/door.png'); // Placeholder for Amber Oltrac
+        
         // Audio is already loaded in GameScene's preload
     }
 
@@ -136,6 +526,12 @@ export default class VoxMarket extends GameScene {
         if (this.stranger) {
             this.stranger.destroy();
         }
+        
+        // Create Kloor Venn NPC
+        this.createKloorVenn();
+        
+        // Initialize the shop system for Kloor's Oltrac shop
+        this.initShopSystem();
     }
 
     shutdown() {
@@ -147,6 +543,209 @@ export default class VoxMarket extends GameScene {
     update() {
         // Call parent update for all standard mechanics
         super.update();
+        
+        // Update shop money display if needed
+        if (this.shopSystem && this.shopSystem.isOpen) {
+            this.shopSystem.updateMoneyDisplay();
+        }
+    }
+    
+    /**
+     * Create Kloor Venn NPC with walking animation
+     */
+    createKloorVenn() {
+        // Create Kloor Venn NPC
+        this.kloor = this.add.sprite(300, 470, 'kloor');
+        this.kloor.setScale(0.15); // Adjust scale as needed
+        this.kloor.setDepth(5);
+        this.kloor.setInteractive({ useHandCursor: true });
+        
+        // Add dialog interaction
+        this.kloor.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            this.showDialog('kloor_start');
+        });
+        
+        // Create walking animation for Kloor
+        this.startKloorWalking();
+        
+        // Add a name tag above Kloor
+        const kloorTag = this.add.text(300, 420, 'Kloor Venn', {
+            fontSize: '14px',
+            fill: '#7fff8e',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            padding: { x: 5, y: 2 }
+        });
+        kloorTag.setOrigin(0.5);
+        kloorTag.setDepth(6);
+        
+        // Make the name tag follow Kloor
+        this.kloorTag = kloorTag;
+    }
+    
+    /**
+     * Start Kloor's walking animation along a path
+     */
+    startKloorWalking() {
+        if (!this.kloor) return;
+        
+        const currentPoint = this.kloorPath[this.kloorPathIndex];
+        const nextIndex = (this.kloorPathIndex + 1) % this.kloorPath.length;
+        const nextPoint = this.kloorPath[nextIndex];
+        
+        // Determine direction for sprite flipping
+        if (nextPoint.x > this.kloor.x) {
+            this.kloor.setFlipX(false); // Face right
+        } else if (nextPoint.x < this.kloor.x) {
+            this.kloor.setFlipX(true); // Face left
+        }
+        
+        // Create walking tween
+        this.tweens.add({
+            targets: this.kloor,
+            x: nextPoint.x,
+            y: nextPoint.y,
+            duration: nextPoint.duration,
+            ease: 'Linear',
+            onUpdate: () => {
+                // Update name tag position
+                if (this.kloorTag) {
+                    this.kloorTag.x = this.kloor.x;
+                    this.kloorTag.y = this.kloor.y - 50;
+                }
+            },
+            onComplete: () => {
+                // Move to next point in path
+                this.kloorPathIndex = nextIndex;
+                this.startKloorWalking();
+            }
+        });
+        
+        // Add subtle bobbing motion for walking effect
+        this.tweens.add({
+            targets: this.kloor,
+            y: nextPoint.y - 5,
+            duration: 300,
+            yoyo: true,
+            repeat: Math.floor(nextPoint.duration / 600),
+            ease: 'Sine.easeInOut'
+        });
+    }
+    
+    /**
+     * Initialize the shop system for Kloor's Oltrac shop
+     */
+    initShopSystem() {
+        // Oltrac shop inventory
+        const shopInventory = [
+            {
+                id: 'grayOltrac',
+                name: 'Gray Oltrac',
+                description: 'A common variant of Oltrac. Provides mild hallucinogenic effects.',
+                price: 15,
+                type: 'drug',
+            },
+            {
+                id: 'violetOltrac',
+                name: 'Violet Oltrac',
+                description: 'A medium-strength variant of Oltrac. Enhances perception and provides vivid visions.',
+                price: 30,
+                type: 'drug',
+            },
+            {
+                id: 'amberOltrac',
+                name: 'Amber Oltrac',
+                description: 'The rarest and most potent form of Oltrac. Said to allow glimpses beyond the veil of reality.',
+                price: 50,
+                type: 'drug',
+            }
+        ];
+        
+        // Create shop system
+        this.shopSystem = new ShopSystem(this, {
+            shopName: "Kloor's Oltrac Emporium",
+            inventory: shopInventory,
+            position: {
+                x: 400,
+                y: 300
+            },
+            buyMultiplier: 1.0,
+            sellMultiplier: 0.5
+        });
+    }
+    
+    /**
+     * Sell spores to Kloor and determine which Oltrac he can make
+     * @param {number} amount - Amount of spores to sell
+     */
+    sellSporesToKloor(amount) {
+        // Check if player has enough spores
+        const currentSpores = this.getSporeLevel();
+        
+        if (currentSpores < amount) {
+            // Show not enough spores dialog
+            this.showDialog('kloor_not_enough_spores');
+            return;
+        }
+        
+        // Determine which Oltrac type Kloor can make with these spores
+        // Higher amounts have better chances for rarer types
+        let oltracType = 'Gray'; // Default
+        let paymentAmount = 0;
+        
+        // Random determination with weighted probabilities
+        const rand = Math.random() * 100;
+        
+        if (amount <= 10) {
+            // 10 spores: 80% Gray, 15% Violet, 5% Amber
+            if (rand < 80) {
+                oltracType = 'Gray';
+                paymentAmount = 8;
+            } else if (rand < 95) {
+                oltracType = 'Violet';
+                paymentAmount = 15;
+            } else {
+                oltracType = 'Amber';
+                paymentAmount = 25;
+            }
+        } else if (amount <= 20) {
+            // 20 spores: 60% Gray, 30% Violet, 10% Amber
+            if (rand < 60) {
+                oltracType = 'Gray';
+                paymentAmount = 16;
+            } else if (rand < 90) {
+                oltracType = 'Violet';
+                paymentAmount = 30;
+            } else {
+                oltracType = 'Amber';
+                paymentAmount = 50;
+            }
+        } else {
+            // 30 spores: 40% Gray, 40% Violet, 20% Amber
+            if (rand < 40) {
+                oltracType = 'Gray';
+                paymentAmount = 24;
+            } else if (rand < 80) {
+                oltracType = 'Violet';
+                paymentAmount = 45;
+            } else {
+                oltracType = 'Amber';
+                paymentAmount = 75;
+            }
+        }
+        
+        // Reduce spores
+        this.modifySpores(-amount);
+        
+        // Add money
+        this.addMoney(paymentAmount);
+        
+        // Store the transaction results in the registry for the dialog to access
+        this.registry.set('oltracType', oltracType);
+        this.registry.set('oltracPayment', paymentAmount);
+        
+        // Show the appropriate transaction result dialog
+        this.showDialog('kloor_transaction_result');
     }
     
     // Create a custom ground for the market scene that matches the aesthetic
