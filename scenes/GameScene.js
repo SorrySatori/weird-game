@@ -1232,7 +1232,20 @@ export default class GameScene extends Phaser.Scene {
                 const y = (i - startIdx) * optionHeight;
                 
                 const elements = this.createDialogOption(option.text, y, () => {
-                    this.showDialog(option.next);
+                    // Check if there's an onTrigger function that returns a dialog ID
+                    if (content.onTrigger) {
+                        const nextDialog = content.onTrigger(option);
+                        if (nextDialog) {
+                            // If onTrigger returns a dialog ID, use that instead of option.next
+                            this.showDialog(nextDialog);
+                            return;
+                        }
+                    }
+                    
+                    // Otherwise use the option's next value
+                    if (option.next) {
+                        this.showDialog(option.next);
+                    }
                 });
                 this.dialogOptions.add(elements);
             }

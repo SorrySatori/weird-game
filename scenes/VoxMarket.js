@@ -99,32 +99,44 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_sell_spores_10: {
-                text: "",
+                text: "You offer to sell 10 spores to Kloor.",
                 options: [
-                    { text: "Back", next: "kloor_start" },
+                    { text: "Confirm", next: "" },
+                    { text: "Back", next: "kloor_buy_spores" },
                 ],
-                onTrigger: () => {
-                    this.sellSporesToKloor(10);
+                onTrigger: (option) => {
+                    if (option && option.text === "Confirm") {
+                        const dialogId = this.sellSporesToKloor(10);
+                        return dialogId; // Return the dialog ID to override the 'next' value
+                    }
                 }
             },
             
             kloor_sell_spores_20: {
-                text: "",
+                text: "You offer to sell 20 spores to Kloor.",
                 options: [
-                    { text: "Back", next: "kloor_start" },
+                    { text: "Confirm", next: "" },
+                    { text: "Back", next: "kloor_buy_spores" },
                 ],
-                onTrigger: () => {
-                    this.sellSporesToKloor(20);
+                onTrigger: (option) => {
+                    if (option && option.text === "Confirm") {
+                        const dialogId = this.sellSporesToKloor(20);
+                        return dialogId; // Return the dialog ID to override the 'next' value
+                    }
                 }
             },
             
             kloor_sell_spores_30: {
-                text: "",
+                text: "You offer to sell 30 spores to Kloor.",
                 options: [
-                    { text: "Back", next: "kloor_start" },
+                    { text: "Confirm", next: "" },
+                    { text: "Back", next: "kloor_buy_spores" },
                 ],
-                onTrigger: () => {
-                    this.sellSporesToKloor(30);
+                onTrigger: (option) => {
+                    if (option && option.text === "Confirm") {
+                        const dialogId = this.sellSporesToKloor(30);
+                        return dialogId; // Return the dialog ID to override the 'next' value
+                    }
                 }
             },
             
@@ -135,80 +147,7 @@ export default class VoxMarket extends GameScene {
                 ]
             },
             
-            kloor_transaction_result: {
-                text: "",
-                options: () => {
-                    const oltracType = this.registry.get('oltracType') || 'Gray';
-                    const paymentAmount = this.registry.get('oltracPayment') || 0;
-                    
-                    // Show the appropriate dialog based on Oltrac type and payment amount
-                    let dialogId = 'kloor_start';
-                    
-                    if (oltracType === 'Gray') {
-                        if (paymentAmount === 8) {
-                            dialogId = 'kloor_gray_oltrac_8';
-                        } else if (paymentAmount === 16) {
-                            dialogId = 'kloor_gray_oltrac_16';
-                        } else if (paymentAmount === 24) {
-                            dialogId = 'kloor_gray_oltrac_24';
-                        }
-                    } else if (oltracType === 'Violet') {
-                        if (paymentAmount === 15) {
-                            dialogId = 'kloor_violet_oltrac_15';
-                        } else if (paymentAmount === 30) {
-                            dialogId = 'kloor_violet_oltrac_30';
-                        } else if (paymentAmount === 45) {
-                            dialogId = 'kloor_violet_oltrac_45';
-                        }
-                    } else { // Amber
-                        if (paymentAmount === 25) {
-                            dialogId = 'kloor_amber_oltrac_25';
-                        } else if (paymentAmount === 50) {
-                            dialogId = 'kloor_amber_oltrac_50';
-                        } else if (paymentAmount === 75) {
-                            dialogId = 'kloor_amber_oltrac_75';
-                        }
-                    }
-                   return [
-                        { text: "Let's test the result", next: dialogId }
-                    ];
-                },
-                // onTrigger: () => {
-                //     const oltracType = this.registry.get('oltracType') || 'Gray';
-                //     const paymentAmount = this.registry.get('oltracPayment') || 0;
-                    
-                //     // Show the appropriate dialog based on Oltrac type and payment amount
-                //     let dialogId = 'kloor_start';
-                    
-                //     if (oltracType === 'Gray') {
-                //         if (paymentAmount === 8) {
-                //             dialogId = 'kloor_gray_oltrac_8';
-                //         } else if (paymentAmount === 16) {
-                //             dialogId = 'kloor_gray_oltrac_16';
-                //         } else if (paymentAmount === 24) {
-                //             dialogId = 'kloor_gray_oltrac_24';
-                //         }
-                //     } else if (oltracType === 'Violet') {
-                //         if (paymentAmount === 15) {
-                //             dialogId = 'kloor_violet_oltrac_15';
-                //         } else if (paymentAmount === 30) {
-                //             dialogId = 'kloor_violet_oltrac_30';
-                //         } else if (paymentAmount === 45) {
-                //             dialogId = 'kloor_violet_oltrac_45';
-                //         }
-                //     } else { // Amber
-                //         if (paymentAmount === 25) {
-                //             dialogId = 'kloor_amber_oltrac_25';
-                //         } else if (paymentAmount === 50) {
-                //             dialogId = 'kloor_amber_oltrac_50';
-                //         } else if (paymentAmount === 75) {
-                //             dialogId = 'kloor_amber_oltrac_75';
-                //         }
-                //     }
-                    
-                //     this.showDialog(dialogId);
-                // }
-            },
+
             
             kloor_gray_oltrac_8: {
                 text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 8 gold coins. 'Pleasure doing business with you.'",
@@ -589,7 +528,6 @@ export default class VoxMarket extends GameScene {
     startKloorWalking() {
         if (!this.kloor) return;
         
-        const currentPoint = this.kloorPath[this.kloorPathIndex];
         const nextIndex = (this.kloorPathIndex + 1) % this.kloorPath.length;
         const nextPoint = this.kloorPath[nextIndex];
         
@@ -679,73 +617,85 @@ export default class VoxMarket extends GameScene {
      * @param {number} amount - Amount of spores to sell
      */
     sellSporesToKloor(amount) {
-        // Check if player has enough spores
-        const currentSpores = this.getSporeLevel();
+        const sporeSystem = this.registry.get('sporeSystem');
+        const currentSpores = sporeSystem.getSporeLevel();
         
         if (currentSpores < amount) {
-            // Show not enough spores dialog
+            // Not enough spores
             this.showDialog('kloor_not_enough_spores');
             return;
         }
         
-        // Determine which Oltrac type Kloor can make with these spores
-        // Higher amounts have better chances for rarer types
-        let oltracType = 'Gray'; // Default
-        let paymentAmount = 0;
+        // Remove spores from player
+        sporeSystem.modifySpores(-amount);
         
-        // Random determination with weighted probabilities
-        const rand = Math.random() * 100;
+        // Determine Oltrac type and payment based on amount
+        let oltracType, paymentAmount;
         
-        if (amount <= 10) {
-            // 10 spores: 80% Gray, 15% Violet, 5% Amber
-            if (rand < 80) {
+        // Determine Oltrac type based on amount of spores
+        if (amount === 10) {
+            // 10 spores - 80% Gray, 20% Violet
+            const roll = Math.random();
+            if (roll < 0.8) {
                 oltracType = 'Gray';
-                paymentAmount = 8;
-            } else if (rand < 95) {
-                oltracType = 'Violet';
-                paymentAmount = 15;
+                paymentAmount = 8; // Base payment for Gray
             } else {
-                oltracType = 'Amber';
-                paymentAmount = 25;
+                oltracType = 'Violet';
+                paymentAmount = 15; // Base payment for Violet
             }
-        } else if (amount <= 20) {
-            // 20 spores: 60% Gray, 30% Violet, 10% Amber
-            if (rand < 60) {
+        } else if (amount === 20) {
+            // 20 spores - 60% Gray, 35% Violet, 5% Amber
+            const roll = Math.random();
+            if (roll < 0.6) {
                 oltracType = 'Gray';
-                paymentAmount = 16;
-            } else if (rand < 90) {
+                paymentAmount = 16; // Double payment for Gray
+            } else if (roll < 0.95) {
                 oltracType = 'Violet';
-                paymentAmount = 30;
+                paymentAmount = 30; // Double payment for Violet
             } else {
                 oltracType = 'Amber';
-                paymentAmount = 50;
+                paymentAmount = 50; // Base payment for Amber
             }
-        } else {
-            // 30 spores: 40% Gray, 40% Violet, 20% Amber
-            if (rand < 40) {
+        } else if (amount === 30) {
+            // 30 spores - 40% Gray, 50% Violet, 10% Amber
+            const roll = Math.random();
+            if (roll < 0.4) {
                 oltracType = 'Gray';
-                paymentAmount = 24;
-            } else if (rand < 80) {
+                paymentAmount = 24; // Triple payment for Gray
+            } else if (roll < 0.9) {
                 oltracType = 'Violet';
-                paymentAmount = 45;
+                paymentAmount = 45; // Triple payment for Violet
             } else {
                 oltracType = 'Amber';
-                paymentAmount = 75;
+                paymentAmount = 75; // 1.5x payment for Amber
             }
         }
         
-        // Reduce spores
-        this.modifySpores(-amount);
+        // Add money to player
+        this.moneySystem.add(paymentAmount);
+        this.showNotification(`+${paymentAmount} gold`);
         
-        // Add money
-        this.addMoney(paymentAmount);
+        // Determine which dialog to show based on the result
+        let dialogId;
         
-        // Store the transaction results in the registry for the dialog to access
-        this.registry.set('oltracType', oltracType);
-        this.registry.set('oltracPayment', paymentAmount);
+        if (oltracType === 'Gray') {
+            if (paymentAmount === 8) dialogId = 'kloor_gray_oltrac_8';
+            else if (paymentAmount === 16) dialogId = 'kloor_gray_oltrac_16';
+            else dialogId = 'kloor_gray_oltrac_24';
+        } else if (oltracType === 'Violet') {
+            if (paymentAmount === 15) dialogId = 'kloor_violet_oltrac_15';
+            else if (paymentAmount === 30) dialogId = 'kloor_violet_oltrac_30';
+            else dialogId = 'kloor_violet_oltrac_45';
+        } else { // Amber
+            if (paymentAmount === 25) dialogId = 'kloor_amber_oltrac_25';
+            else if (paymentAmount === 50) dialogId = 'kloor_amber_oltrac_50';
+            else dialogId = 'kloor_amber_oltrac_75';
+        }
         
-        // Show the appropriate transaction result dialog
-        this.showDialog('kloor_transaction_result');
+        // Show the appropriate dialog directly
+        this.showDialog(dialogId);
+        console.log('dialogId', dialogId);
+        return dialogId;
     }
     
     // Create a custom ground for the market scene that matches the aesthetic
