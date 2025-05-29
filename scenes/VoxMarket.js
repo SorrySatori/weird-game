@@ -153,63 +153,90 @@ export default class VoxMarket extends GameScene {
                 text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 8 gold coins. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 1);
+                }
             },
             
             kloor_gray_oltrac_16: {
                 text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 16 gold coins. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 2);
+                }
             },
             
             kloor_gray_oltrac_24: {
                 text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 24 gold coins. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 3);
+                }
             },
             
             kloor_violet_oltrac_15: {
                 text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 15 gold coins with a grin. 'Very good business indeed.'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 4);
+                }
             },
             
             kloor_violet_oltrac_30: {
                 text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 30 gold coins with a grin. 'Very good business indeed.'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 5);
+                }
             },
             
             kloor_violet_oltrac_45: {
                 text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 45 gold coins with a grin. 'Very good business indeed.'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 6);
+                }
             },
             
             kloor_amber_oltrac_25: {
                 text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 25 gold coins. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 7);
+                }
             },
             
             kloor_amber_oltrac_50: {
                 text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 50 gold coins. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 8);
+                }
             },
             
             kloor_amber_oltrac_75: {
                 text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 75 gold coins. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 9);
+                }
             },
             
             kloor_bishop: {
@@ -261,6 +288,7 @@ export default class VoxMarket extends GameScene {
                 onTrigger: () => {
                     // Start the quest if it doesn't exist yet
                     if (!this.registry.get('questSystem')?.getQuest('the_three_vestigels')) {
+                        this.questSystem.updateQuest('find_bishop', 'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.', 'vestigel');
                         this.questSystem.addQuest(
                             'the_three_vestigels',
                             'The Three Vestigels',
