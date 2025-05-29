@@ -1,18 +1,22 @@
 class SporeSystem extends Phaser.Events.EventEmitter {
-    constructor() {
+    constructor(scene) {
         super();
         if (SporeSystem.instance) {
             return SporeSystem.instance;
         }
         SporeSystem.instance = this;
         
+        this.scene = scene; // Store reference to the scene
         this.sporeLevel = 100;
         this.subscribers = new Set(); // For UI updates
     }
 
-    static getInstance() {
+    static getInstance(scene) {
         if (!SporeSystem.instance) {
-            SporeSystem.instance = new SporeSystem();
+            SporeSystem.instance = new SporeSystem(scene);
+        } else if (scene && !SporeSystem.instance.scene) {
+            // Update the scene reference if it wasn't set before
+            SporeSystem.instance.scene = scene;
         }
         return SporeSystem.instance;
     }
@@ -29,6 +33,28 @@ class SporeSystem extends Phaser.Events.EventEmitter {
             
             // Emit event for growth change
             this.emit('sporeChanged', totalChange);
+            
+            // Check for symbiont reaction to spore change
+            if (totalChange !== 0) {
+                console.log('[SporeSystem] Spore level changed:', oldSporeLevel, '->', this.sporeLevel);
+                
+                // Try to get the symbiont system directly from the registry
+                const symbiontSystem = this.scene?.registry?.get('symbiontSystem');
+                
+                if (symbiontSystem) {
+                    console.log('[SporeSystem] Found symbiontSystem in registry');
+                    const message = symbiontSystem.getSporeChangeMessage(oldSporeLevel, this.sporeLevel);
+                    if (message) {
+                        console.log('[SporeSystem] Symbiont message:', message);
+                        // Use the scene directly to show notification
+                        this.scene.showNotification(message, "", "", 10000);
+                    } else {
+                        console.log('[SporeSystem] No symbiont message generated');
+                    }
+                } else {
+                    console.log('[SporeSystem] Could not find symbiontSystem in registry');
+                }
+            }
         }
         
         // Notify all subscribers (UI elements) of the change

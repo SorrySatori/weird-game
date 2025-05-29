@@ -180,8 +180,11 @@ export default class GameScene extends Phaser.Scene {
         
         // Initialize Spore system
         if (!this.registry.get('sporeSystem')) {
-            const sporeSystem = new SporeSystem();
+            const sporeSystem = SporeSystem.getInstance(this);
             this.registry.set('sporeSystem', sporeSystem);
+        } else {
+            // Update scene reference in existing instance
+            SporeSystem.getInstance(this);
         }
         this.sporeSystem = this.registry.get('sporeSystem');
         

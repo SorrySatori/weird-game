@@ -87,4 +87,87 @@ export default class SymbiontSystem {
         const symbiont = this.symbionts.get('thorne-still');
         return symbiont.power > 30; // Only works if decay is at least 30
     }
+    
+    /**
+     * Generate a message from Thorne-Still when spore level changes
+     * @param {number} oldLevel - Previous spore level
+     * @param {number} newLevel - New spore level
+     * @returns {string|null} - Message from Thorne-Still or null if no message
+     */
+    getSporeChangeMessage(oldLevel, newLevel) {
+        console.log('[SymbiontSystem] getSporeChangeMessage called:', oldLevel, '->', newLevel);
+        
+        // Only generate messages if Thorne-Still is present
+        if (!this.symbionts.has('thorne-still')) {
+            console.log('[SymbiontSystem] Thorne-Still not present');
+            return null;
+        }
+        
+        const now = Date.now();
+        const symbiont = this.symbionts.get('thorne-still');
+        console.log('[SymbiontSystem] Symbiont data:', symbiont);
+        console.log('[SymbiontSystem] Time since last message:', now - this.lastMessageTime, 'ms');
+        console.log('[SymbiontSystem] Time since symbiont last spoke:', now - symbiont.lastSpoke, 'ms');
+        
+        // Check if enough time has passed since last message
+        // Use a shorter interval for spore change messages (15 seconds)
+        if (now - symbiont.lastSpoke < 15000 || now - this.lastMessageTime < 15000) {
+            console.log('[SymbiontSystem] Not enough time has passed since last message');
+            return null;
+        }
+        
+        // Calculate the change amount
+        const change = newLevel - oldLevel;
+        console.log('[SymbiontSystem] Spore change amount:', change);
+        
+        // Only react to significant changes (more than 5 points)
+        if (Math.abs(change) < 5) {
+            console.log('[SymbiontSystem] Change not significant enough');
+            return null;
+        }
+        
+        // 40% chance of commenting on spore changes
+        const randomChance = Math.random();
+        console.log('[SymbiontSystem] Random chance:', randomChance);
+        if (randomChance < 0.4) {
+            let messages;
+            
+            if (change > 0) {
+                // Messages for increasing spores
+                messages = [
+                    "Mmm, more spores. My favorite food group.",
+                    "Your spore levels are rising. I can taste the sweet decay.",
+                    "Ah, fresh spores! My cellular structure is tingling.",
+                    "More spores? You're spoiling me. Literally.",
+                    "I sense the spores multiplying. It's like a little party in here.",
+                    "Spore levels up! That's good for business. My business is parasitism.",
+                    "Ooh, spicy new spores! They have that tangy aftertaste I love.",
+                    "Your spore collection is impressive. I'm taking notes.",
+                    "More spores means more fun for everyone! By everyone, I mean me.",
+                    "Spores increasing? I feel like I just got a promotion."
+                ];
+            } else {
+                // Messages for decreasing spores
+                messages = [
+                    "Hey! I was saving those spores for later.",
+                    "Selling spores? I hope you got a good price for MY dinner.",
+                    "Less spores means less me. Is that what you want?",
+                    "I felt those spores vanish. It's like watching money burn.",
+                    "Fewer spores? I'm going to have to start rationing my existence.",
+                    "You're hemorrhaging spores. That's basically symbiont abuse.",
+                    "Those spores were load-bearing! The architecture of this relationship is at risk.",
+                    "I was counting those spores. Literally counting them. Now I have to start over.",
+                    "Spore reduction? This is why we can't have nice parasitic relationships.",
+                    "Less spores? Fine. I'll just photosynthesize your emotions instead."
+                ];
+            }
+            
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            symbiont.lastSpoke = now;
+            this.lastMessageTime = now;
+            return `thorne-still: ${message}`;
+        }
+        
+        return null;
+    }
 }

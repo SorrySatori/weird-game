@@ -629,6 +629,26 @@ export default class VoxMarket extends GameScene {
         // Remove spores from player
         sporeSystem.modifySpores(-amount);
         
+        // Add direct symbiont reaction to spore selling
+        const symbiontSystem = this.registry.get('symbiontSystem');
+        if (symbiontSystem && symbiontSystem.symbionts.has('thorne-still')) {
+            // Always show a reaction when selling spores to Kloor
+            const messages = [
+                "Hey! I was saving those spores for later.",
+                "Selling spores? I hope you got a good price for MY dinner.",
+                "Less spores means less me. Is that what you want?",
+                "I felt those spores vanish. It's like watching money burn.",
+                "Fewer spores? I'm going to have to start rationing my existence.",
+                "You're hemorrhaging spores. That's basically symbiont abuse.",
+                "Those spores were load-bearing! The architecture of this relationship is at risk.",
+                "I was counting those spores. Literally counting them. Now I have to start over.",
+                "Spore reduction? This is why we can't have nice parasitic relationships.",
+                "Less spores? Fine. I'll just photosynthesize your emotions instead."
+            ];
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            this.showNotification(`thorne-still: ${message}`, "", "", 10000);
+        }
+        
         // Determine Oltrac type and payment based on amount
         let oltracType, paymentAmount;
         
