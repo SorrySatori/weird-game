@@ -22,6 +22,15 @@ export default class SymbiontSystem {
     removeSymbiont(id) {
         return this.symbionts.delete(id);
     }
+    
+    /**
+     * Check if a specific symbiont is present
+     * @param {string} id - The ID of the symbiont to check
+     * @returns {boolean} - True if the symbiont exists, false otherwise
+     */
+    hasSymbiont(id) {
+        return this.symbionts.has(id);
+    }
 
     unlockSlot() {
         if (this.unlockedSlots < this.maxSlots) {

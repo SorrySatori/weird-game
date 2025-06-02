@@ -10,14 +10,248 @@ export default class VoxmarketMarketScene extends GameScene {
     get dialogContent() {
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
-            // Add VoxmarketMarket specific dialogs here if needed
+            
+            // Zerren dialog
+            zerren_start: {
+                text: "A woman with vibrant clothing and a small stall of trinkets notices your approach. 'Welcome to my little corner of Voxmarket. I'm Zerren. Looking for anything special today?'",
+                options: [
+                    { text: "Who are you?", next: "zerren_who" },
+                    { text: "What do you sell?", next: "zerren_selling" },
+                    ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
+                        { text: "About the Vestigel you had...", next: "zerren_vestigel_inquiry" }
+                    ] : []),
+                    { text: "Goodbye.", next: "closeDialog" }
+                ]
+            },
+            
+            zerren_who: {
+                text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket for years now. You'll find all sorts of interesting trinkets at my stall that you won't see anywhere else.'",
+                options: [
+                    { text: "What kind of trinkets?", next: "zerren_selling" },
+                    { text: "Back", next: "zerren_start" }
+                ]
+            },
+            
+            zerren_selling: {
+                text: "'I specialize in rare oddities and collectibles. Decorative items mostly, but sometimes I get my hands on things with... unusual properties.' She gestures to her collection of strange figurines, crystals, and small mechanical devices.",
+                options: [
+                    { text: "Interesting collection", next: "zerren_collection" },
+                    { text: "Back", next: "zerren_start" }
+                ]
+            },
+            
+            zerren_collection: {
+                text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular - sold it just last week. Strange little thing, but charming in its own way.'",
+                options: [
+                    { text: "Tell me more about that toy", next: "zerren_plush_toy" },
+                    { text: "Back", next: "zerren_start" }
+                ]
+            },
+            
+            zerren_plush_toy: {
+                text: "'It was an odd little thing - looked like a cross between a stuffed animal and some kind of abstract sculpture. Got it from a traveler passing through.'",
+                options: [
+                    { text: "Who bought it?", next: "zerren_buyer_inquiry" },
+                    { text: "Back", next: "zerren_start" }
+                ]
+            },
+            
+            zerren_vestigel_inquiry: {
+                text: "Zerren looks confused. 'Vestigel? How do you... how do you know about it? It was the worst deal I made in my life.'",
+                options: [
+                    { text: "Kloor told me about it.", next: "zerren_kloor_inquiry" },
+                    { text: "I can't tell you, it doesn't matter.", next: "zerren_refuse_inquiry" },
+                    { text: "Back", next: "zerren_start" }
+                ]
+            },
+            
+            zerren_kloor_inquiry: {
+                text: "I see. That bastard wants it for himself, doesn't he? I don't know what he plans to do with it, but it's not good. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
+                options: [
+                    { text: "Who did you sell it to?", next: "zerren_buyer_inquiry" },
+                    { text: "Back", next: "zerren_start" }
+                ],
+                onTrigger: () => {
+                    const factionSystem = this.registry.get('factionSystem');
+                    if (factionSystem) {
+                        factionSystem.modifyReputation('RustChoir', -10);
+                        factionSystem.modifyReputation('PithReclaimers', +10);
+                        this.showNotification('Rust Choir Reputation -10');
+                        this.showNotification('Pith Reclaimers Reputation +10');
+                    }
+                }
+            },
+            
+            zerren_refuse_inquiry: {
+                text: "Hmm... allright, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
+                options: [
+                    { text: "Who did you sell it to?", next: "zerren_buyer_inquiry" },
+                    { text: "Back", next: "zerren_start" }
+                ],
+                onTrigger: () => {
+                    const factionSystem = this.registry.get('factionSystem');
+                    if (factionSystem) {
+                        factionSystem.modifyReputation('RustChoir', +10);
+                        factionSystem.modifyReputation('PithReclaimers', -10);
+                        this.showNotification('Rust Choir Reputation +10');
+                        this.showNotification('Pith Reclaimers Reputation -10');
+                    }
+                }
+            },
+            
+            zerren_buyer_inquiry: {
+                text: "Zerren suddenly becomes guarded. 'I... I don't typically disclose information about my customers. It's a matter of professional discretion, you understand.' She glances away nervously.",
+                options: [
+                    { text: "Offer 50 dinar as incentive", next: "zerren_bribe_attempt" },
+                    { text: "Try to persuade her", next: "zerren_persuade_attempt" },
+                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') ? [
+                        { text: "Use Thorne-still's Suture-reality power", next: "zerren_thorne_still_power" }
+                    ] : []),
+                    ...(this.registry.get('reputationSystem')?.getFactionReputation('sporemind_accord') >= 50 ? [
+                        { text: "Appeal to Sporemind Accord relationship", next: "zerren_sporemind_appeal" }
+                    ] : []),
+                    { text: "Back", next: "zerren_start" }
+                ]
+            },
+            
+            zerren_bribe_attempt: {
+                text: "You offer Zerren 50 dinar for the information.",
+                options: [
+                    { text: "Confirm", next: "zerren_bribe_success" },
+                    { text: "Back", next: "zerren_buyer_inquiry" }
+                ],
+                onTrigger: (option) => {
+                    if (option && option.text === "Confirm") {
+                        if (this.hasEnoughMoney(50)) {
+                            this.subtractMoney(50);
+                            this.showNotification("-50 dinar");
+                            return "zerren_bribe_success";
+                        } else {
+                            return "zerren_not_enough_money";
+                        }
+                    }
+                }
+            },
+            
+            zerren_not_enough_money: {
+                text: "'That's a generous offer, but...' Zerren eyes your coin purse. 'It seems you don't actually have that much to spare.'",
+                options: [
+                    { text: "Try something else", next: "zerren_buyer_inquiry" }
+                ]
+            },
+            
+            zerren_bribe_success: {
+                text: "Zerren quickly pockets the gold coins. 'Well, for this kind of compensation, I suppose I can make an exception.' She leans in closer. 'It was Edgar Eskola who bought the toy. Eccentric collector, lives in the upper district. Always looking for strange artifacts.'",
+                options: [
+                    { text: "Thank you for the information", next: "zerren_quest_update" }
+                ],
+                onTrigger: () => {
+                    // Update the quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('the_three_vestigels')) {
+                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.", 'found_eskola_lead');
+                        this.showNotification("Quest updated: The Three Vestigels");
+                    }
+                },
+            },
+            zerren_persuade_attempt: {
+                text: "'This is really important. The Vestigel inside that toy could be dangerous in the wrong hands. I need to find it for the safety of everyone in Upper Morkezela.' Zerren looks uncertain, weighing your words carefully.",
+                options: [
+                    { text: "Continue persuading", next: "zerren_persuade_roll" }
+                ],
+                onTrigger: () => {
+                    // Simulate a persuasion check based on charisma or similar stat
+                    const roll = Math.random() * 20;
+                    
+                    if (roll > 15) {
+                        return "zerren_persuade_success";
+                    } else {
+                        return "zerren_persuade_fail";
+                    }
+                }
+            },
+            
+            zerren_persuade_success: {
+                text: "Zerren sighs, relenting. 'I suppose if it's that important... The buyer was Edgar Eskola. He's a collector of oddities with deep pockets. Has a place in the upper district. Very private person, though. Be careful how you approach him.'",
+                options: [
+                    { text: "Thank you for understanding", next: "zerren_quest_update" }
+                ],
+                onTrigger: () => {
+                    // Update the quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('the_three_vestigels')) {
+                        questSystem.updateQuest('the_three_vestigels', 'found_eskola_lead', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.");
+                        this.showNotification("Quest updated: The Three Vestigels");
+                    }
+                }
+            },
+            
+            zerren_persuade_fail: {
+                text: "Zerren shakes her head firmly. 'I'm sorry, but I can't break my customers' trust. Perhaps there's another way you could find this information?'",
+                options: [
+                    { text: "Try something else", next: "zerren_buyer_inquiry" }
+                ]
+            },
+            
+            zerren_thorne_still_power: {
+                text: "You feel Thorne-still's presence intensify as the symbiont's power flows through you. Reality seems to waver around Zerren as the Suture-reality ability takes effect. Her eyes glaze slightly as the boundaries between what is and what could be blur.",
+                options: [
+                    { text: "Who bought the plush toy?", next: "zerren_thorne_still_success" }
+                ]
+            },
+            
+            zerren_thorne_still_success: {
+                text: "Zerren speaks in a distant voice, as if reciting a fact from memory rather than revealing a secret. 'Edgar Eskola purchased the plush toy. He lives in the upper district of Voxmarket. Collector of strange artifacts.' She blinks, momentarily confused about what just happened.",
+                options: [
+                    { text: "Thank you for your help", next: "zerren_quest_update" }
+                ],
+                onTrigger: () => {
+                    // Update the quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('the_three_vestigels')) {
+                        questSystem.updateQuest('the_three_vestigels', 'found_eskola_lead', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.");
+                        this.showNotification("Quest updated: The Three Vestigels");
+                    }
+                }
+            },
+            
+            zerren_sporemind_appeal: {
+                text: "'As an ally of the Sporemind Accord, I'm tracking down these Vestigels on their behalf. They consider this a matter of great importance to the balance of power in the region.'",
+                options: [
+                    { text: "Continue", next: "zerren_sporemind_success" }
+                ]
+            },
+            
+            zerren_sporemind_success: {
+                text: "Zerren's eyes widen with recognition. 'Oh! You're with the Accord? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector in the upper district. Quite wealthy and very interested in artifacts from beyond the Threshold.'",
+                options: [
+                    { text: "The Accord appreciates your cooperation", next: "zerren_quest_update" }
+                ]
+            },
+            
+            zerren_quest_update: {
+                text: "'I hope you find what you're looking for. And please... if you see Edgar, don't mention I sent you. He values his privacy.' Zerren returns to arranging her merchandise, occasionally glancing in your direction.",
+                options: [
+                    { text: "Leave", next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    // Update the quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('the_three_vestigels')) {
+                        questSystem.updateQuest('the_three_vestigels', 'found_eskola_lead', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.");
+                        this.showNotification("Quest updated: The Three Vestigels");
+                    }
+                }
+            }
         };
     }
+
 
     preload() {
         super.preload();
         this.load.image('voxmarketMarketBg', 'assets/images/VoxmarketMarket.png');
         this.load.image('arrow', 'assets/images/door.png'); // Arrow for transition zones
+        this.load.image('zerren', 'assets/images/Zerren.png'); // Zerren NPC image
         // Audio is already loaded in GameScene's preload
     }
 
@@ -94,6 +328,28 @@ export default class VoxmarketMarketScene extends GameScene {
         if (this.stranger) {
             this.stranger.destroy();
         }
+        
+        // Create Zerren NPC
+        this.zerren = this.add.sprite(200, 440, 'zerren');
+        this.zerren.setScale(0.15);
+        this.zerren.setDepth(5);
+        this.zerren.setInteractive({ useHandCursor: true });
+        
+        // Add dialog interaction
+        this.zerren.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            this.showDialog('zerren_start');
+        });
+        
+        // Add a name tag above Zerren
+        const zerrenTag = this.add.text(200, 420, 'Zerren', {
+            fontSize: '14px',
+            fill: '#7fff8e',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            padding: { x: 5, y: 2 }
+        });
+        zerrenTag.setOrigin(0.5);
+        zerrenTag.setDepth(6);
     }
 
     shutdown() {
