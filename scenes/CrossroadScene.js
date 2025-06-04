@@ -13,6 +13,7 @@ export default class CrossroadScene extends GameScene {
         this.load.image('crossroadBg', 'assets/images/crossroad.png');
         this.load.image('crossroadBg_growth', 'assets/images/crossroad_growth.png');
         this.load.image('door', 'assets/images/door.png');
+        this.load.image('skyship', 'assets/images/skyship.png');
     }
 
     create() {
@@ -62,6 +63,29 @@ export default class CrossroadScene extends GameScene {
             this.corpse.setAlpha(0.01);
             this.corpse.setInteractive({ useHandCursor: true });
             this.corpse.on('pointerdown', () => this.showCorpseDialog());
+        } else {
+            // Add skyship transition area when growth is present
+            this.skyshipTransition = this.add.image(400, 200, 'door')
+                .setDisplaySize(100, 150)
+                .setAlpha(0.01)
+                .setInteractive({ useHandCursor: true });
+            this.skyshipTransition.setDepth(10);
+            
+            // Add a subtle glow effect to hint at the interactive area
+            const skyshipGlow = this.add.graphics();
+            skyshipGlow.fillStyle(0x7fff8e, 0.2);
+            skyshipGlow.fillCircle(400, 200, 50);
+            skyshipGlow.setDepth(9);
+            
+            // Add pulsating animation to the glow
+            this.tweens.add({
+                targets: skyshipGlow,
+                alpha: { from: 0.2, to: 0.4 },
+                duration: 1500,
+                yoyo: true,
+                repeat: -1,
+                ease: 'Sine.easeInOut'
+            });
         }
 
         // Add fade-in effect
@@ -75,6 +99,31 @@ export default class CrossroadScene extends GameScene {
     }
 
     setupSceneTransitions() {
+        // Skyship transition if growth is present
+        if (this.skyshipTransition) {
+            this.skyshipTransition.on('pointerdown', () => {
+                if (this.isTransitioning) return;
+                this.isTransitioning = true;
+                
+                // Move priest to the transition area
+                const priest = this.priest;
+                priest.play('walk');
+                this.tweens.killTweensOf(priest);
+                
+                this.tweens.add({
+                    targets: priest,
+                    x: 400,
+                    y: 300,
+                    duration: 1000,
+                    onComplete: () => {
+                        priest.play('idle');
+                        // Start the skyship animation sequence
+                        this.startSkyshipAnimation();
+                    }
+                });
+            });
+        }
+        
         // Shed13 entrance click logic
         this.marketEntrance.on('pointerdown', () => {
             if (this.isTransitioning) return;
@@ -296,9 +345,90 @@ export default class CrossroadScene extends GameScene {
         }
     };
 }
-
-showCorpseDialog() {
-    this.showDialog('corpseMain');
+    
+    showCorpseDialog() {
+        this.showDialog('corpseMain');
+    }
+    
+    startSkyshipAnimation() {
+        // Create a camera zoom effect to simulate looking up
+        const originalZoom = this.cameras.main.zoom;
+        
+        // Create the skyship image above the scene
+        const skyship = this.add.image(400, -100, 'skyship');
+        skyship.setScale(0.6);
+        skyship.setAlpha(0);
+        skyship.setDepth(100);
+        
+        // Create a text message
+        const messageBox = this.add.rectangle(400, 300, 600, 100, 0x0a2712, 0.9);
+        messageBox.setStrokeStyle(2, 0x7fff8e);
+        messageBox.setDepth(101);
+        messageBox.setAlpha(0);
+        
+        const messageText = this.add.text(400, 300, "Looks like there is a skyship above the city...", {
+            fontSize: '18px',
+            fill: '#7fff8e',
+            align: 'center',
+            wordWrap: { width: 580 }
+        });
+        messageText.setOrigin(0.5);
+        messageText.setDepth(102);
+        messageText.setAlpha(0);
+        
+        // Use sequential tweens instead of timeline
+        // Step 1: First zoom out slightly to prepare for looking up
+        this.tweens.add({
+            targets: this.cameras.main,
+            zoom: originalZoom * 0.9,
+            duration: 1000,
+            ease: 'Sine.easeInOut',
+            onComplete: () => {
+                // Step 2: Then zoom in and pan up to simulate looking up
+                this.tweens.add({
+                    targets: this.cameras.main,
+                    zoom: originalZoom * 1.2,
+                    scrollY: -150,
+                    duration: 2000,
+                    ease: 'Sine.easeInOut',
+                    onComplete: () => {
+                        // Step 3: Fade in the skyship
+                        this.tweens.add({
+                            targets: skyship,
+                            y: 100,
+                            alpha: 1,
+                            duration: 2000,
+                            ease: 'Sine.easeOut',
+                            onComplete: () => {
+                                // Step 4: Show the message after the skyship appears
+                                this.tweens.add({
+                                    targets: [messageBox, messageText],
+                                    alpha: 1,
+                                    duration: 1000,
+                                    ease: 'Sine.easeInOut',
+                                    onComplete: () => {
+                                        // Step 5: Wait a moment and then transition to the SkyshipBoardScene
+                                        this.time.delayedCall(3000, () => {
+                                            // Fade out to transition to the new scene
+                                            this.cameras.main.fadeOut(1000, 0, 0, 0);
+                                            this.cameras.main.once('camerafadeoutcomplete', () => {
+                                                // Reset camera settings before changing scenes
+                                                this.cameras.main.zoom = originalZoom;
+                                                this.cameras.main.scrollX = 0;
+                                                this.cameras.main.scrollY = 0;
+                                                
+                                                // Start the SkyshipBoardScene
+                                                this.scene.start('SkyshipBoardScene');
+                                            });
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     update() {
