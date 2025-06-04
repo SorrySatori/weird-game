@@ -96,6 +96,9 @@ export default class CrossroadScene extends GameScene {
 
         // Load persisted symbiont system
         this.symbiontSystem = this.registry.get('symbiontSystem');
+        
+        // Add registry change listener to update the scene when growth state changes
+        this.registry.events.on('changedata', this.handleRegistryChange, this);
     }
 
     setupSceneTransitions() {
@@ -354,11 +357,16 @@ export default class CrossroadScene extends GameScene {
         // Create a camera zoom effect to simulate looking up
         const originalZoom = this.cameras.main.zoom;
         
-        // Create the skyship image above the scene
+        // Create the skyship image above the scene - make it cover the full screen
         const skyship = this.add.image(400, -100, 'skyship');
-        skyship.setScale(0.6);
+        // // Calculate scale to ensure full screen coverage
+        // const scaleX = this.cameras.main.width / skyship.width * 1.2; // 20% larger than needed
+        // const scaleY = this.cameras.main.height / skyship.height * 1.2;
+        // const scale = Math.max(scaleX, scaleY); // Use the larger scale to ensure full coverage
+        // skyship.setScale(scale);
+        skyship.setScale(0.8);
         skyship.setAlpha(0);
-        skyship.setDepth(100);
+        skyship.setDepth(10000);
         
         // Create a text message
         const messageBox = this.add.rectangle(400, 300, 600, 100, 0x0a2712, 0.9);
@@ -373,7 +381,7 @@ export default class CrossroadScene extends GameScene {
             wordWrap: { width: 580 }
         });
         messageText.setOrigin(0.5);
-        messageText.setDepth(102);
+        messageText.setDepth(10200);
         messageText.setAlpha(0);
         
         // Use sequential tweens instead of timeline
@@ -431,6 +439,77 @@ export default class CrossroadScene extends GameScene {
         });
     }
 
+    // Handle registry changes, particularly for crossroadGrowth
+    handleRegistryChange(parent, key, data) {
+        // If the crossroadGrowth registry key changes, update the scene
+        if (key === 'crossroadGrowth' && data === true) {
+            // Remove corpse if it exists
+            if (this.corpse) {
+                this.corpse.destroy();
+                this.corpse = null;
+            }
+            
+            // Add skyship transition area if it doesn't exist yet
+            if (!this.skyshipTransition) {
+                // Add skyship transition area
+                this.skyshipTransition = this.add.image(400, 200, 'door')
+                    .setDisplaySize(100, 150)
+                    .setAlpha(0.01)
+                    .setInteractive({ useHandCursor: true });
+                this.skyshipTransition.setDepth(10);
+                
+                // Add a subtle glow effect to hint at the interactive area
+                const skyshipGlow = this.add.graphics();
+                skyshipGlow.fillStyle(0x7fff8e, 0.2);
+                skyshipGlow.fillCircle(400, 200, 50);
+                skyshipGlow.setDepth(9);
+                
+                // Add pulsating animation to the glow
+                this.tweens.add({
+                    targets: skyshipGlow,
+                    alpha: { from: 0.2, to: 0.4 },
+                    duration: 1500,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Sine.easeInOut'
+                });
+                
+                // Setup the transition for the skyship area
+                this.skyshipTransition.on('pointerdown', () => {
+                    if (this.isTransitioning) return;
+                    this.isTransitioning = true;
+                    
+                    // Get priest position
+                    const priestX = this.priest.x;
+                    const priestY = this.priest.y;
+                    
+                    // Calculate distance to transition point
+                    const distance = Phaser.Math.Distance.Between(
+                        priestX, priestY,
+                        this.skyshipTransition.x, this.skyshipTransition.y
+                    );
+                    
+                    // Calculate duration based on distance (faster for closer distances)
+                    const duration = Math.min(Math.max(distance * 5, 500), 2000);
+                    
+                    // Move priest to the transition point
+                    this.priest.play('walk');
+                    this.tweens.add({
+                        targets: this.priest,
+                        x: this.skyshipTransition.x,
+                        y: this.skyshipTransition.y,
+                        duration: duration,
+                        ease: 'Linear',
+                        onComplete: () => {
+                            this.priest.play('idle');
+                            this.startSkyshipAnimation();
+                        }
+                    });
+                });
+            }
+        }
+    }
+    
     update() {
         super.update();
 
