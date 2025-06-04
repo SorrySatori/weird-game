@@ -10,6 +10,7 @@ export default class SkyshipBoardScene extends GameScene {
         super.preload();
         this.load.image('skyshipBoardBg', 'assets/images/skyship_board.png');
         this.load.image('exitArea', 'assets/images/door.png');
+        this.load.image('captainLiris', 'assets/images/captain_liris.png');
     }
 
     create() {
@@ -60,8 +61,70 @@ export default class SkyshipBoardScene extends GameScene {
 
         // Setup scene transitions
         this.setupSceneTransitions();
+        
+        // Add Captain Liris
+        this.createCaptainLiris();
     }
 
+    createCaptainLiris() {
+        // Create Captain Liris NPC
+        this.captainLiris = this.add.image(600, 300, 'captainLiris');
+        this.captainLiris.setScale(0.2);
+        this.captainLiris.setDepth(5);
+        this.captainLiris.setInteractive({ useHandCursor: true });
+        
+        // Add a subtle glow effect around the captain
+        const captainGlow = this.add.graphics();
+        captainGlow.fillStyle(0x7fff8e, 0.15);
+        captainGlow.fillCircle(600, 300, 40);
+        captainGlow.setDepth(4);
+        
+        // Add pulsating animation to the glow
+        this.tweens.add({
+            targets: captainGlow,
+            alpha: { from: 0.15, to: 0.3 },
+            duration: 2000,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
+        
+        // Add hover effect
+        this.captainLiris.on('pointerover', () => {
+            this.tweens.add({
+                targets: this.captainLiris,
+                scaleX: 0.22,
+                scaleY: 0.22,
+                duration: 300,
+                ease: 'Sine.easeOut'
+            });
+        });
+        
+        this.captainLiris.on('pointerout', () => {
+            this.tweens.add({
+                targets: this.captainLiris,
+                scaleX: 0.2,
+                scaleY: 0.2,
+                duration: 300,
+                ease: 'Sine.easeOut'
+            });
+        });
+        
+        // Add click interaction to show dialog
+        this.captainLiris.on('pointerdown', () => {
+            this.showDialog('captainMain');
+        });
+        
+        // Add a name tag below the captain
+        const captainText = this.add.text(600, 360, "Captain Liris", {
+            fontSize: '18px',
+            fill: '#7fff8e',
+            align: 'center'
+        });
+        captainText.setOrigin(0.5);
+        captainText.setDepth(6);
+    }
+    
     setupSceneTransitions() {
         // Exit to CrossroadScene
         this.exitArea.on('pointerdown', () => {
@@ -87,8 +150,12 @@ export default class SkyshipBoardScene extends GameScene {
         });
     }
 
-    dialogContent() {
-        return {
+    get dialogContent() {
+        // Combine parent dialog content with this scene's content
+        const parentContent = super.dialogContent || {};
+        
+        // Define this scene's dialog content
+        const skyshipContent = {
             main: {
                 text: 'You find yourself on the deck of a skyship. The air is thin up here, and you can see the fungal city sprawled below.',
                 options: [
@@ -111,6 +178,93 @@ export default class SkyshipBoardScene extends GameScene {
                     }
                 ]
             },
+            captainMain: {
+                text: "Ah, a visitor from below! Welcome aboard the Spore Drifter. I'm Captain Liris, master of this vessel and navigator of the upper winds. Not many from the city venture up here these days.",
+                options: [
+                    {
+                        text: 'How do you keep this ship aloft?',
+                        next: 'captainAloft'
+                    },
+                    {
+                        text: 'Where are you headed?',
+                        next: 'captainDestination'
+                    },
+                    {
+                        text: 'What do you transport?',
+                        next: 'captainCargo'
+                    },
+                    {
+                        text: 'Farewell',
+                        next: 'closeDialog'
+                    }
+                ]
+            },
+            captainAloft: {
+                text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant spores. They create microscopic gas pockets that give us lift. The mycelial sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
+                options: [
+                    {
+                        text: 'That sounds dangerous.',
+                        next: 'captainDanger'
+                    },
+                    {
+                        text: 'Ask something else',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            captainDanger: {
+                text: "Ha! Life without risk is no life at all. Yes, there are dangers—storm spores that could envelop us, predatory flying mycelia that hunt in the upper reaches, not to mention the constant balance between Growth and Decay that keeps us from either dissolving into spores or becoming a rigid, dead mass. But the freedom of the skies... that's worth any risk.",
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            captainDestination: {
+                text: "We follow the great spore currents that circle above the continent. Next stop is the Hanging Gardens of Mycora, where we'll trade city goods for rare cultivation specimens. After that, perhaps the floating research outposts of the Eastern Canopy. The winds decide our ultimate path.",
+                options: [
+                    {
+                        text: 'Could I travel with you?',
+                        next: 'captainTravel'
+                    },
+                    {
+                        text: 'Ask something else',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            captainTravel: {
+                text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've found more balance between Growth and Decay. The Spore Drifter is particular about who it accepts.",
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            captainCargo: {
+                text: "Primarily rare spores and mycelia that can't be cultivated in the city. Specialized symbiont strains, crystallized growth enzymes, decay-resistant building materials. We also carry messages between the scattered aerial colonies and research stations. Information is perhaps our most valuable cargo—knowledge that would never reach the ground otherwise.",
+                options: [
+                    {
+                        text: 'Do you have anything to trade?',
+                        next: 'captainTrade'
+                    },
+                    {
+                        text: 'Ask something else',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            captainTrade: {
+                text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected our specialized goods yet. Return after we've made our first circuit—perhaps in a few cycles—and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'captainMain'
+                    }
+                ]
+            },
             closeDialog: {
                 text: '',
                 options: [],
@@ -119,6 +273,9 @@ export default class SkyshipBoardScene extends GameScene {
                 }
             }
         };
+        
+        // Return combined dialog content
+        return { ...parentContent, ...skyshipContent };
     }
 
     update() {
