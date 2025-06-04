@@ -179,11 +179,15 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainMain: {
-                text: "Ah, a visitor from below! Welcome aboard the Spore Drifter. I'm Captain Liris, master of this vessel and navigator of the upper winds. Not many from the city venture up here these days.",
+                text: "You are the one who grown the ladder, aren't you? That's rare, most people are not interested in such things. Welcome aboard the Verdigrace. I'm Captain Liris, master of this vessel and navigator of the upper winds. Not many from the city venture up here these days.",
                 options: [
                     {
                         text: 'How do you keep this ship aloft?',
                         next: 'captainAloft'
+                    },
+                    {
+                        text: 'Tell me about yourself',
+                        next: 'captainAbout'
                     },
                     {
                         text: 'Where are you headed?',
@@ -198,6 +202,68 @@ export default class SkyshipBoardScene extends GameScene {
                         next: 'closeDialog'
                     }
                 ]
+            },
+            captainAbout: {
+                text: "I'm Captain Liris, master of this vessel, as I said. I'm on a mission for the Sporemind Accord, as usual.",
+                options: [
+                    {
+                        text: 'What is the Sporemind Accord?',
+                        next: 'captainAccord'
+                    },
+                    {
+                        text: 'Back',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            captainAccord: {
+                text: "The Sporemind Accord is a powerful organization, you know? We strive for the fusion of mind and flora. We are keepers and protectors of everything that grows. We are the guardians of life.",
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'captainMain'
+                    },
+                    {
+                        text: "What is you mission?",
+                        next: "captainMission"
+                    },
+                    {
+                        text: "Does Sporemind Accord have some enemies?",
+                        next: "captainEnemies"
+                    }
+                ],
+                onTrigger: () => {
+                    const factionSystem = this.registry.get('factionSystem');
+                    if (factionSystem) {
+                        factionSystem.modifyReputation('SporemindAccord', +10);
+                        this.showNotification('Sporemind Accord Reputation +10');
+                    }
+                }
+            },
+            captainMission: {
+                text: "We are on a mission to search and gather rare specimens for the Sporemind Accord. But we are still waiting for more specs, so we don't mind that little ladder of yours.",
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            captainEnemies: {
+                text: "Sure, we have some enemies, as everybody. Especially that Rust Choir scum, but that's hardly surprising.", 
+                options: [
+                    {
+                        text: 'Back',
+                        next: 'captainMain'
+                    }
+                ],
+                onTrigger: () => {
+                    const factionSystem = this.registry.get('factionSystem');
+                    if (factionSystem) {
+                        factionSystem.modifyReputation('SporemindAccord', +10);
+                        this.showNotification('Sporemind Accord Reputation +10');
+                    }
+                }
             },
             captainAloft: {
                 text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant spores. They create microscopic gas pockets that give us lift. The mycelial sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
