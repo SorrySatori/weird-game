@@ -19,9 +19,9 @@ export default class CrossroadScene extends GameScene {
     create() {
         super.create();
 
-        // Set crossroad background based on growth state
-        const hasGrowth = this.registry.get('crossroadGrowth') || false;
-        const bgKey = hasGrowth ? 'crossroadBg_growth' : 'crossroadBg';
+        // Check if growth has happened
+        this.hasGrowth = this.registry.get('crossroadGrowth') || false;
+        const bgKey = this.hasGrowth ? 'crossroadBg_growth' : 'crossroadBg';
         this.background = this.add.image(400, 300, bgKey);
         this.background.setDisplaySize(800, 600);
         this.background.setDepth(-1);
@@ -57,7 +57,7 @@ export default class CrossroadScene extends GameScene {
             .setInteractive({ useHandCursor: true });
         this.scraperSceneEntrance.setDepth(10);
 
-        if (!hasGrowth) {
+        if (!this.hasGrowth) {
             this.corpse = this.add.image(400, 300, 'door');
             this.corpse.setDisplaySize(120, 200);
             this.corpse.setAlpha(0.01);
@@ -99,52 +99,94 @@ export default class CrossroadScene extends GameScene {
         
         // Add registry change listener to update the scene when growth state changes
         this.registry.events.on('changedata', this.handleRegistryChange, this);
+        
+        // For testing: manually trigger the registry change handler if growth is already true
+        if (this.hasGrowth) {
+            this.handleRegistryChange(this.registry, 'crossroadGrowth', true);
+        }
+        
+        // Clean up event listener when scene is shut down
+        this.events.on('shutdown', () => {
+            this.registry.events.off('changedata', this.handleRegistryChange, this);
+        });
     }
 
     setupSceneTransitions() {
-        // Skyship transition if growth is present
-        if (this.skyshipTransition) {
-            this.skyshipTransition.on('pointerdown', () => {
-                if (this.isTransitioning) return;
-                this.isTransitioning = true;
-                
-                // Move priest to the transition area
-                const priest = this.priest;
-                priest.play('walk');
-                this.tweens.killTweensOf(priest);
-                
-                this.tweens.add({
-                    targets: priest,
-                    x: 400,
-                    y: 300,
-                    duration: 1000,
-                    onComplete: () => {
-                        priest.play('idle');
-                        // Start the skyship animation sequence
-                        this.startSkyshipAnimation();
-                    }
-                });
-            });
+        // Setup the transition for the skyship area if it exists
+        if (this.hasGrowth && this.skyshipTransition) {
+            this.setupSkyshipTransition();
         }
         
-        // Shed13 entrance click logic
+        // Setup the transition for the market entrance
         this.marketEntrance.on('pointerdown', () => {
             if (this.isTransitioning) return;
             this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
             
+            // Get priest position
+            const priestX = this.priest.x;
+            const priestY = this.priest.y;
+            
+            // Calculate distance to transition point
+            const distance = Phaser.Math.Distance.Between(
+                priestX, priestY,
+                this.marketEntrance.x, this.marketEntrance.y
+            );
+            
+            // Calculate duration based on distance (faster for closer distances)
+            const duration = Math.min(Math.max(distance * 5, 500), 2000);
+            
+            // Move priest to the transition point
+            this.priest.play('walk');
             this.tweens.add({
-                targets: priest,
-                x: 100,
-                y: 470,
-                duration: 1000,
+                targets: this.priest,
+                x: this.marketEntrance.x,
+                y: this.marketEntrance.y,
+                duration: duration,
+                ease: 'Linear',
                 onComplete: () => {
+                    this.priest.play('idle');
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13Scene');
+                        this.scene.start('VoxMarket');
+                    });
+                }
+            });
+        });
+        
+        // Setup the transition for the cathedral entrance
+        this.cathedralEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            // Get priest position
+            const priestX = this.priest.x;
+            const priestY = this.priest.y;
+            
+            // Calculate distance to transition point
+            const distance = Phaser.Math.Distance.Between(
+                priestX, priestY,
+                this.cathedralEntrance.x, this.cathedralEntrance.y
+            );
+            
+            // Calculate duration based on distance (faster for closer distances)
+            const duration = Math.min(Math.max(distance * 5, 500), 2000);
+            
+            // Move priest to the transition point
+            this.priest.play('walk');
+            this.tweens.killTweensOf(this.priest);
+            
+            this.tweens.add({
+                targets: this.priest,
+                x: this.cathedralEntrance.x,
+                y: this.cathedralEntrance.y,
+                duration: duration,
+                ease: 'Linear',
+                onComplete: () => {
+                    this.priest.play('idle');
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('EggCatedralScene');
+                        this.isTransitioning = false;
                     });
                 }
             });
@@ -240,7 +282,7 @@ export default class CrossroadScene extends GameScene {
 
     get dialogContent() {
         return {
-            ...super.dialogContent,  // Include parent dialog content
+            ...super.dialogContent,
             corpseMain: {
                 text: 'You find a strange corpse. Its flesh seems to pulse with an otherworldly energy. What do you do?',
                 options: [
@@ -314,6 +356,38 @@ export default class CrossroadScene extends GameScene {
                     if (this.corpse) {
                         this.corpse.destroy();
                         this.corpse = null;
+                    }
+                    
+                    // Directly create the skyship transition area
+                    if (!this.skyshipTransition) {
+                        // Add skyship transition area
+                        this.skyshipTransition = this.add.image(400, 200, 'door')
+                            .setDisplaySize(100, 150)
+                            .setAlpha(0.01)
+                            .setInteractive({ useHandCursor: true });
+                        this.skyshipTransition.setDepth(10);
+                        
+                        // Add a subtle glow effect to hint at the interactive area
+                        const skyshipGlow = this.add.graphics();
+                        skyshipGlow.fillStyle(0x7fff8e, 0.2);
+                        skyshipGlow.fillCircle(400, 200, 50);
+                        skyshipGlow.setDepth(9);
+                        
+                        // Add pulsating animation to the glow
+                        this.tweens.add({
+                            targets: skyshipGlow,
+                            alpha: { from: 0.2, to: 0.4 },
+                            duration: 1500,
+                            yoyo: true,
+                            repeat: -1,
+                            ease: 'Sine.easeInOut'
+                        });
+                        
+                        // Setup the transition for the skyship area
+                        this.setupSkyshipTransition();
+                        
+                        // Show a notification about the new area
+                        this.showNotification("Some strange plant grows from the corpse. You also notice something above it...");
                     }
                     
                     this.hideDialog();
@@ -427,6 +501,7 @@ export default class CrossroadScene extends GameScene {
                                                 
                                                 // Start the SkyshipBoardScene
                                                 this.scene.start('SkyshipBoardScene');
+                                                this.isTransitioning = false;
                                             });
                                         });
                                     }
@@ -442,7 +517,14 @@ export default class CrossroadScene extends GameScene {
     // Handle registry changes, particularly for crossroadGrowth
     handleRegistryChange(parent, key, data) {
         // If the crossroadGrowth registry key changes, update the scene
-        if (key === 'crossroadGrowth' && data === true) {
+        if (key === 'crossroadGrowth' && data === true && !this.hasGrowth) {
+            // Update our local tracking variable
+            this.hasGrowth = true;
+            
+            // Update the background
+            if (this.background) {
+                this.background.setTexture('crossroadBg_growth');
+            }
             // Remove corpse if it exists
             if (this.corpse) {
                 this.corpse.destroy();
@@ -475,39 +557,46 @@ export default class CrossroadScene extends GameScene {
                 });
                 
                 // Setup the transition for the skyship area
-                this.skyshipTransition.on('pointerdown', () => {
-                    if (this.isTransitioning) return;
-                    this.isTransitioning = true;
-                    
-                    // Get priest position
-                    const priestX = this.priest.x;
-                    const priestY = this.priest.y;
-                    
-                    // Calculate distance to transition point
-                    const distance = Phaser.Math.Distance.Between(
-                        priestX, priestY,
-                        this.skyshipTransition.x, this.skyshipTransition.y
-                    );
-                    
-                    // Calculate duration based on distance (faster for closer distances)
-                    const duration = Math.min(Math.max(distance * 5, 500), 2000);
-                    
-                    // Move priest to the transition point
-                    this.priest.play('walk');
-                    this.tweens.add({
-                        targets: this.priest,
-                        x: this.skyshipTransition.x,
-                        y: this.skyshipTransition.y,
-                        duration: duration,
-                        ease: 'Linear',
-                        onComplete: () => {
-                            this.priest.play('idle');
-                            this.startSkyshipAnimation();
-                        }
-                    });
-                });
+                this.setupSkyshipTransition();
             }
         }
+    }
+    
+    // Setup the transition for the skyship area
+    setupSkyshipTransition() {
+        if (!this.skyshipTransition) return;
+        
+        this.skyshipTransition.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            // Get priest position
+            const priestX = this.priest.x;
+            const priestY = this.priest.y;
+            
+            // Calculate distance to transition point
+            const distance = Phaser.Math.Distance.Between(
+                priestX, priestY,
+                this.skyshipTransition.x, this.skyshipTransition.y
+            );
+            
+            // Calculate duration based on distance (faster for closer distances)
+            const duration = Math.min(Math.max(distance * 5, 500), 2000);
+            
+            // Move priest to the transition point
+            this.priest.play('walk');
+            this.tweens.add({
+                targets: this.priest,
+                x: this.skyshipTransition.x,
+                y: 470,
+                duration: duration,
+                ease: 'Linear',
+                onComplete: () => {
+                    this.priest.play('idle');
+                    this.startSkyshipAnimation();
+                }
+            });
+        });
     }
     
     update() {
