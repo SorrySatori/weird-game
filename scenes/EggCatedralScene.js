@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class EggCatedralScene extends GameScene {
     constructor() {
@@ -23,27 +24,50 @@ export default class EggCatedralScene extends GameScene {
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
-        // Add invisible clickable door at entrance (adjust position/size as needed)
-        this.door = this.add.image(450, 300, 'door').setDisplaySize(100, 120).setAlpha(0.01).setInteractive({ useHandCursor: true });
-        this.door.setDepth(10);
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
         
-        // Add invisible clickable area at the right border for VoxMarket
-        this.marketEntrance = this.add.image(780, 470, 'door')
-            .setDisplaySize(40, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.marketEntrance.setDepth(10);
-
-        // Add invisible clickable area at the left border for VoxMarket
-        this.entrySceneEntrance = this.add.image(50, 470, 'door')
-            .setDisplaySize(40, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.entrySceneEntrance.setDepth(10);
-        
-        // Start cathedral theme
+            // Start cathedral theme
         this.playSceneMusic('cathedralTheme');
-
+        
+        // Create transition zones using SceneTransitionManager
+        
+        // Cathedral entrance door transition
+        this.transitionManager.createTransitionZone(
+            450, // x position
+            300, // y position
+            100, // width
+            120, // height
+            'up', // direction
+            'CathedralEntrance', // target scene
+            450, // walk to x
+            340  // walk to y (slightly below door center)
+        );
+        
+        // Right border transition to CrossroadScene
+        this.transitionManager.createTransitionZone(
+            780, // x position
+            470, // y position
+            40,  // width
+            200, // height
+            'right', // direction
+            'CrossroadScene', // target scene
+            780, // walk to x
+            470  // walk to y
+        );
+        
+        // Left border transition to EntryScene
+        this.transitionManager.createTransitionZone(
+            50,  // x position
+            470, // y position
+            40,  // width
+            200, // height
+            'left', // direction
+            'EntryScene', // target scene
+            50,  // walk to x
+            470  // walk to y
+        );
+        
         // Add box on the ground (visible, clickable)
         this.box = this.add.image(300, 520, 'box');
         this.box.setDisplaySize(48, 48);
@@ -68,81 +92,6 @@ export default class EggCatedralScene extends GameScene {
                 }
             }
         });
-        
-        // Door click logic
-        this.door.on('pointerdown', () => {
-            // Move priest to door, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-
-            this.tweens.killTweensOf(priest);
-
-            this.tweens.add({
-                targets: priest,
-                x: this.door.x,
-                y: this.door.y + 40, // Move slightly below door center
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        // Direct to the Cathedral Entrance scene instead of GameScene
-                        this.scene.start('CathedralEntrance');
-                    });
-                }
-            });
-        });
-        
-        // Market entrance click logic
-        this.marketEntrance.on('pointerdown', () => {
-            // Move priest to market entrance, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-            
-            // Set transition flag
-            this.isTransitioning = true;
-            
-            this.tweens.add({
-                targets: priest,
-                x: 780,
-                y: 470, // Ground level
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
-                        this.isTransitioning = false; // Reset transition flag
-                    });
-                }
-            });
-        });
-        this.entrySceneEntrance.on('pointerdown', () => {
-            // Move priest to entry scene entrance, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-            
-            // Set transition flag
-            this.isTransitioning = true;
-            
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470, // Ground level
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('EntryScene');
-                        this.isTransitioning = false; // Reset transition flag
-                    });
-                }
-            });
-        });
 
     }
     
@@ -150,23 +99,8 @@ export default class EggCatedralScene extends GameScene {
     update() {
         // Call parent update for all standard mechanics
         super.update();
-
-        // Check for door click
-        this.door.on('pointerdown', () => {
-            if (!this.isTransitioning) {
-                this.transitionToScene('CathedralEntrance');
-            }
-        });
-
-        // Check if player is at the right edge and not already transitioning
-        if (this.priest && this.priest.x > 720 && !this.isTransitioning) {
-            this.transitionToScene('VoxMarket');
-        }
-
-        // Check if player is at the left edge and not already transitioning
-        if (this.priest && this.priest.x < 80 && !this.isTransitioning) {
-            this.transitionToScene('EntryScene');
-        }
+        
+        // No need for manual transition checks anymore as SceneTransitionManager handles this
     }
 
     shutdown() {

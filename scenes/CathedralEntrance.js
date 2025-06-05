@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class CathedralEntrance extends GameScene {
     constructor() {
@@ -137,12 +138,8 @@ export default class CathedralEntrance extends GameScene {
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
-        // Add invisible clickable area at the bottom for EggCatedral
-        this.eggCatedralEntrance = this.add.image(400, 550, 'door')
-            .setDisplaySize(200, 40)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.eggCatedralEntrance.setDepth(10);
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
         
         // Position the priest at the bottom center when entering this scene
         this.priest.x = 200;
@@ -154,28 +151,17 @@ export default class CathedralEntrance extends GameScene {
             this.priestGlow.y = this.priest.y;
         }
         
-        // Exit area click logic
-        this.eggCatedralEntrance.on('pointerdown', () => {
-            // Move priest to exit area, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-            
-            // Stop any existing tweens on the priest
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 400,
-                y: 550,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('EggCatedralScene');
-                    });
-                }
-            });
-        });
+        // Create transition zone for exit to EggCatedralScene
+        this.transitionManager.createTransitionZone(
+            400, // x position
+            550, // y position
+            200, // width
+            40,  // height
+            'down', // direction
+            'EggCatedralScene', // target scene
+            400, // walk to x
+            550  // walk to y
+        );
         
         // Remove the NPC if it exists
         if (this.stranger) {
@@ -447,10 +433,7 @@ export default class CathedralEntrance extends GameScene {
         // Call parent update for all standard mechanics
         super.update();
         
-        // Check if player is near the exit and not already transitioning
-        if (this.priest && this.priest.x < 80 && !this.isTransitioning) {
-            this.transitionToScene('EggCatedralScene');
-        }
+        // No need for manual transition checks as SceneTransitionManager handles this
     }
     
     shutdown() {

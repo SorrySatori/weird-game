@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import QuestSystem from '../systems/QuestSystem.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class ShedCourtyardScene extends GameScene {
     constructor() {
@@ -385,47 +386,22 @@ export default class ShedCourtyardScene extends GameScene {
             loop: true
         });
 
-        // Add invisible clickable exit area at the left of the screen
-        this.exitArea = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(50, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
         
-        this.exitArea.on('pointerdown', () => {
-            if (!this.isTransitioning && this.priest && this.priest.x < 100) {
-                this.isTransitioning = true;
+        // Create exit to Shed13GateScene at the left edge
+        this.transitionManager.createTransitionZone(
+            50, // x position
+            470, // y position
+            50, // width
+            200, // height
+            'left', // direction
+            'Shed13GateScene', // target scene
+            20, // walk to x
+            470 // walk to y
+        );
 
-                const priest = this.priest;
-                priest.play('walk');
-                
-                this.tweens.killTweensOf(priest);
-                
-                this.tweens.add({
-                    targets: priest,
-                    x: 20,
-                    y: priest.y,
-                    duration: 1000,
-                    onComplete: () => {
-                        this.cameras.main.fadeOut(800, 0, 0, 0);
-                        this.cameras.main.once('camerafadeoutcomplete', () => {
-                            this.scene.start('Shed13GateScene');
-                            this.isTransitioning = false;
-                        });
-                    }
-                });
-            }
-        });
-    }
-
-    update() {
-        super.update();
-        
-        if (this.priest && this.priest.x < 100) {
-            this.exitArea.input.cursor = 'pointer';
-        } else {
-            this.exitArea.input.cursor = 'default';
-        }
+        // Exit area cursor handling is now managed by SceneTransitionManager
     }
     
     // Helper method to remove an item from inventory

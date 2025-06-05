@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class Shed13Scene extends GameScene {
     constructor() {
@@ -236,33 +237,19 @@ export default class Shed13Scene extends GameScene {
         this.gnur.setDepth(1); // Ensure it's above background
         this.gnur.setInteractive({ useHandCursor: true });
 
-        this.entrance = this.add.image(650, 400, 'door')
-            .setDisplaySize(100, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.entrance.setDepth(10);
-
-        this.entrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 100,
-                y: 470, // Ground level
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13FloorsScene');
-                    });
-                }
-            });
-        });
+        // Create transition to Shed13FloorsScene at the elevator
+        this.transitionManager = new SceneTransitionManager(this);
+        
+        this.transitionManager.createTransitionZone(
+            200, // x position
+            400, // y position
+            120, // width
+            200, // height
+            'right', // direction
+            'Shed13FloorsScene', // target scene
+            100, // walk to x
+            470  // walk to y
+        );
         
         // Add walking animation to Gnur
         this.tweens.add({
@@ -316,13 +303,6 @@ export default class Shed13Scene extends GameScene {
             stackable: true
         }, spore);
         
-        // Add invisible clickable exit area at the right side
-        this.exitArea = this.add.image(750, 470, 'exitArea')
-            .setDisplaySize(40, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-
         // Position the priest at the left side when entering
         this.priest.x = 100;
         this.priest.y = 470;
@@ -332,29 +312,18 @@ export default class Shed13Scene extends GameScene {
             this.priestGlow.x = this.priest.x;
             this.priestGlow.y = this.priest.y;
         }
-
-        // Exit area click handler
-        this.exitArea.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-
-            this.tweens.add({
-                targets: priest,
-                x: 700,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
-                    });
-                }
-            });
-        });
+        
+        // Create exit to CrossroadScene at the right edge
+        this.transitionManager.createTransitionZone(
+            750, // x position
+            470, // y position
+            40,  // width
+            200, // height
+            'right', // direction
+            'CrossroadScene', // target scene
+            700, // walk to x
+            470  // walk to y
+        );
     }
 
     preload() {

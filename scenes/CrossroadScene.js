@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class CrossroadScene extends GameScene {
     constructor() {
@@ -28,34 +29,9 @@ export default class CrossroadScene extends GameScene {
 
         // Create symbiont UI
         this.createSymbiontUI();
-
-        // Add invisible clickable area for Shed13 entrance
-        this.shed13Entrance = this.add.image(100, 400, 'door')
-            .setDisplaySize(120, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.shed13Entrance.setDepth(10);
-
-        // Add invisible clickable area for VoxMarket entrance
-        this.voxMarketEntrance = this.add.image(650, 400, 'door')
-            .setDisplaySize(100, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.voxMarketEntrance.setDepth(10);
-
-        // Add invisible clickable area for Scraper entrance
-        this.cathedralEntrance = this.add.image(400, 400, 'door')
-            .setDisplaySize(100, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.cathedralEntrance.setDepth(10);
-
-        // Add invisible clickable area at the right border for EntryScene
-        this.scraperSceneEntrance = this.add.image(750, 470, 'door')
-            .setDisplaySize(40, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.scraperSceneEntrance.setDepth(10);
+        
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
 
         if (!this.hasGrowth) {
             this.corpse = this.add.image(400, 300, 'door');
@@ -91,7 +67,7 @@ export default class CrossroadScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        // Scene transitions setup...
+        // Setup scene transitions using the transition manager
         this.setupSceneTransitions();
 
         // Load persisted symbiont system
@@ -112,130 +88,87 @@ export default class CrossroadScene extends GameScene {
     }
 
     setupSceneTransitions() {
+        // Create transition zone for Shed13 entrance
+        this.transitionManager.createTransitionZone(
+            100, // x position
+            400, // y position
+            120, // width
+            200, // height
+            'left', // direction
+            'Shed13Scene', // target scene
+            100, // walk to x
+            400 // walk to y
+        );
+        
+        // Create transition zone for Cathedral entrance
+        this.transitionManager.createTransitionZone(
+            400, // x position
+            400, // y position
+            100, // width
+            200, // height
+            'up', // direction
+            'EggCatedralScene', // target scene
+            400, // walk to x
+            400 // walk to y
+        );
+        
+        // Create transition zone for VoxMarket entrance
+        this.transitionManager.createTransitionZone(
+            650, // x position
+            400, // y position
+            100, // width
+            200, // height
+            'right', // direction
+            'VoxMarket', // target scene
+            650, // walk to x
+            470 // walk to y
+        );
+        
+        // Create transition zone for ScraperScene entrance
+        this.transitionManager.createTransitionZone(
+            750, // x position
+            470, // y position
+            40, // width
+            200, // height
+            'right', // direction
+            'ScraperScene', // target scene
+            750, // walk to x
+            470 // walk to y
+        );
+        
         // Setup the transition for the skyship area if it exists
         if (this.hasGrowth && this.skyshipTransition) {
             this.setupSkyshipTransition();
         }
+    }
+
+    setupSkyshipTransition() {
+        // Create transition zone for Skyship using the transition manager
+        this.transitionManager.createTransitionZone(
+            400, // x position
+            200, // y position
+            100, // width
+            150, // height
+            'up', // direction
+            'SkyshipScene', // target scene
+            400, // walk to x
+            200 // walk to y
+        );
         
-        // Setup the transition for the market entrance
-        this.shed13Entrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Get priest position
-            const priestX = this.priest.x;
-            const priestY = this.priest.y;
-            
-            // Calculate distance to transition point
-            const distance = Phaser.Math.Distance.Between(
-                priestX, priestY,
-                this.shed13Entrance.x, this.shed13Entrance.y
-            );
-            
-            // Calculate duration based on distance (faster for closer distances)
-            const duration = Math.min(Math.max(distance * 5, 500), 2000);
-            
-            // Move priest to the transition point
-            this.priest.play('walk');
-            this.tweens.add({
-                targets: this.priest,
-                x: this.shed13Entrance.x,
-                y: this.shed13Entrance.y,
-                duration: duration,
-                ease: 'Linear',
-                onComplete: () => {
-                    this.priest.play('idle');
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13Scene');
-                    });
-                }
-            });
-        });
+        // Add a subtle glow effect to hint at the interactive area
+        const skyshipGlow = this.add.graphics();
+        skyshipGlow.fillStyle(0x7fff8e, 0.2);
+        skyshipGlow.fillCircle(400, 200, 50);
+        skyshipGlow.setDepth(9);
         
-        // Setup the transition for the cathedral entrance
-        this.cathedralEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Get priest position
-            const priestX = this.priest.x;
-            const priestY = this.priest.y;
-            
-            // Calculate distance to transition point
-            const distance = Phaser.Math.Distance.Between(
-                priestX, priestY,
-                this.cathedralEntrance.x, this.cathedralEntrance.y
-            );
-            
-            // Calculate duration based on distance (faster for closer distances)
-            const duration = Math.min(Math.max(distance * 5, 500), 2000);
-            
-            // Move priest to the transition point
-            this.priest.play('walk');
-            this.tweens.killTweensOf(this.priest);
-            
-            this.tweens.add({
-                targets: this.priest,
-                x: this.cathedralEntrance.x,
-                y: this.cathedralEntrance.y,
-                duration: duration,
-                ease: 'Linear',
-                onComplete: () => {
-                    this.priest.play('idle');
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('EggCatedralScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-        });
-
-        // VoxMarket entrance click logic
-        this.voxMarketEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 650,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('VoxMarket');
-                    });
-                }
-            });
-        });
-
-        // ScraperScene entrance click logic
-        this.scraperSceneEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 750,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ScraperScene');
-                    });
-                }
-            });
+        // Add pulsating animation to the glow
+        this.tweens.add({
+            targets: skyshipGlow,
+            alpha: { from: 0.2, to: 0.4 },
+            duration: 1500,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
         });
     }
 

@@ -1,8 +1,10 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class EntryScene extends GameScene {
     constructor() {
         super({ key: 'EntryScene' });
+        this.isTransitioning = false;
     }
 
     get dialogContent() {
@@ -116,6 +118,9 @@ export default class EntryScene extends GameScene {
         // Call parent create first to initialize mechanics
         super.create();
         
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
+        
         // Create the parallax layers
         this.createParallaxLayers();
         
@@ -124,6 +129,18 @@ export default class EntryScene extends GameScene {
         
         // Create stranger after mechanics are initialized
         this.createStranger();
+        
+        // Create transition zone to EggCatedralScene at the right edge
+        this.transitionManager.createTransitionZone(
+            780, // x position
+            470, // y position
+            40,  // width
+            200, // height
+            'right', // direction
+            'EggCatedralScene', // target scene
+            100, // walk to x in target scene
+            470  // walk to y in target scene
+        );
         
         // Start background music
         this.playSceneMusic('backgroundMusic');
@@ -244,19 +261,6 @@ export default class EntryScene extends GameScene {
             }
         }
 
-        // Check if priest reaches right edge (adjusted threshold)
-        if (this.priest && this.priest.x >= 750 && !this.isTransitioning) {
-            const targetX = 100; // Starting position in EggCatedralScene
-            
-            // Move priest to edge first
-            this.tweens.add({
-                targets: this.priest,
-                x: 750,
-                duration: Math.abs(750 - this.priest.x) * 5,
-                onComplete: () => {
-                    this.transitionToScene('EggCatedralScene');
-                }
-            });
-        }
+        // No need to check for edge transitions as SceneTransitionManager handles this
     }
 }

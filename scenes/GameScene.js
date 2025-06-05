@@ -43,6 +43,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('cityBackground', 'assets/images/city.jpg');
         this.load.image('ground', 'assets/images/ground.png');
         this.load.image('cursor', 'assets/images/cursor.png');
+        this.load.image('arrow', 'assets/images/arrow.png');
         this.load.spritesheet('priest', 'assets/images/priest.png', {
             frameWidth: 64,
             frameHeight: 64
