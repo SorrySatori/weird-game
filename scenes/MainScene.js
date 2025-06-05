@@ -98,7 +98,7 @@ export default class MainScene extends Phaser.Scene {
                 this.clickSound.play();
                 this.cameras.main.fadeOut(1000, 0, 0, 0);
                 this.cameras.main.once('camerafadeoutcomplete', () => {
-                    this.scene.start('EntryScene');
+                    this.scene.start('IntroScene');
                 });
             });
 

@@ -20,6 +20,7 @@ import ScreamingCorkScene from './scenes/ScreamingCorkScene.js';
 import ScreamingCorkInteriorScene from './scenes/ScreamingCorkInteriorScene.js';
 import BurningBearStreetScene from './scenes/BurningBearStreetScene.js';
 import SkyshipBoardScene from './scenes/SkyshipBoardScene.js';
+import IntroScene from './scenes/IntroScene.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -36,7 +37,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene, SkyshipBoardScene],
+    scene: [MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
