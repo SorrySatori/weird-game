@@ -21,12 +21,12 @@ export default class ShedRegistrationScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('registration-bg', 'assets/images/ShedRegistrationZone.png');
-        this.load.image('door', 'assets/images/door.png');
-        this.load.image('clerk2', 'assets/images/clerk2.png');
-        this.load.image('vowelSeller', 'assets/images/vowelSeller.png');
-        this.load.image('hollowWoman', 'assets/images/hollowWoman.png');
-        this.load.image('sleeplessMime', 'assets/images/mime.png');
+        this.load.image('registration-bg', 'assets/images/backgrounds/ShedRegistrationZone.png');
+        this.load.image('door', 'assets/images/ui/door.png');
+        this.load.image('clerk2', 'assets/images/characters/clerk2.png');
+        this.load.image('vowelSeller', 'assets/images/characters/vowelSeller.png');
+        this.load.image('hollowWoman', 'assets/images/characters/hollowWoman.png');
+        this.load.image('sleeplessMime', 'assets/images/characters/mime.png');
 
     }
 

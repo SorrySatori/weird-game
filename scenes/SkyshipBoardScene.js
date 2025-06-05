@@ -8,9 +8,9 @@ export default class SkyshipBoardScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('skyshipBoardBg', 'assets/images/skyship_board.png');
-        this.load.image('exitArea', 'assets/images/door.png');
-        this.load.image('captainLiris', 'assets/images/captain_liris.png');
+        this.load.image('skyshipBoardBg', 'assets/images/backgrounds/skyship_board.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png');
+        this.load.image('captainLiris', 'assets/images/characters/captain_liris.png');
     }
 
     create() {

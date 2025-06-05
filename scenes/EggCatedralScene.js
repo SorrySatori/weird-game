@@ -9,9 +9,9 @@ export default class EggCatedralScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('eggCatedralBg', 'assets/images/egg-catedral.png');
-        this.load.image('door', 'assets/images/door.png'); // Placeholder transparent image for clickable door
-        this.load.image('box', 'assets/images/box.png'); // Load the box asset
+        this.load.image('eggCatedralBg', 'assets/images/backgrounds/egg-catedral.png');
+        this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
+        this.load.image('box', 'assets/images/items/box.png'); // Load the box asset
         // Audio is already loaded in GameScene's preload
     }
 

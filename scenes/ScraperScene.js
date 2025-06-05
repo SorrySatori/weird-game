@@ -16,9 +16,9 @@ export default class ScraperScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('scraperBg', 'assets/images/Scraper1140.png');
-        this.load.image('exitArea', 'assets/images/door.png');
-        this.load.image('arrow', 'assets/images/arrow.png');
+        this.load.image('scraperBg', 'assets/images/backgrounds/Scraper1140.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png');
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
     }
 
     create() {

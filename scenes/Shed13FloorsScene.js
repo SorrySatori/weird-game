@@ -9,8 +9,8 @@ export default class Shed13FloorsScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('floors', 'assets/images/Shed13_floors.png');
-        this.load.image('door', 'assets/images/door.png'); // Placeholder transparent image for clickable door
+        this.load.image('floors', 'assets/images/backgrounds/Shed13_floors.png');
+        this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
     }
 
     create() {

@@ -328,11 +328,11 @@ export default class Shed13Scene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('shed13Bg', 'assets/images/Shed13.png');
-        this.load.image('exitArea', 'assets/images/door.png');
-        this.load.image('mysteriousSpore', 'assets/images/spore.png');
+        this.load.image('shed13Bg', 'assets/images/backgrounds/Shed13.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png');
+        this.load.image('mysteriousSpore', 'assets/images/items/spore.png');
         // Load Gnur sprite
-        this.load.image('gnur', './assets/images/Gnur.png');
+        this.load.image('gnur', './assets/images/characters/Gnur.png');
     }
 
     update() {

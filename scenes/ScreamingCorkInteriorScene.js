@@ -229,12 +229,12 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('screamingCorkInteriorBg', 'assets/images/ScreamingCorkInterior.png');
-        this.load.image('arrow', 'assets/images/arrow.png');
+        this.load.image('screamingCorkInteriorBg', 'assets/images/backgrounds/ScreamingCorkInterior.png');
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
         
         // Load NPC sprites as static images first to ensure they exist
-        this.load.image('ravla_static', 'assets/images/ravla.png');
-        this.load.image('heliodor_static', 'assets/images/heliodor.png');
+        this.load.image('ravla_static', 'assets/images/characters/ravla.png');
+        this.load.image('heliodor_static', 'assets/images/characters/heliodor.png');
     }
 
     create() {

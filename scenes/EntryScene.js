@@ -111,7 +111,7 @@ export default class EntryScene extends GameScene {
     preload() {
         super.preload();
         // Load any EntryScene-specific assets here
-        this.load.image('desolateUrban', 'assets/images/Desolate Urban Landscape.png');
+        this.load.image('desolateUrban', 'assets/images/backgrounds/Desolate Urban Landscape.png');
     }
 
     create() {

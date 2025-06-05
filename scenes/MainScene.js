@@ -7,7 +7,7 @@ export default class MainScene extends Phaser.Scene {
     preload() {
         console.log('MainScene preload started');
         // Load images
-        this.load.image('background', 'assets/images/background.png');
+        this.load.image('background', 'assets/images/backgrounds/background.png');
         
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');

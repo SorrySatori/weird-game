@@ -364,17 +364,17 @@ export default class VoxMarket extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('voxMarketBg', 'assets/images/Voxmarket.png');
-        this.load.image('exitArea', 'assets/images/door.png'); // Reusing door image for exit area
-        this.load.image('arrow', 'assets/images/arrow.png');
+        this.load.image('voxMarketBg', 'assets/images/backgrounds/Voxmarket.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
         
         // Load Kloor Venn drug dealer assets
-        this.load.image('kloor', 'assets/images/rat.png');
+        this.load.image('kloor', 'assets/images/characters/rat.png');
         
         // Load Oltrac drug images
-        this.load.image('grayOltrac', 'assets/images/door.png'); // Placeholder for Gray Oltrac
-        this.load.image('violetOltrac', 'assets/images/door.png'); // Placeholder for Violet Oltrac
-        this.load.image('amberOltrac', 'assets/images/door.png'); // Placeholder for Amber Oltrac
+        this.load.image('grayOltrac', 'assets/images/effects/grayOltrac.png'); // Placeholder for Gray Oltrac
+        this.load.image('violetOltrac', 'assets/images/effects/violetOltrac.png'); // Placeholder for Violet Oltrac
+        this.load.image('amberOltrac', 'assets/images/effects/amberOltrac.png'); // Placeholder for Amber Oltrac
         
         // Audio is already loaded in GameScene's preload
     }

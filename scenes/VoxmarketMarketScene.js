@@ -249,9 +249,9 @@ export default class VoxmarketMarketScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('voxmarketMarketBg', 'assets/images/VoxmarketMarket.png');
-        this.load.image('arrow', 'assets/images/door.png'); // Arrow for transition zones
-        this.load.image('zerren', 'assets/images/Zerren.png'); // Zerren NPC image
+        this.load.image('voxmarketMarketBg', 'assets/images/backgrounds/VoxmarketMarket.png');
+        this.load.image('arrow', 'assets/images/ui/door.png'); // Arrow for transition zones
+        this.load.image('zerren', 'assets/images/characters/Zerren.png'); // Zerren NPC image
         // Audio is already loaded in GameScene's preload
     }
 

@@ -40,19 +40,19 @@ export default class GameScene extends Phaser.Scene {
 
     preload() {
         // Load the game assets
-        this.load.image('cityBackground', 'assets/images/city.jpg');
-        this.load.image('ground', 'assets/images/ground.png');
-        this.load.image('cursor', 'assets/images/cursor.png');
-        this.load.image('arrow', 'assets/images/arrow.png');
-        this.load.spritesheet('priest', 'assets/images/priest.png', {
+        this.load.image('cityBackground', 'assets/images/backgrounds/city.jpg');
+        this.load.image('ground', 'assets/images/ui/ground.png');
+        this.load.image('cursor', 'assets/images/ui/cursor.png');
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.spritesheet('priest', 'assets/images/characters/priest.png', {
             frameWidth: 64,
             frameHeight: 64
         });
-        this.load.spritesheet('stranger', 'assets/images/mysterious-stranger.png', {
+        this.load.spritesheet('stranger', 'assets/images/characters/mysterious-stranger.png', {
             frameWidth: 64,
             frameHeight: 64
         });
-        this.load.image('fungalPriestAvatar', 'assets/images/fungal-priest.png');
+        this.load.image('fungalPriestAvatar', 'assets/images/characters/fungal-priest.png');
 
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
@@ -62,7 +62,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.audio('dialogMurmur', 'assets/sounds/dialog-murmur.wav');
 
         // Load Growth/Decay indicator image
-        this.load.image('growthDecay', 'assets/images/growthDecay.jpg');
+        this.load.image('growthDecay', 'assets/images/ui/growthDecay.jpg');
 
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {

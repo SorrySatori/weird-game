@@ -137,9 +137,9 @@ export default class ScreamingCorkScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('screamingCorkBg', 'assets/images/ScreamingCork.png');
-        this.load.image('arrow', 'assets/images/arrow.png');
-        this.load.image('edgarEskola', 'assets/images/EdgarEskola.png');
+        this.load.image('screamingCorkBg', 'assets/images/backgrounds/ScreamingCork.png');
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.image('edgarEskola', 'assets/images/characters/EdgarEskola.png');
     }
 
     create() {

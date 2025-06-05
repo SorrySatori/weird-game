@@ -8,8 +8,8 @@ export default class Shed13GateScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('shed13GateBg', 'assets/images/Shed13_gate.png');
-        this.load.image('exitArea', 'assets/images/door.png'); // Reusing door image for exit area
+        this.load.image('shed13GateBg', 'assets/images/backgrounds/Shed13_gate.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
         // Audio is already loaded in GameScene's preload
     }
 

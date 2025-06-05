@@ -11,10 +11,10 @@ export default class CrossroadScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('crossroadBg', 'assets/images/crossroad.png');
-        this.load.image('crossroadBg_growth', 'assets/images/crossroad_growth.png');
-        this.load.image('door', 'assets/images/door.png');
-        this.load.image('skyship', 'assets/images/skyship.png');
+        this.load.image('crossroadBg', 'assets/images/backgrounds/crossroad.png');
+        this.load.image('crossroadBg_growth', 'assets/images/backgrounds/crossroad_growth.png');
+        this.load.image('door', 'assets/images/ui/door.png');
+        this.load.image('skyship', 'assets/images/backgrounds/skyship.png');
     }
 
     create() {

@@ -8,8 +8,8 @@ export default class ShedAbandonedOfficeScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('office-bg', 'assets/images/ShedAbandonedOffice.png');
-        this.load.image('exitArea', 'assets/images/exitArea.png');
+        this.load.image('office-bg', 'assets/images/backgrounds/ShedAbandonedOffice.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png');
     }
 
     create() {

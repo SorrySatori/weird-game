@@ -16,9 +16,9 @@ export default class BurningBearStreetScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('burningBearStreetBg', 'assets/images/BurningBearStreet.png');
-        this.load.image('exitArea', 'assets/images/door.png');
-        this.load.image('arrow', 'assets/images/arrow.png');
+        this.load.image('burningBearStreetBg', 'assets/images/backgrounds/BurningBearStreet.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png');
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
     }
 
     create() {

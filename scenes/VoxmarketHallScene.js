@@ -16,8 +16,8 @@ export default class VoxmarketHallScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('voxmarketHallBg', 'assets/images/VoxmarketHall.png');
-        this.load.image('arrow', 'assets/images/door.png'); // Arrow for transition zones
+        this.load.image('voxmarketHallBg', 'assets/images/backgrounds/VoxmarketHall.png');
+        this.load.image('arrow', 'assets/images/ui/arrow.png'); // Arrow for transition zones
         // Audio is already loaded in GameScene's preload
     }
 

@@ -125,8 +125,8 @@ export default class CathedralEntrance extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('cathedralEntranceBg', 'assets/images/CathedralEntrance.png');
-        this.load.image('exitArea', 'assets/images/door.png'); // Reusing door image for exit area
+        this.load.image('cathedralEntranceBg', 'assets/images/backgrounds/CathedralEntrance.png');
+        this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
     }
 
     create() {

@@ -275,9 +275,9 @@ export default class ShedApplicationsScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('applications-bg', 'assets/images/ShedApplications.png');
-        this.load.image('door', 'assets/images/door.png');
-        this.load.image('clerk', './assets/images/clerk.png');
+        this.load.image('applications-bg', 'assets/images/backgrounds/ShedApplications.png');
+        this.load.image('door', 'assets/images/ui/door.png');
+        this.load.image('clerk', './assets/images/characters/clerk.png');
     }
 
     create() {
