@@ -37,6 +37,9 @@ class IntroScene extends Phaser.Scene {
         { speaker: 'ACHPRIEST VARHUN', text: 'We must respond, though we do not know who speaks.' },
         { speaker: 'ACHPRIEST RHULL', text: 'The Egg Cathedral sits atop the old sporespire. If a call came, it likely came from there… or from beneath it.' },
         { speaker: 'ACHPRIEST VARHUN', text: 'Let our emissary walk the deadroot path. Let the priest rise.' },
+        { speaker: 'ACHPRIEST RHULL', text: 'At least this time we’ve hidden the ceremonial oils.' },
+        { speaker: 'ACHPRIEST TYNRI', text: 'And locked the fungal archive. Twice.' },
+        { speaker: 'ACHPRIEST VARHUN', text: 'Let the priest rise — quietly, if possible.' },
       ];
   
       // Overlay animation
