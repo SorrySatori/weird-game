@@ -239,6 +239,47 @@ export default class ShedCourtyardScene extends GameScene {
                     this.showNotification('Growth +4: Mastered proxy representation');
                 }
             },
+            give_forged_permission: {
+                text: "Is this... wait, this is a forgery! But... it's actually quite impressive. The seal looks authentic, the watermarks are perfect, and the signature... well, it's better than the real thing. Where did you get this?",
+                options: [
+                    { text: "From a specialist in the Screaming Cork.", next: "forged_reaction" },
+                    { text: "I'd rather not say.", next: "forged_reaction" }
+                ],
+                onTrigger: () => {
+                    // Remove the forged document from inventory
+                    this.removeItemFromInventory('forged-arms-permission');
+                }
+            },
+            forged_reaction: {
+                text: "Well, I suppose I shouldn't look a gift horse in the mouth. This will certainly do the trick - the bureaucrats barely look at these forms anyway. They just check for the right seals and stamps. Though using a forgery does feel... morally questionable.",
+                options: [
+                    { text: "It's for a good cause.", next: "complete_quest_forged" },
+                    { text: "Sorry about that.", next: "complete_quest_forged" }
+                ]
+            },
+            complete_quest_forged: {
+                text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here, take this special game piece I've been working on. It might bring you some luck in your endeavors.",
+                options: [
+                    { text: "Thank you for the gift.", next: "quest_completed" }
+                ],
+                onTrigger: () => {
+                    // Complete quest with 'forged' completion type
+                    this.completeQuest('ortolan_arms', 'forged');
+                    
+                    // Increase Decay due to using forged documents
+                    this.safeModifyGrowthDecay(0, 15);
+                    this.showNotification('Decay +15: Used forged documents');
+                    
+                    // Add special game piece to inventory
+                    this.addItemToInventory({
+                        id: 'fate-altering-piece',
+                        name: "Fate-Altering Game Piece",
+                        description: "A special game piece crafted by Ortolan that seems to subtly influence probability and fate when carried. It glows with a faint, unsettling light.",
+                        stackable: false
+                    });
+                    this.showNotification('Received: Fate-Altering Game Piece');
+                }
+            },
             complete_quest_fungal: {
                 text: "What an unexpected solution! The mycologists might be able to help me grow additional arms through fungal grafting. It's not what I had in mind, but I'm intrigued by the possibility. Here, take this special spore sample. It responds to creative thought - plant it somewhere and see what grows!",
                 options: [
@@ -510,6 +551,12 @@ export default class ShedCourtyardScene extends GameScene {
             { text: "See you later.", next: "goodbye" }
         ];
 
+        // Check for forged document from Ravla
+        const hasForgedPermission = inventory?.items.some(item => item.id === 'forged-arms-permission');
+        
+        if (hasForgedPermission) {
+            dialogOptions.unshift({ text: "I have a forged Multiple Arms Permission for you.", next: "give_forged_permission" });
+        }
         if (hasArtisanForm) {
             dialogOptions.unshift({ text: "I have an Artisan's Exemption Form for you.", next: "give_artisan_form" });
         }

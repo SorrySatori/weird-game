@@ -72,21 +72,67 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             ravla_ortolan_need: {
-                text: "I'd need to see an original first. Even an expired one. And it won't be cheap - 300 credits. But I can make it perfect. No one would know the difference.",
+                text: "It won't be cheap - 50 dinars. But I can make it perfect. No one would know the difference.",
                 options: [
-                    { text: "I'll find an original", next: "ravla_ortolan_agree" },
+                    { text: "Here's the money", next: "ravla_check_money" },
+                    { text: "I'll think about it", next: "ravla_ortolan_agree" },
                     { text: "That's too expensive", next: "ravla_start" }
                 ]
             },
+            ravla_check_money: {
+                text: "",
+                options: [],
+                onShow: () => {
+                    // Check if player has enough money
+                    if (this.hasEnoughMoney(50)) {
+                        this.subtractMoney(50);
+                        this.showNotification("-50 dinar");
+                        
+                        // Add forged document to inventory
+                        this.addItemToInventory({
+                            id: 'forged-arms-permission',
+                            name: "Forged Multiple Arms Permission",
+                            description: "A convincing forgery of an Artisan's Exemption Form that would allow the bearer to legally possess multiple arms for specialized work.",
+                            stackable: false
+                        });
+                        this.showNotification('Received: Forged Multiple Arms Permission');
+                        
+                        // Update quest
+                        const questSystem = this.registry.get('questSystem');
+                        if (questSystem) {
+                            questSystem.updateQuest('ortolan_arms', 'You obtained a forged Artisan\'s Exemption Form from Ravla. Deliver it to Ortolan at the Shed Courtyard.', 'document_obtained');
+                            this.showNotification('Quest updated: Ortolan Arms Investigation');
+                        }
+                        
+                        // Show success dialog
+                        this.showDialog('ravla_forge_success');
+                    } else {
+                        // Not enough money
+                        this.showDialog('ravla_not_enough_money');
+                    }
+                }
+            },
+            ravla_forge_success: {
+                text: "Here you go. Perfect forgery, if I do say so myself. The official seals, the watermarks, even the special ink - all perfect. No one will question this. Just don't tell anyone where you got it.",
+                options: [
+                    { text: "Thank you", next: "closeDialog" }
+                ]
+            },
+            ravla_not_enough_money: {
+                text: "What are you trying to pull? You don't have 50 dinars. Come back when you have the money. I don't work for free.",
+                options: [
+                    { text: "Sorry, I'll be back", next: "closeDialog" }
+                ]
+            },
             ravla_ortolan_agree: {
-                text: "Good. Find me an original, bring the credits, and I'll have it ready in no time. Just don't tell anyone where you got it.",
+                text: "Good. Bring the money, and I'll have it ready in no time. Just don't tell anyone where you got it.",
                 options: [
                     { text: "Deal", next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she needs to see an original first and wants 300 credits for the job.', 'ravla_forger_agreement');
+                        questSystem.updateQuest('ortolan_arms', 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.', 'ravla_forger_agreement');
                         this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }
@@ -306,6 +352,25 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         if (this.shopSystem && this.shopSystem.isOpen) {
             this.shopSystem.updateMoneyDisplay();
         }
+    }
+    
+    // Helper method to add an item to inventory
+    addItemToInventory(item) {
+        const inventory = this.registry.get('inventory') || { items: [] };
+        
+        // Check if the item already exists (for stackable items)
+        const existingItemIndex = inventory.items.findIndex(i => i.id === item.id);
+        
+        if (existingItemIndex !== -1 && item.stackable) {
+            // Increment count for stackable items
+            inventory.items[existingItemIndex].count = (inventory.items[existingItemIndex].count || 1) + (item.count || 1);
+        } else {
+            // Add new item
+            inventory.items.push(item);
+        }
+        
+        // Update inventory in registry
+        this.registry.set('inventory', inventory);
     }
     
     /**

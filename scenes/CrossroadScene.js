@@ -30,11 +30,11 @@ export default class CrossroadScene extends GameScene {
         this.createSymbiontUI();
 
         // Add invisible clickable area for Shed13 entrance
-        this.marketEntrance = this.add.image(100, 400, 'door')
+        this.shed13Entrance = this.add.image(100, 400, 'door')
             .setDisplaySize(120, 200)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
-        this.marketEntrance.setDepth(10);
+        this.shed13Entrance.setDepth(10);
 
         // Add invisible clickable area for VoxMarket entrance
         this.voxMarketEntrance = this.add.image(650, 400, 'door')
@@ -44,11 +44,11 @@ export default class CrossroadScene extends GameScene {
         this.voxMarketEntrance.setDepth(10);
 
         // Add invisible clickable area for Scraper entrance
-        this.scraperEntrance = this.add.image(400, 400, 'door')
+        this.cathedralEntrance = this.add.image(400, 400, 'door')
             .setDisplaySize(100, 200)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
-        this.scraperEntrance.setDepth(10);
+        this.cathedralEntrance.setDepth(10);
 
         // Add invisible clickable area at the right border for EntryScene
         this.scraperSceneEntrance = this.add.image(750, 470, 'door')
@@ -118,7 +118,7 @@ export default class CrossroadScene extends GameScene {
         }
         
         // Setup the transition for the market entrance
-        this.marketEntrance.on('pointerdown', () => {
+        this.shed13Entrance.on('pointerdown', () => {
             if (this.isTransitioning) return;
             this.isTransitioning = true;
             
@@ -129,7 +129,7 @@ export default class CrossroadScene extends GameScene {
             // Calculate distance to transition point
             const distance = Phaser.Math.Distance.Between(
                 priestX, priestY,
-                this.marketEntrance.x, this.marketEntrance.y
+                this.shed13Entrance.x, this.shed13Entrance.y
             );
             
             // Calculate duration based on distance (faster for closer distances)
@@ -139,15 +139,15 @@ export default class CrossroadScene extends GameScene {
             this.priest.play('walk');
             this.tweens.add({
                 targets: this.priest,
-                x: this.marketEntrance.x,
-                y: this.marketEntrance.y,
+                x: this.shed13Entrance.x,
+                y: this.shed13Entrance.y,
                 duration: duration,
                 ease: 'Linear',
                 onComplete: () => {
                     this.priest.play('idle');
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('VoxMarket');
+                        this.scene.start('Shed13Scene');
                     });
                 }
             });
