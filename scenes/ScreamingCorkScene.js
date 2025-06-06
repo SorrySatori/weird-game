@@ -1,9 +1,13 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class ScreamingCorkScene extends GameScene {
     constructor() {
         super({ key: 'ScreamingCorkScene' });
+        
+        // Get instance of the journal system
+        this.journalSystem = JournalSystem.getInstance();
         this.isTransitioning = false;
     }
 
@@ -74,11 +78,23 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_dream_job: {
-                text: "I’ve tried everything. Janitor. Clerk. Meat assembler. Imaginator. But I’ve never been anything truly mine. I think… I want to write a book. But I don’t know what it’s about yet.",
+                text: "I've tried everything. Janitor. Clerk. Meat assembler. Imaginator. But I've never been anything truly mine. I think… I want to write a book. But I don't know what it's about yet.",
                 options: [
                     { text: "I can help you write the book", next: "edgar_book" },
                     { text: "Back to other topics", next: "edgar_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    // Add journal entry about Edgar's aspiration
+                    if (!this.hasJournalEntry('edgar_aspiration')) {
+                        this.addJournalEntry(
+                            'edgar_aspiration',
+                            'Edgar\'s Literary Aspirations',
+                            'Edgar Eskola, the bearish mišutkenn from the Screaming Cork, expressed his desire to write a book. Despite having worked many jobs in the city, he feels he hasn\'t found his true calling. Writing could be his chance to create something truly his own.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Edgar Eskola', location: 'Screaming Cork' }
+                        );
+                    }
+                }
             },
             edgar_book: {
                 text: "You would... do that for me? Thank you. I don't know what it's about yet. But I'm open to suggestions.",
@@ -90,6 +106,19 @@ export default class ScreamingCorkScene extends GameScene {
                         'edgar_book',
                         'Help Edgar to write a book',
                         'Edgar Eskola mentioned he wants to write a book. I should help him.'
+                    );
+                    
+                    // Add journal entry about agreeing to help with the book
+                    this.addJournalEntry(
+                        'edgar_book_quest_start',
+                        'A Promise to a Writer',
+                        'I offered to help Edgar Eskola write his book. He seems genuinely touched by the gesture, though neither of us have a clear idea of what the book should be about yet. My experiences in this strange city might provide inspiration for his story.',
+                        this.journalSystem.categories.EVENTS,
+                        { 
+                            character: 'Edgar Eskola', 
+                            location: 'Screaming Cork',
+                            quest: 'edgar_book'
+                        }
                     );
                 }
             },
@@ -159,6 +188,41 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "I promise to help you write your book", next: "edgar_vestigel_book_offer" }
                 ]
             },
+            edgar_vestigel_book_offer: {
+                text: "You would do that for me? In exchange for the vestigel... Very well. Here, take it. It's of more use to you than to me, it seems. And I look forward to our literary collaboration.",
+                options: [
+                    { text: "Thank you. I'll help you create something wonderful.", next: "edgar_vestigel_thanks" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.addQuest(
+                        'edgar_book',
+                        'Help Edgar to write a book',
+                        'Edgar Eskola mentioned he wants to write a book. I should help him.'
+                    );
+                    
+                    // Update quest progress
+                    this.questSystem.updateQuest('the_three_vestigels', 'Received a vestigel from Edgar in exchange for helping with his book.', 'edgar_vestigel_acquired');
+                    
+                    // Growth increase
+                    this.showNotification('Growth increased');
+                    this.modifyGrowthDecay(1, 0);
+                    
+                    // Add journal entry about receiving the vestigel
+                    this.addJournalEntry(
+                        'edgar_vestigel_received',
+                        'The Writer\'s Token',
+                        'Today I acquired one of the three vestigels from Edgar Eskola at the Screaming Cork. He gave it to me in exchange for my promise to help him write his book. The vestigel had been hidden inside a plush toy that Edgar had bought from a street vendor. He mentioned that the vendor refused to take it back when offered, citing "professional honor." The vestigel itself is small but intricately carved, clearly valuable to someone who knows its purpose.',
+                        this.journalSystem.categories.EVENTS,
+                        { 
+                            character: 'Edgar Eskola', 
+                            location: 'Screaming Cork',
+                            item: 'Vestigel',
+                            quest: 'the_three_vestigels',
+                            importance: 'high'
+                        }
+                    );
+                }
+            },
             edgar_vestigel_request: {
                 text: "Just like that? You know that's a valuable trinket. I wouldn't give it away without good reason.",
                 options: [
@@ -177,6 +241,26 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Back to other topics", next: "edgar_start" }
                 ]
             },
+            edgar_vestigel_book_help: {
+                text: "Ah yes, the book. I've been thinking more about it since we talked. If you're serious about helping me with it, I could part with the vestigel. It seems like a fair exchange.",
+                options: [
+                    { text: "I'll definitely help you write something meaningful.", next: "edgar_vestigel_book_offer" }
+                ],
+                onTrigger: () => {
+                    // Add journal entry about this decision point
+                    this.addJournalEntry(
+                        'edgar_book_vestigel_path',
+                        'Literary Exchange',
+                        'Edgar seems more enthusiastic about his book than holding onto the vestigel. This is the perfect opportunity to obtain one of the three vestigels I need while also helping him fulfill his dream of becoming a writer.',
+                        this.journalSystem.categories.THOUGHTS,
+                        { 
+                            character: 'Edgar Eskola', 
+                            location: 'Screaming Cork',
+                            quests: ['the_three_vestigels', 'edgar_book']
+                        }
+                    );
+                }
+            },
             edgar_vestigel_offer: {
                 text: "Hmm... maybe you could help me with something. Do you know something about literature? I would like to become... a writer. But I don't know where to start. You would help me with that? I've been struggling to find a voice, a story worth telling. If you could truly help me...",
                 options: [
@@ -187,6 +271,20 @@ export default class ScreamingCorkScene extends GameScene {
                         'edgar_book',
                         'Help Edgar to write a book',
                         'Edgar Eskola mentioned he wants to write a book. I should help him.'
+                    );
+                    
+                    // Add journal entry about the vestigel negotiation
+                    this.addJournalEntry(
+                        'edgar_vestigel_negotiation',
+                        'A Deal with Edgar',
+                        'Edgar Eskola agreed to trade his vestigel in exchange for help with writing his book. The vestigel seems valuable to him, but his desire to become an author is stronger. This arrangement could benefit us both - he gets his book, and I get the vestigel I need.',
+                        this.journalSystem.categories.EVENTS,
+                        { 
+                            character: 'Edgar Eskola', 
+                            location: 'Screaming Cork',
+                            item: 'Vestigel',
+                            quest: 'the_three_vestigels'
+                        }
                     );
                 }
             },
@@ -205,6 +303,21 @@ export default class ScreamingCorkScene extends GameScene {
                     this.showNotification('Growth increased');
                     this.modifyGrowthDecay(1, 0);
                     this.questSystem.updateQuest('the_three_vestigels', 'Edgar Eskola would trade the Vestigel for your help with his book.', 'edgar_book_trade');
+                    
+                    // Add journal entry about Edgar's agreement
+                    this.addJournalEntry(
+                        'edgar_vestigel_agreement',
+                        'The Vestigel Bargain',
+                        'Edgar agreed to give me his vestigel once I help him write his book. He seems particularly excited about the prospect of becoming an author. The way his eyes lit up when discussing the project suggests this means more to him than just a simple trade - it represents a chance to leave his mark on the city that has so often marginalized him.',
+                        this.journalSystem.categories.EVENTS,
+                        { 
+                            character: 'Edgar Eskola', 
+                            location: 'Screaming Cork',
+                            item: 'Vestigel',
+                            quests: ['the_three_vestigels', 'edgar_book'],
+                            importance: 'high'
+                        }
+                    );
                 }
             }
         };

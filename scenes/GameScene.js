@@ -9,6 +9,8 @@ import SporeBar from '../ui/SporeBar.js';
 import PlayerMovementSystem from '../systems/player/PlayerMovementSystem.js';
 import InventorySystem from '../systems/inventory/InventorySystem.js';
 import MoneySystem from '../systems/inventory/MoneySystem.js';
+import JournalSystem from '../systems/JournalSystem.js';
+import JournalUI from '../ui/JournalUI.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -25,6 +27,8 @@ export default class GameScene extends Phaser.Scene {
         this.playerMovementSystem = null;
         this.inventorySystem = null;
         this.moneySystem = null;
+        this.journalSystem = null;
+        this.journalUI = null;
     }
 
     init() {
@@ -44,6 +48,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('ground', 'assets/images/ui/ground.png');
         this.load.image('cursor', 'assets/images/ui/cursor.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.image('journalIcon', 'assets/images/ui/journal.png'); // Journal icon
         this.load.spritesheet('priest', 'assets/images/characters/priest.png', {
             frameWidth: 64,
             frameHeight: 64
@@ -79,6 +84,13 @@ export default class GameScene extends Phaser.Scene {
         // Initialize systems
         this.initSystems();
         
+        // Add keyboard binding for journal (J key)
+        this.input.keyboard.on('keydown-J', () => {
+            if (this.journalUI) {
+                this.journalUI.toggle();
+            }
+        });
+        
         // Create symbiont UI
         this.createSymbiontUI();
         
@@ -102,6 +114,13 @@ export default class GameScene extends Phaser.Scene {
     }
 
     initSystems() {
+        // Initialize Journal System
+        this.journalSystem = JournalSystem.getInstance();
+        this.journalSystem.setScene(this);
+        
+        // Create Journal UI
+        this.journalUI = new JournalUI(this);
+        
         // Initialize Money System
         this.moneySystem = new MoneySystem(this, {
             initialAmount: 25, // Start with 25 gold
@@ -363,6 +382,36 @@ export default class GameScene extends Phaser.Scene {
                 // Update dialog visibility state
                 this.playerMovementSystem.setDialogVisible(this.dialogVisible);
             }
+            
+            // Create journal button (mushroom note icon) at top right corner
+            const journalBtn = this.add.image(690, 40, 'journalIcon'); // Moved left to avoid overlap with quest button
+            journalBtn.setScale(0.5);
+            journalBtn.setInteractive({ useHandCursor: true });
+            journalBtn.setDepth(100);
+            
+            // Add pulsating effect to journal button
+            this.tweens.add({
+                targets: journalBtn,
+                scale: { from: 0.5, to: 0.55 },
+                duration: 1500,
+                yoyo: true,
+                repeat: -1,
+                ease: 'Sine.easeInOut'
+            });
+            
+            journalBtn.on('pointerdown', () => {
+                if (this.clickSound) this.clickSound.play();
+                this.journalUI.toggle();
+            });
+            
+            // Add journal label under button
+            const journalLabel = this.add.text(690, 65, 'JOURNAL', {
+                fontSize: '12px',
+                fontFamily: 'Georgia',
+                color: '#7fff8e',
+                align: 'center'
+            }).setOrigin(0.5);
+            journalLabel.setDepth(100);
         } catch (error) {
             console.error('Error in initSceneMechanics():', error);
         }
@@ -857,7 +906,7 @@ export default class GameScene extends Phaser.Scene {
         if (!this.moneySystem) return false;
         return this.moneySystem.hasEnough(amount);
     }
-    
+
     /**
      * Get the current money amount
      * @returns {number} Current money amount
@@ -865,6 +914,48 @@ export default class GameScene extends Phaser.Scene {
     getMoney() {
         if (!this.moneySystem) return 0;
         return this.moneySystem.get();
+    }
+    
+    /**
+     * Add a journal entry about an important event
+     * @param {string} id - Unique identifier for the entry
+     * @param {string} title - Title of the journal entry
+     * @param {string} content - Main content of the journal entry
+     * @param {string} category - Category from JournalSystem.categories
+     * @param {Object} metadata - Additional metadata (optional)
+     * @returns {boolean} - Whether the entry was added successfully
+     */
+    addJournalEntry(id, title, content, category, metadata = {}) {
+        if (!this.journalSystem) return false;
+        
+        const result = this.journalSystem.addEntry(id, title, content, category, metadata);
+        
+        // Show notification if entry was added successfully
+        if (result) {
+            this.showNotification('Journal Updated', title);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Check if a journal entry exists
+     * @param {string} id - Entry identifier to check
+     * @returns {boolean} - Whether the entry exists
+     */
+    hasJournalEntry(id) {
+        if (!this.journalSystem) return false;
+        return this.journalSystem.hasEntry(id);
+    }
+    
+    /**
+     * Get a specific journal entry
+     * @param {string} id - Entry identifier
+     * @returns {Object|null} - The journal entry or null if not found
+     */
+    getJournalEntry(id) {
+        if (!this.journalSystem) return null;
+        return this.journalSystem.getEntry(id);
     }
 
     shutdown() {
