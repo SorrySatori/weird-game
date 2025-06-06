@@ -19,6 +19,10 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "What are you doing here?", next: "edgar_purpose" },
                     { text: "Tell me about yourself.", next: "edgar_background" },
                     { text: "What do you know about the Burning Bear Festival?", next: "edgar_festival" },
+                    // Dynamically add vestigel option if player has the quest
+                    ...(this.questSystem.getQuest('the_three_vestigels') ? [
+                        { text: "I'm looking for a vestigel, I heard you might have one.", next: "edgar_vestigel" }
+                    ] : []),
                     { text: "Goodbye.", next: "closeDialog" }
                 ]
             },
@@ -130,6 +134,77 @@ export default class ScreamingCorkScene extends GameScene {
                 onTrigger: () => {
                     this.showNotification('Growth increased');
                     this.modifyGrowthDecay(1, 0);
+                }
+            },
+            
+            // New vestigel dialog path
+            edgar_vestigel: {
+                text: "A vestigel? Yes... I do have one. It's a peculiar object, a small small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
+                options: [
+                    { text: "I need it for an important purpose.", next: "edgar_vestigel_need" },
+                    { text: "May I have it?", next: "edgar_vestigel_request" },
+                    { text: "Back to other topics", next: "edgar_start" }
+                ]
+            },
+            edgar_vestigel_need: {
+                text: "Important purpose, you say? Well, I don't really *need* it, but I kinda like it. Maybe you could do something for me in exchange?",
+                options: [
+                    { text: "I could help you write your book", next: "edgar_vestigel_book" },
+                    { text: "Back to other topics", next: "edgar_start" }
+                ]
+            },
+            edgar_vestigel_book: {
+                text: "You could help me to write a book. I've been struggling to find a voice, a story worth telling. If you could truly help me...",
+                options: [
+                    { text: "I promise to help you write your book", next: "edgar_vestigel_book_offer" }
+                ]
+            },
+            edgar_vestigel_request: {
+                text: "Just like that? You know that's a valuable trinket. I wouldn't give it away without good reason.",
+                options: [
+                    { text: "What would convince you to part with it?", next: "edgar_vestigel_convince" },
+                    { text: "Back to other topics", next: "edgar_start" }
+                ]
+            },
+            edgar_vestigel_convince: {
+                text: "Hmm...", 
+                options: [
+                    ...(this.questSystem.getQuest('edgar_book') ? [
+                        { text: "I could help with your book, as we discussed earlier.", next: "edgar_vestigel_book_help" }
+                    ] : [
+                        { text: "Maybe I could help you with something.", next: "edgar_vestigel_offer" }
+                    ]),
+                    { text: "Back to other topics", next: "edgar_start" }
+                ]
+            },
+            edgar_vestigel_offer: {
+                text: "Hmm... maybe you could help me with something. Do you know something about literature? I would like to become... a writer. But I don't know where to start. You would help me with that? I've been struggling to find a voice, a story worth telling. If you could truly help me...",
+                options: [
+                    { text: "I'll do my best.", next: "edgar_vestigel_thanks" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.addQuest(
+                        'edgar_book',
+                        'Help Edgar to write a book',
+                        'Edgar Eskola mentioned he wants to write a book. I should help him.'
+                    );
+                }
+            },
+            edgar_vestigel_book_help: {
+                text: "Yes, you did offer to help with my book. A fair exchange - your help for the vestigel. I've been collecting ideas but haven't made much progress.",
+                options: [
+                    { text: "I'll make sure your book becomes a reality.", next: "edgar_vestigel_thanks" }
+                ]
+            },
+            edgar_vestigel_thanks: {
+                text: "Remember your promise. I look forward to seeing what we can create together. A book that truly captures the essence of... well, that's what we need to discover.",
+                options: [
+                    { text: "Back to other topics", next: "edgar_start" }
+                ],
+                onTrigger: () => {
+                    this.showNotification('Growth increased');
+                    this.modifyGrowthDecay(1, 0);
+                    this.questSystem.updateQuest('the_three_vestigels', 'Edgar Eskola would trade the Vestigel for your help with his book.', 'edgar_book_trade');
                 }
             }
         };
