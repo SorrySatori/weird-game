@@ -149,7 +149,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.", 'found_eskola_lead');
+                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
                         this.showNotification("Quest updated: The Three Vestigels");
                     }
                 },
@@ -180,7 +180,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', 'found_eskola_lead', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.");
+                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
                         this.showNotification("Quest updated: The Three Vestigels");
                     }
                 }
@@ -209,7 +209,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', 'found_eskola_lead', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.");
+                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
                         this.showNotification("Quest updated: The Three Vestigels");
                     }
                 }
@@ -238,7 +238,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', 'found_eskola_lead', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found in the upper district of Voxmarket.");
+                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
                         this.showNotification("Quest updated: The Three Vestigels");
                     }
                 }
