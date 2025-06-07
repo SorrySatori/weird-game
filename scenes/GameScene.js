@@ -945,7 +945,7 @@ export default class GameScene extends Phaser.Scene {
      */
     hasJournalEntry(id) {
         if (!this.journalSystem) return false;
-        return this.journalSystem.hasEntry(id);
+        return this.journalSystem.getEntry(id);
     }
     
     /**
@@ -1155,7 +1155,7 @@ export default class GameScene extends Phaser.Scene {
         
         // Check if this state has an onTrigger handler (runs without closing dialog)
         if (content && content.onTrigger) {
-            content.onTrigger();
+            content.onTrigger.call(this); // Bind the correct 'this' context
         }
         
         // Check if this state has an onShow handler (closes dialog)
@@ -1308,6 +1308,11 @@ export default class GameScene extends Phaser.Scene {
         const optionHeight = 60;
         
         // Calculate total options including "Close"
+        // Handle options that are functions
+        if (typeof content.options === 'function') {
+            content.options = content.options.call(this);
+        }
+        
         const totalOptions = content.options.length + 1;
         
         // Determine if we need pagination
@@ -1332,21 +1337,26 @@ export default class GameScene extends Phaser.Scene {
                 const y = (i - startIdx) * optionHeight;
                 
                 const elements = this.createDialogOption(option.text, y, () => {
-                    // Check if there's an onTrigger function that returns a dialog ID
-                    if (content.onTrigger) {
-                        const nextDialog = content.onTrigger(option);
-                        if (nextDialog) {
-                            // If onTrigger returns a dialog ID, use that instead of option.next
-                            this.showDialog(nextDialog);
-                            return;
-                        }
-                    }
-                    
-                    // Otherwise use the option's next value
-                    if (option.next) {
-                        this.showDialog(option.next);
-                    }
-                });
+            // Call onSelect if it exists
+            if (option.onSelect) {
+                option.onSelect.call(this); // Bind the correct 'this' context
+            }
+            
+            // Check if there's an onTrigger function that returns a dialog ID
+            if (content.onTrigger) {
+                const nextDialog = content.onTrigger.call(this, option); // Bind the correct 'this' context
+                if (nextDialog) {
+                    // If onTrigger returns a dialog ID, use that instead of option.next
+                    this.showDialog(nextDialog);
+                    return;
+                }
+            }
+            
+            // Otherwise use the option's next value
+            if (option.next) {
+                this.showDialog(option.next);
+            }
+        });
                 this.dialogOptions.add(elements);
             }
             

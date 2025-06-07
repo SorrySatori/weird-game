@@ -364,8 +364,8 @@ export default class ShedCourtyardScene extends GameScene {
             if (!this.hasJournalEntry('ortolan_meeting')) {
                 this.addJournalEntry(
                     'ortolan_meeting',
-                    'Ortolan - The Many-Armed Dreamer',
-                    'I met Ortolan, an unusual being with creative ambitions trapped in the bureaucratic nightmare of Shed 13. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city\'s labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.',
+                    'Ortolan - The Board Game Designer',
+                    'I met Ortolan, a board game developer. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city\'s labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.',
                     this.journalSystem.categories.PEOPLE,
                     { character: 'Ortolan', location: 'Shed 13 Courtyard' }
                 );

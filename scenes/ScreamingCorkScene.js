@@ -5,16 +5,173 @@ import JournalSystem from '../systems/JournalSystem.js';
 export default class ScreamingCorkScene extends GameScene {
     constructor() {
         super({ key: 'ScreamingCorkScene' });
-        
+
         // Get instance of the journal system
         this.journalSystem = JournalSystem.getInstance();
         this.isTransitioning = false;
+
+        // Initialize book properties
+        this.bookTopics = [];
+        this.bookTone = '';
+        this.bookGenre = '';
+        this.bookProtagonist = '';
+        this.bookSetting = '';
+        this.maxTopics = 3; // Maximum number of inspirational topics
+    }
+
+    // Helper method to check if player has journal entry related to specific experiences
+    hasJournalExperience(entryId) {
+        console.log('journal entry', this.journalSystem.getEntry(entryId));
+        console.log('id', entryId);
+        return this.journalSystem.getEntry(entryId);
+    }
+    
+    // Helper method for compatibility with dialog system
+    hasJournalEntry(entryId) {
+        return this.journalSystem.getEntry(entryId);
+    }
+
+    // Helper method to get available inspirational topics based on journal entries
+    getAvailableTopics() {
+        const topics = [];
+
+        // Check for various journal entries that could serve as inspiration
+        if (this.hasJournalExperience('scraper_sighting')) {
+            topics.push({
+                id: 'scraper_building',
+                text: "The mysterious Scraper building",
+                description: "A building that seems to shift and change, with floors that rearrange themselves"
+            });
+        }
+
+        if (this.hasJournalExperience('lift_mother_meeting')) {
+            topics.push({
+                id: 'lift_mother',
+                text: "The sentient elevator Lift-Mother",
+                description: "An ancient, conscious elevator that remembers the city's history"
+            });
+        }
+
+        if (this.hasJournalExperience('ortolan_meeting')) {
+            topics.push({
+                id: 'ortolan',
+                text: "Ortolan, the board game designer",
+                description: "A character who creates complex games and seeks more arms for playtesting"
+            });
+        }
+
+        if (this.hasJournalExperience('dream_queue')) {
+            topics.push({
+                id: 'dream_queue',
+                text: "The mysterious Dream Queue",
+                description: "A phenomenon where people wait in line for dreams they might never experience"
+            });
+        }
+
+        if (this.hasJournalExperience('kloor_venn_meeting')) {
+            topics.push({
+                id: 'kloor_venn',
+                text: "The enigmatic Kloor Venn",
+                description: "A character who speaks in riddles and seems to exist in multiple places at once"
+            });
+        }
+
+        if (this.hasJournalExperience('skyship_sighting')) {
+            topics.push({
+                id: 'skyships',
+                text: "The skyships above the city",
+                description: "Massive vessels that drift through the clouds for reasons unknown"
+            });
+        }
+
+        if (this.hasJournalExperience('rust_choir')) {
+            topics.push({
+                id: 'rust_choir',
+                text: "The mysterious Rust Choir",
+                description: "A faction that communicates through the vibrations of rusting metal"
+            });
+        }
+
+        if (this.hasJournalExperience('burning_bear_festival')) {
+            topics.push({
+                id: 'burning_bear',
+                text: "The Burning Bear Festival",
+                description: "A controversial festival with deep meaning for Edgar"
+            });
+        }
+
+        // Always provide some default topics even if the player hasn't journaled much
+        if (topics.length < 2) {
+            topics.push({
+                id: 'city_mystery',
+                text: "The mysteries of Upper Morkezela",
+                description: "The strange city with its fungal growth and unusual inhabitants"
+            });
+
+            topics.push({
+                id: 'misutken_life',
+                text: "Life as a mišutkenn in the city",
+                description: "The challenges and perspectives of being different in Upper Morkezela"
+            });
+        }
+
+        return topics;
+    }
+
+    // Helper method to format the book title based on selections
+    generateBookTitle() {
+        // Generate different title formats based on genre
+        let title = '';
+
+        switch (this.bookGenre) {
+            case 'fungal_techno':
+                if (this.bookTone === 'tragic') {
+                    title = `The Last ${this.bookProtagonist.split(' ')[0]} of ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
+                } else if (this.bookTone === 'metaphysical') {
+                    title = `${this.bookSetting.split(' ')[0]} Recursions`;
+                } else if (this.bookTone === 'romantic') {
+                    title = `Love Among the ${this.bookSetting.split(' ').slice(-2).join(' ')}`;
+                } else if (this.bookTone === 'existential') {
+                    title = `The ${this.bookProtagonist.split(' ')[0]}'s Dilemma`;
+                } else if (this.bookTone === 'political') {
+                    title = `Revolution in the ${this.bookSetting.split(' ').slice(-1)[0]}`;
+                } else { // comical
+                    title = `The Ridiculous Adventures of a ${this.bookProtagonist.split(' ')[0]} in ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
+                }
+                break;
+
+            case 'postmodern':
+                if (this.bookTone === 'existential' || this.bookTone === 'metaphysical') {
+                    title = `${this.bookSetting.split(' ')[0]}, ${this.bookSetting.split(' ')[1]}, ${this.bookProtagonist.split(' ')[0]}`;
+                } else {
+                    title = `The ${this.bookProtagonist.split(' ')[0]} Variations`;
+                }
+                break;
+
+            case 'urban_fantasy':
+                title = `The ${this.bookProtagonist.split(' ')[0]} of ${this.bookSetting.split(' ')[0]} Street`;
+                break;
+
+            case 'funny_animals':
+                title = `${this.bookProtagonist.split(' ')[0]}'s Guide to ${this.bookTone.charAt(0).toUpperCase() + this.bookTone.slice(1)} Living`;
+                break;
+
+            case 'detective':
+                title = `The ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''} Mystery`;
+                break;
+
+            case 'weird_fiction':
+                title = `${this.bookProtagonist.split(' ')[0]} Dreams of ${this.bookSetting.split(' ')[0]}`;
+                break;
+        }
+
+        return title;
     }
 
     get dialogContent() {
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
-            
+
             // Edgar Eskola dialog
             edgar_start: {
                 text: "The ursine creature shifts uncomfortably. He glances at you with a mix of wariness and curiosity.",
@@ -27,11 +184,14 @@ export default class ScreamingCorkScene extends GameScene {
                     ...(this.questSystem.getQuest('the_three_vestigels') ? [
                         { text: "I'm looking for a vestigel, I heard you might have one.", next: "edgar_vestigel" }
                     ] : []),
+                    ...(this.registry.get('questSystem')?.getQuest('edgar_book') ? [
+                        { text: "Let's start with some inspirational topics", next: "edgar_book_topics" }
+                    ] : []),
                     { text: "Goodbye.", next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about meeting Edgar Eskola
-                    if (!this.hasJournalEntry('edgar_eskola_meeting')) {
+                    if (!this.hasJournalExperience('edgar_eskola_meeting')) {
                         this.addJournalEntry(
                             'edgar_eskola_meeting',
                             'Edgar Eskola - The Mišutkenn of Screaming Cork',
@@ -95,9 +255,9 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "I can help you write the book", next: "edgar_book" },
                     { text: "Back to other topics", next: "edgar_start" }
                 ],
-                onTrigger: () => {
+                onTrigger: function() {
                     // Add journal entry about Edgar's aspiration
-                    if (!this.hasJournalEntry('edgar_aspiration')) {
+                    if (!this.hasJournalExperience('edgar_aspiration')) {
                         this.addJournalEntry(
                             'edgar_aspiration',
                             'Edgar\'s Literary Aspirations',
@@ -111,29 +271,336 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_book: {
                 text: "You would... do that for me? Thank you. I don't know what it's about yet. But I'm open to suggestions.",
                 options: [
+                    { text: "Let's start with some inspirational topics", next: "edgar_book_topics" },
                     { text: "I will come back when I have an idea", next: "edgar_start" }
                 ],
-                onTrigger: () => {
-                    this.questSystem.addQuest(
-                        'edgar_book',
-                        'Help Edgar to write a book',
-                        'Edgar Eskola mentioned he wants to write a book. I should help him.'
-                    );
+                onTrigger: function() {
+                    if (!this.questSystem.getQuest('edgar_book')) {
+                        this.questSystem.addQuest(
+                            'edgar_book',
+                            'Help Edgar to write a book',
+                            'Edgar Eskola mentioned he wants to write a book. I should help him.'
+                        );
+
+                        // Add journal entry about agreeing to help with the book
+                        this.addJournalEntry(
+                            'edgar_book_quest_start',
+                            'A Promise to a Writer',
+                            'I offered to help Edgar Eskola write his book. He seems genuinely touched by the gesture, though neither of us have a clear idea of what the book should be about yet. My experiences in this strange city might provide inspiration for his story.',
+                            this.journalSystem.categories.EVENTS,
+                            {
+                                character: 'Edgar Eskola',
+                                location: 'Screaming Cork',
+                                quest: 'edgar_book'
+                            }
+                        );
+                    }
+                }
+            },
+
+            // Topic selection dialog - lets player choose inspirational topics
+            edgar_book_topics: {
+                text: "What inspires you about this city? What experiences might make a good story? I've been stuck in the same routines for so long, I need fresh perspectives.",
+                options: this.getAvailableTopics().map(function(topic) {
+                    return {
+                        text: topic.text,
+                        next: "edgar_book_topic_selected",
+                        onSelect: function() {
+                            this.bookTopics.push(topic);
+                        }
+                    };
+                }),
+                onTrigger: function() {
+                    console.log('edgar_book_topics', this.bookTopics);
+                }
+            },
+
+            // Topic selected dialog - adds the selected topic and returns to topic selection
+            edgar_book_topic_selected: {
+                text: "That's a fascinating topic! It gives me some interesting ideas to work with.",
+                // Instead of spreading conditionally in the declaration, we'll set this in a function
+                options: function() {
+                    const options = [
+                        { text: "Let's continue", next: "edgar_book_topics" }
+                    ];
                     
-                    // Add journal entry about agreeing to help with the book
+                    if (this.bookTopics && this.bookTopics.length >= 3) {
+                        options.push({ text: "I think I have enough topics", next: "edgar_book_tone" });
+                    }
+                    
+                    return options;
+                },
+                onTrigger: function () {
+                    // Add the selected topic to our list
+                    if (this.currentTopic) {
+                        this.bookTopics.push(this.currentTopic);
+
+                        // Add journal entry about suggesting this topic
+                        this.addJournalEntry(
+                            `edgar_book_topic_${this.currentTopic.id}`,
+                            `Book Inspiration: ${this.currentTopic.text}`,
+                            `I suggested ${this.currentTopic.text} as inspiration for Edgar's book. ${this.currentTopic.description}. Edgar seemed intrigued by the concept and jotted down some notes.`,
+                            this.journalSystem.categories.EVENTS,
+                            {
+                                character: 'Edgar Eskola',
+                                location: 'Screaming Cork',
+                                quest: 'edgar_book'
+                            }
+                        );
+
+                        this.currentTopic = null;
+                    }
+                }
+            },
+
+            // Tone selection dialog - choose emotional tone for the book
+            edgar_book_tone: {
+                text: "Now that we have some topics to work with, what tone should the book have? I'm thinking about the emotional feel of it.",
+                options: [
+                    { text: "Tragic - a tale of sorrow and loss", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'tragic'; } },
+                    { text: "Metaphysical - exploring consciousness", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'metaphysical'; } },
+                    { text: "Romantic - focusing on connections", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'romantic'; } },
+                    { text: "Existential - pondering meaning and mortality", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'existential'; } },
+                    { text: "Political - examining power dynamics", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'political'; } },
+                    { text: "Comical - finding humor in the strange", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'comical'; } }
+                ]
+            },
+
+            // Tone selected dialog
+            edgar_book_tone_selected: {
+                text: "That's a great tone choice! It will give the book a distinct emotional flavor that should resonate with readers.",
+                options: [
+                    { text: "Now let's choose a genre for the book", next: "edgar_book_genre" }
+                ],
+                onTrigger: function () {
+                    // Add journal entry about the tone selection
+                    let toneDescription;
+                    switch (this.bookTone) {
+                        case 'tragic': toneDescription = 'a somber exploration of loss and sorrow'; break;
+                        case 'metaphysical': toneDescription = 'a deep dive into questions of consciousness and reality'; break;
+                        case 'romantic': toneDescription = 'a story focused on connection and love'; break;
+                        case 'existential': toneDescription = 'a meditation on meaning and mortality'; break;
+                        case 'political': toneDescription = 'an examination of power structures and their effects'; break;
+                        case 'comical': toneDescription = 'a humorous look at the absurdities of life'; break;
+                        default: toneDescription = 'an emotional journey'; break;
+                    }
+
                     this.addJournalEntry(
-                        'edgar_book_quest_start',
-                        'A Promise to a Writer',
-                        'I offered to help Edgar Eskola write his book. He seems genuinely touched by the gesture, though neither of us have a clear idea of what the book should be about yet. My experiences in this strange city might provide inspiration for his story.',
+                        `edgar_book_tone_${this.bookTone}`,
+                        `Book Tone: ${this.bookTone.charAt(0).toUpperCase() + this.bookTone.slice(1)}`,
+                        `I suggested that Edgar's book should have a ${this.bookTone} tone - ${toneDescription}. He seemed to embrace the idea, considering how it would fit with the inspirations we discussed.`,
                         this.journalSystem.categories.EVENTS,
-                        { 
-                            character: 'Edgar Eskola', 
+                        {
+                            character: 'Edgar Eskola',
                             location: 'Screaming Cork',
                             quest: 'edgar_book'
                         }
                     );
                 }
             },
+
+            // Genre selection dialog - choose genre for the book
+            edgar_book_genre: {
+                text: "The tone is set, but what genre should this story be? I've been exploring some experimental options.",
+                options: [
+                    { text: "Fungal techno-thriller", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'fungal_techno'; } },
+                    { text: "Postmodern novel", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'postmodern'; } },
+                    { text: "Urban fantasy", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'urban_fantasy'; } },
+                    { text: "Funny animals with depression", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'funny_animals'; } },
+                    { text: "Detective novel", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'detective'; } },
+                    { text: "Dreamy weird fiction", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'weird_fiction'; } }
+                ]
+            },
+
+            // Genre selected dialog
+            edgar_book_genre_selected: {
+                text: "That genre is perfect! It captures exactly the kind of story that would work in this strange city.",
+                options: [
+                    { text: "Let's decide on the main protagonist", next: "edgar_book_protagonist" }
+                ],
+                onTrigger: function () {
+                    // Add journal entry about the genre selection
+                    let genreDescription;
+                    switch (this.bookGenre) {
+                        case 'fungal_techno': genreDescription = 'combining biotechnology with horror elements'; break;
+                        case 'postmodern': genreDescription = 'breaking conventional narrative rules'; break;
+                        case 'urban_fantasy': genreDescription = 'bringing magical elements into the city setting'; break;
+                        case 'funny_animals': genreDescription = 'using anthropomorphic characters to explore deeper emotions'; break;
+                        case 'detective': genreDescription = 'following clues to unravel mysteries'; break;
+                        case 'weird_fiction': genreDescription = 'blurring the lines between reality and dreams'; break;
+                        default: genreDescription = 'a compelling literary style'; break;
+                    }
+
+                    this.addJournalEntry(
+                        `edgar_book_genre_${this.bookGenre}`,
+                        `Book Genre: ${this.bookGenre.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}`,
+                        `I suggested that Edgar write a ${this.bookGenre.replace('_', ' ')} - ${genreDescription}. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.`,
+                        this.journalSystem.categories.EVENTS,
+                        {
+                            character: 'Edgar Eskola',
+                            location: 'Screaming Cork',
+                            quest: 'edgar_book'
+                        }
+                    );
+                }
+            },
+
+            // Protagonist selection dialog
+            edgar_book_protagonist: {
+                text: "Who should the main character be? What kind of protagonist would fit this story?",
+                options: [
+                    { text: "A disoriented tourist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'tourist'; } },
+                    { text: "A renegade fungal scientist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'scientist'; } },
+                    { text: "A mišutkenn seeking identity", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'misutkenn'; } },
+                    { text: "An amnesiac with strange abilities", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'amnesiac'; } },
+                    { text: "A sentient fungal colony", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'fungal_colony'; } },
+                    { text: "A dream detective", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'detective'; } },
+                ]
+            },
+
+            // Protagonist selected dialog
+            edgar_book_protagonist_selected: {
+                text: "That's a fascinating protagonist choice! I can already imagine how they would navigate through the story and engage with readers.",
+                options: [
+                    { text: "Finally, let's choose a setting", next: "edgar_book_setting" }
+                ],
+                onTrigger: function () {
+                    // Add journal entry about the protagonist selection
+                    let protagonistDescription;
+                    switch (this.bookProtagonist) {
+                        case 'tourist': protagonistDescription = 'experiencing the strange city with fresh, confused eyes'; break;
+                        case 'scientist': protagonistDescription = 'delving into the mysteries of the city\'s fungal biology'; break;
+                        case 'misutkenn': protagonistDescription = 'searching for identity and belonging between worlds'; break;
+                        case 'amnesiac': protagonistDescription = 'uncovering their past while wielding unusual abilities'; break;
+                        case 'fungal_colony': protagonistDescription = 'a collective consciousness experiencing individuality'; break;
+                        case 'detective': protagonistDescription = 'solving mysteries by entering people\'s dreams'; break;
+                        default: protagonistDescription = 'navigating the complexities of Upper Morkezela'; break;
+                    }
+
+                    this.addJournalEntry(
+                        `edgar_book_protagonist_${this.bookProtagonist}`,
+                        `Book Protagonist: ${this.bookProtagonist.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}`,
+                        `I suggested that the main character of Edgar's book should be a ${this.bookProtagonist.replace('_', ' ')} - ${protagonistDescription}. Edgar seemed excited about developing this character for his story.`,
+                        this.journalSystem.categories.EVENTS,
+                        {
+                            character: 'Edgar Eskola',
+                            location: 'Screaming Cork',
+                            quest: 'edgar_book'
+                        }
+                    );
+                }
+            },
+
+            // Setting selection dialog
+            edgar_book_setting: {
+                text: "And finally, where should this story take place? What's the setting?",
+                options: [
+                    { text: "The Scraper's shifting floors", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'scraper'; } },
+                    { text: "The Rust Choir's domain", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'rust_choir'; } },
+                    { text: "A forgotten dream queue", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'dream_queue'; } },
+                    { text: "The fungal wilds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'fungal_wilds'; } },
+                    { text: "A skyship above the clouds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'skyship'; } },
+                    { text: "The subterranean markets", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'markets'; } }
+                ]
+            },
+
+            // Setting selected dialog
+            edgar_book_setting_selected: {
+                text: "What an evocative setting! It creates the perfect atmosphere and provides so many narrative possibilities.",
+                options: [
+                    { text: "Let's see what book we've created", next: "edgar_book_completion" }
+                ],
+                onTrigger: function () {
+                    // Add journal entry about the setting selection
+                    let settingDescription;
+                    switch (this.bookSetting) {
+                        case 'scraper': settingDescription = 'a mysterious building with floors that rearrange themselves'; break;
+                        case 'rust_choir': settingDescription = 'the industrial domain where messages travel through rusting metal'; break;
+                        case 'dream_queue': settingDescription = 'an ethereal space where people wait for dreams that may never arrive'; break;
+                        case 'fungal_wilds': settingDescription = 'the untamed areas where fungal growths take their most primordial forms'; break;
+                        case 'skyship': settingDescription = 'a vessel drifting above the clouds, isolated yet connected to the city below'; break;
+                        case 'markets': settingDescription = 'the underground commercial spaces where anything can be traded'; break;
+                        default: settingDescription = 'a compelling environment for the story'; break;
+                    }
+
+                    this.addJournalEntry(
+                        `edgar_book_setting_${this.bookSetting}`,
+                        `Book Setting: ${this.bookSetting.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}`,
+                        `I suggested that Edgar's book should be set in ${this.bookSetting.replace('_', ' ')} - ${settingDescription}. Edgar seemed inspired by this location and how it would interact with the story's other elements.`,
+                        this.journalSystem.categories.EVENTS,
+                        {
+                            character: 'Edgar Eskola',
+                            location: 'Screaming Cork',
+                            quest: 'edgar_book'
+                        }
+                    );
+                }
+            },
+
+            // Final book completion dialog
+            edgar_book_completion: {
+                // Use a placeholder - the actual title will be replaced in the onTrigger function
+                text: "[The book title will be dynamically generated]",
+                options: [
+                    { text: "I look forward to reading it", next: "edgar_book_farewell" },
+                    { text: "Make sure to credit me as co-author", next: "edgar_book_farewell" }
+                ],
+                onTrigger: function () {
+                    // Generate book title
+                    const bookTitle = this.generateBookTitle();
+                    
+                    // Replace the dialog text in the game's dialog object
+                    this.dialogContent.edgar_book_completion.text = 
+                        `"${bookTitle}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`;
+                    
+                    // Update the visible dialog text if it exists
+                    if (this.dialogText) {
+                        this.dialogText.setText(this.dialogContent.edgar_book_completion.text);
+                    }
+
+                    // Complete the quest
+                    this.questSystem.completeQuest('edgar_book');
+
+                    // Add journal entry about the completed book
+                    let topicsText = '';
+                    if (this.bookTopics.length > 0) {
+                        topicsText = 'Drawing inspiration from ' +
+                            this.bookTopics.map(t => t.text.toLowerCase()).join(', ') +
+                            ', ';
+                    }
+
+                    this.addJournalEntry(
+                        'edgar_book_completed',
+                        `Edgar's Book: "${bookTitle}"`,
+                        `I helped Edgar Eskola develop his book concept. ${topicsText}we created a ${this.bookTone} ${this.bookGenre.replace('_', ' ')} 
+                        featuring a ${this.bookProtagonist.replace('_', ' ')} in ${this.bookSetting.replace('_', ' ')}. 
+                        Edgar titled it "${bookTitle}" and seemed genuinely inspired to begin writing. 
+                        He promised me the first copy when it's published.`,
+                        this.journalSystem.categories.EVENTS,
+                        {
+                            character: 'Edgar Eskola',
+                            location: 'Screaming Cork',
+                            quest: 'edgar_book',
+                            quest_status: 'completed'
+                        }
+                    );
+                }
+            },
+
+            // Final farewell after completing the book quest
+            edgar_book_farewell: {
+                text: "I should get to work now. The ideas are flowing, and I don't want to lose them. Thank you again for your help. Feel free to check in on my progress sometime.",
+                options: [
+                    { text: "Good luck, Edgar", next: "edgar_start" }
+                ],
+                onTrigger: function () {
+                    // Add reputation with Edgar
+                    // This could be used in future interactions
+                    if (!this.edgarReputation) this.edgarReputation = 0;
+                    this.edgarReputation += 2;
+                }
+            },
+
             edgar_imaginator: {
                 text: "I dreamed up locations and characters for Dr. Elphi Quarn's games. Turns out my imagination was too... wild. Too erratic, they said. My dreams were 'unusable.' Their loss.",
                 options: [
@@ -177,7 +644,7 @@ export default class ScreamingCorkScene extends GameScene {
                     this.modifyGrowthDecay(1, 0);
                 }
             },
-            
+
             // New vestigel dialog path
             edgar_vestigel: {
                 text: "A vestigel? Yes... I do have one. It's a peculiar object, a small small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
@@ -205,22 +672,22 @@ export default class ScreamingCorkScene extends GameScene {
                         'Help Edgar to write a book',
                         'Edgar Eskola mentioned he wants to write a book. I should help him.'
                     );
-                    
+
                     // Update quest progress
                     this.questSystem.updateQuest('the_three_vestigels', 'Received a vestigel from Edgar in exchange for helping with his book.', 'edgar_vestigel_acquired');
-                    
+
                     // Growth increase
                     this.showNotification('Growth increased');
                     this.modifyGrowthDecay(1, 0);
-                    
+
                     // Add journal entry about receiving the vestigel
                     this.addJournalEntry(
                         'edgar_vestigel_received',
                         'The Writer\'s Token',
                         'Today I acquired one of the three vestigels from Edgar Eskola at the Screaming Cork. He gave it to me in exchange for my promise to help him write his book. The vestigel had been hidden inside a plush toy that Edgar had bought from a street vendor. He mentioned that the vendor refused to take it back when offered, citing "professional honor." The vestigel itself is small but intricately carved, clearly valuable to someone who knows its purpose.',
                         this.journalSystem.categories.EVENTS,
-                        { 
-                            character: 'Edgar Eskola', 
+                        {
+                            character: 'Edgar Eskola',
                             location: 'Screaming Cork',
                             item: 'Vestigel',
                             quest: 'the_three_vestigels',
@@ -237,7 +704,7 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_vestigel_convince: {
-                text: "Hmm...", 
+                text: "Hmm...",
                 options: [
                     ...(this.questSystem.getQuest('edgar_book') ? [
                         { text: "I could help with your book, as we discussed earlier.", next: "edgar_vestigel_book_help" }
@@ -259,8 +726,8 @@ export default class ScreamingCorkScene extends GameScene {
                         'Literary Exchange',
                         'Edgar seems more enthusiastic about his book than holding onto the vestigel. This is the perfect opportunity to obtain one of the three vestigels I need while also helping him fulfill his dream of becoming a writer.',
                         this.journalSystem.categories.THOUGHTS,
-                        { 
-                            character: 'Edgar Eskola', 
+                        {
+                            character: 'Edgar Eskola',
                             location: 'Screaming Cork',
                             quests: ['the_three_vestigels', 'edgar_book']
                         }
@@ -278,15 +745,15 @@ export default class ScreamingCorkScene extends GameScene {
                         'Help Edgar to write a book',
                         'Edgar Eskola mentioned he wants to write a book. I should help him.'
                     );
-                    
+
                     // Add journal entry about the vestigel negotiation
                     this.addJournalEntry(
                         'edgar_vestigel_negotiation',
                         'A Deal with Edgar',
                         'Edgar Eskola agreed to trade his vestigel in exchange for help with writing his book. The vestigel seems valuable to him, but his desire to become an author is stronger. This arrangement could benefit us both - he gets his book, and I get the vestigel I need.',
                         this.journalSystem.categories.EVENTS,
-                        { 
-                            character: 'Edgar Eskola', 
+                        {
+                            character: 'Edgar Eskola',
                             location: 'Screaming Cork',
                             item: 'Vestigel',
                             quest: 'the_three_vestigels'
@@ -309,15 +776,15 @@ export default class ScreamingCorkScene extends GameScene {
                     this.showNotification('Growth increased');
                     this.modifyGrowthDecay(1, 0);
                     this.questSystem.updateQuest('the_three_vestigels', 'Edgar Eskola would trade the Vestigel for your help with his book.', 'edgar_book_trade');
-                    
+
                     // Add journal entry about Edgar's agreement
                     this.addJournalEntry(
                         'edgar_vestigel_agreement',
                         'The Vestigel Bargain',
                         'Edgar agreed to give me his vestigel once I help him write his book. He seems particularly excited about the prospect of becoming an author. The way his eyes lit up when discussing the project suggests this means more to him than just a simple trade - it represents a chance to leave his mark on the city that has so often marginalized him.',
                         this.journalSystem.categories.EVENTS,
-                        { 
-                            character: 'Edgar Eskola', 
+                        {
+                            character: 'Edgar Eskola',
                             location: 'Screaming Cork',
                             item: 'Vestigel',
                             quests: ['the_three_vestigels', 'edgar_book'],
@@ -339,19 +806,19 @@ export default class ScreamingCorkScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
-        
+
         // Set background
         const bg = this.add.image(400, 300, 'screamingCorkBg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
-        
+
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
-        
+
         // Position the priest at the right side when entering from ScraperScene
         this.priest.x = 700;
         this.priest.y = 470;
-        
+
         // Update priest's glow position
         if (this.priestGlow) {
             this.priestGlow.x = this.priest.x;
@@ -360,7 +827,7 @@ export default class ScreamingCorkScene extends GameScene {
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
-        
+
         // Create exit to ScraperScene at the left edge
         this.transitionManager.createTransitionZone(
             50, // x position
@@ -372,7 +839,7 @@ export default class ScreamingCorkScene extends GameScene {
             50, // walk to x
             470 // walk to y
         );
-        
+
         // Create entrance to the tavern interior (centered on the tavern door)
         this.transitionManager.createTransitionZone(
             400, // x position - centered on the door
@@ -384,7 +851,7 @@ export default class ScreamingCorkScene extends GameScene {
             100, // walk to x - position inside the tavern
             470 // walk to y
         );
-        
+
         // Add a hint about the tavern entrance
         const doorHint = this.add.text(400, 380, 'Enter Tavern', {
             fontSize: '16px',
@@ -395,7 +862,7 @@ export default class ScreamingCorkScene extends GameScene {
         doorHint.setOrigin(0.5);
         doorHint.setAlpha(0);
         doorHint.setDepth(10);
-        
+
         // Show hint when hovering near the door
         this.input.on('pointermove', (pointer) => {
             // Check if pointer is near the door area
@@ -405,7 +872,7 @@ export default class ScreamingCorkScene extends GameScene {
                 doorHint.setAlpha(0);
             }
         });
-        
+
         // Add Edgar Eskola NPC
         this.createEdgarEskola();
     }
@@ -413,7 +880,7 @@ export default class ScreamingCorkScene extends GameScene {
     update() {
         super.update();
     }
-    
+
     createEdgarEskola() {
         // Create Edgar Eskola NPC
         this.edgar = this.add.image(200, 510, 'edgarEskola'); // Further increased Y to lower position more
@@ -421,17 +888,17 @@ export default class ScreamingCorkScene extends GameScene {
         this.edgar.setOrigin(0.5, 1.0); // Set origin to bottom center to align with ground
         this.edgar.setDepth(5);
         this.edgar.setInteractive({ useHandCursor: true });
-        
+
         // Add dialog interaction
         this.edgar.on('pointerdown', () => {
             if (this.dialogVisible) return;
             this.showDialog('edgar_start');
         });
-        
+
         // Add subtle wobble effect
         this.addWobbleEffect(this.edgar, 200, 510); // Update wobble position to match new Y
     }
-    
+
     addWobbleEffect(sprite, baseX, baseY) {
         // Create a very subtle wobble effect
         this.tweens.add({
@@ -442,7 +909,7 @@ export default class ScreamingCorkScene extends GameScene {
             yoyo: true,
             repeat: -1
         });
-        
+
         // Add a very slight rotation wobble
         this.tweens.add({
             targets: sprite,
