@@ -81,7 +81,7 @@ class JournalUI {
         
         // Content area
         this.contentMask = this.scene.add.graphics();
-        this.contentMask.fillRect(-360, -200, 720, 430);
+        this.contentMask.fillRect(-360, -200, 1280, 720);
         this.contentMaskObj = new Phaser.Display.Masks.GeometryMask(this.scene, this.contentMask);
         
         this.contentContainer = this.scene.add.container(-360, -200);

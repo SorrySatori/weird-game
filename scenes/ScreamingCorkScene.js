@@ -178,14 +178,8 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_vestigel_need: {
                 text: "Important purpose, you say? Well, I don't really *need* it, but I kinda like it. Maybe you could do something for me in exchange?",
                 options: [
-                    { text: "I could help you write your book", next: "edgar_vestigel_book" },
+                    { text: "What do you need?", next: "edgar_vestigel_convince" },
                     { text: "Back to other topics", next: "edgar_start" }
-                ]
-            },
-            edgar_vestigel_book: {
-                text: "You could help me to write a book. I've been struggling to find a voice, a story worth telling. If you could truly help me...",
-                options: [
-                    { text: "I promise to help you write your book", next: "edgar_vestigel_book_offer" }
                 ]
             },
             edgar_vestigel_book_offer: {
