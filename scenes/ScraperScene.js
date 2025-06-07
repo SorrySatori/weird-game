@@ -1,10 +1,12 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
         super({ key: 'ScraperScene' });
         this.isTransitioning = false;
+        this.journalSystem = JournalSystem.getInstance();
     }
 
     get dialogContent() {
@@ -52,6 +54,70 @@ export default class ScraperScene extends GameScene {
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
+        
+        // Add entrance to the Scraper building interior
+        const scraperEntrance = this.add.image(400, 470, 'exitArea')
+            .setDisplaySize(100, 200)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true });
+        scraperEntrance.setDepth(5);
+        
+        // Add a hint about the scraper entrance
+        const scraperHint = this.add.text(400, 380, 'Enter Scraper', {
+            fontSize: '16px',
+            fill: '#7fff8e',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            padding: { x: 10, y: 5 }
+        });
+        scraperHint.setOrigin(0.5);
+        scraperHint.setAlpha(0);
+        scraperHint.setDepth(10);
+        
+        // Show hint when hovering near the entrance
+        this.input.on('pointermove', (pointer) => {
+            // Check if pointer is near the scraper entrance
+            if (Math.abs(pointer.x - 400) < 50 && Math.abs(pointer.y - 470) < 100) {
+                scraperHint.setAlpha(1);
+            } else {
+                scraperHint.setAlpha(0);
+            }
+        });
+        
+        // Add scraper entrance click handler
+        scraperEntrance.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            // Add journal entry about the Scraper
+            if (!this.hasJournalEntry('scraper_building')) {
+                this.addJournalEntry(
+                    'scraper_building',
+                    'The Scraper',
+                    'The imposing structure known as "The Scraper" rises above the surrounding buildings. Once a corporate headquarters called Nexicorp Tower, it now stands as a living monument to transformation. Its lower floors house those who remember the old ways, while the middle floors have become wild ecosystems. No one knows how many floors it has. Elevators refuse to count them. Tenants report missing levels, duplicate floors, and entire wings dedicated to unrecognized languages or species. Most assume the building self-generates new strata in response to emotional entropy.',
+                    this.journalSystem.categories.PLACES,
+                    { location: 'The Scraper, Upper Morkezela' }
+                );
+            }
+            
+            // Move priest to scraper entrance
+            const priest = this.priest;
+            priest.play('walk');
+            this.tweens.killTweensOf(priest);
+            
+            this.tweens.add({
+                targets: priest,
+                x: 400,
+                y: 470,
+                duration: 1000,
+                onComplete: () => {
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('ScraperInteriorScene');
+                        this.isTransitioning = false; // Reset transition flag
+                    });
+                }
+            });
+        });
 
         // Exit area click handler
         this.exitArea.on('pointerdown', () => {
