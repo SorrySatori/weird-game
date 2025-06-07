@@ -21,8 +21,6 @@ export default class ScreamingCorkScene extends GameScene {
 
     // Helper method to check if player has journal entry related to specific experiences
     hasJournalExperience(entryId) {
-        console.log('journal entry', this.journalSystem.getEntry(entryId));
-        console.log('id', entryId);
         return this.journalSystem.getEntry(entryId);
     }
     
@@ -540,7 +538,7 @@ export default class ScreamingCorkScene extends GameScene {
             // Final book completion dialog
             edgar_book_completion: {
                 // Use a placeholder - the actual title will be replaced in the onTrigger function
-                text: "[The book title will be dynamically generated]",
+                text: `"${this.generateBookTitle()}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`,
                 options: [
                     { text: "I look forward to reading it", next: "edgar_book_farewell" },
                     { text: "Make sure to credit me as co-author", next: "edgar_book_farewell" }
@@ -549,14 +547,14 @@ export default class ScreamingCorkScene extends GameScene {
                     // Generate book title
                     const bookTitle = this.generateBookTitle();
                     
-                    // Replace the dialog text in the game's dialog object
-                    this.dialogContent.edgar_book_completion.text = 
-                        `"${bookTitle}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`;
+                    // // Replace the dialog text in the game's dialog object
+                    // this.dialogContent.edgar_book_completion.text = 
+                    //     `"${bookTitle}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`;
                     
                     // Update the visible dialog text if it exists
-                    if (this.dialogText) {
-                        this.dialogText.setText(this.dialogContent.edgar_book_completion.text);
-                    }
+                    // if (this.dialogText) {
+                    //     this.dialogText.setText(this.dialogContent.edgar_book_completion.text);
+                    // }
 
                     // Complete the quest
                     this.questSystem.completeQuest('edgar_book');
