@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class CrossroadScene extends GameScene {
     constructor() {
@@ -7,6 +8,7 @@ export default class CrossroadScene extends GameScene {
         this.isTransitioning = false;
         // Use the persisted symbiont system
         this.symbiontSystem = null; // Will be set in create from registry
+        this.journalSystem = JournalSystem.getInstance();
     }
 
     preload() {
@@ -399,6 +401,16 @@ export default class CrossroadScene extends GameScene {
             duration: 1000,
             ease: 'Sine.easeInOut',
             onComplete: () => {
+                // Add journal entry about skyship seen above the city
+                if (!this.hasJournalEntry('skyship_sighting')) {
+                    this.addJournalEntry(
+                        'skyship_sighting',
+                        'Strange Vessel in the Emerald Sky',
+                        'A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. The locals say it appeared a month ago and hasn\'t moved since. Some believe it to be a vessel of the fungal gods, others whisper of more terrestrial origins. Its purpose remains unknown, but its presence has changed the city\'s atmosphere, both literally and figuratively - spores seem to drift from its direction when the wind is right.',
+                        this.journalSystem.categories.EVENTS,
+                        { location: 'Upper Morkezela skyline' }
+                    );
+                }
                 // Step 2: Then zoom in and pan up to simulate looking up
                 this.tweens.add({
                     targets: this.cameras.main,

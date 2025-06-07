@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class Shed13Scene extends GameScene {
     constructor() {
@@ -7,6 +8,7 @@ export default class Shed13Scene extends GameScene {
         this.isTransitioning = false;
         this.visitedDialogs = new Set();
         this._dialogTextCache = {}; // Cache for dynamic dialog text
+        this.journalSystem = JournalSystem.getInstance();
     }
 
     get dialogContent() {
@@ -28,7 +30,19 @@ export default class Shed13Scene extends GameScene {
                     // Add the option to confront Gnur about lying if player made the promise
                     ...(promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : []),
                     { text: "Goodbye", next: "end" }
-                ]
+                ],
+                onTrigger: () => {
+                    // Add journal entry about meeting Gnur
+                    if (!this.hasJournalEntry('gnur_meeting')) {
+                        this.addJournalEntry(
+                            'gnur_meeting',
+                            'Gnur of the Rust Choir',
+                            'In the guts of Shed 13, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him - his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 13' }
+                        );
+                    }
+                }
             },
             background: {
                 text: "Used to keep the machines running in the old days. Now I'm with the Rust Choir. We sing the old machines awake... or lull the new flesh to sleep. Depends who's buying.",
@@ -121,7 +135,7 @@ export default class Shed13Scene extends GameScene {
                 text: "(Gnur's expression darkens) What lies you talkin' about, outsider? I need that core. Ain't no lie in that.",
                 options: [
                     { text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", next: "refuse_quest" },
-                    { text: "Never mind, I'll still get it for you.", next: "start" }
+                    { text: "Never mind, I'll still get it for you.", next: "complete_quest" }
                 ]
             },
             refuse_quest: {
@@ -129,7 +143,7 @@ export default class Shed13Scene extends GameScene {
                 options: [
                     { text: "Leave", next: "end" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     // Only fail the quest if we haven't already completed it
                     const quest = this.questSystem.getQuest('rust_reclamation');
                     if (quest && !quest.isComplete) {

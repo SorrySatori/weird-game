@@ -1,10 +1,12 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class EntryScene extends GameScene {
     constructor() {
         super({ key: 'EntryScene' });
         this.isTransitioning = false;
+        this.journalSystem = JournalSystem.getInstance();
     }
 
     get dialogContent() {
@@ -15,7 +17,19 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "Tell me more about the city", next: 'city' },
                     { text: "Who are the fungal gods?", next: 'gods' }
-                ]
+                ],
+                onTrigger: () => {
+                    // Add journal entry about skyship seen above the city
+                    if (!this.hasJournalEntry('upper_morkezela')) {
+                        this.addJournalEntry(
+                            'upper_morkezela',
+                            'Upper Morkezela',
+                            'They call it a city, but Upper Morkezela was never fully alive. It grew like a misunderstanding — a mistake made permanent by concrete, ritual, and time. The streets curve inward. The clocks ring in base nine. And no one knows who is in charge, there are several factions fighting for control. “In Morkezela, your second shadow watches the first. Neither trusts you.” — Anonymous graffito, scratched into the side of a forgotten monorail',
+                            this.journalSystem.categories.PLACES,
+                            { location: 'Upper Morkezela skyline' }
+                        );
+                    }
+                }
             },
             city: {
                 text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is one vast mycelial network, connecting all who dwell here in ways we cannot comprehend.",

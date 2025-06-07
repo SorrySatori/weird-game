@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class VoxMarket extends GameScene {
     constructor() {
@@ -14,6 +15,7 @@ export default class VoxMarket extends GameScene {
             { x: 400, y: 440, duration: 3000 }
         ];
         this.kloorPathIndex = 0;
+        this.journalSystem = JournalSystem.getInstance();
     }
 
     get dialogContent() {
@@ -34,7 +36,19 @@ export default class VoxMarket extends GameScene {
                         { text: "About those Vestigels...", next: "kloor_vestigels_progress" }
                     ] : []),
                     { text: "Goodbye.", next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => {
+                    // Add journal entry for meeting Kloor Venn if not already added
+                    if (!this.hasJournalEntry('kloor_venn_meeting')) {
+                        this.addJournalEntry(
+                            'kloor_venn_meeting',
+                            'Kloor Venn - Pharmaceutical Entrepreneur',
+                            'In Voxmarket, I encountered Kloor Venn, a self-described "pharmaceutical entrepreneur" who deals in a psychoactive substance called Oltrac. He seems particularly interested in my fungal spores as potential source material for his products. There is an air of shifty opportunism about him, though his connections in the market appear extensive.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Kloor Venn', location: 'Voxmarket' }
+                        );
+                    }
+                }
             },
             
             kloor_who: {

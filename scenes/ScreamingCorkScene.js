@@ -28,7 +28,19 @@ export default class ScreamingCorkScene extends GameScene {
                         { text: "I'm looking for a vestigel, I heard you might have one.", next: "edgar_vestigel" }
                     ] : []),
                     { text: "Goodbye.", next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => {
+                    // Add journal entry about meeting Edgar Eskola
+                    if (!this.hasJournalEntry('edgar_eskola_meeting')) {
+                        this.addJournalEntry(
+                            'edgar_eskola_meeting',
+                            'Edgar Eskola - The Mišutkenn of Screaming Cork',
+                            'I met Edgar Eskola, a mišutkenn patron at the Screaming Cork tavern. He seems uncomfortable around humans, which is understandable given the history of prejudice against his kind in Upper Morkezela. Despite his bearish appearance, there\'s a softness to him - an intellectual quality that suggests he\'s more than the city\'s stereotypes would imply.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Edgar Eskola', location: 'Screaming Cork' }
+                        );
+                    }
+                }
             },
             edgar_greeting: {
                 text: "Mmm. Hello," + "Not often people choose to speak with me. Most avoid mišutkenn if they can help it.",

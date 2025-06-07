@@ -1,12 +1,14 @@
 import GameScene from './GameScene.js';
 import QuestSystem from '../systems/QuestSystem.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class ShedCourtyardScene extends GameScene {
     constructor() {
         super({ key: 'ShedCourtyard' });
         this.isTransitioning = false;
         this._ortolan = null;
+        this.journalSystem = JournalSystem.getInstance();
         this._ortholanDialogContent = {
             main: {
                 text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've been here for days trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
@@ -357,7 +359,19 @@ export default class ShedCourtyardScene extends GameScene {
         this._ortolan.setOrigin(0.5, 1);
         this._ortolan.setScale(0.15);
         this._ortolan.setInteractive({ useHandCursor: true });
-        this._ortolan.on('pointerdown', () => this.showOrtholanDialog());
+        this._ortolan.on('pointerdown', () => {
+            // Add journal entry when first meeting Ortolan
+            if (!this.hasJournalEntry('ortolan_meeting')) {
+                this.addJournalEntry(
+                    'ortolan_meeting',
+                    'Ortolan - The Many-Armed Dreamer',
+                    'I met Ortolan, an unusual being with creative ambitions trapped in the bureaucratic nightmare of Shed 13. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city\'s labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.',
+                    this.journalSystem.categories.PEOPLE,
+                    { character: 'Ortolan', location: 'Shed 13 Courtyard' }
+                );
+            }
+            this.showOrtholanDialog();
+        });
 
         // Add idle animation for Ortolan
         this.tweens.add({

@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import JournalSystem from '../systems/JournalSystem.js';
 
 export default class ShedRegistrationScene extends GameScene {
     constructor() {
@@ -11,6 +12,7 @@ export default class ShedRegistrationScene extends GameScene {
             vowelSeller: null,
             hollowWoman: null
         };
+        this.journalSystem = JournalSystem.getInstance();
     }
     
     // Safe version of modifyGrowthDecay that doesn't rely on the UI indicator
@@ -253,6 +255,15 @@ export default class ShedRegistrationScene extends GameScene {
             ease: 'Power2',
             onComplete: () => {
                 this.showNotification('The dream queue awaits...');
+                if (!this.hasJournalEntry('dream_queue')) {
+                    this.addJournalEntry(
+                        'dream_queue',
+                        'The Eternal Queue of Shed 13',
+                        'I witnessed something unsettling in the Registration Office of Shed 13 - a queue of translucent figures, waiting in an endless line that never seems to move. They appear to be ghosts of bureaucrats and applicants, condemned to wait for eternity. When asked about them, the clerk simply replied that they were "only manifestations of the queue itself. Echoes of those who waited too long." as if this was perfectly normal. The most disturbing part is how the living visitors seem to ignore them completely, walking through their spectral forms without acknowledgment.',
+                        this.journalSystem.categories.EVENTS,
+                        { location: 'Shed 13 Registration Office' }
+                    );
+                }
             }
         });
     }
