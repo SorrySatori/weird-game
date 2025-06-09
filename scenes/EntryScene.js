@@ -24,7 +24,7 @@ export default class EntryScene extends GameScene {
                         this.addJournalEntry(
                             'upper_morkezela',
                             'Upper Morkezela',
-                            'They call it a city, but Upper Morkezela was never fully alive. It grew like a misunderstanding — a mistake made permanent by concrete, ritual, and time. The streets curve inward. The clocks ring in base nine. And no one knows who is in charge, there are several factions fighting for control. “In Morkezela, your second shadow watches the first. Neither trusts you.” — Anonymous graffito, scratched into the side of a forgotten monorail',
+                            'They call it a city, but Upper Morkezela was never fully alive. It grew like a misunderstanding — a mistake made permanent by concrete, ritual, and time. The streets curve inward. And no one knows who is in charge, there are several factions fighting for control. “In Morkezela, your second shadow watches the first. Neither trusts you.” — Anonymous graffito, scratched into the side of a forgotten monorail',
                             this.journalSystem.categories.PLACES,
                             { location: 'Upper Morkezela skyline' }
                         );
@@ -32,7 +32,7 @@ export default class EntryScene extends GameScene {
                 }
             },
             city: {
-                text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is one vast mycelial network, connecting all who dwell here in ways we cannot comprehend.",
+                text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is a graveyard of forgotten gods from many spheres. Each time people cease to believe in some god, the grows. The dying gods bring streets, building and forgotten culture with them. They don't want to be alone in the void, afterlife or whatever there is for them after they die, you know. ",
                 options: [
                     { text: "Ask about the gods", next: 'gods' },
                     { text: "Tell me more about city locations.", next: 'locations' },
@@ -40,22 +40,22 @@ export default class EntryScene extends GameScene {
                 ]
             },
             gods: {
-                text: "The fungal gods... they exist between reality and dream, like the thin membrane between cap and stem. They whisper through the spores we breathe, guiding us toward enlightenment... or perhaps madness. The distinction matters little in their realm.",
+                text: "The dead gods... they exist between reality and dream, like the thin membrane between cap and stem. They whisper through the air we breathe, guiding us toward enlightenment... or perhaps madness. The distinction matters little in their realm.",
                 options: [
                     { text: "Ask about the city", next: 'city' },
-                    { text: "Where can I learn more about the fungal gods?", next: 'priests' },
+                    { text: "Where can I learn more about the gods?", next: 'priests' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
             },
             priests: {
                 text: "Go to the Egg Catedral and talk to some of the priests there. They are always happy to chat.",
                 options: [
-                    { text: "What is the Egg Catedral?", next: 'eggCatedral' },
+                    { text: "Could you tell me more about the Egg Catedral?", next: 'eggCatedral' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
             },
             eggCatedral: {
-                text: "The Egg Cathedral is, well, a huge catedral that is hatching from gigantic egg. A massive, shell-grown structure inhabited by fungal clergy, flickering with bio-luminescent scripture...",
+                text: "The Egg Cathedral is, well, a huge catedral that is hatching from gigantic egg. A massive, shell-grown structure inhabited by fungal clergy, flickering with bio-luminescent scripture... They don't know which to which religion the cathedral belongs. So all major churches send their priest just to be sure. They wait for the signs they hope for, but the cathedral is still hatching...",
                 options: [
                     { text: "Return to previous topic", next: 'main' }
                 ]
