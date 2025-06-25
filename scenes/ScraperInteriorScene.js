@@ -12,10 +12,21 @@ export default class ScraperInteriorScene extends GameScene {
     get dialogContent() {
         const parentContent = super.dialogContent;
         
+        // Check quest completion status for dialog conditions
+        const questSystem = this.registry.get('questSystem');
+        const rustQuestCompleted = questSystem?.getQuest('rust_reclamation')?.isComplete;
+        const vestigelQuestCompleted = questSystem?.getQuest('the_three_vestigels')?.isComplete;
+        const hasElphiBishopInfo = rustQuestCompleted || vestigelQuestCompleted;
+        
+        // Check inventory for special items
+        const hasElevatorButton = this.hasItem('forgotten_elevator_button');
+        const hasLirisPart = this.registry.get('fixed_floor_counter') === true;
+        
         const interiorContent = {
             lift_mother_start: {
                 text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little spore. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [
+                    ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor (177-Quiet).", next: "lift_mother_elphi_floor" }] : []),
                     { text: "Can you take me to other floors?", next: "lift_mother_floors" },
                     { text: "What is the Before-Time?", next: "lift_mother_before_time" },
                     { text: "Are you... alive?", next: "lift_mother_alive" },
@@ -53,9 +64,125 @@ export default class ScraperInteriorScene extends GameScene {
             lift_mother_alive: {
                 text: "Not in the way you understand life, spore-child. I am between states—neither fully machine nor fully organism. The spores that transformed this city settled in my mechanisms, formed a network throughout my cables and circuits. I feel, I remember, I dream when the power fluctuates. Is that not alive? Though I cannot move as you do, I have carried generations. In a way, I am a mother to all who pass through my doors.",
                 options: [
-                    { text: "Do you get lonely?", next: "lift_mother_lonely" },
                     { text: "Ask about something else", next: "lift_mother_start" }
                 ]
+            },
+            
+            lift_mother_elphi_floor: {
+                text: "Level 177-Quiet is sealed. Only access is through offering, correction... or confession.",
+                options: [
+                    ...(hasElevatorButton ? [{
+                        text: "I have a button that belongs here.",
+                        next: "button_path"
+                    }] : []),
+                    ...(hasLirisPart ? [{
+                        text: "I've repaired your floor counter.",
+                        next: "repair_path"
+                    }] : []),
+                    ...(rustQuestCompleted && vestigelQuestCompleted ? [{
+                        text: "I know the Bishop's secret.",
+                        next: "confession_path"
+                    }] : []),
+                    {
+                        text: "I have nothing to offer...",
+                        next: "fail"
+                    },
+                    {
+                        text: "Ask about something else.",
+                        next: "lift_mother_start"
+                    }
+                ]
+            },
+            
+            button_path: {
+                text: "The shape... familiar. Forgotten. Welcome home, little one.",
+                options: [
+                    {
+                        text: "Thank you.",
+                        next: "unlock_floor"
+                    }
+                ],
+                onTrigger: () => {
+                    // Remove the elevator button from inventory
+                    this.removeItemFromInventory('forgotten_elevator_button');
+                }
+            },
+            
+            repair_path: {
+                text: "Ahh... numbers settle once more. You've soothed my measure. Descent permitted.",
+                options: [
+                    {
+                        text: "Thank you.",
+                        next: "unlock_floor"
+                    }
+                ]
+            },
+            
+            confession_path: {
+                text: "She swore me silence. But you break it with truth... as only one who understands her wound may.",
+                options: [
+                    {
+                        text: "Thank you.",
+                        next: "unlock_floor"
+                    }
+                ]
+            },
+            
+            fail: {
+                text: "You knock with empty hands. Level 177-Quiet remains silent.",
+                options: [
+                    {
+                        text: "I'll find another way.",
+                        next: "lift_mother_start"
+                    }
+                ]
+            },
+            
+            unlock_floor: {
+                text: "Floor 177-Quiet is now accessible. The path opens for you alone.",
+                options: [
+                    {
+                        text: "Thank you.",
+                        next: "goto_elphi_floor"
+                    }
+                ],
+                onTrigger: () => {
+                    // Update the find_bishop quest
+                    if (this.questSystem.getQuest('find_bishop')) {
+                        this.questSystem.updateQuest('find_bishop', 'The Lift Mother has granted me access to Dr. Elphi\'s studio on floor 177-Quiet.', 'lift_mother_permission');
+                    }
+                    
+                    // Add journal entry about accessing Dr. Elphi's floor
+                    if (!this.hasJournalEntry('accessed_elphi_floor')) {
+                        this.addJournalEntry(
+                            'accessed_elphi_floor',
+                            'Dr. Elphi\'s Studio - Floor 177-Quiet',
+                            'I\'ve gained access to Dr. Elphi Quarn\'s studio on floor 177-Quiet in Scraper 1140. This restricted floor houses her dream game development studio and may hold clues about the Bishop\'s whereabouts.',
+                            this.journalSystem.categories.LOCATIONS,
+                            { location: 'Floor 177-Quiet', character: 'Dr. Elphi Quarn' }
+                        );
+                    }
+                }
+            },
+            
+            goto_elphi_floor: {
+                text: "The elevator shudders and begins to move. Numbers flicker by at impossible speeds as you ascend to a floor that shouldn't exist. The doors open to reveal a corridor bathed in soft green light...",
+                options: [
+                    {
+                        text: "Step out",
+                        next: "closeDialog"
+                    }
+                ],
+                onShow: () => {
+                    // Prepare for transition to Dr. Elphi's floor scene
+                    this.time.delayedCall(2000, () => {
+                        this.cameras.main.fadeOut(800, 0, 0, 0);
+                        this.cameras.main.once('camerafadeoutcomplete', () => {
+                            // Transition to Dr. Elphi's studio scene (ScraperAmbraScene)
+                            this.scene.start('ScraperAmbraScene');
+                        });
+                    });
+                }
             },
             lift_mother_building: {
                 text: "This was once called 'Nexicorp Tower'—a place of commerce and ambition. Forty-two floors of glass and steel, reaching toward a sky that was once blue. Now it is 'The Scraper,' a living monument to transformation. The lower floors house those who remember the old ways. The middle floors are wild with growth—new ecosystems forming in what were once accounting departments. And the upper floors... (her voice drops) the upper floors belong to Those Who Ascended.",

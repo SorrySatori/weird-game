@@ -155,6 +155,12 @@ export default class SkyshipBoardScene extends GameScene {
         // Combine parent dialog content with this scene's content
         const parentContent = super.dialogContent || {};
         
+        // Check quest status for conditional dialog options
+        const questSystem = this.registry.get('questSystem');
+        const findBishopActive = questSystem?.getQuest('find_bishop') && !questSystem?.getQuest('find_bishop')?.isComplete;
+        const hasFixedCounter = this.registry.get('fixed_floor_counter') === true;
+        console.log('Lol', questSystem?.getQuest('find_bishop'));
+        console.log('Lol2', hasFixedCounter);
         // Define this scene's dialog content
         const skyshipContent = {
             main: {
@@ -180,26 +186,30 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainMain: {
-                text: "You are the one who grown the ladder, aren't you? That's rare, most people are not interested in such things. Welcome aboard the Verdigrace. I'm Captain Liris, master of this vessel and navigator of the upper winds. Not many from the city venture up here these days.",
+                text: "Ah, a visitor! Welcome aboard the Spore Drifter. I'm Captain Liris, navigator of the aerial currents and keeper of this fine vessel. What brings you to my ship?",
                 options: [
                     {
-                        text: 'How do you keep this ship aloft?',
-                        next: 'captainAloft'
-                    },
-                    {
-                        text: 'Tell me about yourself',
-                        next: 'captainAbout'
+                        text: 'How does this ship fly?',
+                        next: 'captainTechnology'
                     },
                     {
                         text: 'Where are you headed?',
                         next: 'captainDestination'
                     },
                     {
-                        text: 'What do you transport?',
-                        next: 'captainCargo'
+                        text: 'Is flying dangerous?',
+                        next: 'captainDanger'
                     },
                     {
-                        text: 'Farewell',
+                        text: 'What cargo do you carry?',
+                        next: 'captainCargo'
+                    },
+                    ...(findBishopActive && !hasFixedCounter ? [{
+                        text: 'I need help with an elevator system.',
+                        next: 'captainElevator'
+                    }] : []),
+                    {
+                        text: 'I should go.',
                         next: 'closeDialog'
                     }
                 ],
@@ -278,6 +288,20 @@ export default class SkyshipBoardScene extends GameScene {
                     }
                 }
             },
+            captainTechnology: {
+                text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant spores. They create microscopic gas pockets that give us lift. The mycelial sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
+                options: [
+                    {
+                        text: 'That sounds dangerous.',
+                        next: 'captainDanger'
+                    },
+                    {
+                        text: 'Ask something else',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            
             captainAloft: {
                 text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant spores. They create microscopic gas pockets that give us lift. The mycelial sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
                 options: [
@@ -343,6 +367,81 @@ export default class SkyshipBoardScene extends GameScene {
                         next: 'captainMain'
                     }
                 ]
+            },
+            
+            captainElevator: {
+                text: "An elevator system, you say? Ah, you must be referring to one of those ancient vertical transport mechanisms in the city's towers. Those old systems are fascinating—a blend of mechanical engineering and early symbiotic technology. What seems to be the issue?",
+                options: [
+                    {
+                        text: 'The floor counter is broken.',
+                        next: 'captainFloorCounter'
+                    },
+                    {
+                        text: 'Never mind, ask something else.',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            
+            captainFloorCounter: {
+                text: "A floor counter malfunction? That's a common issue with pre-Fruiting lift systems. The numeric displays were never designed to handle the mycelial networks that now permeate everything. I happen to have developed a specialized calibration tool for just such problems during my time maintaining the aerial dock lifts.",
+                options: [
+                    {
+                        text: 'Could I borrow this tool?',
+                        next: 'captainGivesTool'
+                    },
+                    {
+                        text: 'How does it work?',
+                        next: 'captainToolExplanation'
+                    }
+                ]
+            },
+            
+            captainToolExplanation: {
+                text: "It's a symbiotic interface that bridges old electronic systems with the new mycelial networks. The tool contains a specialized strain of communication spores that can translate between digital signals and mycelial impulses. You simply attach it to the counter's maintenance port, and it reestablishes the connection between the mechanical components and the building's new nervous system.",
+                options: [
+                    {
+                        text: 'Could I borrow this tool?',
+                        next: 'captainGivesTool'
+                    },
+                    {
+                        text: 'Ask something else',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            
+            captainGivesTool: {
+                text: "Of course you can! I always carry spares—you never know when you'll need to repair something mid-flight. Here, take this calibration module. It's simple to use: just attach it to the maintenance panel of the elevator system, and it will automatically recalibrate the floor counter. The spores inside will do all the work.",
+                options: [
+                    {
+                        text: 'Thank you!',
+                        next: 'closeDialog'
+                    }
+                ],
+                onTrigger: () => {
+                    // Set registry flag for fixed floor counter
+                    this.registry.set('fixed_floor_counter', true);
+                    
+                    // Add journal entry about the floor counter repair tool
+                    if (!this.hasJournalEntry('floor_counter_tool')) {
+                        this.addJournalEntry(
+                            'floor_counter_tool',
+                            'Elevator Calibration Tool',
+                            'Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift Mother\'s system. This symbiotic interface bridges old electronic systems with new mycelial networks, allowing me to access restricted floors like Dr. Elphi\'s studio on level 177-Quiet.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Captain Liris', location: 'Skyship' }
+                        );
+                    }
+                    
+                    // Update the find_bishop quest if active
+                    if (this.questSystem.getQuest('find_bishop')) {
+                        this.questSystem.updateQuest('find_bishop', 'Captain Liris gave me a calibration tool to repair the Lift Mother\'s floor counter, which should allow me to access Dr. Elphi\'s studio.', 'got_floor_counter_tool');
+                    }
+                    
+                    // Show notification
+                    this.showNotification('Obtained: Elevator Calibration Tool', '', '', 5000);
+                }
             },
             closeDialog: {
                 text: '',

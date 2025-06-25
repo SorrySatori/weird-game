@@ -1,12 +1,24 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import ShopSystem from '../systems/items/ShopSystem.js';
 
 export default class VoxmarketMarketScene extends GameScene {
     constructor() {
         super({ key: 'VoxmarketMarketScene' });
         this.isTransitioning = false; // Add flag to track transition state
         this.journalSystem = JournalSystem.getInstance();
+    }
+    
+    /**
+     * Check if the player has learned about Bishop's connection to Dr. Elphi
+     * through completing either the rust_reclamation or the_three_vestigels quests
+     */
+    hasElphiBishopInfo() {
+        const questSystem = this.registry.get('questSystem');
+        const rustQuestCompleted = questSystem?.getQuest('rust_reclamation')?.isComplete;
+        const vestigelQuestCompleted = questSystem?.getQuest('the_three_vestigels')?.isComplete;
+        return rustQuestCompleted || vestigelQuestCompleted;
     }
 
     get dialogContent() {
@@ -38,8 +50,25 @@ export default class VoxmarketMarketScene extends GameScene {
                 text: "'I specialize in rare oddities and collectibles. Decorative items mostly, but sometimes I get my hands on things with... unusual properties.' She gestures to her collection of strange figurines, crystals, and small mechanical devices.",
                 options: [
                     { text: "Interesting collection", next: "zerren_collection" },
+                    { text: "Show me what you have for sale", next: "zerren_shop" },
                     { text: "Back", next: "zerren_start" }
                 ]
+            },
+            
+            zerren_shop: {
+                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.'" + (this.hasElphiBishopInfo() ? " She lowers her voice. 'I recently acquired something special - an old elevator button with unusual markings. Might be of interest if you're exploring the taller structures around here.'" : ""),
+                options: [], // Empty options array is required
+                onShow: () => {
+                    // Close the dialog first
+                    this.hideDialog();
+                    
+                    // Open the shop after a short delay
+                    this.time.delayedCall(300, () => {
+                        if (this.shopSystem) {
+                            this.shopSystem.open();
+                        }
+                    });
+                }
             },
             
             zerren_collection: {
@@ -374,17 +403,101 @@ export default class VoxmarketMarketScene extends GameScene {
         });
         zerrenTag.setOrigin(0.5);
         zerrenTag.setDepth(6);
+        
+        // Initialize shop system for Zerren
+        this.initShopSystem();
     }
 
     shutdown() {
         // Restore background music when leaving the scene
         this.restoreBackgroundMusic();
+        
+        // Clean up shop system
+        if (this.shopSystem) {
+            this.shopSystem.shutdown();
+        }
+        
         super.shutdown();
     }
 
     update() {
         // Call parent update for all standard mechanics
         super.update();
+    }
+    
+    /**
+     * Initialize the shop system with Zerren's inventory
+     */
+    initShopSystem() {
+        // Check if player has completed quests to unlock special items
+        const hasElphiBishopInfo = this.hasElphiBishopInfo();
+        const questSystem = this.registry.get('questSystem');
+        const findBishopActive = questSystem?.getQuest('find_bishop')?.isComplete;
+        
+        // Basic shop inventory
+        const shopInventory = [
+            {
+                id: 'trinket_box',
+                name: 'Ornate Trinket Box',
+                description: 'A small decorative box with intricate fungal patterns.',
+                price: 30,
+                type: 'decoration',
+            },
+            {
+                id: 'crystal_vial',
+                name: 'Luminescent Crystal Vial',
+                description: 'A vial containing glowing crystal fragments. Makes for pleasant ambient lighting.',
+                price: 45,
+                type: 'decoration',
+            },
+            {
+                id: 'market_map',
+                name: 'Voxmarket Map',
+                description: 'A detailed map of Voxmarket and surrounding areas.',
+                price: 15,
+                type: 'tool',
+            },
+        ];
+        
+        // Add the Forgotten Elevator Button if player has learned about Bishop's connection to Dr. Elphi
+        if (hasElphiBishopInfo) {
+            shopInventory.push({
+                id: 'forgotten_elevator_button',
+                name: 'Forgotten Elevator Button',
+                description: 'An old elevator button with strange markings. It seems to be for a floor that doesn\'t officially exist.',
+                price: 75,
+                type: 'key_item',
+            });
+        }
+        
+        // Create shop system
+        this.shopSystem = new ShopSystem(this, {
+            shopName: 'Zerren\'s Curios',
+            inventory: shopInventory,
+            position: {
+                x: 400,
+                y: 300
+            },
+            buyMultiplier: 1.0,
+            sellMultiplier: 0.5
+        });
+        
+        // Add journal entry about the Forgotten Elevator Button if it's available and find_bishop quest is active
+        if (hasElphiBishopInfo && findBishopActive && !this.hasJournalEntry('forgotten_elevator_button_available')) {
+            this.addJournalEntry(
+                'forgotten_elevator_button_available',
+                'Mysterious Button at Zerren\'s Shop',
+                'Zerren has added a strange item to her inventory - a "Forgotten Elevator Button" with unusual markings. It appears to be for accessing a floor that doesn\'t officially exist. This might be useful for reaching Dr. Elphi\'s studio that the Bishop mentioned.',
+                this.journalSystem.categories.ITEMS,
+                { location: 'Voxmarket', character: 'Zerren' }
+            );
+            
+            // Update the find_bishop quest
+            questSystem.updateQuest('find_bishop', 'I found a Forgotten Elevator Button at Zerren\'s shop that might help me access Dr. Elphi\'s floor.', 'found_elevator_button');
+            
+            // Show a notification
+            this.showNotification('New item available: Forgotten Elevator Button', 0x7fff8e);
+        }
     }
     
     // Create a custom ground for the market scene that matches the aesthetic
