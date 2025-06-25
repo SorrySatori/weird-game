@@ -254,7 +254,7 @@ export default class ShedRegistrationScene extends GameScene {
             delay: 2500,
             ease: 'Power2',
             onComplete: () => {
-                this.showNotification('The dream queue awaits...');
+                this.showNotification('When you enter the office, you are surrounded by weird, dreamy creatures that form a queue...');
                 if (!this.hasJournalEntry('dream_queue')) {
                     this.addJournalEntry(
                         'dream_queue',

@@ -1487,7 +1487,7 @@ export default class GameScene extends Phaser.Scene {
                 ]
             },
             symbiontAbility: {
-                text: 'Suture-Reality allows us to temporarily repair areas where reality has become unstable. The more decay present, the stronger this ability becomes. But be warned - it requires at least 30% decay to function.',
+                text: 'Suture-Reality allows us to temporarily repair areas where reality has become unstable. The more decay present, the stronger this ability becomes.',
                 options: [
                     {
                         text: 'Back',

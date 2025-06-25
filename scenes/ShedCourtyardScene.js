@@ -480,7 +480,7 @@ export default class ShedCourtyardScene extends GameScene {
             `You successfully helped Ortolan obtain approval for extra arms through a ${completionType} form. He can now pursue his board game design with greater efficiency.`,
             'completed'
         );
-        
+        questSystem.completeQuest(questId);
         // Show notification
         this.showNotification('Quest completed: Extra Arms for Ortolan');
         

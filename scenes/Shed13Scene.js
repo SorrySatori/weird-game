@@ -88,7 +88,7 @@ export default class Shed13Scene extends GameScene {
                 ]
             },
             recoverTech: {
-                text: "Now that is a tune I can hum to. Shed13's 3rd Sublevel got swallowed when the fold pressure rose. There's a derelict core I need pulled out — still breathing, barely.\n(He hands you a jagged scrap map.) Find it, and maybe I'll find my memory about your Bishop friend.",
+                text: "Now that is a tune I can hum to. Somewhere at Shed 13 there's an abandoned office, leading to unused tunnels. There's a derelict core I need pulled out — still breathing, barely.\n Find it, and maybe I'll find my memory about your Bishop friend.",
                 options: [
                     { text: "Back to other topics", next: "start" }
                 ]
@@ -219,7 +219,7 @@ export default class Shed13Scene extends GameScene {
                 questSystem.addQuest(
                     'rust_reclamation',
                     'Rust Reclamation',
-                    "Gnur needs help recovering a 'living core' from Shed13's 3rd Sublevel. The area was swallowed by fold pressure, making this a dangerous but potentially rewarding task."
+                    "Gnur needs help recovering a 'living core' from Shed 13's unused tunnels, located somewhere behind the abandoned office."
                 );
                 this.showNotification('Quest added: Rust Reclamation');
                 this.modifyGrowthDecay(1, 0);
