@@ -335,25 +335,41 @@ export default class VoxMarket extends GameScene {
                 options: [
                     { text: "Tell me", next: "kloor_bishop_reveal" }
                 ],
-                onShow: () => {
+                onTrigger: function() {
                     // Remove the Vestigel from inventory
                     this.removeItemFromInventory('vestigel');
+                    
+                    // Update quest with message before completing it
+                    this.questSystem.updateQuest(
+                        'the_three_vestigels', 
+                        'I gave the vestigel to Kloor Venn in exchange for information about the Bishop of Threshold.', 
+                        'completed'
+                    );
                     
                     // Complete the quest
                     this.questSystem.completeQuest('the_three_vestigels');
                     this.showNotification('Quest Completed: The Three Vestigels');
+                    
+                    // Add journal entry about giving the vestigel to Kloor
+                    this.addJournalEntry(
+                        'kloor_vestigel_exchange',
+                        'Vestigel Exchange with Kloor',
+                        'I traded the vestigel I acquired from Edgar Eskola to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop of Threshold and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
+                        this.journalSystem.categories.QUESTS,
+                        { character: 'Kloor Venn', item: 'Vestigel', location: 'Voxmarket' }
+                    );
                 }
             },
             
             kloor_bishop_reveal: {
-                text: "'The Bishop isn't just visiting the market - she's searching for something. Something called the Threshold Key. It's said to unlock a hidden chamber in the Cathedral. She believes it's somewhere in the Voxmarket Hall, in the possession of a collector named Thale.'",
+                text: "'From what I know, she shops for rare gaming items. You see, our Bishop became addicted to dream games from Dr. Elphi Quarn. She visited Dr. Elphi quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140..'",
                 options: [
-                    { text: "The Threshold Key?", next: "kloor_threshold_key" }
+                    { text: "The dream games?", next: "kloor_dream_games" }
                 ]
             },
             
-            kloor_threshold_key: {
-                text: "'An ancient artifact, supposedly predating the city itself. The stories say it can open doors between realities. Dangerous stuff.' Kloor looks genuinely concerned. 'If you're planning to find the Bishop, look for Thale in the Hall. That's where she was headed.'",
+            kloor_dream_games: {
+                text: "'The dream games? Yes, they could be... addictive. ARB Ambra Studio produces the best... actually the only existing ones. I heard that finding a good imaginator is quite hard. The studio is equipped with specially adapted beds, the imaginators wear silver helmets without visors on their heads, to which is attached a complex system of wires, cables and electrodes. The helmets are the doctor's invention and she is duly proud of them.'",
                 options: [
                     { text: "Thank you for the information", next: "kloor_quest_update" }
                 ]
@@ -362,14 +378,26 @@ export default class VoxMarket extends GameScene {
             kloor_quest_update: {
                 text: "",
                 options: [],
-                onTrigger: () => {
-                    // Update the find_bishop quest
+                onTrigger: function() {
+                    // Update the find_bishop quest with more detailed information
                     if (this.questSystem.getQuest('find_bishop')) {
                         this.questSystem.updateQuest(
                             'find_bishop',
-                            'The Bishop is searching for something called the Threshold Key, believed to be in the possession of a collector named Thale in the Voxmarket Hall.'
+                            'According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
+                            'elphi_contact'
                         );
                         this.showNotification('Quest Updated: Find the Bishop of Threshold');
+                        
+                        // Add journal entry about the Bishop's search for the Threshold Key
+                        this.addJournalEntry(
+                            'bishop_elphi_contact',
+                            'The Bishop\'s Contact with Dr. Elphi',
+                            'According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
+                            this.journalSystem.categories.EVENTS,
+                        );
+                        
+                        // Close dialog after updating quest
+                        this.hideDialog();
                     }
                 }
             }
@@ -386,9 +414,9 @@ export default class VoxMarket extends GameScene {
         this.load.image('kloor', 'assets/images/characters/rat.png');
         
         // Load Oltrac drug images
-        this.load.image('grayOltrac', 'assets/images/effects/grayOltrac.png'); // Placeholder for Gray Oltrac
-        this.load.image('violetOltrac', 'assets/images/effects/violetOltrac.png'); // Placeholder for Violet Oltrac
-        this.load.image('amberOltrac', 'assets/images/effects/amberOltrac.png'); // Placeholder for Amber Oltrac
+        this.load.image('grayOltrac', 'assets/images/effects/grayOltrac.png'); 
+        this.load.image('violetOltrac', 'assets/images/effects/violetOltrac.png'); 
+        this.load.image('amberOltrac', 'assets/images/effects/amberOltrac.png'); 
         
         // Audio is already loaded in GameScene's preload
     }

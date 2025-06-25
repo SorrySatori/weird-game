@@ -32,9 +32,11 @@ export default class ScreamingCorkScene extends GameScene {
     // Helper method to get available inspirational topics based on journal entries
     getAvailableTopics() {
         const topics = [];
+        // Get already selected topic IDs for filtering
+        const selectedTopicIds = this.bookTopics ? this.bookTopics.map(topic => topic.id) : [];
 
         // Check for various journal entries that could serve as inspiration
-        if (this.hasJournalExperience('scraper_sighting')) {
+        if (this.hasJournalExperience('scraper_sighting') && !selectedTopicIds.includes('scraper_building')) {
             topics.push({
                 id: 'scraper_building',
                 text: "The mysterious Scraper building",
@@ -42,7 +44,7 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
-        if (this.hasJournalExperience('lift_mother_meeting')) {
+        if (this.hasJournalExperience('lift_mother_meeting') && !selectedTopicIds.includes('lift_mother')) {
             topics.push({
                 id: 'lift_mother',
                 text: "The sentient elevator Lift-Mother",
@@ -50,7 +52,7 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
-        if (this.hasJournalExperience('ortolan_meeting')) {
+        if (this.hasJournalExperience('ortolan_meeting') && !selectedTopicIds.includes('ortolan')) {
             topics.push({
                 id: 'ortolan',
                 text: "Ortolan, the board game designer",
@@ -58,15 +60,31 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
-        if (this.hasJournalExperience('dream_queue')) {
+        if (this.hasJournalExperience('dream_queue') && !selectedTopicIds.includes('dream_queue')) {
             topics.push({
                 id: 'dream_queue',
-                text: "The mysterious Dream Queue",
-                description: "A phenomenon where people wait in line for dreams they might never experience"
+                text: "The Dream Queue",
+                description: "A mysterious place where people's dreams are processed and stored"
             });
         }
 
-        if (this.hasJournalExperience('kloor_venn_meeting')) {
+        if (this.hasJournalExperience('spore_infection') && !selectedTopicIds.includes('spore_infection')) {
+            topics.push({
+                id: 'spore_infection',
+                text: "The fungal spore infection",
+                description: "The strange spores that infect people and change them"
+            });
+        }
+
+        if (this.hasJournalExperience('vestigel_quest') && !selectedTopicIds.includes('vestigels')) {
+            topics.push({
+                id: 'vestigels',
+                text: "The mysterious vestigels",
+                description: "Ancient artifacts with unknown powers that you're collecting"
+            });
+        }
+
+        if (this.hasJournalExperience('kloor_venn_meeting') && !selectedTopicIds.includes('kloor_venn')) {
             topics.push({
                 id: 'kloor_venn',
                 text: "The enigmatic Kloor Venn",
@@ -74,7 +92,7 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
-        if (this.hasJournalExperience('skyship_sighting')) {
+        if (this.hasJournalExperience('skyship_sighting') && !selectedTopicIds.includes('skyships')) {
             topics.push({
                 id: 'skyships',
                 text: "The skyships above the city",
@@ -82,7 +100,7 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
-        if (this.hasJournalExperience('rust_choir')) {
+        if (this.hasJournalExperience('rust_choir') && !selectedTopicIds.includes('rust_choir')) {
             topics.push({
                 id: 'rust_choir',
                 text: "The mysterious Rust Choir",
@@ -90,7 +108,7 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
-        if (this.hasJournalExperience('burning_bear_festival')) {
+        if (this.hasJournalExperience('burning_bear_festival') && !selectedTopicIds.includes('burning_bear')) {
             topics.push({
                 id: 'burning_bear',
                 text: "The Burning Bear Festival",
@@ -100,17 +118,22 @@ export default class ScreamingCorkScene extends GameScene {
 
         // Always provide some default topics even if the player hasn't journaled much
         if (topics.length < 2) {
-            topics.push({
-                id: 'city_mystery',
-                text: "The mysteries of Upper Morkezela",
-                description: "The strange city with its fungal growth and unusual inhabitants"
-            });
+            // Only add default topics if they haven't been selected yet
+            if (!selectedTopicIds.includes('city_mystery')) {
+                topics.push({
+                    id: 'city_mystery',
+                    text: "The mysteries of Upper Morkezela",
+                    description: "The strange city with its fungal growth and unusual inhabitants"
+                });
+            }
 
-            topics.push({
-                id: 'misutken_life',
-                text: "Life as a mišutkenn in the city",
-                description: "The challenges and perspectives of being different in Upper Morkezela"
-            });
+            if (!selectedTopicIds.includes('misutken_life')) {
+                topics.push({
+                    id: 'misutken_life',
+                    text: "Life as a mišutkenn in the city",
+                    description: "The challenges and perspectives of being different in Upper Morkezela"
+                });
+            }
         }
 
         return topics;
@@ -182,7 +205,9 @@ export default class ScreamingCorkScene extends GameScene {
                     ...(this.questSystem.getQuest('the_three_vestigels') ? [
                         { text: "I'm looking for a vestigel, I heard you might have one.", next: "edgar_vestigel" }
                     ] : []),
-                    ...(this.registry.get('questSystem')?.getQuest('edgar_book') ? [
+                    // Only show book topics option if quest is active but not completed
+                    ...(this.registry.get('questSystem')?.getQuest('edgar_book') && 
+                       this.registry.get('questSystem')?.getQuest('edgar_book').status !== 'completed' ? [
                         { text: "Let's start with some inspirational topics", next: "edgar_book_topics" }
                     ] : []),
                     { text: "Goodbye.", next: "closeDialog" }
@@ -250,10 +275,12 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_dream_job: {
                 text: "I've tried everything. Janitor. Clerk. Meat assembler. Imaginator. But I've never been anything truly mine. I think… I want to write a book. But I don't know what it's about yet.",
                 options: [
-                    { text: "I can help you write the book", next: "edgar_book" },
+                    ...(this.questSystem.getQuest('edgar_book') ? [
+                        { text: "I can help you write the book", next: "edgar_book" }
+                    ] : []),
                     { text: "Back to other topics", next: "edgar_start" }
                 ],
-                onTrigger: function() {
+                onTrigger: () => {
                     // Add journal entry about Edgar's aspiration
                     if (!this.hasJournalExperience('edgar_aspiration')) {
                         this.addJournalEntry(
@@ -272,7 +299,7 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Let's start with some inspirational topics", next: "edgar_book_topics" },
                     { text: "I will come back when I have an idea", next: "edgar_start" }
                 ],
-                onTrigger: function() {
+                onTrigger: () => {
                     if (!this.questSystem.getQuest('edgar_book')) {
                         this.questSystem.addQuest(
                             'edgar_book',
@@ -308,7 +335,7 @@ export default class ScreamingCorkScene extends GameScene {
                         }
                     };
                 }),
-                onTrigger: function() {
+                onTrigger: () => {
                     console.log('edgar_book_topics', this.bookTopics);
                 }
             },
@@ -328,7 +355,7 @@ export default class ScreamingCorkScene extends GameScene {
                     
                     return options;
                 },
-                onTrigger: function () {
+                onTrigger: () => {
                     // Add the selected topic to our list
                     if (this.currentTopic) {
                         this.bookTopics.push(this.currentTopic);
@@ -370,7 +397,7 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Now let's choose a genre for the book", next: "edgar_book_genre" }
                 ],
-                onTrigger: function () {
+                onTrigger: () => {
                     // Add journal entry about the tone selection
                     let toneDescription;
                     switch (this.bookTone) {
@@ -416,7 +443,7 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Let's decide on the main protagonist", next: "edgar_book_protagonist" }
                 ],
-                onTrigger: function () {
+                onTrigger: () => {
                     // Add journal entry about the genre selection
                     let genreDescription;
                     switch (this.bookGenre) {
@@ -462,7 +489,7 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Finally, let's choose a setting", next: "edgar_book_setting" }
                 ],
-                onTrigger: function () {
+                onTrigger: () => {
                     // Add journal entry about the protagonist selection
                     let protagonistDescription;
                     switch (this.bookProtagonist) {
@@ -508,7 +535,7 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Let's see what book we've created", next: "edgar_book_completion" }
                 ],
-                onTrigger: function () {
+                onTrigger: () => {
                     // Add journal entry about the setting selection
                     let settingDescription;
                     switch (this.bookSetting) {
@@ -543,7 +570,7 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "I look forward to reading it", next: "edgar_book_farewell" },
                     { text: "Make sure to credit me as co-author", next: "edgar_book_farewell" }
                 ],
-                onTrigger: function () {
+                onTrigger: () => {
                     // Generate book title
                     const bookTitle = this.generateBookTitle();
                     
@@ -557,6 +584,7 @@ export default class ScreamingCorkScene extends GameScene {
                     // }
 
                     // Complete the quest
+                    this.questSystem.updateQuest('edgar_book', 'You have helped Edgar Eskola develop his book concept. He is very grateful to you.', 'completed');
                     this.questSystem.completeQuest('edgar_book');
 
                     // Add journal entry about the completed book
@@ -582,6 +610,12 @@ export default class ScreamingCorkScene extends GameScene {
                             quest_status: 'completed'
                         }
                     );
+                    
+                    // Check if the player has the vestigel quest and was promised the vestigel
+                    if (this.questSystem.getQuest('the_three_vestigels')) {
+                        // Next dialog will give the vestigel
+                        this.dialogContent.edgar_book_farewell.text = "I should get to work now. The ideas are flowing, and I don't want to lose them. Oh, and as promised, here's the vestigel. It's of more use to you than to me. Thank you again for your help. Feel free to check in on my progress sometime.";
+                    }
                 }
             },
 
@@ -591,11 +625,43 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Good luck, Edgar", next: "edgar_start" }
                 ],
-                onTrigger: function () {
-                    // Add reputation with Edgar
-                    // This could be used in future interactions
-                    if (!this.edgarReputation) this.edgarReputation = 0;
-                    this.edgarReputation += 2;
+                onTrigger: () => {
+                    
+                    // Check if the player has the vestigel quest and doesn't already have the vestigel
+                    if (this.questSystem.getQuest('the_three_vestigels') && !this.hasItem('vestigel')) {
+                        
+                        // Create the vestigel item
+                        const vestigelItem = {
+                            id: 'vestigel',
+                            name: 'Writer\'s Vestigel',
+                            description: 'A small, intricately carved token that Edgar found hidden inside a plush toy. It seems to have some mysterious significance.',
+                            icon: 'vestigel',
+                            usable: false,
+                            consumable: false,
+                            value: 0
+                        };
+                        
+                        // Add the vestigel to inventory
+                        this.addItemToInventory(vestigelItem);
+                        
+                        // Update quest progress
+                        this.questSystem.updateQuest('the_three_vestigels', 'Received a vestigel from Edgar Eskola in exchange for helping with his book.', 'edgar_vestigel_acquired');
+                        
+                        // Add journal entry about receiving the vestigel
+                        this.addJournalEntry(
+                            'edgar_vestigel_received',
+                            'The Writer\'s Token',
+                            'Today I acquired one of the three vestigels from Edgar Eskola at the Screaming Cork. He gave it to me in exchange for my help with writing his book. The vestigel had been hidden inside a plush toy that Edgar had bought from a street vendor. He mentioned that the vendor refused to take it back when offered, citing "professional honor." The vestigel itself is small but intricately carved, clearly valuable to someone who knows its purpose.',
+                            this.journalSystem.categories.EVENTS,
+                            {
+                                character: 'Edgar Eskola',
+                                location: 'Screaming Cork',
+                                item: 'Vestigel',
+                                quest: 'the_three_vestigels',
+                                importance: 'high'
+                            }
+                        );
+                    }
                 }
             },
 
@@ -647,8 +713,9 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_vestigel: {
                 text: "A vestigel? Yes... I do have one. It's a peculiar object, a small small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
                 options: [
-                    { text: "I need it for an important purpose.", next: "edgar_vestigel_need" },
-                    { text: "May I have it?", next: "edgar_vestigel_request" },
+                    // Use ternary to determine next dialog based on book quest completion status
+                    { text: "I need it for an important purpose.", next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_need" },
+                    { text: "May I have it?", next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_request" },
                     { text: "Back to other topics", next: "edgar_start" }
                 ]
             },
@@ -670,6 +737,20 @@ export default class ScreamingCorkScene extends GameScene {
                         'Help Edgar to write a book',
                         'Edgar Eskola mentioned he wants to write a book. I should help him.'
                     );
+
+                    // Create the vestigel item
+                    const vestigelItem = {
+                        id: 'vestigel',
+                        name: 'Writer\'s Vestigel',
+                        description: 'A small, intricately carved token that Edgar found hidden inside a plush toy. It seems to have some mysterious significance.',
+                        icon: 'vestigel',
+                        usable: false,
+                        consumable: false,
+                        value: 0
+                    };
+                    
+                    // Add the vestigel to inventory
+                    this.addItemToInventory(vestigelItem);
 
                     // Update quest progress
                     this.questSystem.updateQuest('the_three_vestigels', 'Received a vestigel from Edgar in exchange for helping with his book.', 'edgar_vestigel_acquired');
@@ -704,7 +785,10 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_vestigel_convince: {
                 text: "Hmm...",
                 options: [
-                    ...(this.questSystem.getQuest('edgar_book') ? [
+                    // Determine which option to show based on book quest status
+                    ...(this.questSystem.getQuest('edgar_book')?.status === 'completed' ? [
+                        { text: "I already helped you write your book.", next: "edgar_vestigel_give_completed" }
+                    ] : this.questSystem.getQuest('edgar_book') ? [
                         { text: "I could help with your book, as we discussed earlier.", next: "edgar_vestigel_book_help" }
                     ] : [
                         { text: "Maybe I could help you with something.", next: "edgar_vestigel_offer" }
@@ -765,6 +849,50 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "I'll make sure your book becomes a reality.", next: "edgar_vestigel_thanks" }
                 ]
             },
+            
+            // New dialog for when player asks for vestigel after book is completed
+            edgar_vestigel_give_completed: {
+                text: "Oh, you're interested in the vestigel? After all your help with my book, I'd be happy to give it to you. It's of more use to you than to me. Here, take it with my gratitude.",
+                options: [
+                    { text: "Thank you, Edgar.", next: "edgar_start" }
+                ],
+                onTrigger: () => {
+                    // Only give vestigel if player doesn't already have it
+                    if (!this.hasItem('vestigel')) {
+                        // Create the vestigel item
+                        const vestigelItem = {
+                            id: 'vestigel',
+                            name: 'Writer\'s Vestigel',
+                            description: 'A small, intricately carved token that Edgar found hidden inside a plush toy. It seems to have some mysterious significance.',
+                            icon: 'vestigel',
+                            usable: false,
+                            consumable: false,
+                            value: 0
+                        };
+                        
+                        // Add the vestigel to inventory
+                        this.addItemToInventory(vestigelItem);
+                        
+                        // Update quest progress
+                        this.questSystem.updateQuest('the_three_vestigels', 'Received a vestigel from Edgar Eskola after helping with his book.', 'edgar_vestigel_acquired');
+                        
+                        // Add journal entry about receiving the vestigel
+                        this.addJournalEntry(
+                            'edgar_vestigel_received_after_book',
+                            'The Writer\'s Token',
+                            'Today I acquired one of the three vestigels from Edgar Eskola at the Screaming Cork. He gave it to me as thanks for helping him write his book. The vestigel had been hidden inside a plush toy that Edgar had bought from a street vendor. He mentioned that the vendor refused to take it back when offered, citing "professional honor." The vestigel itself is small but intricately carved, clearly valuable to someone who knows its purpose.',
+                            this.journalSystem.categories.EVENTS,
+                            {
+                                character: 'Edgar Eskola',
+                                location: 'Screaming Cork',
+                                item: 'Vestigel',
+                                quest: 'the_three_vestigels',
+                                importance: 'high'
+                            }
+                        );
+                    }
+                }
+            },
             edgar_vestigel_thanks: {
                 text: "Remember your promise. I look forward to seeing what we can create together. A book that truly captures the essence of... well, that's what we need to discover.",
                 options: [
@@ -773,22 +901,26 @@ export default class ScreamingCorkScene extends GameScene {
                 onTrigger: () => {
                     this.showNotification('Growth increased');
                     this.modifyGrowthDecay(1, 0);
-                    this.questSystem.updateQuest('the_three_vestigels', 'Edgar Eskola would trade the Vestigel for your help with his book.', 'edgar_book_trade');
-
-                    // Add journal entry about Edgar's agreement
-                    this.addJournalEntry(
-                        'edgar_vestigel_agreement',
-                        'The Vestigel Bargain',
-                        'Edgar agreed to give me his vestigel once I help him write his book. He seems particularly excited about the prospect of becoming an author. The way his eyes lit up when discussing the project suggests this means more to him than just a simple trade - it represents a chance to leave his mark on the city that has so often marginalized him.',
-                        this.journalSystem.categories.EVENTS,
-                        {
-                            character: 'Edgar Eskola',
-                            location: 'Screaming Cork',
-                            item: 'Vestigel',
-                            quests: ['the_three_vestigels', 'edgar_book'],
-                            importance: 'high'
-                        }
-                    );
+                    
+                    // Only update the quest state if we haven't already received the vestigel
+                    if (!this.hasItem('vestigel')) {
+                        this.questSystem.updateQuest('the_three_vestigels', 'Edgar Eskola would trade the Vestigel for your help with his book.', 'edgar_book_trade');
+                        
+                        // Add journal entry about Edgar's agreement
+                        this.addJournalEntry(
+                            'edgar_vestigel_agreement',
+                            'The Vestigel Bargain',
+                            'Edgar agreed to give me his vestigel once I help him write his book. He seems particularly excited about the prospect of becoming an author. The way his eyes lit up when discussing the project suggests this means more to him than just a simple trade - it represents a chance to leave his mark on the city that has so often marginalized him.',
+                            this.journalSystem.categories.EVENTS,
+                            {
+                                character: 'Edgar Eskola',
+                                location: 'Screaming Cork',
+                                item: 'Vestigel',
+                                quests: ['the_three_vestigels', 'edgar_book'],
+                                importance: 'high'
+                            }
+                        );
+                    }
                 }
             }
         };
@@ -799,6 +931,7 @@ export default class ScreamingCorkScene extends GameScene {
         this.load.image('screamingCorkBg', 'assets/images/backgrounds/ScreamingCork.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('edgarEskola', 'assets/images/characters/EdgarEskola.png');
+        this.load.image('vestigel', 'assets/images/items/vestigel.png');
     }
 
     create() {
