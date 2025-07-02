@@ -18,30 +18,15 @@ export default class ScraperBackyardScene extends GameScene {
     }
 
     create() {
-        // Call parent create first to initialize mechanics
         super.create();
         
-        // Set background
         const bg = this.add.image(400, 300, 'scraperBackyardBg');
-        bg.setDisplaySize(800, 600);
+        bg.setDisplaySize(800, 750); 
+        bg.setPosition(400, 180);
         bg.setDepth(-1);
         
         // Initialize the scene transition manager
-        this.transitionManager = new SceneTransitionManager(this);
-        
-        // Position the priest in the scene
-        if (this.priest) {
-            this.priest.x = 200;
-            this.priest.y = 470;
-            this.priest.setOrigin(0.5, 1);
-            this.priest.play('idle');
-            
-            // Update priest's glow position
-            if (this.priestGlow) {
-                this.priestGlow.x = this.priest.x;
-                this.priestGlow.y = this.priest.y;
-            }
-        }
+        this.transitionManager = new SceneTransitionManager(this); 
 
         // Add exit back to ScraperInteriorScene
         this.exitArea = this.add.image(100, 470, 'exitArea')
@@ -95,14 +80,14 @@ export default class ScraperBackyardScene extends GameScene {
             });
         });
         
-        // Add abandoned bus
-        this.abandonedBus = this.add.image(600, 350, 'door');
-        this.abandonedBus.setScale(0.8);
+        // Add abandoned bus - adjusted position for the zoomed out background
+        this.abandonedBus = this.add.image(400, 420, 'door');
+        this.abandonedBus.setScale(1.0); // Increased scale for better visibility
         this.abandonedBus.setDepth(5);
         this.abandonedBus.setInteractive({ useHandCursor: true });
         
-        // Add bus hover hint
-        const busText = this.add.text(600, 280, "Abandoned Bus", {
+        // Add bus hover hint - adjusted position
+        const busText = this.add.text(400, 350, "Abandoned Bus", {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -114,8 +99,8 @@ export default class ScraperBackyardScene extends GameScene {
         
         // Show hint when hovering near the bus
         this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the bus
-            if (Math.abs(pointer.x - 600) < 100 && Math.abs(pointer.y - 350) < 100) {
+            // Check if pointer is near the bus - adjusted hit area for new position
+            if (Math.abs(pointer.x - 400) < 100 && Math.abs(pointer.y - 420) < 100) {
                 busText.setAlpha(1);
             } else {
                 busText.setAlpha(0);
@@ -134,8 +119,8 @@ export default class ScraperBackyardScene extends GameScene {
             
             this.tweens.add({
                 targets: priest,
-                x: 500,
-                y: 470,
+                x: 350,
+                y: 500,
                 duration: 1000,
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
@@ -146,10 +131,11 @@ export default class ScraperBackyardScene extends GameScene {
             });
         });
         
-        // Add glow effect to the bus
+        // Add glow effect directly onto the bus
         const busGlow = this.add.graphics();
-        busGlow.fillStyle(0x7fff8e, 0.2);
-        busGlow.fillCircle(600, 350, 60);
+        busGlow.fillStyle(0x7fff8e, 0.25);
+        // Create an elliptical glow that covers the bus shape
+        busGlow.fillEllipse(400, 420, 120, 70); // Shaped to match the bus dimensions
         busGlow.setDepth(4);
         
         // Add pulsating animation to the glow
