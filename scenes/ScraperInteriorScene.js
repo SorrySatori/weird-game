@@ -356,7 +356,7 @@ export default class ScraperInteriorScene extends GameScene {
         });
         
         // Add elevator label
-        const elevatorText = this.add.text(600, 450, "Lift-Mother", {
+        const elevatorText = this.add.text(450, 370, "Lift-Mother", {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center'
@@ -371,6 +371,20 @@ export default class ScraperInteriorScene extends GameScene {
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
+
+        const inventory = this.registry.get('inventory');
+        if(inventory.items.some(item => item.id === 'scraper_backyard_key')) {
+            this.transitionManager.createTransitionZone(
+            550, // x position
+            400, // y position
+            100, // width
+            120, // height
+            'up', // direction
+            'ScraperBackyardScene', // target scene
+            550, // walk to x
+            400  // walk to y
+        );
+    }
     }
 
     update() {

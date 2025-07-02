@@ -12,7 +12,7 @@ export default class AbandonedBusScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('abandonedBusInteriorBg', 'assets/images/backgrounds/AbandonedBus.png');
-        this.load.image('deadBishop', 'assets/images/characters/dead_bishop.png');
+        this.load.image('deadBishop', 'assets/images/characters/DeadBishop.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('door', 'assets/images/ui/door.png');
     }
@@ -167,7 +167,10 @@ export default class AbandonedBusScene extends GameScene {
                     priest.play('idle');
                     
                     // Start dialog with the DeadBishop
-                    this.startDialog('dead_bishop_start');
+                    if (!this.dialogVisible) {
+                        this.dialogState = 'dead_bishop_start';
+                        this.showDialog(this.dialogState);
+                    }
                     
                     // Get quest system
                     const questSystem = this.registry.get('questSystem');

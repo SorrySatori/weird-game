@@ -96,7 +96,7 @@ export default class ScraperBackyardScene extends GameScene {
         });
         
         // Add abandoned bus
-        this.abandonedBus = this.add.image(600, 350, 'abandonedBus');
+        this.abandonedBus = this.add.image(600, 350, 'door');
         this.abandonedBus.setScale(0.8);
         this.abandonedBus.setDepth(5);
         this.abandonedBus.setInteractive({ useHandCursor: true });
