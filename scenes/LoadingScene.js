@@ -9,7 +9,6 @@ export default class LoadingScene extends Phaser.Scene {
         
         // Load other essential assets needed for MainScene
         this.load.image('background', 'assets/images/backgrounds/background.png');
-        this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
         this.load.audio('hoverSound', 'assets/sounds/hover.wav');
         this.load.audio('clickSound', 'assets/sounds/click.mp3');
         

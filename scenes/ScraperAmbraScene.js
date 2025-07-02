@@ -191,7 +191,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_anomaly_path: {
-                text: "If there's an anomaly, it isn't from me. All test environments are sandboxed. At worst, they collapse privately.\n\nUnless you mean her. The Bishop ran a few sessions recently. She didn't say what she was avoiding, but something had her on edge.\n\nShe had a habit of sitting out back after play — the old transit yard. She hasn't come in days.\n\nHere. You'll need this.",
+                text: "If there's an anomaly, it isn't from me. All test environments are sandboxed. At worst, they collapse privately.\n\nUnless you mean her. The Bishop ran a few sessions recently. She didn't say what she was avoiding, but something had her on edge.\n\nShe had a habit of sitting out back after play — the old transit yard. She hasn't come in days.\n\nHere.",
                 options: [
                     { text: "What was she avoiding?", next: "dr_elphi_bishop_concerns" },
                     { text: "What's in the backyard?", next: "dr_elphi_backyard_info" },
@@ -256,12 +256,18 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_exit: {
-                text: "I'm not hiding anything. If something happened to her, I didn't see it.\n\nBut you might. The moss behind this place remembers things I've tried to forget.\n\nCome back if you find something. And try not to track spores into my feedback loop.",
+                text: "I'm not hiding anything. If something happened to her, I didn't see it.\n\nBut you might.\n\nCome back if you find something. Here, take my key to the backyard.",
                 options: [
                     { text: "I'll check the backyard.", next: "closeDialog" },
                     { text: "Thanks for the information.", next: "closeDialog" }
                 ],
                 onTrigger: () => {
+                    this.addItemToInventory({
+                        id: 'scraper_backyard_key',
+                        name: "Backyard Key",
+                        description: "A key to the Scraper 1140 backyard. It seems to glow faintly with possibility.",
+                        stackable: false
+                    });
                     // Show a notification about the updated quest
                     this.time.delayedCall(500, () => {
                         this.showNotification('Quest Updated: Find the Bishop', 0x7fff8e);
@@ -383,7 +389,7 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Add a notification to indicate Dr. Elphi is present
         this.time.delayedCall(1500, () => {
-            this.showNotification('Dr. Elphi is working at her console', 0x7fff8e);
+            this.showNotification('Dr. Elphi is working at her console');
         });
     }
     

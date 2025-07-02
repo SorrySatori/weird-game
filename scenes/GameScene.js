@@ -60,7 +60,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('fungalPriestAvatar', 'assets/images/characters/fungal-priest.png');
 
         // Load sound assets
-        this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
+        this.load.audio('backgroundMusic', 'assets/sounds/infinite_fold.mp3');
         this.load.audio('cathedralTheme', 'assets/sounds/cathedral-theme.wav');
         this.load.audio('marketTheme', 'assets/sounds/market-theme.wav');
         this.load.audio('clickSound', 'assets/sounds/click.mp3');

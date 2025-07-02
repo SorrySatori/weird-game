@@ -10,7 +10,6 @@ export default class MainScene extends Phaser.Scene {
         this.load.image('background', 'assets/images/backgrounds/background.png');
         
         // Load sound assets
-        this.load.audio('backgroundMusic', 'assets/sounds/background-music.wav');
         this.load.audio('hoverSound', 'assets/sounds/hover.wav');
         this.load.audio('clickSound', 'assets/sounds/click.mp3');
 
@@ -31,10 +30,6 @@ export default class MainScene extends Phaser.Scene {
             // Add background
             const bg = this.add.image(400, 300, 'background');
             bg.setDisplaySize(800, 600);
-
-            // Start background music
-            this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true });
-            this.backgroundMusic.play();
 
             // Add hover and click sounds
             this.hoverSound = this.sound.add('hoverSound');
