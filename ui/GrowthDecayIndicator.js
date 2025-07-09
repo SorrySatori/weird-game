@@ -25,9 +25,13 @@ export default class GrowthDecayIndicator {
         // Initially hide the menu
         this.hideMenu();
         
-        // Add click handler
-        this.indicator.on('pointerdown', () => {
-            this.toggleMenu();
+        // Add hover handlers
+        this.indicator.on('pointerover', () => {
+            this.showMenu();
+        });
+        
+        this.indicator.on('pointerout', () => {
+            this.hideMenu();
         });
         
         // Subscribe to system updates
