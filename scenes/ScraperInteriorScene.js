@@ -158,7 +158,7 @@ export default class ScraperInteriorScene extends GameScene {
                             'accessed_elphi_floor',
                             'Dr. Elphi\'s Studio - Floor 177-Quiet',
                             'I\'ve gained access to Dr. Elphi Quarn\'s studio on floor 177-Quiet in Scraper 1140. This restricted floor houses her dream game development studio and may hold clues about the Bishop\'s whereabouts.',
-                            this.journalSystem.categories.LOCATIONS,
+                            this.journalSystem.categories.PLACES,
                             { location: 'Floor 177-Quiet', character: 'Dr. Elphi Quarn' }
                         );
                     }
