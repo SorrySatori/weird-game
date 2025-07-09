@@ -257,7 +257,14 @@ export default class GameScene extends Phaser.Scene {
     }
 
     addSymbiontIcon(id, data) {
-        const slot = this.symbiontSystem.symbionts.size - 1;
+        // Get symbiont system from registry
+        const symbiontSystem = this.registry.get('symbiontSystem');
+        if (!symbiontSystem) {
+            console.error('SymbiontSystem not found in registry');
+            return;
+        }
+        
+        const slot = symbiontSystem.symbionts.size - 1;
         const x = 60 + (slot * 40);
         const y = 480;
         
@@ -300,13 +307,58 @@ export default class GameScene extends Phaser.Scene {
         });
 
         symbiontIcon.on('pointerdown', () => {
-            this.showDialog('symbiontDialog');
+            // Get the symbiont-specific dialog from SymbiontSystem
+            this.showSymbiontDialog(id);
         });
 
         this.symbiontContainer.add(symbiontIcon);
         this.symbiontIcons.set(id, symbiontIcon);
     }
 
+    /**
+     * Show dialog for a specific symbiont
+     * @param {string} symbiontId - The ID of the symbiont to show dialog for
+     * @param {string} dialogKey - Optional specific dialog section to show (defaults to 'main')
+     */
+    showSymbiontDialog(symbiontId, dialogKey = 'main') {
+        // Get the symbiont system
+        const symbiontSystem = this.registry.get('symbiontSystem');
+        if (!symbiontSystem) {
+            console.error('SymbiontSystem not found in registry');
+            return;
+        }
+        
+        // Get dialog content for this symbiont
+        const dialogContent = symbiontSystem.getSymbiontDialogContent(symbiontId, dialogKey);
+        if (!dialogContent) {
+            console.error(`No dialog content found for symbiont ${symbiontId} and key ${dialogKey}`);
+            return;
+        }
+        
+        // Create a dynamic dialog state
+        const dynamicDialogState = {
+            text: dialogContent.text,
+            options: dialogContent.options.map(option => {
+                if (option.next === 'closeDialog') {
+                    // Keep closeDialog as is
+                    return option;
+                } else {
+                    // For other options, create a custom handler
+                    return {
+                        text: option.text,
+                        onSelect: () => {
+                            // Show the next dialog section for this symbiont
+                            this.showSymbiontDialog(symbiontId, option.next);
+                        }
+                    };
+                }
+            })
+        };
+        
+        // Show the dynamic dialog
+        this.showDialog(dynamicDialogState);
+    }
+    
     initSceneMechanics() {
         try {
             // Keyboard shortcuts are now handled by their respective systems
@@ -1140,8 +1192,6 @@ export default class GameScene extends Phaser.Scene {
         }
         if (this.avatar) {
             this.avatar.setVisible(true);
-            // Keep avatar at top right
-            this.avatar.setPosition(800 - 64, 64);
         }
         
         this.dialogVisible = true;
@@ -1150,16 +1200,31 @@ export default class GameScene extends Phaser.Scene {
         if (this.playerMovementSystem) {
             this.playerMovementSystem.setDialogVisible(true);
         }
-        this.dialogState = state;
-        const content = this.dialogContent[state];
+        
+        // Handle both direct content objects and state keys
+        let content;
+        if (typeof state === 'object') {
+            // Direct content object passed (from showSymbiontDialog)
+            content = state;
+        } else {
+            // State key passed, look up in dialogContent
+            this.dialogState = state;
+            content = this.dialogContent[state];
+        }
+        
+        // Check if content is valid
+        if (!content) {
+            console.error('Dialog content not found for state:', state);
+            return;
+        }
         
         // Check if this state has an onTrigger handler (runs without closing dialog)
-        if (content && content.onTrigger) {
+        if (content.onTrigger) {
             content.onTrigger.call(this); // Bind the correct 'this' context
         }
         
         // Check if this state has an onShow handler (closes dialog)
-        if (content && content.onShow) {
+        if (content.onShow) {
             content.onShow();
             return; // Don't show dialog if onShow is defined
         }
@@ -1469,41 +1534,9 @@ export default class GameScene extends Phaser.Scene {
     get dialogContent() {
         return {
             ...super.dialogContent,
-            symbiontDialog: {
-                text: 'Thorne-Still whispers in your mind: "I sense the threads of reality growing thinner here. My power grows with decay, but too much growth will force me to leave. Use my Suture-Reality ability wisely..."',
-                options: [
-                    {
-                        text: 'Ask about Suture-Reality',
-                        next: 'symbiontAbility'
-                    },
-                    {
-                        text: 'Ask about the threads of reality',
-                        next: 'symbiontLore'
-                    },
-                    {
-                        text: 'Close',
-                        next: 'closeDialog'
-                    }
-                ]
-            },
-            symbiontAbility: {
-                text: 'Suture-Reality allows us to temporarily repair areas where reality has become unstable. The more decay present, the stronger this ability becomes.',
-                options: [
-                    {
-                        text: 'Back',
-                        next: 'symbiontDialog'
-                    }
-                ]
-            },
-            symbiontLore: {
-                text: 'Reality is like fabric, and in some places it has begun to fray. I was born in these spaces between what is and what could be. There are others like me, but we are few, and we must choose our hosts carefully.',
-                options: [
-                    {
-                        text: 'Back',
-                        next: 'symbiontDialog'
-                    }
-                ]
-            },
+            // Symbiont dialogs are now dynamically generated
+            // See showSymbiontDialog method
+            
             closeDialog: {
                 text: '',
                 options: [],

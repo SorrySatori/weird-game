@@ -112,7 +112,80 @@ export default class AbandonedBusScene extends GameScene {
         this.deadBishop.setScale(0.15);
         this.deadBishopContainer.add(this.deadBishop);
 
-        // Add name tag for the DeadBishop
+        // Add the Neme symbiont (initially hidden)
+        this.nemeSymbiont = this.add.container(500, 370);
+
+        // Create the glowing filaments
+        const filaments = this.add.graphics();
+        filaments.fillStyle(0x7fff8e, 0.7);
+
+        // Create several thin, curved filaments
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const length = 15 + Math.random() * 10;
+            const curve = new Phaser.Curves.CubicBezier(
+                new Phaser.Math.Vector2(0, 0),
+                new Phaser.Math.Vector2(Math.cos(angle) * length * 0.5, Math.sin(angle) * length * 0.5),
+                new Phaser.Math.Vector2(Math.cos(angle) * length * 0.8, Math.sin(angle) * length * 0.8),
+                new Phaser.Math.Vector2(Math.cos(angle) * length, Math.sin(angle) * length)
+            );
+
+            const points = curve.getPoints(20);
+            filaments.lineStyle(1 + Math.random(), 0x7fff8e, 0.7);
+            filaments.beginPath();
+            filaments.moveTo(points[0].x, points[0].y);
+
+            for (let j = 1; j < points.length; j++) {
+                filaments.lineTo(points[j].x, points[j].y);
+            }
+
+            filaments.strokePath();
+        }
+
+        // Create spore sacs
+        for (let i = 0; i < 5; i++) {
+            const angle = (i / 5) * Math.PI * 2;
+            const distance = 5 + Math.random() * 8;
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance;
+            const size = 2 + Math.random() * 3;
+
+            filaments.fillStyle(0x7fff8e, 0.8);
+            filaments.fillCircle(x, y, size);
+        }
+
+        this.nemeSymbiont.add(filaments);
+
+        // Add a pulsating glow effect
+        const glow = this.add.graphics();
+        glow.fillStyle(0x7fff8e, 0.3);
+        glow.fillCircle(0, 0, 25);
+        this.nemeSymbiont.add(glow);
+
+        // Animate the glow
+        this.tweens.add({
+            targets: glow,
+            alpha: { from: 0.3, to: 0.6 },
+            duration: 1500,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
+
+        // Make the symbiont float gently
+        this.tweens.add({
+            targets: this.nemeSymbiont,
+            y: this.nemeSymbiont.y - 5,
+            duration: 2000,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
+
+        // Initially hide the symbiont
+        this.nemeSymbiont.setAlpha(0);
+        this.nemeSymbiont.visible = false;
+        this.nemeSymbiont.setDepth(5);
         const bishopName = this.add.text(0, 60, "Dead Bishop", {
             fontSize: '16px',
             fill: '#7fff8e',
@@ -207,6 +280,7 @@ export default class AbandonedBusScene extends GameScene {
     get dialogContent() {
         const parentContent = super.dialogContent;
 
+        // Add a new dialog node for the Neme symbiont
         const busContent = {
             dead_bishop_start: {
                 text: "The body before you is clearly that of a religious figure - an Obazoba Bishop in ceremonial robes stained with fungal growth. Her face is serene but pale, with subtle bruising visible at her temples. Nearby, you spot a portable dream device, a worn notebook and a dream interface helmet (still attached) and a small bag of what appears to be berries. In her sleeve you spot some papers.",
@@ -217,6 +291,7 @@ export default class AbandonedBusScene extends GameScene {
                     { text: "Look at the notebook", next: "dead_bishop_notebook" },
                     { text: "Read the notes", next: "dead_bishop_memo" },
                     { text: "Inspect the berries", next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
                     { text: "Step back", next: "closeDialog" }
                 ],
                 onTrigger: () => {
@@ -239,6 +314,7 @@ export default class AbandonedBusScene extends GameScene {
                     { text: "Read the notes", next: "dead_bishop_memo" },
                     { text: "Examine the helmet", next: "dead_bishop_helmet" },
                     { text: "Inspect the berries", next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
                     { text: "Step back", next: "closeDialog" }
                 ],
                 onTrigger: () => {
@@ -267,6 +343,7 @@ export default class AbandonedBusScene extends GameScene {
                     { text: "Read the notes", next: "dead_bishop_memo" },
                     { text: "Examine the helmet", next: "dead_bishop_helmet" },
                     { text: "Inspect the berries", next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
                     { text: "Step back", next: "closeDialog" }
                 ],
                 onTrigger: () => {
@@ -303,7 +380,9 @@ export default class AbandonedBusScene extends GameScene {
                     { text: "Examine the bruising", next: "dead_bishop_bruising" },
                     { text: "Check the dream device", next: "dead_bishop_cartridge" },
                     { text: "Read the memo note", next: "dead_bishop_memo" },
+                    { text: "Look at the notebook", next: "dead_bishop_notebook" },
                     { text: "Inspect the berries", next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
                     { text: "Step back", next: "closeDialog" }
                 ],
                 onTrigger: () => {
@@ -331,6 +410,7 @@ export default class AbandonedBusScene extends GameScene {
                     { text: "Read the memo note", next: "dead_bishop_memo" },
                     { text: "Examine the helmet", next: "dead_bishop_helmet" },
                     { text: "Inspect the berries", next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
                     { text: "Step back", next: "closeDialog" }
                 ],
                 onTrigger: () => {
@@ -359,6 +439,7 @@ export default class AbandonedBusScene extends GameScene {
                     { text: "Examine the helmet", next: "dead_bishop_helmet" },
                     { text: "Look at the notebook", next: "dead_bishop_notebook" },
                     { text: "Inspect the berries", next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
                     { text: "Step back", next: "closeDialog" }
                 ],
                 onTrigger: () => {
@@ -379,6 +460,141 @@ export default class AbandonedBusScene extends GameScene {
                     );
                 }
             },
+            dead_bishop_dissect: {
+                text: "With careful precision, you begin to examine the Bishop's body more thoroughly. As you open her chest cavity, you notice something extraordinary - a strange, pulsating green glow emanating from within. The source appears to be a small, fungal growth unlike anything you've seen before, with delicate tendrils that have integrated with her nervous system.",
+                options: [
+                    { text: "Investigate the glowing fungus", next: "neme_symbiont_reveal" },
+                    { text: "Step back", next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    // Add journal entry about the dissection if not already added
+                    if (this.journalSystem && !this.journalSystem.hasEntry('bishop_dissection')) {
+                        this.addJournalEntry(
+                            'bishop_dissection',
+                            'Unusual Fungal Growth',
+                            'During my examination of the Bishop\'s body, I discovered an unusual fungal growth in her chest cavity. It emits a strange green glow and appears to have integrated with her nervous system in a way that suggests it might be more than a simple infection.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Bishop', related: 'Symbiont' }
+                        );
+                    }
+                    this.questSystem.updateQuest(
+                        'who_killed_bishop',
+                        'The Bishop\'s body contains a strange glowing fungal growth that has integrated with her nervous system. This may be related to her death or the dream device she was using.',
+                        'bishop_dissection'
+                    );
+                }
+            },
+            neme_symbiont_reveal: {
+                text: "Something stirs. A pulse within the stillness. The Bishop wasn't alone. And now... neither are you. A gently levitating bundle of translucent filaments and glowing spore-sacs detaches from the Bishop's chest, floating toward you.",
+                options: [
+                    { text: "Accept the symbiont - Let Neme root in your thoughts", next: "neme_symbiont_accept" },
+                    { text: "Decline - Let it drift into the soil", next: "neme_symbiont_decline" }
+                ],
+                onTrigger: () => {
+                    // Show the symbiont with a fade-in effect
+                    this.nemeSymbiont.visible = true;
+                    this.tweens.add({
+                        targets: this.nemeSymbiont,
+                        alpha: { from: 0, to: 1 },
+                        duration: 2000,
+                        ease: 'Sine.easeIn'
+                    });
+
+                    // Add journal entry about the symbiont
+                    if (this.journalSystem && !this.journalSystem.hasEntry('neme_symbiont_discovered')) {
+                        this.addJournalEntry(
+                            'neme_symbiont_discovered',
+                            'Neme of the Crownmire',
+                            'I discovered a symbiont living inside the dead Bishop\'s body. It appears to be a translucent bundle of filaments and glowing spore-sacs that can levitate. The symbiont calls itself "Neme of the Crownmire" and seems to have shared thoughts with the Bishop.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Bishop', related: 'Symbiont' }
+                        );
+                    }
+                }
+            },
+            neme_symbiont_accept: {
+                text: "The filaments gently reach toward you, wrapping around your wrist before sinking beneath your skin. A soft, echoing voice whispers in your mind: 'The world grows through contradiction. So must you.' You feel a strange awareness of subtle energies around you.",
+                options: [
+                    { text: "Continue", next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    // Add the symbiont to the system
+                    const symbiontSystem = this.registry.get('symbiontSystem');
+                    if (symbiontSystem) {
+                        // Get phrases from SymbiontSystem instead of hardcoding them
+                        const success = symbiontSystem.addSymbiont('neme-crownmire', {
+                            name: 'Neme of the Crownmire',
+                            power: 0,
+                            ability: 'Photosentience',
+                            phrases: symbiontSystem.getSymbiontPhrases('neme-crownmire')
+                        });
+
+                        if (success) {
+                            // Show notification about gaining the symbiont
+                            this.showNotification('Gained Symbiont: Neme of the Crownmire');
+
+                            // Add symbiont icon using parent class method
+                            // This will now use the dynamic dialog system
+                            this.addSymbiontIcon('neme-crownmire', {
+                                name: 'Neme of the Crownmire',
+                                power: 0,
+                                ability: 'Photosentience'
+                            });
+
+                            // Hide the symbiont visual
+                            this.tweens.add({
+                                targets: this.nemeSymbiont,
+                                alpha: 0,
+                                duration: 1000,
+                                onComplete: () => {
+                                    this.nemeSymbiont.visible = false;
+                                }
+                            });
+
+                            // Add journal entry about accepting the symbiont
+                            if (this.journalSystem) {
+                                this.addJournalEntry(
+                                    'neme_symbiont_accepted',
+                                    'Bonded with Neme',
+                                    'I accepted the symbiont Neme of the Crownmire. Its tendrils have nestled beneath my skin, and I can now sense when people are lying or withholding truth. The symbiont speaks in hushed, echoing tones and seems to carry fragments of the Bishop\'s final doubts.',
+                                    this.journalSystem.categories.EVENTS,
+                                    { character: 'Player', related: 'Symbiont' }
+                                );
+                            }
+                        }
+                    }
+                }
+            },
+            neme_symbiont_decline: {
+                text: "You step back, declining the strange entity's approach. The filaments pause in mid-air, then slowly drift downward toward the floor of the bus. As they touch the ground, they seem to dissolve into the surface, leaving only a faint green glow that quickly fades.",
+                options: [
+                    { text: "Continue", next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    // Hide the symbiont with a fade-out effect
+                    this.tweens.add({
+                        targets: this.nemeSymbiont,
+                        alpha: 0,
+                        y: this.nemeSymbiont.y + 20,
+                        duration: 2000,
+                        ease: 'Sine.easeOut',
+                        onComplete: () => {
+                            this.nemeSymbiont.visible = false;
+                        }
+                    });
+
+                    // Add journal entry about declining the symbiont
+                    if (this.journalSystem) {
+                        this.addJournalEntry(
+                            'neme_symbiont_declined',
+                            'Rejected Neme',
+                            'I chose not to accept the symbiont that emerged from the Bishop\'s body. The entity called Neme of the Crownmire dissolved into the floor of the bus, leaving only a temporary glow behind.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Player', related: 'Symbiont' }
+                        );
+                    }
+                }
+            },
             dead_bishop_berries: {
                 text: "A small bag of spiced Sulkberries sits nearby, half-eaten. The sour, pungent berries are still fresh, suggesting the Bishop was here recently and possibly consuming them to calm her nerves before using the dream device. Sulkberries are known for their mild calming effect.",
                 options: [
@@ -387,6 +603,7 @@ export default class AbandonedBusScene extends GameScene {
                     { text: "Examine the helmet", next: "dead_bishop_helmet" },
                     { text: "Look at the notebook", next: "dead_bishop_notebook" },
                     { text: "Read the memo note", next: "dead_bishop_memo" },
+                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
                     { text: "Step back", next: "closeDialog" }
                 ],
                 onTrigger: () => {
