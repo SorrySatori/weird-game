@@ -435,35 +435,54 @@ export default class GameScene extends Phaser.Scene {
                 this.playerMovementSystem.setDialogVisible(this.dialogVisible);
             }
             
-            // Create journal button (mushroom note icon) at top right corner
-            const journalBtn = this.add.image(690, 40, 'journalIcon'); // Moved left to avoid overlap with quest button
-            journalBtn.setScale(0.5);
-            journalBtn.setInteractive({ useHandCursor: true });
-            journalBtn.setDepth(100);
+            // Create journal button container at top right corner (aligned with Quest button)
+            const journalBtnContainer = this.add.container(690, 50);
+            journalBtnContainer.setDepth(100);
             
-            // Add pulsating effect to journal button
-            this.tweens.add({
-                targets: journalBtn,
-                scale: { from: 0.5, to: 0.55 },
-                duration: 1500,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
+            // Create mushroom-shaped button background for journal
+            const journalBtnBg = this.add.graphics();
+            journalBtnBg.fillStyle(0x2a623d); // Dark green cap
+            journalBtnBg.fillCircle(0, -10, 20);
+            journalBtnBg.fillStyle(0x1a3b23); // Darker green stem
+            journalBtnBg.fillRect(-10, -10, 20, 25);
             
-            journalBtn.on('pointerdown', () => {
-                if (this.clickSound) this.clickSound.play();
-                this.journalUI.toggle();
-            });
+            // Add glowing spots to journal button
+            const journalSpot1 = this.add.circle(-5, -15, 3, 0x7fff8e);
+            const journalSpot2 = this.add.circle(5, -20, 2, 0x7fff8e);
+            journalSpot1.setAlpha(0.7);
+            journalSpot2.setAlpha(0.7);
+            
+            // Add a small book/scroll icon to the center of the mushroom
+            const journalIcon = this.add.graphics();
+            journalIcon.fillStyle(0x7fff8e, 0.9); // Glowing green
+            journalIcon.fillRect(-8, -15, 16, 12); // Book/scroll shape
+            journalIcon.lineStyle(1, 0x1a3b23); // Dark green lines
+            journalIcon.lineBetween(-8, -15, 8, -15); // Top line
+            journalIcon.lineBetween(-8, -11, 8, -11); // Middle line
+            journalIcon.lineBetween(-8, -7, 8, -7); // Bottom line
+            
+            // Add all elements to container
+            journalBtnContainer.add([journalBtnBg, journalSpot1, journalSpot2, journalIcon]);
             
             // Add journal label under button
-            const journalLabel = this.add.text(690, 65, 'JOURNAL', {
+            const journalLabel = this.add.text(0, 25, 'JOURNAL', {
                 fontSize: '12px',
                 fontFamily: 'Georgia',
                 color: '#7fff8e',
                 align: 'center'
             }).setOrigin(0.5);
-            journalLabel.setDepth(100);
+            journalBtnContainer.add(journalLabel);
+            
+            // Make button interactive
+            journalBtnContainer.setSize(40, 60);
+            journalBtnContainer.setInteractive({ useHandCursor: true });
+            
+            // No pulsating effect as requested
+            
+            journalBtnContainer.on('pointerdown', () => {
+                if (this.clickSound) this.clickSound.play();
+                this.journalUI.toggle();
+            });
         } catch (error) {
             console.error('Error in initSceneMechanics():', error);
         }
