@@ -58,7 +58,7 @@ export default class EntryScene extends GameScene {
                         questSystem.addQuest(
                             'find_bishop',
                             'Find the Bishop',
-                            'The Fungal Master has tasked me with finding the Bishop at the Egg Cathedral. The Bishop has information about a disturbance in the spore networks that may be interfering with the Great Fruiting.'
+                            'The Fungal Master has tasked me with finding the Bishop at the Egg Cathedral. She might know about the distress call received from the city via the myceliar network. I need to speak with her to learn more.'
                         );
                     }
                     
@@ -67,11 +67,10 @@ export default class EntryScene extends GameScene {
                 }
             },
             task: {
-                text: "You must find the Bishop at the Egg Cathedral. He has information about a... disturbance in the spore networks. Something is interfering with the Great Fruiting, and we must investigate. The Bishop will tell you more.",
+                text: "You must find the Bishop at the Egg Cathedral. She might knows about the distress call we have received from this city via myceliar network. The Bishop should be present at the Egg Cathedral.",
                 options: [
                     { text: "Why can't you go see the Bishop yourself?", next: 'whyNot' },
                     { text: "Tell me more about the city first", next: 'city' },
-                    { text: "Who are the fungal gods?", next: 'gods' }
                 ]
             },
             whyNot: {
@@ -94,7 +93,7 @@ export default class EntryScene extends GameScene {
                 text: "Tell him you're my apprentice, sent to assist with the spore disturbance investigation. He'll know what to do. And remember to represent the fungal clergy with dignity! No embarrassing me this time. Now, was there anything else you needed to know before you go?",
                 options: [
                     { text: "Tell me more about the city", next: 'city' },
-                    { text: "Who are the fungal gods?", next: 'gods' },
+                    { text: "Who are the gods?", next: 'gods' },
                     { text: "I'll be on my way", next: 'farewell' }
                 ]
             },
@@ -117,7 +116,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             gods: {
-                text: "The dead gods... they exist between reality and dream, like the thin membrane between cap and stem. They whisper through the air we breathe, guiding us toward enlightenment... or perhaps madness. The distinction matters little in their realm.",
+                text: "You know, or you should know, that there is only one real god. Obozoba, the Ur-mushroom, the one who created the world and all life and death in it. The other gods are just illusions... but yeah, this is a city where gods are going to die. It's not a contradiction... it's just not.",
                 options: [
                     { text: "Ask about the city", next: 'city' },
                     { text: "Where can I learn more about the gods?", next: 'priests' },
@@ -125,7 +124,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             priests: {
-                text: "Go to the Egg Catedral and talk to some of the priests there. They are always happy to chat.",
+                text: "Go to the Egg Catedral and talk to some of the priests there. They are always happy to chat. I mean, talk to the our priest or the Bistop. Don't talk to the other god's priests. I mean, the false gods' priest. The false priests. Ehm. You get me.",
                 options: [
                     { text: "Could you tell me more about the Egg Catedral?", next: 'eggCatedral' },
                     { text: "Return to previous topic", next: 'main' }

@@ -31,15 +31,17 @@ class IntroScene extends Phaser.Scene {
       // Begin Dialogue Sequence
       this.dialogueIndex = 0;
       this.dialogues = [
-        { speaker: 'NARRATOR', text: 'In the Rootdepths of Obazoba, the spores speak.' },
-        { speaker: 'ACHPRIEST VARHUN', text: 'A tremor through the network. Not rot. Not bloom. A call.' },
+        { speaker: 'NARRATOR', text: 'In the underground temple of Obazoba, the Spore Council is gathered.' },
+        { speaker: 'ACHPRIEST VARHUN', text: 'A distress call through the myceliar network. Not rot. Not bloom. A cry for help.' },
         { speaker: 'ACHPRIEST TYNRI', text: 'From the surface. From Upper Morkezela.' },
         { speaker: 'ACHPRIEST VARHUN', text: 'We must respond, though we do not know who speaks.' },
-        { speaker: 'ACHPRIEST RHULL', text: 'The Egg Cathedral sits atop the old sporespire. If a call came, it likely came from there… or from beneath it.' },
-        { speaker: 'ACHPRIEST VARHUN', text: 'Let our emissary walk the deadroot path. Let the priest rise.' },
-        { speaker: 'ACHPRIEST RHULL', text: 'At least this time we’ve hidden the ceremonial oils.' },
+        { speaker: 'ACHPRIEST RHULL', text: 'The Egg Cathedral sits atop the old sporespire. The Bishop would know more. She has been monitoring the network.' },
+        { speaker: 'ACHPRIEST VARHUN', text: 'Summon master Mycelius to walk the deadroot path. Let the fungal emissary rise.' },
+        { speaker: 'ACHPRIEST TYNRI', text: 'He could be a capable investigator, true. But I have a notion that his apprentice is... rather troublesome person, I must say.' },
+        { speaker: 'ACHPRIEST RHULL', text: 'He is... well, he is Mycelius apprentice. I do not know much about him, but I do know that he is not the most... sharp mushroom in the forest.' },
+        { speaker: 'ACHPRIEST RHULL', text: 'At least this time we have hidden the ceremonial oils.' },
         { speaker: 'ACHPRIEST TYNRI', text: 'And locked the fungal archive. Twice.' },
-        { speaker: 'ACHPRIEST VARHUN', text: 'Let the priest rise — quietly, if possible.' },
+        { speaker: 'ACHPRIEST VARHUN', text: 'Let the master Mycelius rise - quietly, if possible. Let him to find the Bishop from Upper Morkezela and discover the source of this distress call. The apprentice is his responsibility.' },
       ];
   
       // Overlay animation
