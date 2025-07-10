@@ -11,6 +11,37 @@ export default class EffectsSystem {
         this.effectTimer = null;
         this.effectStartTime = 0;
         this.currentDrugItem = null;
+        this.commentInterval = null;
+        this.sporeEffectInterval = null;
+        
+        // Psychedelic comments for each drug type
+        this.drugComments = {
+            grayOltrac: [
+                "The walls are... breathing? Just a little bit.",
+                "I can hear colors. Wait, that doesn't make sense.",
+                "My fingers feel like they're made of mushrooms...",
+                "Everything is slightly fuzzy around the edges.",
+                "The spores are speaking to me in whispers.",
+                "Is that shadow supposed to be dancing?"
+            ],
+            violetOltrac: [
+                "The air is THICK with violet possibilities!",
+                "My thoughts are growing like mycelium networks!",
+                "I can SEE the connections between all things now!",
+                "The fungal consciousness is showing me patterns everywhere!",
+                "Time is folding in on itself like a spore cap!",
+                "HARDCORE! Is this HARDCORE? I'm thinking so!"
+            ],
+            amberOltrac: [
+                "THE VEIL IS TORN! I SEE BEYOND THE MEMBRANE OF REALITY!",
+                "My body is dissolving into golden spores... MAGNIFICENT!",
+                "The Great Fruiting speaks through me! I AM BECOME MYCELIUM!",
+                "Stars are just the fruiting bodies of cosmic fungi! IT ALL MAKES SENSE!",
+                "I've transcended my flesh prison! I AM EVERYWHERE AND NOWHERE!",
+                "The universe is just one giant spore waiting to bloom!",
+                "I want to go home... Wait... I'm already home."
+            ]
+        };
     }
 
     /**
@@ -94,17 +125,23 @@ export default class EffectsSystem {
         switch(effectId) {
             case 'grayOltrac':
                 this.applyGrayOltracEffect();
+                this.applyGameplayEffect(effectId, 'mild');
                 break;
             case 'violetOltrac':
                 this.applyVioletOltracEffect();
+                this.applyGameplayEffect(effectId, 'medium');
                 break;
             case 'amberOltrac':
                 this.applyAmberOltracEffect();
+                this.applyGameplayEffect(effectId, 'intense');
                 break;
             default:
                 console.warn(`No effect defined for effect ID: ${effectId}`);
                 return;
         }
+        
+        // Start psychedelic comments
+        this.startPsychedelicComments(effectId);
         
         // Set timer to clear effects
         if (this.effectTimer) {
@@ -405,6 +442,17 @@ export default class EffectsSystem {
             this.effectTimer = null;
         }
         
+        // Stop comment and spore effect intervals
+        if (this.commentInterval) {
+            this.commentInterval.remove();
+            this.commentInterval = null;
+        }
+        
+        if (this.sporeEffectInterval) {
+            this.sporeEffectInterval.remove();
+            this.sporeEffectInterval = null;
+        }
+        
         // Clear all effects
         if (this.effectsContainer) {
             this.effectsContainer.removeAll(true);
@@ -433,6 +481,123 @@ export default class EffectsSystem {
      */
     hasActiveEffect(effectId) {
         return this.activeEffects.includes(effectId);
+    }
+    
+    /**
+     * Apply gameplay effects based on drug type
+     * @param {string} drugId - The drug ID
+     * @param {string} intensity - The intensity level (mild, medium, intense)
+     */
+    applyGameplayEffect(drugId, intensity) {
+        // Get the spore system if available
+        const sporeSystem = this.scene.registry.get('sporeSystem');
+        if (!sporeSystem) {
+            console.warn('SporeSystem not found in registry, cannot apply gameplay effects');
+            return;
+        }
+        
+        // Apply initial spore effect based on drug type - now with randomness
+        let maxInitialChange = 0;
+        switch(drugId) {
+            case 'grayOltrac':
+                maxInitialChange = 8; // Small effect range (-8 to +8)
+                break;
+            case 'violetOltrac':
+                maxInitialChange = 15; // Medium effect range (-15 to +15)
+                break;
+            case 'amberOltrac':
+                maxInitialChange = 25; // Large effect range (-25 to +25)
+                break;
+        }
+        
+        // Generate random initial effect (can be positive or negative)
+        const initialEffect = Math.floor(Math.random() * (maxInitialChange * 2 + 1)) - maxInitialChange;
+        
+        // Apply the initial spore change
+        sporeSystem.modifySpores(initialEffect);
+        console.log(`[EffectsSystem] Initial ${drugId} effect: ${initialEffect} spores`);
+        
+        // Show a notification about the spore change
+        const effectMessage = initialEffect > 0 ? 
+            `You feel the spores multiplying within you. (+${initialEffect})` : 
+            `You feel the spores receding from your system. (${initialEffect})`;
+        this.scene.showNotification(effectMessage, '', '', 3000);
+        
+        // Set up interval for random spore fluctuations
+        const intervalTime = intensity === 'intense' ? 15000 : 
+                            intensity === 'medium' ? 25000 : 35000;
+        
+        // Clear any existing interval
+        if (this.sporeEffectInterval) {
+            this.sporeEffectInterval.remove();
+        }
+        
+        // Create new interval for random effects
+        this.sporeEffectInterval = this.scene.time.addEvent({
+            delay: intervalTime,
+            callback: () => {
+                // Random spore fluctuation based on intensity
+                const maxChange = intensity === 'intense' ? 10 : 
+                                intensity === 'medium' ? 7 : 4;
+                                
+                const change = Math.floor(Math.random() * (maxChange * 2 + 1)) - maxChange;
+                
+                if (change !== 0) {
+                    sporeSystem.modifySpores(change);
+                    console.log(`[EffectsSystem] Random spore fluctuation: ${change}`);
+                    
+                    // For significant changes, show a notification
+                    const significantThreshold = intensity === 'intense' ? 7 : 
+                                               intensity === 'medium' ? 5 : 3;
+                    
+                    if (Math.abs(change) >= significantThreshold) {
+                        const fluctMessage = change > 0 ? 
+                            `A wave of fungal energy surges through you! (+${change})` : 
+                            `You feel a sudden loss of spore connection! (${change})`;
+                        this.scene.showNotification(fluctMessage, '', '', 2000);
+                    }
+                }
+            },
+            callbackScope: this,
+            loop: true
+        });
+    }
+    
+    /**
+     * Start displaying random psychedelic comments
+     * @param {string} drugId - The drug ID
+     */
+    startPsychedelicComments(drugId) {
+        // Clear any existing interval
+        if (this.commentInterval) {
+            this.commentInterval.remove();
+        }
+        
+        // Get comments for this drug type
+        const comments = this.drugComments[drugId];
+        if (!comments || !comments.length) {
+            console.warn(`No comments found for drug: ${drugId}`);
+            return;
+        }
+        
+        // Show first comment immediately
+        const firstComment = comments[Math.floor(Math.random() * comments.length)];
+        this.scene.showNotification(firstComment, '', '', 3000);
+        
+        // Set interval for random comments
+        const intervalTime = drugId === 'amberOltrac' ? 20000 : 
+                           drugId === 'violetOltrac' ? 30000 : 40000;
+        
+        this.commentInterval = this.scene.time.addEvent({
+            delay: intervalTime,
+            callback: () => {
+                // Get a random comment
+                const comment = comments[Math.floor(Math.random() * comments.length)];
+                this.scene.showNotification(comment, '', '', 3000);
+            },
+            callbackScope: this,
+            loop: true
+        });
     }
     
     /**

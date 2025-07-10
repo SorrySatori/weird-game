@@ -15,6 +15,13 @@ The drug effects system creates immersive visual experiences when the player use
   - Floating gray particles that drift slowly
   - Faint image of the drug in the background
   - Duration: 3 minutes
+- **Gameplay Effects**:
+  - Random initial spore change (-8 to +8)
+  - Random small fluctuations (±4) to spore level every 35 seconds
+  - Notifications for significant spore changes
+- **Psychedelic Comments**:
+  - Protagonist occasionally makes mild confused observations
+  - Comments appear every 40 seconds
 
 ### Violet Oltrac
 - **Description**: A medium-strength variant that enhances perception
@@ -24,6 +31,13 @@ The drug effects system creates immersive visual experiences when the player use
   - Subtle camera shake effect
   - Drug image with rotation and scaling effects
   - Duration: 3 minutes
+- **Gameplay Effects**:
+  - Random initial spore change (-15 to +15)
+  - Random medium fluctuations (±7) to spore level every 25 seconds
+  - Notifications for significant spore changes
+- **Psychedelic Comments**:
+  - Protagonist makes more profound philosophical observations
+  - Comments appear every 30 seconds
 
 ### Amber Oltrac
 - **Description**: The rarest and most potent form that allows glimpses beyond reality
@@ -33,6 +47,13 @@ The drug effects system creates immersive visual experiences when the player use
   - Camera shake and flash effects
   - Reality-warping effect that subtly distorts game objects
   - Duration: 3 minutes
+- **Gameplay Effects**:
+  - Random initial spore change (-25 to +25)
+  - Random large fluctuations (±10) to spore level every 15 seconds
+  - Notifications for significant spore changes
+- **Psychedelic Comments**:
+  - Protagonist makes intense, reality-breaking declarations
+  - Comments appear every 20 seconds
 
 ## Implementation Details
 
@@ -59,12 +80,21 @@ The drug effects system consists of:
 
 A test script is included (`test-drug-effects.js`) that can be run in the browser console when in the VoxMarket scene. It adds buttons to manually trigger each drug effect for testing purposes.
 
+## Features
+
+The drug effects system includes:
+
+1. **Visual Effects** - Unique visual overlays, particles, and camera effects for each drug
+2. **Persistence** - Effects continue when changing scenes
+3. **Gameplay Impact** - Drugs affect the spore level with initial boosts and ongoing fluctuations
+4. **Psychedelic Comments** - The protagonist makes random drug-influenced observations
+5. **Duration** - All effects last for 3 minutes of real-time
+
 ## Future Enhancements
 
 Possible future enhancements could include:
 
-- Gameplay effects beyond visual (temporary stat boosts, special abilities)
+- Additional gameplay effects (temporary stat boosts, special abilities)
 - Sound effects specific to each drug type
 - More advanced shader-based visual effects
-- Integration with the Growth/Decay system (drugs affecting balance)
 - Quest-related drug effects for specific storylines
