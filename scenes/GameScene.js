@@ -11,6 +11,7 @@ import InventorySystem from '../systems/inventory/InventorySystem.js';
 import MoneySystem from '../systems/inventory/MoneySystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import JournalUI from '../ui/JournalUI.js';
+import EffectsSystem from '../systems/EffectsSystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -29,6 +30,7 @@ export default class GameScene extends Phaser.Scene {
         this.moneySystem = null;
         this.journalSystem = null;
         this.journalUI = null;
+        this.effectsSystem = null;
     }
 
     init() {
@@ -212,6 +214,10 @@ export default class GameScene extends Phaser.Scene {
         if (this.sporeBar) {
             this.sporeBar.cleanup();
         }
+        
+        // Initialize Effects System for drug effects and visual effects
+        this.effectsSystem = new EffectsSystem(this);
+        this.effectsSystem.init();
         this.sporeBar = new SporeBar(this, 325, 10);
     }
 
@@ -1078,6 +1084,12 @@ export default class GameScene extends Phaser.Scene {
         if (this.sporeBar) {
             this.sporeBar.cleanup();
             this.sporeBar = null;
+        }
+        
+        // Clean up effects system
+        if (this.effectsSystem) {
+            this.effectsSystem.cleanup();
+            this.effectsSystem = null;
         }
 
         // Call parent shutdown

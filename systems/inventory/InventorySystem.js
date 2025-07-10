@@ -379,16 +379,18 @@ export default class InventorySystem {
                     useIndicator.setOrigin(1, 1);
                     slot.add(useIndicator);
                     
-                    // Make item clickable
+                    // Make item sprite interactive for usable items
+                    console.log('Setting up click handler for usable item:', item.name);
                     itemSprite.setInteractive({ useHandCursor: true });
                     itemSprite.on('pointerdown', () => {
-                        this.useItem(index);
+                        console.log('Item clicked:', item.name);
+                        this.showUseItemPopup(index, item, slot);
                     });
                 }
             }
-        });
+        }, this);
     }
-
+    
     /**
      * Show item description
      * @param {object} item - The item to show description for
@@ -424,6 +426,22 @@ export default class InventorySystem {
             // Play use sound if available
             if (this.scene.itemUseSound) {
                 this.scene.itemUseSound.play();
+            }
+            
+            // Check if this is a drug item (Oltrac)
+            const isDrug = item.id && (
+                item.id === 'grayOltrac' || 
+                item.id === 'violetOltrac' || 
+                item.id === 'amberOltrac'
+            );
+            
+            // Apply drug effects if applicable
+            if (isDrug && this.scene.effectsSystem) {
+                console.log(`Using drug item: ${item.name}`);
+                this.scene.effectsSystem.applyDrugEffect(item);
+                
+                // Close the inventory when using a drug
+                this.toggleInventory(false);
             }
             
             // Emit event that item was used
@@ -549,7 +567,108 @@ export default class InventorySystem {
         
         this.inventorySlots = [];
         this.slotsContainer = null;
-        this.itemDescription = null;
-        this.emptyText = null;
+        if (this._activeUsePopup) {
+            this._activeUsePopup.destroy(true);
+            this._activeUsePopup = null;
+        }
+    }
+
+    /**
+     * Show a popup menu for using an item
+     * @param {number} index - Index of the item
+     * @param {object} item - The item object
+     * @param {Phaser.GameObjects.Container} slot - The slot container
+     */
+    showUseItemPopup(index, item, slot) {
+        console.log('showUseItemPopup called for', item.name, 'at index', index);
+        
+        // Prevent multiple popups
+        if (this._activeUsePopup) {
+            console.log('Destroying existing popup');
+            this._activeUsePopup.destroy(true);
+            this._activeUsePopup = null;
+        }
+
+        // Create a centered popup directly on the camera/screen
+        // Get the camera center coordinates
+        const centerX = this.scene.cameras.main.width / 2;
+        const centerY = this.scene.cameras.main.height / 2;
+        console.log('Creating popup at center:', centerX, centerY);
+        
+        // Create a popup container that's fixed to the camera
+        const popup = this.scene.add.container(centerX, centerY);
+        popup.setDepth(9999); // Extremely high depth to ensure it's on top
+        
+        // Create a semi-transparent overlay for the entire screen
+        const overlay = this.scene.add.rectangle(
+            0, 0,
+            this.scene.cameras.main.width * 2,
+            this.scene.cameras.main.height * 2,
+            0x000000, 0.5
+        );
+        overlay.setOrigin(0.5);
+        popup.add(overlay);
+        
+        // Create a visible popup background
+        const bg = this.scene.add.rectangle(0, 0, 200, 120, 0x0a2712, 0.95);
+        bg.setStrokeStyle(4, 0x7fff8e, 1); // Thicker, more visible border
+        popup.add(bg);
+        
+        // Add item name at the top
+        const itemName = this.scene.add.text(0, -40, item.name, {
+            fontSize: '20px',
+            fill: '#7fff8e',
+            fontStyle: 'bold',
+            align: 'center'
+        });
+        itemName.setOrigin(0.5);
+        popup.add(itemName);
+        
+        // Use button
+        const useBtn = this.scene.add.text(-50, 10, 'Use', {
+            fontSize: '22px',
+            fill: '#7fff8e',
+            backgroundColor: 'rgba(10, 39, 18, 0.8)',
+            padding: { x: 15, y: 8 },
+            align: 'center'
+        });
+        useBtn.setOrigin(0.5);
+        useBtn.setInteractive({ useHandCursor: true });
+        popup.add(useBtn);
+
+        // Cancel button
+        const cancelBtn = this.scene.add.text(50, 10, 'Cancel', {
+            fontSize: '22px',
+            fill: '#ff8888',
+            backgroundColor: 'rgba(39, 10, 18, 0.8)',
+            padding: { x: 15, y: 8 },
+            align: 'center'
+        });
+        cancelBtn.setOrigin(0.5);
+        cancelBtn.setInteractive({ useHandCursor: true });
+        popup.add(cancelBtn);
+
+        // Button logic
+        useBtn.on('pointerdown', () => {
+            this.useItem(index);
+            popup.destroy(true);
+            this._activeUsePopup = null;
+        });
+        cancelBtn.on('pointerdown', () => {
+            popup.destroy(true);
+            this._activeUsePopup = null;
+        });
+
+        // Store reference for cleanup
+        this._activeUsePopup = popup;
+
+        // Optionally close popup if overlay is clicked
+        overlay.setInteractive();
+        overlay.on('pointerdown', () => {
+            if (this._activeUsePopup) {
+                this._activeUsePopup.destroy(true);
+                this._activeUsePopup = null;
+            }
+        });
     }
 }

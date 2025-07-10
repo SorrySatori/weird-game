@@ -2,6 +2,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import EffectsSystem from '../systems/EffectsSystem.js';
 
 export default class VoxMarket extends GameScene {
     constructor() {
@@ -541,11 +542,21 @@ export default class VoxMarket extends GameScene {
         
         // Initialize the shop system for Kloor's Oltrac shop
         this.initShopSystem();
+        
+        // Initialize the effects system for drug effects
+        this.effectsSystem = new EffectsSystem(this);
+        this.effectsSystem.init();
     }
 
     shutdown() {
         // Restore background music when leaving the scene
         this.restoreBackgroundMusic();
+        
+        // Clean up effects system
+        if (this.effectsSystem) {
+            this.effectsSystem.cleanup();
+        }
+        
         super.shutdown();
     }
 
@@ -653,6 +664,8 @@ export default class VoxMarket extends GameScene {
                 price: 15,
                 type: 'drug',
                 usable: true,
+                consumable: true,
+                stackable: true,
             },
             {
                 id: 'violetOltrac',
@@ -661,6 +674,8 @@ export default class VoxMarket extends GameScene {
                 price: 30,
                 type: 'drug',
                 usable: true,
+                consumable: true,
+                stackable: true,
             },
             {
                 id: 'amberOltrac',
@@ -669,7 +684,9 @@ export default class VoxMarket extends GameScene {
                 price: 50,
                 type: 'drug',
                 usable: true,
-                    }
+                consumable: true,
+                stackable: true
+            }
         ];
         
         // Create shop system
