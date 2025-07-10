@@ -301,21 +301,6 @@ export default class Shed13Scene extends GameScene {
                 this.showDialog(this.dialogState);
             }
         });
-
-        // Add a collectable spore
-        const spore = this.add.image(300, 450, 'mysteriousSpore');
-        spore.setScale(0.5);
-        // Add a subtle glow effect
-        spore.preFX.addGlow(0x7fff8e, 4, 0, false, 0.5, 16);
-        
-        // Make the spore collectable with description
-        this.makeItemCollectable({
-            id: 'mysterious_spore',
-            name: 'Mysterious Spore',
-            description: 'A peculiar spore found in Shed13. It pulses with an otherworldly energy.',
-            spriteKey: 'mysteriousSpore',
-            stackable: true
-        }, spore);
         
         // Position the priest at the left side when entering
         this.priest.x = 100;

@@ -11,8 +11,6 @@ export default class EggCatedralScene extends GameScene {
         super.preload();
         this.load.image('eggCatedralBg', 'assets/images/backgrounds/egg-catedral.png');
         this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
-        this.load.image('box', 'assets/images/items/box.png'); // Load the box asset
-        // Audio is already loaded in GameScene's preload
     }
 
     create() {
@@ -67,32 +65,6 @@ export default class EggCatedralScene extends GameScene {
             50,  // walk to x
             470  // walk to y
         );
-        
-        // Add box on the ground (visible, clickable)
-        this.box = this.add.image(300, 520, 'box');
-        this.box.setDisplaySize(48, 48);
-        this.box.setDepth(5);
-        this.box.setInteractive({ useHandCursor: true });
-        this.box.on('pointerdown', () => {
-            // Add box to inventory if not already present
-            const boxItem = {
-                id: 'box',
-                name: 'Wooden Box',
-                description: 'A mysterious wooden box. What could be inside?',
-                spriteKey: 'box',
-                stackable: false
-            };
-            if (this.addItemToInventory) {
-                const inventory = this.registry.get('inventory');
-                const alreadyInInventory = inventory.items.some(item => item.id === 'box');
-                if (!alreadyInInventory) {
-                    this.addItemToInventory(boxItem);
-                    // Hide box from scene after picking up
-                    this.box.setVisible(false);
-                }
-            }
-        });
-
     }
     
 

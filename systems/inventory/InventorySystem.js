@@ -153,24 +153,32 @@ export default class InventorySystem {
             this.toggleInventory(false);
         });
         
-        // Create inventory slots container
-        this.slotsContainer = this.scene.add.container(170, 0);
+        // Create inventory slots container - centered in the panel
+        this.slotsContainer = this.scene.add.container(0, 0);
         this.inventoryPanel.add(this.slotsContainer);
         
         // Create inventory slots (4x3 grid)
         this.inventorySlots = [];
         const slotSize = 80;
-        const padding = 10;
-        const startX = -180;
-        const startY = -100;
+        const padding = 20;
+        const gridWidth = 4;
+        const gridHeight = 3;
         
-        for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 3; col++) {
+        // Calculate total grid width and height
+        const totalGridWidth = gridWidth * slotSize + (gridWidth - 1) * padding;
+        const totalGridHeight = gridHeight * slotSize + (gridHeight - 1) * padding;
+        
+        // Calculate starting position to center the grid
+        const startX = -totalGridWidth / 2 + slotSize / 2;
+        const startY = -totalGridHeight / 2 + slotSize / 2;
+        
+        for (let row = 0; row < gridHeight; row++) {
+            for (let col = 0; col < gridWidth; col++) {
                 const x = startX + col * (slotSize + padding);
                 const y = startY + row * (slotSize + padding);
                 
                 // Create slot background
-                const slotBg = this.scene.add.rectangle(x, y, slotSize, slotSize, 0x0f2315, 1);
+                const slotBg = this.scene.add.rectangle(0, 0, slotSize, slotSize, 0x0f2315, 1);
                 slotBg.setStrokeStyle(2, 0x7fff8e, 0.5);
                 
                 // Create slot container
@@ -321,11 +329,26 @@ export default class InventorySystem {
                 
                 // Create item sprite or placeholder
                 let itemSprite;
-                if (item.texture) {
-                    itemSprite = this.scene.add.image(0, 0, item.texture);
+                
+                // Try different properties as texture keys
+                const possibleTextureKeys = [
+                    item.texture,                // Explicit texture property
+                    item.id,                     // Item ID
+                    item.name.toLowerCase().replace(/\s+/g, '_'),  // Lowercase name with underscores
+                    item.name                    // Item name as is
+                ];
+                
+                // Find the first valid texture key
+                const textureKey = possibleTextureKeys.find(key => 
+                    key && this.scene.textures.exists(key)
+                );
+                
+                if (textureKey) {
+                    // Use the found texture
+                    itemSprite = this.scene.add.image(0, 0, textureKey);
                     itemSprite.setDisplaySize(60, 60);
                 } else {
-                    // Create a colored circle as placeholder
+                    // Create a colored circle as placeholder if no texture found
                     itemSprite = this.scene.add.circle(0, 0, 25, 0x7fff8e, 0.8);
                     
                     // Add first letter of item name
@@ -336,6 +359,9 @@ export default class InventorySystem {
                     });
                     itemInitial.setOrigin(0.5);
                     slot.add(itemInitial);
+                    
+                    // Log missing texture for debugging
+                    console.warn(`No texture found for item: ${item.name} (${item.id}). Tried: ${possibleTextureKeys.filter(Boolean).join(', ')}`);
                 }
                 
                 // Add item sprite to slot

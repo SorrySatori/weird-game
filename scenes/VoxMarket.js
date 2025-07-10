@@ -652,6 +652,7 @@ export default class VoxMarket extends GameScene {
                 description: 'A common variant of Oltrac. Provides mild hallucinogenic effects.',
                 price: 15,
                 type: 'drug',
+                usable: true,
             },
             {
                 id: 'violetOltrac',
@@ -659,6 +660,7 @@ export default class VoxMarket extends GameScene {
                 description: 'A medium-strength variant of Oltrac. Enhances perception and provides vivid visions.',
                 price: 30,
                 type: 'drug',
+                usable: true,
             },
             {
                 id: 'amberOltrac',
@@ -666,7 +668,8 @@ export default class VoxMarket extends GameScene {
                 description: 'The rarest and most potent form of Oltrac. Said to allow glimpses beyond the veil of reality.',
                 price: 50,
                 type: 'drug',
-            }
+                usable: true,
+                    }
         ];
         
         // Create shop system

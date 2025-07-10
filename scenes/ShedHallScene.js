@@ -23,9 +23,7 @@ export default class ShedHallScene extends GameScene {
             },
             force_extract: {
                 text: "You wrench the Living Core free with brute force. The surrounding area seems to decay rapidly in response...",
-                options: [
-                    { text: "Take it", next: "force_extract_complete" }
-                ],
+                options: [],
                 onTrigger: () => {
                     const questSystem = QuestSystem.getInstance();
                     
@@ -38,17 +36,9 @@ export default class ShedHallScene extends GameScene {
                     }
                 }
             },
-            force_extract_complete: {
-                text: "The Living Core thrums with energy in your hands, though you sense it's weakened by the rough extraction.",
-                options: [
-                    { text: "Continue", next: "goodbye" }
-                ]
-            },
             careful_extract: {
                 text: "Using the pliers, you carefully extract the Living Core. The surrounding area seems to flourish in response to your gentle approach...",
-                options: [
-                    { text: "Take it", next: "careful_extract_complete" }
-                ],
+                options: [],
                 onTrigger: () => {
                     const questSystem = QuestSystem.getInstance();
                     
