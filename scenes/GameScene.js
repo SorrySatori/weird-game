@@ -172,15 +172,15 @@ export default class GameScene extends Phaser.Scene {
             
             // Add quest system event handlers
             questSystem.on('questAdded', (questId, title) => {
-                this.showNotification(`New Quest: ${title}`, 0x7fff8e);
+                this.showNotification(`New Quest: ${title}`);
             });
             
             questSystem.on('questUpdated', (questId, title) => {
-                this.showNotification(`Quest Updated: ${title}`, 0x7fff8e);
+                this.showNotification(`Quest Updated: ${title}`);
             });
             
             questSystem.on('questCompleted', (questId, title) => {
-                this.showNotification(`Quest Completed: ${title}`, 0x7fff8e);
+                this.showNotification(`Quest Completed: ${title}`);
             });
         }
         this.questSystem = this.registry.get('questSystem');
@@ -387,9 +387,11 @@ export default class GameScene extends Phaser.Scene {
             // Add dialog murmur sound
             this.dialogMurmur = this.sound.add('dialogMurmur');
 
-            // Create the Fungus Priest character
+            // Create the Fungal Apprentice character (using the same priest sprite)
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
+            // Also create an apprentice reference for clarity
+            this.apprentice = this.priest;
             
             // Enable physics for the priest
             this.physics.world.enable(this.priest);

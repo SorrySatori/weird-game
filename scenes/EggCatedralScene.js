@@ -25,7 +25,7 @@ export default class EggCatedralScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-            // Start cathedral theme
+        // Start cathedral theme
         this.playSceneMusic('cathedralTheme');
         
         // Create transition zones using SceneTransitionManager
@@ -54,17 +54,8 @@ export default class EggCatedralScene extends GameScene {
             470  // walk to y
         );
         
-        // Left border transition to EntryScene
-        this.transitionManager.createTransitionZone(
-            50,  // x position
-            470, // y position
-            40,  // width
-            200, // height
-            'left', // direction
-            'EntryScene', // target scene
-            50,  // walk to x
-            470  // walk to y
-        );
+        // Left transition removed - no going back to EntryScene
+        // The Fungal Master has left and the apprentice's journey continues forward
     }
     
 

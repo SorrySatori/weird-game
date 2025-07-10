@@ -19,6 +19,7 @@ export default class PlayerMovementSystem {
         };
         this.isMoving = false;
         this.dialogVisible = false;
+        this.controlsDisabled = false;
     }
 
     /**
@@ -129,10 +130,31 @@ export default class PlayerMovementSystem {
     }
 
     /**
+     * Disable player controls for cutscenes or dialog sequences
+     */
+    disableControls() {
+        // Reset all movement states
+        this.movementState.left = false;
+        this.movementState.right = false;
+        this.movementState.up = false;
+        this.movementState.down = false;
+        
+        // Set a flag that controls are disabled
+        this.controlsDisabled = true;
+    }
+    
+    /**
+     * Enable player controls after cutscenes or dialog sequences
+     */
+    enableControls() {
+        this.controlsDisabled = false;
+    }
+
+    /**
      * Update method to be called in the scene's update loop
      */
     update() {
-        if (!this.priest || this.dialogVisible) return;
+        if (!this.priest || this.dialogVisible || this.controlsDisabled) return;
         
         let moved = false;
 

@@ -13,10 +13,10 @@ export default class EntryScene extends GameScene {
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
             main: {
-                text: "Greetings, seeker of truth. I am but a whisper in this strange city, messenger of the fungal gods",
+                text: "Ah, my apprentice, there you are! *sigh* I've been waiting for you. Listen carefully, for I have an important task that requires... well, someone of your particular talents.",
                 options: [
-                    { text: "Tell me more about the city", next: 'city' },
-                    { text: "Who are the fungal gods?", next: 'gods' }
+                    { text: "What task, Master?", next: 'task' },
+                    { text: "Why can't you do it yourself?", next: 'whyNot' }
                 ],
                 onTrigger: () => {
                     // Add journal entry about skyship seen above the city
@@ -24,12 +24,89 @@ export default class EntryScene extends GameScene {
                         this.addJournalEntry(
                             'upper_morkezela',
                             'Upper Morkezela',
-                            'They call it a city, but Upper Morkezela was never fully alive. It grew like a misunderstanding — a mistake made permanent by concrete, ritual, and time. The streets curve inward. And no one knows who is in charge, there are several factions fighting for control. “In Morkezela, your second shadow watches the first. Neither trusts you.” — Anonymous graffito, scratched into the side of a forgotten monorail',
+                            'They call it a city, but Upper Morkezela was never fully alive. It grew like a misunderstanding — a mistake made permanent by concrete, ritual, and time. The streets curve inward. And no one knows who is in charge, there are several factions fighting for control. "In Morkezela, your second shadow watches the first. Neither trusts you." — Anonymous graffito, scratched into the side of a forgotten monorail',
                             this.journalSystem.categories.PLACES,
                             { location: 'Upper Morkezela skyline' }
                         );
                     }
+                    
+                    // Add journal entry about being an apprentice
+                    if (!this.hasJournalEntry('fungal_apprentice')) {
+                        this.addJournalEntry(
+                            'fungal_apprentice',
+                            'Fungal Apprentice',
+                            'As the newest apprentice to Fungal Master Mycelius, I have much to learn about the spores, the city, and the strange ways of the fungal clergy. My master is... eccentric, to say the least. He seems to have a habit of assigning me tasks he finds beneath his station.',
+                            this.journalSystem.categories.PEOPLE,
+                            { relationship: 'Player character' }
+                        );
+                    }
+                    
+                    // Add journal entry about the fungal master
+                    if (this.journalSystem && !this.hasJournalEntry('fungal_master')) {
+                        this.addJournalEntry(
+                            'fungal_master',
+                            'Fungal Master Mycelius',
+                            'The eccentric Fungal Master Mycelius is known for his vast knowledge of spores and his equally vast disinterest in doing any actual work. He prefers to delegate tasks to his apprentices while he engages in "important spiritual communion" at the local tavern.',
+                            this.journalSystem.categories.PEOPLE,
+                            { relationship: 'Master' }
+                        );
+                    }
+                    
+                    // Start the find_bishop quest
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && !questSystem.getQuest('find_bishop')) {
+                        questSystem.addQuest(
+                            'find_bishop',
+                            'Find the Bishop',
+                            'The Fungal Master has tasked me with finding the Bishop at the Egg Cathedral. The Bishop has information about a disturbance in the spore networks that may be interfering with the Great Fruiting.'
+                        );
+                    }
+                    
+                    // Listen for dialog closed event to make the master walk away
+                    this.events.once('dialog-closed', this.masterWalkAway.bind(this));
                 }
+            },
+            task: {
+                text: "You must find the Bishop at the Egg Cathedral. He has information about a... disturbance in the spore networks. Something is interfering with the Great Fruiting, and we must investigate. The Bishop will tell you more.",
+                options: [
+                    { text: "Why can't you go see the Bishop yourself?", next: 'whyNot' },
+                    { text: "Tell me more about the city first", next: 'city' },
+                    { text: "Who are the fungal gods?", next: 'gods' }
+                ]
+            },
+            whyNot: {
+                text: "*adjusts robe importantly* I am far too busy with... important research. Yes! Research into advanced mycological phenomena that your novice mind couldn't possibly comprehend. Besides, I have a... prior engagement at the Fermented Cap tavern. The Bishop specifically requested someone of your... particular level of experience.",
+                options: [
+                    { text: "You're just avoiding work, aren't you?", next: 'avoiding' },
+                    { text: "What should I tell the Bishop when I find him?", next: 'tellBishop' },
+                    { text: "Tell me more about the city first", next: 'city' }
+                ]
+            },
+            avoiding: {
+                text: "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of mushroom ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!",
+                options: [
+                    { text: "What should I tell the Bishop when I find him?", next: 'tellBishop' },
+                    { text: "Tell me more about the city first", next: 'city' },
+                    { text: "Who are the fungal gods?", next: 'gods' }
+                ]
+            },
+            tellBishop: {
+                text: "Tell him you're my apprentice, sent to assist with the spore disturbance investigation. He'll know what to do. And remember to represent the fungal clergy with dignity! No embarrassing me this time. Now, was there anything else you needed to know before you go?",
+                options: [
+                    { text: "Tell me more about the city", next: 'city' },
+                    { text: "Who are the fungal gods?", next: 'gods' },
+                    { text: "I'll be on my way", next: 'farewell' }
+                ]
+            },
+            farewell: {
+                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed. Now off you go, apprentice! Glory to the Great Fruiting!",
+                options: [
+                    { text: "Glory to the Great Fruiting...", next: 'close' }
+                ]
+            },
+            close: {
+                text: "*waves dismissively while eyeing the path to the tavern*",
+                options: []
             },
             city: {
                 text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is a graveyard of forgotten gods from many spheres. Each time people cease to believe in some god, the grows. The dying gods bring streets, building and forgotten culture with them. They don't want to be alone in the void, afterlife or whatever there is for them after they die, you know. ",
@@ -126,6 +203,8 @@ export default class EntryScene extends GameScene {
         super.preload();
         // Load any EntryScene-specific assets here
         this.load.image('desolateUrban', 'assets/images/backgrounds/Desolate Urban Landscape.png');
+        // Load fungal master sprite as a regular image since it's not a spritesheet
+        this.load.image('fungal_master', 'assets/images/characters/fungal_master.png');
     }
 
     create() {
@@ -141,8 +220,8 @@ export default class EntryScene extends GameScene {
         // Create city background after parallax layers
         this.createCityBackground();
         
-        // Create stranger after mechanics are initialized
-        this.createStranger();
+        // Create fungal master after mechanics are initialized
+        this.createFungalMaster();
         
         // Create transition zone to EggCatedralScene at the right edge
         this.transitionManager.createTransitionZone(
@@ -161,6 +240,9 @@ export default class EntryScene extends GameScene {
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
+        
+        // Set up the apprentice entrance sequence
+        this.setupApprenticeEntrance();
     }
 
     createCityBackground() {
@@ -191,38 +273,50 @@ export default class EntryScene extends GameScene {
         // Store initial positions using the same constants
         this.foreground1.initialX = layer1X;
         this.foreground2.initialX = layer2X;
-        this.priest.initialX = this.priest.x;
+        if (this.priest) {
+            this.priest.initialX = this.priest.x;
+        }
     }
 
-    createStranger() {
-        // Add the mysterious stranger character
-        this.stranger = this.add.sprite(600, 470, 'stranger');
-        this.stranger.setScale(2);
-        this.stranger.setInteractive({ useHandCursor: true });
+    createFungalMaster() {
+        // Add the fungal master character
+        this.master = this.add.image(600, 470, 'fungal_master');
         
-        // Handle cursor visibility for stranger
-        this.input.on('gameobjectover', (pointer, gameObject) => {
-            if (gameObject === this.stranger) {
-            }
+        // Scale down the master image as it's a large image
+        this.master.setScale(0.15);  // Adjust scale to fit the scene
+        this.master.setInteractive({ useHandCursor: true });
+        
+        // Add a green glow effect for the fungal appearance
+        const masterGlowFX = this.add.image(600, 470, 'fungal_master');
+        masterGlowFX.setScale(0.155);  // Slightly larger than the character
+        masterGlowFX.setTint(0x00FF00);  // Green glow
+        masterGlowFX.setAlpha(0.3);  // Transparent glow
+        masterGlowFX.setBlendMode(Phaser.BlendModes.ADD);  // Additive blending for glow effect
+        this.masterGlow = masterGlowFX;
+        
+        // Add pulsating effect to the glow
+        this.tweens.add({
+            targets: this.masterGlow,
+            alpha: 0.5,
+            duration: 1500,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
         });
         
-        this.input.on('gameobjectout', (pointer, gameObject) => {
-            if (gameObject === this.stranger) {
-            }
+        // Add subtle breathing animation to the master
+        this.tweens.add({
+            targets: this.master,
+            scaleX: this.master.scaleX * 1.02,
+            scaleY: this.master.scaleY * 1.02,
+            duration: 2000,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
         });
-        
-        // Create NPC idle animation
-        this.anims.create({
-            key: 'stranger-idle',
-            frames: this.anims.generateFrameNumbers('stranger', { start: 0, end: 3 }),
-            frameRate: 4,
-            repeat: -1
-        });
-        
-        this.stranger.play('stranger-idle');
         
         // Add click handler for NPC
-        this.stranger.on('pointerdown', () => {
+        this.master.on('pointerdown', () => {
             if (!this.dialogVisible) {
                 this.clickSound.play();
                 this.showDialog('main');
@@ -274,7 +368,107 @@ export default class EntryScene extends GameScene {
                 this.foreground2.initialX -= screenWidth;
             }
         }
+        
+        // Update master glow position if it exists
+        if (this.master && this.masterGlow) {
+            this.masterGlow.x = this.master.x;
+            this.masterGlow.y = this.master.y;
+        }
+        
+        // Update priestGlow position if it exists to follow the apprentice
+        if (this.priest && this.priestGlow) {
+            this.priestGlow.x = this.priest.x;
+            this.priestGlow.y = this.priest.y;
+        }
 
         // No need to check for edge transitions as SceneTransitionManager handles this
+    }
+    
+    /**
+     * Set up the apprentice entrance sequence
+     */
+    setupApprenticeEntrance() {
+        // Temporarily disable player controls
+        if (this.playerMovementSystem) {
+            this.playerMovementSystem.disableControls();
+        }
+        
+        // Position the apprentice off-screen to the left
+        if (this.priest) {
+            this.priest.x = -50;
+            this.priest.initialX = -50;
+            
+            // Rename the priest to apprentice for clarity
+            this.apprentice = this.priest;
+            
+            // Play walking animation
+            this.apprentice.play('walk');
+            
+            // Create a tween to move the apprentice into the scene
+            this.tweens.add({
+                targets: this.apprentice,
+                x: 200,
+                duration: 3000,
+                ease: 'Linear',
+                onComplete: () => {
+                    // Stop walking animation
+                    this.apprentice.play('idle');
+                    
+                    // Show dialog after a short delay
+                    this.time.delayedCall(500, () => {
+                        this.showDialog('main');
+                    });
+                    
+                    // Re-enable controls after dialog closes
+                    this.events.once('dialog-closed', () => {
+                        if (this.playerMovementSystem) {
+                            this.playerMovementSystem.enableControls();
+                        }
+                    });
+                }
+            });
+            
+            // Make the glow follow the apprentice
+            if (this.priestGlow) {
+                this.priestGlow.x = this.apprentice.x;
+                this.priestGlow.y = this.apprentice.y;
+            }
+        }
+    }
+    
+    /**
+     * Override hideDialog to emit the dialog-closed event
+     */
+    hideDialog() {
+        // Call the parent method first
+        super.hideDialog();
+        
+        // Emit the dialog-closed event
+        this.events.emit('dialog-closed');
+    }
+    
+    /**
+     * Make the fungal master walk away after dialog closes
+     */
+    masterWalkAway() {
+        if (this.master && this.masterGlow) {
+            // Create a tween to make the master walk to the right and disappear
+            this.tweens.add({
+                targets: [this.master, this.masterGlow],
+                x: 900, // Walk off the right side of the screen
+                duration: 5000,
+                ease: 'Linear',
+                onComplete: () => {
+                    // Remove the master and glow when they're off-screen
+                    this.master.destroy();
+                    this.masterGlow.destroy();
+                    
+                    // Add a notification that the master has left
+                    if (this.showNotification) {
+                        this.showNotification('The Fungal Master has departed for the tavern...');
+                    }
+                }
+            });
+        }
     }
 }
