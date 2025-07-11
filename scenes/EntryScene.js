@@ -35,7 +35,7 @@ export default class EntryScene extends GameScene {
                         this.addJournalEntry(
                             'fungal_apprentice',
                             'Fungal Apprentice',
-                            'As the newest apprentice to Fungal Master Mycelius, I have much to learn about the spores, the city, and the strange ways of the fungal clergy. My master is... eccentric, to say the least. He seems to have a habit of assigning me tasks he finds beneath his station.',
+                            'As the newest apprentice to Fungal Master Thaal, I have much to learn about the spores, the city, and the strange ways of the fungal clergy. My master is... eccentric, to say the least. He seems to have a habit of assigning me tasks he finds beneath his station.',
                             this.journalSystem.categories.PEOPLE,
                             { relationship: 'Player character' }
                         );
@@ -45,8 +45,8 @@ export default class EntryScene extends GameScene {
                     if (this.journalSystem && !this.hasJournalEntry('fungal_master')) {
                         this.addJournalEntry(
                             'fungal_master',
-                            'Fungal Master Mycelius',
-                            'The eccentric Fungal Master Mycelius is known for his vast knowledge of spores and his equally vast disinterest in doing any actual work. He prefers to delegate tasks to his apprentices while he engages in "important spiritual communion" at the local tavern.',
+                            'Fungal Master Thaal',
+                            'The eccentric Fungal Master Thaal is known for his vast knowledge of spores and his equally vast disinterest in doing any actual work. He prefers to delegate tasks to his apprentices while he engages in "important spiritual communion" at the local tavern.',
                             this.journalSystem.categories.PEOPLE,
                             { relationship: 'Master' }
                         );
@@ -86,7 +86,7 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "What should I tell the Bishop when I find him?", next: 'tellBishop' },
                     { text: "Tell me more about the city first", next: 'city' },
-                    { text: "Who are the fungal gods?", next: 'gods' }
+                    { text: "Master, I have heard that Upper Morkezela is called the Dead gods city. Could you tell me more?", next: 'gods' }
                 ]
             },
             tellBishop: {
@@ -116,7 +116,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             gods: {
-                text: "You know, or you should know, that there is only one real god. Obozoba, the Ur-mushroom, the one who created the world and all life and death in it. The other gods are just illusions... but yeah, this is a city where gods are going to die. It's not a contradiction... it's just not.",
+                text: "You know, or you should know, that there is only one real god. Obozoba, the Ur-mushroom, the one who created the world and all life and death in it. The other gods are just illusions... but yeah, this is a city where gods are going to die. See, not all gods live forever.",
                 options: [
                     { text: "Ask about the city", next: 'city' },
                     { text: "Where can I learn more about the gods?", next: 'priests' },
@@ -137,23 +137,23 @@ export default class EntryScene extends GameScene {
                 ]
             },
             locations: {
-                text: "The city has many locations, but the most significant ones are the Candlepit of Saint Hesh, the Yolk Sea, Midwives' Ossuary, Sporewind Graves, and the Stomach Clock. Which one interests you?",
+                text: "The city has many locations, but the most significant ones are the Yolk Sea, Shed 512, Scraper 1140, Voxmarket, and the Stomach Clock. Which one interests you?",
                 options: [
-                    { text: "Candlepit of Saint Hesh", next: 'candlepit' },
+                    { text: "Shed 512", next: 'shed512' },
                     { text: "Yolk Sea", next: 'yolkSea' },
-                    { text: "Midwives' Ossuary", next: 'midwivesOssuary' },
-                    { text: "Sporewind Graves", next: 'sporewindGraves' },
+                    { text: "Scraper 1140", next: 'scraper1140' },
+                    { text: "Voxmarket", next: 'voxmarket' },
                     { text: "Stomach Clock", next: 'stomachClock' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
             },
-            candlepit: {
-                text: "The Candlepit of Saint Hesh is a Circular wax catacomb with memory-melting rituals and speaking wounds. It is located beneath the Egg Cathedral.",
+            shed512: {
+                text: "Shed 512, also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
                 options: [
                     { text: "What is the Egg Cathedral?", next: 'eggCatedral' },
                     { text: "What is the Yolk Sea?", next: 'yolkSea' },
-                    { text: "What is the Midwives' Ossuary?", next: 'midwivesOssuary' },
-                    { text: "What is the Sporewind Graves?", next: 'sporewindGraves' },
+                    { text: "What is the Scraper 1140", next: 'scraper1140' },
+                    { text: "What is the Voxmarket?", next: 'voxmarket' },
                     { text: "What is the Stomach Clock?", next: 'stomachClock' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
@@ -161,27 +161,27 @@ export default class EntryScene extends GameScene {
             yolkSea: {
                 text: "The Yolk Sea is a glowing, sentient ocean of living yolk. Boats float like seeds, and whispers rise from its depths.",
                 options: [
-                    { text: "What is the Candlepit of Saint Hesh?", next: 'candlepit' },
-                    { text: "What is the Midwives' Ossuary?", next: 'midwivesOssuary' },
-                    { text: "What is the Sporewind Graves?", next: 'sporewindGraves' },
+                    { text: "What is the Shed 512?", next: 'shed512' },
+                    { text: "What is the Scraper 1140", next: 'scraper1140' },
+                    { text: "What is the Voxmarket?", next: 'voxmarket' },
                     { text: "What is the Stomach Clock?", next: 'stomachClock' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
             },
-            midwivesOssuary: {
-                text: "The Midwives' Ossuary is a Pelvis-shaped crypt filled with midwife husks who sew memory threads into your bones.",
+            scraper1140: {
+                text: "It's a crooked skyscraper retrofitted into a vertical slum. Each floor houses a different caste, age, or species. I'm afraid I don't know much about it, but I would be careful around this place",
                 options: [
-                    { text: "What is the Yolk Sea?", next: 'yolkSea' },
-                    { text: "What is the Sporewind Graves?", next: 'sporewindGraves' },
+                    { text: "What is the Shed 512?", next: 'shed512' },
+                    { text: "What is the Scraper 1140", next: 'scraper1140' },
                     { text: "What is the Stomach Clock?", next: 'stomachClock' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
             },
-            sporewindGraves: {
-                text: "The Sporewind Graves is a foggy fungal plains with drifting memory apparitions.",
+            voxmarket: {
+                text: "The Voxmarket is a bustling marketplace... audio bazaar where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed. I have heard that also black market thrives here.",
                 options: [
-                    { text: "What is the Yolk Sea?", next: 'yolkSea' },
-                    { text: "What is the Midwives' Ossuary?", next: 'midwivesOssuary' },
+                    { text: "What is the Shed 512?", next: 'shed512' },
+                    { text: "What is the Scraper 1140", next: 'scraper1140' },
                     { text: "What is the Stomach Clock?", next: 'stomachClock' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
@@ -189,9 +189,9 @@ export default class EntryScene extends GameScene {
             stomachClock: {
                 text: "The Stomach Clock is a biomechanical chamber shaped like a digestive clock. Time runs in loops; bile is sacred. You can see it at the townhall",
                 options: [
-                    { text: "What is the Yolk Sea?", next: 'yolkSea' },
-                    { text: "What is the Midwives' Ossuary?", next: 'midwivesOssuary' },
-                    { text: "What is the Sporewind Graves?", next: 'sporewindGraves' },
+                    { text: "What is the Shed 512?", next: 'shed512' },
+                    { text: "What is the Scraper 1140", next: 'scraper1140' },
+                    { text: "What is the Voxmarket?", next: 'voxmarket' },
                     { text: "Return to previous topic", next: 'main' }
                 ]
             }
