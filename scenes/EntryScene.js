@@ -69,7 +69,7 @@ export default class EntryScene extends GameScene {
             task: {
                 text: "You must find the Bishop at the Egg Cathedral. She might knows about the distress call we have received from this city via myceliar network. The Bishop should be present at the Egg Cathedral.",
                 options: [
-                    { text: "Why can't you go see the Bishop yourself?", next: 'whyNot' },
+                    { text: "Wait, do you mean the task you have been given by the Spore Council? The only reason we are here? Why can't we go see the Bishop together?", next: 'whyNot' },
                     { text: "Tell me more about the city first", next: 'city' },
                 ]
             },
@@ -110,6 +110,16 @@ export default class EntryScene extends GameScene {
             city: {
                 text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is a graveyard of forgotten gods from many spheres. Each time people cease to believe in some god, the grows. The dying gods bring streets, building and forgotten culture with them. They don't want to be alone in the void, afterlife or whatever there is for them after they die, you know. ",
                 options: [
+                    { text: "Ask about the gods", next: 'gods' },
+                    { text: "Do you have any advice for me?", next: 'advice' },
+                    { text: "Tell me more about city locations.", next: 'locations' },
+                    { text: "Return to previous topic", next: 'main' }
+                ]
+            },
+            advice: {
+                text: "Remember, all your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you.",
+                options: [
+                    { text: "Ask about the gods", next: 'gods' },
                     { text: "Ask about the gods", next: 'gods' },
                     { text: "Tell me more about city locations.", next: 'locations' },
                     { text: "Return to previous topic", next: 'main' }
