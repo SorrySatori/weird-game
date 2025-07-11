@@ -1160,15 +1160,27 @@ export default class GameScene extends Phaser.Scene {
 
     // Dialog option creation
     createDialogOption(text, y, callback) {
-        const optionBg = this.add.rectangle(0, y, 560, 40, 0x0a2712, 0.4);
-        optionBg.setStrokeStyle(1, 0x7fff8e);
-        optionBg.setInteractive({ useHandCursor: true });
-
+        // Create text first to calculate its height
         const optionText = this.add.text(0, y, text, {
             fontSize: '20px',
-            fill: '#7fff8e'
+            fill: '#7fff8e',
+            wordWrap: { width: 540 },
+            align: 'center'
         });
         optionText.setOrigin(0.5);
+        
+        // Calculate dynamic height based on text content with padding
+        const textHeight = optionText.height;
+        // Ensure enough height for the text plus padding (10px on top and bottom)
+        const optionHeight = Math.max(40, textHeight + 20); // Minimum 40px height with 20px padding
+        
+        // Create background with dynamic height
+        const optionBg = this.add.rectangle(0, y, 560, optionHeight, 0x0a2712, 0.4);
+        optionBg.setStrokeStyle(1, 0x7fff8e);
+        optionBg.setInteractive({ useHandCursor: true });
+        
+        // Return the actual height used for proper spacing in the caller
+        optionBg.actualHeight = optionHeight;
 
         optionBg.on('pointerover', () => {
             optionBg.setFillStyle(0x0a2712, 0.6);
@@ -1266,13 +1278,14 @@ export default class GameScene extends Phaser.Scene {
         this.dialogBox = this.add.container(400, 300);
         this.dialogBox.setDepth(1000);
         
-        // Dialog background
-        const dialogBg = this.add.rectangle(0, 0, 600, 400, 0x0a2712, 0.9);
+        // We'll set the dialog background size after calculating content height
+        // Initial size - increased height to fit more content
+        const dialogBg = this.add.rectangle(0, 0, 600, 500, 0x0a2712, 0.9);
         dialogBg.setStrokeStyle(2, 0x7fff8e);
         this.dialogBox.add(dialogBg);
 
         // Add 'X' close button
-        const closeBtn = this.add.container(280, -180);
+        const closeBtn = this.add.container(280, -230);
         const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
         closeBg.setStrokeStyle(1, 0x7fff8e);
         closeBg.setInteractive({ useHandCursor: true });
@@ -1301,6 +1314,9 @@ export default class GameScene extends Phaser.Scene {
         // Create a separate container for text area with fixed height
         const textContainer = this.add.container(0, -120);
         this.dialogBox.add(textContainer);
+        
+        // Store text container position for reference when positioning options
+        const textContainerY = -120;
         
         // Create background for text area
         const textBgHeight = 120;
@@ -1393,8 +1409,9 @@ export default class GameScene extends Phaser.Scene {
             });
         }
         
-        // Create options container - positioned well below the text area
-        const optionsContainer = this.add.container(0, 0);
+        // Create options container - positioned below the text area
+        // Position it with appropriate spacing (reduced from previous value)
+        const optionsContainer = this.add.container(0, textContainerY + textBgHeight + 20); // Text area position + height + spacing
         this.dialogBox.add(optionsContainer);
         
         // Create dialog options container
@@ -1403,7 +1420,7 @@ export default class GameScene extends Phaser.Scene {
         
         // Create dialog options
         const visibleOptionsCount = 4; // Maximum number of visible options
-        const optionHeight = 60;
+        // We'll use dynamic heights for options based on content
         
         // Calculate total options including "Close"
         // Handle options that are functions
@@ -1429,12 +1446,14 @@ export default class GameScene extends Phaser.Scene {
             const startIdx = page * visibleOptionsCount;
             const endIdx = Math.min(startIdx + visibleOptionsCount, content.options.length);
             
-            // Add options for current page
+            // Add options for current page with dynamic spacing
+            let currentY = 0; // Track the current Y position
+            
             for (let i = startIdx; i < endIdx; i++) {
                 const option = content.options[i];
-                const y = (i - startIdx) * optionHeight;
                 
-                const elements = this.createDialogOption(option.text, y, () => {
+                // Create the dialog option at the current Y position
+                const elements = this.createDialogOption(option.text, currentY, () => {
             // Call onSelect if it exists
             if (option.onSelect) {
                 option.onSelect.call(this); // Bind the correct 'this' context
@@ -1456,21 +1475,28 @@ export default class GameScene extends Phaser.Scene {
             }
         });
                 this.dialogOptions.add(elements);
+                
+                // Increment Y position by the actual height of this option plus spacing
+                const spacing = 15; // Add spacing between options
+                currentY += elements[0].actualHeight + spacing;
             }
             
             // Add close option if it fits on this page
             if (endIdx === content.options.length && (endIdx - startIdx) < visibleOptionsCount) {
-                const y = (endIdx - startIdx) * optionHeight;
-                const closeElements = this.createDialogOption('Close', y, () => {
+                const closeElements = this.createDialogOption('Close', currentY, () => {
                     this.hideDialog();
                 });
                 this.dialogOptions.add(closeElements);
+                
+                // Update currentY for consistent spacing after Close button
+                const spacing = 15; // Same spacing as between other options
+                currentY += closeElements[0].actualHeight + spacing;
             }
             
             // Add pagination controls if needed
             if (needsPagination) {
-                // Add page indicator
-                const pageText = this.add.text(0, visibleOptionsCount * optionHeight + 20, 
+                // Add page indicator - position below the last option with spacing
+                const pageText = this.add.text(0, currentY + 20, 
                     `Page ${page + 1}/${totalPages}`, {
                     fontSize: '18px',
                     fill: '#7fff8e'
@@ -1478,9 +1504,12 @@ export default class GameScene extends Phaser.Scene {
                 pageText.setOrigin(0.5);
                 this.dialogOptions.add(pageText);
                 
-                // Previous page button
+                // Update currentY to include pagination controls
+                currentY += 50;
+                
+                // Previous page button - position at the same level as page indicator
                 if (page > 0) {
-                    const prevBtn = this.add.container(-100, visibleOptionsCount * optionHeight + 20);
+                    const prevBtn = this.add.container(-100, currentY + 20);
                     const prevBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
                     prevBg.setStrokeStyle(1, 0x7fff8e);
                     prevBg.setInteractive({ useHandCursor: true });
@@ -1509,7 +1538,7 @@ export default class GameScene extends Phaser.Scene {
                 
                 // Next page button
                 if (page < totalPages - 1) {
-                    const nextBtn = this.add.container(100, visibleOptionsCount * optionHeight + 20);
+                    const nextBtn = this.add.container(100, currentY + 20);
                     const nextBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
                     nextBg.setStrokeStyle(1, 0x7fff8e);
                     nextBg.setInteractive({ useHandCursor: true });
@@ -1536,10 +1565,27 @@ export default class GameScene extends Phaser.Scene {
                     });
                 }
             }
+            
+            // Resize dialog background based on content height
+            if (this.dialogBg) {
+                // Calculate total height needed: text area (120px) + spacing (20px) + options area (currentY) + bottom padding (30px)
+                const totalHeight = 120 + 20 + currentY + 30;
+                // Set minimum height to 500px to match initial height
+                const newHeight = Math.max(500, totalHeight);
+                this.dialogBg.height = newHeight;
+                
+                // Center the dialog box vertically based on new height
+                this.dialogBox.y = 300;
+                
+                // No need to reposition options container as it's already positioned relative to text area
+            }
         };
         
         // Show options for the first page
         showOptionsForPage(0);
+        
+        // Store reference to dialog background for resizing
+        this.dialogBg = dialogBg;
     }
 
     hideDialog() {
