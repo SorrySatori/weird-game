@@ -120,7 +120,6 @@ export default class EntryScene extends GameScene {
                 text: "Remember, all your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you.",
                 options: [
                     { text: "Ask about the gods", next: 'gods' },
-                    { text: "Ask about the gods", next: 'gods' },
                     { text: "Tell me more about city locations.", next: 'locations' },
                     { text: "Return to previous topic", next: 'main' }
                 ]

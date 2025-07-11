@@ -104,14 +104,14 @@ export default class CrossroadScene extends GameScene {
         
         // Create transition zone for Cathedral entrance
         this.transitionManager.createTransitionZone(
-            400, // x position
-            400, // y position
+            200, // x position
+            500, // y position
             100, // width
             200, // height
-            'up', // direction
+            'left', // direction
             'EggCatedralScene', // target scene
-            400, // walk to x
-            400 // walk to y
+            200, // walk to x
+            500 // walk to y
         );
         
         // Create transition zone for VoxMarket entrance
