@@ -59,8 +59,30 @@ class IntroScene extends Phaser.Scene {
       // Text UI
       this.dialogueBox = this.add.rectangle(400, 540, 760, 100, 0x1e1e1e, 0.85).setOrigin(0.5);
       this.dialogueText = this.add.text(50, 500, '', { fontSize: '16px', fill: '#ffffff', wordWrap: { width: 700 } });
+      
+      // Add "Press SPACE" prompt
+      this.promptText = this.add.text(400, 570, 'Press SPACE to continue', { 
+        fontSize: '14px', 
+        fill: '#7fff8e',
+        fontStyle: 'italic'
+      }).setOrigin(0.5);
+      
+      // Add a pulsating effect to the prompt
+      this.tweens.add({
+        targets: this.promptText,
+        alpha: { from: 0.5, to: 1 },
+        duration: 800,
+        ease: 'Sine.easeInOut',
+        yoyo: true,
+        repeat: -1
+      });
   
       this.input.keyboard.on('keydown-SPACE', () => {
+        this.nextDialogue();
+      });
+      
+      // Also allow clicking anywhere to advance dialog
+      this.input.on('pointerdown', () => {
         this.nextDialogue();
       });
   
@@ -73,7 +95,11 @@ class IntroScene extends Phaser.Scene {
         this.dialogueText.setText(`${line.speaker}: ${line.text}`);
         this.dialogueIndex++;
       } else {
-        this.scene.start('EntryScene'); // Move to main game
+        // Fade out and transition to the TransitionScene
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+          this.scene.start('TransitionScene');
+        });
       }
     }
   }
