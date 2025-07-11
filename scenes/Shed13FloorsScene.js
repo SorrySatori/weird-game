@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class Shed13FloorsScene extends GameScene {
     constructor() {
@@ -11,11 +12,15 @@ export default class Shed13FloorsScene extends GameScene {
         super.preload();
         this.load.image('floors', 'assets/images/backgrounds/Shed13_floors.png');
         this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
+        this.load.image('arrow', 'assets/images/ui/arrow.png'); // Arrow for transition hover effects
     }
 
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
         
         // Set initial priest position to first floor
         if (this.priest) {
@@ -30,299 +35,165 @@ export default class Shed13FloorsScene extends GameScene {
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
-        // Add invisible clickable area for Shed13 entrance
-        this.welcomeEntrance = this.add.image(110, 450, 'door')
-            .setDisplaySize(120, 100)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-        this.secondFloorEntrance = this.add.image(650, 450, 'door')
-            .setDisplaySize(100, 100)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-        this.exitEntrance = this.add.image(450, 450, 'door')
-            .setDisplaySize(100, 100)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-        // --- Hidden entrance to third floor ---
-        this.thirdFloorEntrance = this.add.image(690, 250, 'door')
-            .setDisplaySize(80, 80)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-        // --- Entrance back to first floor ---
-        this.secondToFirstEntrance = this.add.image(400, 340, 'door')
-            .setDisplaySize(80, 80)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-        this.assessmentEntrance = this.add.image(200, 340, 'door')
-            .setDisplaySize(80, 80)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-        // --- Entrance back to second floor ---
-        this.thirdToSecondEntrance = this.add.image(690, 120, 'door')
-            .setDisplaySize(80, 80)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-            this.registrationEntrance = this.add.image(150, 120, 'door')
-            .setDisplaySize(80, 80)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-            this.applicationsEntrance = this.add.image(400, 120, 'door')
-            .setDisplaySize(80, 80)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-
-        // Set up pointer events for all entrances
-        const entrances = [
-            this.welcomeEntrance,
-            this.secondFloorEntrance,
-            this.exitEntrance,
-            this.thirdFloorEntrance,
-            this.secondToFirstEntrance,
-            this.thirdToSecondEntrance,
-            this.assessmentEntrance,
-            this.registrationEntrance,
-            this.applicationsEntrance
-        ];
-
-        entrances.forEach(entrance => {
-            entrance.on('pointerover', () => {
-                if (entrance.input.enabled) {
-                }
-            });
-            entrance.on('pointerout', () => {
-            });
-        });
+        // Create transition zones for each area using SceneTransitionManager
+        
+        // First Floor Transitions
+        
+        // Welcome Office (First Floor - Left)
+        this.welcomeZone = this.transitionManager.createTransitionZone(
+            110, // x position
+            450, // y position
+            120, // width
+            100, // height
+            'left', // direction
+            'Shed13GateScene', // target scene
+            50, // walk to x
+            520 // walk to y
+        );
+        
+        // Exit to Shed13Scene (First Floor - Center)
+        this.exitZone = this.transitionManager.createTransitionZone(
+            450, // x position
+            450, // y position
+            100, // width
+            100, // height
+            'down', // direction
+            'Shed13Scene', // target scene
+            450, // walk to x
+            450 // walk to y
+        );
+        
+        // Stairs to Second Floor (First Floor - Right)
+        this.secondFloorZone = this.transitionManager.createTransitionZone(
+            650, // x position
+            450, // y position
+            100, // width
+            100, // height
+            'up', // direction
+            'Shed13FloorsScene', // target scene - same scene, different floor
+            650, // walk to x
+            450 // walk to y - second floor level
+        );
+        
+        // Second Floor Transitions
+        
+        // Assessment Office (Second Floor - Left)
+        this.assessmentZone = this.transitionManager.createTransitionZone(
+            200, // x position
+            340, // y position
+            80, // width
+            80, // height
+            'left', // direction
+            'ShedAbandonedOfficeScene', // target scene
+            150, // walk to x
+            340 // walk to y
+        );
+        
+        // Stairs to First Floor (Second Floor - Center)
+        this.secondToFirstZone = this.transitionManager.createTransitionZone(
+            400, // x position
+            340, // y position
+            80, // width
+            80, // height
+            'down', // direction
+            'Shed13FloorsScene', // target scene - same scene, different floor
+            400, // walk to x
+            520 // walk to y - first floor level
+        );
+        
+        // Stairs to Third Floor (Second Floor - Right)
+        this.thirdFloorZone = this.transitionManager.createTransitionZone(
+            690, // x position
+            250, // y position
+            80, // width
+            80, // height
+            'up', // direction
+            'Shed13FloorsScene', // target scene - same scene, different floor
+            690, // walk to x
+            250 // walk to y - third floor level
+        );
+        
+        // Third Floor Transitions
+        
+        // Registration Office (Third Floor - Left)
+        this.registrationZone = this.transitionManager.createTransitionZone(
+            150, // x position
+            120, // y position
+            80, // width
+            80, // height
+            'left', // direction
+            'ShedRegistrationScene', // target scene
+            100, // walk to x
+            120 // walk to y
+        );
+        
+        // Applications Office (Third Floor - Center)
+        this.applicationsZone = this.transitionManager.createTransitionZone(
+            400, // x position
+            120, // y position
+            80, // width
+            80, // height
+            'up', // direction
+            'ShedApplicationsScene', // target scene
+            400, // walk to x
+            120 // walk to y
+        );
+        
+        // Stairs to Second Floor (Third Floor - Right)
+        this.thirdToSecondZone = this.transitionManager.createTransitionZone(
+            690, // x position
+            120, // y position
+            80, // width
+            80, // height
+            'down', // direction
+            'Shed13FloorsScene', // target scene - same scene, different floor
+            690, // walk to x
+            120 // walk to y - second floor level
+        );
 
         // Helper to update entrance availability based on current floor
         this.updateEntranceAvailability = (currentFloor) => {
-            // Disable all entrances first
-            [this.welcomeEntrance, this.exitEntrance, this.secondFloorEntrance, this.assessmentEntrance,
-             this.thirdFloorEntrance, this.secondToFirstEntrance, this.thirdToSecondEntrance].forEach(entrance => {
-                if (entrance) {
-                    entrance.disableInteractive();
-                    entrance.setAlpha(0);
+            // Disable all transition zones first
+            const allZones = [
+                this.welcomeZone, this.exitZone, this.secondFloorZone,
+                this.assessmentZone, this.secondToFirstZone, this.thirdFloorZone,
+                this.thirdToSecondZone, this.registrationZone, this.applicationsZone
+            ];
+            
+            allZones.forEach(zone => {
+                if (zone && zone.input) {
+                    zone.input.enabled = false;
                 }
             });
 
-            // Enable only entrances for current floor
-            switch(currentFloor) {
-                case 1:
-                    this.welcomeEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
-                    this.exitEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
-                    this.secondFloorEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
+            // Enable zones based on current floor
+            switch (currentFloor) {
+                case 1: // First floor
+                    [this.welcomeZone, this.exitZone, this.secondFloorZone].forEach(zone => {
+                        if (zone && zone.input) {
+                            zone.input.enabled = true;
+                        }
+                    });
                     break;
-                case 2:
-                    this.secondToFirstEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
-                    this.thirdFloorEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
-                    this.assessmentEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
+                case 2: // Second floor
+                    [this.assessmentZone, this.secondToFirstZone, this.thirdFloorZone].forEach(zone => {
+                        if (zone && zone.input) {
+                            zone.input.enabled = true;
+                        }
+                    });
                     break;
-                case 3:
-                    this.thirdToSecondEntrance.setInteractive({ useHandCursor: true }).setAlpha(0.01);
+                case 3: // Third floor
+                    [this.registrationZone, this.applicationsZone, this.thirdToSecondZone].forEach(zone => {
+                        if (zone && zone.input) {
+                            zone.input.enabled = true;
+                        }
+                    });
                     break;
             }
         };
 
-        // Initial entrance setup
+        // Initialize with first floor entrances active
         this.updateEntranceAvailability(1);
-
-        this.thirdFloorEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            // First move to the entrance
-            this.tweens.add({
-                targets: priest,
-                x: 690,
-                y: 340, // Second floor height
-                duration: 800,
-                onComplete: () => {
-                    // Then teleport to third floor after a delay
-                    this.time.delayedCall(200, () => {
-                        priest.y = this.getThirdFloorY(690);
-                        this.cameras.main.flash(300, 127, 255, 142);
-                        priest.play('idle');
-                        this.updateEntranceAvailability(3);
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-        });
-
-        this.secondToFirstEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            // First move to the entrance
-            this.tweens.add({
-                targets: priest,
-                x: 400,
-                y: 340, // Second floor height
-                duration: 800,
-                onComplete: () => {
-                    // Then teleport to first floor after a delay
-                    this.time.delayedCall(200, () => {
-                        priest.y = 520;
-                        this.cameras.main.flash(300, 127, 255, 142);
-                        priest.play('idle');
-                        this.updateEntranceAvailability(1);
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-        });
-
-        this.assessmentEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            // First move to the entrance
-            this.tweens.add({
-                targets: priest,
-                x: 200,
-                y: 340, // Second floor height
-                duration: 800,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ShedAbandonedOfficeScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-        });
-
-        this.registrationEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            // First move to the entrance
-            this.tweens.add({
-                targets: priest,
-                x: 690,
-                y: this.getThirdFloorY(690),
-                duration: 800,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ShedRegistrationScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-        });
-
-        this.applicationsEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            // First move to the entrance
-            this.tweens.add({
-                targets: priest,
-                x: 690,
-                y: this.getThirdFloorY(690),
-                duration: 800,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ShedApplicationsScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-        });
-
-        this.thirdToSecondEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            // First move to the entrance
-            this.tweens.add({
-                targets: priest,
-                x: 690,
-                y: this.getThirdFloorY(690),
-                duration: 800,
-                onComplete: () => {
-                    // Then teleport to second floor after a delay
-                    this.time.delayedCall(200, () => {
-                        priest.x = 400;
-                        priest.y = 340;
-                        this.cameras.main.flash(300, 127, 255, 142);
-                        priest.play('idle');
-                        this.updateEntranceAvailability(2);
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-        });
-
-        // Second floor entrance click logic
-        this.secondFloorEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            // First move to the entrance
-            this.tweens.add({
-                targets: priest,
-                x: 650,
-                y: 520,
-                duration: 800,
-                onComplete: () => {
-                    // Then teleport to second floor after a delay
-                    this.time.delayedCall(200, () => {
-                        priest.x = 400;
-                        priest.y = 340;
-                        this.cameras.main.flash(300, 127, 255, 142);
-                        priest.play('idle');
-                        this.updateEntranceAvailability(2);
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-        });
 
         // Draw walkable straight line (platform) on second floor
         this.secondFloorPlatform = this.add.graphics();
@@ -342,49 +213,147 @@ export default class Shed13FloorsScene extends GameScene {
             this.priest.setOrigin(0.5, 1);
         }
 
-        // Exit entrance click logic
-        this.exitEntrance.on('pointerdown', () => {
+        // Add custom transition handling for same-scene floor changes and external scene transitions
+        
+        // 1. FLOOR TRANSITIONS (same scene, different floors)
+        
+        // First to Second Floor
+        this.secondFloorZone.off('pointerdown');
+        this.secondFloorZone.on('pointerdown', () => {
             if (this.isTransitioning) return;
             this.isTransitioning = true;
-
+            
             const priest = this.priest;
-            priest.play('walk');
             this.tweens.killTweensOf(priest);
             
-            this.tweens.add({
-                targets: priest,
-                x: 100,
-                y: 520, // Ground level
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13Scene');
-                    });
-                }
+            // Teleport to second floor with a flash effect
+            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+            priest.x = 650;
+            priest.y = 340; // Second floor level
+            priest.play('idle');
+            
+            this.currentFloor = 2;
+            this.updateEntranceAvailability(this.currentFloor);
+            
+            // Short delay before allowing new interactions
+            this.time.delayedCall(400, () => {
+                this.isTransitioning = false;
             });
         });
-
-        // Welcome entrance click logic
-        this.welcomeEntrance.on('pointerdown', () => {
+        
+        // Second to First Floor
+        this.secondToFirstZone.off('pointerdown');
+        this.secondToFirstZone.on('pointerdown', () => {
             if (this.isTransitioning) return;
             this.isTransitioning = true;
-
+            
             const priest = this.priest;
-            priest.play('walk');
             this.tweens.killTweensOf(priest);
             
-            this.tweens.add({
-                targets: priest,
-                x: 650,
-                y: 520, // Ground level
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13GateScene');
-                    });
-                }
+            // Teleport to first floor with a flash effect
+            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+            priest.x = 400;
+            priest.y = 520; // First floor level
+            priest.play('idle');
+            
+            this.currentFloor = 1;
+            this.updateEntranceAvailability(this.currentFloor);
+            
+            // Short delay before allowing new interactions
+            this.time.delayedCall(400, () => {
+                this.isTransitioning = false;
+            });
+        });
+        
+        // Second to Third Floor
+        this.thirdFloorZone.off('pointerdown');
+        this.thirdFloorZone.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            const priest = this.priest;
+            this.tweens.killTweensOf(priest);
+            
+            // Teleport to third floor with a flash effect
+            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+            priest.x = 690;
+            priest.y = 180; // Third floor level
+            priest.play('idle');
+            
+            this.currentFloor = 3;
+            this.updateEntranceAvailability(this.currentFloor);
+            
+            // Short delay before allowing new interactions
+            this.time.delayedCall(400, () => {
+                this.isTransitioning = false;
+            });
+        });
+        
+        // Third to Second Floor
+        this.thirdToSecondZone.off('pointerdown');
+        this.thirdToSecondZone.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            const priest = this.priest;
+            this.tweens.killTweensOf(priest);
+            
+            // Teleport to second floor with a flash effect
+            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+            priest.x = 690;
+            priest.y = 340; // Second floor level
+            priest.play('idle');
+            
+            this.currentFloor = 2;
+            this.updateEntranceAvailability(this.currentFloor);
+            
+            // Short delay before allowing new interactions
+            this.time.delayedCall(400, () => {
+                this.isTransitioning = false;
+            });
+        });
+        
+        // 2. SCENE TRANSITIONS (to other scenes)
+        
+        // Assessment Office (Second Floor)
+        this.assessmentZone.off('pointerdown');
+        this.assessmentZone.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            // Fade out and transition to Assessment scene
+            this.cameras.main.fadeOut(800, 0, 0, 0);
+            this.cameras.main.once('camerafadeoutcomplete', () => {
+                this.scene.start('ShedAbandonedOfficeScene');
+                this.isTransitioning = false;
+            });
+        });
+        
+        // Registration Office (Third Floor)
+        this.registrationZone.off('pointerdown');
+        this.registrationZone.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            // Fade out and transition to Registration scene
+            this.cameras.main.fadeOut(800, 0, 0, 0);
+            this.cameras.main.once('camerafadeoutcomplete', () => {
+                this.scene.start('ShedRegistrationScene');
+                this.isTransitioning = false;
+            });
+        });
+        
+        // Applications Office (Third Floor)
+        this.applicationsZone.off('pointerdown');
+        this.applicationsZone.on('pointerdown', () => {
+            if (this.isTransitioning) return;
+            this.isTransitioning = true;
+            
+            // Fade out and transition to Applications scene
+            this.cameras.main.fadeOut(800, 0, 0, 0);
+            this.cameras.main.once('camerafadeoutcomplete', () => {
+                this.scene.start('ShedApplicationsScene');
+                this.isTransitioning = false;
             });
         });
     }
