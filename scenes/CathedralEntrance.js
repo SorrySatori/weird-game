@@ -15,7 +15,7 @@ export default class CathedralEntrance extends GameScene {
                     { text: "Why is it closed?", next: "templeGuardWhy" },
                     { text: "Who are you?", next: "templeGuardWho" },
                     { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
-                    { text: "I'm a Fungal Priest. Surely I may pass.", next: "iAmFungalPriest" }
+                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", next: "iAmFungalApprentice" }
                 ]
             },
             templeGuardAskSomethingElse: {
@@ -25,28 +25,34 @@ export default class CathedralEntrance extends GameScene {
                     { text: "Why is it closed?", next: "templeGuardWhy" },
                     { text: "Who are you?", next: "templeGuardWho" },
                     { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
-                    { text: "I'm a Fungal Priest. Surely I may pass.", next: "iAmFungalPriest" }
+                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", next: "iAmFungalApprentice" }
                 ]
             },
-            iAmFungalPriest: {
+            iAmFungalApprentice: {
                 text: "(Tilts head) Even rot-born clergy must heed the pulses. The Cathedral breathes its own rhythm. You must attune.",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardWhen: {
-                text: "Time has little meaning to the Mycelial Consciousness. When the great bishop says so or until the Great Fruiting. It could be days, it could be centuries. We stand guard until the Great Fruiting.",
+                text: "I have no idea. When the great Council say so. It could be days, it could be centuries. We stand guard until the Awakening.",
                 options: [
-                    { text: "The Great Fruiting?", next: "templeGuardFruiting" },
+                    { text: "The Awakening?", next: "templeGuardAwakening" },
                     { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
                     { text: "Ask something else", next: "templeGuardGreeting" }
                 ]
             },
-            speakWithSomeoneInside: {
-                text: "No summons have been issued. No minds may enter without resonance. Wait. Or seek the Bishop of Threshold.",
+            templeGuardAwakening: {
+                text: "The Awakening is the moment when's the cathedral fully grown. Hatched. We stand guard until the Awakening.",
                 options: [
-                    { text: "I'm a Fungal Priest. Surely I may pass.", next: "iAmFungalPriest" },
-                    { text: "Where can I find the Bishop of Threshold?", next: "bishopOfThreshold" },
+                    { text: "Ask something else", next: "templeGuardGreeting" }
+                ]
+            },
+            speakWithSomeoneInside: {
+                text: "No summons have been issued. No minds may enter without resonance. Wait. Or seek for your Bishop. She's one of the Council, I am sure you know.",
+                options: [
+                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", next: "iAmFungalApprentice" },
+                    { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
                 ]
             },
@@ -73,7 +79,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardWhy: {
-                text: "It is the order of the bishop and the cathedral council. That must be enough for you to know.",
+                text: "It is the order of the cathedral council. However, I have heard that it was mainly your bishop, meaning the bishop of Obazoba church, who declared the emergency. That must be enough for you to know.",
                 options: [
                     { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
                     { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
@@ -81,7 +87,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardWho: {
-                text: "I am a Sentinel of the Veil, sworn to protect the sacred mycelia from contamination. My eyes have witnessed a thousand years of spore patterns.",
+                text: "I am a Sentinel of the Veil, sworn to protect the sacred Egg Cathedral from contamination. My eyes have witnessed a thousand years of spore patterns.",
                 options: [
                     { text: "How long have you been here?", next: "templeGuardTime" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
@@ -96,7 +102,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardTime: {
-                text: "I have stood at this post since the Third Sporulation. My flesh has long since been replaced by hyphae, my blood by mycelial fluids. I am as much fungus as guard now.",
+                text: "I have stood at this post since the Third Sporulation. My flesh has long since been replaced by plants. My consciousness is connected to the city. I think my left foot is made from rodent.",
                 options: [
                     { text: "That's... familiar", next: "templeGuardDisturbing" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
@@ -127,6 +133,7 @@ export default class CathedralEntrance extends GameScene {
         super.preload();
         this.load.image('cathedralEntranceBg', 'assets/images/backgrounds/CathedralEntrance.png');
         this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
+        this.load.image('guard', 'assets/images/characters/guard.png');
     }
 
     create() {
@@ -195,29 +202,24 @@ export default class CathedralEntrance extends GameScene {
         this.templeGuard = this.add.container(380, 450);
         this.templeGuard.setDepth(5);
         
-        // Create the guard's body using graphics
-        const guardBody = this.add.graphics();
+        // Create the guard using the sprite image
+        const guardSprite = this.add.sprite(0, 0, 'guard');
+        guardSprite.setScale(0.2); // Match the scale of the apprentice figure
         
-        // Guard's robe (dark green)
-        guardBody.fillStyle(0x1a3b23, 1);
-        guardBody.fillRect(-20, -60, 40, 120);
+        // Apply a green tint to match the fungal theme
+        guardSprite.setTint(0x7fff8e);
         
-        // Guard's hood (darker green)
-        guardBody.fillStyle(0x0f2315, 1);
-        guardBody.fillTriangle(-20, -60, 20, -60, 0, -90);
+        // Create a container for the head for independent movement
+        const headContainer = this.add.container(0, -50);
         
-        // Guard's face (shadowed)
-        guardBody.fillStyle(0x000000, 0.8);
-        guardBody.fillEllipse(0, -50, 15, 20);
-        
-        // Guard's glowing eyes
+        // Add glowing eyes effect
         const leftEye = this.add.graphics();
         leftEye.fillStyle(0x7fff8e, 1);
-        leftEye.fillCircle(-6, -50, 3);
+        leftEye.fillCircle(-10, 0, 3);
         
         const rightEye = this.add.graphics();
         rightEye.fillStyle(0x7fff8e, 1);
-        rightEye.fillCircle(6, -50, 3);
+        rightEye.fillCircle(10, 0, 3);
         
         // Add pulsating effect to eyes
         this.tweens.add({
@@ -228,29 +230,22 @@ export default class CathedralEntrance extends GameScene {
             repeat: -1
         });
         
-        // Create the guard's staff
+        // Add eyes to head container
+        headContainer.add([leftEye, rightEye]);
+        
+        // Add staff with glowing orb
         const guardStaff = this.add.graphics();
         guardStaff.lineStyle(4, 0x7fff8e, 1);
         guardStaff.beginPath();
-        guardStaff.moveTo(30, -80);
-        guardStaff.lineTo(30, 60);
+        guardStaff.moveTo(40, -80);
+        guardStaff.lineTo(40, 60);
         guardStaff.closePath();
         guardStaff.strokePath();
         
-        // Add a spearhead
-        const spearhead = this.add.graphics();
-        spearhead.fillStyle(0x7fff8e, 1);
-        spearhead.beginPath();
-        spearhead.moveTo(30, -80);
-        spearhead.lineTo(40, -100);
-        spearhead.lineTo(20, -100);
-        spearhead.closePath();
-        spearhead.fillPath();
-        
-        // Add decorative elements to the staff
+        // Add staff orb
         const staffOrb = this.add.graphics();
         staffOrb.fillStyle(0x7fff8e, 0.8);
-        staffOrb.fillCircle(30, -70, 8);
+        staffOrb.fillCircle(40, -70, 8);
         
         // Add pulsating effect to the orb
         this.tweens.add({
@@ -261,44 +256,12 @@ export default class CathedralEntrance extends GameScene {
             repeat: -1
         });
         
-        // Add shoulder armor (fungal caps)
-        const leftShoulder = this.add.graphics();
-        leftShoulder.fillStyle(0x2a623d, 1);
-        leftShoulder.fillEllipse(-25, -40, 15, 10);
-        leftShoulder.lineStyle(2, 0x7fff8e, 0.5);
-        leftShoulder.strokeEllipse(-25, -40, 15, 10);
-        
-        const rightShoulder = this.add.graphics();
-        rightShoulder.fillStyle(0x2a623d, 1);
-        rightShoulder.fillEllipse(25, -40, 15, 10);
-        rightShoulder.lineStyle(2, 0x7fff8e, 0.5);
-        rightShoulder.strokeEllipse(25, -40, 15, 10);
-        
-        // Add belt with fungal patterns
-        const guardBelt = this.add.graphics();
-        guardBelt.fillStyle(0x0f2315, 1);
-        guardBelt.fillRect(-20, 0, 40, 10);
-        guardBelt.lineStyle(2, 0x7fff8e, 0.7);
-        
-        // Add belt patterns
-        for (let i = -15; i <= 15; i += 10) {
-            guardBelt.strokeCircle(i, 5, 3);
-        }
-        
-        // Create a container for the head and eyes for independent movement
-        const headContainer = this.add.container(0, 0);
-        headContainer.add([leftEye, rightEye]);
-        
         // Add all elements to the container
         this.templeGuard.add([
-            guardBody, 
+            guardSprite,
             headContainer,
-            guardStaff, 
-            spearhead, 
-            staffOrb, 
-            leftShoulder, 
-            rightShoulder, 
-            guardBelt
+            guardStaff,
+            staffOrb
         ]);
         
         // Add a subtle pulsating glow effect around the guard
@@ -367,7 +330,7 @@ export default class CathedralEntrance extends GameScene {
             callback: () => {
                 // Subtle staff adjustment
                 this.tweens.add({
-                    targets: [guardStaff, spearhead, staffOrb],
+                    targets: [guardStaff, staffOrb],
                     x: { from: 0, to: 2 },
                     duration: 800,
                     ease: 'Bounce.easeOut',
