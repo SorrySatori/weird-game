@@ -150,13 +150,13 @@ export default class ScraperBackyardScene extends GameScene {
 
         // Add journal entry about the backyard if not already added
         if (this.journalSystem && !this.journalSystem.hasEntry('scraper_backyard')) {
-            this.journalSystem.addEntry({
-                id: 'scraper_backyard',
-                title: 'Scraper Backyard',
-                content: 'Behind the Scraper building lies an overgrown yard filled with the remnants of the old world. Most notable is an abandoned bus, its metal frame now serving as a trellis for strange fungal growths. There\'s something ominous about it, as if it holds secrets from the time of the Great Fruiting.',
-                category: 'locations',
-                metadata: { location: 'Scraper Backyard' }
-            });
+            this.addJournalEntry(
+                'scraper_backyard',
+                'Scraper Backyard',
+                'Behind the Scraper building lies an overgrown yard filled with the remnants of the old world. Most notable is an abandoned bus, its metal frame now serving as a trellis for strange fungal growths. There\'s something ominous about it, as if it holds secrets from the time of the Great Fruiting.',
+                this.journalSystem.categories.PLACES,
+                { location: 'Scraper Backyard' }
+            );
         }
 
         // Add fade-in effect

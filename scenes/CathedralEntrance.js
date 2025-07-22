@@ -115,7 +115,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardApocalypse: {
-                text: "Apocalypse? No. Transformation. The city will become a vast fruiting body, sending spores to colonize new worlds. It is our destiny.",
+                text: "Apocalypse? No. Transformation. The cathedral will become something truly new, some say that it will become a birthplace of a new god. Nobody really know, that's why all churches have their representatives present. It's all very interesting, see.",
                 options: [
                     { text: "I see", next: "templeGuardAskSomethingElse" }
                 ]

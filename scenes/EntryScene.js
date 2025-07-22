@@ -19,6 +19,13 @@ export default class EntryScene extends GameScene {
                     { text: "Why can't you do it yourself?", next: 'whyNot' }
                 ],
                 onTrigger: () => {
+                    this.addJournalEntry(
+                        'obazoba_cult',
+                        'Obazoba Cult',
+                        'The Obazoba Cult is a cult of fungal worshippers that worships the Obazoba, a fungal deity that is said to be the source of all life and rot. The cult is known for modifying their bodies to grow fungal spores. The cultists are partially human and partially mushrooms. You are, of course, a fungal apprentice of this cult. Congratulations!',
+                        this.journalSystem.categories.LORE,
+                        { location: 'Obazoba Cult' }
+                    );
                     // Add journal entry about skyship seen above the city
                     if (!this.hasJournalEntry('upper_morkezela')) {
                         this.addJournalEntry(
@@ -90,7 +97,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             tellBishop: {
-                text: "Tell him you're my apprentice, sent to assist with the spore disturbance investigation. He'll know what to do. And remember to represent the fungal clergy with dignity! No embarrassing me this time. Now, was there anything else you needed to know before you go?",
+                text: "Tell her you're my apprentice, sent to assist with the spore disturbance investigation. She'll know what to do. And remember to represent the fungal clergy with dignity! No embarrassing me this time. Now, was there anything else you needed to know before you go?",
                 options: [
                     { text: "Tell me more about the city", next: 'city' },
                     { text: "Who are the gods?", next: 'gods' },
@@ -133,7 +140,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             priests: {
-                text: "Go to the Egg Catedral and talk to some of the priests there. They are always happy to chat. I mean, talk to the our priest or the Bistop. Don't talk to the other god's priests. I mean, the false gods' priest. The false priests. Ehm. You get me.",
+                text: "Go to the Egg Catedral and talk to some of the priests there. They are always happy to chat. I mean, talk to the our priest or the Bistop. Don't talk to the other god's priests. I mean, the false gods' priests. The false priests. Ehm. You get me.",
                 options: [
                     { text: "Could you tell me more about the Egg Catedral?", next: 'eggCatedral' },
                     { text: "Return to previous topic", next: 'main' }
