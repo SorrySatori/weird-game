@@ -1428,14 +1428,24 @@ export default class GameScene extends Phaser.Scene {
             content.options = content.options.call(this);
         }
         
-        const totalOptions = content.options.length + 1;
+        // Make sure content.options exists and is an array
+        if (!content.options || !Array.isArray(content.options)) {
+            content.options = [];
+        }
         
-        // Determine if we need pagination
-        const needsPagination = totalOptions > visibleOptionsCount;
+        const totalOptions = content.options.length + 1; // +1 for Close button
+        
+        // Calculate total pages needed
+        const totalPages = Math.ceil(totalOptions / visibleOptionsCount);
+        
+        // Determine if we need pagination - we need at least 2 pages
+        const needsPagination = totalPages > 1;
         
         // Track current page
         this.currentOptionPage = 0;
-        const totalPages = Math.ceil(totalOptions / visibleOptionsCount);
+        
+        // Debug pagination info
+        console.log(`Dialog pagination: ${totalOptions} options, ${visibleOptionsCount} visible, ${totalPages} pages, needs pagination: ${needsPagination}`);
         
         // Function to show options for current page
         const showOptionsForPage = (page) => {
@@ -1495,75 +1505,62 @@ export default class GameScene extends Phaser.Scene {
             
             // Add pagination controls if needed
             if (needsPagination) {
-                // Add page indicator - position below the last option with spacing
-                const pageText = this.add.text(0, currentY + 20, 
+                // Create pagination container
+                const paginationContainer = this.add.container(0, currentY + 20);
+                this.dialogOptions.add(paginationContainer);
+                
+                // Add page indicator text
+                const pageText = this.add.text(-15, 0, 
                     `Page ${page + 1}/${totalPages}`, {
                     fontSize: '18px',
                     fill: '#7fff8e'
                 });
                 pageText.setOrigin(0.5);
-                this.dialogOptions.add(pageText);
+                paginationContainer.add(pageText);
                 
-                // Update currentY to include pagination controls
-                currentY += 50;
-                
-                // Previous page button - position at the same level as page indicator
-                if (page > 0) {
-                    const prevBtn = this.add.container(-100, currentY + 20);
-                    const prevBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
-                    prevBg.setStrokeStyle(1, 0x7fff8e);
-                    prevBg.setInteractive({ useHandCursor: true });
-                    const prevText = this.add.text(0, 0, '< Prev', {
+                // Add navigation arrows based on current page
+                if (page < totalPages - 1) {
+                    // Add right arrow for next page
+                    const rightArrow = this.add.text(pageText.width/2 + 15, 0, '▶', {
                         fontSize: '18px',
                         fill: '#7fff8e'
                     });
-                    prevText.setOrigin(0.5);
-                    prevBtn.add([prevBg, prevText]);
-                    this.dialogOptions.add(prevBtn);
+                    rightArrow.setOrigin(0.5);
+                    rightArrow.setInteractive({ useHandCursor: true });
+                    paginationContainer.add(rightArrow);
                     
-                    prevBg.on('pointerover', () => {
-                        prevBg.setFillStyle(0x0a2712, 0.8);
-                        prevText.setStyle({ fill: '#b3ffcc' });
+                    // Add hover and click effects
+                    rightArrow.on('pointerover', () => rightArrow.setStyle({ fill: '#b3ffcc' }));
+                    rightArrow.on('pointerout', () => rightArrow.setStyle({ fill: '#7fff8e' }));
+                    rightArrow.on('pointerdown', () => {
+                        this.clickSound.play();
+                        this.currentOptionPage++;
+                        showOptionsForPage(this.currentOptionPage);
                     });
-                    prevBg.on('pointerout', () => {
-                        prevBg.setFillStyle(0x0a2712, 0.6);
-                        prevText.setStyle({ fill: '#7fff8e' });
+                }
+                
+                if (page > 0) {
+                    // Add left arrow for previous page
+                    const leftArrow = this.add.text(-pageText.width/2 - 30, 0, '◀', {
+                        fontSize: '18px',
+                        fill: '#7fff8e'
                     });
-                    prevBg.on('pointerdown', () => {
+                    leftArrow.setOrigin(0.5);
+                    leftArrow.setInteractive({ useHandCursor: true });
+                    paginationContainer.add(leftArrow);
+                    
+                    // Add hover and click effects
+                    leftArrow.on('pointerover', () => leftArrow.setStyle({ fill: '#b3ffcc' }));
+                    leftArrow.on('pointerout', () => leftArrow.setStyle({ fill: '#7fff8e' }));
+                    leftArrow.on('pointerdown', () => {
                         this.clickSound.play();
                         this.currentOptionPage--;
                         showOptionsForPage(this.currentOptionPage);
                     });
                 }
                 
-                // Next page button
-                if (page < totalPages - 1) {
-                    const nextBtn = this.add.container(100, currentY + 20);
-                    const nextBg = this.add.rectangle(0, 0, 80, 30, 0x0a2712, 0.6);
-                    nextBg.setStrokeStyle(1, 0x7fff8e);
-                    nextBg.setInteractive({ useHandCursor: true });
-                    const nextText = this.add.text(0, 0, 'Next >', {
-                        fontSize: '18px',
-                        fill: '#7fff8e'
-                    });
-                    nextText.setOrigin(0.5);
-                    nextBtn.add([nextBg, nextText]);
-                    this.dialogOptions.add(nextBtn);
-                    
-                    nextBg.on('pointerover', () => {
-                        nextBg.setFillStyle(0x0a2712, 0.8);
-                        nextText.setStyle({ fill: '#b3ffcc' });
-                    });
-                    nextBg.on('pointerout', () => {
-                        nextBg.setFillStyle(0x0a2712, 0.6);
-                        nextText.setStyle({ fill: '#7fff8e' });
-                    });
-                    nextBg.on('pointerdown', () => {
-                        this.clickSound.play();
-                        this.currentOptionPage++;
-                        showOptionsForPage(this.currentOptionPage);
-                    });
-                }
+                // Update currentY to include pagination controls
+                currentY += 50;
             }
             
             // Resize dialog background based on content height
