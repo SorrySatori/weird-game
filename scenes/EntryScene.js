@@ -105,10 +105,26 @@ export default class EntryScene extends GameScene {
                 ]
             },
             farewell: {
-                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed. Now off you go, apprentice! Glory to the Great Fruiting!",
+                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed. Remember, your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you. Now off you go, apprentice! Glory to the Great Fruiting!",
                 options: [
+                    { text: "Wait! Tell me more about the growth and decay.", next: 'growthDecay' },
                     { text: "Glory to the Great Fruiting...", next: 'close' }
                 ]
+            },
+            growthDecay: {
+                text: "Well, the terms speak for themselves, aren't they? Growth is when the city is growing, when it is thriving and prospering. Decay is when the city is decaying, when the rot has the upper hand. As you know, my apprentice, Obazoba is master of both principles. Therefore, they are equal, none of them is better than the other. But of course, not every citizen here will share this opinion. Some of them will prefer growth, some will prefer decay. Some will prefer balance between them. Some will prefer none of them. It's up to you to find out, but be careful. Now I really have to go, I have a lot of... work to do. Glory to the Great Fruiting!",
+                options: [
+                    { text: "Glory to the Great Fruiting...", next: 'close' }
+                ],
+                onTrigger: () => {
+                    this.addJournalEntry(
+                        'growthDecay',
+                        'Growth and Decay',
+                        'My actions can change the city and its future. They can change how the city will look and how its inhabitants will live and react to me. Some of the actions will cause the city to grow, some will cause it to rot and decay.',
+                        this.journalSystem.categories.LORE,
+                        { location: 'Upper Morkezela suburb' }
+                    );
+                }
             },
             close: {
                 text: "*waves dismissively while eyeing the path to the tavern*",

@@ -46,21 +46,21 @@ export default class SymbiontSystem {
         this.symbiontDialogs = {
             'thorne-still': {
                 main: {
-                    text: "Thorne-Still whispers in your mind: 'I sense the threads of reality growing thinner here. My power grows with decay, but too much growth will force me to leave. Use my Suture-Reality ability wisely...'",
+                    text: "Thorne-Still whispers in your mind: ' Hey chief, what's up? Maybe I should remind you, that my power grows with decay, but too much growth will force me to leave. I'am not a fan of too much growth, captain. Use my Brain Rot ability wisely... It's a powerful tool, but it can seriously fucked up some brains if you're not careful. So, probably don't use it to people you like.'",
                     options: [
-                        { text: 'Ask about Suture-Reality', next: 'ability' },
+                        { text: 'Ask about Brain Rot', next: 'ability' },
                         { text: 'Ask about Thorne-Still', next: 'about' },
                         { text: 'Close', next: 'closeDialog' }
                     ]
                 },
                 ability: {
-                    text: "The Suture-Reality ability allows me to temporarily stitch together weakened parts of reality. This can reveal hidden paths or stabilize unstable areas. My power is linked to decay - the more decay energy present, the stronger my ability becomes.",
+                    text: "The Brain Rot ability makes people gradually become confused, forgetful, or vulnerable to suggestion during dialogue. I simply release faint psycho-sporic emissions that cause short-term cognitive fraying in nearby minds. Well, I said simple, but's not so simple at all. And I will need some of you spores every time we use it. It won't work to everyone, but don't worry, I will tell you when we can use it.",
                     options: [
                         { text: 'Back', next: 'main' }
                     ]
                 },
                 about: {
-                    text: "I am a symbiont that thrives in decay. I was once part of something larger, but now I exist in the spaces between realities. Our bond allows me to help you navigate unstable areas, but too much growth energy will force me to leave your body.",
+                    text: "I am a symbiont that thrives in decay. I was once part of something larger, but now I exist in the spaces between realities. Heh, just joking, I exists in your stomach right now. Our bond allows me to squat here quite comfortably, but too much growth energy will force me to leave your body.",
                     options: [
                         { text: 'Back', next: 'main' }
                     ]
@@ -219,7 +219,7 @@ export default class SymbiontSystem {
         return null;
     }
 
-    sutureReality() {
+    brainRot() {
         if (!this.symbionts.has('thorne-still')) {
             return false;
         }

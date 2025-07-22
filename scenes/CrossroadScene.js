@@ -219,7 +219,7 @@ export default class CrossroadScene extends GameScene {
         return {
             ...super.dialogContent,
             corpseMain: {
-                text: 'You find a strange corpse. Its flesh seems to pulse with an otherworldly energy. What do you do?',
+                text: `You find a strange, gigantic corpse. Its flesh seems to pulse with an otherworldly energy. It is clear that it's been here for a while, but surprisingly, it doesn't smell at all. What do you do?`,
                 options: [
                     {
                         text: 'Plant spores in it',
@@ -245,7 +245,7 @@ export default class CrossroadScene extends GameScene {
                 ]
             },
             acceptSymbiont: {
-                text: 'As you cut into the corpse, you find something extraordinary - a symbiotic entity that calls itself Thorne-Still. It offers to merge with you, granting you the power to perceive and manipulate the threads of reality itself.',
+                text: `As you cut into the corpse's head, you find something extraordinary - a symbiotic entity that calls itself Thorne-Still. "Hey there, baby, I'm Thorne-Still. How can I help you today?" whispers in strange voice. "Maybe we can share a road for some time? What do you say? That fungus of yours looks comfortably enough for me."`,
                 options: [
                     {
                         text: 'Accept Thorne-Still as your symbiont',
@@ -253,16 +253,25 @@ export default class CrossroadScene extends GameScene {
                     },
                     {
                         text: 'Decline',
-                        next: 'closeDialog'
+                        next: 'declineSymbiont'
                     }
                 ]
             },
             acceptSymbiontConfirm: {
-                text: 'Thorne-Still merges with your being. You feel its calm presence in your mind, and with it comes the ability to perceive the threads of reality itself. You can now use Suture-Reality to temporarily repair glitched environments.',
+                text: 'Thorne-Still merges with your being. It literally crawls into your stomach. You feel its calm presence in your mind, and with it comes the ability to perceive the threads of reality itself. You can now use Brain Rot ability to make others confused, forgetful, or vulnerable to suggestion.',
                 options: [
                     {
                         text: 'Continue',
                         next: 'closeDialogAndAcceptSymbiont'
+                    }
+                ]
+            },
+            declineSymbiont: {
+                text:  `"Your lost, baby", whispers the symbiont. "But don't worry, I'll be here if you need me. "`,
+                options: [
+                    {
+                        text: 'Continue',
+                        next: 'closeDialog'
                     }
                 ]
             },
@@ -338,7 +347,7 @@ export default class CrossroadScene extends GameScene {
                     const success = this.symbiontSystem.addSymbiont('thorne-still', {
                         name: 'Thorne-Still',
                         power: 0,
-                        ability: 'Suture-Reality'
+                        ability: 'Brain Rot'
                     });
 
                     if (success) {
@@ -349,7 +358,7 @@ export default class CrossroadScene extends GameScene {
                         this.addSymbiontIcon('thorne-still', {
                             name: 'Thorne-Still',
                             power: 0,
-                            ability: 'Suture-Reality'
+                            ability: 'Brain Rot'
                         });
                 }
                 this.hideDialog();

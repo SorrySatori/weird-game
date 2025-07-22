@@ -158,7 +158,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     { text: "Offer 50 dinar as incentive", next: "zerren_bribe_attempt" },
                     { text: "Try to persuade her", next: "zerren_persuade_attempt" },
                     ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') ? [
-                        { text: "Use Thorne-still's Suture-reality power", next: "zerren_thorne_still_power" }
+                        { text: "Use Thorne-still's Brain Rot power", next: "zerren_thorne_still_power" }
                     ] : []),
                     ...(this.registry.get('reputationSystem')?.getFactionReputation('sporemind_accord') >= 50 ? [
                         { text: "Appeal to Sporemind Accord relationship", next: "zerren_sporemind_appeal" }
@@ -247,16 +247,34 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_thorne_still_power: {
-                text: "You feel Thorne-still's presence intensify as the symbiont's power flows through you. Reality seems to waver around Zerren as the Suture-reality ability takes effect. Her eyes glaze slightly as the boundaries between what is and what could be blur.",
+                text: "You feel Thorne-still's presence intensify as the symbiont's power flows through you. Reality seems to waver around Zerren as the Brain Rot ability takes effect. Her eyes glaze slightly as she stumbles into a daze.",
                 options: [
                     { text: "Who bought the plush toy?", next: "zerren_thorne_still_success" }
+                ],
+                onTrigger: () => {
+                    const sporeSystem = this.registry.get('sporeSystem');
+                    const currentSpores = sporeSystem.getSporeLevel();
+                    
+                    if (currentSpores < 10) {
+                        this.showDialog('zerren_not_enough_spores');
+                        return;
+                    }
+                    
+                    sporeSystem.modifySpores(-10);
+                }
+            },
+            
+            zerren_not_enough_spores: {
+                text: "Zerren shakes her head firmly. 'I'm sorry, but I can't break my customers' trust. Perhaps there's another way you could find this information?'",
+                options: [
+                    { text: "Try something else", next: "zerren_buyer_inquiry" }
                 ]
             },
             
             zerren_thorne_still_success: {
-                text: "Zerren speaks in a distant voice, as if reciting a fact from memory rather than revealing a secret. 'Edgar Eskola purchased the plush toy. He lives in the upper district of Voxmarket. Collector of strange artifacts.' She blinks, momentarily confused about what just happened.",
+                text: "Zerren speaks in a distant voice, as if reciting a fact from memory rather than revealing a secret. 'Urggh... Edgar Eskola purchased the plush toy. Grrrr... He lives in the upper district of Voxmarket. Collector of strange artifacts. Grrrr... ' She blinks, momentarily confused about what just happened.",
                 options: [
-                    { text: "Thank you for your help", next: "zerren_quest_update" }
+                    { text: "Thank you for your help. Maybe take some rest, you dont' look well.", next: "zerren_quest_update" }
                 ],
                 onTrigger: () => {
                     // Update the quest
@@ -265,6 +283,8 @@ export default class VoxmarketMarketScene extends GameScene {
                         questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
                         this.showNotification("Quest updated: The Three Vestigels");
                     }
+                    this.modifyGrowthDecay(0, 10);
+                    this.showNotification("Decay + 10");
                 }
             },
             
