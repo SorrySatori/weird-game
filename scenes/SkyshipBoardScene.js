@@ -219,7 +219,7 @@ export default class SkyshipBoardScene extends GameScene {
                         this.addJournalEntry(
                             'captain_liris_meeting',
                             'Captain Liris of the Verdigrace',
-                            'Aboard the skyship, I met Captain Liris, an imposing figure in an ornate fungal uniform who commands the vessel known as the Verdigrace. The ship travels the aerial trade routes between various settlements and research outposts, carrying rare spores, mycelia, and information.',
+                            'Aboard the skyship, I met Captain Liris, an imposing figure in an ornate uniform who commands the vessel known as the Verdigrace. The ship travels the aerial trade routes between various settlements and research outposts, carrying rare spores, mycelia, and information.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Captain Liris', location: 'Verdigrace Skyship' }
                         );

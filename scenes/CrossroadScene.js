@@ -24,6 +24,10 @@ export default class CrossroadScene extends GameScene {
 
         // Check if growth has happened
         this.hasGrowth = this.registry.get('crossroadGrowth') || false;
+        
+        // Initialize the journal system
+        this.journalSystem = JournalSystem.getInstance();
+        
         const bgKey = this.hasGrowth ? 'crossroadBg_growth' : 'crossroadBg';
         this.background = this.add.image(400, 300, bgKey);
         this.background.setDisplaySize(800, 600);
@@ -235,6 +239,32 @@ export default class CrossroadScene extends GameScene {
                     }
                 ]
             },
+            corpseExhausted: {
+                text: `There is nothing more you can do with the old corpse. Its purpose has been fulfilled.`,
+                options: [
+                    {
+                        text: 'Leave it alone',
+                        next: 'closeDialog'
+                    }
+                ]
+            },
+            corpseReconsider: {
+                text: `You approach the strange corpse again. From within, you hear a familiar voice: "Changed your mind, baby? I'm still here waiting for you."`,
+                options: [
+                    {
+                        text: 'Accept Thorne-Still as your symbiont',
+                        next: 'acceptSymbiontConfirm'
+                    },
+                    {
+                        text: 'Plant spores in it instead',
+                        next: 'plantSpores'
+                    },
+                    {
+                        text: 'Leave it alone',
+                        next: 'closeDialog'
+                    }
+                ]
+            },
             plantSpores: {
                 text: 'You carefully plant spores in the corpse. They immediately take root, spreading a network of luminescent mycelium through the dead flesh. This area will never be the same.',
                 options: [
@@ -255,7 +285,16 @@ export default class CrossroadScene extends GameScene {
                         text: 'Decline',
                         next: 'declineSymbiont'
                     }
-                ]
+                ],
+                onTrigger: () => {
+                    // Mark that the symbiont has been offered
+                    this.addJournalEntry(
+                        'symbiont_thorne_still_offered',
+                        'Encountered Thorne-Still',
+                        'In the strange corpse at the crossroads, I found a symbiotic entity calling itself Thorne-Still. It offered to merge with me.',
+                        this.journalSystem.categories.EVENTS
+                    );
+                }
             },
             acceptSymbiontConfirm: {
                 text: 'Thorne-Still merges with your being. It literally crawls into your stomach. You feel its calm presence in your mind, and with it comes the ability to perceive the threads of reality itself. You can now use Brain Rot ability to make others confused, forgetful, or vulnerable to suggestion.',
@@ -271,7 +310,7 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Continue',
-                        next: 'closeDialog'
+                        next: 'closeDialogAndDeclineSymbiont'
                     }
                 ]
             },
@@ -291,6 +330,14 @@ export default class CrossroadScene extends GameScene {
 
                     // Increase Growth by 2
                     this.modifyGrowthDecay(2, 0);
+                    
+                    // Add journal entry for planting spores
+                    this.addJournalEntry(
+                        'crossroad_corpse_spores_planted',
+                        'Planted Spores in Crossroad Corpse',
+                        'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth. This has opened up a new path to what appears to be a skyship above.',
+                        this.journalSystem.categories.EVENTS
+                    );
                     
                     // Set the growth state and update background
                     this.registry.set('crossroadGrowth', true);
@@ -337,12 +384,34 @@ export default class CrossroadScene extends GameScene {
                     this.hideDialog();
                 }
             },
+            closeDialogAndDeclineSymbiont: {
+                text: '',
+                options: [],
+                onShow: () => {
+                    // Mark that the symbiont has been declined using journal entry
+                    this.addJournalEntry(
+                        'symbiont_thorne_still_declined',
+                        'Declined Thorne-Still',
+                        'I declined the offer from the symbiotic entity Thorne-Still. It seemed disappointed but said it would wait for me if I changed my mind.',
+                        this.journalSystem.categories.EVENTS
+                    );
+                    this.hideDialog();
+                }
+            },
             closeDialogAndAcceptSymbiont: {
                 text: '',
                 options: [],
                 onShow: () => {
                     // Increase Decay by 2
                     this.modifyGrowthDecay(0, 2);
+                    
+                    // Mark that the symbiont has been accepted using journal entry
+                    this.addJournalEntry(
+                        'symbiont_thorne_still_accepted',
+                        'Accepted Thorne-Still',
+                        'I accepted the symbiotic entity Thorne-Still. It merged with me, crawling into my stomach. I can now use its Brain Rot ability to confuse and manipulate others.',
+                        this.journalSystem.categories.EVENTS
+                    );
                     
                     const success = this.symbiontSystem.addSymbiont('thorne-still', {
                         name: 'Thorne-Still',
@@ -360,15 +429,28 @@ export default class CrossroadScene extends GameScene {
                             power: 0,
                             ability: 'Brain Rot'
                         });
+                    }
+                    this.hideDialog();
                 }
-                this.hideDialog();
             }
         }
-    };
-}
+    }
     
     showCorpseDialog() {
-        this.showDialog('corpseMain');
+        // Determine which dialog to show based on journal entries
+        if (this.hasJournalEntry('symbiont_thorne_still_accepted') || this.hasJournalEntry('symbiont_thorne_still_offered')) {
+            // If symbiont was accepted or offered without explicit decline
+            this.showDialog('corpseExhausted');
+        } else if (this.hasGrowth) {
+            // If growth was chosen
+            this.showDialog('corpseExhausted');
+        } else if (this.hasJournalEntry('symbiont_thorne_still_declined')) {
+            // If symbiont was declined but not accepted yet
+            this.showDialog('corpseReconsider');
+        } else {
+            // First interaction
+            this.showDialog('corpseMain');
+        }
     }
     
     startSkyshipAnimation() {
