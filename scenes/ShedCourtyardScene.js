@@ -367,7 +367,7 @@ export default class ShedCourtyardScene extends GameScene {
                     'Ortolan - The Board Game Designer',
                     'I met Ortolan, a board game developer. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city\'s labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.',
                     this.journalSystem.categories.PEOPLE,
-                    { character: 'Ortolan', location: 'Shed 13 Courtyard' }
+                    { character: 'Ortolan', location: 'Shed 521 Courtyard' }
                 );
             }
             this.showOrtholanDialog();
@@ -403,14 +403,14 @@ export default class ShedCourtyardScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Create exit to Shed13GateScene at the left edge
+        // Create exit to Shed521GateScene at the left edge
         this.transitionManager.createTransitionZone(
             50, // x position
             470, // y position
             50, // width
             200, // height
             'left', // direction
-            'Shed13GateScene', // target scene
+            'Shed521GateScene', // target scene
             20, // walk to x
             470 // walk to y
         );

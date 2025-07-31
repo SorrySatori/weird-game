@@ -57,21 +57,21 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             bishopOfThreshold: {
-                text: "Probably at the Voxmarket, or around Shed 13. She dwells where the walls still echo with initiation. Look for the door that doesn’t open—until it does",
+                text: "Probably at the Voxmarket, or around Shed 521. She dwells where the walls still echo with initiation. Look for the door that doesn’t open—until it does",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" },
                     { text: "What is the Voxmarket?", next: "templeGuardVoxmarket"},
-                    {text: "What is the Shed 13?", next: "templeGuardShed13"},
+                    {text: "What is the Shed 521?", next: "templeGuardShed521"},
                 ]
             },
             templeGuardVoxmarket: {
-                text: "It's an audio bazaar near Shed 13 where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed.",
+                text: "It's an audio bazaar near Shed 521 where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed.",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" },
-                    { text: "What is the Shed 13?", next: "templeGuardShed13" },
+                    { text: "What is the Shed 521?", next: "templeGuardShed521" },
                 ]
             },
-            templeGuardShed13: {
+            templeGuardShed521: {
                 text: "It's also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" },
@@ -446,10 +446,10 @@ export default class CathedralEntrance extends GameScene {
                 'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.'
             );
             this.showNotification('Quest updated: Find the Bishop of Threshold');
-        } else if (dialogKey === 'templeGuardShed13' && this.questSystem.getQuest('find_bishop')) {
+        } else if (dialogKey === 'templeGuardShed521' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
-                'Shed 13, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.'
+                'Shed 521, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.'
             );
             this.showNotification('Quest updated: Find the Bishop of Threshold');
         }

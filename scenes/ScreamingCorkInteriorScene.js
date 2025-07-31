@@ -39,7 +39,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "Hmm. What kind of documents are we talking about? I don't work for free, and I don't work for just anyone.",
                 options: [
                     { text: "Just curious", next: "ravla_curious" },
-                    { text: "I need help with Shed 13 paperwork", next: "ravla_shed13" },
+                    { text: "I need help with Shed 521 paperwork", next: "ravla_Shed521" },
                     ...(this.registry.get('questSystem')?.getQuest('ortolan_arms')?.updates.some(update => update.key === 'forge_documents_suggestion') ? [
                         { text: "I need help with Ortolan's paperwork", next: "ravla_ortolan" }
                     ] : [])
@@ -51,15 +51,15 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Back", next: "ravla_start" }
                 ]
             },
-            ravla_shed13: {
-                text: "Shed 13? Those bureaucrats are the worst. Their forms change weekly, and the security features are a nightmare. It'll cost you.",
+            ravla_Shed521: {
+                text: "Shed 521? Those bureaucrats are the worst. Their forms change weekly, and the security features are a nightmare. It'll cost you.",
                 options: [
                     { text: "How much?", next: "ravla_cost" },
                     { text: "Back", next: "ravla_start" }
                 ]
             },
             ravla_cost: {
-                text: "For Shed 13? 500 credits minimum. Plus whatever materials I need to source. Come back when you have the money.",
+                text: "For Shed 521? 500 credits minimum. Plus whatever materials I need to source. Come back when you have the money.",
                 options: [
                     { text: "I'll think about it", next: "ravla_start" }
                 ]

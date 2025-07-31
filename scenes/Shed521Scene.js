@@ -2,9 +2,9 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 
-export default class Shed13Scene extends GameScene {
+export default class Shed521Scene extends GameScene {
     constructor() {
-        super({ key: 'Shed13Scene' });
+        super({ key: 'Shed521Scene' });
         this.isTransitioning = false;
         this.visitedDialogs = new Set();
         this._dialogTextCache = {}; // Cache for dynamic dialog text
@@ -24,7 +24,7 @@ export default class Shed13Scene extends GameScene {
         const content = {
             ...super.dialogContent,
             start: {
-                text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed13...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
+                text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", next: "background" },
                     // Add the option to confront Gnur about lying if player made the promise
@@ -37,9 +37,9 @@ export default class Shed13Scene extends GameScene {
                         this.addJournalEntry(
                             'gnur_meeting',
                             'Gnur of the Rust Choir',
-                            'In the guts of Shed 13, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him - his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
+                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him - his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
                             this.journalSystem.categories.PEOPLE,
-                            { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 13' }
+                            { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 521' }
                         );
                     }
                 }
@@ -88,7 +88,7 @@ export default class Shed13Scene extends GameScene {
                 ]
             },
             recoverTech: {
-                text: "Now that is a tune I can hum to. Somewhere at Shed 13 there's an abandoned office, leading to unused tunnels. There's a derelict core I need pulled out — still breathing, barely.\n Find it, and maybe I'll find my memory about your Bishop friend.",
+                text: "Now that is a tune I can hum to. Somewhere at Shed 521 there's an abandoned office, leading to unused tunnels. There's a derelict core I need pulled out — still breathing, barely.\n Find it, and maybe I'll find my memory about your Bishop friend.",
                 options: [
                     { text: "Back to other topics", next: "start" }
                 ]
@@ -219,7 +219,7 @@ export default class Shed13Scene extends GameScene {
                 questSystem.addQuest(
                     'rust_reclamation',
                     'Rust Reclamation',
-                    "Gnur needs help recovering a 'living core' from Shed 13's unused tunnels, located somewhere behind the abandoned office."
+                    "Gnur needs help recovering a 'living core' from Shed 521's unused tunnels, located somewhere behind the abandoned office."
                 );
                 this.showNotification('Quest added: Rust Reclamation');
                 this.modifyGrowthDecay(1, 0);
@@ -238,7 +238,7 @@ export default class Shed13Scene extends GameScene {
 
 
         // Set up scene background and elements
-        const bg = this.add.image(400, 300, 'shed13Bg');
+        const bg = this.add.image(400, 300, 'Shed521Bg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
 
@@ -251,7 +251,7 @@ export default class Shed13Scene extends GameScene {
         this.gnur.setDepth(1); // Ensure it's above background
         this.gnur.setInteractive({ useHandCursor: true });
 
-        // Create transition to Shed13FloorsScene at the elevator
+        // Create transition to Shed521FloorsScene at the elevator
         this.transitionManager = new SceneTransitionManager(this);
         
         this.transitionManager.createTransitionZone(
@@ -260,7 +260,7 @@ export default class Shed13Scene extends GameScene {
             120, // width
             200, // height
             'right', // direction
-            'Shed13FloorsScene', // target scene
+            'Shed521FloorsScene', // target scene
             100, // walk to x
             470  // walk to y
         );
@@ -327,7 +327,7 @@ export default class Shed13Scene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('shed13Bg', 'assets/images/backgrounds/Shed13.png');
+        this.load.image('Shed521Bg', 'assets/images/backgrounds/Shed521.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('mysteriousSpore', 'assets/images/items/spore.png');
         // Load Gnur sprite
@@ -341,5 +341,5 @@ export default class Shed13Scene extends GameScene {
 
 // Make the scene available globally
 if (typeof window !== 'undefined') {
-    window.Shed13Scene = Shed13Scene;
+    window.Shed521Scene = Shed521Scene;
 }

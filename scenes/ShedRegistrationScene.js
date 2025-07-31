@@ -38,7 +38,7 @@ export default class ShedRegistrationScene extends GameScene {
         
         // Set initial priest position
         if (this.priest) {
-            this.priest.x = 110;  // Match entrance position from Shed13FloorsScene
+            this.priest.x = 110;  // Match entrance position from Shed521FloorsScene
             this.priest.y = 520;  // Ground level
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
@@ -49,7 +49,7 @@ export default class ShedRegistrationScene extends GameScene {
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
-        // Add exit back to Shed13FloorsScene
+        // Add exit back to Shed521FloorsScene
         this.exitToShed = this.add.image(110, 520, 'door')
             .setDisplaySize(100, 100)
             .setAlpha(0.01)
@@ -85,8 +85,8 @@ export default class ShedRegistrationScene extends GameScene {
         this.exitToShed.on('pointerdown', () => {
             if (!this.isTransitioning) {
                 this.isTransitioning = true;
-                this.transitionToScene('Shed13FloorsScene', () => {
-                    // Set position in Shed13FloorsScene near the welcome entrance
+                this.transitionToScene('Shed521FloorsScene', () => {
+                    // Set position in Shed521FloorsScene near the welcome entrance
                     return { x: 110, y: 450 };
                 });
             }
@@ -108,7 +108,7 @@ export default class ShedRegistrationScene extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13FloorsScene');
+                        this.scene.start('Shed521FloorsScene');
                         this.isTransitioning = false; // Reset transition flag
                     });
                 }
@@ -258,10 +258,10 @@ export default class ShedRegistrationScene extends GameScene {
                 if (!this.hasJournalEntry('dream_queue')) {
                     this.addJournalEntry(
                         'dream_queue',
-                        'The Eternal Queue of Shed 13',
-                        'I witnessed something unsettling in the Registration Office of Shed 13 - a queue of translucent figures, waiting in an endless line that never seems to move. They appear to be ghosts of bureaucrats and applicants, condemned to wait for eternity. When asked about them, the clerk simply replied that they were "only manifestations of the queue itself. Echoes of those who waited too long." as if this was perfectly normal. The most disturbing part is how the living visitors seem to ignore them completely, walking through their spectral forms without acknowledgment.',
+                        'The Eternal Queue of Shed 521',
+                        'I witnessed something unsettling in the Registration Office of Shed 521 - a queue of translucent figures, waiting in an endless line that never seems to move. They appear to be ghosts of bureaucrats and applicants, condemned to wait for eternity. When asked about them, the clerk simply replied that they were "only manifestations of the queue itself. Echoes of those who waited too long." as if this was perfectly normal. The most disturbing part is how the living visitors seem to ignore them completely, walking through their spectral forms without acknowledgment.',
                         this.journalSystem.categories.EVENTS,
-                        { location: 'Shed 13 Registration Office' }
+                        { location: 'Shed 521 Registration Office' }
                     );
                 }
             }
@@ -616,7 +616,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_start: {
-                text: "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed13 today?'",
+                text: "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed521 today?'",
                 options: [
                     { text: "I'm here for general registration.", next: "registration_general" },
                     { text: "I'd rather not say.", next: "registration_evasive" },
@@ -695,7 +695,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
             },
             registration_general: {
-                text: "'General registration requires specific purpose. Shed13 doesn't accept visitors without purpose.'",
+                text: "'General registration requires specific purpose. Shed521 doesn't accept visitors without purpose.'",
                 options: [
                     { text: "I'm interested in the fungal research.", next: "registration_fungal" },
                     { text: "I'm here on behalf of someone else.", next: "registration_proxy" },
@@ -842,7 +842,7 @@ export default class ShedRegistrationScene extends GameScene {
                     this.addItemToInventory({
                         id: 'fungal-clearance',
                         name: "Fungal Research Clearance",
-                        description: "Level 2 clearance for accessing fungal research areas in Shed13. A valuable credential.",
+                        description: "Level 2 clearance for accessing fungal research areas in Shed521. A valuable credential.",
                         stackable: false
                     });
                     this.showNotification('Received: Fungal Research Clearance');
@@ -862,7 +862,7 @@ export default class ShedRegistrationScene extends GameScene {
                     this.addItemToInventory({
                         id: 'proxy-authorization',
                         name: "Proxy Authorization",
-                        description: "Official document allowing you to act on behalf of another individual in Shed13 bureaucratic matters.",
+                        description: "Official document allowing you to act on behalf of another individual in Shed521 bureaucratic matters.",
                         stackable: false
                     });
                     this.showNotification('Received: Proxy Authorization');
@@ -1088,8 +1088,8 @@ export default class ShedRegistrationScene extends GameScene {
         this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.cameras.main.once('camerafadeoutcomplete', () => {
             // Logic for what happens next would go here
-            // For now, we'll just go back to the Shed13FloorsScene
-            this.scene.start('Shed13FloorsScene');
+            // For now, we'll just go back to the Shed521FloorsScene
+            this.scene.start('Shed521FloorsScene');
             this.isTransitioning = false;
         });
     }

@@ -23,13 +23,13 @@ export default class ShedAbandonedOfficeScene extends GameScene {
         
         // Set initial priest position
         if (this.priest) {
-            this.priest.x = 250;  // Match entrance position from Shed13FloorsScene
+            this.priest.x = 250;  // Match entrance position from Shed521FloorsScene
             this.priest.y = 520;  // Ground level
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
         }
 
-        // Add left exit area (back to Shed13FloorsScene)
+        // Add left exit area (back to Shed521FloorsScene)
         this.leftExit = this.add.image(50, 470, 'exitArea')
             .setDisplaySize(50, 200)
             .setAlpha(0.01)
@@ -43,7 +43,7 @@ export default class ShedAbandonedOfficeScene extends GameScene {
             .setInteractive({ useHandCursor: true })
             .setDepth(10);
 
-        // Left exit click logic (back to Shed13FloorsScene)
+        // Left exit click logic (back to Shed521FloorsScene)
         this.leftExit.on('pointerdown', () => {
             if (!this.isTransitioning) {
                 this.isTransitioning = true;
@@ -58,7 +58,7 @@ export default class ShedAbandonedOfficeScene extends GameScene {
                     onComplete: () => {
                         this.cameras.main.fadeOut(800, 0, 0, 0);
                         this.cameras.main.once('camerafadeoutcomplete', () => {
-                            this.scene.start('Shed13FloorsScene');
+                            this.scene.start('Shed521FloorsScene');
                             this.isTransitioning = false;
                         });
                     }

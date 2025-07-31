@@ -13,15 +13,15 @@ export default class ShedApplicationsScene extends GameScene {
         const content = {
             ...super.dialogContent,
             start: {
-                text: "(The clerk shuffles through a stack of papers, barely looking up)\nWelcome to Shed13 Applications. Forms in triplicate, please. No exceptions.",
+                text: "(The clerk shuffles through a stack of papers, barely looking up)\nWelcome to Shed521 Applications. Forms in triplicate, please. No exceptions.",
                 options: [
-                    { text: "Tell me about Shed13", next: "about_shed" },
+                    { text: "Tell me about Shed521", next: "about_shed" },
                     { text: "What's your role here?", next: "clerk_role" },
                     { text: "Goodbye", next: "end" }
                 ]
             },
             about_shed: {
-                text: "Shed13? (adjusts glasses) One of our most... productive facilities. Biotech research, augmentation services, and... other classified operations. All properly documented, of course. Three hundred and forty-two forms for each procedure.",
+                text: "Shed521? (adjusts glasses) One of our most... productive facilities. Biotech research, augmentation services, and... other classified operations. All properly documented, of course. Three hundred and forty-two forms for each procedure.",
                 options: [
                     { text: "That's a lot of paperwork", next: "paperwork" },
                     { text: "Back to other topics", next: "start" }
@@ -286,7 +286,7 @@ export default class ShedApplicationsScene extends GameScene {
         
         // Set initial priest position
         if (this.priest) {
-            this.priest.x = 650;  // Match entrance position from Shed13FloorsScene
+            this.priest.x = 650;  // Match entrance position from Shed521FloorsScene
             this.priest.y = 520;  // Ground level
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
@@ -304,7 +304,7 @@ export default class ShedApplicationsScene extends GameScene {
         this.clerk.setDepth(1); // Ensure it's above background
         this.clerk.setInteractive({ useHandCursor: true });
         
-        // Add exit back to Shed13FloorsScene
+        // Add exit back to Shed521FloorsScene
         this.exitToShed = this.add.image(650, 520, 'door')
             .setDisplaySize(100, 100)
             .setAlpha(0.01)
@@ -332,8 +332,8 @@ export default class ShedApplicationsScene extends GameScene {
         this.exitToShed.on('pointerdown', () => {
             if (!this.isTransitioning) {
                 this.isTransitioning = true;
-                this.transitionToScene('Shed13FloorsScene', () => {
-                    // Set position in Shed13FloorsScene near the applications entrance
+                this.transitionToScene('Shed521FloorsScene', () => {
+                    // Set position in Shed521FloorsScene near the applications entrance
                     return { x: 650, y: 450 };
                 });
             }
@@ -355,7 +355,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13FloorsScene');
+                        this.scene.start('Shed521FloorsScene');
                         this.isTransitioning = false; // Reset transition flag
                     });
                 }

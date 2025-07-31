@@ -1,14 +1,14 @@
 import GameScene from './GameScene.js';
 
-export default class Shed13GateScene extends GameScene {
+export default class Shed521GateScene extends GameScene {
     constructor() {
-        super({ key: 'Shed13GateScene' });
+        super({ key: 'Shed521GateScene' });
         this.isTransitioning = false; // Add flag to track transition state
     }
 
     preload() {
         super.preload();
-        this.load.image('shed13GateBg', 'assets/images/backgrounds/Shed13_gate.png');
+        this.load.image('Shed521GateBg', 'assets/images/backgrounds/Shed521_gate.png');
         this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
         // Audio is already loaded in GameScene's preload
     }
@@ -21,7 +21,7 @@ export default class Shed13GateScene extends GameScene {
         this.playSceneMusic('marketTheme');
         
         // Set vox market background
-        const bg = this.add.image(400, 200, 'shed13GateBg');
+        const bg = this.add.image(400, 200, 'Shed521GateBg');
         bg.setDisplaySize(800, 750); // Further increased height to fully cover the ground
         bg.setDepth(-1);
         
@@ -75,7 +75,7 @@ export default class Shed13GateScene extends GameScene {
                 onComplete: () => {
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed13FloorsScene');
+                        this.scene.start('Shed521FloorsScene');
                         this.isTransitioning = false; // Reset transition flag
                     });
                 }

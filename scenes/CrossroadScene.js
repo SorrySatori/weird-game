@@ -94,14 +94,14 @@ export default class CrossroadScene extends GameScene {
     }
 
     setupSceneTransitions() {
-        // Create transition zone for Shed13 entrance
+        // Create transition zone for Shed521 entrance
         this.transitionManager.createTransitionZone(
             100, // x position
             400, // y position
             120, // width
             200, // height
             'left', // direction
-            'Shed13Scene', // target scene
+            'Shed521Scene', // target scene
             100, // walk to x
             400 // walk to y
         );

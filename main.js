@@ -9,9 +9,9 @@ import VoxmarketMarketScene from './scenes/VoxmarketMarketScene.js';
 import VoxmarketHallScene from './scenes/VoxmarketHallScene.js';
 import CrossroadScene from './scenes/CrossroadScene.js';
 import ScraperScene from './scenes/ScraperScene.js';
-import Shed13Scene from './scenes/Shed13Scene.js';
-import Shed13FloorsScene from './scenes/Shed13FloorsScene.js';
-import Shed13GateScene from './scenes/Shed13GateScene.js';
+import Shed521Scene from './scenes/Shed521Scene.js';
+import Shed521FloorsScene from './scenes/Shed521FloorsScene.js';
+import Shed521GateScene from './scenes/Shed521GateScene.js';
 import ShedRegistrationScene from './scenes/ShedRegistrationScene.js';
 import ShedApplicationsScene from './scenes/ShedApplicationsScene.js';
 import ShedAbandonedOfficeScene from './scenes/ShedAbandonedOfficeScene.js';
@@ -44,7 +44,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed13Scene, Shed13FloorsScene, Shed13GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, AbandonedBusScene],
+    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, AbandonedBusScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {

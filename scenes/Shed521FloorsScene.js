@@ -1,16 +1,16 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
-export default class Shed13FloorsScene extends GameScene {
+export default class Shed521FloorsScene extends GameScene {
     constructor() {
-        super({ key: 'Shed13FloorsScene' });
+        super({ key: 'Shed521FloorsScene' });
         this.isTransitioning = false; // Add flag to track transition state
         this.currentFloor = 1; // Track current floor: 1, 2, or 3
     }
 
     preload() {
         super.preload();
-        this.load.image('floors', 'assets/images/backgrounds/Shed13_floors.png');
+        this.load.image('floors', 'assets/images/backgrounds/Shed521_floors.png');
         this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
         this.load.image('arrow', 'assets/images/ui/arrow.png'); // Arrow for transition hover effects
     }
@@ -46,19 +46,19 @@ export default class Shed13FloorsScene extends GameScene {
             120, // width
             100, // height
             'left', // direction
-            'Shed13GateScene', // target scene
+            'Shed521GateScene', // target scene
             50, // walk to x
             520 // walk to y
         );
         
-        // Exit to Shed13Scene (First Floor - Center)
+        // Exit to Shed521Scene (First Floor - Center)
         this.exitZone = this.transitionManager.createTransitionZone(
             450, // x position
             450, // y position
             100, // width
             100, // height
             'down', // direction
-            'Shed13Scene', // target scene
+            'Shed521Scene', // target scene
             450, // walk to x
             450 // walk to y
         );
@@ -70,7 +70,7 @@ export default class Shed13FloorsScene extends GameScene {
             100, // width
             100, // height
             'up', // direction
-            'Shed13FloorsScene', // target scene - same scene, different floor
+            'Shed521FloorsScene', // target scene - same scene, different floor
             650, // walk to x
             450 // walk to y - second floor level
         );
@@ -96,7 +96,7 @@ export default class Shed13FloorsScene extends GameScene {
             80, // width
             80, // height
             'down', // direction
-            'Shed13FloorsScene', // target scene - same scene, different floor
+            'Shed521FloorsScene', // target scene - same scene, different floor
             400, // walk to x
             520 // walk to y - first floor level
         );
@@ -108,7 +108,7 @@ export default class Shed13FloorsScene extends GameScene {
             80, // width
             80, // height
             'up', // direction
-            'Shed13FloorsScene', // target scene - same scene, different floor
+            'Shed521FloorsScene', // target scene - same scene, different floor
             690, // walk to x
             250 // walk to y - third floor level
         );
@@ -146,7 +146,7 @@ export default class Shed13FloorsScene extends GameScene {
             80, // width
             80, // height
             'down', // direction
-            'Shed13FloorsScene', // target scene - same scene, different floor
+            'Shed521FloorsScene', // target scene - same scene, different floor
             690, // walk to x
             120 // walk to y - second floor level
         );
