@@ -226,18 +226,41 @@ export default class Shed521FloorsScene extends GameScene {
             const priest = this.priest;
             this.tweens.killTweensOf(priest);
             
-            // Teleport to second floor with a flash effect
-            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-            priest.x = 650;
-            priest.y = 340; // Second floor level
-            priest.play('idle');
+            // First make the priest walk to the transition area
+            const walkToX = this.secondFloorZone.x;
             
-            this.currentFloor = 2;
-            this.updateEntranceAvailability(this.currentFloor);
+            // Play walking animation and move to transition area horizontally
+            priest.play('walk');
             
-            // Short delay before allowing new interactions
-            this.time.delayedCall(400, () => {
-                this.isTransitioning = false;
+            // Calculate walk duration based on horizontal distance only
+            const distance = Math.abs(priest.x - walkToX);
+            const walkDuration = distance * 4; // 4ms per pixel
+            
+            this.tweens.add({
+                targets: priest,
+                x: walkToX,
+                // Keep the same Y position
+                duration: walkDuration,
+                ease: 'Linear',
+                onComplete: () => {
+                    // After reaching the transition area, teleport to second floor
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    // Short delay before teleporting
+                    this.time.delayedCall(200, () => {
+                        priest.x = 650;
+                        priest.y = 340; // Second floor level
+                        
+                        this.currentFloor = 2;
+                        this.updateEntranceAvailability(this.currentFloor);
+                        
+                        // Short delay before allowing new interactions
+                        this.time.delayedCall(400, () => {
+                            this.isTransitioning = false;
+                        });
+                    });
+                }
             });
         });
         
@@ -250,18 +273,41 @@ export default class Shed521FloorsScene extends GameScene {
             const priest = this.priest;
             this.tweens.killTweensOf(priest);
             
-            // Teleport to first floor with a flash effect
-            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-            priest.x = 400;
-            priest.y = 520; // First floor level
-            priest.play('idle');
+            // First make the priest walk to the transition area
+            const walkToX = this.secondToFirstZone.x;
             
-            this.currentFloor = 1;
-            this.updateEntranceAvailability(this.currentFloor);
+            // Play walking animation and move to transition area horizontally
+            priest.play('walk');
             
-            // Short delay before allowing new interactions
-            this.time.delayedCall(400, () => {
-                this.isTransitioning = false;
+            // Calculate walk duration based on horizontal distance only
+            const distance = Math.abs(priest.x - walkToX);
+            const walkDuration = distance * 4; // 4ms per pixel
+            
+            this.tweens.add({
+                targets: priest,
+                x: walkToX,
+                // Keep the same Y position
+                duration: walkDuration,
+                ease: 'Linear',
+                onComplete: () => {
+                    // After reaching the transition area, teleport to first floor
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    // Short delay before teleporting
+                    this.time.delayedCall(200, () => {
+                        priest.x = 400;
+                        priest.y = 520; // First floor level
+                        
+                        this.currentFloor = 1;
+                        this.updateEntranceAvailability(this.currentFloor);
+                        
+                        // Short delay before allowing new interactions
+                        this.time.delayedCall(400, () => {
+                            this.isTransitioning = false;
+                        });
+                    });
+                }
             });
         });
         
@@ -274,18 +320,41 @@ export default class Shed521FloorsScene extends GameScene {
             const priest = this.priest;
             this.tweens.killTweensOf(priest);
             
-            // Teleport to third floor with a flash effect
-            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-            priest.x = 690;
-            priest.y = 180; // Third floor level
-            priest.play('idle');
+            // First make the priest walk to the transition area
+            const walkToX = this.thirdFloorZone.x;
             
-            this.currentFloor = 3;
-            this.updateEntranceAvailability(this.currentFloor);
+            // Play walking animation and move to transition area horizontally
+            priest.play('walk');
             
-            // Short delay before allowing new interactions
-            this.time.delayedCall(400, () => {
-                this.isTransitioning = false;
+            // Calculate walk duration based on horizontal distance only
+            const distance = Math.abs(priest.x - walkToX);
+            const walkDuration = distance * 4; // 4ms per pixel
+            
+            this.tweens.add({
+                targets: priest,
+                x: walkToX,
+                // Keep the same Y position
+                duration: walkDuration,
+                ease: 'Linear',
+                onComplete: () => {
+                    // After reaching the transition area, teleport to third floor
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    // Short delay before teleporting
+                    this.time.delayedCall(200, () => {
+                        priest.x = 690;
+                        priest.y = 180; // Third floor level
+                        
+                        this.currentFloor = 3;
+                        this.updateEntranceAvailability(this.currentFloor);
+                        
+                        // Short delay before allowing new interactions
+                        this.time.delayedCall(400, () => {
+                            this.isTransitioning = false;
+                        });
+                    });
+                }
             });
         });
         
@@ -298,18 +367,41 @@ export default class Shed521FloorsScene extends GameScene {
             const priest = this.priest;
             this.tweens.killTweensOf(priest);
             
-            // Teleport to second floor with a flash effect
-            this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-            priest.x = 690;
-            priest.y = 340; // Second floor level
-            priest.play('idle');
+            // First make the priest walk to the transition area
+            const walkToX = this.thirdToSecondZone.x;
             
-            this.currentFloor = 2;
-            this.updateEntranceAvailability(this.currentFloor);
+            // Play walking animation and move to transition area horizontally
+            priest.play('walk');
             
-            // Short delay before allowing new interactions
-            this.time.delayedCall(400, () => {
-                this.isTransitioning = false;
+            // Calculate walk duration based on horizontal distance only
+            const distance = Math.abs(priest.x - walkToX);
+            const walkDuration = distance * 4; // 4ms per pixel
+            
+            this.tweens.add({
+                targets: priest,
+                x: walkToX,
+                // Keep the same Y position
+                duration: walkDuration,
+                ease: 'Linear',
+                onComplete: () => {
+                    // After reaching the transition area, teleport to second floor
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    // Short delay before teleporting
+                    this.time.delayedCall(200, () => {
+                        priest.x = 690;
+                        priest.y = 340; // Second floor level
+                        
+                        this.currentFloor = 2;
+                        this.updateEntranceAvailability(this.currentFloor);
+                        
+                        // Short delay before allowing new interactions
+                        this.time.delayedCall(400, () => {
+                            this.isTransitioning = false;
+                        });
+                    });
+                }
             });
         });
         
