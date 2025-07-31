@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class Shed521GateScene extends GameScene {
     constructor() {
@@ -17,6 +18,9 @@ export default class Shed521GateScene extends GameScene {
         // Call parent create first to initialize mechanics
         super.create();
         
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
+        
         // Play market theme
         this.playSceneMusic('marketTheme');
         
@@ -33,21 +37,6 @@ export default class Shed521GateScene extends GameScene {
             this.ground.destroy(); // Destroy instead of just hiding
         }
         
-        // Add invisible clickable exit area at the left of the screen
-        this.exitArea = this.add.image(750, 470, 'exitArea')
-            .setDisplaySize(50, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-
-        // Add invisible clickable exit area at the right of the screen for courtyard
-
-        this.courtyardExit = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(50, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.courtyardExit.setDepth(10);
-        
         // Position the priest at the right side when entering this scene
         this.priest.x = 750;
         this.priest.y = 470; // Position on the ground
@@ -58,53 +47,31 @@ export default class Shed521GateScene extends GameScene {
             this.priestGlow.y = this.priest.y;
         }
         
-        // Exit area click logic
-        this.exitArea.on('pointerdown', () => {
-            // Move priest to exit area, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-            
-            // Stop any existing tweens on the priest
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 750,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed521FloorsScene');
-                        this.isTransitioning = false; // Reset transition flag
-                    });
-                }
-            });
-        });
-
-        // Courtyard exit click logic
-        this.courtyardExit.on('pointerdown', () => {
-            // Move priest to courtyard exit area, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-            
-            // Stop any existing tweens on the priest
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ShedCourtyard');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-        });
+        // Create transition zones using SceneTransitionManager
+        
+        // Exit to Floors Scene (right side of the screen)
+        this.floorsZone = this.transitionManager.createTransitionZone(
+            750, // x position
+            470, // y position
+            50,  // width
+            200, // height
+            'right', // direction
+            'Shed521FloorsScene', // target scene
+            750, // walk to x
+            470  // walk to y
+        );
+        
+        // Exit to Courtyard Scene (left side of the screen)
+        this.courtyardZone = this.transitionManager.createTransitionZone(
+            50,  // x position
+            470, // y position
+            50,  // width
+            200, // height
+            'left', // direction
+            'ShedCourtyard', // target scene
+            50,  // walk to x
+            470  // walk to y
+        );
         
         // Remove the NPC if it exists
         if (this.stranger) {
@@ -121,13 +88,6 @@ export default class Shed521GateScene extends GameScene {
     update() {
         // Call parent update for all standard mechanics
         super.update();
-
-        // Instead of using setCursor, we'll handle the cursor through the zone's useHandCursor property
-        if (this.priest && this.priest.x > 750) {
-            this.courtyardExit.input.cursor = 'pointer';
-        } else {
-            this.courtyardExit.input.cursor = 'default';
-        }
     }
     
     // Create a custom ground for the market scene that matches the aesthetic
