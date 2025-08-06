@@ -10,7 +10,7 @@ export default class Shed521GateScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('Shed521GateBg', 'assets/images/backgrounds/Shed521_gate.png');
-        this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
         // Audio is already loaded in GameScene's preload
     }
 

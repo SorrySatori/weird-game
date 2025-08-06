@@ -318,7 +318,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             goodbye: {
-                text: "May the spores guide your path...",
+                text: "Don't get lost...",
                 options: [],
                 onTrigger: () => {
                     this.hideDialog();
@@ -338,6 +338,7 @@ export default class ShedCourtyardScene extends GameScene {
         this.load.image('exitArea', 'assets/images/ui/exitArea.png');
         this.load.image('ortolan', 'assets/images/characters/Ortolan.png');
         this.load.image('particle', 'assets/images/effects/particle.png');
+        this.load.image('arrow', 'assets/images/ui/arrow.png');
     }
 
     create() {

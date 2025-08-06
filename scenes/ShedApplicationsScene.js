@@ -21,9 +21,9 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             about_shed: {
-                text: "Shed521? (adjusts glasses) One of our most... productive facilities. Biotech research, augmentation services, and... other classified operations. All properly documented, of course. Three hundred and forty-two forms for each procedure.",
+                text: "Shed521? (adjusts glasses) One of our most... productive facilities. It used to be just an ordinary warehouse, a storage, you kno. But now... it's much more. It's a place where... things happen. (smiles) Bureaucracy is really alive here, it flows like a river. It gives purpose to things, to every action, every decision. (puts away papers) We can be so productive and happy here.",
                 options: [
-                    { text: "That's a lot of paperwork", next: "paperwork" },
+                    { text: "That sounds like a lot of paperwork", next: "paperwork" },
                     { text: "Back to other topics", next: "start" }
                 ]
             },
@@ -141,10 +141,10 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             ortolan_inquiry: {
-                text: "Ortolan Arms? (shuffles through papers) Additional arms, you say. Are they intentional?",
+                text: "Extra Arms? (shuffles through papers) Additional arms, you say. Are they intentional?",
                 options: [
-                    { text: "He needs them. He’s an artisan.", next: "ortolan_artisan" },
-                    { text: "He didn’t choose this. The arms were... a gift.", next: "ortolan_gift" },
+                    { text: "My friend needs them. He’s an artisan.", next: "ortolan_artisan" },
+                    { text: "My friend didn’t choose this. The arms were... a gift.", next: "ortolan_gift" },
                     { text: "They’re not his arms. He’s borrowing them.", next: "ortolan_borrow" },
                     { text: "Back to other topics", next: "start" }
                 ]
@@ -255,7 +255,7 @@ export default class ShedApplicationsScene extends GameScene {
             }
             if (questSystem.getQuest('ortolan_arms') && !this.visitedDialogs.has('ortolan_inquiry')) {
                 content.start.options.splice(1, 0, {
-                    text: "About Ortolan Arms...",
+                    text: "How can I register for extra pair of arms?",
                     next: "ortolan_inquiry"
                 });
             }
