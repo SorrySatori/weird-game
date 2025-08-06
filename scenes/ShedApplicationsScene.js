@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class ShedApplicationsScene extends GameScene {
     constructor() {
@@ -304,63 +305,26 @@ export default class ShedApplicationsScene extends GameScene {
         this.clerk.setDepth(1); // Ensure it's above background
         this.clerk.setInteractive({ useHandCursor: true });
         
-        // Add exit back to Shed521FloorsScene
-        this.exitToShed = this.add.image(650, 520, 'door')
-            .setDisplaySize(100, 100)
-            .setAlpha(0.01)
-            .setInteractive();
-
-        this.exitArea = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(50, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-
-        // Set up pointer events
-        this.exitToShed.on('pointerover', () => {
-            if (!this.isTransitioning) {
-                this.setCursor('pointer');
-            }
-        });
-
-        this.exitToShed.on('pointerout', () => {
-            if (!this.isTransitioning) {
-                this.setCursor('default');
-            }
-        });
-
-        this.exitToShed.on('pointerdown', () => {
-            if (!this.isTransitioning) {
-                this.isTransitioning = true;
-                this.transitionToScene('Shed521FloorsScene', () => {
-                    // Set position in Shed521FloorsScene near the applications entrance
-                    return { x: 650, y: 450 };
-                });
-            }
-        });
-
-        this.exitArea.on('pointerdown', () => {
-            // Move priest to exit area, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-            
-            // Stop any existing tweens on the priest
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 465,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed521FloorsScene');
-                        this.isTransitioning = false; // Reset transition flag
-                    });
-                }
-            });
-        });
+        // Initialize the transition manager
+        this.transitionManager = new SceneTransitionManager(this);
+        
+        // Add exit back to Shed521FloorsScene using transition manager
+        this.transitionManager.createTransitionZone(
+            650, 520,  // x, y position
+            100, 100,  // width, height
+            'right',   // direction
+            'Shed521FloorsScene', // target scene
+            650, 520   // walk to coordinates
+        );
+        
+        // Add left exit area using transition manager
+        this.transitionManager.createTransitionZone(
+            50, 470,   // x, y position
+            50, 200,   // width, height
+            'left',    // direction
+            'Shed521FloorsScene', // target scene
+            50, 465    // walk to coordinates
+        );
                 
                 // Add subtle bobbing animation for walking
                 this.tweens.add({
