@@ -170,21 +170,13 @@ export default class ShedRegistrationScene extends GameScene {
             }
         });
         
-        // 3. Hollow Woman (using clerk2.png for now) - third in queue
         this.hollowWoman = this.add.sprite(150, 0, 'hollowWoman')
             .setScale(0.4)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
-            
-        // Add stitched seams effect
-        this.hollowWomanSeams = this.add.graphics();
-        this.hollowWomanSeams.lineStyle(1, 0x7fff8e, 0.7);
-        this.hollowWomanSeams.strokeRect(150 - 20, 0 - 40, 40, 80);
-        this.hollowWomanSeams.setVisible(false);
         
         // Add to queue container
         this.queueContainer.add(this.hollowWoman);
-        this.queueContainer.add(this.hollowWomanSeams);
         
         // Set up interaction
         this.hollowWoman.on('pointerdown', () => {
@@ -208,6 +200,13 @@ export default class ShedRegistrationScene extends GameScene {
     }
     
     startDreamQueue() {
+        // Check if player has already experienced the dream queue via journal entry
+        if (this.journalSystem.hasEntry('dream_queue_completed')) {
+            // If player has already seen the dream queue, just show the Senior Clerk
+            this.createSeniorClerk();
+            return;
+        }
+        
         if (this.dreamQueueStarted) return;
         this.dreamQueueStarted = true;
         
@@ -243,20 +242,18 @@ export default class ShedRegistrationScene extends GameScene {
         
         // 3. Hollow Woman
         this.hollowWoman.setVisible(true);
-        this.hollowWomanSeams.setVisible(true);
         this.hollowWoman.alpha = 0;
-        this.hollowWomanSeams.alpha = 0;
         
         this.tweens.add({
-            targets: [this.hollowWoman, this.hollowWomanSeams],
+            targets: this.hollowWoman,
             alpha: 1,
             duration: 1500,
             delay: 2500,
             ease: 'Power2',
             onComplete: () => {
                 this.showNotification('When you enter the office, you are surrounded by weird, dreamy creatures that form a queue...');
-                if (!this.hasJournalEntry('dream_queue')) {
-                    this.addJournalEntry(
+                if (!this.journalSystem.hasEntry('dream_queue')) {
+                    this.journalSystem.addEntry(
                         'dream_queue',
                         'The Eternal Queue of Shed 521',
                         'I witnessed something unsettling in the Registration Office of Shed 521 - a queue of translucent figures, waiting in an endless line that never seems to move. They appear to be ghosts of bureaucrats and applicants, condemned to wait for eternity. When asked about them, the clerk simply replied that they were "only manifestations of the queue itself. Echoes of those who waited too long." as if this was perfectly normal. The most disturbing part is how the living visitors seem to ignore them completely, walking through their spectral forms without acknowledgment.',
@@ -266,6 +263,23 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             }
         });
+    }
+    
+    // Helper method to create just the Senior Clerk for returning players
+    createSeniorClerk() {
+            const alreadyMet = this.journalSystem.hasEntry('registration_senior_clerk')
+            this.seniorClerk = this.add.image(400, 300, 'clerk2');
+            this.seniorClerk.setScale(0.7);
+            this.seniorClerk.setInteractive({ useHandCursor: true });
+            this.seniorClerk.setVisible(true)
+            this.seniorClerk.on('pointerdown', () => {
+                this.showDialog(alreadyMet ? 'seniorClerk_returning' : 'seniorClerk_start');
+            });
+            
+            // Show notification
+            this.time.delayedCall(500, () => {
+                this.showNotification('The Senior Clerk is ready to assist you');
+            });
     }
     
     checkAllNPCsInteracted() {
@@ -286,49 +300,42 @@ export default class ShedRegistrationScene extends GameScene {
             // Hide Vowel Seller completely if still visible
             if (this.vowelSeller && this.vowelSeller.visible) {
                 this.vowelSeller.setVisible(false);
-                if (this.vowelSellerAsh) {
-                    this.vowelSellerAsh.setVisible(false);
-                }
             }
-            
-            // Hide Hollow Woman completely if still visible
-            if (this.hollowWoman && this.hollowWoman.visible) {
-                this.hollowWoman.setVisible(false);
-                if (this.hollowWomanSeams) {
-                    this.hollowWomanSeams.setVisible(false);
-                }
-            }
-            
-            // Delay before showing Senior Clerk
+        
+            // Create the Senior Clerk after a delay
             this.time.delayedCall(2000, () => {
-                // Create the Senior Clerk if it doesn't exist yet
-                if (!this.seniorClerk) {
-                    this.seniorClerk = this.add.sprite(400, 400, 'clerk2')
-                        .setScale(0.5)
-                        .setAlpha(0);
-                    this.seniorClerk.setInteractive({ useHandCursor: true });
-                    this.seniorClerk.on('pointerdown', () => {
-                        if (this.dialogState === 'end' || !this.dialogState) {
-                            this.showDialog('seniorClerk_start');
-                        }
-                    });
-                }
-                
-                // Fade in the Senior Clerk
-                this.tweens.add({
-                    targets: this.seniorClerk,
-                    alpha: 1,
-                    y: 300,
-                    duration: 1500,
-                    ease: 'Power2',
-                    onComplete: () => {
-                        this.showNotification('The Senior Clerk has arrived');
-                        this.time.delayedCall(1000, () => {
-                            this.showDialog('seniorClerk_start');
-                        });
-                    }
-                });
+                this.showNotification('A Senior Clerk has appeared...');
+                this.createSeniorClerk();
             });
+            
+            // Set flag to prevent this from running again
+            this.npcsInteractedWith.clear();
+            this.npcsInteractedWith.add('completed');
+            
+            // Add journal entry to mark dream queue as completed
+            if (!this.journalSystem.hasEntry('dream_queue_completed')) {
+                this.journalSystem.addEntry(
+                    'dream_queue_completed',
+                    'Registration Office Visit',
+                    'I completed my first visit to the Registration Office in Shed 521. The strange queue of spectral figures dissolved after I interacted with them, and the Senior Clerk appeared to process my application.',
+                    this.journalSystem.categories.EVENTS,
+                    { location: 'Shed 521 Registration Office' }
+                );
+            }
+            
+            // Update quest if relevant
+            const questSystem = this.registry.get('questSystem');
+            if (questSystem) {
+                // Check for specific quests that might be updated by this interaction
+                if (questSystem && questSystem.getQuest('shed521_investigation')) {
+                    questSystem.updateQuest(
+                        'shed521_investigation', 
+                        'I\'ve made it through the strange queue in the Registration Office. The Senior Clerk is now ready to process my application.',
+                        'registration_queue_complete'
+                    );
+                    this.showNotification('Quest updated: Shed 521 Investigation');
+                }
+            }
         }
     }
     
@@ -337,7 +344,6 @@ export default class ShedRegistrationScene extends GameScene {
         const questSystem = this.registry.get('questSystem');
         if (questSystem && questSystem.getQuest('ortolan_arms')) {
             questUpdates = questSystem.getQuest('ortolan_arms')?.updates;
-            console.log('updates', questUpdates)
         }
         return {
             ...super.dialogContent,
@@ -522,12 +528,11 @@ export default class ShedRegistrationScene extends GameScene {
                 onTrigger: () => {
                     // Fade out the Hollow Woman
                     this.tweens.add({
-                        targets: [this.hollowWoman, this.hollowWomanSeams],
+                        targets: this.hollowWoman,
                         alpha: 0,
                         duration: 1500,
                         onComplete: () => {
                             this.hollowWoman.setVisible(false);
-                            this.hollowWomanSeams.setVisible(false);
                         }
                     });
                 }
@@ -571,10 +576,34 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "I'm here for general registration.", next: "registration_general" },
                     { text: "I'd rather not say.", next: "registration_evasive" },
-                    ...(questUpdates.some(update => update.key === 'artisan_form_clue') ? [{ text: "I need an Artisan's Exemption Form.", next: "registration_artisan" }] : []),
-                    ...(questUpdates.some(update => update.key === 'deformity_form_clue') ? [{ text: "I need an Inherited Deformity Form.", next: "registration_deformity" }] : []),
-                    ...(questUpdates.some(update => update.key === 'nonverbal_gesture_clue') ? [{ text: "(Make a nonverbal gesture)", next: "registration_nonverbal" }] : []),
+                    // Only show artisan option if player has the clue and hasn't completed or failed it
+                    ...(questUpdates.some(update => update.key === 'artisan_form_clue') && 
+                        !this.journalSystem.hasEntry('registration_artisan_completed') && 
+                        !this.journalSystem.hasEntry('registration_artisan_failed') ? 
+                        [{ text: "I need an Artisan's Exemption Form.", next: "registration_artisan" }] : []),
+                    // Only show deformity option if player has the clue and hasn't completed or failed it
+                    ...(questUpdates.some(update => update.key === 'deformity_form_clue') && 
+                        !this.journalSystem.hasEntry('registration_deformity_completed') && 
+                        !this.journalSystem.hasEntry('registration_deformity_failed') ? 
+                        [{ text: "I need an Inherited Deformity Form.", next: "registration_deformity" }] : []),
+                    // Only show nonverbal option if player has the clue and hasn't completed or failed it
+                    ...(questUpdates.some(update => update.key === 'nonverbal_gesture_clue') && 
+                        !this.journalSystem.hasEntry('registration_nonverbal_completed') && 
+                        !this.journalSystem.hasEntry('registration_nonverbal_failed') ? 
+                        [{ text: "(Make a nonverbal gesture)", next: "registration_nonverbal" }] : []),
+                    // Always show extra symbiont option
+                    { text: "I would like to register for an extra symbiont slot.", next: "registration_extra_symbiont" },
                 ],
+                onTrigger: () => {
+                    !this.journalSystem.hasEntry('registration_senior_clerk') && 
+                    this.journalSystem.addEntry(
+                        'registration_senior_clerk',
+                        'Senior Clerk',
+                        'I met the Senior Clerk at the Registration Office of Shed 521. He was a tall, imposing figure with a stern expression, clad in a dark suit.',
+                        this.journalSystem.categories.PEOPLE,
+                        { location: 'Shed 521 Registration Office' }
+                    );
+                }
             },
             registration_artisan: {
                 text: "'Ah, the Artisan's Exemption Form. A rare request.'",
@@ -654,26 +683,72 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_extra_symbiont: {
-                text: "'Extra symbiont slot registration is not actually difficult. Just a form to fill out. And pay a registration fee, of course.'",
+                text: "'Extra symbiont slot registration is not actually difficult. Just a form to fill out. And pay a registration fee of 50 gold, of course.'",
                 options: [
+                    { text: "I'll pay the fee and register for an extra slot.", next: "registration_extra_symbiont_pay" },
                     { text: "I change my mind. I would like to register for something else.", next: "registration_reconsider" },
                     { text: "Sorry, I don't think I can pay the fee.", next: "end" }
                 ],
+            },
+            registration_extra_symbiont_pay: {
+                text: "'Very well. Let me process your payment and update your registration.'",
+                options: [
+                    { text: "Thank you.", next: "registration_extra_symbiont_complete" }
+                ],
+                onTrigger: () => {
+                    // FIX THIS
+                    const moneySystem = this.registry.get('moneySystem');
+                    
+                    // Check if player has enough money
+                    if (moneySystem && moneySystem.hasEnough(50)) {
+                        // Subtract money
+                        moneySystem.subtract(50, true);
+                        
+                        // Get the symbiont system from registry
+                        const symbiontSystem = this.registry.get('symbiontSystem');
+                        
+                        if (symbiontSystem) {
+                            // Check if player already has max slots
+                            if (symbiontSystem.unlockedSlots < symbiontSystem.maxSlots) {
+                                // Unlock a new slot
+                                symbiontSystem.unlockSlot();
+                                this.showNotification('Unlocked a new symbiont slot!');
+                                
+                                // Add journal entry
+                                this.journalSystem.addEntry(
+                                    'extra_symbiont_slot_purchased',
+                                    'Extra Symbiont Slot',
+                                    'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward - just a form and a fee of 50 gold. Now I can host another symbiont entity within my body.',
+                                    this.journalSystem.categories.EVENTS,
+                                    { location: 'Shed 521 Registration Office' }
+                                );
+                            } else {
+                                // Already at max slots
+                                moneySystem.add(50, true); // Refund the money
+                                this.showNotification('You already have the maximum number of symbiont slots!');
+                                // Change dialog text
+                                this.dialogContent().registration_extra_symbiont_complete.text = "'I apologize, but it appears you've already reached the maximum number of symbiont slots allowed by regulation. I've refunded your payment.'";                                
+                            }
+                        }
+                    } else {
+                        // Not enough money
+                        this.showNotification('Not enough gold!');
+                        // Change dialog text
+                        this.dialogContent().registration_extra_symbiont_complete.text = "'I'm sorry, but it appears you don't have sufficient funds for this transaction. The fee is 50 gold.'";                      
+                    }
+                }
+            },
+            registration_extra_symbiont_complete: {
+                text: "'Your registration is complete. You now have an additional symbiont slot available. Please take care with what entities you choose to host.'",
+                options: [
+                    { text: "Thank you.", next: "seniorClerk_end" }
+                ]
             },
             registration_evasive: {
                 text: "(The clerk's expression hardens.)\n\n'Evasiveness is noted in your file. This complicates the process.'",
                 options: [
                     { text: "I apologize. Let me be more specific.", next: "registration_reconsider" },
-                    { text: "I have my reasons for discretion.", next: "registration_discretion" }
                 ]
-            },
-            registration_discretion: {
-                text: "'Discretion requires additional verification.'",
-                options: [
-                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Present the Silent Sentence card)", next: "registration_partial_success" }] : []),
-                    { text: "I understand the need for verification.", next: "registration_failure" },
-                    { text: "I refuse further verification.", next: "registration_failure" }
-                ],
             },
             registration_reconsider: {
                 text: "'Very well. Let's start again.'",
@@ -852,6 +927,12 @@ export default class ShedRegistrationScene extends GameScene {
                     this.hideDialog();
                 }
             },
+            seniorClerk_returning: {
+                text: "(The Senior Clerk looks up from their paperwork.) 'Ah, you again. What registration services do you require today?'",
+                options: [
+                    { text: "I'd like to discuss registration options.", next: "registration_start" }
+                ]
+            },
             end: {
                 text: "",
                 options: [],
@@ -880,7 +961,7 @@ export default class ShedRegistrationScene extends GameScene {
     // Helper method to dynamically set dialog options
     setDialogOptions(dialogKey, options) {
         // Find the dialog in the current dialog content
-        const dialogContent = this.dialogContent;
+        const dialogContent = this.dialogContent();
         
         if (dialogContent[dialogKey]) {
             // Update the options for this dialog
