@@ -300,7 +300,7 @@ export default class GameScene extends Phaser.Scene {
                 `${data.name}\nPower: ${data.power}\nAbility: ${data.ability}`, {
                 fontSize: '12px',
                 color: '#7fff8e',
-                align: 'center'
+                align: 'left'
             }).setOrigin(0.5);
             
             this.activeTooltip = this.add.container(0, 0, [tooltipBg, tooltipText])
@@ -479,7 +479,7 @@ export default class GameScene extends Phaser.Scene {
                 fontSize: '12px',
                 fontFamily: 'Georgia',
                 color: '#7fff8e',
-                align: 'center'
+                align: 'left'
             }).setOrigin(0.5);
             journalBtnContainer.add(journalLabel);
             
@@ -693,7 +693,7 @@ export default class GameScene extends Phaser.Scene {
         this.descriptionText = this.add.text(0, 0, '', {
             fontSize: '16px',
             fill: '#7fff8e',
-            align: 'center',
+            align: 'left',
             wordWrap: { width: 180 }
         });
         this.descriptionText.setOrigin(0.5);
@@ -703,7 +703,7 @@ export default class GameScene extends Phaser.Scene {
         this.emptyText = this.add.text(0, 0, 'Your spore collection is empty.\nGather spores as you explore.', {
             fontSize: '18px',
             fill: '#7fff8e',
-            align: 'center'
+            align: 'left'
         });
         this.emptyText.setOrigin(0.5);
         this.inventoryPanel.add(this.emptyText);
@@ -871,7 +871,7 @@ export default class GameScene extends Phaser.Scene {
         const textConfig = {
             fontSize: '16px',
             fill: '#ffffff', // White text for better readability
-            align: 'center',
+            align: 'left',
             wordWrap: { width: maxWidth - (padding * 2) } // Enable word wrapping
         };
         
@@ -1309,34 +1309,33 @@ export default class GameScene extends Phaser.Scene {
     // Dialog option creation
     createDialogOption(text, y, callback) {
         // Create text first to calculate its height
-        const optionText = this.add.text(0, y, text, {
+        const optionText = this.add.text(-250, y, `• ${text}`, {
             fontSize: '20px',
             fill: '#7fff8e',
             wordWrap: { width: 540 },
-            align: 'center'
+            align: 'left'
         });
-        optionText.setOrigin(0.5);
+        optionText.setOrigin(0, 0.5); // Left align text with vertical center
         
         // Calculate dynamic height based on text content with padding
         const textHeight = optionText.height;
         // Ensure enough height for the text plus padding (10px on top and bottom)
-        const optionHeight = Math.max(40, textHeight + 20); // Minimum 40px height with 20px padding
+        const optionHeight = textHeight + 10; // Just a bit of padding for Fallout style // Minimum 40px height with 20px padding
         
         // Create background with dynamic height
-        const optionBg = this.add.rectangle(0, y, 560, optionHeight, 0x0a2712, 0.4);
-        optionBg.setStrokeStyle(1, 0x7fff8e);
+        const optionBg = this.add.rectangle(0, y, 560, optionHeight, 0x0a2712, 0);
         optionBg.setInteractive({ useHandCursor: true });
         
         // Return the actual height used for proper spacing in the caller
         optionBg.actualHeight = optionHeight;
 
         optionBg.on('pointerover', () => {
-            optionBg.setFillStyle(0x0a2712, 0.6);
-            optionText.setStyle({ fill: '#b3ffcc' });
+            // No background change for Fallout style
+            optionText.setStyle({ fill: "#ffffff" }); // Bright white on hover
         });
 
         optionBg.on('pointerout', () => {
-            optionBg.setFillStyle(0x0a2712, 0.4);
+            // No background change for Fallout style
             optionText.setStyle({ fill: '#7fff8e' });
         });
 
@@ -1460,14 +1459,14 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Create a separate container for text area with fixed height
-        const textContainer = this.add.container(0, -120);
+        const textContainer = this.add.container(0, -140);
         this.dialogBox.add(textContainer);
         
         // Store text container position for reference when positioning options
-        const textContainerY = -120;
+        const textContainerY = -140;
         
         // Create background for text area
-        const textBgHeight = 120;
+        const textBgHeight = 180; // Increased height for more text
         const textBg = this.add.rectangle(0, 0, 560, textBgHeight, 0x0a2712, 0.8);
         textBg.setStrokeStyle(1, 0x7fff8e);
         textContainer.add(textBg);
@@ -1475,17 +1474,17 @@ export default class GameScene extends Phaser.Scene {
         // Create mask for scrollable text
         this.textMaskGraphics = this.add.graphics();
         this.textMaskGraphics.fillStyle(0xffffff);
-        this.textMaskGraphics.fillRect(400 - 270, 300 - 180, 540, textBgHeight - 10);
+        this.textMaskGraphics.fillRect(400 - 270, 300 - 220, 540, textBgHeight - 10);
         
         // Create text with proper wrapping
-        this.dialogText = this.add.text(0, -(textBgHeight/2) + 10, content.text, {
+        this.dialogText = this.add.text(-260, -(textBgHeight/2) + 10, content.text, {
             fontSize: '22px',
             fill: '#7fff8e',
             wordWrap: { width: 520 },
             lineSpacing: 6,
-            align: 'center'
+            align: 'left'
         });
-        this.dialogText.setOrigin(0.5, 0);
+        this.dialogText.setOrigin(0, 0); // Left align text
         textContainer.add(this.dialogText);
         
         // Set up text scrolling if needed
@@ -1635,7 +1634,7 @@ export default class GameScene extends Phaser.Scene {
                 this.dialogOptions.add(elements);
                 
                 // Increment Y position by the actual height of this option plus spacing
-                const spacing = 15; // Add spacing between options
+                const spacing = 8; // Reduced spacing for Fallout style
                 currentY += elements[0].actualHeight + spacing;
             }
             
@@ -1790,7 +1789,7 @@ export default class GameScene extends Phaser.Scene {
             this.worldDescriptionText = this.add.text(0, 0, '', {
                 fontSize: '16px',
                 fill: '#7fff8e',
-                align: 'center',
+                align: 'left',
                 wordWrap: { width: 180 }
             });
             this.worldDescriptionText.setOrigin(0.5);
