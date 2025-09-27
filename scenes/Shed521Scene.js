@@ -241,6 +241,7 @@ export default class Shed521Scene extends GameScene {
         const bg = this.add.image(400, 300, 'Shed521Bg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
+        this.playSceneMusic('genericMusic');
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);

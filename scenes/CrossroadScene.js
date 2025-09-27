@@ -32,6 +32,7 @@ export default class CrossroadScene extends GameScene {
         this.background = this.add.image(400, 300, bgKey);
         this.background.setDisplaySize(800, 600);
         this.background.setDepth(-1);
+        this.playSceneMusic('genericMusic');
 
         // Create symbiont UI
         this.createSymbiontUI();

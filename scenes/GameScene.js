@@ -67,6 +67,8 @@ export default class GameScene extends Phaser.Scene {
         this.load.audio('marketTheme', 'assets/sounds/market-theme.wav');
         this.load.audio('clickSound', 'assets/sounds/click.mp3');
         this.load.audio('dialogMurmur', 'assets/sounds/dialog-murmur.wav');
+        this.load.audio('genericMusic', 'assets/sounds/background-music.wav');
+
 
         // Load Growth/Decay indicator image
         this.load.image('growthDecay', 'assets/images/ui/growthDecay.jpg');

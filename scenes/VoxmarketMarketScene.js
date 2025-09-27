@@ -587,4 +587,9 @@ export default class VoxmarketMarketScene extends GameScene {
         // Set the ground depth
         groundGraphics.setDepth(0);
     }
+
+    shutdown() {
+        this.restoreBackgroundMusic();
+        super.shutdown();
+    }
 }

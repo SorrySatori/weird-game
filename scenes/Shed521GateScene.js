@@ -157,4 +157,8 @@ export default class Shed521GateScene extends GameScene {
         // Set the ground depth
         groundGraphics.setDepth(0);
     }
+    shutdown() {
+        this.restoreBackgroundMusic();
+        super.shutdown();
+    }
 }
