@@ -233,7 +233,7 @@ export default class EntryScene extends GameScene {
     preload() {
         super.preload();
         // Load any EntryScene-specific assets here
-        this.load.image('desolateUrban', 'assets/images/backgrounds/Desolate Urban Landscape.png');
+        // this.load.image('desolateUrban', 'assets/images/backgrounds/Desolate Urban Landscape.png');
         // Load fungal master sprite as a regular image since it's not a spritesheet
         this.load.image('fungal_master', 'assets/images/characters/fungal_master.png');
     }
@@ -246,7 +246,7 @@ export default class EntryScene extends GameScene {
         this.transitionManager = new SceneTransitionManager(this);
         
         // Create the parallax layers
-        this.createParallaxLayers();
+        // this.createParallaxLayers();
         
         // Create city background after parallax layers
         this.createCityBackground();
@@ -284,31 +284,31 @@ export default class EntryScene extends GameScene {
         bg.setDepth(-2); // Set lower depth for background
     }
 
-    createParallaxLayers() {
-        const layer1X = 470;
-        const layer2X = layer1X + 800;
+    // createParallaxLayers() {
+    //     const layer1X = 470;
+    //     const layer2X = layer1X + 800;
 
         // Create two copies of the foreground for infinite scrolling
-        this.foreground1 = this.add.image(layer1X, 220, 'desolateUrban');
-        this.foreground2 = this.add.image(layer2X, 220, 'desolateUrban');
+        // this.foreground1 = this.add.image(layer1X, 220, 'desolateUrban');
+        // this.foreground2 = this.add.image(layer2X, 220, 'desolateUrban');
 
         // Set up both layers
-        [this.foreground1, this.foreground2].forEach(fg => {
-            fg.setDisplaySize(800, 600);
-            fg.setDepth(0);
-            fg.setBlendMode(Phaser.BlendModes.MULTIPLY);
-        });
+        // [this.foreground1, this.foreground2].forEach(fg => {
+        //     fg.setDisplaySize(800, 600);
+        //     fg.setDepth(0);
+        //     fg.setBlendMode(Phaser.BlendModes.MULTIPLY);
+        // });
 
         // Flip the second layer horizontally
-        this.foreground2.setScale(-1, 1);
+    //     this.foreground2.setScale(-1, 1);
         
-        // Store initial positions using the same constants
-        this.foreground1.initialX = layer1X;
-        this.foreground2.initialX = layer2X;
-        if (this.priest) {
-            this.priest.initialX = this.priest.x;
-        }
-    }
+    //     // Store initial positions using the same constants
+    //     this.foreground1.initialX = layer1X;
+    //     this.foreground2.initialX = layer2X;
+    //     if (this.priest) {
+    //         this.priest.initialX = this.priest.x;
+    //     }
+    // }
 
     createFungalMaster() {
         // Add the fungal master character

@@ -821,8 +821,11 @@ export default class GameScene extends Phaser.Scene {
     }
 
     showNotification(title, subtitle = '', amount = '', duration = 500) {
-        // Create notification container
-        const notification = this.add.container(400, 100);
+        // Determine notification type and settings based on content
+        const notificationConfig = this.getNotificationConfig(title, subtitle);
+        
+        // Create notification container at the appropriate position
+        const notification = this.add.container(400, notificationConfig.yPosition);
         notification.setDepth(2000);
         notification.setScrollFactor(0);
 
@@ -843,43 +846,98 @@ export default class GameScene extends Phaser.Scene {
         const padding = 20;
         const maxWidth = 500; // Maximum width for the text box
         
+        // Add type icon if available
+        let iconText = null;
+        if (notificationConfig.icon) {
+            iconText = this.add.text(-maxWidth/2 + padding, -10, notificationConfig.icon, {
+                fontSize: '16px',
+                fill: notificationConfig.textColor
+            });
+            iconText.setOrigin(0, 0.5);
+        }
+        
+        // Add type label if available
+        let typeLabel = null;
+        if (notificationConfig.label) {
+            typeLabel = this.add.text(-maxWidth/2 + padding + 25, -10, notificationConfig.label, {
+                fontSize: '12px',
+                fill: notificationConfig.textColor,
+                fontStyle: 'bold'
+            });
+            typeLabel.setOrigin(0, 0.5);
+        }
+        
+        // Main message text
         const textConfig = {
-            fontSize: '18px',
-            fill: '#7fff8e',
+            fontSize: '16px',
+            fill: '#ffffff', // White text for better readability
             align: 'center',
             wordWrap: { width: maxWidth - (padding * 2) } // Enable word wrapping
         };
         
-        const text = this.add.text(0, 0, message, textConfig);
+        const text = this.add.text(0, 10, message, textConfig);
         text.setOrigin(0.5);
 
-        const boxWidth = text.width + (padding * 2);
-        const boxHeight = text.height + (padding * 2);
+        const boxWidth = Math.max(text.width + (padding * 2), 200);
+        const boxHeight = Math.max(text.height + (padding * 2) + 20, 60);
         
         const box = this.add.graphics();
-        // Dark green semi-transparent background
+        // Dark background with semi-transparency
         box.fillStyle(0x0a2712, 0.9);
         box.fillRect(-boxWidth/2, -boxHeight/2, boxWidth, boxHeight);
-        // Bright green border
-        box.lineStyle(2, 0x7fff8e);
+        
+        // Border with notification-specific color
+        box.lineStyle(2, notificationConfig.borderColor);
         box.strokeRect(-boxWidth/2, -boxHeight/2, boxWidth, boxHeight);
+        
+        // Add subtle fungal pattern (dots) with notification color
+        for (let i = 0; i < 5; i++) {
+            const dotX = Phaser.Math.Between(-boxWidth/2 + 10, boxWidth/2 - 10);
+            const dotY = Phaser.Math.Between(-boxHeight/2 + 10, boxHeight/2 - 10);
+            const dotSize = Phaser.Math.Between(2, 4);
+            box.fillStyle(notificationConfig.borderColor, 0.3);
+            box.fillCircle(dotX, dotY, dotSize);
+        }
 
+        // Add elements to notification container
         notification.add(box);
+        if (iconText) notification.add(iconText);
+        if (typeLabel) notification.add(typeLabel);
         notification.add(text);
+        
+        // Add a subtle glow effect
+        const glow = this.add.graphics();
+        glow.fillStyle(notificationConfig.borderColor, 0.2);
+        glow.fillCircle(0, 0, 40);
+        notification.addAt(glow, 0); // Add behind other elements
+        
+        // Add pulsating animation to the glow
+        this.tweens.add({
+            targets: glow,
+            alpha: { from: 0.2, to: 0.1 },
+            scale: { from: 1, to: 1.2 },
+            duration: 1500,
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut'
+        });
 
-        // Animate notification
+        // Animate notification entry
         this.tweens.add({
             targets: notification,
-            y: 80,
+            y: notificationConfig.yPosition - 20,
             alpha: { from: 0, to: 1 },
             duration,
-            ease: 'Power2',
+            ease: 'Back.easeOut', // Bouncy effect
             onComplete: () => {
-                // Hold for a moment then fade out
-                this.time.delayedCall(2000, () => {
+                // Hold for a longer time before fading out
+                const baseDisplayTime = 4000; // Increased base display time from 2000ms to 4000ms
+                const displayTime = Math.max(baseDisplayTime, message.length * 100); // Doubled the per-character time
+                
+                this.time.delayedCall(displayTime, () => {
                     this.tweens.add({
                         targets: notification,
-                        y: 60,
+                        y: notificationConfig.yPosition - 40,
                         alpha: 0,
                         duration,
                         ease: 'Power2',
@@ -890,6 +948,94 @@ export default class GameScene extends Phaser.Scene {
                 });
             }
         });
+        
+        return notification;
+    }
+    
+    /**
+     * Determine notification configuration based on content
+     * @private
+     * @param {string} title - The notification title
+     * @param {string|number} subtitle - The notification subtitle or color
+     * @returns {Object} Configuration object with colors, position, etc.
+     */
+    getNotificationConfig(title, subtitle) {
+        const lowerTitle = title.toLowerCase();
+        const lowerSubtitle = typeof subtitle === 'string' ? subtitle.toLowerCase() : '';
+        
+        // Quest notifications
+        if (lowerTitle.includes('quest') || 
+            lowerSubtitle.includes('quest') ||
+            lowerTitle.includes('completed')) {
+            return {
+                borderColor: 0xffd700, // Gold
+                textColor: '#ffd700',
+                yPosition: 80,
+                icon: '🔍',
+                label: 'QUEST'
+            };
+        }
+        
+        // Journal notifications
+        if (lowerTitle.includes('journal') || 
+            title === 'Journal Updated' ||
+            lowerTitle.includes('added to journal')) {
+            return {
+                borderColor: 0x7fff8e, // Bright green
+                textColor: '#7fff8e',
+                yPosition: 140,
+                icon: '📖',
+                label: 'JOURNAL'
+            };
+        }
+        
+        // Growth/Decay notifications
+        if (lowerTitle.includes('growth') || 
+            lowerTitle.includes('decay') || 
+            lowerTitle.includes('spore') ||
+            lowerTitle.includes('experiencing effects')) {
+            return {
+                borderColor: 0x9370db, // Purple
+                textColor: '#9370db',
+                yPosition: 200,
+                icon: '🍄',
+            };
+        }
+        
+        // Reputation notifications
+        if (lowerTitle.includes('reputation') ||
+            lowerSubtitle.includes('reputation')) {
+            return {
+                borderColor: 0x4169e1, // Royal blue
+                textColor: '#4169e1',
+                yPosition: 260,
+                icon: '⭐',
+                label: 'REPUTATION'
+            };
+        }
+        
+        // Error notifications
+        if (subtitle === 'error' || 
+            lowerTitle.includes('failed') || 
+            lowerTitle.includes('not enough') ||
+            lowerTitle.includes('cannot')) {
+            return {
+                borderColor: 0xff6347, // Tomato red
+                textColor: '#ff6347',
+                yPosition: 320,
+                icon: '❗',
+                label: 'NOTICE'
+            };
+        }
+        
+        // Default notifications
+        return {
+            borderColor: 0x7fff8e, // Default green
+            textColor: '#ffffff',
+            yPosition: 380,
+            icon: '•',
+            label: ''
+        };
     }
 
     transitionToScene(newScene) {
