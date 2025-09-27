@@ -263,7 +263,8 @@ export default class EntryScene extends GameScene {
             'right', // direction
             'EggCatedralScene', // target scene
             100, // walk to x in target scene
-            470  // walk to y in target scene
+            470, // walk to y in target scene
+            'Egg Cathedral' // destination name
         );
         
         // Start background music

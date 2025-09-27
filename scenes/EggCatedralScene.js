@@ -39,7 +39,8 @@ export default class EggCatedralScene extends GameScene {
             'up', // direction
             'CathedralEntrance', // target scene
             450, // walk to x
-            340  // walk to y (slightly below door center)
+            340, // walk to y (slightly below door center)
+            'Cathedral Interior' // destination name
         );
         
         // Right border transition to CrossroadScene
@@ -50,8 +51,9 @@ export default class EggCatedralScene extends GameScene {
             200, // height
             'right', // direction
             'CrossroadScene', // target scene
-            780, // walk to x
-            470  // walk to y
+            100, // walk to x
+            470, // walk to y
+            'Crossroads' // destination name
         );
         
         // Left transition removed - no going back to EntryScene

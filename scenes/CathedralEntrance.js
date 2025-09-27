@@ -167,7 +167,8 @@ export default class CathedralEntrance extends GameScene {
             'down', // direction
             'EggCatedralScene', // target scene
             400, // walk to x
-            550  // walk to y
+            550, // walk to y
+            'Cathedral Exterior' // destination name
         );
         
         // Remove the NPC if it exists

@@ -494,49 +494,6 @@ export default class VoxMarket extends GameScene {
             470 // walk to y
         );
         
-        // Add hints for the entrances
-        const marketHint = this.add.text(400, 470, 'Market', {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        marketHint.setOrigin(0.5);
-        marketHint.setAlpha(0);
-        marketHint.setDepth(10);
-        
-        const hallHint = this.add.text(550, 470, 'Hall', {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        hallHint.setOrigin(0.5);
-        hallHint.setAlpha(0);
-        hallHint.setDepth(10);
-        
-        // Show hints when hovering near the entrances
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the market entrance
-            if (Math.abs(pointer.x - 400) < 100 && Math.abs(pointer.y - 470) < 50) {
-                marketHint.setAlpha(1);
-            } else {
-                marketHint.setAlpha(0);
-            }
-            
-            // Check if pointer is near the hall entrance
-            if (Math.abs(pointer.x - 550) < 50 && Math.abs(pointer.y - 470) < 100) {
-                hallHint.setAlpha(1);
-            } else {
-                hallHint.setAlpha(0);
-            }
-        });
-        
-        // Remove the NPC if it exists
-        if (this.stranger) {
-            this.stranger.destroy();
-        }
-        
         // Create Kloor Venn NPC
         this.createKloorVenn();
         
