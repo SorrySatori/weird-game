@@ -48,13 +48,20 @@ const config = {
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        fullscreenTarget: 'game-container'
+        fullscreenTarget: 'game-container',
+        width: window.innerWidth,
+        height: window.innerHeight
     }
 };
 
 const game = new Phaser.Game(config);
+
+// Add window resize event handler
+window.addEventListener('resize', () => {
+    game.scale.resize(window.innerWidth, window.innerHeight);
+});
 
 // Initialize game state in registry
 game.registry.set('inventoryVisible', false);

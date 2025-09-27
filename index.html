@@ -9,13 +9,21 @@
             padding: 0;
             background-color: #2d2d2d;
             overflow: hidden;
+            width: 100%;
+            height: 100%;
         }
         #game-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: block;
             width: 100vw;
             height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
         }
     </style>
 </head>

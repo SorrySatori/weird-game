@@ -11,8 +11,8 @@ let mainWindow;
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    // width: 800,
+    // height: 600,
     backgroundColor: '#2d2d2d',
     webPreferences: {
       nodeIntegration: false,
@@ -51,7 +51,7 @@ const createWindow = () => {
   mainWindow.loadFile('index.html');
 
   // Open the DevTools in development mode
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   
   // Handle window close event
   mainWindow.on('closed', () => {

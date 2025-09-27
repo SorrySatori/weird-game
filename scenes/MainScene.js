@@ -93,8 +93,8 @@ export default class MainScene extends Phaser.Scene {
                 this.clickSound.play();
                 this.cameras.main.fadeOut(1000, 0, 0, 0);
                 this.cameras.main.once('camerafadeoutcomplete', () => {
-                    this.scene.start('IntroScene');
-                    // this.scene.start('EntryScene');
+                    // this.scene.start('IntroScene');
+                    this.scene.start('EntryScene');
 
                 });
             });
@@ -103,8 +103,16 @@ export default class MainScene extends Phaser.Scene {
                 this.clickSound.play();
                 if (!document.fullscreenElement) {
                     this.scale.startFullscreen();
+                    // Force resize after fullscreen
+                    setTimeout(() => {
+                        this.scale.resize(window.innerWidth, window.innerHeight);
+                    }, 100);
                 } else if (document.exitFullscreen) {
                     document.exitFullscreen();
+                    // Force resize after exiting fullscreen
+                    setTimeout(() => {
+                        this.scale.resize(window.innerWidth, window.innerHeight);
+                    }, 100);
                 }
             });
 
@@ -113,8 +121,16 @@ export default class MainScene extends Phaser.Scene {
                 event.preventDefault();
                 if (!document.fullscreenElement) {
                     this.scale.startFullscreen();
+                    // Force resize after fullscreen
+                    setTimeout(() => {
+                        this.scale.resize(window.innerWidth, window.innerHeight);
+                    }, 100);
                 } else if (document.exitFullscreen) {
                     document.exitFullscreen();
+                    // Force resize after exiting fullscreen
+                    setTimeout(() => {
+                        this.scale.resize(window.innerWidth, window.innerHeight);
+                    }, 100);
                 }
             });
 
