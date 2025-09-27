@@ -155,12 +155,6 @@ export default class SkyshipBoardScene extends GameScene {
         // Combine parent dialog content with this scene's content
         const parentContent = super.dialogContent || {};
         
-        // Check quest status for conditional dialog options
-        const questSystem = this.registry.get('questSystem');
-        const findBishopActive = questSystem?.getQuest('find_bishop') && !questSystem?.getQuest('find_bishop')?.isComplete;
-        const hasFixedCounter = this.registry.get('fixed_floor_counter') === true;
-        console.log('Lol', questSystem?.getQuest('find_bishop'));
-        console.log('Lol2', hasFixedCounter);
         // Define this scene's dialog content
         const skyshipContent = {
             main: {
@@ -204,7 +198,7 @@ export default class SkyshipBoardScene extends GameScene {
                         text: 'What cargo do you carry?',
                         next: 'captainCargo'
                     },
-                    ...(findBishopActive && !hasFixedCounter ? [{
+                    ...(this.hasJournalEntry('lift_mother_meeting') ? [{
                         text: 'I need help with an elevator system.',
                         next: 'captainElevator'
                     }] : []),

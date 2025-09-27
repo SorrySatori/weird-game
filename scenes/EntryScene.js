@@ -84,14 +84,14 @@ export default class EntryScene extends GameScene {
                 text: "*adjusts robe importantly* I am far too busy with... important research. Yes! Research into advanced mycological phenomena that your novice mind couldn't possibly comprehend. Besides, I have a... prior engagement at the Fermented Cap tavern. The Bishop specifically requested someone of your... particular level of experience.",
                 options: [
                     { text: "You're just avoiding work, aren't you?", next: 'avoiding' },
-                    { text: "What should I tell the Bishop when I find him?", next: 'tellBishop' },
+                    { text: "What should I tell the Bishop when I find her?", next: 'tellBishop' },
                     { text: "Tell me more about the city first", next: 'city' }
                 ]
             },
             avoiding: {
                 text: "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of mushroom ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!",
                 options: [
-                    { text: "What should I tell the Bishop when I find him?", next: 'tellBishop' },
+                    { text: "What should I tell the Bishop when I find her?", next: 'tellBishop' },
                     { text: "Tell me more about the city first", next: 'city' },
                     { text: "Master, I have heard that Upper Morkezela is called the Dead gods city. Could you tell me more?", next: 'gods' }
                 ]

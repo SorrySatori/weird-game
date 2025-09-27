@@ -164,25 +164,46 @@ export default class ScreamingCorkScene extends GameScene {
             case 'postmodern':
                 if (this.bookTone === 'existential' || this.bookTone === 'metaphysical') {
                     title = `${this.bookSetting.split(' ')[0]}, ${this.bookSetting.split(' ')[1]}, ${this.bookProtagonist.split(' ')[0]}`;
-                } else {
+                } 
+                if (this.bookTone === 'tragic') {
+                    title = `The Making of ${this.bookProtagonist.split(' ')[0]} from ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
+                }
+                else {
                     title = `The ${this.bookProtagonist.split(' ')[0]} Variations`;
                 }
                 break;
 
             case 'urban_fantasy':
-                title = `The ${this.bookProtagonist.split(' ')[0]} of ${this.bookSetting.split(' ')[0]} Street`;
+                if (this.bookTone === 'political') { title = `The ${this.bookProtagonist.split(' ')[0]} of ${this.bookSetting.split(' ')[0]} Street`;
+                } 
+                else if (this.bookTone === 'metaphysical') {
+                    title = `The Tale of ${this.bookProtagonist}'travels to ${this.bookSetting.split(' ')[0]}`;
+                }
+                
+                else {
+                    title = `The ${this.bookProtagonist.split(' ')[0]} of ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
+                }
                 break;
 
             case 'funny_animals':
-                title = `${this.bookProtagonist.split(' ')[0]}'s Guide to ${this.bookTone.charAt(0).toUpperCase() + this.bookTone.slice(1)} Living`;
+                if(this.bookTone === 'political') title = `${this.bookProtagonist.split(' ')[0]}'s Guide to ${this.bookTone.charAt(0).toUpperCase() + this.bookTone.slice(1)} Living`;
+                else if (this.bookTone === 'existential') title = `The ${this.bookProtagonist.split(' ')[0]} Who Thought Too Much`;
+                else if (this.bookTone === 'tragic') title = `The Sad Tale of ${this.bookProtagonist.split(' ')[0]} who Wished to be a Zookeeper`;
+                else title = `Crazy Cats in ${this.bookSetting.split(' ')[0]}`;
                 break;
 
             case 'detective':
-                title = `The ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''} Mystery`;
+                if(this.bookTone === 'metaphysical') title = `The ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''} Mystery`;
+                if(this.bookTone === 'tragic') title = `The Sad ${this.bookProtagonist.split(' ')[0]} Case`;
+                if(this.bookTone === 'comical') title = `The Hilarious ${this.bookProtagonist.split(' ')[0]} and the ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''} Murder`;
+                else title = `The Case of the ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''}`;
                 break;
 
             case 'weird_fiction':
-                title = `${this.bookProtagonist.split(' ')[0]} Dreams of ${this.bookSetting.split(' ')[0]}`;
+                if(this.bookTone === 'comical') title = `Making fun of ${this.bookProtagonist.split(' ')[0]} Dreams of ${this.bookSetting.split(' ')[0]}`;
+                if(this.bookTone === 'tragic') title = `The ${this.bookProtagonist.split(' ')[0]} Who Cried Fungi`;
+                if(this.bookTone === 'existential') title = `The ${this.bookProtagonist.split(' ')[0]} and the ${this.bookSetting.split(' ')[0]} Paradox`;
+                else title = `The ${this.bookProtagonist.split(' ')[0]} in the ${this.bookSetting.split(' ')[0]} Labyrinth`;
                 break;
         }
 
@@ -275,7 +296,7 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_dream_job: {
                 text: "I've tried everything. Janitor. Clerk. Meat assembler. Imaginator. But I've never been anything truly mine. I think… I want to write a book. But I don't know what it's about yet.",
                 options: [
-                    ...(this.questSystem.getQuest('edgar_book') ? [
+                    ...(!this.questSystem.getQuest('edgar_book') ? [
                         { text: "I can help you write the book", next: "edgar_book" }
                     ] : []),
                     { text: "Back to other topics", next: "edgar_start" }
@@ -521,8 +542,8 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "And finally, where should this story take place? What's the setting?",
                 options: [
                     { text: "The Scraper's shifting floors", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'scraper'; } },
-                    { text: "The Rust Choir's domain", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'rust_choir'; } },
-                    { text: "A forgotten dream queue", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'dream_queue'; } },
+                    { text: "A murderous magical school", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'magical_school'; } },
+                    { text: "A giant immortal mammal, swimming in the ocean", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'immortal_mammal'; } },
                     { text: "The fungal wilds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'fungal_wilds'; } },
                     { text: "A skyship above the clouds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'skyship'; } },
                     { text: "The subterranean markets", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'markets'; } }
@@ -540,8 +561,8 @@ export default class ScreamingCorkScene extends GameScene {
                     let settingDescription;
                     switch (this.bookSetting) {
                         case 'scraper': settingDescription = 'a mysterious building with floors that rearrange themselves'; break;
-                        case 'rust_choir': settingDescription = 'the industrial domain where messages travel through rusting metal'; break;
-                        case 'dream_queue': settingDescription = 'an ethereal space where people wait for dreams that may never arrive'; break;
+                        case 'magical_school': settingDescription = 'the magical school, where kids are dying every year under suspicious circumstances, except the main protagonist, of course'; break;
+                        case 'immortal_mammal': settingDescription = 'an enormous creature without a name, swimming eternally in the depths'; break;
                         case 'fungal_wilds': settingDescription = 'the untamed areas where fungal growths take their most primordial forms'; break;
                         case 'skyship': settingDescription = 'a vessel drifting above the clouds, isolated yet connected to the city below'; break;
                         case 'markets': settingDescription = 'the underground commercial spaces where anything can be traded'; break;
@@ -565,7 +586,7 @@ export default class ScreamingCorkScene extends GameScene {
             // Final book completion dialog
             edgar_book_completion: {
                 // Use a placeholder - the actual title will be replaced in the onTrigger function
-                text: `"${this.generateBookTitle()}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`,
+                text: `"${this.generateBookTitle()}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. It will be about ${this.bookProtagonist} and the genre will be ${this.bookGenre}, I like that. Nice touch with the overall ${this.bookTone} book tone. The setting is ${this.bookSetting}, very original. I think we have an ultimate hit in our hands! Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`,
                 options: [
                     { text: "I look forward to reading it", next: "edgar_book_farewell" },
                     { text: "Make sure to credit me as co-author", next: "edgar_book_farewell" }
