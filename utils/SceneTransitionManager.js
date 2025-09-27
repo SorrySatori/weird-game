@@ -144,8 +144,8 @@ export default class SceneTransitionManager {
         
         // Add a glow effect behind the arrow - initially invisible
         const glow = this.scene.add.graphics();
-        glow.fillStyle(0xFFD700, 0.4); // Gold glow
-        glow.fillCircle(0, 0, 40);
+        glow.fillStyle(0xFFF4BD, 0.4); // Gold glow
+        glow.fillCircle(0, 0, 20);
         glow.setAlpha(0); // Initially invisible
         
         // Add elements to the arrow container
@@ -221,26 +221,13 @@ export default class SceneTransitionManager {
         const positionText = () => {
             // Start with a position based on the arrow direction
             let textX = zone.x;
-            let textY = zone.y;
+            let textY = zone.y ;
             
             // Position based on direction
             const offset = 50; // Distance from arrow
-            
-            switch(direction) {
-                case 'up':
-                    textY = zone.y - offset;
-                    break;
-                case 'down':
-                    textY = zone.y + offset;
-                    break;
-                case 'left':
-                    textX = zone.x - offset;
-                    break;
-                case 'right':
-                    textX = zone.x + offset;
-                    break;
-            }
-            
+            textY = zone.y - offset;
+            textX = zone.x - offset;
+
             // Check boundaries and adjust if needed
             const padding = 10; // Padding from screen edges
             const textWidth = text.width;
