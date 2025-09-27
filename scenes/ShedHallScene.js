@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import QuestSystem from '../systems/QuestSystem.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class ShedHallScene extends GameScene {
     constructor() {
@@ -105,12 +106,20 @@ export default class ShedHallScene extends GameScene {
             ease: 'Sine.easeInOut'
         });
 
-        // Add left exit area for returning to abandoned office
-        this.leftExit = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(50, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true })
-            .setDepth(10);
+        // Initialize SceneTransitionManager
+        this.transitionManager = new SceneTransitionManager(this);
+
+        this.transitionManager.createTransitionZone(
+            90, // x position
+            370, // y position
+            50, // width
+            200, // height
+            'left', // direction
+            'Shed521FloorsScene',
+            100, // walk to x
+            470, // walk to y
+            'Back'
+        );
 
             const inventory = this.registry.get('inventory');
             const alreadyInInventory = inventory.items.some(item => item.id === 'living-core');

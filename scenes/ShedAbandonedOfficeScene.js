@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class ShedAbandonedOfficeScene extends GameScene {
     constructor() {
@@ -28,66 +29,31 @@ export default class ShedAbandonedOfficeScene extends GameScene {
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
         }
+        this.transitionManager = new SceneTransitionManager(this);
 
-        // Add left exit area (back to Shed521FloorsScene)
-        this.leftExit = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(50, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true })
-            .setDepth(10);
+        this.transitionManager.createTransitionZone(
+            50, // x position
+            470, // y position
+            50, // width
+            200, // height
+            'left', // direction
+            'Shed521FloorsScene',
+            700, // walk to x
+            470, // walk to y
+            'Back to the stairs' 
+        )
 
-        // Add right exit area (to ShedHallScene)
-        this.rightExit = this.add.image(750, 470, 'exitArea')
-            .setDisplaySize(50, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true })
-            .setDepth(10);
-
-        // Left exit click logic (back to Shed521FloorsScene)
-        this.leftExit.on('pointerdown', () => {
-            if (!this.isTransitioning) {
-                this.isTransitioning = true;
-                const priest = this.priest;
-                priest.play('walk');
-                
-                this.tweens.add({
-                    targets: priest,
-                    x: 50,
-                    y: 470,
-                    duration: 1000,
-                    onComplete: () => {
-                        this.cameras.main.fadeOut(800, 0, 0, 0);
-                        this.cameras.main.once('camerafadeoutcomplete', () => {
-                            this.scene.start('Shed521FloorsScene');
-                            this.isTransitioning = false;
-                        });
-                    }
-                });
-            }
-        });
-
-        // Right exit click logic (to ShedHallScene)
-        this.rightExit.on('pointerdown', () => {
-            if (!this.isTransitioning) {
-                this.isTransitioning = true;
-                const priest = this.priest;
-                priest.play('walk');
-                
-                this.tweens.add({
-                    targets: priest,
-                    x: 750,
-                    y: 470,
-                    duration: 1000,
-                    onComplete: () => {
-                        this.cameras.main.fadeOut(800, 0, 0, 0);
-                        this.cameras.main.once('camerafadeoutcomplete', () => {
-                            this.scene.start('ShedHallScene');
-                            this.isTransitioning = false;
-                        });
-                    }
-                });
-            }
-        });
+        this.transitionManager.createTransitionZone(
+            750, // x position
+            470, // y position
+            50, // width
+            200, // height
+            'right', // direction
+            'ShedHallScene',
+            100, // walk to x
+            470, // walk to y
+            'To the Hall' 
+        )
     }
 
     update() {

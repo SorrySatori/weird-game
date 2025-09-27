@@ -60,7 +60,8 @@ export default class Shed521FloorsScene extends GameScene {
             'down', // direction
             'Shed521Scene', // target scene
             450, // walk to x
-            450 // walk to y
+            450, // walk to y
+            'Exit'
         );
         
         // Stairs to Second Floor (First Floor - Right)
@@ -72,7 +73,8 @@ export default class Shed521FloorsScene extends GameScene {
             'up', // direction
             'Shed521FloorsScene', // target scene - same scene, different floor
             650, // walk to x
-            450 // walk to y - second floor level
+            450, // walk to y - second floor level,
+            'To Second Floor'
         );
         
         // Second Floor Transitions
@@ -98,7 +100,8 @@ export default class Shed521FloorsScene extends GameScene {
             'down', // direction
             'Shed521FloorsScene', // target scene - same scene, different floor
             400, // walk to x
-            520 // walk to y - first floor level
+            520, // walk to y - first floor level
+            'Stairs to First Floor'
         );
         
         // Stairs to Third Floor (Second Floor - Right)
@@ -110,7 +113,8 @@ export default class Shed521FloorsScene extends GameScene {
             'up', // direction
             'Shed521FloorsScene', // target scene - same scene, different floor
             690, // walk to x
-            250 // walk to y - third floor level
+            250, // walk to y - third floor level
+            'Stairs to Third Floor'
         );
         
         // Third Floor Transitions
