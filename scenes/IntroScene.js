@@ -10,7 +10,7 @@ class IntroScene extends Phaser.Scene {
       // Load background images and any other assets
       this.load.image('fungalCouncil1', 'assets/images/backgrounds/fungal_council_1.png');
       this.load.image('mycelialOverlay', 'assets/images/backgrounds/mycelial_overlay.png');
-    //   this.load.audio('signalPulse', 'assets/audio/signal_pulse.wav');
+      this.load.audio('introMusic', 'assets/sounds/obazoba-hall.mp3');
     }
   
     create() {
@@ -87,6 +87,13 @@ class IntroScene extends Phaser.Scene {
       });
   
       this.nextDialogue();
+      this.sound.stopAll();
+
+      if (!this.backgroundMusic) {
+        this.backgroundMusic = this.sound.add('introMusic', { loop: true });
+    }
+    this.sceneMusic = this.sound.add('introMusic', { loop: true });
+    this.sceneMusic.play();
     }
   
     nextDialogue() {
