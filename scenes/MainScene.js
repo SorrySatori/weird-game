@@ -1,3 +1,5 @@
+import ScalingManager from '../utils/ScalingManager.js';
+
 export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainScene' });
@@ -38,7 +40,7 @@ export default class MainScene extends Phaser.Scene {
             this.clickSound = this.sound.add('clickSound');
 
             // Add title text
-            const title = this.add.text(400, 200, 'Weird Game', {
+            const title = this.add.text(400, 150, 'Weird Game', {
                 fontSize: '72px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial',
@@ -48,74 +50,74 @@ export default class MainScene extends Phaser.Scene {
             });
             title.setOrigin(0.5);
 
-            // Create button background
-            const buttonBg = this.add.rectangle(400, 400, 200, 60, 0x0a2712, 0.4);
-            buttonBg.setStrokeStyle(2, 0x7fff8e);
-            buttonBg.setInteractive();
-            buttonBg.setDepth(1);
-            // Add start game text
-            const startText = this.add.text(400, 400, 'Start Game', {
+            // Create start game button
+            const startBg = this.add.rectangle(400, 350, 200, 60, 0x0a2712, 0.4);
+            startBg.setStrokeStyle(2, 0x7fff8e);
+            startBg.setInteractive({ useHandCursor: true });
+            startBg.setDepth(1);
+            
+            const startText = this.add.text(400, 350, 'Start Game', {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
             });
             startText.setOrigin(0.5);
-
-            // Add fullscreen button with matching style
-            // const fullscreenBg = this.add.rectangle(400, 480, 200, 60, 0x0a2712, 0.4);
-            // fullscreenBg.setStrokeStyle(2, 0x7fff8e);
-            // fullscreenBg.setInteractive({ useHandCursor: true });
-
-            // const fullscreenText = this.add.text(400, 480, 'Fullscreen', {
-            //     fontSize: '32px',
-            //     fill: '#7fff8e',
-            //     fontFamily: 'Arial'
-            // });
-            // fullscreenText.setOrigin(0.5);
-
-            // Add hover effects for both buttons
-            const addHoverEffects = (bg, text) => {
-                bg.on('pointerover', () => {
-                    bg.setFillStyle(0x0a2712, 0.6);
-                    text.setStyle({ fill: '#2fff91' });
-                    this.hoverSound.play();
-                });
-
-                bg.on('pointerout', () => {
-                    bg.setFillStyle(0x0a2712, 0.4);
-                    text.setStyle({ fill: '#7fff8e' });
-                });
-            };
-
-            addHoverEffects(buttonBg, startText);
-            addHoverEffects(fullscreenBg, fullscreenText);
-
-            // Add click handlers
-            buttonBg.on('pointerdown', () => {
+            
+            // Add hover effects
+            startBg.on('pointerover', () => {
+                startBg.setFillStyle(0x0a2712, 0.6);
+                startText.setStyle({ fill: '#2fff91' });
+                this.hoverSound.play();
+            });
+            
+            startBg.on('pointerout', () => {
+                startBg.setFillStyle(0x0a2712, 0.4);
+                startText.setStyle({ fill: '#7fff8e' });
+            });
+            
+            // Add click handler
+            startBg.on('pointerdown', () => {
                 this.clickSound.play();
                 this.cameras.main.fadeOut(1000, 0, 0, 0);
                 this.cameras.main.once('camerafadeoutcomplete', () => {
                     this.scene.start('IntroScene');
-                    // this.scene.start('EntryScene');
-
                 });
             });
 
+            // Create fullscreen button
+            const fullscreenBg = this.add.rectangle(400, 430, 200, 60, 0x0a2712, 0.4);
+            fullscreenBg.setStrokeStyle(2, 0x7fff8e);
+            fullscreenBg.setInteractive({ useHandCursor: true });
+            fullscreenBg.setDepth(1);
+            
+            const fullscreenText = this.add.text(400, 430, 'Fullscreen', {
+                fontSize: '32px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial'
+            });
+            fullscreenText.setOrigin(0.5);
+            
+            // Add hover effects
+            fullscreenBg.on('pointerover', () => {
+                fullscreenBg.setFillStyle(0x0a2712, 0.6);
+                fullscreenText.setStyle({ fill: '#2fff91' });
+                this.hoverSound.play();
+            });
+            
+            fullscreenBg.on('pointerout', () => {
+                fullscreenBg.setFillStyle(0x0a2712, 0.4);
+                fullscreenText.setStyle({ fill: '#7fff8e' });
+            });
+            
+            // Add click handler
             fullscreenBg.on('pointerdown', () => {
                 this.clickSound.play();
-                if (!document.fullscreenElement) {
-                    this.scale.startFullscreen();
-                    // Force resize after fullscreen
-                    setTimeout(() => {
-                        this.scale.resize(window.innerWidth, window.innerHeight);
-                    }, 100);
-                } else if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                    // Force resize after exiting fullscreen
-                    setTimeout(() => {
-                        this.scale.resize(window.innerWidth, window.innerHeight);
-                    }, 100);
-                }
+                this.toggleFullscreen();
+            });
+
+            // Add global click handler for debugging
+            this.input.on('pointerdown', (pointer) => {
+                console.log('Click detected at:', pointer.x, pointer.y);
             });
 
             if (!this.backgroundMusic) {
@@ -127,19 +129,12 @@ export default class MainScene extends Phaser.Scene {
             // Add F11 key handler for fullscreen
             this.input.keyboard.on('keydown-F11', (event) => {
                 event.preventDefault();
-                if (!document.fullscreenElement) {
-                    this.scale.startFullscreen();
-                    // Force resize after fullscreen
-                    setTimeout(() => {
-                        this.scale.resize(window.innerWidth, window.innerHeight);
-                    }, 100);
-                } else if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                    // Force resize after exiting fullscreen
-                    setTimeout(() => {
-                        this.scale.resize(window.innerWidth, window.innerHeight);
-                    }, 100);
-                }
+                this.toggleFullscreen();
+            });
+            
+            // Add F key handler for fullscreen (common in web games)
+            this.input.keyboard.on('keydown-F', (event) => {
+                this.toggleFullscreen();
             });
 
 
@@ -153,6 +148,51 @@ export default class MainScene extends Phaser.Scene {
         }
     }
 
+    toggleFullscreen() {
+        // Cross-browser fullscreen handling
+        const container = document.getElementById('game-container');
+        
+        if (!document.fullscreenElement && 
+            !document.mozFullScreenElement && 
+            !document.webkitFullscreenElement && 
+            !document.msFullscreenElement) {
+            
+            // Enter fullscreen
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen();
+            } else if (container.mozRequestFullScreen) {
+                container.mozRequestFullScreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+            
+            // Force resize after fullscreen
+            setTimeout(() => {
+                this.scale.resize(window.innerWidth, window.innerHeight);
+                console.log('Entered fullscreen mode, resizing to:', window.innerWidth, window.innerHeight);
+            }, 100);
+        } else {
+            // Exit fullscreen
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            
+            // Force resize after exiting fullscreen
+            setTimeout(() => {
+                this.scale.resize(window.innerWidth, window.innerHeight);
+                console.log('Exited fullscreen mode, resizing to:', window.innerWidth, window.innerHeight);
+            }, 100);
+        }
+    }
+    
     update() {
         // Game loop updates will go here
     }

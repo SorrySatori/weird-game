@@ -30,8 +30,8 @@ import AbandonedBusScene from './scenes/AbandonedBusScene.js';
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1600,
+    height: 1200,
     parent: 'game-container',
     physics: {
         default: 'arcade',
@@ -48,11 +48,11 @@ const config = {
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
-        mode: Phaser.Scale.RESIZE,
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        fullscreenTarget: 'game-container',
-        width: window.innerWidth,
-        height: window.innerHeight
+        parent: 'game-container',
+        width: '100%',
+        height: '100%'
     }
 };
 
@@ -60,8 +60,13 @@ const game = new Phaser.Game(config);
 
 // Add window resize event handler
 window.addEventListener('resize', () => {
-    game.scale.resize(window.innerWidth, window.innerHeight);
+    // Force the game to resize to fill the window
+    game.scale.resize();
+    console.log('Window resized');
 });
+
+// Force initial resize
+window.dispatchEvent(new Event('resize'));
 
 // Initialize game state in registry
 game.registry.set('inventoryVisible', false);
