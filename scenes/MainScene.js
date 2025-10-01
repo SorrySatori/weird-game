@@ -62,16 +62,16 @@ export default class MainScene extends Phaser.Scene {
             startText.setOrigin(0.5);
 
             // Add fullscreen button with matching style
-            const fullscreenBg = this.add.rectangle(400, 480, 200, 60, 0x0a2712, 0.4);
-            fullscreenBg.setStrokeStyle(2, 0x7fff8e);
-            fullscreenBg.setInteractive({ useHandCursor: true });
+            // const fullscreenBg = this.add.rectangle(400, 480, 200, 60, 0x0a2712, 0.4);
+            // fullscreenBg.setStrokeStyle(2, 0x7fff8e);
+            // fullscreenBg.setInteractive({ useHandCursor: true });
 
-            const fullscreenText = this.add.text(400, 480, 'Fullscreen', {
-                fontSize: '32px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial'
-            });
-            fullscreenText.setOrigin(0.5);
+            // const fullscreenText = this.add.text(400, 480, 'Fullscreen', {
+            //     fontSize: '32px',
+            //     fill: '#7fff8e',
+            //     fontFamily: 'Arial'
+            // });
+            // fullscreenText.setOrigin(0.5);
 
             // Add hover effects for both buttons
             const addHoverEffects = (bg, text) => {
