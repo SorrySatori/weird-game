@@ -12,6 +12,8 @@ export default class MainScene extends Phaser.Scene {
         // Load sound assets
         this.load.audio('hoverSound', 'assets/sounds/hover.wav');
         this.load.audio('clickSound', 'assets/sounds/click.mp3');
+        this.load.audio('mainMenuMusic', 'assets/sounds/upper-morkezela.mp3');
+
 
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {
@@ -115,6 +117,12 @@ export default class MainScene extends Phaser.Scene {
                     }, 100);
                 }
             });
+
+            if (!this.backgroundMusic) {
+                this.backgroundMusic = this.sound.add('mainMenuMusic', { loop: true });
+            }
+            this.sceneMusic = this.sound.add('mainMenuMusic', { loop: true });
+            this.sceneMusic.play();
 
             // Add F11 key handler for fullscreen
             this.input.keyboard.on('keydown-F11', (event) => {
