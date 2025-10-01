@@ -324,7 +324,9 @@ export default class EntryScene extends GameScene {
         masterGlowFX.setScale(0.155);  // Slightly larger than the character
         masterGlowFX.setTint(0x00FF00);  // Green glow
         masterGlowFX.setAlpha(0.3);  // Transparent glow
-        masterGlowFX.setBlendMode(Phaser.BlendModes.ADD);  // Additive blending for glow effect
+        // Removed blend mode to avoid framebuffer issues
+        // masterGlowFX.setBlendMode(Phaser.BlendModes.ADD);
+        masterGlowFX.setAlpha(0.5);  // Increased alpha to compensate for removed blend mode
         this.masterGlow = masterGlowFX;
         
         // Add pulsating effect to the glow

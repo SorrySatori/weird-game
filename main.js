@@ -29,9 +29,11 @@ import ScraperBackyardScene from './scenes/ScraperBackyardScene.js';
 import AbandonedBusScene from './scenes/AbandonedBusScene.js';
 
 const config = {
-    type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    // Force Canvas renderer to avoid WebGL framebuffer issues
+    type: Phaser.CANVAS,
+    // Base game size - this is the size the game is designed for
+    width: 800,
+    height: 600,
     parent: 'game-container',
     physics: {
         default: 'arcade',
@@ -48,19 +50,47 @@ const config = {
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
-        mode: Phaser.Scale.RESIZE,
+        // Use NONE mode to avoid framebuffer issues
+        mode: Phaser.Scale.NONE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        fullscreenTarget: 'game-container',
-        width: window.innerWidth,
-        height: window.innerHeight
+        parent: 'game-container',
+        width: 800,
+        height: 600
     }
 };
 
 const game = new Phaser.Game(config);
 
+// Function to handle resizing and scaling
+function resizeGame() {
+    // Get the game canvas
+    const canvas = document.querySelector('canvas');
+    if (!canvas) return;
+    
+    // Calculate the scale factor
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Use a smaller target size to ensure the game fits comfortably
+    // Using 90% of the available space as a safety margin
+    const targetWidth = windowWidth * 0.9;
+    const targetHeight = windowHeight * 0.9;
+    
+    const widthScale = targetWidth / 800;
+    const heightScale = targetHeight / 600;
+    
+    // Use the smaller scale to ensure it fits both dimensions
+    const scale = Math.min(widthScale, heightScale);
+
+    console.log(`Window resized: ${windowWidth}x${windowHeight}, Scale: ${scale.toFixed(2)}`);
+}
+
 // Add window resize event handler
-window.addEventListener('resize', () => {
-    game.scale.resize(window.innerWidth, window.innerHeight);
+window.addEventListener('resize', resizeGame);
+
+// Initial resize after game loads
+window.addEventListener('load', () => {
+    setTimeout(resizeGame, 100);
 });
 
 // Initialize game state in registry

@@ -405,7 +405,9 @@ export default class GameScene extends Phaser.Scene {
             glowFX.setScale(2.1);  // Slightly larger than the character
             glowFX.setTint(0x00FF00);  // Green glow
             glowFX.setAlpha(0.2);  // Transparent glow
-            glowFX.setBlendMode(Phaser.BlendModes.ADD);  // Additive blending for glow effect
+            // Removed blend mode to avoid framebuffer issues
+            // glowFX.setBlendMode(Phaser.BlendModes.ADD);
+            glowFX.setAlpha(0.4);  // Increased alpha to compensate for removed blend mode
             
             // Make the glow follow the priest
             this.priestGlow = glowFX;

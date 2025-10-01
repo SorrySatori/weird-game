@@ -44,10 +44,9 @@ class IntroScene extends Phaser.Scene {
         { speaker: 'ACHPRIEST VARHUN', text: 'Let the master Thaal rise - quietly, if possible. Let him to find the Bishop from Upper Morkezela and discover the source of this distress call. The apprentice is his responsibility.' },
       ];
   
-      // Overlay animation
+      // Overlay animation - removed blend mode to avoid framebuffer issues
       this.overlay = this.add.image(400, 300, 'mycelialOverlay')
-        .setBlendMode('ADD')
-        .setAlpha(0.15);
+        .setAlpha(0.3); // Increased alpha to compensate for removed blend mode
       this.tweens.add({
         targets: this.overlay,
         alpha: 0.3,
