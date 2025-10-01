@@ -11,7 +11,8 @@ export default class EntryScene extends GameScene {
 
     get dialogContent() {
         return {
-            ...super.dialogContent, // Include parent dialog content for symbiont dialogs
+            ...super.dialogContent,
+            speaker: 'Master Thaal',
             main: {
                 text: "Ah, my apprentice, there you are! *sigh* I've been waiting for you. Listen carefully, for I have an important task that requires... well, someone of your particular talents.",
                 options: [

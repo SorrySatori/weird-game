@@ -22,7 +22,7 @@ export default class VoxMarket extends GameScene {
     get dialogContent() {
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
-            
+            speaker: 'Kloor Venn',
             // Kloor Venn dialog
             kloor_start: {
                 text: "Kloor Venn eyes you with a mixture of suspicion and interest. 'What do you want? I'm busy.'" ,

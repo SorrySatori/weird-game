@@ -23,6 +23,7 @@ export default class Shed521Scene extends GameScene {
         
         const content = {
             ...super.dialogContent,
+            speaker: 'Gruk',
             start: {
                 text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [

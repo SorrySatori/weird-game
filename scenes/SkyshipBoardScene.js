@@ -158,6 +158,7 @@ export default class SkyshipBoardScene extends GameScene {
         // Define this scene's dialog content
         const skyshipContent = {
             main: {
+                speaker: 'Unknown',
                 text: 'You find yourself on the deck of a skyship. The air is thin up here, and you can see the fungal city sprawled below.',
                 options: [
                     {
@@ -171,6 +172,7 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             lookAround: {
+        speaker: 'Unknown',
                 text: 'The skyship appears to be a transport vessel. Various fungal growths line the edges of the deck, seemingly serving as both decoration and structural support. The ship sways gently in the wind.',
                 options: [
                     {
@@ -180,6 +182,7 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainMain: {
+                speaker: 'Captain Liris',
                 text: "Ah, a visitor! Welcome aboard the Spore Drifter. I'm Captain Liris, navigator of the aerial currents and keeper of this fine vessel. What brings you to my ship?",
                 options: [
                     {

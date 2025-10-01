@@ -348,8 +348,9 @@ export default class ShedRegistrationScene extends GameScene {
         return {
             ...super.dialogContent,
             // 1. Sleepless Mime Dialog
-            
+            speaker: 'Sleepless Mime',
             sleeplessMime_start: {
+        
                 text: "(The creature watches you intently. You name it the Sleepless Mime for yourself. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands - forming a cube shape, like a die. They pantomime you holding it.)",
                 options: [
                     { text: "Hi, who are you? I used to play like this as well, when I was a kid.", next: "sleeplessMime_memory" },
@@ -357,12 +358,14 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             sleeplessMime_memory: {
+        
                 text: "(The Mime nods enthusiastically. Their hands begin to weave a pattern in the air, conjuring phantom game pieces. For a moment, you feel yourself slipping into a memory...)",
                 options: [
                     { text: "Remember...", next: "sleeplessMime_memory_scene" }
                 ]
             },
             sleeplessMime_memory_scene: {
+        
                 text: "(You recall a childhood game. Dice made of bone, cards painted with symbols that shifted when no one was looking. The rules changed each time, but somehow you always knew how to play. The memory fades, but leaves a warm glow in your mind.)",
                 options: [
                     { text: "Thank you for reminding me.", next: "sleeplessMime_end" }
@@ -376,12 +379,14 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             sleeplessMime_ortolan: {
+        
                 text: "(The Mime nods vigorously. They reach into their pocket and produce a tattered fragment of paper. They press it into your hand - it appears to be a page from some rulebook perhaps. Maybe... a boardgame fragment?)",
                 options: [
                     { text: "Read the fragment", next: "sleeplessMime_rulebook" }
                 ]
             },
             sleeplessMime_rulebook: {
+        
                 text: "'...and when the third eye opens on the die, all players must exchange one memory with the player to their left. If memories cannot be verified by a Witness, the exchange is considered void, and both players gain a Doubt token...'",
                 options: [
                     { text: "Err... Thank you... I guess.", next: "sleeplessMime_end" }
@@ -401,6 +406,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             sleeplessMime_end: {
+        
                 text: "(The Mime bows deeply, then fades away into the dreamlike atmosphere of the queue.)",
                 options: [
                     { text: "Continue waiting", next: "end" },
@@ -422,6 +428,7 @@ export default class ShedRegistrationScene extends GameScene {
             
             // 2. Vowel Seller Dialog
             vowelSeller_start: {
+                speaker: 'Vowel Seller',
                 text: "(The ash-covered figure turns to you, tiny glass vials clinking in their coat pockets. Each contains a glowing letter, suspended in fluid.)\n\n'I sell vowels. If you want your name to matter, you'll need one.'\n\nThey hold up a vial with a pulsing 'A' inside.",
                 options: [
                     { text: "I'll buy one.", next: "vowelSeller_buy" },
@@ -429,6 +436,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             vowelSeller_buy: {
+        
                 text: "'A wise choice. The price is a minor memory. Something small... perhaps the taste of your first meal in this city?'\n\n(They uncork the vial, and the vowel floats up, hovering before entering your mouth. You feel a strange resonance, as the vowel struggle to enter your name. It's like a... a... a.. But your name has been stripped from you the day you have join the Obazoba cult. Also, you have not remember the taste of your first meal in this city, but it's hard to say if it's because of the trade or because you have not eat anything.)",
                 options: [
                     { text: "Thank you. But you know, we have no names. I am just a number. Sorry, should have told you earlier.", next: "vowelSeller_end" }
@@ -441,6 +449,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             vowelSeller_spores: {
+        
                 text: "(His eyes widen slightly.)\n\n'The fungal tongue... I see. Then perhaps you might appreciate this instead.'\n\n(He hands you a small card with nothing written on it.)\n\n'A silent sentence. Use it when words fail you at the clerk's desk.'",
                 options: [
                     { text: "I accept this gift.", next: "vowelSeller_end" }
@@ -459,6 +468,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             vowelSeller_end: {
+        
                 text: "(The Vowel Seller nods and dissolves into a cloud of ash, his vials tinkling softly as he disappears.)",
                 options: [
                     { text: "Continue waiting", next: "end" }
@@ -480,6 +490,7 @@ export default class ShedRegistrationScene extends GameScene {
             
             // 3. Hollow Woman Dialog
             hollowWoman_start: {
+                speaker: 'Hollow Woman',
                 text: "(The woman with empty eyes and stitched seams leans slightly on your shoulder. Her voice is barely audible.)\n\n'It's always the same. I have waited for the registration as you back in my days. But the clerk never showed up. So I am here forever. Waiting...'\n\n(You notice her left arm ends at the elbow, the edges neatly stitched.)",
                 options: [
                     { text: "Do you remember what you have waited for?", next: "hollowWoman_hands" },
@@ -508,6 +519,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             hollowWoman_offer: {
+        
                 text: "(Her empty eyes widen slightly.)\n\n'A symbolic gift... an act of kindness. It's been a long, long time since I've seen someone who can show me such kindness.'\n\n(She touches your hand, and for a moment you feel a strange connection, as if something flows between you.)",
                 options: [
                     { text: "Uhm, what are you doing, madame?", next: "hollowWoman_end" }
@@ -521,6 +533,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             hollowWoman_end: {
+        
                 text: "(The Hollow Woman steps back, a faint smile on her stitched face. She starts to fade away, until nothing remains but the memory of her presence.)",
                 options: [
                     { text: "Continue waiting", next: "end" }
@@ -540,6 +553,8 @@ export default class ShedRegistrationScene extends GameScene {
             
             // 4. Senior Clerk Dialog
             seniorClerk_start: {
+                speaker: 'Senior Clerk',
+        
                 text: "(The Senior Clerk materializes at the front, adjusting a stack of papers with mechanical precision. Their voice has a metallic quality.)\n\n'Queue segment F-7 has been processed. Your presence has been noted and your interactions catalogued.'\n\n(He consults a clipboard.)\n\n'State your business.'",
                 options: [
                     { text: "I need to register for...", next: "seniorClerk_register" },
@@ -547,18 +562,21 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             seniorClerk_register: {
+        
                 text: "'Registration requires Form 27-B/6, submitted in triplicate with appropriate growth/decay balance certification.'\n\n(They look at you expectantly, then sigh.)\n\n'But I see you've been... influenced by the queue inhabitants. Very well. I'll expedite your processing.'",
                 options: [
                     { text: "Thank you.", next: "seniorClerk_processing" }
                 ]
             },
             seniorClerk_people: {
+        
                 text: "(The Clerk's expression remains unchanged.)\n\n'People? There were no people. Only manifestations of the queue itself. Echoes of those who waited too long. You've absorbed their essence now - their stories are part of your processing.'\n\n(They tap their clipboard.)\n\n'Quite irregular, but we'll proceed.'",
                 options: [
                     { text: "I see...", next: "seniorClerk_processing" }
                 ]
             },
             seniorClerk_processing: {
+        
                 text: "'Based on your queue interactions, your application has been...'\n\n(They stamp a form with a flourish.)\n\n'...approved. You may proceed to the Registration Office proper. Let's begin with the Registration ceremony.'",
                 options: [
                     { text: "Proceed to the Registration Office", next: "registration_start" }
@@ -613,6 +631,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_artisan_ortolan: {
+        
                 text: "(The clerk's eyebrows raise slightly.)\n\n'Ortolan? The multi-limbed game designer? Interesting...'\n\n(They shuffle through papers and produce a complex form with intricate patterns.)\n\n'This form requires creative verification. Please demonstrate artistic merit.'",
                 options: [
                     { text: "I can demonstrate my creativity.", next: "registration_creative_challenge" },
@@ -620,6 +639,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_artisan_personal: {
+        
                 text: "'Personal reasons are insufficient for this form. It requires documented creative output.'",
                 options: [
                     { text: "I can demonstrate my creativity.", next: "registration_creative_challenge" },
@@ -627,6 +647,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_creative_challenge: {
+        
                 text: "'Very well. Please complete this pattern.'",
                 options: [
                     ...(this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Show the rulebook fragment)", next: "registration_success_artisan" }] : []),
@@ -643,6 +664,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_deformity_friend: {
+        
                 text: "'Multiple arms? Interesting. The form requires proof of beneficial mutation versus detrimental deformity.'",
                 options: [
                     ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "(Recite the bureaucratic incantation to bypass the clause)", next: "registration_success_deformity" }] : []),
@@ -652,6 +674,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
             },
             registration_deformity_system: {
+        
                 text: "'The classification system is complex. It requires specialized knowledge.'",
                 options: [
                     { text: "I have some experience with bureaucracy.", next: "registration_bureaucracy_challenge" },
@@ -659,6 +682,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_bureaucracy_challenge: {
+        
                 text: "'Demonstrate your understanding of Form Section 7-B.'",
                 options: [
                     ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "Section 7-B relates to the Inherited Deformity clause, which can be bypassed with proper documentation.", next: "registration_success_deformity" }] : []),
@@ -667,6 +691,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
             },
             registration_nonverbal: {
+        
                 text: "(The clerk watches your gesture with interest.)\n\n'Ah, nonverbal communication. A rare approach in bureaucracy.'",
                 options: [
                     ...(this.dreamQueueChoices.sleeplessMime === 'memory' || this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Mime a complex game being played)", next: "registration_success_nonverbal" }] : []),
@@ -675,6 +700,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
             },
             registration_general: {
+        
                 text: "'General registration requires specific purpose. Shed521 doesn't accept visitors without purpose.'",
                 options: [
                     { text: "I would like to register for extra symbiont slot.", next: "registration_extra_symbiont" },
@@ -691,6 +717,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
             },
             registration_extra_symbiont_pay: {
+        
                 text: "'Very well. Let me process your payment and update your registration.'",
                 options: [
                     { text: "Thank you.", next: "registration_extra_symbiont_complete" }
@@ -745,18 +772,21 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_evasive: {
+        
                 text: "(The clerk's expression hardens.)\n\n'Evasiveness is noted in your file. This complicates the process.'",
                 options: [
                     { text: "I apologize. Let me be more specific.", next: "registration_reconsider" },
                 ]
             },
             registration_reconsider: {
+        
                 text: "'Very well. Let's start again.'",
                 options: [
                     { text: "Continue", next: "registration_start" }
                 ]
             },
             registration_success_artisan: {
+        
                 text: "(The clerk stamps the Artisan's Exemption Form with a flourish.)\n\n'Approved. The form grants creative exemption from standard limb restrictions. Ortolan will be pleased.'",
                 options: [
                     { text: "Thank you.", next: "registration_complete_success" }
@@ -788,6 +818,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_success_deformity: {
+        
                 text: "(The clerk stamps the Inherited Deformity Form with precision.)\n\n'Approved. This form acknowledges beneficial mutation status for multiple limbs. A rare classification.'",
                 options: [
                     { text: "Thank you.", next: "registration_complete_success" }
@@ -819,6 +850,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_success_nonverbal: {
+        
                 text: "(The clerk nods with unexpected understanding.)\n\n'Your nonverbal application is... approved. This special dispensation allows for limb modification without standard documentation.'",
                 options: [
                     { text: "(Nod gratefully)", next: "registration_complete_success" }
@@ -850,6 +882,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_partial_success: {
+        
                 text: "(The clerk hesitates, then stamps a form with a provisional mark.)\n\n'Partially approved. This temporary permit grants limited access. Full approval requires additional documentation in the future.'",
                 options: [
                     { text: "I understand.", next: "registration_complete_partial" }
@@ -881,6 +914,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_failure: {
+        
                 text: "(The clerk stamps 'REJECTED' on the form with finality.)\n\n'Your application is denied. Insufficient qualification, documentation, or purpose. You may reapply after a standard waiting period of 47 days.'",
                 options: [
                     { text: "I see...", next: "registration_complete_failure" }
@@ -903,24 +937,28 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_complete_success: {
+        
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
                     { text: "Thank you.", next: "seniorClerk_end" }
                 ],
             },
             registration_complete_partial: {
+        
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
                     { text: "Thank you.", next: "seniorClerk_end" }
                 ],
             },
             registration_complete_failure: {
+        
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
                     { text: "Thank you.", next: "seniorClerk_end" }
                 ],
             },
             seniorClerk_end: {
+        
                 text: "(The Senior Clerk returns to their paperwork, seemingly forgetting your existence.)",
                 options: [],
                 onTrigger: () => {
@@ -934,6 +972,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             end: {
+        
                 text: "",
                 options: [],
                 onTrigger: () => {

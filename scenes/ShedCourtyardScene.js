@@ -10,7 +10,10 @@ export default class ShedCourtyardScene extends GameScene {
         this._ortolan = null;
         this.journalSystem = JournalSystem.getInstance();
         this._ortholanDialogContent = {
+            speaker: 'Ortholan',
+
             main: {
+        
                 text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've been here for days trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
                 options: [
                     { text: "Why do you need extra arms?", next: "explain_need" },
@@ -20,6 +23,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             explain_need: {
+        
                 text: "Have you ever tried to playtest a complex strategy game by yourself? Moving pieces, managing resources, tracking multiple player states... It's a nightmare! With four arms, I could revolutionize solo playtesting. But the paperwork here... it's endless!",
                 options: [
                     { text: "I could help you with the application process.", next: "start_quest" },
@@ -27,6 +31,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             board_games: {
+        
                 text: "You did heard about a thing called a board game, didn't you? Well, I'm a best damn board game designer in this forsaken place. My games are not like the simple things for children you probably know, they provide a unique gameplay experience. With four arms, I can handle complex interactions and manage multiple player states more effectively. But the bureaucracy... it's a nightmare!",
                 options: [
                     { text: "I could help you with the application process.", next: "start_quest" },
@@ -35,6 +40,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             who_are_you: {
+        
                 text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of table-top divination wars. My creations are literally microcosmic games—wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might heard from some calling me conservative, merely because I reject illusion-tech and mindplay, they are usualy morally unstable. Players are gods, but rules are sacred. ",
                 options: [
                     { text: "Why do you need extra arms?", next: "explain_need" },
@@ -43,6 +49,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             divination_wars: {
+        
                 text: "Ah, yes... terrible times. Maybe you should ask a historian about that. Or I can tell you more, but first I need to get out of this bureaucratic nightmare.",
                 options: [
                     { text: "I could help you with the application process.", next: "start_quest" },
@@ -81,6 +88,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             // Form submission dialogs
             give_artisan_form: {
+        
                 text: "An Artisan's Exemption Form?! This is perfect! Creative exemption from standard limb restrictions... exactly what I need! This form recognizes my work as a legitimate art form deserving of special consideration. You've saved me months of bureaucratic wrangling!",
                 options: [
                     { text: "Happy to help.", next: "complete_quest_artisan" }
@@ -101,6 +109,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             give_special_dispensation: {
+        
                 text: "A Special Dispensation! How did you manage this? These are incredibly rare! Limb modification without standard documentation... this is even better than I hoped for! You must have impressed someone important. This will save me so much trouble!",
                 options: [
                     { text: "Sometimes actions speak louder than words.", next: "complete_quest_dispensation" }
@@ -121,6 +130,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             give_proxy_authorization: {
+        
                 text: "A Proxy Authorization? Interesting approach... This allows you to act on my behalf in bureaucratic matters. Not exactly what I was looking for, but potentially very useful. I could send you to handle future paperwork for me! Clever solution.",
                 options: [
                     { text: "I can continue to help if needed.", next: "complete_quest_proxy" }
@@ -131,6 +141,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             give_fungal_clearance: {
+        
                 text: "Fungal Research Clearance? I'm not sure how this helps with my extra arms situation... but wait, this might actually work! The mycologists have been experimenting with limb grafting. With this clearance, I could approach them directly about a fungal-based solution. Unconventional, but promising!",
                 options: [
                     { text: "Sometimes you need to think outside the box.", next: "complete_quest_fungal" }
@@ -162,6 +173,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             complete_quest_deformity: {
+        
                 text: "Well, it's not exactly how I'd describe myself, but it gets the job done! Thank you for your help. Here, take this special die I crafted. It has... unusual properties. Sometimes it shows numbers that don't exist, and occasionally predicts future rolls. Use it wisely.",
                 options: [
                     { text: "Thank you for this gift.", next: "quest_completed" }
@@ -202,6 +214,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             complete_quest_temporary: {
+        
                 text: "It's not ideal, but it's a start! I appreciate your efforts. Here, take this token - it's not much, but it might bring you a bit of luck. It's made from a special wood that seems to influence probability slightly in games of chance.",
                 options: [
                     { text: "Thank you for the token.", next: "quest_completed" }
@@ -243,6 +256,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             give_forged_permission: {
+        
                 text: "Is this... wait, this is a forgery! But... it's actually quite impressive. The seal looks authentic, the watermarks are perfect, and the signature... well, it's better than the real thing. Where did you get this?",
                 options: [
                     { text: "From a specialist in the Screaming Cork.", next: "forged_reaction" },
@@ -261,6 +275,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             complete_quest_forged: {
+        
                 text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here, take this special game piece I've been working on. It might bring you some luck in your endeavors.",
                 options: [
                     { text: "Thank you for the gift.", next: "quest_completed" }
@@ -284,6 +299,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             complete_quest_fungal: {
+        
                 text: "What an unexpected solution! The mycologists might be able to help me grow additional arms through fungal grafting. It's not what I had in mind, but I'm intrigued by the possibility. Here, take this special spore sample. It responds to creative thought - plant it somewhere and see what grows!",
                 options: [
                     { text: "Thank you for this unusual gift.", next: "quest_completed" }
@@ -312,6 +328,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             games_discussion: {
+        
                 text: "My games explore the boundaries between player and piece, between rules and reality. Each game is a microcosm with its own physics and logic. With these extra arms, I can now create games with multiple overlapping boards and simultaneous action! Imagine playing on three levels at once, with pieces that exist in multiple states...",
                 options: [
                     { text: "Sounds fascinating.", next: "goodbye" }

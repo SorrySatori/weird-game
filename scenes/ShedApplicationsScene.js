@@ -13,6 +13,7 @@ export default class ShedApplicationsScene extends GameScene {
         // Get base content
         const content = {
             ...super.dialogContent,
+            speaker: 'Clerk',
             start: {
                 text: "(The clerk shuffles through a stack of papers, barely looking up)\nWelcome to Shed521 Applications. Forms in triplicate, please. No exceptions.",
                 options: [

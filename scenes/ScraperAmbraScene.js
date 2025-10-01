@@ -140,9 +140,9 @@ export default class ScraperAmbraScene extends GameScene {
     
     get dialogContent() {
         return {
-            ...super.dialogContent, // Include parent dialog content
+            ...super.dialogContent,
+            speaker: 'Dr. Elphi',
             
-            // Add scene-specific dialog content here
             elphi_studio_intro: {
                 text: "Dr. Elphi's studio is eerily quiet. Workstations with glowing screens line the walls, each displaying fragments of code and strange designs. The air feels charged with creative energy, but there's no sign of Dr. Elphi herself.",
                 options: [

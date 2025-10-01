@@ -337,8 +337,9 @@ export default class SymbiontSystem {
         // Check if symbiont is silenced (for Neme)
         const symbiont = this.symbionts.get(symbiontId);
         if (symbiont.silenced) {
-            return {
-                text: `${symbiont.name} is silent in this decay-dominant area...`,
+        return {
+            speaker: symbiont.name,
+            text: `${symbiont.name} is silent in this decay-dominant area...`,
                 options: [
                     { text: 'Close', next: 'closeDialog' }
                 ]
@@ -358,7 +359,13 @@ export default class SymbiontSystem {
             return symbiontDialog.main || null;
         }
         
-        return dialogContent;
+        // Ensure the dialog content has a speaker (the symbiont's name)
+        const result = { ...dialogContent };
+        if (!result.speaker) {
+            result.speaker = symbiont.name;
+        }
+        
+        return result;
     }
     
     /**

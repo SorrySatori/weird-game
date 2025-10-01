@@ -283,6 +283,7 @@ export default class AbandonedBusScene extends GameScene {
         // Add a new dialog node for the Neme symbiont
         const busContent = {
             dead_bishop_start: {
+        speaker: 'Dead Bishop',
                 text: "The body before you is clearly that of a religious figure - an Obazoba Bishop in ceremonial robes stained with fungal growth. Her face is serene but pale, with subtle bruising visible at her temples. Nearby, you spot a portable dream device, a worn notebook and a dream interface helmet (still attached) and a small bag of what appears to be berries. In her sleeve you spot some papers.",
                 options: [
                     { text: "Examine the bruising", next: "dead_bishop_bruising" },
@@ -307,6 +308,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             dead_bishop_bruising: {
+        speaker: 'Dead Bishop',
                 text: "A closer examination reveals subtle bruising beneath where neural interface straps would be placed. The markings are consistent with neural overstimulation - possibly dream-burnout or data surge trauma. There's no sign of external violence, but something clearly overwhelmed her neural pathways.",
                 options: [
                     { text: "Check the dream device", next: "dead_bishop_cartridge" },
@@ -336,6 +338,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             dead_bishop_cartridge: {
+        speaker: 'Dead Bishop',
                 text: "You examine the portable dream device clutched in the Bishop's hand. A cartridge labeled 'The Cardinal Feast' is inserted, but appears corrupted. The device's small screen displays an error message: \"Runtime loop detected. Initiated failsafe: NULL SCENE.\" Whatever experience this cartridge contained, it seems to have catastrophically failed during use.",
                 options: [
                     { text: "Examine the bruising", next: "dead_bishop_bruising" },
@@ -375,6 +378,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             dead_bishop_helmet: {
+        speaker: 'Dead Bishop',
                 text: "You examine the dream interface helmet attached to the Bishop's body. It's a portable device with a small screen and a neural interface port. The helmet is slightly warm to the touch, suggesting it was recently in use. Maybe she was inside a dream program — but someone intentionally erased the session data? Unfortunately, it's clear that the helmet is not functional and the neural interface port is damaged.",
                 options: [
                     { text: "Examine the bruising", next: "dead_bishop_bruising" },
@@ -403,6 +407,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             dead_bishop_notebook: {
+        speaker: 'Dead Bishop',
                 text: "You carefully open the Bishop's notebook. A small leather-bound notebook. Most pages are torn out or never used. Only one entry remains, hastily scribbled: “The city no longer hears me. Perhaps the dreams will.”",
                 options: [
                     { text: "Examine the bruising", next: "dead_bishop_bruising" },
@@ -432,6 +437,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             dead_bishop_memo: {
+        speaker: 'Dead Bishop',
                 text: "You find a crumpled note in the Bishop's sleeve. It's written in her handwriting and stamped 'TOWNHALL PERSONAL LOG – FOR INTERNAL USE ONLY'. The fragment reads: \"I walked into the confessional, but she was already there. Looked like me. But didn't breathe. Didn't blink. And it finished my sentence.\" The rest of the note is torn away.",
                 options: [
                     { text: "Examine the bruising", next: "dead_bishop_bruising" },
@@ -461,6 +467,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             dead_bishop_dissect: {
+        speaker: 'Dead Bishop',
                 text: "With careful precision, you begin to examine the Bishop's body more thoroughly. As you open her chest cavity, you notice something extraordinary - a strange, pulsating green glow emanating from within. The source appears to be a small, fungal growth unlike anything you've seen before, with delicate tendrils that have integrated with her nervous system.",
                 options: [
                     { text: "Investigate the glowing fungus", next: "neme_symbiont_reveal" },
@@ -485,6 +492,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             neme_symbiont_reveal: {
+        speaker: 'Dead Bishop',
                 text: "Something stirs. A pulse within the stillness. The Bishop wasn't alone. And now... neither are you. A gently levitating bundle of translucent filaments and glowing spore-sacs detaches from the Bishop's chest, floating toward you.",
                 options: [
                     { text: "Accept the symbiont - Let Neme root in your thoughts", next: "neme_symbiont_accept" },
@@ -513,6 +521,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             neme_symbiont_accept: {
+        speaker: 'Dead Bishop',
                 text: "The filaments gently reach toward you, wrapping around your wrist before sinking beneath your skin. A soft, echoing voice whispers in your mind: 'The world grows through contradiction. So must you.' You feel a strange awareness of subtle energies around you.",
                 options: [
                     { text: "Continue", next: "closeDialog" }
@@ -566,6 +575,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             neme_symbiont_decline: {
+        speaker: 'Dead Bishop',
                 text: "You step back, declining the strange entity's approach. The filaments pause in mid-air, then slowly drift downward toward the floor of the bus. As they touch the ground, they seem to dissolve into the surface, leaving only a faint green glow that quickly fades.",
                 options: [
                     { text: "Continue", next: "closeDialog" }
@@ -596,6 +606,7 @@ export default class AbandonedBusScene extends GameScene {
                 }
             },
             dead_bishop_berries: {
+        speaker: 'Dead Bishop',
                 text: "A small bag of spiced Sulkberries sits nearby, half-eaten. The sour, pungent berries are still fresh, suggesting the Bishop was here recently and possibly consuming them to calm her nerves before using the dream device. Sulkberries are known for their mild calming effect.",
                 options: [
                     { text: "Examine the bruising", next: "dead_bishop_bruising" },

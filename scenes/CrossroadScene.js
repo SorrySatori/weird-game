@@ -223,6 +223,7 @@ export default class CrossroadScene extends GameScene {
     get dialogContent() {
         return {
             ...super.dialogContent,
+            speaker: 'Giant Corpse',
             corpseMain: {
                 text: `You find a strange, gigantic corpse. Its flesh seems to pulse with an otherworldly energy. It is clear that it's been here for a while, but surprisingly, it doesn't smell at all. What do you do?`,
                 options: [

@@ -23,6 +23,7 @@ export default class ScraperInteriorScene extends GameScene {
         const hasLirisPart = this.registry.get('fixed_floor_counter') === true;
         
         const interiorContent = {
+            speaker: 'Lift Mother',
             lift_mother_start: {
                 text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little spore. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [

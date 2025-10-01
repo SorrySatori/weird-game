@@ -9,6 +9,7 @@ export default class ShedHallScene extends GameScene {
         this._livingCore = null;
         this._livingCoreDialogContent = {
             main: {
+        speaker: 'Observation',
                 text: "A Living Core pulses with an otherworldly energy. It seems to be fused with the wall, but it might be possible to extract it...",
                 options: [
                     { text: "Examine it more carefully", next: "examine" },

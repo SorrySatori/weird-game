@@ -345,6 +345,7 @@ export default class GameScene extends Phaser.Scene {
         
         // Create a dynamic dialog state
         const dynamicDialogState = {
+            speaker: dialogContent.speaker || symbiontSystem.getSymbiontName(symbiontId) || 'Person',
             text: dialogContent.text,
             options: dialogContent.options.map(option => {
                 if (option.next === 'closeDialog') {
@@ -1402,6 +1403,42 @@ export default class GameScene extends Phaser.Scene {
             // State key passed, look up in dialogContent
             this.dialogState = state;
             content = this.dialogContent[state];
+            
+            // Check if we need to inherit speaker from parent dialog group
+            if (!content.speaker && state.includes('_')) {
+                // Try to find a parent dialog with a speaker defined
+                const dialogGroup = state.split('_')[0];
+                const groupDialog = this.dialogContent[dialogGroup];
+                
+                if (groupDialog && groupDialog.speaker) {
+                    content.speaker = groupDialog.speaker;
+                } else {
+                    // Try to infer speaker from dialog key
+                    const speakerMap = {
+                        'temple': 'Temple Guard',
+                        'guard': 'Guard',
+                        'merchant': 'Merchant',
+                        'edgar': 'Edgar',
+                        'ortholan': 'Ortholan',
+                        'registrar': 'Registrar',
+                        'clerk': 'Clerk',
+                        'scientist': 'Scientist',
+                        'stranger': 'Stranger',
+                        'citizen': 'Citizen',
+                        'npc': 'Citizen',
+                        'bishop': 'Bishop',
+                        'thaal': 'Fungal Master Thaal'
+                    };
+                    
+                    // Check if any key in speakerMap is part of the dialog state
+                    for (const [key, name] of Object.entries(speakerMap)) {
+                        if (state.toLowerCase().includes(key)) {
+                            content.speaker = name;
+                            break;
+                        }
+                    }
+                }
+            }
         }
         
         // Check if content is valid
@@ -1477,7 +1514,36 @@ export default class GameScene extends Phaser.Scene {
         this.textMaskGraphics.fillRect(400 - 270, 300 - 220, 540, textBgHeight - 10);
         
         // Create text with proper wrapping
-        this.dialogText = this.add.text(-260, -(textBgHeight/2) + 10, content.text, {
+        // Add speaker name if provided
+        let speakerName = content.speaker;
+        
+        // If still no speaker name, try to infer from the current scene or context
+        if (!speakerName) {
+            // Try to get scene name or current NPC name
+            const sceneName = this.scene.key.replace('Scene', '');
+            if (sceneName.includes('Cathedral')) {
+                speakerName = 'Temple Guard';
+            } else if (sceneName.includes('Voxmarket')) {
+                speakerName = 'Merchant';
+            } else if (sceneName.includes('Scraper')) {
+                speakerName = 'Resident';
+            } else if (sceneName.includes('Shed')) {
+                speakerName = 'Shed Staff';
+            } else {
+                speakerName = 'Citizen';
+            }
+        }
+        
+        const speakerText = this.add.text(-260, -(textBgHeight/2) + 10, speakerName + ':', {
+            fontSize: '22px',
+            fontStyle: 'bold',
+            fill: '#ffff00', // Yellow color for speaker name
+            align: 'left'
+        });
+        speakerText.setOrigin(0, 0);
+        textContainer.add(speakerText);
+
+        this.dialogText = this.add.text(-260, -(textBgHeight/2) + 40, content.text, {
             fontSize: '22px',
             fill: '#7fff8e',
             wordWrap: { width: 520 },

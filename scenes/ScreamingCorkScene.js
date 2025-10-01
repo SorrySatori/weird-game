@@ -215,7 +215,9 @@ export default class ScreamingCorkScene extends GameScene {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
 
             // Edgar Eskola dialog
+            speaker: 'Edgar Eskola',
             edgar_start: {
+        
                 text: "The ursine creature shifts uncomfortably. He glances at you with a mix of wariness and curiosity.",
                 options: [
                     { text: "Hello there.", next: "edgar_greeting" },
@@ -247,6 +249,7 @@ export default class ScreamingCorkScene extends GameScene {
                 }
             },
             edgar_greeting: {
+        
                 text: "Mmm. Hello," + "Not often people choose to speak with me. Most avoid mišutkenn if they can help it.",
                 options: [
                     { text: "Why is that?", next: "edgar_prejudice" },
@@ -255,6 +258,7 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_what: {
+        
                 text: "Mišutkenn are... well, we're not exactly human. Or anything else, for that matter. We're... different.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }
@@ -272,6 +276,7 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_unfortunate: {
+        
                 text: "That's one way to put it. But I've learned to live with it. Mostly.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }
@@ -285,6 +290,7 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_background: {
+        
                 text: "Not much to tell. I've had more jobs than I can count. Janitor at 1140 Scraper, professional imaginator, clerk, art model, airship mechanic, meat packer... None of them stuck. Not entirely my fault, though.",
                 options: [
                     { text: "Professional imaginator?", next: "edgar_imaginator" },
@@ -294,6 +300,7 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_dream_job: {
+        
                 text: "I've tried everything. Janitor. Clerk. Meat assembler. Imaginator. But I've never been anything truly mine. I think… I want to write a book. But I don't know what it's about yet.",
                 options: [
                     ...(!this.questSystem.getQuest('edgar_book') ? [
@@ -401,6 +408,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Tone selection dialog - choose emotional tone for the book
             edgar_book_tone: {
+        
                 text: "Now that we have some topics to work with, what tone should the book have? I'm thinking about the emotional feel of it.",
                 options: [
                     { text: "Tragic - a tale of sorrow and loss", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'tragic'; } },
@@ -447,6 +455,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Genre selection dialog - choose genre for the book
             edgar_book_genre: {
+        
                 text: "The tone is set, but what genre should this story be? I've been exploring some experimental options.",
                 options: [
                     { text: "Fungal techno-thriller", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'fungal_techno'; } },
@@ -493,6 +502,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Protagonist selection dialog
             edgar_book_protagonist: {
+        
                 text: "Who should the main character be? What kind of protagonist would fit this story?",
                 options: [
                     { text: "A disoriented tourist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'tourist'; } },
@@ -642,6 +652,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Final farewell after completing the book quest
             edgar_book_farewell: {
+        
                 text: "I should get to work now. The ideas are flowing, and I don't want to lose them. Thank you again for your help. Feel free to check in on my progress sometime.",
                 options: [
                     { text: "Good luck, Edgar", next: "edgar_start" }
@@ -687,18 +698,21 @@ export default class ScreamingCorkScene extends GameScene {
             },
 
             edgar_imaginator: {
+        
                 text: "I dreamed up locations and characters for Dr. Elphi Quarn's games. Turns out my imagination was too... wild. Too erratic, they said. My dreams were 'unusable.' Their loss.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }
                 ]
             },
             edgar_jobs: {
+        
                 text: "Bad timing, mostly. The Scraper took the Rusty Choir and stopped being an official part of the city - no need for a janitor then. The other jobs... well, being a mišutkenn doesn't help with job security in this city.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }
                 ]
             },
             edgar_festival: {
+        
                 text: "The Burning Bear Festival? A cruel reminder of an ancient 'victory' over my kind. They stuff bear skins with things they want to be rid of, then burn them at midnight. Some fill them with pests, bad habits, vices... others with rivals, if the rumors are true.",
                 options: [
                     { text: "That sounds disturbing.", next: "edgar_disturbing" },
@@ -714,12 +728,14 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_tradition: {
+        
                 text: "Tradition? Traditions can be cruel. Just because something has been done for generations doesn't make it right. But few in this city would agree with me.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }
                 ]
             },
             edgar_sympathy: {
+        
                 text: "Your sympathy is... unexpected. But appreciated. Perhaps not everyone in this city is as thoughtless as I've come to believe.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }
@@ -732,6 +748,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // New vestigel dialog path
             edgar_vestigel: {
+        
                 text: "A vestigel? Yes... I do have one. It's a peculiar object, a small small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
                 options: [
                     // Use ternary to determine next dialog based on book quest completion status
@@ -741,6 +758,7 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_vestigel_need: {
+        
                 text: "Important purpose, you say? Well, I don't really *need* it, but I kinda like it. Maybe you could do something for me in exchange?",
                 options: [
                     { text: "What do you need?", next: "edgar_vestigel_convince" },
@@ -797,6 +815,7 @@ export default class ScreamingCorkScene extends GameScene {
                 }
             },
             edgar_vestigel_request: {
+        
                 text: "Just like that? You know that's a valuable trinket. I wouldn't give it away without good reason.",
                 options: [
                     { text: "What would convince you to part with it?", next: "edgar_vestigel_convince" },
@@ -804,6 +823,7 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_vestigel_convince: {
+        
                 text: "Hmm...",
                 options: [
                     // Determine which option to show based on book quest status
@@ -873,6 +893,7 @@ export default class ScreamingCorkScene extends GameScene {
             
             // New dialog for when player asks for vestigel after book is completed
             edgar_vestigel_give_completed: {
+        
                 text: "Oh, you're interested in the vestigel? After all your help with my book, I'd be happy to give it to you. It's of more use to you than to me. Here, take it with my gratitude.",
                 options: [
                     { text: "Thank you, Edgar.", next: "edgar_start" }
@@ -915,6 +936,7 @@ export default class ScreamingCorkScene extends GameScene {
                 }
             },
             edgar_vestigel_thanks: {
+        
                 text: "Remember your promise. I look forward to seeing what we can create together. A book that truly captures the essence of... well, that's what we need to discover.",
                 options: [
                     { text: "Back to other topics", next: "edgar_start" }

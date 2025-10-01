@@ -8,8 +8,9 @@ export default class CathedralEntrance extends GameScene {
         
         // Store temple guard dialog content in a separate property
         this._templeGuardDialogContent = {
+            speaker: 'Temple Guard',
             templeGuardGreeting: {
-                text: "Halt. The yolk sleeps uneasily today. Entry to the Egg Cathedral is… temporarily restricted.",
+        text: "Halt. The yolk sleeps uneasily today. Entry to the Egg Cathedral is… temporarily restricted.",
                 options: [
                     { text: "When will it open?", next: "templeGuardWhen" },
                     { text: "Why is it closed?", next: "templeGuardWhy" },
@@ -19,7 +20,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardAskSomethingElse: {
-                text: "Is there anything else I can help you with?",
+        text: "Is there anything else I can help you with?",
                 options: [
                     { text: "When will it open?", next: "templeGuardWhen" },
                     { text: "Why is it closed?", next: "templeGuardWhy" },
@@ -29,13 +30,13 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             iAmFungalApprentice: {
-                text: "(Tilts head) Even rot-born clergy must heed the pulses. The Cathedral breathes its own rhythm. You must attune.",
+        text: "(Tilts head) Even rot-born clergy must heed the pulses. The Cathedral breathes its own rhythm. You must attune.",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardWhen: {
-                text: "I have no idea. When the great Council say so. It could be days, it could be centuries. We stand guard until the Awakening.",
+        text: "I have no idea. When the great Council say so. It could be days, it could be centuries. We stand guard until the Awakening.",
                 options: [
                     { text: "The Awakening?", next: "templeGuardAwakening" },
                     { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
@@ -43,7 +44,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardAwakening: {
-                text: "The Awakening is the moment when's the cathedral fully grown. Hatched. We stand guard until the Awakening.",
+        text: "The Awakening is the moment when's the cathedral fully grown. Hatched. We stand guard until the Awakening.",
                 options: [
                     { text: "Ask something else", next: "templeGuardGreeting" }
                 ]
@@ -57,7 +58,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             bishopOfThreshold: {
-                text: "Probably at the Voxmarket, or around Shed 521. She dwells where the walls still echo with initiation. Look for the door that doesn’t open—until it does",
+        text: "Probably at the Voxmarket, or around Shed 521. She dwells where the walls still echo with initiation. Look for the door that doesn’t open—until it does",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" },
                     { text: "What is the Voxmarket?", next: "templeGuardVoxmarket"},
@@ -79,7 +80,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardWhy: {
-                text: "It is the order of the cathedral council. However, I have heard that it was mainly your bishop, meaning the bishop of Obazoba church, who declared the emergency. That must be enough for you to know.",
+        text: "It is the order of the cathedral council. However, I have heard that it was mainly your bishop, meaning the bishop of Obazoba church, who declared the emergency. That must be enough for you to know.",
                 options: [
                     { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
                     { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
@@ -87,14 +88,14 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardWho: {
-                text: "I am a Sentinel of the Veil, sworn to protect the sacred Egg Cathedral from contamination. My eyes have witnessed a thousand years of spore patterns.",
+        text: "I am a Sentinel of the Veil, sworn to protect the sacred Egg Cathedral from contamination. My eyes have witnessed a thousand years of spore patterns.",
                 options: [
                     { text: "How long have you been here?", next: "templeGuardTime" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardFruiting: {
-                text: "When the cathedral's inner chambers completely fill with spores, the Great Fruiting will begin. The walls will burst, spreading our consciousness across the stars.",
+        text: "When the cathedral's inner chambers completely fill with spores, the Great Fruiting will begin. The walls will burst, spreading our consciousness across the stars.",
                 options: [
                     { text: "That sounds apocalyptic", next: "templeGuardApocalypse" },
                     { text: "That sounds fascinating", next: "templeGuardFascinating" },

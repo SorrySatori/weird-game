@@ -11,8 +11,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
     get dialogContent() {
         return {
-            ...super.dialogContent, // Include parent dialog content for symbiont dialogs
-            
+            ...super.dialogContent,
+            speaker: 'Ravla',
+
             // Ravla dialog - the forger
             ravla_start: {
                 text: "Ravla looks up from her work, eyes sharp and calculating. \"Need something? I'm busy, so make it quick.\"",
@@ -140,6 +141,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             
             // Heliodor dialog
             heliodor_start: {
+                speaker: 'Heliodor',
                 text: "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading - it's actually quite peaceful most nights.\"",
                 options: [
                     { text: "Who are you?", next: "heliodor_who" },

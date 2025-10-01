@@ -24,7 +24,7 @@ export default class VoxmarketMarketScene extends GameScene {
     get dialogContent() {
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
-            
+            speaker: 'Zerren',
             // Zerren dialog
             zerren_start: {
                 text: "A woman with vibrant clothing and a small stall of trinkets notices your approach. 'Welcome to my little corner of Voxmarket. I'm Zerren. Looking for anything special today?'",
@@ -72,6 +72,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_collection: {
+        speaker: 'Unknown',
                 text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular - sold it just last week. Strange little thing, but charming in its own way.'",
                 options: [
                     { text: "Tell me more about that toy", next: "zerren_plush_toy" },
