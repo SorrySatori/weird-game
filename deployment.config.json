@@ -1,0 +1,17 @@
+{
+  "name": "weird-game",
+  "type": "web",
+  "framework": "phaser",
+  "buildCommand": "npm run build",
+  "buildDirectory": "dist",
+  "serveCommand": "npm run serve-build",
+  "servePort": 8080,
+  "dependencies": {
+    "phaser": "^3.70.0"
+  },
+  "assets": {
+    "images": "assets/images",
+    "sounds": "assets/sounds",
+    "icons": "assets/icons"
+  }
+}
