@@ -44,14 +44,15 @@ const config = {
     },
     input: {
         keyboard: true,
-        gamepad: false
+        gamepad: false,
+        windowEvents: true
     },
     scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, AbandonedBusScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {
-        // Use NONE mode to avoid framebuffer issues
-        mode: Phaser.Scale.NONE,
+        // Use FIT mode to maintain aspect ratio and fit within the container
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: 'game-container',
         width: 800,
@@ -61,36 +62,10 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-// Function to handle resizing and scaling
-function resizeGame() {
-    // Get the game canvas
-    const canvas = document.querySelector('canvas');
-    if (!canvas) return;
-    
-    // Calculate the scale factor
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    
-    // Use a smaller target size to ensure the game fits comfortably
-    // Using 90% of the available space as a safety margin
-    const targetWidth = windowWidth * 0.9;
-    const targetHeight = windowHeight * 0.9;
-    
-    const widthScale = targetWidth / 800;
-    const heightScale = targetHeight / 600;
-    
-    // Use the smaller scale to ensure it fits both dimensions
-    const scale = Math.min(widthScale, heightScale);
-
-    console.log(`Window resized: ${windowWidth}x${windowHeight}, Scale: ${scale.toFixed(2)}`);
-}
-
-// Add window resize event handler
-window.addEventListener('resize', resizeGame);
-
-// Initial resize after game loads
-window.addEventListener('load', () => {
-    setTimeout(resizeGame, 100);
+// Add window resize event handler to log resize events
+window.addEventListener('resize', () => {
+    console.log(`Window resized: ${window.innerWidth}x${window.innerHeight}`);
+    // Phaser's Scale Manager handles the actual resizing
 });
 
 // Initialize game state in registry
