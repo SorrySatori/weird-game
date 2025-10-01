@@ -19,19 +19,20 @@
             display: block;
         }
         #game-container {
-            width: 100%;
-            height: 100%;
+            width: 98%;
+            height: 98%;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 1%;
+            left: 1%;
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
         canvas {
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* Changed from cover to contain to prevent overflow */
             /* The transform will be applied by JavaScript */
         }
     </style>
