@@ -1403,7 +1403,7 @@ export default class GameScene extends Phaser.Scene {
             // State key passed, look up in dialogContent
             this.dialogState = state;
             content = this.dialogContent[state];
-            
+            content.speaker = this.dialogContent?.speaker
             // Check if we need to inherit speaker from parent dialog group
             if (!content.speaker && state.includes('_')) {
                 // Try to find a parent dialog with a speaker defined
