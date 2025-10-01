@@ -1,11 +1,14 @@
 # Dependency directories
 node_modules/
+node_modules/**/*
+node_modules/.package-lock.json
 jspm_packages/
 
 # Electron build directories
 dist/
 out/
 .webpack/
+.cache/
 
 # Electron Forge output
 out/
@@ -51,6 +54,16 @@ Desktop.ini
 
 # Phaser specific
 *.map
+
+# Image backups and optimized versions
+*.original.jpg
+*.original.png
+*.optimized.jpg
+*.optimized.png
+assets/images/ui/growthDecay.original.jpg
+
+# Optimization scripts
+optimize-image.js
 
 # Package files
 *.tgz

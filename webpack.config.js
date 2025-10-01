@@ -12,8 +12,16 @@ module.exports = {
   },
   mode: 'production',
   performance: {
-    maxEntrypointSize: 5000000,
-    maxAssetSize: 5000000
+    maxEntrypointSize: 8000000,  // Increased to 8MB
+    maxAssetSize: 8000000,       // Increased to 8MB
+    // Add specific asset hints
+    assetFilter: function(assetFilename) {
+      // Don't warn about the large growthDecay.jpg file
+      if (assetFilename.endsWith('growthDecay.jpg')) {
+        return false;
+      }
+      return true;
+    }
   },
   module: {
     rules: [
