@@ -23,7 +23,7 @@ export default class VoxmarketMarketScene extends GameScene {
 
     get dialogContent() {
         return {
-            ...super.dialogContent, // Include parent dialog content for symbiont dialogs
+            ...super.dialogContent,
             speaker: 'Zerren',
             // Zerren dialog
             zerren_start: {

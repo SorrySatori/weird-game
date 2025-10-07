@@ -24,6 +24,9 @@ export default class GameScene extends Phaser.Scene {
         this.symbiontSlots = [];
         this.symbiontIcons = new Map();
         
+        // Track used dialog options
+        this.usedDialogOptions = new Map();
+        
         // Systems will be initialized in init()
         this.playerMovementSystem = null;
         this.inventorySystem = null;
@@ -42,6 +45,13 @@ export default class GameScene extends Phaser.Scene {
         
         // Initialize the inventory system
         this.inventorySystem = new InventorySystem(this);
+        
+        // Load used dialog options from registry if available
+        if (this.registry.has('usedDialogOptions')) {
+            this.usedDialogOptions = new Map(this.registry.get('usedDialogOptions'));
+        } else {
+            this.usedDialogOptions = new Map();
+        }
     }
 
     preload() {
@@ -1308,11 +1318,11 @@ export default class GameScene extends Phaser.Scene {
     }
 
     // Dialog option creation
-    createDialogOption(text, y, callback) {
+    createDialogOption(text, y, callback, isUsed = false) {
         // Create text first to calculate its height
         const optionText = this.add.text(-250, y, `• ${text}`, {
             fontSize: '20px',
-            fill: '#7fff8e',
+            fill: isUsed ? '#5a8c6b' : '#7fff8e', // Gray-ish green for used options
             wordWrap: { width: 540 },
             align: 'left'
         });
@@ -1329,6 +1339,10 @@ export default class GameScene extends Phaser.Scene {
         
         // Return the actual height used for proper spacing in the caller
         optionBg.actualHeight = optionHeight;
+        
+        // Store the used state for reference in event handlers
+        optionBg.isUsed = isUsed;
+        optionText.isUsed = isUsed;
 
         optionBg.on('pointerover', () => {
             // No background change for Fallout style
@@ -1337,7 +1351,7 @@ export default class GameScene extends Phaser.Scene {
 
         optionBg.on('pointerout', () => {
             // No background change for Fallout style
-            optionText.setStyle({ fill: '#7fff8e' });
+            optionText.setStyle({ fill: optionBg.isUsed ? '#5a8c6b' : '#7fff8e' }); // Restore original color based on used state
         });
 
         optionBg.on('pointerdown', () => {
@@ -1675,28 +1689,39 @@ export default class GameScene extends Phaser.Scene {
             for (let i = startIdx; i < endIdx; i++) {
                 const option = content.options[i];
                 
-                // Create the dialog option at the current Y position
-                const elements = this.createDialogOption(option.text, currentY, () => {
-            // Call onSelect if it exists
-            if (option.onSelect) {
-                option.onSelect.call(this); // Bind the correct 'this' context
-            }
-            
-            // Check if there's an onTrigger function that returns a dialog ID
-            if (content.onTrigger) {
-                const nextDialog = content.onTrigger.call(this, option); // Bind the correct 'this' context
-                if (nextDialog) {
-                    // If onTrigger returns a dialog ID, use that instead of option.next
-                    this.showDialog(nextDialog);
-                    return;
-                }
-            }
-            
-            // Otherwise use the option's next value
-            if (option.next) {
-                this.showDialog(option.next);
-            }
-        });
+                // Check if this option has been used before
+                const optionKey = this.createDialogOptionKey(state, option.text);
+                const isUsed = this.usedDialogOptions.has(optionKey);
+                
+                // Create a callback function for this option
+                const optionCallback = function() {
+                    // Mark this option as used when selected
+                    const optionKey = this.createDialogOptionKey(state, option.text);
+                    this.markDialogOptionAsUsed(optionKey);
+                    
+                    // Call onSelect if it exists
+                    if (option.onSelect) {
+                        option.onSelect.call(this); // Bind the correct 'this' context
+                    }
+                    
+                    // Check if there's an onTrigger function that returns a dialog ID
+                    if (content.onTrigger) {
+                        const nextDialog = content.onTrigger.call(this, option); // Bind the correct 'this' context
+                        if (nextDialog) {
+                            // If onTrigger returns a dialog ID, use that instead of option.next
+                            this.showDialog(nextDialog);
+                            return;
+                        }
+                    }
+                    
+                    // Otherwise use the option's next value
+                    if (option.next) {
+                        this.showDialog(option.next);
+                    }
+                }.bind(this); // Bind 'this' to ensure proper context
+                
+                // Create the dialog option with the callback and isUsed parameter
+                const elements = this.createDialogOption(option.text, currentY, optionCallback, isUsed);
                 this.dialogOptions.add(elements);
                 
                 // Increment Y position by the actual height of this option plus spacing
@@ -1834,6 +1859,19 @@ export default class GameScene extends Phaser.Scene {
                 }
             }
         };
+    }
+    
+    // Create a unique key for dialog options to track usage
+    createDialogOptionKey(dialogState, optionText) {
+        return `${dialogState}:${optionText}`;
+    }
+    
+    // Mark a dialog option as used
+    markDialogOptionAsUsed(optionKey) {
+        this.usedDialogOptions.set(optionKey, true);
+        
+        // Save to registry for persistence between scenes
+        this.registry.set('usedDialogOptions', Array.from(this.usedDialogOptions.entries()));
     }
 
     makeItemCollectable(item, sprite) {
