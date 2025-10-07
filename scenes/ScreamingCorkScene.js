@@ -505,12 +505,12 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "Who should the main character be? What kind of protagonist would fit this story?",
                 options: [
-                    { text: "A disoriented tourist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'tourist'; } },
-                    { text: "A renegade fungal scientist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'scientist'; } },
-                    { text: "A mišutkenn seeking identity", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'misutkenn'; } },
-                    { text: "An amnesiac with strange abilities", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'amnesiac'; } },
-                    { text: "A sentient fungal colony", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'fungal_colony'; } },
-                    { text: "A dream detective", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'detective'; } },
+                    { text: "A disoriented tourist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'disoriented tourist'; } },
+                    { text: "A renegade fungal scientist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'bad scientist'; } },
+                    { text: "A mišutkenn seeking identity", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'mišutkenn'; } },
+                    { text: "An amnesiac with strange abilities", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'strange amnesiac'; } },
+                    { text: "A sentient fungal colony", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'fungal colony'; } },
+                    { text: "A dream detective", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'dream detective'; } },
                 ]
             },
 
