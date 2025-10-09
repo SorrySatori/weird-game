@@ -50,51 +50,13 @@ export default class ScreamingCorkClubScene extends GameScene {
             
             feral_play: {
                 text: "\"Alright! Let's melt some minds with ultra noise!. Ready everyone? One, two, three, four!\"",
-                options: [
-                    { text: "...", next: "closeDialog" }
-                ],
+                options: [],
                 onTrigger: function() {
                     // Start the performance
                     this.startPerformance();
-                }
-            },
-            
-            // Dialog after performance has started
-            feral_during: {
-                text: "The band is fully immersed in their rehearsal, creating something more than just noise. You can feel that there is something beyond that noise that... speaks to you. It's hard to articulate precisely, but you feel that once there was an entity which can be called maybe... The Noise God? Perhaps it's one of the god who came to die in the Upper Morkezela... and the noise is a remnant of it. The music connects directly to something primal in your mind.",
-                options: [
-                    { text: "Keep listening", next: "feral_experience" },
-                    { text: "Leave the club", next: "closeDialog" }
-                ]
-            },
-            
-            feral_experience: {
-                text: "As you continue listening, the noise seems to take physical form around you. Tendrils of sound weave through the air, creating a sort of cloud of consciousness. You feel a strange sense of unity with the Noise God.",
-                options: [
-                    { text: "This is incredible", next: "feral_insight" },
-                    { text: "I need some air", next: "closeDialog" }
-                ]
-            },
-            
-            feral_insight: {
-                text: "A profound insight washes over you: The Noise God was not born but assembled... Now, only hints of its pattern remain — buried in magnetic dust, resonating faintly through broken amplifiers, radio fog, and the bones of speakers. You sense that the band's music is a remnant of it, a way to connect with the Noise God.",
-                options: [
-                    { text: "...", next: "closeDialog" }
-                ],
-                onTrigger: function() {
-                    // Add journal entry about this insight
-                    this.addJournalEntry(
-                        'noise_god_insight', 
-                        'Noise God Insight', 
-                        'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback — not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here long time ago. He may be forgotten, but the noise is still alive.',
-                        this.journalSystem.categories.LORE,
-                    );
                     
-                    // Show notification
-                    this.showNotification('New Journal Entry', 'Noise God Insight');
-                    
-                    // Increase Growth slightly
-                    this.modifyGrowthDecay(5, 0);
+                    // Auto-close dialog
+                    this.hideDialog();
                 }
             },
             
@@ -237,10 +199,10 @@ export default class ScreamingCorkClubScene extends GameScene {
     createBandMembers() {
         // Create band members with their positions on stage
         const bandConfig = [
-            { key: 'feral_guitarist', x: 250, y: 350, scale: 0.18, name: 'Telca (Guitar/Vocals)' },
-            { key: 'feral_bassplayer', x: 500, y: 350, scale: 0.18, name: 'Bass Player XL (Bass)' },
-            { key: 'feral_drummer', x: 400, y: 330, scale: 0.18, name: 'Fluffy Kārlis (Drums)' },
-            { key: 'feral_synth', x: 650, y: 330, scale: 0.18, name: 'Mira Dron (Synth)' }
+            { key: 'feral_guitarist', x: 250, y: 350, scale: 0.18, name: 'Telka' },
+            { key: 'feral_bassplayer', x: 500, y: 350, scale: 0.18, name: 'Bass Player XL' },
+            { key: 'feral_drummer', x: 400, y: 330, scale: 0.18, name: 'Fluffy Kārlis' },
+            { key: 'feral_synth', x: 650, y: 330, scale: 0.18, name: 'Mira Dron' }
         ];
         
         // Create each band member
@@ -308,17 +270,22 @@ export default class ScreamingCorkClubScene extends GameScene {
         this.isPlaying = true;
         
         // Show notification
-        this.showNotification('Feral Toast begins playing', 'Mycelial Wave music fills the club');
+        this.showNotification('Feral Toast begins playing', 'Ultranoise futurepunk fills the club');
         
         // Create visual effects for the performance
         this.createVisualEffects();
         
-        // Play the music
+        // Play the music - only once, not looped
         this.music = this.sound.add('feral-toast', {
             volume: 0.7,
-            loop: true
+            loop: false
         });
         this.music.play();
+        
+        // When music ends, stop the performance
+        this.music.once('complete', () => {
+            this.endPerformance();
+        });
         
         // Start band animations
         this.bandMembers.forEach(member => {
@@ -326,13 +293,156 @@ export default class ScreamingCorkClubScene extends GameScene {
             this.addPlayingAnimation(member);
         });
         
-        // Add audience reaction
+        // Show text gradually during the performance
+        this.showPerformanceText();
+        
+        // Add journal entry
         this.addJournalEntry(
             'feral_toast_performance', 
             'Feral Toast Concert', 
             'Experienced the mind-bending sounds of Feral Toast, an ultranoise futurepunk band at the Screaming Cork Club. Their raw, dirty punk-noise music sounds like a pinnacle of chaos. I liked it.', 
             this.journalSystem.categories.EVENTS,
         );
+        
+        // Add the Noise God insight journal entry after a delay
+        this.time.delayedCall(15000, () => {
+            this.addJournalEntry(
+                'noise_god_insight', 
+                'Noise God Insight', 
+                'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback — not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here long time ago. He may be forgotten, but the noise is still alive.',
+                this.journalSystem.categories.LORE,
+            );
+            
+            // Show notification
+            this.showNotification('New Journal Entry', 'Noise God Insight');
+            
+            // Increase Growth slightly
+            this.modifyGrowthDecay(5, 0);
+        });
+    }
+    
+    showPerformanceText() {
+        // Create a text container for the performance narrative
+        const textContainer = this.add.container(400, 150);
+        textContainer.setDepth(100);
+        
+        // Add semi-transparent background
+        const textBg = this.add.rectangle(0, 0, 600, 100, 0x000000, 0.7);
+        textBg.setStrokeStyle(1, 0x7fff8e);
+        textContainer.add(textBg);
+        
+        // Add text with no content yet
+        const text = this.add.text(0, 0, '', {
+            fontSize: '18px',
+            fill: '#7fff8e',
+            align: 'center',
+            wordWrap: { width: 580 }
+        });
+        text.setOrigin(0.5);
+        textContainer.add(text);
+        
+        // Store reference
+        this.performanceText = text;
+        this.performanceTextContainer = textContainer;
+        
+        // Make container initially invisible
+        textContainer.setAlpha(0);
+        
+        // Define the narrative texts to show during performance
+        const narrativeTexts = [
+            "The band is fully immersed in their rehearsal, creating something more than just noise.",
+            "You can feel that there is something beyond that noise that... speaks to you.",
+            "It's hard to articulate precisely, but you feel that once there was an entity which can be called maybe... The Noise God?",
+            "Perhaps it's one of the gods who came to die in the Upper Morkezela... and the noise is a remnant of it.",
+            "As you continue listening, the noise seems to take physical form around you.",
+            "Tendrils of sound weave through the air, creating a sort of cloud of consciousness.",
+            "You feel a strange sense of unity with the Noise God.",
+            "A profound insight washes over you: The Noise God was not born but assembled...",
+            "Now, only hints of its pattern remain — buried in magnetic dust, resonating faintly through broken amplifiers, radio fog, and the bones of speakers.",
+            "You sense that the band's music is a remnant of it, a way to connect with the Noise God."
+        ];
+        
+        // Show each text with a delay between them
+        let delay = 3000; // Start after 3 seconds
+        let duration = 6000; // Each text stays for 5 seconds
+        
+        // Fade in the container
+        this.tweens.add({
+            targets: textContainer,
+            alpha: 1,
+            duration: 1000,
+            ease: 'Power2'
+        });
+        
+        // Show each narrative text in sequence
+        narrativeTexts.forEach((narrativeText, index) => {
+            this.time.delayedCall(delay, () => {
+                if (!this.isPlaying) return; // Skip if performance ended
+                
+                // Fade out previous text
+                this.tweens.add({
+                    targets: text,
+                    alpha: 0,
+                    duration: 500,
+                    onComplete: () => {
+                        // Set new text
+                        text.setText(narrativeText);
+                        
+                        // Fade in new text
+                        this.tweens.add({
+                            targets: text,
+                            alpha: 1,
+                            duration: 500
+                        });
+                    }
+                });
+                
+                // If this is the last text, fade out the container after it's done
+                if (index === narrativeTexts.length - 1) {
+                    this.time.delayedCall(duration, () => {
+                        this.tweens.add({
+                            targets: textContainer,
+                            alpha: 0,
+                            duration: 1000,
+                            ease: 'Power2'
+                        });
+                    });
+                }
+            });
+            
+            delay += duration; // Increase delay for next text
+        });
+    }
+    
+    endPerformance() {
+        if (!this.isPlaying) return;
+        
+        this.isPlaying = false;
+        
+        // Stop all band animations
+        this.bandMembers.forEach(member => {
+            this.tweens.killTweensOf(member);
+            if (member.glow) {
+                this.tweens.killTweensOf(member.glow);
+            }
+        });
+        
+        // Hide performance text if still visible
+        if (this.performanceTextContainer) {
+            this.tweens.add({
+                targets: this.performanceTextContainer,
+                alpha: 0,
+                duration: 500,
+                onComplete: () => {
+                    this.performanceTextContainer.destroy();
+                    this.performanceTextContainer = null;
+                    this.performanceText = null;
+                }
+            });
+        }
+        
+        // Show notification
+        this.showNotification('Feral Toast finishes playing', 'The rehearsal ends');
     }
     
     createVisualEffects() {
@@ -460,51 +570,50 @@ export default class ScreamingCorkClubScene extends GameScene {
             });
         }
         else if (bandMember.texture.key === 'feral_drummer') {
-            // Drummer animation - more energetic movement
+            // Drummer animation - very subtle movement
             this.tweens.add({
                 targets: bandMember,
-                y: { from: bandMember.originalY - 12, to: bandMember.originalY + 5 },
-                angle: { from: -5, to: 5 },
-                duration: 200,
+                y: { from: bandMember.originalY - 2, to: bandMember.originalY + 2 },
+                angle: { from: -1, to: 1 },
+                duration: 400,
                 yoyo: true,
                 repeat: -1,
                 ease: 'Sine.easeInOut'
             });
             
-            // Add occasional arm flourish
+            // Add occasional very subtle head movement
             this.time.addEvent({
-                delay: 3000,
+                delay: 5000,
                 callback: () => {
                     if (!this.isPlaying) return;
                     
                     this.tweens.add({
                         targets: bandMember,
-                        scaleX: { from: bandMember.originalScale, to: bandMember.originalScale * 1.2 },
-                        scaleY: { from: bandMember.originalScale, to: bandMember.originalScale * 1.2 },
-                        duration: 200,
+                        angle: { from: 0, to: -2 },
+                        duration: 300,
                         yoyo: true,
-                        ease: 'Back.easeOut'
+                        ease: 'Sine.easeInOut'
                     });
                 },
                 loop: true
             });
         }
         else if (bandMember.texture.key === 'feral_synth') {
-            // Synth player animation - more dynamic swaying and movement
+            // Synth player animation - extremely subtle swaying
             this.tweens.add({
                 targets: bandMember,
-                angle: { from: -4, to: 4 },
-                duration: 1200,
+                angle: { from: -1, to: 1 },
+                duration: 2000,
                 yoyo: true,
                 repeat: -1,
                 ease: 'Sine.easeInOut'
             });
             
-            // Add subtle up and down movement
+            // Almost imperceptible head bobbing
             this.tweens.add({
                 targets: bandMember,
-                y: { from: bandMember.originalY - 5, to: bandMember.originalY + 5 },
-                duration: 1500,
+                y: { from: bandMember.originalY - 1, to: bandMember.originalY + 1 },
+                duration: 3000,
                 yoyo: true,
                 repeat: -1,
                 ease: 'Sine.easeInOut'
