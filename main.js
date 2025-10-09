@@ -19,6 +19,7 @@ import ShedHallScene from './scenes/ShedHallScene.js';
 import ShedCourtyardScene from './scenes/ShedCourtyardScene.js';
 import ScreamingCorkScene from './scenes/ScreamingCorkScene.js';
 import ScreamingCorkInteriorScene from './scenes/ScreamingCorkInteriorScene.js';
+import ScreamingCorkClubScene from './scenes/ScreamingCorkClubScene.js';
 import BurningBearStreetScene from './scenes/BurningBearStreetScene.js';
 import SkyshipBoardScene from './scenes/SkyshipBoardScene.js';
 import IntroScene from './scenes/IntroScene.js';
@@ -44,7 +45,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, AbandonedBusScene],
+    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, AbandonedBusScene],
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     scale: {

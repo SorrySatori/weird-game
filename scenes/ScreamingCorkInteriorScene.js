@@ -276,6 +276,19 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             470 // walk to y
         );
         
+        // Create entrance to the club area (at the back of the tavern)
+        this.transitionManager.createTransitionZone(
+            650, // x position - back of the tavern
+            350, // y position
+            100, // width
+            150, // height
+            'up', // direction
+            'ScreamingCorkClubScene', // target scene
+            400, // walk to x - position inside the club
+            520, // walk to y
+            'Enter Club Area' // custom name
+        );
+        
         // Create NPCs
         this.createNPCs();
     }
