@@ -52,11 +52,37 @@ export default class ScreamingCorkClubScene extends GameScene {
                 text: "\"Alright! Let's melt some minds with ultra noise!. Ready everyone? One, two, three, four!\"",
                 options: [],
                 onTrigger: function() {
-                    // Start the performance
-                    this.startPerformance();
+                    // Store a reference to the scene for use in the callback
+                    const scene = this;
                     
-                    // Auto-close dialog
-                    this.hideDialog();
+                    // Use a short delay to ensure dialog closes properly
+                    this.time.delayedCall(100, () => {
+                        // Start the performance
+                        scene.startPerformance();
+                        
+                        // Force close any open dialog
+                        if (scene.dialogBox) {
+                            scene.dialogBox.destroy();
+                            scene.dialogBox = null;
+                            scene.dialogVisible = false;
+                            
+                            // Update dialog visibility in player movement system
+                            if (scene.playerMovementSystem) {
+                                scene.playerMovementSystem.setDialogVisible(false);
+                            }
+                            
+                            // Hide avatar if present
+                            if (scene.avatar) {
+                                scene.avatar.setVisible(false);
+                            }
+                            
+                            // Destroy text mask if it exists
+                            if (scene.textMaskGraphics) {
+                                scene.textMaskGraphics.destroy();
+                                scene.textMaskGraphics = null;
+                            }
+                        }
+                    });
                 }
             },
             
@@ -195,12 +221,27 @@ export default class ScreamingCorkClubScene extends GameScene {
             this.updateBandAnimations();
         }
     }
+    
+    stop() {
+        // Make sure to stop the music when the scene stops
+        if (this.music) {
+            this.music.stop();
+        }
+        
+        // End the performance if it's still playing
+        if (this.isPlaying) {
+            this.isPlaying = false;
+        }
+        
+        // Call parent stop method
+        super.stop();
+    }
 
     createBandMembers() {
         // Create band members with their positions on stage
         const bandConfig = [
             { key: 'feral_guitarist', x: 250, y: 350, scale: 0.18, name: 'Telka' },
-            { key: 'feral_bassplayer', x: 500, y: 350, scale: 0.18, name: 'Bass Player XL' },
+            { key: 'feral_bassplayer', x: 520, y: 350, scale: 0.18, name: 'Bass Player XL' },
             { key: 'feral_drummer', x: 400, y: 330, scale: 0.18, name: 'Fluffy Kārlis' },
             { key: 'feral_synth', x: 650, y: 330, scale: 0.18, name: 'Mira Dron' }
         ];
@@ -651,19 +692,35 @@ export default class ScreamingCorkClubScene extends GameScene {
     }
     
     shutdown() {
-        // Stop the music when leaving the scene
-        if (this.music && this.music.isPlaying) {
+        // End the performance if it's still playing
+        if (this.isPlaying) {
+            this.endPerformance();
+        }
+        
+        // Stop the music when leaving the scene (extra safety check)
+        if (this.music) {
             this.music.stop();
+            this.music.destroy();
+            this.music = null;
         }
         
         // Clean up particles
         if (this.sporeEmitter) {
             this.sporeEmitter.destroy();
+            this.sporeEmitter = null;
         }
         
         // Clean up visual effects
         if (this.psychedelicOverlay) {
             this.psychedelicOverlay.destroy();
+            this.psychedelicOverlay = null;
+        }
+        
+        // Clean up performance text if it exists
+        if (this.performanceTextContainer) {
+            this.performanceTextContainer.destroy();
+            this.performanceTextContainer = null;
+            this.performanceText = null;
         }
         
         // Add a journal entry about the experience if it was a first visit
