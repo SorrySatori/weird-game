@@ -237,10 +237,10 @@ export default class ScreamingCorkClubScene extends GameScene {
     createBandMembers() {
         // Create band members with their positions on stage
         const bandConfig = [
-            { key: 'feral_guitarist', x: 300, y: 350, scale: 0.18, name: 'Telca (Guitar/Vocals)' },
+            { key: 'feral_guitarist', x: 250, y: 350, scale: 0.18, name: 'Telca (Guitar/Vocals)' },
             { key: 'feral_bassplayer', x: 500, y: 350, scale: 0.18, name: 'Bass Player XL (Bass)' },
             { key: 'feral_drummer', x: 400, y: 330, scale: 0.18, name: 'Fluffy Kārlis (Drums)' },
-            { key: 'feral_synth', x: 600, y: 330, scale: 0.18, name: 'Mira Dron (Synth)' }
+            { key: 'feral_synth', x: 650, y: 330, scale: 0.18, name: 'Mira Dron (Synth)' }
         ];
         
         // Create each band member
