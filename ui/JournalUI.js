@@ -276,14 +276,10 @@ class JournalUI {
                 entryBox.lineStyle(1, 0x2a623d); // Border color
                 
                 this.contentContainer.add(entryBox);
-                
-                // Date format
-                const date = new Date(entry.timestamp);
-                const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-                
+                                
                 // Title with date
                 const titleText = this.scene.add.text(padding, yOffset + padding, 
-                    `${entry.title} (${formattedDate})`, {
+                    `${entry.title}`, {
                     fontSize: '20px',
                     fontFamily: 'Georgia',
                     color: '#7fff8e',
