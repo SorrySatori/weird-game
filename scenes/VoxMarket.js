@@ -363,7 +363,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_bishop_reveal: {
-                text: "'From what I know, she shops for rare gaming items. You see, our Bishop became addicted to dream games from Dr. Elphi Quarn. She visited Dr. Elphi quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140..'",
+                text: "'From what I know, she shops for rare gaming items. You see, our Bishop became addicted to dream games from Dr. Elphi Quarn. She visited Dr. Elphi quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. The Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. You should look for Dr. Elphi at the Scraper 1140..'",
                 options: [
                     { text: "The dream games?", next: "kloor_dream_games" }
                 ]

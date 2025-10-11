@@ -381,7 +381,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainFloorCounter: {
-                text: "A floor counter malfunction? That's a common issue with pre-Fruiting lift systems. The numeric displays were never designed to handle the mycelial networks that now permeate everything. I happen to have developed a specialized calibration tool for just such problems during my time maintaining the aerial dock lifts.",
+                text: "A floor counter malfunction? That's a common issue with the lift systems. The numeric displays were designed to handle the simple tasks as going up and down, but the engineers did not count with sentient elevators. I happen to have developed a specialized calibration tool for just such problems during my time maintaining the aerial dock lifts.",
                 options: [
                     {
                         text: 'Could I borrow this tool?',
@@ -395,7 +395,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainToolExplanation: {
-                text: "It's a symbiotic interface that bridges old electronic systems with the new mycelial networks. The tool contains a specialized strain of communication spores that can translate between digital signals and mycelial impulses. You simply attach it to the counter's maintenance port, and it reestablishes the connection between the mechanical components and the building's new nervous system.",
+                text: "It's a symbiotic interface that bridges old electronic systems with the newly developed lift's intelligent mind. The tool contains a specialized strain of communication micro drones that can translate between digital signals and brain-like impulses. You simply attach it to the counter's maintenance port, and it reestablishes the connection between the mechanical components and the building's new nervous system.",
                 options: [
                     {
                         text: 'Could I borrow this tool?',
@@ -409,7 +409,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainGivesTool: {
-                text: "Of course you can! I always carry spares—you never know when you'll need to repair something mid-flight. Here, take this calibration module. It's simple to use: just attach it to the maintenance panel of the elevator system, and it will automatically recalibrate the floor counter. The spores inside will do all the work.",
+                text: "Of course you can! I always carry spares—you never know when you'll need to repair something mid-flight. Here, take this calibration module. It's simple to use: just attach it to the maintenance panel of the elevator system, and it will automatically recalibrate the floor counter. The drones inside will do all the work.",
                 options: [
                     {
                         text: 'Thank you!',

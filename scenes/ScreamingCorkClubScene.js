@@ -307,7 +307,8 @@ export default class ScreamingCorkClubScene extends GameScene {
     
     startPerformance() {
         if (this.isPlaying) return; // Already playing
-        
+        this.sound.stopAll();
+
         this.isPlaying = true;
         
         // Show notification
@@ -696,7 +697,7 @@ export default class ScreamingCorkClubScene extends GameScene {
         if (this.isPlaying) {
             this.endPerformance();
         }
-        
+        this.sound.stopAll();
         // Stop the music when leaving the scene (extra safety check)
         if (this.music) {
             this.music.stop();

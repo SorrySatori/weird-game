@@ -164,20 +164,44 @@ export default class ScreamingCorkScene extends GameScene {
             case 'postmodern':
                 if (this.bookTone === 'existential' || this.bookTone === 'metaphysical') {
                     title = `${this.bookSetting.split(' ')[0]}, ${this.bookSetting.split(' ')[1]}, ${this.bookProtagonist.split(' ')[0]}`;
-                } 
+                }
+                if (this.bookTone === 'romantic') {
+                    title = `The Secret Life of ${this.bookProtagonist.split(' ')[0]} in ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
+                }
+                if (this.bookTone === 'political') {
+                    title = `The ${this.bookProtagonist.split(' ')[0]} Who Changed ${this.bookSetting.split(' ')[0]}`;
+                }
+                if (this.bookTone === 'comical') {
+                    title = `The Absurd Chronicles of ${this.bookProtagonist.split(' ')[0]} in ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
+                }
+                if (this.bookTone === 'metaphysical') {
+                    title = `The Day When ${this.bookProtagonist.split(' ')[0]} Discovered ${this.bookSetting.split(' ')[0]}'s Secret`;
+                }
                 if (this.bookTone === 'tragic') {
                     title = `The Making of ${this.bookProtagonist.split(' ')[0]} from ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
                 }
                 else {
-                    title = `The ${this.bookProtagonist.split(' ')[0]} Variations`;
+                    title = `In the Name of ${this.bookProtagonist.split(' ')[0]}`;
                 }
                 break;
 
             case 'urban_fantasy':
                 if (this.bookTone === 'political') { title = `The ${this.bookProtagonist.split(' ')[0]} of ${this.bookSetting.split(' ')[0]} Street`;
                 } 
-                else if (this.bookTone === 'metaphysical') {
+                if (this.bookTone === 'metaphysical') {
                     title = `The Tale of ${this.bookProtagonist}'travels to ${this.bookSetting.split(' ')[0]}`;
+                }
+                if (this.bookTone === 'tragic') {
+                    title = `The ${this.bookProtagonist.split(' ')[0]} Who Lost ${this.bookSetting.split(' ')[0]}`;
+                }
+                if (this.bookTone === 'comical') {
+                    title = `The Hilarious Misadventures of ${this.bookProtagonist.split(' ')[0]} in ${this.bookSetting.split(' ').slice(0, 2).join(' ')}`;
+                }
+                if (this.bookTone === 'romantic') {
+                    title = `A Love Story in ${this.bookSetting.split(' ')[0]}: Life of ${this.bookProtagonist.split(' ')[0]}`;
+                }
+                if(this.bookTone === 'existential') {
+                    title = `What Can Change ${this.bookProtagonist.split(' ')[0]} and the Average ${this.bookSetting.split(' ')[0]} Citizen?`;
                 }
                 
                 else {
@@ -186,24 +210,31 @@ export default class ScreamingCorkScene extends GameScene {
                 break;
 
             case 'funny_animals':
-                if(this.bookTone === 'political') title = `${this.bookProtagonist.split(' ')[0]}'s Guide to ${this.bookTone.charAt(0).toUpperCase() + this.bookTone.slice(1)} Living`;
-                else if (this.bookTone === 'existential') title = `The ${this.bookProtagonist.split(' ')[0]} Who Thought Too Much`;
-                else if (this.bookTone === 'tragic') title = `The Sad Tale of ${this.bookProtagonist.split(' ')[0]} who Wished to be a Zookeeper`;
-                else title = `Crazy Cats in ${this.bookSetting.split(' ')[0]}`;
+                if(this.bookTone === 'political') title = `${this.bookProtagonist}'s Guide to ${this.bookTone.charAt(0).toUpperCase() + this.bookTone.slice(1)} Living`;
+                if (this.bookTone === 'existential') title = `The ${this.bookProtagonist.split} Who Thought Too Much`;
+                if (this.bookTone === 'tragic') title = `The Sad Tale of ${this.bookProtagonist} who Wished to be a Zookeeper`;
+                if (this.bookTone === 'romantic') title = `Finding Love in the ${this.bookSetting}: A ${this.bookProtagonist}'s Story`;
+                if (this.bookTone === 'metaphysical') title = `The ${this.bookProtagonist} and the Meaning of Life`;
+                else title = `Crazy Cats of ${this.bookSetting}: The Day When ${this.bookProtagonist} Went Wild`;
                 break;
 
             case 'detective':
-                if(this.bookTone === 'metaphysical') title = `The ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''} Mystery`;
-                if(this.bookTone === 'tragic') title = `The Sad ${this.bookProtagonist.split(' ')[0]} Case`;
-                if(this.bookTone === 'comical') title = `The Hilarious ${this.bookProtagonist.split(' ')[0]} and the ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''} Murder`;
-                else title = `The Case of the ${this.bookSetting.split(' ')[0]} ${this.bookSetting.split(' ')[1] || ''}`;
+                if(this.bookTone === 'metaphysical') title = `The ${this.bookSetting} ${this.bookSetting || ''} Mystery`;
+                if(this.bookTone === 'tragic') title = `The Sad ${this.bookProtagonist} Case`;
+                if(this.bookTone === 'comical') title = `The Hilarious ${this.bookProtagonist} and the ${this.bookSetting} ${this.bookSetting || ''} Murder`;
+                if(this.bookTone === 'existential') title = `${this.bookProtagonist} Travels to ${this.bookSetting} to Find Himself and Make Some Existencial Hardcore Decisions`;
+                if(this.bookTone === 'romantic') title = `Love in the Time of ${this.bookSetting} Crimes`;
+                if(this.bookTone === 'political') title = `The ${this.bookProtagonist} vs. the ${this.bookSetting} Conspiracy`;
+                else title = `The Case of the ${this.bookSetting} ${this.bookSetting || ''}`;
                 break;
 
             case 'weird_fiction':
-                if(this.bookTone === 'comical') title = `Making fun of ${this.bookProtagonist.split(' ')[0]} Dreams of ${this.bookSetting.split(' ')[0]}`;
-                if(this.bookTone === 'tragic') title = `The ${this.bookProtagonist.split(' ')[0]} Who Cried Fungi`;
-                if(this.bookTone === 'existential') title = `The ${this.bookProtagonist.split(' ')[0]} and the ${this.bookSetting.split(' ')[0]} Paradox`;
-                else title = `The ${this.bookProtagonist.split(' ')[0]} in the ${this.bookSetting.split(' ')[0]} Labyrinth`;
+                if(this.bookTone === 'comical') title = `Making fun of ${this.bookProtagonist} Dreams of ${this.bookSetting}`;
+                if(this.bookTone === 'tragic') title = `The ${this.bookProtagonist} Who Cried Fungi`;
+                if(this.bookTone === 'romantic') title = `A ${this.bookProtagonist}'s Guide to Love in ${this.bookSetting}`;
+                if(this.bookTone === 'political') title = `The Manifest of ${this.bookProtagonist}: How to Destroy ${this.bookSetting} and Make a Revolution`;
+                if(this.bookTone === 'existential') title = `The ${this.bookProtagonist} and the ${this.bookSetting} Paradox`;
+                else title = `The ${this.bookProtagonist} in the ${this.bookSetting} Labyrinth`;
                 break;
         }
 
@@ -458,12 +489,12 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "The tone is set, but what genre should this story be? I've been exploring some experimental options.",
                 options: [
-                    { text: "Fungal techno-thriller", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'fungal_techno'; } },
+                    { text: "Fungal techno-thriller", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'fungal techno'; } },
                     { text: "Postmodern novel", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'postmodern'; } },
-                    { text: "Urban fantasy", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'urban_fantasy'; } },
-                    { text: "Funny animals with depression", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'funny_animals'; } },
+                    { text: "Urban fantasy", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'urban fantasy'; } },
+                    { text: "Funny animals with depression", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'funny animals'; } },
                     { text: "Detective novel", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'detective'; } },
-                    { text: "Dreamy weird fiction", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'weird_fiction'; } }
+                    { text: "Dreamy weird fiction", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'weird fiction'; } }
                 ]
             },
 
@@ -477,12 +508,12 @@ export default class ScreamingCorkScene extends GameScene {
                     // Add journal entry about the genre selection
                     let genreDescription;
                     switch (this.bookGenre) {
-                        case 'fungal_techno': genreDescription = 'combining biotechnology with horror elements'; break;
+                        case 'fungal techno': genreDescription = 'combining biotechnology with horror elements'; break;
                         case 'postmodern': genreDescription = 'breaking conventional narrative rules'; break;
-                        case 'urban_fantasy': genreDescription = 'bringing magical elements into the city setting'; break;
-                        case 'funny_animals': genreDescription = 'using anthropomorphic characters to explore deeper emotions'; break;
+                        case 'urban fantasy': genreDescription = 'bringing magical elements into the city setting'; break;
+                        case 'funny animals': genreDescription = 'using anthropomorphic characters to explore deeper emotions'; break;
                         case 'detective': genreDescription = 'following clues to unravel mysteries'; break;
-                        case 'weird_fiction': genreDescription = 'blurring the lines between reality and dreams'; break;
+                        case 'weird fiction': genreDescription = 'blurring the lines between reality and dreams'; break;
                         default: genreDescription = 'a compelling literary style'; break;
                     }
 
@@ -528,7 +559,7 @@ export default class ScreamingCorkScene extends GameScene {
                         case 'scientist': protagonistDescription = 'delving into the mysteries of the city\'s fungal biology'; break;
                         case 'misutkenn': protagonistDescription = 'searching for identity and belonging between worlds'; break;
                         case 'amnesiac': protagonistDescription = 'uncovering their past while wielding unusual abilities'; break;
-                        case 'fungal_colony': protagonistDescription = 'a collective consciousness experiencing individuality'; break;
+                        case 'fungal colony': protagonistDescription = 'a collective consciousness experiencing individuality'; break;
                         case 'detective': protagonistDescription = 'solving mysteries by entering people\'s dreams'; break;
                         default: protagonistDescription = 'navigating the complexities of Upper Morkezela'; break;
                     }
@@ -553,8 +584,8 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "The Scraper's shifting floors", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'scraper'; } },
                     { text: "A murderous magical school", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'magical_school'; } },
-                    { text: "A giant immortal mammal, swimming in the ocean", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'immortal_mammal'; } },
-                    { text: "The fungal wilds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'fungal_wilds'; } },
+                    { text: "A giant immortal mammal, swimming in the ocean", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'immortal mammal'; } },
+                    { text: "The fungal wilds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'fungal wilds'; } },
                     { text: "A skyship above the clouds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'skyship'; } },
                     { text: "The subterranean markets", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'markets'; } }
                 ]
@@ -571,9 +602,9 @@ export default class ScreamingCorkScene extends GameScene {
                     let settingDescription;
                     switch (this.bookSetting) {
                         case 'scraper': settingDescription = 'a mysterious building with floors that rearrange themselves'; break;
-                        case 'magical_school': settingDescription = 'the magical school, where kids are dying every year under suspicious circumstances, except the main protagonist, of course'; break;
+                        case 'magical school': settingDescription = 'the magical school, where kids are dying every year under suspicious circumstances, except the main protagonist, of course'; break;
                         case 'immortal_mammal': settingDescription = 'an enormous creature without a name, swimming eternally in the depths'; break;
-                        case 'fungal_wilds': settingDescription = 'the untamed areas where fungal growths take their most primordial forms'; break;
+                        case 'fungal wilds': settingDescription = 'the untamed areas where fungal growths take their most primordial forms'; break;
                         case 'skyship': settingDescription = 'a vessel drifting above the clouds, isolated yet connected to the city below'; break;
                         case 'markets': settingDescription = 'the underground commercial spaces where anything can be traded'; break;
                         default: settingDescription = 'a compelling environment for the story'; break;

@@ -21,7 +21,8 @@ export default class ScraperAmbraScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
-        
+        this.playSceneMusic('dr_elphi_theme');
+
         // Set background
         const bg = this.add.image(400, 300, 'scraperAmbraBg');
         bg.setDisplaySize(800, 600);
@@ -395,6 +396,8 @@ export default class ScraperAmbraScene extends GameScene {
     
     shutdown() {
         // Clean up resources
+        this.restoreBackgroundMusic();
+        this.sceneMusic = null;
         super.shutdown();
     }
     
