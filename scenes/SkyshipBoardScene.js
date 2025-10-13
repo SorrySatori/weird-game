@@ -176,7 +176,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: 'The skyship appears to be a transport vessel. Various fungal growths line the edges of the deck, seemingly serving as both decoration and structural support. The ship sways gently in the wind.',
                 options: [
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'main'
                     }
                 ]
@@ -231,7 +231,7 @@ export default class SkyshipBoardScene extends GameScene {
                         next: 'captainAccord'
                     },
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'captainMain'
                     }
                 ]
@@ -240,7 +240,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "The Sporemind Accord is a powerful organization, you know? We strive for the fusion of mind and flora. We are keepers and protectors of everything that grows. We are the guardians of life.",
                 options: [
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'captainMain'
                     },
                     {
@@ -264,7 +264,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "We are on a mission to search and gather rare specimens for the Sporemind Accord. But we are still waiting for more specs, so we don't mind that little ladder of yours.",
                 options: [
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'captainMain'
                     }
                 ]
@@ -273,7 +273,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Sure, we have some enemies, as everybody. Especially that Rust Choir scum, but that's hardly surprising.", 
                 options: [
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'captainMain'
                     }
                 ],
@@ -316,7 +316,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Ha! Life without risk is no life at all. Yes, there are dangers—storm spores that could envelop us, predatory flying mycelia that hunt in the upper reaches, not to mention the constant balance between Growth and Decay that keeps us from either dissolving into spores or becoming a rigid, dead mass. But the freedom of the skies... that's worth any risk.",
                 options: [
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'captainMain'
                     }
                 ]
@@ -338,7 +338,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've found more balance between Growth and Decay. The Spore Drifter is particular about who it accepts.",
                 options: [
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'captainMain'
                     }
                 ]
@@ -360,7 +360,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected our specialized goods yet. Return after we've made our first circuit—perhaps in a few cycles—and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
                 options: [
                     {
-                        text: 'Back',
+                        text: 'Other topics',
                         next: 'captainMain'
                     }
                 ]
