@@ -87,6 +87,50 @@ class QuestSystem extends Phaser.Events.EventEmitter {
     getAllQuests() {
         return Array.from(this.quests.values());
     }
+    
+    /**
+     * Get serializable data for saving
+     * @returns {Object} Data that can be serialized to JSON
+     */
+    getSerializableData() {
+        // Convert Map to array of entries for serialization
+        return {
+            quests: Array.from(this.quests.entries())
+        };
+    }
+    
+    /**
+     * Load data from a save file
+     * @param {Object} data - Data from save file
+     */
+    loadFromData(data) {
+        if (data && data.quests) {
+            // Clear existing quests
+            this.quests.clear();
+            
+            // Restore quests from data
+            data.quests.forEach(([id, quest]) => {
+                // Convert date strings back to Date objects
+                if (quest.dateStarted) {
+                    quest.dateStarted = new Date(quest.dateStarted);
+                }
+                if (quest.dateCompleted) {
+                    quest.dateCompleted = new Date(quest.dateCompleted);
+                }
+                if (quest.updates) {
+                    quest.updates.forEach(update => {
+                        if (update.date) {
+                            update.date = new Date(update.date);
+                        }
+                    });
+                }
+                
+                this.quests.set(id, quest);
+            });
+            
+            this.notifySubscribers();
+        }
+    }
 }
 
 export default QuestSystem;

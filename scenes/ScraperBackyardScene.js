@@ -58,26 +58,11 @@ export default class ScraperBackyardScene extends GameScene {
         
         // Add exit click handler
         this.exitArea.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Move priest to exit
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ScraperInteriorScene');
-                    });
-                }
-            });
+            // Use the SceneTransitionManager to handle the transition
+            if (!this.transitionManager) {
+                this.transitionManager = new SceneTransitionManager(this);
+            }
+            this.transitionManager.handleSceneTransition('ScraperInteriorScene', 50, 470);
         });
         
         // Add abandoned bus - adjusted position for the zoomed out background
@@ -109,26 +94,11 @@ export default class ScraperBackyardScene extends GameScene {
         
         // Add bus click handler
         this.abandonedBus.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Move priest to bus
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 350,
-                y: 500,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('AbandonedBusScene');
-                    });
-                }
-            });
+            // Use the SceneTransitionManager to handle the transition
+            if (!this.transitionManager) {
+                this.transitionManager = new SceneTransitionManager(this);
+            }
+            this.transitionManager.handleSceneTransition('AbandonedBusScene', 350, 500);
         });
         
         // Add glow effect directly onto the bus

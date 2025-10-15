@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 export default class SkyshipBoardScene extends GameScene {
     constructor() {
         super({ key: 'SkyshipBoardScene' });
@@ -127,27 +128,15 @@ export default class SkyshipBoardScene extends GameScene {
     }
     
     setupSceneTransitions() {
+        // Initialize the scene transition manager if it doesn't exist
+        if (!this.transitionManager) {
+            this.transitionManager = new SceneTransitionManager(this);
+        }
+        
         // Exit to CrossroadScene
         this.exitArea.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 100,
-                y: 500,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
-                    });
-                }
-            });
+            // Use the SceneTransitionManager to handle the transition
+            this.transitionManager.handleSceneTransition('CrossroadScene', 100, 500);
         });
     }
 

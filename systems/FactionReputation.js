@@ -37,4 +37,27 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
     getReputation(factionName) {
         return this.factions[factionName]?.reputation || 0;
     }
+    
+    /**
+     * Get all faction reputations for serialization
+     * @returns {Object} All faction data
+     */
+    getReputations() {
+        return JSON.parse(JSON.stringify(this.factions));
+    }
+    
+    /**
+     * Set faction reputations from saved data
+     * @param {Object} factionData - Faction data from save file
+     */
+    setReputations(factionData) {
+        if (!factionData) return;
+        
+        // Update existing factions with saved values
+        Object.keys(factionData).forEach(factionName => {
+            if (this.factions[factionName]) {
+                this.factions[factionName].reputation = factionData[factionName].reputation;
+            }
+        });
+    }
 }

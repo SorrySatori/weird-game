@@ -200,6 +200,43 @@ class JournalSystem extends Phaser.Events.EventEmitter {
         }
         return this.entries.size;
     }
+    
+    /**
+     * Get serializable data for saving
+     * @returns {Object} Data that can be serialized to JSON
+     */
+    getSerializableData() {
+        // Convert Map to array of entries for serialization
+        return {
+            entries: Array.from(this.entries.entries())
+        };
+    }
+    
+    /**
+     * Load data from a save file
+     * @param {Object} data - Data from save file
+     */
+    loadFromData(data) {
+        if (data && data.entries) {
+            // Clear existing entries
+            this.entries.clear();
+            
+            // Restore entries from data
+            data.entries.forEach(([id, entry]) => {
+                // Convert date strings back to Date objects
+                if (entry.timestamp) {
+                    entry.timestamp = new Date(entry.timestamp);
+                }
+                if (entry.lastUpdated) {
+                    entry.lastUpdated = new Date(entry.lastUpdated);
+                }
+                
+                this.entries.set(id, entry);
+            });
+            
+            this.notifySubscribers();
+        }
+    }
 }
 
 export default JournalSystem;

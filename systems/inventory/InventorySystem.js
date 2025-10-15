@@ -572,6 +572,33 @@ export default class InventorySystem {
             this._activeUsePopup = null;
         }
     }
+    
+    /**
+     * Get all inventory items for serialization
+     * @returns {Object} Inventory data for saving
+     */
+    getInventoryData() {
+        return this.scene.registry.get('inventory') || {
+            items: [],
+            maxItems: 12
+        };
+    }
+    
+    /**
+     * Load inventory data from a save file
+     * @param {Object} inventoryData - Inventory data from save file
+     */
+    loadInventoryData(inventoryData) {
+        if (!inventoryData) return;
+        
+        // Update registry with saved inventory data
+        this.scene.registry.set('inventory', inventoryData);
+        
+        // Update inventory display if visible
+        if (this.inventoryVisible) {
+            this.updateInventoryDisplay();
+        }
+    }
 
     /**
      * Show a popup menu for using an item

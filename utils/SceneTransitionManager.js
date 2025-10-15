@@ -1,3 +1,7 @@
+/**
+ * SceneTransitionManager.js
+ * Handles scene transitions with consistent behavior across all scenes
+ */
 export default class SceneTransitionManager {
     constructor(scene) {
         this.scene = scene;
@@ -11,6 +15,15 @@ export default class SceneTransitionManager {
             hover: 0xffd700,     // Gold color for hover state
             glow: 0xff9500,      // Orange glow
             text: 0xffffff       // White text
+        };
+        
+        // Default transition settings
+        this.defaultSettings = {
+            walkDuration: 1000,           // Default duration for walking animations
+            fadeOutDuration: 800,        // Default duration for fade out effect
+            safetyTimeout: 2000,         // Safety timeout to force transition if tween doesn't complete
+            minWalkDuration: 500,        // Minimum walk duration
+            walkSpeedFactor: 3           // Walk speed factor (ms per pixel)
         };
         
         // Add scene shutdown event to clean up resources
@@ -51,7 +64,21 @@ export default class SceneTransitionManager {
         this.transitionElements = [];
     }
 
-    createTransitionZone(x, y, width, height, direction, targetScene, walkX, walkY, destinationName = '') {
+    /**
+     * Create a transition zone that handles scene transitions
+     * @param {number} x - X position of the zone
+     * @param {number} y - Y position of the zone
+     * @param {number} width - Width of the zone
+     * @param {number} height - Height of the zone
+     * @param {string} direction - Direction of the transition (up, down, left, right)
+     * @param {string} targetScene - Target scene key
+     * @param {number} walkX - X position to walk to before transition
+     * @param {number} walkY - Y position to walk to before transition
+     * @param {string} destinationName - Name of the destination to display
+     * @param {Object} options - Additional options for the transition
+     * @returns {Phaser.GameObjects.Zone} The created transition zone
+     */
+    createTransitionZone(x, y, width, height, direction, targetScene, walkX, walkY, destinationName = '', options = {}) {
         // If no destination name is provided, create one from the target scene
         if (!destinationName) {
             // Convert camelCase to Title Case with spaces
@@ -94,29 +121,102 @@ export default class SceneTransitionManager {
 
         // Add the transition logic
         zone.on('pointerdown', () => {
-            if (this.scene.isTransitioning) return;
-            this.scene.isTransitioning = true;
-
-            const priest = this.scene.priest;
-            priest.play('walk');
-            this.scene.tweens.killTweensOf(priest);
-            
-            this.scene.tweens.add({
-                targets: priest,
-                x: walkX,
-                y: walkY,
-                duration: 1000,
-                onComplete: () => {
-                    this.scene.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.scene.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.scene.start(targetScene);
-                        this.scene.isTransitioning = false;
-                    });
-                }
-            });
+            // Use the handleSceneTransition method to ensure consistent behavior
+            this.handleSceneTransition(targetScene, walkX, walkY, options);
         });
 
         return zone;
+    }
+    
+    /**
+     * Handle scene transition with consistent behavior
+     * @param {string} targetScene - Target scene key
+     * @param {number} walkX - X position to walk to before transition
+     * @param {number} walkY - Y position to walk to before transition
+     * @param {Object} options - Additional options for the transition
+     */
+    handleSceneTransition(targetScene, walkX, walkY, options = {}) {
+        // Prevent multiple transitions
+        if (this.scene.isTransitioning) return;
+        this.scene.isTransitioning = true;
+        
+        // Merge options with defaults
+        const settings = {
+            ...this.defaultSettings,
+            ...options
+        };
+        
+        // Get the priest character
+        const priest = this.scene.priest;
+        
+        // If priest doesn't exist, just transition immediately
+        if (!priest) {
+            this.directTransition(targetScene, settings.fadeOutDuration);
+            return;
+        }
+        
+        // Create a variable to track if the tween completed
+        let tweenCompleted = false;
+        
+        // Play walk animation
+        if (priest.anims && priest.anims.exists('walk')) {
+            priest.play('walk');
+        }
+        
+        // Kill any existing tweens
+        this.scene.tweens.killTweensOf(priest);
+        
+        // Calculate distance and duration
+        const distance = Phaser.Math.Distance.Between(priest.x, priest.y, walkX, walkY);
+        const duration = Math.max(settings.minWalkDuration, distance * settings.walkSpeedFactor);
+        
+        // Create the movement tween
+        this.scene.tweens.add({
+            targets: priest,
+            x: walkX,
+            y: walkY,
+            duration: duration,
+            ease: 'Linear',
+            onComplete: () => {
+                tweenCompleted = true;
+                
+                // Play idle animation if it exists
+                if (priest.anims && priest.anims.exists('idle')) {
+                    priest.play('idle');
+                }
+                
+                // Transition to the target scene
+                this.directTransition(targetScene, settings.fadeOutDuration);
+            }
+        });
+        
+        // Add a safety timeout in case the tween doesn't complete
+        this.scene.time.delayedCall(settings.safetyTimeout, () => {
+            if (!tweenCompleted) {
+                console.log(`Scene transition to ${targetScene} timed out, forcing transition`);
+                
+                // Play idle animation if it exists
+                if (priest && priest.anims && priest.anims.exists('idle')) {
+                    priest.play('idle');
+                }
+                
+                // Force transition to the target scene
+                this.directTransition(targetScene, settings.fadeOutDuration);
+            }
+        });
+    }
+    
+    /**
+     * Direct transition to target scene without character movement
+     * @param {string} targetScene - Target scene key
+     * @param {number} fadeOutDuration - Duration of fade out effect
+     */
+    directTransition(targetScene, fadeOutDuration = 800) {
+        this.scene.cameras.main.fadeOut(fadeOutDuration, 0, 0, 0);
+        this.scene.cameras.main.once('camerafadeoutcomplete', () => {
+            this.scene.scene.start(targetScene);
+            this.scene.isTransitioning = false;
+        });
     }
 
     addHoverEffect(zone, direction) {

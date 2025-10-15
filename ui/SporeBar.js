@@ -18,7 +18,7 @@ export default class SporeBar {
         this.fillBar.setOrigin(0, 0);
         
         // Create label
-        this.label = scene.add.text(75, -15, 'SPORES', {
+        this.label = scene.add.text(75, 24, 'SPORES', {
             fontSize: '14px',
             fill: '#7fff8e',
             align: 'center'
@@ -60,14 +60,14 @@ export default class SporeBar {
             this.boundUpdateDisplay = this.updateDisplay.bind(this);
             scene.sporeSystem.subscribe(this.boundUpdateDisplay);
             // Immediately sync UI to current spore level
-            this.updateDisplay(scene.sporeSystem.getSporeLevel());
+            this.updateDisplay(scene.sporeSystem.getSporeLevel(), scene.sporeSystem.getMaxSpores());
         }
 
     }
     
     createTooltip() {
         // Create semi-transparent background for tooltip
-        this.tooltipBg = this.scene.add.rectangle(0, 30, 200, 60, 0x000000, 0.8);
+        this.tooltipBg = this.scene.add.rectangle(0, 30, 200, 80, 0x000000, 0.8);
         this.tooltipBg.setOrigin(0, 0);
         this.tooltipBg.setStrokeStyle(1, 0x7fff8e);
         
@@ -75,7 +75,7 @@ export default class SporeBar {
         this.tooltipText = this.scene.add.text(10, 40, 
             'Spore Energy\n' +
             'Used for fungal abilities and rituals.\n' +
-            'Replenishes over time.', {
+            'Current: 0/0', {
             fontSize: '12px',
             fill: '#ffffff',
             align: 'left',
@@ -87,6 +87,16 @@ export default class SporeBar {
     }
     
     showTooltip() {
+        // Update tooltip text with current values
+        if (this.scene.sporeSystem) {
+            const current = this.scene.sporeSystem.getSporeLevel();
+            const max = this.scene.sporeSystem.getMaxSpores();
+            const tooltipContent = 'Spore Energy\n' +
+                'Used for fungal abilities and rituals.\n' +
+                `Current: ${current}/${max}`;
+            this.tooltipText.setText(tooltipContent);
+        }
+        
         this.tooltipBg.setVisible(true);
         this.tooltipText.setVisible(true);
     }
@@ -96,21 +106,23 @@ export default class SporeBar {
         this.tooltipText.setVisible(false);
     }
     
-    updateDisplay(sporeLevel) {
+    updateDisplay(currentSpores, maxSpores = 100) {
         // Defensive: If UI elements are destroyed, do nothing
         if (!this.fillBar || !this.valueText) return;
+        
         // Update the fill bar width based on spore level
         const maxWidth = 146;
-        const fillWidth = Math.max(0, (sporeLevel / 100) * maxWidth);
+        const fillWidth = Math.max(0, (currentSpores / maxSpores) * maxWidth);
         this.fillBar.width = fillWidth;
         
         // Update the text
-        this.valueText.setText(`${Math.round(sporeLevel)}%`);
+        const percentage = Math.round((currentSpores / maxSpores) * 100);
+        this.valueText.setText(`${Math.round(currentSpores)}/${maxSpores}`);
         
-        // Change color based on level
-        if (sporeLevel < 25) {
+        // Change color based on percentage
+        if (percentage < 25) {
             this.fillBar.fillColor = 0xff3333; // Red when low
-        } else if (sporeLevel < 50) {
+        } else if (percentage < 50) {
             this.fillBar.fillColor = 0xffaa33; // Orange when medium
         } else {
             this.fillBar.fillColor = 0x7fff8e; // Green when high

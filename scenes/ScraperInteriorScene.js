@@ -311,26 +311,8 @@ export default class ScraperInteriorScene extends GameScene {
         
         // Add exit click handler
         this.exitArea.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Move priest to exit
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ScraperScene');
-                    });
-                }
-            });
+            // Use the SceneTransitionManager to handle the transition
+            this.transitionManager.handleSceneTransition('ScraperScene', 50, 470);
         });
 
         // Add elevator

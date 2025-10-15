@@ -76,6 +76,9 @@ export default class CrossroadScene extends GameScene {
 
         // Setup scene transitions using the transition manager
         this.setupSceneTransitions();
+        
+        // Setup skyship transition separately
+        this.setupSkyshipTransition();
 
         // Load persisted symbiont system
         this.symbiontSystem = this.registry.get('symbiontSystem');
@@ -604,33 +607,60 @@ export default class CrossroadScene extends GameScene {
     setupSkyshipTransition() {
         if (!this.skyshipTransition) return;
         
+        console.log('Setting up skyship transition');
+        
         this.skyshipTransition.on('pointerdown', () => {
+            console.log('Skyship transition clicked');
             if (this.isTransitioning) return;
             this.isTransitioning = true;
             
             // Get priest position
-            const priestX = this.priest.x;
-            const priestY = this.priest.y;
+            const priest = this.priest;
+            if (!priest) {
+                // If priest doesn't exist, just start the animation immediately
+                console.log('No priest found, starting skyship animation directly');
+                this.startSkyshipAnimation();
+                return;
+            }
             
             // Calculate distance to transition point
             const distance = Phaser.Math.Distance.Between(
-                priestX, priestY,
+                priest.x, priest.y,
                 this.skyshipTransition.x, this.skyshipTransition.y
             );
             
             // Calculate duration based on distance (faster for closer distances)
             const duration = Math.min(Math.max(distance * 5, 500), 2000);
             
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
             // Move priest to the transition point
-            this.priest.play('walk');
+            priest.play('walk');
+            
+            // Kill any existing tweens
+            this.tweens.killTweensOf(priest);
+            
             this.tweens.add({
-                targets: this.priest,
+                targets: priest,
                 x: this.skyshipTransition.x,
                 y: 470,
                 duration: duration,
                 ease: 'Linear',
                 onComplete: () => {
-                    this.priest.play('idle');
+                    tweenCompleted = true;
+                    priest.play('idle');
+                    this.startSkyshipAnimation();
+                }
+            });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(2000, () => {
+                if (!tweenCompleted) {
+                    console.log('Skyship transition tween timed out, forcing transition');
+                    if (priest.anims && priest.anims.exists('idle')) {
+                        priest.play('idle');
+                    }
                     this.startSkyshipAnimation();
                 }
             });

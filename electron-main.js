@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
 const path = require('path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -24,11 +24,15 @@ const createWindow = () => {
     autoHideMenuBar: false
   });
 
-  // Create a custom menu
+  // Create menu
   const template = [
     {
       label: 'File',
       submenu: [
+        { label: 'New Game', click: () => mainWindow.webContents.send('menu-new-game') },
+        { label: 'Save Game', click: () => mainWindow.webContents.send('menu-save-game') },
+        { label: 'Load Game', click: () => mainWindow.webContents.send('menu-load-game') },
+        { type: 'separator' },
         { role: 'quit' }
       ]
     },
@@ -47,7 +51,7 @@ const createWindow = () => {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-  // Load the index.html of the app.
+  // Load the index.html file
   mainWindow.loadFile('index.html');
 
   // Open the DevTools in development mode

@@ -7,7 +7,9 @@ class SporeSystem extends Phaser.Events.EventEmitter {
         SporeSystem.instance = this;
         
         this.scene = scene; // Store reference to the scene
-        this.sporeLevel = 100;
+        this.currentSpores = 100; // Current spore level
+        this.maxSpores = 100;     // Maximum spore capacity
+        this.sporeLevel = 100;     // Legacy property for compatibility
         this.subscribers = new Set(); // For UI updates
     }
 
@@ -27,23 +29,24 @@ class SporeSystem extends Phaser.Events.EventEmitter {
         
         if (amount) {
             // Update growth and ensure it stays within bounds
-            const oldSporeLevel = this.sporeLevel;
-            this.sporeLevel = Math.max(0, Math.min(100, this.sporeLevel + amount));
-            totalChange = this.sporeLevel - oldSporeLevel;
+            const oldSporeLevel = this.currentSpores;
+            this.currentSpores = Math.max(0, Math.min(this.maxSpores, this.currentSpores + amount));
+            this.sporeLevel = this.currentSpores; // Update legacy property for compatibility
+            totalChange = this.currentSpores - oldSporeLevel;
             
             // Emit event for growth change
             this.emit('sporeChanged', totalChange);
             
             // Check for symbiont reaction to spore change
             if (totalChange !== 0) {
-                console.log('[SporeSystem] Spore level changed:', oldSporeLevel, '->', this.sporeLevel);
+                console.log('[SporeSystem] Spore level changed:', oldSporeLevel, '->', this.currentSpores);
                 
                 // Try to get the symbiont system directly from the registry
                 const symbiontSystem = this.scene?.registry?.get('symbiontSystem');
                 
                 if (symbiontSystem) {
                     console.log('[SporeSystem] Found symbiontSystem in registry');
-                    const message = symbiontSystem.getSporeChangeMessage(oldSporeLevel, this.sporeLevel);
+                    const message = symbiontSystem.getSporeChangeMessage(oldSporeLevel, this.currentSpores);
                     if (message) {
                         console.log('[SporeSystem] Symbiont message:', message);
                         // Use the scene directly to show notification
@@ -75,7 +78,7 @@ class SporeSystem extends Phaser.Events.EventEmitter {
     notifySubscribers() {
         for (let callback of Array.from(this.subscribers)) {
             try {
-                callback(this.sporeLevel);
+                callback(this.currentSpores, this.maxSpores);
             } catch (e) {
                 console.warn('[SporeSystem] Removing dead subscriber:', callback, e);
                 this.subscribers.delete(callback);
@@ -86,12 +89,33 @@ class SporeSystem extends Phaser.Events.EventEmitter {
 
     // Get current values
     getSporeLevel() {
-        return this.sporeLevel;
+        return this.currentSpores;
     }
-        // Clean up resources
-        cleanup() {
-            this.subscribers = [];
-        }
+    
+    // Get maximum spore capacity
+    getMaxSpores() {
+        return this.maxSpores;
+    }
+    
+    // Set spore level (used when loading saved games)
+    setSporeLevel(value) {
+        this.currentSpores = Math.max(0, Math.min(this.maxSpores, value));
+        this.sporeLevel = this.currentSpores; // Update legacy property
+        this.notifySubscribers();
+    }
+    
+    // Set maximum spore capacity
+    setMaxSpores(value) {
+        this.maxSpores = Math.max(1, value);
+        this.currentSpores = Math.min(this.currentSpores, this.maxSpores);
+        this.sporeLevel = this.currentSpores; // Update legacy property
+        this.notifySubscribers();
+    }
+    
+    // Clean up resources
+    cleanup() {
+        this.subscribers = [];
+    }
 }
 
 export default SporeSystem;

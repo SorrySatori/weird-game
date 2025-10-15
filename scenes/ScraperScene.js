@@ -102,7 +102,23 @@ export default class ScraperScene extends GameScene {
             
             // Move priest to scraper entrance
             const priest = this.priest;
+            if (!priest) {
+                // If priest doesn't exist, just transition immediately
+                this.cameras.main.fadeOut(800, 0, 0, 0);
+                this.cameras.main.once('camerafadeoutcomplete', () => {
+                    this.scene.start('ScraperInteriorScene');
+                    this.isTransitioning = false;
+                });
+                return;
+            }
+            
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
+            // Play walk animation
             priest.play('walk');
+            
+            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
             
             this.tweens.add({
@@ -111,10 +127,23 @@ export default class ScraperScene extends GameScene {
                 y: 470,
                 duration: 1000,
                 onComplete: () => {
+                    tweenCompleted = true;
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
                         this.scene.start('ScraperInteriorScene');
                         this.isTransitioning = false; // Reset transition flag
+                    });
+                }
+            });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(2000, () => {
+                if (!tweenCompleted) {
+                    console.log('Scraper entrance transition timed out, forcing transition');
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('ScraperInteriorScene');
+                        this.isTransitioning = false;
                     });
                 }
             });
@@ -126,7 +155,23 @@ export default class ScraperScene extends GameScene {
             this.isTransitioning = true;
 
             const priest = this.priest;
+            if (!priest) {
+                // If priest doesn't exist, just transition immediately
+                this.cameras.main.fadeOut(800, 0, 0, 0);
+                this.cameras.main.once('camerafadeoutcomplete', () => {
+                    this.scene.start('CrossroadScene');
+                    this.isTransitioning = false;
+                });
+                return;
+            }
+            
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
+            // Play walk animation
             priest.play('walk');
+            
+            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
 
             this.tweens.add({
@@ -135,9 +180,23 @@ export default class ScraperScene extends GameScene {
                 y: 470,
                 duration: 1000,
                 onComplete: () => {
+                    tweenCompleted = true;
                     this.cameras.main.fadeOut(800, 0, 0, 0);
                     this.cameras.main.once('camerafadeoutcomplete', () => {
                         this.scene.start('CrossroadScene');
+                        this.isTransitioning = false;
+                    });
+                }
+            });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(2000, () => {
+                if (!tweenCompleted) {
+                    console.log('Exit transition timed out, forcing transition');
+                    this.cameras.main.fadeOut(800, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        this.scene.start('CrossroadScene');
+                        this.isTransitioning = false;
                     });
                 }
             });

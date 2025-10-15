@@ -29,6 +29,8 @@ import ScraperAmbraScene from './scenes/ScraperAmbraScene.js';
 import ScraperBackyardScene from './scenes/ScraperBackyardScene.js';
 import AbandonedBusScene from './scenes/AbandonedBusScene.js';
 
+// WebGL errors are handled by error-blocker.js
+
 const config = {
     type: Phaser.AUTO,
     width: 800,
@@ -41,13 +43,13 @@ const config = {
             debug: false
         }
     },
+    pixelArt: true,
     input: {
         keyboard: true,
         gamepad: false
     },
     scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, AbandonedBusScene],
     backgroundColor: '#2d2d2d',
-    pixelArt: true,
     scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,

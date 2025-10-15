@@ -613,4 +613,58 @@ export default class EffectsSystem {
             this.effectsContainer = null;
         }
     }
+    
+    /**
+     * Get active effects data for serialization
+     * @returns {Object} Data that can be serialized to JSON
+     */
+    getActiveEffects() {
+        return {
+            activeEffects: this.activeEffects.map(effect => ({
+                type: effect.type,
+                intensity: effect.intensity,
+                startTime: effect.startTime,
+                duration: effect.duration,
+                itemId: effect.itemId
+            })),
+            effectStartTime: this.effectStartTime,
+            currentDrugItem: this.currentDrugItem
+        };
+    }
+    
+    /**
+     * Load effects from saved data
+     * @param {Object} data - Effects data from save file
+     */
+    loadEffects(data) {
+        if (!data) return;
+        
+        // Clear current effects
+        this.clearEffects(true);
+        
+        // Restore effect state
+        if (data.effectStartTime) {
+            this.effectStartTime = data.effectStartTime;
+        }
+        
+        if (data.currentDrugItem) {
+            this.currentDrugItem = data.currentDrugItem;
+        }
+        
+        // Restore active effects
+        if (data.activeEffects && Array.isArray(data.activeEffects)) {
+            // Calculate how much time has passed since the save
+            const now = Date.now();
+            const timePassed = now - this.effectStartTime;
+            
+            data.activeEffects.forEach(effectData => {
+                // Only restore effects that haven't expired
+                if (timePassed < effectData.duration) {
+                    // Apply the effect with remaining duration
+                    const remainingDuration = effectData.duration - timePassed;
+                    this.applyEffect(effectData.type, effectData.intensity, remainingDuration, effectData.itemId);
+                }
+            });
+        }
+    }
 }
