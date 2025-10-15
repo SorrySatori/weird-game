@@ -77,6 +77,46 @@ class GrowthDecaySystem extends Phaser.Events.EventEmitter {
     getDecay() {
         return this.decay;
     }
+    
+    // Set specific values (used when loading saved games)
+    setGrowth(value) {
+        this.growth = Math.max(0, Math.min(100, value));
+        this.decay = 100 - this.growth;
+        this.notifySubscribers();
+    }
+    
+    setDecay(value) {
+        this.decay = Math.max(0, Math.min(100, value));
+        this.growth = 100 - this.decay;
+        this.notifySubscribers();
+    }
+    
+    /**
+     * Get serializable data for saving
+     * @returns {Object} Object containing growth and decay values
+     */
+    getSerializableData() {
+        return {
+            growth: this.growth,
+            decay: this.decay
+        };
+    }
+    
+    /**
+     * Load system state from saved data
+     * @param {Object} data - Object containing growth and decay values
+     */
+    loadFromData(data) {
+        console.log('Loading GrowthDecaySystem from data:', data);
+        if (data && typeof data === 'object') {
+            if (typeof data.growth === 'number') {
+                this.setGrowth(data.growth);
+            }
+            if (typeof data.decay === 'number') {
+                this.setDecay(data.decay);
+            }
+        }
+    }
 }
 
 export default GrowthDecaySystem;

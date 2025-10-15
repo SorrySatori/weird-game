@@ -325,4 +325,30 @@ export default class MoneySystem {
     destroy() {
         this.shutdown();
     }
+    
+    /**
+     * Set the amount directly (used when loading saved games)
+     * @param {number} amount - The amount to set
+     */
+    setAmount(amount) {
+        if (amount < 0) {
+            console.warn('Cannot set negative amount.');
+            return;
+        }
+        
+        this.amount = amount;
+        
+        // Update UI if it exists
+        if (this.moneyText) {
+            this.updateUI();
+        }
+    }
+    
+    /**
+     * Get the currency name
+     * @returns {string} The currency name
+     */
+    getCurrencyName() {
+        return this.options.currencyName;
+    }
 }

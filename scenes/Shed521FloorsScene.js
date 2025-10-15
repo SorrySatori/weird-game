@@ -228,6 +228,19 @@ export default class Shed521FloorsScene extends GameScene {
             this.isTransitioning = true;
             
             const priest = this.priest;
+            if (!priest) {
+                // If priest doesn't exist, just transition immediately
+                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                
+                this.time.delayedCall(200, () => {
+                    this.currentFloor = 2;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
+                });
+                return;
+            }
+            
+            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
             
             // First make the priest walk to the transition area
@@ -240,6 +253,9 @@ export default class Shed521FloorsScene extends GameScene {
             const distance = Math.abs(priest.x - walkToX);
             const walkDuration = distance * 4; // 4ms per pixel
             
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
             this.tweens.add({
                 targets: priest,
                 x: walkToX,
@@ -247,6 +263,7 @@ export default class Shed521FloorsScene extends GameScene {
                 duration: walkDuration,
                 ease: 'Linear',
                 onComplete: () => {
+                    tweenCompleted = true;
                     // After reaching the transition area, teleport to second floor
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
@@ -266,6 +283,22 @@ export default class Shed521FloorsScene extends GameScene {
                     });
                 }
             });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(2000, () => {
+                if (!tweenCompleted) {
+                    console.log('Floor transition tween timed out, forcing transition');
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    priest.x = 650;
+                    priest.y = 340; // Second floor level
+                    
+                    this.currentFloor = 2;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
+                }
+            });
         });
         
         // Second to First Floor
@@ -275,6 +308,19 @@ export default class Shed521FloorsScene extends GameScene {
             this.isTransitioning = true;
             
             const priest = this.priest;
+            if (!priest) {
+                // If priest doesn't exist, just transition immediately
+                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                
+                this.time.delayedCall(200, () => {
+                    this.currentFloor = 1;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
+                });
+                return;
+            }
+            
+            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
             
             // First make the priest walk to the transition area
@@ -287,6 +333,9 @@ export default class Shed521FloorsScene extends GameScene {
             const distance = Math.abs(priest.x - walkToX);
             const walkDuration = distance * 4; // 4ms per pixel
             
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
             this.tweens.add({
                 targets: priest,
                 x: walkToX,
@@ -294,6 +343,7 @@ export default class Shed521FloorsScene extends GameScene {
                 duration: walkDuration,
                 ease: 'Linear',
                 onComplete: () => {
+                    tweenCompleted = true;
                     // After reaching the transition area, teleport to first floor
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
@@ -313,6 +363,22 @@ export default class Shed521FloorsScene extends GameScene {
                     });
                 }
             });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(2000, () => {
+                if (!tweenCompleted) {
+                    console.log('Floor transition tween timed out, forcing transition');
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    priest.x = 400;
+                    priest.y = 520; // First floor level
+                    
+                    this.currentFloor = 1;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
+                }
+            });
         });
         
         // Second to Third Floor
@@ -322,6 +388,19 @@ export default class Shed521FloorsScene extends GameScene {
             this.isTransitioning = true;
             
             const priest = this.priest;
+            if (!priest) {
+                // If priest doesn't exist, just transition immediately
+                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                
+                this.time.delayedCall(200, () => {
+                    this.currentFloor = 3;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
+                });
+                return;
+            }
+            
+            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
             
             // First make the priest walk to the transition area
@@ -334,6 +413,9 @@ export default class Shed521FloorsScene extends GameScene {
             const distance = Math.abs(priest.x - walkToX);
             const walkDuration = distance * 4; // 4ms per pixel
             
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
             this.tweens.add({
                 targets: priest,
                 x: walkToX,
@@ -341,6 +423,7 @@ export default class Shed521FloorsScene extends GameScene {
                 duration: walkDuration,
                 ease: 'Linear',
                 onComplete: () => {
+                    tweenCompleted = true;
                     // After reaching the transition area, teleport to third floor
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
@@ -360,6 +443,22 @@ export default class Shed521FloorsScene extends GameScene {
                     });
                 }
             });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(2000, () => {
+                if (!tweenCompleted) {
+                    console.log('Floor transition tween timed out, forcing transition');
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    priest.x = 690;
+                    priest.y = 180; // Third floor level
+                    
+                    this.currentFloor = 3;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
+                }
+            });
         });
         
         // Third to Second Floor
@@ -369,6 +468,19 @@ export default class Shed521FloorsScene extends GameScene {
             this.isTransitioning = true;
             
             const priest = this.priest;
+            if (!priest) {
+                // If priest doesn't exist, just transition immediately
+                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                
+                this.time.delayedCall(200, () => {
+                    this.currentFloor = 2;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
+                });
+                return;
+            }
+            
+            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
             
             // First make the priest walk to the transition area
@@ -381,6 +493,9 @@ export default class Shed521FloorsScene extends GameScene {
             const distance = Math.abs(priest.x - walkToX);
             const walkDuration = distance * 4; // 4ms per pixel
             
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
             this.tweens.add({
                 targets: priest,
                 x: walkToX,
@@ -388,6 +503,7 @@ export default class Shed521FloorsScene extends GameScene {
                 duration: walkDuration,
                 ease: 'Linear',
                 onComplete: () => {
+                    tweenCompleted = true;
                     // After reaching the transition area, teleport to second floor
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
@@ -405,6 +521,22 @@ export default class Shed521FloorsScene extends GameScene {
                             this.isTransitioning = false;
                         });
                     });
+                }
+            });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(2000, () => {
+                if (!tweenCompleted) {
+                    console.log('Floor transition tween timed out, forcing transition');
+                    priest.play('idle');
+                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
+                    
+                    priest.x = 690;
+                    priest.y = 340; // Second floor level
+                    
+                    this.currentFloor = 2;
+                    this.updateEntranceAvailability(this.currentFloor);
+                    this.isTransitioning = false;
                 }
             });
         });

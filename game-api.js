@@ -1,24 +1,20 @@
-// Preload script for Electron and browser environments
+/**
+ * game-api.js - Provides a browser-compatible API for game save/load functionality
+ * This script should be included before the game loads
+ */
 
 // Check if we're running in Electron
 const isElectron = typeof window !== 'undefined' && window.process && window.process.type === 'renderer';
 
-// This will run before the renderer process is loaded
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('Preload script loaded, running in ' + (isElectron ? 'Electron' : 'Browser'));
-});
-
 // Create a browser-compatible API that uses localStorage when not in Electron
-window.gameAPI = window.gameAPI || {
+window.gameAPI = {
   getAppVersion: () => '1.0.0',
   
   // Save game data
   saveGame: (saveData, slotName = 'save1') => {
     try {
-      if (isElectron) {
-        // Electron implementation would go here
-        console.log('Electron save not implemented');
-        return { success: false, error: 'Electron save not implemented' };
+      if (isElectron && window.electronAPI) {
+        return window.electronAPI.saveGame(saveData, slotName);
       } else {
         // Browser implementation using localStorage
         const saveKey = `weird-game-save-${slotName}`;
@@ -34,10 +30,8 @@ window.gameAPI = window.gameAPI || {
   // Load game data
   loadGame: (slotName = 'save1') => {
     try {
-      if (isElectron) {
-        // Electron implementation would go here
-        console.log('Electron load not implemented');
-        return { success: false, error: 'Electron load not implemented' };
+      if (isElectron && window.electronAPI) {
+        return window.electronAPI.loadGame(slotName);
       } else {
         // Browser implementation using localStorage
         const saveKey = `weird-game-save-${slotName}`;
@@ -58,10 +52,8 @@ window.gameAPI = window.gameAPI || {
   // List all available save files
   listSaveFiles: () => {
     try {
-      if (isElectron) {
-        // Electron implementation would go here
-        console.log('Electron list not implemented');
-        return { success: false, error: 'Electron list not implemented' };
+      if (isElectron && window.electronAPI) {
+        return window.electronAPI.listSaveFiles();
       } else {
         // Browser implementation using localStorage
         const files = [];
@@ -91,10 +83,8 @@ window.gameAPI = window.gameAPI || {
   // Delete a save file
   deleteSaveFile: (slotName) => {
     try {
-      if (isElectron) {
-        // Electron implementation would go here
-        console.log('Electron delete not implemented');
-        return { success: false, error: 'Electron delete not implemented' };
+      if (isElectron && window.electronAPI) {
+        return window.electronAPI.deleteSaveFile(slotName);
       } else {
         // Browser implementation using localStorage
         const saveKey = `weird-game-save-${slotName}`;
@@ -113,15 +103,4 @@ window.gameAPI = window.gameAPI || {
   }
 };
 
-// For Electron compatibility, also expose through contextBridge if available
-if (isElectron && window.electron && window.electron.contextBridge) {
-  window.electron.contextBridge.exposeInMainWorld('electronAPI', window.gameAPI);
-}
-
-// Make sure gameAPI is available globally for browser environments
-if (typeof window !== 'undefined') {
-  window.gameAPI = window.gameAPI || {};
-}
-
-// Log that the API is ready
 console.log('Game API initialized and ready for use');

@@ -510,4 +510,44 @@ export default class SymbiontSystem {
         
         return null;
     }
+    
+    /**
+     * Get serializable data for saving
+     * @returns {Object} Data that can be serialized to JSON
+     */
+    getSerializableData() {
+        return {
+            symbionts: Array.from(this.symbionts.entries()),
+            maxSlots: this.maxSlots,
+            unlockedSlots: this.unlockedSlots,
+            lastMessageTime: this.lastMessageTime,
+            messageInterval: this.messageInterval
+        };
+    }
+    
+    /**
+     * Load data from a save file
+     * @param {Object} data - Data from save file
+     */
+    loadFromData(data) {
+        if (!data) return;
+        
+        // Restore symbionts
+        if (data.symbionts) {
+            this.symbionts = new Map(data.symbionts);
+            
+            // Convert date strings back to Date objects
+            this.symbionts.forEach(symbiont => {
+                if (symbiont.lastSpoke) {
+                    symbiont.lastSpoke = new Date(symbiont.lastSpoke);
+                }
+            });
+        }
+        
+        // Restore other properties
+        if (data.maxSlots) this.maxSlots = data.maxSlots;
+        if (data.unlockedSlots) this.unlockedSlots = data.unlockedSlots;
+        if (data.lastMessageTime) this.lastMessageTime = data.lastMessageTime;
+        if (data.messageInterval) this.messageInterval = data.messageInterval;
+    }
 }

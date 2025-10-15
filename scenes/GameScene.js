@@ -12,6 +12,8 @@ import MoneySystem from '../systems/inventory/MoneySystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import JournalUI from '../ui/JournalUI.js';
 import EffectsSystem from '../systems/EffectsSystem.js';
+import SaveSystem from '../systems/SaveSystem.js';
+import GameMenu from '../ui/GameMenu.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -34,9 +36,13 @@ export default class GameScene extends Phaser.Scene {
         this.journalSystem = null;
         this.journalUI = null;
         this.effectsSystem = null;
+        this.saveSystem = null;
+        this.gameMenu = null;
     }
 
-    init() {
+    init(data) {
+        console.log('GameScene init with data:', data);
+        
         // Reset transition flag when scene starts
         this.isTransitioning = false;
         
@@ -52,6 +58,15 @@ export default class GameScene extends Phaser.Scene {
         } else {
             this.usedDialogOptions = new Map();
         }
+        
+        // Initialize the save system
+        this.saveSystem = new SaveSystem(this);
+        
+        // Store loaded position if provided (from save game)
+        this.loadedPosition = data?.loadedPosition || null;
+        
+        // Flag to track if this is a loaded save
+        this.isLoadedSave = data?.loadedSave || false;
     }
 
     preload() {
@@ -91,6 +106,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
+        console.log('GameScene create');
+        
         // Create background if needed
         if (typeof this.createCityBackground === 'function') {
             this.createCityBackground();
@@ -111,15 +128,29 @@ export default class GameScene extends Phaser.Scene {
         
         // Initialize scene mechanics
         this.initSceneMechanics();
+        
+        // Create the game menu (ESC key menu)
+        this.gameMenu = new GameMenu(this);
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
+        
+        // If we have a loaded position from a save game, set player position
+        if (this.loadedPosition && this.player) {
+            console.log('Setting player position from loaded save:', this.loadedPosition);
+            this.player.setPosition(this.loadedPosition.x, this.loadedPosition.y);
+        }
     }
 
     update() {
         // Update player movement if system is initialized
         if (this.playerMovementSystem) {
             this.playerMovementSystem.update();
+        }
+        
+        // Update game menu if it exists
+        if (this.gameMenu) {
+            this.gameMenu.update();
         }
 
         // Call super.update() if it exists
@@ -129,6 +160,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     initSystems() {
+        console.log('Initializing game systems');
+        
         // Initialize Journal System
         this.journalSystem = JournalSystem.getInstance();
         this.journalSystem.setScene(this);
@@ -169,13 +202,6 @@ export default class GameScene extends Phaser.Scene {
             this.registry.set('symbiontSystem', new SymbiontSystem(this));
         }
         this.symbiontSystem = this.registry.get('symbiontSystem');
-
-        if (this.symbiontSystem.symbionts.size > 0) {
-            const message = this.symbiontSystem.getRandomMessage('thorne-still');
-            if (message) {
-                this.showNotification(message, '', '', 10000);
-            }
-        }
 
         // Initialize Quest system if not already initialized
         if (!this.registry.get('questSystem')) {
@@ -232,6 +258,9 @@ export default class GameScene extends Phaser.Scene {
         this.effectsSystem = new EffectsSystem(this);
         this.effectsSystem.init();
         this.sporeBar = new SporeBar(this, 325, 10);
+        
+        // Load saved data if this is a loaded save
+        this.loadSavedData();
     }
 
     createSymbiontUI() {
@@ -1316,6 +1345,83 @@ export default class GameScene extends Phaser.Scene {
                 result.amount > 0 ? 0xb87333 : 0x8B0000
             );
         }
+    }
+    
+    /**
+     * Load saved data from registry
+     */
+    loadSavedData() {
+        console.log('Loading saved data from registry');
+        
+        // Only proceed if this is a loaded save
+        if (!this.isLoadedSave) {
+            console.log('Not a loaded save, skipping data loading');
+            return;
+        }
+        
+        // Load quest data
+        if (this.registry.has('savedQuests') && this.questSystem) {
+            console.log('Loading saved quests');
+            const questData = this.registry.get('savedQuests');
+            this.questSystem.loadFromData(questData);
+        }
+        
+        // Load journal data
+        if (this.registry.has('savedJournal') && this.journalSystem) {
+            console.log('Loading saved journal');
+            const journalData = this.registry.get('savedJournal');
+            this.journalSystem.loadFromData(journalData);
+        }
+        
+        // Load symbiont data
+        if (this.registry.has('savedSymbionts') && this.symbiontSystem) {
+            console.log('Loading saved symbionts');
+            const symbiontData = this.registry.get('savedSymbionts');
+            this.symbiontSystem.loadFromData(symbiontData);
+            
+            // Rebuild symbiont UI
+            this.createSymbiontUI();
+        }
+        
+        // Load faction data
+        if (this.registry.has('savedFactions') && this.factionSystem) {
+            console.log('Loading saved factions');
+            const factionData = this.registry.get('savedFactions');
+            this.factionSystem.setReputations(factionData);
+        }
+        
+        // Load effects data
+        if (this.registry.has('savedEffects') && this.effectsSystem) {
+            console.log('Loading saved effects');
+            const effectsData = this.registry.get('savedEffects');
+            this.effectsSystem.loadEffects(effectsData);
+        }
+        
+        // Load spore data
+        if (this.registry.has('savedSpores') && this.sporeSystem) {
+            console.log('Loading saved spores');
+            const sporeData = this.registry.get('savedSpores');
+            this.sporeSystem.setSporeLevel(sporeData.currentSpores);
+            this.sporeSystem.setMaxSpores(sporeData.maxSpores);
+            
+            // Update spore bar
+            if (this.sporeBar) {
+                this.sporeBar.updateDisplay(
+                    sporeData.currentSpores,
+                    sporeData.maxSpores
+                );
+            }
+        }
+        
+        // Load money data
+        if (this.registry.has('savedMoney') && this.moneySystem) {
+            console.log('Loading saved money');
+            const moneyData = this.registry.get('savedMoney');
+            this.moneySystem.setAmount(moneyData.amount);
+        }
+        
+        // Show notification
+        this.showNotification('Game data loaded successfully', 0x00ff00);
     }
 
     // Dialog option creation

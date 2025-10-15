@@ -80,26 +80,11 @@ export default class AbandonedBusScene extends GameScene {
 
         // Add exit click handler
         this.exitArea.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-
-            // Move priest to exit
-            const priest = this.priest;
-            priest.play('walk');
-            this.tweens.killTweensOf(priest);
-
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ScraperBackyardScene');
-                    });
-                }
-            });
+            // Use the SceneTransitionManager to handle the transition
+            if (!this.transitionManager) {
+                this.transitionManager = new SceneTransitionManager(this);
+            }
+            this.transitionManager.handleSceneTransition('ScraperBackyardScene', 50, 470);
         });
 
         // Create a container for the DeadBishop to improve hit area
@@ -226,9 +211,23 @@ export default class AbandonedBusScene extends GameScene {
         this.deadBishopContainer.on('pointerdown', () => {
             if (this.isTransitioning) return;
 
+            // Create a variable to track if the tween completed
+            let tweenCompleted = false;
+            
             // Move priest closer to the DeadBishop
             const priest = this.priest;
-            priest.play('walk');
+            if (!priest) {
+                // If priest doesn't exist, just show the dialog immediately
+                this.showBishopDialog();
+                return;
+            }
+            
+            // Play walk animation
+            if (priest.anims && priest.anims.exists('walk')) {
+                priest.play('walk');
+            }
+            
+            // Kill any existing tweens
             this.tweens.killTweensOf(priest);
 
             this.tweens.add({
@@ -237,31 +236,57 @@ export default class AbandonedBusScene extends GameScene {
                 y: 470,
                 duration: 800,
                 onComplete: () => {
-                    priest.play('idle');
-
-                    // Start dialog with the DeadBishop
-                    if (!this.dialogVisible) {
-                        this.dialogState = 'dead_bishop_start';
-                        this.showDialog(this.dialogState);
+                    tweenCompleted = true;
+                    
+                    // Play idle animation if it exists
+                    if (priest.anims && priest.anims.exists('idle')) {
+                        priest.play('idle');
                     }
 
-                    // Get quest system
-                    const questSystem = this.registry.get('questSystem');
-
-                    // Complete the find_bishop quest if active
-                    if (questSystem && questSystem.getQuest('find_bishop') && !questSystem.getQuest('find_bishop').isComplete) {
-                        questSystem.completeQuest('find_bishop');
-
-                        // Add a new quest to investigate the bishop's death
-                        questSystem.addQuest(
-                            'who_killed_bishop',
-                            'Who Killed the Bishop?',
-                            'I found the Bishop dead in an abandoned bus behind the Scraper building. His body shows barely any signs of violence. I should investigate who might be responsible for her death.'
-                        );
+                    // Show dialog and update quest
+                    this.showBishopDialog();
+                }
+            });
+            
+            // Add a safety timeout in case the tween doesn't complete
+            this.time.delayedCall(1500, () => {
+                if (!tweenCompleted) {
+                    console.log('Bishop interaction tween timed out, showing dialog directly');
+                    
+                    // Play idle animation if it exists
+                    if (priest && priest.anims && priest.anims.exists('idle')) {
+                        priest.play('idle');
                     }
+                    
+                    // Show dialog and update quest
+                    this.showBishopDialog();
                 }
             });
         });
+        
+        // Helper method to show bishop dialog and update quest
+        this.showBishopDialog = () => {
+            // Start dialog with the DeadBishop
+            if (!this.dialogVisible) {
+                this.dialogState = 'dead_bishop_start';
+                this.showDialog(this.dialogState);
+            }
+
+            // Get quest system
+            const questSystem = this.registry.get('questSystem');
+
+            // Complete the find_bishop quest if active
+            if (questSystem && questSystem.getQuest('find_bishop') && !questSystem.getQuest('find_bishop').isComplete) {
+                questSystem.completeQuest('find_bishop');
+
+                // Add a new quest to investigate the bishop's death
+                questSystem.addQuest(
+                    'who_killed_bishop',
+                    'Who Killed the Bishop?',
+                    'I found the Bishop dead in an abandoned bus behind the Scraper building. His body shows barely any signs of violence. I should investigate who might be responsible for her death.'
+                );
+            }
+        };
 
         // Add journal entry about the abandoned bus interior if not already added
         if (this.journalSystem && !this.journalSystem.hasEntry('abandoned_bus_interior')) {

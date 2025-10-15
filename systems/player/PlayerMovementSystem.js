@@ -114,17 +114,28 @@ export default class PlayerMovementSystem {
         }
         
         this.priest.setScale(2 * direction, 2);
-        this.priestGlow.setScale(2.1 * direction, 2.1);
-        this.priestGlow.x = this.priest.x;
-        this.priest.play('walk');
+        if (this.priestGlow) {
+            this.priestGlow.setScale(2.1 * direction, 2.1);
+            this.priestGlow.x = this.priest.x;
+        }
         
+        // Stop any existing tweens
+        this.scene.tweens.killTweensOf(this.priest);
+        if (this.priestGlow) {
+            this.scene.tweens.killTweensOf(this.priestGlow);
+        }
+        
+        // Play walk animation
+        this.priest.play('walk', true); // Force restart the animation
+        
+        // Create new tween
         this.scene.tweens.add({
-            targets: [this.priest, this.priestGlow],
+            targets: this.priestGlow ? [this.priest, this.priestGlow] : [this.priest],
             x: targetX,
             duration: Math.abs(targetX - this.priest.x) * 5,
             ease: 'Linear',
             onComplete: () => {
-                this.priest.play('idle');
+                this.priest.play('idle', true); // Force restart the animation
             }
         });
     }
@@ -181,8 +192,10 @@ export default class PlayerMovementSystem {
         }
 
         // Update visual effects
-        this.priestGlow.x = this.priest.x;
-        this.priestGlow.y = this.priest.y;
+        if (this.priestGlow && this.priest) {
+            this.priestGlow.x = this.priest.x;
+            this.priestGlow.y = this.priest.y;
+        }
     }
 
     /**
