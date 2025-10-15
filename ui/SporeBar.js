@@ -18,7 +18,7 @@ export default class SporeBar {
         this.fillBar.setOrigin(0, 0);
         
         // Create label
-        this.label = scene.add.text(75, -15, 'SPORES', {
+        this.label = scene.add.text(75, 24, 'SPORES', {
             fontSize: '14px',
             fill: '#7fff8e',
             align: 'center'
@@ -75,7 +75,6 @@ export default class SporeBar {
         this.tooltipText = this.scene.add.text(10, 40, 
             'Spore Energy\n' +
             'Used for fungal abilities and rituals.\n' +
-            'Replenishes over time.\n' +
             'Current: 0/0', {
             fontSize: '12px',
             fill: '#ffffff',
@@ -94,7 +93,6 @@ export default class SporeBar {
             const max = this.scene.sporeSystem.getMaxSpores();
             const tooltipContent = 'Spore Energy\n' +
                 'Used for fungal abilities and rituals.\n' +
-                'Replenishes over time.\n' +
                 `Current: ${current}/${max}`;
             this.tooltipText.setText(tooltipContent);
         }

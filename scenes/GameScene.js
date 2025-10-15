@@ -1421,7 +1421,7 @@ export default class GameScene extends Phaser.Scene {
         }
         
         // Show notification
-        this.showNotification('Game data loaded successfully', 0x00ff00);
+        this.showNotification('Game data loaded successfully');
     }
 
     // Dialog option creation
