@@ -18,15 +18,21 @@ export default class QuestLog {
             this.toggleQuestLog();
         });
 
-        // Track mouse wheel for scrolling
+        // Simple mouse wheel scrolling
         this.scene.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
             if (this.questPanel.visible && this.questContent) {
+                // Simple scrolling with reasonable limits
                 const scrollSpeed = 0.5;
+                const maxScroll = -this.contentHeight + 400;
+                
+                // Apply scroll with clamping
                 const newY = Phaser.Math.Clamp(
                     this.questContent.y - deltaY * scrollSpeed,
-                    -this.contentHeight + 400, // Allow scrolling up to content height minus visible area
-                    0 // Don't scroll past the top
+                    maxScroll < -200 ? maxScroll : -200, // Don't scroll past bottom
+                    -200 // Don't scroll past top
                 );
+                
+                // Set new position directly
                 this.questContent.setY(newY);
             }
         });
@@ -71,34 +77,56 @@ export default class QuestLog {
     }
 
     createQuestPanel() {
-        // Create container for the quest log
         this.questPanel = this.scene.add.container(400, 300);
         this.questPanel.setDepth(200);
         this.questPanel.setScrollFactor(0);
         this.questPanel.visible = false;
         
-        // Create background
         const bg = this.scene.add.graphics();
-        bg.fillStyle(0x0a2712, 0.95);
-        bg.fillRect(-200, -250, 400, 500);
-        bg.lineStyle(2, 0x7fff8e);
-        bg.strokeRect(-200, -250, 400, 500);
+        bg.fillStyle(0x1a1a0e, 0.95); // Dark sepia background
+        bg.fillRect(-300, -300, 600, 600); // Larger panel for more content
         
-        // Create tab buttons
-        const activeTabStyle = { font: 'bold 20px Arial', fill: '#7fff8e' };
-        const inactiveTabStyle = { font: '20px Arial', fill: '#5c9b6b' };
+        // Add decorative border
+        bg.lineStyle(4, 0x3d3d28); // Dark border
+        bg.strokeRect(-300, -300, 600, 600);
+        
+        // Inner border with aged look
+        bg.lineStyle(1, 0x5c5c3d);
+        bg.strokeRect(-290, -290, 580, 580);
+        
+        // Add decorative corners
+        this.addDecorativeCorner(bg, -300, -300, 0); // Top left
+        this.addDecorativeCorner(bg, 300, -300, Math.PI/2); // Top right
+        this.addDecorativeCorner(bg, 300, 300, Math.PI); // Bottom right
+        this.addDecorativeCorner(bg, -300, 300, Math.PI*3/2); // Bottom left
+        
+        // Create tab buttons with parchment style
+        const activeTabStyle = { 
+            font: 'bold 22px Georgia', 
+            fill: '#e6d2a8', // Light parchment color
+            stroke: '#000000',
+            strokeThickness: 2
+        };
+        const inactiveTabStyle = { 
+            font: '20px Georgia', 
+            fill: '#a89f81', // Darker parchment color
+            stroke: '#000000',
+            strokeThickness: 1
+        };
         
         this.activeTab = 'active';
         
-        // Create tab backgrounds
         const tabBg = this.scene.add.graphics();
-        tabBg.fillStyle(0x0a2712);
-        tabBg.fillRect(-200, -250, 190, 35); // Active tab background
-        tabBg.fillStyle(0x081d0d);
-        tabBg.fillRect(0, -250, 190, 35); // Finished tab background
+        tabBg.fillStyle(0x2a2a1c); // Dark tab background
+        tabBg.fillRect(-300, -300, 290, 45); // Active tab background
+        tabBg.fillStyle(0x1a1a0e); // Darker for inactive
+        tabBg.fillRect(0, -300, 290, 45); // Finished tab background
         
-        this.activeTabButton = this.scene.add.text(-180, -240, 'Active Quests', activeTabStyle);
-        this.finishedTabButton = this.scene.add.text(20, -240, 'Finished Quests', inactiveTabStyle);
+        this.addParchmentTexture(tabBg, -300, -300, 290, 45, 0.1);
+        this.addParchmentTexture(tabBg, 0, -300, 290, 45, 0.1);
+        
+        this.activeTabButton = this.scene.add.text(-270, -287, 'ACTIVE QUESTS', activeTabStyle);
+        this.finishedTabButton = this.scene.add.text(30, -287, 'COMPLETED QUESTS', inactiveTabStyle);
         
         this.activeTabButton.setInteractive({ useHandCursor: true });
         this.finishedTabButton.setInteractive({ useHandCursor: true });
@@ -109,10 +137,12 @@ export default class QuestLog {
                 this.activeTabButton.setStyle(activeTabStyle);
                 this.finishedTabButton.setStyle(inactiveTabStyle);
                 tabBg.clear();
-                tabBg.fillStyle(0x0a2712);
-                tabBg.fillRect(-200, -250, 190, 35);
-                tabBg.fillStyle(0x081d0d);
-                tabBg.fillRect(0, -250, 190, 35);
+                tabBg.fillStyle(0x2a2a1c);
+                tabBg.fillRect(-300, -300, 290, 45);
+                tabBg.fillStyle(0x1a1a0e);
+                tabBg.fillRect(0, -300, 290, 45);
+                this.addParchmentTexture(tabBg, -300, -300, 290, 45, 0.1);
+                this.addParchmentTexture(tabBg, 0, -300, 290, 45, 0.1);
                 this.updateQuestDisplay();
             }
         });
@@ -123,40 +153,33 @@ export default class QuestLog {
                 this.finishedTabButton.setStyle(activeTabStyle);
                 this.activeTabButton.setStyle(inactiveTabStyle);
                 tabBg.clear();
-                tabBg.fillStyle(0x081d0d);
-                tabBg.fillRect(-200, -250, 190, 35);
-                tabBg.fillStyle(0x0a2712);
-                tabBg.fillRect(0, -250, 190, 35);
+                tabBg.fillStyle(0x1a1a0e);
+                tabBg.fillRect(-300, -300, 290, 45);
+                tabBg.fillStyle(0x2a2a1c);
+                tabBg.fillRect(0, -300, 290, 45);
+                this.addParchmentTexture(tabBg, -300, -300, 290, 45, 0.1);
+                this.addParchmentTexture(tabBg, 0, -300, 290, 45, 0.1);
                 this.updateQuestDisplay();
             }
         });
         
-        // Add title below tabs
-        const title = this.scene.add.text(0, -200, 'Quest Log', {
-            font: '24px Arial',
-            fill: '#7fff8e',
-            align: 'center'
-        });
-        title.setOrigin(0.5);
+        // Add decorative divider below tabs
+        const divider = this.scene.add.graphics();
+        divider.lineStyle(2, 0x3d3d28);
+        divider.lineBetween(-290, -250, 290, -250);
         
-        // Create mask for scrollable content
-        const maskGraphics = this.scene.add.graphics();
-        maskGraphics.fillStyle(0xffffff);
-        maskGraphics.fillRect(200, 50, 360, 400); // Mask dimensions
-        maskGraphics.setVisible(false); // Hide the mask graphics while keeping the mask effect
-        
-        // Create quest content container
-        this.questContent = this.scene.add.container(0, -180);
-        const mask = maskGraphics.createGeometryMask();
-        this.questContent.setMask(mask);
+        // Create quest content container with a simple approach
+        this.questContent = this.scene.add.container(0, 0);
         
         // Add all elements to panel
-        this.questPanel.add([bg, tabBg, this.activeTabButton, this.finishedTabButton, title, this.questContent]);
+        this.questPanel.add([bg, tabBg, divider, this.activeTabButton, this.finishedTabButton, this.questContent]);
         
-        // Add close button
-        const closeButton = this.scene.add.text(170, -240, 'X', {
-            font: '20px Arial',
-            fill: '#7fff8e'
+        // Add close button with Planescape style
+        const closeButton = this.scene.add.text(280, -290, 'X', {
+            font: 'bold 24px Georgia',
+            fill: '#e6d2a8',
+            stroke: '#000000',
+            strokeThickness: 2
         });
         closeButton.setInteractive({ useHandCursor: true });
         closeButton.on('pointerdown', () => {
@@ -164,80 +187,201 @@ export default class QuestLog {
         });
         this.questPanel.add(closeButton);
     }
+    
+    // Helper method to add decorative corners
+    addDecorativeCorner(graphics, x, y, rotation) {
+        graphics.save();
+        graphics.translateCanvas(x, y);
+        graphics.rotateCanvas(rotation);
+        
+        // Draw corner decoration
+        graphics.lineStyle(2, 0x3d3d28);
+        graphics.beginPath();
+        graphics.moveTo(0, 20);
+        graphics.lineTo(0, 0);
+        graphics.lineTo(20, 0);
+        graphics.stroke();
+        
+        // Add small flourish
+        graphics.lineStyle(1, 0x5c5c3d);
+        graphics.beginPath();
+        graphics.moveTo(5, 15);
+        graphics.lineTo(15, 5);
+        graphics.stroke();
+        
+        graphics.restore();
+    }
+    
+    // Helper method to add parchment-like texture
+    addParchmentTexture(graphics, x, y, width, height, intensity) {
+        // Add subtle noise/grain to simulate parchment texture
+        graphics.fillStyle(0xffffff, intensity);
+        
+        // Create random dots/specks
+        for (let i = 0; i < width * height / 100; i++) {
+            const dotX = x + Math.random() * width;
+            const dotY = y + Math.random() * height;
+            const size = Math.random() * 2 + 0.5;
+            graphics.fillCircle(dotX, dotY, size);
+        }
+    }
 
     createQuestEntry(quest, yOffset) {
-        const container = this.scene.add.container(-180, yOffset);
+        // Simple approach to ensure text is visible
+        const container = this.scene.add.container(0, yOffset);
         const isExpanded = this.expandedQuests.has(quest.title);
-
-        // Create header with toggle button
-        const toggleButton = this.scene.add.text(-20, 0, isExpanded ? '▼' : '▶', {
-            font: 'bold 16px Arial',
-            fill: '#7fff8e'
+        
+        // Create background
+        const entryBg = this.scene.add.graphics();
+        entryBg.fillStyle(0x23231a, 0.4);
+        entryBg.fillRect(-250, 0, 500, isExpanded ? 200 : 50);
+        entryBg.lineStyle(1, 0x3d3d28, 0.5);
+        entryBg.strokeRect(-250, 0, 500, isExpanded ? 200 : 50);
+        container.add(entryBg);
+        
+        // Add toggle indicator
+        const toggleButton = this.scene.add.text(-230, 15, isExpanded ? '▼' : '►', {
+            font: 'bold 18px Georgia',
+            fill: quest.isComplete ? '#daa520' : '#c8b273',
+            stroke: '#000000',
+            strokeThickness: 1
         });
-
-        // Quest title (header)
-        const title = this.scene.add.text(0, 0, quest.title, {
-            font: 'bold 20px Arial',
-            fill: quest.isComplete ? '#00ff00' : '#7fff8e',
-            wordWrap: { width: 340 }
+        
+        // Add quest title
+        const title = this.scene.add.text(-200, 15, quest.title, {
+            font: 'bold 22px Georgia',
+            fill: quest.isComplete ? '#daa520' : '#e6d2a8',
+            stroke: '#000000',
+            strokeThickness: 2,
+            wordWrap: { width: 400 }
         });
-
-        // Make header interactive
-        const headerZone = this.scene.add.zone(-20, 0, 380, 30);
+        
+        // Make clickable
+        const headerZone = this.scene.add.zone(-250, 0, 500, 50);
         headerZone.setOrigin(0);
         headerZone.setInteractive({ useHandCursor: true });
         headerZone.on('pointerdown', () => {
             this.toggleQuestExpansion(quest.title);
         });
-
+        
+        // Add hover effect
+        headerZone.on('pointerover', () => {
+            entryBg.clear();
+            entryBg.fillStyle(0x2a2a20, 0.6);
+            entryBg.fillRect(-250, 0, 500, isExpanded ? entryHeight : 50);
+            entryBg.lineStyle(1, 0x5c5c3d, 0.7);
+            entryBg.strokeRect(-250, 0, 500, isExpanded ? entryHeight : 50);
+        });
+        
+        headerZone.on('pointerout', () => {
+            entryBg.clear();
+            entryBg.fillStyle(0x23231a, 0.4);
+            entryBg.fillRect(-250, 0, 500, isExpanded ? entryHeight : 50);
+            entryBg.lineStyle(1, 0x3d3d28, 0.5);
+            entryBg.strokeRect(-250, 0, 500, isExpanded ? entryHeight : 50);
+        });
+        
         container.add([toggleButton, title, headerZone]);
-        let height = 40;
-
+        let contentY = 60;
+        let entryHeight = 50;
+        
         // Add description and updates if expanded
         if (isExpanded) {
-            const desc = this.scene.add.text(0, 35, quest.description, {
-                font: '16px Arial',
-                fill: '#7fff8e',
-                wordWrap: { width: 340 },
-                lineSpacing: 5
+            // Add description
+            const desc = this.scene.add.text(-230, contentY, quest.description, {
+                font: '18px Georgia',
+                fill: '#c8b273',
+                wordWrap: { width: 460 },
+                lineSpacing: 8
             });
             container.add(desc);
-            height += desc.height + 15;
-
-            // Add updates
-            let updateY = height;
-            quest.updates.forEach(update => {
-                const updateText = this.scene.add.text(20, updateY, '• ' + update.text, {
-                    font: '14px Arial',
-                    fill: '#5c9b6b',
-                    wordWrap: { width: 320 },
-                    lineSpacing: 5
+            contentY += desc.height + 20;
+            
+            // Add updates if any
+            if (quest.updates && quest.updates.length > 0) {
+                // Add header
+                const updatesHeader = this.scene.add.text(-230, contentY, 'Progress:', {
+                    font: 'italic 18px Georgia',
+                    fill: '#daa520',
+                    stroke: '#000000',
+                    strokeThickness: 1
                 });
-                container.add(updateText);
-                updateY += updateText.height + 10;
-            });
-            height = updateY;
+                container.add(updatesHeader);
+                contentY += 30;
+                
+                // Add each update
+                quest.updates.forEach(update => {
+                    // Add bullet
+                    const bullet = this.scene.add.graphics();
+                    bullet.fillStyle(0xc8b273, 0.8);
+                    bullet.fillCircle(-220, contentY + 8, 4);
+                    container.add(bullet);
+                    
+                    // Add update text
+                    const updateText = this.scene.add.text(-205, contentY, update.text, {
+                        font: '16px Georgia',
+                        fill: '#a89f81',
+                        wordWrap: { width: 420 },
+                        lineSpacing: 6
+                    });
+                    container.add(updateText);
+                    contentY += updateText.height + 15;
+                });
+            }
+            
+            // Update height
+            entryHeight = contentY + 10;
+            
+            // Update background
+            entryBg.clear();
+            entryBg.fillStyle(0x23231a, 0.4);
+            entryBg.fillRect(-250, 0, 500, entryHeight);
+            entryBg.lineStyle(1, 0x3d3d28, 0.5);
+            entryBg.strokeRect(-250, 0, 500, entryHeight);
         }
-
+        
         this.questContent.add(container);
-        return height;
+        return entryHeight + 15;
     }
 
     updateQuestDisplay() {
+        // Reset position
+        this.questContent.y = -200;
+        
         // Clear existing content
         this.questContent.removeAll(true);
         
         // Get all quests
         const quests = this.questSystem.getAllQuests();
         
+        // Filter quests based on active tab
+        const filteredQuests = quests.filter(quest => 
+            (this.activeTab === 'active' && !quest.isComplete) || 
+            (this.activeTab === 'finished' && quest.isComplete)
+        );
+        
+        // Show message if no quests in current tab
+        if (filteredQuests.length === 0) {
+            const noQuestsText = this.scene.add.text(0, 0, 
+                this.activeTab === 'active' ? 
+                'You have no active quests.' : 
+                'You have not completed any quests yet.', 
+                {
+                    font: 'italic 20px Georgia',
+                    fill: '#a89f81',
+                    align: 'center'
+                }
+            );
+            noQuestsText.setOrigin(0.5);
+            this.questContent.add(noQuestsText);
+            return;
+        }
+        
+        // Add quests to the content container
         let yOffset = 0;
-        quests.forEach(quest => {
-            // Only show quests based on the active tab
-            if ((this.activeTab === 'active' && !quest.isComplete) || 
-                (this.activeTab === 'finished' && quest.isComplete)) {
-                const height = this.createQuestEntry(quest, yOffset);
-                yOffset += height + 20; // Add spacing between quests
-            }
+        filteredQuests.forEach(quest => {
+            const height = this.createQuestEntry(quest, yOffset);
+            yOffset += height;
         });
 
         // Store total content height for scrolling calculations
