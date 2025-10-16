@@ -380,10 +380,8 @@ export default class InventorySystem {
                     slot.add(useIndicator);
                     
                     // Make item sprite interactive for usable items
-                    console.log('Setting up click handler for usable item:', item.name);
                     itemSprite.setInteractive({ useHandCursor: true });
                     itemSprite.on('pointerdown', () => {
-                        console.log('Item clicked:', item.name);
                         this.showUseItemPopup(index, item, slot);
                     });
                 }

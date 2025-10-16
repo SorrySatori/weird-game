@@ -143,7 +143,6 @@ export default class ScreamingCorkScene extends GameScene {
     generateBookTitle() {
         // Generate different title formats based on genre
         let title = '';
-        console.log('KEK', this.bookGenre)
         switch (this.bookGenre) {
             case 'fungal techno':
                 if (this.bookTone === 'tragic') {
@@ -237,7 +236,7 @@ export default class ScreamingCorkScene extends GameScene {
                 else title = `The ${this.bookProtagonist} in the ${this.bookSetting} Labyrinth`;
                 break;
         }
-        console.log('final title', title)
+
         return title;
     }
 
@@ -394,9 +393,6 @@ export default class ScreamingCorkScene extends GameScene {
                         }
                     };
                 }),
-                onTrigger: () => {
-                    console.log('edgar_book_topics', this.bookTopics);
-                }
             },
 
             // Topic selected dialog - adds the selected topic and returns to topic selection
