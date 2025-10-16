@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 export default class ShedRegistrationScene extends GameScene {
     constructor() {
@@ -43,30 +44,24 @@ export default class ShedRegistrationScene extends GameScene {
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
         }
+        this.transitionManager = new SceneTransitionManager(this);
 
         // Set background
         const bg = this.add.image(400, 300, 'registration-bg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
         
-        // Add exit back to Shed521FloorsScene
-        this.exitToShed = this.add.image(110, 520, 'door')
-            .setDisplaySize(100, 100)
-            .setAlpha(0.01)
-            .setInteractive();
-
-        // Set up pointer events
-        this.exitToShed.on('pointerover', () => {
-            if (!this.isTransitioning) {
-                this.setCursor('pointer');
-            }
-        });
-
-        // Create an invisible exit area using a rectangle instead of an image
-        this.exitArea = this.add.rectangle(50, 470, 50, 200, 0xffffff)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
+        this.transitionManager.createTransitionZone(
+            80, // x position
+            450, // y position
+            200, // width
+            40,  // height
+            'left', // direction
+            'Shed521FloorsScene', // target scene
+            110, // walk to x
+            520, // walk to y
+            'Shed521FloorsScene' // destination name
+        );
         
         // Create NPCs but keep them invisible until needed
         this.createDreamQueueNPCs();
@@ -74,45 +69,6 @@ export default class ShedRegistrationScene extends GameScene {
         // Start the dream queue sequence after a short delay
         this.time.delayedCall(1000, () => {
             this.startDreamQueue();
-        });
-
-        this.exitToShed.on('pointerout', () => {
-            if (!this.isTransitioning) {
-                this.setCursor('default');
-            }
-        });
-
-        this.exitToShed.on('pointerdown', () => {
-            if (!this.isTransitioning) {
-                this.isTransitioning = true;
-                this.transitionToScene('Shed521FloorsScene', () => {
-                    // Set position in Shed521FloorsScene near the welcome entrance
-                    return { x: 110, y: 450 };
-                });
-            }
-        });
-
-        this.exitArea.on('pointerdown', () => {
-            // Move priest to exit area, then fade out
-            const priest = this.priest;
-            priest.play('walk');
-            
-            // Stop any existing tweens on the priest
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('Shed521FloorsScene');
-                        this.isTransitioning = false; // Reset transition flag
-                    });
-                }
-            });
         });
     }
 
