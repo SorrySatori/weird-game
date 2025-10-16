@@ -31,18 +31,41 @@ export default class GameMenu {
         if (this.escKey) {
             this.escKey.removeAllListeners();
         }
+        if (this.f5Key) {
+            this.f5Key.removeAllListeners();
+        }
+        if (this.f9Key) {
+            this.f9Key.removeAllListeners();
+        }
         
-        // Add ESC key listener
+        // Add ESC key listener for menu toggle
         this.escKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        
+        // Add F5 key listener for quick save
+        this.f5Key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F5);
+        
+        // Add F9 key listener for quick load
+        this.f9Key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F9);
         
         // Use a simple flag-based approach instead of direct event binding
         this.scene.events.on('update', () => {
+            // Toggle menu with ESC
             if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
                 if (this.visible) {
                     this.hideMenu();
                 } else {
                     this.showMenu();
                 }
+            }
+            
+            // Quick save with F5
+            if (Phaser.Input.Keyboard.JustDown(this.f5Key)) {
+                this.quickSave();
+            }
+            
+            // Quick load with F9
+            if (Phaser.Input.Keyboard.JustDown(this.f9Key)) {
+                this.quickLoad();
             }
         });
     }
@@ -82,6 +105,21 @@ export default class GameMenu {
         );
         title.setOrigin(0.5);
         this.container.add(title);
+        
+        // Add keyboard shortcut help text
+        const helpText = this.scene.add.text(
+            this.scene.cameras.main.width / 2,
+            550,
+            'Keyboard Shortcuts: F5 = Quick Save | F9 = Quick Load | ESC = Menu',
+            {
+                fontSize: '16px',
+                fill: '#5c9b6b',
+                fontFamily: 'Arial',
+                align: 'center'
+            }
+        );
+        helpText.setOrigin(0.5);
+        this.container.add(helpText);
         
         // Add close button (X)
         const closeButton = this.scene.add.text(
@@ -263,25 +301,13 @@ export default class GameMenu {
         
         // Add save button (top left)
         const saveButton = this.createButton(
-            this.scene.cameras.main.width / 2 - 100,
+            this.scene.cameras.main.width / 2,
             this.scene.cameras.main.height / 2 - 120,
             'Save',
             buttonStyle,
             () => this.saveGame()
         );
         this.saveMenuContainer.add(saveButton);
-        
-        // Add back button (top right)
-        const backButton = this.createButton(
-            this.scene.cameras.main.width / 2 + 100,
-            this.scene.cameras.main.height / 2 - 120,
-            'Back',
-            buttonStyle,
-            () => {
-                this.saveMenuContainer.setVisible(false);
-            }
-        );
-        this.saveMenuContainer.add(backButton);
         
         // Create container for save slots
         this.saveSlotContainer = this.scene.add.container(0, 0);
@@ -508,22 +534,6 @@ export default class GameMenu {
         // Add save slots container
         this.saveSlotContainer = this.scene.add.container(0, 0);
         this.loadMenuContainer.add(this.saveSlotContainer);
-        
-        // Add back button
-        const backButton = this.createButton(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2 + 160,
-            'Back',
-            {
-                fontSize: '28px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial'
-            },
-            () => {
-                this.loadMenuContainer.setVisible(false);
-            }
-        );
-        this.loadMenuContainer.add(backButton);
         
         // Add "No Save Files" text (will be hidden if saves exist)
         this.noSavesText = this.scene.add.text(
@@ -752,6 +762,56 @@ export default class GameMenu {
     }
     
     /**
+     * Quick save the current game (F5 key)
+     */
+    async quickSave() {
+        console.log('Quick save triggered');
+        
+        // Don't save if dialog is visible or menu is open
+        if (this.scene.dialogVisible || this.visible) {
+            return;
+        }
+        
+        // Use quicksave slot
+        const saveName = 'quicksave';
+        
+        // Check if gameAPI is available
+        if (!window.gameAPI) {
+            console.error('Game API not available');
+            this.scene.showNotification('Save system not available', 0xff0000);
+            return;
+        }
+        
+        // Lazy-load the SaveSystem if not already loaded
+        if (!this.saveSystem) {
+            const module = await import('../systems/SaveSystem.js');
+            const SaveSystem = module.default;
+            this.saveSystem = new SaveSystem(this.scene);
+        }
+        
+        // Get current date/time for display
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+        
+        // Show saving notification
+        this.scene.showNotification(`Saving game...`, 0x7fff8e);
+        
+        // Save the game
+        const result = await this.saveSystem.saveGame(saveName);
+        
+        // Show notification
+        if (result.success) {
+            // Play a success sound
+            if (this.scene.sound.get('clickSound')) {
+                this.scene.sound.play('clickSound');
+            }
+            this.scene.showNotification(`Game saved at ${timeString}`, 0x00ff00);
+        } else {
+            this.scene.showNotification(`Failed to save game: ${result.message}`, 0xff0000);
+        }
+    }
+    
+    /**
      * Save the current game
      */
     async saveGame() {
@@ -794,11 +854,71 @@ export default class GameMenu {
         if (result.success) {
             this.scene.showNotification(`Game saved as "${saveName}"`);
         } else {
-            this.scene.showNotification(`Failed to save game: ${result.message}`);
+            this.scene.showNotification(`Failed to save game: ${result.message}`, 0xff0000);
         }
         
         // Hide the save menu
         this.saveMenuContainer.setVisible(false);
+    }
+    
+    /**
+     * Quick load the most recent quicksave (F9 key)
+     */
+    async quickLoad() {
+        console.log('Quick load triggered');
+        
+        // Don't load if dialog is visible
+        if (this.scene.dialogVisible) {
+            return;
+        }
+        
+        // Use quicksave slot
+        const saveName = 'quicksave';
+        
+        // Check if gameAPI is available
+        if (!window.gameAPI) {
+            console.error('Game API not available');
+            this.scene.showNotification('Load system not available', 0xff0000);
+            return;
+        }
+        
+        // Check if quicksave exists
+        const saveFiles = window.gameAPI.listSaveFiles();
+        const quicksaveExists = saveFiles.success && saveFiles.files.some(file => file.name === 'quicksave');
+        
+        if (!quicksaveExists) {
+            this.scene.showNotification('No quicksave found', 0xff9900);
+            return;
+        }
+        
+        // Lazy-load the SaveSystem if not already loaded
+        if (!this.saveSystem) {
+            const module = await import('../systems/SaveSystem.js');
+            const SaveSystem = module.default;
+            this.saveSystem = new SaveSystem(this.scene);
+        }
+        
+        // Show loading notification
+        this.scene.showNotification(`Loading quicksave...`, 0x7fff8e);
+        
+        // Load the game
+        const result = await this.saveSystem.loadGame(saveName);
+        
+        // Show notification
+        if (result.success) {
+            // Play a success sound
+            if (this.scene.sound.get('clickSound')) {
+                this.scene.sound.play('clickSound');
+            }
+            this.scene.showNotification(`Game loaded successfully`, 0x00ff00);
+            
+            // Hide the menu if it's open
+            if (this.visible) {
+                this.hideMenu();
+            }
+        } else {
+            this.scene.showNotification(`Failed to load game: ${result.message}`, 0xff0000);
+        }
     }
     
     /**
@@ -828,7 +948,7 @@ export default class GameMenu {
             // Hide the menu
             this.hideMenu();
         } else {
-            this.scene.showNotification(`Failed to load game: ${result.message}`);
+            this.scene.showNotification(`Failed to load game: ${result.message}`, 0xff0000);
         }
     }
     

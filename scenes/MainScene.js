@@ -230,7 +230,7 @@ export default class MainScene extends Phaser.Scene {
         this.loadMenuContainer.add(title);
         
         // Add save slots container
-        this.saveSlotContainer = this.add.container(0, 0);
+        this.saveSlotContainer = this.add.container(this.cameras.main.width / 2, this.cameras.main.height / 2);
         this.loadMenuContainer.add(this.saveSlotContainer);
         
         // Add back button
@@ -249,21 +249,6 @@ export default class MainScene extends Phaser.Scene {
             }
         );
         this.loadMenuContainer.add(backButton);
-        
-        // Add "No Save Files" text (will be hidden if saves exist)
-        this.noSavesText = this.add.text(
-            this.cameras.main.width / 2,
-            this.cameras.main.height / 2,
-            'No save files found',
-            {
-                fontSize: '24px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial',
-                align: 'center'
-            }
-        );
-        this.noSavesText.setOrigin(0.5);
-        this.loadMenuContainer.add(this.noSavesText);
         
         // Hide the load menu initially
         this.loadMenuContainer.setVisible(false);
@@ -314,72 +299,132 @@ export default class MainScene extends Phaser.Scene {
      * Populate the load menu with save files
      */
     populateLoadMenu() {
-        // Clear previous save slots
+        console.log('Populating load menu');
+        // Clear existing save slots
         this.saveSlotContainer.removeAll(true);
         
-        const saveFiles = this.saveSystem.listSaveFiles();
+        // Debug: Check localStorage directly
+        console.log('Checking localStorage directly:');
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('weird-game-save-')) {
+                console.log(`Found save in localStorage: ${key}`);
+            }
+        }
         
-        if (saveFiles.length === 0) {
-            this.noSavesText.setVisible(true);
+        // Get save files
+        const saveFilesResult = window.gameAPI ? window.gameAPI.listSaveFiles() : { success: false, files: [] };
+        console.log('Save files result:', saveFilesResult);
+        
+        if (!saveFilesResult.success || !saveFilesResult.files || saveFilesResult.files.length === 0) {
+            // No save files found - clear any existing content first
+            this.saveSlotContainer.removeAll(true);
+            
+            const noSavesText = this.add.text(0, 0, 'No save files found', {
+                fontSize: '24px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial'
+            });
+            noSavesText.setOrigin(0.5);
+            this.saveSlotContainer.add(noSavesText);
             return;
         }
         
-        this.noSavesText.setVisible(false);
-        
-        // Sort save files by date (newest first)
-        saveFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Debug: Log the files we found
+        console.log(`Found ${saveFilesResult.files.length} save files to display`);
+        saveFilesResult.files.forEach((file, index) => {
+            console.log(`Save file ${index}: ${file.name}, date: ${file.displayDate}`);
+        });
         
         // Add save slots
-        const slotY = this.cameras.main.height / 2 - 80;
-        const slotSpacing = 60;
+        let yPos = -120;
         
-        saveFiles.forEach((saveFile, index) => {
-            if (index >= 5) return; // Limit to 5 save slots
+        // Clear all existing content to prevent duplicates
+        this.saveSlotContainer.removeAll(true);
+        
+        // Limit to 3 save slots to prevent overflow
+        const filesToShow = saveFilesResult.files.slice(0, 3);
+        
+        // Double check we have files to show
+        if (filesToShow.length === 0) {
+            const noSavesText = this.add.text(0, 0, 'No save files found', {
+                fontSize: '24px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial'
+            });
+            noSavesText.setOrigin(0.5);
+            this.saveSlotContainer.add(noSavesText);
+            return;
+        }
+        
+        filesToShow.forEach(saveFile => {
+            console.log('Processing save file:', saveFile);
+            // Create container for this save slot
+            const slotContainer = this.add.container(0, yPos);
             
-            const date = new Date(saveFile.date);
-            const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-            
-            // Create slot container
-            const slotContainer = this.add.container(
-                this.cameras.main.width / 2,
-                slotY + index * slotSpacing
-            );
-            
-            // Add slot background
-            const slotBg = this.add.rectangle(0, 0, 450, 50, 0x000000, 0.6);
+            // Create background
+            const slotBg = this.add.rectangle(0, 0, 300, 60, 0x000000, 0.6);
             slotBg.setStrokeStyle(1, 0x7fff8e);
             slotBg.setInteractive({ useHandCursor: true });
-            slotContainer.add(slotBg);
             
-            // Add slot text
-            const slotText = this.add.text(
-                -210,
-                0,
-                `${saveFile.name}`,
-                {
-                    fontSize: '22px',
-                    fill: '#7fff8e',
-                    fontFamily: 'Arial'
+            // Add subtle fungal decoration
+            const decoration = this.add.graphics();
+            decoration.fillStyle(0x7fff8e, 0.2);
+            decoration.fillCircle(-150, 0, 5);
+            decoration.fillCircle(-140, -20, 3);
+            decoration.fillCircle(-160, 15, 4);
+            slotContainer.add(decoration);
+            
+            // Format date
+            let dateString = 'Unknown date';
+            if (saveFile.displayDate) {
+                dateString = saveFile.displayDate;
+            } else if (saveFile.date) {
+                try {
+                    const date = new Date(saveFile.date);
+                    dateString = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                } catch (e) {
+                    console.error('Error formatting date:', e);
                 }
-            );
-            slotText.setOrigin(0, 0.5);
-            slotContainer.add(slotText);
+            }
             
-            // Add date text
-            const dateText = this.add.text(
-                210,
-                0,
-                formattedDate,
-                {
+            // Add text - simplified for main menu
+            const slotText = this.add.text(-120, -10, `${saveFile.name}`, {
+                fontSize: '20px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial'
+            });
+            
+            const dateText = this.add.text(-120, 15, dateString, {
+                fontSize: '14px',
+                fill: '#5c9b6b',
+                fontFamily: 'Arial'
+            });
+            
+            // Add scene info if available (simplified)
+            if (saveFile.scene && saveFile.scene !== 'Unknown') {
+                const sceneText = this.add.text(80, 0, saveFile.scene, {
                     fontSize: '16px',
                     fill: '#7fff8e',
                     fontFamily: 'Arial'
-                }
-            );
-            dateText.setOrigin(1, 0.5);
-            slotContainer.add(dateText);
+                });
+                slotContainer.add(sceneText);
+            }
             
-            // Add hover effects
+            // Add error indicator if there was an error parsing the save
+            if (saveFile.error) {
+                const errorText = this.add.text(80, 0, '⚠️ Error', {
+                    fontSize: '16px',
+                    fill: '#ff0000',
+                    fontFamily: 'Arial'
+                });
+                slotContainer.add(errorText);
+            }
+            
+            // Add all elements to container
+            slotContainer.add([slotBg, slotText, dateText]);
+            
+            // Add hover effect
             slotBg.on('pointerover', () => {
                 slotBg.setFillStyle(0x0a2712, 0.8);
                 slotText.setStyle({ fontSize: '22px', fill: '#2fff91', fontFamily: 'Arial' });
@@ -400,6 +445,7 @@ export default class MainScene extends Phaser.Scene {
             });
             
             this.saveSlotContainer.add(slotContainer);
+            yPos += 70; // Move down for the next slot
         });
     }
     
