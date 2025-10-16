@@ -77,39 +77,39 @@ export default class QuestLog {
     }
 
     createQuestPanel() {
-        this.questPanel = this.scene.add.container(400, 300);
-        this.questPanel.setDepth(200);
+        this.questPanel = this.scene.add.container(400, 280);
+        this.questPanel.setDepth(1000); // Increased to display over Spore bar
         this.questPanel.setScrollFactor(0);
         this.questPanel.visible = false;
         
         const bg = this.scene.add.graphics();
-        bg.fillStyle(0x1a1a0e, 0.95); // Dark sepia background
-        bg.fillRect(-300, -300, 600, 600); // Larger panel for more content
+        bg.fillStyle(0x0a2712, 0.95); // Dark green background to match game style
+        bg.fillRect(-300, -250, 600, 500); // Reduced height from 600 to 500
         
         // Add decorative border
-        bg.lineStyle(4, 0x3d3d28); // Dark border
-        bg.strokeRect(-300, -300, 600, 600);
+        bg.lineStyle(4, 0x1a3b23); // Dark green border
+        bg.strokeRect(-300, -250, 600, 500);
         
-        // Inner border with aged look
-        bg.lineStyle(1, 0x5c5c3d);
-        bg.strokeRect(-290, -290, 580, 580);
+        // Inner border
+        bg.lineStyle(1, 0x2a623d);
+        bg.strokeRect(-290, -240, 580, 480);
         
         // Add decorative corners
-        this.addDecorativeCorner(bg, -300, -300, 0); // Top left
-        this.addDecorativeCorner(bg, 300, -300, Math.PI/2); // Top right
-        this.addDecorativeCorner(bg, 300, 300, Math.PI); // Bottom right
-        this.addDecorativeCorner(bg, -300, 300, Math.PI*3/2); // Bottom left
+        this.addDecorativeCorner(bg, -300, -250, 0); // Top left
+        this.addDecorativeCorner(bg, 300, -250, Math.PI/2); // Top right
+        this.addDecorativeCorner(bg, 300, 250, Math.PI); // Bottom right
+        this.addDecorativeCorner(bg, -300, 250, Math.PI*3/2); // Bottom left
         
-        // Create tab buttons with parchment style
+        // Create tab buttons with green style
         const activeTabStyle = { 
             font: 'bold 22px Georgia', 
-            fill: '#e6d2a8', // Light parchment color
+            fill: '#7fff8e', // Light green color
             stroke: '#000000',
             strokeThickness: 2
         };
         const inactiveTabStyle = { 
             font: '20px Georgia', 
-            fill: '#a89f81', // Darker parchment color
+            fill: '#5c9b6b', // Darker green color
             stroke: '#000000',
             strokeThickness: 1
         };
@@ -117,16 +117,16 @@ export default class QuestLog {
         this.activeTab = 'active';
         
         const tabBg = this.scene.add.graphics();
-        tabBg.fillStyle(0x2a2a1c); // Dark tab background
-        tabBg.fillRect(-300, -300, 290, 45); // Active tab background
-        tabBg.fillStyle(0x1a1a0e); // Darker for inactive
-        tabBg.fillRect(0, -300, 290, 45); // Finished tab background
+        tabBg.fillStyle(0x1a3b23); // Dark green tab background
+        tabBg.fillRect(-300, -250, 290, 45); // Active tab background
+        tabBg.fillStyle(0x0a2712); // Darker green for inactive
+        tabBg.fillRect(0, -250, 290, 45); // Finished tab background
         
-        this.addParchmentTexture(tabBg, -300, -300, 290, 45, 0.1);
-        this.addParchmentTexture(tabBg, 0, -300, 290, 45, 0.1);
+        this.addParchmentTexture(tabBg, -300, -250, 290, 45, 0.1);
+        this.addParchmentTexture(tabBg, 0, -250, 290, 45, 0.1);
         
-        this.activeTabButton = this.scene.add.text(-270, -287, 'ACTIVE QUESTS', activeTabStyle);
-        this.finishedTabButton = this.scene.add.text(30, -287, 'COMPLETED QUESTS', inactiveTabStyle);
+        this.activeTabButton = this.scene.add.text(-270, -237, 'ACTIVE QUESTS', activeTabStyle);
+        this.finishedTabButton = this.scene.add.text(30, -237, 'COMPLETED QUESTS', inactiveTabStyle);
         
         this.activeTabButton.setInteractive({ useHandCursor: true });
         this.finishedTabButton.setInteractive({ useHandCursor: true });
@@ -137,12 +137,12 @@ export default class QuestLog {
                 this.activeTabButton.setStyle(activeTabStyle);
                 this.finishedTabButton.setStyle(inactiveTabStyle);
                 tabBg.clear();
-                tabBg.fillStyle(0x2a2a1c);
-                tabBg.fillRect(-300, -300, 290, 45);
-                tabBg.fillStyle(0x1a1a0e);
-                tabBg.fillRect(0, -300, 290, 45);
-                this.addParchmentTexture(tabBg, -300, -300, 290, 45, 0.1);
-                this.addParchmentTexture(tabBg, 0, -300, 290, 45, 0.1);
+                tabBg.fillStyle(0x1a3b23);
+                tabBg.fillRect(-300, -250, 290, 45);
+                tabBg.fillStyle(0x0a2712);
+                tabBg.fillRect(0, -250, 290, 45);
+                this.addParchmentTexture(tabBg, -300, -250, 290, 45, 0.1);
+                this.addParchmentTexture(tabBg, 0, -250, 290, 45, 0.1);
                 this.updateQuestDisplay();
             }
         });
@@ -153,31 +153,39 @@ export default class QuestLog {
                 this.finishedTabButton.setStyle(activeTabStyle);
                 this.activeTabButton.setStyle(inactiveTabStyle);
                 tabBg.clear();
-                tabBg.fillStyle(0x1a1a0e);
-                tabBg.fillRect(-300, -300, 290, 45);
-                tabBg.fillStyle(0x2a2a1c);
-                tabBg.fillRect(0, -300, 290, 45);
-                this.addParchmentTexture(tabBg, -300, -300, 290, 45, 0.1);
-                this.addParchmentTexture(tabBg, 0, -300, 290, 45, 0.1);
+                tabBg.fillStyle(0x0a2712);
+                tabBg.fillRect(-300, -250, 290, 45);
+                tabBg.fillStyle(0x1a3b23);
+                tabBg.fillRect(0, -250, 290, 45);
+                this.addParchmentTexture(tabBg, -300, -250, 290, 45, 0.1);
+                this.addParchmentTexture(tabBg, 0, -250, 290, 45, 0.1);
                 this.updateQuestDisplay();
             }
         });
         
-        // Add decorative divider below tabs
         const divider = this.scene.add.graphics();
-        divider.lineStyle(2, 0x3d3d28);
-        divider.lineBetween(-290, -250, 290, -250);
+        divider.lineStyle(2, 0x1a3b23);
+        divider.lineBetween(-290, -200, 290, -200);
         
-        // Create quest content container with a simple approach
+        // Create mask for scrollable content to prevent text leaking
+        // Position mask in world coordinates (questPanel is at 400, 280)
+        const maskGraphics = this.scene.add.graphics();
+        maskGraphics.fillStyle(0xffffff);
+        maskGraphics.fillRect(120, 90, 560, 430); // World coordinates: 400-280=120, 280-190=90
+        maskGraphics.setVisible(false); // Hide the mask graphics
+        
+        // Create quest content container with mask
         this.questContent = this.scene.add.container(0, 0);
+        const mask = maskGraphics.createGeometryMask();
+        this.questContent.setMask(mask);
         
         // Add all elements to panel
         this.questPanel.add([bg, tabBg, divider, this.activeTabButton, this.finishedTabButton, this.questContent]);
         
-        // Add close button with Planescape style
-        const closeButton = this.scene.add.text(280, -290, 'X', {
+        // Add close button with green style
+        const closeButton = this.scene.add.text(280, -240, 'X', {
             font: 'bold 24px Georgia',
-            fill: '#e6d2a8',
+            fill: '#7fff8e',
             stroke: '#000000',
             strokeThickness: 2
         });
@@ -195,7 +203,7 @@ export default class QuestLog {
         graphics.rotateCanvas(rotation);
         
         // Draw corner decoration
-        graphics.lineStyle(2, 0x3d3d28);
+        graphics.lineStyle(2, 0x1a3b23);
         graphics.beginPath();
         graphics.moveTo(0, 20);
         graphics.lineTo(0, 0);
@@ -203,7 +211,7 @@ export default class QuestLog {
         graphics.stroke();
         
         // Add small flourish
-        graphics.lineStyle(1, 0x5c5c3d);
+        graphics.lineStyle(1, 0x2a623d);
         graphics.beginPath();
         graphics.moveTo(5, 15);
         graphics.lineTo(15, 5);
@@ -233,16 +241,16 @@ export default class QuestLog {
         
         // Create background
         const entryBg = this.scene.add.graphics();
-        entryBg.fillStyle(0x23231a, 0.4);
+        entryBg.fillStyle(0x0f2415, 0.4);
         entryBg.fillRect(-250, 0, 500, isExpanded ? 200 : 50);
-        entryBg.lineStyle(1, 0x3d3d28, 0.5);
+        entryBg.lineStyle(1, 0x1a3b23, 0.5);
         entryBg.strokeRect(-250, 0, 500, isExpanded ? 200 : 50);
         container.add(entryBg);
         
         // Add toggle indicator
         const toggleButton = this.scene.add.text(-230, 15, isExpanded ? '▼' : '►', {
             font: 'bold 18px Georgia',
-            fill: quest.isComplete ? '#daa520' : '#c8b273',
+            fill: quest.isComplete ? '#00ff00' : '#7fff8e',
             stroke: '#000000',
             strokeThickness: 1
         });
@@ -250,7 +258,7 @@ export default class QuestLog {
         // Add quest title
         const title = this.scene.add.text(-200, 15, quest.title, {
             font: 'bold 22px Georgia',
-            fill: quest.isComplete ? '#daa520' : '#e6d2a8',
+            fill: quest.isComplete ? '#00ff00' : '#7fff8e',
             stroke: '#000000',
             strokeThickness: 2,
             wordWrap: { width: 400 }
@@ -267,17 +275,17 @@ export default class QuestLog {
         // Add hover effect
         headerZone.on('pointerover', () => {
             entryBg.clear();
-            entryBg.fillStyle(0x2a2a20, 0.6);
+            entryBg.fillStyle(0x1a3b23, 0.6);
             entryBg.fillRect(-250, 0, 500, isExpanded ? entryHeight : 50);
-            entryBg.lineStyle(1, 0x5c5c3d, 0.7);
+            entryBg.lineStyle(1, 0x2a623d, 0.7);
             entryBg.strokeRect(-250, 0, 500, isExpanded ? entryHeight : 50);
         });
         
         headerZone.on('pointerout', () => {
             entryBg.clear();
-            entryBg.fillStyle(0x23231a, 0.4);
+            entryBg.fillStyle(0x0f2415, 0.4);
             entryBg.fillRect(-250, 0, 500, isExpanded ? entryHeight : 50);
-            entryBg.lineStyle(1, 0x3d3d28, 0.5);
+            entryBg.lineStyle(1, 0x1a3b23, 0.5);
             entryBg.strokeRect(-250, 0, 500, isExpanded ? entryHeight : 50);
         });
         
@@ -290,7 +298,7 @@ export default class QuestLog {
             // Add description
             const desc = this.scene.add.text(-230, contentY, quest.description, {
                 font: '18px Georgia',
-                fill: '#c8b273',
+                fill: '#7fff8e',
                 wordWrap: { width: 460 },
                 lineSpacing: 8
             });
@@ -302,7 +310,7 @@ export default class QuestLog {
                 // Add header
                 const updatesHeader = this.scene.add.text(-230, contentY, 'Progress:', {
                     font: 'italic 18px Georgia',
-                    fill: '#daa520',
+                    fill: '#00ff00',
                     stroke: '#000000',
                     strokeThickness: 1
                 });
@@ -313,14 +321,14 @@ export default class QuestLog {
                 quest.updates.forEach(update => {
                     // Add bullet
                     const bullet = this.scene.add.graphics();
-                    bullet.fillStyle(0xc8b273, 0.8);
+                    bullet.fillStyle(0x7fff8e, 0.8);
                     bullet.fillCircle(-220, contentY + 8, 4);
                     container.add(bullet);
                     
                     // Add update text
                     const updateText = this.scene.add.text(-205, contentY, update.text, {
                         font: '16px Georgia',
-                        fill: '#a89f81',
+                        fill: '#5c9b6b',
                         wordWrap: { width: 420 },
                         lineSpacing: 6
                     });
@@ -334,9 +342,9 @@ export default class QuestLog {
             
             // Update background
             entryBg.clear();
-            entryBg.fillStyle(0x23231a, 0.4);
+            entryBg.fillStyle(0x0f2415, 0.4);
             entryBg.fillRect(-250, 0, 500, entryHeight);
-            entryBg.lineStyle(1, 0x3d3d28, 0.5);
+            entryBg.lineStyle(1, 0x1a3b23, 0.5);
             entryBg.strokeRect(-250, 0, 500, entryHeight);
         }
         
@@ -368,7 +376,7 @@ export default class QuestLog {
                 'You have not completed any quests yet.', 
                 {
                     font: 'italic 20px Georgia',
-                    fill: '#a89f81',
+                    fill: '#5c9b6b',
                     align: 'center'
                 }
             );
