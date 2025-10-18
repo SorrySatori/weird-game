@@ -161,6 +161,10 @@ export default class ScraperAmbraScene extends GameScene {
                     { text: "I'll explain if you stop testing me.", next: "dr_elphi_testing_path" }
                 ],
                 onTrigger: () => {
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && questSystem.getQuest('level_177_access') && !questSystem.getQuest('level_177_access').isComplete) {
+                        questSystem.completeQuest('level_177_access');
+                    }
                     // Trigger any animations or effects when dialog starts
                     if (this.drElphi) {
                         this.tweens.add({
