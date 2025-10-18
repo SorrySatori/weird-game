@@ -188,10 +188,6 @@ export default class SkyshipBoardScene extends GameScene {
                         text: 'I need help with an elevator system.',
                         next: 'captainElevator'
                     }] : []),
-                    {
-                        text: 'I should go.',
-                        next: 'closeDialog'
-                    }
                 ],
                 onTrigger: () => {
                     // Add journal entry for meeting Captain Liris if not already added

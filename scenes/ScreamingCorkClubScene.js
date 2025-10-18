@@ -26,7 +26,6 @@ export default class ScreamingCorkClubScene extends GameScene {
                     { text: "I'd love to hear you play", next: "feral_play" },
                     { text: "What kind of music do you play?", next: "feral_style" },
                     { text: "Who are you all?", next: "feral_intro" },
-                    { text: "I should go", next: "closeDialog" }
                 ]
             },
             
@@ -35,7 +34,6 @@ export default class ScreamingCorkClubScene extends GameScene {
                 options: [
                     { text: "Sounds interesting. Play something!", next: "feral_play" },
                     { text: "Tell me about the band members", next: "feral_intro" },
-                    { text: "I should go", next: "closeDialog" }
                 ]
             },
             
@@ -44,7 +42,6 @@ export default class ScreamingCorkClubScene extends GameScene {
                 options: [
                     { text: "Let's hear some music!", next: "feral_play" },
                     { text: "What's your musical style?", next: "feral_style" },
-                    { text: "I should go", next: "closeDialog" }
                 ]
             },
             

@@ -1638,23 +1638,6 @@ export default class GameScene extends Phaser.Scene {
         // Add speaker name if provided
         let speakerName = content.speaker;
         
-        // If still no speaker name, try to infer from the current scene or context
-        if (!speakerName) {
-            // Try to get scene name or current NPC name
-            const sceneName = this.scene.key.replace('Scene', '');
-            if (sceneName.includes('Cathedral')) {
-                speakerName = 'Temple Guard';
-            } else if (sceneName.includes('Voxmarket')) {
-                speakerName = 'Merchant';
-            } else if (sceneName.includes('Scraper')) {
-                speakerName = 'Resident';
-            } else if (sceneName.includes('Shed')) {
-                speakerName = 'Shed Staff';
-            } else {
-                speakerName = 'Citizen';
-            }
-        }
-        
         const speakerText = this.add.text(-260, -(textBgHeight/2) + 10, speakerName + ':', {
             fontSize: '22px',
             fontStyle: 'bold',
@@ -1836,14 +1819,13 @@ export default class GameScene extends Phaser.Scene {
                 currentY += elements[0].actualHeight + spacing;
             }
             
-            // Add close option if it fits on this page
-            if (endIdx === content.options.length && (endIdx - startIdx) < visibleOptionsCount) {
-                const closeElements = this.createDialogOption('Close', currentY, () => {
+            // Add close option if it fits on this page (unless hideCloseOption is true)
+            if (endIdx === content.options.length && (endIdx - startIdx) < visibleOptionsCount && !content.hideCloseOption) {
+                const closeElements = this.createDialogOption('I should go', currentY, () => {
                     this.hideDialog();
                 });
                 this.dialogOptions.add(closeElements);
                 
-                // Update currentY for consistent spacing after Close button
                 const spacing = 15; // Same spacing as between other options
                 currentY += closeElements[0].actualHeight + spacing;
             }
@@ -1955,8 +1937,6 @@ export default class GameScene extends Phaser.Scene {
     get dialogContent() {
         return {
             ...super.dialogContent,
-            // Symbiont dialogs are now dynamically generated
-            // See showSymbiontDialog method
             
             closeDialog: {
                 text: '',

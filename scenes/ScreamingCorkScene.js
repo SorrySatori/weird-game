@@ -399,16 +399,15 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "That's a fascinating topic! It gives me some interesting ideas to work with.",
                 // Instead of spreading conditionally in the declaration, we'll set this in a function
                 options: function() {
-                    const options = [
-                        { text: "Let's continue", next: "edgar_book_topics" }
-                    ];
+                    const options = [];
                     
                     if (this.bookTopics && this.bookTopics.length >= 3) {
-                        options.push({ text: "I think I have enough topics", next: "edgar_book_tone" });
-                    }
+                        options.push({ text: "I think we have enough topics", next: "edgar_book_tone" });
+                    } else options.push({ text: "Let's continue", next: "edgar_book_topics" })
                     
                     return options;
                 },
+                hideCloseOption: true,
                 onTrigger: () => {
                     // Add the selected topic to our list
                     if (this.currentTopic) {
@@ -436,6 +435,7 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_book_tone: {
         
                 text: "Now that we have some topics to work with, what tone should the book have? I'm thinking about the emotional feel of it.",
+                hideCloseOption: true,
                 options: [
                     { text: "Tragic - a tale of sorrow and loss", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'tragic'; } },
                     { text: "Metaphysical - exploring consciousness", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'metaphysical'; } },
@@ -452,6 +452,7 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Now let's choose a genre for the book", next: "edgar_book_genre" }
                 ],
+                hideCloseOption: true,
                 onTrigger: () => {
                     // Add journal entry about the tone selection
                     let toneDescription;
@@ -481,7 +482,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Genre selection dialog - choose genre for the book
             edgar_book_genre: {
-        
+                hideCloseOption: true,
                 text: "The tone is set, but what genre should this story be? I've been exploring some experimental options.",
                 options: [
                     { text: "Fungal techno-thriller", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'fungal techno'; } },
@@ -495,6 +496,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Genre selected dialog
             edgar_book_genre_selected: {
+                hideCloseOption: true,
                 text: "That genre is perfect! It captures exactly the kind of story that would work in this strange city.",
                 options: [
                     { text: "Let's decide on the main protagonist", next: "edgar_book_protagonist" }
@@ -528,7 +530,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Protagonist selection dialog
             edgar_book_protagonist: {
-        
+                hideCloseOption: true,
                 text: "Who should the main character be? What kind of protagonist would fit this story?",
                 options: [
                     { text: "A disoriented tourist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'disoriented tourist'; } },
@@ -542,6 +544,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Protagonist selected dialog
             edgar_book_protagonist_selected: {
+                hideCloseOption: true,
                 text: "That's a fascinating protagonist choice! I can already imagine how they would navigate through the story and engage with readers.",
                 options: [
                     { text: "Finally, let's choose a setting", next: "edgar_book_setting" }
@@ -575,6 +578,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Setting selection dialog
             edgar_book_setting: {
+                hideCloseOption: true,
                 text: "And finally, where should this story take place? What's the setting?",
                 options: [
                     { text: "The Scraper's shifting floors", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'scraper'; } },
@@ -588,6 +592,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Setting selected dialog
             edgar_book_setting_selected: {
+                hideCloseOption: true,
                 text: "What an evocative setting! It creates the perfect atmosphere and provides so many narrative possibilities.",
                 options: [
                     { text: "Let's see what book we've created", next: "edgar_book_completion" }
