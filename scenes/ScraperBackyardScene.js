@@ -123,7 +123,7 @@ export default class ScraperBackyardScene extends GameScene {
             this.addJournalEntry(
                 'scraper_backyard',
                 'Scraper Backyard',
-                'Behind the Scraper building lies an overgrown yard filled with the remnants of the old world. Most notable is an abandoned bus, its metal frame now serving as a trellis for strange fungal growths. There\'s something ominous about it, as if it holds secrets from the time of the Great Fruiting.',
+                'Behind the Scraper building lies an overgrown yard filled with the remnants of the old world. Most notable is an abandoned bus, its metal frame now serving as a trellis for strange fungal growths. There\'s something ominous about it, as if it holds undiscovered secrets.',
                 this.journalSystem.categories.PLACES,
                 { location: 'Scraper Backyard' }
             );

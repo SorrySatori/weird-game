@@ -267,7 +267,7 @@ export default class VoxMarket extends GameScene {
             kloor_bishop_trading: {
                 text: "'Now that's interesting.' Kloor leans in closer. 'She had this strange currency - called Vestigels. Not like regular money. They're rare, experimental. Supposedly they hold... properties. A merchant named Zerren got one from her.'",
                 options: [
-                    { text: "Tell me more about these Vestigels", next: "kloor_vestigels" },
+                    ...(!this.questSystem.getQuest('the_three_vestigels')) && { text: "Tell me more about these Vestigels", next: "kloor_vestigels" },
                     { text: "Thanks for the information", next: "kloor_start" }
                 ]
             },
@@ -349,7 +349,7 @@ export default class VoxMarket extends GameScene {
                         'kloor_vestigel_exchange',
                         'Vestigel Exchange with Kloor',
                         'I traded the vestigel I acquired from Edgar Eskola to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop of Threshold and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
-                        this.journalSystem.categories.QUESTS,
+                        this.journalSystem.categories.EVENTS,
                         { character: 'Kloor Venn', item: 'Vestigel', location: 'Voxmarket' }
                     );
                 }

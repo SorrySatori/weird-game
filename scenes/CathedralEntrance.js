@@ -95,7 +95,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardFruiting: {
-        text: "When the cathedral's inner chambers completely fill with spores, the Great Fruiting will begin. The walls will burst, spreading our consciousness across the stars.",
+        text: "When the cathedral's fully hatched from its egg, something miraculous will happen. The walls will burst, spreading our consciousness across the stars... Or somqething like that. You know, nobody really knows, but I imagine it will be something truly magnificent.",
                 options: [
                     { text: "That sounds apocalyptic", next: "templeGuardApocalypse" },
                     { text: "That sounds fascinating", next: "templeGuardFascinating" },
@@ -110,7 +110,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardFascinating: {
-                text: "Fascinating, isn't it? The city will become a vast fruiting body, sending spores to colonize new worlds. It is our destiny.",
+                text: "Fascinating, isn't it? That's why all major faiths have their people here. No one wants to miss the chance that it will be their god to whom the cathedral will be devoted.",
                 options: [
                     { text: "I see", next: "templeGuardAskSomethingElse" }
                 ]

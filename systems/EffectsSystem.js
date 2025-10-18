@@ -35,7 +35,7 @@ export default class EffectsSystem {
             amberOltrac: [
                 "THE VEIL IS TORN! I SEE BEYOND THE MEMBRANE OF REALITY!",
                 "My body is dissolving into golden spores... MAGNIFICENT!",
-                "The Great Fruiting speaks through me! I AM BECOME MYCELIUM!",
+                "The Eternal Mushroom speaks through me! I AM BECOME MYCELIUM!",
                 "Stars are just the fruiting bodies of cosmic fungi! IT ALL MAKES SENSE!",
                 "I've transcended my flesh prison! I AM EVERYWHERE AND NOWHERE!",
                 "The universe is just one giant spore waiting to bloom!",
