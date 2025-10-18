@@ -33,12 +33,6 @@ export default class BurningBearStreetScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Add invisible clickable exit area at the left side
-        this.exitArea = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(40, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
         
         // Position the priest at the right side when entering
         this.priest.x = 700;
@@ -53,13 +47,28 @@ export default class BurningBearStreetScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        // Exit area click handler
-        this.exitArea.on('pointerdown', () => {
-            // Use the SceneTransitionManager to handle the transition
-            this.transitionManager.handleSceneTransition('ScraperScene', 50, 470);
-        });
+        this.transitionManager.createTransitionZone(
+            50, // x position
+            470, // y position
+            80, // width
+            200, // height
+            'left', // direction
+            'ScraperScene', // target scene
+            750, // walk to x
+            470 // walk to y
+        );
+
+        this.transitionManager.createTransitionZone(
+            400, // x position
+            470, // y position
+            80, // width
+            200, // height
+            'up', // direction
+            'TownhallScene', // target scene
+            750, // walk to x
+            470 // walk to y
+        );
         
-        // Create exit to ScreamingCorkScene at the right edge
         this.transitionManager.createTransitionZone(
             750, // x position
             470, // y position
