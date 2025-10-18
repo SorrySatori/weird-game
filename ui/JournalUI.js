@@ -243,6 +243,12 @@ class JournalUI {
         this.contentContainer.removeAll(true);
         this.contentContainer.y = -200; // Reset scroll position
         
+        // Special handling for Factions category
+        if (this.currentCategory === 'Factions') {
+            this.displayFactions();
+            return;
+        }
+        
         let entries;
         if (this.currentCategory) {
             entries = this.journalSystem.getEntriesByCategory(this.currentCategory);
@@ -306,6 +312,248 @@ class JournalUI {
                 entryBox.strokeRoundedRect(0, yOffset, 720, entryHeight, 10);
                 
                 // Add glowing spots to entry
+                this.addGlowingSpots(entryBox, 0, yOffset, 720, entryHeight);
+                
+                // Update yOffset for next entry
+                yOffset += entryHeight + padding * 2;
+            });
+        }
+        
+        // Update content container height
+        this.contentContainer.height = yOffset;
+    }
+    
+    displayFactions() {
+        const padding = 10;
+        let yOffset = 20;
+        
+        // Section title for reputation
+        const reputationTitle = this.scene.add.text(360, yOffset, 
+            'FACTION STANDING', {
+            fontSize: '22px',
+            fontFamily: 'Georgia',
+            color: '#7fff8e',
+            fontStyle: 'bold'
+        }).setOrigin(0.5, 0);
+        this.contentContainer.add(reputationTitle);
+        yOffset += reputationTitle.height + padding * 2;
+        
+        // Get faction reputation system from scene registry
+        const factionSystem = this.scene.registry.get('factionSystem');
+        
+        if (!factionSystem) {
+            const noSystemText = this.scene.add.text(360, yOffset, 
+                'Faction system not available.', {
+                fontSize: '18px',
+                fontFamily: 'Georgia',
+                color: '#7fff8e',
+                wordWrap: { width: 700 }
+            }).setOrigin(0.5, 0);
+            
+            this.contentContainer.add(noSystemText);
+            yOffset += noSystemText.height + padding * 2;
+        } else {
+            // Get all factions
+            const factions = factionSystem.factions;
+            const discoveredFactions = Object.keys(factions).filter(key => {
+                // Only show factions that have been discovered
+                return factions[key].discovered || factions[key].reputation !== 0;
+            });
+            
+            if (discoveredFactions.length === 0) {
+                const noFactionsText = this.scene.add.text(360, yOffset, 
+                    'No factions discovered yet.', {
+                    fontSize: '16px',
+                    fontFamily: 'Georgia',
+                    color: '#aaaaaa',
+                    wordWrap: { width: 700 },
+                    align: 'center'
+                }).setOrigin(0.5, 0);
+                
+                this.contentContainer.add(noFactionsText);
+                yOffset += noFactionsText.height + padding * 2;
+            } else {
+                // Display each discovered faction
+                discoveredFactions.forEach(factionKey => {
+                    const faction = factions[factionKey];
+                    const reputation = faction.reputation;
+                    
+                    // Create faction entry box
+                    const entryBox = this.scene.add.graphics();
+                    entryBox.fillStyle(0x1a3b23, 0.8);
+                    entryBox.lineStyle(2, faction.color || 0x2a623d);
+                    
+                    this.contentContainer.add(entryBox);
+                    
+                    // Faction name
+                    const nameText = this.scene.add.text(padding, yOffset + padding, 
+                        faction.name, {
+                        fontSize: '24px',
+                        fontFamily: 'Georgia',
+                        color: '#7fff8e',
+                        fontStyle: 'bold'
+                    });
+                    this.contentContainer.add(nameText);
+                    
+                    // Reputation bar background
+                    const barWidth = 400;
+                    const barHeight = 20;
+                    const barX = padding;
+                    const barY = yOffset + nameText.height + padding * 2;
+                    
+                    const barBg = this.scene.add.graphics();
+                    barBg.fillStyle(0x0a1a12, 1);
+                    barBg.fillRect(barX, barY, barWidth, barHeight);
+                    barBg.lineStyle(1, 0x2a623d);
+                    barBg.strokeRect(barX, barY, barWidth, barHeight);
+                    this.contentContainer.add(barBg);
+                    
+                    // Reputation bar fill
+                    const maxRep = 100; // Maximum reputation value
+                    const minRep = -100; // Minimum reputation value
+                    const normalizedRep = Math.max(minRep, Math.min(maxRep, reputation));
+                    const fillWidth = (Math.abs(normalizedRep) / maxRep) * (barWidth / 2);
+                    
+                    const barFill = this.scene.add.graphics();
+                    if (normalizedRep >= 0) {
+                        // Positive reputation - green bar from center to right
+                        barFill.fillStyle(0x7fff8e, 0.8);
+                        barFill.fillRect(barX + barWidth / 2, barY, fillWidth, barHeight);
+                    } else {
+                        // Negative reputation - red bar from center to left
+                        barFill.fillStyle(0xff4444, 0.8);
+                        barFill.fillRect(barX + barWidth / 2 - fillWidth, barY, fillWidth, barHeight);
+                    }
+                    this.contentContainer.add(barFill);
+                    
+                    // Reputation value text
+                    const repText = this.scene.add.text(barX + barWidth + padding, barY + barHeight / 2, 
+                        `${reputation >= 0 ? '+' : ''}${reputation}`, {
+                        fontSize: '18px',
+                        fontFamily: 'Georgia',
+                        color: reputation >= 0 ? '#7fff8e' : '#ff4444',
+                        fontStyle: 'bold'
+                    }).setOrigin(0, 0.5);
+                    this.contentContainer.add(repText);
+                    
+                    // Reputation status text
+                    let statusText = '';
+                    if (reputation >= 75) statusText = 'Revered';
+                    else if (reputation >= 50) statusText = 'Honored';
+                    else if (reputation >= 25) statusText = 'Friendly';
+                    else if (reputation >= 10) statusText = 'Liked';
+                    else if (reputation > -10) statusText = 'Neutral';
+                    else if (reputation > -25) statusText = 'Disliked';
+                    else if (reputation > -50) statusText = 'Unfriendly';
+                    else if (reputation > -75) statusText = 'Hostile';
+                    else statusText = 'Hated';
+                    
+                    const statusLabel = this.scene.add.text(padding, barY + barHeight + padding, 
+                        `Status: ${statusText}`, {
+                        fontSize: '16px',
+                        fontFamily: 'Georgia',
+                        color: '#ffffff',
+                        fontStyle: 'italic'
+                    });
+                    this.contentContainer.add(statusLabel);
+                    
+                    // Faction description
+                    const descText = this.scene.add.text(padding, barY + barHeight + statusLabel.height + padding * 2, 
+                        faction.description || 'A mysterious faction.', {
+                        fontSize: '14px',
+                        fontFamily: 'Georgia',
+                        color: '#aaaaaa',
+                        wordWrap: { width: 700 },
+                        lineSpacing: 4
+                    });
+                    this.contentContainer.add(descText);
+                    
+                    // Calculate entry height
+                    const entryHeight = nameText.height + barHeight + statusLabel.height + descText.height + padding * 7;
+                    entryBox.fillRoundedRect(0, yOffset, 720, entryHeight, 10);
+                    entryBox.strokeRoundedRect(0, yOffset, 720, entryHeight, 10);
+                    
+                    // Add glowing spots
+                    this.addGlowingSpots(entryBox, 0, yOffset, 720, entryHeight);
+                    
+                    // Update yOffset for next faction
+                    yOffset += entryHeight + padding * 2;
+                });
+            }
+        }
+        
+        // Add separator line
+        const separator = this.scene.add.graphics();
+        separator.lineStyle(2, 0x2a623d);
+        separator.lineBetween(50, yOffset, 670, yOffset);
+        this.contentContainer.add(separator);
+        yOffset += padding * 3;
+        
+        // Section title for journal entries
+        const journalTitle = this.scene.add.text(360, yOffset, 
+            'FACTION RECORDS', {
+            fontSize: '22px',
+            fontFamily: 'Georgia',
+            color: '#7fff8e',
+            fontStyle: 'bold'
+        }).setOrigin(0.5, 0);
+        this.contentContainer.add(journalTitle);
+        yOffset += journalTitle.height + padding * 2;
+        
+        // Get journal entries for Factions category
+        const entries = this.journalSystem.getEntriesByCategory('Factions');
+        
+        if (entries.length === 0) {
+            const noEntriesText = this.scene.add.text(360, yOffset, 
+                'No faction records yet.', {
+                fontSize: '16px',
+                fontFamily: 'Georgia',
+                color: '#aaaaaa',
+                wordWrap: { width: 700 },
+                align: 'center'
+            }).setOrigin(0.5, 0);
+            
+            this.contentContainer.add(noEntriesText);
+            yOffset += noEntriesText.height + padding;
+        } else {
+            // Sort entries by timestamp (newest first)
+            entries.sort((a, b) => b.timestamp - a.timestamp);
+            
+            entries.forEach(entry => {
+                // Entry container with fungal styling
+                const entryBox = this.scene.add.graphics();
+                entryBox.fillStyle(0x1a3b23, 0.8);
+                entryBox.lineStyle(1, 0x2a623d);
+                
+                this.contentContainer.add(entryBox);
+                
+                // Title
+                const titleText = this.scene.add.text(padding, yOffset + padding, 
+                    entry.title, {
+                    fontSize: '20px',
+                    fontFamily: 'Georgia',
+                    color: '#7fff8e',
+                    fontStyle: 'bold'
+                });
+                this.contentContainer.add(titleText);
+                
+                // Content text
+                const contentText = this.scene.add.text(padding, yOffset + titleText.height + padding * 2, 
+                    entry.content, {
+                    fontSize: '16px',
+                    fontFamily: 'Georgia',
+                    color: '#ffffff',
+                    wordWrap: { width: 680 - padding * 2 },
+                    lineSpacing: 5
+                });
+                this.contentContainer.add(contentText);
+                
+                // Calculate entry height
+                const entryHeight = titleText.height + contentText.height + padding * 4;
+                entryBox.fillRoundedRect(0, yOffset, 720, entryHeight, 10);
+                entryBox.strokeRoundedRect(0, yOffset, 720, entryHeight, 10);
+                
+                // Add glowing spots
                 this.addGlowingSpots(entryBox, 0, yOffset, 720, entryHeight);
                 
                 // Update yOffset for next entry

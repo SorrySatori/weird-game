@@ -206,6 +206,15 @@ export default class Shed521Scene extends GameScene {
             if (factionSystem) {
                 factionSystem.modifyReputation('RustChoir', 10);
                 this.showNotification('Rust Choir Reputation +10');
+                if (!this.hasJournalEntry('rust_choir_faction')) {
+                    this.addJournalEntry(
+                        'rust_choir_faction',
+                        'The Rust Choir - Machines and Memory',
+                        'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
+                        this.journalSystem.categories.FACTIONS,
+                        { faction: 'Rust Choir', location: 'Shed521' }
+                    );
+                }
             }
         }
 

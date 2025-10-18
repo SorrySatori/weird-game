@@ -24,7 +24,7 @@ class JournalSystem extends Phaser.Events.EventEmitter {
             EVENTS: 'Events',
             LORE: 'Lore',
             DREAMS: 'Dreams',
-            THOUGHTS: 'Thoughts'
+            FACTIONS: 'Factions'
         };
         
         // Initialize event emitter

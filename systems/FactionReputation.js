@@ -5,12 +5,23 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
             RustChoir: {
                 reputation: 0,
                 name: "Rust Choir",
-                color: 0xb87333 // Copper color for Rust Choir
+                color: 0xb87333, // Copper color for Rust Choir
+                discovered: false,
+                description: "A faction dedicated to reclaiming and repurposing rust and decay."
             },
             PithReclaimers: {
                 reputation: 0,
                 name: "Pith Reclaimers",
-                color: 0xb87333 // Copper color for Rust Choir
+                color: 0x8B4513, // Brown color for Pith Reclaimers
+                discovered: false,
+                description: "A group focused on extracting and preserving the essence of fungal growth."
+            },
+            SporemindAccord: {
+                reputation: 0,
+                name: "Sporemind Accord",
+                color: 0x556B2F, // Dark olive green for Sporemind Accord
+                discovered: false,
+                description: "An alliance that values growth and all life."
             }
         };
         
@@ -23,6 +34,12 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
     modifyReputation(factionName, amount) {
         if (this.factions[factionName]) {
             this.factions[factionName].reputation += amount;
+            
+            // Automatically discover faction when reputation changes
+            if (!this.factions[factionName].discovered) {
+                this.discoverFaction(factionName);
+            }
+            
             // Emit event directly from this instance
             this.emit('reputationChanged', this.factions[factionName].name, amount);
             return {
@@ -36,6 +53,26 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
 
     getReputation(factionName) {
         return this.factions[factionName]?.reputation || 0;
+    }
+    
+    /**
+     * Mark a faction as discovered
+     * @param {string} factionName - Name of the faction to discover
+     */
+    discoverFaction(factionName) {
+        if (this.factions[factionName]) {
+            this.factions[factionName].discovered = true;
+            this.emit('factionDiscovered', this.factions[factionName].name);
+        }
+    }
+    
+    /**
+     * Check if a faction has been discovered
+     * @param {string} factionName - Name of the faction to check
+     * @returns {boolean} True if faction is discovered
+     */
+    isFactionDiscovered(factionName) {
+        return this.factions[factionName]?.discovered || false;
     }
     
     /**

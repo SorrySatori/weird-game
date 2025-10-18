@@ -146,6 +146,7 @@ export default class SkyshipBoardScene extends GameScene {
         
         // Define this scene's dialog content
         const skyshipContent = {
+            speaker: 'Captain Liris',
             main: {
                 text: 'You find yourself on the deck of a skyship. The air is thin up here, and you can see the fungal city sprawled below.',
                 options: [
@@ -165,8 +166,7 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainMain: {
-                speaker: 'Captain Liris',
-                text: "Ah, a visitor! Welcome aboard the Spore Drifter. I'm Captain Liris, navigator of the aerial currents and keeper of this fine vessel. What brings you to my ship?",
+                text: "Ah, a visitor! Welcome aboard the Verdigrace. I'm Captain Liris, navigator of the aerial currents and keeper of this fine vessel. What brings you to my ship?",
                 options: [
                     {
                         text: 'How does this ship fly?',
@@ -175,6 +175,10 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Where are you headed?',
                         next: 'captainDestination'
+                    },
+                    {
+                        text: 'Tell me about yourself.',
+                        next: 'captainAbout'
                     },
                     {
                         text: 'Is flying dangerous?',
@@ -261,6 +265,15 @@ export default class SkyshipBoardScene extends GameScene {
                     if (factionSystem) {
                         factionSystem.modifyReputation('SporemindAccord', +10);
                         this.showNotification('Sporemind Accord Reputation +10');
+                        if (!this.hasJournalEntry('sporemind_accord_faction')) {
+                            this.addJournalEntry(
+                                'sporemind_accord_faction',
+                                'SPOREMINGD ACCORD',
+                                'The Sporemind Accord is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
+                                this.journalSystem.categories.FACTIONS,
+                                { faction: 'Sporemind Accord', location: 'Voxmarket' }
+                            );
+                        }
                     }
                 }
             },
