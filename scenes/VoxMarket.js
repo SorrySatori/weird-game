@@ -88,14 +88,8 @@ export default class VoxMarket extends GameScene {
             kloor_shop: {
                 text: "'Take a look at my wares. Quality guaranteed.'",
                 options: [
-                    { text: "Show me", next: "kloor_open_shop" },
                     { text: "Not now", next: "kloor_start" }
-                ]
-            },
-            
-            kloor_open_shop: {
-                text: "",
-                options: [],
+                ],
                 onShow: () => {
                     this.hideDialog();
                     this.shopSystem.open();
