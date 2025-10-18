@@ -65,8 +65,32 @@ export default class QuestLog {
         });
         label.setOrigin(0.5);
         
-        // Add all elements to container
+        // Add all button elements to container first
         this.buttonContainer.add([buttonBg, spot1, spot2, label]);
+        
+        // Create notification indicator (red exclamation mark) - add LAST so it appears on top
+        this.questNotificationIndicator = this.scene.add.container(18, -22);
+        this.questNotificationIndicator.setDepth(101);
+        
+        const indicatorBg = this.scene.add.circle(0, 0, 8, 0xff0000);
+        const indicatorText = this.scene.add.text(0, 0, '!', {
+            fontSize: '14px',
+            fontFamily: 'Arial',
+            color: '#ffffff',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        
+        this.questNotificationIndicator.add([indicatorBg, indicatorText]);
+        // Add indicator AFTER all other elements so it renders on top
+        this.buttonContainer.add(this.questNotificationIndicator);
+        
+        // Hide indicator initially
+        this.questNotificationIndicator.setVisible(false);
+        
+        // Check if there are unread quest updates
+        if (this.scene.registry.get('hasUnreadQuestUpdates')) {
+            this.questNotificationIndicator.setVisible(true);
+        }
         
         // Make button interactive
         this.buttonContainer.setSize(40, 60);
@@ -417,6 +441,11 @@ export default class QuestLog {
         this.questPanel.visible = true;
         this.scene.registry.set('questLogVisible', true);
         this.updateQuestDisplay();
+        // Hide notification indicator when quest log is opened
+        if (this.questNotificationIndicator) {
+            this.questNotificationIndicator.setVisible(false);
+            this.scene.registry.set('hasUnreadQuestUpdates', false);
+        }
     }
 
     hideQuestLog() {

@@ -166,6 +166,23 @@ export default class GameScene extends Phaser.Scene {
         this.journalSystem = JournalSystem.getInstance();
         this.journalSystem.setScene(this);
         
+        // Add journal system event handlers
+        this.journalSystem.on('entryAdded', (id, title) => {
+            // Show notification indicator on journal button
+            this.registry.set('hasUnreadJournalEntries', true);
+            if (this.journalNotificationIndicator) {
+                this.journalNotificationIndicator.setVisible(true);
+            }
+        });
+        
+        this.journalSystem.on('entryUpdated', (id, title) => {
+            // Show notification indicator on journal button
+            this.registry.set('hasUnreadJournalEntries', true);
+            if (this.journalNotificationIndicator) {
+                this.journalNotificationIndicator.setVisible(true);
+            }
+        });
+        
         // Create Journal UI
         this.journalUI = new JournalUI(this);
         
@@ -212,14 +229,29 @@ export default class GameScene extends Phaser.Scene {
             // Add quest system event handlers
             questSystem.on('questAdded', (questId, title) => {
                 this.showNotification(`New Quest: ${title}`);
+                // Show notification indicator on quest log button
+                this.registry.set('hasUnreadQuestUpdates', true);
+                if (this.questLog && this.questLog.questNotificationIndicator) {
+                    this.questLog.questNotificationIndicator.setVisible(true);
+                }
             });
             
             questSystem.on('questUpdated', (questId, title) => {
                 this.showNotification(`Quest Updated: ${title}`);
+                // Show notification indicator on quest log button
+                this.registry.set('hasUnreadQuestUpdates', true);
+                if (this.questLog && this.questLog.questNotificationIndicator) {
+                    this.questLog.questNotificationIndicator.setVisible(true);
+                }
             });
             
             questSystem.on('questCompleted', (questId, title) => {
                 this.showNotification(`Quest Completed: ${title}`);
+                // Show notification indicator on quest log button
+                this.registry.set('hasUnreadQuestUpdates', true);
+                if (this.questLog && this.questLog.questNotificationIndicator) {
+                    this.questLog.questNotificationIndicator.setVisible(true);
+                }
             });
         }
         this.questSystem = this.registry.get('questSystem');
@@ -515,6 +547,29 @@ export default class GameScene extends Phaser.Scene {
             // Add all elements to container
             journalBtnContainer.add([journalBtnBg, journalSpot1, journalSpot2, journalIcon]);
             
+            // Create notification indicator (red exclamation mark)
+            this.journalNotificationIndicator = this.add.container(18, -22);
+            this.journalNotificationIndicator.setDepth(101);
+            
+            const indicatorBg = this.add.circle(0, 0, 8, 0xff0000);
+            const indicatorText = this.add.text(0, 0, '!', {
+                fontSize: '14px',
+                fontFamily: 'Arial',
+                color: '#ffffff',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+            
+            this.journalNotificationIndicator.add([indicatorBg, indicatorText]);
+            journalBtnContainer.add(this.journalNotificationIndicator);
+            
+            // Hide indicator initially
+            this.journalNotificationIndicator.setVisible(false);
+            
+            // Check if there are unread journal entries
+            if (this.registry.get('hasUnreadJournalEntries')) {
+                this.journalNotificationIndicator.setVisible(true);
+            }
+            
             // Add journal label under button
             const journalLabel = this.add.text(0, 25, 'JOURNAL', {
                 fontSize: '12px',
@@ -533,6 +588,9 @@ export default class GameScene extends Phaser.Scene {
             journalBtnContainer.on('pointerdown', () => {
                 if (this.clickSound) this.clickSound.play();
                 this.journalUI.toggle();
+                // Hide notification indicator when journal is opened
+                this.journalNotificationIndicator.setVisible(false);
+                this.registry.set('hasUnreadJournalEntries', false);
             });
         } catch (error) {
             console.error('Error in initSceneMechanics():', error);
