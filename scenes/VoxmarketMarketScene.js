@@ -105,17 +105,16 @@ export default class VoxmarketMarketScene extends GameScene {
                 onTrigger: () => {
                     const factionSystem = this.registry.get('factionSystem');
                     if (factionSystem) {
-                        factionSystem.modifyReputation('RustChoir', +10);
-                        factionSystem.modifyReputation('PithReclaimers', -10);
-                        this.showNotification('Rust Choir Reputation +10');
-                        this.showNotification('Pith Reclaimers Reputation -10');
+                        factionSystem.modifyReputation('RustChoir', -10);
+                        factionSystem.modifyReputation('PithReclaimers', +10);
+                        this.showNotification('Rust Choir Reputation -10');
+                        this.showNotification('Pith Reclaimers Reputation +10');
                         
-                        // Add journal entry for Rust Choir if not already added
                         if (!this.hasJournalEntry('rust_choir_faction')) {
                             this.addJournalEntry(
                                 'rust_choir_faction',
                                 'The Rust Choir - Machines and Memory',
-                                'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary. They have visible presence in Voxmarket and seem particularly interested in the living cores of buildings.',
+                                'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
                                 this.journalSystem.categories.LORE,
                                 { faction: 'Rust Choir', location: 'Voxmarket' }
                             );
@@ -133,17 +132,17 @@ export default class VoxmarketMarketScene extends GameScene {
                 onTrigger: () => {
                     const factionSystem = this.registry.get('factionSystem');
                     if (factionSystem) {
-                        factionSystem.modifyReputation('RustChoir', -10);
-                        factionSystem.modifyReputation('PithReclaimers', +10);
-                        this.showNotification('Rust Choir Reputation -10');
-                        this.showNotification('Pith Reclaimers Reputation +10');
+                        factionSystem.modifyReputation('RustChoir', +10);
+                        factionSystem.modifyReputation('PithReclaimers', -10);
+                        this.showNotification('Rust Choir Reputation +10');
+                        this.showNotification('Pith Reclaimers Reputation -10');
                         
                         // Add journal entry for Pith Reclaimers if not already added
                         if (!this.hasJournalEntry('pith_reclaimers_faction')) {
                             this.addJournalEntry(
                                 'pith_reclaimers_faction',
                                 'The Pith Reclaimers - Keepers of Balance',
-                                'The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant. They seem particularly protective of the "living cores" that power the buildings of the city, viewing them as entities to be respected rather than exploited.',
+                                'The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant.',
                                 this.journalSystem.categories.LORE,
                                 { faction: 'Pith Reclaimers', location: 'Voxmarket' }
                             );
@@ -248,6 +247,7 @@ export default class VoxmarketMarketScene extends GameScene {
             
             zerren_thorne_still_power: {
                 text: "You feel Thorne-still's presence intensify as the symbiont's power flows through you. Reality seems to waver around Zerren as the Brain Rot ability takes effect. Her eyes glaze slightly as she stumbles into a daze.",
+                hideCloseOption: true,
                 options: [
                     { text: "Who bought the plush toy?", next: "zerren_thorne_still_success" }
                 ],
