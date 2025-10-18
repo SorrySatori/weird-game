@@ -151,7 +151,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                       text: "Do you have anything for sale?",
                       next: 'openShop'
                     },
-                    { text: "Goodbye", next: "closeDialog" }
                 ]
             },
             heliodor_who: {

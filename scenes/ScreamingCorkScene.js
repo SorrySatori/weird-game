@@ -263,7 +263,6 @@ export default class ScreamingCorkScene extends GameScene {
                        this.registry.get('questSystem')?.getQuest('edgar_book').status !== 'completed' ? [
                         { text: "Let's start with some inspirational topics", next: "edgar_book_topics" }
                     ] : []),
-                    { text: "Goodbye.", next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about meeting Edgar Eskola

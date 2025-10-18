@@ -34,7 +34,6 @@ export default class VoxmarketMarketScene extends GameScene {
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
                         { text: "About the Vestigel you had...", next: "zerren_vestigel_inquiry" }
                     ] : []),
-                    { text: "Goodbye.", next: "closeDialog" }
                 ]
             },
             

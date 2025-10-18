@@ -36,7 +36,6 @@ export default class VoxMarket extends GameScene {
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
                         { text: "About those Vestigels...", next: "kloor_vestigels_progress" }
                     ] : []),
-                    { text: "Goodbye.", next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add journal entry for meeting Kloor Venn if not already added

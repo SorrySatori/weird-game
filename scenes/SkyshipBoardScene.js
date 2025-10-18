@@ -147,21 +147,15 @@ export default class SkyshipBoardScene extends GameScene {
         // Define this scene's dialog content
         const skyshipContent = {
             main: {
-                speaker: 'Unknown',
                 text: 'You find yourself on the deck of a skyship. The air is thin up here, and you can see the fungal city sprawled below.',
                 options: [
                     {
                         text: 'Look around',
                         next: 'lookAround'
                     },
-                    {
-                        text: 'Close',
-                        next: 'closeDialog'
-                    }
                 ]
             },
             lookAround: {
-        speaker: 'Unknown',
                 text: 'The skyship appears to be a transport vessel. Various fungal growths line the edges of the deck, seemingly serving as both decoration and structural support. The ship sways gently in the wind.',
                 options: [
                     {

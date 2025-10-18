@@ -19,7 +19,6 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Tell me about Shed521", next: "about_shed" },
                     { text: "What's your role here?", next: "clerk_role" },
-                    { text: "Goodbye", next: "end" }
                 ]
             },
             about_shed: {

@@ -50,7 +50,6 @@ export default class SymbiontSystem {
                     options: [
                         { text: 'Ask about Brain Rot', next: 'ability' },
                         { text: 'Ask about Thorne-Still', next: 'about' },
-                        { text: 'Close', next: 'closeDialog' }
                     ]
                 },
                 ability: {
@@ -73,7 +72,6 @@ export default class SymbiontSystem {
                         { text: 'Ask about Photosentience', next: 'photosentience' },
                         { text: 'Ask about Neme', next: 'about' },
                         { text: 'Ask about the Bishop', next: 'bishop' },
-                        { text: 'Close', next: 'closeDialog' }
                     ]
                 },
                 photosentience: {
@@ -340,9 +338,7 @@ export default class SymbiontSystem {
         return {
             speaker: symbiont.name,
             text: `${symbiont.name} is silent in this decay-dominant area...`,
-                options: [
-                    { text: 'Close', next: 'closeDialog' }
-                ]
+                options: []
             };
         }
         

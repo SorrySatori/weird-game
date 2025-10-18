@@ -30,7 +30,6 @@ export default class Shed521Scene extends GameScene {
                     { text: "Who are you exactly?", next: "background" },
                     // Add the option to confront Gnur about lying if player made the promise
                     ...(promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : []),
-                    { text: "Goodbye", next: "end" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about meeting Gnur
