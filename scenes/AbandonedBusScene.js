@@ -7,6 +7,8 @@ export default class AbandonedBusScene extends GameScene {
         super({ key: 'AbandonedBusScene' });
         this.isTransitioning = false;
         this.journalSystem = JournalSystem.getInstance();
+        // Track which examination options have been used
+        this.examinedItems = new Set();
     }
 
     preload() {
@@ -283,7 +285,7 @@ export default class AbandonedBusScene extends GameScene {
                 questSystem.addQuest(
                     'who_killed_bishop',
                     'Who Killed the Bishop?',
-                    'I found the Bishop dead in an abandoned bus behind the Scraper building. His body shows barely any signs of violence. I should investigate who might be responsible for her death.'
+                    'I found the Bishop dead in an abandoned bus behind the Scraper building. Her body shows barely any signs of violence. I should investigate who might be responsible for her death.'
                 );
             }
         };
@@ -302,6 +304,57 @@ export default class AbandonedBusScene extends GameScene {
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 
+    // Override showDialog to dynamically populate examination options
+    showDialog(state) {
+        // If this is one of the bishop examination dialogs, create a dynamic dialog object
+        if (typeof state === 'string' && (state === 'dead_bishop_start' || 
+            state === 'dead_bishop_bruising' || 
+            state === 'dead_bishop_cartridge' ||
+            state === 'dead_bishop_helmet' ||
+            state === 'dead_bishop_notebook' ||
+            state === 'dead_bishop_memo' ||
+            state === 'dead_bishop_berries')) {
+            
+            // Get the original dialog content
+            const originalContent = this.dialogContent[state];
+            if (originalContent) {
+                // Create a modified version with dynamic options
+                const modifiedContent = {
+                    ...originalContent,
+                    options: this.getAvailableExaminationOptions()
+                };
+                
+                // Call parent showDialog with the modified content object
+                super.showDialog(modifiedContent);
+                return;
+            }
+        }
+        
+        // Call parent showDialog normally for other dialogs
+        super.showDialog(state);
+    }
+
+    // Helper method to get available examination options
+    getAvailableExaminationOptions() {
+        const allOptions = [
+            { text: "Examine the bruising", next: "dead_bishop_bruising", id: "bruising" },
+            { text: "Check the dream device", next: "dead_bishop_cartridge", id: "cartridge" },
+            { text: "Examine the helmet", next: "dead_bishop_helmet", id: "helmet" },
+            { text: "Look at the notebook", next: "dead_bishop_notebook", id: "notebook" },
+            { text: "Read the notes", next: "dead_bishop_memo", id: "memo" },
+            { text: "Inspect the berries", next: "dead_bishop_berries", id: "berries" },
+            { text: "Dissect the dead body", next: "dead_bishop_dissect", id: "dissect" }
+        ];
+
+        // Filter out already examined items
+        const availableOptions = allOptions.filter(option => !this.examinedItems.has(option.id));
+        
+        // Always add the "Step back" option at the end
+        availableOptions.push({ text: "Step back", next: "closeDialog" });
+        
+        return availableOptions;
+    }
+
     get dialogContent() {
         const parentContent = super.dialogContent;
 
@@ -310,16 +363,7 @@ export default class AbandonedBusScene extends GameScene {
             dead_bishop_start: {
         speaker: 'Dead Bishop',
                 text: "The body before you is clearly that of a religious figure - an Obazoba Bishop in ceremonial robes stained with fungal growth. Her face is serene but pale, with subtle bruising visible at her temples. Nearby, you spot a portable dream device, a worn notebook and a dream interface helmet (still attached) and a small bag of what appears to be berries. In her sleeve you spot some papers.",
-                options: [
-                    { text: "Examine the bruising", next: "dead_bishop_bruising" },
-                    { text: "Check the dream device", next: "dead_bishop_cartridge" },
-                    { text: "Examine the helmet", next: "dead_bishop_helmet" },
-                    { text: "Look at the notebook", next: "dead_bishop_notebook" },
-                    { text: "Read the notes", next: "dead_bishop_memo" },
-                    { text: "Inspect the berries", next: "dead_bishop_berries" },
-                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
-                    { text: "Step back", next: "closeDialog" }
-                ],
+                options: [], // Will be populated dynamically
                 onTrigger: () => {
                     // Add journal entry about finding the Bishop if not already added
                     if (this.journalSystem && !this.journalSystem.hasEntry('found_dead_bishop')) {
@@ -335,16 +379,10 @@ export default class AbandonedBusScene extends GameScene {
             dead_bishop_bruising: {
         speaker: 'Dead Bishop',
                 text: "A closer examination reveals subtle bruising beneath where neural interface straps would be placed. The markings are consistent with neural overstimulation - possibly dream-burnout or data surge trauma. There's no sign of external violence, but something clearly overwhelmed her neural pathways.",
-                options: [
-                    { text: "Check the dream device", next: "dead_bishop_cartridge" },
-                    { text: "Look at the notebook", next: "dead_bishop_notebook" },
-                    { text: "Read the notes", next: "dead_bishop_memo" },
-                    { text: "Examine the helmet", next: "dead_bishop_helmet" },
-                    { text: "Inspect the berries", next: "dead_bishop_berries" },
-                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
-                    { text: "Step back", next: "closeDialog" }
-                ],
+                options: [], // Will be populated dynamically
                 onTrigger: () => {
+                    // Mark this item as examined
+                    this.examinedItems.add('bruising');
                     // Add journal entry about the bruising if not already added
                     if (this.journalSystem && !this.journalSystem.hasEntry('bishop_bruising')) {
                         this.addJournalEntry(
@@ -365,16 +403,10 @@ export default class AbandonedBusScene extends GameScene {
             dead_bishop_cartridge: {
         speaker: 'Dead Bishop',
                 text: "You examine the portable dream device clutched in the Bishop's hand. A cartridge labeled 'The Cardinal Feast' is inserted, but appears corrupted. The device's small screen displays an error message: \"Runtime loop detected. Initiated failsafe: NULL SCENE.\" Whatever experience this cartridge contained, it seems to have catastrophically failed during use.",
-                options: [
-                    { text: "Examine the bruising", next: "dead_bishop_bruising" },
-                    { text: "Look at the notebook", next: "dead_bishop_notebook" },
-                    { text: "Read the notes", next: "dead_bishop_memo" },
-                    { text: "Examine the helmet", next: "dead_bishop_helmet" },
-                    { text: "Inspect the berries", next: "dead_bishop_berries" },
-                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
-                    { text: "Step back", next: "closeDialog" }
-                ],
+                options: [], // Will be populated dynamically
                 onTrigger: () => {
+                    // Mark this item as examined
+                    this.examinedItems.add('cartridge');
                     // Add journal entry about the dream cartridge if not already added
                     if (this.journalSystem && !this.journalSystem.hasEntry('bishop_cartridge')) {
                         this.addJournalEntry(
