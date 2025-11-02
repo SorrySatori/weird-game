@@ -21,15 +21,18 @@ export default class QuestLog {
         // Simple mouse wheel scrolling
         this.scene.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
             if (this.questPanel.visible && this.questContent) {
-                // Simple scrolling with reasonable limits
-                const scrollSpeed = 0.5;
-                const maxScroll = -this.contentHeight + 400;
+                // Calculate scroll bounds
+                const visibleHeight = 430; // Height of the visible area (mask height)
+                const contentHeight = this.contentHeight || 0;
+                const minY = -200; // Top position
+                const maxY = contentHeight > visibleHeight ? -(contentHeight - visibleHeight + 200) : -200;
                 
                 // Apply scroll with clamping
+                const scrollSpeed = 0.8;
                 const newY = Phaser.Math.Clamp(
                     this.questContent.y - deltaY * scrollSpeed,
-                    maxScroll < -200 ? maxScroll : -200, // Don't scroll past bottom
-                    -200 // Don't scroll past top
+                    maxY, // Don't scroll past bottom
+                    minY  // Don't scroll past top
                 );
                 
                 // Set new position directly
@@ -199,7 +202,7 @@ export default class QuestLog {
         maskGraphics.setVisible(false); // Hide the mask graphics
         
         // Create quest content container with mask
-        this.questContent = this.scene.add.container(0, 0);
+        this.questContent = this.scene.add.container(0, -200);
         const mask = maskGraphics.createGeometryMask();
         this.questContent.setMask(mask);
         
@@ -377,7 +380,7 @@ export default class QuestLog {
     }
 
     updateQuestDisplay() {
-        // Reset position
+        // Reset position to top
         this.questContent.y = -200;
         
         // Clear existing content
@@ -406,6 +409,7 @@ export default class QuestLog {
             );
             noQuestsText.setOrigin(0.5);
             this.questContent.add(noQuestsText);
+            this.contentHeight = 50; // Minimal height for empty state
             return;
         }
         
