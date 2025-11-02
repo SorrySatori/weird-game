@@ -185,7 +185,7 @@ export default class TownhallScene extends GameScene {
     
     createPhorCalesta() {
         // Create a container for Phor Calesta
-        this.phor = this.add.container(550, 470);
+        this.phor = this.add.container(550, 420);
         this.phor.setDepth(5);
         
         // Create the character sprite
@@ -207,7 +207,7 @@ export default class TownhallScene extends GameScene {
         // Add a subtle pulsating glow effect
         this.phorGlow = this.add.graphics();
         this.phorGlow.fillStyle(0x66ffff, 0.15);
-        this.phorGlow.fillCircle(600, 350, 45);
+        this.phorGlow.fillCircle(550, 420, 45);
         this.phorGlow.setDepth(4);
         
         // Animate the glow
@@ -224,16 +224,6 @@ export default class TownhallScene extends GameScene {
             targets: this.phor,
             angle: { from: -0.5, to: 0.5 },
             duration: 3000,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add subtle floating movement (vertical)
-        this.tweens.add({
-            targets: this.phor,
-            y: { from: 350, to: 345 },
-            duration: 2500,
             ease: 'Sine.easeInOut',
             yoyo: true,
             repeat: -1
