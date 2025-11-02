@@ -10,6 +10,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
     }
 
     get dialogContent() {
+        const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
+
         return {
             ...super.dialogContent,
             speaker: 'Ravla',
@@ -20,7 +22,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     { text: "Who are you?", next: "ravla_who" },
                     { text: "What do you do here?", next: "ravla_job" },
-                    { text: "Nevermind", next: "closeDialog" }
+                    ...(hasFindRustQuest && [{ text: "I was told you can get me to Rust Choir base.", next: "ravla_rust_domain" }])
                 ]
             },
             ravla_who: {
@@ -40,7 +42,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "Hmm. What kind of documents are we talking about? I don't work for free, and I don't work for just anyone.",
                 options: [
                     { text: "Just curious", next: "ravla_curious" },
-                    { text: "I need help with Shed 521 paperwork", next: "ravla_Shed521" },
                     ...(this.registry.get('questSystem')?.getQuest('ortolan_arms')?.updates.some(update => update.key === 'forge_documents_suggestion') ? [
                         { text: "I need help with Ortolan's paperwork", next: "ravla_ortolan" }
                     ] : [])
@@ -52,21 +53,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Back", next: "ravla_start" }
                 ]
             },
-            ravla_Shed521: {
-                text: "Shed 521? Those bureaucrats are the worst. Their forms change weekly, and the security features are a nightmare. It'll cost you.",
-                options: [
-                    { text: "How much?", next: "ravla_cost" },
-                    { text: "Back", next: "ravla_start" }
-                ]
-            },
-            ravla_cost: {
-                text: "For Shed 521? 500 credits minimum. Plus whatever materials I need to source. Come back when you have the money.",
-                options: [
-                    { text: "I'll think about it", next: "ravla_start" }
-                ]
-            },
             ravla_ortolan: {
-                text: "Artisan's Exemption Form? For Ortolan? Interesting. Those forms have special seals that are hard to duplicate. But... I might be able to help.",
+                text: "Artisan's Exemption Form? For Ortolan? That game designer? Interesting. Those forms have special seals that are hard to duplicate. But... I might be able to help.",
                 options: [
                     { text: "What would you need?", next: "ravla_ortolan_need" },
                     { text: "Back", next: "ravla_start" }
@@ -138,7 +126,77 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     }
                 }
             },
-            
+            ravla_rust_domain: {
+                text: "Ah, so you're looking to get into the Rust Choir's territory? That's tricky business. But I might be able to help you with that. But why should I?",
+                options: [
+                { text: "I want to join you.", next: "ravla_rust_join" },
+                { text: "I need to speak with Brukk.", next: "ravla_rust_brukk" },
+                { text: "I am a big fan of machines and rust. Some of my best friends are rust machines.", next: "ravla_rust_fan" },
+                { text: "Nevermind.", next: "ravla_start" }
+                ]
+            },
+            ravla_rust_join: {
+                text: "Joining the Rust Choir isn't a decision to be taken lightly. You have to prove your dedication to our cause. Are you sure you're up to the task?",
+                options: [
+                { text: "Yes, I'm ready.", next: "ravla_rust_task" },
+                { text: "On second thought, maybe not.", next: "ravla_start" }
+                ]
+            },
+            ravla_rust_brukk: {
+                text: "Oh, really? That might be a problem. Not many people can speak with Brukk directly. If you have something important to discuss, I can arrange a meeting. It's possible. But first you have to prove you're trustworthy and do something for the Rust Choir first.",
+                options: [
+                { text: "What do you need me to do?", next: "ravla_rust_task" },
+                { text: "I see. Maybe another time.", next: "ravla_start" }
+                ]
+            },
+            ravla_rust_fan: {
+                text: "Ha, I like that spirit! The Rust Choir does appreciate sense of humor and those who understand the beauty of decay and machinery. But joking won't get you in. You'll need to prove your commitment. I have a small test for you, if you're serious about this.",
+                options: [
+                { text: "How can I prove my commitment?", next: "ravla_rust_task" },
+                { text: "I've changed my mind. Maybe another time.", next: "ravla_start" }
+                ]
+            },
+            ravla_rust_task: {
+                text: "There's a small matter that needs attending to. You want to meet Brukk? Then feed the metal first. The machines are always hungry, go and prepare a feast for them. You will need oil, metal, and, most importantly, a living rust cluster. Mix them together, bring it to me, and I'll arrange your meeting with Brukk.",
+                options: [
+                    { text: "I'll get to work on it.", next: "closeDialog" },
+                    { text: "What is a living rust cluster?", next: "ravla_rust_cluster" },
+                    { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove your commitment. I have to gather oil, metal, and a living rust cluster, and bring them to her.', 'talked_to_ravla');
+                    this.showNotification('Quest updated: Finding the Rust Choir');
+                    this.questSystem.addQuest('rust_feast', 'Rust Feast', 'Prepare a feast for the Rust Choir machines by gathering oil, metal, and a living rust cluster, and bring them to Ravla at the Screaming Cork.');
+                },
+            },
+            ravla_rust_cluster: {
+                text: "A living rust cluster is a rare organism that thrives in decaying metal environments. It's semi-organic mass of oxidized iron tendrils, like coral made of blood-colored steel.",
+                options: [
+                    { text: "Where can I find it?", next: "ravla_cluster_where" },
+                    { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
+                    { text: "I'll get to work on it.", next: "closeDialog" },
+                ]
+            },
+            ravla_cluster_where: {
+                text: "Well, I cannot do everything for you, can I? This is a test, after all. Ahh... very well. I won't tell you directly, but go to talk to the weird archeologist who hangs around the townhall. He seems to know a lot about strange organisms. Maybe he can help you find what you're looking for.",
+                options: [
+                    { text: "Thanks for the tip. I'll get to work on it.", next: "closeDialog" },
+                    { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('rust_feast', 'Ravla suggested I speak with the archeologist near the townhall to learn more about living rust clusters.', 'talked_to_archeologist_hint');
+                }
+            },
+            ravla_rust_materials: {
+                text: "I'm not your mother, am I? Figure it out. The city is full of scrap metal and oil leaks. Use your head. You can search around the Scraper or you can even buy metal scraps from the traders, you know. In exchange for money, heard about that concept? For the oil, I would check the Yolk Sea docks or Echo Drain Delta. Good luck.",
+                options: [
+                    { text: "Thanks for the advice. I'll get to work on it.", next: "closeDialog" },
+                    { text: "Wait, what about the living rust cluster? What is that?", next: "ravla_rust_cluster" },
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('rust_feast', 'Ravla advised me to search around the Scraper for scrap metal (or I can simply buy it) and check the Yolk Sea docks or Echo Drain Delta for oil.', 'gathered_rust_materials_hint');
+                }
+            },
             // Heliodor dialog
             heliodor_start: {
                 speaker: 'Heliodor',

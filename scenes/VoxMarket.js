@@ -20,6 +20,8 @@ export default class VoxMarket extends GameScene {
     }
 
     get dialogContent() {
+        const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.visitedDialogs.has('rustDomainKnowledge') && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
+
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
             speaker: 'Kloor Venn',
@@ -36,6 +38,8 @@ export default class VoxMarket extends GameScene {
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
                         { text: "About those Vestigels...", next: "kloor_vestigels_progress" }
                     ] : []),
+                    ...(hasFindRustQuest && [
+                        { text: "Can you help me to get to Rust Choir headquarters?.", next: "rustDomain" }]),
                 ],
                 onTrigger: () => {
                     // Add journal entry for meeting Kloor Venn if not already added
@@ -393,6 +397,55 @@ export default class VoxMarket extends GameScene {
                         // Close dialog after updating quest
                         this.hideDialog();
                     }
+                }
+            },
+            rustDomain: {
+                text: "Kloor eyes you thoughtfully. 'Rust Choir headquarters, huh? That's not exactly public knowledge. But... I might be able to help you out. For a price, of course.'",
+                options: [
+                    { text: "What do you need?", next: "rustDomain_price" },
+                    ...(this.registry.get('reputationSystem')?.getFactionReputation('rust_choir') >= 50 ? [
+                        { text: "Come on, I did some favors for the Rust Choir already. We are practically comrades.", next: "factionAppeal" }
+                    ] : []),
+                    { text: "Never mind, I have other questions.", next: "kloor_start" }
+                ]
+            },
+            factionAppeal: {
+                text: "Kloor raises an eyebrow, considering your appeal. 'Well, I suppose I can make an exception for someone who's done favors for the Rust Choir. Just this once. Talk to Ravla in Screaming Cork. She'll test you. If you pass, she'll let you in.'",
+                options: [
+                    { text: "I have other questions.", next: "kloor_start" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('find_rust_choir', 'Kloor mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
+                }
+            },
+            rustDomain_price: {
+                text: "If you can get me some of your spores, I can point you to someone who can get you inside. Or, if the spores are too precious for you, a few coins as a contribution will work as well. Deal?'",
+                options: [
+                    { text: "Here's 20 spores", next: "rustDomain_spores" },
+                    ...(this.hasEnoughMoney(50) && [{ text: "Here's 50 coins", next: "rustDomain_coins" }]),
+                    { text: "You know what, I have other questions.", next: "kloor_start" }
+                ]
+            },
+            rustDomain_spores: {
+                text: "Kloor examines the spores you hand over, nodding approvingly. 'Good quality. Talk to Ravla at the Screaming Cork tavern. She'll test you. If you pass, she'll let you in.'",
+                options: [
+                    { text: "Thanks for the help.", next: "kloor_start" }
+                ],
+                onTrigger: () => {
+                    const sporeSystem = this.registry.get('sporeSystem');
+                    sporeSystem.modifySpores(-20);
+                    this.questSystem.updateQuest('find_rust_choir', 'Kloor mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
+                }
+            },
+            rustDomain_coins: {
+                text: "Kloor counts the coins you give him, a satisfied grin spreading across his face. 'Good doing business with you. Now, talk to Ravla at the Screaming Cork tavern. She'll test you. If you pass, she'll let you in.'",
+                options: [
+                    { text: "Thanks for the help.", next: "kloor_start" }
+                ],
+                onTrigger: () => {
+                    this.subtractMoney(50);
+                    this.showNotification("-50 dinar");
+                    this.questSystem.updateQuest('find_rust_choir', 'Kloor mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
                 }
             }
         };

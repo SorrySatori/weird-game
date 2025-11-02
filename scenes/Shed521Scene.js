@@ -20,7 +20,8 @@ export default class Shed521Scene extends GameScene {
         const quest = this.questSystem.getQuest('rust_reclamation');
         // Check if any update has the promise_made key
         const promiseMade = quest && quest.updates && quest.updates.some(update => update.key === 'promise_made');
-        
+        const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
+
         const content = {
             ...super.dialogContent,
             speaker: 'Gruk',
@@ -30,6 +31,7 @@ export default class Shed521Scene extends GameScene {
                     { text: "Who are you exactly?", next: "background" },
                     // Add the option to confront Gnur about lying if player made the promise
                     ...(promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : []),
+                    ...(hasFindRustQuest && [{ text: "I'm looking for the way how to reach the Rust Choir headquarters in the Scraper. Can you help me?", next: "rustDomain" }]),
                 ],
                 onTrigger: () => {
                     // Add journal entry about meeting Gnur
@@ -163,6 +165,42 @@ export default class Shed521Scene extends GameScene {
                     }
                 }
             },
+            rustDomain: {
+                text: "Heh, the Rust Choir's domain ain't easy to reach. First you need to pass a test. Make yourself useful to us. Tell me, why do you want to find the Rust Choir headquarters?",
+                options: [
+                    { text: "I seek knowledge about old technologies and machines.", next: "rustDomainKnowledge" },
+                    { text: "I need to speak to Brukk. It's important.", next: "rustDomainBrukk" },
+                    { text: "I wish to join you. I was... always a big fan of rust and machines.", next: "rustDomainJoin" },
+                    { text: "Back to other topics", next: "start" }
+                ]
+            },
+            rustDomainKnowledge: {
+                text: "Knowledge, eh? Well, knowledge is power, and power is rust. Very well, talk to Ravla, cause she's the one who decides who can meet with Brukk. You can usually find her in the Creaming Cork tavern.",
+                options: [
+                    { text: "Back to other topics", next: "start" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('find_rust_choir', 'Gnur mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
+                }
+                },
+            rustDomainBrukk: {
+                text: "Important, huh? Brukk values urgency. Talk to Ravla in Screaming Cork tavern first, she will have a little test prepared for you. Once you've done that, she'll arrange a meeting with Brukk. I mean, probably. If she likes you.",
+                options: [
+                    { text: "Back to other topics", next: "start" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('find_rust_choir', 'Gnur mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
+                }
+            },
+            rustDomainJoin: {
+                text: "A fan of rust and machines, are you? Well, we do appreciate enthusiasm. Prove your dedication by completing a task for us first. Talk to Ravla in the Screaming Cork tavern. She'll have a little initiation test for you. Pass that, and maybe you'll find yourself among us.",
+                options: [
+                    { text: "Back to other topics", next: "start" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('find_rust_choir', 'Gnur mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
+                }
+            }
         };
 
         // Check if find_bishop quest exists
