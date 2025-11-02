@@ -207,10 +207,10 @@ export default class SkyshipBoardScene extends GameScene {
                 }
             },
             captainAbout: {
-                text: "I'm Captain Liris, master of this vessel, as I said. I'm on a mission for the Sporemind Accord, as usual.",
+                text: "I'm Captain Liris, master of this vessel, as I said. I'm on a mission for the Lumen Directorate, as usual.",
                 options: [
                     {
-                        text: 'What is the Sporemind Accord?',
+                        text: 'What is the Lumen Directorate?',
                         next: 'captainAccord'
                     },
                     {
@@ -220,7 +220,7 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainAccord: {
-                text: "The Sporemind Accord is a powerful organization, you know? We strive for the fusion of mind and flora. We are keepers and protectors of everything that grows. We are the guardians of life.",
+                text: "The Lumen Directorate is a powerful organization, you know? We strive for the fusion of mind and flora. We are keepers and protectors of everything that grows. We are the guardians of life.",
                 options: [
                     {
                         text: 'Other topics',
@@ -231,7 +231,7 @@ export default class SkyshipBoardScene extends GameScene {
                         next: "captainMission"
                     },
                     {
-                        text: "Does Sporemind Accord have some enemies?",
+                        text: "Does Lumen Directorate have some enemies?",
                         next: "captainEnemies"
                     }
                 ],
@@ -239,12 +239,12 @@ export default class SkyshipBoardScene extends GameScene {
                     const factionSystem = this.registry.get('factionSystem');
                     if (factionSystem) {
                         factionSystem.modifyReputation('SporemindAccord', +10);
-                        this.showNotification('Sporemind Accord Reputation +10');
+                        this.showNotification('Lumen Directorate Reputation +10');
                     }
                 }
             },
             captainMission: {
-                text: "We are on a mission to search and gather rare specimens for the Sporemind Accord. But we are still waiting for more specs, so we don't mind that little ladder of yours.",
+                text: "We are on a mission to search and gather rare specimens for the Lumen Directorate. But we are still waiting for more specs, so we don't mind that little ladder of yours.",
                 options: [
                     {
                         text: 'Other topics',
@@ -264,14 +264,14 @@ export default class SkyshipBoardScene extends GameScene {
                     const factionSystem = this.registry.get('factionSystem');
                     if (factionSystem) {
                         factionSystem.modifyReputation('SporemindAccord', +10);
-                        this.showNotification('Sporemind Accord Reputation +10');
+                        this.showNotification('Lumen Directorate Reputation +10');
                         if (!this.hasJournalEntry('sporemind_accord_faction')) {
                             this.addJournalEntry(
                                 'sporemind_accord_faction',
                                 'SPOREMINGD ACCORD',
-                                'The Sporemind Accord is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
+                                'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
                                 this.journalSystem.categories.FACTIONS,
-                                { faction: 'Sporemind Accord', location: 'Voxmarket' }
+                                { faction: 'Lumen Directorate', location: 'Voxmarket' }
                             );
                         }
                     }

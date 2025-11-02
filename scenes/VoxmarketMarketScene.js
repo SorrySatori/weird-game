@@ -178,7 +178,7 @@ export default class VoxmarketMarketScene extends GameScene {
                         { text: "Use Thorne-still's Brain Rot power", next: "zerren_thorne_still_power" }
                     ] : []),
                     ...(this.registry.get('reputationSystem')?.getFactionReputation('sporemind_accord') >= 50 ? [
-                        { text: "Appeal to Sporemind Accord relationship", next: "zerren_sporemind_appeal" }
+                        { text: "Appeal to Lumen Directorate relationship", next: "zerren_sporemind_appeal" }
                     ] : []),
                     { text: "Back", next: "zerren_start" }
                 ]
@@ -307,16 +307,16 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_sporemind_appeal: {
-                text: "'As an ally of the Sporemind Accord, I'm tracking down these Vestigels on their behalf. They consider this a matter of great importance to the balance of power in the region.'",
+                text: "'As an ally of the Lumen Directorate, I'm tracking down these Vestigels on their behalf. They consider this a matter of great importance to the balance of power in the region.'",
                 options: [
                     { text: "Continue", next: "zerren_sporemind_success" }
                 ]
             },
             
             zerren_sporemind_success: {
-                text: "Zerren's eyes widen with recognition. 'Oh! You're with the Accord? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector in the upper district. Quite wealthy and very interested in artifacts from beyond the Threshold.'",
+                text: "Zerren's eyes widen with recognition. 'Oh! You're with the Directorate? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector in the upper district.'",
                 options: [
-                    { text: "The Accord appreciates your cooperation", next: "zerren_quest_update" }
+                    { text: "The Directorate appreciates your cooperation", next: "zerren_quest_update" }
                 ]
             },
             
