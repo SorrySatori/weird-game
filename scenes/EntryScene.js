@@ -75,6 +75,7 @@ export default class EntryScene extends GameScene {
                 }
             },
             task: {
+                hideCloseOption: true,
                 text: "You must find the Bishop at the Egg Cathedral. She might knows about the distress call we have received from this city via myceliar network. The Bishop should be present at the Egg Cathedral.",
                 options: [
                     { text: "Wait, do you mean the task you have been given by the Spore Council? The only reason we are here? Why can't we go see the Bishop together?", next: 'whyNot' },
@@ -82,6 +83,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             whyNot: {
+                hideCloseOption: true,
                 text: "*adjusts robe importantly* I am far too busy with... important research. Yes! Research into advanced mycological phenomena that your novice mind couldn't possibly comprehend. Besides, I have a... prior engagement at the Fermented Cap tavern. The Bishop specifically requested someone of your... particular level of experience.",
                 options: [
                     { text: "You're just avoiding work, aren't you?", next: 'avoiding' },
@@ -90,6 +92,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             avoiding: {
+                hideCloseOption: true,
                 text: "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of mushroom ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!",
                 options: [
                     { text: "What should I tell the Bishop when I find her?", next: 'tellBishop' },
@@ -106,6 +109,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             farewell: {
+                hideCloseOption: true,
                 text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed. Remember, your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you. Now off you go, apprentice! Glory to the Eternal Mushroom!",
                 options: [
                     { text: "Wait! Tell me more about the growth and decay.", next: 'growthDecay' },

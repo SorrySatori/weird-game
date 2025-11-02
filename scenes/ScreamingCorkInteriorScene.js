@@ -156,8 +156,26 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             heliodor_who: {
                 text: "We are Heliodor. We keep an eye on things here, make sure everyone behaves.",
                 options: [
+                    { text: "We?", next: "heliodor_explain" },
                     { text: "Back", next: "heliodor_start" }
                 ]
+            },
+            heliodor_explain: {
+                text: "Yes, we. We are a colony of multiple creatures. But we identify as Heliodor *Donjon* Vaalstran for simplicity's sake. It's easier for introductions. Our body is made up of a whole community of creatures living in perfect symbiosis, which is advantageous for working behind the bar for several reasons. Each symbiont has its own talents, so some specialize in communicating with guests, others cook or mix drinks, and still others take care of the pub's operations. Another advantage is that we work in shifts, so while some are working, others are sleeping, so no one is too tired, even on hectic weekends. An extreme example is Oorarabaz the Green-faced, a rare type of organism originally endemic to the Nettle Mountains, similar to thick green moss, which sleeps practically all year round and is usually only woken up to do the company's financial statements.", 
+                options: [
+                    { text: "Fascinating. But I have other questions.", next: "heliodor_start" }
+                ],
+                onTrigger: () => {
+                    // Add a lore entry about Heliodor to the player's journal
+                    if (!this.hasJournalEntry('heliodor_lore')) {
+                        this.addJournalEntry(
+                        'heliodor_lore', 
+                        'Heliodor *Donjon* Vaalstran',
+                        'Heliodor is a unique individual composed of multiple symbiotic creatures living in harmony. They manage the Screaming Cork with a blend of talents from their various components, making them an efficient and intriguing bartender.',
+                        this.journalSystem.categories.PEOPLE
+                        );     
+                    }
+                },
             },
             heliodor_place: {
                 text: "The Screaming Cork's been here longer than most of the city. Owner claims it was the first building erected after the Collapse. Doubt that's true, but it's certainly old. Good place to disappear for a while.",
