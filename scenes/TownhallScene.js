@@ -19,10 +19,21 @@ export default class TownhallScene extends GameScene {
                 text: "Ah, another pilgrim to the archives of the forgotten divine. I am Phor Calesta, archaeologist of lost theologies. The locals call me 'Godgrave Excavator,' though I prefer the term Divinographer.",
                 options: [
                     { text: "What is Divinography?", next: "phorDivinography" },
-                    { text: "You're from Murkvale?", next: "phorMurkvale" },
+                    { text: "Where are you from?", next: "phorMurkvale" },
                     { text: "What are you doing here?", next: "phorPurpose" },
                    ...(hasRustFeastQuest && [{ text: "I'm looking for a living rust cluster", next: "phorRustCluster" }]),
-                ]
+                ],
+                onTrigger: () => {
+                    if (this.journalSystem && !this.journalSystem.hasEntry('phor_calesta')) {
+                        this.addJournalEntry(
+                            'phor_calesta',
+                            'Phor Calesta - Divinographer',
+                            'I have meet another strange person. An archaeologist specializing in the study of dead gods and their fossilized remains. He is a Craybara from city of Murkvale. Phor seeks excavation permits to explore the Godgraveyard.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Phor Calesta', related: 'Identity' }
+                        );
+                    }            
+                },
             },
             phorDivinography: {
                 text: "Divinography is the study of dead gods as geological phenomena. When a deity dies, their essence doesn't simply vanish—it fossilizes. Ossified prayers become strata. Halos crystallize into mineral deposits. I excavate these divine remains and catalog their properties.",
@@ -61,18 +72,28 @@ export default class TownhallScene extends GameScene {
                 ]
             },
             phorMurkvale: {
-                text: "Murkvale is a submerged city where my people, the Craybara, evolved. We are amphibious—adapted to crushing depths and social pressures alike. The city's ruins grow like coral, and memory itself fossilizes in the sediment. It's a perfect laboratory for studying divine archaeology.",
+                text: "I'm from Murkvale. It is a submerged city where my people, the Craybara, evolved. We are amphibious—adapted to crushing depths and social pressures alike. The city's ruins grow like coral, and memory itself fossilizes in the sediment. It's a perfect laboratory for studying divine archaeology.",
                 options: [
                     { text: "What brought you here?", next: "phorPurpose" },
                     { text: "Ask something else", next: "phorAskSomethingElse" }
                 ]
             },
             phorPurpose: {
-                text: "This city sits atop layers of dead faiths. The Egg Cathedral above is merely the latest iteration. Beneath it lie the bones of at least seven previous religious structures. I'm here to excavate the lower strata and document what gods died to make room for the current ones.",
+                text: "This city sits atop layers of dead faiths. The Egg Cathedral above is merely the latest iteration. Beneath the city lie the bones of many gods who came to die here. I'm here to excavate the lower strata and document what gods died to make room for the current ones. But to do that, I must first survive the bureaucracy. Sadly, the townhall won't let me to excavate at the Godgraveyard level without proper permits. But the damned townhall is closed or what.",
                 options: [
                     { text: "That's quite ambitious", next: "phorAmbitious" },
+                    { text: "Can I help you to get the permission?", next: "phorPurposeHelp" },
                     { text: "Ask something else", next: "phorAskSomethingElse" }
                 ]
+            },
+            phorPurposeHelp: {
+                text: "Hmm. Perhaps you could. If you manage to navigate the townhall bureaucracy and secure excavation permits for the Godgraveyard, I would be forever in your debt.",
+                options: [
+                    { text: "I'll see what I can do", next: "phorAskSomethingElse" }
+                ],
+                onTrigger: () => {
+                        this.questSystem.addQuest('excavation_permit', 'Divinography', 'I should help Phor Calesta obtain excavation permits for the Godgraveyard of the townhall. First, I need to get inside the townhall somehow.', 'talked_to_phor');
+                    }
             },
             phorAmbitious: {
                 text: "Ambition is all that survives pressure. In Murkvale, we learned that early. The weak are crushed. The ambitious adapt. I intend to publish the definitive text on divine stratigraphy—assuming I survive the excavation.",
@@ -127,14 +148,13 @@ export default class TownhallScene extends GameScene {
                     { text: "Farewell", next: null }
                 ]
             }
-        };
+        }
     }
 
 
     preload() {
         super.preload();
         this.load.image('townhallBg', 'assets/images/backgrounds/townhall.png');
-        this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('phor', 'assets/images/characters/phor.png');
     }
