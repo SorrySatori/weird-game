@@ -182,10 +182,15 @@ export default class SaveSystem {
             console.log('Restoring growth/decay:', saveData.growthDecay);
             registry.set('growthDecayBalance', saveData.growthDecay);
             
-            if (this.scene.growthDecaySystem) {
-                this.scene.growthDecaySystem.loadFromData(saveData.growthDecay);
-            } else if (registry.get('growthDecaySystem')) {
-                registry.get('growthDecaySystem').loadFromData(saveData.growthDecay);
+            const growthDecaySystem = this.scene.growthDecaySystem || registry.get('growthDecaySystem');
+            if (growthDecaySystem) {
+                growthDecaySystem.loadFromData(saveData.growthDecay);
+                console.log('Growth/Decay loaded. Current values:', {
+                    growth: growthDecaySystem.getGrowth(),
+                    decay: growthDecaySystem.getDecay()
+                });
+            } else {
+                console.warn('No GrowthDecaySystem found to load data into!');
             }
         }
 

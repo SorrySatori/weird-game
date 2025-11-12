@@ -31,7 +31,7 @@ export default class Shed521Scene extends GameScene {
                     { text: "Who are you exactly?", next: "background" },
                     // Add the option to confront Gnur about lying if player made the promise
                     ...(promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : []),
-                    ...(hasFindRustQuest && [{ text: "I'm looking for the way how to reach the Rust Choir headquarters in the Scraper. Can you help me?", next: "rustDomain" }]),
+                    ...(hasFindRustQuest ? [{ text: "I'm looking for the way how to reach the Rust Choir headquarters in the Scraper. Can you help me?", next: "rustDomain" }] : []),
                 ],
                 onTrigger: () => {
                     // Add journal entry about meeting Gnur

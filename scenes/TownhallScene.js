@@ -155,6 +155,8 @@ export default class TownhallScene extends GameScene {
         this.load.image('townhallBg', 'assets/images/backgrounds/townhall.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('phor', 'assets/images/characters/phor.png');
+        this.load.image('growthGate', 'assets/images/items/growthGate.png');
+        this.load.image('rustGate', 'assets/images/items/rustGate.png');
     }
 
     create() {
@@ -192,6 +194,35 @@ export default class TownhallScene extends GameScene {
         
         // Create Phor Calesta
         this.createPhorCalesta();
+        
+        // Check Growth/Decay levels and add gates if thresholds are met
+        const growthDecaySystem = this.registry.get('growthDecaySystem');
+        if (growthDecaySystem) {
+            const currentGrowth = growthDecaySystem.getGrowth();
+            const currentDecay = growthDecaySystem.getDecay();
+            
+            // Add Growth Gate if Growth >= 80
+            if (currentGrowth >= 80) {
+                const growthGate = this.add.image(225, 425, 'growthGate');
+                growthGate.setScale(0.09); // Adjust scale as needed
+                
+                // Animate the glow
+                this.tweens.add({
+                    targets: growthGlow,
+                    alpha: { from: 0.2, to: 0.05 },
+                    duration: 2000,
+                    yoyo: true,
+                    repeat: -1
+                });
+            }
+            
+            // Add Rust Gate if Decay >= 80
+            if (currentDecay >= 80) {
+                const rustGate = this.add.image(227, 450, 'rustGate');
+                rustGate.setScale(0.07); // Adjust scale as needed
+                
+            }
+        }
         
         // Make sure sounds are loaded
         if (!this.clickSound) {
