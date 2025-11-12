@@ -37,6 +37,9 @@ export default class GrowthDecayIndicator {
         // Subscribe to system updates
         const system = scene.growthDecaySystem;
         system.subscribe(this.updateDisplay.bind(this));
+        
+        // Initialize with current values to maintain visual state across scenes
+        this.updateDisplay(system.getGrowth(), system.getDecay());
     }
     
     createPopupMenu() {
