@@ -157,20 +157,20 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             ravla_rust_task: {
-                text: "There's a small matter that needs attending to. You want to meet Brukk? Then feed the metal first. The machines are always hungry, go and prepare a feast for them. You will need oil, metal, and, most importantly, a living rust cluster. Mix them together, bring it to me, and I'll arrange your meeting with Brukk.",
+                text: "There's a small matter that needs attending to. You want to meet Brukk? Then feed the metal first. The machines are always hungry, go and prepare a feast for them. You will need oil, metal, and, most importantly, a redmass. Mix them together, bring it to me, and I'll arrange your meeting with Brukk.",
                 options: [
                     { text: "I'll get to work on it.", next: "closeDialog" },
-                    { text: "What is a living rust cluster?", next: "ravla_rust_cluster" },
+                    { text: "What is a redmass?", next: "ravla_rust_cluster" },
                     { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
                 ],
                 onTrigger: () => {
-                    this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove your commitment. I have to gather oil, metal, and a living rust cluster, and bring them to her.', 'talked_to_ravla');
+                    this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove your commitment. I have to gather oil, metal, and a redmass, and bring them to her.', 'talked_to_ravla');
                     this.showNotification('Quest updated: Finding the Rust Choir');
-                    this.questSystem.addQuest('rust_feast', 'Rust Feast', 'Prepare a feast for the Rust Choir machines by gathering oil, metal, and a living rust cluster, and bring them to Ravla at the Screaming Cork.');
+                    this.questSystem.addQuest('rust_feast', 'Rust Feast', 'Prepare a feast for the Rust Choir machines by gathering oil, metal, and a living redmass, and bring them to Ravla at the Screaming Cork.');
                 },
             },
             ravla_rust_cluster: {
-                text: "A living rust cluster is a rare organism that thrives in decaying metal environments. It's semi-organic mass of oxidized iron tendrils, like coral made of blood-colored steel.",
+                text: "A living redmass is a rare organism that thrives in decaying metal environments. It's semi-organic mass of oxidized iron tendrils, like coral made of blood-colored steel.",
                 options: [
                     { text: "Where can I find it?", next: "ravla_cluster_where" },
                     { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
@@ -184,14 +184,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
                 ],
                 onTrigger: () => {
-                    this.questSystem.updateQuest('rust_feast', 'Ravla suggested I speak with the archeologist near the townhall to learn more about living rust clusters.', 'talked_to_archeologist_hint');
+                    this.questSystem.updateQuest('rust_feast', 'Ravla suggested I speak with the archeologist near the townhall to learn more about redmass.', 'talked_to_archeologist_hint');
                 }
             },
             ravla_rust_materials: {
                 text: "I'm not your mother, am I? Figure it out. The city is full of scrap metal and oil leaks. Use your head. You can search around the Scraper or you can even buy metal scraps from the traders, you know. In exchange for money, heard about that concept? For the oil, I would check the Yolk Sea docks or Echo Drain Delta. Good luck.",
                 options: [
                     { text: "Thanks for the advice. I'll get to work on it.", next: "closeDialog" },
-                    { text: "Wait, what about the living rust cluster? What is that?", next: "ravla_rust_cluster" },
+                    { text: "Wait, what about the redmass? What is that?", next: "ravla_rust_cluster" },
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('rust_feast', 'Ravla advised me to search around the Scraper for scrap metal (or I can simply buy it) and check the Yolk Sea docks or Echo Drain Delta for oil.', 'gathered_rust_materials_hint');

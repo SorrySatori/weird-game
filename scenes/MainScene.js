@@ -40,16 +40,27 @@ export default class MainScene extends Phaser.Scene {
             this.hoverSound = this.sound.add('hoverSound');
             this.clickSound = this.sound.add('clickSound');
 
-            // Add title text
-            const title = this.add.text(400, 200, 'Weird Game', {
+            const title = this.add.text(400, 170, 'Upper Morkezela:', {
                 fontSize: '72px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial',
                 stroke: '#0a2712',
                 strokeThickness: 8,
                 shadow: { color: '#2fff91', blur: 10, stroke: true, fill: true }
-            });
-            title.setOrigin(0.5);
+            })
+
+            const subTitle = this.add.text(400, 250, 'A Weird Game', {
+                fontSize: '72px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial',
+                stroke: '#0a2712',
+                strokeThickness: 8,
+                shadow: { color: '#2fff91', blur: 10, stroke: true, fill: true }
+            })
+
+
+            title.setOrigin(0.5)
+            subTitle.setOrigin(0.5)
 
             // Create button background
             const buttonBg = this.add.rectangle(400, 400, 200, 60, 0x0a2712, 0.4);

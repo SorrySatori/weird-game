@@ -21,7 +21,7 @@ export default class TownhallScene extends GameScene {
                     { text: "What is Divinography?", next: "phorDivinography" },
                     { text: "Where are you from?", next: "phorMurkvale" },
                     { text: "What are you doing here?", next: "phorPurpose" },
-                   ...(hasRustFeastQuest && [{ text: "I'm looking for a living rust cluster", next: "phorRustCluster" }]),
+                   ...(hasRustFeastQuest ? [{ text: "I'm looking for a living redmass", next: "phorRustCluster" }] : []),
                 ],
                 onTrigger: () => {
                     if (this.journalSystem && !this.journalSystem.hasEntry('phor_calesta')) {
@@ -107,25 +107,24 @@ export default class TownhallScene extends GameScene {
                     { text: "What is Divinography?", next: "phorDivinography" },
                     { text: "Tell me about Murkvale", next: "phorMurkvale" },
                     { text: "What are you doing here?", next: "phorPurpose" },
-                    { text: "I'm looking for a living rust cluster", next: "phorRustCluster", condition: () => this.questSystem.hasQuest('rust_feast') },
-                    { text: "Farewell", next: null }
+                    { text: "I'm looking for a redmass", next: "phorRustCluster", condition: () => this.questSystem.hasQuest('rust_feast') },
                 ]
             },
             phorRustCluster: {
-                text: "Ah! A living rust cluster. Fascinating organisms—part mineral, part fungal, part memory. They grow in places where metal and decay achieve equilibrium. I've documented several colonies in my excavations.",
+                text: "Ah! A living redmass. Fascinating organisms — part mineral, part faith resonance, part corrosion organism. They grow in places where metal and decay achieve equilibrium. I've documented several colonies in my excavations.",
                 options: [
                     { text: "Where can I find one?", next: "phorRustClusterLocation" },
                     { text: "What are they exactly?", next: "phorRustClusterNature" }
                 ]
             },
             phorRustClusterLocation: {
-                text: "The most accessible colony I've found is in the lower levels of Shed 521—specifically in the maintenance halls. The bureaucrats avoid that area due to 'structural concerns,' which makes it perfect for rust cluster growth. Look for corroded pipes with orange-red crystalline growths.",
+                text: "The most accessible colony I've found is in the lower levels of Shed 521—specifically in the maintenance halls. The bureaucrats avoid that area due to 'structural concerns,' which makes it perfect for redmass growth. Look for corroded pipes with orange-red crystalline growths.",
                 options: [
                     { text: "How do I extract one safely?", next: "phorRustClusterExtraction" },
                     { text: "Thank you for the information", next: "phorRustClusterThanks" }
                 ],
                 onTrigger: () => {
-                        this.questSystem.updateQuest('rust_feast', 'Phor Calesta told me that living rust clusters can be found in the maintenance halls of Shed 521. I should look for corroded pipes with orange-red crystalline growths.', 'learned_rust_cluster_location');
+                        this.questSystem.updateQuest('rust_feast', 'Phor Calesta told me that redmass can be found in the maintenance halls of Shed 521. I should look for corroded pipes with orange-red crystalline growths.', 'learned_rust_cluster_location');
                     }
             },
             phorRustClusterNature: {
@@ -145,7 +144,6 @@ export default class TownhallScene extends GameScene {
                 text: "Of course. If you're successful, do tell me what you're using it for. I'm always interested in how others utilize these divine remnants.",
                 options: [
                     { text: "Ask something else", next: "phorAskSomethingElse" },
-                    { text: "Farewell", next: null }
                 ]
             }
         }
