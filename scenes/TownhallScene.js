@@ -203,24 +203,16 @@ export default class TownhallScene extends GameScene {
             
             // Add Growth Gate if Growth >= 80
             if (currentGrowth >= 80) {
-                const growthGate = this.add.image(225, 425, 'growthGate');
-                growthGate.setScale(0.09); // Adjust scale as needed
-                
-                // Animate the glow
-                this.tweens.add({
-                    targets: growthGlow,
-                    alpha: { from: 0.2, to: 0.05 },
-                    duration: 2000,
-                    yoyo: true,
-                    repeat: -1
-                });
+                const growthGate = this.add.image(225, 425, 'growthGate')
+                growthGate.setScale(0.09)
+                growthGate.setDepth(0)
             }
             
             // Add Rust Gate if Decay >= 80
             if (currentDecay >= 80) {
-                const rustGate = this.add.image(227, 450, 'rustGate');
-                rustGate.setScale(0.07); // Adjust scale as needed
-                
+                const rustGate = this.add.image(227, 450, 'rustGate')
+                rustGate.setScale(0.07)
+                rustGate.setDepth(-0.5)
             }
         }
         
