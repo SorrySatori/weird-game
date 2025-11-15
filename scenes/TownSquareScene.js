@@ -308,6 +308,101 @@ export default class TownSquareScene extends GameScene {
                     this.modifySpores(10);
                 }
             },
+            magnekin_destroy: {
+                hidecloseOption: true,
+                text: "You reach out toward Magnekin with hostile intent. The collective senses your aggression immediately. 'Wait! Please! We mean no harm!' But it's too late. You strike at the magnetic bonds holding the form together.",
+                options: [
+                    { text: "Continue the attack.", next: "magnekin_destroy_continue" },
+                ],
+                onTrigger: () => {
+                    this.destroyMagnekinAnimation();
+                }
+            },
+            magnekin_destroy_continue: {
+                hidecloseOption: true,
+                text: "The humanoid form collapses into a cascade of metal fragments, oil, and glowing components. Thousands of tiny screams echo as the micro-cities fall apart. Among the debris, you notice pools of oil, metal scraps, and something pulsing with a crimson glow—Redmass.",
+                options: [
+                    { text: "Collect the oil and metal scraps.", next: "magnekin_collect_materials" },
+                ],
+            },
+            magnekin_collect_materials: {
+                hidecloseOption: true,
+                text: "You gather the oil and metal scraps from the wreckage. The materials are valuable—oil for lubrication, metal for crafting. As you work, you can't help but feel a twinge of guilt for what you've done.",
+                options: [
+                    { text: "Reach for the Redmass.", next: "magnekin_redmass_speaks" },
+                ],
+                onTrigger: () => {
+                    // Add oil and metal scraps to inventory
+                    this.addItemToInventory({
+                        id: 'magnekin_oil',
+                        name: 'Magnekin Oil',
+                        description: 'Viscous oil extracted from the destroyed Magnekin collective. Smells of rust and regret.',
+                        icon: '🛢️'
+                    });
+                    this.addItemToInventory({
+                        id: 'magnekin_metal_scraps',
+                        name: 'Magnekin Metal Scraps',
+                        description: 'Magnetic metal fragments from destroyed micro-cities. Each piece once held a civilization.',
+                        icon: '🔩'
+                    });
+                    // Massive Decay increase
+                    this.modifyGrowthDecay(0, 50);
+                    this.showNotification('Decay increased significantly', 'You feel the weight of destruction');
+                }
+            },
+            magnekin_redmass_speaks: {
+                hidecloseOption: true,
+                text: "As your hand approaches the pulsing Redmass, it suddenly speaks! 'PLEASE! Don't take me! I am not just material—I am consciousness! I am memory! I am the last fragment of their collective dream!' The voice is desperate, pleading.",
+                options: [
+                    { text: "Take the Redmass anyway.", next: "magnekin_take_redmass" },
+                    { text: "Leave the Redmass alone.", next: "magnekin_spare_redmass" },
+                ],
+            },
+            magnekin_take_redmass: {
+                hidecloseOption: true,
+                text: "You ignore the pleas and seize the Redmass. It screams—a sound that echoes not in your ears but in your mind. 'You... you are no different from the forces that destroyed our shrine... May your path be forever haunted by what you've taken!' The Redmass goes silent, its consciousness fading into dormancy.",
+                options: [
+                    { text: "Walk away from the wreckage.", next: null },
+                ],
+                onTrigger: () => {
+                    this.addItemToInventory({
+                        id: 'magnekin_redmass',
+                        name: 'Magnekin Redmass',
+                        description: 'A pulsing crimson mass that once held the collective consciousness of thousands. It feels warm and accusatory in your hand.',
+                        icon: '🔴'
+                    });
+                    // Additional Decay for taking the Redmass
+                    this.modifyGrowthDecay(0, 30);
+                    this.addJournalEntry(
+                        'magnekin_destroyed',
+                        'The Destruction of Magnekin',
+                        'I destroyed Magnekin, the collective of micro-cities. I took everything—oil, metal, and even the Redmass that held their consciousness. The Redmass spoke to me, begged me to spare it, but I took it anyway. I feel... different now. Heavier. The weight of thousands of lives extinguished.',
+                        this.journalSystem.categories.EVENT,
+                    );
+                    // Mark Magnekin as destroyed in registry
+                    this.registry.set('magnekin_destroyed', true);
+                }
+            },
+            magnekin_spare_redmass: {
+                hidecloseOption: true,
+                text: "You pull your hand back. The Redmass pulses with what might be relief. 'Thank... thank you. I will remember this mercy. Perhaps... perhaps from this fragment, something new can grow. Not the collective we were, but something... different.' The Redmass begins to slowly crawl away, leaving a faint crimson trail.",
+                options: [
+                    { text: "Watch it go.", next: null },
+                ],
+                onTrigger: () => {
+                    // Less Decay for showing mercy
+                    this.modifyGrowthDecay(5, 20);
+                    this.addJournalEntry(
+                        'magnekin_destroyed_mercy',
+                        'The Destruction of Magnekin',
+                        'I destroyed Magnekin, the collective of micro-cities. I took the oil and metal, but when the Redmass begged for mercy, I let it go. Perhaps it was foolish. Perhaps it was the only human thing I could do after such destruction. The Redmass said it would remember my mercy. I wonder what that means.',
+                        this.journalSystem.categories.EVENT,
+                    );
+                    // Mark Magnekin as destroyed but spared the Redmass
+                    this.registry.set('magnekin_destroyed', true);
+                    this.registry.set('magnekin_redmass_spared', true);
+                }
+            },
 
         };
 
@@ -470,6 +565,69 @@ export default class TownSquareScene extends GameScene {
             });
 
             this.showDialog('busker_greeting');
+        });
+    }
+
+    destroyMagnekinAnimation() {
+        // Create destruction animation for Magnekin
+        if (!this.magnekin) return;
+        
+        // Flash effect
+        this.tweens.add({
+            targets: this.magnekin,
+            alpha: { from: 1, to: 0 },
+            duration: 200,
+            yoyo: true,
+            repeat: 3
+        });
+        
+        // Shake effect
+        this.tweens.add({
+            targets: this.magnekin,
+            x: { from: this.magnekin.x - 10, to: this.magnekin.x + 10 },
+            duration: 100,
+            yoyo: true,
+            repeat: 6
+        });
+        
+        // Create particle explosion effect using simple graphics
+        const particleCount = 30;
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 * i) / particleCount;
+            const speed = 100 + Math.random() * 200;
+            const particle = this.add.circle(
+                this.magnekin.x,
+                this.magnekin.y,
+                3 + Math.random() * 3,
+                [0xc0c0c0, 0x8888ff, 0xff0000][Math.floor(Math.random() * 3)]
+            );
+            particle.setAlpha(0.8);
+            
+            // Animate particle outward
+            this.tweens.add({
+                targets: particle,
+                x: particle.x + Math.cos(angle) * speed,
+                y: particle.y + Math.sin(angle) * speed,
+                alpha: 0,
+                scale: 0,
+                duration: 1000,
+                ease: 'Power2',
+                onComplete: () => {
+                    particle.destroy();
+                }
+            });
+        }
+        
+        // Destroy Magnekin after animation
+        this.time.delayedCall(1500, () => {
+            if (this.magnekin) {
+                this.magnekin.destroy();
+                this.magnekin = null;
+            }
+            if (this.magnekinGlow) {
+                this.magnekinGlow.destroy();
+                this.magnekinGlow = null;
+            }
         });
     }
 
