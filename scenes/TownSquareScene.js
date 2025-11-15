@@ -17,7 +17,6 @@ export default class TownSquareScene extends GameScene {
 
     preload() {
         super.preload();
-        this.playSceneMusic('busker_theme');
 
         this.load.image('townSquareBg', 'assets/images/backgrounds/TownSquare.png');
         this.load.image('magnekin', 'assets/images/characters/magnekin.png');
@@ -25,7 +24,8 @@ export default class TownSquareScene extends GameScene {
     }
 
     create() {
-        super.create();
+        super.create();        
+        this.playSceneMusic('busker_theme');
         
         const bg = this.add.image(400, 300, 'townSquareBg');
         bg.setDisplaySize(800, 600);
@@ -89,7 +89,7 @@ export default class TownSquareScene extends GameScene {
         };
 
         this.magnekin = this.add.container(250, 300);
-        this.magnekin.setDepth(2);
+        this.magnekin.setDepth(-1);
         
         const magnekinSprite = this.add.sprite(0, 0, 'magnekin');
         magnekinSprite.setScale(0.2);
@@ -189,7 +189,7 @@ export default class TownSquareScene extends GameScene {
         };
 
         this.busker = this.add.container(550, 380);
-        this.busker.setDepth(5);
+        this.busker.setDepth(-1);
         
         const buskerSprite = this.add.sprite(0, 0, 'busker');
         buskerSprite.setScale(0.2);
@@ -251,8 +251,6 @@ export default class TownSquareScene extends GameScene {
     }
 
     shutdown() {
-        this.restoreBackgroundMusic();
-        this.sceneMusic = null;
         super.shutdown();
     }
 

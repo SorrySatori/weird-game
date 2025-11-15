@@ -162,7 +162,8 @@ export default class TownhallScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
-        
+        this.playSceneMusic('genericMusic');
+
         // Set townhall background
         const bg = this.add.image(400, 300, 'townhallBg');
         bg.setDisplaySize(800, 600);

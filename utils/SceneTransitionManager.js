@@ -214,6 +214,7 @@ export default class SceneTransitionManager {
     directTransition(targetScene, fadeOutDuration = 800) {
         this.scene.cameras.main.fadeOut(fadeOutDuration, 0, 0, 0);
         this.scene.cameras.main.once('camerafadeoutcomplete', () => {
+            this.scene.sound.stopAll();
             this.scene.scene.start(targetScene);
             this.scene.isTransitioning = false;
         });
