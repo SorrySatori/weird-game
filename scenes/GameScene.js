@@ -94,6 +94,8 @@ export default class GameScene extends Phaser.Scene {
         this.load.audio('dialogMurmur', 'assets/sounds/dialog-murmur.wav');
         this.load.audio('genericMusic', 'assets/sounds/background-music.wav');
         this.load.audio('dr_elphi_theme', 'assets/sounds/dr_elphi.mp3');
+        this.load.audio('busker_theme', 'assets/sounds/busker.wav');
+
 
 
         // Load Growth/Decay indicator image

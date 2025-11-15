@@ -172,6 +172,18 @@ export default class TownhallScene extends GameScene {
         this.transitionManager = new SceneTransitionManager(this);
         
         this.transitionManager.createTransitionZone(
+            720, // x position
+            470, // y position
+            80, // width
+            150, // height
+            'right', // direction
+            'TownSquareScene', // target scene
+            720, // walk to x
+            470 // walk to y
+        );
+        
+        // Transition to BurningBearStreetScene (left side, lower area)
+        this.transitionManager.createTransitionZone(
             50, // x position
             470, // y position
             80, // width
