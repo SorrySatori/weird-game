@@ -48,6 +48,17 @@ export default class TownSquareScene extends GameScene {
             300,
         );
 
+        this.transitionManager.createTransitionZone(
+            350,
+            350,
+            80,
+            400,
+            'up',
+            'HarborScene',
+            750,
+            300,
+        );
+
         this.createMagnekin();
         this.createBusker();
 
