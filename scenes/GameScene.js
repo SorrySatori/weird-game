@@ -419,7 +419,7 @@ export default class GameScene extends Phaser.Scene {
         
         // Create a dynamic dialog state
         const dynamicDialogState = {
-            speaker: dialogContent.speaker || symbiontSystem.getSymbiontName(symbiontId) || 'Person',
+            speaker: dialogContent?.speaker || symbiontSystem.getSymbiontName(symbiontId) || 'Person',
             text: dialogContent.text,
             options: dialogContent.options.map(option => {
                 if (option.next === 'closeDialog') {
@@ -1493,7 +1493,7 @@ export default class GameScene extends Phaser.Scene {
             wordWrap: { width: 540 },
             align: 'left'
         });
-        optionText.setOrigin(0, 0.5); // Left align text with vertical center
+        optionText.setOrigin(0, 0); // Left align text at top
         
         // Calculate dynamic height based on text content with padding
         const textHeight = optionText.height;
@@ -1501,7 +1501,7 @@ export default class GameScene extends Phaser.Scene {
         const optionHeight = textHeight + 10; // Just a bit of padding for Fallout style // Minimum 40px height with 20px padding
         
         // Create background with dynamic height
-        const optionBg = this.add.rectangle(0, y, 560, optionHeight, 0x0a2712, 0);
+        const optionBg = this.add.rectangle(0, y + optionHeight/2, 560, optionHeight, 0x0a2712, 0);
         optionBg.setInteractive({ useHandCursor: true });
         
         // Return the actual height used for proper spacing in the caller
@@ -1535,7 +1535,6 @@ export default class GameScene extends Phaser.Scene {
                 ease: 'Power2'
             });
             
-            // Move dialog options down with animation
             this.tweens.add({
                 targets: this.dialogOptions,
                 y: 200,
@@ -1584,14 +1583,16 @@ export default class GameScene extends Phaser.Scene {
             // State key passed, look up in dialogContent
             this.dialogState = state;
             content = this.dialogContent[state];
-            content.speaker = this.dialogContent?.speaker
+            if(this.dialogContent?.speaker) {
+            content.speaker = this.dialogContent.speaker
+            }
             // Check if we need to inherit speaker from parent dialog group
-            if (!content.speaker && state.includes('_')) {
+            if (!content?.speaker && state.includes('_')) {
                 // Try to find a parent dialog with a speaker defined
                 const dialogGroup = state.split('_')[0];
                 const groupDialog = this.dialogContent[dialogGroup];
                 
-                if (groupDialog && groupDialog.speaker) {
+                if (groupDialog && groupDialog?.speaker) {
                     content.speaker = groupDialog.speaker;
                 } else {
                     // Try to infer speaker from dialog key
@@ -1644,7 +1645,6 @@ export default class GameScene extends Phaser.Scene {
         this.dialogBox.setDepth(1000);
         
         // We'll set the dialog background size after calculating content height
-        // Initial size - increased height to fit more content
         const dialogBg = this.add.rectangle(0, 0, 600, 500, 0x0a2712, 0.9);
         dialogBg.setStrokeStyle(2, 0x7fff8e);
         this.dialogBox.add(dialogBg);
@@ -1796,7 +1796,7 @@ export default class GameScene extends Phaser.Scene {
         optionsContainer.add(this.dialogOptions);
         
         // Create dialog options
-        const visibleOptionsCount = 4; // Maximum number of visible options
+        const visibleOptionsCount = 3; // Maximum number of visible options (reduced to fit in viewport)
         // We'll use dynamic heights for options based on content
         
         // Calculate total options including "Close"

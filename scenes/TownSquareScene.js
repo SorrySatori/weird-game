@@ -147,6 +147,15 @@ export default class TownSquareScene extends GameScene {
                     ] : []),
                 ]
             },
+            magnekin_wtf: {
+                text: "Oh, sorry about that. I guess my sense of humour is a bit... offbeat. But if you're looking for something unusual, you might want to check out the old ruins outside the city. People say strange things happen there.",
+                options: [
+                    { text: "Thanks for the tip. Anything else I should know?", next: "magnekin_main" },
+                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                        { text: "Use Neme's power to detect lies and pretense.", next: "magnekin_neme_power" }
+                    ] : []),
+                ],
+            },
             magnekin_fermented_cap: {
                 text: "Fermented Cap, you say? Yes, I've heard of that place. It's a famous museum of old things here in the city center.",
                 options: [
@@ -262,6 +271,23 @@ export default class TownSquareScene extends GameScene {
                     { text: "You keep talking about being a 'real citizen'.", next: "magnekin_everything" },
                     { text: "I will tell you. But first, who are you really?", next: "magnekin_everything" },
                 ]
+            },
+            magnekin_everything: {
+                hidecloseOption: true,
+                text:" Yeah, I guess I can't hide it anymore. Alright, you got me. I'm not exactly what you'd call a 'real citizen'. I'm actually a collective of tiny cities that work together to mimic a humanoid form. We call ourselves Magnekin. You know, we use power of magnets to hold together. It's a long story. We were just curious about life in the city of the big creatures. It's fascinating experiment, really. But I'm afraid we are not very convincing at blending in.",
+                options: [
+                    { text: "Fascinating. Are you really cities? How's that possible?", next: "magnekin_cities" },
+                    { text: "What's your origin story", next: "magnekin_origin" },
+                    { text: "I can help you to blend in.", next: "magnekin_blend" },
+                ],
+                onTrigger: () => {
+                    this.addJournalEntry(
+                        'magnekin_reveal',
+                        'Magnekin',
+                        'I have discovered that creature called Magnekin is not a single being, but a collective of tiny cities that work together to mimic a humanoid form. They use magnetic forces to hold themselves together. I wonder if this town could get any more strange than it already is.',
+                        this.journalSystem.categories.PEOPLE,
+                    );
+                }
             },
             magnekin_what_are_you: {
                 hidecloseOption: true,
