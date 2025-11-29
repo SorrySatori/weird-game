@@ -21,6 +21,10 @@ export default class TownSquareScene extends GameScene {
         this.load.image('townSquareBg', 'assets/images/backgrounds/TownSquare.png');
         this.load.image('magnekin', 'assets/images/characters/magnekin.png');
         this.load.image('busker', 'assets/images/characters/busker.png');
+        this.load.image('oil', 'assets/images/items/oil.png');
+        this.load.image('metal_scrap', 'assets/images/items/metal_scrap.png');
+        this.load.image('redmass', 'assets/images/items/redmass.png');
+        this.load.image('magnekin_broken', 'assets/images/characters/magnekin_broken.png');
     }
 
     create() {
@@ -360,16 +364,16 @@ export default class TownSquareScene extends GameScene {
                 onTrigger: () => {
                     // Add oil and metal scraps to inventory
                     this.addItemToInventory({
-                        id: 'magnekin_oil',
+                        id: 'oil',
                         name: 'Magnekin Oil',
-                        description: 'Viscous oil extracted from the destroyed Magnekin collective. Smells of rust and regret.',
-                        icon: '🛢️'
+                        description: 'Viscous oil extracted from the destroyed Magnekin collective.',
+                        image: 'oil'
                     });
                     this.addItemToInventory({
-                        id: 'magnekin_metal_scraps',
+                        id: 'metal_scrap',
                         name: 'Magnekin Metal Scraps',
-                        description: 'Magnetic metal fragments from destroyed micro-cities. Each piece once held a civilization.',
-                        icon: '🔩'
+                        description: 'Magnetic metal fragments from destroyed micro-cities.',
+                        image: 'metal_scrap'
                     });
                     // Massive Decay increase
                     this.modifyGrowthDecay(0, 50);
@@ -392,10 +396,10 @@ export default class TownSquareScene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.addItemToInventory({
-                        id: 'magnekin_redmass',
+                        id: 'redmass',
                         name: 'Magnekin Redmass',
-                        description: 'A pulsing crimson mass that once held the collective consciousness of thousands. It feels warm and accusatory in your hand.',
-                        icon: '🔴'
+                        description: 'A pulsing crimson mass that once held the collective consciousness of thousands.',
+                        image: 'redmass'
                     });
                     // Additional Decay for taking the Redmass
                     this.modifyGrowthDecay(0, 30);
@@ -644,7 +648,7 @@ export default class TownSquareScene extends GameScene {
             });
         }
         
-        // Destroy Magnekin after animation
+        // Destroy Magnekin after animation and show broken sprite
         this.time.delayedCall(1500, () => {
             if (this.magnekin) {
                 this.magnekin.destroy();
@@ -654,6 +658,12 @@ export default class TownSquareScene extends GameScene {
                 this.magnekinGlow.destroy();
                 this.magnekinGlow = null;
             }
+            
+            // Show broken Magnekin sprite at the original position
+            const brokenMagnekin = this.add.sprite(250, 350, 'magnekin_broken');
+            brokenMagnekin.setScale(0.2);
+            brokenMagnekin.setDepth(-1);
+            brokenMagnekin.setTint(0xc0c0c0);
         });
     }
 
