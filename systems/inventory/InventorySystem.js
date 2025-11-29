@@ -463,6 +463,38 @@ export default class InventorySystem {
     addItemToInventory(item) {
         const inventory = this.scene.registry.get('inventory');
         
+        const existingItem = inventory.items.find(invItem => invItem.id === item.id);
+        
+        if (existingItem) {
+            // If item is stackable, increase quantity
+            if (item.stackable) {
+                existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
+                
+                // Update registry
+                this.scene.registry.set('inventory', inventory);
+                
+                // Show notification
+                if (this.scene.showNotification) {
+                    this.scene.showNotification(`Added ${item.quantity || 1}x ${item.name}`);
+                }
+                
+                // Play pickup sound
+                if (this.scene.itemPickupSound) {
+                    this.scene.itemPickupSound.play();
+                }
+                
+                // Update display
+                if (this.inventoryVisible) {
+                    this.updateInventoryDisplay();
+                }
+                
+                return true;
+            } else {
+
+                return false;
+            }
+        }
+        
         // Check if inventory is full
         if (inventory.items.length >= inventory.maxItems) {
             // Show notification if available
@@ -470,6 +502,11 @@ export default class InventorySystem {
                 this.scene.showNotification('Inventory is full!', 0xff0000);
             }
             return false;
+        }
+        
+        // Initialize quantity for new items
+        if (!item.quantity) {
+            item.quantity = 1;
         }
         
         // Add item to inventory
