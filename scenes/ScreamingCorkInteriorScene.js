@@ -22,7 +22,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     { text: "Who are you?", next: "ravla_who" },
                     { text: "What do you do here?", next: "ravla_job" },
-                    ...(hasFindRustQuest && [{ text: "I was told you can get me to Rust Choir base.", next: "ravla_rust_domain" }])
+                    ...(hasFindRustQuest ? [{ text: "I was told you can get me to Rust Choir base.", next: "ravla_rust_domain" }] : [])
                 ]
             },
             ravla_who: {
