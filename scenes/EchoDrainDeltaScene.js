@@ -48,7 +48,7 @@ export default class EchoDrainDeltaScene extends GameScene {
                         this.journalSystem.categories.EVENTS
                     );
 
-                    this.showNotification('Spores take root... a fungal bridge stretches across the water.');
+                    this.showNotification('Spores take root... a small fungal island stretches across the water.');
                     this.createFungalBridge();
                     this.hideDialog();
                 }
@@ -146,7 +146,7 @@ export default class EchoDrainDeltaScene extends GameScene {
 
         // Place the bridge sprite across the water, connecting mainland to island
         const bridgeSprite = this.add.image(600, 430, 'bridge');
-        // bridgeSprite.setDepth(1);
+        bridgeSprite.setDepth(-0.5);
         bridgeSprite.setScale(0.16);
 
         // Transition zone at the far end of the bridge — toward the island building
