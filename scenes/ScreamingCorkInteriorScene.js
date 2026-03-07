@@ -11,6 +11,11 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
     get dialogContent() {
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
+        const hasRustFeastQuest = !!(this.questSystem && this.questSystem.getQuest('rust_feast') && !this.questSystem.getQuest('rust_feast').isComplete);
+        const hasAllFeastItems = !!(this.hasItem && this.hasItem('oil') && this.hasItem('metal_scrap') && this.hasItem('redmass'));
+        const hasVoluntaryRedmass = !!(hasAllFeastItems && this.hasJournalEntry('redmass_collected_voluntary'));
+        const redmassSparedOnly = !!(this.registry.get('redmass_spared') && !(this.hasItem && this.hasItem('redmass')));
+        const rustFeastComplete = !!(this.questSystem && this.questSystem.getQuest('rust_feast')?.isComplete);
 
         return {
             ...super.dialogContent,
@@ -22,7 +27,12 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     { text: "Who are you?", next: "ravla_who" },
                     { text: "What do you do here?", next: "ravla_job" },
-                    ...(hasFindRustQuest ? [{ text: "I was told you can get me to Rust Choir base.", next: "ravla_rust_domain" }] : [])
+                    ...(hasFindRustQuest ? [{ text: "I was told you can get me to Rust Choir base.", next: "ravla_rust_domain" }] : []),
+                    ...(hasRustFeastQuest && hasAllFeastItems && hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", next: "ravla_feast_shard" }] : []),
+                    ...(hasRustFeastQuest && hasAllFeastItems && !hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", next: "ravla_feast_full_redmass" }] : []),
+                    ...(hasRustFeastQuest && redmassSparedOnly ? [{ text: "I found a redmass, but I chose to leave it alive...", next: "ravla_feast_spared_redmass" }] : []),
+                    ...(hasRustFeastQuest && !hasAllFeastItems && !redmassSparedOnly ? [{ text: "I'm still gathering the feast ingredients.", next: "ravla_feast_missing" }] : []),
+                    ...(rustFeastComplete ? [{ text: "About the Rust Feast...", next: "ravla_feast_done" }] : [])
                 ]
             },
             ravla_who: {
@@ -197,6 +207,101 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     this.questSystem.updateQuest('rust_feast', 'Ravla advised me to search around the Scraper for scrap metal (or I can simply buy it) and check the Yolk Sea docks or Echo Drain Delta for oil.', 'gathered_rust_materials_hint');
                 }
             },
+
+            // --- Rust Feast delivery ---
+            ravla_feast_missing: {
+                text: "Then don't waste my time. Come back when you have the oil, scrap metal, and a redmass. All three.",
+                options: [
+                    { text: "I'll keep looking.", next: "closeDialog" }
+                ]
+            },
+            ravla_feast_full_redmass: {
+                text: `Ravla's eyes go wide as she takes the redmass from your hands. It twitches. She grins — a slow, satisfied thing. "Now THIS is redmass. Still alive. Still... present." She leans in, almost reverently. "The machines will feast well tonight. You've done good, pilgrim. Better than I expected."`,
+                options: [
+                    { text: "When do we begin?", next: "ravla_feast_cook_full" }
+                ]
+            },
+            ravla_feast_shard: {
+                text: `Ravla squints at the small crystalline shard, turning it in her fingers. "...This is it? A bit of gristle scraped from the bone?" She sets it down carefully. A long pause. "...It's warm. It's alive, just barely." She exhales. "It's not much. But the machines haven't eaten in a long time. It will have to be enough."`,
+                options: [
+                    { text: "It was given willingly.", next: "ravla_feast_cook_shard" },
+                    { text: "It's all I could get.", next: "ravla_feast_cook_shard" }
+                ]
+            },
+            ravla_feast_cook_full: {
+                text: `Ravla works quickly — oil first, then metal shavings, and finally the redmass folded in last, still twitching. The result is sealed in a dark container that rattles faintly. "There. The Rust Feast." She slides it across the table. "And for your trouble — the password to Lift Mother. Say 'Corrode' to the panel. Don't share it." She fixes you with a look that makes clear this is not a suggestion.`,
+                options: [{ text: "I won't. Thank you, Ravla.", next: "closeDialog" }],
+                onTrigger: () => {
+                    this.removeItemFromInventory('oil');
+                    this.removeItemFromInventory('metal_scrap');
+                    this.removeItemFromInventory('redmass');
+                    this.addItemToInventory({
+                        id: 'rust_feast',
+                        name: 'Rust Feast',
+                        description: 'A ceremonial meal prepared for the Rust Choir machines. A foul-smelling concoction of oil, metal shavings, and living redmass. The container rattles faintly, as if something inside is still alive.',
+                        image: 'redmass',
+                        stackable: false
+                    });
+                    this.modifyFactionReputation('RustChoir', 15);
+                    this.questSystem.completeQuest('rust_feast');
+                    const findQuest = this.questSystem.getQuest('find_rust_choir');
+                    if (findQuest && !findQuest.isComplete) {
+                        this.questSystem.updateQuest('find_rust_choir', 'The Rust Feast is complete. Ravla gave me the password for Lift Mother: "Corrode". I can now access the Rust Choir domain.', 'feast_complete');
+                    }
+                    this.addJournalEntry(
+                        'rust_feast_completed_full',
+                        'Rust Feast Prepared',
+                        'Ravla prepared the Rust Feast with the living redmass I brought. She was greatly pleased. My standing with the Rust Choir improved significantly. She gave me the password for Lift Mother: "Corrode".',
+                        this.journalSystem.categories.EVENTS
+                    );
+                }
+            },
+            ravla_feast_cook_shard: {
+                text: `Ravla prepares the feast in silence — oil, metal dust, and the small shard eased in last. The container is sealed. She doesn't look at you. "Feast is done. Don't expect gratitude." She pushes it across the table. "Password for Lift Mother: 'Corrode'. Now get out." A pause. "...The machines will drink tonight. You did what you could."`,
+                options: [{ text: "Thank you, Ravla.", next: "closeDialog" }],
+                onTrigger: () => {
+                    this.removeItemFromInventory('oil');
+                    this.removeItemFromInventory('metal_scrap');
+                    this.removeItemFromInventory('redmass');
+                    this.addItemToInventory({
+                        id: 'rust_feast',
+                        name: 'Rust Feast',
+                        description: "A ceremonial meal prepared for the Rust Choir machines. Thin, barely adequate — a small shard of redmass mixed with oil and metal dust. It hums softly.",
+                        image: 'redmass',
+                        stackable: false
+                    });
+                    this.modifyFactionReputation('RustChoir', 5);
+                    this.questSystem.completeQuest('rust_feast');
+                    const findQuest = this.questSystem.getQuest('find_rust_choir');
+                    if (findQuest && !findQuest.isComplete) {
+                        this.questSystem.updateQuest('find_rust_choir', 'The Rust Feast is complete, though the offering was meager. Ravla gave me the password for Lift Mother: "Corrode".', 'feast_complete');
+                    }
+                    this.addJournalEntry(
+                        'rust_feast_completed_shard',
+                        'Rust Feast Prepared (Meager)',
+                        "Ravla prepared the Rust Feast with the redmass shard I brought. She wasn't impressed, but it was enough. My standing with the Rust Choir improved slightly. She gave me the password for Lift Mother: \"Corrode\".",
+                        this.journalSystem.categories.EVENTS
+                    );
+                }
+            },
+            ravla_feast_spared_redmass: {
+                text: `Ravla's expression goes very still. Then: "You. Found a living redmass. And you left it there." She sets down her tools with deliberate care. "The machines are hungry. The feast was meant to prove you understand what the Rust Choir does — what WE do. Decay is not cruelty. It is process." Her eyes are cold. "Go back. Take the redmass. Or do not come back at all."`,
+                options: [{ text: "I understand.", next: "closeDialog" }],
+                onTrigger: () => {
+                    this.modifyFactionReputation('RustChoir', -5);
+                    this.addJournalEntry(
+                        'ravla_feast_refused_spared',
+                        'Ravla Refused — Redmass Spared',
+                        'Ravla was furious that I spared the redmass. She told me to go back and take it, or not return. My standing with the Rust Choir has decreased.',
+                        this.journalSystem.categories.EVENTS
+                    );
+                }
+            },
+            ravla_feast_done: {
+                text: `Ravla glances up. "The feast is done. The machines have eaten." She returns to her work. "You have the password. Focus on what's next."`,
+                options: [{ text: "Right.", next: "closeDialog" }]
+            },
+
             // Heliodor dialog
             heliodor_start: {
                 speaker: 'Heliodor',
@@ -308,6 +413,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         super.preload();
         this.load.image('screamingCorkInteriorBg', 'assets/images/backgrounds/ScreamingCorkInterior.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.image('redmass', 'assets/images/items/redmass.png');
         
         // Load NPC sprites as static images first to ensure they exist
         this.load.image('ravla_static', 'assets/images/characters/ravla.png');
