@@ -68,6 +68,7 @@ export default class EchoDrainDeltaScene extends GameScene {
 
         this.load.image('echoDrainDeltaBg', 'assets/images/backgrounds/EchoDrainDelta.png');
         this.load.image('metal_scrap', 'assets/images/items/metal_scrap.png');
+        this.load.image('bridge', 'assets/images/items/bridge.png');
     }
 
     create() {
@@ -143,53 +144,15 @@ export default class EchoDrainDeltaScene extends GameScene {
             this.sporePlantSpot = null;
         }
 
-        // Draw the fungal bridge — luminescent mycelium stretching across the water
-        const bridge = this.add.graphics();
-        bridge.lineStyle(6, 0x4aff6e, 0.7);
-        bridge.beginPath();
-        bridge.moveTo(620, 390);
-        bridge.lineTo(650, 350);
-        bridge.lineTo(680, 310);
-        bridge.lineTo(710, 270);
-        bridge.lineTo(730, 240);
-        bridge.strokePath();
-
-        // Thicker organic base
-        bridge.lineStyle(10, 0x2a7a3a, 0.5);
-        bridge.beginPath();
-        bridge.moveTo(622, 392);
-        bridge.lineTo(652, 352);
-        bridge.lineTo(682, 312);
-        bridge.lineTo(712, 272);
-        bridge.lineTo(732, 242);
-        bridge.strokePath();
-        bridge.setDepth(5);
-
-        // Spore particles along the bridge
-        const particlePositions = [
-            { x: 650, y: 350 }, { x: 680, y: 310 },
-            { x: 710, y: 270 }
-        ];
-        particlePositions.forEach(pos => {
-            const particle = this.add.graphics();
-            particle.fillStyle(0x7fff8e, 0.4);
-            particle.fillCircle(pos.x, pos.y, 5);
-            particle.setDepth(6);
-
-            this.tweens.add({
-                targets: particle,
-                alpha: { from: 0.2, to: 0.6 },
-                duration: 1000 + Math.random() * 1000,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-        });
+        // Place the bridge sprite across the water, connecting mainland to island
+        const bridgeSprite = this.add.image(600, 430, 'bridge');
+        // bridgeSprite.setDepth(1);
+        bridgeSprite.setScale(0.16);
 
         // Transition zone at the far end of the bridge — toward the island building
         this.transitionManager.createTransitionZone(
             700,
-            220,
+            320,
             100,
             80,
             'right',
