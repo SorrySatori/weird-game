@@ -249,6 +249,7 @@ export default class GameScene extends Phaser.Scene {
             
             questSystem.on('questCompleted', (questId, title) => {
                 this.showNotification(`Quest Completed: ${title}`);
+                this.modifySpores(5);
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
                 if (this.questLog && this.questLog.questNotificationIndicator) {
