@@ -83,7 +83,7 @@ get dialogContent() {
 | `the_three_vestigels` | The Three Vestigels | Kloor Venn — VoxMarket | Collect any vestigel from Zerren, Liss, Dovan, or Edgar; reward is info about Bishop + Dr. Elphi |
 | `find_rust_choir` | Find the Rust Choir | Lift-Mother (elevator) — ScraperInteriorScene | Leads to Ravla at ScreamingCork; update keys: `talk_to_ravla`, `feast_complete` |
 | `level_177_access` | Access to Level 177 | Lift-Mother (elevator) — ScraperInteriorScene | Reach Dr. Elphi Quarn's studio; paths: `button_path`, `repair_path`, `confession_path` |
-| `rust_feast` | Rust Feast | Ravla — ScreamingCorkInteriorScene | Triggered after accepting `find_rust_choir` task; requires oil + metal_scrap + redmass |
+| `rust_feast` | Rust Feast | Ravla — ScreamingCorkInteriorScene | Triggered after accepting `find_rust_choir` task; requires oil + metal_scrap + redmass (or Ulvarex illusion) |
 
 ### Quest chain relationships
 - **Main story arc:** `find_bishop` → `who_killed_bishop` → `the_three_vestigels` → `level_177_access`

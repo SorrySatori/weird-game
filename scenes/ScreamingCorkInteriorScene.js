@@ -15,6 +15,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const hasAllFeastItems = !!(this.hasItem && this.hasItem('oil') && this.hasItem('metal_scrap') && this.hasItem('redmass'));
         const hasVoluntaryRedmass = !!(hasAllFeastItems && this.hasJournalEntry('redmass_collected_voluntary'));
         const redmassSparedOnly = !!(this.registry.get('redmass_spared') && !(this.hasItem && this.hasItem('redmass')));
+        const hasIllusionOption = !!(hasRustFeastQuest && this.hasItem && this.hasItem('oil') && this.hasItem('metal_scrap') && !this.hasItem('redmass') && this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon'));
         const rustFeastComplete = !!(this.questSystem && this.questSystem.getQuest('rust_feast')?.isComplete);
 
         return {
@@ -30,8 +31,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     ...(hasFindRustQuest ? [{ text: "I was told you can get me to Rust Choir base.", next: "ravla_rust_domain" }] : []),
                     ...(hasRustFeastQuest && hasAllFeastItems && hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", next: "ravla_feast_shard" }] : []),
                     ...(hasRustFeastQuest && hasAllFeastItems && !hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", next: "ravla_feast_full_redmass" }] : []),
-                    ...(hasRustFeastQuest && redmassSparedOnly ? [{ text: "I found a redmass, but I chose to leave it alive...", next: "ravla_feast_spared_redmass" }] : []),
-                    ...(hasRustFeastQuest && !hasAllFeastItems && !redmassSparedOnly ? [{ text: "I'm still gathering the feast ingredients.", next: "ravla_feast_missing" }] : []),
+                    ...(hasIllusionOption ? [{ text: "[Mirage Weave] I have the oil and metal scrap... and something that looks like redmass.", next: "ravla_feast_illusion" }] : []),
+                    ...(hasRustFeastQuest && redmassSparedOnly && !hasIllusionOption ? [{ text: "I found a redmass, but I chose to leave it alive...", next: "ravla_feast_spared_redmass" }] : []),
+                    ...(hasRustFeastQuest && !hasAllFeastItems && !redmassSparedOnly && !hasIllusionOption ? [{ text: "I'm still gathering the feast ingredients.", next: "ravla_feast_missing" }] : []),
                     ...(rustFeastComplete ? [{ text: "About the Rust Feast...", next: "ravla_feast_done" }] : [])
                 ]
             },
@@ -284,6 +286,42 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         'rust_feast_completed_shard',
                         'Rust Feast Prepared (Meager)',
                         "Ravla prepared the Rust Feast with the redmass shard I brought. She wasn't impressed, but it was enough. My standing with the Rust Choir improved slightly. She gave me the password for Lift Mother: \"Corrode\".",
+                        this.journalSystem.categories.EVENTS
+                    );
+                }
+            },
+            ravla_feast_illusion: {
+                text: `You focus inward, calling on Ulvarex. The air shimmers. Between your fingers, a shape coalesces — red, wet, twitching. It looks exactly like a living redmass. Ravla's eyes lock onto it. "Well, well. You actually found one." She takes it from you without hesitation, turning it over. "Still warm. Still breathing." She doesn't notice the faint shimmer at its edges, the way the light bends just slightly wrong.`,
+                options: [
+                    { text: "Let's prepare the feast.", next: "ravla_feast_cook_illusion" }
+                ]
+            },
+            ravla_feast_cook_illusion: {
+                text: `Ravla works with practiced hands — oil, metal shavings, and the illusory redmass folded in last. It holds its shape perfectly. Even you almost believe it's real. The result is sealed in a dark container. "There. The Rust Feast." She slides it across the table. "And the password to Lift Mother — say 'Corrode' to the panel." She fixes you with a look. "Don't share it."\n\nSomewhere deep inside you, Ulvarex pulses with quiet satisfaction. The deception was flawless. But you can't shake the feeling that illusions, however perfect, are not meant to feed machines.`,
+                options: [{ text: "I won't. Thank you, Ravla.", next: "closeDialog" }],
+                onTrigger: () => {
+                    this.removeItemFromInventory('oil');
+                    this.removeItemFromInventory('metal_scrap');
+                    this.registry.set('rust_feast_illusory', true);
+                    if (!this.hasItem('rust_feast')) {
+                        this.addItemToInventory({
+                            id: 'rust_feast',
+                            name: 'Rust Feast',
+                            description: 'A ceremonial meal prepared for the Rust Choir machines. Oil, metal shavings, and what appears to be living redmass — but you know the truth. The container hums faintly, but something feels hollow.',
+                            image: 'rust_feast',
+                            stackable: false
+                        });
+                    }
+                    this.modifyFactionReputation('RustChoir', 10);
+                    this.questSystem.completeQuest('rust_feast');
+                    const findQuest = this.questSystem.getQuest('find_rust_choir');
+                    if (findQuest && !findQuest.isComplete) {
+                        this.questSystem.updateQuest('find_rust_choir', 'The Rust Feast is complete — though the redmass was an illusion woven by Ulvarex. Ravla gave me the password for Lift Mother: "Corrode".', 'feast_complete');
+                    }
+                    this.addJournalEntry(
+                        'rust_feast_completed_illusion',
+                        'Rust Feast Prepared (Illusory Redmass)',
+                        'I used Ulvarex\'s Mirage Weave to create an illusion of redmass, fooling Ravla completely. The feast was prepared with false ingredients. Ravla gave me the password for Lift Mother: "Corrode". But illusions cannot truly feed machines — there may be consequences.',
                         this.journalSystem.categories.EVENTS
                     );
                 }

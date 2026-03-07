@@ -155,6 +155,17 @@ export default class GameScene extends Phaser.Scene {
             this.gameMenu.update();
         }
 
+        // Symbiont ambient messages
+        if (this.symbiontSystem && this.symbiontSystem.symbionts.size > 0 && !this.dialogVisible) {
+            for (const [id] of this.symbiontSystem.symbionts) {
+                const message = this.symbiontSystem.getRandomMessage(id);
+                if (message) {
+                    this.showNotification(message, '', '', 4000);
+                    break; // Only one message per frame
+                }
+            }
+        }
+
         // Call super.update() if it exists
         if (typeof super.update === 'function') {
             super.update();
@@ -221,6 +232,7 @@ export default class GameScene extends Phaser.Scene {
             this.registry.set('symbiontSystem', new SymbiontSystem(this));
         }
         this.symbiontSystem = this.registry.get('symbiontSystem');
+        this.symbiontSystem.scene = this; // Update scene reference for new scene
 
         // Initialize Quest system if not already initialized
         if (!this.registry.get('questSystem')) {
@@ -347,7 +359,12 @@ export default class GameScene extends Phaser.Scene {
             return;
         }
         
-        const slot = symbiontSystem.symbionts.size - 1;
+        // Find the correct slot index for this symbiont
+        let slot = 0;
+        for (const [symId] of symbiontSystem.symbionts) {
+            if (symId === id) break;
+            slot++;
+        }
         const x = 60 + (slot * 40);
         const y = 480;
         
@@ -1130,6 +1147,20 @@ export default class GameScene extends Phaser.Scene {
             };
         }
         
+        // Symbiont ambient messages
+        if (lowerTitle.includes('thorne-still:') ||
+            lowerTitle.includes('ulvarex:') ||
+            lowerTitle.includes('neme') ||
+            lowerTitle.includes('symbiont')) {
+            return {
+                borderColor: 0x66ccaa,
+                textColor: '#66ccaa',
+                yPosition: 460,
+                icon: '🧬',
+                label: 'SYMBIONT'
+            };
+        }
+        
         // Default notifications
         return {
             borderColor: 0x7fff8e, // Default green
@@ -1291,6 +1322,20 @@ export default class GameScene extends Phaser.Scene {
         // Clean up all audio
         this.sound.stopAll();
         
+        // Stop any playing scene music
+        if (this.sceneMusic && this.sceneMusic.isPlaying) {
+            this.sceneMusic.stop();
+            this.sceneMusic.destroy();
+            this.sceneMusic = null;
+        }
+        
+        // Stop background music if playing
+        if (this.backgroundMusic && this.backgroundMusic.isPlaying) {
+            this.backgroundMusic.stop();
+            this.backgroundMusic.destroy();
+            this.backgroundMusic = null;
+        }
+        
         // Clean up character and effects
         if (this.priest) {
             this.priest.destroy();
@@ -1320,7 +1365,6 @@ export default class GameScene extends Phaser.Scene {
         
         // Clean up Growth/Decay indicator if it exists
         if (this.growthDecayIndicator) {
-            // Call its cleanup method if it exists
             if (typeof this.growthDecayIndicator.cleanup === 'function') {
                 this.growthDecayIndicator.cleanup();
             }
@@ -1343,38 +1387,6 @@ export default class GameScene extends Phaser.Scene {
             this.effectsSystem.cleanup();
             this.effectsSystem = null;
         }
-
-        // Call parent shutdown
-        super.shutdown();
-
-    // Defensive: also clean up spore bar on scene destroy
-    this.events.on('shutdown', () => {
-        if (this.sporeBar) this.sporeBar.cleanup();
-    });
-    this.events.on('destroy', () => {
-        if (this.sporeBar) this.sporeBar.cleanup();
-    });
-    }
-
-    update() {
-        // Base implementation for game loop updates
-        // Child scenes should override this method for scene-specific behavior
-    }
-
-    shutdown() {
-        // Stop any playing scene music
-        if (this.sceneMusic && this.sceneMusic.isPlaying) {
-            this.sceneMusic.stop();
-            this.sceneMusic.destroy();
-            this.sceneMusic = null;
-        }
-        
-        // Stop background music if playing
-        if (this.backgroundMusic && this.backgroundMusic.isPlaying) {
-            this.backgroundMusic.stop();
-            this.backgroundMusic.destroy();
-            this.backgroundMusic = null;
-        }
         
         // Clean up player movement system
         if (this.playerMovementSystem) {
@@ -1387,6 +1399,9 @@ export default class GameScene extends Phaser.Scene {
             this.inventorySystem.cleanup();
             this.inventorySystem = null;
         }
+
+        // Call parent shutdown
+        super.shutdown();
     }
 
     // Helper method for other scenes to modify Growth/Decay balance

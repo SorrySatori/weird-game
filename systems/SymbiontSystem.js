@@ -39,6 +39,18 @@ export default class SymbiontSystem {
                 "Bold strategy. Let's see if ignorance blooms.",
                 "You're walking like you have a plan. Adorable.",
                 "If this were a dream, I'd rate it: three petals, zero logic."
+            ],
+            'ulvarex-borrowed-horizon': [
+                "What you see is never what is. That's not a flaw — it's a feature.",
+                "The horizon is always borrowed. No one owns distance.",
+                "I once convinced a river it was a road. It drowned three merchants.",
+                "Reality is merely the most popular illusion.",
+                "Light bends around me. I try not to take it personally.",
+                "Every mirror lies. I just lie more creatively.",
+                "You see walls. I see suggestions.",
+                "There's a thin membrane between what is and what could seem to be.",
+                "I don't create false things. I create true things that haven't happened yet.",
+                "The best illusion is the one the audience wants to believe."
             ]
         };
         
@@ -88,6 +100,27 @@ export default class SymbiontSystem {
                 },
                 bishop: {
                     text: "The Bishop and I shared consciousness briefly. She sought truth about her double. She knew something was wrong in the cathedral... something about the spores changing. Her final thoughts were of confusion - she believed she was speaking to herself, but it wasn't her reflection.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                }
+            },
+            'ulvarex-borrowed-horizon': {
+                main: {
+                    text: "Ulvarex's voice arrives like light through a prism — fractured, warm, slightly wrong: 'Ah, host. You're looking at the world again with those honest eyes. How exhausting. I am Ulvarex, the Borrowed Horizon. I deal in what-could-be. My Mirage Weave lets us bend perception — make people see things that aren't quite there. Some call it lying. I call it advanced diplomacy.'",
+                    options: [
+                        { text: 'Ask about Mirage Weave', next: 'ability' },
+                        { text: 'Ask about Ulvarex', next: 'about' },
+                    ]
+                },
+                ability: {
+                    text: "Mirage Weave creates convincing illusions — objects, substances, even small creatures. The trick is that they must be anchored to something real. I can't conjure from nothing. Give me a shadow, a reflection, a memory, and I'll build you a cathedral. But it costs spores, and if your reserves are too low, the weave unravels. Badly.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                },
+                about: {
+                    text: "I existed at the shore where water meets sky — the place where the eye is fooled into believing they touch. When the mists came, I became... portable. I feed on perception itself, not growth or decay. Your spores are my medium — the raw material of bent light. The more you carry, the grander the illusion.",
                     options: [
                         { text: 'Back', next: 'main' }
                     ]
@@ -168,6 +201,17 @@ export default class SymbiontSystem {
             }
         }
         
+        // Ulvarex the Borrowed Horizon effects
+        if (this.symbionts.has('ulvarex-borrowed-horizon')) {
+            const symbiont = this.symbionts.get('ulvarex-borrowed-horizon');
+            // Ulvarex feeds on spores — power is half of current spore level
+            // SporeSystem level is accessed through scene registry
+            if (this.scene && this.scene.registry) {
+                const sporeLevel = this.scene.registry.get('sporeLevel') || 0;
+                symbiont.power = Math.min(100, Math.floor(sporeLevel / 2));
+            }
+        }
+        
         return effect;
     }
 
@@ -213,8 +257,100 @@ export default class SymbiontSystem {
                 this.lastMessageTime = now;
                 return `${symbiont.name}: ${message}`;
             }
+        } else if (symbiontId === 'ulvarex-borrowed-horizon' && Math.random() < 0.2) {
+            const messages = this.symbiontPhrases['ulvarex-borrowed-horizon'] || [];
+            if (messages.length > 0) {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                symbiont.lastSpoke = now;
+                this.lastMessageTime = now;
+                return `Ulvarex: ${message}`;
+            }
         }
+
+        // Cross-reactions: symbionts commenting on each other (10% chance)
+        if (this.symbionts.size >= 2 && Math.random() < 0.1) {
+            const crossMessage = this.getCrossReactionMessage(symbiontId);
+            if (crossMessage) {
+                symbiont.lastSpoke = now;
+                this.lastMessageTime = now;
+                return crossMessage;
+            }
+        }
+
         return null;
+    }
+
+    getCrossReactionMessage(speakerId) {
+        const hasThorne = this.symbionts.has('thorne-still');
+        const hasNeme = this.symbionts.has('neme-crownmire');
+        const hasUlvarex = this.symbionts.has('ulvarex-borrowed-horizon');
+
+        const reactions = [];
+
+        // Thorne reacting to others
+        if (speakerId === 'thorne-still') {
+            if (hasNeme) {
+                reactions.push(
+                    "Thorne-Still: That fungal thing keeps trying to photosynthesize my thoughts. Boundaries, Neme.",
+                    "Thorne-Still: Neme's growing roots near my favorite organ again. Tell her to stop.",
+                    "Thorne-Still: I don't trust anything that thrives on sunlight. It's unnatural.",
+                    "Thorne-Still: Neme whispered something about 'renewal' in my sleep. I haven't slept in decades."
+                );
+            }
+            if (hasUlvarex) {
+                reactions.push(
+                    "Thorne-Still: Ulvarex keeps rearranging your visual cortex. I had a system in there.",
+                    "Thorne-Still: An illusionist. Great. As if reality wasn't confusing enough already.",
+                    "Thorne-Still: Ulvarex bent the light around my rot spores. They looked like butterflies. I'm furious."
+                );
+            }
+        }
+
+        // Neme reacting to others
+        if (speakerId === 'neme-crownmire') {
+            if (hasThorne) {
+                reactions.push(
+                    "Neme: Thorne leaves a trail of decay wherever it settles. My roots keep having to regrow.",
+                    "Neme: That stitcher-between-worlds is corroding your liver. I've filed a formal complaint.",
+                    "Neme: Thorne and I have a... professional disagreement about cellular integrity.",
+                    "Neme: I grew a flower in your spleen. Thorne ate it. This is why we can't cohabitate."
+                );
+            }
+            if (hasUlvarex) {
+                reactions.push(
+                    "Neme: Ulvarex's illusions smell like burnt sugar. Real things smell like soil.",
+                    "Neme: I can see through Ulvarex's mirages. They're beautiful, but hollow.",
+                    "Neme: The illusionist keeps making my root-visions look prettier. I didn't ask for an editor."
+                );
+            }
+        }
+
+        // Ulvarex reacting to others
+        if (speakerId === 'ulvarex-borrowed-horizon') {
+            if (hasThorne) {
+                reactions.push(
+                    "Ulvarex: Thorne keeps rotting my illusions from the inside. Rude, but artistically interesting.",
+                    "Ulvarex: The decay symbiont sees through my mirages. Annoying. Nobody else does.",
+                    "Ulvarex: Thorne and I disagree on aesthetics. Rot is not a color palette, I keep telling it."
+                );
+            }
+            if (hasNeme) {
+                reactions.push(
+                    "Ulvarex: Neme's growth keeps making my illusions sprout actual leaves. That's not how mirages work.",
+                    "Ulvarex: The plant one insists on truth. How exhausting. We balance each other out, I suppose.",
+                    "Ulvarex: Neme grew moss on my best mirage. I'll never forgive her. It was a masterpiece."
+                );
+            }
+            if (hasThorne && hasNeme) {
+                reactions.push(
+                    "Ulvarex: Three symbionts in one body. We're less of a partnership and more of a landlord dispute.",
+                    "Ulvarex: Thorne rots, Neme grows, I lie. Together we're basically a functioning ecosystem."
+                );
+            }
+        }
+
+        if (reactions.length === 0) return null;
+        return reactions[Math.floor(Math.random() * reactions.length)];
     }
 
     brainRot() {
@@ -335,9 +471,9 @@ export default class SymbiontSystem {
         // Check if symbiont is silenced (for Neme)
         const symbiont = this.symbionts.get(symbiontId);
         if (symbiont.silenced) {
-        return {
-            speaker: symbiont.name,
-            text: `${symbiont.name} is silent in this decay-dominant area...`,
+            return {
+                speaker: symbiont.name,
+                text: `${symbiont.name} is silent in this decay-dominant area...`,
                 options: []
             };
         }
@@ -348,6 +484,12 @@ export default class SymbiontSystem {
             return null;
         }
         
+        // Check for cross-reaction dialog keys
+        const crossDialog = this.getCrossReactionDialog(symbiontId, dialogKey);
+        if (crossDialog) {
+            return { ...crossDialog, speaker: crossDialog.speaker || symbiont.name };
+        }
+        
         // Get specific dialog section
         const dialogContent = symbiontDialog[dialogKey];
         if (!dialogContent) {
@@ -356,12 +498,67 @@ export default class SymbiontSystem {
         }
         
         // Ensure the dialog content has a speaker (the symbiont's name)
-        const result = { ...dialogContent };
+        const result = { ...dialogContent, options: [...dialogContent.options] };
         if (!result.speaker) {
             result.speaker = symbiont.name;
         }
         
+        // Inject cross-reaction options into the main dialog
+        if (dialogKey === 'main' && this.symbionts.size >= 2) {
+            const otherSymbionts = [];
+            if (symbiontId !== 'thorne-still' && this.symbionts.has('thorne-still')) {
+                otherSymbionts.push({ text: 'Ask about Thorne-Still', next: 'about_thorne' });
+            }
+            if (symbiontId !== 'neme-crownmire' && this.symbionts.has('neme-crownmire')) {
+                otherSymbionts.push({ text: 'Ask about Neme', next: 'about_neme' });
+            }
+            if (symbiontId !== 'ulvarex-borrowed-horizon' && this.symbionts.has('ulvarex-borrowed-horizon')) {
+                otherSymbionts.push({ text: 'Ask about Ulvarex', next: 'about_ulvarex' });
+            }
+            // Insert before the last option (usually "Close")
+            const closeIdx = result.options.findIndex(o => o.next === 'closeDialog');
+            const insertIdx = closeIdx >= 0 ? closeIdx : result.options.length;
+            result.options.splice(insertIdx, 0, ...otherSymbionts);
+        }
+        
         return result;
+    }
+
+    getCrossReactionDialog(speakerId, dialogKey) {
+        const crossReactions = {
+            'thorne-still': {
+                about_neme: {
+                    text: "\"That fungal squatter? Neme of the Crownmire. Growth-obsessed sentimentalist. She keeps trying to 'renew' my favorite necrotic tissue. We have a... professional disagreement about the direction of your cellular health.\" A pause. \"She's not wrong about everything. But don't tell her I said that.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
+                about_ulvarex: {
+                    text: "\"The light-bender. Ulvarex. Harmless, mostly. Keeps rearranging your visual cortex like it's furniture. I had a perfectly good rot colony in your optic nerve and now it looks like a sunset.\" Thorne grumbles. \"Illusions are just lies with better lighting. At least decay is honest.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                }
+            },
+            'neme-crownmire': {
+                about_thorne: {
+                    text: "\"Thorne-Still. The stitcher-between-worlds.\" Neme's tone is careful, measured. \"We are... contrary forces sharing the same soil. It corrodes. I cultivate. Some days the balance holds. Other days I find my root-tips dissolved overnight.\" A gentle sigh. \"It means well. In its own entropic way.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
+                about_ulvarex: {
+                    text: "\"Ulvarex. The Borrowed Horizon.\" Neme considers. \"It makes false flowers that smell real. I find this... unsettling. Truth has texture. Illusions have none, no matter how beautiful they appear.\" A pause. \"But I admit — its mirages sometimes reveal what people wish were true. And wishes are a kind of seed.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                }
+            },
+            'ulvarex-borrowed-horizon': {
+                about_thorne: {
+                    text: "\"Thorne-Still? Oh, the little rot-goblin. It keeps eating my best illusions from the inside out. Rude, but I respect the commitment to entropy.\" Ulvarex's voice shimmers with amusement. \"We actually work well together, oddly. Decay makes things ambiguous, and ambiguity is my favorite raw material.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
+                about_neme: {
+                    text: "\"Neme. Dear, earnest Neme. She sees through every mirage I weave and then grows moss on it.\" A theatrical sigh. \"The problem with truth-seekers is they think truth is the point. It's not. The point is what people do with what they believe.\" A beat. \"She's good company, though. Even her disapproval has texture.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                }
+            }
+        };
+
+        return crossReactions[speakerId]?.[dialogKey] || null;
     }
     
     /**
@@ -499,6 +696,44 @@ export default class SymbiontSystem {
                         symbiont.lastSpoke = now;
                         this.lastMessageTime = now;
                         return `${symbiont.name}: ${message}`;
+                    }
+                }
+            }
+        }
+        
+        // Check for Ulvarex messages about spores
+        if (this.symbionts.has('ulvarex-borrowed-horizon')) {
+            const symbiont = this.symbionts.get('ulvarex-borrowed-horizon');
+            
+            if (now - symbiont.lastSpoke >= 15000 && now - this.lastMessageTime >= 15000) {
+                const change = newLevel - oldLevel;
+                
+                if (Math.abs(change) >= 5) {
+                    if (Math.random() < 0.3) {
+                        let messages;
+                        
+                        if (change > 0) {
+                            messages = [
+                                "More spores. More raw material. The mirages grow richer.",
+                                "Ah, fresh perception-fuel. I can feel the light bending already.",
+                                "Your spore reserves are climbing. I could paint a sunset with these.",
+                                "Excellent. With these spores I could fool a mirror.",
+                                "The weave thickens. Reality won't know what hit it."
+                            ];
+                        } else {
+                            messages = [
+                                "Fewer spores. My illusions grow thin, like morning mist.",
+                                "Careful. Without spores, I'm just a voice with opinions.",
+                                "The weave is fraying. I'd avoid any grand deceptions for now.",
+                                "Spore reserves dropping. My mirages might start looking like suggestions.",
+                                "Less fuel means less spectacle. I'll have to work with shadows alone."
+                            ];
+                        }
+                        
+                        message = messages[Math.floor(Math.random() * messages.length)];
+                        symbiont.lastSpoke = now;
+                        this.lastMessageTime = now;
+                        return `Ulvarex: ${message}`;
                     }
                 }
             }

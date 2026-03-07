@@ -679,8 +679,7 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "Thank you.", next: "registration_extra_symbiont_complete" }
                 ],
                 onTrigger: () => {
-                    // FIX THIS
-                    const moneySystem = this.registry.get('moneySystem');
+                    const moneySystem = this.moneySystem;
                     
                     // Check if player has enough money
                     if (moneySystem && moneySystem.hasEnough(50)) {
@@ -705,24 +704,32 @@ export default class ShedRegistrationScene extends GameScene {
                                     this.journalSystem.categories.EVENTS,
                                     { location: 'Shed 521 Registration Office' }
                                 );
+                                this.registry.set('symbiont_slot_result', 'success');
                             } else {
                                 // Already at max slots
                                 moneySystem.add(50, true); // Refund the money
                                 this.showNotification('You already have the maximum number of symbiont slots!');
-                                // Change dialog text
-                                this.dialogContent().registration_extra_symbiont_complete.text = "'I apologize, but it appears you've already reached the maximum number of symbiont slots allowed by regulation. I've refunded your payment.'";                                
+                                this.registry.set('symbiont_slot_result', 'max_reached');
                             }
                         }
                     } else {
                         // Not enough money
                         this.showNotification('Not enough gold!');
-                        // Change dialog text
-                        this.dialogContent().registration_extra_symbiont_complete.text = "'I'm sorry, but it appears you don't have sufficient funds for this transaction. The fee is 50 gold.'";                      
+                        this.registry.set('symbiont_slot_result', 'no_money');
                     }
                 }
             },
             registration_extra_symbiont_complete: {
-                text: "'Your registration is complete. You now have an additional symbiont slot available. Please take care with what entities you choose to host.'",
+                text: (() => {
+                    const result = this.registry.get('symbiont_slot_result');
+                    if (result === 'max_reached') {
+                        return "'I apologize, but it appears you've already reached the maximum number of symbiont slots allowed by regulation. I've refunded your payment.'";
+                    }
+                    if (result === 'no_money') {
+                        return "'I'm sorry, but it appears you don't have sufficient funds for this transaction. The fee is 50 gold.'";
+                    }
+                    return "'Your registration is complete. You now have an additional symbiont slot available. Please take care with what entities you choose to host.'";
+                })(),
                 options: [
                     { text: "Thank you.", next: "seniorClerk_end" }
                 ]

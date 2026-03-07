@@ -55,6 +55,7 @@ The Rust Choir values:
 
 Key reputation milestones with Ravla:
 - Complete `rust_feast` quest with full living redmass → **+15 RustChoir**
+- Complete `rust_feast` quest with illusory redmass (Ulvarex Mirage Weave) → **+10 RustChoir** (then **-20** when machines die in RustDomainScene)
 - Complete `rust_feast` quest with voluntary shard → **+5 RustChoir**
 - Spare the redmass when confronted by Ravla → **-5 RustChoir**
 

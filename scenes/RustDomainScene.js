@@ -13,6 +13,28 @@ export default class RustDomainScene extends GameScene {
         return {
             ...super.dialogContent,
             speaker: 'Narrator',
+
+            machines_destroyed: {
+                text: `The machines shudder and grind. One by one, their rhythmic hum falters — replaced by a grinding, choking rasp. Sparks spit from corroded joints. A deep vibration runs through the floor, then stops. Silence. The Rust Feast you delivered was hollow. The illusion of redmass dissolved inside their guts, leaving nothing but oil and metal scraps. The machines tried to feed on something that wasn't there. Now they are still.`,
+                options: [
+                    { text: "What have I done...", next: "machines_destroyed_aftermath" }
+                ]
+            },
+            machines_destroyed_aftermath: {
+                text: `Ulvarex stirs inside you, uneasy. "The weave held. It always holds. But machines... they don't dream. They don't believe. They just consume." A long pause. "The illusion fed their trust, not their hunger." Around you, the Rust Choir domain is quiet for the first time. The machines that once hummed with life are dark and still. Rust is already forming on surfaces that were polished moments ago.`,
+                options: [
+                    { text: "The Rust Choir will know what I've done.", next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    this.modifyFactionReputation('RustChoir', -20);
+                    this.addJournalEntry(
+                        'rust_choir_machines_destroyed',
+                        'The Machines Fall Silent',
+                        'The illusory redmass I used in the Rust Feast has destroyed the Rust Choir machines. They tried to feed on the Mirage Weave and found nothing — the illusion dissolved inside them. The machines are dead. The Rust Choir will not forgive this.',
+                        this.journalSystem.categories.EVENTS
+                    );
+                }
+            },
         };
     }
 
@@ -83,6 +105,13 @@ export default class RustDomainScene extends GameScene {
                 'I have reached the upper floors of the Scraper — the domain of the Rust Choir. The air is thick with the smell of oil and oxidized metal. Machines hum and click in the walls, some of them alive in ways that defy explanation. This is where Brukk resides.',
                 this.journalSystem.categories.PLACES
             );
+        }
+
+        // Illusion feast consequences — machines are destroyed
+        if (this.registry.get('rust_feast_illusory') && !this.hasJournalEntry('rust_choir_machines_destroyed')) {
+            this.time.delayedCall(1500, () => {
+                this.showDialog('machines_destroyed');
+            });
         }
     }
 
