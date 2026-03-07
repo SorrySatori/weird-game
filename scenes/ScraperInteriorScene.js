@@ -21,6 +21,7 @@ export default class ScraperInteriorScene extends GameScene {
         // Check inventory for special items
         const hasElevatorButton = this.hasItem('forgotten_elevator_button');
         const hasLirisPart = this.registry.get('fixed_floor_counter') === true;
+        const hasRustPassword = !!(questSystem?.getQuest('rust_feast')?.isComplete);
         
         const interiorContent = {
             speaker: 'Lift Mother',
@@ -28,6 +29,7 @@ export default class ScraperInteriorScene extends GameScene {
                 text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little spore. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [
                     ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", next: "lift_mother_elphi_floor" }] : []),
+                    ...(hasRustPassword ? [{ text: "Corrode.", next: "lift_mother_corrode" }] : []),
                     { text: "Can you take me to other floors?", next: "lift_mother_floors" },
                     { text: "What is the Before-Time?", next: "lift_mother_before_time" },
                     { text: "Are you... alive?", next: "lift_mother_alive" },
@@ -257,6 +259,26 @@ export default class ScraperInteriorScene extends GameScene {
                             'I need to find a way to meet the Rust Choir who reside on the upper floors of the Scraper building. The Lift-Mother mentioned that they may choose to interact with the city below, so I should look for members of the Rust Choir in the city.'
                         );
                     }
+                }
+            },
+            lift_mother_corrode: {
+                text: `A long silence. Then the cables thrum. "...Corrode." The word reverberates through the shaft. "That is the old word. The Rust Word. You have earned passage, spore-child." A hidden panel slides open, revealing a button marked with a corroded gear symbol. The elevator lurches upward.`,
+                options: [
+                    { text: "Ascend to the Rust Domain.", next: "goto_rust_domain" }
+                ]
+            },
+            goto_rust_domain: {
+                text: "The elevator groans and shudders as it climbs past floors long abandoned. The air grows heavy with the scent of iron and oil. Numbers on the display flicker — 38... 39... 40... then symbols you don't recognize. The doors open with a rusted shriek.",
+                options: [
+                    { text: "Step out.", next: "closeDialog" }
+                ],
+                onShow: () => {
+                    this.time.delayedCall(2000, () => {
+                        this.cameras.main.fadeOut(800, 0, 0, 0);
+                        this.cameras.main.once('camerafadeoutcomplete', () => {
+                            this.scene.start('RustDomainScene');
+                        });
+                    });
                 }
             },
             closeDialog: {
