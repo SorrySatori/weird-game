@@ -235,13 +235,15 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     this.removeItemFromInventory('oil');
                     this.removeItemFromInventory('metal_scrap');
                     this.removeItemFromInventory('redmass');
-                    this.addItemToInventory({
-                        id: 'rust_feast',
-                        name: 'Rust Feast',
-                        description: 'A ceremonial meal prepared for the Rust Choir machines. A foul-smelling concoction of oil, metal shavings, and living redmass. The container rattles faintly, as if something inside is still alive.',
-                        image: 'redmass',
-                        stackable: false
-                    });
+                    if (!this.hasItem('rust_feast')) {
+                        this.addItemToInventory({
+                            id: 'rust_feast',
+                            name: 'Rust Feast',
+                            description: 'A ceremonial meal prepared for the Rust Choir machines. A foul-smelling concoction of oil, metal shavings, and living redmass. The container rattles faintly, as if something inside is still alive.',
+                            image: 'rust_feast',
+                            stackable: false
+                        });
+                    }
                     this.modifyFactionReputation('RustChoir', 15);
                     this.questSystem.completeQuest('rust_feast');
                     const findQuest = this.questSystem.getQuest('find_rust_choir');
@@ -263,13 +265,15 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     this.removeItemFromInventory('oil');
                     this.removeItemFromInventory('metal_scrap');
                     this.removeItemFromInventory('redmass');
-                    this.addItemToInventory({
-                        id: 'rust_feast',
-                        name: 'Rust Feast',
-                        description: "A ceremonial meal prepared for the Rust Choir machines. Thin, barely adequate — a small shard of redmass mixed with oil and metal dust. It hums softly.",
-                        image: 'redmass',
-                        stackable: false
-                    });
+                    if (!this.hasItem('rust_feast')) {
+                        this.addItemToInventory({
+                            id: 'rust_feast',
+                            name: 'Rust Feast',
+                            description: "A ceremonial meal prepared for the Rust Choir machines. Thin, barely adequate — a small shard of redmass mixed with oil and metal dust. It hums softly.",
+                            image: 'rust_feast',
+                            stackable: false
+                        });
+                    }
                     this.modifyFactionReputation('RustChoir', 5);
                     this.questSystem.completeQuest('rust_feast');
                     const findQuest = this.questSystem.getQuest('find_rust_choir');
@@ -414,6 +418,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.load.image('screamingCorkInteriorBg', 'assets/images/backgrounds/ScreamingCorkInterior.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('redmass', 'assets/images/items/redmass.png');
+        this.load.image('rust_feast', 'assets/images/items/rust_feast.png');
         
         // Load NPC sprites as static images first to ensure they exist
         this.load.image('ravla_static', 'assets/images/characters/ravla.png');
