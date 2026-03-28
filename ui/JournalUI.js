@@ -456,9 +456,25 @@ class JournalUI {
                         fontStyle: 'italic'
                     });
                     this.contentContainer.add(statusLabel);
+
+                    // Membership status
+                    let membershipText = null;
+                    let membershipHeight = 0;
+                    const membershipStatus = this.getMembershipStatus(factionKey);
+                    if (membershipStatus) {
+                        membershipText = this.scene.add.text(padding, barY + barHeight + statusLabel.height + padding * 2, 
+                            membershipStatus.text, {
+                            fontSize: '16px',
+                            fontFamily: 'Georgia',
+                            color: membershipStatus.color,
+                            fontStyle: 'bold'
+                        });
+                        this.contentContainer.add(membershipText);
+                        membershipHeight = membershipText.height + padding;
+                    }
                     
                     // Faction description
-                    const descText = this.scene.add.text(padding, barY + barHeight + statusLabel.height + padding * 2, 
+                    const descText = this.scene.add.text(padding, barY + barHeight + statusLabel.height + membershipHeight + padding * 2, 
                         faction.description || 'A mysterious faction.', {
                         fontSize: '14px',
                         fontFamily: 'Georgia',
@@ -469,7 +485,7 @@ class JournalUI {
                     this.contentContainer.add(descText);
                     
                     // Calculate entry height
-                    const entryHeight = nameText.height + barHeight + statusLabel.height + descText.height + padding * 7;
+                    const entryHeight = nameText.height + barHeight + statusLabel.height + membershipHeight + descText.height + padding * 7;
                     entryBox.fillRoundedRect(0, yOffset, 720, entryHeight, 10);
                     entryBox.strokeRoundedRect(0, yOffset, 720, entryHeight, 10);
                     
@@ -563,6 +579,24 @@ class JournalUI {
         
         // Update content container height
         this.contentContainer.height = yOffset;
+    }
+
+    getMembershipStatus(factionKey) {
+        if (factionKey === 'RustChoir') {
+            if (this.journalSystem.hasEntry('rust_choir_machines_destroyed')) {
+                return { text: '⛔ Expelled', color: '#ff4444' };
+            }
+            if (this.journalSystem.hasEntry('rust_choir_joined')) {
+                const isShard = this.journalSystem.hasEntry('rust_feast_completed_shard');
+                return isShard
+                    ? { text: '⚙ Member (Probationary)', color: '#b87333' }
+                    : { text: '⚙ Member', color: '#ffd700' };
+            }
+            if (this.journalSystem.hasEntry('rust_choir_rejected')) {
+                return { text: '✖ Membership Denied', color: '#ff8844' };
+            }
+        }
+        return null;
     }
     
     addGlowingSpots(graphics, x, y, width, height) {
