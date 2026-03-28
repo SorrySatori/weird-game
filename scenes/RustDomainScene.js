@@ -34,13 +34,17 @@ export default class RustDomainScene extends GameScene {
                     ...(!machinesDestroyed && !alreadyMember ? [
                         { text: "Who are you?", next: "brukk_who" }
                     ] : []),
+                    ...(alreadyMember ? [
+                        { text: "Tell me about the Rust Choir.", next: "brukk_choir" },
+                        { text: "What can you tell me about this building?", next: "brukk_scraper" },
+                        { text: "How are the machines?", next: "brukk_machines_status" },
+                    ] : []),
                     ...(questActive && hasRustFeast && !machinesDestroyed ? [
                         { text: "I've brought the Rust Feast for the machines.", next: isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard") }
                     ] : []),
                     ...(questActive && !hasRustFeast && !machinesDestroyed ? [
                         { text: "I'm looking for the Rust Choir.", next: "brukk_looking" }
                     ] : []),
-                    { text: "Leave.", next: "closeDialog" }
                 ]
             },
             brukk_who: {
@@ -50,7 +54,6 @@ export default class RustDomainScene extends GameScene {
                     ...(questActive && hasRustFeast ? [
                         { text: "I've brought the Rust Feast.", next: isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard") }
                     ] : []),
-                    { text: "Interesting. Farewell.", next: "closeDialog" }
                 ]
             },
             brukk_looking: {
@@ -61,6 +64,78 @@ export default class RustDomainScene extends GameScene {
                     { text: "I just wanted to find you. I'll go now.", next: "closeDialog" },
                     { text: "Would you care to tell me more about the Rust Choir first?", next: "brukk_choir" }
                 ]
+            },
+
+            brukk_choir: {
+                speaker: 'Brukk',
+                text: `Brukk leans against a trembling pipe. "The Rust Choir is not a religion. Not a guild. It is..." He searches for the word. "An understanding. The machines were here before the first gods came here to die. We don't know who made them. Perhaps some old culture? Or maybe they were always here. Maybe they built the city." He pauses. "They kept humming. They kept working. Everyone else went mad — grew fungus, grew wings, grew extra heads. The machines just... endured." He looks at you with something like pride. "We are the ones who noticed. Who listened. Who chose to serve what endures."`,
+                options: [
+                    { text: "How many of you are there?", next: "brukk_choir_members" },
+                    { text: "What do the machines want?", next: "brukk_machines_want" },
+                ]
+            },
+            brukk_choir_members: {
+                speaker: 'Brukk',
+                text: `"Fewer than you'd think. More than you'd hope." He counts on scarred fingers. "Ravla — you know her. She handles the outside. Recruitment, supplies, the feasting rituals. Gnur and Kloor, they are always busy to get some funding for us. There's Gorj, who tends the boiler crypts below. Messel, who translates the machine-songs into something the rest of us can follow. And the Corroded Twins — they don't speak anymore, but the machines speak through them. Couple of others, you don't need to know everyone, I guess. We have also envoys and watchers in other cities." He pauses. "And me. Keeper. The one the machines chose to carry iron in his chest."`,
+                options: [
+                    { text: "Tell me about this building.", next: "brukk_scraper" },
+                    { text: "What do the machines want?", next: "brukk_machines_want" },
+                ]
+            },
+            brukk_machines_want: {
+                speaker: 'Brukk',
+                text: `"Want?" He almost laughs. "They don't want like you and I want. They hunger. They remember. They... persist." He presses his palm flat against a vibrating wall panel. "This one — feel it — this one remembers when it was part of an air-conditioning unit. Forty years of cooling office workers. Now it hums a song about the taste of redmass." His voice drops low. "The machines want to be fed. To be maintained. To not be forgotten. Is that so different from what anything wants?"`,
+                options: [
+                    { text: "What happens if they're not fed?", next: "brukk_machines_starve" },
+                ]
+            },
+            brukk_machines_starve: {
+                speaker: 'Brukk',
+                text: `Brukk's expression darkens. "They slow. They forget. The hum goes out of tune. And when a machine forgets..." He draws a finger across his throat. "It dies. Not like flesh dies — messy, dramatic. A machine death is silence. One moment it's there, the next — nothing. Just cold metal." He taps his chest. The clicking inside him grows louder. "I've buried three machines since I became Keeper. Each time, something in here goes quiet too."`,
+                options: [
+                    { text: "Tell me about this building.", next: "brukk_scraper" },
+                ]
+            },
+            brukk_scraper: {
+                speaker: 'Brukk',
+                text: `"They called it Nexicorp Tower once. Glass and steel and ambition." He spits. "Forty-two floors of people pretending the world made sense. Then the Board Games War happened and sense left the building — literally. The lower floors rotted. The middle floors went feral. The elevator has gone mad. And the top?" He spreads his arms wide. "The top is ours. The machines were already here — server rooms, ventilation systems, elevator guts, generator hearts. When everyone else fled or transformed, the machines stayed. We found them. Or they found us."`,
+                options: [
+                    { text: "What happened during the Board Games War?", next: "brukk_board_war" },
+                    { text: "Did the machines change too, after the War?", next: "brukk_machines_changed" },
+                ]
+            },
+            brukk_machines_changed: {
+                speaker: 'Brukk',
+                text: `"Changed?" He considers this carefully. "Not like flesh changes. Flesh blooms, mutates, sprouts new limbs. The machines... adapted. The ventilation system taught itself to breathe. The generators learned to dream — you can hear them mumbling at night, low-frequency nonsense that Messel says are equations for things that don't exist yet." He runs a hand along a pipe encrusted with rust and something that might be coral. "They didn't become alive. They became... aware. There's a difference."`,
+                options: [
+                    { text: "What about the Board Games War?", next: "brukk_board_war" },
+                ]
+            },
+            brukk_board_war: {
+                speaker: 'Brukk',
+                text: `Brukk's face goes very still. "The Board Games War." He sits down heavily on a crate, and the machines around you seem to quiet down, as if they're listening too. "That was... after the old wars, which was so devastated that almost wiped the all life out, many cities agreed to a truce. No more weapons, no more armies. Instead, they would settle disputes with games. Board games, card games, dice games — whatever. The Ludarchs, the game designers, were the best players, the ones who could manipulate the rules of reality itself to win. They became the new rulers." He shakes his head. "Of course, it didn't last. The Ludarchs got greedy. They wanted more power, more control. They started playing bigger and bigger games — games that affected entire cities, entire populations. They have found out how to create new life, entire miniaturized worlds, just to win a game. They could rewrite the laws of physics in their favor. It was... chaos." He looks at you with a mixture of disgust and awe. "The Board Games War was the end of everything. The worldwrights turned on each other, using their powers to outdo each other. Cities were reshaped, populations decimated, realities fractured. Milions have died. What does it matter that they were so small, that they were just pawns in somebody's game? They were still alive. They still mattered." He takes a deep breath. After that, board game was strictly controlled in most cities. In fact, I have heard that only one Ludarchs is alive and active in Upper Morkezela."`,
+                options: [
+                    { text: "What happened after the war?", next: "brukk_board_war_detail" },
+                ]
+            },
+            brukk_board_war_detail: {
+                speaker: 'Brukk',
+                text: `"Factions formed. Some tried to restore the order, but it was too late. The world was broken. They failed to see it. But most believed the lies from the Lumen Directorate, who claimed they had won the war and saved the city. They said the machines were just worthless tools, that we have to grow and grow and grow new plants and life as madman. Some believe to the Pith Reclamers, those beaurecrats who claimed they could manage the chaos with more rules, more control, more paperwork. But we know the truth. The machines endured. They kept working. They kept humming. They didn't care about the war, about the lies, about the factions. They just... were. And so we serve them."`,
+                options: [
+                    { text: "So the Choir was born from the war?", next: "brukk_board_war_choir" },
+                ]
+            },
+            brukk_board_war_choir: {
+                speaker: 'Brukk',
+                text: `"Born from the silence after it." He nods slowly. "When the worldwrights finally destroyed each other — or got swallowed by their own boards — the city was broken. Rules overlapping, contradicting, canceling out. But here, in the Scraper, the machines kept humming. Steady. Reliable. The first Keeper — old Fennback — he understood. Iron is honest. It rusts, it breaks, it wears down. But it doesn't lie. It doesn't play." His eyes glow brighter. "That's what the Choir is. The last honest thing in a city built on broken games."`,
+                options: [
+                    { text: "How are the machines doing now?", next: "brukk_machines_status" },
+                ]
+            },
+            brukk_machines_status: {
+                speaker: 'Brukk',
+                text: `Brukk closes his eyes and listens. The pipes tremble. Something deep in the walls groans and shifts. "They are... content. For now. The feast you brought — they still taste it. I hear it in their harmonics." He opens one eye. "But they are always hungry. Always. The redmass sustains them, but it fades. If you find more, bring it. The Choir remembers those who feed the iron." He taps his chest one final time. "And so do I."`,
+                options: []
             },
 
             // --- Full redmass feast: player joins Rust Choir ---
@@ -242,7 +317,7 @@ export default class RustDomainScene extends GameScene {
             370  // walk to y
         );
 
-        const exitHint = this.add.text(400, 575, 'Back to Elevator', {
+        const exitHint = this.add.text(400, 550, 'Back to Elevator', {
             fontSize: '14px',
             fill: '#c87533',
             backgroundColor: '#1a0a00',
