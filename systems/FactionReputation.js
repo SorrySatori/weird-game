@@ -14,7 +14,7 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
                 name: "Pith Reclaimers",
                 color: 0x8B4513, // Brown color for Pith Reclaimers
                 discovered: false,
-                description: "A group focused on extracting and preserving the essence of fungal growth."
+                description: "A group focused on maintaining and reclaiming balance and bureaucratic order."
             },
             SporemindAccord: {
                 reputation: 0,
