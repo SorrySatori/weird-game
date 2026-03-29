@@ -95,6 +95,9 @@ export default class SaveSystem {
             };
         }
 
+        // Save visited scenes for fast travel map
+        saveData.visitedScenes = registry.get('visitedScenes') || [];
+
         return saveData;
     }
 
@@ -304,6 +307,12 @@ export default class SaveSystem {
             console.log('Restoring dialog options');
             this.scene.usedDialogOptions = new Map(saveData.usedDialogOptions);
             registry.set('usedDialogOptions', this.scene.usedDialogOptions);
+        }
+
+        // Restore visited scenes for fast travel map
+        if (saveData.visitedScenes) {
+            console.log('Restoring visited scenes:', saveData.visitedScenes);
+            registry.set('visitedScenes', saveData.visitedScenes);
         }
 
         // Show notification about loaded game

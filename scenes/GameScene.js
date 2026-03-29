@@ -14,6 +14,7 @@ import JournalUI from '../ui/JournalUI.js';
 import EffectsSystem from '../systems/EffectsSystem.js';
 import SaveSystem from '../systems/SaveSystem.js';
 import GameMenu from '../ui/GameMenu.js';
+import MapUI from '../ui/MapUI.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -38,6 +39,7 @@ export default class GameScene extends Phaser.Scene {
         this.effectsSystem = null;
         this.saveSystem = null;
         this.gameMenu = null;
+        this.mapUI = null;
     }
 
     init(data) {
@@ -135,6 +137,14 @@ export default class GameScene extends Phaser.Scene {
         // Initialize scene mechanics
         this.initSceneMechanics();
         
+        // Create the fast travel map (M key)
+        this.mapUI = new MapUI(this);
+        this.input.keyboard.on('keydown-M', () => {
+            if (this.mapUI && !this.dialogVisible) {
+                this.mapUI.toggle();
+            }
+        });
+
         // Create the game menu (ESC key menu)
         this.gameMenu = new GameMenu(this);
 
@@ -570,6 +580,45 @@ export default class GameScene extends Phaser.Scene {
             
             // Add all elements to container
             journalBtnContainer.add([journalBtnBg, journalSpot1, journalSpot2, journalIcon]);
+
+            // Create map button container (left of journal)
+            const mapBtnContainer = this.add.container(630, 50);
+            mapBtnContainer.setDepth(100);
+
+            const mapBtnBg = this.add.graphics();
+            mapBtnBg.fillStyle(0x2a623d);
+            mapBtnBg.fillCircle(0, -10, 20);
+            mapBtnBg.fillStyle(0x1a3b23);
+            mapBtnBg.fillRect(-10, -10, 20, 25);
+
+            const mapSpot1 = this.add.circle(-5, -15, 3, 0x7fff8e);
+            const mapSpot2 = this.add.circle(5, -20, 2, 0x7fff8e);
+            mapSpot1.setAlpha(0.7);
+            mapSpot2.setAlpha(0.7);
+
+            // Compass-like icon for map
+            const mapIcon = this.add.graphics();
+            mapIcon.lineStyle(1.5, 0x7fff8e, 0.9);
+            mapIcon.strokeCircle(0, -10, 8);
+            mapIcon.fillStyle(0x7fff8e, 0.9);
+            mapIcon.fillTriangle(0, -18, -3, -8, 3, -8); // North arrow
+
+            const mapLabel = this.add.text(0, 25, 'MAP', {
+                fontSize: '12px',
+                fontFamily: 'Georgia',
+                color: '#7fff8e',
+                align: 'center'
+            }).setOrigin(0.5);
+
+            mapBtnContainer.add([mapBtnBg, mapSpot1, mapSpot2, mapIcon, mapLabel]);
+            mapBtnContainer.setSize(40, 60);
+            mapBtnContainer.setInteractive({ useHandCursor: true });
+            mapBtnContainer.on('pointerdown', () => {
+                if (this.clickSound) this.clickSound.play();
+                if (this.mapUI && !this.dialogVisible) {
+                    this.mapUI.toggle();
+                }
+            });
             
             // Create notification indicator (red exclamation mark)
             this.journalNotificationIndicator = this.add.container(18, -22);
