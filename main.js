@@ -34,6 +34,8 @@ import ScraperAmbraScene from './scenes/ScraperAmbraScene.js';
 import ScraperBackyardScene from './scenes/ScraperBackyardScene.js';
 import RustDomainScene from './scenes/RustDomainScene.js';
 import AbandonedBusScene from './scenes/AbandonedBusScene.js';
+import LumenDirectorateScene from './scenes/LumenDirectorateScene.js';
+import LumenDirectorateInteriorScene from './scenes/LumenDirectorateInteriorScene.js';
 
 // WebGL errors are handled by error-blocker.js
 
@@ -54,7 +56,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene],
+    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene, LumenDirectorateScene, LumenDirectorateInteriorScene],
     backgroundColor: '#2d2d2d',
     scale: {
         mode: Phaser.Scale.RESIZE,

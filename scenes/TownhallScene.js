@@ -13,7 +13,10 @@ export default class TownhallScene extends GameScene {
         get dialogContent() {
             const questSystem = this.registry.get('questSystem');
             const hasRustFeastQuest = questSystem.getQuest('rust_feast');
+            const bishopQuest = questSystem?.getQuest('who_killed_bishop');
+            const hasEnterTownhallQuest = !!questSystem?.getQuest('enter_townhall');
             return {
+            ...super.dialogContent,
             speaker: 'Phor Calesta',
             phorGreeting: {
                 text: "Ah, another pilgrim to the archives of the forgotten divine. I am Phor Calesta, archaeologist of lost theologies. The locals call me 'Godgrave Excavator,' though I prefer the term Divinographer.",
@@ -83,6 +86,9 @@ export default class TownhallScene extends GameScene {
                 options: [
                     { text: "That's quite ambitious", next: "phorAmbitious" },
                     { text: "Can I help you to get the permission?", next: "phorPurposeHelp" },
+                    ...(!hasEnterTownhallQuest && bishopQuest ? [
+                        { text: "The Townhall is closed? I need to get in there too.", next: "phorTownhallClosed" }
+                    ] : []),
                     { text: "Ask something else", next: "phorAskSomethingElse" }
                 ]
             },
@@ -101,6 +107,19 @@ export default class TownhallScene extends GameScene {
                     { text: "Ask something else", next: "phorAskSomethingElse" }
                 ]
             },
+
+            phorTownhallClosed: {
+                text: "Closed, yes. No one seems to know exactly why. The clerks just stopped coming one day. Some say it's a bureaucratic restructuring. Others say the building itself is refusing visitors — you know how things are in this city, buildings develop opinions.\n\nI've been waiting here for days. If you find a way in, I'd be eternally grateful.",
+                options: [
+                    { text: "I'll figure something out.", next: "phorAskSomethingElse" },
+                ],
+                onTrigger: () => {
+                    if (!this.questSystem.getQuest('enter_townhall')) {
+                        this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'The Townhall is closed and nobody knows why. I need to find a way inside — the Bishop\'s doppelgänger report was filed there, and Phor Calesta needs access too. Maybe someone in the city knows how to get in.');
+                    }
+                }
+            },
+
             phorAskSomethingElse: {
                 text: "Yes? What else troubles your curiosity?",
                 options: [

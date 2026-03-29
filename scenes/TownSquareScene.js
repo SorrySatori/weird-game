@@ -59,6 +59,18 @@ export default class TownSquareScene extends GameScene {
             300,
         );
 
+        // Transition to Lumen Directorate (left side)
+        this.transitionManager.createTransitionZone(
+            50,
+            300,
+            80,
+            400,
+            'left',
+            'LumenDirectorateScene',
+            700,
+            400,
+        );
+
         this.createMagnekin();
         this.createBusker();
 

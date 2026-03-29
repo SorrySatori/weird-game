@@ -84,11 +84,12 @@ get dialogContent() {
 | `find_rust_choir` | Find the Rust Choir | Lift-Mother (elevator) — ScraperInteriorScene | Leads to Ravla at ScreamingCork; update keys: `talk_to_ravla`, `feast_complete` |
 | `level_177_access` | Access to Level 177 | Lift-Mother (elevator) — ScraperInteriorScene | Reach Dr. Elphi Quarn's studio; paths: `button_path`, `repair_path`, `confession_path` |
 | `rust_feast` | Rust Feast | Ravla — ScreamingCorkInteriorScene | Triggered after accepting `find_rust_choir` task; requires oil + metal_scrap + redmass (or Ulvarex illusion) |
+| `enter_townhall` | Enter the Townhall | Phor Calesta — TownhallScene | Townhall is closed; player needs to find a way in. Triggered when player has `who_killed_bishop` quest and asks Phor about it |
 
 ### Quest chain relationships
-- **Main story arc:** `find_bishop` → `who_killed_bishop` → (return to Dr. Elphi to discuss clues) → `the_three_vestigels` → `level_177_access`
+- **Main story arc:** `find_bishop` → `who_killed_bishop` → (return to Dr. Elphi to discuss clues) → `enter_townhall` + Lumen Directorate → `the_three_vestigels` → `level_177_access`
 - **Rust Choir arc:** `find_rust_choir` → `rust_feast`
-- **Bureaucracy arc:** `ortolan_arms`, `excavation_permit` (independent)
+- **Bureaucracy arc:** `ortolan_arms`, `excavation_permit`, `enter_townhall` (overlapping)
 - **Side quests:** `edgar_book`, `rust_reclamation`
 
 ### `who_killed_bishop` update keys (from Dr. Elphi discussion — ScraperAmbraScene)
