@@ -327,13 +327,35 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainTravel: {
-                text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've found more balance between Growth and Decay. The Spore Drifter is particular about who it accepts.",
+                text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've proven your worth. The Verdigrace is particularly picky about who it accepts. If you really mean it, visit Lumen Directorate headqurarters in the city and ask about joining the crew. They might have some tasks for you to prove your dedication.",
                 options: [
+                    {   text: 'Where can I find the Lumen Directorate headquarters?',
+                        next: 'captainDirectorate'
+                    },
                     {
                         text: 'Other topics',
                         next: 'captainMain'
                     }
                 ]
+            },
+                captainDirectorate: {
+                text: "The Lumen Directorate headquarters is located in the heart of the city, near the main square. It's quite a building, you can't miss it.",
+                options: [
+                    {
+                        text: 'Thank you! I have some other questions.',
+                        next: 'captainMain'
+                    }
+                ],
+                onTrigger: () => {
+                    const factionSystem = this.registry.get('factionSystem');
+                    if (factionSystem) {
+                        factionSystem.modifyReputation('SporemindAccord', +5);
+                        this.showNotification('Lumen Directorate Reputation +5');
+                    }
+                     if (!this.questSystem.getQuest('find_lumen_directorate')) {
+                        this.questSystem.addQuest('find_lumen_directorate', 'Nothing Hidden. Nothing Lost', 'Captain Liris gave me directions to the Lumen Directorate headquarters. I should visit them to learn more about their work and see if I can join their crew.')
+                    }
+                }
             },
             captainCargo: {
                 text: "Primarily rare spores and mycelia that can't be cultivated in the city. Specialized symbiont strains, crystallized growth enzymes, decay-resistant building materials. We also carry messages between the scattered aerial colonies and research stations. Information is perhaps our most valuable cargo—knowledge that would never reach the ground otherwise.",
