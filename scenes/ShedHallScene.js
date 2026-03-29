@@ -127,29 +127,6 @@ export default class ShedHallScene extends GameScene {
             if (alreadyInInventory) {
                 this._livingCore.setVisible(false);
             }
-        
-        // Left exit click logic
-        this.leftExit.on('pointerdown', () => {
-            if (!this.isTransitioning) {
-                this.isTransitioning = true;
-                const priest = this.priest;
-                priest.play('walk');
-                
-                this.tweens.add({
-                    targets: priest,
-                    x: 50,
-                    y: 470,
-                    duration: 1000,
-                    onComplete: () => {
-                        this.cameras.main.fadeOut(800, 0, 0, 0);
-                        this.cameras.main.once('camerafadeoutcomplete', () => {
-                            this.scene.start('ShedAbandonedOfficeScene');
-                            this.isTransitioning = false;
-                        });
-                    }
-                });
-            }
-        });
     }
 
     update() {

@@ -143,7 +143,7 @@ export default class ShedRegistrationScene extends GameScene {
         
         // 4. Senior Clerk (will appear after all others are interacted with)
         this.seniorClerk = this.add.sprite(300, 350, 'clerk2')
-            .setScale(0.5)
+            .setScale(0.2)
             .setAlpha(0)
             .setInteractive({ useHandCursor: true });
             

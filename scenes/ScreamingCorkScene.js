@@ -116,6 +116,38 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
+        if (this.hasJournalExperience('board_games_war') && !selectedTopicIds.includes('board_games_war')) {
+            topics.push({
+                id: 'board_games_war',
+                text: "The Board Games War",
+                description: "An ancient conflict where Ludarchs — game designers who could rewrite reality — destroyed entire cities as pawns in their games"
+            });
+        }
+
+        if (this.hasJournalExperience('noise_god_insight') && !selectedTopicIds.includes('noise_god')) {
+            topics.push({
+                id: 'noise_god',
+                text: "The Noise God",
+                description: "A forgotten deity that came to die in Upper Morkezela, whose presence still pulses through broken amplifiers and magnetic dust"
+            });
+        }
+
+        if (this.hasJournalExperience('magnekin_reveal') && !selectedTopicIds.includes('magnekin')) {
+            topics.push({
+                id: 'magnekin',
+                text: "Magnekin — A Civilization in One Body",
+                description: "A collective of tiny cities held together by magnetic forces, disguised as a single humanoid citizen"
+            });
+        }
+
+        if (this.hasJournalExperience('phor_calesta') && !selectedTopicIds.includes('god_graveyard')) {
+            topics.push({
+                id: 'god_graveyard',
+                text: "The God Graveyard beneath the city",
+                description: "Layers of fossilized dead gods lying beneath Upper Morkezela, their prayers turned to strata and halos crystallized into mineral deposits"
+            });
+        }
+
         // Always provide some default topics even if the player hasn't journaled much
         if (topics.length < 2) {
             // Only add default topics if they haven't been selected yet
@@ -234,6 +266,26 @@ export default class ScreamingCorkScene extends GameScene {
                 if(this.bookTone === 'political') title = `The Manifest of ${this.bookProtagonist}: How to Destroy ${this.bookSetting} and Make a Revolution`;
                 if(this.bookTone === 'existential') title = `The ${this.bookProtagonist} and the ${this.bookSetting} Paradox`;
                 else title = `The ${this.bookProtagonist} in the ${this.bookSetting} Labyrinth`;
+                break;
+
+            case 'mythic war epic':
+                if(this.bookTone === 'tragic') title = `The Last Game of ${this.bookProtagonist}`;
+                else if(this.bookTone === 'metaphysical') title = `${this.bookSetting}: Rules of the Fallen`;
+                else if(this.bookTone === 'romantic') title = `Love Between Moves: A ${this.bookProtagonist}'s War`;
+                else if(this.bookTone === 'existential') title = `Why the ${this.bookProtagonist} Stopped Playing`;
+                else if(this.bookTone === 'political') title = `The ${this.bookProtagonist}'s Gambit for ${this.bookSetting}`;
+                else if(this.bookTone === 'comical') title = `The ${this.bookProtagonist} Who Cheated at ${this.bookSetting}`;
+                else title = `${this.bookProtagonist}: Chronicle of the ${this.bookSetting} Wars`;
+                break;
+
+            case 'cosmic horror':
+                if(this.bookTone === 'tragic') title = `The Silence After ${this.bookSetting}`;
+                else if(this.bookTone === 'metaphysical') title = `${this.bookSetting}: What the ${this.bookProtagonist} Heard`;
+                else if(this.bookTone === 'romantic') title = `A ${this.bookProtagonist}'s Hymn to the Dying ${this.bookSetting}`;
+                else if(this.bookTone === 'existential') title = `The ${this.bookProtagonist} Who Listened Too Long`;
+                else if(this.bookTone === 'political') title = `Who Buried the Gods of ${this.bookSetting}?`;
+                else if(this.bookTone === 'comical') title = `The ${this.bookProtagonist} and the Very Dead God of ${this.bookSetting}`;
+                else title = `Beneath ${this.bookSetting}: The ${this.bookProtagonist}'s Descent`;
                 break;
         }
 
@@ -490,7 +542,9 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Urban fantasy", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'urban fantasy'; } },
                     { text: "Funny animals with depression", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'funny animals'; } },
                     { text: "Detective novel", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'detective'; } },
-                    { text: "Dreamy weird fiction", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'weird fiction'; } }
+                    { text: "Dreamy weird fiction", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'weird fiction'; } },
+                    { text: "Mythic war epic", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'mythic war epic'; } },
+                    { text: "Cosmic horror", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'cosmic horror'; } }
                 ]
             },
 
@@ -511,6 +565,8 @@ export default class ScreamingCorkScene extends GameScene {
                         case 'funny animals': genreDescription = 'using anthropomorphic characters to explore deeper emotions'; break;
                         case 'detective': genreDescription = 'following clues to unravel mysteries'; break;
                         case 'weird fiction': genreDescription = 'blurring the lines between reality and dreams'; break;
+                        case 'mythic war epic': genreDescription = 'an epic recounting of ancient wars where games rewrote reality'; break;
+                        case 'cosmic horror': genreDescription = 'confronting the terrifying remnants of dead gods and forgotten entities'; break;
                         default: genreDescription = 'a compelling literary style'; break;
                     }
 
@@ -539,6 +595,8 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "An amnesiac with strange abilities", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'strange amnesiac'; } },
                     { text: "A sentient fungal colony", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'fungal colony'; } },
                     { text: "A dream detective", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'dream detective'; } },
+                    { text: "A rogue Ludarch", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'rogue Ludarch'; } },
+                    { text: "A living collective pretending to be one person", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'living collective'; } },
                 ]
             },
 
@@ -559,6 +617,8 @@ export default class ScreamingCorkScene extends GameScene {
                         case 'amnesiac': protagonistDescription = 'uncovering their past while wielding unusual abilities'; break;
                         case 'fungal colony': protagonistDescription = 'a collective consciousness experiencing individuality'; break;
                         case 'detective': protagonistDescription = 'solving mysteries by entering people\'s dreams'; break;
+                        case 'rogue Ludarch': protagonistDescription = 'the last reality-bending game designer, haunted by the wars they helped start'; break;
+                        case 'living collective': protagonistDescription = 'millions of tiny beings pretending to be one person, experiencing the big world for the first time'; break;
                         default: protagonistDescription = 'navigating the complexities of Upper Morkezela'; break;
                     }
 
@@ -586,7 +646,9 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "A giant immortal mammal, swimming in the ocean", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'immortal mammal'; } },
                     { text: "The fungal wilds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'fungal wilds'; } },
                     { text: "A skyship above the clouds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'skyship'; } },
-                    { text: "The subterranean markets", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'markets'; } }
+                    { text: "The subterranean markets", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'markets'; } },
+                    { text: "A war-torn board game that became real", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'living board game'; } },
+                    { text: "The graveyard of dead gods", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'god graveyard'; } }
                 ]
             },
 
@@ -607,6 +669,8 @@ export default class ScreamingCorkScene extends GameScene {
                         case 'fungal wilds': settingDescription = 'the untamed areas where fungal growths take their most primordial forms'; break;
                         case 'skyship': settingDescription = 'a vessel drifting above the clouds, isolated yet connected to the city below'; break;
                         case 'markets': settingDescription = 'the underground commercial spaces where anything can be traded'; break;
+                        case 'living board game': settingDescription = 'a war-torn board game that became real, its miniaturized world now populated by sentient pawns'; break;
+                        case 'god graveyard': settingDescription = 'the fossilized layers of dead gods beneath the city, where prayers turned to stone and halos became crystal'; break;
                         default: settingDescription = 'a compelling environment for the story'; break;
                     }
 

@@ -116,7 +116,17 @@ export default class RustDomainScene extends GameScene {
                 text: `Brukk's face goes very still. "The Board Games War." He sits down heavily on a crate, and the machines around you seem to quiet down, as if they're listening too. "That was... after the old wars, which was so devastated that almost wiped the all life out, many cities agreed to a truce. No more weapons, no more armies. Instead, they would settle disputes with games. Board games, card games, dice games — whatever. The Ludarchs, the game designers, were the best players, the ones who could manipulate the rules of reality itself to win. They became the new rulers." He shakes his head. "Of course, it didn't last. The Ludarchs got greedy. They wanted more power, more control. They started playing bigger and bigger games — games that affected entire cities, entire populations. They have found out how to create new life, entire miniaturized worlds, just to win a game. They could rewrite the laws of physics in their favor. It was... chaos." He looks at you with a mixture of disgust and awe. "The Board Games War was the end of everything. The worldwrights turned on each other, using their powers to outdo each other. Cities were reshaped, populations decimated, realities fractured. Milions have died. What does it matter that they were so small, that they were just pawns in somebody's game? They were still alive. They still mattered." He takes a deep breath. After that, board game was strictly controlled in most cities. In fact, I have heard that only one Ludarchs is alive and active in Upper Morkezela."`,
                 options: [
                     { text: "What happened after the war?", next: "brukk_board_war_detail" },
-                ]
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('board_games_war')) {
+                        this.addJournalEntry(
+                            'board_games_war',
+                            'The Board Games War',
+                            'Brukk told me about the Board Games War. After the Old Wars nearly wiped out all life, cities agreed to settle disputes through games. The Ludarchs — game designers who could manipulate reality itself — became the new rulers. But they grew greedy, played bigger games affecting entire populations, and eventually turned on each other. Cities reshaped, realities fractured, millions died as pawns. Only one Ludarch is said to still be alive and active in Upper Morkezela.',
+                            this.journalSystem.categories.LORE
+                        );
+                    }
+                }
             },
             brukk_board_war_detail: {
                 speaker: 'Brukk',

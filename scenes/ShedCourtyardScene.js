@@ -324,7 +324,8 @@ export default class ShedCourtyardScene extends GameScene {
                 text: "Thanks to you, I can finally pursue my vision for more complex game design! With these extra arms, my games will reach new heights of complexity and engagement. If you ever want to playtest something, come find me. I'll make sure you get a copy of my next creation!",
                 options: [
                     { text: "I'll look forward to it.", next: "goodbye" },
-                    { text: "Tell me more about your games.", next: "games_discussion" }
+                    { text: "Tell me more about your games.", next: "games_discussion" },
+                    { text: "You mentioned being a worldwright. What were the Board Games Wars?", next: "ortolan_board_wars" }
                 ]
             },
             games_discussion: {
@@ -333,6 +334,43 @@ export default class ShedCourtyardScene extends GameScene {
                 options: [
                     { text: "Sounds fascinating.", next: "goodbye" }
                 ]
+            },
+            ortolan_board_wars: {
+                text: `Ahh... you want to know about that. Most people don't ask anymore — they'd rather forget." He lowers his voice. "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. At first, it worked beautifully. The best designers — the Ludarchs — became the new rulers. I was just a worldwright back then, a craftsman who made the boards and pieces. The Ludarchs were something else entirely. They could bend the rules of reality itself. Create entire living worlds inside their games. Miniature civilizations, born and destroyed in a single match.`,
+                options: [
+                    { text: "What went wrong?", next: "ortolan_board_wars_fall" }
+                ]
+            },
+            ortolan_board_wars_fall: {
+                text: `Power. Same thing that always goes wrong. The Ludarchs stopped playing to settle disputes and started playing to dominate. Each game grew larger, more real. The pieces became populations. The boards became cities. Millions lived and died inside those games — tiny creatures who didn't even know they were pawns." He stares at his hands. "I made some of those boards. I carved the pieces that became living beings. Do you understand what that feels like? To know your craft was used to create life just so it could be sacrificed for a victory point?`,
+                options: [
+                    { text: "Is that why you still make games?", next: "ortolan_board_wars_why" },
+                    { text: "How did it end?", next: "ortolan_board_wars_end" }
+                ]
+            },
+            ortolan_board_wars_end: {
+                text: `The Ludarchs turned on each other. Their games collided, overlapped, contradicted. Reality fractured. Cities were reshaped overnight. And then... silence. They destroyed each other, or got swallowed by their own creations. The boards went dark. The pieces stopped moving. What was left was this —" He gestures around. "A broken city where the rules still don't quite work. They say one Ludarch survived. Still active somewhere in Upper Morkezela. That thought keeps me up at night.`,
+                options: [
+                    { text: "Is that why you still make games?", next: "ortolan_board_wars_why" },
+                    { text: "Thank you for telling me.", next: "goodbye" }
+                ]
+            },
+            ortolan_board_wars_why: {
+                text: `Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve — it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He taps the board beside him. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch.`,
+                options: [
+                    { text: "That's a noble purpose.", next: "goodbye" },
+                    { text: "Thank you for sharing, Ortolan.", next: "goodbye" }
+                ],
+                onTrigger: () => {
+                    if (!this.journalSystem.getEntry('board_games_war')) {
+                        this.addJournalEntry(
+                            'board_games_war',
+                            'The Board Games War',
+                            'Ortolan Šmelc told me about the Board Games War. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
+                            this.journalSystem.categories.LORE
+                        );
+                    }
+                }
             },
             goodbye: {
                 text: "Don't get lost...",
@@ -540,7 +578,7 @@ export default class ShedCourtyardScene extends GameScene {
         }
 
         // Check if the quest is already completed
-        if (ortholanQuest.status === 'completed') {
+        if (ortholanQuest.isComplete) {
             this.showDialog('quest_completed');
             return;
         }
