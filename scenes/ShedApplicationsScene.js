@@ -104,7 +104,7 @@ export default class ShedApplicationsScene extends GameScene {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('find_bishop')) {
                         questSystem.updateQuest('find_bishop', 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.', 'edgar_eskola_clue');
-                        this.showNotification('Quest updated: Find the Bishop of Threshold');
+                        this.showNotification('Quest updated: Find the Bishop');
                     }
                 }
             },

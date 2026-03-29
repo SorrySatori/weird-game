@@ -39,7 +39,7 @@ export default class CathedralEntrance extends GameScene {
         text: "I have no idea. When the great Council say so. It could be days, it could be centuries. We stand guard until the Awakening.",
                 options: [
                     { text: "The Awakening?", next: "templeGuardAwakening" },
-                    { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
+                    { text: "Where can I find the Bishop?", next: "bishop_info" },
                     { text: "Ask something else", next: "templeGuardGreeting" }
                 ]
             },
@@ -53,11 +53,11 @@ export default class CathedralEntrance extends GameScene {
                 text: "No summons have been issued. No minds may enter without resonance. Wait. Or seek for your Bishop. She's one of the Council, I am sure you know.",
                 options: [
                     { text: "I'm a master Thaal's apprentice. Surely I may pass.", next: "iAmFungalApprentice" },
-                    { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
+                    { text: "Where can I find the Bishop?", next: "bishop_info" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
                 ]
             },
-            bishopOfThreshold: {
+            bishop_info: {
         text: "Probably at the Voxmarket, or around Shed 521. She dwells where the walls still echo with initiation. Look for the door that doesn’t open—until it does",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" },
@@ -76,14 +76,14 @@ export default class CathedralEntrance extends GameScene {
                 text: "It's also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
                 options: [
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" },
-                    { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
+                    { text: "Where can I find the Bishop?", next: "bishop_info" },
                 ]
             },
             templeGuardWhy: {
         text: "It is the order of the cathedral council. However, I have heard that it was mainly your bishop, meaning the bishop of Obazoba church, who declared the emergency. That must be enough for you to know.",
                 options: [
                     { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
-                    { text: "Where can I find the Bishop?", next: "bishopOfThreshold" },
+                    { text: "Where can I find the Bishop?", next: "bishop_info" },
                     { text: "Ask something else", next: "templeGuardAskSomethingElse" }
                 ]
             },
@@ -435,25 +435,25 @@ export default class CathedralEntrance extends GameScene {
         }
 
         // Handle quest updates
-        if (dialogKey === 'bishopOfThreshold' && !this.questSystem.getQuest('find_bishop')) {
+        if (dialogKey === 'bishop_info' && !this.questSystem.getQuest('find_bishop')) {
             this.questSystem.addQuest(
                 'find_bishop',
-                'Find the Bishop of Threshold',
-                'The temple guard mentioned that the Bishop of Threshold might help me gain access to the cathedral. I should seek her out.'
+                'Find the Bishop',
+                'The temple guard mentioned that the Bishop might help me gain access to the cathedral. I should seek her out.'
             );
-            this.showNotification('Quest updated: Find the Bishop of Threshold');
+            this.showNotification('Quest updated: Find the Bishop');
         } else if (dialogKey === 'templeGuardVoxmarket' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
                 'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.'
             );
-            this.showNotification('Quest updated: Find the Bishop of Threshold');
+            this.showNotification('Quest updated: Find the Bishop');
         } else if (dialogKey === 'templeGuardShed521' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
                 'Shed 521, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.'
             );
-            this.showNotification('Quest updated: Find the Bishop of Threshold');
+            this.showNotification('Quest updated: Find the Bishop');
         }
 
         // Show the dialog content

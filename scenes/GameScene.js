@@ -110,6 +110,10 @@ export default class GameScene extends Phaser.Scene {
     create() {
         console.log('GameScene create');
         
+        // Reset dialog state for clean scene entry
+        this.dialogVisible = false;
+        this.dialogBox = null;
+        
         // Create background if needed
         if (typeof this.createCityBackground === 'function') {
             this.createCityBackground();
@@ -1355,8 +1359,14 @@ export default class GameScene extends Phaser.Scene {
             this.dialogText.destroy();
             this.dialogText = null;
         }
-        this.dialogOptions.forEach(option => option.destroy());
-        this.dialogOptions = [];
+        if (this.dialogOptions) {
+            if (typeof this.dialogOptions.destroy === 'function') {
+                this.dialogOptions.destroy();
+            } else if (Array.isArray(this.dialogOptions)) {
+                this.dialogOptions.forEach(option => option.destroy());
+            }
+        }
+        this.dialogOptions = null;
         this.dialogVisible = false;
         this.dialogCallback = null;
 
@@ -1575,9 +1585,11 @@ export default class GameScene extends Phaser.Scene {
         // Destroy previous dialog if it exists
         if (this.dialogBox) {
             this.dialogBox.destroy();
+            this.dialogBox = null;
         }
         if (this.textMaskGraphics) {
             this.textMaskGraphics.destroy();
+            this.textMaskGraphics = null;
         }
         if (this.avatar) {
             this.avatar.setVisible(true);
@@ -1599,8 +1611,8 @@ export default class GameScene extends Phaser.Scene {
             // State key passed, look up in dialogContent
             this.dialogState = state;
             content = this.dialogContent[state];
-            if(this.dialogContent?.speaker) {
-            content.speaker = this.dialogContent.speaker
+            if (content && this.dialogContent?.speaker) {
+                content.speaker = this.dialogContent.speaker;
             }
             // Check if we need to inherit speaker from parent dialog group
             if (!content?.speaker && state.includes('_')) {
@@ -1642,12 +1654,18 @@ export default class GameScene extends Phaser.Scene {
         // Check if content is valid
         if (!content) {
             console.error('Dialog content not found for state:', state);
+            this.hideDialog();
             return;
         }
         
         // Check if this state has an onTrigger handler (runs without closing dialog)
         if (content.onTrigger) {
             content.onTrigger.call(this); // Bind the correct 'this' context
+        }
+        
+        // If onTrigger called hideDialog(), don't continue rendering
+        if (!this.dialogVisible) {
+            return;
         }
         
         // Check if this state has an onShow handler (closes dialog)

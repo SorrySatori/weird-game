@@ -74,7 +74,7 @@ get dialogContent() {
 ## Existing quests (as of March 2026)
 | ID | Title | Giver / Scene | Notes |
 |----|-------|---------------|-------|
-| `find_bishop` | Find the Bishop of Threshold | Master Thaal — EntryScene (also re-added in CathedralEntrance) | Main story opener; Bishop found dead in AbandonedBusScene |
+| `find_bishop` | Find the Bishop | Master Thaal — EntryScene (also re-added in CathedralEntrance) | Main story opener; Bishop found dead in AbandonedBusScene |
 | `who_killed_bishop` | Who Killed the Bishop? | Auto-triggered — AbandonedBusScene | Investigation quest; evidence: neural trauma, Cardinal Feast dream device |
 | `excavation_permit` | Divinography | Phor Calesta (archaeologist) — TownhallScene | Help Phor obtain excavation permits for the Godgraveyard |
 | `ortolan_arms` | Extra Arms for Ortolan | Ortolan Šmelc — ShedCourtyardScene | Bureaucratic puzzle; multiple completion variants (artisan, deformity, dispensation, temporary, proxy, fungal) |

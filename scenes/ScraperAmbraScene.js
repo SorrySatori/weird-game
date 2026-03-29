@@ -155,7 +155,7 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_start: {
                 text: "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
                 options: [
-                    { text: "I'm looking for someone. The Bishop of Threshold.", next: "dr_elphi_bishop_path" },
+                    { text: "I'm looking for someone. The Bishop.", next: "dr_elphi_bishop_path" },
                     { text: "I was sent to investigate an anomaly. Might be connected to this place.", next: "dr_elphi_anomaly_path" },
                     { text: "I heard you design dream-based games.", next: "dr_elphi_games_path" },
                     { text: "I'll explain if you stop testing me.", next: "dr_elphi_testing_path" }
@@ -224,13 +224,13 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_testing_path: {
                 text: "Testing is how I stay alive. Most visitors lie. Some of them don't even know it.\n\nBut fine. Speak clearly. This floor costs me processing cycles.",
                 options: [
-                    { text: "I'm looking for the Bishop of Threshold.", next: "dr_elphi_bishop_path" },
+                    { text: "I'm looking for the Bishop.", next: "dr_elphi_bishop_path" },
                     { text: "There's been a signal anomaly.", next: "dr_elphi_anomaly_path" }
                 ]
             },
             
             dr_elphi_bishop_destination: {
-                text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\n\nThis time feels different though. She was... preoccupied with something in the old transit yard. Said the moss there was 'singing' to her. Typical Threshold mysticism.",
+                text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\n\nThis time feels different though. She was... preoccupied with something in the old transit yard. Said the moss there was 'singing' to her. Typical Cathedral mysticism.",
                 options: [
                     { text: "I'll go look for her there.", next: "dr_elphi_exit" },
                     { text: "What's in the backyard?", next: "dr_elphi_backyard_info" }
@@ -246,7 +246,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_backyard_info: {
-                text: "It's an old transit yard. Abandoned decades ago when the new lines were built. Now it's mostly overgrown with that peculiar moss that grows around Threshold.\n\nThe Bishop seemed fascinated by it. Said it had 'mnemonic properties.' Whatever that means. Cathedral folk and their cryptic terminology...",
+                text: "It's an old transit yard. Abandoned decades ago when the new lines were built. Now it's mostly overgrown with that peculiar moss.\n\nThe Bishop seemed fascinated by it. Said it had 'mnemonic properties.' Whatever that means. Cathedral folk and their cryptic terminology...",
                 options: [
                     { text: "I'll go investigate.", next: "dr_elphi_exit" },
                     { text: "Is it dangerous?", next: "dr_elphi_backyard_danger" }
@@ -254,7 +254,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_backyard_danger: {
-                text: "Not conventionally. But nothing around Threshold is truly safe, is it? The moss remembers things. Sometimes it... shares those memories. Unpredictably.\n\nJust don't fall asleep out there. The dreams can be... intense.",
+                text: "Not conventionally. But nothing around is truly safe, is it? The moss remembers things. Sometimes it... shares those memories. Unpredictably.\n\nJust don't fall asleep out there. The dreams can be... intense.",
                 options: [
                     { text: "I'll be careful.", next: "dr_elphi_exit" }
                 ]

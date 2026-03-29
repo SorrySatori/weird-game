@@ -261,7 +261,7 @@ export default class Shed521Scene extends GameScene {
         if (questSystem) {
             if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
                 questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.", 'bishop_clue_gnur');
-                this.showNotification('Quest updated: Find the Bishop of Threshold');
+                this.showNotification('Quest updated: Find the Bishop');
             } else if (dialogKey === 'recoverTech') {
                 questSystem.addQuest(
                     'rust_reclamation',

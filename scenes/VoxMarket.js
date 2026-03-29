@@ -33,7 +33,7 @@ export default class VoxMarket extends GameScene {
                     { text: "What are you selling?", next: "kloor_selling" },
                     { text: "I want to sell you some spores.", next: "kloor_buy_spores" },
                     ...(this.registry.get('questSystem')?.getQuest('find_bishop') ? [
-                        { text: "Do you know anything about the Bishop of Threshold?", next: "kloor_bishop" }
+                        { text: "Do you know anything about the Bishop?", next: "kloor_bishop" }
                     ] : []),
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
                         { text: "About those Vestigels...", next: "kloor_vestigels_progress" }
@@ -252,7 +252,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_bishop: {
-                text: "Kloor's expression shifts to one of caution. 'The Bishop of Threshold? Yeah, I've seen her around. Not someone to mess with. She was here in the market recently, trading with some of the merchants.'",
+                text: "Kloor's expression shifts to one of caution. 'The Bishop? Yeah, I've seen her around. Not someone to mess with. She was here in the market recently, trading with some of the merchants.'",
                 options: [
                     { text: "Do you know where she went?", next: "kloor_bishop_location" },
                     { text: "What was she trading?", next: "kloor_bishop_trading" },
@@ -340,7 +340,7 @@ export default class VoxMarket extends GameScene {
                     // Update quest with message before completing it
                     this.questSystem.updateQuest(
                         'the_three_vestigels', 
-                        'I gave the vestigel to Kloor Venn in exchange for information about the Bishop of Threshold.', 
+                        'I gave the vestigel to Kloor Venn in exchange for information about the Bishop.', 
                         'completed'
                     );
                     
@@ -352,7 +352,7 @@ export default class VoxMarket extends GameScene {
                     this.addJournalEntry(
                         'kloor_vestigel_exchange',
                         'Vestigel Exchange with Kloor',
-                        'I traded the vestigel I acquired from Edgar Eskola to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop of Threshold and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
+                        'I traded the vestigel I acquired from Edgar Eskola to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
                         this.journalSystem.categories.EVENTS,
                         { character: 'Kloor Venn', item: 'Vestigel', location: 'Voxmarket' }
                     );
@@ -376,7 +376,7 @@ export default class VoxMarket extends GameScene {
             kloor_quest_update: {
                 text: "",
                 options: [],
-                onTrigger: function() {
+                onShow: () => {
                     // Update the find_bishop quest with more detailed information
                     if (this.questSystem.getQuest('find_bishop')) {
                         this.questSystem.updateQuest(
@@ -384,19 +384,19 @@ export default class VoxMarket extends GameScene {
                             'According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
                             'elphi_contact'
                         );
-                        this.showNotification('Quest Updated: Find the Bishop of Threshold');
+                        this.showNotification('Quest Updated: Find the Bishop');
                         
-                        // Add journal entry about the Bishop's search for the Threshold Key
+                        // Add journal entry about the Bishop's contact with Dr. Elphi
                         this.addJournalEntry(
                             'bishop_elphi_contact',
                             'The Bishop\'s Contact with Dr. Elphi',
                             'According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
                             this.journalSystem.categories.EVENTS,
                         );
-                        
-                        // Close dialog after updating quest
-                        this.hideDialog();
                     }
+                    
+                    // Close dialog after updating quest
+                    this.hideDialog();
                 }
             },
             rustDomain: {

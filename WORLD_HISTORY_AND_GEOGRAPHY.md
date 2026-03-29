@@ -94,7 +94,7 @@ A massive cathedral literally hatching from a gigantic egg — a shell-grown str
 
 The **Awakening** (or **Fruiting**) is the prophesied moment when the cathedral fully hatches. Different faiths have competing theories: some believe it will become the birthplace of a new god; others believe the walls will "burst, spreading consciousness across the stars."
 
-The cathedral was sealed under emergency closure by the **Bishop of Threshold** (the Obazoba's representative on the Cathedral Council). Its entrance is guarded by the **Sentinel of the Veil**, a temple guard whose flesh has been replaced by plants and whose consciousness is connected to the city through the mycelial network. He claims to have been at his post since the "Third Sporulation."
+The cathedral was sealed under emergency closure by the **Bishop** (the Obazoba's representative on the Cathedral Council). Its entrance is guarded by the **Sentinel of the Veil**, a temple guard whose flesh has been replaced by plants and whose consciousness is connected to the city through the mycelial network. He claims to have been at his post since the "Third Sporulation."
 
 ---
 
@@ -262,7 +262,7 @@ A flying transport vessel operated by **Captain Liris** on behalf of the Lumen D
 
 **Structure:** Governed by the **Spore Council** from an underground temple. Led by Archpriests (Varhun, Tynri, Rhull, among others). Field agents include Fungal Masters (like Master Thaal) who take apprentices.
 
-**The Bishop of Threshold** was the Obazoba's representative on the Egg Cathedral Council, responsible for the emergency closure of the cathedral.
+**The Bishop** was the Obazoba's representative on the Egg Cathedral Council, responsible for the emergency closure of the cathedral.
 
 ---
 
