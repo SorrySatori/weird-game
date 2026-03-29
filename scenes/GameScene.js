@@ -246,7 +246,7 @@ export default class GameScene extends Phaser.Scene {
             
             // Add quest system event handlers
             questSystem.on('questAdded', (questId, title) => {
-                this.showNotification(`New Quest: ${title}`);
+                this.showNotification('New quest');
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
                 if (this.questLog && this.questLog.questNotificationIndicator) {
@@ -255,7 +255,7 @@ export default class GameScene extends Phaser.Scene {
             });
             
             questSystem.on('questUpdated', (questId, title) => {
-                this.showNotification(`Quest Updated: ${title}`);
+                this.showNotification('Quest updated');
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
                 if (this.questLog && this.questLog.questNotificationIndicator) {
@@ -264,7 +264,7 @@ export default class GameScene extends Phaser.Scene {
             });
             
             questSystem.on('questCompleted', (questId, title) => {
-                this.showNotification(`Quest Completed: ${title}`);
+                this.showNotification('Quest completed!');
                 this.modifySpores(5);
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
@@ -943,136 +943,151 @@ export default class GameScene extends Phaser.Scene {
         return false;
     }
 
-    showNotification(title, subtitle = '', amount = '', duration = 500) {
+    showNotification(title, subtitle = '', amount = '', duration = 400) {
         // Determine notification type and settings based on content
         const notificationConfig = this.getNotificationConfig(title, subtitle);
-        
-        // Create notification container at the appropriate position
-        const notification = this.add.container(400, notificationConfig.yPosition);
+
+        // For symbiont messages, use dedicated bottom display
+        if (notificationConfig.isSymbiont) {
+            this.showSymbiontMessage(title);
+            return;
+        }
+
+        // Build short message
+        let message = title;
+        if (amount !== '') message += ' ' + amount;
+
+        // Guard: if this scene's camera isn't active, skip rendering
+        if (!this.cameras || !this.cameras.main) return;
+
+        // Small corner notification — top-right
+        const gameWidth = this.cameras.main.width;
+        const xPos = gameWidth - 20;
+        const yPos = notificationConfig.yPosition;
+
+        const notification = this.add.container(xPos, yPos);
         notification.setDepth(2000);
         notification.setScrollFactor(0);
 
-        // Format the message in a single line
-        let message = title;
-        if (subtitle) {
-            if (typeof subtitle === 'string' && subtitle.toLowerCase().includes('quest')) {
-                message = subtitle; // For quests, just show the quest name
-            } else {
-                message += ' ' + subtitle;
-            }
-        }
-        if (amount !== '') {
-            message += ' ' + amount;
-        }
-                
-        // Create the text with proper wrapping for long messages
-        const padding = 20;
-        const maxWidth = 500; // Maximum width for the text box
-        
-        // Add type icon if available
-        let iconText = null;
-        if (notificationConfig.icon) {
-            iconText = this.add.text(-maxWidth/2 + padding, -10, notificationConfig.icon, {
-                fontSize: '16px',
-                fill: notificationConfig.textColor
-            });
-            iconText.setOrigin(0, 0.5);
-        }
-        
-        // Add type label if available
-        let typeLabel = null;
-        if (notificationConfig.label) {
-            typeLabel = this.add.text(-maxWidth/2 + padding + 25, -10, notificationConfig.label, {
-                fontSize: '12px',
-                fill: notificationConfig.textColor,
-                fontStyle: 'bold'
-            });
-            typeLabel.setOrigin(0, 0.5);
-        }
-        
-        // Main message text
-        const textConfig = {
-            fontSize: '16px',
-            fill: '#ffffff', // White text for better readability
-            align: 'left',
-            wordWrap: { width: maxWidth - (padding * 2) } // Enable word wrapping
-        };
-        
-        const text = this.add.text(0, 10, message, textConfig);
-        text.setOrigin(0.5);
+        // Icon + short text on one line
+        const displayText = notificationConfig.icon ? `${notificationConfig.icon} ${message}` : message;
 
-        const boxWidth = Math.max(text.width + (padding * 2), 200);
-        const boxHeight = Math.max(text.height + (padding * 2) + 20, 60);
-        
-        const box = this.add.graphics();
-        // Dark background with semi-transparency
-        box.fillStyle(0x0a2712, 0.9);
-        box.fillRect(-boxWidth/2, -boxHeight/2, boxWidth, boxHeight);
-        
-        // Border with notification-specific color
-        box.lineStyle(2, notificationConfig.borderColor);
-        box.strokeRect(-boxWidth/2, -boxHeight/2, boxWidth, boxHeight);
-        
-        // Add subtle fungal pattern (dots) with notification color
-        for (let i = 0; i < 5; i++) {
-            const dotX = Phaser.Math.Between(-boxWidth/2 + 10, boxWidth/2 - 10);
-            const dotY = Phaser.Math.Between(-boxHeight/2 + 10, boxHeight/2 - 10);
-            const dotSize = Phaser.Math.Between(2, 4);
-            box.fillStyle(notificationConfig.borderColor, 0.3);
-            box.fillCircle(dotX, dotY, dotSize);
-        }
-
-        // Add elements to notification container
-        notification.add(box);
-        if (iconText) notification.add(iconText);
-        if (typeLabel) notification.add(typeLabel);
-        notification.add(text);
-        
-        // Add a subtle glow effect
-        const glow = this.add.graphics();
-        glow.fillStyle(notificationConfig.borderColor, 0.2);
-        glow.fillCircle(0, 0, 40);
-        notification.addAt(glow, 0); // Add behind other elements
-        
-        // Add pulsating animation to the glow
-        this.tweens.add({
-            targets: glow,
-            alpha: { from: 0.2, to: 0.1 },
-            scale: { from: 1, to: 1.2 },
-            duration: 1500,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
+        const text = this.add.text(0, 0, displayText, {
+            fontSize: '13px',
+            fill: notificationConfig.textColor || '#ffffff',
+            fontStyle: 'bold',
         });
+        text.setOrigin(1, 0.5); // Right-aligned
 
-        // Animate notification entry
+        const padding = 8;
+        const boxWidth = text.width + padding * 2;
+        const boxHeight = text.height + padding * 2;
+
+        const box = this.add.graphics();
+        box.fillStyle(0x0a2712, 0.85);
+        box.fillRoundedRect(-boxWidth, -boxHeight / 2, boxWidth, boxHeight, 4);
+        box.lineStyle(1, notificationConfig.borderColor, 0.7);
+        box.strokeRoundedRect(-boxWidth, -boxHeight / 2, boxWidth, boxHeight, 4);
+
+        notification.add(box);
+        notification.add(text);
+
+        // Slide in from right, hold, slide out
+        notification.x = xPos + boxWidth;
+        notification.alpha = 0;
+
         this.tweens.add({
             targets: notification,
-            y: notificationConfig.yPosition - 20,
-            alpha: { from: 0, to: 1 },
+            x: xPos,
+            alpha: 1,
             duration,
-            ease: 'Back.easeOut', // Bouncy effect
+            ease: 'Power2',
             onComplete: () => {
-                // Hold for a longer time before fading out
-                const baseDisplayTime = 4000; // Increased base display time from 2000ms to 4000ms
-                const displayTime = Math.max(baseDisplayTime, message.length * 100); // Doubled the per-character time
-                
-                this.time.delayedCall(displayTime, () => {
+                const holdTime = Math.max(2500, message.length * 60);
+                this.time.delayedCall(holdTime, () => {
                     this.tweens.add({
                         targets: notification,
-                        y: notificationConfig.yPosition - 40,
+                        x: xPos + boxWidth,
                         alpha: 0,
-                        duration,
+                        duration: 400,
                         ease: 'Power2',
+                        onComplete: () => notification.destroy()
+                    });
+                });
+            }
+        });
+
+        return notification;
+    }
+
+    /**
+     * Display symbiont ambient message at the very bottom of the screen
+     */
+    showSymbiontMessage(message) {
+        // Guard: if this scene's camera isn't active, skip
+        if (!this.cameras || !this.cameras.main) return;
+
+        // Destroy previous symbiont message if still visible
+        if (this._symbiontMsg) {
+            this._symbiontMsg.destroy();
+            this._symbiontMsg = null;
+        }
+
+        const gameWidth = this.cameras.main.width;
+        const gameHeight = this.cameras.main.height;
+        const yPos = gameHeight - 30;
+
+        const container = this.add.container(gameWidth / 2, yPos);
+        container.setDepth(1999);
+        container.setScrollFactor(0);
+        this._symbiontMsg = container;
+
+        const text = this.add.text(0, 0, `🧬 ${message}`, {
+            fontSize: '13px',
+            fill: '#66ccaa',
+            align: 'center',
+            wordWrap: { width: gameWidth - 120 }
+        });
+        text.setOrigin(0.5);
+
+        const padding = 8;
+        const boxWidth = Math.min(text.width + padding * 2, gameWidth - 80);
+        const boxHeight = text.height + padding * 2;
+
+        const box = this.add.graphics();
+        box.fillStyle(0x0a2712, 0.8);
+        box.fillRoundedRect(-boxWidth / 2, -boxHeight / 2, boxWidth, boxHeight, 4);
+        box.lineStyle(1, 0x66ccaa, 0.5);
+        box.strokeRoundedRect(-boxWidth / 2, -boxHeight / 2, boxWidth, boxHeight, 4);
+
+        container.add(box);
+        container.add(text);
+
+        // Fade in, hold, fade out
+        container.alpha = 0;
+        this.tweens.add({
+            targets: container,
+            alpha: 1,
+            duration: 600,
+            ease: 'Power1',
+            onComplete: () => {
+                const holdTime = Math.max(4000, message.length * 80);
+                this.time.delayedCall(holdTime, () => {
+                    this.tweens.add({
+                        targets: container,
+                        alpha: 0,
+                        duration: 800,
+                        ease: 'Power1',
                         onComplete: () => {
-                            notification.destroy();
+                            container.destroy();
+                            if (this._symbiontMsg === container) {
+                                this._symbiontMsg = null;
+                            }
                         }
                     });
                 });
             }
         });
-        
-        return notification;
     }
     
     /**
@@ -1084,31 +1099,32 @@ export default class GameScene extends Phaser.Scene {
      */
     getNotificationConfig(title, subtitle) {
         const lowerTitle = title.toLowerCase();
-        const lowerSubtitle = typeof subtitle === 'string' ? subtitle.toLowerCase() : '';
         
+        // Symbiont ambient messages — routed to bottom display
+        if (lowerTitle.includes('thorne-still:') ||
+            lowerTitle.includes('ulvarex:') ||
+            lowerTitle.includes('neme') ||
+            lowerTitle.includes('symbiont')) {
+            return { isSymbiont: true };
+        }
+
         // Quest notifications
-        if (lowerTitle.includes('quest') || 
-            lowerSubtitle.includes('quest') ||
-            lowerTitle.includes('completed')) {
+        if (lowerTitle.includes('quest') || lowerTitle.includes('completed')) {
             return {
-                borderColor: 0xffd700, // Gold
+                borderColor: 0xffd700,
                 textColor: '#ffd700',
-                yPosition: 80,
+                yPosition: 60,
                 icon: '🔍',
-                label: 'QUEST'
             };
         }
         
         // Journal notifications
-        if (lowerTitle.includes('journal') || 
-            title === 'Journal Updated' ||
-            lowerTitle.includes('added to journal')) {
+        if (lowerTitle.includes('journal')) {
             return {
-                borderColor: 0x7fff8e, // Bright green
+                borderColor: 0x7fff8e,
                 textColor: '#7fff8e',
-                yPosition: 140,
+                yPosition: 90,
                 icon: '📖',
-                label: 'JOURNAL'
             };
         }
         
@@ -1118,60 +1134,41 @@ export default class GameScene extends Phaser.Scene {
             lowerTitle.includes('spore') ||
             lowerTitle.includes('experiencing effects')) {
             return {
-                borderColor: 0x9370db, // Purple
+                borderColor: 0x9370db,
                 textColor: '#9370db',
-                yPosition: 200,
+                yPosition: 120,
                 icon: '🍄',
             };
         }
         
         // Reputation notifications
-        if (lowerTitle.includes('reputation') ||
-            lowerSubtitle.includes('reputation')) {
+        if (lowerTitle.includes('reputation')) {
             return {
-                borderColor: 0x4169e1, // Royal blue
+                borderColor: 0x4169e1,
                 textColor: '#4169e1',
-                yPosition: 260,
+                yPosition: 150,
                 icon: '⭐',
-                label: 'REPUTATION'
             };
         }
         
         // Error notifications
-        if (subtitle === 'error' || 
-            lowerTitle.includes('failed') || 
+        if (lowerTitle.includes('failed') || 
             lowerTitle.includes('not enough') ||
             lowerTitle.includes('cannot')) {
             return {
-                borderColor: 0xff6347, // Tomato red
+                borderColor: 0xff6347,
                 textColor: '#ff6347',
-                yPosition: 320,
+                yPosition: 180,
                 icon: '❗',
-                label: 'NOTICE'
             };
         }
         
-        // Symbiont ambient messages
-        if (lowerTitle.includes('thorne-still:') ||
-            lowerTitle.includes('ulvarex:') ||
-            lowerTitle.includes('neme') ||
-            lowerTitle.includes('symbiont')) {
-            return {
-                borderColor: 0x66ccaa,
-                textColor: '#66ccaa',
-                yPosition: 460,
-                icon: '🧬',
-                label: 'SYMBIONT'
-            };
-        }
-        
-        // Default notifications
+        // Default
         return {
-            borderColor: 0x7fff8e, // Default green
+            borderColor: 0x7fff8e,
             textColor: '#ffffff',
-            yPosition: 380,
-            icon: '•',
-            label: ''
+            yPosition: 60,
+            icon: '',
         };
     }
 
@@ -1296,7 +1293,7 @@ export default class GameScene extends Phaser.Scene {
         
         // Show notification if entry was added successfully
         if (result) {
-            this.showNotification('Journal Updated', title);
+            this.showNotification('Journal updated');
         }
         
         return result;
