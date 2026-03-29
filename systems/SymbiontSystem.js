@@ -5,7 +5,7 @@ export default class SymbiontSystem {
         this.maxSlots = 3;
         this.unlockedSlots = 1;
         this.lastMessageTime = 0;
-        this.messageInterval = 30000; // 30 seconds minimum between messages
+        this.messageInterval = 120000; // 2 minutes minimum between messages
         
         // Initialize symbiont phrases
         this.symbiontPhrases = {
@@ -232,7 +232,7 @@ export default class SymbiontSystem {
         }
 
         // Add random chance (20%) of actually speaking
-        if (symbiontId === 'thorne-still' && Math.random() < 0.2) {
+        if (symbiontId === 'thorne-still' && Math.random() < 0.1) {
             const messages = [
                 "In the spaces between reality, truth flows like mercury...",
                 "Flesh is just wet soil for the next thing",
@@ -249,7 +249,7 @@ export default class SymbiontSystem {
             symbiont.lastSpoke = now;
             this.lastMessageTime = now;
             return `${symbiontId}: ${message}`;
-        } else if (symbiontId === 'neme-crownmire' && Math.random() < 0.2) {
+        } else if (symbiontId === 'neme-crownmire' && Math.random() < 0.1) {
             // Use phrases from the symbiont data if available
             if (symbiont.phrases && symbiont.phrases.length > 0) {
                 const message = symbiont.phrases[Math.floor(Math.random() * symbiont.phrases.length)];
@@ -257,7 +257,7 @@ export default class SymbiontSystem {
                 this.lastMessageTime = now;
                 return `${symbiont.name}: ${message}`;
             }
-        } else if (symbiontId === 'ulvarex-borrowed-horizon' && Math.random() < 0.2) {
+        } else if (symbiontId === 'ulvarex-borrowed-horizon' && Math.random() < 0.1) {
             const messages = this.symbiontPhrases['ulvarex-borrowed-horizon'] || [];
             if (messages.length > 0) {
                 const message = messages[Math.floor(Math.random() * messages.length)];
@@ -267,8 +267,8 @@ export default class SymbiontSystem {
             }
         }
 
-        // Cross-reactions: symbionts commenting on each other (10% chance)
-        if (this.symbionts.size >= 2 && Math.random() < 0.1) {
+        // Cross-reactions: symbionts commenting on each other (5% chance)
+        if (this.symbionts.size >= 2 && Math.random() < 0.05) {
             const crossMessage = this.getCrossReactionMessage(symbiontId);
             if (crossMessage) {
                 symbiont.lastSpoke = now;
@@ -598,8 +598,8 @@ export default class SymbiontSystem {
             console.log('[SymbiontSystem] Time since symbiont last spoke:', now - symbiont.lastSpoke, 'ms');
             
             // Check if enough time has passed since last message
-            // Use a shorter interval for spore change messages (15 seconds)
-            if (now - symbiont.lastSpoke >= 15000 && now - this.lastMessageTime >= 15000) {
+            // Use the same interval as ambient messages
+            if (now - symbiont.lastSpoke >= this.messageInterval && now - this.lastMessageTime >= this.messageInterval) {
                 // Calculate the change amount
                 const change = newLevel - oldLevel;
                 console.log('[SymbiontSystem] Spore change amount:', change);
@@ -661,7 +661,7 @@ export default class SymbiontSystem {
             }
             
             // Check if enough time has passed since last message
-            if (now - symbiont.lastSpoke >= 15000 && now - this.lastMessageTime >= 15000) {
+            if (now - symbiont.lastSpoke >= this.messageInterval && now - this.lastMessageTime >= this.messageInterval) {
                 // Calculate the change amount
                 const change = newLevel - oldLevel;
                 
@@ -705,7 +705,7 @@ export default class SymbiontSystem {
         if (this.symbionts.has('ulvarex-borrowed-horizon')) {
             const symbiont = this.symbionts.get('ulvarex-borrowed-horizon');
             
-            if (now - symbiont.lastSpoke >= 15000 && now - this.lastMessageTime >= 15000) {
+            if (now - symbiont.lastSpoke >= this.messageInterval && now - this.lastMessageTime >= this.messageInterval) {
                 const change = newLevel - oldLevel;
                 
                 if (Math.abs(change) >= 5) {

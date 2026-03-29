@@ -86,10 +86,25 @@ get dialogContent() {
 | `rust_feast` | Rust Feast | Ravla — ScreamingCorkInteriorScene | Triggered after accepting `find_rust_choir` task; requires oil + metal_scrap + redmass (or Ulvarex illusion) |
 
 ### Quest chain relationships
-- **Main story arc:** `find_bishop` → `who_killed_bishop` → `the_three_vestigels` → `level_177_access`
+- **Main story arc:** `find_bishop` → `who_killed_bishop` → (return to Dr. Elphi to discuss clues) → `the_three_vestigels` → `level_177_access`
 - **Rust Choir arc:** `find_rust_choir` → `rust_feast`
 - **Bureaucracy arc:** `ortolan_arms`, `excavation_permit` (independent)
 - **Side quests:** `edgar_book`, `rust_reclamation`
+
+### `who_killed_bishop` update keys (from Dr. Elphi discussion — ScraperAmbraScene)
+| Key | Trigger |
+|-----|---------|
+| `elphi_bruising` | Discuss neural bruising clue with Dr. Elphi |
+| `elphi_cartridge` | Show Cardinal Feast cartridge to Dr. Elphi — game is normal, but session data shows catastrophic failure |
+| `elphi_helmet` | Discuss damaged helmet with Dr. Elphi |
+| `elphi_memo` | Show doppelgänger memo to Dr. Elphi — doppelgänger is unexplained, not a dream side effect |
+| `elphi_townhall_log` | Memo was formally logged at Townhall — check archives |
+| `elphi_journal` | Discuss Bishop's journal entry with Dr. Elphi |
+| `elphi_dissection` | Discuss fungal growth / symbiont with Dr. Elphi |
+| `elphi_berries` | Discuss Sulkberries — spiced variety is a Lumen Directorate specialty |
+| `elphi_dream_kill` | Dr. Elphi confirms dream can kill via neural overload |
+| `elphi_lumen_lead` | Lumen Directorate lead: Sulkberries supply + Cathedral oversight |
+| `elphi_day1_complete` | All clues discussed; Elphi will fix cartridge overnight; player ready for Day 2 |
 
 ## Journal integration
 Quest-related discoveries are often also logged as journal entries:
