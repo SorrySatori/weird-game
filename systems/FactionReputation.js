@@ -16,7 +16,7 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
                 discovered: false,
                 description: "A group focused on maintaining and reclaiming balance and bureaucratic order."
             },
-            SporemindAccord: {
+            LumenDirectorate: {
                 reputation: 0,
                 name: "Lumen Directorate",
                 color: 0x556B2F, // Dark olive green for Lumen Directorate

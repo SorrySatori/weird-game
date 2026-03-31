@@ -98,6 +98,12 @@ export default class QuestLog {
         // Make button interactive
         this.buttonContainer.setSize(40, 60);
         this.buttonContainer.setInteractive({ useHandCursor: true });
+        this.buttonContainer.on('pointerover', () => {
+            this.buttonContainer.setScale(1.1);
+        });
+        this.buttonContainer.on('pointerout', () => {
+            this.buttonContainer.setScale(1);
+        });
         this.buttonContainer.on('pointerdown', () => {
             this.toggleQuestLog();
         });

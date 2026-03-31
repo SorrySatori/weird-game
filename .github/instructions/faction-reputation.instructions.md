@@ -12,7 +12,7 @@ Faction standing is managed by `FactionReputation` (singleton, `systems/FactionR
 |-----|-------------|-------|
 | `RustChoir` | Rust Choir | Decay, machine hunger, corroded iron |
 | `PithReclaimers` | Pith Reclaimers | Fungal essence extraction |
-| `SporemindAccord` | Lumen Directorate | Growth, all life |
+| `LumenDirectorate` | Lumen Directorate | Growth, all life |
 
 ## Key Methods
 

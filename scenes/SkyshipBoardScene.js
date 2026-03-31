@@ -238,7 +238,7 @@ export default class SkyshipBoardScene extends GameScene {
                 onTrigger: () => {
                     const factionSystem = this.registry.get('factionSystem');
                     if (factionSystem) {
-                        factionSystem.modifyReputation('SporemindAccord', +10);
+                        factionSystem.modifyReputation('LumenDirectorate', +10);
                         this.showNotification('Lumen Directorate Reputation +10');
                     }
                 }
@@ -263,12 +263,12 @@ export default class SkyshipBoardScene extends GameScene {
                 onTrigger: () => {
                     const factionSystem = this.registry.get('factionSystem');
                     if (factionSystem) {
-                        factionSystem.modifyReputation('SporemindAccord', +10);
+                        factionSystem.modifyReputation('LumenDirectorate', +10);
                         this.showNotification('Lumen Directorate Reputation +10');
-                        if (!this.hasJournalEntry('sporemind_accord_faction')) {
+                        if (!this.hasJournalEntry('lumen_directorate_faction')) {
                             this.addJournalEntry(
-                                'sporemind_accord_faction',
-                                'SPOREMINGD ACCORD',
+                                'lumen_directorate_faction',
+                                'LUMEN DIRECTORATE',
                                 'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
                                 this.journalSystem.categories.FACTIONS,
                                 { faction: 'Lumen Directorate', location: 'Voxmarket' }
@@ -349,7 +349,7 @@ export default class SkyshipBoardScene extends GameScene {
                 onTrigger: () => {
                     const factionSystem = this.registry.get('factionSystem');
                     if (factionSystem) {
-                        factionSystem.modifyReputation('SporemindAccord', +5);
+                        factionSystem.modifyReputation('LumenDirectorate', +5);
                         this.showNotification('Lumen Directorate Reputation +5');
                     }
                      if (!this.questSystem.getQuest('find_lumen_directorate')) {

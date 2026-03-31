@@ -613,6 +613,12 @@ export default class GameScene extends Phaser.Scene {
             mapBtnContainer.add([mapBtnBg, mapSpot1, mapSpot2, mapIcon, mapLabel]);
             mapBtnContainer.setSize(40, 60);
             mapBtnContainer.setInteractive({ useHandCursor: true });
+            mapBtnContainer.on('pointerover', () => {
+                mapBtnContainer.setScale(1.1);
+            });
+            mapBtnContainer.on('pointerout', () => {
+                mapBtnContainer.setScale(1);
+            });
             mapBtnContainer.on('pointerdown', () => {
                 if (this.clickSound) this.clickSound.play();
                 if (this.mapUI && !this.dialogVisible) {
@@ -656,7 +662,12 @@ export default class GameScene extends Phaser.Scene {
             journalBtnContainer.setSize(40, 60);
             journalBtnContainer.setInteractive({ useHandCursor: true });
             
-            // No pulsating effect as requested
+            journalBtnContainer.on('pointerover', () => {
+                journalBtnContainer.setScale(1.1);
+            });
+            journalBtnContainer.on('pointerout', () => {
+                journalBtnContainer.setScale(1);
+            });
             
             journalBtnContainer.on('pointerdown', () => {
                 if (this.clickSound) this.clickSound.play();

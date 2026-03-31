@@ -177,8 +177,8 @@ export default class VoxmarketMarketScene extends GameScene {
                     ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') ? [
                         { text: "Use Thorne-still's Brain Rot power", next: "zerren_thorne_still_power" }
                     ] : []),
-                    ...(this.registry.get('reputationSystem')?.getFactionReputation('sporemind_accord') >= 50 ? [
-                        { text: "Appeal to Lumen Directorate relationship", next: "zerren_sporemind_appeal" }
+                    ...(this.registry.get('reputationSystem')?.getFactionReputation('LumenDirectorate') >= 50 ? [
+                        { text: "Appeal to Lumen Directorate relationship", next: "zerren_lumen_directorate_appeal" }
                     ] : []),
                     { text: "Back", next: "zerren_start" }
                 ]
@@ -306,14 +306,14 @@ export default class VoxmarketMarketScene extends GameScene {
                 }
             },
             
-            zerren_sporemind_appeal: {
+            zerren_lumen_directorate_appeal: {
                 text: "'As an ally of the Lumen Directorate, I'm tracking down these Vestigels on their behalf. They consider this a matter of great importance to the balance of power in the region.'",
                 options: [
-                    { text: "Continue", next: "zerren_sporemind_success" }
+                    { text: "Continue", next: "zerren_lumen_directorate_success" }
                 ]
             },
             
-            zerren_sporemind_success: {
+            zerren_lumen_directorate_success: {
                 text: "Zerren's eyes widen with recognition. 'Oh! You're with the Directorate? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector in the upper district.'",
                 options: [
                     { text: "The Directorate appreciates your cooperation", next: "zerren_quest_update" }
