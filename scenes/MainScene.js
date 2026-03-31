@@ -217,7 +217,7 @@ export default class MainScene extends Phaser.Scene {
             this.cameras.main.width / 2,
             this.cameras.main.height / 2,
             500,
-            400,
+            550,
             0x0a2712,
             0.9
         );
@@ -227,7 +227,7 @@ export default class MainScene extends Phaser.Scene {
         // Add title
         const title = this.add.text(
             this.cameras.main.width / 2,
-            this.cameras.main.height / 2 - 160,
+            this.cameras.main.height / 2 - 230,
             'LOAD GAME',
             {
                 fontSize: '32px',
@@ -247,7 +247,7 @@ export default class MainScene extends Phaser.Scene {
         // Add back button
         const backButton = this.createButton(
             this.cameras.main.width / 2,
-            this.cameras.main.height / 2 + 160,
+            this.cameras.main.height / 2 + 230,
             'Back',
             {
                 fontSize: '28px',
@@ -348,13 +348,13 @@ export default class MainScene extends Phaser.Scene {
         });
         
         // Add save slots
-        let yPos = -120;
+        let yPos = -190;
         
         // Clear all existing content to prevent duplicates
         this.saveSlotContainer.removeAll(true);
         
-        // Limit to 3 save slots to prevent overflow
-        const filesToShow = saveFilesResult.files.slice(0, 3);
+        // Limit to 6 save slots to match in-game save menu
+        const filesToShow = saveFilesResult.files.slice(0, 6);
         
         // Double check we have files to show
         if (filesToShow.length === 0) {
@@ -456,7 +456,7 @@ export default class MainScene extends Phaser.Scene {
             });
             
             this.saveSlotContainer.add(slotContainer);
-            yPos += 70; // Move down for the next slot
+            yPos += 65; // Move down for the next slot
         });
     }
     

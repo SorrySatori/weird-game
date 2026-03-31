@@ -508,7 +508,7 @@ export default class GameMenu {
             this.scene.cameras.main.width / 2,
             this.scene.cameras.main.height / 2,
             500,
-            400,
+            550,
             0x0a2712,
             0.9
         );
@@ -518,7 +518,7 @@ export default class GameMenu {
         // Add title
         const title = this.scene.add.text(
             this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2 - 160,
+            this.scene.cameras.main.height / 2 - 230,
             'LOAD GAME',
             {
                 fontSize: '32px',
@@ -632,11 +632,11 @@ export default class GameMenu {
         saveFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
         
         // Add save slots
-        const slotY = this.scene.cameras.main.height / 2 - 80;
-        const slotSpacing = 60;
+        const slotY = this.scene.cameras.main.height / 2 - 160;
+        const slotSpacing = 55;
         
         saveFiles.forEach((saveFile, index) => {
-            if (index >= 5) return; // Limit to 5 save slots
+            if (index >= 6) return; // Limit to 6 save slots
             
             const date = new Date(saveFile.date);
             const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
