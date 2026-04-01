@@ -438,13 +438,13 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "You examine the dream interface helmet attached to the Bishop's body. It's a portable device with a small screen and a neural interface port. The helmet is slightly warm to the touch, suggesting it was recently in use. Maybe she was inside a dream program — but someone intentionally erased the session data? Unfortunately, it's clear that the helmet is not functional and the neural interface port is damaged.",
                 options: [
-                    { text: "Examine the bruising", next: "dead_bishop_bruising" },
-                    { text: "Check the dream device", next: "dead_bishop_cartridge" },
-                    { text: "Read the memo note", next: "dead_bishop_memo" },
-                    { text: "Look at the notebook", next: "dead_bishop_notebook" },
-                    { text: "Inspect the berries", next: "dead_bishop_berries" },
-                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
-                    { text: "Step back", next: "closeDialog" }
+                    { text: "Examine the bruising", key: 'examine_the_bruising', next: "dead_bishop_bruising" },
+                    { text: "Check the dream device", key: 'check_the_dream_device', next: "dead_bishop_cartridge" },
+                    { text: "Read the memo note", key: 'read_the_memo_note', next: "dead_bishop_memo" },
+                    { text: "Look at the notebook", key: 'look_at_the_notebook', next: "dead_bishop_notebook" },
+                    { text: "Inspect the berries", key: 'inspect_the_berries', next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", key: 'dissect_the_dead_body', next: "dead_bishop_dissect" },
+                    { text: "Step back", key: 'step_back', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     if (this.journalSystem && !this.journalSystem.hasEntry('bishop_helmet')) {
@@ -467,13 +467,13 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "You carefully open the Bishop's notebook. A small leather-bound notebook. Most pages are torn out or never used. Only one entry remains, hastily scribbled: “The city no longer hears me. Perhaps the dreams will.”",
                 options: [
-                    { text: "Examine the bruising", next: "dead_bishop_bruising" },
-                    { text: "Check the dream device", next: "dead_bishop_cartridge" },
-                    { text: "Read the memo note", next: "dead_bishop_memo" },
-                    { text: "Examine the helmet", next: "dead_bishop_helmet" },
-                    { text: "Inspect the berries", next: "dead_bishop_berries" },
-                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
-                    { text: "Step back", next: "closeDialog" }
+                    { text: "Examine the bruising", key: 'examine_the_bruising', next: "dead_bishop_bruising" },
+                    { text: "Check the dream device", key: 'check_the_dream_device', next: "dead_bishop_cartridge" },
+                    { text: "Read the memo note", key: 'read_the_memo_note', next: "dead_bishop_memo" },
+                    { text: "Examine the helmet", key: 'examine_the_helmet', next: "dead_bishop_helmet" },
+                    { text: "Inspect the berries", key: 'inspect_the_berries', next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", key: 'dissect_the_dead_body', next: "dead_bishop_dissect" },
+                    { text: "Step back", key: 'step_back', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the Bishop's journal if not already added
@@ -497,13 +497,13 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "You find a crumpled note in the Bishop's sleeve. It's written in her handwriting and stamped 'TOWNHALL PERSONAL LOG – FOR INTERNAL USE ONLY'. The fragment reads: \"I walked into the confessional, but she was already there. Looked like me. But didn't breathe. Didn't blink. And it finished my sentence.\" The rest of the note is torn away.",
                 options: [
-                    { text: "Examine the bruising", next: "dead_bishop_bruising" },
-                    { text: "Check the dream device", next: "dead_bishop_cartridge" },
-                    { text: "Examine the helmet", next: "dead_bishop_helmet" },
-                    { text: "Look at the notebook", next: "dead_bishop_notebook" },
-                    { text: "Inspect the berries", next: "dead_bishop_berries" },
-                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
-                    { text: "Step back", next: "closeDialog" }
+                    { text: "Examine the bruising", key: 'examine_the_bruising', next: "dead_bishop_bruising" },
+                    { text: "Check the dream device", key: 'check_the_dream_device', next: "dead_bishop_cartridge" },
+                    { text: "Examine the helmet", key: 'examine_the_helmet', next: "dead_bishop_helmet" },
+                    { text: "Look at the notebook", key: 'look_at_the_notebook', next: "dead_bishop_notebook" },
+                    { text: "Inspect the berries", key: 'inspect_the_berries', next: "dead_bishop_berries" },
+                    { text: "Dissect the dead body", key: 'dissect_the_dead_body', next: "dead_bishop_dissect" },
+                    { text: "Step back", key: 'step_back', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the memo if not already added
@@ -527,8 +527,8 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "With careful precision, you begin to examine the Bishop's body more thoroughly. As you open her chest cavity, you notice something extraordinary - a strange, pulsating green glow emanating from within. The source appears to be a small, fungal growth unlike anything you've seen before, with delicate tendrils that have integrated with her nervous system.",
                 options: [
-                    { text: "Investigate the glowing fungus", next: "neme_symbiont_reveal" },
-                    { text: "Step back", next: "closeDialog" }
+                    { text: "Investigate the glowing fungus", key: 'investigate_the_glowing_fungus', next: "neme_symbiont_reveal" },
+                    { text: "Step back", key: 'step_back', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the dissection if not already added
@@ -552,8 +552,8 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "Something stirs. A pulse within the stillness. The Bishop wasn't alone. And now... neither are you. A gently levitating bundle of translucent filaments and glowing spore-sacs detaches from the Bishop's chest, floating toward you.",
                 options: [
-                    { text: "Accept the symbiont - Let Neme root in your thoughts", next: "neme_symbiont_accept" },
-                    { text: "Decline - Let it drift into the soil", next: "neme_symbiont_decline" }
+                    { text: "Accept the symbiont - Let Neme root in your thoughts", key: 'accept_the_symbiont_let_neme_root_in_your_thoughts', next: "neme_symbiont_accept" },
+                    { text: "Decline - Let it drift into the soil", key: 'decline_let_it_drift_into_the_soil', next: "neme_symbiont_decline" }
                 ],
                 onTrigger: () => {
                     // Show the symbiont with a fade-in effect
@@ -581,7 +581,7 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "The filaments gently reach toward you, wrapping around your wrist before sinking beneath your skin. A soft, echoing voice whispers in your mind: 'The world grows through contradiction. So must you.' You feel a strange awareness of subtle energies around you.",
                 options: [
-                    { text: "Continue", next: "closeDialog" }
+                    { text: "Continue", key: 'continue', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add the symbiont to the system
@@ -635,7 +635,7 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "You step back, declining the strange entity's approach. The filaments pause in mid-air, then slowly drift downward toward the floor of the bus. As they touch the ground, they seem to dissolve into the surface, leaving only a faint green glow that quickly fades.",
                 options: [
-                    { text: "Continue", next: "closeDialog" }
+                    { text: "Continue", key: 'continue', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Hide the symbiont with a fade-out effect
@@ -666,13 +666,13 @@ export default class AbandonedBusScene extends GameScene {
         speaker: 'Dead Bishop',
                 text: "A small bag of spiced Sulkberries sits nearby, half-eaten. The sour, pungent berries are still fresh, suggesting the Bishop was here recently and possibly consuming them to calm her nerves before using the dream device. Sulkberries are known for their mild calming effect.",
                 options: [
-                    { text: "Examine the bruising", next: "dead_bishop_bruising" },
-                    { text: "Check the dream device", next: "dead_bishop_cartridge" },
-                    { text: "Examine the helmet", next: "dead_bishop_helmet" },
-                    { text: "Look at the notebook", next: "dead_bishop_notebook" },
-                    { text: "Read the memo note", next: "dead_bishop_memo" },
-                    { text: "Dissect the dead body", next: "dead_bishop_dissect" },
-                    { text: "Step back", next: "closeDialog" }
+                    { text: "Examine the bruising", key: 'examine_the_bruising', next: "dead_bishop_bruising" },
+                    { text: "Check the dream device", key: 'check_the_dream_device', next: "dead_bishop_cartridge" },
+                    { text: "Examine the helmet", key: 'examine_the_helmet', next: "dead_bishop_helmet" },
+                    { text: "Look at the notebook", key: 'look_at_the_notebook', next: "dead_bishop_notebook" },
+                    { text: "Read the memo note", key: 'read_the_memo_note', next: "dead_bishop_memo" },
+                    { text: "Dissect the dead body", key: 'dissect_the_dead_body', next: "dead_bishop_dissect" },
+                    { text: "Step back", key: 'step_back', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the berries if not already added

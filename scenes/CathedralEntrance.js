@@ -12,119 +12,119 @@ export default class CathedralEntrance extends GameScene {
             templeGuardGreeting: {
         text: "Halt. The yolk sleeps uneasily today. Entry to the Egg Cathedral is… temporarily restricted.",
                 options: [
-                    { text: "When will it open?", next: "templeGuardWhen" },
-                    { text: "Why is it closed?", next: "templeGuardWhy" },
-                    { text: "Who are you?", next: "templeGuardWho" },
-                    { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
-                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", next: "iAmFungalApprentice" }
+                    { text: "When will it open?", key: 'when_will_it_open', next: "templeGuardWhen" },
+                    { text: "Why is it closed?", key: 'why_is_it_closed', next: "templeGuardWhy" },
+                    { text: "Who are you?", key: 'who_are_you', next: "templeGuardWho" },
+                    { text: "I need to speak with someone inside", key: 'i_need_to_speak_with_someone_inside', next: "speakWithSomeoneInside" },
+                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" }
                 ]
             },
             templeGuardAskSomethingElse: {
         text: "Is there anything else I can help you with?",
                 options: [
-                    { text: "When will it open?", next: "templeGuardWhen" },
-                    { text: "Why is it closed?", next: "templeGuardWhy" },
-                    { text: "Who are you?", next: "templeGuardWho" },
-                    { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
-                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", next: "iAmFungalApprentice" }
+                    { text: "When will it open?", key: 'when_will_it_open', next: "templeGuardWhen" },
+                    { text: "Why is it closed?", key: 'why_is_it_closed', next: "templeGuardWhy" },
+                    { text: "Who are you?", key: 'who_are_you', next: "templeGuardWho" },
+                    { text: "I need to speak with someone inside", key: 'i_need_to_speak_with_someone_inside', next: "speakWithSomeoneInside" },
+                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" }
                 ]
             },
             iAmFungalApprentice: {
         text: "(Tilts head) Even rot-born clergy must heed the pulses. The Cathedral breathes its own rhythm. You must attune.",
                 options: [
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" }
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardWhen: {
         text: "I have no idea. When the great Council say so. It could be days, it could be centuries. We stand guard until the Awakening.",
                 options: [
-                    { text: "The Awakening?", next: "templeGuardAwakening" },
-                    { text: "Where can I find the Bishop?", next: "bishop_info" },
-                    { text: "Ask something else", next: "templeGuardGreeting" }
+                    { text: "The Awakening?", key: 'the_awakening', next: "templeGuardAwakening" },
+                    { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardGreeting" }
                 ]
             },
             templeGuardAwakening: {
         text: "The Awakening is the moment when's the cathedral fully grown. Hatched. We stand guard until the Awakening.",
                 options: [
-                    { text: "Ask something else", next: "templeGuardGreeting" }
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardGreeting" }
                 ]
             },
             speakWithSomeoneInside: {
                 text: "No summons have been issued. No minds may enter without resonance. Wait. Or seek for your Bishop. She's one of the Council, I am sure you know.",
                 options: [
-                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", next: "iAmFungalApprentice" },
-                    { text: "Where can I find the Bishop?", next: "bishop_info" },
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" }
+                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" },
+                    { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             bishop_info: {
         text: "Probably at the Voxmarket, or around Shed 521. She dwells where the walls still echo with initiation. Look for the door that doesn’t open—until it does",
                 options: [
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" },
-                    { text: "What is the Voxmarket?", next: "templeGuardVoxmarket"},
-                    {text: "What is the Shed 521?", next: "templeGuardShed521"},
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
+                    { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: "templeGuardVoxmarket"},
+                    {text: "What is the Shed 521?", key: 'what_is_the_shed_521', next: "templeGuardShed521"},
                 ]
             },
             templeGuardVoxmarket: {
                 text: "It's an audio bazaar near Shed 521 where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed.",
                 options: [
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" },
-                    { text: "What is the Shed 521?", next: "templeGuardShed521" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
+                    { text: "What is the Shed 521?", key: 'what_is_the_shed_521', next: "templeGuardShed521" },
                 ]
             },
             templeGuardShed521: {
                 text: "It's also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
                 options: [
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" },
-                    { text: "Where can I find the Bishop?", next: "bishop_info" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
+                    { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
                 ]
             },
             templeGuardWhy: {
         text: "It is the order of the cathedral council. However, I have heard that it was mainly your bishop, meaning the bishop of Obazoba church, who declared the emergency. That must be enough for you to know.",
                 options: [
-                    { text: "I need to speak with someone inside", next: "speakWithSomeoneInside" },
-                    { text: "Where can I find the Bishop?", next: "bishop_info" },
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" }
+                    { text: "I need to speak with someone inside", key: 'i_need_to_speak_with_someone_inside', next: "speakWithSomeoneInside" },
+                    { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardWho: {
         text: "I am a Sentinel of the Veil, sworn to protect the sacred Egg Cathedral from contamination. My eyes have witnessed a thousand years of spore patterns.",
                 options: [
-                    { text: "How long have you been here?", next: "templeGuardTime" },
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" }
+                    { text: "How long have you been here?", key: 'how_long_have_you_been_here', next: "templeGuardTime" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardFruiting: {
         text: "When the cathedral's fully hatched from its egg, something miraculous will happen. The walls will burst, spreading our consciousness across the stars... Or somqething like that. You know, nobody really knows, but I imagine it will be something truly magnificent.",
                 options: [
-                    { text: "That sounds apocalyptic", next: "templeGuardApocalypse" },
-                    { text: "That sounds fascinating", next: "templeGuardFascinating" },
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" }
+                    { text: "That sounds apocalyptic", key: 'that_sounds_apocalyptic', next: "templeGuardApocalypse" },
+                    { text: "That sounds fascinating", key: 'that_sounds_fascinating', next: "templeGuardFascinating" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardTime: {
                 text: "I have stood at this post since the Third Sporulation. My flesh has long since been replaced by plants. My consciousness is connected to the city. I think my left foot is made from rodent.",
                 options: [
-                    { text: "That's... familiar", next: "templeGuardDisturbing" },
-                    { text: "Ask something else", next: "templeGuardAskSomethingElse" }
+                    { text: "That's... familiar", key: 'thats_familiar', next: "templeGuardDisturbing" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardFascinating: {
                 text: "Fascinating, isn't it? That's why all major faiths have their people here. No one wants to miss the chance that it will be their god to whom the cathedral will be devoted.",
                 options: [
-                    { text: "I see", next: "templeGuardAskSomethingElse" }
+                    { text: "I see", key: 'i_see', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardApocalypse: {
                 text: "Apocalypse? No. Transformation. The cathedral will become something truly new, some say that it will become a birthplace of a new god. Nobody really know, that's why all churches have their representatives present. It's all very interesting, see.",
                 options: [
-                    { text: "I see", next: "templeGuardAskSomethingElse" }
+                    { text: "I see", key: 'i_see', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardDisturbing: {
                 text: "Glad you see it that way. I have gained immortality and purpose. My consciousness spans the mycelial network. I am never alone.",
                 options: [
-                    { text: "Fascinating", next: "templeGuardAskSomethingElse" }
+                    { text: "Fascinating", key: 'fascinating', next: "templeGuardAskSomethingElse" }
                 ]
             }
         };

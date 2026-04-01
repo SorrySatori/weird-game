@@ -16,50 +16,50 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've been here for days trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
                 options: [
-                    { text: "Why do you need extra arms?", next: "explain_need" },
-                    { text: "Board games? What do you mean?", next: "board_games" },
-                    { text: "Who are you?", next: "who_are_you" },
-                    { text: "Good luck with that!", next: "goodbye" }
+                    { text: "Why do you need extra arms?", key: 'why_do_you_need_extra_arms', next: "explain_need" },
+                    { text: "Board games? What do you mean?", key: 'board_games_what_do_you_mean', next: "board_games" },
+                    { text: "Who are you?", key: 'who_are_you', next: "who_are_you" },
+                    { text: "Good luck with that!", key: 'good_luck_with_that', next: "goodbye" }
                 ]
             },
             explain_need: {
         
                 text: "Have you ever tried to playtest a complex strategy game by yourself? Moving pieces, managing resources, tracking multiple player states... It's a nightmare! With four arms, I could revolutionize solo playtesting. But the paperwork here... it's endless!",
                 options: [
-                    { text: "I could help you with the application process.", next: "start_quest" },
-                    { text: "Sounds complicated. Good luck!", next: "goodbye" }
+                    { text: "I could help you with the application process.", key: 'i_could_help_you_with_the_application_process', next: "start_quest" },
+                    { text: "Sounds complicated. Good luck!", key: 'sounds_complicated_good_luck', next: "goodbye" }
                 ]
             },
             board_games: {
         
                 text: "You did heard about a thing called a board game, didn't you? Well, I'm a best damn board game designer in this forsaken place. My games are not like the simple things for children you probably know, they provide a unique gameplay experience. With four arms, I can handle complex interactions and manage multiple player states more effectively. But the bureaucracy... it's a nightmare!",
                 options: [
-                    { text: "I could help you with the application process.", next: "start_quest" },
-                    { text: "Who are you?", next: "who_are_you" },
-                    { text: "Sounds complicated. Good luck!", next: "goodbye" }
+                    { text: "I could help you with the application process.", key: 'i_could_help_you_with_the_application_process', next: "start_quest" },
+                    { text: "Who are you?", key: 'who_are_you', next: "who_are_you" },
+                    { text: "Sounds complicated. Good luck!", key: 'sounds_complicated_good_luck', next: "goodbye" }
                 ]
             },
             who_are_you: {
         
                 text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of table-top divination wars. My creations are literally microcosmic games—wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might heard from some calling me conservative, merely because I reject illusion-tech and mindplay, they are usualy morally unstable. Players are gods, but rules are sacred. ",
                 options: [
-                    { text: "Why do you need extra arms?", next: "explain_need" },
-                    { text: "Table top divination wars? What do you mean?", next: "divination_wars" },
-                    { text: "Sounds complicated. Good luck!", next: "goodbye" }
+                    { text: "Why do you need extra arms?", key: 'why_do_you_need_extra_arms', next: "explain_need" },
+                    { text: "Table top divination wars? What do you mean?", key: 'table_top_divination_wars_what_do_you_mean', next: "divination_wars" },
+                    { text: "Sounds complicated. Good luck!", key: 'sounds_complicated_good_luck', next: "goodbye" }
                 ]
             },
             divination_wars: {
         
                 text: "Ah, yes... terrible times. Maybe you should ask a historian about that. Or I can tell you more, but first I need to get out of this bureaucratic nightmare.",
                 options: [
-                    { text: "I could help you with the application process.", next: "start_quest" },
-                    { text: "Sounds complicated. Good luck!", next: "goodbye" }
+                    { text: "I could help you with the application process.", key: 'i_could_help_you_with_the_application_process', next: "start_quest" },
+                    { text: "Sounds complicated. Good luck!", key: 'sounds_complicated_good_luck', next: "goodbye" }
                 ]
             },
             start_quest: {
                 text: "Really? Oh, that would be wonderful! The main issue is getting through to the right department. They keep sending me between floors, and every clerk seems to need a different form. If you could help me track down the right paperwork and get it to the correct office, I'd be eternally grateful!",
                 options: [
-                    { text: "I'll see what I can do.", next: "accept_quest" }
+                    { text: "I'll see what I can do.", key: 'ill_see_what_i_can_do', next: "accept_quest" }
                 ],
                 onTrigger: () => {
                     const questSystem = QuestSystem.getInstance();
@@ -76,14 +76,14 @@ export default class ShedCourtyardScene extends GameScene {
             accept_quest: {
                 text: "Thank you! With your help, I'm sure we can navigate this bureaucratic maze. Come back when you have any progress to report!",
                 options: [
-                    { text: "I'll do my best.", next: "goodbye" }
+                    { text: "I'll do my best.", key: 'ill_do_my_best', next: "goodbye" }
                 ]
             },
             quest_active: {
                 text: "Still stuck in bureaucratic limbo... But I'm hopeful with your help we can get through this maze of paperwork!",
                 options: [
-                    { text: "I'll keep working on it.", next: "goodbye" },
-                    { text: "See you later.", next: "goodbye" }
+                    { text: "I'll keep working on it.", key: 'ill_keep_working_on_it', next: "goodbye" },
+                    { text: "See you later.", key: 'see_you_later', next: "goodbye" }
                 ]
             },
             // Form submission dialogs
@@ -91,7 +91,7 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "An Artisan's Exemption Form?! This is perfect! Creative exemption from standard limb restrictions... exactly what I need! This form recognizes my work as a legitimate art form deserving of special consideration. You've saved me months of bureaucratic wrangling!",
                 options: [
-                    { text: "Happy to help.", next: "complete_quest_artisan" }
+                    { text: "Happy to help.", key: 'happy_to_help', next: "complete_quest_artisan" }
                 ],
                 onTrigger: () => {
                     // Remove the form from inventory
@@ -101,7 +101,7 @@ export default class ShedCourtyardScene extends GameScene {
             give_deformity_form: {
                 text: "An Inherited Deformity Form? Hmm, not exactly how I'd describe my need for extra arms, but... it's approved! 'Beneficial mutation status' - I suppose that works. The classification is a bit insulting, but the result is what matters. Thank you for your help!",
                 options: [
-                    { text: "It's what I could get.", next: "complete_quest_deformity" }
+                    { text: "It's what I could get.", key: 'its_what_i_could_get', next: "complete_quest_deformity" }
                 ],
                 onTrigger: () => {
                     // Remove the form from inventory
@@ -112,7 +112,7 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "A Special Dispensation! How did you manage this? These are incredibly rare! Limb modification without standard documentation... this is even better than I hoped for! You must have impressed someone important. This will save me so much trouble!",
                 options: [
-                    { text: "Sometimes actions speak louder than words.", next: "complete_quest_dispensation" }
+                    { text: "Sometimes actions speak louder than words.", key: 'sometimes_actions_speak_louder_than_words', next: "complete_quest_dispensation" }
                 ],
                 onTrigger: () => {
                     // Remove the form from inventory
@@ -122,7 +122,7 @@ export default class ShedCourtyardScene extends GameScene {
             give_temporary_permit: {
                 text: "A Temporary Permit? Well... it's better than nothing, I suppose. Limited access is still access. I'll need to find a more permanent solution eventually, but this will at least let me start the process. Thank you for your efforts.",
                 options: [
-                    { text: "Sorry it's not better.", next: "complete_quest_temporary" }
+                    { text: "Sorry it's not better.", key: 'sorry_its_not_better', next: "complete_quest_temporary" }
                 ],
                 onTrigger: () => {
                     // Remove the form from inventory
@@ -133,7 +133,7 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "A Proxy Authorization? Interesting approach... This allows you to act on my behalf in bureaucratic matters. Not exactly what I was looking for, but potentially very useful. I could send you to handle future paperwork for me! Clever solution.",
                 options: [
-                    { text: "I can continue to help if needed.", next: "complete_quest_proxy" }
+                    { text: "I can continue to help if needed.", key: 'i_can_continue_to_help_if_needed', next: "complete_quest_proxy" }
                 ],
                 onTrigger: () => {
                     // Remove the form from inventory
@@ -144,7 +144,7 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "Fungal Research Clearance? I'm not sure how this helps with my extra arms situation... but wait, this might actually work! The mycologists have been experimenting with limb grafting. With this clearance, I could approach them directly about a fungal-based solution. Unconventional, but promising!",
                 options: [
-                    { text: "Sometimes you need to think outside the box.", next: "complete_quest_fungal" }
+                    { text: "Sometimes you need to think outside the box.", key: 'sometimes_you_need_to_think_outside_the_box', next: "complete_quest_fungal" }
                 ],
                 onTrigger: () => {
                     // Remove the form from inventory
@@ -155,7 +155,7 @@ export default class ShedCourtyardScene extends GameScene {
             complete_quest_artisan: {
                 text: "You've done me an incredible service! This form is exactly what I needed. As a token of my gratitude, please accept this prototype of my latest game. It's still in development, but the core mechanics are solid. The pieces respond to your thoughts - just be careful what you wish for!",
                 options: [
-                    { text: "Thank you, I'll treasure it.", next: "quest_completed" }
+                    { text: "Thank you, I'll treasure it.", key: 'thank_you_ill_treasure_it', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'artisan');
@@ -176,7 +176,7 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "Well, it's not exactly how I'd describe myself, but it gets the job done! Thank you for your help. Here, take this special die I crafted. It has... unusual properties. Sometimes it shows numbers that don't exist, and occasionally predicts future rolls. Use it wisely.",
                 options: [
-                    { text: "Thank you for this gift.", next: "quest_completed" }
+                    { text: "Thank you for this gift.", key: 'thank_you_for_this_gift', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'deformity');
@@ -196,7 +196,7 @@ export default class ShedCourtyardScene extends GameScene {
             complete_quest_dispensation: {
                 text: "This is remarkable! A special dispensation is rare indeed. You've saved me months, possibly years of bureaucratic struggle. Please, take this game piece I've been working on. It's a special 'worldwright' piece that can alter the rules of any game it's placed in. Very useful for creative thinking.",
                 options: [
-                    { text: "It's beautiful, thank you.", next: "quest_completed" }
+                    { text: "It's beautiful, thank you.", key: 'its_beautiful_thank_you', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'dispensation');
@@ -217,7 +217,7 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "It's not ideal, but it's a start! I appreciate your efforts. Here, take this token - it's not much, but it might bring you a bit of luck. It's made from a special wood that seems to influence probability slightly in games of chance.",
                 options: [
-                    { text: "Thank you for the token.", next: "quest_completed" }
+                    { text: "Thank you for the token.", key: 'thank_you_for_the_token', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'temporary');
@@ -238,7 +238,7 @@ export default class ShedCourtyardScene extends GameScene {
             complete_quest_proxy: {
                 text: "What an interesting solution! This could be very useful for future bureaucratic matters. As thanks, please take this strategy guide I wrote. It contains insights into game design that few understand, and might help you navigate complex systems - bureaucratic or otherwise.",
                 options: [
-                    { text: "I'll study it carefully.", next: "quest_completed" }
+                    { text: "I'll study it carefully.", key: 'ill_study_it_carefully', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'proxy');
@@ -259,8 +259,8 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "Is this... wait, this is a forgery! But... it's actually quite impressive. The seal looks authentic, the watermarks are perfect, and the signature... well, it's better than the real thing. Where did you get this?",
                 options: [
-                    { text: "From a specialist in the Screaming Cork.", next: "forged_reaction" },
-                    { text: "I'd rather not say.", next: "forged_reaction" }
+                    { text: "From a specialist in the Screaming Cork.", key: 'from_a_specialist_in_the_screaming_cork', next: "forged_reaction" },
+                    { text: "I'd rather not say.", key: 'id_rather_not_say', next: "forged_reaction" }
                 ],
                 onTrigger: () => {
                     // Remove the forged document from inventory
@@ -270,15 +270,15 @@ export default class ShedCourtyardScene extends GameScene {
             forged_reaction: {
                 text: "Well, I suppose I shouldn't look a gift horse in the mouth. This will certainly do the trick - the bureaucrats barely look at these forms anyway. They just check for the right seals and stamps. Though using a forgery does feel... morally questionable.",
                 options: [
-                    { text: "It's for a good cause.", next: "complete_quest_forged" },
-                    { text: "Sorry about that.", next: "complete_quest_forged" }
+                    { text: "It's for a good cause.", key: 'its_for_a_good_cause', next: "complete_quest_forged" },
+                    { text: "Sorry about that.", key: 'sorry_about_that', next: "complete_quest_forged" }
                 ]
             },
             complete_quest_forged: {
         
                 text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here, take this special game piece I've been working on. It might bring you some luck in your endeavors.",
                 options: [
-                    { text: "Thank you for the gift.", next: "quest_completed" }
+                    { text: "Thank you for the gift.", key: 'thank_you_for_the_gift', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     // Complete quest with 'forged' completion type
@@ -302,7 +302,7 @@ export default class ShedCourtyardScene extends GameScene {
         
                 text: "What an unexpected solution! The mycologists might be able to help me grow additional arms through fungal grafting. It's not what I had in mind, but I'm intrigued by the possibility. Here, take this special spore sample. It responds to creative thought - plant it somewhere and see what grows!",
                 options: [
-                    { text: "Thank you for this unusual gift.", next: "quest_completed" }
+                    { text: "Thank you for this unusual gift.", key: 'thank_you_for_this_unusual_gift', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'fungal');
@@ -323,43 +323,43 @@ export default class ShedCourtyardScene extends GameScene {
             quest_completed: {
                 text: "Thanks to you, I can finally pursue my vision for more complex game design! With these extra arms, my games will reach new heights of complexity and engagement. If you ever want to playtest something, come find me. I'll make sure you get a copy of my next creation!",
                 options: [
-                    { text: "I'll look forward to it.", next: "goodbye" },
-                    { text: "Tell me more about your games.", next: "games_discussion" },
-                    { text: "You mentioned being a worldwright. What were the Board Games Wars?", next: "ortolan_board_wars" }
+                    { text: "I'll look forward to it.", key: 'ill_look_forward_to_it', next: "goodbye" },
+                    { text: "Tell me more about your games.", key: 'tell_me_more_about_your_games', next: "games_discussion" },
+                    { text: "You mentioned being a worldwright. What were the Board Games Wars?", key: 'you_mentioned_being_a_worldwright_what_were_the_bo', next: "ortolan_board_wars" }
                 ]
             },
             games_discussion: {
         
                 text: "My games explore the boundaries between player and piece, between rules and reality. Each game is a microcosm with its own physics and logic. With these extra arms, I can now create games with multiple overlapping boards and simultaneous action! Imagine playing on three levels at once, with pieces that exist in multiple states...",
                 options: [
-                    { text: "Sounds fascinating.", next: "goodbye" }
+                    { text: "Sounds fascinating.", key: 'sounds_fascinating', next: "goodbye" }
                 ]
             },
             ortolan_board_wars: {
                 text: `Ahh... you want to know about that. Most people don't ask anymore — they'd rather forget." He lowers his voice. "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. At first, it worked beautifully. The best designers — the Ludarchs — became the new rulers. I was just a worldwright back then, a craftsman who made the boards and pieces. The Ludarchs were something else entirely. They could bend the rules of reality itself. Create entire living worlds inside their games. Miniature civilizations, born and destroyed in a single match.`,
                 options: [
-                    { text: "What went wrong?", next: "ortolan_board_wars_fall" }
+                    { text: "What went wrong?", key: 'what_went_wrong', next: "ortolan_board_wars_fall" }
                 ]
             },
             ortolan_board_wars_fall: {
                 text: `Power. Same thing that always goes wrong. The Ludarchs stopped playing to settle disputes and started playing to dominate. Each game grew larger, more real. The pieces became populations. The boards became cities. Millions lived and died inside those games — tiny creatures who didn't even know they were pawns." He stares at his hands. "I made some of those boards. I carved the pieces that became living beings. Do you understand what that feels like? To know your craft was used to create life just so it could be sacrificed for a victory point?`,
                 options: [
-                    { text: "Is that why you still make games?", next: "ortolan_board_wars_why" },
-                    { text: "How did it end?", next: "ortolan_board_wars_end" }
+                    { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
+                    { text: "How did it end?", key: 'how_did_it_end', next: "ortolan_board_wars_end" }
                 ]
             },
             ortolan_board_wars_end: {
                 text: `The Ludarchs turned on each other. Their games collided, overlapped, contradicted. Reality fractured. Cities were reshaped overnight. And then... silence. They destroyed each other, or got swallowed by their own creations. The boards went dark. The pieces stopped moving. What was left was this —" He gestures around. "A broken city where the rules still don't quite work. They say one Ludarch survived. Still active somewhere in Upper Morkezela. That thought keeps me up at night.`,
                 options: [
-                    { text: "Is that why you still make games?", next: "ortolan_board_wars_why" },
-                    { text: "Thank you for telling me.", next: "goodbye" }
+                    { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
+                    { text: "Thank you for telling me.", key: 'thank_you_for_telling_me', next: "goodbye" }
                 ]
             },
             ortolan_board_wars_why: {
                 text: `Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve — it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He taps the board beside him. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch.`,
                 options: [
-                    { text: "That's a noble purpose.", next: "goodbye" },
-                    { text: "Thank you for sharing, Ortolan.", next: "goodbye" }
+                    { text: "That's a noble purpose.", key: 'thats_a_noble_purpose', next: "goodbye" },
+                    { text: "Thank you for sharing, Ortolan.", key: 'thank_you_for_sharing_ortolan', next: "goodbye" }
                 ],
                 onTrigger: () => {
                     if (!this.journalSystem.getEntry('board_games_war')) {

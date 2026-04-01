@@ -12,15 +12,15 @@ export default class ShedHallScene extends GameScene {
         speaker: 'Observation',
                 text: "A Living Core pulses with an otherworldly energy. It seems to be fused with the wall, but it might be possible to extract it...",
                 options: [
-                    { text: "Examine it more carefully", next: "examine" },
-                    { text: "Extract it forcefully", next: "force_extract" },
-                    { text: "Leave it alone", next: "goodbye" }
+                    { text: "Examine it more carefully", key: 'examine_it_more_carefully', next: "examine" },
+                    { text: "Extract it forcefully", key: 'extract_it_forcefully', next: "force_extract" },
+                    { text: "Leave it alone", key: 'leave_it_alone', next: "goodbye" }
                 ]
             },
             examine: {
                 text: "The Living Core seems delicately connected to its surroundings. With the right tools, like a pair of pliers, you might be able to extract it without causing damage...",
                 options: [
-                    { text: "Back", next: "main" }
+                    { text: "Back", key: 'back', next: "main" }
                 ]
             },
             force_extract: {
@@ -56,7 +56,7 @@ export default class ShedHallScene extends GameScene {
             careful_extract_complete: {
                 text: "The Living Core pulses contentedly in your hands, its energy seemingly preserved by your careful extraction.",
                 options: [
-                    { text: "Continue", next: "goodbye" }
+                    { text: "Continue", key: 'continue', next: "goodbye" }
                 ]
             },
             goodbye: {

@@ -15,6 +15,7 @@ import EffectsSystem from '../systems/EffectsSystem.js';
 import SaveSystem from '../systems/SaveSystem.js';
 import GameMenu from '../ui/GameMenu.js';
 import MapUI from '../ui/MapUI.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -1714,6 +1715,12 @@ export default class GameScene extends Phaser.Scene {
             this.hideDialog();
             return;
         }
+
+        // Apply i18n translation if not English
+        if (typeof state === 'string') {
+            const langSys = LanguageSystem.getInstance();
+            content = langSys.translateDialog(this.scene.key, state, content);
+        }
         
         // Check if this state has an onTrigger handler (runs without closing dialog)
         if (content.onTrigger) {
@@ -1972,7 +1979,9 @@ export default class GameScene extends Phaser.Scene {
             
             // Add close option if it fits on this page (unless hideCloseOption is true)
             if (endIdx === content.options.length && (endIdx - startIdx) < visibleOptionsCount && !content.hideCloseOption) {
-                const closeElements = this.createDialogOption('I should go', currentY, () => {
+                const i18n = LanguageSystem.getInstance();
+                const closeLabel = i18n.t('ui.dialog.close');
+                const closeElements = this.createDialogOption(closeLabel, currentY, () => {
                     this.hideDialog();
                 });
                 this.dialogOptions.add(closeElements);

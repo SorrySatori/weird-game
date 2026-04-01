@@ -165,7 +165,7 @@ export default class ScraperAmbraScene extends GameScene {
             elphi_studio_intro: {
                 text: "Dr. Elphi's studio is eerily quiet. Workstations with glowing screens line the walls, each displaying fragments of code and strange designs. The air feels charged with creative energy, but there's no sign of Dr. Elphi herself.",
                 options: [
-                    { text: "Continue exploring", next: "closeDialog" }
+                    { text: "Continue exploring", key: 'continue_exploring', next: "closeDialog" }
                 ]
             },
             
@@ -176,16 +176,16 @@ export default class ScraperAmbraScene extends GameScene {
                     : "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
                 options: [
                     ...(!bishopDead ? [
-                        { text: "I'm looking for someone. The Bishop.", next: "dr_elphi_bishop_path" },
-                        { text: "I was sent to investigate an anomaly. Might be connected to this place.", next: "dr_elphi_anomaly_path" },
-                        { text: "I heard you design dream-based games.", next: "dr_elphi_games_path" },
-                        { text: "I'll explain if you stop testing me.", next: "dr_elphi_testing_path" }
+                        { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
+                        { text: "I was sent to investigate an anomaly. Might be connected to this place.", key: 'i_was_sent_to_investigate_an_anomaly_might_be_conn', next: "dr_elphi_anomaly_path" },
+                        { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" },
+                        { text: "I'll explain if you stop testing me.", key: 'ill_explain_if_you_stop_testing_me', next: "dr_elphi_testing_path" }
                     ] : []),
                     ...(bishopDead ? [
-                        { text: "The Bishop is dead. I found her body in the backyard.", next: "dr_elphi_bishop_dead" }
+                        { text: "The Bishop is dead. I found her body in the backyard.", key: 'the_bishop_is_dead_i_found_her_body_in_the_backyar', next: "dr_elphi_bishop_dead" }
                     ] : []),
                     ...(bishopDead && (hasBruising || hasCartridge || hasHelmet || hasMemo || hasJournal || hasDissection) ? [
-                        { text: "I need your expertise. I found some clues.", next: "dr_elphi_clues_hub" }
+                        { text: "I need your expertise. I found some clues.", key: 'i_need_your_expertise_i_found_some_clues', next: "dr_elphi_clues_hub" }
                     ] : []),
                 ],
                 onTrigger: () => {
@@ -209,9 +209,9 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_bishop_path: {
                 text: "The Bishop? Well, you're late. She came here. Often, actually. Always for simulations. Never politics.\n\nShe liked the softer ones. Immersive fictions, drift environments. The Cardinal Feast was a favorite.\n\nLast I saw her? Three days ago, maybe four. She ended her session, said she might stay outside awhile. She had a key to the backyard.\n\nI didn't think much of it. She seemed… distracted. More than usual.",
                 options: [
-                    { text: "What's in the backyard?", next: "dr_elphi_backyard_info" },
-                    { text: "Did she say where she was going?", next: "dr_elphi_bishop_destination" },
-                    { text: "I'll go look for her there.", next: "dr_elphi_exit" }
+                    { text: "What's in the backyard?", key: 'whats_in_the_backyard', next: "dr_elphi_backyard_info" },
+                    { text: "Did she say where she was going?", key: 'did_she_say_where_she_was_going', next: "dr_elphi_bishop_destination" },
+                    { text: "I'll go look for her there.", key: 'ill_go_look_for_her_there', next: "dr_elphi_exit" }
                 ],
                 onTrigger: () => {
                     // Update the find_bishop quest to direct to Shard backyard
@@ -226,9 +226,9 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_anomaly_path: {
                 text: "If there's an anomaly, it isn't from me. All test environments are sandboxed. At worst, they collapse privately.\n\nUnless you mean her. The Bishop ran a few sessions recently. She didn't say what she was avoiding, but something had her on edge.\n\nShe had a habit of sitting out back after play — the old transit yard. She hasn't come in days.\n\nHere.",
                 options: [
-                    { text: "What was she avoiding?", next: "dr_elphi_bishop_concerns" },
-                    { text: "What's in the backyard?", next: "dr_elphi_backyard_info" },
-                    { text: "I'll investigate the backyard.", next: "dr_elphi_exit" }
+                    { text: "What was she avoiding?", key: 'what_was_she_avoiding', next: "dr_elphi_bishop_concerns" },
+                    { text: "What's in the backyard?", key: 'whats_in_the_backyard', next: "dr_elphi_backyard_info" },
+                    { text: "I'll investigate the backyard.", key: 'ill_investigate_the_backyard', next: "dr_elphi_exit" }
                 ],
                 onTrigger: () => {
                     // Update the find_bishop quest to direct to Shard backyard
@@ -243,56 +243,56 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_games_path: {
                 text: "I make them. Dream architecture. Neurofiction. Post-sensory architecture.\n\nYou're standing in ARB Ambra — and no, the initials don't stand for anything. They just sound better that way.\n\nWhat did you hear exactly?",
                 options: [
-                    { text: "The Bishop came here to play.", next: "dr_elphi_bishop_path" },
-                    { text: "Something went wrong. I'm following the trace.", next: "dr_elphi_anomaly_path" },
-                    { text: "Never mind.", next: "dr_elphi_exit" }
+                    { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" },
+                    { text: "Something went wrong. I'm following the trace.", key: 'something_went_wrong_im_following_the_trace', next: "dr_elphi_anomaly_path" },
+                    { text: "Never mind.", key: 'never_mind', next: "dr_elphi_exit" }
                 ]
             },
             
             dr_elphi_testing_path: {
                 text: "Testing is how I stay alive. Most visitors lie. Some of them don't even know it.\n\nBut fine. Speak clearly. This floor costs me processing cycles.",
                 options: [
-                    { text: "I'm looking for the Bishop.", next: "dr_elphi_bishop_path" },
-                    { text: "There's been a signal anomaly.", next: "dr_elphi_anomaly_path" }
+                    { text: "I'm looking for the Bishop.", key: 'im_looking_for_the_bishop', next: "dr_elphi_bishop_path" },
+                    { text: "There's been a signal anomaly.", key: 'theres_been_a_signal_anomaly', next: "dr_elphi_anomaly_path" }
                 ]
             },
             
             dr_elphi_bishop_destination: {
                 text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\n\nThis time feels different though. She was... preoccupied with something in the old transit yard. Said the moss there was 'singing' to her. Typical Cathedral mysticism.",
                 options: [
-                    { text: "I'll go look for her there.", next: "dr_elphi_exit" },
-                    { text: "What's in the backyard?", next: "dr_elphi_backyard_info" }
+                    { text: "I'll go look for her there.", key: 'ill_go_look_for_her_there', next: "dr_elphi_exit" },
+                    { text: "What's in the backyard?", key: 'whats_in_the_backyard', next: "dr_elphi_backyard_info" }
                 ]
             },
             
             dr_elphi_bishop_concerns: {
                 text: "She wouldn't say directly. Something about 'resonance patterns' and 'harmonic disturbances.' Cathedral business, I assumed.\n\nBut she spent more time in the simulations than usual. Almost like she was hiding. Or preparing for something.",
                 options: [
-                    { text: "I should check the backyard.", next: "dr_elphi_exit" },
-                    { text: "Tell me about this backyard.", next: "dr_elphi_backyard_info" }
+                    { text: "I should check the backyard.", key: 'i_should_check_the_backyard', next: "dr_elphi_exit" },
+                    { text: "Tell me about this backyard.", key: 'tell_me_about_this_backyard', next: "dr_elphi_backyard_info" }
                 ]
             },
             
             dr_elphi_backyard_info: {
                 text: "It's an old transit yard. Abandoned decades ago when the new lines were built. Now it's mostly overgrown with that peculiar moss.\n\nThe Bishop seemed fascinated by it. Said it had 'mnemonic properties.' Whatever that means. Cathedral folk and their cryptic terminology...",
                 options: [
-                    { text: "I'll go investigate.", next: "dr_elphi_exit" },
-                    { text: "Is it dangerous?", next: "dr_elphi_backyard_danger" }
+                    { text: "I'll go investigate.", key: 'ill_go_investigate', next: "dr_elphi_exit" },
+                    { text: "Is it dangerous?", key: 'is_it_dangerous', next: "dr_elphi_backyard_danger" }
                 ]
             },
             
             dr_elphi_backyard_danger: {
                 text: "Not conventionally. But nothing around is truly safe, is it? The moss remembers things. Sometimes it... shares those memories. Unpredictably.\n\nJust don't fall asleep out there. The dreams can be... intense.",
                 options: [
-                    { text: "I'll be careful.", next: "dr_elphi_exit" }
+                    { text: "I'll be careful.", key: 'ill_be_careful', next: "dr_elphi_exit" }
                 ]
             },
             
             dr_elphi_exit: {
                 text: "I'm not hiding anything. If something happened to her, I didn't see it.\n\nBut you might.\n\nCome back if you find something. Here, take my key to the backyard.",
                 options: [
-                    { text: "I'll check the backyard.", next: "closeDialog" },
-                    { text: "Thanks for the information.", next: "closeDialog" }
+                    { text: "I'll check the backyard.", key: 'ill_check_the_backyard', next: "closeDialog" },
+                    { text: "Thanks for the information.", key: 'thanks_for_the_information', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     this.addItemToInventory({
@@ -313,10 +313,10 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_bishop_dead: {
                 text: `Dead. *She stops typing. Her hands hover motionless over the console.* Dead how? Where? In the backyard? I gave her that key myself.\n\nI assumed she was meditating. She did that sometimes — sat among the moss for hours. I didn't check.\n\nI should have checked.`,
                 options: [
-                    { text: "She was inside an abandoned bus.", next: "dr_elphi_dead_bus" },
-                    { text: "It doesn't look like natural causes.", next: "dr_elphi_dead_unnatural" },
+                    { text: "She was inside an abandoned bus.", key: 'she_was_inside_an_abandoned_bus', next: "dr_elphi_dead_bus" },
+                    { text: "It doesn't look like natural causes.", key: 'it_doesnt_look_like_natural_causes', next: "dr_elphi_dead_unnatural" },
                     ...(hasBruising || hasCartridge || hasHelmet || hasMemo || hasJournal || hasDissection ? [
-                        { text: "I found clues. I could use your expertise.", next: "dr_elphi_clues_hub" }
+                        { text: "I found clues. I could use your expertise.", key: 'i_found_clues_i_could_use_your_expertise', next: "dr_elphi_clues_hub" }
                     ] : []),
                 ],
                 onTrigger: () => {
@@ -335,9 +335,9 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_dead_bus: {
                 text: `The old transit bus? She went there sometimes. Said it was "outside the signal." Whatever she meant by that.\n\nShe was afraid of being observed. Not by people — by something else. She never elaborated.`,
                 options: [
-                    { text: "Observed by what?", next: "dr_elphi_dead_observed" },
+                    { text: "Observed by what?", key: 'observed_by_what', next: "dr_elphi_dead_observed" },
                     ...(hasBruising || hasCartridge || hasMemo ? [
-                        { text: "I found evidence that might explain what happened.", next: "dr_elphi_clues_hub" }
+                        { text: "I found evidence that might explain what happened.", key: 'i_found_evidence_that_might_explain_what_happened', next: "dr_elphi_clues_hub" }
                     ] : []),
                 ]
             },
@@ -345,9 +345,9 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_dead_unnatural: {
                 text: `Not natural. *She exhales slowly.* No. I wouldn't expect it to be. She'd been paranoid for weeks. Kept running the same game over and over — The Cardinal Feast. An RPG about a lizard cardinal. Harmless, really. Popular title.\n\nBut she played it obsessively. Said she needed to "find someone inside." I told her it's just a game — there's nobody to find in there.\n\nShe didn't agree.`,
                 options: [
-                    { text: "What is The Cardinal Feast exactly?", next: "dr_elphi_cardinal_feast_explained" },
+                    { text: "What is The Cardinal Feast exactly?", key: 'what_is_the_cardinal_feast_exactly', next: "dr_elphi_cardinal_feast_explained" },
                     ...(hasBruising || hasCartridge || hasMemo ? [
-                        { text: "I found some clues at the scene.", next: "dr_elphi_clues_hub" }
+                        { text: "I found some clues at the scene.", key: 'i_found_some_clues_at_the_scene', next: "dr_elphi_clues_hub" }
                     ] : []),
                 ]
             },
@@ -355,8 +355,8 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_dead_observed: {
                 text: `She never said directly. But after sessions, she'd sometimes whisper about "the reflection" — something she glimpsed inside The Cardinal Feast that recognized her back.\n\nI assumed it was dream bleed. Neural residue. Common side effect of deep immersion.\n\nBut she was insistent it was real.`,
                 options: [
-                    { text: "That matches something I found.", next: "dr_elphi_clues_hub" },
-                    { text: "What is The Cardinal Feast?", next: "dr_elphi_cardinal_feast_explained" },
+                    { text: "That matches something I found.", key: 'that_matches_something_i_found', next: "dr_elphi_clues_hub" },
+                    { text: "What is The Cardinal Feast?", key: 'what_is_the_cardinal_feast', next: "dr_elphi_cardinal_feast_explained" },
                 ]
             },
 
@@ -364,18 +364,18 @@ export default class ScraperAmbraScene extends GameScene {
                 text: `The Cardinal Feast? It's an RPG — a fantasy game. You play as a lizard cardinal who's a cannibal. He needs to lure more lizard folk to his feasts so he can eat them. It's dark humor, but it's just a game. One of our more popular titles, actually.\n\nThere's nothing dangerous about it. No hidden layers, no experimental code. Just a standard neurofiction rendered through the dream helmet.\n\nBut the Bishop played it over and over. Dozens of sessions. She kept saying she saw something between the scenes — someone watching her from inside the game. I checked the code myself. There's nothing there.`,
                 options: [
                     ...(hasCartridge ? [
-                        { text: "I found the dream cartridge. It showed some kind of error.", next: "dr_elphi_clues_cartridge" }
+                        { text: "I found the dream cartridge. It showed some kind of error.", key: 'i_found_the_dream_cartridge_it_showed_some_kind_of', next: "dr_elphi_clues_cartridge" }
                     ] : []),
-                    { text: "Could the dream program have killed her?", next: "dr_elphi_dream_kill" },
-                    { text: "Back to the clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Could the dream program have killed her?", key: 'could_the_dream_program_have_killed_her', next: "dr_elphi_dream_kill" },
+                    { text: "Back to the clues.", key: 'back_to_the_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
             dr_elphi_dream_kill: {
                 text: `In theory? No. The helmets have failsafes. Neural load limiters, session timeouts, emergency disconnects.\n\nBut if someone modified the cartridge — removed the limiters, injected a feedback loop — then yes. A sufficiently corrupted dream could overwhelm the neural pathways. Death by recursive experience.\n\nIt would look exactly like what you described. No wounds. Just... stopped.`,
                 options: [
-                    { text: "Who could modify a cartridge like that?", next: "dr_elphi_who_modified" },
-                    { text: "Back to the clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Who could modify a cartridge like that?", key: 'who_could_modify_a_cartridge_like_that', next: "dr_elphi_who_modified" },
+                    { text: "Back to the clues.", key: 'back_to_the_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_dream_kill_theory')) {
@@ -394,8 +394,8 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_who_modified: {
                 text: `Me, obviously. I designed the system. But I didn't.\n\nAnyone with access to the dream architecture could do it. That means someone at ARB Ambra — a former employee, maybe. Or someone who stole the schematics.\n\nDream technology is my invention. The Townhall doesn't keep records of how it works — they barely understand it. But the Bishop had that Townhall memo on her. That paper might be the real lead. Someone at the Townhall knew something about what was happening to her.`,
                 options: [
-                    { text: "The Townhall memo — the one about the doppelgänger.", next: "dr_elphi_clues_memo" },
-                    { text: "Back to the clues.", next: "dr_elphi_clues_hub" },
+                    { text: "The Townhall memo — the one about the doppelgänger.", key: 'the_townhall_memo_the_one_about_the_doppelgnger', next: "dr_elphi_clues_memo" },
+                    { text: "Back to the clues.", key: 'back_to_the_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
@@ -405,35 +405,35 @@ export default class ScraperAmbraScene extends GameScene {
                 text: `Show me what you've found. I may not be an investigator, but I know dream technology better than anyone in this city.`,
                 options: [
                     ...(hasBruising && !discussedBruising ? [
-                        { text: "There was bruising at her temples.", next: "dr_elphi_clues_bruising" }
+                        { text: "There was bruising at her temples.", key: 'there_was_bruising_at_her_temples', next: "dr_elphi_clues_bruising" }
                     ] : []),
                     ...(hasCartridge && !discussedCartridge ? [
-                        { text: "She had a dream cartridge — The Cardinal Feast.", next: "dr_elphi_clues_cartridge" }
+                        { text: "She had a dream cartridge — The Cardinal Feast.", key: 'she_had_a_dream_cartridge_the_cardinal_feast', next: "dr_elphi_clues_cartridge" }
                     ] : []),
                     ...(hasHelmet && !discussedHelmet ? [
-                        { text: "There was a damaged dream helmet.", next: "dr_elphi_clues_helmet" }
+                        { text: "There was a damaged dream helmet.", key: 'there_was_a_damaged_dream_helmet', next: "dr_elphi_clues_helmet" }
                     ] : []),
                     ...(hasMemo && !discussedMemo ? [
-                        { text: "I found a strange note about a doppelgänger.", next: "dr_elphi_clues_memo" }
+                        { text: "I found a strange note about a doppelgänger.", key: 'i_found_a_strange_note_about_a_doppelgnger', next: "dr_elphi_clues_memo" }
                     ] : []),
                     ...(hasJournal && !discussedJournal ? [
-                        { text: "Her journal said: 'The city no longer hears me.'", next: "dr_elphi_clues_journal" }
+                        { text: "Her journal said: 'The city no longer hears me.'", key: 'her_journal_said_the_city_no_longer_hears_me', next: "dr_elphi_clues_journal" }
                     ] : []),
                     ...(hasDissection && !discussedDissection ? [
-                        { text: "There was a strange fungal growth inside her body.", next: "dr_elphi_clues_dissection" }
+                        { text: "There was a strange fungal growth inside her body.", key: 'there_was_a_strange_fungal_growth_inside_her_body', next: "dr_elphi_clues_dissection" }
                     ] : []),
                     ...(hasBerries && !discussedBerries ? [
-                        { text: "There was a bag of Sulkberries near her body.", next: "dr_elphi_clues_berries" }
+                        { text: "There was a bag of Sulkberries near her body.", key: 'there_was_a_bag_of_sulkberries_near_her_body', next: "dr_elphi_clues_berries" }
                     ] : []),
-                    { text: "That's all I have for now.", next: "dr_elphi_clues_done" },
+                    { text: "That's all I have for now.", key: 'thats_all_i_have_for_now', next: "dr_elphi_clues_done" },
                 ]
             },
 
             dr_elphi_clues_bruising: {
                 text: `Bruising at the neural interface points. *She leans forward, studying an invisible pattern in the air.* That's consistent with a feedback surge — the kind you'd get from a dream session without limiters.\n\nNormal helmets cap neural throughput at safe levels. The bruising means something pushed past those limits. Violently.\n\nThis wasn't an accident. Someone removed the safety protocols from her device.`,
                 options: [
-                    { text: "Could she have done it herself?", next: "dr_elphi_bruising_self" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Could she have done it herself?", key: 'could_she_have_done_it_herself', next: "dr_elphi_bruising_self" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_bruising_analysis')) {
@@ -452,16 +452,16 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_bruising_self: {
                 text: `Possible, but unlikely. Removing limiters requires technical knowledge and specific tools. The Bishop was a mystic, not an engineer.\n\nAnd why would she? She was afraid, not suicidal. She was searching for answers, not an exit.`,
                 options: [
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
             dr_elphi_clues_cartridge: {
                 text: `*Her eyes widen.* You have the actual cartridge? Let me see.\n\n*She examines it carefully.* The Cardinal Feast — the lizard cannibal RPG. Nothing wrong with the game itself. It's one of our standard titles.\n\n*She plugs it into a diagnostic port.* But the session data... "Runtime loop detected. NULL SCENE." That's the last failsafe. It means something went catastrophically wrong during her final session. The game itself is fine, but whatever happened while she was playing it was not.\n\nI might be able to fix the cartridge and replay her last scene. See exactly where she was in the game when everything went wrong. But it would take time — the data core is damaged.`,
                 options: [
-                    { text: "How long would it take to fix?", next: "dr_elphi_cartridge_fix_time" },
-                    { text: "Who had access to modify this?", next: "dr_elphi_who_modified" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "How long would it take to fix?", key: 'how_long_would_it_take_to_fix', next: "dr_elphi_cartridge_fix_time" },
+                    { text: "Who had access to modify this?", key: 'who_had_access_to_modify_this', next: "dr_elphi_who_modified" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_cartridge_analysis')) {
@@ -480,15 +480,15 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_cartridge_fix_time: {
                 text: `Give me until tomorrow. The data core took heavy damage from the loop, but I designed this architecture — I know how to reconstruct corrupted session frames.\n\nI'll need to isolate the last scene the Bishop entered before the crash. If something unusual was happening in the game at that point, I'll find it.\n\nBut first — show me everything else you've found. I want the full picture before I start digging into the dream data.`,
                 options: [
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
             dr_elphi_clues_helmet: {
                 text: `The neural interface port was damaged, you say? That's significant. If the port was burned out, it means the signal load exceeded anything the hardware was rated for.\n\nThe helmet was probably the murder weapon — or at least the delivery mechanism. Whoever tampered with the cartridge knew the helmet would channel the feedback directly into her brain.\n\nPortable helmets don't have as many safeguards as my studio beds. She was vulnerable out there alone.`,
                 options: [
-                    { text: "She had a portable device? Not your studio equipment?", next: "dr_elphi_helmet_portable" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "She had a portable device? Not your studio equipment?", key: 'she_had_a_portable_device_not_your_studio_equipmen', next: "dr_elphi_helmet_portable" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_helmet_analysis')) {
@@ -507,16 +507,16 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_helmet_portable: {
                 text: `She had her own. Brought it months ago — said she needed to practice outside the studio. I thought it was odd, but the Bishop was always odd.\n\nI offered her supervised sessions instead. She refused. Said the studio "had too many ears."\n\nWhoever killed her knew she'd be using the portable device. Alone. Outside signal range. This was planned.`,
                 options: [
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
             dr_elphi_clues_memo: {
                 text: `*She reads the note carefully, then goes very still.*\n\n"Looked like me. Didn't breathe. Didn't blink. And it finished my sentence."\n\n*Long pause.* I have no idea what this is. And I don't say that often. This isn't dream bleed, it's not neural residue, it's not any side effect I've ever documented or theorized.\n\nSomeone — or something — that looked exactly like the Bishop was walking around this city. And based on this memo, the Bishop was scared enough to formally report it.`,
                 options: [
-                    { text: "This was stamped as a Townhall log.", next: "dr_elphi_memo_townhall" },
-                    { text: "Could dream technology cause something like this?", next: "dr_elphi_memo_not_dreams" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "This was stamped as a Townhall log.", key: 'this_was_stamped_as_a_townhall_log', next: "dr_elphi_memo_townhall" },
+                    { text: "Could dream technology cause something like this?", key: 'could_dream_technology_cause_something_like_this', next: "dr_elphi_memo_not_dreams" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_memo_analysis')) {
@@ -535,15 +535,15 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_memo_not_dreams: {
                 text: `No. I've built every dream system in this city. I know what they can and can't do. Dreams stay in dreams. They don't walk out of a helmet and start impersonating people.\n\nWhatever the Bishop saw, it wasn't caused by my technology. Which means there's something happening in this city that I don't understand. And that worries me more than the murder itself.`,
                 options: [
-                    { text: "This was stamped as a Townhall log.", next: "dr_elphi_memo_townhall" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "This was stamped as a Townhall log.", key: 'this_was_stamped_as_a_townhall_log', next: "dr_elphi_memo_townhall" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
             dr_elphi_memo_townhall: {
                 text: `The Townhall stamps personal logs for bureaucratic purposes — incident reports, mental health audits, formal complaints. It means the Bishop went through official channels with this. She was taking it seriously.\n\nIf it's in the Townhall system, the archive clerk would have a copy. That might tell us when exactly this doppelgänger appeared — and whether anyone else filed a similar report.`,
                 options: [
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_townhall_log')) {
@@ -562,8 +562,8 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_clues_journal: {
                 text: `"The city no longer hears me. Perhaps the dreams will."\n\n*She's quiet for a long moment.* That sounds like disconnection from the myceliar network. The Bishop was a high-level Obazoba cleric — she would have been connected to the network at all times.\n\nIf she lost that connection... she would have been desperate. Isolated. The dreams were her last resort for communication.`,
                 options: [
-                    { text: "Why would she lose the connection?", next: "dr_elphi_journal_network" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Why would she lose the connection?", key: 'why_would_she_lose_the_connection', next: "dr_elphi_journal_network" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_journal_analysis')) {
@@ -582,15 +582,15 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_journal_network: {
                 text: `Interference, damage, or deliberate severance. The myceliar network isn't just mystical — it has physical nodes throughout Upper Morkezela. If someone disrupted her personal node, she'd be cut off.\n\nThe Cathedral would know about network disruptions. And the Spore Council — they monitor the network's health. If her connection was deliberately severed, someone very powerful wanted her silenced.`,
                 options: [
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
             dr_elphi_clues_dissection: {
                 text: `A fungal growth integrated with her nervous system? *She stops, staring.* That's not a natural infection. The Obazoba cultivate internal spore colonies — it's part of their theology — but what you're describing sounds like a symbiont.\n\nIf the Bishop had been carrying a symbiont, and if the recursive dream disrupted the symbiotic bond... the feedback wouldn't just have destroyed her mind. It would have destabilized the symbiont as well.\n\nThis changes things. The killer might not have targeted just the Bishop. They might have been trying to kill — or capture — whatever was living inside her.`,
                 options: [
-                    { text: "The symbiont called itself Neme of the Crownmire.", next: "dr_elphi_dissection_neme" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "The symbiont called itself Neme of the Crownmire.", key: 'the_symbiont_called_itself_neme_of_the_crownmire', next: "dr_elphi_dissection_neme" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_dissection_analysis')) {
@@ -609,15 +609,15 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_dissection_neme: {
                 text: `Neme of the Crownmire. *She whispers the name like a prayer.* I've heard of it. Old stories from the Obazoba elders — a photosensitive symbiont that grants the ability to sense deception.\n\nIf someone knew the Bishop carried Neme... that symbiont is invaluable. Worth killing for, to certain factions.\n\nThe Spore Council would want it preserved. Others might want it destroyed — or weaponized.`,
                 options: [
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
             dr_elphi_clues_berries: {
                 text: `Sulkberries? *She picks up the bag and examines them.* Spiced, too. These are fresh — whoever prepared them did it recently.\n\nSulkberries have a mild calming effect. People use them before dream sessions to lower neural resistance. Makes the immersion deeper. I sometimes recommend them to anxious first-timers.\n\nBut here's the thing — spiced Sulkberries like these aren't common. They're a Lumen Directorate specialty. The Directorate cultivates them and sells them through their own channels.`,
                 options: [
-                    { text: "The Lumen Directorate? Could they be connected to this?", next: "dr_elphi_berries_lumen" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "The Lumen Directorate? Could they be connected to this?", key: 'the_lumen_directorate_could_they_be_connected_to_t', next: "dr_elphi_berries_lumen" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_berries_analysis')) {
@@ -636,8 +636,8 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_berries_lumen: {
                 text: `Not necessarily connected to the murder. But the Lumen Directorate knows everything that happens in this city. They claim they won the Board Games War, they claim they saved everyone, and they act like Upper Morkezela is their personal project.\n\nIf the Bishop was buying spiced Sulkberries from them, they'd know. They keep records of everything — who buys what, who visits whom. It's all about "transparency," they say.\n\nMore importantly — the Directorate has interests in the Egg Cathedral. They've been watching it closely, waiting for the hatching. If the Bishop sealed the Cathedral, the Directorate would have noticed. And they would have opinions about it.\n\nSpeak to them. They might know more about the Bishop's last weeks than anyone. And if they don't — they'll know who does.`,
                 options: [
-                    { text: "Where can I find the Lumen Directorate?", next: "dr_elphi_lumen_where" },
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Where can I find the Lumen Directorate?", key: 'where_can_i_find_the_lumen_directorate', next: "dr_elphi_lumen_where" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_lumen_lead')) {
@@ -656,7 +656,7 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_lumen_where: {
                 text: `Their headquarters is near the main square — quite a building, you can't miss it. They like making an impression.\n\nAsk for whoever handles "cultivation oversight" or "Cathedral liaison." That's who would know about the Sulkberries and the Bishop's dealings with them.\n\nBut be careful how you approach them. The Directorate doesn't like surprises. And they definitely don't like being accused of anything. Go in with questions, not accusations.`,
                 options: [
-                    { text: "Back to other clues.", next: "dr_elphi_clues_hub" },
+                    { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
             },
 
@@ -666,13 +666,13 @@ export default class ScraperAmbraScene extends GameScene {
                     : `Bring me more when you find it. The Bishop didn't deserve whatever happened to her.\n\nI'll be here. Working. Trying not to think about the fact that she died using my technology.`,
                 options: [
                     ...(!allCluesDiscussed ? [
-                        { text: "I'll keep investigating.", next: "closeDialog" },
+                        { text: "I'll keep investigating.", key: 'ill_keep_investigating', next: "closeDialog" },
                     ] : []),
                     ...(allCluesDiscussed && !readyForDay2 ? [
-                        { text: "I'll investigate the Townhall and come back tomorrow.", next: "dr_elphi_end_day1" },
+                        { text: "I'll investigate the Townhall and come back tomorrow.", key: 'ill_investigate_the_townhall_and_come_back_tomorro', next: "dr_elphi_end_day1" },
                     ] : []),
                     ...(readyForDay2 ? [
-                        { text: "I'll be back.", next: "closeDialog" },
+                        { text: "I'll be back.", key: 'ill_be_back', next: "closeDialog" },
                     ] : []),
                 ]
             },
@@ -680,7 +680,7 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_end_day1: {
                 text: `Good. Two things to follow up on.\n\nFirst — the Townhall. The Bishop's doppelgänger report was officially stamped. Find out who processed it, who read it, and whether anyone followed up. Or buried it.\n\nSecond — the Lumen Directorate. They supplied the Sulkberries and they've been watching the Cathedral like hawks. If the Bishop was doing anything unusual, they'd know.\n\nI'll have the cartridge ready by tomorrow. Come find me when you're ready to see what the Bishop saw.\n\nBe careful out there. Whoever did this is still in this city.`,
                 options: [
-                    { text: "Until tomorrow, Dr. Elphi.", next: "closeDialog" },
+                    { text: "Until tomorrow, Dr. Elphi.", key: 'until_tomorrow_dr_elphi', next: "closeDialog" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_ready_for_day2')) {

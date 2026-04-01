@@ -28,10 +28,10 @@ export default class Shed521Scene extends GameScene {
             start: {
                 text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
-                    { text: "Who are you exactly?", next: "background" },
+                    { text: "Who are you exactly?", key: 'who_are_you_exactly', next: "background" },
                     // Add the option to confront Gnur about lying if player made the promise
-                    ...(promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : []),
-                    ...(hasFindRustQuest ? [{ text: "I'm looking for the way how to reach the Rust Choir headquarters in the Scraper. Can you help me?", next: "rustDomain" }] : []),
+                    ...(promiseMade ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : []),
+                    ...(hasFindRustQuest ? [{ text: "I'm looking for the way how to reach the Rust Choir headquarters in the Scraper. Can you help me?", key: 'im_looking_for_the_way_how_to_reach_the_rust_choir', next: "rustDomain" }] : []),
                 ],
                 onTrigger: () => {
                     // Add journal entry about meeting Gnur
@@ -49,62 +49,62 @@ export default class Shed521Scene extends GameScene {
             background: {
                 text: "Used to keep the machines running in the old days. Now I'm with the Rust Choir. We sing the old machines awake... or lull the new flesh to sleep. Depends who's buying.",
                 options: [
-                    { text: "Tell me about the Rust Choir", next: "rustChoir" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Tell me about the Rust Choir", key: 'tell_me_about_the_rust_choir', next: "rustChoir" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             rustChoir: {
                 text: "We celebrate entropy, collapse as transformation, we... worship 'final songs'. We like to trade in secrets, especially old tech. If you are interested to know more, visit the old Scraper and talk to Brukk's people.",
                 options: [
-                    { text: "Who is Brukk?", next: "brukk" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Who is Brukk?", key: 'who_is_brukk', next: "brukk" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             brukk: {
                 text: "Brukk is our leader if we had any... He is the keeper of the old tech, the one who can help you find what you're looking for. That's all I can tell you.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             bishop: {
                 text: "Ahhh, the shrouded one... yeah, she passed through, glimmer-eyed and restless. But info ain't free, friend.",
                 options: [
-                    { text: "What do you want?", next: "rustReclamation" },
-                    { text: "I can help you recover old tech carefully", next: "recoverTech" },
-                    { text: 'Tell me what I want to know... or else.', next: 'threat'},
-                    { text: "Back to other topics", next: "start" }
+                    { text: "What do you want?", key: 'what_do_you_want', next: "rustReclamation" },
+                    { text: "I can help you recover old tech carefully", key: 'i_can_help_you_recover_old_tech_carefully', next: "recoverTech" },
+                    { text: 'Tell me what I want to know... or else.', key: 'tell_me_what_i_want_to_know_or_else', next: 'threat'},
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             threat: {
                 text: "Heh... brave words from soft lungs. But here, threats are like throwing paper at iron walls. (His voice lowers dangerously.) You want answers? You bring me value. You bring me rust that sings. Or you'll leave here empty, maybe even emptier.",
                 options: [
-                    { text: "Ok, tell me more", next: "recoverTech" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Ok, tell me more", key: 'ok_tell_me_more', next: "recoverTech" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             rustReclamation: {
                 text: "Actually, there is something you can do for me. As a favor, I can tell you more about where I saw the bishop lately.",
                 options: [
-                    { text: "Ok, tell me more", next: "recoverTech" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Ok, tell me more", key: 'ok_tell_me_more', next: "recoverTech" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             recoverTech: {
                 text: "Now that is a tune I can hum to. Somewhere at Shed 521 there's an abandoned office, leading to unused tunnels. There's a derelict core I need pulled out — still breathing, barely.\n Find it, and maybe I'll find my memory about your Bishop friend.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             complete_quest: {
                 text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
                 options: [
-                    { text: "Thank you for the information", next: "complete_quest_end" }
+                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "complete_quest_end" }
                 ],
             },
             complete_quest_end: {
                 text: "(Gnur returns to his work, humming a strange metallic tune.)",
                 options: [
-                    { text: "Leave", next: "end" }
+                    { text: "Leave", key: 'leave', next: "end" }
                 ],
                 onShow: () => {
                     // Only complete the quest if we haven't already
@@ -136,14 +136,14 @@ export default class Shed521Scene extends GameScene {
             confront_about_lie: {
                 text: "(Gnur's expression darkens) What lies you talkin' about, outsider? I need that core. Ain't no lie in that.",
                 options: [
-                    { text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", next: "refuse_quest" },
-                    { text: "Never mind, I'll still get it for you.", next: "complete_quest" }
+                    { text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", key: 'the_clerk_told_me_its_crucial_for_the_sheds_energy', next: "refuse_quest" },
+                    { text: "Never mind, I'll still get it for you.", key: 'never_mind_ill_still_get_it_for_you', next: "complete_quest" }
                 ]
             },
             refuse_quest: {
                 text: "(Gnur's eyes narrow to slits, a metallic growl escaping his throat)\n\nSo you've been talkin' to the paper-pushers, eh? Should've known better than to trust an outsider. Get out of my sight before I decide your lungs would make a fine addition to my collection.",
                 options: [
-                    { text: "Leave", next: "end" }
+                    { text: "Leave", key: 'leave', next: "end" }
                 ],
                 onTrigger: () => {
                     // Only fail the quest if we haven't already completed it
@@ -168,16 +168,16 @@ export default class Shed521Scene extends GameScene {
             rustDomain: {
                 text: "Heh, the Rust Choir's domain ain't easy to reach. First you need to pass a test. Make yourself useful to us. Tell me, why do you want to find the Rust Choir headquarters?",
                 options: [
-                    { text: "I seek knowledge about old technologies and machines.", next: "rustDomainKnowledge" },
-                    { text: "I need to speak to Brukk. It's important.", next: "rustDomainBrukk" },
-                    { text: "I wish to join you. I was... always a big fan of rust and machines.", next: "rustDomainJoin" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "I seek knowledge about old technologies and machines.", key: 'i_seek_knowledge_about_old_technologies_and_machin', next: "rustDomainKnowledge" },
+                    { text: "I need to speak to Brukk. It's important.", key: 'i_need_to_speak_to_brukk_its_important', next: "rustDomainBrukk" },
+                    { text: "I wish to join you. I was... always a big fan of rust and machines.", key: 'i_wish_to_join_you_i_was_always_a_big_fan_of_rust_', next: "rustDomainJoin" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             rustDomainKnowledge: {
                 text: "Knowledge, eh? Well, knowledge is power, and power is rust. Very well, talk to Ravla, cause she's the one who decides who can meet with Brukk. You can usually find her in the Creaming Cork tavern.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_rust_choir', 'Gnur mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
@@ -186,7 +186,7 @@ export default class Shed521Scene extends GameScene {
             rustDomainBrukk: {
                 text: "Important, huh? Brukk values urgency. Talk to Ravla in Screaming Cork tavern first, she will have a little test prepared for you. Once you've done that, she'll arrange a meeting with Brukk. I mean, probably. If she likes you.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_rust_choir', 'Gnur mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
@@ -195,7 +195,7 @@ export default class Shed521Scene extends GameScene {
             rustDomainJoin: {
                 text: "A fan of rust and machines, are you? Well, we do appreciate enthusiasm. Prove your dedication by completing a task for us first. Talk to Ravla in the Screaming Cork tavern. She'll have a little initiation test for you. Pass that, and maybe you'll find yourself among us.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_rust_choir', 'Gnur mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');

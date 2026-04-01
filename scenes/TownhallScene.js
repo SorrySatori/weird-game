@@ -21,10 +21,10 @@ export default class TownhallScene extends GameScene {
             phorGreeting: {
                 text: "Ah, another pilgrim to the archives of the forgotten divine. I am Phor Calesta, archaeologist of lost theologies. The locals call me 'Godgrave Excavator,' though I prefer the term Divinographer.",
                 options: [
-                    { text: "What is Divinography?", next: "phorDivinography" },
-                    { text: "Where are you from?", next: "phorMurkvale" },
-                    { text: "What are you doing here?", next: "phorPurpose" },
-                   ...(hasRustFeastQuest ? [{ text: "I'm looking for a living redmass", next: "phorRustCluster" }] : []),
+                    { text: "What is Divinography?", key: 'what_is_divinography', next: "phorDivinography" },
+                    { text: "Where are you from?", key: 'where_are_you_from', next: "phorMurkvale" },
+                    { text: "What are you doing here?", key: 'what_are_you_doing_here', next: "phorPurpose" },
+                   ...(hasRustFeastQuest ? [{ text: "I'm looking for a living redmass", key: 'im_looking_for_a_living_redmass', next: "phorRustCluster" }] : []),
                 ],
                 onTrigger: () => {
                     if (this.journalSystem && !this.journalSystem.hasEntry('phor_calesta')) {
@@ -41,61 +41,61 @@ export default class TownhallScene extends GameScene {
             phorDivinography: {
                 text: "Divinography is the study of dead gods as geological phenomena. When a deity dies, their essence doesn't simply vanish—it fossilizes. Ossified prayers become strata. Halos crystallize into mineral deposits. I excavate these divine remains and catalog their properties.",
                 options: [
-                    { text: "That sounds like grave robbery", next: "phorGraveRobbery" },
-                    { text: "Fascinating. What have you found?", next: "phorFindings" },
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "That sounds like grave robbery", key: 'that_sounds_like_grave_robbery', next: "phorGraveRobbery" },
+                    { text: "Fascinating. What have you found?", key: 'fascinating_what_have_you_found', next: "phorFindings" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
             phorGraveRobbery: {
                 text: "(Chuckles wetly) Perhaps. But tell me—is it robbery if the deceased has no heirs? No worshippers? When a god dies and their faithful scatter, their remains become... unclaimed property. I simply ensure they're studied rather than forgotten.",
                 options: [
-                    { text: "I suppose that's one way to look at it", next: "phorAskSomethingElse" },
-                    { text: "What have you found?", next: "phorFindings" }
+                    { text: "I suppose that's one way to look at it", key: 'i_suppose_thats_one_way_to_look_at_it', next: "phorAskSomethingElse" },
+                    { text: "What have you found?", key: 'what_have_you_found', next: "phorFindings" }
                 ]
             },
             phorFindings: {
                 text: "Remarkable things. Godmetal that hums with residual faith. Prayer beads that still whisper devotions in dead languages. Once, I found a halo fragment that projected the last thoughts of its deity—a loop of cosmic despair lasting exactly 47 seconds.",
                 options: [
-                    { text: "That's disturbing", next: "phorDisturbing" },
-                    { text: "Where do you find these things?", next: "phorLocations" },
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "That's disturbing", key: 'thats_disturbing', next: "phorDisturbing" },
+                    { text: "Where do you find these things?", key: 'where_do_you_find_these_things', next: "phorLocations" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
             phorDisturbing: {
                 text: "Disturbing? Perhaps. But also illuminating. We learn more from divine death than divine life. Gods lie to their followers. Their corpses tell only truth.",
                 options: [
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
             phorLocations: {
                 text: "Anywhere pressure and memory intersect. Submerged temples. Collapsed cathedrals. The deeper strata of this very city. Murkvale, my home, is particularly rich—the water pressure there fossilizes divine essence beautifully.",
                 options: [
-                    { text: "Tell me about Murkvale", next: "phorMurkvale" },
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "Tell me about Murkvale", key: 'tell_me_about_murkvale', next: "phorMurkvale" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
             phorMurkvale: {
                 text: "I'm from Murkvale. It is a submerged city where my people, the Craybara, evolved. We are amphibious—adapted to crushing depths and social pressures alike. The city's ruins grow like coral, and memory itself fossilizes in the sediment. It's a perfect laboratory for studying divine archaeology.",
                 options: [
-                    { text: "What brought you here?", next: "phorPurpose" },
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "What brought you here?", key: 'what_brought_you_here', next: "phorPurpose" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
             phorPurpose: {
                 text: "This city sits atop layers of dead faiths. The Egg Cathedral above is merely the latest iteration. Beneath the city lie the bones of many gods who came to die here. I'm here to excavate the lower strata and document what gods died to make room for the current ones. But to do that, I must first survive the bureaucracy. Sadly, the townhall won't let me to excavate at the Godgraveyard level without proper permits. But the damned townhall is closed or what.",
                 options: [
-                    { text: "That's quite ambitious", next: "phorAmbitious" },
-                    { text: "Can I help you to get the permission?", next: "phorPurposeHelp" },
+                    { text: "That's quite ambitious", key: 'thats_quite_ambitious', next: "phorAmbitious" },
+                    { text: "Can I help you to get the permission?", key: 'can_i_help_you_to_get_the_permission', next: "phorPurposeHelp" },
                     ...(!hasEnterTownhallQuest && bishopQuest ? [
-                        { text: "The Townhall is closed? I need to get in there too.", next: "phorTownhallClosed" }
+                        { text: "The Townhall is closed? I need to get in there too.", key: 'the_townhall_is_closed_i_need_to_get_in_there_too', next: "phorTownhallClosed" }
                     ] : []),
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
             phorPurposeHelp: {
                 text: "Hmm. Perhaps you could. If you manage to navigate the townhall bureaucracy and secure excavation permits for the Godgraveyard, I would be forever in your debt.",
                 options: [
-                    { text: "I'll see what I can do", next: "phorAskSomethingElse" }
+                    { text: "I'll see what I can do", key: 'ill_see_what_i_can_do', next: "phorAskSomethingElse" }
                 ],
                 onTrigger: () => {
                         this.questSystem.addQuest('excavation_permit', 'Divinography', 'I should help Phor Calesta obtain excavation permits for the Godgraveyard of the townhall. First, I need to get inside the townhall somehow.', 'talked_to_phor');
@@ -104,14 +104,14 @@ export default class TownhallScene extends GameScene {
             phorAmbitious: {
                 text: "Ambition is all that survives pressure. In Murkvale, we learned that early. The weak are crushed. The ambitious adapt. I intend to publish the definitive text on divine stratigraphy—assuming I survive the excavation.",
                 options: [
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
 
             phorTownhallClosed: {
                 text: "Closed, yes. No one seems to know exactly why. The clerks just stopped coming one day. Some say it's a bureaucratic restructuring. Others say the building itself is refusing visitors — you know how things are in this city, buildings develop opinions.\n\nI've been waiting here for days. If you find a way in, I'd be eternally grateful.",
                 options: [
-                    { text: "I'll figure something out.", next: "phorAskSomethingElse" },
+                    { text: "I'll figure something out.", key: 'ill_figure_something_out', next: "phorAskSomethingElse" },
                 ],
                 onTrigger: () => {
                     if (!this.questSystem.getQuest('enter_townhall')) {
@@ -123,24 +123,24 @@ export default class TownhallScene extends GameScene {
             phorAskSomethingElse: {
                 text: "Yes? What else troubles your curiosity?",
                 options: [
-                    { text: "What is Divinography?", next: "phorDivinography" },
-                    { text: "Tell me about Murkvale", next: "phorMurkvale" },
-                    { text: "What are you doing here?", next: "phorPurpose" },
-                    { text: "I'm looking for a redmass", next: "phorRustCluster", condition: () => this.questSystem.hasQuest('rust_feast') },
+                    { text: "What is Divinography?", key: 'what_is_divinography', next: "phorDivinography" },
+                    { text: "Tell me about Murkvale", key: 'tell_me_about_murkvale', next: "phorMurkvale" },
+                    { text: "What are you doing here?", key: 'what_are_you_doing_here', next: "phorPurpose" },
+                    { text: "I'm looking for a redmass", key: 'im_looking_for_a_redmass', next: "phorRustCluster", condition: () => this.questSystem.hasQuest('rust_feast') },
                 ]
             },
             phorRustCluster: {
                 text: "Ah! A living redmass. Fascinating organisms — part mineral, part faith resonance, part corrosion organism. They grow in places where metal and decay achieve equilibrium. I've documented several colonies in my excavations.",
                 options: [
-                    { text: "Where can I find one?", next: "phorRustClusterLocation" },
-                    { text: "What are they exactly?", next: "phorRustClusterNature" }
+                    { text: "Where can I find one?", key: 'where_can_i_find_one', next: "phorRustClusterLocation" },
+                    { text: "What are they exactly?", key: 'what_are_they_exactly', next: "phorRustClusterNature" }
                 ]
             },
             phorRustClusterLocation: {
                 text: "The most accessible colony I've found is in the lower levels of Shed 521—specifically in the maintenance halls. The bureaucrats avoid that area due to 'structural concerns,' which makes it perfect for redmass growth. Look for corroded pipes with orange-red crystalline growths.",
                 options: [
-                    { text: "How do I extract one safely?", next: "phorRustClusterExtraction" },
-                    { text: "Thank you for the information", next: "phorRustClusterThanks" }
+                    { text: "How do I extract one safely?", key: 'how_do_i_extract_one_safely', next: "phorRustClusterExtraction" },
+                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "phorRustClusterThanks" }
                 ],
                 onTrigger: () => {
                         this.questSystem.updateQuest('rust_feast', 'Phor Calesta told me that redmass can be found in the maintenance halls of Shed 521. I should look for corroded pipes with orange-red crystalline growths.', 'learned_rust_cluster_location');
@@ -149,20 +149,20 @@ export default class TownhallScene extends GameScene {
             phorRustClusterNature: {
                 text: "They're symbiotic organisms—fungal mycelium that feeds on oxidizing metal while preserving the structural memory of what the metal once was. In a sense, they're living fossils of decay. Quite poetic, really.",
                 options: [
-                    { text: "Where can I find one?", next: "phorRustClusterLocation" },
-                    { text: "Ask something else", next: "phorAskSomethingElse" }
+                    { text: "Where can I find one?", key: 'where_can_i_find_one', next: "phorRustClusterLocation" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
             },
             phorRustClusterExtraction: {
                 text: "Carefully. They're delicate. Use a blade to separate the cluster from its substrate, but leave some of the host metal attached—they need it to survive. And whatever you do, don't expose them to pure water. It disrupts their oxidation cycle.",
                 options: [
-                    { text: "Thank you for the advice", next: "phorRustClusterThanks" }
+                    { text: "Thank you for the advice", key: 'thank_you_for_the_advice', next: "phorRustClusterThanks" }
                 ]
             },
             phorRustClusterThanks: {
                 text: "Of course. If you're successful, do tell me what you're using it for. I'm always interested in how others utilize these divine remnants.",
                 options: [
-                    { text: "Ask something else", next: "phorAskSomethingElse" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" },
                 ]
             }
         }

@@ -1,4 +1,5 @@
 import SaveSystem from '../systems/SaveSystem.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -40,6 +41,8 @@ export default class MainScene extends Phaser.Scene {
             this.hoverSound = this.sound.add('hoverSound');
             this.clickSound = this.sound.add('clickSound');
 
+            const i18n = LanguageSystem.getInstance();
+
             const title = this.add.text(400, 170, 'Upper Morkezela:', {
                 fontSize: '72px',
                 fill: '#7fff8e',
@@ -68,7 +71,7 @@ export default class MainScene extends Phaser.Scene {
             buttonBg.setInteractive({ useHandCursor: true });;
 
             // Add start game text
-            const startText = this.add.text(400, 400, 'Start Game', {
+            const startText = this.add.text(400, 400, i18n.t('ui.menu.startGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -80,7 +83,7 @@ export default class MainScene extends Phaser.Scene {
             loadGameBg.setStrokeStyle(2, 0x7fff8e);
             loadGameBg.setInteractive({ useHandCursor: true });
 
-            const loadGameText = this.add.text(400, 480, 'Load Game', {
+            const loadGameText = this.add.text(400, 480, i18n.t('ui.menu.loadGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -103,6 +106,30 @@ export default class MainScene extends Phaser.Scene {
 
             addHoverEffects(buttonBg, startText);
             addHoverEffects(loadGameBg, loadGameText);
+
+            // Add Language button
+            this.langSystem = LanguageSystem.getInstance();
+            const currentLang = this.langSystem.supportedLanguages.find(
+                l => l.code === this.langSystem.getLanguage()
+            );
+
+            const langBg = this.add.rectangle(400, 540, 200, 50, 0x0a2712, 0.4);
+            langBg.setStrokeStyle(2, 0x7fff8e);
+            langBg.setInteractive({ useHandCursor: true });
+
+            this.langText = this.add.text(400, 540, currentLang ? currentLang.name : 'Language', {
+                fontSize: '24px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial'
+            });
+            this.langText.setOrigin(0.5);
+
+            addHoverEffects(langBg, this.langText);
+
+            langBg.on('pointerdown', () => {
+                this.clickSound.play();
+                this.showLanguageModal(addHoverEffects);
+            });
 
             // Add click handlers
             buttonBg.on('pointerdown', () => {
@@ -171,7 +198,87 @@ export default class MainScene extends Phaser.Scene {
             this.saveNameInput.style.top = `${y}px`;
         }
     }
-    
+
+    /**
+     * Show the language selection modal
+     */
+    showLanguageModal(addHoverEffects) {
+        if (this.langModal) return;
+
+        const cx = this.cameras.main.width / 2;
+        const cy = this.cameras.main.height / 2;
+        const langs = this.langSystem.supportedLanguages;
+        const currentCode = this.langSystem.getLanguage();
+
+        this.langModal = this.add.container(0, 0);
+        this.langModal.setDepth(2000);
+
+        // Dim overlay
+        const overlay = this.add.rectangle(cx, cy, 800, 600, 0x000000, 0.7);
+        overlay.setInteractive(); // blocks clicks to elements beneath
+        this.langModal.add(overlay);
+
+        // Panel
+        const panelH = 60 + langs.length * 60 + 60;
+        const panel = this.add.rectangle(cx, cy, 320, panelH, 0x0a2712, 0.95);
+        panel.setStrokeStyle(2, 0x7fff8e);
+        this.langModal.add(panel);
+
+        // Title
+        const title = this.add.text(cx, cy - panelH / 2 + 30, this.langSystem.t('ui.menu.language'), {
+            fontSize: '28px',
+            fill: '#7fff8e',
+            fontFamily: 'Arial'
+        });
+        title.setOrigin(0.5);
+        this.langModal.add(title);
+
+        // Language options
+        langs.forEach((lang, idx) => {
+            const y = cy - panelH / 2 + 80 + idx * 60;
+            const isActive = lang.code === currentCode;
+
+            const optBg = this.add.rectangle(cx, y, 260, 44, 0x0a2712, isActive ? 0.8 : 0.4);
+            optBg.setStrokeStyle(isActive ? 2 : 1, isActive ? 0x2fff91 : 0x7fff8e);
+            optBg.setInteractive({ useHandCursor: true });
+
+            const optText = this.add.text(cx, y, lang.name, {
+                fontSize: '24px',
+                fill: isActive ? '#2fff91' : '#7fff8e',
+                fontFamily: 'Arial',
+                fontStyle: isActive ? 'bold' : ''
+            });
+            optText.setOrigin(0.5);
+
+            if (!isActive) {
+                addHoverEffects(optBg, optText);
+            }
+
+            optBg.on('pointerdown', () => {
+                if (lang.code === currentCode) {
+                    // Close modal when clicking already-active language
+                    this.clickSound.play();
+                    this.langModal.destroy();
+                    this.langModal = null;
+                    return;
+                }
+                this.clickSound.play();
+                this.langSystem.setLanguage(lang.code);
+                if (this.sceneMusic) this.sceneMusic.stop();
+                this.scene.restart();
+            });
+
+            this.langModal.add([optBg, optText]);
+        });
+
+        // Close on overlay click
+        overlay.on('pointerdown', () => {
+            this.clickSound.play();
+            this.langModal.destroy();
+            this.langModal = null;
+        });
+    }
+
     /**
      * Show the load game menu
      */

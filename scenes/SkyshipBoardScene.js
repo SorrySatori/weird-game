@@ -152,6 +152,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Look around',
+                        key: 'look_around',
                         next: 'lookAround'
                     },
                 ]
@@ -161,6 +162,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'main'
                     }
                 ]
@@ -170,26 +172,32 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'How does this ship fly?',
+                        key: 'how_does_this_ship_fly',
                         next: 'captainTechnology'
                     },
                     {
                         text: 'Where are you headed?',
+                        key: 'where_are_you_headed',
                         next: 'captainDestination'
                     },
                     {
                         text: 'Tell me about yourself.',
+                        key: 'tell_me_about_yourself',
                         next: 'captainAbout'
                     },
                     {
                         text: 'Is flying dangerous?',
+                        key: 'is_flying_dangerous',
                         next: 'captainDanger'
                     },
                     {
                         text: 'What cargo do you carry?',
+                        key: 'what_cargo_do_you_carry',
                         next: 'captainCargo'
                     },
                     ...(this.hasJournalEntry('lift_mother_meeting') ? [{
                         text: 'I need help with an elevator system.',
+                        key: 'i_need_help_with_an_elevator_system',
                         next: 'captainElevator'
                     }] : []),
                 ],
@@ -211,10 +219,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'What is the Lumen Directorate?',
+                        key: 'what_is_the_lumen_directorate',
                         next: 'captainAccord'
                     },
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -224,14 +234,17 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     },
                     {
                         text: "What is you mission?",
+                        key: 'what_is_you_mission',
                         next: "captainMission"
                     },
                     {
                         text: "Does Lumen Directorate have some enemies?",
+                        key: 'does_lumen_directorate_have_some_enemies',
                         next: "captainEnemies"
                     }
                 ],
@@ -248,6 +261,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -257,6 +271,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ],
@@ -282,10 +297,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'That sounds dangerous.',
+                        key: 'that_sounds_dangerous',
                         next: 'captainDanger'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -296,10 +313,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'That sounds dangerous.',
+                        key: 'that_sounds_dangerous',
                         next: 'captainDanger'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -309,6 +328,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -318,10 +338,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Could I travel with you?',
+                        key: 'could_i_travel_with_you',
                         next: 'captainTravel'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -330,10 +352,12 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've proven your worth. The Verdigrace is particularly picky about who it accepts. If you really mean it, visit Lumen Directorate headqurarters in the city and ask about joining the crew. They might have some tasks for you to prove your dedication.",
                 options: [
                     {   text: 'Where can I find the Lumen Directorate headquarters?',
+                        key: 'where_can_i_find_the_lumen_directorate_headquarter',
                         next: 'captainDirectorate'
                     },
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -343,6 +367,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Thank you! I have some other questions.',
+                        key: 'thank_you_i_have_some_other_questions',
                         next: 'captainMain'
                     }
                 ],
@@ -362,10 +387,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Do you have anything to trade?',
+                        key: 'do_you_have_anything_to_trade',
                         next: 'captainTrade'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -375,6 +402,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -385,10 +413,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'The floor counter is broken.',
+                        key: 'the_floor_counter_is_broken',
                         next: 'captainFloorCounter'
                     },
                     {
                         text: 'Never mind, ask something else.',
+                        key: 'never_mind_ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -399,10 +429,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Could I borrow this tool?',
+                        key: 'could_i_borrow_this_tool',
                         next: 'captainGivesTool'
                     },
                     {
                         text: 'How does it work?',
+                        key: 'how_does_it_work',
                         next: 'captainToolExplanation'
                     }
                 ]
@@ -413,10 +445,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Could I borrow this tool?',
+                        key: 'could_i_borrow_this_tool',
                         next: 'captainGivesTool'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -427,6 +461,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Thank you!',
+                        key: 'thank_you',
                         next: 'closeDialog'
                     }
                 ],

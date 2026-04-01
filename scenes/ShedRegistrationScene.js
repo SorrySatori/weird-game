@@ -309,22 +309,22 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The creature watches you intently. You name it the Sleepless Mime for yourself. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands - forming a cube shape, like a die. They pantomime you holding it.)",
                 options: [
-                    { text: "Hi, who are you? I used to play like this as well, when I was a kid.", next: "sleeplessMime_memory" },
-                    { text: " Err... I am at the right place? Can you help my friend to register for extra arms?", next: "sleeplessMime_ortolan" }
+                    { text: "Hi, who are you? I used to play like this as well, when I was a kid.", key: 'hi_who_are_you_i_used_to_play_like_this_as_well_wh', next: "sleeplessMime_memory" },
+                    { text: " Err... I am at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }
                 ]
             },
             sleeplessMime_memory: {
         
                 text: "(The Mime nods enthusiastically. Their hands begin to weave a pattern in the air, conjuring phantom game pieces. For a moment, you feel yourself slipping into a memory...)",
                 options: [
-                    { text: "Remember...", next: "sleeplessMime_memory_scene" }
+                    { text: "Remember...", key: 'remember', next: "sleeplessMime_memory_scene" }
                 ]
             },
             sleeplessMime_memory_scene: {
         
                 text: "(You recall a childhood game. Dice made of bone, cards painted with symbols that shifted when no one was looking. The rules changed each time, but somehow you always knew how to play. The memory fades, but leaves a warm glow in your mind.)",
                 options: [
-                    { text: "Thank you for reminding me.", next: "sleeplessMime_end" }
+                    { text: "Thank you for reminding me.", key: 'thank_you_for_reminding_me', next: "sleeplessMime_end" }
                 ],
                 onTrigger: () => {
                     this.dreamQueueChoices.sleeplessMime = 'memory';
@@ -338,14 +338,14 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The Mime nods vigorously. They reach into their pocket and produce a tattered fragment of paper. They press it into your hand - it appears to be a page from some rulebook perhaps. Maybe... a boardgame fragment?)",
                 options: [
-                    { text: "Read the fragment", next: "sleeplessMime_rulebook" }
+                    { text: "Read the fragment", key: 'read_the_fragment', next: "sleeplessMime_rulebook" }
                 ]
             },
             sleeplessMime_rulebook: {
         
                 text: "'...and when the third eye opens on the die, all players must exchange one memory with the player to their left. If memories cannot be verified by a Witness, the exchange is considered void, and both players gain a Doubt token...'",
                 options: [
-                    { text: "Err... Thank you... I guess.", next: "sleeplessMime_end" }
+                    { text: "Err... Thank you... I guess.", key: 'err_thank_you_i_guess', next: "sleeplessMime_end" }
                 ],
                 onTrigger: () => {
                     this.dreamQueueChoices.sleeplessMime = 'rulebook';
@@ -365,8 +365,8 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The Mime bows deeply, then fades away into the dreamlike atmosphere of the queue.)",
                 options: [
-                    { text: "Continue waiting", next: "end" },
-                    { text: "Finally. I hate mimes.", next: "end" }
+                    { text: "Continue waiting", key: 'continue_waiting', next: "end" },
+                    { text: "Finally. I hate mimes.", key: 'finally_i_hate_mimes', next: "end" }
                 ],
                 onTrigger: () => {
                     // Fade out the Mime
@@ -387,15 +387,15 @@ export default class ShedRegistrationScene extends GameScene {
                 speaker: 'Vowel Seller',
                 text: "(The ash-covered figure turns to you, tiny glass vials clinking in their coat pockets. Each contains a glowing letter, suspended in fluid.)\n\n'I sell vowels. If you want your name to matter, you'll need one.'\n\nThey hold up a vial with a pulsing 'A' inside.",
                 options: [
-                    { text: "I'll buy one.", next: "vowelSeller_buy" },
-                    { text: "Keep your vowels. I speak in spore alphabet.", next: "vowelSeller_spores" }
+                    { text: "I'll buy one.", key: 'ill_buy_one', next: "vowelSeller_buy" },
+                    { text: "Keep your vowels. I speak in spore alphabet.", key: 'keep_your_vowels_i_speak_in_spore_alphabet', next: "vowelSeller_spores" }
                 ]
             },
             vowelSeller_buy: {
         
                 text: "'A wise choice. The price is a minor memory. Something small... perhaps the taste of your first meal in this city?'\n\n(They uncork the vial, and the vowel floats up, hovering before entering your mouth. You feel a strange resonance, as the vowel struggle to enter your name. It's like a... a... a.. But your name has been stripped from you the day you have join the Obazoba cult. Also, you have not remember the taste of your first meal in this city, but it's hard to say if it's because of the trade or because you have not eat anything.)",
                 options: [
-                    { text: "Thank you. But you know, we have no names. I am just a number. Sorry, should have told you earlier.", next: "vowelSeller_end" }
+                    { text: "Thank you. But you know, we have no names. I am just a number. Sorry, should have told you earlier.", key: 'thank_you_but_you_know_we_have_no_names_i_am_just_', next: "vowelSeller_end" }
                 ],
                 onTrigger: () => {
                     this.dreamQueueChoices.vowelSeller = 'vowel';
@@ -408,7 +408,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(His eyes widen slightly.)\n\n'The fungal tongue... I see. Then perhaps you might appreciate this instead.'\n\n(He hands you a small card with nothing written on it.)\n\n'A silent sentence. Use it when words fail you at the clerk's desk.'",
                 options: [
-                    { text: "I accept this gift.", next: "vowelSeller_end" }
+                    { text: "I accept this gift.", key: 'i_accept_this_gift', next: "vowelSeller_end" }
                 ],
                 onTrigger: () => {
                     this.dreamQueueChoices.vowelSeller = 'silence';
@@ -427,7 +427,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The Vowel Seller nods and dissolves into a cloud of ash, his vials tinkling softly as he disappears.)",
                 options: [
-                    { text: "Continue waiting", next: "end" }
+                    { text: "Continue waiting", key: 'continue_waiting', next: "end" }
                 ],
                 onTrigger: () => {
                     // Fade out the Vowel Seller
@@ -449,14 +449,14 @@ export default class ShedRegistrationScene extends GameScene {
                 speaker: 'Hollow Woman',
                 text: "(The woman with empty eyes and stitched seams leans slightly on your shoulder. Her voice is barely audible.)\n\n'It's always the same. I have waited for the registration as you back in my days. But the clerk never showed up. So I am here forever. Waiting...'\n\n(You notice her left arm ends at the elbow, the edges neatly stitched.)",
                 options: [
-                    { text: "Do you remember what you have waited for?", next: "hollowWoman_hands" },
-                    { text: "Well, I guess you should stop waiting. I am sure you have better things to do.", next: "hollowWoman_offer" }
+                    { text: "Do you remember what you have waited for?", key: 'do_you_remember_what_you_have_waited_for', next: "hollowWoman_hands" },
+                    { text: "Well, I guess you should stop waiting. I am sure you have better things to do.", key: 'well_i_guess_you_should_stop_waiting_i_am_sure_you', next: "hollowWoman_offer" }
                 ]
             },
             hollowWoman_hands: {
                 text: "'Sometimes almost... in dreams. I think I was good at filling out forms. Section 7-B was my specialty.'\n\n(She whispers a strange bureaucratic incantation in your ear.)\n\n'Remember that when you speak to the clerk. It might be helpful... for something, I am sure of that.'",
                 options: [
-                    { text: "I'll remember. Sure. Thank you... ehm, strange, waiting person.", next: "hollowWoman_end" }
+                    { text: "I'll remember. Sure. Thank you... ehm, strange, waiting person.", key: 'ill_remember_sure_thank_you_ehm_strange_waiting_pe', next: "hollowWoman_end" }
                 ],
                 onTrigger: () => {
                     this.dreamQueueChoices.hollowWoman = 'narrative';
@@ -478,7 +478,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(Her empty eyes widen slightly.)\n\n'A symbolic gift... an act of kindness. It's been a long, long time since I've seen someone who can show me such kindness.'\n\n(She touches your hand, and for a moment you feel a strange connection, as if something flows between you.)",
                 options: [
-                    { text: "Uhm, what are you doing, madame?", next: "hollowWoman_end" }
+                    { text: "Uhm, what are you doing, madame?", key: 'uhm_what_are_you_doing_madame', next: "hollowWoman_end" }
                 ],
                 onTrigger: () => {
                     this.dreamQueueChoices.hollowWoman = 'empathy';
@@ -492,7 +492,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The Hollow Woman steps back, a faint smile on her stitched face. She starts to fade away, until nothing remains but the memory of her presence.)",
                 options: [
-                    { text: "Continue waiting", next: "end" }
+                    { text: "Continue waiting", key: 'continue_waiting', next: "end" }
                 ],
                 onTrigger: () => {
                     // Fade out the Hollow Woman
@@ -513,29 +513,29 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The Senior Clerk materializes at the front, adjusting a stack of papers with mechanical precision. Their voice has a metallic quality.)\n\n'Queue segment F-7 has been processed. Your presence has been noted and your interactions catalogued.'\n\n(He consults a clipboard.)\n\n'State your business.'",
                 options: [
-                    { text: "I need to register for...", next: "seniorClerk_register" },
-                    { text: "What happened to those people I was talking to?", next: "seniorClerk_people" }
+                    { text: "I need to register for...", key: 'i_need_to_register_for', next: "seniorClerk_register" },
+                    { text: "What happened to those people I was talking to?", key: 'what_happened_to_those_people_i_was_talking_to', next: "seniorClerk_people" }
                 ]
             },
             seniorClerk_register: {
         
                 text: "'Registration requires Form 27-B/6, submitted in triplicate with appropriate growth/decay balance certification.'\n\n(They look at you expectantly, then sigh.)\n\n'But I see you've been... influenced by the queue inhabitants. Very well. I'll expedite your processing.'",
                 options: [
-                    { text: "Thank you.", next: "seniorClerk_processing" }
+                    { text: "Thank you.", key: 'thank_you', next: "seniorClerk_processing" }
                 ]
             },
             seniorClerk_people: {
         
                 text: "(The Clerk's expression remains unchanged.)\n\n'People? There were no people. Only manifestations of the queue itself. Echoes of those who waited too long. You've absorbed their essence now - their stories are part of your processing.'\n\n(They tap their clipboard.)\n\n'Quite irregular, but we'll proceed.'",
                 options: [
-                    { text: "I see...", next: "seniorClerk_processing" }
+                    { text: "I see...", key: 'i_see', next: "seniorClerk_processing" }
                 ]
             },
             seniorClerk_processing: {
         
                 text: "'Based on your queue interactions, your application has been...'\n\n(They stamp a form with a flourish.)\n\n'...approved. You may proceed to the Registration Office proper. Let's begin with the Registration ceremony.'",
                 options: [
-                    { text: "Proceed to the Registration Office", next: "registration_start" }
+                    { text: "Proceed to the Registration Office", key: 'proceed_to_the_registration_office', next: "registration_start" }
                 ],
                 onTrigger: () => {
                     this.time.delayedCall(100, () => {
@@ -548,25 +548,25 @@ export default class ShedRegistrationScene extends GameScene {
             registration_start: {
                 text: "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed521 today?'",
                 options: [
-                    { text: "I'm here for general registration.", next: "registration_general" },
-                    { text: "I'd rather not say.", next: "registration_evasive" },
+                    { text: "I'm here for general registration.", key: 'im_here_for_general_registration', next: "registration_general" },
+                    { text: "I'd rather not say.", key: 'id_rather_not_say', next: "registration_evasive" },
                     // Only show artisan option if player has the clue and hasn't completed or failed it
                     ...(questUpdates.some(update => update.key === 'artisan_form_clue') && 
                         !this.journalSystem.hasEntry('registration_artisan_completed') && 
                         !this.journalSystem.hasEntry('registration_artisan_failed') ? 
-                        [{ text: "I need an Artisan's Exemption Form.", next: "registration_artisan" }] : []),
+                        [{ text: "I need an Artisan's Exemption Form.", key: 'i_need_an_artisans_exemption_form', next: "registration_artisan" }] : []),
                     // Only show deformity option if player has the clue and hasn't completed or failed it
                     ...(questUpdates.some(update => update.key === 'deformity_form_clue') && 
                         !this.journalSystem.hasEntry('registration_deformity_completed') && 
                         !this.journalSystem.hasEntry('registration_deformity_failed') ? 
-                        [{ text: "I need an Inherited Deformity Form.", next: "registration_deformity" }] : []),
+                        [{ text: "I need an Inherited Deformity Form.", key: 'i_need_an_inherited_deformity_form', next: "registration_deformity" }] : []),
                     // Only show nonverbal option if player has the clue and hasn't completed or failed it
                     ...(questUpdates.some(update => update.key === 'nonverbal_gesture_clue') && 
                         !this.journalSystem.hasEntry('registration_nonverbal_completed') && 
                         !this.journalSystem.hasEntry('registration_nonverbal_failed') ? 
-                        [{ text: "(Make a nonverbal gesture)", next: "registration_nonverbal" }] : []),
+                        [{ text: "(Make a nonverbal gesture)", key: 'make_a_nonverbal_gesture', next: "registration_nonverbal" }] : []),
                     // Always show extra symbiont option
-                    { text: "I would like to register for an extra symbiont slot.", next: "registration_extra_symbiont" },
+                    { text: "I would like to register for an extra symbiont slot.", key: 'i_would_like_to_register_for_an_extra_symbiont_slo', next: "registration_extra_symbiont" },
                 ],
                 onTrigger: () => {
                     !this.journalSystem.hasEntry('registration_senior_clerk') && 
@@ -582,101 +582,101 @@ export default class ShedRegistrationScene extends GameScene {
             registration_artisan: {
                 text: "'Ah, the Artisan's Exemption Form. A rare request.'",
                 options: [
-                    { text: "It's for Ortolan, a board game designer.", next: "registration_artisan_ortolan" },
-                    { text: "I need it for personal reasons.", next: "registration_artisan_personal" }
+                    { text: "It's for Ortolan, a board game designer.", key: 'its_for_ortolan_a_board_game_designer', next: "registration_artisan_ortolan" },
+                    { text: "I need it for personal reasons.", key: 'i_need_it_for_personal_reasons', next: "registration_artisan_personal" }
                 ]
             },
             registration_artisan_ortolan: {
         
                 text: "(The clerk's eyebrows raise slightly.)\n\n'Ortolan? The multi-limbed game designer? Interesting...'\n\n(They shuffle through papers and produce a complex form with intricate patterns.)\n\n'This form requires creative verification. Please demonstrate artistic merit.'",
                 options: [
-                    { text: "I can demonstrate my creativity.", next: "registration_creative_challenge" },
-                    { text: "Perhaps another form would be better.", next: "registration_reconsider" }
+                    { text: "I can demonstrate my creativity.", key: 'i_can_demonstrate_my_creativity', next: "registration_creative_challenge" },
+                    { text: "Perhaps another form would be better.", key: 'perhaps_another_form_would_be_better', next: "registration_reconsider" }
                 ]
             },
             registration_artisan_personal: {
         
                 text: "'Personal reasons are insufficient for this form. It requires documented creative output.'",
                 options: [
-                    { text: "I can demonstrate my creativity.", next: "registration_creative_challenge" },
-                    { text: "Perhaps another form would be better.", next: "registration_reconsider" }
+                    { text: "I can demonstrate my creativity.", key: 'i_can_demonstrate_my_creativity', next: "registration_creative_challenge" },
+                    { text: "Perhaps another form would be better.", key: 'perhaps_another_form_would_be_better', next: "registration_reconsider" }
                 ]
             },
             registration_creative_challenge: {
         
                 text: "'Very well. Please complete this pattern.'",
                 options: [
-                    ...(this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Show the rulebook fragment)", next: "registration_success_artisan" }] : []),
-                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "(Recite the bureaucratic incantation)", next: "registration_success_artisan" }] : []),
-                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Draw a fungal pattern)", next: "registration_success_artisan" }] : []),
-                    { text: "I can't do this.", next: "registration_failure" }
+                    ...(this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Show the rulebook fragment)", key: 'show_the_rulebook_fragment', next: "registration_success_artisan" }] : []),
+                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "(Recite the bureaucratic incantation)", key: 'recite_the_bureaucratic_incantation', next: "registration_success_artisan" }] : []),
+                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Draw a fungal pattern)", key: 'draw_a_fungal_pattern', next: "registration_success_artisan" }] : []),
+                    { text: "I can't do this.", key: 'i_cant_do_this', next: "registration_failure" }
                 ],
             },
             registration_deformity: {
                 text: "'The Inherited Deformity Form? That's a sensitive document.'",
                 options: [
-                    { text: "It's for a friend with multiple arms.", next: "registration_deformity_friend" },
-                    { text: "I need to understand the classification system.", next: "registration_deformity_system" }
+                    { text: "It's for a friend with multiple arms.", key: 'its_for_a_friend_with_multiple_arms', next: "registration_deformity_friend" },
+                    { text: "I need to understand the classification system.", key: 'i_need_to_understand_the_classification_system', next: "registration_deformity_system" }
                 ]
             },
             registration_deformity_friend: {
         
                 text: "'Multiple arms? Interesting. The form requires proof of beneficial mutation versus detrimental deformity.'",
                 options: [
-                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "(Recite the bureaucratic incantation to bypass the clause)", next: "registration_success_deformity" }] : []),
-                    ...(this.dreamQueueChoices.hollowWoman === 'empathy' ? [{ text: "Sure thing, I have a lot of experience with beneficial mutation, just look at my body.", next: "registration_success_deformity" }] : []),
-                    ...(this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Show the rulebook fragment)", next: "registration_success_deformity" }] : []),
-                    { text: "I don't have proof.", next: "registration_failure" }
+                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "(Recite the bureaucratic incantation to bypass the clause)", key: 'recite_the_bureaucratic_incantation_to_bypass_the_', next: "registration_success_deformity" }] : []),
+                    ...(this.dreamQueueChoices.hollowWoman === 'empathy' ? [{ text: "Sure thing, I have a lot of experience with beneficial mutation, just look at my body.", key: 'sure_thing_i_have_a_lot_of_experience_with_benefic', next: "registration_success_deformity" }] : []),
+                    ...(this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Show the rulebook fragment)", key: 'show_the_rulebook_fragment', next: "registration_success_deformity" }] : []),
+                    { text: "I don't have proof.", key: 'i_dont_have_proof', next: "registration_failure" }
                 ],
             },
             registration_deformity_system: {
         
                 text: "'The classification system is complex. It requires specialized knowledge.'",
                 options: [
-                    { text: "I have some experience with bureaucracy.", next: "registration_bureaucracy_challenge" },
-                    { text: "Perhaps I should try a different approach.", next: "registration_reconsider" }
+                    { text: "I have some experience with bureaucracy.", key: 'i_have_some_experience_with_bureaucracy', next: "registration_bureaucracy_challenge" },
+                    { text: "Perhaps I should try a different approach.", key: 'perhaps_i_should_try_a_different_approach', next: "registration_reconsider" }
                 ]
             },
             registration_bureaucracy_challenge: {
         
                 text: "'Demonstrate your understanding of Form Section 7-B.'",
                 options: [
-                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "Section 7-B relates to the Inherited Deformity clause, which can be bypassed with proper documentation.", next: "registration_success_deformity" }] : []),
-                    ...(this.dreamQueueChoices.vowelSeller === 'vowel' ? [{ text: "Section 7-B covers beneficial mutations.", next: "registration_partial_success" }] : []),
-                    { text: "I'm not familiar with Section 7-B.", next: "registration_failure" }
+                    ...(this.dreamQueueChoices.hollowWoman === 'narrative' ? [{ text: "Section 7-B relates to the Inherited Deformity clause, which can be bypassed with proper documentation.", key: 'section_7b_relates_to_the_inherited_deformity_clau', next: "registration_success_deformity" }] : []),
+                    ...(this.dreamQueueChoices.vowelSeller === 'vowel' ? [{ text: "Section 7-B covers beneficial mutations.", key: 'section_7b_covers_beneficial_mutations', next: "registration_partial_success" }] : []),
+                    { text: "I'm not familiar with Section 7-B.", key: 'im_not_familiar_with_section_7b', next: "registration_failure" }
                 ],
             },
             registration_nonverbal: {
         
                 text: "(The clerk watches your gesture with interest.)\n\n'Ah, nonverbal communication. A rare approach in bureaucracy.'",
                 options: [
-                    ...(this.dreamQueueChoices.sleeplessMime === 'memory' || this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Mime a complex game being played)", next: "registration_success_nonverbal" }] : []),
-                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Present the Silent Sentence card)", next: "registration_success_nonverbal" }] : []),
-                    { text: "I can't do this. I am not a mime. Or a very bad one.", next: "registration_failure" }
+                    ...(this.dreamQueueChoices.sleeplessMime === 'memory' || this.dreamQueueChoices.sleeplessMime === 'rulebook' ? [{ text: "(Mime a complex game being played)", key: 'mime_a_complex_game_being_played', next: "registration_success_nonverbal" }] : []),
+                    ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Present the Silent Sentence card)", key: 'present_the_silent_sentence_card', next: "registration_success_nonverbal" }] : []),
+                    { text: "I can't do this. I am not a mime. Or a very bad one.", key: 'i_cant_do_this_i_am_not_a_mime_or_a_very_bad_one', next: "registration_failure" }
                 ],
             },
             registration_general: {
         
                 text: "'General registration requires specific purpose. Shed521 doesn't accept visitors without purpose.'",
                 options: [
-                    { text: "I would like to register for extra symbiont slot.", next: "registration_extra_symbiont" },
-                    { text: "I'm here on behalf of someone else.", next: "registration_proxy" },
-                    { text: "Perhaps I should be more specific.", next: "registration_reconsider" }
+                    { text: "I would like to register for extra symbiont slot.", key: 'i_would_like_to_register_for_extra_symbiont_slot', next: "registration_extra_symbiont" },
+                    { text: "I'm here on behalf of someone else.", key: 'im_here_on_behalf_of_someone_else', next: "registration_proxy" },
+                    { text: "Perhaps I should be more specific.", key: 'perhaps_i_should_be_more_specific', next: "registration_reconsider" }
                 ]
             },
             registration_extra_symbiont: {
                 text: "'Extra symbiont slot registration is not actually difficult. Just a form to fill out. And pay a registration fee of 50 gold, of course.'",
                 options: [
-                    { text: "I'll pay the fee and register for an extra slot.", next: "registration_extra_symbiont_pay" },
-                    { text: "I change my mind. I would like to register for something else.", next: "registration_reconsider" },
-                    { text: "Sorry, I don't think I can pay the fee.", next: "end" }
+                    { text: "I'll pay the fee and register for an extra slot.", key: 'ill_pay_the_fee_and_register_for_an_extra_slot', next: "registration_extra_symbiont_pay" },
+                    { text: "I change my mind. I would like to register for something else.", key: 'i_change_my_mind_i_would_like_to_register_for_some', next: "registration_reconsider" },
+                    { text: "Sorry, I don't think I can pay the fee.", key: 'sorry_i_dont_think_i_can_pay_the_fee', next: "end" }
                 ],
             },
             registration_extra_symbiont_pay: {
         
                 text: "'Very well. Let me process your payment and update your registration.'",
                 options: [
-                    { text: "Thank you.", next: "registration_extra_symbiont_complete" }
+                    { text: "Thank you.", key: 'thank_you', next: "registration_extra_symbiont_complete" }
                 ],
                 onTrigger: () => {
                     const moneySystem = this.moneySystem;
@@ -731,28 +731,28 @@ export default class ShedRegistrationScene extends GameScene {
                     return "'Your registration is complete. You now have an additional symbiont slot available. Please take care with what entities you choose to host.'";
                 })(),
                 options: [
-                    { text: "Thank you.", next: "seniorClerk_end" }
+                    { text: "Thank you.", key: 'thank_you', next: "seniorClerk_end" }
                 ]
             },
             registration_evasive: {
         
                 text: "(The clerk's expression hardens.)\n\n'Evasiveness is noted in your file. This complicates the process.'",
                 options: [
-                    { text: "I apologize. Let me be more specific.", next: "registration_reconsider" },
+                    { text: "I apologize. Let me be more specific.", key: 'i_apologize_let_me_be_more_specific', next: "registration_reconsider" },
                 ]
             },
             registration_reconsider: {
         
                 text: "'Very well. Let's start again.'",
                 options: [
-                    { text: "Continue", next: "registration_start" }
+                    { text: "Continue", key: 'continue', next: "registration_start" }
                 ]
             },
             registration_success_artisan: {
         
                 text: "(The clerk stamps the Artisan's Exemption Form with a flourish.)\n\n'Approved. The form grants creative exemption from standard limb restrictions. Ortolan will be pleased.'",
                 options: [
-                    { text: "Thank you.", next: "registration_complete_success" }
+                    { text: "Thank you.", key: 'thank_you', next: "registration_complete_success" }
                 ],
                 onTrigger: () => {
                     // Add form to inventory
@@ -784,7 +784,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The clerk stamps the Inherited Deformity Form with precision.)\n\n'Approved. This form acknowledges beneficial mutation status for multiple limbs. A rare classification.'",
                 options: [
-                    { text: "Thank you.", next: "registration_complete_success" }
+                    { text: "Thank you.", key: 'thank_you', next: "registration_complete_success" }
                 ],
                 onTrigger: () => {
                     // Add form to inventory
@@ -816,7 +816,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The clerk nods with unexpected understanding.)\n\n'Your nonverbal application is... approved. This special dispensation allows for limb modification without standard documentation.'",
                 options: [
-                    { text: "(Nod gratefully)", next: "registration_complete_success" }
+                    { text: "(Nod gratefully)", key: 'nod_gratefully', next: "registration_complete_success" }
                 ],
                 onTrigger: () => {
                     // Add dispensation to inventory
@@ -848,7 +848,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The clerk hesitates, then stamps a form with a provisional mark.)\n\n'Partially approved. This temporary permit grants limited access. Full approval requires additional documentation in the future.'",
                 options: [
-                    { text: "I understand.", next: "registration_complete_partial" }
+                    { text: "I understand.", key: 'i_understand', next: "registration_complete_partial" }
                 ],
                 onTrigger: () => {
                     // Add temporary permit to inventory
@@ -880,7 +880,7 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The clerk stamps 'REJECTED' on the form with finality.)\n\n'Your application is denied. Insufficient qualification, documentation, or purpose. You may reapply after a standard waiting period of 47 days.'",
                 options: [
-                    { text: "I see...", next: "registration_complete_failure" }
+                    { text: "I see...", key: 'i_see', next: "registration_complete_failure" }
                 ],
                 onTrigger: () => {
                     // Increase Decay
@@ -903,21 +903,21 @@ export default class ShedRegistrationScene extends GameScene {
         
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
-                    { text: "Thank you.", next: "seniorClerk_end" }
+                    { text: "Thank you.", key: 'thank_you', next: "seniorClerk_end" }
                 ],
             },
             registration_complete_partial: {
         
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
-                    { text: "Thank you.", next: "seniorClerk_end" }
+                    { text: "Thank you.", key: 'thank_you', next: "seniorClerk_end" }
                 ],
             },
             registration_complete_failure: {
         
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
-                    { text: "Thank you.", next: "seniorClerk_end" }
+                    { text: "Thank you.", key: 'thank_you', next: "seniorClerk_end" }
                 ],
             },
             seniorClerk_end: {
@@ -931,7 +931,7 @@ export default class ShedRegistrationScene extends GameScene {
             seniorClerk_returning: {
                 text: "(The Senior Clerk looks up from their paperwork.) 'Ah, you again. What registration services do you require today?'",
                 options: [
-                    { text: "I'd like to discuss registration options.", next: "registration_start" }
+                    { text: "I'd like to discuss registration options.", key: 'id_like_to_discuss_registration_options', next: "registration_start" }
                 ]
             },
             end: {

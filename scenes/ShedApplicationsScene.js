@@ -17,41 +17,41 @@ export default class ShedApplicationsScene extends GameScene {
             start: {
                 text: "(The clerk shuffles through a stack of papers, barely looking up)\nWelcome to Shed521 Applications. Forms in triplicate, please. No exceptions.",
                 options: [
-                    { text: "Tell me about Shed521", next: "about_shed" },
-                    { text: "What's your role here?", next: "clerk_role" },
+                    { text: "Tell me about Shed521", key: 'tell_me_about_shed521', next: "about_shed" },
+                    { text: "What's your role here?", key: 'whats_your_role_here', next: "clerk_role" },
                 ]
             },
             about_shed: {
                 text: "Shed521? (adjusts glasses) One of our most... productive facilities. It used to be just an ordinary warehouse, a storage, you kno. But now... it's much more. It's a place where... things happen. (smiles) Bureaucracy is really alive here, it flows like a river. It gives purpose to things, to every action, every decision. (puts away papers) We can be so productive and happy here.",
                 options: [
-                    { text: "That sounds like a lot of paperwork", next: "paperwork" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "That sounds like a lot of paperwork", key: 'that_sounds_like_a_lot_of_paperwork', next: "paperwork" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             clerk_role: {
                 text: "I maintain order in chaos. Every augmentation, every experiment, every... incident must be properly documented. The bureaucracy must flow, as they say. (straightens a perfectly straight stack of papers)",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             paperwork: {
                 text: "Indeed. (eyes gleaming) Did you know we have seventeen different forms just for requesting a new form? Proper documentation is what separates us from the ferals in the wastes.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             living_core_inquiry: {
                 text: "(The clerk's eyes narrow) The living core? (lowers voice) Listen carefully. That technology is classified under Protocol 7B, subsection 13. (glances around) Why do you ask?",
                 options: [
-                    { text: "Gnur asked me to retrieve it", next: "expose_gnur" },
-                    { text: "I am just interested in such technology.", next: "lie_living_core" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Gnur asked me to retrieve it", key: 'gnur_asked_me_to_retrieve_it', next: "expose_gnur" },
+                    { text: "I am just interested in such technology.", key: 'i_am_just_interested_in_such_technology', next: "lie_living_core" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             lie_living_core: {
                 text: "(Straightens papers disapprovingly) Very well. But remember - proper protocols exist for a reason. Don't you even think about messing with the living core. People usually think it's just a relict, but it is crucial for the Shed's energy maintenance.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onShow: () => {
                     this.modifyGrowthDecay(0, 2);
@@ -61,16 +61,16 @@ export default class ShedApplicationsScene extends GameScene {
             expose_gnur: {
                 text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right for such technology. (puts away papers) Please promise to not mess with the living core.",
                 options: [
-                    { text: "I promise to leave it alone", next: "promise_made" },
-                    { text: "I'll think about it", next: "no_promise" }
+                    { text: "I promise to leave it alone", key: 'i_promise_to_leave_it_alone', next: "promise_made" },
+                    { text: "I'll think about it", key: 'ill_think_about_it', next: "no_promise" }
                 ],
             },
             promise_made: {
                 text: "(Visibly relieved) Good... good. The Pith Reclaimers will remember this. What Gnur promised you for the living core?",
                 options: [
-                    { text: "He promised me a to tell where to find the Bishop", next: "bishop_location" },
-                    { text: "Sorry, but that's private information", next: "private"},
-                    { text: "Who are the Pith Reclaimers?", next: "pith_reclaimers"},
+                    { text: "He promised me a to tell where to find the Bishop", key: 'he_promised_me_a_to_tell_where_to_find_the_bishop', next: "bishop_location" },
+                    { text: "Sorry, but that's private information", key: 'sorry_but_thats_private_information', next: "private"},
+                    { text: "Who are the Pith Reclaimers?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                 ],
                 onShow: () => {
                     const factionSystem = this.registry.get('factionSystem');
@@ -96,9 +96,9 @@ export default class ShedApplicationsScene extends GameScene {
             bishop_location: {
                 text: "The Bishop? Hmm... I can't tell you where she is. But look for Edgar Eskola at the Screaming Cork tavern. I think he might know something.",
                 options: [
-                    { text: "Back to other topics", next: "start" },
-                    { text: "Who are the Pith Reclaimers?", next: "pith_reclaimers"},
-                    { text: "Who is Edgar Eskola?", next: "edgar"}
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" },
+                    { text: "Who are the Pith Reclaimers?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
+                    { text: "Who is Edgar Eskola?", key: 'who_is_edgar_eskola', next: "edgar"}
                 ],
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
@@ -111,14 +111,14 @@ export default class ShedApplicationsScene extends GameScene {
             private: {
                 text: "I see, no problem. Is there anything else I can help you with?",
                 options: [
-                    { text: "Back to other topics", next: "start" },
-                    { text: "Who are the Pith Reclaimers?", next: "pith_reclaimers"},
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" },
+                    { text: "Who are the Pith Reclaimers?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                 ],
             },
             pith_reclaimers: {
                 text: "The Pith Reclaimers are... guardians of neutrality. We preserve peace and order in the city. Some of us collect... unique items, but we don't sell them.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onShow: () => {
                     const factionSystem = this.registry.get('factionSystem');
@@ -132,44 +132,44 @@ export default class ShedApplicationsScene extends GameScene {
             edgar: {
                 text: "Edgar Eskola? (raises eyebrow). He is one of the mišutkenn. Heard about them? They are semi-ursine, sentient humanoids with patchy fur, deep-set amber eyes, and dream-reactive physiology. Usually gentle souls, but they can be... unpredictable.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             no_promise: {
                 text: "(Straightens papers disapprovingly) Very well. But remember - proper protocols exist for a reason.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             ortolan_inquiry: {
                 text: "Extra Arms? (shuffles through papers) Additional arms, you say. Are they intentional?",
                 options: [
-                    { text: "My friend needs them. He’s an artisan.", next: "ortolan_artisan" },
-                    { text: "My friend didn’t choose this. The arms were... a gift.", next: "ortolan_gift" },
-                    { text: "They’re not his arms. He’s borrowing them.", next: "ortolan_borrow" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "My friend needs them. He’s an artisan.", key: 'my_friend_needs_them_hes_an_artisan', next: "ortolan_artisan" },
+                    { text: "My friend didn’t choose this. The arms were... a gift.", key: 'my_friend_didnt_choose_this_the_arms_were_a_gift', next: "ortolan_gift" },
+                    { text: "They’re not his arms. He’s borrowing them.", key: 'theyre_not_his_arms_hes_borrowing_them', next: "ortolan_borrow" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             ortolan_borrow: {
                 text: "Then he is harboring a flesh-fugitive. I’ll need an Absentee Consent Signature. From the original owner.",
                 options: [
-                    { text: "Back to other topics", next: "start" },
-                    { text: "Fine. I’ll lie. Or forge the documents?", next: "ortolan_lie" },
-                    { text: "Uhh... sorry I mean he needs them. He’s an artisan.", next: "ortolan_artisan" },
-                    { text: "Well, I was just joking. Of course they are his. But he didn’t choose this. The arms were... a gift.", next: "ortolan_gift" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" },
+                    { text: "Fine. I’ll lie. Or forge the documents?", key: 'fine_ill_lie_or_forge_the_documents', next: "ortolan_lie" },
+                    { text: "Uhh... sorry I mean he needs them. He’s an artisan.", key: 'uhh_sorry_i_mean_he_needs_them_hes_an_artisan', next: "ortolan_artisan" },
+                    { text: "Well, I was just joking. Of course they are his. But he didn’t choose this. The arms were... a gift.", key: 'well_i_was_just_joking_of_course_they_are_his_but_', next: "ortolan_gift" }
                 ]
             },
             ortolan_gift: {
                 text: "Unsolicited limbs are still taxable. But perhaps we can file under Inherited Deformity.",
                 options: [
-                    { text: "Can you process it today?", next: "ortolan_today" },
-                    { text: "Fine. I’ll lie. Or forge the documents?", next: "ortolan_lie" }
+                    { text: "Can you process it today?", key: 'can_you_process_it_today', next: "ortolan_today" },
+                    { text: "Fine. I’ll lie. Or forge the documents?", key: 'fine_ill_lie_or_forge_the_documents', next: "ortolan_lie" }
                 ],
             },
             ortolan_today: {
                 text: "Not without permission from the Registration office. Go there and ask for the Inherited Deformity Form.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
@@ -182,7 +182,7 @@ export default class ShedApplicationsScene extends GameScene {
             ortolan_lie: {
                 text: "I’ll pretend not to hear that.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
@@ -195,16 +195,16 @@ export default class ShedApplicationsScene extends GameScene {
             ortolan_artisan: {
                 text: "Art is no defense against anatomy. But we do have the Artisan’s Exemption Form. Of course, it expired last cycle.",
                 options: [
-                    { text: "Can it be renewed?", next: "ortolan_renew" },
-                    { text: "What if I find another copy?", next: "ortolan_copy" },
-                    { text: "Forget the form. What else can I offer?", next: "ortolan_offer" },
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Can it be renewed?", key: 'can_it_be_renewed', next: "ortolan_renew" },
+                    { text: "What if I find another copy?", key: 'what_if_i_find_another_copy', next: "ortolan_copy" },
+                    { text: "Forget the form. What else can I offer?", key: 'forget_the_form_what_else_can_i_offer', next: "ortolan_offer" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
             },
             ortolan_renew: {
                 text: "Only with a performance. Go ask to the Registration office.",
                 options: [
-                    { text: "Back to other topics", next: "start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" }
                 ],
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
@@ -217,15 +217,15 @@ export default class ShedApplicationsScene extends GameScene {
             ortolan_copy: {
                 text: "Are you deaf? I said, are you deaf? It expired last cycle.",
                 options: [
-                    { text: "Back to other topics", next: "start" },
-                    { text: "Can it be renewed?", next: "ortolan_renew" },
-                    { text: "Forget the form. What else can I offer?", next: "ortolan_offer" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "start" },
+                    { text: "Can it be renewed?", key: 'can_it_be_renewed', next: "ortolan_renew" },
+                    { text: "Forget the form. What else can I offer?", key: 'forget_the_form_what_else_can_i_offer', next: "ortolan_offer" },
                 ]
             },
             ortolan_offer: {
                 text: "A gesture. Symbolic. Nonverbal. Go to the Registration office and do your best.",
                 options: [
-                    { text: "Uh... okay. Can I ask for other topics?", next: "start" }
+                    { text: "Uh... okay. Can I ask for other topics?", key: 'uh_okay_can_i_ask_for_other_topics', next: "start" }
                 ],
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');

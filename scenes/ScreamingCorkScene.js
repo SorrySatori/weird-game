@@ -302,18 +302,18 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "The ursine creature shifts uncomfortably. He glances at you with a mix of wariness and curiosity.",
                 options: [
-                    { text: "Hello there.", next: "edgar_greeting" },
-                    { text: "What are you doing here?", next: "edgar_purpose" },
-                    { text: "Tell me about yourself.", next: "edgar_background" },
-                    { text: "What do you know about the Burning Bear Festival?", next: "edgar_festival" },
+                    { text: "Hello there.", key: 'hello_there', next: "edgar_greeting" },
+                    { text: "What are you doing here?", key: 'what_are_you_doing_here', next: "edgar_purpose" },
+                    { text: "Tell me about yourself.", key: 'tell_me_about_yourself', next: "edgar_background" },
+                    { text: "What do you know about the Burning Bear Festival?", key: 'what_do_you_know_about_the_burning_bear_festival', next: "edgar_festival" },
                     // Dynamically add vestigel option if player has the quest
                     ...(this.questSystem.getQuest('the_three_vestigels') ? [
-                        { text: "I'm looking for a vestigel, I heard you might have one.", next: "edgar_vestigel" }
+                        { text: "I'm looking for a vestigel, I heard you might have one.", key: 'im_looking_for_a_vestigel_i_heard_you_might_have_o', next: "edgar_vestigel" }
                     ] : []),
                     // Only show book topics option if quest is active but not completed
                     ...(this.registry.get('questSystem')?.getQuest('edgar_book') && 
                        this.registry.get('questSystem')?.getQuest('edgar_book').status !== 'completed' ? [
-                        { text: "Let's start with some inspirational topics", next: "edgar_book_topics" }
+                        { text: "Let's start with some inspirational topics", key: 'lets_start_with_some_inspirational_topics', next: "edgar_book_topics" }
                     ] : []),
                 ],
                 onTrigger: () => {
@@ -333,16 +333,16 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "Mmm. Hello," + "Not often people choose to speak with me. Most avoid mišutkenn if they can help it.",
                 options: [
-                    { text: "Why is that?", next: "edgar_prejudice" },
-                    { text: "What are mišutkenn?", next: "edgar_what" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Why is that?", key: 'why_is_that', next: "edgar_prejudice" },
+                    { text: "What are mišutkenn?", key: 'what_are_miutkenn', next: "edgar_what" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_what: {
         
                 text: "Mišutkenn are... well, we're not exactly human. Or anything else, for that matter. We're... different.",
                 options: [
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     this.showNotification('Growth increased');
@@ -352,32 +352,32 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_prejudice: {
                 text: "History. Superstition. Fear of what's different. Take your pick. The founders of this city drove my ancestors from the Remaper Hills. Now we're just... tolerated. At best.",
                 options: [
-                    { text: "That's unfortunate.", next: "edgar_unfortunate" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "That's unfortunate.", key: 'thats_unfortunate', next: "edgar_unfortunate" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_unfortunate: {
         
                 text: "That's one way to put it. But I've learned to live with it. Mostly.",
                 options: [
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_purpose: {
                 text: "Waiting. Watching. Avoiding the preparations for that cursed festival. The Screaming Cork is one of the few places that doesn't go all-in on the bear burning nonsense.",
                 options: [
-                    { text: "You don't like the festival?", next: "edgar_festival" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "You don't like the festival?", key: 'you_dont_like_the_festival', next: "edgar_festival" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_background: {
         
                 text: "Not much to tell. I've had more jobs than I can count. Janitor at 1140 Scraper, professional imaginator, clerk, art model, airship mechanic, meat packer... None of them stuck. Not entirely my fault, though.",
                 options: [
-                    { text: "Professional imaginator?", next: "edgar_imaginator" },
-                    { text: "Why didn't they work out?", next: "edgar_jobs" },
-                    { text: "What would you like to do?", next: "edgar_dream_job" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Professional imaginator?", key: 'professional_imaginator', next: "edgar_imaginator" },
+                    { text: "Why didn't they work out?", key: 'why_didnt_they_work_out', next: "edgar_jobs" },
+                    { text: "What would you like to do?", key: 'what_would_you_like_to_do', next: "edgar_dream_job" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_dream_job: {
@@ -385,9 +385,9 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "I've tried everything. Janitor. Clerk. Meat assembler. Imaginator. But I've never been anything truly mine. I think… I want to write a book. But I don't know what it's about yet.",
                 options: [
                     ...(!this.questSystem.getQuest('edgar_book') ? [
-                        { text: "I can help you write the book", next: "edgar_book" }
+                        { text: "I can help you write the book", key: 'i_can_help_you_write_the_book', next: "edgar_book" }
                     ] : []),
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about Edgar's aspiration
@@ -405,8 +405,8 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_book: {
                 text: "You would... do that for me? Thank you. I don't know what it's about yet. But I'm open to suggestions.",
                 options: [
-                    { text: "Let's start with some inspirational topics", next: "edgar_book_topics" },
-                    { text: "I will come back when I have an idea", next: "edgar_start" }
+                    { text: "Let's start with some inspirational topics", key: 'lets_start_with_some_inspirational_topics', next: "edgar_book_topics" },
+                    { text: "I will come back when I have an idea", key: 'i_will_come_back_when_i_have_an_idea', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     if (!this.questSystem.getQuest('edgar_book')) {
@@ -454,8 +454,8 @@ export default class ScreamingCorkScene extends GameScene {
                     const options = [];
                     
                     if (this.bookTopics && this.bookTopics.length >= 3) {
-                        options.push({ text: "I think we have enough topics", next: "edgar_book_tone" });
-                    } else options.push({ text: "Let's continue", next: "edgar_book_topics" })
+                        options.push({ text: "I think we have enough topics", key: 'i_think_we_have_enough_topics', next: "edgar_book_tone" });
+                    } else options.push({ text: "Let's continue", key: 'lets_continue', next: "edgar_book_topics" })
                     
                     return options;
                 },
@@ -489,12 +489,12 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Now that we have some topics to work with, what tone should the book have? I'm thinking about the emotional feel of it.",
                 hideCloseOption: true,
                 options: [
-                    { text: "Tragic - a tale of sorrow and loss", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'tragic'; } },
-                    { text: "Metaphysical - exploring consciousness", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'metaphysical'; } },
-                    { text: "Romantic - focusing on connections", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'romantic'; } },
-                    { text: "Existential - pondering meaning and mortality", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'existential'; } },
-                    { text: "Political - examining power dynamics", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'political'; } },
-                    { text: "Comical - finding humor in the strange", next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'comical'; } }
+                    { text: "Tragic - a tale of sorrow and loss", key: 'tragic_a_tale_of_sorrow_and_loss', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'tragic'; } },
+                    { text: "Metaphysical - exploring consciousness", key: 'metaphysical_exploring_consciousness', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'metaphysical'; } },
+                    { text: "Romantic - focusing on connections", key: 'romantic_focusing_on_connections', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'romantic'; } },
+                    { text: "Existential - pondering meaning and mortality", key: 'existential_pondering_meaning_and_mortality', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'existential'; } },
+                    { text: "Political - examining power dynamics", key: 'political_examining_power_dynamics', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'political'; } },
+                    { text: "Comical - finding humor in the strange", key: 'comical_finding_humor_in_the_strange', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'comical'; } }
                 ]
             },
 
@@ -502,7 +502,7 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_book_tone_selected: {
                 text: "That's a great tone choice! It will give the book a distinct emotional flavor that should resonate with readers.",
                 options: [
-                    { text: "Now let's choose a genre for the book", next: "edgar_book_genre" }
+                    { text: "Now let's choose a genre for the book", key: 'now_lets_choose_a_genre_for_the_book', next: "edgar_book_genre" }
                 ],
                 hideCloseOption: true,
                 onTrigger: () => {
@@ -537,14 +537,14 @@ export default class ScreamingCorkScene extends GameScene {
                 hideCloseOption: true,
                 text: "The tone is set, but what genre should this story be? I've been exploring some experimental options.",
                 options: [
-                    { text: "Fungal techno-thriller", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'fungal techno'; } },
-                    { text: "Postmodern novel", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'postmodern'; } },
-                    { text: "Urban fantasy", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'urban fantasy'; } },
-                    { text: "Funny animals with depression", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'funny animals'; } },
-                    { text: "Detective novel", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'detective'; } },
-                    { text: "Dreamy weird fiction", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'weird fiction'; } },
-                    { text: "Mythic war epic", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'mythic war epic'; } },
-                    { text: "Cosmic horror", next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'cosmic horror'; } }
+                    { text: "Fungal techno-thriller", key: 'fungal_technothriller', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'fungal techno'; } },
+                    { text: "Postmodern novel", key: 'postmodern_novel', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'postmodern'; } },
+                    { text: "Urban fantasy", key: 'urban_fantasy', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'urban fantasy'; } },
+                    { text: "Funny animals with depression", key: 'funny_animals_with_depression', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'funny animals'; } },
+                    { text: "Detective novel", key: 'detective_novel', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'detective'; } },
+                    { text: "Dreamy weird fiction", key: 'dreamy_weird_fiction', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'weird fiction'; } },
+                    { text: "Mythic war epic", key: 'mythic_war_epic', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'mythic war epic'; } },
+                    { text: "Cosmic horror", key: 'cosmic_horror', next: "edgar_book_genre_selected", onSelect: function() { this.bookGenre = 'cosmic horror'; } }
                 ]
             },
 
@@ -553,7 +553,7 @@ export default class ScreamingCorkScene extends GameScene {
                 hideCloseOption: true,
                 text: "That genre is perfect! It captures exactly the kind of story that would work in this strange city.",
                 options: [
-                    { text: "Let's decide on the main protagonist", next: "edgar_book_protagonist" }
+                    { text: "Let's decide on the main protagonist", key: 'lets_decide_on_the_main_protagonist', next: "edgar_book_protagonist" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the genre selection
@@ -589,14 +589,14 @@ export default class ScreamingCorkScene extends GameScene {
                 hideCloseOption: true,
                 text: "Who should the main character be? What kind of protagonist would fit this story?",
                 options: [
-                    { text: "A disoriented tourist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'disoriented tourist'; } },
-                    { text: "A renegade fungal scientist", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'bad scientist'; } },
-                    { text: "A mišutkenn seeking identity", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'mišutkenn'; } },
-                    { text: "An amnesiac with strange abilities", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'strange amnesiac'; } },
-                    { text: "A sentient fungal colony", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'fungal colony'; } },
-                    { text: "A dream detective", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'dream detective'; } },
-                    { text: "A rogue Ludarch", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'rogue Ludarch'; } },
-                    { text: "A living collective pretending to be one person", next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'living collective'; } },
+                    { text: "A disoriented tourist", key: 'a_disoriented_tourist', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'disoriented tourist'; } },
+                    { text: "A renegade fungal scientist", key: 'a_renegade_fungal_scientist', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'bad scientist'; } },
+                    { text: "A mišutkenn seeking identity", key: 'a_miutkenn_seeking_identity', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'mišutkenn'; } },
+                    { text: "An amnesiac with strange abilities", key: 'an_amnesiac_with_strange_abilities', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'strange amnesiac'; } },
+                    { text: "A sentient fungal colony", key: 'a_sentient_fungal_colony', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'fungal colony'; } },
+                    { text: "A dream detective", key: 'a_dream_detective', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'dream detective'; } },
+                    { text: "A rogue Ludarch", key: 'a_rogue_ludarch', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'rogue Ludarch'; } },
+                    { text: "A living collective pretending to be one person", key: 'a_living_collective_pretending_to_be_one_person', next: "edgar_book_protagonist_selected", onSelect: function() { this.bookProtagonist = 'living collective'; } },
                 ]
             },
 
@@ -605,7 +605,7 @@ export default class ScreamingCorkScene extends GameScene {
                 hideCloseOption: true,
                 text: "That's a fascinating protagonist choice! I can already imagine how they would navigate through the story and engage with readers.",
                 options: [
-                    { text: "Finally, let's choose a setting", next: "edgar_book_setting" }
+                    { text: "Finally, let's choose a setting", key: 'finally_lets_choose_a_setting', next: "edgar_book_setting" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the protagonist selection
@@ -641,14 +641,14 @@ export default class ScreamingCorkScene extends GameScene {
                 hideCloseOption: true,
                 text: "And finally, where should this story take place? What's the setting?",
                 options: [
-                    { text: "The Scraper's shifting floors", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'scraper'; } },
-                    { text: "A murderous magical school", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'magical school'; } },
-                    { text: "A giant immortal mammal, swimming in the ocean", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'immortal mammal'; } },
-                    { text: "The fungal wilds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'fungal wilds'; } },
-                    { text: "A skyship above the clouds", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'skyship'; } },
-                    { text: "The subterranean markets", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'markets'; } },
-                    { text: "A war-torn board game that became real", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'living board game'; } },
-                    { text: "The graveyard of dead gods", next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'god graveyard'; } }
+                    { text: "The Scraper's shifting floors", key: 'the_scrapers_shifting_floors', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'scraper'; } },
+                    { text: "A murderous magical school", key: 'a_murderous_magical_school', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'magical school'; } },
+                    { text: "A giant immortal mammal, swimming in the ocean", key: 'a_giant_immortal_mammal_swimming_in_the_ocean', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'immortal mammal'; } },
+                    { text: "The fungal wilds", key: 'the_fungal_wilds', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'fungal wilds'; } },
+                    { text: "A skyship above the clouds", key: 'a_skyship_above_the_clouds', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'skyship'; } },
+                    { text: "The subterranean markets", key: 'the_subterranean_markets', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'markets'; } },
+                    { text: "A war-torn board game that became real", key: 'a_wartorn_board_game_that_became_real', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'living board game'; } },
+                    { text: "The graveyard of dead gods", key: 'the_graveyard_of_dead_gods', next: "edgar_book_setting_selected", onSelect: function() { this.bookSetting = 'god graveyard'; } }
                 ]
             },
 
@@ -657,7 +657,7 @@ export default class ScreamingCorkScene extends GameScene {
                 hideCloseOption: true,
                 text: "What an evocative setting! It creates the perfect atmosphere and provides so many narrative possibilities.",
                 options: [
-                    { text: "Let's see what book we've created", next: "edgar_book_completion" }
+                    { text: "Let's see what book we've created", key: 'lets_see_what_book_weve_created', next: "edgar_book_completion" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the setting selection
@@ -693,8 +693,8 @@ export default class ScreamingCorkScene extends GameScene {
                 // Use a placeholder - the actual title will be replaced in the onTrigger function
                 text: `"${this.generateBookTitle()}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. It will be about ${this.bookProtagonist} and the genre will be ${this.bookGenre}, I like that. Nice touch with the overall ${this.bookTone} book tone. The setting is ${this.bookSetting}, very original. I think we have an ultimate hit in our hands! Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`,
                 options: [
-                    { text: "I look forward to reading it", next: "edgar_book_farewell" },
-                    { text: "Make sure to credit me as co-author", next: "edgar_book_farewell" }
+                    { text: "I look forward to reading it", key: 'i_look_forward_to_reading_it', next: "edgar_book_farewell" },
+                    { text: "Make sure to credit me as co-author", key: 'make_sure_to_credit_me_as_coauthor', next: "edgar_book_farewell" }
                 ],
                 onTrigger: () => {
                     // Generate book title
@@ -741,7 +741,7 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "I should get to work now. The ideas are flowing, and I don't want to lose them. Thank you again for your help. Feel free to check in on my progress sometime.",
                 options: [
-                    { text: "Good luck, Edgar", next: "closeDialog" }
+                    { text: "Good luck, Edgar", key: 'good_luck_edgar', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     
@@ -787,44 +787,44 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "I dreamed up locations and characters for Dr. Elphi Quarn's games. Turns out my imagination was too... wild. Too erratic, they said. My dreams were 'unusable.' Their loss.",
                 options: [
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_jobs: {
         
                 text: "Bad timing, mostly. The Scraper took the Rusty Choir and stopped being an official part of the city - no need for a janitor then. The other jobs... well, being a mišutkenn doesn't help with job security in this city.",
                 options: [
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_festival: {
         
                 text: "The Burning Bear Festival? A cruel reminder of an ancient 'victory' over my kind. They stuff bear skins with things they want to be rid of, then burn them at midnight. Some fill them with pests, bad habits, vices... others with rivals, if the rumors are true.",
                 options: [
-                    { text: "That sounds disturbing.", next: "edgar_disturbing" },
-                    { text: "It's just tradition, isn't it?", next: "edgar_tradition" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "That sounds disturbing.", key: 'that_sounds_disturbing', next: "edgar_disturbing" },
+                    { text: "It's just tradition, isn't it?", key: 'its_just_tradition_isnt_it', next: "edgar_tradition" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_disturbing: {
                 text: "It is. Imagine being surrounded by burning effigies that look like your ancestors. The city lights up with fires of different colors and smells, while I hide away, waiting for it to end.",
                 options: [
-                    { text: "I'm sorry to hear that.", next: "edgar_sympathy" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "I'm sorry to hear that.", key: 'im_sorry_to_hear_that', next: "edgar_sympathy" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_tradition: {
         
                 text: "Tradition? Traditions can be cruel. Just because something has been done for generations doesn't make it right. But few in this city would agree with me.",
                 options: [
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_sympathy: {
         
                 text: "Your sympathy is... unexpected. But appreciated. Perhaps not everyone in this city is as thoughtless as I've come to believe.",
                 options: [
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     this.showNotification('Growth increased');
@@ -838,23 +838,23 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "A vestigel? Yes... I do have one. It's a peculiar object, a small small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
                 options: [
                     // Use ternary to determine next dialog based on book quest completion status
-                    { text: "I need it for an important purpose.", next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_need" },
-                    { text: "May I have it?", next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_request" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "I need it for an important purpose.", key: 'i_need_it_for_an_important_purpose', next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_need" },
+                    { text: "May I have it?", key: 'may_i_have_it', next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_request" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_need: {
         
                 text: "Important purpose, you say? Well, I don't really *need* it, but I kinda like it. Maybe you could do something for me in exchange?",
                 options: [
-                    { text: "What do you need?", next: "edgar_vestigel_convince" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "What do you need?", key: 'what_do_you_need', next: "edgar_vestigel_convince" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_book_offer: {
                 text: "You would do that for me? In exchange for the vestigel... Very well. Here, take it. It's of more use to you than to me, it seems. And I look forward to our literary collaboration.",
                 options: [
-                    { text: "Thank you. I'll help you create something wonderful.", next: "edgar_vestigel_thanks" }
+                    { text: "Thank you. I'll help you create something wonderful.", key: 'thank_you_ill_help_you_create_something_wonderful', next: "edgar_vestigel_thanks" }
                 ],
                 onTrigger: () => {
                     this.questSystem.addQuest(
@@ -904,8 +904,8 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "Just like that? You know that's a valuable trinket. I wouldn't give it away without good reason.",
                 options: [
-                    { text: "What would convince you to part with it?", next: "edgar_vestigel_convince" },
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "What would convince you to part with it?", key: 'what_would_convince_you_to_part_with_it', next: "edgar_vestigel_convince" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_convince: {
@@ -914,19 +914,19 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     // Determine which option to show based on book quest status
                     ...(this.questSystem.getQuest('edgar_book')?.status === 'completed' ? [
-                        { text: "I already helped you write your book.", next: "edgar_vestigel_give_completed" }
+                        { text: "I already helped you write your book.", key: 'i_already_helped_you_write_your_book', next: "edgar_vestigel_give_completed" }
                     ] : this.questSystem.getQuest('edgar_book') ? [
-                        { text: "I could help with your book, as we discussed earlier.", next: "edgar_vestigel_book_help" }
+                        { text: "I could help with your book, as we discussed earlier.", key: 'i_could_help_with_your_book_as_we_discussed_earlie', next: "edgar_vestigel_book_help" }
                     ] : [
-                        { text: "Maybe I could help you with something.", next: "edgar_vestigel_offer" }
+                        { text: "Maybe I could help you with something.", key: 'maybe_i_could_help_you_with_something', next: "edgar_vestigel_offer" }
                     ]),
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_book_help: {
                 text: "Ah yes, the book. I've been thinking more about it since we talked. If you're serious about helping me with it, I could part with the vestigel. It seems like a fair exchange.",
                 options: [
-                    { text: "I'll definitely help you write something meaningful.", next: "edgar_vestigel_book_offer" }
+                    { text: "I'll definitely help you write something meaningful.", key: 'ill_definitely_help_you_write_something_meaningful', next: "edgar_vestigel_book_offer" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about this decision point
@@ -946,7 +946,7 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_vestigel_offer: {
                 text: "Hmm... maybe you could help me with something. Do you know something about literature? I would like to become... a writer. But I don't know where to start. You would help me with that? I've been struggling to find a voice, a story worth telling. If you could truly help me...",
                 options: [
-                    { text: "I'll do my best.", next: "edgar_vestigel_thanks" }
+                    { text: "I'll do my best.", key: 'ill_do_my_best', next: "edgar_vestigel_thanks" }
                 ],
                 onTrigger: () => {
                     this.questSystem.addQuest(
@@ -973,7 +973,7 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_vestigel_book_help: {
                 text: "Yes, you did offer to help with my book. A fair exchange - your help for the vestigel. I've been collecting ideas but haven't made much progress.",
                 options: [
-                    { text: "I'll make sure your book becomes a reality.", next: "edgar_vestigel_thanks" }
+                    { text: "I'll make sure your book becomes a reality.", key: 'ill_make_sure_your_book_becomes_a_reality', next: "edgar_vestigel_thanks" }
                 ]
             },
             
@@ -982,7 +982,7 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "Oh, you're interested in the vestigel? After all your help with my book, I'd be happy to give it to you. It's of more use to you than to me. Here, take it with my gratitude.",
                 options: [
-                    { text: "Thank you, Edgar.", next: "edgar_start" }
+                    { text: "Thank you, Edgar.", key: 'thank_you_edgar', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     // Only give vestigel if player doesn't already have it
@@ -1025,7 +1025,7 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "Remember your promise. I look forward to seeing what we can create together. A book that truly captures the essence of... well, that's what we need to discover.",
                 options: [
-                    { text: "Back to other topics", next: "edgar_start" }
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     this.showNotification('Growth increased');

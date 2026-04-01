@@ -22,8 +22,8 @@ get dialogContent() {
             speaker: 'NPC Name',
             text: `Dialog text here.`,
             options: [
-                { text: "Option text", next: "npc_next_state" },
-                ...(hasQuest ? [{ text: "Quest option", next: "npc_quest" }] : []),
+                { text: "Option text", key: 'option_text', next: "npc_next_state" },
+                ...(hasQuest ? [{ text: "Quest option", key: 'quest_option', next: "npc_quest" }] : []),
             ]
         },
         npc_next_state: {
@@ -51,6 +51,7 @@ get dialogContent() {
 ```js
 {
     text: "Display text",     // Shown as clickable option
+    key: "snake_case_key",    // Translation lookup key (see rule 16 below)
     next: "dialog_state_key", // Key of the next dialog to show
     onSelect: () => {}        // Optional. Runs when option is clicked, before navigation.
 }
@@ -79,8 +80,8 @@ Use `next: "closeDialog"` to close the dialog. This is defined in the base `Game
 Use the spread + ternary pattern to conditionally include options:
 ```js
 options: [
-    { text: "Always visible", next: "some_dialog" },
-    ...(condition ? [{ text: "Conditional", next: "cond_dialog" }] : []),
+    { text: "Always visible", key: 'always_visible', next: "some_dialog" },
+    ...(condition ? [{ text: "Conditional", key: 'conditional', next: "cond_dialog" }] : []),
 ]
 ```
 Never use `if` statements inside the options array.
@@ -139,6 +140,26 @@ For state that must survive save/load, check `this.hasJournalEntry('id')` rather
 - `clickSound` plays on UI interactions (close button, scroll, pagination)
 - No manual sound handling needed in dialog definitions
 
+### 16. Translation keys on options (`key` property)
+Every dialog option **must** have a `key` property for i18n translation lookup. The key is a `snake_case` identifier derived from the English display text:
+```js
+{ text: "What are you?", key: 'what_are_you', next: "npc_explain" }
+```
+**Key generation rules:**
+- Remove all non-alphanumeric characters (keep letters, digits, spaces)
+- Lowercase, replace spaces with underscores
+- Truncate to 50 characters max
+
+**Translation files** (`lang/cs/dialogs/*.js`) reference options by key:
+```js
+options: {
+    what_are_you: "Co jsi?",
+    leave_it_alone: "Nechat ji být",
+}
+```
+
+**Exception — ternary-text options:** If an option's `text` uses a ternary expression (e.g., `text: condition ? "A" : "B"`), do NOT add a `key` property. The translation system will fall back to text-matching for these, and the translation file should use the English text strings as keys.
+
 ## Common Patterns
 
 ### NPC with multiple conversation topics (post-quest)
@@ -150,11 +171,11 @@ npc_start: {
         : `"Who are you?"`,
     options: [
         ...(alreadyHelped ? [
-            { text: "Tell me about X.", next: "npc_topic_x" },
-            { text: "Tell me about Y.", next: "npc_topic_y" },
+            { text: "Tell me about X.", key: 'tell_me_about_x', next: "npc_topic_x" },
+            { text: "Tell me about Y.", key: 'tell_me_about_y', next: "npc_topic_y" },
         ] : []),
         ...(!alreadyHelped ? [
-            { text: "I need help.", next: "npc_help" },
+            { text: "I need help.", key: 'i_need_help', next: "npc_help" },
         ] : []),
     ]
 },
@@ -166,14 +187,14 @@ npc_history: {
     speaker: 'NPC',
     text: `First part of the story...`,
     options: [
-        { text: "What happened next?", next: "npc_history_2" },
+        { text: "What happened next?", key: 'what_happened_next', next: "npc_history_2" },
     ]
 },
 npc_history_2: {
     speaker: 'NPC',
     text: `Second part of the story...`,
     options: [
-        { text: "And then?", next: "npc_history_3" },
+        { text: "And then?", key: 'and_then', next: "npc_history_3" },
     ]
 },
 npc_history_3: {
@@ -189,7 +210,7 @@ npc_give_item: {
     speaker: 'NPC',
     text: `"Here, take this."`,
     options: [
-        { text: "Thank you.", next: "closeDialog" }
+        { text: "Thank you.", key: 'thank_you', next: "closeDialog" }
     ],
     onTrigger: () => {
         this.addItemToInventory({ id: 'item', name: 'Item', description: '...' });

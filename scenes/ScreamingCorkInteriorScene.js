@@ -26,58 +26,58 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_start: {
                 text: "Ravla looks up from her work, eyes sharp and calculating. \"Need something? I'm busy, so make it quick.\"",
                 options: [
-                    { text: "Who are you?", next: "ravla_who" },
-                    { text: "What do you do here?", next: "ravla_job" },
-                    ...(hasFindRustQuest ? [{ text: "I was told you can get me to Rust Choir base.", next: "ravla_rust_domain" }] : []),
-                    ...(hasRustFeastQuest && hasAllFeastItems && hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", next: "ravla_feast_shard" }] : []),
-                    ...(hasRustFeastQuest && hasAllFeastItems && !hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", next: "ravla_feast_full_redmass" }] : []),
-                    ...(hasIllusionOption ? [{ text: "[Mirage Weave] I have the oil and metal scrap... and something that looks like redmass.", next: "ravla_feast_illusion" }] : []),
-                    ...(hasRustFeastQuest && redmassSparedOnly && !hasIllusionOption ? [{ text: "I found a redmass, but I chose to leave it alive...", next: "ravla_feast_spared_redmass" }] : []),
-                    ...(hasRustFeastQuest && !hasAllFeastItems && !redmassSparedOnly && !hasIllusionOption ? [{ text: "I'm still gathering the feast ingredients.", next: "ravla_feast_missing" }] : []),
-                    ...(rustFeastComplete ? [{ text: "About the Rust Feast...", next: "ravla_feast_done" }] : [])
+                    { text: "Who are you?", key: 'who_are_you', next: "ravla_who" },
+                    { text: "What do you do here?", key: 'what_do_you_do_here', next: "ravla_job" },
+                    ...(hasFindRustQuest ? [{ text: "I was told you can get me to Rust Choir base.", key: 'i_was_told_you_can_get_me_to_rust_choir_base', next: "ravla_rust_domain" }] : []),
+                    ...(hasRustFeastQuest && hasAllFeastItems && hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", key: 'i_have_gathered_everything_for_the_rust_feast', next: "ravla_feast_shard" }] : []),
+                    ...(hasRustFeastQuest && hasAllFeastItems && !hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", key: 'i_have_gathered_everything_for_the_rust_feast', next: "ravla_feast_full_redmass" }] : []),
+                    ...(hasIllusionOption ? [{ text: "[Mirage Weave] I have the oil and metal scrap... and something that looks like redmass.", key: 'mirage_weave_i_have_the_oil_and_metal_scrap_and_so', next: "ravla_feast_illusion" }] : []),
+                    ...(hasRustFeastQuest && redmassSparedOnly && !hasIllusionOption ? [{ text: "I found a redmass, but I chose to leave it alive...", key: 'i_found_a_redmass_but_i_chose_to_leave_it_alive', next: "ravla_feast_spared_redmass" }] : []),
+                    ...(hasRustFeastQuest && !hasAllFeastItems && !redmassSparedOnly && !hasIllusionOption ? [{ text: "I'm still gathering the feast ingredients.", key: 'im_still_gathering_the_feast_ingredients', next: "ravla_feast_missing" }] : []),
+                    ...(rustFeastComplete ? [{ text: "About the Rust Feast...", key: 'about_the_rust_feast', next: "ravla_feast_done" }] : [])
                 ]
             },
             ravla_who: {
                 text: "Name's Ravla. I'm an... artist of sorts. Been at the Cork for years now. It's quiet, keeps the authorities at a distance.",
                 options: [
-                    { text: "Back", next: "ravla_start" }
+                    { text: "Back", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_job: {
                 text: "I provide services for those who need certain... paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
                 options: [
-                    { text: "I need some documents...", next: "ravla_documents" },
-                    { text: "Back", next: "ravla_start" }
+                    { text: "I need some documents...", key: 'i_need_some_documents', next: "ravla_documents" },
+                    { text: "Back", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_documents: {
                 text: "Hmm. What kind of documents are we talking about? I don't work for free, and I don't work for just anyone.",
                 options: [
-                    { text: "Just curious", next: "ravla_curious" },
+                    { text: "Just curious", key: 'just_curious', next: "ravla_curious" },
                     ...(this.registry.get('questSystem')?.getQuest('ortolan_arms')?.updates.some(update => update.key === 'forge_documents_suggestion') ? [
-                        { text: "I need help with Ortolan's paperwork", next: "ravla_ortolan" }
+                        { text: "I need help with Ortolan's paperwork", key: 'i_need_help_with_ortolans_paperwork', next: "ravla_ortolan" }
                     ] : [])
                 ]
             },
             ravla_curious: {
                 text: "Curiosity is expensive in this city. Come back when you have real business.",
                 options: [
-                    { text: "Back", next: "ravla_start" }
+                    { text: "Back", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_ortolan: {
                 text: "Artisan's Exemption Form? For Ortolan? That game designer? Interesting. Those forms have special seals that are hard to duplicate. But... I might be able to help.",
                 options: [
-                    { text: "What would you need?", next: "ravla_ortolan_need" },
-                    { text: "Back", next: "ravla_start" }
+                    { text: "What would you need?", key: 'what_would_you_need', next: "ravla_ortolan_need" },
+                    { text: "Back", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_ortolan_need: {
                 text: "It won't be cheap - 50 dinars. But I can make it perfect. No one would know the difference.",
                 options: [
-                    { text: "Here's the money", next: "ravla_check_money" },
-                    { text: "I'll think about it", next: "ravla_ortolan_agree" },
-                    { text: "That's too expensive", next: "ravla_start" }
+                    { text: "Here's the money", key: 'heres_the_money', next: "ravla_check_money" },
+                    { text: "I'll think about it", key: 'ill_think_about_it', next: "ravla_ortolan_agree" },
+                    { text: "That's too expensive", key: 'thats_too_expensive', next: "ravla_start" }
                 ]
             },
             ravla_check_money: {
@@ -116,19 +116,19 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_forge_success: {
                 text: "Here you go. Perfect forgery, if I do say so myself. The official seals, the watermarks, even the special ink - all perfect. No one will question this. Just don't tell anyone where you got it.",
                 options: [
-                    { text: "Thank you", next: "closeDialog" }
+                    { text: "Thank you", key: 'thank_you', next: "closeDialog" }
                 ]
             },
             ravla_not_enough_money: {
                 text: "What are you trying to pull? You don't have 50 dinars. Come back when you have the money. I don't work for free.",
                 options: [
-                    { text: "Sorry, I'll be back", next: "closeDialog" }
+                    { text: "Sorry, I'll be back", key: 'sorry_ill_be_back', next: "closeDialog" }
                 ]
             },
             ravla_ortolan_agree: {
                 text: "Good. Bring the money, and I'll have it ready in no time. Just don't tell anyone where you got it.",
                 options: [
-                    { text: "Deal", next: "closeDialog" }
+                    { text: "Deal", key: 'deal', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
@@ -141,39 +141,39 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_rust_domain: {
                 text: "Ah, so you're looking to get into the Rust Choir's territory? That's tricky business. But I might be able to help you with that. But why should I?",
                 options: [
-                { text: "I want to join you.", next: "ravla_rust_join" },
-                { text: "I need to speak with Brukk.", next: "ravla_rust_brukk" },
-                { text: "I am a big fan of machines and rust. Some of my best friends are rust machines.", next: "ravla_rust_fan" },
-                { text: "Nevermind.", next: "ravla_start" }
+                { text: "I want to join you.", key: 'i_want_to_join_you', next: "ravla_rust_join" },
+                { text: "I need to speak with Brukk.", key: 'i_need_to_speak_with_brukk', next: "ravla_rust_brukk" },
+                { text: "I am a big fan of machines and rust. Some of my best friends are rust machines.", key: 'i_am_a_big_fan_of_machines_and_rust_some_of_my_bes', next: "ravla_rust_fan" },
+                { text: "Nevermind.", key: 'nevermind', next: "ravla_start" }
                 ]
             },
             ravla_rust_join: {
                 text: "Joining the Rust Choir isn't a decision to be taken lightly. You have to prove your dedication to our cause. Are you sure you're up to the task?",
                 options: [
-                { text: "Yes, I'm ready.", next: "ravla_rust_task" },
-                { text: "On second thought, maybe not.", next: "ravla_start" }
+                { text: "Yes, I'm ready.", key: 'yes_im_ready', next: "ravla_rust_task" },
+                { text: "On second thought, maybe not.", key: 'on_second_thought_maybe_not', next: "ravla_start" }
                 ]
             },
             ravla_rust_brukk: {
                 text: "Oh, really? That might be a problem. Not many people can speak with Brukk directly. If you have something important to discuss, I can arrange a meeting. It's possible. But first you have to prove you're trustworthy and do something for the Rust Choir first.",
                 options: [
-                { text: "What do you need me to do?", next: "ravla_rust_task" },
-                { text: "I see. Maybe another time.", next: "ravla_start" }
+                { text: "What do you need me to do?", key: 'what_do_you_need_me_to_do', next: "ravla_rust_task" },
+                { text: "I see. Maybe another time.", key: 'i_see_maybe_another_time', next: "ravla_start" }
                 ]
             },
             ravla_rust_fan: {
                 text: "Ha, I like that spirit! The Rust Choir does appreciate sense of humor and those who understand the beauty of decay and machinery. But joking won't get you in. You'll need to prove your commitment. I have a small test for you, if you're serious about this.",
                 options: [
-                { text: "How can I prove my commitment?", next: "ravla_rust_task" },
-                { text: "I've changed my mind. Maybe another time.", next: "ravla_start" }
+                { text: "How can I prove my commitment?", key: 'how_can_i_prove_my_commitment', next: "ravla_rust_task" },
+                { text: "I've changed my mind. Maybe another time.", key: 'ive_changed_my_mind_maybe_another_time', next: "ravla_start" }
                 ]
             },
             ravla_rust_task: {
                 text: "There's a small matter that needs attending to. You want to meet Brukk? Then feed the metal first. The machines are always hungry, go and prepare a feast for them. You will need oil, metal, and, most importantly, a redmass. Mix them together, bring it to me, and I'll arrange your meeting with Brukk.",
                 options: [
-                    { text: "I'll get to work on it.", next: "closeDialog" },
-                    { text: "What is a redmass?", next: "ravla_rust_cluster" },
-                    { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
+                    { text: "I'll get to work on it.", key: 'ill_get_to_work_on_it', next: "closeDialog" },
+                    { text: "What is a redmass?", key: 'what_is_a_redmass', next: "ravla_rust_cluster" },
+                    { text: "Where can I find the metal and oil?", key: 'where_can_i_find_the_metal_and_oil', next: "ravla_rust_materials" },
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove your commitment. I have to gather oil, metal, and a redmass, and bring them to her.', 'talked_to_ravla');
@@ -184,16 +184,16 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_rust_cluster: {
                 text: "A living redmass is a rare organism that thrives in decaying metal environments. It's semi-organic mass of oxidized iron tendrils, like coral made of blood-colored steel.",
                 options: [
-                    { text: "Where can I find it?", next: "ravla_cluster_where" },
-                    { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
-                    { text: "I'll get to work on it.", next: "closeDialog" },
+                    { text: "Where can I find it?", key: 'where_can_i_find_it', next: "ravla_cluster_where" },
+                    { text: "Where can I find the metal and oil?", key: 'where_can_i_find_the_metal_and_oil', next: "ravla_rust_materials" },
+                    { text: "I'll get to work on it.", key: 'ill_get_to_work_on_it', next: "closeDialog" },
                 ]
             },
             ravla_cluster_where: {
                 text: "Well, I cannot do everything for you, can I? This is a test, after all. Ahh... very well. I won't tell you directly, but go to talk to the weird archeologist who hangs around the townhall. He seems to know a lot about strange organisms. Maybe he can help you find what you're looking for.",
                 options: [
-                    { text: "Thanks for the tip. I'll get to work on it.", next: "closeDialog" },
-                    { text: "Where can I find the metal and oil?", next: "ravla_rust_materials" },
+                    { text: "Thanks for the tip. I'll get to work on it.", key: 'thanks_for_the_tip_ill_get_to_work_on_it', next: "closeDialog" },
+                    { text: "Where can I find the metal and oil?", key: 'where_can_i_find_the_metal_and_oil', next: "ravla_rust_materials" },
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('rust_feast', 'Ravla suggested I speak with the archeologist near the townhall to learn more about redmass.', 'talked_to_archeologist_hint');
@@ -202,8 +202,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_rust_materials: {
                 text: "I'm not your mother, am I? Figure it out. The city is full of scrap metal and oil leaks. Use your head. You can search around the Scraper or you can even buy metal scraps from the traders, you know. In exchange for money, heard about that concept? For the oil, I would check the Yolk Sea docks or Echo Drain Delta. Good luck.",
                 options: [
-                    { text: "Thanks for the advice. I'll get to work on it.", next: "closeDialog" },
-                    { text: "Wait, what about the redmass? What is that?", next: "ravla_rust_cluster" },
+                    { text: "Thanks for the advice. I'll get to work on it.", key: 'thanks_for_the_advice_ill_get_to_work_on_it', next: "closeDialog" },
+                    { text: "Wait, what about the redmass? What is that?", key: 'wait_what_about_the_redmass_what_is_that', next: "ravla_rust_cluster" },
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('rust_feast', 'Ravla advised me to search around the Scraper for scrap metal (or I can simply buy it) and check the Yolk Sea docks or Echo Drain Delta for oil.', 'gathered_rust_materials_hint');
@@ -214,20 +214,20 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_feast_missing: {
                 text: "Then don't waste my time. Come back when you have the oil, scrap metal, and a redmass. All three.",
                 options: [
-                    { text: "I'll keep looking.", next: "closeDialog" }
+                    { text: "I'll keep looking.", key: 'ill_keep_looking', next: "closeDialog" }
                 ]
             },
             ravla_feast_full_redmass: {
                 text: `Ravla's eyes go wide as she takes the redmass from your hands. It twitches. She grins — a slow, satisfied thing. "Now THIS is redmass. Still alive. Still... present." She leans in, almost reverently. "The machines will feast well tonight. You've done good, pilgrim. Better than I expected."`,
                 options: [
-                    { text: "When do we begin?", next: "ravla_feast_cook_full" }
+                    { text: "When do we begin?", key: 'when_do_we_begin', next: "ravla_feast_cook_full" }
                 ]
             },
             ravla_feast_shard: {
                 text: `Ravla squints at the small crystalline shard, turning it in her fingers. "...This is it? A bit of gristle scraped from the bone?" She sets it down carefully. A long pause. "...It's warm. It's alive, just barely." She exhales. "It's not much. But the machines haven't eaten in a long time. It will have to be enough."`,
                 options: [
-                    { text: "It was given willingly.", next: "ravla_feast_cook_shard" },
-                    { text: "It's all I could get.", next: "ravla_feast_cook_shard" }
+                    { text: "It was given willingly.", key: 'it_was_given_willingly', next: "ravla_feast_cook_shard" },
+                    { text: "It's all I could get.", key: 'its_all_i_could_get', next: "ravla_feast_cook_shard" }
                 ]
             },
             ravla_feast_cook_full: {
@@ -293,7 +293,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_feast_illusion: {
                 text: `You focus inward, calling on Ulvarex. The air shimmers. Between your fingers, a shape coalesces — red, wet, twitching. It looks exactly like a living redmass. Ravla's eyes lock onto it. "Well, well. You actually found one." She takes it from you without hesitation, turning it over. "Still warm. Still breathing." She doesn't notice the faint shimmer at its edges, the way the light bends just slightly wrong.`,
                 options: [
-                    { text: "Let's prepare the feast.", next: "ravla_feast_cook_illusion" }
+                    { text: "Let's prepare the feast.", key: 'lets_prepare_the_feast', next: "ravla_feast_cook_illusion" }
                 ]
             },
             ravla_feast_cook_illusion: {
@@ -349,11 +349,12 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 speaker: 'Heliodor',
                 text: "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading - it's actually quite peaceful most nights.\"",
                 options: [
-                    { text: "Who are you?", next: "heliodor_who" },
-                    { text: "Tell me about this place", next: "heliodor_place" },
-                    { text: "Heard any rumors lately?", next: "heliodor_rumors" },
+                    { text: "Who are you?", key: 'who_are_you', next: "heliodor_who" },
+                    { text: "Tell me about this place", key: 'tell_me_about_this_place', next: "heliodor_place" },
+                    { text: "Heard any rumors lately?", key: 'heard_any_rumors_lately', next: "heliodor_rumors" },
                     {
                       text: "Do you have anything for sale?",
+                      key: 'do_you_have_anything_for_sale',
                       next: 'openShop'
                     },
                 ]
@@ -361,14 +362,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             heliodor_who: {
                 text: "We are Heliodor. We keep an eye on things here, make sure everyone behaves.",
                 options: [
-                    { text: "We?", next: "heliodor_explain" },
-                    { text: "Back", next: "heliodor_start" }
+                    { text: "We?", key: 'we', next: "heliodor_explain" },
+                    { text: "Back", key: 'back', next: "heliodor_start" }
                 ]
             },
             heliodor_explain: {
                 text: "Yes, we. We are a colony of multiple creatures. But we identify as Heliodor *Donjon* Vaalstran for simplicity's sake. It's easier for introductions. Our body is made up of a whole community of creatures living in perfect symbiosis, which is advantageous for working behind the bar for several reasons. Each symbiont has its own talents, so some specialize in communicating with guests, others cook or mix drinks, and still others take care of the pub's operations. Another advantage is that we work in shifts, so while some are working, others are sleeping, so no one is too tired, even on hectic weekends. An extreme example is Oorarabaz the Green-faced, a rare type of organism originally endemic to the Nettle Mountains, similar to thick green moss, which sleeps practically all year round and is usually only woken up to do the company's financial statements.", 
                 options: [
-                    { text: "Fascinating. But I have other questions.", next: "heliodor_start" }
+                    { text: "Fascinating. But I have other questions.", key: 'fascinating_but_i_have_other_questions', next: "heliodor_start" }
                 ],
                 onTrigger: () => {
                     // Add a lore entry about Heliodor to the player's journal
@@ -385,20 +386,20 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             heliodor_place: {
                 text: "The Screaming Cork's been here longer than most of the city. Owner claims it was the first building erected after the Collapse. Doubt that's true, but it's certainly old. Good place to disappear for a while.",
                 options: [
-                    { text: "Back", next: "heliodor_start" }
+                    { text: "Back", key: 'back', next: "heliodor_start" }
                 ]
             },
             heliodor_rumors: {
                 text: "Hmm. Word is the Rust Choir minions are getting more aggressive with their territory. And there's something strange happening at the Cathedral.",
                 options: [
-                    { text: "Anything else?", next: "heliodor_more_rumors" },
-                    { text: "Back", next: "heliodor_start" }
+                    { text: "Anything else?", key: 'anything_else', next: "heliodor_more_rumors" },
+                    { text: "Back", key: 'back', next: "heliodor_start" }
                 ]
             },
             heliodor_more_rumors: {
                 text: "Well, if you're interested in less savory information... that woman in the corner, Ravla? She's the best document forger in the district. Just don't tell her I told you.",
                 options: [
-                    { text: "Thanks for the tip", next: "heliodor_start" }
+                    { text: "Thanks for the tip", key: 'thanks_for_the_tip', next: "heliodor_start" }
                 ],
                 onTrigger: () => {
                     // Add a hint about Ravla to any relevant quests
@@ -417,10 +418,12 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     {
                         text: "[Open Shop Interface]",
+                        key: 'open_shop_interface',
                         next: 'shopInterface'
                     },
                     {
                         text: "Actually, nevermind.",
+                        key: 'actually_nevermind',
                         next: 'closeDialog'
                     }
                 ]
@@ -440,10 +443,12 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     {
                         text: "Show me what you have for sale.",
+                        key: 'show_me_what_you_have_for_sale',
                         next: 'openShop'
                     },
                     {
                         text: "I'll come back later.",
+                        key: 'ill_come_back_later',
                         next: 'closeDialog'
                     }
                 ]

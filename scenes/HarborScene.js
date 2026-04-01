@@ -18,47 +18,47 @@ export default class HarborScene extends GameScene {
                 speaker: 'Narrator',
                 text: "The water at the dock's edge shimmers oddly — not with reflected light, but with something underneath it. A shape moves below the surface that doesn't match anything above. A face, perhaps. Or the memory of a face.",
                 options: [
-                    { text: "Reach toward the water.", next: "ulvarex_reach" },
-                    { text: "Step back.", next: "closeDialog" }
+                    { text: "Reach toward the water.", key: 'reach_toward_the_water', next: "ulvarex_reach" },
+                    { text: "Step back.", key: 'step_back', next: "closeDialog" }
                 ]
             },
             ulvarex_reach: {
                 speaker: 'Ulvarex',
                 text: "The moment your fingers touch the surface, the reflection rearranges itself. A voice arrives — not through your ears but through your optic nerve, as if the words are made of light. \"Oh, finally. Someone who looks at mirages instead of through them. I've been folded into this puddle for... well, time doesn't move the same way when you're two-dimensional.\"",
                 options: [
-                    { text: "What are you?", next: "ulvarex_what" },
-                    { text: "Why were you in the water?", next: "ulvarex_why" }
+                    { text: "What are you?", key: 'what_are_you', next: "ulvarex_what" },
+                    { text: "Why were you in the water?", key: 'why_were_you_in_the_water', next: "ulvarex_why" }
                 ]
             },
             ulvarex_what: {
                 speaker: 'Ulvarex',
                 text: "\"I am Ulvarex, the Borrowed Horizon. A symbiont of perception. I exist in the gap between what is seen and what is understood. I can weave mirages — illusions convincing enough to fool the hand as well as the eye. But I need a host. Someone with enough spore-matter to serve as my canvas. You, for instance. You're practically dripping with potential.\"",
                 options: [
-                    { text: "What would bonding with you mean?", next: "ulvarex_bond" },
-                    { text: "I'm not interested in tricks.", next: "ulvarex_decline" }
+                    { text: "What would bonding with you mean?", key: 'what_would_bonding_with_you_mean', next: "ulvarex_bond" },
+                    { text: "I'm not interested in tricks.", key: 'im_not_interested_in_tricks', next: "ulvarex_decline" }
                 ]
             },
             ulvarex_why: {
                 speaker: 'Ulvarex',
                 text: "\"The harbor water carries reflections from everywhere the tide has been. I hitched a ride on a particularly convincing sunset, got tangled in the current, and ended up here — compressed into a film on the surface. Embarrassing, really. For an entity of infinite creative potential, being trapped in a puddle is a humbling experience.\"",
                 options: [
-                    { text: "What would bonding with you mean?", next: "ulvarex_bond" },
-                    { text: "I'll leave you to your puddle.", next: "ulvarex_decline" }
+                    { text: "What would bonding with you mean?", key: 'what_would_bonding_with_you_mean', next: "ulvarex_bond" },
+                    { text: "I'll leave you to your puddle.", key: 'ill_leave_you_to_your_puddle', next: "ulvarex_decline" }
                 ]
             },
             ulvarex_bond: {
                 speaker: 'Ulvarex',
                 text: "\"I settle into your perception. Behind your eyes, technically. I feed on spores — they're rich in perceptual raw material. In return, I give you Mirage Weave: the ability to conjure convincing illusions. Objects, textures, even substances. Useful for... creative problem solving. The only cost is spores, and I promise not to redecorate your dreams. Much.\"",
                 options: [
-                    { text: "Alright. Bond with me.", next: "ulvarex_accept" },
-                    { text: "I need to think about it.", next: "ulvarex_later" }
+                    { text: "Alright. Bond with me.", key: 'alright_bond_with_me', next: "ulvarex_accept" },
+                    { text: "I need to think about it.", key: 'i_need_to_think_about_it', next: "ulvarex_later" }
                 ]
             },
             ulvarex_accept: {
                 speaker: 'Ulvarex',
                 text: "The reflection peels from the water like a film of light and wraps around your hand, then crawls up your arm — warm, weightless, and faintly shimmering. For a moment, the world looks different: every shadow has depth, every surface has texture you've never noticed. Then it settles. \"There. I'm behind your eyes now. Try not to blink too hard — it tickles.\"",
                 options: [
-                    { text: "Welcome aboard, Ulvarex.", next: "closeDialog" }
+                    { text: "Welcome aboard, Ulvarex.", key: 'welcome_aboard_ulvarex', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     const symbiontData = {
@@ -88,7 +88,7 @@ export default class HarborScene extends GameScene {
                 speaker: 'Ulvarex',
                 text: "\"Suit yourself. I'll be here. In the puddle. Contemplating the nature of reflected existence. Come back if you change your mind — I'm not going anywhere. Obviously.\"",
                 options: [
-                    { text: "Leave.", next: "closeDialog" }
+                    { text: "Leave.", key: 'leave', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     this.addJournalEntry(
@@ -103,15 +103,15 @@ export default class HarborScene extends GameScene {
                 speaker: 'Ulvarex',
                 text: "\"Take your time. I've been a puddle for three months. What's another few hours? I'll keep the reflection warm for you.\"",
                 options: [
-                    { text: "Leave.", next: "closeDialog" }
+                    { text: "Leave.", key: 'leave', next: "closeDialog" }
                 ]
             },
             ulvarex_reconsider: {
                 speaker: 'Narrator',
                 text: "The strange shimmer on the water's surface is still there. You can see Ulvarex watching you from beneath the reflection, one translucent eyebrow raised.",
                 options: [
-                    { text: "Alright, bond with me.", next: "ulvarex_accept" },
-                    { text: "Not yet.", next: "closeDialog" }
+                    { text: "Alright, bond with me.", key: 'alright_bond_with_me', next: "ulvarex_accept" },
+                    { text: "Not yet.", key: 'not_yet', next: "closeDialog" }
                 ]
             },
         };

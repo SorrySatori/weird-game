@@ -149,13 +149,13 @@ export default class LumenDirectorateScene extends GameScene {
                     ? `"Back again? The hedges don't trim themselves, but I can spare a moment."`
                     : `"Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`,
                 options: [
-                    { text: "What is this place?", next: "gardener_about_lumen" },
-                    ...(hasLumenQuest ? [{ text: "I was told to come here — about joining the crew.", next: "gardener_join" }] : []),
-                    ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall. Any ideas?", next: "gardener_townhall" }] : []),
-                    ...(knowsLumenLead ? [{ text: "I need to speak with someone about Cathedral oversight.", next: "gardener_bishop_lead" }] : []),
-                    ...(knowsSulkberries && !knowsLumenLead ? [{ text: "I'm looking into spiced Sulkberries. Who supplies them?", next: "gardener_sulkberries" }] : []),
-                    ...(hasBishopQuest && !knowsLumenLead && !knowsSulkberries ? [{ text: "I'm investigating the Bishop's death.", next: "gardener_bishop_vague" }] : []),
-                    { text: "Looking for work. Anything I can help with?", next: "gardener_work_offer" },
+                    { text: "What is this place?", key: 'what_is_this_place', next: "gardener_about_lumen" },
+                    ...(hasLumenQuest ? [{ text: "I was told to come here — about joining the crew.", key: 'i_was_told_to_come_here_about_joining_the_crew', next: "gardener_join" }] : []),
+                    ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall. Any ideas?", key: 'i_need_to_get_into_the_townhall_any_ideas', next: "gardener_townhall" }] : []),
+                    ...(knowsLumenLead ? [{ text: "I need to speak with someone about Cathedral oversight.", key: 'i_need_to_speak_with_someone_about_cathedral_overs', next: "gardener_bishop_lead" }] : []),
+                    ...(knowsSulkberries && !knowsLumenLead ? [{ text: "I'm looking into spiced Sulkberries. Who supplies them?", key: 'im_looking_into_spiced_sulkberries_who_supplies_th', next: "gardener_sulkberries" }] : []),
+                    ...(hasBishopQuest && !knowsLumenLead && !knowsSulkberries ? [{ text: "I'm investigating the Bishop's death.", key: 'im_investigating_the_bishops_death', next: "gardener_bishop_vague" }] : []),
+                    { text: "Looking for work. Anything I can help with?", key: 'looking_for_work_anything_i_can_help_with', next: "gardener_work_offer" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('met_gardener_verrik')) {
@@ -174,9 +174,9 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Lumen Directorate. Keepers and protectors of everything that grows. That's the motto — well, the unofficial one. The official motto is 'Nothing Hidden. Nothing Lost.'\n\nThey run this city, more or less. Won the Board Games War, rebuilt half the districts, and now they make sure the green keeps spreading. Growth is everything to them — plants, fungi, ideas, influence. Especially influence."`,
                 options: [
-                    { text: "What do you do for them?", next: "gardener_role" },
-                    { text: "Who's in charge here?", next: "gardener_leadership" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "What do you do for them?", key: 'what_do_you_do_for_them', next: "gardener_role" },
+                    { text: "Who's in charge here?", key: 'whos_in_charge_here', next: "gardener_leadership" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -184,8 +184,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"I cultivate. The walls, the walkways, the hedges — it's all alive, you know. The Directorate doesn't believe in dead architecture. Every surface should breathe, should grow.\n\nI'm low on the vine, so to speak. But I hear things. Plants are good listeners, and so am I."`,
                 options: [
-                    { text: "What kind of things do you hear?", next: "gardener_rumors" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "What kind of things do you hear?", key: 'what_kind_of_things_do_you_hear', next: "gardener_rumors" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -193,9 +193,9 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"Oh, this and that. The Directorate's been restless lately. Something about the Egg Cathedral being sealed — that's got them worried. They've had their eye on that place for years, waiting for the hatching.\n\nAnd there's been more traffic inside than usual. People going up to see the Angle Corrector. That's never a casual visit."`,
                 options: [
-                    { text: "Who is the Angle Corrector?", next: "gardener_angle_corrector" },
-                    { text: "They're worried about the Cathedral?", next: "gardener_cathedral" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Who is the Angle Corrector?", key: 'who_is_the_angle_corrector', next: "gardener_angle_corrector" },
+                    { text: "They're worried about the Cathedral?", key: 'theyre_worried_about_the_cathedral', next: "gardener_cathedral" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -203,10 +203,10 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Angle Corrector? That's... well, title and name all in one. Nobody knows their real name, or if they even have one. They handle the Directorate's more delicate affairs — cultivation oversight, Cathedral liaison, that sort of thing.\n\nIf you need answers about anything the Directorate touches, the Angle Corrector is who you want. Third floor, through the atrium. But they don't see just anyone. You'll need a reason."`,
                 options: [
-                    ...(hasLumenQuest ? [{ text: "Captain Liris sent me. That's my reason.", next: "gardener_join_angle" }] : []),
-                    ...(knowsLumenLead ? [{ text: "I'm here about the Bishop's dealings with the Directorate.", next: "gardener_bishop_lead" }] : []),
-                    { text: "I'll figure something out.", next: "gardener_angle_advice" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    ...(hasLumenQuest ? [{ text: "Captain Liris sent me. That's my reason.", key: 'captain_liris_sent_me_thats_my_reason', next: "gardener_join_angle" }] : []),
+                    ...(knowsLumenLead ? [{ text: "I'm here about the Bishop's dealings with the Directorate.", key: 'im_here_about_the_bishops_dealings_with_the_direct', next: "gardener_bishop_lead" }] : []),
+                    { text: "I'll figure something out.", key: 'ill_figure_something_out', next: "gardener_angle_advice" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -214,7 +214,7 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"A word of advice — the Directorate values transparency, or at least the appearance of it. Don't try to be clever. State your business plainly. They respect directness.\n\nAnd don't touch the ferns in the atrium. They bite."`,
                 options: [
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -222,8 +222,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Egg Cathedral is the biggest growth event this city has seen in decades. Whatever's growing inside those eggs — the Directorate wants to be there when it hatches. They've been monitoring it, cataloguing every vibration.\n\nWhen the Bishop sealed the Cathedral... let's just say the mood around here got very tense. The Directorate doesn't like locked doors. 'Nothing Hidden,' remember?"`,
                 options: [
-                    { text: "Who is the Angle Corrector?", next: "gardener_angle_corrector" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Who is the Angle Corrector?", key: 'who_is_the_angle_corrector', next: "gardener_angle_corrector" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -231,8 +231,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Directorate isn't run by one person — it's a council. But the one you'll hear about most is the Angle Corrector. They handle the day-to-day, the sensitive matters, the things that need a... particular touch.\n\nCaptain Liris runs the skyship operations — the Verdigrace and its crew. She's Directorate through and through, but she's usually up in the clouds."`,
                 options: [
-                    { text: "Who is the Angle Corrector?", next: "gardener_angle_corrector" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Who is the Angle Corrector?", key: 'who_is_the_angle_corrector', next: "gardener_angle_corrector" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -240,8 +240,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"Joining up, eh? Captain Liris sent you? She's always looking for promising recruits. The Directorate values dedication to growth — in all its forms.\n\nYou'll want to speak with the Angle Corrector inside. Third floor, through the atrium. Tell them Liris sent you. That should get you through the door, at least."`,
                 options: [
-                    { text: "What should I expect?", next: "gardener_join_expect" },
-                    { text: "Thanks. I'll head inside.", next: "closeDialog" },
+                    { text: "What should I expect?", key: 'what_should_i_expect', next: "gardener_join_expect" },
+                    { text: "Thanks. I'll head inside.", key: 'thanks_ill_head_inside', next: "closeDialog" },
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_lumen_directorate', 'The gardener Verrik directed me to speak with the Angle Corrector on the third floor of the Directorate. Captain Liris\'s name should get me through the door.', 'gardener_directions');
@@ -252,7 +252,7 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"Liris's name carries weight around here. Mention her, and the Angle Corrector will see you. Third floor. Don't dawdle in the atrium — it's beautiful, but it's also the Directorate's way of watching who comes and goes."`,
                 options: [
-                    { text: "Thanks for the tip.", next: "gardener_start" },
+                    { text: "Thanks for the tip.", key: 'thanks_for_the_tip', next: "gardener_start" },
                 ],
                 onTrigger: () => {
                     if (this.questSystem?.getQuest('find_lumen_directorate') && !this.questSystem.getQuest('find_lumen_directorate').isComplete) {
@@ -265,7 +265,7 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Angle Corrector will test you somehow — they always do. Not a fight or anything like that. More like... they'll want to know how you see growth. What it means to you.\n\nThe Directorate isn't just about plants and fungi. It's about potential. Expansion. Becoming more than what you are. If you can speak to that, you'll do fine."`,
                 options: [
-                    { text: "I'll keep that in mind.", next: "gardener_start" },
+                    { text: "I'll keep that in mind.", key: 'ill_keep_that_in_mind', next: "gardener_start" },
                 ]
             },
 
@@ -273,8 +273,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Bishop's dealings? That's above my pay grade, friend. But I can tell you this — the Bishop was a regular visitor here before she sealed the Cathedral. Came to see the Angle Corrector personally.\n\nAfter the sealing... the visits stopped. And the Angle Corrector's mood went from bad to worse. Something happened between them.\n\nYou'll want to go inside and ask directly. Third floor. Be respectful — and honest. The Directorate can smell a lie faster than my ferns can smell rain."`,
                 options: [
-                    { text: "The Bishop visited regularly?", next: "gardener_bishop_visits" },
-                    { text: "Thanks. I'll head inside.", next: "closeDialog" },
+                    { text: "The Bishop visited regularly?", key: 'the_bishop_visited_regularly', next: "gardener_bishop_visits" },
+                    { text: "Thanks. I'll head inside.", key: 'thanks_ill_head_inside', next: "closeDialog" },
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('who_killed_bishop', 'The gardener Verrik at the Lumen Directorate mentioned the Bishop used to visit regularly — specifically to see the Angle Corrector. The visits stopped when the Cathedral was sealed. Something happened between them.', 'gardener_bishop_info');
@@ -294,8 +294,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"Oh yes, every week or so. Always very formal — the Bishop and the Angle Corrector behind closed doors. I'd see her leaving with packages sometimes. Small ones, carefully wrapped.\n\nThe Sulkberries, most likely. The spiced ones. The Directorate grows them in special conditions — very particular about who gets the good stock.\n\nBut then one day, the Cathedral sealed up and the Bishop stopped coming. The Angle Corrector started having longer meetings with the council. Something changed."`,
                 options: [
-                    { text: "I need to speak with the Angle Corrector.", next: "gardener_angle_advice" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "I need to speak with the Angle Corrector.", key: 'i_need_to_speak_with_the_angle_corrector', next: "gardener_angle_advice" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -303,8 +303,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"Spiced Sulkberries? You've done your research. Those are a Directorate specialty — grown in controlled conditions, spiced with compounds only the cultivation team knows.\n\nThey don't sell them to just anyone. You'd need to talk to the Angle Corrector about who has access to the premium stock. That's cultivation oversight territory.\n\nThird floor, inside. But have a good reason ready — the Angle Corrector doesn't discuss client lists lightly."`,
                 options: [
-                    { text: "Thanks. I'll head inside.", next: "closeDialog" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Thanks. I'll head inside.", key: 'thanks_ill_head_inside', next: "closeDialog" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ],
                 onTrigger: () => {
                     if (this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete) {
@@ -317,8 +317,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Bishop's death... yes, that shook things up around here. The Directorate doesn't show it publicly, but there's been a lot of emergency meetings since the news broke.\n\nI don't know the details — I'm just the gardener. But the people inside might. The Angle Corrector especially. If there's anyone who knew the Bishop's business with the Directorate, it's them.\n\nThird floor. Go in, state your business. Just don't expect easy answers."`,
                 options: [
-                    { text: "Who is the Angle Corrector?", next: "gardener_angle_corrector" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Who is the Angle Corrector?", key: 'who_is_the_angle_corrector', next: "gardener_angle_corrector" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -327,9 +327,9 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Townhall? Ha. You and half the city. That place has been locked up tighter than a root-ball in winter.\n\nBut listen — if anyone can get you through those doors, it's Seldo Thrice-Corrected. He works inside, on the second floor. Handles Directorate business that overlaps with the city bureaucracy.\n\nSeldo knows every clerk, every stamp, every back door in this city's administration. If the Townhall can be opened, Seldo knows how."`,
                 options: [
-                    { text: "Seldo Thrice-Corrected? Unusual name.", next: "gardener_seldo_name" },
-                    { text: "Where exactly can I find him?", next: "gardener_seldo_where" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Seldo Thrice-Corrected? Unusual name.", key: 'seldo_thricecorrected_unusual_name', next: "gardener_seldo_name" },
+                    { text: "Where exactly can I find him?", key: 'where_exactly_can_i_find_him', next: "gardener_seldo_where" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('enter_townhall', 'The gardener Verrik at the Lumen Directorate suggested I speak with Seldo Thrice-Corrected inside. He handles Directorate-city bureaucracy overlap and might know a way into the Townhall.', 'gardener_seldo_tip');
@@ -340,8 +340,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"'Thrice-Corrected' means the Directorate reviewed his loyalties three times and found him acceptable each time. It's a mark of trust — or stubbornness, depending who you ask.\n\nSeldo's been with the Directorate longer than I have. He knows where every document goes, which clerk to bribe with Sulkberries, and which doors have locks that respond to a kind word. If the Townhall is your destination, he's your guide."`,
                 options: [
-                    { text: "Where can I find him inside?", next: "gardener_seldo_where" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Where can I find him inside?", key: 'where_can_i_find_him_inside', next: "gardener_seldo_where" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -349,8 +349,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"Second floor, past the reading rooms. You'll know his office by the stacks of paper — the man drowns in forms and permits. Tell him Verrik sent you. And bring patience. Seldo talks in circles sometimes, but he always arrives at the point."`,
                 options: [
-                    { text: "Thanks. I'll head inside.", next: "closeDialog" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Thanks. I'll head inside.", key: 'thanks_ill_head_inside', next: "closeDialog" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -361,11 +361,11 @@ export default class LumenDirectorateScene extends GameScene {
                     ? `"Fancy another round of spore-growing? I always need fresh specimens for the Directorate's living walls. Same deal as before — your spores, my expertise, and whatever the mycelium decides to become.\n\nThe more spores you sacrifice, the more... interesting the results. What do you say?"`
                     : `"Work, eh? Well, I can always use an extra pair of hands — or more precisely, an extra source of spores.\n\nSee, the Directorate's living architecture needs constant feeding. Fresh fungi, new growth. And you — you carry spores, don't you? I can smell them. Everyone in this city does, but yours have a particular... resonance.\n\nHere's the deal: you sacrifice some spores into my cultivation bed, and I guide the growth. Whatever mushroom emerges, I'll buy it from you. The more spores you invest, the rarer the result. Interested?"`,
                 options: [
-                    ...(canAfford10 ? [{ text: "A small offering — 10 spores.", next: "gardener_grow_small" }] : []),
-                    ...(canAfford25 ? [{ text: "A generous sacrifice — 25 spores.", next: "gardener_grow_medium" }] : []),
-                    ...(canAfford50 ? [{ text: "Everything I can spare — 50 spores.", next: "gardener_grow_large" }] : []),
-                    ...(!canAfford10 ? [{ text: "I don't have enough spores right now.", next: "gardener_no_spores" }] : []),
-                    { text: "Not right now.", next: "gardener_start" },
+                    ...(canAfford10 ? [{ text: "A small offering — 10 spores.", key: 'a_small_offering_10_spores', next: "gardener_grow_small" }] : []),
+                    ...(canAfford25 ? [{ text: "A generous sacrifice — 25 spores.", key: 'a_generous_sacrifice_25_spores', next: "gardener_grow_medium" }] : []),
+                    ...(canAfford50 ? [{ text: "Everything I can spare — 50 spores.", key: 'everything_i_can_spare_50_spores', next: "gardener_grow_large" }] : []),
+                    ...(!canAfford10 ? [{ text: "I don't have enough spores right now.", key: 'i_dont_have_enough_spores_right_now', next: "gardener_no_spores" }] : []),
+                    { text: "Not right now.", key: 'not_right_now', next: "gardener_start" },
                 ]
             },
 
@@ -373,7 +373,7 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"No spores? Can't grow much without raw material, friend. Come back when you've gathered some. The city's full of spore sources — just keep your eyes open and your lungs breathing."`,
                 options: [
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
             },
 
@@ -382,7 +382,7 @@ export default class LumenDirectorateScene extends GameScene {
                 text: `"Ten spores — a modest start. Let's see what your essence produces..."`,
                 hideCloseOption: true,
                 options: [
-                    { text: "[Watch the cultivation bed]", next: "gardener_mushroom_result",
+                    { text: "[Watch the cultivation bed]", key: 'watch_the_cultivation_bed', next: "gardener_mushroom_result",
                       onSelect: () => {
                         this.modifySpores(-10);
                         this.growMushroom(10, completedQuests, journalEntries, hasThorne, hasNeme, hasUlvarex, growth, decay);
@@ -395,7 +395,7 @@ export default class LumenDirectorateScene extends GameScene {
                 text: `"Twenty-five spores — now that's commitment. The mycelium will have plenty to work with..."`,
                 hideCloseOption: true,
                 options: [
-                    { text: "[Watch the cultivation bed]", next: "gardener_mushroom_result",
+                    { text: "[Watch the cultivation bed]", key: 'watch_the_cultivation_bed', next: "gardener_mushroom_result",
                       onSelect: () => {
                         this.modifySpores(-25);
                         this.growMushroom(25, completedQuests, journalEntries, hasThorne, hasNeme, hasUlvarex, growth, decay);
@@ -408,7 +408,7 @@ export default class LumenDirectorateScene extends GameScene {
                 text: `"Fifty spores! You're either brave or desperate. Either way — the mycelium will feast. Stand back..."`,
                 hideCloseOption: true,
                 options: [
-                    { text: "[Watch the cultivation bed]", next: "gardener_mushroom_result",
+                    { text: "[Watch the cultivation bed]", key: 'watch_the_cultivation_bed', next: "gardener_mushroom_result",
                       onSelect: () => {
                         this.modifySpores(-50);
                         this.growMushroom(50, completedQuests, journalEntries, hasThorne, hasNeme, hasUlvarex, growth, decay);
@@ -421,8 +421,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: this.lastMushroomResult?.text || `"Interesting..."`,
                 options: [
-                    { text: "What does it mean?", next: "gardener_mushroom_lore" },
-                    { text: "I'll take the payment.", next: "gardener_mushroom_pay" },
+                    { text: "What does it mean?", key: 'what_does_it_mean', next: "gardener_mushroom_lore" },
+                    { text: "I'll take the payment.", key: 'ill_take_the_payment', next: "gardener_mushroom_pay" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('grew_mushroom_verrik')) {
@@ -442,7 +442,7 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: this.lastMushroomResult?.lore || `"Every mushroom tells a story about the one who grew it."`,
                 options: [
-                    { text: "I'll take the payment.", next: "gardener_mushroom_pay" },
+                    { text: "I'll take the payment.", key: 'ill_take_the_payment', next: "gardener_mushroom_pay" },
                 ]
             },
 
@@ -450,8 +450,8 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: this.lastMushroomResult?.payText || `"Here's your payment."`,
                 options: [
-                    { text: "Grow another?", next: "gardener_work_offer" },
-                    { text: "I have other questions.", next: "gardener_start" },
+                    { text: "Grow another?", key: 'grow_another', next: "gardener_work_offer" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ],
                 onTrigger: () => {
                     if (this.lastMushroomResult?.payment) {

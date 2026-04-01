@@ -18,14 +18,17 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: '"What are you?"',
+                        key: 'what_are_you',
                         next: 'redmassWhatAreYou'
                     },
                     {
                         text: 'Collect the redmass',
+                        key: 'collect_the_redmass',
                         next: 'redmassCollectWarning'
                     },
                     {
                         text: 'Leave it alone',
+                        key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
                 ],
@@ -45,14 +48,17 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: '"I need you for the Rust Feast. I\'m sorry."',
+                        key: 'i_need_you_for_the_rust_feast_im_sorry',
                         next: 'redmassCollectWarning'
                     },
                     {
                         text: '"I won\'t hurt you."',
+                        key: 'i_wont_hurt_you',
                         next: 'redmassSpared'
                     },
                     {
                         text: 'Leave it alone',
+                        key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
                 ]
@@ -62,10 +68,12 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: 'Collect it anyway',
+                        key: 'collect_it_anyway',
                         next: 'redmassCollectConfirm'
                     },
                     {
                         text: '"I\'m sorry. I won\'t take you."',
+                        key: 'im_sorry_i_wont_take_you',
                         next: 'redmassSpared'
                     }
                 ]
@@ -82,6 +90,7 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: 'Continue',
+                        key: 'continue',
                         next: 'closeDialog'
                     }
                 ],
@@ -109,6 +118,7 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: 'Continue',
+                        key: 'continue',
                         next: 'closeDialog'
                     }
                 ]
@@ -118,14 +128,17 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: '"I need redmass for the Rust Feast."',
+                        key: 'i_need_redmass_for_the_rust_feast',
                         next: 'redmassVoluntary'
                     },
                     {
                         text: '"Just visiting."',
+                        key: 'just_visiting',
                         next: 'redmassVisit'
                     },
                     {
                         text: 'Collect it by force',
+                        key: 'collect_it_by_force',
                         next: 'redmassCollectWarning'
                     }
                 ]
@@ -135,10 +148,12 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: 'Accept the shard gratefully',
+                        key: 'accept_the_shard_gratefully',
                         next: 'redmassCollectVoluntary'
                     },
                     {
                         text: '"Keep it. I\'ll find another way."',
+                        key: 'keep_it_ill_find_another_way',
                         next: 'closeDialog'
                     }
                 ]
@@ -155,6 +170,7 @@ export default class RedmassIslandScene extends GameScene {
                 options: [
                     {
                         text: 'Continue',
+                        key: 'continue',
                         next: 'closeDialog'
                     }
                 ]

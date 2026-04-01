@@ -16,8 +16,8 @@ export default class EntryScene extends GameScene {
             main: {
                 text: "Ah, my apprentice, there you are! *sigh* I've been waiting for you. Listen carefully, for I have an important task that requires... well, someone of your particular talents.",
                 options: [
-                    { text: "What task, Master?", next: 'task' },
-                    { text: "Why can't you do it yourself?", next: 'whyNot' }
+                    { text: "What task, Master?", key: 'what_task_master', next: 'task' },
+                    { text: "Why can't you do it yourself?", key: 'why_cant_you_do_it_yourself', next: 'whyNot' }
                 ],
                 onTrigger: () => {
                     this.addJournalEntry(
@@ -78,48 +78,48 @@ export default class EntryScene extends GameScene {
                 hideCloseOption: true,
                 text: "You must find the Bishop at the Egg Cathedral. She might knows about the distress call we have received from this city via myceliar network. The Bishop should be present at the Egg Cathedral.",
                 options: [
-                    { text: "Wait, do you mean the task you have been given by the Spore Council? The only reason we are here? Why can't we go see the Bishop together?", next: 'whyNot' },
-                    { text: "Tell me more about the city first", next: 'city' },
+                    { text: "Wait, do you mean the task you have been given by the Spore Council? The only reason we are here? Why can't we go see the Bishop together?", key: 'wait_do_you_mean_the_task_you_have_been_given_by_t', next: 'whyNot' },
+                    { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
                 ]
             },
             whyNot: {
                 hideCloseOption: true,
                 text: "*adjusts robe importantly* I am far too busy with... important research. Yes! Research into advanced mycological phenomena that your novice mind couldn't possibly comprehend. Besides, I have a... prior engagement at the Fermented Cap tavern. The Bishop specifically requested someone of your... particular level of experience.",
                 options: [
-                    { text: "You're just avoiding work, aren't you?", next: 'avoiding' },
-                    { text: "What should I tell the Bishop when I find her?", next: 'tellBishop' },
-                    { text: "Tell me more about the city first", next: 'city' }
+                    { text: "You're just avoiding work, aren't you?", key: 'youre_just_avoiding_work_arent_you', next: 'avoiding' },
+                    { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' },
+                    { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' }
                 ]
             },
             avoiding: {
                 hideCloseOption: true,
                 text: "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of mushroom ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!",
                 options: [
-                    { text: "What should I tell the Bishop when I find her?", next: 'tellBishop' },
-                    { text: "Tell me more about the city first", next: 'city' },
-                    { text: "Master, I have heard that Upper Morkezela is called the Dead gods city. Could you tell me more?", next: 'gods' }
+                    { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' },
+                    { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
+                    { text: "Master, I have heard that Upper Morkezela is called the Dead gods city. Could you tell me more?", key: 'master_i_have_heard_that_upper_morkezela_is_called', next: 'gods' }
                 ]
             },
             tellBishop: {
                 text: "Tell her you're my apprentice, sent to assist with the spore disturbance investigation. She'll know what to do. And remember to represent the fungal clergy with dignity! No embarrassing me this time. Now, was there anything else you needed to know before you go?",
                 options: [
-                    { text: "Tell me more about the city", next: 'city' },
-                    { text: "Who are the gods?", next: 'gods' },
-                    { text: "I'll be on my way", next: 'farewell' }
+                    { text: "Tell me more about the city", key: 'tell_me_more_about_the_city', next: 'city' },
+                    { text: "Who are the gods?", key: 'who_are_the_gods', next: 'gods' },
+                    { text: "I'll be on my way", key: 'ill_be_on_my_way', next: 'farewell' }
                 ]
             },
             farewell: {
                 hideCloseOption: true,
                 text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed. Remember, your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you. Now off you go, apprentice! Glory to the Eternal Mushroom!",
                 options: [
-                    { text: "Wait! Tell me more about the growth and decay.", next: 'growthDecay' },
-                    { text: "Glory to the Eternal Mushroom...", next: 'close' }
+                    { text: "Wait! Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
+                    { text: "Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'close' }
                 ]
             },
             growthDecay: {
                 text: "Well, the terms speak for themselves, aren't they? Growth is when the city is growing, when it is thriving and prospering. Decay is when the city is decaying, when the rot has the upper hand. As you know, my apprentice, Obazoba is master of both principles. Therefore, they are equal, none of them is better than the other. But of course, not every citizen here will share this opinion. Some of them will prefer growth, some will prefer decay. Some will prefer balance between them. Some will prefer none of them. It's up to you to find out, but be careful. Now I really have to go, I have a lot of... work to do. Glory to the Eternal Mushroom!",
                 options: [
-                    { text: "Glory to the Eternal Mushroom...", next: 'close' }
+                    { text: "Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'close' }
                 ],
                 onTrigger: () => {
                     this.addJournalEntry(
@@ -138,98 +138,98 @@ export default class EntryScene extends GameScene {
             city: {
                 text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is a graveyard of forgotten gods from many spheres. Each time people cease to believe in some god, it grows. The dying gods bring streets, building and forgotten culture with them. They don't want to be alone in the void, afterlife or whatever there is for them after they die, you know. ",
                 options: [
-                    { text: "Ask about the gods", next: 'gods' },
-                    { text: "Do you have any advice for me?", next: 'advice' },
-                    { text: "Tell me more about city locations.", next: 'locations' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "Ask about the gods", key: 'ask_about_the_gods', next: 'gods' },
+                    { text: "Do you have any advice for me?", key: 'do_you_have_any_advice_for_me', next: 'advice' },
+                    { text: "Tell me more about city locations.", key: 'tell_me_more_about_city_locations', next: 'locations' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             advice: {
                 text: "Remember, all your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you.",
                 options: [
-                    { text: "Ask about the gods", next: 'gods' },
-                    { text: "Tell me more about city locations.", next: 'locations' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "Ask about the gods", key: 'ask_about_the_gods', next: 'gods' },
+                    { text: "Tell me more about city locations.", key: 'tell_me_more_about_city_locations', next: 'locations' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             gods: {
                 text: "You know, or you should know, that there is only one real god. Obozoba, the Ur-mushroom, the one who created the world and all life and death in it. The other gods are just illusions... but yeah, this is a city where gods are going to die. See, not all gods live forever.",
                 options: [
-                    { text: "Ask about the city", next: 'city' },
-                    { text: "Where can I learn more about the gods?", next: 'priests' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "Ask about the city", key: 'ask_about_the_city', next: 'city' },
+                    { text: "Where can I learn more about the gods?", key: 'where_can_i_learn_more_about_the_gods', next: 'priests' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             priests: {
                 text: "Go to the Egg Catedral and talk to some of the priests there. They are always happy to chat. I mean, talk to the our priest or the Bistop. Don't talk to the other god's priests. I mean, the false gods' priests. The false priests. Ehm. You get me.",
                 options: [
-                    { text: "Could you tell me more about the Egg Catedral?", next: 'eggCatedral' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "Could you tell me more about the Egg Catedral?", key: 'could_you_tell_me_more_about_the_egg_catedral', next: 'eggCatedral' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             eggCatedral: {
                 text: "The Egg Cathedral is, well, a huge catedral that is hatching from gigantic egg. A massive, shell-grown structure inhabited by fungal clergy, flickering with bio-luminescent scripture... They don't know which to which religion the cathedral belongs. So all major churches send their priest just to be sure. They wait for the signs they hope for, but the cathedral is still hatching...",
                 options: [
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             locations: {
                 text: "The city has many locations, but the most significant ones are the Yolk Sea, Shed 512, Scraper 1140, Voxmarket, and the Stomach Clock. Which one interests you?",
                 options: [
-                    { text: "Shed 512", next: 'shed512' },
-                    { text: "Yolk Sea", next: 'yolkSea' },
-                    { text: "Scraper 1140", next: 'scraper1140' },
-                    { text: "Voxmarket", next: 'voxmarket' },
-                    { text: "Stomach Clock", next: 'stomachClock' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "Shed 512", key: 'shed_512', next: 'shed512' },
+                    { text: "Yolk Sea", key: 'yolk_sea', next: 'yolkSea' },
+                    { text: "Scraper 1140", key: 'scraper_1140', next: 'scraper1140' },
+                    { text: "Voxmarket", key: 'voxmarket', next: 'voxmarket' },
+                    { text: "Stomach Clock", key: 'stomach_clock', next: 'stomachClock' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             shed512: {
                 text: "Shed 512, also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
                 options: [
-                    { text: "What is the Egg Cathedral?", next: 'eggCatedral' },
-                    { text: "What is the Yolk Sea?", next: 'yolkSea' },
-                    { text: "What is the Scraper 1140", next: 'scraper1140' },
-                    { text: "What is the Voxmarket?", next: 'voxmarket' },
-                    { text: "What is the Stomach Clock?", next: 'stomachClock' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "What is the Egg Cathedral?", key: 'what_is_the_egg_cathedral', next: 'eggCatedral' },
+                    { text: "What is the Yolk Sea?", key: 'what_is_the_yolk_sea', next: 'yolkSea' },
+                    { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
+                    { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
+                    { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             yolkSea: {
                 text: "The Yolk Sea is a glowing, sentient ocean of living yolk. Boats float like seeds, and whispers rise from its depths.",
                 options: [
-                    { text: "What is the Shed 512?", next: 'shed512' },
-                    { text: "What is the Scraper 1140", next: 'scraper1140' },
-                    { text: "What is the Voxmarket?", next: 'voxmarket' },
-                    { text: "What is the Stomach Clock?", next: 'stomachClock' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
+                    { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
+                    { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             scraper1140: {
                 text: "It's a crooked skyscraper retrofitted into a vertical slum. Each floor houses a different caste, age, or species. I'm afraid I don't know much about it, but I would be careful around this place",
                 options: [
-                    { text: "What is the Shed 512?", next: 'shed512' },
-                    { text: "What is the Scraper 1140", next: 'scraper1140' },
-                    { text: "What is the Stomach Clock?", next: 'stomachClock' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
+                    { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             voxmarket: {
                 text: "The Voxmarket is a bustling marketplace... audio bazaar where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed. I have heard that also black market thrives here.",
                 options: [
-                    { text: "What is the Shed 512?", next: 'shed512' },
-                    { text: "What is the Scraper 1140", next: 'scraper1140' },
-                    { text: "What is the Stomach Clock?", next: 'stomachClock' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
+                    { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             stomachClock: {
                 text: "The Stomach Clock is a biomechanical chamber shaped like a digestive clock. Time runs in loops; bile is sacred. You can see it at the townhall",
                 options: [
-                    { text: "What is the Shed 512?", next: 'shed512' },
-                    { text: "What is the Scraper 1140", next: 'scraper1140' },
-                    { text: "What is the Voxmarket?", next: 'voxmarket' },
-                    { text: "Return to previous topic", next: 'main' }
+                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
+                    { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             }
         };
