@@ -56,7 +56,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
     }
 
     createAngleCorrector() {
-        this.angleCorrector = this.add.image(530, 280, 'angleCorrector');
+        this.angleCorrector = this.add.image(600, 320, 'angleCorrector');
         this.angleCorrector.setScale(0.18);
         this.angleCorrector.setDepth(5);
         this.angleCorrector.setInteractive({ useHandCursor: true });
@@ -64,7 +64,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         // Olive-green glow effect
         this.angleCorrectorGlow = this.add.graphics();
         this.angleCorrectorGlow.fillStyle(0x556B2F, 0.15);
-        this.angleCorrectorGlow.fillCircle(530, 280, 45);
+        this.angleCorrectorGlow.fillCircle(600, 320, 45);
         this.angleCorrectorGlow.setDepth(4);
 
         this.tweens.add({
