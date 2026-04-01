@@ -194,6 +194,19 @@ A flying transport vessel operated by **Captain Liris** on behalf of the Lumen D
 
 ---
 
+### Lumen Directorate Headquarters
+
+The official seat of the Lumen Directorate, located near the Town Square. An imposing building of **living architecture** — walls, walkways, and hedges are all alive, cultivated by a dedicated gardener. The Directorate "doesn't believe in dead architecture. Every surface should breathe, should grow."
+
+**Exterior:** The grounds feature spiral-formation root-tendrils, cultivated flower beds, and living hedges maintained by **Verrik the Gardener**. Players can sacrifice spores here to grow mushrooms with Verrik — the results vary based on the player's game history, symbionts, Growth/Decay balance, and investment. Mushroom properties (color, shape, rarity, traits) are procedurally generated from the player's accumulated choices and exploration.
+
+**Interior (Third Floor — The Angle Corrector's Office):** Home to the enigmatic **Angle Corrector**, who handles the Directorate's most sensitive affairs: cultivation oversight, Cathedral liaison, recruit assessment, and diplomatic negotiations. The atrium contains biting ferns that also serve as a surveillance mechanism — "the Directorate's way of watching who comes and goes." Key NPCs:
+
+- **The Angle Corrector** — Title, name, and function rolled into one. Handles day-to-day operations, sensitive matters, and recruit testing.
+- **Seldo Thrice-Corrected** — Second floor operative who handles the Directorate's bureaucratic liaison with city administration. Knows "every clerk, every stamp, every back door" in the city's bureaucracy. His title means the Directorate reviewed his loyalties three times and found him acceptable each time — "a mark of trust, or stubbornness."
+
+---
+
 ### Locations Beyond the City
 
 | Location | Description |
@@ -234,17 +247,28 @@ A flying transport vessel operated by **Captain Liris** on behalf of the Lumen D
 
 ---
 
-### The Lumen Directorate (Sporemind Accord)
+### The Lumen Directorate
 
 **Alignment:** Growth
 **Color:** Dark olive green (#556B2F)
 **Motto:** "Nothing Hidden. Nothing Lost."
-**Philosophy:** Strive for "fusion of mind and flora." Keepers and protectors of everything that grows. Claim victory in the Board Games War and credit themselves with saving the city. They promote aggressive growth — new plants, new life, symbiosis with the natural world. They view the Rust Choir as enemies.
+**Philosophy:** Strive for "fusion of mind and flora." Keepers and protectors of everything that grows. Claim victory in the Board Games War and credit themselves with saving the city. They promote aggressive growth — new plants, new life, symbiosis with the natural world. They view the Rust Choir as enemies. Transparency and preservation are their covenant: "Everything that grows deserves to be seen, catalogued, and protected."
+
+**Structure:** Run by a council, not a single leader. The **Angle Corrector** handles day-to-day operations and sensitive matters. **Captain Liris** runs skyship operations (the Verdigrace). **Seldo Thrice-Corrected** manages bureaucratic liaison.
+
+**Headquarters:** Living architecture near the Town Square. Walls, walkways, and hedges are all alive. The exterior gardens are tended by **Verrik the Gardener**. The Angle Corrector operates from the third floor; Seldo works on the second floor among stacks of forms and permits.
+
+**The Egg Cathedral Connection:** The Directorate monitored the Cathedral for decades — "the hatching is the most significant growth event in decades." The Bishop's emergency sealing of the Cathedral cut off all Directorate monitoring access, severely damaging relations. The Angle Corrector had a professional relationship with the Bishop involving regular meetings about Cathedral access and the hatching. The Directorate supplied premium **spiced Sulkberries** to the Bishop for dream immersion rituals in the Cathedral.
+
+**Cultivation & Trade:** The Directorate cultivates spiced Sulkberries under precise conditions with specific alkaloid profiles. Fewer than a dozen regular clients receive the premium stock. They also maintain living architecture throughout their headquarters and trade in rare cultivation specimens via the Verdigrace.
+
+**Recruitment:** Prospective associates are tested by the Angle Corrector on their understanding of growth as philosophy. Passing grants "associate" status — access to halls, archives, and assignments, but not full membership.
 
 **Notable Members:**
-- **Captain Liris** — Master of the skyship Verdigrace, operating on Lumen Directorate missions to gather rare specimens.
-
-**Headquarters:** Located in the heart of the city, near the main square — "quite a building, you can't miss it."
+- **The Angle Corrector** — Title, name, and function. Handles cultivation oversight, diplomatic liaison, recruit assessment. Nobody knows their real name.
+- **Captain Liris** — Master of the skyship Verdigrace.
+- **Verrik the Gardener** — Tends the living architecture. Low in the hierarchy but well-informed. "Plants are good listeners, and so am I."
+- **Seldo Thrice-Corrected** — Bureaucratic liaison operative. Reviewed three times for loyalty. Knows every administrative back door in the city.
 
 ---
 
@@ -329,6 +353,7 @@ Symbionts are parasitic/mutualistic entities that bond with a host, granting spe
 | **Vestigels** | Mysterious currency-like objects that seem "alive somehow." Three are known to exist in the Voxmarket area, held by various merchants. Their true nature and purpose remain unclear. |
 | **Godmetal** | Metal that hums with residual faith, found in the Godgraveyard beneath the city. |
 | **Mnemonic Moss** | Peculiar moss found around the Scraper's backyard/transit yard. Has memory-related properties; the Bishop said it "sang" to her. Dreams in the area can be intense. |
+| **Spiced Sulkberries** | A Lumen Directorate specialty — cultivated under precise conditions with specific alkaloid profiles. Used in dream immersion rituals to commune with growth patterns inside the Egg Cathedral's eggs. Fewer than a dozen regular clients receive the premium stock. The Bishop was the most consistent buyer. Potentially linked to her death — tampered berries could cause neural trauma matching the Bishop's condition. |
 | **Oil** | Viscous oil found at the Harbor and Echo Drain Delta. Used as an ingredient for the Rust Feast. |
 | **Metal Scrap** | Rusty fragments found throughout the city. Ingredient for the Rust Feast. |
 | **Gold** | Standard monetary currency. Starting amount: 25. |
@@ -371,6 +396,9 @@ Upper Morkezela is fundamentally a place where gods come to die. When deities ce
 | **Phor Calesta** | Craybara divinographer/archaeologist | Townhall |
 | **Ortolan Šmelc** | Board game designer seeking extra arms | Shed 521 Courtyard |
 | **Captain Liris** | Master of the skyship Verdigrace | Skyship (above Crossroads) |
+| **The Angle Corrector** | Lumen Directorate's chief operative — cultivation oversight, Cathedral liaison, recruit testing | Lumen Directorate Interior (3rd floor) |
+| **Verrik the Gardener** | Tends the Directorate's living architecture; well-informed informant | Lumen Directorate (exterior) |
+| **Seldo Thrice-Corrected** | Directorate bureaucratic liaison; knows every administrative back door | Lumen Directorate Interior (2nd floor) |
 | **The Lift-Mother** | Sentient elevator in the Scraper | Scraper Interior |
 | **Heliodor Donjon Vaalstran** | Composite bartender organism | Screaming Cork |
 | **Magnekin** | Collective entity of micro-cities | Town Square |
@@ -388,7 +416,7 @@ Most disturbing is a Townhall memo in which the Bishop describes entering a conf
 
 The symbiont Neme, found in the Bishop's chest cavity, had shared consciousness with her and sensed that "something about the spores changing" was wrong. Neme knew the Bishop "believed she was speaking to herself, but it wasn't her reflection."
 
-The threads of investigation lead through Dr. Elphi Quarn (who built the dream device), the Vestigels (the Bishop was trading in them), the Egg Cathedral (which she sealed), and the deeper question of what the distress call on the myceliar network truly signifies.
+The threads of investigation lead through Dr. Elphi Quarn (who built the dream device), the Vestigels (the Bishop was trading in them), the Egg Cathedral (which she sealed), the **Lumen Directorate** (who supplied the Bishop with spiced Sulkberries for dream immersion — potentially tampered to cause neural trauma), and the deeper question of what the distress call on the myceliar network truly signifies. The Angle Corrector at the Directorate had a professional relationship with the Bishop that deteriorated when the Cathedral was sealed, and the premium Sulkberry client list is "short and deeply uncomfortable to consider."
 
 > *"The city no longer hears me. Perhaps the dreams will."*
 > — The Bishop's final written words
@@ -421,11 +449,12 @@ The threads of investigation lead through Dr. Elphi Quarn (who built the dream d
 
 
 [Town Square] ——→ [Harbor] ——→ [Echo Drain Delta] → [Redmass Island]
-      |
-      ↓
-  [Townhall]
-      |
-      ↓
+      |       \
+      |        \
+      ↓         ↓
+  [Townhall]  [Lumen Directorate] → [Lumen Interior]
+      |                                (Angle Corrector,
+      ↓                                 Seldo Thrice-Corrected)
 [Burning Bear Street] ——→ [Screaming Cork] → [Interior] → [Club]
       |
       ↓
