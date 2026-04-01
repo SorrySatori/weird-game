@@ -27,6 +27,7 @@ export default class MainScene extends Phaser.Scene {
 
     create() {
         console.log('MainScene create started');
+        this.langModal = null;
         try {
             // Create an invisible rectangle that covers the entire game area
             const gameArea = this.add.rectangle(0, 0, 800, 600, 0x000000, 0);
@@ -147,11 +148,10 @@ export default class MainScene extends Phaser.Scene {
                 this.showLoadMenu();
             });
 
-            if (!this.backgroundMusic) {
-                this.backgroundMusic = this.sound.add('mainMenuMusic', { loop: true });
+            if (!this.sceneMusic || !this.sceneMusic.isPlaying) {
+                this.sceneMusic = this.sound.add('mainMenuMusic', { loop: true });
+                this.sceneMusic.play();
             }
-            this.sceneMusic = this.sound.add('mainMenuMusic', { loop: true });
-            this.sceneMusic.play();
             
             // Initialize save system
             this.saveSystem = new SaveSystem(this);
@@ -264,7 +264,6 @@ export default class MainScene extends Phaser.Scene {
                 }
                 this.clickSound.play();
                 this.langSystem.setLanguage(lang.code);
-                if (this.sceneMusic) this.sceneMusic.stop();
                 this.scene.restart();
             });
 

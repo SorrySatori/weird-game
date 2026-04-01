@@ -198,10 +198,19 @@ export default class GameMenu {
         );
         this.container.add(loadButton);
         
+        const langButton = this.createButton(
+            this.scene.cameras.main.width / 2,
+            buttonY + buttonSpacing * 3,
+            this.lang.t('ui.menu.language'),
+            buttonStyle,
+            () => this.showLanguageModal()
+        );
+        this.container.add(langButton);
+        
         // Exit to Main Menu button
         const exitButton = this.createButton(
             this.scene.cameras.main.width / 2,
-            buttonY + buttonSpacing * 3,
+            buttonY + buttonSpacing * 4,
             this.lang.t('ui.gameMenu.exitToMain'),
             buttonStyle,
             () => {
@@ -708,6 +717,101 @@ export default class GameMenu {
         });
     }
     
+    /**
+     * Show language selection modal
+     */
+    showLanguageModal() {
+        if (this.langModal) return;
+
+        const cx = this.scene.cameras.main.width / 2;
+        const cy = this.scene.cameras.main.height / 2;
+        const langs = this.lang.supportedLanguages;
+        const currentCode = this.lang.getLanguage();
+
+        this.langModal = this.scene.add.container(0, 0);
+        this.langModal.setDepth(1002);
+
+        // Dim overlay
+        const overlay = this.scene.add.rectangle(cx, cy, 800, 600, 0x000000, 0.7);
+        overlay.setInteractive();
+        this.langModal.add(overlay);
+
+        // Panel
+        const panelH = 60 + langs.length * 60 + 60;
+        const panel = this.scene.add.rectangle(cx, cy, 320, panelH, 0x0a2712, 0.95);
+        panel.setStrokeStyle(2, 0x7fff8e);
+        this.langModal.add(panel);
+
+        // Title
+        const title = this.scene.add.text(cx, cy - panelH / 2 + 30, this.lang.t('ui.menu.language'), {
+            fontSize: '28px',
+            fill: '#7fff8e',
+            fontFamily: 'Arial'
+        });
+        title.setOrigin(0.5);
+        this.langModal.add(title);
+
+        // Language options
+        langs.forEach((lang, idx) => {
+            const y = cy - panelH / 2 + 80 + idx * 60;
+            const isActive = lang.code === currentCode;
+
+            const optBg = this.scene.add.rectangle(cx, y, 260, 44, 0x0a2712, isActive ? 0.8 : 0.4);
+            optBg.setStrokeStyle(isActive ? 2 : 1, isActive ? 0x2fff91 : 0x7fff8e);
+            optBg.setInteractive({ useHandCursor: true });
+
+            const optText = this.scene.add.text(cx, y, lang.name, {
+                fontSize: '24px',
+                fill: isActive ? '#2fff91' : '#7fff8e',
+                fontFamily: 'Arial',
+                fontStyle: isActive ? 'bold' : ''
+            });
+            optText.setOrigin(0.5);
+
+            if (!isActive) {
+                optBg.on('pointerover', () => {
+                    optBg.setFillStyle(0x0a2712, 0.6);
+                    optText.setStyle({ fontSize: '24px', fill: '#2fff91', fontFamily: 'Arial' });
+                    this.hoverSound.play();
+                });
+                optBg.on('pointerout', () => {
+                    optBg.setFillStyle(0x0a2712, 0.4);
+                    optText.setStyle({ fontSize: '24px', fill: '#7fff8e', fontFamily: 'Arial' });
+                });
+            }
+
+            optBg.on('pointerdown', () => {
+                this.clickSound.play();
+                if (lang.code === currentCode) {
+                    this.closeLangModal();
+                    return;
+                }
+                this.lang.setLanguage(lang.code);
+                this.closeLangModal();
+                this.hideMenu();
+                // Restart the current scene to apply new language
+                this.scene.scene.restart();
+            });
+
+            this.langModal.add([optBg, optText]);
+        });
+
+        // Close on overlay click
+        overlay.on('pointerdown', () => {
+            this.clickSound.play();
+            this.closeLangModal();
+        });
+
+        this.container.add(this.langModal);
+    }
+
+    closeLangModal() {
+        if (this.langModal) {
+            this.langModal.destroy();
+            this.langModal = null;
+        }
+    }
+
     /**
      * Toggle menu visibility
      * Note: We're not using this method directly anymore, but keeping it for compatibility
