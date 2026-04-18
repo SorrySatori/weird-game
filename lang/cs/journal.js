@@ -387,5 +387,41 @@ export default {
             title: 'Zničení Magnekina',
             description: 'Zničil jsem Magnekina... ale když Rudá Hmota prosila o milost, nechal jsem ji jít.',
         },
+        met_hesh_vell: {
+            title: 'Dvojčata-likitátoři: Hesh a Vell',
+            description: 'Setkal jsem se s dvojčaty-likitátory v Aukční hale Voxmarketu. Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy později. Jejich synchronizace je znepokojivá a přesná — a zřejmě záměrná.',
+        },
+        twins_brain_rot: {
+            title: 'Narušení dvojčat-likitátorů',
+            description: 'Použil jsem Thorne-Stillův Mozkový rozklad k narušení synchronizace Heshe a Vella. Jejich koordinované tempování — které používají k jemnému nafukování cen — je nyní narušené.',
+        },
+        met_sister_calyx: {
+            title: 'Sestra Calyx — Reklamátoři jádra',
+            description: 'Setkal jsem se se Sestrou Calyx z Reklamátorů jádra v Aukční hale Voxmarketu. Je tu ve věci kapituly, zkoumá položky s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha.',
+        },
+        calyx_lie_detected: {
+            title: 'Neme: Skutečný motiv Calyx',
+            description: 'Použil jsem Neminu Fotosentenci na Sestru Calyx. Příběh o výzkumu temporální extrakce je krytí — Chronobřečkové Ropušátko chce pro sebe. Rozpočet kapituly je také napjatější, než tvrdí.',
+        },
+        calyx_rattled: {
+            title: 'Calyx přiznala: Temporální vertigo',
+            description: 'Konfrontoval jsem Sestru Calyx s tím, co Neme odhalila. Přiznala, že Ropušátko je pro osobní potřebu — trpí temporálním vertigem, ztrácí čas. Kapitula neví.',
+        },
+        calyx_blackmailed: {
+            title: 'Přinucení Calyx vzdát se Ropušátka',
+            description: 'Použil jsem znalost temporálního vertiga Calyx jako páku, abych ji donutil vzdát se dražby Ropušátka. Na tohle nezapomene — Reklamátoři jádra drží zášť.',
+        },
+        calyx_shown_mercy: {
+            title: 'Calyx ustoupila — projevena milost',
+            description: 'Uchoval jsem tajemství temporálního vertiga Calyx a ona souhlasila, že se vzdá dražby Ropušátka z vděčnosti. Soucitnejsi pristup — a Reklamátoři jádra si to mohou zapamatovat příznivě.',
+        },
+        calyx_truce: {
+            title: 'Dohoda se Sestrou Calyx',
+            description: 'Dosáhl jsem porozumění se Sestrou Calyx z Reklamátorů jádra — soustředí se na Snové vejce a nechá Chronobřečkové Ropušátko mně, pokud nebudu zvyšovat cenu vejce.',
+        },
+        calyx_miraged: {
+            title: 'Tkaní přeludů: Otřesení Calyx',
+            description: 'Použil jsem Ulvarexovo Tkaní přeludů k vytvoření fantomové zprávy o odvolání z kapituly. Prohlédla to — ale teď bude zpochybňovat všechno na aukci.',
+        },
     }
 };

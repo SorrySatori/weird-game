@@ -27,6 +27,7 @@ import scraperInteriorScene from './ScraperInteriorScene.js';
 import lumenDirectorateScene from './LumenDirectorateScene.js';
 import lumenDirectorateInteriorScene from './LumenDirectorateInteriorScene.js';
 import voxmarketMarketScene from './VoxmarketMarketScene.js';
+import voxmarketHallScene from './VoxmarketHallScene.js';
 
 export default {
     EntryScene: entryScene,
@@ -54,4 +55,5 @@ export default {
     LumenDirectorateScene: lumenDirectorateScene,
     LumenDirectorateInteriorScene: lumenDirectorateInteriorScene,
     VoxmarketMarketScene: voxmarketMarketScene,
+    VoxmarketHallScene: voxmarketHallScene,
 };

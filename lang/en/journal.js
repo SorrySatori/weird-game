@@ -388,5 +388,41 @@ export default {
             title: 'The Destruction of Magnekin',
             description: 'I destroyed Magnekin... but when the Redmass begged for mercy, I let it go.',
         },
+        met_hesh_vell: {
+            title: 'The Twin Auctioneers: Hesh & Vell',
+            description: 'Met the twin auctioneers at the Voxmarket Auction Hall. One speaks, the other mouths the same words half a second late. Their synchronization is unsettling and precise — and likely deliberate. They run the auction together.',
+        },
+        twins_brain_rot: {
+            title: 'Disrupted the Twin Auctioneers',
+            description: 'Used Thorne-Still\'s Brain Rot to break the synchronization between Hesh and Vell. Their coordinated pacing — which they use to subtly inflate bid prices — is now compromised. This should lower the final auction prices.',
+        },
+        met_sister_calyx: {
+            title: 'Sister Calyx — Pith Reclaimers',
+            description: 'Met Sister Calyx of the Pith Reclaimers at the Voxmarket Auction Hall. She\'s here on chapter business, examining the lots with clinical precision. Fungal filaments are woven into her vestments.',
+        },
+        calyx_lie_detected: {
+            title: 'Neme: Calyx\'s Real Motive',
+            description: 'Used Neme\'s Photosentience on Sister Calyx. The temporal extraction research story is cover — she wants the Chrono-Slurry Toadlet for personal use. Her chapter\'s budget is also tighter than she claims. This leverage could be useful.',
+        },
+        calyx_rattled: {
+            title: 'Calyx Confessed: Temporal Vertigo',
+            description: 'Confronted Sister Calyx with what Neme revealed. She admitted the Toadlet is for personal use — she suffers from temporal vertigo, losing time. The chapter doesn\'t know. She\'s vulnerable.',
+        },
+        calyx_blackmailed: {
+            title: 'Forced Calyx to Drop the Toadlet',
+            description: 'Used the knowledge of Calyx\'s temporal vertigo as leverage to force her out of the Toadlet bidding. She won\'t forget this — the Pith Reclaimers hold grudges.',
+        },
+        calyx_shown_mercy: {
+            title: 'Calyx Withdrew — Shown Mercy',
+            description: 'Kept Calyx\'s temporal vertigo secret and she agreed to drop the Toadlet bid in gratitude. A more compassionate approach — and one the Pith Reclaimers might remember favorably.',
+        },
+        calyx_truce: {
+            title: 'Arrangement with Sister Calyx',
+            description: 'Reached an understanding with Sister Calyx of the Pith Reclaimers — she\'ll focus on the Dream Egg and leave the Chrono-Slurry Toadlet to me, as long as I don\'t drive up the Egg\'s price. Not a binding deal, but a practical arrangement.',
+        },
+        calyx_miraged: {
+            title: 'Mirage Weave: Rattled Sister Calyx',
+            description: 'Used Ulvarex\'s Mirage Weave to create a phantom chapter recall message for Sister Calyx. She saw through it — but now she\'ll second-guess everything at the auction. Trust is her weakness, and it\'s been undermined.',
+        },
     }
 };
