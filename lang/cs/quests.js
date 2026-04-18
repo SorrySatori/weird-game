@@ -45,9 +45,9 @@ export default {
                 elphi_dissection: 'Dr. Elphi věří, že houbový výrůstek uvnitř Biskupky byl symbiont. Vrah mohl mířit na samotného symbionta.',
                 elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu — specialitu Lumen Direktoriátu.',
                 elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Lumen Direktoriátem. Prodávají kořeněné Mručenky.',
-                verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že smutnice byly pečlivě pěstovány — žádná kontaminace. Stopa otravy direktoriátem slábne.',
-                kloor_sulkberry_clear: 'Kloor Venn analyzoval smutnice — čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
-                heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že smutnice jsou čisté — žádné toxiny ani modifikace. Stopa smutnic je slepá ulička.',
+                verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány — žádná kontaminace. Stopa otravy direktoriátem slábne.',
+                kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky — čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
+                heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté — žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
                 elphi_day1_complete: 'Probral jsem všechny stopy s Dr. Elphi. Pracuje na opravě kazety Kardinálské Hostiny.',
             }
         },
@@ -69,18 +69,18 @@ export default {
             }
         },
         find_rust_choir: {
-            title: 'Najít Rezavý Chór',
-            description: 'Musím najít způsob, jak se setkat s Rezavým Chórem, který sídlí v horních patrech budovy Škrabáku.',
+            title: 'Najít Rezavý chór',
+            description: 'Musím najít způsob, jak se setkat s Rezavým chórem, který sídlí v horních patrech budovy Škrabáku.',
             updates: {
                 talk_to_ravla: 'Měl bych nejdřív promluvit s Ravlou v hospodě Křičící Korek.',
-                talked_to_ravla: 'Ravla v Křičícím Koreku chce, abych připravil hostinu pro stroje Rezavého Chóru jako důkaz mého odhodlání.',
-                feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Matku Výtahu: „Koroduj". Teď mohu vstoupit do domény Rezavého Chóru.',
+                talked_to_ravla: 'Ravla v Křičícím Koreku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
+                feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Matku Výtahu: „Koroduj". Teď mohu vstoupit do domény Rezavého chóru.',
                 feast_delivered: 'Doručil jsem Rezavou Hostinu Brukkovi v Rezavé Doméně.',
             }
         },
         rust_feast: {
             title: 'Rezavá Hostina',
-            description: 'Připravit hostinu pro stroje Rezavého Chóru sesbíráním oleje, kovu a živé rudé hmoty, a přinést vše Ravle do Křičícího Koreku.',
+            description: 'Připravit hostinu pro stroje Rezavého chóru sesbíráním oleje, kovu a živé rudé hmoty, a přinést vše Ravle do Křičícího Koreku.',
             updates: {
                 talked_to_archeologist_hint: 'Ravla navrhla, abych promluvil s archeologem u radnice a dozvěděl se víc o rudé hmotě.',
                 gathered_rust_materials_hint: 'Ravla mi poradila hledat šrot kolem Škrabáku... a zkontrolovat doky u Žloutkového Moře nebo Deltu Ozvěnového Odpadu kvůli oleji.',

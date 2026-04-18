@@ -16,7 +16,7 @@ export default {
         options: {
             captain_liris_sent_me_im_here_to_join_the_director: "Poslala mě kapitánka Liris. Chci se připojit k direktoriátu.",
             im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky.",
-            i_need_to_ask_about_spiced_sulkberries: "Potřebuji se zeptat na kořeněné smutnice.",
+            i_need_to_ask_about_spiced_sulkberries: "Potřebuji se zeptat na kořeněné mručenky.",
             i_need_help_getting_into_the_townhall: "Potřebuji pomoc dostat se na radnici.",
             tell_me_about_the_lumen_directorate: "Řekněte mi o Lumenově direktoriátu.",
             whats_happening_with_the_egg_cathedral: "Co se děje s Vaječnou katedrálou?",
@@ -126,16 +126,16 @@ export default {
         }
     },
     ac_bishop_packages: {
-        text: "Balíčky byly kořeněné smutnice. Prémiová kultivace — velmi specifické alkaloidní profily. Biskupka si je objednávala pravidelně.\n\nPoužívají se ve snových imerzních rituálech. Katedrální duchovenstvo je používá ke komunikaci s růstovými vzory uvnitř vajec. Zcela legitimní — direktoriát je dodával jako součást naší kooperační dohody.\n\nKdyž se katedrála zapečetila, objednávky ustaly. Biskupka už nepotřebovala naše dodávky... nebo už nechtěla naši účast.",
+        text: "Balíčky byly kořeněné mručenky. Prémiová kultivace — velmi specifické alkaloidní profily. Biskupka si je objednávala pravidelně.\n\nPoužívají se ve snových imerzních rituálech. Katedrální duchovenstvo je používá ke komunikaci s růstovými vzory uvnitř vajec. Zcela legitimní — direktoriát je dodával jako součást naší kooperační dohody.\n\nKdyž se katedrála zapečetila, objednávky ustaly. Biskupka už nepotřebovala naše dodávky... nebo už nechtěla naši účast.",
         options: {
-            who_else_had_access_to_the_premium_sulkberries: "Kdo další měl přístup k prémiovým smutnicím?",
+            who_else_had_access_to_the_premium_sulkberries: "Kdo další měl přístup k prémiovým mručenkám?",
             i_have_other_questions: "Mám další otázky."
         }
     },
     ac_sulkberry_access: {
-        text: "Klientský seznam je důvěrný. 'Nic skrytého' se vztahuje na aktivity direktoriátu — ne na ty, kdo od nás nakupují.\n\nAle řeknu vám tohle: prémiová zásoba je malá. Méně než tucet pravidelných klientů. Biskupka byla z nich nejstálejší.\n\nPokud někdo smutnice upravil, aby Biskupce ublížil... seznam podezřelých je krátký. A krajně nepříjemný k zamyšlení.",
+        text: "Klientský seznam je důvěrný. 'Nic skrytého' se vztahuje na aktivity direktoriátu — ne na ty, kdo od nás nakupují.\n\nAle řeknu vám tohle: prémiová zásoba je malá. Méně než tucet pravidelných klientů. Biskupka byla z nich nejstálejší.\n\nPokud někdo mručenky upravil, aby Biskupce ublížil... seznam podezřelých je krátký. A krajně nepříjemný k zamyšlení.",
         options: {
-            you_think_the_sulkberries_were_tampered_with: "Myslíte, že smutnice byly zmanipulované?",
+            you_think_the_sulkberries_were_tampered_with: "Myslíte, že mručenky byly zmanipulované?",
             i_have_other_questions: "Mám další otázky."
         }
     },
@@ -146,7 +146,7 @@ export default {
         }
     },
     ac_sulkberries: {
-        text: "Udělal jste si rešerši. Kořeněné smutnice jsou specialita direktoriátu — pěstované za přesných podmínek, alkaloidní profily kalibrované pro specifické použití.\n\nBiskupka byla naší hlavní klientkou. Snová imerze — komunikace s růstem uvnitř skořápkové struktury Vaječné katedrály. Smutnice usnadňovaly to spojení.\n\nCo konkrétně chcete vědět?",
+        text: "Udělal jste si rešerši. Kořeněné mručenky jsou specialita direktoriátu — pěstované za přesných podmínek, alkaloidní profily kalibrované pro specifické použití.\n\nBiskupka byla naší hlavní klientkou. Snová imerze — komunikace s růstem uvnitř skořápkové struktury Vaječné katedrály. Mručenky usnadňovaly to spojení.\n\nCo konkrétně chcete vědět?",
         options: {
             who_else_had_access_to_the_premium_stock: "Kdo další měl přístup k prémiové zásobě?",
             could_they_be_used_to_harm_someone: "Mohly by být použity k ublížení někomu?",

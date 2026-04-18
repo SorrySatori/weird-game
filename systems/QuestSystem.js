@@ -58,6 +58,10 @@ class QuestSystem extends Phaser.Events.EventEmitter {
     updateQuest(id, newInfo, key = null) {
         const quest = this.quests.get(id);
         if (quest) {
+            // Skip duplicate updates — if a key is provided and already exists, do nothing
+            if (key && quest.updates.some(u => u.key === key)) {
+                return;
+            }
             quest.updates.push({
                 text: newInfo,
                 key: key, 
@@ -108,8 +112,15 @@ class QuestSystem extends Phaser.Events.EventEmitter {
             // Clear existing quests
             this.quests.clear();
             
+            // Track seen IDs to skip duplicate quests in save data
+            const seen = new Set();
+            
             // Restore quests from data
             data.quests.forEach(([id, quest]) => {
+                // Skip duplicate quest entries — keep only the first occurrence
+                if (seen.has(id)) return;
+                seen.add(id);
+                
                 // Convert date strings back to Date objects
                 if (quest.dateStarted) {
                     quest.dateStarted = new Date(quest.dateStarted);
@@ -117,11 +128,19 @@ class QuestSystem extends Phaser.Events.EventEmitter {
                 if (quest.dateCompleted) {
                     quest.dateCompleted = new Date(quest.dateCompleted);
                 }
+                
+                // Deduplicate updates by key
                 if (quest.updates) {
-                    quest.updates.forEach(update => {
+                    const seenKeys = new Set();
+                    quest.updates = quest.updates.filter(update => {
                         if (update.date) {
                             update.date = new Date(update.date);
                         }
+                        if (update.key) {
+                            if (seenKeys.has(update.key)) return false;
+                            seenKeys.add(update.key);
+                        }
+                        return true;
                     });
                 }
                 

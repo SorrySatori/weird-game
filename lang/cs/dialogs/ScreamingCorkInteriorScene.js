@@ -103,7 +103,7 @@ export default {
             who_are_you: "Kdo jste?",
             tell_me_about_this_place: "Řekněte mi o tomhle místě",
             heard_any_rumors_lately: "Slyšel jste v poslední době nějaké zvěsti?",
-            i_need_a_biological_opinion_on_some_sulkberries: "Potřebuji biologický posudek na některé smutnice.",
+            i_need_a_biological_opinion_on_some_sulkberries: "Potřebuji biologický posudek na nějaké mručenky.",
             do_you_have_anything_for_sale: "Máte něco na prodej?"
         }
     },
@@ -139,7 +139,7 @@ export default {
         }
     },
     heliodor_sulkberry_neme: {
-        text: "Roztažíte Nemovo vědomí směrem k Heliodorovi — a okamžitě obdržíte kaskádu překrývajících se signálů. Ne jedna mysl, ale mnoho, každá vysílá na vlastní emocionální frekvenci. Profesní kompetence od analytických složek. Mírná podrážděnost těch, co byly probuzeny. Hluboké, hibernující uspokojení z něčeho, co musí být Oorarabaz, už klouzající zpět ke spánku.\n\nAle napříč všemi jedna konstanta: žádný podvod. Kolonie nemůže lhát unisono — pravda každé složky posiluje ty ostatní.\n\nNeme poznámek: 'Šŭr uprÍmnosti. Osvěžující, i když poněkud hlučné.'\n\nHeliodorův verdikt je upřímný. Smutnice jsou čisté.",
+        text: "Roztažíte Nemovo vědomí směrem k Heliodorovi — a okamžitě obdržíte kaskádu překrývajících se signálů. Ne jedna mysl, ale mnoho, každá vysílá na vlastní emocionální frekvenci. Profesní kompetence od analytických složek. Mírná podrážděnost těch, co byly probuzeny. Hluboké, hibernující uspokojení z něčeho, co musí být Oorarabaz, už klouzající zpět ke spánku.\n\nAle napříč všemi jedna konstanta: žádný podvod. Kolonie nemůže lhát unisono — pravda každé složky posiluje ty ostatní.\n\nNeme poznámek: 'Šŭr uprÍmnosti. Osvěžující, i když poněkud hlučné.'\n\nHeliodorův verdikt je upřímný. Mručenky jsou čisté.",
         options: {
             thank_you_heliodor: "Děkuji, Heliodore."
         }

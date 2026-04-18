@@ -8,8 +8,8 @@ export default {
             description: 'Kult Obazoba je kult houbových uctívačů, kteří uctívají Obazobu, mýtickou houbovou entitu.',
         },
         upper_morkezela: {
-            title: 'Horní Morkézela',
-            description: 'Říkají tomu město, ale Horní Morkézela nikdy nebyla plně živá. Přesto dýchá — něco dýchá. Ulice jsou vyrostlé, ne postavené.',
+            title: 'Horní Morkezela',
+            description: 'Říkají tomu město, ale Horní Morkezela nikdy nebyla plně živá. Přesto dýchá — něco dýchá. Ulice jsou vyrostlé, ne postavené.',
         },
         fungal_apprentice: {
             title: 'Houbový Učeň',
@@ -85,7 +85,7 @@ export default {
         },
         skyship_sighting: {
             title: 'Podivné Plavidlo na Smaragdové Obloze',
-            description: 'Nad Horní Morkézelou se vznáší obrovská vzdušná loď.',
+            description: 'Nad Horní Morkezelou se vznáší obrovská vzdušná loď.',
         },
         delta_fungal_bridge: {
             title: 'Houbový Most v Deltě Ozvěnového Odpadu',
@@ -128,8 +128,8 @@ export default {
             description: 'Získal jsem přístup do studia Dr. Elphi Quarnové v patře 177-Ticho.',
         },
         rust_choir_info: {
-            title: 'Sídlo Rezavého Chóru',
-            description: 'Rezavý Chór sídlí v horních patrech budovy Škrabáku.',
+            title: 'Sídlo Rezavého chóru',
+            description: 'Rezavý chór sídlí v horních patrech budovy Škrabáku.',
         },
         scraper_backyard: {
             title: 'Dvorek Škrabáku',
@@ -184,12 +184,12 @@ export default {
             description: 'Sdílel jsem všechny své nálezy s Dr. Elphi Quarnovou.',
         },
         gnur_meeting: {
-            title: 'Gnur z Rezavého Chóru',
+            title: 'Gnur z Rezavého chóru',
             description: 'V útrobách Skladu 521 jsem narazil na Gnura.',
         },
         rust_choir_faction: {
-            title: 'Rezavý Chór — Stroje a Paměť',
-            description: 'Rezavý Chór se zdá být frakcí se zájmem o starou technologii.',
+            title: 'Rezavý chór — Stroje a Paměť',
+            description: 'Rezavý chór se zdá být frakcí se zájmem o starou technologii.',
         },
         ortolan_meeting: {
             title: 'Ortolan — Návrhář Deskových Her',
@@ -248,16 +248,16 @@ export default {
             description: 'Dostal jsem se do horních pater Škrabáku.',
         },
         rust_choir_joined: {
-            title: 'Přijat do Rezavého Chóru',
+            title: 'Přijat do Rezavého chóru',
             description: 'Doručil jsem Rezavou Hostinu Brukkovi.',
         },
         rust_choir_rejected: {
-            title: 'Odmítnut Rezavým Chórem',
+            title: 'Odmítnut Rezavým chórem',
             description: 'Doručil jsem Rezavou Hostinu, ale střep byl příliš skrovný.',
         },
         rust_choir_machines_destroyed: {
             title: 'Stroje Umlkly',
-            description: 'Iluzorní rudá hmota, kterou jsem použil v Rezavé Hostině, zničila stroje Rezavého Chóru.',
+            description: 'Iluzorní rudá hmota, kterou jsem použil v Rezavé Hostině, zničila stroje Rezavého chóru.',
         },
         captain_liris_meeting: {
             title: 'Kapitán Liris z Verdigrace',
@@ -296,24 +296,24 @@ export default {
             description: 'Korektor Úhlu potvrdil, že Biskupka dostávala prémiové kořeněné Mručenky.',
         },
         sulkberries_cleared_verrik: {
-            title: 'Verrik: Smutnice Byly Čisté',
-            description: 'Zahradník Verrik potvrdil, že v pěstování smutnic nebyla žádná kontaminace.',
+            title: 'Verrik: Mručenky Byly Čisté',
+            description: 'Zahradník Verrik potvrdil, že v pěstování mručenek nebyla žádná kontaminace.',
         },
         sulkberries_neme_verrik: {
             title: 'Neme Potvrzuje: Verrik Mluví Pravdu',
             description: 'Použil jsem Nemovu Fotosenzitivitu k ověření Verrikova tvrzení. Žádný podvod nezjištěn.',
         },
         sulkberries_cleared_kloor: {
-            title: 'Kloor Venn: Smutnice Jsou Čisté',
-            description: 'Kloorova chemická analýza potvrdila, že smutnice neobsahují příměsi ani toxiny.',
+            title: 'Kloor Venn: Mručenky Jsou Čisté',
+            description: 'Kloorova chemická analýza potvrdila, že mručenky neobsahují příměsi ani toxiny.',
         },
         sulkberries_neme_kloor: {
             title: 'Neme Potvrzuje: Kloor Mluví Pravdu',
             description: 'Použil jsem Nemovu Fotosenzitivitu k ověření Kloorovy analýzy. Žádný podvod nezjištěn.',
         },
         sulkberries_cleared_heliodor: {
-            title: 'Heliodor: Smutnice Jsou Čisté',
-            description: 'Heliodorovy kompozitní organismy provedly multismyslovou analýzu. Smutnice jsou čisté.',
+            title: 'Heliodor: Mručenky Jsou Čisté',
+            description: 'Heliodorovy kompozitní organismy provedly multismyslovou analýzu. Mručenky jsou čisté.',
         },
         sulkberries_neme_heliodor: {
             title: 'Neme Potvrzuje: Heliodor Mluví Pravdu',

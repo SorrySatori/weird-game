@@ -221,8 +221,15 @@ class JournalSystem extends Phaser.Events.EventEmitter {
             // Clear existing entries
             this.entries.clear();
             
+            // Track seen IDs to skip duplicates in save data
+            const seen = new Set();
+            
             // Restore entries from data
             data.entries.forEach(([id, entry]) => {
+                // Skip duplicate entries — keep only the first occurrence
+                if (seen.has(id)) return;
+                seen.add(id);
+                
                 // Convert date strings back to Date objects
                 if (entry.timestamp) {
                     entry.timestamp = new Date(entry.timestamp);
