@@ -106,15 +106,13 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
     get dialogContent() {
         const hasLumenQuest = !!(this.questSystem?.getQuest('find_lumen_directorate') && !this.questSystem.getQuest('find_lumen_directorate').isComplete);
-        const lumenQuestDone = !!this.questSystem?.getQuest('find_lumen_directorate')?.isComplete;
         const hasBishopQuest = !!(this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete);
         const hasEnterTownhallQuest = !!(this.questSystem?.getQuest('enter_townhall') && !this.questSystem.getQuest('enter_townhall').isComplete);
-        const knowsSulkberries = !!this.hasJournalEntry('elphi_berries_analysis');
+        const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
         const knowsLumenLead = !!this.hasJournalEntry('elphi_lumen_lead');
         const knowsBishopVisits = !!this.hasJournalEntry('gardener_bishop_visits');
         const metAngleCorrector = !!this.hasJournalEntry('met_angle_corrector');
         const passedGrowthTest = !!this.hasJournalEntry('ac_growth_test_passed');
-        const knowsCathedralTension = !!this.hasJournalEntry('ac_cathedral_tension');
         const knowsSulkberryRecords = !!this.hasJournalEntry('ac_sulkberry_records');
 
         const lumenRep = this.factionSystem?.getReputation('LumenDirectorate') || 0;

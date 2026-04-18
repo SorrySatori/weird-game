@@ -14,7 +14,8 @@ export default {
             i_want_to_sell_you_some_spores: "Chci vám prodat nějaké spory.",
             do_you_know_anything_about_the_bishop: "Víte něco o Biskupce?",
             about_those_vestigels: "O těch Vestigelech...",
-            can_you_help_me_to_get_to_rust_choir_headquarters: "Můžete mi pomoct dostat se do centrály Rezavého chóru?"
+            can_you_help_me_to_get_to_rust_choir_headquarters: "Můžete mi pomoct dostat se do centrály Rezavého chóru?",
+            i_need_your_expertise_on_some_sulkberries: "Potřebuji vaši expertízu ohledně smutnic."
         }
     },
     kloor_who: {
@@ -133,8 +134,28 @@ export default {
             back: "Zpět"
         }
     },
+    kloor_sulkberry_analyze: {
+        text: "Kloor převezme vzorek smutnice cvičenými prsty, otáčí jí mezi palcem a ukazováčkem. Přičichne, pak z kabátu vytáhne malou skleněnou nádobu a rozdrítí do ní úlomek. Kapalina se zbarví do hlubokého, čistého jantaru.\n\n'Kořeněná smutnice. Prémiovâ kvalita — toto je zboží direktoriátu, bez pochyb. Alkaloidní profil je...' Zvedne nádobu proti světlu. '...učebnicový. '\n\nOdloží nádobu. 'S tímhle plodem není nic špatně. Žádné příměsi, žádné toxiny, žádné cizí látky.'",
+        options: {
+            photosentience_read_kloors_biosignals_for_deceptio: "[Fotosenzitivita] Číst Kloorovy biosignály kvůli podvodu.",
+            youre_sure_your_reputation_is_on_the_line: "Jste si jistý? Je to o vaši reputaci.",
+            thanks_for_the_analysis: "Díky za analýzu."
+        }
+    },
+    kloor_sulkberry_neme: {
+        text: "Necháte Nemovo vědomí prosáknout ven a číst síť biosignálů kolem Kloorovy nervové soustavy. Zájem — upřímný, vědecký zájem. Profesní hrdost z jeho analýzy. Záblesk oportunismu, přemýšlející, jestli by vám nemohl účtovat za konzultaci. Ale žádný podvod. Žádné zatajování.\n\nNeme mrumlá: 'Obchodník s drogami je spousta věcí, ale lhář ohledně chemie on není. Jeho marné ego by mu to nedovolilo.'\n\nKloorova analýza je upřímná. Smutnice jsou čisté.",
+        options: {
+            good_to_know_thanks_kloor: "Dobré vědět. Díky, Kloore."
+        }
+    },
+    kloor_sulkberry_sure: {
+        text: "'Moje reputace JE můj živobytí.' Kloor vypadá téměř uraženě. 'Analyzuji alkaloidní sloučeniny celé roky. Vím, jak vypadá kontaminace — ať už podle barvy nebo krystalické struktury.\n\nTyhle plody jsou nedotčené.'",
+        options: {
+            back: "Zpět"
+        }
+    },
     kloor_bishop_location: {
-        text: "'Nedokážu říct s jistotou. Biskupka se pohybuje záhadnými cestami.' Ušklíbne se vlastnímu vtipu. 'Ale slyšel jsem, že směřovala k Hale. Má tam kontakty.'",
+        text: "'Nedokážu říct s jistotou. Biskupka kráčí záhadnými cestami.' Ušklíbne se vlastnímu vtipu. 'Ale slyšel jsem, že směřovala k Hale. Má tam kontakty.'",
         options: {
             thanks_for_the_information: "Díky za informaci",
             what_was_she_trading: "S čím obchodovala?"

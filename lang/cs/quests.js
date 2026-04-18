@@ -45,6 +45,9 @@ export default {
                 elphi_dissection: 'Dr. Elphi věří, že houbový výrůstek uvnitř Biskupky byl symbiont. Vrah mohl mířit na samotného symbionta.',
                 elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu — specialitu Lumen Direktoriátu.',
                 elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Lumen Direktoriátem. Prodávají kořeněné Mručenky.',
+                verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že smutnice byly pečlivě pěstovány — žádná kontaminace. Stopa otravy direktoriátem slábne.',
+                kloor_sulkberry_clear: 'Kloor Venn analyzoval smutnice — čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
+                heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že smutnice jsou čisté — žádné toxiny ani modifikace. Stopa smutnic je slepá ulička.',
                 elphi_day1_complete: 'Probral jsem všechny stopy s Dr. Elphi. Pracuje na opravě kazety Kardinálské Hostiny.',
             }
         },

@@ -46,6 +46,9 @@ export default {
                 elphi_dissection: 'Dr. Elphi believes the fungal growth inside the Bishop was a symbiont. The killer may have been targeting the symbiont itself.',
                 elphi_berries: 'Dr. Elphi identified the Sulkberries as a spiced variety — a Lumen Directorate specialty.',
                 elphi_lumen_lead: 'Dr. Elphi suggested speaking with the Lumen Directorate. They sell the spiced Sulkberries.',
+                verrik_sulkberry_clear: 'Verrik the gardener confirmed the Sulkberries were cultivated properly — no contamination detected. The Directorate poisoning angle weakens.',
+                kloor_sulkberry_clear: 'Kloor Venn analyzed the Sulkberries — clean, no adulterants or toxins. The poisoning angle grows weaker.',
+                heliodor_sulkberry_clear: "Heliodor's composite organisms confirmed the Sulkberries are clean — no toxins or modifications. The Sulkberry lead is a dead end.",
                 elphi_day1_complete: "I've discussed all the clues with Dr. Elphi. She's working on fixing The Cardinal Feast cartridge.",
             }
         },

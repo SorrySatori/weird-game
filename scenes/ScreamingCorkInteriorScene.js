@@ -17,6 +17,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const redmassSparedOnly = !!(this.registry.get('redmass_spared') && !(this.hasItem && this.hasItem('redmass')));
         const hasIllusionOption = !!(hasRustFeastQuest && this.hasItem && this.hasItem('oil') && this.hasItem('metal_scrap') && !this.hasItem('redmass') && this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon'));
         const rustFeastComplete = !!(this.questSystem && this.questSystem.getQuest('rust_feast')?.isComplete);
+        const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
+        const sulkberriesClearedHeliodor = !!this.hasJournalEntry('sulkberries_cleared_heliodor');
+        const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
 
         return {
             ...super.dialogContent,
@@ -352,6 +355,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Who are you?", key: 'who_are_you', next: "heliodor_who" },
                     { text: "Tell me about this place", key: 'tell_me_about_this_place', next: "heliodor_place" },
                     { text: "Heard any rumors lately?", key: 'heard_any_rumors_lately', next: "heliodor_rumors" },
+                    ...(knowsSulkberries && !sulkberriesClearedHeliodor ? [{ text: "I need a biological opinion on some Sulkberries.", key: 'i_need_a_biological_opinion_on_some_sulkberries', next: "heliodor_sulkberry_check" }] : []),
                     {
                       text: "Do you have anything for sale?",
                       key: 'do_you_have_anything_for_sale',
@@ -359,6 +363,49 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     },
                 ]
             },
+            // --- Sulkberry biological check (Dead End investigation) ---
+            heliodor_sulkberry_check: {
+                speaker: 'Heliodor',
+                text: `Several of Heliodor's component organisms lean forward in sequence — first the eyes narrow, then the nostrils flare, then fingers that seem to belong to a different personality reach out and accept the berry sample.\n\nA long pause. Various parts of Heliodor's composite body confer in whispered clicks and hums.\n\n"We have examined the specimen. Three of our components have tasted, two have analyzed the spore residue, and Oorarabaz — briefly roused — confirmed the alkaloid structure through membrane absorption.\n\nThe berry is clean. No toxins, no modifications, no parasitic interference. This is a Lumen Directorate premium product in perfect condition.\n\nWhoever harmed the Bishop did not use these berries to do it."`,
+                options: [
+                    ...(hasNeme ? [{ text: "[Photosentience] Read Heliodor's bio-signals for deception.", key: 'photosentience_read_heliodors_biosignals_for_decep', next: "heliodor_sulkberry_neme" }] : []),
+                    { text: "Thank you. That's very thorough.", key: 'thank_you_thats_very_thorough', next: "heliodor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_cleared_heliodor')) {
+                        this.addJournalEntry(
+                            'sulkberries_cleared_heliodor',
+                            'Heliodor: Sulkberries Are Clean',
+                            'Heliodor\'s composite organisms performed a multi-sensory biological analysis of the Sulkberries. Multiple components tasted, analyzed spore residue, and confirmed the alkaloid structure. The berries are clean — no toxins, no modifications, no parasitic interference.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Heliodor' }
+                        );
+                    }
+                    if (this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete) {
+                        this.questSystem.updateQuest('who_killed_bishop', 'Heliodor\'s composite organisms confirmed the Sulkberries are clean — no toxins or modifications. The Sulkberry lead is a dead end.', 'heliodor_sulkberry_clear');
+                    }
+                }
+            },
+
+            heliodor_sulkberry_neme: {
+                speaker: 'Heliodor',
+                text: `You extend Neme's awareness toward Heliodor — and immediately receive a cascade of overlapping signals. Not one mind but many, each broadcasting its own emotional frequency. Professional competence from the analytical components. Mild irritation from those awakened for the task. A deep, hibernating satisfaction from something that must be Oorarabaz, already drifting back to sleep.\n\nBut across all of them, one constant: no deception. A colony cannot lie in unison — each component's truth reinforces the others.\n\nNeme observes: "A chorus of honesty. Refreshing, if somewhat noisy."\n\nHeliodor's verdict is genuine. The Sulkberries are clean.`,
+                options: [
+                    { text: "Thank you, Heliodor.", key: 'thank_you_heliodor', next: "heliodor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_neme_heliodor')) {
+                        this.addJournalEntry(
+                            'sulkberries_neme_heliodor',
+                            'Neme Confirms: Heliodor Is Truthful',
+                            'Used Neme\'s Photosentience on Heliodor\'s composite colony. Multiple overlapping bio-signals, all honest — a colony cannot lie in unison. The Sulkberry analysis is genuine.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Heliodor' }
+                        );
+                    }
+                }
+            },
+
             heliodor_who: {
                 text: "We are Heliodor. We keep an eye on things here, make sure everyone behaves.",
                 options: [

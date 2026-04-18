@@ -120,8 +120,9 @@ export default class LumenDirectorateScene extends GameScene {
         const hasLumenQuest = !!(this.questSystem?.getQuest('find_lumen_directorate') && !this.questSystem.getQuest('find_lumen_directorate').isComplete);
         const hasBishopQuest = !!(this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete);
         const hasEnterTownhallQuest = !!(this.questSystem?.getQuest('enter_townhall') && !this.questSystem.getQuest('enter_townhall').isComplete);
-        const knowsSulkberries = !!this.hasJournalEntry('elphi_berries_analysis');
+        const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
         const knowsLumenLead = !!this.hasJournalEntry('elphi_lumen_lead');
+        const sulkberriesCleared = !!this.hasJournalEntry('sulkberries_cleared_verrik');
         const alreadyMetGardener = !!this.hasJournalEntry('met_gardener_verrik');
         const alreadyGrewMushroom = !!this.hasJournalEntry('grew_mushroom_verrik');
 
@@ -153,6 +154,7 @@ export default class LumenDirectorateScene extends GameScene {
                     ...(hasLumenQuest ? [{ text: "I was told to come here — about joining the crew.", key: 'i_was_told_to_come_here_about_joining_the_crew', next: "gardener_join" }] : []),
                     ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall. Any ideas?", key: 'i_need_to_get_into_the_townhall_any_ideas', next: "gardener_townhall" }] : []),
                     ...(knowsLumenLead ? [{ text: "I need to speak with someone about Cathedral oversight.", key: 'i_need_to_speak_with_someone_about_cathedral_overs', next: "gardener_bishop_lead" }] : []),
+                    ...(knowsSulkberries && !sulkberriesCleared ? [{ text: "About those Sulkberries the Directorate supplied — were they clean?", key: 'about_those_sulkberries_the_directorate_supplied_w', next: "gardener_sulkberry_verify" }] : []),
                     ...(knowsSulkberries && !knowsLumenLead ? [{ text: "I'm looking into spiced Sulkberries. Who supplies them?", key: 'im_looking_into_spiced_sulkberries_who_supplies_th', next: "gardener_sulkberries" }] : []),
                     ...(hasBishopQuest && !knowsLumenLead && !knowsSulkberries ? [{ text: "I'm investigating the Bishop's death.", key: 'im_investigating_the_bishops_death', next: "gardener_bishop_vague" }] : []),
                     { text: "Looking for work. Anything I can help with?", key: 'looking_for_work_anything_i_can_help_with', next: "gardener_work_offer" },
@@ -311,6 +313,58 @@ export default class LumenDirectorateScene extends GameScene {
                         this.questSystem.updateQuest('who_killed_bishop', 'The gardener at the Lumen Directorate confirmed spiced Sulkberries are a controlled commodity. The Angle Corrector on the third floor handles cultivation oversight and would know who has access.', 'gardener_sulkberry_info');
                     }
                 }
+            },
+
+            // --- Sulkberry verification (Dead End investigation) ---
+            gardener_sulkberry_verify: {
+                speaker: 'Verrik the Gardener',
+                text: `"The Sulkberries? I cultivate them personally — well, the lower-grade stock. The premium spiced batches go through the cultivation team upstairs, but I prepare the soil beds and monitor the early growth stages.\n\nI can tell you this: nothing was wrong with those berries. I'd have noticed contamination in the soil chemistry, in the spore patterns, in the color of the root-tips. A sick Sulkberry plant screams louder than a healthy one whispers.\n\nWhatever happened to the Bishop, it didn't come from our cultivation beds."`,
+                options: [
+                    ...(hasNeme ? [{ text: "[Photosentience] Sense whether Verrik is telling the truth.", key: 'photosentience_sense_whether_verrik_is_telling_the', next: "gardener_sulkberry_neme" }] : []),
+                    { text: "You're certain? No contamination at all?", key: 'youre_certain_no_contamination_at_all', next: "gardener_sulkberry_certain" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_cleared_verrik')) {
+                        this.addJournalEntry(
+                            'sulkberries_cleared_verrik',
+                            'Verrik: Sulkberries Were Clean',
+                            'Verrik the gardener at the Lumen Directorate personally monitors the early growth stages of the Sulkberry plants. He confirmed there was no contamination in the soil, spore patterns, or root chemistry. Whatever killed the Bishop, it was not the Sulkberries.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Verrik the Gardener' }
+                        );
+                    }
+                    if (this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete) {
+                        this.questSystem.updateQuest('who_killed_bishop', 'Verrik the gardener confirmed the Sulkberries were cultivated properly — no contamination detected. The Directorate poisoning angle weakens.', 'verrik_sulkberry_clear');
+                    }
+                }
+            },
+
+            gardener_sulkberry_neme: {
+                speaker: 'Verrik the Gardener',
+                text: `You reach inward, letting Neme's tendrils unfurl through your perception. The gardener's bio-signals bloom into focus — earthy calm, professional pride, a faint anxiety about the investigation itself. But no deception. No hidden guilt. No chemical spike of a lie being told.\n\nNeme whispers: "He tends soil for a living. His truth grows like his plants — slowly, honestly, and with dirt under the fingernails."\n\nVerrik is telling the truth. The Sulkberries he cultivated were clean.`,
+                options: [
+                    { text: "Thank you, Verrik. That's helpful.", key: 'thank_you_verrik_thats_helpful', next: "gardener_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_neme_verrik')) {
+                        this.addJournalEntry(
+                            'sulkberries_neme_verrik',
+                            'Neme Confirms: Verrik Is Truthful',
+                            'Used Neme\'s Photosentience to verify Verrik\'s claim about the Sulkberries. No deception detected — his bio-signals showed only honest professional certainty. The berries from the Directorate\'s cultivation beds were clean.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Verrik the Gardener' }
+                        );
+                    }
+                }
+            },
+
+            gardener_sulkberry_certain: {
+                speaker: 'Verrik the Gardener',
+                text: `"Certain as roots go down. I've been cultivating Sulkberries for the Directorate for eleven years. I know a contaminated batch the way you know a wrong note in a song you've heard a thousand times.\n\nIf someone wanted to poison the Bishop through the berries, they'd have had to tamper with them after they left our gardens. And the Angle Corrector's people handle transport security — that's not my department.\n\nBut the berries themselves? Clean. I'd stake my garden on it."`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
+                ]
             },
 
             gardener_bishop_vague: {

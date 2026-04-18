@@ -296,6 +296,30 @@ export default {
             title: 'Sulkberry Supply Records',
             description: 'The Angle Corrector confirmed the Bishop received premium spiced Sulkberries.',
         },
+        sulkberries_cleared_verrik: {
+            title: 'Verrik: Sulkberries Were Clean',
+            description: 'Verrik the gardener confirmed there was no contamination in the Sulkberry cultivation.',
+        },
+        sulkberries_neme_verrik: {
+            title: 'Neme Confirms: Verrik Is Truthful',
+            description: 'Used Neme\'s Photosentience to verify Verrik\'s claim. No deception detected.',
+        },
+        sulkberries_cleared_kloor: {
+            title: 'Kloor Venn: Sulkberries Are Pure',
+            description: 'Kloor Venn\'s chemical analysis confirmed the Sulkberries contain no adulterants or toxins.',
+        },
+        sulkberries_neme_kloor: {
+            title: 'Neme Confirms: Kloor Is Truthful',
+            description: 'Used Neme\'s Photosentience to verify Kloor\'s analysis. No deception detected.',
+        },
+        sulkberries_cleared_heliodor: {
+            title: 'Heliodor: Sulkberries Are Clean',
+            description: 'Heliodor\'s composite organisms performed a multi-sensory analysis. The Sulkberries are clean.',
+        },
+        sulkberries_neme_heliodor: {
+            title: 'Neme Confirms: Heliodor Is Truthful',
+            description: 'Used Neme\'s Photosentience on Heliodor\'s colony. Multiple honest signals confirmed.',
+        },
         ac_cathedral_tension: {
             title: "Cathedral Sealing — The Angle Corrector's Perspective",
             description: "The Angle Corrector was clearly affected by the Bishop's decision to seal the Egg Cathedral.",

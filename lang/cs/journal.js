@@ -295,6 +295,30 @@ export default {
             title: 'Záznamy o Dodávkách Mručenek',
             description: 'Korektor Úhlu potvrdil, že Biskupka dostávala prémiové kořeněné Mručenky.',
         },
+        sulkberries_cleared_verrik: {
+            title: 'Verrik: Smutnice Byly Čisté',
+            description: 'Zahradník Verrik potvrdil, že v pěstování smutnic nebyla žádná kontaminace.',
+        },
+        sulkberries_neme_verrik: {
+            title: 'Neme Potvrzuje: Verrik Mluví Pravdu',
+            description: 'Použil jsem Nemovu Fotosenzitivitu k ověření Verrikova tvrzení. Žádný podvod nezjištěn.',
+        },
+        sulkberries_cleared_kloor: {
+            title: 'Kloor Venn: Smutnice Jsou Čisté',
+            description: 'Kloorova chemická analýza potvrdila, že smutnice neobsahují příměsi ani toxiny.',
+        },
+        sulkberries_neme_kloor: {
+            title: 'Neme Potvrzuje: Kloor Mluví Pravdu',
+            description: 'Použil jsem Nemovu Fotosenzitivitu k ověření Kloorovy analýzy. Žádný podvod nezjištěn.',
+        },
+        sulkberries_cleared_heliodor: {
+            title: 'Heliodor: Smutnice Jsou Čisté',
+            description: 'Heliodorovy kompozitní organismy provedly multismyslovou analýzu. Smutnice jsou čisté.',
+        },
+        sulkberries_neme_heliodor: {
+            title: 'Neme Potvrzuje: Heliodor Mluví Pravdu',
+            description: 'Použil jsem Nemovu Fotosenzitivitu na Heliodorovu kolonii. Vícenásobné poctivé signály potvrzeny.',
+        },
         ac_cathedral_tension: {
             title: 'Zapečetění Katedrály — Pohled Korektora Úhlu',
             description: 'Korektor Úhlu byl zjevně zasažen rozhodnutím Biskupky zapečetit Vaječnou Katedrálu.',

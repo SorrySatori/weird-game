@@ -9,14 +9,15 @@ export default {
     },
     gardener_start: {
         text: {
-            "Back again? The hedges don't trim themselves, but I can spare a moment.": "Zase zpět? Živé ploty se samy nezastřihnou, ale chvilku si udělám.",
-            "Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate.": "Pozor, kam šlapete — tyhle kořenové úponky mi trvalo tři týdny přemluvit do spirálového tvaru. Jmenuju se Verrik. Starám se o živou architekturu tady v direktoriátu."
+            [`"Back again? The hedges don't trim themselves, but I can spare a moment."`]: `"Zase zpět? Živé ploty se samy nezastřihnou, ale chvilku si udělám."`,
+            [`"Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`]: `"Pozor, kam šlapete — tyhle kořenové úponky mi trvalo tři týdny přemluvit do spirálového tvaru. Jmenuju se Verrik. Starám se o živou architekturu tady v direktoriátu."`,
         },
         options: {
             what_is_this_place: "Co je to za místo?",
             i_was_told_to_come_here_about_joining_the_crew: "Bylo mi řečeno, abych sem přišel...",
             i_need_to_get_into_the_townhall_any_ideas: "Potřebuji se dostat na radnici...",
             i_need_to_speak_with_someone_about_cathedral_overs: "Potřebuji mluvit s někým o dohledu nad katedrálou...",
+            about_those_sulkberries_the_directorate_supplied_w: "O těch smutnicích, co direktoriát dodával — byly čisté?",
             im_looking_into_spiced_sulkberries_who_supplies_th: "Zajímají mě kořeněné smutnice...",
             im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky...",
             looking_for_work_anything_i_can_help_with: "Hledám práci. Něco, s čím bych mohl pomoct?"
@@ -111,6 +112,26 @@ export default {
         text: "Kořeněné smutnice? Udělal jste si rešerši. To je specialita direktoriátu — pěstované v kontrolovaných podmínkách, kořeněné sloučeninami, které zná jen kultivační tým.\n\nNeprodávají je jen tak někomu. Museli byste mluvit s Korektorem úhlů o tom, kdo má přístup k prémiovým zásobám. To spadá pod kultivační dohled.\n\nTřetí patro, uvnitř. Ale mějte dobrý důvod — Korektor úhlů neprojednává klientské seznamy lehkovážně.",
         options: {
             thanks_ill_head_inside: "Díky. Půjdu dovnitř.",
+            i_have_other_questions: "Mám další otázky."
+        }
+    },
+    gardener_sulkberry_verify: {
+        text: "Smutnice? Pěstuju je osobně — tedy ty nižší třídy. Prémiové kořeněné šarže jdou přes kultivační tým nahoře, ale já připravuji záhony a sleduji raná stádia růstu.\n\nMůžu vám říct tohle: s těmi plody nebylo nic v nepořádku. Všiml bych si kontaminace v chemii půdy, ve sporových vzorcích, v barvě kořínků. Nemocná smutnicová rostlina křičí hlasitěji, než zdravá šeptá.\n\nAť se Biskupce stalo cokoliv, nepřišlo to z našich záhonů.",
+        options: {
+            photosentience_sense_whether_verrik_is_telling_the: "[Fotosenzitivita] Vycítit, zda Verrik mluví pravdu.",
+            youre_certain_no_contamination_at_all: "Jste si jistý? Žádná kontaminace?",
+            i_have_other_questions: "Mám další otázky."
+        }
+    },
+    gardener_sulkberry_neme: {
+        text: "Sáhnete dovnitř a necháte Nemova chapadla rozvinout se skrze vaše vnímání. Zahradníkovy biosignály rozkvetou — zemitý klid, profesní hrdost, lehká úzkost ze samotného vyšetřování. Ale žádný podvod. Žádná skrytá vina. Žádný chemický výkyv lži.\n\nNeme šeptá: \"Živí se prací s půdou. Jeho pravda roste jako jeho rostliny — pomalu, poctivě a se špínou pod nehty.\"\n\nVerrik mluví pravdu. Smutnice, které pěstoval, byly čisté.",
+        options: {
+            thank_you_verrik_thats_helpful: "Děkuji, Verriku. To pomáhá."
+        }
+    },
+    gardener_sulkberry_certain: {
+        text: "Jistý jako že kořeny míří dolů. Pěstuji smutnice pro direktoriát jedenáct let. Poznám kontaminovanou šarži stejně, jako poznáte falešný tón v písni, kterou jste slyšeli tisíckrát.\n\nKdyby někdo chtěl otrávit Biskupku přes smutnice, musel by je upravit poté, co opustily naše zahrady. A lidé Korektora úhlů řeší bezpečnost přepravy — to není můj obor.\n\nAle samotné plody? Čisté. Vsadil bych na to svou zahradu.",
+        options: {
             i_have_other_questions: "Mám další otázky."
         }
     },

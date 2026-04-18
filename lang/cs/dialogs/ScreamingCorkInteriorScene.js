@@ -103,6 +103,7 @@ export default {
             who_are_you: "Kdo jste?",
             tell_me_about_this_place: "Řekněte mi o tomhle místě",
             heard_any_rumors_lately: "Slyšel jste v poslední době nějaké zvěsti?",
+            i_need_a_biological_opinion_on_some_sulkberries: "Potřebuji biologický posudek na některé smutnice.",
             do_you_have_anything_for_sale: "Máte něco na prodej?"
         }
     },
@@ -129,5 +130,18 @@ export default {
     },
     heliodorMerchandise: {
         text: "Mám kontakty s obchodníky z celého okolí..."
+    },
+    heliodor_sulkberry_check: {
+        text: "Několik Heliodorových složkových organismů se postupně nakloní dopředu — nejprve se zúží oči, pak se roztaží nosní dírky, poté prsty, které jako by patřily jiné osobnosti, se natáhnou a převezmou vzorek.\n\nDlouhá pauza. Různé části Heliodorova kompozitního těla se radí v šeptavých cvakáních a mučení.\n\n'Prozkoumali jsme vzorek. Tři naše složky ochutnaly, dvě analyzovaly reziduální spory a Oorarabaz — krátce probuzený — potvrdil alkaloidní strukturu membránovou absorpčí.\n\nPlod je čistý. Žádné toxiny, žádné modifikace, žádné parazitické zásahy. Toto je premiérový produkt Lumenového direktoriátu v dokonalém stavu.\n\nKdokoliv Biskupce ublížil, nepoužil k tomu tyto plody.'",
+        options: {
+            photosentience_read_heliodors_biosignals_for_decep: "[Fotosenzitivita] Číst Heliodorovy biosignály kvůli podvodu.",
+            thank_you_thats_very_thorough: "Děkuji. To je velmi důkladné."
+        }
+    },
+    heliodor_sulkberry_neme: {
+        text: "Roztažíte Nemovo vědomí směrem k Heliodorovi — a okamžitě obdržíte kaskádu překrývajících se signálů. Ne jedna mysl, ale mnoho, každá vysílá na vlastní emocionální frekvenci. Profesní kompetence od analytických složek. Mírná podrážděnost těch, co byly probuzeny. Hluboké, hibernující uspokojení z něčeho, co musí být Oorarabaz, už klouzající zpět ke spánku.\n\nAle napříč všemi jedna konstanta: žádný podvod. Kolonie nemůže lhát unisono — pravda každé složky posiluje ty ostatní.\n\nNeme poznámek: 'Šŭr uprÍmnosti. Osvěžující, i když poněkud hlučné.'\n\nHeliodorův verdikt je upřímný. Smutnice jsou čisté.",
+        options: {
+            thank_you_heliodor: "Děkuji, Heliodore."
+        }
     }
 };

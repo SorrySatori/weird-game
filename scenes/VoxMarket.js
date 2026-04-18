@@ -21,6 +21,9 @@ export default class VoxMarket extends GameScene {
 
     get dialogContent() {
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
+        const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
+        const sulkberriesClearedKloor = !!this.hasJournalEntry('sulkberries_cleared_kloor');
+        const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
 
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
@@ -38,6 +41,8 @@ export default class VoxMarket extends GameScene {
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
                         { text: "About those Vestigels...", key: 'about_those_vestigels', next: "kloor_vestigels_progress" }
                     ] : []),
+                    ...(knowsSulkberries && !sulkberriesClearedKloor ? [
+                        { text: "I need your expertise on some Sulkberries.", key: 'i_need_your_expertise_on_some_sulkberries', next: "kloor_sulkberry_analyze" }] : []),
                     ...(hasFindRustQuest ? [
                         { text: "Can you help me to get to Rust Choir headquarters?.", key: 'can_you_help_me_to_get_to_rust_choir_headquarters', next: "rustDomain" }] : []),
                 ],
@@ -251,6 +256,55 @@ export default class VoxMarket extends GameScene {
                 }
             },
             
+            // --- Sulkberry analysis (Dead End investigation) ---
+            kloor_sulkberry_analyze: {
+                text: `Kloor takes the Sulkberry sample with practiced fingers, rolling it between thumb and forefinger. He sniffs it, then produces a small glass vial from his coat and crushes a fragment into it. The liquid turns a deep, clean amber.\n\n'Spiced Sulkberry. Premium grade — this is Directorate stock, no question. The alkaloid profile is...' He holds the vial up to the light. '...textbook. Perfectly calibrated for dream immersion work.'\n\nHe sets the vial down. 'There's nothing wrong with this berry. No adulterants, no toxins, no foreign compounds. If someone told you the Bishop was poisoned through these — they're wrong. Or lying.'`,
+                options: [
+                    ...(hasNeme ? [{ text: "[Photosentience] Read Kloor's bio-signals for deception.", key: 'photosentience_read_kloors_biosignals_for_deceptio', next: "kloor_sulkberry_neme" }] : []),
+                    { text: "You're sure? Your reputation is on the line.", key: 'youre_sure_your_reputation_is_on_the_line', next: "kloor_sulkberry_sure" },
+                    { text: "Thanks for the analysis.", key: 'thanks_for_the_analysis', next: "kloor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_cleared_kloor')) {
+                        this.addJournalEntry(
+                            'sulkberries_cleared_kloor',
+                            'Kloor Venn: Sulkberries Are Pure',
+                            'Kloor Venn performed a chemical analysis of the spiced Sulkberries from the Directorate. The alkaloid profile is clean — no adulterants, no toxins, no foreign compounds. His pharmaceutical expertise confirms the berries were not tampered with.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Kloor Venn' }
+                        );
+                    }
+                    if (this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete) {
+                        this.questSystem.updateQuest('who_killed_bishop', 'Kloor Venn analyzed the Sulkberries — clean, no adulterants or toxins. The poisoning angle grows weaker.', 'kloor_sulkberry_clear');
+                    }
+                }
+            },
+
+            kloor_sulkberry_neme: {
+                text: `You let Neme's awareness seep outward, reading the web of bio-signals around Kloor's nervous system. Interest — genuine, scientific interest. Professional pride in his analysis. A flicker of opportunism, wondering if he can charge you for the consultation. But no deception. No concealment.\n\nNeme murmurs: "The drug dealer is many things, but a liar about chemistry he is not. His vanity wouldn't allow it."\n\nKloor's analysis is honest. The Sulkberries are clean.`,
+                options: [
+                    { text: "Good to know. Thanks, Kloor.", key: 'good_to_know_thanks_kloor', next: "kloor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_neme_kloor')) {
+                        this.addJournalEntry(
+                            'sulkberries_neme_kloor',
+                            'Neme Confirms: Kloor Is Truthful',
+                            'Used Neme\'s Photosentience to verify Kloor Venn\'s Sulkberry analysis. No deception — his pride in his chemical expertise is genuine. The Sulkberries are confirmed pure.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Kloor Venn' }
+                        );
+                    }
+                }
+            },
+
+            kloor_sulkberry_sure: {
+                text: `'My reputation IS my livelihood.' Kloor looks almost offended. 'I've been analyzing alkaloid compounds since before the Directorate started growing these premium batches. I know what contamination looks like — in the color shift, in the crystalline structure, in the way the oils separate.\n\nThese berries are pristine. The Bishop didn't die from eating them. Look elsewhere.'`,
+                options: [
+                    { text: "Back", key: 'back', next: "kloor_start" },
+                ]
+            },
+
             kloor_bishop: {
                 text: "Kloor's expression shifts to one of caution. 'The Bishop? Yeah, I've seen her around. Not someone to mess with. She was here in the market recently, trading with some of the merchants.'",
                 options: [
