@@ -324,6 +324,14 @@ export default {
             title: "Cathedral Sealing — The Angle Corrector's Perspective",
             description: "The Angle Corrector was clearly affected by the Bishop's decision to seal the Egg Cathedral.",
         },
+        met_seldo: {
+            title: 'Met Seldo Thrice-Corrected',
+            description: 'Met Seldo Thrice-Corrected on the second floor of the Lumen Directorate. He handles bureaucratic liaison with the city.',
+        },
+        seldo_auction_errand: {
+            title: 'Seldo\'s Errand: The Voxmarket Auction',
+            description: 'Seldo wants me to buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf — a rare toad that grants three minutes of foresight when licked. In return, he\'ll give me a spare key to the Townhall.',
+        },
         edgar_eskola_meeting: {
             title: 'Edgar Eskola - The Mišutkenn of Screaming Cork',
             description: 'I met Edgar Eskola, a mišutkenn patron at the Screaming Cork.',

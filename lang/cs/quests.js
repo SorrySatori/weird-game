@@ -127,6 +127,7 @@ export default {
             updates: {
                 gardener_seldo_tip: 'Zahradník Verrik u Lumen Direktoriátu navrhl, abych promluvil se Seldem Třikrát-Korigovaným uvnitř.',
                 ac_seldo_referral: 'Korektor Úhlu mě nasměroval k Seldovi Třikrát-Korigovanému ve druhém patře.',
+                seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti — příliš trapné pro operativce direktoriátu koupit veřejně.',
             }
         },
         level_177_access: {

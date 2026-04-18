@@ -6,6 +6,7 @@ export default {
     _speakers: {
         'The Angle Corrector': 'Korektor úhlů',
         'Angle Corrector': 'Korektor úhlů',
+        'Seldo Thrice-Corrected': 'Seldo Třikrát-Korigovaný',
     },
     ac_start: {
         text: {
@@ -228,5 +229,98 @@ export default {
     },
     ac_assignments: {
         text: "Direktoriát má vždy práci pro ochotné ruce. Růst se neudržuje sám.\n\nV tuto chvíli jsou naše priority jasné: katedrála musí být zpřístupněna, smrt Biskupky musí být pochopena a rovnováha moci v tomto městě se musí přiklonit k životu spíše než ke stagnaci.\n\nPřispějte k jakémukoliv z těchto cílů a direktoriát si zapamatuje. Vždy si pamatujeme."
+    },
+
+    // ========================================
+    // SELDO TŘIKRÁT-KORIGOVANÝ
+    // ========================================
+    seldo_start: {
+        options: {
+            i_need_to_get_into_the_townhall: "Potřebuji se dostat na Radnici.",
+            about_the_auction_errand: "O tom aukčním úkolu...",
+            the_angle_corrector_sent_me: "Poslal mě Korektor Úhlu.",
+            verrik_the_gardener_mentioned_you: "Zmínil vás zahradník Verrik.",
+            what_exactly_do_you_do_here: "Co přesně tady děláte?",
+            why_thricecorrected: "Proč 'Třikrát-Korigovaný'?",
+        }
+    },
+    seldo_ac_sent: {
+        text: "Korektor Úhlu vás poslal? Pak jste buď užitečný, nebo nepohodlný — ke mně neposílají lidi na nezávazný rozhovor.\n\nDávám přednost užitečným. Pojďme zjistit, kdo z vás je.",
+        options: {
+            i_need_to_get_into_the_townhall: "Potřebuji se dostat na Radnici.",
+            what_exactly_do_you_do_here: "Co přesně tady děláte?",
+        }
+    },
+    seldo_verrik_sent: {
+        text: "Verrik? Ha. Ten starý šeptač kořenů si skutečně pamatuje, že existuji. Obvykle předstírá, že druhé patro je abstraktní koncept.\n\nNo, pokud vás Verrik považoval za hodné poslání nahoru, něco na tom musí být. Co potřebujete?",
+        options: {
+            i_need_to_get_into_the_townhall: "Potřebuji se dostat na Radnici.",
+            what_exactly_do_you_do_here: "Co přesně tady děláte?",
+        }
+    },
+    seldo_role: {
+        text: "Jsem spojení direktoriátu s městskou byrokracií. Každé povolení, každé podání, každý mezifrakční dokument, který potřebuje razítko nebo podpis nebo pečlivě zinscenovanou nehodu — to je moje kompetence.\n\nDřeňoví reklamátoři řídí administrativní aparát. Rezavý chór ho ignoruje. Direktoriát... se jím naviguje. A já jsem navigátor.\n\nZnám každého úředníka v tomhle městě jménem, každý formulář číslem a každý zadní vchod podle zvuku, který vydá, když správně zaklepete.",
+        options: {
+            speaking_of_back_doors_i_need_into_the_townhall: "Když mluvíte o zadních vchodech — potřebuji se dostat na Radnici.",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+    seldo_name: {
+        text: "Tři přezkumy. Třikrát interní auditoři direktoriátu rozpitvali mé loajality, mé metody, mé kontakty. Třikrát debatovali, zda jsem přínos, nebo přítěž.\n\nTřikrát dospěli k závěru, že jsem... přijatelný. Po svém.\n\nTitul má být známkou důvěry. Ale mezi námi — je to také připomínka, že direktoriát vždy sleduje. To mi přijde motivující.",
+        options: {
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+    seldo_townhall: {
+        text: "Radnice. Říkaš, že je zavřená? To je divné, ale možná bych mohl pomoct. n\nNáhodou vlastním náhradní klíč. Neoficiální, samozřejmě — takový klíč, který existuje, protože jsem možná kdysi na radnici pracoval.\n\nAle jen tak vám ho nedám. Chápete — klíče mají nějakou hodnotu.",
+        options: {
+            what_do_you_want_in_return: "Co za to chcete?",
+            i_could_just_find_another_way_in: "Mohl bych najít jinou cestu dovnitř.",
+        }
+    },
+    seldo_bluff: {
+        text: "Můžete zkusit. Dřeňoví reklamátoři ji zapečetili Formulářem 77-B — jurisdikční uzamčení. Ani direktoriát to nemůže zrušit bez vyvolání mezifrakčního vyšetřování.\n\nNebo mi prokážete jednu malou laskavost a projdete hlavními dveřmi s úsměvem. Vaše volba.",
+        options: {
+            fine_whats_the_favor: "Dobrá. Jaká laskavost?",
+        }
+    },
+    seldo_errand: {
+        text: "Na Voxmarketu se v aukční hale chystá aukce. Pořádají je nepravidelně — kdykoli se nahromadí dost podivných předmětů, aby to ospravedlnilo ten cirkus.\n\nMezi položkami je tvor, kterého potřebuji. Konkrétně exemplář Chronobřečkového Ropušátka — vzácná ropucha. Když ji olížete, uvidíte přesně tři minuty do budoucnosti. Absurdně užitečné pro kohokoli, kdo naviguje byrokratické termíny.\n\nProblém? Operativec Lumen Direktoriátu kupující prorockou ropuchu by vyvolal... řeči. Předpovídání budoucnosti znamená pochybnosti o přítomnosti — a pochybnosti jsou rozkladové myšlení. 'Růst nehazarduje,' jak rada ráda říká.\n\nPotřebuji, aby ji za mě koupil někdo nesvázaný.",
+        options: {
+            a_prophetic_toad_thats_your_embarrassing_secret: "Prorocká ropucha? To je vaše trapné tajemství?",
+            ill_do_it_tell_me_about_the_auction: "Udělám to. Řekněte mi o aukci.",
+        }
+    },
+    seldo_embarrassment: {
+        text: "Vy nerozumíte politice direktoriátu. 'Nic skrytého. Nic ztraceného' — a růst znamená jít vpřed, aniž byste hleděli dopředu. Proroctví je doména Rezavého chóru — uctívání entropie převlečené za užitečnost.\n\nOperativec direktoriátu viděn, jak dráží prorockou ropuchu? Rada by svolala mimořádné zasedání. Přežil jsem tři přezkumy loajality. Nemám v úmyslu zvát čtvrtý kvůli obojživelníkovi.\n\nPomůžete mi, nebo mám najít někoho méně zvědavého?",
+        options: {
+            fine_ill_help_tell_me_about_the_auction: "Dobrá, pomůžu. Řekněte mi o aukci.",
+            youd_really_lick_a_toad_for_three_minutes: "Opravdu byste olízl ropuchu kvůli třem minutám předvídavosti?",
+        }
+    },
+    seldo_toad_defense: {
+        text: "Tři minuty jsou v byrokracii celou věčností. Víte, kolik formulářů se dá předvyplnit, kolik podpisů anticipovat, kolik 'náhodných' setkání zinscenovat za tři minuty?\n\nChronobřečkové Ropušátko nepředpovídá budoucnost v nějakém velkolepém prorockém smyslu. Ukáže vám příštích sto osmdesát sekund s dokonalou jasností. To není věštění — to je pokročilé plánování.\n\nAle mé ospravedlnění nepotřebujete. Potřebujete detaily o aukci.",
+        options: {
+            tell_me_about_the_auction: "Řekněte mi o aukci.",
+        }
+    },
+    seldo_auction_details: {
+        text: "Aukční hala na Voxmarketu je suterén pod hlavním tržištěm. Kurátorské prodeje — vzácné předměty, pochybný původ, excentricčtí kupci. Předaukční společenská část je stejně důležitá jako samotné dražení.\n\nChronobřečkové Ropušátko bude mezi položkami. Musíte vyhrát příhoz. Počítejte s rozpočtem kolem 80 zlatých — ale mohou tam být součeřící dražitelé. Chronobřečková Ropušátka jsou oblíbená u gamblerů a kohokoli, kdo někdy zmeškal termín o sekundy.\n\nDoporučuji přijít včas a... řídit konkurenci. Vaše konkrétní schopnosti by se tam mohly hodit. Přesvědčování, matení, cokoliv je třeba — v rozumných mezích.\n\nPřineste mi Ropušátko a klíč od Radnice je váš.",
+        options: {
+            ill_head_to_the_voxmarket_auction_hall: "Zamířím do aukční haly na Voxmarketu.",
+            i_need_to_prepare_first_ill_come_back: "Potřebuji se nejdřív připravit. Vrátím se.",
+        }
+    },
+    seldo_auction_accepted: {
+        text: "Dobře. Tady máte 80 zlaťáků na dražbu — mělo by to stačit, i když možná budete muset být kreativní, pokud konkurence vyžene cenu nahoru.\n\nPamatujte — Chronobřečkové Ropušátko. Nenechte se rozptýlit ostatními položkami, i když nebudu soudit, pokud si něco koupíte pro sebe.\n\nA nezmiňujte mé jméno na aukci. Jsem přesně tak neviditelný, jak potřebuji být.",
+    },
+    seldo_auction_later: {
+        text: "Nespěchejte. Aukce nikam neuteče — a Radnice také ne.\n\nJen neotálejte příliš dlouho. Zámky mají tendenci stát se trvalými, pokud je nikdo nezkouší.",
+    },
+    seldo_auction_remind: {
+        text: "Aukční hala na Voxmarketu. Chronobřečkové Ropušátko. Nezmiňujte mé jméno. Rozpočet kolem 80 zlatých — ale buďte připraveni přechytračit konkurenci.\n\nKlíč od Radnice čeká na Ropušátko. Tak zní dohoda.",
+        options: {
+            im_on_it: "Pracuji na tom.",
+        }
     }
 };

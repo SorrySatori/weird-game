@@ -128,6 +128,7 @@ export default {
             updates: {
                 gardener_seldo_tip: 'The gardener Verrik at the Lumen Directorate suggested I speak with Seldo Thrice-Corrected inside.',
                 ac_seldo_referral: 'The Angle Corrector directed me to Seldo Thrice-Corrected on the second floor.',
+                seldo_auction_errand: 'Seldo Thrice-Corrected has a spare Townhall key but wants a favor: buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf. A prophetic toad that lets you see three minutes into the future — too embarrassing for a Directorate operative to purchase publicly.',
             }
         },
         level_177_access: {

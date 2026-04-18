@@ -11,6 +11,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         super.preload();
         this.load.image('lumenInteriorBg', 'assets/images/backgrounds/LumenDirectorateInterior.png');
         this.load.image('angleCorrector', 'assets/images/characters/AngleCorrector.png');
+        this.load.image('seldo', 'assets/images/characters/seldo.png');
     }
 
     create() {
@@ -53,6 +54,9 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
         // Create the Angle Corrector NPC
         this.createAngleCorrector();
+
+        // Create Seldo Thrice-Corrected NPC
+        this.createSeldo();
     }
 
     createAngleCorrector() {
@@ -104,6 +108,55 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         });
     }
 
+    createSeldo() {
+        this.seldo = this.add.image(200, 340, 'seldo');
+        this.seldo.setScale(0.16);
+        this.seldo.setDepth(5);
+        this.seldo.setInteractive({ useHandCursor: true });
+
+        // Amber bureaucratic glow
+        this.seldoGlow = this.add.graphics();
+        this.seldoGlow.fillStyle(0xC4A035, 0.12);
+        this.seldoGlow.fillCircle(200, 340, 40);
+        this.seldoGlow.setDepth(4);
+
+        this.tweens.add({
+            targets: this.seldoGlow,
+            alpha: { from: 0.12, to: 0.03 },
+            duration: 2800,
+            yoyo: true,
+            repeat: -1
+        });
+
+        // Subtle idle sway
+        this.tweens.add({
+            targets: this.seldo,
+            angle: { from: -0.6, to: 0.6 },
+            duration: 3500,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+
+        // Hover effect
+        this.seldo.on('pointerover', () => {
+            this.seldo.setScale(0.17);
+            document.body.style.cursor = 'pointer';
+        });
+
+        this.seldo.on('pointerout', () => {
+            this.seldo.setScale(0.16);
+            document.body.style.cursor = 'default';
+        });
+
+        // Click to talk
+        this.seldo.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('seldo_start');
+        });
+    }
+
     get dialogContent() {
         const hasLumenQuest = !!(this.questSystem?.getQuest('find_lumen_directorate') && !this.questSystem.getQuest('find_lumen_directorate').isComplete);
         const hasBishopQuest = !!(this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete);
@@ -114,6 +167,12 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         const metAngleCorrector = !!this.hasJournalEntry('met_angle_corrector');
         const passedGrowthTest = !!this.hasJournalEntry('ac_growth_test_passed');
         const knowsSulkberryRecords = !!this.hasJournalEntry('ac_sulkberry_records');
+
+        // Seldo conditions
+        const metSeldo = !!this.hasJournalEntry('met_seldo');
+        const acceptedAuctionErrand = !!this.hasJournalEntry('seldo_auction_errand');
+        const auctionComplete = !!this.hasJournalEntry('seldo_auction_success');
+        const hasTownhallKey = !!this.hasJournalEntry('seldo_townhall_key');
 
         const lumenRep = this.factionSystem?.getReputation('LumenDirectorate') || 0;
         const hasThorne = !!this.symbiontSystem?.hasSymbiont('thorne-still');
@@ -500,6 +559,169 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                         this.modifyFactionReputation('LumenDirectorate', 3);
                     }
                 }
+            },
+
+            // ========================================
+            // SELDO THRICE-CORRECTED — Second floor
+            // ========================================
+
+            seldo_start: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: metSeldo
+                    ? (auctionComplete
+                        ? `"Ah, you again. I trust the item is... safely out of public view? Good. If you need anything else, I'm at my desk. I'm always at my desk."`
+                        : (acceptedAuctionErrand
+                            ? `"You're still here? The auction at the Voxmarket won't attend itself. Time is a bureaucratic resource — and you're spending it poorly."`
+                            : `"Back again. Good — persistence is the second-most valued trait in this building. The first is discretion. What do you need?"`))
+                    : `"You've found the second floor. That alone puts you ahead of most visitors — the Directorate's architecture is intentionally disorienting. Weeds out the impatient.\n\nI'm Seldo. Seldo Thrice-Corrected. I handle the Directorate's engagement with the city's administrative apparatus — permits, liaisons, the occasional carefully worded threat. What brings you up here?"`,
+                options: [
+                    ...(hasEnterTownhallQuest && !acceptedAuctionErrand && !hasTownhallKey ? [{ text: "I need to get into the Townhall.", key: 'i_need_to_get_into_the_townhall', next: "seldo_townhall" }] : []),
+                    ...(acceptedAuctionErrand && !auctionComplete ? [{ text: "About the auction errand...", key: 'about_the_auction_errand', next: "seldo_auction_remind" }] : []),
+                    ...(!metSeldo ? [{ text: "The Angle Corrector sent me.", key: 'the_angle_corrector_sent_me', next: "seldo_ac_sent" }] : []),
+                    ...(!metSeldo ? [{ text: "Verrik the gardener mentioned you.", key: 'verrik_the_gardener_mentioned_you', next: "seldo_verrik_sent" }] : []),
+                    { text: "What exactly do you do here?", key: 'what_exactly_do_you_do_here', next: "seldo_role" },
+                    ...(metSeldo ? [{ text: "Why 'Thrice-Corrected'?", key: 'why_thricecorrected', next: "seldo_name" }] : []),
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('met_seldo')) {
+                        this.addJournalEntry(
+                            'met_seldo',
+                            'Met Seldo Thrice-Corrected',
+                            'Met Seldo Thrice-Corrected on the second floor of the Lumen Directorate. He handles the Directorate\'s bureaucratic liaison with the city — permits, administrative back doors, and the occasional well-placed favor. Three loyalty reviews by the Directorate found him acceptable each time.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Seldo Thrice-Corrected' }
+                        );
+                    }
+                }
+            },
+
+            seldo_ac_sent: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"The Angle Corrector sent you? Then you're either useful or inconvenient — they don't send people to me for small talk.\n\nI prefer useful. Let's find out which one you are."`,
+                options: [
+                    ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall.", key: 'i_need_to_get_into_the_townhall', next: "seldo_townhall" }] : []),
+                    { text: "What exactly do you do here?", key: 'what_exactly_do_you_do_here', next: "seldo_role" },
+                ]
+            },
+
+            seldo_verrik_sent: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"Verrik? Ha. That old root-whisperer actually remembers I exist. He usually pretends the second floor is an abstract concept.\n\nWell, if Verrik thought you worth sending up, there must be something in it. What do you need?"`,
+                options: [
+                    ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall.", key: 'i_need_to_get_into_the_townhall', next: "seldo_townhall" }] : []),
+                    { text: "What exactly do you do here?", key: 'what_exactly_do_you_do_here', next: "seldo_role" },
+                ]
+            },
+
+            seldo_role: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"I am the Directorate's interface with the city's bureaucracy. Every permit, every filing, every inter-faction document that needs a stamp or a signature or a carefully orchestrated accident — that's my department.\n\nThe Pith Reclaimers run the administrative apparatus. The Rust Choir ignores it. The Directorate... navigates it. And I am the navigator.\n\nI know every clerk in this city by name, every form by number, and every back door by the sound it makes when you knock correctly."`,
+                options: [
+                    ...(hasEnterTownhallQuest && !acceptedAuctionErrand && !hasTownhallKey ? [{ text: "Speaking of back doors — I need into the Townhall.", key: 'speaking_of_back_doors_i_need_into_the_townhall', next: "seldo_townhall" }] : []),
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "seldo_start" },
+                ]
+            },
+
+            seldo_name: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"Three reviews. Three times the Directorate's internal auditors dissected my loyalties, my methods, my contacts. Three times they debated whether I was an asset or a liability.\n\nThree times they concluded I was... acceptable. In my own way.\n\nThe title is meant as a mark of trust. But between us — it's also a reminder that the Directorate is always watching. I find that motivating."`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "seldo_start" },
+                ]
+            },
+
+            seldo_townhall: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"The Townhall. Closed, you say? Weird, but perhaps I can help.\n\nI happen to possess a spare key. Unofficial, of course — the kind of key that exists because I may have been working there once.\n\nBut I'm not going to just hand it over. You understand — keys are worth something."`,
+                options: [
+                    { text: "What do you want in return?", key: 'what_do_you_want_in_return', next: "seldo_errand" },
+                    { text: "I could just find another way in.", key: 'i_could_just_find_another_way_in', next: "seldo_bluff" },
+                ],
+            },
+
+            seldo_bluff: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"You could try. The Pith Reclaimers sealed it with Form 77-B — a jurisdictional lockdown. Even the Directorate can't override that without triggering an inter-faction investigation.\n\nOr you could do me one small favor and walk through the front door with a smile. Your choice."`,
+                options: [
+                    { text: "Fine. What's the favor?", key: 'fine_whats_the_favor', next: "seldo_errand" },
+                ]
+            },
+
+            seldo_errand: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"There's an auction coming up at the Voxmarket Auction Hall. They hold them irregularly — whenever enough peculiar items accumulate to justify the circus.\n\nOne of the lots contains a creature I need. Specifically, a specimen of the Chrono-Slurry Toadlet — a rare toad. If you lick it, you can see exactly three minutes into the future. Absurdly useful for anyone navigating bureaucratic deadlines.\n\nThe problem? A Lumen Directorate operative buying a prophetic toad would cause... talk. Predicting the future implies doubt about the present — and doubt is decay-thinking. 'Growth doesn't hedge,' as the council loves to say.\n\nI need someone unaffiliated to buy it on my behalf."`,
+                options: [
+                    { text: "A prophetic toad? That's your embarrassing secret?", key: 'a_prophetic_toad_thats_your_embarrassing_secret', next: "seldo_embarrassment" },
+                    { text: "I'll do it. Tell me about the auction.", key: 'ill_do_it_tell_me_about_the_auction', next: "seldo_auction_details" },
+                ]
+            },
+
+            seldo_embarrassment: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"You don't understand Directorate politics. 'Nothing Hidden. Nothing Lost' — and growth means moving forward without looking ahead. Prophecy is the Rust Choir's domain — entropy-worship dressed in useful clothing.\n\nA Directorate operative seen bidding on a future-seeing toad? The council would call an emergency session. I survived three loyalty reviews. I don't intend to invite a fourth over an amphibian.\n\nWill you help me, or shall I find someone less curious?"`,
+                options: [
+                    { text: "Fine, I'll help. Tell me about the auction.", key: 'fine_ill_help_tell_me_about_the_auction', next: "seldo_auction_details" },
+                    { text: "You'd really lick a toad for three minutes of foresight?", key: 'youd_really_lick_a_toad_for_three_minutes', next: "seldo_toad_defense" },
+                ]
+            },
+
+            seldo_toad_defense: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"Three minutes is an eternity in bureaucracy. Do you know how many forms can be pre-filled, how many signatures anticipated, how many 'accidental' encounters can be staged in three minutes?\n\nThe Chrono-Slurry Toadlet doesn't predict the future in some grand prophetic sense. It shows you the next hundred and eighty seconds with perfect clarity. That's not fortune-telling — that's advanced scheduling.\n\nBut you don't need my justifications. You need auction details."`,
+                options: [
+                    { text: "Tell me about the auction.", key: 'tell_me_about_the_auction', next: "seldo_auction_details" },
+                ]
+            },
+
+            seldo_auction_details: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"The Voxmarket Auction Hall is a sub-level of the main market. Curated sales — rare items, questionable provenance, eccentric buyers. The pre-auction socializing is as important as the bidding.\n\nThe Chrono-Slurry Toadlet will be listed among the lots. You'll need to win the bid. Budget around 80 gold — but there may be competing bidders. Chrono-Slurry Toadlets are popular with gamblers and anyone who's ever missed a deadline by seconds.\n\nI'd suggest arriving early and... managing the competition. Your particular talents might prove useful there. Persuasion, misdirection, whatever it takes — within reason.\n\nBring me the Chrono-Slurry Toadlet, and the Townhall key is yours."`,
+                hideCloseOption: true,
+                options: [
+                    { text: "I'll head to the Voxmarket Auction Hall.", key: 'ill_head_to_the_voxmarket_auction_hall', next: "seldo_auction_accepted" },
+                    { text: "I need to prepare first. I'll come back.", key: 'i_need_to_prepare_first_ill_come_back', next: "seldo_auction_later" },
+                ],
+            },
+
+            seldo_auction_accepted: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"Good. Here's 80 gold for the bidding — that should cover it, though you may need to be creative if the competition drives the price up.\n\nRemember — the Chrono-Slurry Toadlet. Don't let yourself get distracted by the other lots, though I won't judge if you buy something for yourself.\n\nAnd don't mention my name at the auction. I am precisely as invisible as I need to be."`,
+                options: [],
+                onTrigger: () => {
+                    this.addMoney(80);
+                    this.addJournalEntry(
+                        'seldo_auction_errand',
+                        'Seldo\'s Errand: The Voxmarket Auction',
+                        'Seldo Thrice-Corrected at the Lumen Directorate has a spare key to the Townhall, but wants a favor first. I need to attend the Voxmarket Auction Hall and purchase a Chrono-Slurry Toadlet on his behalf — a prophetic toad he can\'t be seen buying as a Directorate operative.',
+                        this.journalSystem.categories.EVENTS,
+                        { character: 'Seldo Thrice-Corrected' }
+                    );
+                    this.questSystem.updateQuest('enter_townhall', 'Seldo Thrice-Corrected has a spare Townhall key but wants a favor: buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf. A prophetic toad that lets you see three minutes into the future — too embarrassing for a Directorate operative to purchase publicly.', 'seldo_auction_errand');
+                }
+            },
+
+            seldo_auction_later: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"Take your time. The auction isn't going anywhere — and neither is the Townhall.\n\nJust don't take too long. Locks have a way of becoming permanent if nobody tests them."`,
+                options: [],
+                onTrigger: () => {
+                    this.addJournalEntry(
+                        'seldo_auction_errand',
+                        'Seldo\'s Errand: The Voxmarket Auction',
+                        'Seldo Thrice-Corrected at the Lumen Directorate has a spare key to the Townhall, but wants a favor first. I need to attend the Voxmarket Auction Hall and purchase a Chrono-Slurry Toadlet on his behalf — a prophetic toad he can\'t be seen buying as a Directorate operative.',
+                        this.journalSystem.categories.EVENTS,
+                        { character: 'Seldo Thrice-Corrected' }
+                    );
+                    this.questSystem.updateQuest('enter_townhall', 'Seldo Thrice-Corrected has a spare Townhall key but wants a favor: buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf. A prophetic toad that lets you see three minutes into the future — too embarrassing for a Directorate operative to purchase publicly.', 'seldo_auction_errand');
+                }
+            },
+
+            seldo_auction_remind: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"The Voxmarket Auction Hall. A Chrono-Slurry Toadlet. Don't mention my name. Budget around 80 gold — but be prepared to outmaneuver the competition.\n\nThe Townhall key waits for the Chrono-Slurry Toadlet. That's the arrangement."`,
+                options: [
+                    { text: "I'm on it.", key: 'im_on_it', next: "seldo_start" },
+                ]
             },
         };
     }

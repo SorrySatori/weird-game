@@ -323,6 +323,14 @@ export default {
             title: 'Zapečetění Katedrály — Pohled Korektora Úhlu',
             description: 'Korektor Úhlu byl zjevně zasažen rozhodnutím Biskupky zapečetit Vaječnou Katedrálu.',
         },
+        met_seldo: {
+            title: 'Setkání se Seldem Třikrát-Korigovaným',
+            description: 'Setkal jsem se se Seldem Třikrát-Korigovaným ve druhém patře Lumen Direktoriátu. Řeší byrokratickou stykou linku s městem.',
+        },
+        seldo_auction_errand: {
+            title: 'Seldův Úkol: Aukce na Voxmarketu',
+            description: 'Seldo chce, abych na aukci na Voxmarketu koupil Chronobřečkové Ropušátko jeho jménem — vzácnou ropuchu, která po olíznutí umožní vidět tři minuty do budoucnosti. Na oplátku mi dá náhradní klíč od Radnice.',
+        },
         edgar_eskola_meeting: {
             title: 'Edgar Eskola — Mišutkenn Křičícího Koreku',
             description: 'Setkal jsem se s Edgarem Eskolou, patronem mišutkenn v Křičícím Koreku.',

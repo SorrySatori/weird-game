@@ -435,7 +435,7 @@ The symbiont **Neme's Photosentience** ability can be used to verify the truthfu
 
 ### Investigation Thread: Gaining Access to the Townhall
 
-The Townhall is closed, but its records are needed for the investigation. The path leads through **Seldo Thrice-Corrected** at the Lumen Directorate (2nd floor).
+The Townhall is closed, but its records are needed for the investigation. The path leads through **Seldo Thrice-Corrected** at the Lumen Directorate.
 
 **Seldo's Errand — The Voxmarket Auction:**
 Seldo asks the player to attend an auction at the **Voxmarket Auction Hall** (a new sub-location of the Voxmarket) and purchase a specific item on his behalf — an item too embarrassing for a Lumen Directorate member to be seen buying.
