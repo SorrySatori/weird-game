@@ -123,6 +123,8 @@ An audio bazaar where recorded voices, sounds, and thoughts are sold. Stalls dis
 
 Key merchants include **Kloor Venn** (pharmaceutical entrepreneur/drug dealer dealing in Oltrac), **Zerren** (collector of curiosities and rare oddities), and contacts who know about **Vestigels** — mysterious currency-like objects that seem alive.
 
+- **Voxmarket Auction Hall**: A venue for curated auctions of rare, unusual, or questionable items. Attracts eccentric collectors, faction agents operating through proxies, and those seeking objects too peculiar or embarrassing to acquire through normal channels. The pre-auction socializing period is as important as the bidding itself.
+
 ---
 
 ### Shed 521 — Bureau of Shapes
@@ -421,6 +423,80 @@ The threads of investigation lead through Dr. Elphi Quarn (who built the dream d
 > *"The city no longer hears me. Perhaps the dreams will."*
 > — The Bishop's final written words
 
+### Investigation Thread: The Sulkberry Lead (Dead End)
+
+The Lumen Directorate supplied premium spiced Sulkberries to the Bishop for dream immersion rituals, making them an early suspect. However, **the Sulkberries are clean** — there is nothing wrong with them. The player can verify this through multiple sources:
+
+- **Verrik the Gardener** (Lumen Directorate exterior) — confirms the berries were cultivated properly with no contamination.
+- **Kloor Venn** (Voxmarket) — pharmaceutical expertise allows him to analyze the berries and confirm their purity.
+- **Heliodor Donjon Vaalstran** (Screaming Cork) — composite biological knowledge provides further confirmation.
+
+The symbiont **Neme's Photosentience** ability can be used to verify the truthfulness of whoever clears the Sulkberries, giving the player certainty. This eliminates the Directorate poisoning angle — at least via the berries.
+
+### Investigation Thread: Gaining Access to the Townhall
+
+The Townhall is closed, but its records are needed for the investigation. The path leads through **Seldo Thrice-Corrected** at the Lumen Directorate (2nd floor).
+
+**Seldo's Errand — The Voxmarket Auction:**
+Seldo asks the player to attend an auction at the **Voxmarket Auction Hall** (a new sub-location of the Voxmarket) and purchase a specific item on his behalf — an item too embarrassing for a Lumen Directorate member to be seen buying.
+
+**Pre-Auction Phase:**
+Before bidding begins, the player can socialize with auction visitors and manipulate the field in their favor:
+- **Neme (Photosentience)** — read rival bidders' motivations, detect weaknesses and price limits.
+- **Thorne-Still (Brain Rot)** — confuse or distract competing bidders, making them forget their intent.
+- **Ulvarex (Mirage Weave)** — create illusions to mislead competitors about the item's worth or condition.
+- Standard dialog and persuasion options to discourage other bidders.
+
+The player also has the option to **buy something interesting for themselves** at the auction.
+
+**Outcomes:**
+- **Success:** Seldo, grateful, provides a **spare key to the Townhall**.
+- **Failure:** The player can still gain Seldo's help by **joining the Lumen Directorate** as an associate (through the Angle Corrector's recruitment test).
+
+### Investigation Thread: The Mad Poet Standoff
+
+Even with a key, the Townhall presents an unexpected obstacle: a **mad poet** is conducting a public reading inside, **armed and holding people hostage**. This is the reason for the Townhall's closure.
+
+**Resolution — The Poetry Contest:**
+The player must **defeat the poet in a poetry contest**. This is a battle of words, not weapons.
+- **Victory:** The poet, honor satisfied, leaves the Townhall peacefully. Hostages are freed.
+- **Defeat: GAME OVER** — the first true fail state in the game. The mad poet does not take losing gracefully, nor does he tolerate being out-bored.
+
+### Investigation Thread: The Clerk's Revelation
+
+With the Townhall open, the clerks resume their duties and can assist the investigation. A key revelation comes from a clerk who interacted directly with the Bishop:
+
+- The Bishop asked the clerk for paper.
+- The clerk provided her with an **official Townhall report notebook**.
+- This means the disturbing doppelganger text — the memo describing the Bishop entering a confessional to find someone who looked exactly like her — was **not an official Townhall report**. It was a **personal note** written in official stationery.
+
+**Implication:** The Bishop used the Townhall notebook for personal diary entries. If the doppelganger account is just one entry, **the rest of the notebook must exist somewhere** — and it likely contains more clues about her final days, the doppelganger encounters, the changing spores, and why she sealed the Cathedral.
+
+> This revelation opens the **Day 2 quest hook**: finding the Bishop's notebook.
+
+### Investigation Flow (Day 1 — Lumen Directorate Branch)
+
+```
+Lumen Directorate
+├── Sulkberries → CLEARED (verified clean via Verrik/Kloor/Heliodor + Neme)
+├── Seldo Thrice-Corrected → Auction errand
+│   └── Voxmarket Auction Hall (new location)
+│       ├── Pre-auction: socialize, use symbiont powers on rivals
+│       ├── Auction: buy Seldo's embarrassing item
+│       └── Optional: buy something for yourself
+│   ├── SUCCESS → Spare Townhall key from Seldo
+│   └── FAILURE → Join Directorate to earn Seldo's help
+└── Townhall
+    ├── Mad Poet standoff (armed, hostages)
+    ├── Poetry contest
+    │   ├── WIN → Townhall opens
+    │   └── LOSE → GAME OVER (first in game)
+    └── Clerk revelation
+        ├── Bishop's notebook = official stationery used for personal notes
+        ├── Doppelganger memo = personal entry, not official report
+        └── REST OF NOTEBOOK → Day 2 quest hook
+```
+
 ---
 
 ## Geographic Overview Map
@@ -433,6 +509,8 @@ The threads of investigation lead through Dr. Elphi Quarn (who built the dream d
 [Shed 521] ←——— [CROSSROADS] ———→ [Voxmarket] ——→ [Voxmarket Hall]
     |                |    \                            |
     |                |     \                    [Voxmarket Market]
+    |                |      \                          |
+    |                |       \                  [Voxmarket Auction Hall]
     ↓                |      \
 [Shed Gate]          |    [Egg Cathedral]
     |                |

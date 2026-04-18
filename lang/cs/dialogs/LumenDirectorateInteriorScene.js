@@ -9,9 +9,18 @@ export default {
     },
     ac_start: {
         text: {
-            "Stop. Don't come any closer until I've had a look at you.": "Stůjte. Nepřibližujte se, dokud si vás neprohlédnu.",
-            "You return. Good — I prefer those who come back over those who linger. What brings you to the third floor this time?": "Vracíte se. Dobře — dávám přednost těm, kdo se vracejí, před těmi, kdo se loudají. Co vás tentokrát přivádí do třetího patra?",
-            "Ah, you again. Still circling, still uncertain. Have you decided what growth means to you yet?": "Ach, zase vy. Stále kroužíte, stále váháte. Už jste se rozhodli, co pro vás růst znamená?"
+            [`"Stop. Don't come any closer until I've had a look at you.\n\n...Interesting. You carry spores — everyone does — but yours have an unusual cadence. Like a song that hasn't decided what key it's in.\n\nI am the Angle Corrector. That is my title, my name, and my function. State your business."`]: `"Stůjte. Nepřibližujte se, dokud si vás neprohlédnu.\n\n...Zajímavé. Nesete spory — to každý — ale vaše mají neobvyklý rytmus. Jako píseň, která se ještě nerozhodla, v jaké je tónině.\n\nJsem Korektor úhlů. To je můj titul, mé jméno a má funkce. Sdělte mi svůj záměr."`,
+            [`"You return. Good — I prefer those who come back over those who linger. What brings you to the third floor this time?"`]: `"Vracíte se. Dobře — dávám přednost těm, kdo se vracejí, před těmi, kdo se loudají. Co vás tentokrát přivádí do třetího patra?"`,
+            [`"Ah, you again. Still circling, still uncertain. Have you decided what growth means to you yet?"`]: `"Ach, zase vy. Stále kroužíte, stále váháte. Už jste se rozhodli, co pro vás růst znamená?"`
+        },
+        options: {
+            captain_liris_sent_me_im_here_to_join_the_director: "Poslala mě kapitánka Liris. Chci se připojit k direktoriátu.",
+            im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky.",
+            i_need_to_ask_about_spiced_sulkberries: "Potřebuji se zeptat na kořeněné smutnice.",
+            i_need_help_getting_into_the_townhall: "Potřebuji pomoc dostat se na radnici.",
+            tell_me_about_the_lumen_directorate: "Řekněte mi o Lumenově direktoriátu.",
+            whats_happening_with_the_egg_cathedral: "Co se děje s Vaječnou katedrálou?",
+            what_can_i_do_for_the_directorate: "Co mohu udělat pro direktoriát?"
         }
     },
     ac_liris_recruit: {
