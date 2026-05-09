@@ -1,19 +1,20 @@
 /**
  * Czech dialog translations for VoxmarketHallScene
- * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Pith Reclaimers)
+ * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Pith Reclaimers), Heartbroker Lune
  */
 export default {
     _speakers: {
         'Hesh & Vell': 'Hesh a Vell',
         'Sister Calyx': 'Sestra Calyx',
+        'Heartbroker Lune': 'Srdcokupec Lune',
     },
 
     // ——— Hesh & Vell ———
     twins_start: {
         text: {
-            [`"Welcome back," says Hesh. Vell mouths the same words half a second late, their lips forming each syllable in eerie delay. "The auction will begin shortly. Browse. Socialize. The lots are displayed along the far wall."`]: `„Vítejte zpět," říká Hesh. Vell bezhlasně artikuluje tatáž slova o půl sekundy později, rty formují každou slabiku v podivném zpoždění. „Aukce brzy začne. Rozhlédněte se. Společensky se zapojte. Položky jsou vystaveny u zadní stěny."`,
-            [`"Welcome... back," says Hesh. Vell mouths the words a half-second late, but stumbles — the rhythm is off, the synchronization cracked. "The auction will... begin shortly," Hesh continues, and Vell's lips catch up too late.\n\nThey're still functional, but their famous pacing is compromised. The auctioneer's edge — dulled.`]: `„Vítejte... zpět," říká Hesh. Vell bezhlasně artikuluje slova o půl sekundy později, ale klopýtá — rytmus nesedí, synchronizace je narušená. „Aukce... brzy začne," pokračuje Hesh a Vellovy rty dohánějí příliš pozdě.\n\nStále fungují, ale jejich proslulé tempování je narušené. Ostří licitátorů — otupené.`,
-            [`"Welcome to the Voxmarket Auction Hall," says Hesh — or is it Vell? One speaks, the other mouths the same words half a second behind, creating an unsettling echo effect without any actual echo.\n\n"I am Hesh," says the one on the left. "And I am Vell," mouths the one on the right, a beat too late. "We conduct the auction. All sales are final. All bids are binding. All regrets are your own."\n\nTheir synchronization is hypnotic — practiced, precise, and deeply wrong.`]: `„Vítejte v Aukční hale Voxmarketu," říká Hesh — nebo je to Vell? Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy pozadu, čímž vytváří znepokojivý efekt ozvěny bez skutečné ozvěny.\n\n„Já jsem Hesh," říká ten nalevo. „A já jsem Vell," artikuluje ten napravo, o moment pozadu. „Vedeme aukci. Všechny prodeje jsou konečné. Všechny příhozy jsou závazné. Všechna lítost je vaše vlastní."\n\nJejich synchronizace je hypnotická — nacvičená, přesná a hluboce znepokojivá.`,
+            twins_start_return: `„Vítejte zpět," říká Hesh. Vell bezhlasně artikuluje tatáž slova o půl sekundy později, rty formují každou slabiku v podivném zpoždění. „Aukce brzy začne. Rozhlédněte se. Společensky se zapojte. Položky jsou vystaveny u zadní stěny."`,
+            twins_start_confused_return: `„Vítejte... zpět," říká Hesh. Vell bezhlasně artikuluje slova o půl sekundy později, ale klopýtá — rytmus nesedí, synchronizace je narušená. „Aukce... brzy začne," pokračuje Hesh a Vellovy rty dohánějí příliš pozdě.\n\nStále fungují, ale jejich proslulé tempování je narušené. Ostří licitátorů — otupené.`,
+            twins_start_first: `„Vítejte v Aukční hale Voxmarketu," říká Hesh — nebo je to Vell? Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy pozadu, čímž vytváří znepokojivý efekt ozvěny bez skutečné ozvěny.\n\n„Já jsem Hesh," říká ten nalevo. „A já jsem Vell," artikuluje ten napravo, o moment pozadu. „Vedeme aukci. Všechny prodeje jsou konečné. Všechny příhozy jsou závazné. Všechna lítost je vaše vlastní."\n\nJejich synchronizace je hypnotická — nacvičená, přesná a hluboce znepokojivá.`,
         },
         options: {
             how_does_the_auction_work: "Jak funguje aukce?",
@@ -43,8 +44,8 @@ export default {
 
     twins_toadlet: {
         text: {
-            [`"The Toadlet, yes," Hesh says. Vell's mouth moves but the timing is wrong — too early, then too late, then skipping words entirely. "Starting bid is... forty gold." Hesh frowns briefly, as if the number surprised even them. "It's a... popular lot. Several interested parties."\n\nTheir usual rhythm is broken. The price they quoted is lower than the listed amount — their pacing manipulation isn't working properly.`]: `„Ropušátko, ano," říká Hesh. Vellova ústa se pohybují, ale načasování je špatné — příliš brzy, pak příliš pozdě, pak vynechává celá slova. „Vyvolávací cena je... čtyřicet zlatých." Hesh se krátce zamračí, jako by to číslo překvapilo i je. „Je to... oblíbená položka. Několik zájemců."\n\nJejich obvyklý rytmus je narušený. Cena, kterou uvedli, je nižší než v seznamu — jejich manipulace tempováním nefunguje správně.`,
-            [`"Ah, the Toadlet," says Hesh with practiced interest. Vell's lips form the words with theatrical precision. "A fine specimen. Three minutes of perfect foresight upon lingual contact. Very popular with bureaucrats, gamblers, and the chronically indecisive.\n\nStarting bid: 60 gold. But expect competition — we have at least two serious bidders already registered. The final price... well." Both twins smile. "That depends on the room."`]: `„Ach, Ropušátko," říká Hesh s nacvičeným zájmem. Vellovy rty formují slova s teatrální přesností. „Krásný exemplář. Tři minuty dokonalé předvídavosti po jazykovém kontaktu. Velmi oblíbené u byrokratů, gamblerů a chronicky nerozhodných.\n\nVyvolávací cena: 60 zlatých. Ale čekejte konkurenci — máme minimálně dva vážné zájemce. Konečná cena... no." Oba dvojčata se usmějí. „To závisí na sále."`,
+            twins_toadlet_confused: `„Ropušátko, ano," říká Hesh. Vellova ústa se pohybují, ale načasování je špatné — příliš brzy, pak příliš pozdě, pak vynechává celá slova. „Vyvolávací cena je... čtyřicet zlatých." Hesh se krátce zamračí, jako by to číslo překvapilo i je. „Je to... oblíbená položka. Několik zájemců."\n\nJejich obvyklý rytmus je narušený. Cena, kterou uvedli, je nižší než v seznamu — jejich manipulace tempováním nefunguje správně.`,
+            twins_toadlet_normal: `„Ach, Ropušátko," říká Hesh s nacvičeným zájmem. Vellovy rty formují slova s teatrální přesností. „Krásný exemplář. Tři minuty dokonalé předvídavosti po jazykovém kontaktu. Velmi oblíbené u byrokratů, gamblerů a chronicky nerozhodných.\n\nVyvolávací cena: 60 zlatých. Ale čekejte konkurenci — máme minimálně dva vážné zájemce. Konečná cena... no." Oba dvojčata se usmějí. „To závisí na sále."`,
         },
         options: {
             who_else_is_bidding_on_it: "Kdo další na něj dráží?",
@@ -90,9 +91,9 @@ export default {
     // ——— Sister Calyx ———
     calyx_start: {
         text: {
-            [`"Back again," Sister Calyx says, adjusting a small vial at her belt. "The auction draws all sorts. I'm here for Pith Reclaimer business — nothing more."`]: `„Zase tu," říká Sestra Calyx a upravuje si malou lahvičku u opasku. „Aukce přitahuje všechny druhy. Jsem tu ve věci Reklamátorů jádra — nic víc."`,
-            [`Sister Calyx stands rigidly, her composure cracked. She eyes you with visible wariness. "You again. I hope you're here to browse, not to... continue our earlier conversation."`]: `Sestra Calyx stojí ztuhlá, její sebejistota nalomená. Prohlíží si vás se zjevnou ostražitostí. „Zase vy. Doufám, že jste tu na prohlídku, ne abyste... pokračoval v našem dřívějším rozhovoru."`,
-            [`A tall woman in layered grey-green robes stands near the auction lots, examining them with clinical precision. Fungal filaments are woven into her vestments like silver thread, and her fingers end in faintly discolored nails — the mark of prolonged pith extraction work.\n\n"Sister Calyx," she says, noticing your approach. "Pith Reclaimers. I'm here on chapter business. And you are...?"`]: `U aukčních položek stojí vysoká žena ve vrstvených šedozelených hábitech a zkoumá je s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha jako stříbrné nitě a její prsty končí lehce zbarvenými nehty — znamení dlouhodobé práce s extrakcí jádra.\n\n„Sestra Calyx," řekne, když si všimne vašeho přiblížení. „Reklamátoři jádra. Jsem tu ve věci naší kapituly. A vy jste...?"`,
+            calyx_start_return: `„Zase tu," říká Sestra Calyx a upravuje si malou lahvičku u opasku. „Aukce přitahuje všechny druhy. Jsem tu ve věci Reklamátorů jádra — nic víc."`,
+            calyx_start_rattled_return: `Sestra Calyx stojí ztuhlá, její sebejistota nalomená. Prohlíží si vás se zjevnou ostražitostí. „Zase vy. Doufám, že jste tu na prohlídku, ne abyste... pokračoval v našem dřívějším rozhovoru."`,
+            calyx_start_first: `U aukčních položek stojí vysoká žena ve vrstvených šedozelených hábitech a zkoumá je s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha jako stříbrné nitě a její prsty končí lehce zbarvenými nehty — znamení dlouhodobé práce s extrakcí jádra.\n\n„Sestra Calyx," řekne, když si všimne vašeho přiblížení. „Reklamátoři jádra. Jsem tu ve věci naší kapituly. A vy jste...?"`,
         },
         options: {
             just_browsing_what_are_the_pith_reclaimers: "Jen se rozhlížím. Co jsou Reklamátoři jádra?",
@@ -130,7 +131,7 @@ export default {
     },
 
     calyx_toadlet_rival: {
-        text: `Přimhouří oči. „Vy chcete Ropušátko? Zajímavé. Není to zrovna neformální nákup — proročtí obojživelníci vyžadují specializovanou péči. Nebo ho jen chcete olíznout a nahlédnout tři minuty dopředu jako všichni ostatní?\n\nNebudu předstírat, že ustoupím. Kapitula potřebuje ten podpis jádra. Ale snové vejce je moje priorita — pokud Ropušátko vyletí příliš vysoko, budu si muset vybrat.\n\nLeda byste mě přesvědčili, že Ropušátko nestojí za moje zlaté."`,
+        text: `Přimhouří oči. „Vy chcete Ropušátko? Zajímavé. Není to zrovna neformální nákup — proročtí obojživelníci vyžadují specializovanou péči. Nebo ho jen chcete olíznout a nahlédnout tři minuty dopředu jako všichni ostatní?\n\nNebudu předstírat, že ustoupím. Ale snové vejce je moje priorita — pokud Ropušátko vyletí příliš vysoko, budu si muset vybrat.\n\nLeda byste mě přesvědčili, že Ropušátko nestojí za moje zlaté."`,
         options: {
             what_would_convince_you_to_drop_the_toadlet_bid: "Co by vás přesvědčilo vzdát se dražby Ropušátka?",
             may_the_best_bidder_win: "Ať vyhraje lepší dražitel.",
@@ -222,6 +223,69 @@ export default {
 
     calyx_mirage_after: {
         text: `Sestra Calyx stojí u položek, ale už je nezkoumá s klinickou přesností. Její oči neustále skenují místnost — kontrolují, jestli ještě něco dalšího není iluze.\n\n„Šikovný trik," zamumlá, když se přiblížíte. „Ale triky fungují oběma směry. Reklamátoři jádra studují iluze taky, víte. Extrahujeme je."`,
+        options: {
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    // ——— Heartbroker Lune ———
+    lune_start: {
+        text: {
+            lune_start_exposed: `Srdcokupec Lune drží jednu rukavicí krytou ruku nad nejmenším srdcem ve svém skleněném postroji. Tepe mimo rytmus ostatních, teď už střežené.\n\n„Poslouchal jste příliš pozorně," říká. „Neme, že? Nezdvořilý talent. Velmi cenný. Prosím, nemiřte jím na mě znovu, pokud za to nemíníte zaplatit."`,
+            lune_start_misled: `Srdcokupec Lune si prohlíží položky s přimhouřenýma očima a její skleněná srdce se barví pochybovačně šedě.\n\n„Emoční provenience je tu... méně spolehlivá, než se tvrdilo," zamumlá. „Někdo osolil místnost falešným kontextem. Velmi otravné. Velmi účinné."`,
+            lune_start_return: `„Zase vy," říká Srdcokupec Lune. Modré srdce v jejím postroji zrychlí a na okamžik pocítíte očekávání dřív než ona. Zdvořilým kývnutím si ho vezme zpět.\n\n„Odpusťte. Zvyk."`,
+            lune_start_first: `Žena v lakovaných rukavicích stojí pod postrojem z foukaných skleněných komor, z nichž každá drží jiné tlukoucí srdce. Některá jsou rudá a vlhce působící, některá bledá jako vosk ze svíčky, jedno je průsvitné a plné drobných bublinek.\n\n„Srdcokupec Lune," říká. Zatímco mluví, podráždění z vás odteče a nahradí ho cizí mírná nostalgie. Spokojeně se nadechne a vaše podráždění se vrátí.\n\n„Omlouvám se. Obchoduji s pocity konverzačně. Udržuje to vyjednávání upřímné, nebo alespoň zajímavé."`,
+        },
+        options: {
+            what_are_emotionlinked_artifacts: "Co jsou emočně vázané artefakty?",
+            what_are_you_bidding_on: "Na co dražíte?",
+            did_you_just_trade_my_feelings: "Vy jste právě obchodovala s mými pocity?",
+            offer_the_wrong_emotional_context_for_the_lots: "Nabídnout položkám špatný emoční kontext.",
+            photosentience_let_neme_expose_what_she_values: "[Fotosentience] Nechat Neme odhalit, čeho si skutečně cení.",
+        }
+    },
+
+    lune_artifacts: {
+        text: `„Předměty si pamatují doteky," říká Lune. Jedno z jejích skleněných srdcí se zakalí jantarovým teplem. „Svatební nůž si pamatuje oddanost. Rozvodová lžíce si pamatuje úlevu. Ztracený knoflík dítěte může nést víc žalu než relikvie z bojiště, pokud to dítě ten kabát milovalo dost."\n\nLehce klepne na postroj. „Páruji artefakty se srdci, která je dokážou strávit. Správné spojení vytváří vzácné pocity. Lahvovanou odvahu. Jedlé výčitky. Nostalgii dost ostrou na krájení ovoce."`,
+        options: {
+            what_are_you_bidding_on: "Na co dražíte?",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    lune_bidding: {
+        text: `„Komprimovanou nostalgii, samozřejmě. Celá sklenice stesku po domově, který nikdy neexistoval? Lahodné. Snové vejce možná, pokud nese dost katedrální hrůzy. Dokonce i Ropušátko mě trochu zajímá — předvídavost má chuť paniky, když ji používají zbabělci."\n\nMalé zelené srdce v jejím postroji začne bít rychleji. Náhle cítíte majetnické vzrušení, pak vám zmizí z hrudi a usadí se za jejími žebry.\n\n„Nekoupím všechno. Jen to, co zpívá ve správné emoční tónině."`,
+        options: {
+            what_makes_an_emotional_key_correct: "Co dělá emoční tóninu správnou?",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    lune_trade: {
+        text: `„Krátce," říká Lune. „Ochutnala jsem podráždění, půjčila vám nostalgii a obojí vrátila s minimem pohmoždění. Dokonale zdvořilé."\n\nUpraví ventil na postroji. „Většina lidí lže slovy a přiznává se pocity. Dávám přednost čistšímu dokumentu."\n\nNa půl sekundy pocítíte její nudu: starou, vyleštěnou, drahou. Pak si ji vezme zpět.`,
+        options: {
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    lune_wrong_context: {
+        text: `Nakloníte se blíž a nabídnete sebejistou lež: Snové vejce vůbec není nasáklé hrůzou. Aukční personál ho špatně označil. Jeho dominantním kontextem je byrokratické uspokojení — schválené formuláře, srovnané kartotéky, každé razítko dopadající přesně na místo.\n\nLune lehce ucukne. Tři srdce v jejím postroji zpomalí do zklamaného plazení.\n\n„Administrativní obsah? V katedrálním kameni? Jak vulgární." Znovu se podívá k položkám a přepočítává. „Budu muset ověřit všechno. Pomalu. S podezřením."\n\nJejí jistota je otrávena. Bude méně rozhodná dražitelka.`,
+    },
+
+    lune_neme: {
+        text: `Necháte Neminu fotosentienci otevřít se jako tiché zelené oko. Lunin postroj se promění v zahradu vypůjčených tepů: chuť, marnivost, profesionální potěšení. Ale pod nimi sedí maličké nezapálené srdce, které nikdy nenechá dotknout se vzduchu.\n\nNeme šeptá: „Necení si silných pocitů. Cení si prázdna po nich. Čisté dutiny. Ticha tam, kde kdysi bývalo chtění."\n\nLunin úsměv ztuhne. „Tohle," řekne tiše, „nebylo k obchodu."`,
+        options: {
+            then_these_lots_are_too_noisy_for_you: "Pak jsou pro vás tyhle položky příliš hlučné.",
+            ill_keep_your_secret_for_now: "Nechám si vaše tajemství zatím pro sebe.",
+        }
+    },
+
+    lune_exposed: {
+        text: `Poprvé si žádné z Luniných srdcí nevymění místo s ničím jiným. Prostě bijí, odhalená a nesynchronizovaná.\n\n„Příliš hlučné," zopakuje. „Ano. Možná jsou."\n\nOdstoupí od výstavní stěny. „Přišla jsem lovit delikatesy a našla místnost plnou křičícího masa. Dražte si, jak chcete. Potřebuji tišší zboží."`,
+    },
+
+    lune_secret: {
+        text: `„Jak velkorysé," říká Lune příliš rychle. Fialové srdce v jejím postroji se pokusí nabídnout vděčnost; zavře ventil dřív, než k vám dorazí.\n\n„Nechte si ho tedy. Tajemství nabývají úrok. Pokud tohle později utratíte, utraťte ho elegantně."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }

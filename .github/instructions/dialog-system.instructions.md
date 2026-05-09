@@ -94,6 +94,29 @@ text: isAngry
     : `"Welcome back, friend."`,
 ```
 
+When conditional text needs translation, also provide a matching stable `textKey` expression. Do not rely on full English sentences as translation keys:
+```js
+const npcStartTextKey = isAngry ? 'npc_start_angry' : 'npc_start_friendly';
+
+npc_start: {
+    speaker: 'NPC Name',
+    textKey: npcStartTextKey,
+    text: isAngry
+        ? `"You dare return?!"`
+        : `"Welcome back, friend."`,
+}
+```
+
+Translation files can then map `text` variants by stable ID:
+```js
+npc_start: {
+    text: {
+        npc_start_angry: `„Opovažuješ se vrátit?!"`,
+        npc_start_friendly: `„Vítej zpět, příteli."`,
+    },
+}
+```
+
 ### 8. `onTrigger` for side effects
 Use `onTrigger` on the **dialog node** (not on options) for effects that should fire when the dialog is shown:
 - Inventory changes (`this.removeItemFromInventory`, `this.addItemToInventory`)

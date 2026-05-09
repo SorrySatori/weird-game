@@ -14,10 +14,27 @@ export default class VoxmarketHallScene extends GameScene {
         const hasAuctionErrand = !!this.hasJournalEntry('seldo_auction_errand');
         const metTwins = !!this.hasJournalEntry('met_hesh_vell');
         const metCalyx = !!this.hasJournalEntry('met_sister_calyx');
+        const metLune = !!this.hasJournalEntry('met_heartbroker_lune');
         const confusedTwins = !!this.hasJournalEntry('twins_brain_rot');
         const calyxRattled = !!this.hasJournalEntry('calyx_rattled');
         const calyxLieDetected = !!this.hasJournalEntry('calyx_lie_detected');
         const calyxMiraged = !!this.hasJournalEntry('calyx_miraged');
+        const luneMisled = !!this.hasJournalEntry('lune_wrong_context');
+        const luneExposed = !!this.hasJournalEntry('lune_true_value');
+        const twinsStartTextKey = metTwins
+            ? (confusedTwins ? 'twins_start_confused_return' : 'twins_start_return')
+            : 'twins_start_first';
+        const twinsToadletTextKey = confusedTwins
+            ? 'twins_toadlet_confused'
+            : 'twins_toadlet_normal';
+        const calyxStartTextKey = metCalyx
+            ? (calyxRattled ? 'calyx_start_rattled_return' : 'calyx_start_return')
+            : 'calyx_start_first';
+        const luneStartTextKey = luneExposed
+            ? 'lune_start_exposed'
+            : (luneMisled
+                ? 'lune_start_misled'
+                : (metLune ? 'lune_start_return' : 'lune_start_first'));
 
         return {
             ...super.dialogContent,
@@ -25,6 +42,7 @@ export default class VoxmarketHallScene extends GameScene {
             // ——— Hesh & Vell, the Twin Auctioneers ———
             twins_start: {
                 speaker: 'Hesh & Vell',
+                textKey: twinsStartTextKey,
                 text: metTwins
                     ? (confusedTwins
                         ? `"Welcome... back," says Hesh. Vell mouths the words a half-second late, but stumbles — the rhythm is off, the synchronization cracked. "The auction will... begin shortly," Hesh continues, and Vell's lips catch up too late.\n\nThey're still functional, but their famous pacing is compromised. The auctioneer's edge — dulled."`
@@ -71,6 +89,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_toadlet: {
                 speaker: 'Hesh & Vell',
+                textKey: twinsToadletTextKey,
                 text: confusedTwins
                     ? `"The Toadlet, yes," Hesh says. Vell's mouth moves but the timing is wrong — too early, then too late, then skipping words entirely. "Starting bid is... forty gold." Hesh frowns briefly, as if the number surprised even them. "It's a... popular lot. Several interested parties."\n\nTheir usual rhythm is broken. The price they quoted is lower than the listed amount — their pacing manipulation isn't working properly.`
                     : `"Ah, the Toadlet," says Hesh with practiced interest. Vell's lips form the words with theatrical precision. "A fine specimen. Three minutes of perfect foresight upon lingual contact. Very popular with bureaucrats, gamblers, and the chronically indecisive.\n\nStarting bid: 60 gold. But expect competition — we have at least two serious bidders already registered. The final price... well." Both twins smile. "That depends on the room."`,
@@ -136,6 +155,7 @@ export default class VoxmarketHallScene extends GameScene {
             // ——— Sister Calyx of the Pith Reclaimers ———
             calyx_start: {
                 speaker: 'Sister Calyx',
+                textKey: calyxStartTextKey,
                 text: metCalyx
                     ? (calyxRattled
                         ? `Sister Calyx stands rigidly, her composure cracked. She eyes you with visible wariness. "You again. I hope you're here to browse, not to... continue our earlier conversation."`
@@ -385,6 +405,116 @@ export default class VoxmarketHallScene extends GameScene {
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]
             },
+
+            // ——— Heartbroker Lune ———
+            lune_start: {
+                speaker: 'Heartbroker Lune',
+                textKey: luneStartTextKey,
+                text: luneExposed
+                    ? `Heartbroker Lune keeps one gloved hand over the smallest heart in her glass harness. It beats out of rhythm with the others, guarded now.\n\n"You listened too closely," she says. "Neme, was it? A rude talent. Very valuable. Please do not aim it at me again unless you intend to pay."`
+                    : (luneMisled
+                        ? `Heartbroker Lune studies the lots with narrowed eyes, her glass hearts tinting a doubtful grey.\n\n"The emotional provenance here is... less reliable than advertised," she murmurs. "Someone has salted the room with false context. Very tedious. Very effective."`
+                        : (metLune
+                            ? `"Back again," says Heartbroker Lune. A blue heart in her harness quickens, and for a moment you feel the anticipation before she does. She takes it back with a polite nod.\n\n"Forgive me. Habit."`
+                            : `A woman in lacquered gloves stands beneath a harness of blown glass chambers, each one holding a different beating heart. Some are red and wet-looking, some pale as candle wax, one translucent and full of tiny bubbles.\n\n"Heartbroker Lune," she says. As she speaks, your irritation drains away and is replaced by someone else's mild nostalgia. She inhales, satisfied, and your irritation returns.\n\n"Apologies. I trade feelings conversationally. It keeps negotiations honest, or at least interesting."`)),
+                options: [
+                    { text: "What are emotion-linked artifacts?", key: 'what_are_emotionlinked_artifacts', next: "lune_artifacts" },
+                    { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "lune_bidding" },
+                    { text: "Did you just trade my feelings?", key: 'did_you_just_trade_my_feelings', next: "lune_trade" },
+                    ...(!luneMisled ? [{ text: "Offer the wrong emotional context for the lots.", key: 'offer_the_wrong_emotional_context_for_the_lots', next: "lune_wrong_context" }] : []),
+                    ...(hasNeme && !luneExposed ? [{ text: "[Photosentience] Let Neme expose what she actually values.", key: 'photosentience_let_neme_expose_what_she_values', next: "lune_neme" }] : []),
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('met_heartbroker_lune')) {
+                        this.addJournalEntry(
+                            'met_heartbroker_lune',
+                            'Heartbroker Lune',
+                            'Met Heartbroker Lune at the Voxmarket Auction Hall. She carries multiple living hearts in a glass harness and trades feelings mid-conversation. She is looking for emotion-linked artifacts.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Heartbroker Lune' }
+                        );
+                    }
+                }
+            },
+
+            lune_artifacts: {
+                speaker: 'Heartbroker Lune',
+                text: `"Objects remember handling," Lune says. One of her glass hearts clouds with amber warmth. "A wedding knife remembers devotion. A divorce spoon remembers relief. A child's lost button may carry more grief than a battlefield relic, if the child loved the coat enough."\n\nShe taps the harness lightly. "I match artifacts to hearts that can digest them. The right pairing produces rare feelings. Bottled courage. Edible remorse. Nostalgia sharp enough to cut fruit."`,
+                options: [
+                    { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "lune_bidding" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },
+                ]
+            },
+
+            lune_bidding: {
+                speaker: 'Heartbroker Lune',
+                text: `"Compressed Nostalgia, obviously. A whole jar of homesickness for somewhere imaginary? Delicious. The Dream Egg, perhaps, if it carries enough cathedral dread. Even the Toadlet interests me a little — foresight has a panic-flavor when used by cowards."\n\nA small green heart in her harness beats faster. Suddenly you feel proprietary excitement, then it vanishes from your chest and settles behind her ribs.\n\n"I will not buy everything. Only what sings in the correct emotional key."`,
+                options: [
+                    { text: "What makes an emotional key correct?", key: 'what_makes_an_emotional_key_correct', next: "lune_artifacts" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },
+                ]
+            },
+
+            lune_trade: {
+                speaker: 'Heartbroker Lune',
+                text: `"Briefly," Lune says. "I sampled irritation, lent you nostalgia, and returned both with minimal bruising. Perfectly courteous."\n\nShe adjusts a valve on the harness. "Most people lie with words and confess with feelings. I prefer the cleaner document."\n\nFor half a second, you feel her boredom: old, polished, expensive. Then she takes it back.`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },
+                ]
+            },
+
+            lune_wrong_context: {
+                speaker: 'Heartbroker Lune',
+                text: `You lean close and offer a confident lie: the Dream Egg is not dread-soaked at all. The auction staff mislabeled it. Its dominant context is bureaucratic satisfaction — forms approved, cabinets aligned, every stamp landing square.\n\nLune recoils slightly. Three hearts in her harness slow to a disappointed crawl.\n\n"Administrative content? In cathedral stone? How vulgar." She looks back toward the lots, recalculating. "I will need to verify everything. Slowly. With suspicion."\n\nHer certainty has been poisoned. She will be a less decisive bidder.`,
+                options: [],
+                hideCloseOption: true,
+                onTrigger: () => {
+                    this.addJournalEntry(
+                        'lune_wrong_context',
+                        'Misled Heartbroker Lune',
+                        'Fed Heartbroker Lune the wrong emotional context for the auction lots. She now doubts the emotional provenance of the artifacts and should bid less decisively.',
+                        this.journalSystem.categories.EVENTS,
+                        { character: 'Heartbroker Lune' }
+                    );
+                    this.showNotification('Heartbroker Lune is second-guessing the lots.');
+                    return 'lune_start';
+                }
+            },
+
+            lune_neme: {
+                speaker: 'Heartbroker Lune',
+                text: `You let Neme's photosentience open like a quiet green eye. Lune's harness becomes a garden of borrowed pulses: appetite, vanity, professional delight. But beneath them sits a tiny unlit heart she never lets touch the air.\n\nNeme whispers: "She does not value strong feelings. She values the absence after them. A clean hollow. Silence where wanting used to live."\n\nLune's smile freezes. "That," she says softly, "was not available for trade."`,
+                options: [
+                    { text: "Then these lots are too noisy for you.", key: 'then_these_lots_are_too_noisy_for_you', next: "lune_exposed" },
+                    { text: "I'll keep your secret for now.", key: 'ill_keep_your_secret_for_now', next: "lune_secret" },
+                ],
+                onTrigger: () => {
+                    this.addJournalEntry(
+                        'lune_true_value',
+                        'Neme: Lune Values Emptiness',
+                        'Used Neme to read Heartbroker Lune. Despite her trade in intense emotions, what she truly values is emotional absence — a clean hollow where wanting used to be.',
+                        this.journalSystem.categories.EVENTS,
+                        { character: 'Heartbroker Lune' }
+                    );
+                }
+            },
+
+            lune_exposed: {
+                speaker: 'Heartbroker Lune',
+                text: `For once, none of Lune's hearts trade places with anything. They simply beat, exposed and unsynchronized.\n\n"Too noisy," she repeats. "Yes. Perhaps they are."\n\nShe steps back from the display wall. "I came hunting delicacies and found a room full of shouting meat. Bid as you like. I need quieter merchandise."`,
+                options: [],
+                onTrigger: () => {
+                    this.showNotification('Heartbroker Lune has lost interest in the loudest lots.');
+                }
+            },
+
+            lune_secret: {
+                speaker: 'Heartbroker Lune',
+                text: `"How generous," Lune says, too quickly. A violet heart in her harness tries to offer gratitude; she clamps the valve before it reaches you.\n\n"Keep it, then. Secrets accrue interest. If you spend this one later, spend it elegantly."`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },
+                ]
+            },
         };
     }
 
@@ -394,6 +524,7 @@ export default class VoxmarketHallScene extends GameScene {
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('heshAndVell', 'assets/images/characters/heshAndVell.png');
         this.load.image('sisterCalyx', 'assets/images/characters/sisterCalyx.png');
+        this.load.image('heartbrokerLune', 'assets/images/characters/HeartbrokerLune.png');
     }
 
     create() {
@@ -451,6 +582,7 @@ export default class VoxmarketHallScene extends GameScene {
 
         // Create NPCs
         this.createTwinAuctioneers();
+        this.createHeartbrokerLune();
         this.createSisterCalyx();
 
         // Show arrival notification
@@ -512,6 +644,38 @@ export default class VoxmarketHallScene extends GameScene {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();
             this.showDialog('calyx_start');
+        });
+    }
+
+    createHeartbrokerLune() {
+        this.lune = this.add.image(250, 420, 'heartbrokerLune');
+        this.lune.setScale(0.14);
+        this.lune.setDepth(5);
+        this.lune.setInteractive({ useHandCursor: true });
+
+        this.tweens.add({
+            targets: this.lune,
+            y: this.lune.y - 4,
+            duration: 2200,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.lune.on('pointerover', () => {
+            this.lune.setScale(0.15);
+            document.body.style.cursor = 'pointer';
+        });
+
+        this.lune.on('pointerout', () => {
+            this.lune.setScale(0.14);
+            document.body.style.cursor = 'default';
+        });
+
+        this.lune.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('lune_start');
         });
     }
 

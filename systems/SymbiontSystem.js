@@ -405,7 +405,7 @@ export default class SymbiontSystem {
      * @param {string} locationId - The ID of the current location
      * @returns {object|null} - Memory bloom data or null if no bloom
      */
-    checkMemoryBloom(locationId) {
+    checkMemoryBloom() {
         if (!this.symbionts.has('neme-crownmire')) {
             return null;
         }
