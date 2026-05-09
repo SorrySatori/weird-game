@@ -1,6 +1,6 @@
 /**
  * Czech dialog translations for VoxmarketHallScene
- * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Pith Reclaimers), Heartbroker Lune, Heir to the Yellow Aquarium
+ * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Pith Reclaimers), Heartbroker Lune, Heir to the Yellow Aquarium, The Silence Beneath the Stairwell
  */
 export default {
     _speakers: {
@@ -8,6 +8,7 @@ export default {
         'Sister Calyx': 'Sestra Calyx',
         'Heartbroker Lune': 'Srdcokupec Lune',
         'Heir to the Yellow Aquarium': 'Dědic Žlutého akvária',
+        'The Silence Beneath the Stairwell': 'Ticho pod schodištěm',
     },
 
     // ——— Hesh & Vell ———
@@ -332,5 +333,57 @@ export default {
 
     heir_brain_rot: {
         text: `Necháte Thorne-Stilla vydechnout kognitivní rozklad do vibrací kolem Dědice. Nezasáhne Dědicovu mysl přímo. Vstoupí rytmem. Podlahou. Drobounkými synchronizovanými obraty embryí zavěšených uvnitř něj.\n\nHejno se rozpadne. Embrya se rozprchnou všemi směry a měkce narážejí do průsvitných žeber. Dědic ztuhne. Jeho žluté světlo bliká mimo pořadí.\n\n„Příliš mnoho proudů," zašeptá. „Příliš mnoho úst ve vodě."\n\nOdstoupí od výstavní stěny a snaží se obnovit vnitřní vzorec, který vedl jeho dražební instinkty.`,
+    },
+
+    // ——— The Silence Beneath the Stairwell ———
+    silence_start: {
+        text: {
+            silence_start_after_neme: `Malé temné stvoření se přesunulo ještě blíž ke zdi. Pod kapucovitým stínem není vidět téměř žádná tvář — jen náznak úst, která zapomněla svůj účel.\n\nKdyž se přiblížíte, zvedne dva prsty, jeden sklopí a pak ukáže k podlaze pod vašima nohama. Neme se neklidně zachvěje. Ani teď se gesto odmítá proměnit ve význam.`,
+            silence_start_return: `Ticho pod schodištěm vás vezme na vědomí, aniž vzhlédne. Z rukávu se vysunou tři prsty, zastaví se a zase zmizí.\n\nNenásleduje žádný zvuk. Ta nepřítomnost působí záměrně, tvarovaně, téměř gramaticky.`,
+            silence_start_first: `Tam, kde stín aukční síně u stěny houstne, dřepí malé temné stvoření. Nemá téměř žádnou viditelnou tvář — jen měkké přerušení tmy tam, kde by měly být rysy.\n\nNa kartičce vedle něj stojí: Ticho pod schodištěm.\n\nNepozdraví vás. Zvedne úzkou ruku a signalizuje dvěma prsty, pak pěti, pak žádným. Kdesi poblíž uprostřed věty umře rozhovor.`,
+        },
+        options: {
+            what_are_you_bidding_on: "Na co dražíte?",
+            why_dont_you_speak: "Proč nemluvíte?",
+            what_do_those_finger_signals_mean: "Co znamenají ta prstová znamení?",
+            photosentience_ask_neme_to_interpret_the_silence: "[Fotosentience] Požádat Neme, aby vyložila ticho.",
+        }
+    },
+
+    silence_bidding: {
+        text: `Zeptáte se, co chce. Stvoření zvedne jeden prst směrem ke sklenici Komprimované nostalgie a pak ho ohne dovnitř, až kloub téměř zmizí. Takže ne nostalgii. Něco uzavřeného uvnitř ní.\n\nPotom ukáže na Snové vejce, ale jen ve chvíli, kdy se nikdo jiný nedívá. Nakonec dvakrát klepne do podlahy, pomalu a dutě.\n\nVýznam dorazí spíš jako tlak než řeč: předměty, které uchovávaly tajemství. Předměty, které byly samy dost dlouho na to, aby se v samotě staly plynulými.`,
+        options: {
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    silence_no_speech: {
+        text: `Stvoření k vám otočí svou skoro-tvář. Z rukávu se vysune ruka a sevře palec s ukazovákem k sobě tak, že mezi nimi nezůstane žádný prostor.\n\nPak tytéž prsty pootevře o zlomek. Místnost uvnitř té nepatrné mezery jako by zesílila.\n\nNikdy nedraží slovně, protože řeč by utratila to, co se snaží koupit. Ticho není jeho odmítnutí. Ticho je jeho měna.`,
+        options: {
+            what_are_you_bidding_on: "Na co dražíte?",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    silence_signals: {
+        text: `Zopakuje sekvenci pomaleji: dva prsty, pět, žádný. Pak jeden prst přitisknutý k místu, kde by mohla být ústa. Pak všechny prsty skryté.\n\nChápete jen okraje. Počet. Nepřítomnost. Svědek. Odmítnutí.\n\nNa druhé straně sálu si Hesh a Vell nevšimnou, že byl učiněn příhoz. Možná právě o to jde.`,
+        options: {
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    silence_neme: {
+        text: `Necháte Neme sáhnout ke stvoření a hledat bio-signály pod tichem. Pro jednou růstový smysl zaváhá. Život tam je, ale skládá se před výkladem jako kapradina zavírající se v noci.\n\nNeme šeptá: „Cítím ukrývání, ale ne to, co je ukryté. Hlad, ale ne jeho předmět. Osamělost, ale ne zda je bolestí, nebo volbou."\n\nStvoření zvedne jediný prst. Neme ztichne dřív, než gesto dokončí.\n\nAť chce cokoli, dokázalo učinit i samotné chtění těžko čitelným.`,
+        options: {
+            so_even_neme_cant_read_you_clearly: "Takže ani Neme vás nedokáže jasně přečíst.",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    silence_neme_after: {
+        text: `Ramena stvoření se jednou zvednou a klesnou. Možná smích. Možná souhlas.\n\nNatáhne dva prsty a pak je skryje v rukávu. Příhoz, možná. Nebo varování. Nebo nejmenší možný potlesk.`,
+        options: {
+            i_have_other_questions: "Mám další otázky.",
+        }
     },
 };

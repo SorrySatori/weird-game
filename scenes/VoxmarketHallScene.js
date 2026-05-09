@@ -16,6 +16,7 @@ export default class VoxmarketHallScene extends GameScene {
         const metCalyx = !!this.hasJournalEntry('met_sister_calyx');
         const metLune = !!this.hasJournalEntry('met_heartbroker_lune');
         const metHeir = !!this.hasJournalEntry('met_yellow_aquarium_heir');
+        const metSilence = !!this.hasJournalEntry('met_stairwell_silence');
         const confusedTwins = !!this.hasJournalEntry('twins_brain_rot');
         const calyxRattled = !!this.hasJournalEntry('calyx_rattled');
         const calyxLieDetected = !!this.hasJournalEntry('calyx_lie_detected');
@@ -23,6 +24,7 @@ export default class VoxmarketHallScene extends GameScene {
         const luneMisled = !!this.hasJournalEntry('lune_wrong_context');
         const luneExposed = !!this.hasJournalEntry('lune_true_value');
         const heirDisrupted = !!this.hasJournalEntry('heir_embryos_disrupted');
+        const silenceRead = !!this.hasJournalEntry('silence_neme_read');
         const twinsStartTextKey = metTwins
             ? (confusedTwins ? 'twins_start_confused_return' : 'twins_start_return')
             : 'twins_start_first';
@@ -40,6 +42,9 @@ export default class VoxmarketHallScene extends GameScene {
         const heirStartTextKey = heirDisrupted
             ? 'heir_start_disrupted'
             : (metHeir ? 'heir_start_return' : 'heir_start_first');
+        const silenceStartTextKey = silenceRead
+            ? 'silence_start_after_neme'
+            : (metSilence ? 'silence_start_return' : 'silence_start_first');
 
         return {
             ...super.dialogContent,
@@ -592,6 +597,85 @@ export default class VoxmarketHallScene extends GameScene {
                     return 'heir_start';
                 }
             },
+
+            // ——— The Silence Beneath the Stairwell ———
+            silence_start: {
+                speaker: 'The Silence Beneath the Stairwell',
+                textKey: silenceStartTextKey,
+                text: silenceRead
+                    ? `The small dark creature has moved even closer to the wall. Almost no face is visible beneath its hooded shadow — only the suggestion of a mouth that has forgotten its purpose.\n\nWhen you approach, it raises two fingers, folds one away, then points toward the floor beneath your feet. Neme stirs uneasily. Even now, the gesture refuses to become a meaning.`
+                    : (metSilence
+                        ? `The Silence Beneath the Stairwell acknowledges you without looking up. Three fingers appear from its sleeve, pause, and vanish again.\n\nNo sound follows. The absence feels deliberate, shaped, almost grammatical.`
+                        : `A small dark creature crouches where the auction hall's wall-shadow thickens. It has almost no visible face — just a soft interruption in the dark where features should be.\n\nA card beside it reads: The Silence Beneath the Stairwell.\n\nIt does not greet you. It lifts one narrow hand and signals with two fingers, then five, then none. Somewhere nearby, a conversation dies mid-sentence.`),
+                options: [
+                    { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "silence_bidding" },
+                    { text: "Why don't you speak?", key: 'why_dont_you_speak', next: "silence_no_speech" },
+                    { text: "What do those finger signals mean?", key: 'what_do_those_finger_signals_mean', next: "silence_signals" },
+                    ...(hasNeme && !silenceRead ? [{ text: "[Photosentience] Ask Neme to interpret the silence.", key: 'photosentience_ask_neme_to_interpret_the_silence', next: "silence_neme" }] : []),
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('met_stairwell_silence')) {
+                        this.addJournalEntry(
+                            'met_stairwell_silence',
+                            'The Silence Beneath the Stairwell',
+                            'Met a small dark auction guest called The Silence Beneath the Stairwell. It has almost no visible face, never bids verbally, and signals only with its fingers. It seems interested in objects tied to secrecy and isolation.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'The Silence Beneath the Stairwell' }
+                        );
+                    }
+                }
+            },
+
+            silence_bidding: {
+                speaker: 'The Silence Beneath the Stairwell',
+                text: `You ask what it wants. The creature raises one finger toward the jar of Compressed Nostalgia, then curls the finger inward until the knuckle nearly disappears. Not nostalgia, then. Something sealed inside it.\n\nIt points next toward the Dream Egg, but only while no one else is looking. Finally it taps the floor twice, slow and hollow.\n\nThe meaning arrives as pressure rather than speech: objects that kept secrets. Objects that were alone long enough to become fluent in it.`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
+                ]
+            },
+
+            silence_no_speech: {
+                speaker: 'The Silence Beneath the Stairwell',
+                text: `The creature turns its almost-face toward you. A hand emerges from the sleeve and pinches thumb and forefinger together, leaving no space between them.\n\nThen it opens the same fingers a fraction. The room seems louder inside that tiny gap.\n\nIt never bids verbally because speech would spend what it is trying to buy. Silence is not its refusal. Silence is its currency.`,
+                options: [
+                    { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "silence_bidding" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
+                ]
+            },
+
+            silence_signals: {
+                speaker: 'The Silence Beneath the Stairwell',
+                text: `It repeats the sequence more slowly: two fingers, five, none. Then one finger pressed against the place where its mouth might be. Then all fingers hidden.\n\nYou understand only the edges. Count. Absence. Witness. Refusal.\n\nAcross the hall, Hesh and Vell do not notice the bid being placed. That may be the point.`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
+                ]
+            },
+
+            silence_neme: {
+                speaker: 'The Silence Beneath the Stairwell',
+                text: `You let Neme reach toward the creature, searching for bio-signals beneath the quiet. For once, the growth-sense falters. There is life there, but it folds away from interpretation like a fern closing at night.\n\nNeme whispers: "I can feel concealment, but not what is concealed. Hunger, but not its object. Loneliness, but not whether it is pain or preference."\n\nThe creature raises a single finger. Neme goes silent before it finishes the gesture.\n\nWhatever it wants, it has made even wanting difficult to read.`,
+                options: [
+                    { text: "So even Neme can't read you clearly.", key: 'so_even_neme_cant_read_you_clearly', next: "silence_neme_after" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
+                ],
+                onTrigger: () => {
+                    this.addJournalEntry(
+                        'silence_neme_read',
+                        'Neme: The Silence Resists Interpretation',
+                        'Asked Neme to interpret The Silence Beneath the Stairwell. Even Neme could only sense concealment, hunger, and loneliness — not clear intent. The creature is difficult to read even through bio-signals.',
+                        this.journalSystem.categories.EVENTS,
+                        { character: 'The Silence Beneath the Stairwell' }
+                    );
+                }
+            },
+
+            silence_neme_after: {
+                speaker: 'The Silence Beneath the Stairwell',
+                text: `The creature's shoulders rise and fall once. It might be laughter. It might be agreement.\n\nIt extends two fingers, then hides them in its sleeve. A bid, perhaps. Or a warning. Or the smallest possible applause.`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
+                ]
+            },
         };
     }
 
@@ -603,6 +687,7 @@ export default class VoxmarketHallScene extends GameScene {
         this.load.image('sisterCalyx', 'assets/images/characters/sisterCalyx.png');
         this.load.image('heartbrokerLune', 'assets/images/characters/HeartbrokerLune.png');
         this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
+        this.load.image('silence', 'assets/images/characters/silence.png');
     }
 
     create() {
@@ -662,6 +747,7 @@ export default class VoxmarketHallScene extends GameScene {
         this.createTwinAuctioneers();
         this.createHeartbrokerLune();
         this.createHeirToAquarium();
+        this.createSilenceBeneathStairwell();
         this.createSisterCalyx();
 
         // Show arrival notification
@@ -787,6 +873,38 @@ export default class VoxmarketHallScene extends GameScene {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();
             this.showDialog('heir_start');
+        });
+    }
+
+    createSilenceBeneathStairwell() {
+        this.silence = this.add.image(350, 435, 'silence');
+        this.silence.setScale(0.11);
+        this.silence.setDepth(5);
+        this.silence.setInteractive({ useHandCursor: true });
+
+        this.tweens.add({
+            targets: this.silence,
+            alpha: { from: 0.72, to: 0.95 },
+            duration: 2600,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.silence.on('pointerover', () => {
+            this.silence.setScale(0.12);
+            document.body.style.cursor = 'pointer';
+        });
+
+        this.silence.on('pointerout', () => {
+            this.silence.setScale(0.11);
+            document.body.style.cursor = 'default';
+        });
+
+        this.silence.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('silence_start');
         });
     }
 
