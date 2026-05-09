@@ -130,7 +130,7 @@ export default {
                 seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti — příliš trapné pro operativce direktoriátu koupit veřejně.',
                 seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumenově direktoriátu výměnou za klíč od Radnice.',
                 seldo_townhall_key: 'Dodal jsem Chronobřečkové Ropušátko Seldovi Třikrát-Korigovanému. Dal mi neoficiální klíč od Radnice pro boční vchod s mosaznou schránkou na stížnosti.',
-                entered_townhall: 'Seldův neoficiální klíč mě dostal na Radnici. Problém se zamčenými dveřmi je vyřešený; teď můžu prohledat záznamy uvnitř.',
+                entered_townhall: 'Dostal jsem se dovnitř Radnice. Problém se zamčenými dveřmi je vyřešený; teď můžu prohledat záznamy uvnitř.',
             }
         },
         level_177_access: {

@@ -16,6 +16,7 @@ export default {
         ShedHallScene: 'Hala Hangáru',
         TownSquareScene: 'Městské náměstí',
         TownhallScene: 'Radnice',
+        TownhallInteriorScene: 'Interiér Radnice',
         LumenDirectorateScene: 'Lumen Direktorát',
         BurningBearStreetScene: 'Ulice Hořícího Medvěda',
         ScreamingCorkScene: 'Křičící Zátka',

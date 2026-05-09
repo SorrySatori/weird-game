@@ -176,6 +176,7 @@ export default class TownhallScene extends GameScene {
         this.load.image('phor', 'assets/images/characters/phor.png');
         this.load.image('growthGate', 'assets/images/items/growthGate.png');
         this.load.image('rustGate', 'assets/images/items/rustGate.png');
+        this.load.image('townhallDoor', 'assets/images/ui/door.png');
     }
 
     create() {
@@ -226,7 +227,7 @@ export default class TownhallScene extends GameScene {
         
         // Create Phor Calesta
         this.createPhorCalesta();
-        this.completeEnterTownhallQuestIfUnlocked();
+        this.createTownhallEntryPoints();
         
         // Check Growth/Decay levels and add gates if thresholds are met
         const growthDecaySystem = this.registry.get('growthDecaySystem');
@@ -257,26 +258,64 @@ export default class TownhallScene extends GameScene {
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 
-    completeEnterTownhallQuestIfUnlocked() {
-        const quest = this.questSystem?.getQuest('enter_townhall');
-        const hasTownhallKey = this.hasJournalEntry('seldo_townhall_key') || this.hasItem('townhall-key');
+    createTownhallEntryPoints() {
+        const hasSeldoKey = this.hasJournalEntry('seldo_townhall_key') || this.hasItem('townhall-key');
+        const growthDecaySystem = this.registry.get('growthDecaySystem');
+        const currentGrowth = growthDecaySystem?.getGrowth() || 50;
+        const currentDecay = growthDecaySystem?.getDecay() || 50;
 
-        if (!quest || quest.isComplete || !hasTownhallKey) return;
+        if (hasSeldoKey) {
+            this.transitionManager.createTransitionZone(
+                400,
+                280,
+                170,
+                180,
+                'up',
+                'TownhallInteriorScene',
+                400,
+                320,
+                'Townhall Interior'
+            );
+        } else {
+            const lockedDoor = this.add.image(400, 280, 'townhallDoor')
+                .setScale(0.55)
+                .setAlpha(0.55)
+                .setDepth(1)
+                .setInteractive({ useHandCursor: true });
 
-        this.addJournalEntry(
-            'entered_townhall',
-            'Entered the Townhall',
-            'Seldo Thrice-Corrected\'s unofficial key got me into the Townhall. Now I can search the records for the Bishop\'s doppelgänger report and help Phor Calesta with his permits.',
-            this.journalSystem.categories.EVENTS,
-            { location: 'Townhall' }
-        );
+            lockedDoor.on('pointerdown', () => {
+                if (this.clickSound) this.clickSound.play();
+                this.showNotification('The Townhall is locked.');
+            });
+        }
 
-        this.questSystem.updateQuest(
-            'enter_townhall',
-            'Seldo Thrice-Corrected\'s unofficial key got me into the Townhall. The locked-door problem is solved; now I can search the records inside.',
-            'entered_townhall'
-        );
-        this.questSystem.completeQuest('enter_townhall');
+        if (currentGrowth >= 80) {
+            this.transitionManager.createTransitionZone(
+                225,
+                425,
+                90,
+                110,
+                'up',
+                'TownhallInteriorScene',
+                225,
+                425,
+                'Growth Gate'
+            );
+        }
+
+        if (currentDecay >= 80) {
+            this.transitionManager.createTransitionZone(
+                227,
+                450,
+                90,
+                110,
+                'up',
+                'TownhallInteriorScene',
+                227,
+                450,
+                'Rust Gate'
+            );
+        }
     }
     
     createPhorCalesta() {

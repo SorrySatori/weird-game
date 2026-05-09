@@ -131,7 +131,7 @@ export default {
                 seldo_auction_errand: 'Seldo Thrice-Corrected has a spare Townhall key but wants a favor: buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf. A prophetic toad that lets you see three minutes into the future — too embarrassing for a Directorate operative to purchase publicly.',
                 seldo_auction_success: 'I won the Chrono-Slurry Toadlet at the Voxmarket Auction. I should return it to Seldo Thrice-Corrected at the Lumen Directorate for the Townhall key.',
                 seldo_townhall_key: 'I delivered the Chrono-Slurry Toadlet to Seldo Thrice-Corrected. He gave me an unofficial Townhall key for the side entrance with the brass complaint-slot.',
-                entered_townhall: 'Seldo Thrice-Corrected\'s unofficial key got me into the Townhall. The locked-door problem is solved; now I can search the records inside.',
+                entered_townhall: 'I made it inside the Townhall. The locked-door problem is solved; now I can search the records inside.',
             }
         },
         level_177_access: {

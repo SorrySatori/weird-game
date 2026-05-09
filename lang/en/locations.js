@@ -16,6 +16,7 @@ export default {
         ShedHallScene: 'Shed Hall',
         TownSquareScene: 'Town Square',
         TownhallScene: 'Townhall',
+        TownhallInteriorScene: 'Townhall Interior',
         LumenDirectorateScene: 'Lumen Directorate',
         BurningBearStreetScene: 'Burning Bear St.',
         ScreamingCorkScene: 'Screaming Cork',
