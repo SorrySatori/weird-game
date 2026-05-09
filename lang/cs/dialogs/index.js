@@ -8,6 +8,7 @@ import cathedralEntrance from './CathedralEntrance.js';
 import voxMarket from './VoxMarket.js';
 import harborScene from './HarborScene.js';
 import townhallScene from './TownhallScene.js';
+import townhallInteriorScene from './TownhallInteriorScene.js';
 import abandonedBusScene from './AbandonedBusScene.js';
 import townSquareScene from './TownSquareScene.js';
 import shed521Scene from './Shed521Scene.js';
@@ -36,6 +37,7 @@ export default {
     VoxMarket: voxMarket,
     HarborScene: harborScene,
     TownhallScene: townhallScene,
+    TownhallInteriorScene: townhallInteriorScene,
     AbandonedBusScene: abandonedBusScene,
     TownSquareScene: townSquareScene,
     Shed521Scene: shed521Scene,

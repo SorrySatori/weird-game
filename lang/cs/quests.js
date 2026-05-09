@@ -133,6 +133,13 @@ export default {
                 entered_townhall: 'Dostal jsem se dovnitř Radnice. Problém se zamčenými dveřmi je vyřešený; teď můžu prohledat záznamy uvnitř.',
             }
         },
+        townhall_poet_standoff: {
+            title: 'Standoff se šíleným básníkem',
+            description: 'Šílený básník obsadil čítárnu Radnice a drží úředníky jako rukojmí, dokud veřejnost správně nevyslechne jeho dílo. Běžnou silou to nepůjde; musím ho porazit v básnickém souboji.',
+            updates: {
+                poet_defeated: 'Porazil jsem šíleného básníka v básnickém souboji. Rukojmí jsou volní a Radnice může znovu fungovat.',
+            }
+        },
         level_177_access: {
             title: 'Přístup na Úroveň 177',
             description: 'Musím získat přístup do studia Dr. Elphi Quarnové v patře 177-Ticho v budově Škrabáku.',

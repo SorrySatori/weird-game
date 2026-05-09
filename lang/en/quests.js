@@ -134,6 +134,13 @@ export default {
                 entered_townhall: 'I made it inside the Townhall. The locked-door problem is solved; now I can search the records inside.',
             }
         },
+        townhall_poet_standoff: {
+            title: 'The Mad Poet Standoff',
+            description: 'A mad poet has seized the Townhall reading chamber and is holding clerks hostage until the public properly hears his work. This cannot be solved with ordinary force; I need to defeat him in a poetry battle.',
+            updates: {
+                poet_defeated: 'I defeated the mad poet in a poetry battle. The hostages are free, and the Townhall can begin functioning again.',
+            }
+        },
         level_177_access: {
             title: 'Access to Level 177',
             description: "I need to gain access to Dr. Elphi Quarn's studio on floor 177-Quiet in the Scraper building.",
