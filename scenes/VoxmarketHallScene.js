@@ -45,6 +45,12 @@ export default class VoxmarketHallScene extends GameScene {
         const silenceStartTextKey = silenceRead
             ? 'silence_start_after_neme'
             : (metSilence ? 'silence_start_return' : 'silence_start_first');
+        const auctionComplete = !!this.hasJournalEntry('seldo_auction_success') || !!this.hasJournalEntry('auction_toadlet_lost');
+        const brineAlreadyResolved = !!this.hasJournalEntry('auction_brine_scripture_won') || !!this.hasJournalEntry('auction_brine_scripture_skipped');
+        const brinePrice = this.calculateBrineScripturePrice();
+        const toadletPrice = this.calculateToadletPrice();
+        const brineBidTextKey = this.getBrineScriptureAuctionTextKey();
+        const toadletBidTextKey = this.getToadletAuctionTextKey();
 
         return {
             ...super.dialogContent,
@@ -62,6 +68,7 @@ export default class VoxmarketHallScene extends GameScene {
                     { text: "How does the auction work?", key: 'how_does_the_auction_work', next: "twins_auction_rules" },
                     { text: "What's being auctioned today?", key: 'whats_being_auctioned_today', next: "twins_lots" },
                     ...(hasAuctionErrand ? [{ text: "I'm here for a specific lot — a Chrono-Slurry Toadlet.", key: 'im_here_for_a_specific_lot_a_chronoslurry_toadlet', next: "twins_toadlet" }] : []),
+                    ...(hasAuctionErrand && !auctionComplete ? [{ text: "I'm ready to begin the auction.", key: 'im_ready_to_begin_the_auction', next: "auction_start" }] : []),
                     { text: "Why do you do that — the delayed mouthing?", key: 'why_do_you_do_that_the_delayed_mouthing', next: "twins_echo" },
                     ...(hasThorne && !confusedTwins ? [{ text: "[Brain Rot] Disrupt their synchronization.", key: 'brain_rot_disrupt_their_synchronization', next: "twins_brain_rot" }] : []),
                 ],
@@ -92,6 +99,7 @@ export default class VoxmarketHallScene extends GameScene {
                 text: `"Today's lots include," Hesh begins, and Vell's delayed echo makes the list sound like a chant:\n\n"A jar of Compressed Nostalgia — memories of a place that never existed. Starting at 30 gold.\n\nOne Chrono-Slurry Toadlet — prophetic amphibian, three-minute foresight window. Starting at 60 gold.\n\nA set of Self-Sharpening Bureaucratic Quills — they fill in the correct answer on any official form. Starting at 45 gold.\n\nA Brine Scripture membrane — dormant symbiont tissue preserved in mineral saline. Starting price pending verification.\n\nAnd the evening's centerpiece: a Fossilized Dream Egg from the Cathedral excavation. Starting at 120 gold."\n\nVell finally catches up and both twins smile simultaneously. That part, at least, is perfectly synchronized.`,
                 options: [
                     ...(hasAuctionErrand ? [{ text: "Tell me more about the Chrono-Slurry Toadlet.", key: 'tell_me_more_about_the_chronoslurry_toadlet', next: "twins_toadlet" }] : []),
+                    ...(hasAuctionErrand && !auctionComplete ? [{ text: "I'm ready to begin the auction.", key: 'im_ready_to_begin_the_auction', next: "auction_start" }] : []),
                     { text: "Interesting selection. I'll look around first.", key: 'interesting_selection_ill_look_around_first', next: "closeDialog" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },
                 ]
@@ -139,9 +147,12 @@ export default class VoxmarketHallScene extends GameScene {
             twins_brain_rot: {
                 speaker: 'Hesh & Vell',
                 text: `You reach inward and let Thorne-Still's decay seep outward — a subtle pulse of cognitive rot, targeted at the twin auctioneers' famous synchronization.\n\nThe effect is immediate. Vell's delayed echo stutters — mouthing the wrong words, then the right ones too early, then freezing entirely. Hesh keeps talking but glances sideways, visibly disturbed. For a moment, they're just two people standing next to each other. The hypnotic rhythm is broken.\n\n"I... excuse us," Hesh says. Vell mouths something entirely different. They retreat behind their podium, recalibrating.\n\nWhen the auction begins, their pacing — and their price manipulation — will be compromised.`,
-                options: [],
+                options: [
+                    { text: "Continue.", key: 'continue', next: "twins_brain_rot_after" },
+                ],
                 hideCloseOption: true,
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'twins_brain_rot_after';
                     this.addJournalEntry(
                         'twins_brain_rot',
                         'Disrupted the Twin Auctioneers',
@@ -150,7 +161,6 @@ export default class VoxmarketHallScene extends GameScene {
                         { character: 'Hesh & Vell' }
                     );
                     this.showNotification('Thorne-Still disrupted the twins\' synchronization.');
-                    return 'twins_brain_rot_after';
                 }
             },
 
@@ -367,9 +377,12 @@ export default class VoxmarketHallScene extends GameScene {
             calyx_thorne: {
                 speaker: 'Sister Calyx',
                 text: `You let Thorne-Still's decay whisper outward — a targeted pulse of cognitive confusion aimed at Sister Calyx.\n\nHer eyes glaze for a moment. She blinks, touches her temple. "I... the Dream Egg. No — the Toadlet. No, the..." She trails off, her carefully prepared bidding strategy dissolving into fog.\n\n"Excuse me. I need a moment." She steps away from the lots, visibly confused about which items she came here for.\n\nHer bidding priorities are scrambled. She'll be less effective as a competitor for any lot.`,
-                options: [],
+                options: [
+                    { text: "Continue.", key: 'continue', next: "calyx_thorne_after" },
+                ],
                 hideCloseOption: true,
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'calyx_thorne_after';
                     this.addJournalEntry(
                         'calyx_rattled',
                         'Scrambled Calyx\'s Bidding Strategy',
@@ -378,7 +391,6 @@ export default class VoxmarketHallScene extends GameScene {
                         { character: 'Sister Calyx' }
                     );
                     this.showNotification('Thorne-Still scrambled Calyx\'s bidding strategy.');
-                    return 'calyx_thorne_after';
                 }
             },
 
@@ -393,9 +405,12 @@ export default class VoxmarketHallScene extends GameScene {
             calyx_mirage: {
                 speaker: 'Sister Calyx',
                 text: `You reach for Ulvarex's power and weave a subtle illusion — a phantom auction official approaching Sister Calyx with urgent news.\n\n"Sister Calyx? Message from your chapter. Priority recall — you're needed at the extraction lab immediately." The illusory official holds out a convincing pith-sealed letter.\n\nCalyx's face falls. "Now? But the auction—" She reaches for the letter and her hand passes through it. The illusion shimmers and dissolves.\n\nShe stares at where the official was. Then at you. She knows.\n\n"An illusionist. How... creative." Her composure remains, but she's rattled. If you can conjure phantom officials, what else might be fake? The lots? The other bidders? She'll second-guess everything now.`,
-                options: [],
+                options: [
+                    { text: "Continue.", key: 'continue', next: "calyx_mirage_after" },
+                ],
                 hideCloseOption: true,
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'calyx_mirage_after';
                     this.addJournalEntry(
                         'calyx_miraged',
                         'Mirage Weave: Rattled Sister Calyx',
@@ -404,7 +419,6 @@ export default class VoxmarketHallScene extends GameScene {
                         { character: 'Sister Calyx' }
                     );
                     this.showNotification('Ulvarex\'s illusion rattled Sister Calyx.');
-                    return 'calyx_mirage_after';
                 }
             },
 
@@ -476,9 +490,12 @@ export default class VoxmarketHallScene extends GameScene {
             lune_wrong_context: {
                 speaker: 'Heartbroker Lune',
                 text: `You lean close and offer a confident lie: the Dream Egg is not dread-soaked at all. The auction staff mislabeled it. Its dominant context is bureaucratic satisfaction — forms approved, cabinets aligned, every stamp landing square.\n\nLune recoils slightly. Three hearts in her harness slow to a disappointed crawl.\n\n"Administrative content? In cathedral stone? How vulgar." She looks back toward the lots, recalculating. "I will need to verify everything. Slowly. With suspicion."\n\nHer certainty has been poisoned. She will be a less decisive bidder.`,
-                options: [],
+                options: [
+                    { text: "Continue.", key: 'continue', next: "lune_start" },
+                ],
                 hideCloseOption: true,
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'lune_start';
                     this.addJournalEntry(
                         'lune_wrong_context',
                         'Misled Heartbroker Lune',
@@ -487,7 +504,6 @@ export default class VoxmarketHallScene extends GameScene {
                         { character: 'Heartbroker Lune' }
                     );
                     this.showNotification('Heartbroker Lune is second-guessing the lots.');
-                    return 'lune_start';
                 }
             },
 
@@ -583,9 +599,12 @@ export default class VoxmarketHallScene extends GameScene {
             heir_brain_rot: {
                 speaker: 'Heir to the Yellow Aquarium',
                 text: `You let Thorne-Still breathe cognitive rot into the vibrations around the Heir. It does not strike the Heir's mind directly. It enters through rhythm. Through the floor. Through the tiny synchronized turns of the embryos suspended inside them.\n\nThe school breaks. Embryos scatter in every direction, colliding softly with translucent ribs. The Heir stiffens. Their yellow light flickers out of sequence.\n\n"Too many currents," they whisper. "Too many mouths in the water."\n\nThey step away from the display wall, struggling to reestablish the internal pattern that guided their bidding instincts.`,
-                options: [],
+                options: [
+                    { text: "Continue.", key: 'continue', next: "heir_start" },
+                ],
                 hideCloseOption: true,
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'heir_start';
                     this.addJournalEntry(
                         'heir_embryos_disrupted',
                         'Disrupted the Heir\'s Embryo Synchronization',
@@ -594,7 +613,6 @@ export default class VoxmarketHallScene extends GameScene {
                         { character: 'Heir to the Yellow Aquarium' }
                     );
                     this.showNotification('Thorne-Still disrupted the Heir\'s embryo synchronization.');
-                    return 'heir_start';
                 }
             },
 
@@ -676,6 +694,159 @@ export default class VoxmarketHallScene extends GameScene {
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
                 ]
             },
+
+            // ——— Auction Flow ———
+            auction_start: {
+                speaker: 'Hesh & Vell',
+                text: brineAlreadyResolved
+                    ? `Hesh checks the ledger, then Vell taps the next line half a beat late. "The Brine Scripture matter is settled. We resume with the lots relevant to your errand."\n\nThe room dims. The auction hall inhales.`
+                    : `Hesh strikes a small bronze chime. Vell mouths the sound a half-second later, as if even metal must obey their rhythm. Conversations die. Hands fold. The auction begins.\n\n"First lot," Hesh announces. "A Brine Scripture membrane — dormant symbiont tissue preserved in mineral saline. Optional hosting disclosures apply. Bidding starts now."`,
+                options: [
+                    ...(brineAlreadyResolved ? [{ text: "Continue to the Toadlet lot.", key: 'continue_to_the_toadlet_lot', next: "auction_interlude" }] : [
+                        { text: "Bid on the Brine Scripture.", key: 'bid_on_the_brine_scripture', next: "auction_brine_bidding" },
+                        { text: "Let the Brine Scripture pass.", key: 'let_the_brine_scripture_pass', next: "auction_brine_skip" },
+                    ]),
+                ],
+                hideCloseOption: true,
+            },
+
+            auction_brine_bidding: {
+                speaker: 'Hesh & Vell',
+                textKey: brineBidTextKey,
+                text: brineBidTextKey === 'auction_brine_low'
+                    ? `The Brine Scripture membrane glistens under the lamps, but your earlier work has soured the room. The Heir's embryos drift out of rhythm; Lune distrusts the emotional provenance; even the twins' cadence cannot sharpen the appetite.\n\nStill, the Heir raises one translucent hand at 28 gold, and Lune answers with a reluctant nod at 32. Hesh tries to build momentum, but Vell mouths the wrong number and the room laughs under its breath. You lift your hand once more.\n\nThe bidding collapses quickly. Final price: ${brinePrice} gold.`
+                    : (brineBidTextKey === 'auction_brine_medium'
+                        ? `The Brine Scripture draws cautious interest. The Heir watches it with tidal recognition, Lune listens for its emotional aftertaste, and a few anonymous paddles rise from the back rows.\n\nThe Heir bids first. Lune counters. Someone behind a veil adds five gold without moving their face. Your manipulations have softened the room, but not silenced it, and you have to keep your hand up through three careful raises.\n\nFinal price: ${brinePrice} gold.`
+                        : `The Brine Scripture wakes the room in a wet whisper. The Heir leans forward. Lune's glass hearts brighten. Somewhere, a bidder you never met raises three fingers from behind a veil.\n\nThe Heir and Lune trade bids until Hesh's voice sharpens into performance. You enter late, then have to outlast a veiled collector who seems to bid by pulse alone. The competition stays fierce.\n\nFinal price: ${brinePrice} gold.`),
+                options: [
+                    { text: `Pay ${brinePrice} gold and host the Brine Scripture.`, key: 'pay_brine_price_and_host_the_brine_scripture', next: "auction_brine_buy" },
+                    { text: "Stop bidding and let it go.", key: 'stop_bidding_and_let_it_go', next: "auction_brine_skip" },
+                ],
+                hideCloseOption: true,
+            },
+
+            auction_brine_buy: {
+                speaker: 'Hesh & Vell',
+                text: `You raise your hand for the final bid. Hesh says "Settled." Vell's lips finish the word as the saline membrane is carried toward you in a shallow glass dish.`,
+                options: [
+                    { text: "Continue.", key: 'continue', next: "auction_interlude" },
+                ],
+                hideCloseOption: true,
+                onTrigger: (option) => option ? this.resolveBrineScripturePurchase(brinePrice) : null,
+            },
+
+            auction_brine_won: {
+                speaker: 'Brine Scripture',
+                text: `The membrane touches your wrist and dissolves into a cold script of salt beneath your skin. For a moment, every mineral stain in the hall becomes a sentence.\n\n"Salt remembers what flesh tries to forget," something inside you writes.\n\nHesh marks the ledger. Vell mouths the price too late. The optional lot is yours.`,
+                options: [
+                    { text: "Continue with the auction.", key: 'continue_with_the_auction', next: "auction_interlude" },
+                ],
+                hideCloseOption: true,
+            },
+
+            auction_brine_no_money: {
+                speaker: 'Hesh & Vell',
+                text: `Hesh looks at your coin purse, then closes the ledger with surgical politeness. "Payment is immediate. Gold only."\n\nThe Brine Scripture is carried away to another bidder. You remain in the room, but the optional lot is gone.`,
+                options: [
+                    { text: "Continue with the auction.", key: 'continue_with_the_auction', next: "auction_interlude" },
+                ],
+                hideCloseOption: true,
+                onTrigger: () => this.recordBrineScriptureSkipped('Could not afford the Brine Scripture during the auction.'),
+            },
+
+            auction_brine_no_slot: {
+                speaker: 'Hesh & Vell',
+                text: `The membrane recoils from your skin before payment is taken. Too many hosted voices already crowd your body; the Brine Scripture cannot find a legal or biological margin.\n\n"No viable hosting slot," Hesh says. Vell mouths it with bureaucratic sympathy. The symbiont passes to another bidder.`,
+                options: [
+                    { text: "Continue with the auction.", key: 'continue_with_the_auction', next: "auction_interlude" },
+                ],
+                hideCloseOption: true,
+                onTrigger: () => this.recordBrineScriptureSkipped('Could not host the Brine Scripture because no symbiont slot was available.'),
+            },
+
+            auction_brine_skip: {
+                speaker: 'Hesh & Vell',
+                text: `You keep your hand down. The Brine Scripture passes through the room like a damp rumor and settles elsewhere.\n\nOptional temptations are expensive. Seldo's errand remains ahead.`,
+                options: [
+                    { text: "Continue with the auction.", key: 'continue_with_the_auction', next: "auction_interlude" },
+                ],
+                hideCloseOption: true,
+                onTrigger: () => this.recordBrineScriptureSkipped('Chose not to bid on the Brine Scripture symbiont.'),
+            },
+
+            auction_interlude: {
+                speaker: 'Auction Hall',
+                text: `A few obscure items later...\n\nA jar of Compressed Nostalgia sells to someone who refuses to remember their own name. The Self-Sharpening Bureaucratic Quills are withdrawn after filling out a complaint against themselves. Someone buys a spoon that only reflects extinct soups.\n\nThen Hesh lifts the next card. Vell's mouth follows.\n\n"Chrono-Slurry Toadlet."`,
+                options: [
+                    { text: "Focus on the Toadlet bidding.", key: 'focus_on_the_toadlet_bidding', next: "auction_toadlet_bidding" },
+                ],
+                hideCloseOption: true,
+            },
+
+            auction_toadlet_bidding: {
+                speaker: 'Hesh & Vell',
+                textKey: toadletBidTextKey,
+                text: toadletBidTextKey === 'auction_toadlet_high'
+                    ? `The Chrono-Slurry Toadlet blinks from its glass bowl, already disappointed by the next three minutes. The room surges. Calyx stays sharp, Lune tastes panic in the air, and the Heir's embryos turn as one.\n\nCalyx opens at 60 before Hesh finishes the sentence. Lune pushes to 70 for the panic-flavor. The Heir answers with a silent hand at 82. Your preparations barely dent the competition, and you have to fight for every raise.\n\nFinal price: ${toadletPrice} gold.`
+                    : (toadletBidTextKey === 'auction_toadlet_average'
+                        ? `The Chrono-Slurry Toadlet's throat pulses once, and half the room imagines being three minutes less foolish. Calyx hesitates. Lune doubts the flavor. The twins' rhythm catches, then slips.\n\nCalyx still tests you with one professional bid at 65. Lune follows at 72, more curious than committed. You answer both, and neither quite wants to spend enough to keep going. Your social work pays off just enough.\n\nFinal price: ${toadletPrice} gold.`
+                        : (toadletBidTextKey === 'auction_toadlet_soft'
+                            ? `The Toadlet arrives into a weakened room. Calyx's priorities are compromised, Lune's certainty is spoiled, and the Heir's inner school cannot agree which light to follow.\n\nEven so, Calyx cannot resist one clipped bid at 60, and the Heir flickers a reply before losing the rhythm. You counter. Hesh waits for more hands, but none rise with confidence.\n\nBids rise, but slowly. Final price: ${toadletPrice} gold.`
+                            : `The Toadlet should have caused a stampede. Instead, the hall stutters: twins desynchronized, rivals rattled, appetites redirected. Even the silence under the stairwell feels like it is holding its breath.\n\nCalyx makes one damaged, almost reflexive bid. The Heir's hand lifts, trembles, and drops. Lune smiles as if the room has become too loud to taste. You raise your hand, and the remaining competition folds into embarrassed coughs.\n\nThe lot falls almost gently. Final price: ${toadletPrice} gold.`)),
+                options: [
+                    { text: `Pay ${toadletPrice} gold and claim the Chrono-Slurry Toadlet.`, key: 'pay_toadlet_price_and_claim_the_chronoslurry_toadlet', next: "auction_toadlet_buy" },
+                    { text: "Let the Toadlet go.", key: 'let_the_toadlet_go', next: "auction_toadlet_lost" },
+                ],
+                hideCloseOption: true,
+            },
+
+            auction_toadlet_buy: {
+                speaker: 'Hesh & Vell',
+                text: `You raise your hand and hold it steady through the final count.\n\n"Settled," Hesh says. Vell mouths it half a heartbeat later. The Chrono-Slurry Toadlet is sealed in a damp brass carrying jar and brought to you before anyone can reconsider.`,
+                options: [
+                    { text: "Continue.", key: 'continue', next: "closeDialog" },
+                ],
+                hideCloseOption: true,
+                onTrigger: (option) => option ? this.resolveToadletPurchase(toadletPrice) : null,
+            },
+
+            auction_toadlet_won: {
+                speaker: 'Auction Hall',
+                text: `The Toadlet presses its face against the inside of the jar and looks, somehow, embarrassed for Seldo in advance.\n\nYou have the main lot. The auction keeps moving behind you, but the only remaining question is how quickly you can get the prophetic amphibian back to the Lumen Directorate.`,
+                options: [
+                    { text: "Leave the auction hall.", key: 'leave_the_auction_hall', next: "closeDialog" },
+                ],
+                onTrigger: () => {
+                    this.showNotification('Won the Chrono-Slurry Toadlet.');
+                }
+            },
+
+            auction_toadlet_no_money: {
+                speaker: 'Hesh & Vell',
+                text: `Your hand wins the room. Your purse does not.\n\nHesh does not raise their voice. They don't need to. "Payment is immediate." Vell mouths the sentence like a closing door. The Toadlet is awarded to the next bidder while you stand there with Seldo's errand collapsing in your pocket.`,
+                options: [
+                    { text: "Step away from the podium.", key: 'step_away_from_the_podium', next: "closeDialog" },
+                ],
+                onTrigger: () => this.recordToadletLost('Could not afford the Chrono-Slurry Toadlet at the final auction price.'),
+            },
+
+            auction_toadlet_inventory_full: {
+                speaker: 'Hesh & Vell',
+                text: `The carrier jar reaches you, then stops. Your bags are too crowded for a damp brass container full of prophetic amphibian and social consequences.\n\n"No safe transfer," Hesh says. The Toadlet goes to the next bidder. Seldo will not enjoy this explanation.`,
+                options: [
+                    { text: "Step away from the podium.", key: 'step_away_from_the_podium', next: "closeDialog" },
+                ],
+                onTrigger: () => this.recordToadletLost('Could not take the Chrono-Slurry Toadlet because inventory was full.'),
+            },
+
+            auction_toadlet_lost: {
+                speaker: 'Auction Hall',
+                text: `You lower your hand. Another bidder claims the Chrono-Slurry Toadlet. The little amphibian looks into the next three minutes and seems unsurprised.\n\nSeldo's errand has failed, at least for tonight.`,
+                options: [
+                    { text: "Leave the auction hall.", key: 'leave_the_auction_hall', next: "closeDialog" },
+                ],
+                onTrigger: () => this.recordToadletLost('Chose not to finish bidding on the Chrono-Slurry Toadlet.'),
+            },
         };
     }
 
@@ -749,6 +920,8 @@ export default class VoxmarketHallScene extends GameScene {
         this.createHeirToAquarium();
         this.createSilenceBeneathStairwell();
         this.createSisterCalyx();
+
+        this.grantAuctionTestingFunds();
 
         // Show arrival notification
         this.time.delayedCall(500, () => {
@@ -906,6 +1079,180 @@ export default class VoxmarketHallScene extends GameScene {
             if (this.clickSound) this.clickSound.play();
             this.showDialog('silence_start');
         });
+    }
+
+    grantAuctionTestingFunds() {
+        if (!this.hasJournalEntry('seldo_auction_errand')) return;
+        if (this.hasJournalEntry('seldo_auction_success') || this.hasJournalEntry('auction_toadlet_lost')) return;
+        if (this.registry.get('voxmarketAuctionTestingFundsGranted')) return;
+
+        const testingGold = 2000;
+        this.addMoney(testingGold);
+        this.registry.set('voxmarketAuctionTestingFundsGranted', true);
+        this.showNotification(`Testing funds granted: +${testingGold} gold`);
+    }
+
+    getAuctionPressure() {
+        let pressure = 0;
+
+        if (this.hasJournalEntry('twins_brain_rot')) pressure += 2;
+
+        if (this.hasJournalEntry('calyx_blackmailed') || this.hasJournalEntry('calyx_shown_mercy')) {
+            pressure += 3;
+        } else if (
+            this.hasJournalEntry('calyx_truce') ||
+            this.hasJournalEntry('calyx_rattled') ||
+            this.hasJournalEntry('calyx_miraged')
+        ) {
+            pressure += 2;
+        }
+
+        if (this.hasJournalEntry('lune_true_value')) {
+            pressure += 2;
+        } else if (this.hasJournalEntry('lune_wrong_context')) {
+            pressure += 1;
+        }
+
+        if (this.hasJournalEntry('heir_embryos_disrupted')) pressure += 1;
+
+        return pressure;
+    }
+
+    getBrineScripturePressure() {
+        let pressure = 0;
+
+        if (this.hasJournalEntry('twins_brain_rot')) pressure += 1;
+        if (this.hasJournalEntry('calyx_rattled') || this.hasJournalEntry('calyx_miraged')) pressure += 1;
+        if (this.hasJournalEntry('lune_true_value')) pressure += 2;
+        else if (this.hasJournalEntry('lune_wrong_context')) pressure += 1;
+        if (this.hasJournalEntry('heir_embryos_disrupted')) pressure += 2;
+
+        return pressure;
+    }
+
+    calculateBrineScripturePrice() {
+        const pressure = this.getBrineScripturePressure();
+        if (pressure >= 4) return 36;
+        if (pressure >= 2) return 48;
+        return 60;
+    }
+
+    getBrineScriptureAuctionTextKey() {
+        const price = this.calculateBrineScripturePrice();
+        if (price <= 36) return 'auction_brine_low';
+        if (price <= 48) return 'auction_brine_medium';
+        return 'auction_brine_high';
+    }
+
+    calculateToadletPrice() {
+        const pressure = this.getAuctionPressure();
+        if (pressure >= 6) return 55;
+        if (pressure >= 4) return 68;
+        if (pressure >= 2) return 80;
+        return 95;
+    }
+
+    getToadletAuctionTextKey() {
+        const price = this.calculateToadletPrice();
+        if (price <= 55) return 'auction_toadlet_crushed';
+        if (price <= 68) return 'auction_toadlet_soft';
+        if (price <= 80) return 'auction_toadlet_average';
+        return 'auction_toadlet_high';
+    }
+
+    resolveBrineScripturePurchase(price) {
+        if (this.symbiontSystem?.hasSymbiont('brine-scripture')) {
+            this.recordBrineScriptureSkipped('Already hosted the Brine Scripture before this lot closed.');
+            return 'auction_interlude';
+        }
+
+        if (!this.hasEnoughMoney(price)) {
+            return 'auction_brine_no_money';
+        }
+
+        const symbiontData = {
+            name: 'Brine Scripture',
+            power: 0,
+            ability: 'Salt Recall'
+        };
+        const success = this.symbiontSystem?.addSymbiont('brine-scripture', symbiontData);
+
+        if (!success) {
+            return 'auction_brine_no_slot';
+        }
+
+        this.subtractMoney(price, true);
+        this.addSymbiontIcon('brine-scripture', symbiontData);
+        this.addJournalEntry(
+            'auction_brine_scripture_won',
+            'Won the Brine Scripture',
+            `Bought the Brine Scripture membrane at the Voxmarket Auction for ${price} gold. It bonded as a symbiont and grants Salt Recall — the ability to read mineral residue and old place-memory.`,
+            this.journalSystem.categories.EVENTS,
+            { location: 'Voxmarket Auction Hall', price }
+        );
+        this.showNotification('Gained Symbiont: Brine Scripture');
+        return 'auction_brine_won';
+    }
+
+    recordBrineScriptureSkipped(reason) {
+        if (this.hasJournalEntry('auction_brine_scripture_won') || this.hasJournalEntry('auction_brine_scripture_skipped')) return;
+
+        this.addJournalEntry(
+            'auction_brine_scripture_skipped',
+            'Skipped the Brine Scripture',
+            reason,
+            this.journalSystem.categories.EVENTS,
+            { location: 'Voxmarket Auction Hall' }
+        );
+    }
+
+    resolveToadletPurchase(price) {
+        if (!this.hasEnoughMoney(price)) {
+            return 'auction_toadlet_no_money';
+        }
+
+        const added = this.addItemToInventory({
+            id: 'chrono-slurry-toadlet',
+            name: 'Chrono-Slurry Toadlet',
+            description: 'A damp prophetic amphibian in a brass carrier jar. Seldo Thrice-Corrected wants it for three-minute bureaucratic foresight.',
+            stackable: false
+        });
+
+        if (!added) {
+            return 'auction_toadlet_inventory_full';
+        }
+
+        this.subtractMoney(price, true);
+        this.addJournalEntry(
+            'seldo_auction_success',
+            'Won the Chrono-Slurry Toadlet',
+            `Won Seldo's Chrono-Slurry Toadlet at the Voxmarket Auction for ${price} gold. The final price reflected how much the other guests and auctioneers had been manipulated before bidding began.`,
+            this.journalSystem.categories.EVENTS,
+            { location: 'Voxmarket Auction Hall', price }
+        );
+        this.questSystem.updateQuest(
+            'enter_townhall',
+            `I won the Chrono-Slurry Toadlet at the Voxmarket Auction for ${price} gold. I should return it to Seldo Thrice-Corrected at the Lumen Directorate for the Townhall key.`,
+            'seldo_auction_success'
+        );
+        return 'auction_toadlet_won';
+    }
+
+    recordToadletLost(reason) {
+        if (this.hasJournalEntry('seldo_auction_success') || this.hasJournalEntry('auction_toadlet_lost')) return;
+
+        this.addJournalEntry(
+            'auction_toadlet_lost',
+            'Lost the Chrono-Slurry Toadlet',
+            reason,
+            this.journalSystem.categories.EVENTS,
+            { location: 'Voxmarket Auction Hall' }
+        );
+        this.questSystem.updateQuest(
+            'enter_townhall',
+            'I failed to acquire the Chrono-Slurry Toadlet at the Voxmarket Auction. Seldo will not be pleased, and I may need another route into the Townhall.',
+            'seldo_auction_failed'
+        );
     }
 
     shutdown() {

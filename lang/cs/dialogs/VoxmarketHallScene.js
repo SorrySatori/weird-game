@@ -9,6 +9,8 @@ export default {
         'Heartbroker Lune': 'Srdcokupec Lune',
         'Heir to the Yellow Aquarium': 'Dědic Žlutého akvária',
         'The Silence Beneath the Stairwell': 'Ticho pod schodištěm',
+        'Brine Scripture': 'Solopis',
+        'Auction Hall': 'Aukční síň',
     },
 
     // ——— Hesh & Vell ———
@@ -22,6 +24,7 @@ export default {
             how_does_the_auction_work: "Jak funguje aukce?",
             whats_being_auctioned_today: "Co se dnes draží?",
             im_here_for_a_specific_lot_a_chronoslurry_toadlet: "Jsem tu kvůli konkrétní položce — Chronobřečkovému Ropušátku.",
+            im_ready_to_begin_the_auction: "Jsem připraven začít aukci.",
             why_do_you_do_that_the_delayed_mouthing: "Proč to děláte — to opožděné artikulování?",
             brain_rot_disrupt_their_synchronization: "[Mozkový rozklad] Narušit jejich synchronizaci.",
         }
@@ -39,6 +42,7 @@ export default {
         text: `„Dnešní položky zahrnují," začíná Hesh a Vellova opožděná ozvěna mění seznam v skandování:\n\n„Sklenice komprimované nostalgie — vzpomínky na místo, které nikdy neexistovalo. Vyvolávací cena 30 zlatých.\n\nJedno Chronobřečkové Ropušátko — prorocký obojživelník, tříminutové okno předvídavosti. Vyvolávací cena 60 zlatých.\n\nSada samoostřících byrokratických brků — samy vyplní správnou odpověď na jakýkoli úřední formulář. Vyvolávací cena 45 zlatých.\n\nMembrána Solopisu — spící symbiontní tkáň uchovaná v minerálním solném roztoku. Vyvolávací cena čeká na ověření.\n\nA hlavní kousek večera: Zkamenělé snové vejce z katedrálních vykopávek. Vyvolávací cena 120 zlatých."\n\nVell konečně dožene a oba dvojčata se usmějí současně. Tato část je přinejmenším dokonale synchronizovaná.`,
         options: {
             tell_me_more_about_the_chronoslurry_toadlet: "Řekněte mi víc o Chronobřečkovém Ropušátku.",
+            im_ready_to_begin_the_auction: "Jsem připraven začít aukci.",
             interesting_selection_ill_look_around_first: "Zajímavý výběr. Nejdřív se rozhlédnu.",
             i_have_other_questions: "Mám další otázky.",
         }
@@ -81,6 +85,9 @@ export default {
 
     twins_brain_rot: {
         text: `Sáhnete dovnitř a necháte Thorne-Stillův rozklad prosáknout ven — jemný pulz kognitivního rozkladu zacílený na proslulou synchronizaci dvojčat-licitátorů.\n\nÚčinek je okamžitý. Vellova opožděná ozvěna zakoktá — artikuluje špatná slova, pak ta správná příliš brzy, pak úplně zamrzne. Hesh mluví dál, ale pohlédne stranou, viditelně zneklidněný. Na okamžik jsou to prostě dva lidé stojící vedle sebe. Hypnotický rytmus je zlomený.\n\n„Já... omluvte nás," říká Hesh. Vell artikuluje něco úplně jiného. Stáhnou se za svůj pult, aby se překalibrovali.\n\nAž aukce začne, jejich tempování — a jejich manipulace cenami — bude narušená.`,
+        options: {
+            continue: "Pokračovat.",
+        }
     },
 
     twins_brain_rot_after: {
@@ -210,6 +217,9 @@ export default {
 
     calyx_thorne: {
         text: `Necháte Thorne-Stillův rozklad šeptat ven — cílený pulz kognitivní zmatenosti namířený na Sestru Calyx.\n\nJejí oči se na moment zamlží. Zamrká, dotkne se spánku. „Já... snové vejce. Ne — Ropušátko. Ne, to..." Odmlčí se, její pečlivě připravená dražební strategie se rozpouští v mlze.\n\n„Omluvte mě. Potřebuji chvilku." Odstoupí od položek, viditelně zmatená, pro které věci sem vlastně přišla.\n\nJejí dražební priority jsou pomotané. Bude méně efektivní jako konkurentka u jakékoli položky.`,
+        options: {
+            continue: "Pokračovat.",
+        }
     },
 
     calyx_thorne_after: {
@@ -221,6 +231,9 @@ export default {
 
     calyx_mirage: {
         text: `Sáhnete po Ulvarexově moci a utkaete jemnou iluzi — fantomového aukčního úředníka přistupujícího k Sestře Calyx s naléhavou zprávou.\n\n„Sestro Calyx? Zpráva z vaší kapituly. Prioritní odvolání — jste potřebná v extrakční laboratoři okamžitě." Iluzorní úředník podá přesvědčivý dopis zapečetěný jádrem.\n\nCalyxin obličej pohasne. „Teď? Ale aukce—" Natáhne ruku po dopise a projde skrz. Iluze se zatřpytí a rozpustí.\n\nZírá na místo, kde úředník stál. Pak na vás. Ví.\n\n„Iluzionista. Jak... kreativní." Její klid vytrvá, ale je otřesená. Pokud dokážete vyčarovat fantomové úředníky, co dalšího může být falešné? Položky? Ostatní dražitelé? Bude zpochybňovat všechno.`,
+        options: {
+            continue: "Pokračovat.",
+        }
     },
 
     calyx_mirage_after: {
@@ -272,6 +285,9 @@ export default {
 
     lune_wrong_context: {
         text: `Nakloníte se blíž a nabídnete sebejistou lež: Snové vejce vůbec není nasáklé hrůzou. Aukční personál ho špatně označil. Jeho dominantním kontextem je byrokratické uspokojení — schválené formuláře, srovnané kartotéky, každé razítko dopadající přesně na místo.\n\nLune lehce ucukne. Tři srdce v jejím postroji zpomalí do zklamaného plazení.\n\n„Administrativní obsah? V katedrálním kameni? Jak vulgární." Znovu se podívá k položkám a přepočítává. „Budu muset ověřit všechno. Pomalu. S podezřením."\n\nJejí jistota je otrávena. Bude méně rozhodná dražitelka.`,
+        options: {
+            continue: "Pokračovat.",
+        }
     },
 
     lune_neme: {
@@ -333,6 +349,9 @@ export default {
 
     heir_brain_rot: {
         text: `Necháte Thorne-Stilla vydechnout kognitivní rozklad do vibrací kolem Dědice. Nezasáhne Dědicovu mysl přímo. Vstoupí rytmem. Podlahou. Drobounkými synchronizovanými obraty embryí zavěšených uvnitř něj.\n\nHejno se rozpadne. Embrya se rozprchnou všemi směry a měkce narážejí do průsvitných žeber. Dědic ztuhne. Jeho žluté světlo bliká mimo pořadí.\n\n„Příliš mnoho proudů," zašeptá. „Příliš mnoho úst ve vodě."\n\nOdstoupí od výstavní stěny a snaží se obnovit vnitřní vzorec, který vedl jeho dražební instinkty.`,
+        options: {
+            continue: "Pokračovat.",
+        }
     },
 
     // ——— The Silence Beneath the Stairwell ———
@@ -384,6 +403,118 @@ export default {
         text: `Ramena stvoření se jednou zvednou a klesnou. Možná smích. Možná souhlas.\n\nNatáhne dva prsty a pak je skryje v rukávu. Příhoz, možná. Nebo varování. Nebo nejmenší možný potlesk.`,
         options: {
             i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    // ——— Auction Flow ———
+    auction_start: {
+        text: `Hesh udeří do malého bronzového zvonku. Vell artikuluje zvuk o půl úderu později, jako by i kov musel poslouchat jejich rytmus. Rozhovory umlknou. Ruce se složí. Aukce začíná.\n\n„První položka," oznámí Hesh. „Membrána Solopisu — spící symbiontní tkáň uchovaná v minerálním solném roztoku. Platí volitelná hostitelská upozornění. Dražba začíná."`,
+        options: {
+            continue_to_the_toadlet_lot: "Pokračovat k položce s Ropušátkem.",
+            bid_on_the_brine_scripture: "Dražit Solopis.",
+            let_the_brine_scripture_pass: "Nechat Solopis projít.",
+        }
+    },
+
+    auction_brine_bidding: {
+        text: {
+            auction_brine_low: `Membrána Solopisu se leskne pod lampami, ale vaše předchozí práce zkazila náladu v sále. Dědicova embrya plavou mimo rytmus; Lune nedůvěřuje emoční provenienci; ani dvojčecí kadence nedokáže zostřit apetit.\n\nPřesto Dědic zvedne průsvitnou ruku při 28 zlatých a Lune odpoví neochotným kývnutím při 32. Hesh se pokusí vybudovat tempo, ale Vell artikuluje špatné číslo a sál se potichu zasměje. Zvednete ruku ještě jednou.\n\nDražba se rychle zhroutí. Konečná cena: 36 zlatých.`,
+            auction_brine_medium: `Solopis přitáhne opatrný zájem. Dědic ho pozoruje s přílivovým rozpoznáním, Lune naslouchá jeho emoční pachuti a několik anonymních pádel se zvedne ze zadních řad.\n\nDědic draží první. Lune kontruje. Někdo za závojem přidá pět zlatých, aniž pohne tváří. Vaše manipulace sál změkčily, ale neumlčely, a vy musíte držet ruku nahoře přes tři opatrná navýšení.\n\nKonečná cena: 48 zlatých.`,
+            auction_brine_high: `Solopis probudí sál vlhkým šepotem. Dědic se nakloní dopředu. Lunina skleněná srdce se rozjasní. Někde zvedne dražitel, kterého jste nikdy nepotkali, tři prsty zpoza závoje.\n\nDědic a Lune si vyměňují příhozy, dokud se Heshův hlas nezaostří v představení. Vstoupíte pozdě a pak musíte přetrvat zahaleného sběratele, který jako by dražil samotným pulzem. Konkurence zůstává tvrdá.\n\nKonečná cena: 60 zlatých.`,
+        },
+        options: {
+            pay_brine_price_and_host_the_brine_scripture: "Zaplatit konečnou cenu a hostit Solopis.",
+            stop_bidding_and_let_it_go: "Přestat dražit a nechat ho být.",
+        }
+    },
+
+    auction_brine_buy: {
+        text: `Zvednete ruku k poslednímu příhozu. Hesh řekne „Uzavřeno." Vellova ústa dokončí slovo, zatímco se k vám v mělké skleněné misce nese slaná membrána.`,
+        options: {
+            continue: "Pokračovat.",
+        }
+    },
+
+    auction_brine_won: {
+        text: `Membrána se dotkne vašeho zápěstí a rozpustí se do chladného písma soli pod kůží. Na okamžik se každá minerální skvrna v síni promění ve větu.\n\n„Sůl si pamatuje, co se maso snaží zapomenout," zapíše něco uvnitř vás.\n\nHesh označí zápis v účetní knize. Vell artikuluje cenu příliš pozdě. Volitelná položka je vaše.`,
+        options: {
+            continue_with_the_auction: "Pokračovat v aukci.",
+        }
+    },
+
+    auction_brine_no_money: {
+        text: `Hesh se podívá na váš měšec a pak s chirurgickou zdvořilostí zavře účetní knihu. „Platba je okamžitá. Pouze zlaté."\n\nSolopis je odnesen k jinému dražiteli. Vy zůstáváte v sále, ale volitelná položka je pryč.`,
+        options: {
+            continue_with_the_auction: "Pokračovat v aukci.",
+        }
+    },
+
+    auction_brine_no_slot: {
+        text: `Membrána se stáhne od vaší kůže dřív, než dojde k platbě. Ve vašem těle už se tísní příliš mnoho hostovaných hlasů; Solopis nenachází zákonný ani biologický okraj.\n\n„Žádné životaschopné hostitelské místo," řekne Hesh. Vell to artikuluje s byrokratickým soucitem. Symbiont přechází k jinému dražiteli.`,
+        options: {
+            continue_with_the_auction: "Pokračovat v aukci.",
+        }
+    },
+
+    auction_brine_skip: {
+        text: `Necháte ruku dole. Solopis projde sálem jako vlhká fáma a usadí se jinde.\n\nVolitelná pokušení jsou drahá. Seldův úkol je stále před vámi.`,
+        options: {
+            continue_with_the_auction: "Pokračovat v aukci.",
+        }
+    },
+
+    auction_interlude: {
+        text: `O pár obskurních položek později...\n\nSklenice Komprimované nostalgie se prodá někomu, kdo si odmítá pamatovat vlastní jméno. Samoostřící byrokratické brky jsou staženy poté, co samy na sebe vyplní stížnost. Někdo koupí lžíci, která odráží jen vyhynulé polévky.\n\nPak Hesh zvedne další kartu. Vellova ústa ho následují.\n\n„Chronobřečkové Ropušátko."`,
+        options: {
+            focus_on_the_toadlet_bidding: "Soustředit se na dražbu Ropušátka.",
+        }
+    },
+
+    auction_toadlet_bidding: {
+        text: {
+            auction_toadlet_high: `Chronobřečkové Ropušátko zamrká ze své skleněné mísy, už teď zklamané z příštích tří minut. Sál se zvedne. Calyx zůstává ostrá, Lune ochutnává paniku ve vzduchu a Dědicova embrya se otočí jako jedno.\n\nCalyx otevře na 60 dřív, než Hesh dokončí větu. Lune posune cenu na 70 kvůli chuti paniky. Dědic odpoví tichou rukou při 82. Vaše přípravy konkurenci sotva poškrábaly a musíte bojovat o každé navýšení.\n\nKonečná cena: 95 zlatých.`,
+            auction_toadlet_average: `Hrdlo Chronobřečkového Ropušátka jednou zapulzuje a polovina sálu si představí, jaké by to bylo být o tři minuty méně hloupá. Calyx zaváhá. Lune pochybuje o chuti. Rytmus dvojčat se zachytí a pak uklouzne.\n\nCalyx vás přesto otestuje jedním profesionálním příhozem při 65. Lune pokračuje na 72, spíš ze zvědavosti než z odhodlání. Odpovíte oběma a ani jedna nechce utratit dost na to, aby pokračovala. Vaše společenská práce se vyplatila právě dost.\n\nKonečná cena: 80 zlatých.`,
+            auction_toadlet_soft: `Ropušátko dorazí do oslabeného sálu. Calyx má narušené priority, Lunina jistota je otrávená a Dědicovo vnitřní hejno se neshodne, které světlo následovat.\n\nI tak Calyx neodolá jednomu useknutému příhozu při 60 a Dědic zabliká odpověď, než ztratí rytmus. Kontrujete. Hesh čeká na další ruce, ale žádná se nezvedne sebejistě.\n\nPříhozy stoupají, ale pomalu. Konečná cena: 68 zlatých.`,
+            auction_toadlet_crushed: `Ropušátko mělo vyvolat tlačenici. Místo toho sál zadrhává: dvojčata jsou rozladěná, soupeři otřesení, apetity přesměrované. Dokonce i ticho pod schodištěm jako by zadržovalo dech.\n\nCalyx učiní jeden poškozený, téměř reflexivní příhoz. Dědicova ruka se zvedne, zachvěje a klesne. Lune se usměje, jako by sál zhrubl příliš na ochutnání. Zvednete ruku a zbylá konkurence se složí do rozpačitých zakašlání.\n\nPoložka spadne téměř jemně. Konečná cena: 55 zlatých.`,
+        },
+        options: {
+            pay_toadlet_price_and_claim_the_chronoslurry_toadlet: "Zaplatit konečnou cenu a převzít Chronobřečkové Ropušátko.",
+            let_the_toadlet_go: "Nechat Ropušátko odejít.",
+        }
+    },
+
+    auction_toadlet_buy: {
+        text: `Zvednete ruku a držíte ji pevně až do posledního odpočtu.\n\n„Uzavřeno," řekne Hesh. Vell to artikuluje o půl úderu srdce později. Chronobřečkové Ropušátko je zapečetěno do vlhkého mosazného přenosného džbánu a doneseno k vám dřív, než si to kdokoli stihne rozmyslet.`,
+        options: {
+            continue: "Pokračovat.",
+        }
+    },
+
+    auction_toadlet_won: {
+        text: `Ropušátko přitiskne tvář na vnitřní stranu džbánu a nějakým způsobem vypadá předem zahanbeně za Selda.\n\nMáte hlavní položku. Aukce za vámi pokračuje, ale jedinou zbývající otázkou je, jak rychle dokážete prorockého obojživelníka dostat zpět do Lumen Direktoriátu.`,
+        options: {
+            leave_the_auction_hall: "Opustit aukční síň.",
+        }
+    },
+
+    auction_toadlet_no_money: {
+        text: `Vaše ruka vyhraje sál. Váš měšec ne.\n\nHesh nezvýší hlas. Nemusí. „Platba je okamžitá." Vell artikuluje větu jako zavírající se dveře. Ropušátko je přiklepnuto dalšímu dražiteli, zatímco stojíte s rozpadajícím se Seldovým úkolem v kapse.`,
+        options: {
+            step_away_from_the_podium: "Odstoupit od pultu.",
+        }
+    },
+
+    auction_toadlet_inventory_full: {
+        text: `Přenosný džbán dorazí k vám a zastaví se. Vaše zavazadla jsou příliš plná pro vlhkou mosaznou nádobu plnou prorockého obojživelníka a společenských následků.\n\n„Žádný bezpečný převod," řekne Hesh. Ropušátko přechází k dalšímu dražiteli. Seldo si toto vysvětlení neužije.`,
+        options: {
+            step_away_from_the_podium: "Odstoupit od pultu.",
+        }
+    },
+
+    auction_toadlet_lost: {
+        text: `Sklopíte ruku. Jiný dražitel získá Chronobřečkové Ropušátko. Malý obojživelník nahlédne do příštích tří minut a nevypadá překvapeně.\n\nSeldův úkol selhal, alespoň pro dnešní večer.`,
+        options: {
+            leave_the_auction_hall: "Opustit aukční síň.",
         }
     },
 };

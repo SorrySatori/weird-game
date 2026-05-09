@@ -152,6 +152,7 @@ export default class MoneySystem {
         
         // Save the new amount
         this.saveMoney();
+        this.syncRegistryMoney();
         
         return this.amount;
     }
@@ -190,6 +191,7 @@ export default class MoneySystem {
         
         // Save the new amount
         this.saveMoney();
+        this.syncRegistryMoney();
         
         return true;
     }
@@ -231,6 +233,7 @@ export default class MoneySystem {
         
         // Save the new amount
         this.saveMoney();
+        this.syncRegistryMoney();
     }
     
     /**
@@ -248,6 +251,20 @@ export default class MoneySystem {
     saveMoney() {
         if (window.localStorage) {
             window.localStorage.setItem(this.options.saveKey, this.amount.toString());
+        }
+    }
+
+    /**
+     * Keep loaded-save registry money in sync across scene transitions.
+     * GameScene reapplies registry savedMoney on each scene create.
+     * @private
+     */
+    syncRegistryMoney() {
+        if (this.scene?.registry?.has('savedMoney')) {
+            this.scene.registry.set('savedMoney', {
+                amount: this.amount,
+                currencyName: this.options.currencyName
+            });
         }
     }
     
@@ -342,6 +359,9 @@ export default class MoneySystem {
         if (this.moneyText) {
             this.updateUI();
         }
+
+        this.saveMoney();
+        this.syncRegistryMoney();
     }
     
     /**

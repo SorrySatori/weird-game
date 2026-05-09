@@ -678,7 +678,9 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "Thank you.", key: 'thank_you', next: "registration_extra_symbiont_complete" }
                 ],
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'registration_extra_symbiont_complete';
+
                     const moneySystem = this.moneySystem;
                     
                     // Check if player has enough money

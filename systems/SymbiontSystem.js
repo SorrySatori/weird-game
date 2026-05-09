@@ -163,6 +163,8 @@ export default class SymbiontSystem {
     }
 
     addSymbiont(id, data) {
+        this.reconcileUnlockedSlotsFromJournal();
+
         if (this.symbionts.size >= this.unlockedSlots) {
             return false;
         }
@@ -170,11 +172,14 @@ export default class SymbiontSystem {
             ...data,
             lastSpoke: 0
         });
+        this.syncRegistrySymbionts();
         return true;
     }
 
     removeSymbiont(id) {
-        return this.symbionts.delete(id);
+        const removed = this.symbionts.delete(id);
+        if (removed) this.syncRegistrySymbionts();
+        return removed;
     }
     
     /**
@@ -189,9 +194,25 @@ export default class SymbiontSystem {
     unlockSlot() {
         if (this.unlockedSlots < this.maxSlots) {
             this.unlockedSlots++;
+            this.syncRegistrySymbionts();
             return true;
         }
         return false;
+    }
+
+    syncRegistrySymbionts() {
+        if (this.scene?.registry?.has('savedSymbionts')) {
+            this.scene.registry.set('savedSymbionts', this.getSerializableData());
+        }
+    }
+
+    reconcileUnlockedSlotsFromJournal() {
+        const boughtExtraSlot = this.scene?.journalSystem?.hasEntry('extra_symbiont_slot_purchased');
+
+        if (boughtExtraSlot && this.unlockedSlots < 2) {
+            this.unlockedSlots = 2;
+            this.syncRegistrySymbionts();
+        }
     }
 
     checkDecayGrowthEffects(decay, growth) {
@@ -913,5 +934,7 @@ export default class SymbiontSystem {
         if (data.unlockedSlots) this.unlockedSlots = data.unlockedSlots;
         if (data.lastMessageTime) this.lastMessageTime = data.lastMessageTime;
         if (data.messageInterval) this.messageInterval = data.messageInterval;
+        this.reconcileUnlockedSlotsFromJournal();
+        this.syncRegistrySymbionts();
     }
 }
