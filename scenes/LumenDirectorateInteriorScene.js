@@ -173,6 +173,14 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         const acceptedAuctionErrand = !!this.hasJournalEntry('seldo_auction_errand');
         const auctionComplete = !!this.hasJournalEntry('seldo_auction_success');
         const hasTownhallKey = !!this.hasJournalEntry('seldo_townhall_key');
+        const hasToadlet = !!this.hasItem('chrono-slurry-toadlet');
+        const seldoStartTextKey = hasTownhallKey
+            ? 'seldo_start_key_given'
+            : (metSeldo
+                ? (auctionComplete
+                    ? (hasToadlet ? 'seldo_start_toadlet_ready' : 'seldo_start_auction_complete')
+                    : (acceptedAuctionErrand ? 'seldo_start_auction_pending' : 'seldo_start_met'))
+                : 'seldo_start_first');
 
         const lumenRep = this.factionSystem?.getReputation('LumenDirectorate') || 0;
         const hasThorne = !!this.symbiontSystem?.hasSymbiont('thorne-still');
@@ -567,15 +575,22 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             seldo_start: {
                 speaker: 'Seldo Thrice-Corrected',
-                text: metSeldo
-                    ? (auctionComplete
-                        ? `"Ah, you again. I trust the item is... safely out of public view? Good. If you need anything else, I'm at my desk. I'm always at my desk."`
-                        : (acceptedAuctionErrand
-                            ? `"You're still here? The auction at the Voxmarket won't attend itself. Time is a bureaucratic resource — and you're spending it poorly."`
-                            : `"Back again. Good — persistence is the second-most valued trait in this building. The first is discretion. What do you need?"`))
-                    : `"You've found the second floor. That alone puts you ahead of most visitors — the Directorate's architecture is intentionally disorienting. Weeds out the impatient.\n\nI'm Seldo. Seldo Thrice-Corrected. I handle the Directorate's engagement with the city's administrative apparatus — permits, liaisons, the occasional carefully worded threat. What brings you up here?"`,
+                textKey: seldoStartTextKey,
+                text: hasTownhallKey
+                    ? `"The key opened its path, I trust? Good. If anyone asks, we never had this conversation, and I have never owned any amphibian with scheduling utility."`
+                    : (metSeldo
+                        ? (auctionComplete
+                            ? (hasToadlet
+                                ? `"Ah. I recognize that carrier jar. Please keep it below desk height — the Directorate has windows, and windows have opinions. Do you have my Chrono-Slurry Toadlet?"`
+                                : `"Ah, you again. I trust the item is... safely out of public view? Good. If you need anything else, I'm at my desk. I'm always at my desk."`)
+                            : (acceptedAuctionErrand
+                                ? `"You're still here? The auction at the Voxmarket won't attend itself. Time is a bureaucratic resource — and you're spending it poorly."`
+                                : `"Back again. Good — persistence is the second-most valued trait in this building. The first is discretion. What do you need?"`))
+                        : `"You've found the second floor. That alone puts you ahead of most visitors — the Directorate's architecture is intentionally disorienting. Weeds out the impatient.\n\nI'm Seldo. Seldo Thrice-Corrected. I handle the Directorate's engagement with the city's administrative apparatus — permits, liaisons, the occasional carefully worded threat. What brings you up here?"`),
                 options: [
                     ...(hasEnterTownhallQuest && !acceptedAuctionErrand && !hasTownhallKey ? [{ text: "I need to get into the Townhall.", key: 'i_need_to_get_into_the_townhall', next: "seldo_townhall" }] : []),
+                    ...((acceptedAuctionErrand || auctionComplete) && auctionComplete && hasToadlet && !hasTownhallKey ? [{ text: "I have the Chrono-Slurry Toadlet.", key: 'i_have_the_chronoslurry_toadlet', next: "seldo_toadlet_handoff" }] : []),
+                    ...((acceptedAuctionErrand || auctionComplete) && auctionComplete && !hasToadlet && !hasTownhallKey ? [{ text: "About the Chrono-Slurry Toadlet...", key: 'about_the_chronoslurry_toadlet', next: "seldo_toadlet_missing" }] : []),
                     ...(acceptedAuctionErrand && !auctionComplete ? [{ text: "About the auction errand...", key: 'about_the_auction_errand', next: "seldo_auction_remind" }] : []),
                     ...(!metSeldo ? [{ text: "The Angle Corrector sent me.", key: 'the_angle_corrector_sent_me', next: "seldo_ac_sent" }] : []),
                     ...(!metSeldo ? [{ text: "Verrik the gardener mentioned you.", key: 'verrik_the_gardener_mentioned_you', next: "seldo_verrik_sent" }] : []),
@@ -687,7 +702,10 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 speaker: 'Seldo Thrice-Corrected',
                 text: `"Good. Here's 80 gold for the bidding — that should cover it, though you may need to be creative if the competition drives the price up.\n\nRemember — the Chrono-Slurry Toadlet. Don't let yourself get distracted by the other lots, though I won't judge if you buy something for yourself.\n\nAnd don't mention my name at the auction. I am precisely as invisible as I need to be."`,
                 options: [],
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'closeDialog';
+                    if (this.hasJournalEntry('seldo_auction_errand')) return;
+
                     this.addMoney(80);
                     this.addJournalEntry(
                         'seldo_auction_errand',
@@ -704,7 +722,10 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 speaker: 'Seldo Thrice-Corrected',
                 text: `"Take your time. The auction isn't going anywhere — and neither is the Townhall.\n\nJust don't take too long. Locks have a way of becoming permanent if nobody tests them."`,
                 options: [],
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (option) return 'closeDialog';
+                    if (this.hasJournalEntry('seldo_auction_errand')) return;
+
                     this.addJournalEntry(
                         'seldo_auction_errand',
                         'Seldo\'s Errand: The Voxmarket Auction',
@@ -723,7 +744,85 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                     { text: "I'm on it.", key: 'im_on_it', next: "seldo_start" },
                 ]
             },
+
+            seldo_toadlet_handoff: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"Careful. Chrono-Slurry Toadlets become anxious when praised, bribed, or exposed to committee minutes.\n\nYes. This is the specimen. Hand me the carrier jar, and I will hand you the key. A clean exchange, undocumented by all reasonable standards."`,
+                hideCloseOption: true,
+                options: [
+                    { text: "Give Seldo the Chrono-Slurry Toadlet.", key: 'give_seldo_the_chronoslurry_toadlet', next: "seldo_townhall_key_received" },
+                ],
+                onTrigger: (option) => option ? this.completeSeldoToadletQuest() : null
+            },
+
+            seldo_townhall_key_received: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"There. The Townhall key. \n\nAnd if anyone asks why you have it, you found it in a spiritually ambiguous gutter. That explanation works more often than you would think."`,
+                options: [
+                    { text: "I'll head to the Townhall.", key: 'ill_head_to_the_townhall', next: "closeDialog" },
+                ]
+            },
+
+            seldo_key_inventory_full: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"A key exchange requires a pocket, a hand, or at minimum a willingness to misplace something else. You appear to have none available.\n\nMake room in your inventory, then we can complete this transaction properly."`,
+                options: [
+                    { text: "I'll make room.", key: 'ill_make_room', next: "closeDialog" },
+                ]
+            },
+
+            seldo_toadlet_missing: {
+                speaker: 'Seldo Thrice-Corrected',
+                text: `"The auction is over, but the toadlet is not here. That leaves us in an awkward administrative posture: I have a key, you have a promise, and neither of those is an amphibian.\n\nBring me the Chrono-Slurry Toadlet itself, carrier jar and all, and the Townhall key is yours."`,
+                options: [
+                    { text: "I'll find it.", key: 'ill_find_it', next: "seldo_start" },
+                ]
+            },
         };
+    }
+
+    completeSeldoToadletQuest() {
+        if (this.hasJournalEntry('seldo_townhall_key')) {
+            return 'seldo_townhall_key_received';
+        }
+
+        if (!this.hasItem('chrono-slurry-toadlet')) {
+            return 'seldo_toadlet_missing';
+        }
+
+        const removedToadlet = this.removeItemFromInventory('chrono-slurry-toadlet');
+        const alreadyHasKey = this.hasItem('townhall-key');
+        const keyAdded = alreadyHasKey || this.addItemToInventory({
+            id: 'townhall-key',
+            name: 'Townhall Key',
+            description: 'An unofficial spare key from Seldo Thrice-Corrected. It opens a side entrance to the Townhall.',
+            stackable: false
+        });
+
+        if (!keyAdded) {
+            if (removedToadlet) {
+                this.addItemToInventory(removedToadlet);
+            }
+            return 'seldo_key_inventory_full';
+        }
+
+        this.addJournalEntry(
+            'seldo_townhall_key',
+            'Townhall Key from Seldo',
+            'I delivered the Chrono-Slurry Toadlet to Seldo Thrice-Corrected. In return, he gave me an unofficial key to the Townhall side entrance — the one with the brass complaint-slot.',
+            this.journalSystem.categories.EVENTS,
+            { character: 'Seldo Thrice-Corrected' }
+        );
+
+        if (this.questSystem?.getQuest('enter_townhall')) {
+            this.questSystem.updateQuest(
+                'enter_townhall',
+                'I delivered the Chrono-Slurry Toadlet to Seldo Thrice-Corrected. He gave me an unofficial Townhall key for the side entrance with the brass complaint-slot.',
+                'seldo_townhall_key'
+            );
+        }
+
+        return 'seldo_townhall_key_received';
     }
 
     update() {

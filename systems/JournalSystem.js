@@ -104,6 +104,7 @@ class JournalSystem extends Phaser.Events.EventEmitter {
 
         // Store the entry
         this.entries.set(id, entry);
+        this.syncRegistryJournal();
         
         // Notify subscribers and emit event
         this.notifySubscribers();
@@ -181,6 +182,7 @@ class JournalSystem extends Phaser.Events.EventEmitter {
 
         // Add update timestamp
         entry.lastUpdated = new Date();
+        this.syncRegistryJournal();
         
         // Notify subscribers and emit event
         this.notifySubscribers();
@@ -210,6 +212,12 @@ class JournalSystem extends Phaser.Events.EventEmitter {
         return {
             entries: Array.from(this.entries.entries())
         };
+    }
+
+    syncRegistryJournal() {
+        if (this.scene?.registry?.has('savedJournal')) {
+            this.scene.registry.set('savedJournal', this.getSerializableData());
+        }
     }
     
     /**

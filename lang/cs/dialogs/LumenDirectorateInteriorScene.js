@@ -235,8 +235,18 @@ export default {
     // SELDO TŘIKRÁT-KORIGOVANÝ
     // ========================================
     seldo_start: {
+        text: {
+            seldo_start_first: "Našli jste druhé patro. Už jen to vás staví před většinu návštěvníků — architektura direktoriátu je záměrně dezorientující. Vyřazuje netrpělivé.\n\nJsem Seldo. Seldo Třikrát-Korigovaný. Zajišťuji vztahy direktoriátu s městským administrativním aparátem — povolení, styky, občas pečlivě formulovanou hrozbu. Co vás sem přivádí?",
+            seldo_start_met: "Zase zpátky. Dobře — vytrvalost je v téhle budově druhá nejceněnější vlastnost. První je diskrétnost. Co potřebujete?",
+            seldo_start_auction_pending: "Vy jste pořád tady? Aukce na Voxmarketu se neobslouží sama. Čas je byrokratický zdroj — a vy jím plýtváte špatně.",
+            seldo_start_auction_complete: "Ach, zase vy. Předpokládám, že předmět je... bezpečně mimo veřejný dohled? Dobře. Pokud potřebujete ještě něco, jsem u svého stolu. Vždycky jsem u svého stolu.",
+            seldo_start_toadlet_ready: "Ach. Tu přepravní nádobu poznávám. Prosím držte ji pod úrovní stolu — direktoriát má okna a okna mají názory. Máte mé Chronobřečkové Ropušátko?",
+            seldo_start_key_given: "Klíč si našel cestu, předpokládám? Dobře. Pokud se někdo zeptá, nikdy jsme tento rozhovor nevedli a já jsem nikdy nevlastnil žádného obojživelníka s plánovací užitečností."
+        },
         options: {
             i_need_to_get_into_the_townhall: "Potřebuji se dostat na Radnici.",
+            i_have_the_chronoslurry_toadlet: "Mám Chronobřečkové Ropušátko.",
+            about_the_chronoslurry_toadlet: "Ohledně Chronobřečkového Ropušátka...",
             about_the_auction_errand: "O tom aukčním úkolu...",
             the_angle_corrector_sent_me: "Poslal mě Korektor Úhlu.",
             verrik_the_gardener_mentioned_you: "Zmínil vás zahradník Verrik.",
@@ -321,6 +331,30 @@ export default {
         text: "Aukční hala na Voxmarketu. Chronobřečkové Ropušátko. Nezmiňujte mé jméno. Rozpočet kolem 80 zlatých — ale buďte připraveni přechytračit konkurenci.\n\nKlíč od Radnice čeká na Ropušátko. Tak zní dohoda.",
         options: {
             im_on_it: "Pracuji na tom.",
+        }
+    },
+    seldo_toadlet_handoff: {
+        text: "Opatrně. Chronobřečková Ropušátka znervózní, když jsou chválena, uplácena nebo vystavena zápisům z komisí.\n\nAno. Tohle je ten exemplář. Podejte mi přepravní nádobu a já vám podám klíč. Čistá výměna, nezdokumentovaná podle všech rozumných standardů.",
+        options: {
+            give_seldo_the_chronoslurry_toadlet: "Dát Seldovi Chronobřečkové Ropušátko.",
+        }
+    },
+    seldo_townhall_key_received: {
+        text: "Tady. Klíč od Radnice.\n\nA pokud se někdo zeptá, kde jste ho vzali, našli jste ho ve spirituálně nejednoznačné stoce. Ta výmluva funguje častěji, než byste čekali.",
+        options: {
+            ill_head_to_the_townhall: "Zamířím na Radnici.",
+        }
+    },
+    seldo_key_inventory_full: {
+        text: "Výměna klíče vyžaduje kapsu, ruku, nebo alespoň ochotu založit něco jiného. Zdá se, že nemáte k dispozici nic z toho.\n\nUdělejte si místo v inventáři a pak transakci řádně dokončíme.",
+        options: {
+            ill_make_room: "Udělám si místo.",
+        }
+    },
+    seldo_toadlet_missing: {
+        text: "Aukce skončila, ale ropušátko tu není. To nás staví do nepříjemné administrativní pozice: já mám klíč, vy máte slib, a ani jedno z toho není obojživelník.\n\nPřineste mi samotné Chronobřečkové Ropušátko, i s přepravní nádobou, a klíč od Radnice je váš.",
+        options: {
+            ill_find_it: "Najdu ho.",
         }
     }
 };

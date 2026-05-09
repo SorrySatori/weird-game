@@ -49,6 +49,7 @@ class QuestSystem extends Phaser.Events.EventEmitter {
                 isComplete: false,
                 dateStarted: new Date()
             });
+            this.syncRegistryQuests();
             this.notifySubscribers();
             // Emit event directly from this instance
             this.emit('questAdded', id, title);
@@ -67,6 +68,7 @@ class QuestSystem extends Phaser.Events.EventEmitter {
                 key: key, 
                 date: new Date()
             });
+            this.syncRegistryQuests();
             this.notifySubscribers();
             // Emit event directly from this instance
             this.emit('questUpdated', id, quest.title);
@@ -78,6 +80,7 @@ class QuestSystem extends Phaser.Events.EventEmitter {
         if (quest) {
             quest.isComplete = true;
             quest.dateCompleted = new Date();
+            this.syncRegistryQuests();
             this.notifySubscribers();
             // Emit event directly from this instance
             this.emit('questCompleted', id, quest.title);
@@ -101,6 +104,12 @@ class QuestSystem extends Phaser.Events.EventEmitter {
         return {
             quests: Array.from(this.quests.entries())
         };
+    }
+
+    syncRegistryQuests() {
+        if (this.scene?.registry?.has('savedQuests')) {
+            this.scene.registry.set('savedQuests', this.getSerializableData());
+        }
     }
     
     /**

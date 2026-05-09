@@ -226,6 +226,7 @@ export default class TownhallScene extends GameScene {
         
         // Create Phor Calesta
         this.createPhorCalesta();
+        this.completeEnterTownhallQuestIfUnlocked();
         
         // Check Growth/Decay levels and add gates if thresholds are met
         const growthDecaySystem = this.registry.get('growthDecaySystem');
@@ -254,6 +255,28 @@ export default class TownhallScene extends GameScene {
         }
 
         this.cameras.main.fadeIn(800, 0, 0, 0);
+    }
+
+    completeEnterTownhallQuestIfUnlocked() {
+        const quest = this.questSystem?.getQuest('enter_townhall');
+        const hasTownhallKey = this.hasJournalEntry('seldo_townhall_key') || this.hasItem('townhall-key');
+
+        if (!quest || quest.isComplete || !hasTownhallKey) return;
+
+        this.addJournalEntry(
+            'entered_townhall',
+            'Entered the Townhall',
+            'Seldo Thrice-Corrected\'s unofficial key got me into the Townhall. Now I can search the records for the Bishop\'s doppelgänger report and help Phor Calesta with his permits.',
+            this.journalSystem.categories.EVENTS,
+            { location: 'Townhall' }
+        );
+
+        this.questSystem.updateQuest(
+            'enter_townhall',
+            'Seldo Thrice-Corrected\'s unofficial key got me into the Townhall. The locked-door problem is solved; now I can search the records inside.',
+            'entered_townhall'
+        );
+        this.questSystem.completeQuest('enter_townhall');
     }
     
     createPhorCalesta() {
