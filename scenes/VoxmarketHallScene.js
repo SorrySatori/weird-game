@@ -15,12 +15,14 @@ export default class VoxmarketHallScene extends GameScene {
         const metTwins = !!this.hasJournalEntry('met_hesh_vell');
         const metCalyx = !!this.hasJournalEntry('met_sister_calyx');
         const metLune = !!this.hasJournalEntry('met_heartbroker_lune');
+        const metHeir = !!this.hasJournalEntry('met_yellow_aquarium_heir');
         const confusedTwins = !!this.hasJournalEntry('twins_brain_rot');
         const calyxRattled = !!this.hasJournalEntry('calyx_rattled');
         const calyxLieDetected = !!this.hasJournalEntry('calyx_lie_detected');
         const calyxMiraged = !!this.hasJournalEntry('calyx_miraged');
         const luneMisled = !!this.hasJournalEntry('lune_wrong_context');
         const luneExposed = !!this.hasJournalEntry('lune_true_value');
+        const heirDisrupted = !!this.hasJournalEntry('heir_embryos_disrupted');
         const twinsStartTextKey = metTwins
             ? (confusedTwins ? 'twins_start_confused_return' : 'twins_start_return')
             : 'twins_start_first';
@@ -35,6 +37,9 @@ export default class VoxmarketHallScene extends GameScene {
             : (luneMisled
                 ? 'lune_start_misled'
                 : (metLune ? 'lune_start_return' : 'lune_start_first'));
+        const heirStartTextKey = heirDisrupted
+            ? 'heir_start_disrupted'
+            : (metHeir ? 'heir_start_return' : 'heir_start_first');
 
         return {
             ...super.dialogContent,
@@ -515,6 +520,78 @@ export default class VoxmarketHallScene extends GameScene {
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },
                 ]
             },
+
+            // ——— Heir to the Yellow Aquarium ———
+            heir_start: {
+                speaker: 'Heir to the Yellow Aquarium',
+                textKey: heirStartTextKey,
+                text: heirDisrupted
+                    ? `The Heir to the Yellow Aquarium stands very still, but the fish embryos drifting inside their translucent torso no longer move in graceful schools. They bump gently against one another, startled by currents that are not there.\n\nA faint yellow light pulses under their skin: question, pain, recalibration. When you speak, they do not look at your mouth. They watch the vibration travel through your throat.`
+                    : (metHeir
+                        ? `The Heir turns toward you before you speak, reacting to the tiny tremor of your footsteps. Fish embryos drift inside their chest in slow synchronized spirals.\n\nThey lift one hand toward the nearest lamp. Its light passes through their fingers and the embryos answer by turning, all at once.`
+                        : `A tall translucent humanoid stands near the display wall, their body filled with slowly floating fish embryos suspended in yellow fluid. The embryos turn in schools when someone laughs too loudly, and scatter when the auction lamps flicker.\n\nA plaque on their collar reads: Heir to the Yellow Aquarium.\n\nThey do not respond when you greet them. But when your voice vibrates through the floorboards, every embryo inside them turns toward you.`),
+                options: [
+                    { text: "What are you looking for?", key: 'what_are_you_looking_for', next: "heir_wants" },
+                    { text: "Can you understand me?", key: 'can_you_understand_me', next: "heir_communication" },
+                    { text: "Why living artifacts and symbionts?", key: 'why_living_artifacts_and_symbionts', next: "heir_living_artifacts" },
+                    ...(hasThorne && !heirDisrupted ? [{ text: "[Brain Rot] Disrupt the embryo synchronization.", key: 'brain_rot_disrupt_the_embryo_synchronization', next: "heir_brain_rot" }] : []),
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('met_yellow_aquarium_heir')) {
+                        this.addJournalEntry(
+                            'met_yellow_aquarium_heir',
+                            'Heir to the Yellow Aquarium',
+                            'Met the Heir to the Yellow Aquarium at the Voxmarket Auction Hall. Their translucent body is filled with slowly floating fish embryos, and they react more to vibration and light than spoken words. They want living artifacts and symbionts.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Heir to the Yellow Aquarium' }
+                        );
+                    }
+                }
+            },
+
+            heir_wants: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `The embryos turn toward the display wall before the Heir does. A ripple moves through the yellow fluid in their body.\n\n"Living pieces," the Heir says at last. Their voice is soft, but the lamps buzz in sympathy. "Artifacts that still answer. Symbionts that remember they are unfinished. Dead treasures sink. Living treasures swim."\n\nTheir attention lingers on the Brine Scripture membrane, then the Toadlet, then the Dream Egg. Each glance is less like desire than tidal recognition.`,
+                options: [
+                    { text: "Can you understand me?", key: 'can_you_understand_me', next: "heir_communication" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "heir_start" },
+                ]
+            },
+
+            heir_communication: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `You ask carefully. The Heir does not answer until a hanging lamp flickers. Then the embryos inside them arrange into a loose spiral, and their head tilts as if listening through water.\n\n"Speech is surface disturbance," they say. "Vibration has depth. Light has intention. Words are useful only when they shake correctly."\n\nThey tap two fingers against their collar. The glassy note travels through the floorboards, and the embryos brighten in sequence. Agreement, maybe. Or punctuation.`,
+                options: [
+                    { text: "What are you looking for?", key: 'what_are_you_looking_for', next: "heir_wants" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "heir_start" },
+                ]
+            },
+
+            heir_living_artifacts: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `"The Yellow Aquarium inherits only what can still change," the Heir says. "A living artifact negotiates with its keeper. A symbiont edits the body that shelters it. Even a prophetic amphibian is a small treaty between hunger and time."\n\nThe embryos inside them gather near their ribs, all facing outward.\n\n"Static relics are for dry houses. We collect continuations."`,
+                options: [
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "heir_start" },
+                ]
+            },
+
+            heir_brain_rot: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `You let Thorne-Still breathe cognitive rot into the vibrations around the Heir. It does not strike the Heir's mind directly. It enters through rhythm. Through the floor. Through the tiny synchronized turns of the embryos suspended inside them.\n\nThe school breaks. Embryos scatter in every direction, colliding softly with translucent ribs. The Heir stiffens. Their yellow light flickers out of sequence.\n\n"Too many currents," they whisper. "Too many mouths in the water."\n\nThey step away from the display wall, struggling to reestablish the internal pattern that guided their bidding instincts.`,
+                options: [],
+                hideCloseOption: true,
+                onTrigger: () => {
+                    this.addJournalEntry(
+                        'heir_embryos_disrupted',
+                        'Disrupted the Heir\'s Embryo Synchronization',
+                        'Used Thorne-Still\'s Brain Rot to disrupt the synchronized fish embryos inside the Heir to the Yellow Aquarium. Their response to vibration and light is now unstable, weakening them as a bidder for living artifacts and symbionts.',
+                        this.journalSystem.categories.EVENTS,
+                        { character: 'Heir to the Yellow Aquarium' }
+                    );
+                    this.showNotification('Thorne-Still disrupted the Heir\'s embryo synchronization.');
+                    return 'heir_start';
+                }
+            },
         };
     }
 
@@ -525,6 +602,7 @@ export default class VoxmarketHallScene extends GameScene {
         this.load.image('heshAndVell', 'assets/images/characters/heshAndVell.png');
         this.load.image('sisterCalyx', 'assets/images/characters/sisterCalyx.png');
         this.load.image('heartbrokerLune', 'assets/images/characters/HeartbrokerLune.png');
+        this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
     }
 
     create() {
@@ -583,6 +661,7 @@ export default class VoxmarketHallScene extends GameScene {
         // Create NPCs
         this.createTwinAuctioneers();
         this.createHeartbrokerLune();
+        this.createHeirToAquarium();
         this.createSisterCalyx();
 
         // Show arrival notification
@@ -676,6 +755,38 @@ export default class VoxmarketHallScene extends GameScene {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();
             this.showDialog('lune_start');
+        });
+    }
+
+    createHeirToAquarium() {
+        this.heir = this.add.image(540, 425, 'heirToAquarium');
+        this.heir.setScale(0.11);
+        this.heir.setDepth(5);
+        this.heir.setInteractive({ useHandCursor: true });
+
+        this.tweens.add({
+            targets: this.heir,
+            alpha: { from: 0.88, to: 1 },
+            duration: 1800,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.heir.on('pointerover', () => {
+            this.heir.setScale(0.12);
+            document.body.style.cursor = 'pointer';
+        });
+
+        this.heir.on('pointerout', () => {
+            this.heir.setScale(0.11);
+            document.body.style.cursor = 'default';
+        });
+
+        this.heir.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('heir_start');
         });
     }
 

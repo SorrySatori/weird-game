@@ -1,12 +1,13 @@
 /**
  * Czech dialog translations for VoxmarketHallScene
- * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Pith Reclaimers), Heartbroker Lune
+ * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Pith Reclaimers), Heartbroker Lune, Heir to the Yellow Aquarium
  */
 export default {
     _speakers: {
         'Hesh & Vell': 'Hesh a Vell',
         'Sister Calyx': 'Sestra Calyx',
         'Heartbroker Lune': 'Srdcokupec Lune',
+        'Heir to the Yellow Aquarium': 'Dědic Žlutého akvária',
     },
 
     // ——— Hesh & Vell ———
@@ -289,5 +290,47 @@ export default {
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
+    },
+
+    // ——— Heir to the Yellow Aquarium ———
+    heir_start: {
+        text: {
+            heir_start_disrupted: `Dědic Žlutého akvária stojí naprosto nehybně, ale rybí embrya unášená v jeho průsvitném trupu se už nepohybují v ladných hejnech. Jemně do sebe narážejí, vyplašená proudy, které neexistují.\n\nPod jeho kůží pulzuje slabé žluté světlo: otázka, bolest, rekalibrace. Když promluvíte, nedívá se na vaše ústa. Sleduje vibraci, která vám prochází hrdlem.`,
+            heir_start_return: `Dědic se k vám otočí dřív, než promluvíte, reaguje na drobné zachvění vašich kroků. Rybí embrya v jeho hrudi se vznášejí v pomalých synchronizovaných spirálách.\n\nZvedne jednu ruku k nejbližší lampě. Světlo projde jeho prsty a embrya odpoví tím, že se všechna naráz otočí.`,
+            heir_start_first: `U výstavní stěny stojí vysoký průsvitný humanoid, jehož tělo je naplněné pomalu se vznášejícími rybími embryi zavěšenými ve žluté tekutině. Embrya se otáčejí v hejnech, když se někdo zasměje příliš hlasitě, a rozprchnou se, když aukční lampy zablikají.\n\nNa štítku na jeho límci stojí: Dědic Žlutého akvária.\n\nKdyž ho pozdravíte, nereaguje. Ale jakmile váš hlas zavibruje podlahovými prkny, každé embryo v něm se k vám otočí.`,
+        },
+        options: {
+            what_are_you_looking_for: "Co hledáte?",
+            can_you_understand_me: "Rozumíte mi?",
+            why_living_artifacts_and_symbionts: "Proč živé artefakty a symbionty?",
+            brain_rot_disrupt_the_embryo_synchronization: "[Mozkový rozklad] Narušit synchronizaci embryí.",
+        }
+    },
+
+    heir_wants: {
+        text: `Embrya se otočí k výstavní stěně dřív než Dědic. Žlutou tekutinou v jeho těle projde vlnka.\n\n„Živé kusy," řekne konečně Dědic. Jeho hlas je tichý, ale lampy souhlasně zabzučí. „Artefakty, které ještě odpovídají. Symbionty, kteří si pamatují, že nejsou dokončení. Mrtvé poklady klesají. Živé poklady plavou."\n\nJeho pozornost ulpí na membráně Solopisu, pak na Ropušátku, pak na Snovém vejci. Každý pohled působí méně jako touha a víc jako přílivové rozpoznání.`,
+        options: {
+            can_you_understand_me: "Rozumíte mi?",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    heir_communication: {
+        text: `Ptáte se opatrně. Dědic neodpoví, dokud nezabliká visící lampa. Pak se embrya v něm uspořádají do volné spirály a jeho hlava se nakloní, jako by poslouchal skrz vodu.\n\n„Řeč je povrchové rušení," řekne. „Vibrace má hloubku. Světlo má záměr. Slova jsou užitečná jen tehdy, když se správně chvějí."\n\nPoklepe dvěma prsty na límec. Skleněný tón projde podlahovými prkny a embrya se postupně rozzáří. Souhlas, možná. Nebo interpunkce.`,
+        options: {
+            what_are_you_looking_for: "Co hledáte?",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    heir_living_artifacts: {
+        text: `„Žluté akvárium dědí jen to, co se ještě dokáže měnit," říká Dědic. „Živý artefakt vyjednává se svým nositelem. Symbiont upravuje tělo, které ho chrání. I prorocký obojživelník je malá smlouva mezi hladem a časem."\n\nEmbrya v něm se shromáždí u žeber, všechna obrácená ven.\n\n„Statické relikvie jsou pro suché domy. My sbíráme pokračování."`,
+        options: {
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    heir_brain_rot: {
+        text: `Necháte Thorne-Stilla vydechnout kognitivní rozklad do vibrací kolem Dědice. Nezasáhne Dědicovu mysl přímo. Vstoupí rytmem. Podlahou. Drobounkými synchronizovanými obraty embryí zavěšených uvnitř něj.\n\nHejno se rozpadne. Embrya se rozprchnou všemi směry a měkce narážejí do průsvitných žeber. Dědic ztuhne. Jeho žluté světlo bliká mimo pořadí.\n\n„Příliš mnoho proudů," zašeptá. „Příliš mnoho úst ve vodě."\n\nOdstoupí od výstavní stěny a snaží se obnovit vnitřní vzorec, který vedl jeho dražební instinkty.`,
     },
 };

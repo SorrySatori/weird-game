@@ -447,6 +447,7 @@ Before bidding begins, the player can socialize with auction visitors and manipu
 - **Ulvarex (Mirage Weave)** — create illusions to mislead competitors about the item's worth or condition.
 - Standard dialog and persuasion options to discourage other bidders.
 - **Heartbroker Lune** — carries multiple hearts in a glass harness and trades feelings mid-conversation. She seeks emotion-linked artifacts; the player can exploit her by offering the wrong emotional context for the lots or using Neme to expose that she truly values emotional absence rather than intense feeling.
+- **Heir to the Yellow Aquarium** — translucent humanoid filled with slowly floating fish embryos. The Heir wants living artifacts and symbionts, responds more to vibration and light than speech, and can be disrupted by Thorne-Still's Brain Rot breaking embryo synchronization.
 - **Brine Scripture** — planned auction lot and potential symbiont purchase. Its Salt Recall ability reads mineral residue and absorbed place-memory rather than minds, lies, or the future.
 
 The player also has the option to **buy something interesting for themselves** at the auction.
