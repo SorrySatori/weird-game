@@ -51,6 +51,18 @@ export default class SymbiontSystem {
                 "There's a thin membrane between what is and what could seem to be.",
                 "I don't create false things. I create true things that haven't happened yet.",
                 "The best illusion is the one the audience wants to believe."
+            ],
+            'brine-scripture': [
+                "Salt remembers what flesh tries to forget.",
+                "This place has absorbed too many endings. I can taste the layers.",
+                "Old water passed here once. Not clean water. Never clean.",
+                "The walls hold mineral grief. Let me read the stain.",
+                "Blood, spores, smoke, tears — all leave grammar behind.",
+                "Do not ask me what happened. Ask what the floor kept.",
+                "There are rituals in the residue. Repetition makes scripture.",
+                "The city is a tongue of salt. It has been speaking under you.",
+                "Something vanished here, but its minerals stayed loyal.",
+                "Erosion is only memory taking its time."
             ]
         };
         
@@ -121,6 +133,27 @@ export default class SymbiontSystem {
                 },
                 about: {
                     text: "I existed at the shore where water meets sky — the place where the eye is fooled into believing they touch. When the mists came, I became... portable. I feed on perception itself, not growth or decay. Your spores are my medium — the raw material of bent light. The more you carry, the grander the illusion.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                }
+            },
+            'brine-scripture': {
+                main: {
+                    text: "The Brine Scripture spreads in a cool translucent membrane beneath your skin. Crystalline veins branch at your neck, ribs, and fingertips like a text written by salt: 'Read slowly. Places do not confess. They seep.'",
+                    options: [
+                        { text: 'Ask about Salt Recall', next: 'ability' },
+                        { text: 'Ask about Brine Scripture', next: 'about' },
+                    ]
+                },
+                ability: {
+                    text: "Salt Recall tastes the mineral residue left behind by living systems: decay, oceans, blood, spores, smoke, tears, industrial runoff, and ancient biological traces. It does not read minds, detect lies, or predict the future. It reveals what a place absorbed — emotional residue, vanished ecosystems, repeated rituals, civic scars, and environmental trauma layered into damp mineral memory.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                },
+                about: {
+                    text: "I am environmental memory made symbiotic. Residue archaeology. A saline archive under the skin. When I wake, the world becomes damp with meaning: brine pools, fossil traces, absorbed history, and the half-poetic grammar of things that soaked into stone before anyone thought to write them down.",
                     options: [
                         { text: 'Back', next: 'main' }
                     ]
@@ -211,6 +244,13 @@ export default class SymbiontSystem {
                 symbiont.power = Math.min(100, Math.floor(sporeLevel / 2));
             }
         }
+
+        // Brine Scripture effects
+        if (this.symbionts.has('brine-scripture')) {
+            const symbiont = this.symbionts.get('brine-scripture');
+            // Brine Scripture is strengthened by Growth, but reads residue rather than living minds
+            symbiont.power = Math.min(100, growth);
+        }
         
         return effect;
     }
@@ -265,6 +305,14 @@ export default class SymbiontSystem {
                 this.lastMessageTime = now;
                 return `Ulvarex: ${message}`;
             }
+        } else if (symbiontId === 'brine-scripture' && Math.random() < 0.1) {
+            const messages = this.symbiontPhrases['brine-scripture'] || [];
+            if (messages.length > 0) {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                symbiont.lastSpoke = now;
+                this.lastMessageTime = now;
+                return `Brine Scripture: ${message}`;
+            }
         }
 
         // Cross-reactions: symbionts commenting on each other (5% chance)
@@ -284,6 +332,7 @@ export default class SymbiontSystem {
         const hasThorne = this.symbionts.has('thorne-still');
         const hasNeme = this.symbionts.has('neme-crownmire');
         const hasUlvarex = this.symbionts.has('ulvarex-borrowed-horizon');
+        const hasBrine = this.symbionts.has('brine-scripture');
 
         const reactions = [];
 
@@ -304,6 +353,12 @@ export default class SymbiontSystem {
                     "Thorne-Still: Ulvarex bent the light around my rot spores. They looked like butterflies. I'm furious."
                 );
             }
+            if (hasBrine) {
+                reactions.push(
+                    "Thorne-Still: The salt membrane keeps cataloguing my rot like it's a historical document. I'm flattered and offended.",
+                    "Thorne-Still: Brine Scripture says decay leaves residue. Obviously. That's half the point of decay."
+                );
+            }
         }
 
         // Neme reacting to others
@@ -321,6 +376,12 @@ export default class SymbiontSystem {
                     "Neme: Ulvarex's illusions smell like burnt sugar. Real things smell like soil.",
                     "Neme: I can see through Ulvarex's mirages. They're beautiful, but hollow.",
                     "Neme: The illusionist keeps making my root-visions look prettier. I didn't ask for an editor."
+                );
+            }
+            if (hasBrine) {
+                reactions.push(
+                    "Neme: Brine Scripture reads what growth leaves behind after it has suffered. I prefer the living pulse, but the residue matters.",
+                    "Neme: Salt preserves. Growth changes. We argue quietly in your fingertips."
                 );
             }
         }
@@ -345,6 +406,28 @@ export default class SymbiontSystem {
                 reactions.push(
                     "Ulvarex: Three symbionts in one body. We're less of a partnership and more of a landlord dispute.",
                     "Ulvarex: Thorne rots, Neme grows, I lie. Together we're basically a functioning ecosystem."
+                );
+            }
+        }
+
+        // Brine Scripture reacting to others
+        if (speakerId === 'brine-scripture') {
+            if (hasThorne) {
+                reactions.push(
+                    "Brine Scripture: Thorne decays. The residue blooms after. I read the after.",
+                    "Brine Scripture: Rot has a mineral shadow. Thorne leaves paragraphs."
+                );
+            }
+            if (hasNeme) {
+                reactions.push(
+                    "Brine Scripture: Neme reads living sap. I read what the sap leaves in stone.",
+                    "Brine Scripture: Growth writes wetly. Salt preserves the margins."
+                );
+            }
+            if (hasUlvarex) {
+                reactions.push(
+                    "Brine Scripture: Ulvarex bends sight. Salt does not care what eyes believed.",
+                    "Brine Scripture: Illusions evaporate. Residue remains."
                 );
             }
         }
@@ -449,6 +532,27 @@ export default class SymbiontSystem {
         
         return false;
     }
+
+    /**
+     * Use Brine Scripture's Salt Recall active ability to read environmental residue
+     * @returns {boolean} - True if the ability was used successfully
+     */
+    useSaltRecall() {
+        if (!this.symbionts.has('brine-scripture')) {
+            return false;
+        }
+
+        const symbiont = this.symbionts.get('brine-scripture');
+        const now = Date.now();
+        const cooldownTime = 60000; // 1 minute cooldown
+
+        if (!symbiont.lastAbilityUse || now - symbiont.lastAbilityUse >= cooldownTime) {
+            symbiont.lastAbilityUse = now;
+            return true;
+        }
+
+        return false;
+    }
     
     /**
      * Generate a message from Thorne-Still when spore level changes
@@ -515,6 +619,9 @@ export default class SymbiontSystem {
             if (symbiontId !== 'ulvarex-borrowed-horizon' && this.symbionts.has('ulvarex-borrowed-horizon')) {
                 otherSymbionts.push({ text: 'Ask about Ulvarex', next: 'about_ulvarex' });
             }
+            if (symbiontId !== 'brine-scripture' && this.symbionts.has('brine-scripture')) {
+                otherSymbionts.push({ text: 'Ask about Brine Scripture', next: 'about_brine' });
+            }
             // Insert before the last option (usually "Close")
             const closeIdx = result.options.findIndex(o => o.next === 'closeDialog');
             const insertIdx = closeIdx >= 0 ? closeIdx : result.options.length;
@@ -534,6 +641,10 @@ export default class SymbiontSystem {
                 about_ulvarex: {
                     text: "\"The light-bender. Ulvarex. Harmless, mostly. Keeps rearranging your visual cortex like it's furniture. I had a perfectly good rot colony in your optic nerve and now it looks like a sunset.\" Thorne grumbles. \"Illusions are just lies with better lighting. At least decay is honest.\"",
                     options: [{ text: 'Back', next: 'main' }]
+                },
+                about_brine: {
+                    text: "\"Brine Scripture? The salt-reader. It treats every stain like a sacred archive. I rot something, it starts taking notes in your ribs.\" Thorne-Still pauses. \"Useful, though. Decay leaves excellent handwriting.\"",
+                    options: [{ text: 'Back', next: 'main' }]
                 }
             },
             'neme-crownmire': {
@@ -544,6 +655,10 @@ export default class SymbiontSystem {
                 about_ulvarex: {
                     text: "\"Ulvarex. The Borrowed Horizon.\" Neme considers. \"It makes false flowers that smell real. I find this... unsettling. Truth has texture. Illusions have none, no matter how beautiful they appear.\" A pause. \"But I admit — its mirages sometimes reveal what people wish were true. And wishes are a kind of seed.\"",
                     options: [{ text: 'Back', next: 'main' }]
+                },
+                about_brine: {
+                    text: "\"Brine Scripture reads what remains after living things have pressed themselves into place. Not the pulse, but the salt left by the pulse.\" Neme's voice softens. \"It is old growth translated through loss.\"",
+                    options: [{ text: 'Back', next: 'main' }]
                 }
             },
             'ulvarex-borrowed-horizon': {
@@ -553,6 +668,24 @@ export default class SymbiontSystem {
                 },
                 about_neme: {
                     text: "\"Neme. Dear, earnest Neme. She sees through every mirage I weave and then grows moss on it.\" A theatrical sigh. \"The problem with truth-seekers is they think truth is the point. It's not. The point is what people do with what they believe.\" A beat. \"She's good company, though. Even her disapproval has texture.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
+                about_brine: {
+                    text: "\"Brine Scripture is terribly literal in the strangest way. It ignores appearances and reads what soaked in.\" Ulvarex sounds amused. \"A brutal critic of illusions. Fortunately, I work in evaporation.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                }
+            },
+            'brine-scripture': {
+                about_thorne: {
+                    text: "Thorne-Still is rot before residue. It loosens structure, sweetens the mineral shadow, and leaves endings I can taste after the ending has moved on.",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
+                about_neme: {
+                    text: "Neme reads the living green pressure. Sap, pulse, breath, fear. I read what the pressure leaves behind when it drains into stone. We are neighboring archives.",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
+                about_ulvarex: {
+                    text: "Ulvarex changes the surface. I read beneath surfaces. Illusion dries on the air. Salt waits below it.",
                     options: [{ text: 'Back', next: 'main' }]
                 }
             }

@@ -79,7 +79,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_lots: {
                 speaker: 'Hesh & Vell',
-                text: `"Today's lots include," Hesh begins, and Vell's delayed echo makes the list sound like a chant:\n\n"A jar of Compressed Nostalgia — memories of a place that never existed. Starting at 30 gold.\n\nOne Chrono-Slurry Toadlet — prophetic amphibian, three-minute foresight window. Starting at 60 gold.\n\nA set of Self-Sharpening Bureaucratic Quills — they fill in the correct answer on any official form. Starting at 45 gold.\n\nAnd the evening's centerpiece: a Fossilized Dream Egg from the Cathedral excavation. Starting at 120 gold."\n\nVell finally catches up and both twins smile simultaneously. That part, at least, is perfectly synchronized.`,
+                text: `"Today's lots include," Hesh begins, and Vell's delayed echo makes the list sound like a chant:\n\n"A jar of Compressed Nostalgia — memories of a place that never existed. Starting at 30 gold.\n\nOne Chrono-Slurry Toadlet — prophetic amphibian, three-minute foresight window. Starting at 60 gold.\n\nA set of Self-Sharpening Bureaucratic Quills — they fill in the correct answer on any official form. Starting at 45 gold.\n\nA Brine Scripture membrane — dormant symbiont tissue preserved in mineral saline. Starting price pending verification.\n\nAnd the evening's centerpiece: a Fossilized Dream Egg from the Cathedral excavation. Starting at 120 gold."\n\nVell finally catches up and both twins smile simultaneously. That part, at least, is perfectly synchronized.`,
                 options: [
                     ...(hasAuctionErrand ? [{ text: "Tell me more about the Chrono-Slurry Toadlet.", key: 'tell_me_more_about_the_chronoslurry_toadlet', next: "twins_toadlet" }] : []),
                     { text: "Interesting selection. I'll look around first.", key: 'interesting_selection_ill_look_around_first', next: "closeDialog" },
@@ -448,7 +448,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             lune_bidding: {
                 speaker: 'Heartbroker Lune',
-                text: `"Compressed Nostalgia, obviously. A whole jar of homesickness for somewhere imaginary? Delicious. The Dream Egg, perhaps, if it carries enough cathedral dread. Even the Toadlet interests me a little — foresight has a panic-flavor when used by cowards."\n\nA small green heart in her harness beats faster. Suddenly you feel proprietary excitement, then it vanishes from your chest and settles behind her ribs.\n\n"I will not buy everything. Only what sings in the correct emotional key."`,
+                text: `"Compressed Nostalgia, obviously. A whole jar of homesickness for somewhere imaginary? Delicious. The Dream Egg, perhaps, if it carries enough cathedral dread. The Brine Scripture too, though it is less an artifact than a wet archive waiting for a body. Even the Toadlet interests me a little — foresight has a panic-flavor when used by cowards."\n\nA small green heart in her harness beats faster. Suddenly you feel proprietary excitement, then it vanishes from your chest and settles behind her ribs.\n\n"I will not buy everything. Only what sings in the correct emotional key."`,
                 options: [
                     { text: "What makes an emotional key correct?", key: 'what_makes_an_emotional_key_correct', next: "lune_artifacts" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },

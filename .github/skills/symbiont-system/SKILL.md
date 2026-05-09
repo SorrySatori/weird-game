@@ -1,6 +1,6 @@
 ---
 name: symbiont-system
-description: 'Use when explaining, implementing, balancing, or reviewing Weird Game symbionts, symbiont powers, symbiont dialog, ability checks, growth/decay/spore scaling, or NPC interactions unlocked by Thorne-Still, Neme, or Ulvarex.'
+description: 'Use when explaining, implementing, balancing, or reviewing Weird Game symbionts, symbiont powers, symbiont dialog, ability checks, growth/decay/spore scaling, environmental residue lore, or NPC interactions unlocked by Thorne-Still, Neme, Ulvarex, or Brine Scripture.'
 argument-hint: 'Describe the symbiont task, power, scene interaction, or balance question'
 user-invocable: true
 ---
@@ -11,13 +11,14 @@ Use this skill when working with symbionts in Weird Game: explaining existing po
 
 ## Current Symbionts
 
-The game currently has three symbionts:
+The game currently has four symbionts:
 
 | Symbiont | ID | Ability | Power Source | Main Use |
 |---|---|---|---|---|
 | Thorne-Still | `thorne-still` | Brain Rot | Decay | Confuse, destabilize, or weaken NPC reasoning |
 | Neme of the Crownmire | `neme-crownmire` | Photosentience | Growth | Read bio-signals, hidden motives, and emotional truth |
 | Ulvarex the Borrowed Horizon | `ulvarex-borrowed-horizon` | Mirage Weave | Spores | Create illusions and false sensory context |
+| Brine Scripture | `brine-scripture` | Salt Recall | Growth | Read environmental residue and absorbed place-memory |
 
 ## Power Scaling
 
@@ -78,6 +79,37 @@ Mirage Weave creates convincing illusions anchored to existing sensory material:
 **Tone guidance:**
 Mirage Weave is perception-aligned rather than growth/decay-aligned. It should feel theatrical, elegant, unreliable, and clever. Good illusions exploit what the target already expects or wants to believe.
 
+### Brine Scripture — Salt Recall
+
+- **Power source:** Growth.
+- **Formula:** `power = min(100, growth)`.
+- **Identity:** environmental memory, residue archaeology, sensory lore discovery.
+- **Not:** mind reading, future sight, or lie detection.
+
+**What Salt Recall does:**
+Salt Recall lets the player sense mineral residue left behind by living systems, decay, oceans, blood, spores, smoke, tears, industrial runoff, and ancient biological traces. It does not reveal direct facts. It reveals what places absorbed.
+
+Salt Recall can reveal:
+- emotional residue embedded in places
+- ancient biological contamination
+- repeated rituals
+- environmental trauma
+- vanished ecosystems
+- traces of forgotten inhabitants
+- lingering civic or industrial scars
+
+**Physical presentation:**
+A translucent saline membrane spreads beneath the skin. Crystalline veins form scripture-like branching patterns around the neck, ribs, and fingertips.
+
+**Typical scene uses:**
+- Read a room, street, tunnel, corpse-site, ritual site, or machine scar through residue.
+- Reveal what happened repeatedly in a place without identifying exact names or direct facts.
+- Find traces of vanished ecosystems or old biological contamination.
+- Add lore, environmental history, or indirect clues through damp mineral sensation.
+
+**Tone guidance:**
+Salt Recall should feel damp, mineral, tidal, ancient, interpretive, half-poetic, and half-biological. Descriptions should resemble erosion, brine pools, fossil memory, residue layers, absorbed history, and old salt waking under the skin.
+
 ## Implementation Workflow
 
 When adding a symbiont interaction to a scene:
@@ -87,6 +119,7 @@ When adding a symbiont interaction to a scene:
    - `this.symbiontSystem?.hasSymbiont('thorne-still')`
    - `this.symbiontSystem?.hasSymbiont('neme-crownmire')`
    - `this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon')`
+    - `this.symbiontSystem?.hasSymbiont('brine-scripture')`
 3. Add a conditional dialog option with a stable `key`.
 4. Put the result in a dedicated dialog state.
 5. Use persisted journal entries for lasting story state, not transient registry flags.
@@ -122,6 +155,14 @@ Use ability labels consistently:
 }] : [])
 ```
 
+```js
+...(hasBrine ? [{
+    text: "[Salt Recall] Taste the residue of this place.",
+    key: 'salt_recall_taste_the_residue_of_this_place',
+    next: "place_salt_recall"
+}] : [])
+```
+
 ## State and Persistence
 
 Use journal entries for symbiont-driven outcomes that must persist:
@@ -147,7 +188,8 @@ const npcConfused = !!this.hasJournalEntry('npc_confused_by_thorne');
 - Thorne-Still should solve problems by damaging certainty, memory, or cognition.
 - Neme should solve problems by revealing living truth, motive, or vulnerability.
 - Ulvarex should solve problems by changing what others believe they perceive.
-- Avoid making all three powers interchangeable.
+- Brine Scripture should solve problems by reading what places absorbed through residue, not by reading minds or giving direct factual exposition.
+- Avoid making all four powers interchangeable.
 - Avoid using symbiont powers as generic win buttons; each should produce story consequences or altered NPC behavior.
 - If an ability weakens an auction rival, guard, or faction agent, record the result with a journal entry so later scenes can react.
 

@@ -34,7 +34,7 @@ export default {
     },
 
     twins_lots: {
-        text: `„Dnešní položky zahrnují," začíná Hesh a Vellova opožděná ozvěna mění seznam v skandování:\n\n„Sklenice komprimované nostalgie — vzpomínky na místo, které nikdy neexistovalo. Vyvolávací cena 30 zlatých.\n\nJedno Chronobřečkové Ropušátko — prorocký obojživelník, tříminutové okno předvídavosti. Vyvolávací cena 60 zlatých.\n\nSada samoostřících byrokratických brků — samy vyplní správnou odpověď na jakýkoli úřední formulář. Vyvolávací cena 45 zlatých.\n\nA hlavní kousek večera: Zkamenělé snové vejce z katedrálních vykopávek. Vyvolávací cena 120 zlatých."\n\nVell konečně dožene a oba dvojčata se usmějí současně. Tato část je přinejmenším dokonale synchronizovaná.`,
+        text: `„Dnešní položky zahrnují," začíná Hesh a Vellova opožděná ozvěna mění seznam v skandování:\n\n„Sklenice komprimované nostalgie — vzpomínky na místo, které nikdy neexistovalo. Vyvolávací cena 30 zlatých.\n\nJedno Chronobřečkové Ropušátko — prorocký obojživelník, tříminutové okno předvídavosti. Vyvolávací cena 60 zlatých.\n\nSada samoostřících byrokratických brků — samy vyplní správnou odpověď na jakýkoli úřední formulář. Vyvolávací cena 45 zlatých.\n\nMembrána Solopisu — spící symbiontní tkáň uchovaná v minerálním solném roztoku. Vyvolávací cena čeká na ověření.\n\nA hlavní kousek večera: Zkamenělé snové vejce z katedrálních vykopávek. Vyvolávací cena 120 zlatých."\n\nVell konečně dožene a oba dvojčata se usmějí současně. Tato část je přinejmenším dokonale synchronizovaná.`,
         options: {
             tell_me_more_about_the_chronoslurry_toadlet: "Řekněte mi víc o Chronobřečkovém Ropušátku.",
             interesting_selection_ill_look_around_first: "Zajímavý výběr. Nejdřív se rozhlédnu.",
@@ -254,7 +254,7 @@ export default {
     },
 
     lune_bidding: {
-        text: `„Komprimovanou nostalgii, samozřejmě. Celá sklenice stesku po domově, který nikdy neexistoval? Lahodné. Snové vejce možná, pokud nese dost katedrální hrůzy. Dokonce i Ropušátko mě trochu zajímá — předvídavost má chuť paniky, když ji používají zbabělci."\n\nMalé zelené srdce v jejím postroji začne bít rychleji. Náhle cítíte majetnické vzrušení, pak vám zmizí z hrudi a usadí se za jejími žebry.\n\n„Nekoupím všechno. Jen to, co zpívá ve správné emoční tónině."`,
+        text: `„Komprimovanou nostalgii, samozřejmě. Celá sklenice stesku po domově, který nikdy neexistoval? Lahodné. Snové vejce možná, pokud nese dost katedrální hrůzy. Solopis také, i když je to méně artefakt než vlhký archiv čekající na tělo. Dokonce i Ropušátko mě trochu zajímá — předvídavost má chuť paniky, když ji používají zbabělci."\n\nMalé zelené srdce v jejím postroji začne bít rychleji. Náhle cítíte majetnické vzrušení, pak vám zmizí z hrudi a usadí se za jejími žebry.\n\n„Nekoupím všechno. Jen to, co zpívá ve správné emoční tónině."`,
         options: {
             what_makes_an_emotional_key_correct: "Co dělá emoční tóninu správnou?",
             i_have_other_questions: "Mám další otázky.",
