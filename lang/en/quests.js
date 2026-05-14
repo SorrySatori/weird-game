@@ -49,8 +49,13 @@ export default {
                 verrik_sulkberry_clear: 'Verrik the gardener confirmed the Sulkberries were cultivated properly — no contamination detected. The Directorate poisoning angle weakens.',
                 kloor_sulkberry_clear: 'Kloor Venn analyzed the Sulkberries — clean, no adulterants or toxins. The poisoning angle grows weaker.',
                 heliodor_sulkberry_clear: "Heliodor's composite organisms confirmed the Sulkberries are clean — no toxins or modifications. The Sulkberry lead is a dead end.",
+                townhall_notebook_revelation: "The Townhall clerk revealed that the Bishop's doppelgänger memo was a personal note written in an Official Townhall Report Notebook. The missing notebook is now the strongest lead.",
                 elphi_day1_complete: "I've discussed all the clues with Dr. Elphi. She's working on fixing The Cardinal Feast cartridge.",
             }
+        },
+        find_bishop_notebook: {
+            title: "Find the Bishop's Notebook",
+            description: "The Bishop used an Official Townhall Report Notebook as a private diary. A torn page about her doppelgänger survived, but the rest of the notebook was never returned to the Townhall. I should find it to learn what happened in her final days.",
         },
         the_three_vestigels: {
             title: 'The Three Vestigels',
@@ -121,6 +126,9 @@ export default {
         excavation_permit: {
             title: 'Divinography',
             description: 'I should help Phor Calesta obtain excavation permits for the Godgraveyard of the townhall. First, I need to get inside the townhall somehow.',
+            updates: {
+                godgraveyard_access_granted: 'Councilor Seraphel Dune granted access to the Godgraveyard level beneath the Townhall as thanks for resolving the hostage crisis. Phor Calesta finally has the permit needed for divinography work.',
+            }
         },
         enter_townhall: {
             title: 'Enter the Townhall',
@@ -136,7 +144,7 @@ export default {
         },
         townhall_poet_standoff: {
             title: 'The Mad Poet Standoff',
-            description: 'A mad poet has seized the Townhall reading chamber and is holding clerks hostage until the public properly hears his work. This cannot be solved with ordinary force; I need to defeat him in a poetry battle.',
+            description: 'A mad poet has seized the Townhall reading chamber and is holding the clerk, councilor, and Complaint Eater hostage until the public properly hears his work. This cannot be solved with ordinary force; I need to defeat him in a poetry battle.',
             updates: {
                 poet_defeated: 'I defeated the mad poet in a poetry battle. The hostages are free, and the Townhall can begin functioning again.',
             }

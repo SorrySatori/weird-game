@@ -48,8 +48,13 @@ export default {
                 verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány — žádná kontaminace. Stopa otravy direktoriátem slábne.',
                 kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky — čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
                 heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté — žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
+                townhall_notebook_revelation: 'Radniční úředník odhalil, že Biskupčina poznámka o dvojníkovi byla osobní zápis v Oficiálním radničním reportním zápisníku. Chybějící zápisník je teď nejsilnější stopa.',
                 elphi_day1_complete: 'Probral jsem všechny stopy s Dr. Elphi. Pracuje na opravě kazety Kardinálské Hostiny.',
             }
+        },
+        find_bishop_notebook: {
+            title: 'Najít Biskupčin zápisník',
+            description: 'Biskupka používala Oficiální radniční reportní zápisník jako soukromý deník. Vytržená stránka o jejím dvojníkovi přežila, ale zbytek zápisníku se na Radnici nikdy nevrátil. Měl bych ho najít a zjistit, co se dělo v jejích posledních dnech.',
         },
         the_three_vestigels: {
             title: 'Tři Vestigely',
@@ -120,6 +125,9 @@ export default {
         excavation_permit: {
             title: 'Divinografie',
             description: 'Měl bych pomoct Phor Calestovi získat vykopávkové povolení pro Božský Hřbitov na radnici. Nejdřív se musím nějak dostat dovnitř radnice.',
+            updates: {
+                godgraveyard_access_granted: 'Radní Seraphel Dune udělil přístup do úrovně Godgraveyardu pod Radnicí jako poděkování za vyřešení rukojmí krize. Phor Calesta má konečně povolení potřebné k divinografické práci.',
+            }
         },
         enter_townhall: {
             title: 'Vstoupit na Radnici',
@@ -135,7 +143,7 @@ export default {
         },
         townhall_poet_standoff: {
             title: 'Standoff se šíleným básníkem',
-            description: 'Šílený básník obsadil čítárnu Radnice a drží úředníky jako rukojmí, dokud veřejnost správně nevyslechne jeho dílo. Běžnou silou to nepůjde; musím ho porazit v básnickém souboji.',
+            description: 'Šílený básník obsadil čítárnu Radnice a drží úředníka, radního a Požírače stížností jako rukojmí, dokud veřejnost správně nevyslechne jeho dílo. Běžnou silou to nepůjde; musím ho porazit v básnickém souboji.',
             updates: {
                 poet_defeated: 'Porazil jsem šíleného básníka v básnickém souboji. Rukojmí jsou volní a Radnice může znovu fungovat.',
             }
