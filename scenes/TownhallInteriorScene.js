@@ -903,7 +903,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         if (this.questSystem?.getQuest('who_killed_bishop')) {
             this.questSystem.updateQuest(
                 'who_killed_bishop',
-                'The Townhall clerk revealed that the Bishop\'s doppelgänger memo was not an official report. It was a personal note written in an Official Townhall Report Notebook she checked out shortly before death. The missing notebook is now the strongest lead.',
+                'The Townhall clerk revealed that the Bishop\'s doppelgänger memo was not an official report. It was a personal note written in an Official Townhall Report Notebook she checked out shortly before death. The missing notebook is now the strongest lead. It\'s been a long day — I should report all this back to Dr. Elphi at ARB Ambra and rest.',
                 'townhall_notebook_revelation'
             );
         }

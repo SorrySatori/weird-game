@@ -14,8 +14,26 @@ export default {
     },
     dr_elphi_start: {
         text: {
+            "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there.": "Vypadáte, jako by vás město celý den žvýkalo a teprve teď vyplivlo. Sedněte si. Povězte mi, co jste tam venku zjistil.",
             "You're back. I can see it on your face. Something happened to her, didn't it?": "Jste zpět. Vidím vám to na obličeji. Něco se jí stalo, že?",
             "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.": "Hm. Nejste objednaný. Ani označený. Hádám — někdo chce neurální ladění, výkonnostní konzultaci, nebo jste přišel mě zase varovat před 'metafyzickým únikem'."
+        },
+        options: {
+            report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil."
+        }
+    },
+    dr_elphi_report_day1: {
+        text: "*Poprvé poslouchá, aniž by psala, ruce složené v klíně.*\n\nTakže básníkovo čtení skončilo, Radnice je otevřená a úředník vám předal jedinou věc, kterou nikoho nenapadlo hledat. Ten vzkaz o dvojníkovi vůbec nebyl hlášení — byl to deníkový zápis. Biskupka používala oficiální radniční zápisník jako soukromý deník a stránka, kterou jste našel, je jen jeden vytržený list.\n\nCož znamená, že zbytek toho zápisníku je někde venku, v jejím rukopisu, plný všeho, co se bála vyslovit nahlas.\n\n*Vydechne.* Zvládl jste za jeden den víc než celé město za tři. Ta kazeta bude do rána hotová — zrekonstruuji Biskupčinu poslední snovou scénu. Ale takhle šedý a vrávorající mi k ničemu nejste. Podívejte se na sebe.",
+        options: {
+            im_fine_whats_next: "Jsem v pořádku. Co bude dál?",
+            i_could_sleep_for_a_week: "Upřímně, spal bych klidně týden."
+        }
+    },
+    dr_elphi_dream_offer: {
+        text: "Zůstaňte tu na noc. Lůžka v ateliéru jsou bezpečnější než cokoliv venku a na tomhle patře je signál tichý.\n\nA dovolte mi něco pro vás udělat — pořádně, ne jako obchod. Naladím vám sen. Na můj účet. Lidé platí malé jmění za jednu relaci v mých lůžkách, ale vy jste si dobrý sen zasloužil. Něco odpočinkového. Nebo podivného, jestli chcete. Helma přečte, co se ve vás veze, a zbytek dotvoří.\n\n*Slabý, unavený úsměv.* Berte to jako jediné upřímné poděkování, jaké může architektka snů dát.",
+        options: {
+            accept_the_dream: "Přijímám. Nalaďte mi sen.",
+            decline_the_dream: "Dnes žádné sny. Jen mě nechte spát."
         }
     },
     dr_elphi_bishop_path: {

@@ -724,7 +724,15 @@ export default class ScreamingCorkScene extends GameScene {
                             character: 'Edgar Eskola',
                             location: 'Screaming Cork',
                             quest: 'edgar_book',
-                            quest_status: 'completed'
+                            quest_status: 'completed',
+                            // Persist the chosen book variant so later scenes (e.g. the
+                            // Day 1 nightlife cutscene) can reference the exact book.
+                            book_title: bookTitle,
+                            book_genre: this.bookGenre,
+                            book_tone: this.bookTone,
+                            book_protagonist: this.bookProtagonist,
+                            book_setting: this.bookSetting,
+                            book_topics: this.bookTopics.map(t => t.text)
                         }
                     );
                     

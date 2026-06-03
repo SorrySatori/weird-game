@@ -157,11 +157,16 @@ export default class ScraperAmbraScene extends GameScene {
         const discussedBerries = !!this.hasJournalEntry('elphi_berries_analysis');
         const allCluesDiscussed = (!hasBruising || discussedBruising) && (!hasCartridge || discussedCartridge) && (!hasHelmet || discussedHelmet) && (!hasMemo || discussedMemo) && (!hasJournal || discussedJournal) && (!hasDissection || discussedDissection) && (!hasBerries || discussedBerries) && (hasBruising || hasCartridge || hasHelmet || hasMemo || hasJournal || hasDissection || hasBerries);
         const readyForDay2 = !!this.hasJournalEntry('elphi_ready_for_day2');
+        // The Townhall clerk revelation is the end of the Day 1 investigation loop.
+        // Once the player has it, returning to Elphi lets them report and end the day.
+        const townhallRevealed = !!this.hasJournalEntry('townhall_bishop_records_checked');
+        const day1Slept = !!this.hasJournalEntry('day1_complete_slept');
+        const canReportDay1 = townhallRevealed && !day1Slept;
 
         return {
             ...super.dialogContent,
             speaker: 'Dr. Elphi',
-            
+
             elphi_studio_intro: {
                 text: "Dr. Elphi's studio is eerily quiet. Workstations with glowing screens line the walls, each displaying fragments of code and strange designs. The air feels charged with creative energy, but there's no sign of Dr. Elphi herself.",
                 options: [
@@ -171,10 +176,15 @@ export default class ScraperAmbraScene extends GameScene {
             
             // Dr. Elphi Quarn dialog tree
             dr_elphi_start: {
-                text: bishopDead
+                text: canReportDay1
+                    ? "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there."
+                    : bishopDead
                     ? "You're back. I can see it on your face. Something happened to her, didn't it?"
                     : "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
                 options: [
+                    ...(canReportDay1 ? [
+                        { text: "Let me report everything I found today.", key: 'report_day1_investigation', next: "dr_elphi_report_day1" }
+                    ] : []),
                     ...(!bishopDead ? [
                         { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
                         { text: "I was sent to investigate an anomaly. Might be connected to this place.", key: 'i_was_sent_to_investigate_an_anomaly_might_be_conn', next: "dr_elphi_anomaly_path" },
@@ -694,10 +704,42 @@ export default class ScraperAmbraScene extends GameScene {
                         );
                     }
                 }
+            },
+
+            // === End of Day 1: report from the Townhall, then sleep ===
+
+            dr_elphi_report_day1: {
+                text: `*She listens without typing for once, hands folded.*\n\nSo the poet's reading is over, the Townhall's open, and the clerk handed you the one thing nobody thought to look for. The doppelgänger memo wasn't a report at all — it was a diary entry. The Bishop used an official Townhall notebook as a private journal, and the page you found is one torn leaf of it.\n\nWhich means the rest of that notebook is out there somewhere, in her handwriting, full of whatever she was too frightened to say out loud.\n\n*She exhales.* You did more in one day than the whole city managed in three. The cartridge will be ready by morning — I'll have the Bishop's last dream scene reconstructed. But you're no good to me grey and swaying. Look at you.`,
+                options: [
+                    { text: "I'm fine. What's next?", key: 'im_fine_whats_next', next: "dr_elphi_dream_offer" },
+                    { text: "I could sleep for a week, honestly.", key: 'i_could_sleep_for_a_week', next: "dr_elphi_dream_offer" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('elphi_day1_report')) {
+                        if (this.questSystem?.getQuest('who_killed_bishop')) {
+                            this.questSystem.updateQuest('who_killed_bishop', 'I reported the day\'s findings to Dr. Elphi. The Bishop\'s doppelgänger memo turned out to be a personal diary entry torn from an official Townhall notebook — the rest of which is still missing. Elphi will have the reconstructed Cardinal Feast cartridge ready in the morning.', 'reported_day1_to_elphi');
+                        }
+                        this.addJournalEntry(
+                            'elphi_day1_report',
+                            'Reported to Dr. Elphi',
+                            'I returned to Dr. Elphi and reported everything from the Townhall: the mad poet\'s reading, the freed clerk, and the revelation that the Bishop\'s doppelgänger memo was a torn diary page from a missing official notebook. Elphi confirmed she\'ll have the Cardinal Feast cartridge reconstructed by morning. She insisted I rest at ARB Ambra for the night.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Dr. Elphi Quarn', location: 'Scraper Ambra' }
+                        );
+                    }
+                }
+            },
+
+            dr_elphi_dream_offer: {
+                text: `Stay here tonight. The studio beds are safer than anything you'll find out there, and the signal's quiet on this floor.\n\nAnd let me do something for you — properly, not as a transaction. I'll tune you a dream. On me. People pay a small fortune for a session in one of my beds, but you've earned a good one. Something restful. Or strange, if you'd rather. The helmet reads what's riding along inside you and builds the rest.\n\n*A faint, tired smile.* Consider it the only honest thank-you a dream architect can give.`,
+                options: [
+                    { text: "I accept. Tune me a dream.", key: 'accept_the_dream', onSelect: () => this.beginDay1Sleep(true) },
+                    { text: "No dreams tonight. Just let me sleep.", key: 'decline_the_dream', onSelect: () => this.beginDay1Sleep(false) },
+                ]
             }
         };
     }
-    
+
     /**
      * Creates the Dr. Elphi Quarn NPC with animations and interactions
      */
@@ -813,7 +855,655 @@ export default class ScraperAmbraScene extends GameScene {
             this.showNotification('Dr. Elphi is working at her console');
         });
     }
-    
+
+    /**
+     * End of Day 1. Plays the city nightlife montage (reflecting the side quests
+     * the player resolved today), optionally a Dr. Elphi-tuned dream, and wakes
+     * the player into Day 2.
+     * @param {boolean} withDream - whether the player accepted Elphi's paid dream
+     */
+    beginDay1Sleep(withDream) {
+        if (this.day1SleepStarted) return;
+        this.day1SleepStarted = true;
+
+        this.hideDialog();
+        // Block movement immediately — the cutscene's asset load is async, and we
+        // don't want the player wandering off during that brief window.
+        if (this.playerMovementSystem) this.playerMovementSystem.setDialogVisible(true);
+
+        const panels = [];
+
+        // Nightfall in the studio. Reuses textures already loaded by this scene.
+        panels.push({
+            title: 'Night falls over Upper Morkezela',
+            caption: "Dr. Elphi lowers the dream helmet over your eyes and dims the studio to a single green ember. Far below, the city is only just waking up for the night.",
+            bg: 'scraperAmbraBg',
+            bgTint: 0x5b6f8c,
+            sprites: [{ key: 'drElphi', x: 600, y: 500, scale: 0.2, anim: 'sway' }]
+        });
+
+        panels.push(...this.buildNightlifePanels());
+
+        let dream = null;
+        if (withDream) {
+            dream = this.generateDream();
+            panels.push(...dream.panels);
+        } else {
+            panels.push({
+                title: 'A dreamless dark',
+                caption: "You wave the dream away. The helmet only hums, and gives you nothing but warm, depthless black — the first true rest you've had in longer than you can remember.",
+                bg: null,
+                bgTint: 0x05070a
+            });
+        }
+
+        // Morning.
+        panels.push({
+            title: 'Morning — Day 2',
+            caption: "You wake to the studio's pale green dawn. Dr. Elphi is already at her console, the reconstructed cartridge glinting in its cradle. \"You're up. I pulled the Bishop's last scene out of the Cardinal Feast. You're going to want to see what she saw.\"",
+            bg: 'scraperAmbraBg',
+            bgTint: 0xbfd6c2,
+            sprites: [{ key: 'drElphi', x: 600, y: 500, scale: 0.2, anim: 'bob' }]
+        });
+
+        // Commit the persistent state before the cutscene runs, so a mid-cutscene
+        // reload still lands the player on Day 2 with the dream recorded.
+        if (dream) {
+            this.addJournalEntry(
+                dream.id,
+                dream.title,
+                dream.journalText,
+                this.journalSystem.categories.DREAMS,
+                { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', type: 'Paid dream' }
+            );
+        }
+        this.finishDay1();
+
+        this.playCutscene(panels);
+    }
+
+    /**
+     * Build the nightlife montage panels from the Day 1 side quests the player
+     * actually resolved. Each completed thread gets a vignette of the city living
+     * with the player's choices while they sleep.
+     */
+    buildNightlifePanels() {
+        const panels = [];
+        const has = (id) => !!this.hasJournalEntry(id);
+        const sulkberriesCleared = !!this.questSystem?.getQuest('who_killed_bishop')?.updates?.some(
+            u => ['verrik_sulkberry_clear', 'kloor_sulkberry_clear', 'heliodor_sulkberry_clear'].includes(u.key)
+        );
+
+        const NIGHT = 0x7a86a8; // gentle dusk wash for exterior vignettes
+
+        // Edgar reads from the exact book the player helped him write.
+        const edgarEntry = this.getJournalEntry('edgar_book_completed');
+        if (edgarEntry) {
+            const m = edgarEntry.metadata || {};
+            const title = (m.book_title
+                || (edgarEntry.title || '').replace(/^Edgar's Book:\s*/, '').replace(/"/g, '')
+                || 'his new book').trim();
+            const genre = (m.book_genre || 'strange').replace(/_/g, ' ');
+            const tone = (m.book_tone || '').replace(/_/g, ' ');
+            const protagonist = (m.book_protagonist || 'a lost soul').replace(/_/g, ' ');
+            const setting = (m.book_setting || 'the city').replace(/_/g, ' ');
+            panels.push({
+                title: 'The Screaming Cork — Edgar reads',
+                caption: `Up on an upturned crate, Edgar Eskola opens "${title}" and reads the first chapter aloud: ${tone ? tone + ' ' : ''}${genre}, about ${this.aOrAn(protagonist)} in ${setting}. ${this.edgarCrowdReaction(m.book_tone, m.book_genre)}`,
+                bg: 'cs_corkint',
+                bgTint: 0xe0c79a,
+                sprites: [
+                    { key: 'cs_edgar', x: 410, y: 540, scale: 0.27, anim: 'bob' },
+                    { key: 'cs_busker', x: 170, y: 545, scale: 0.18, anim: 'sway' }
+                ]
+            });
+        }
+
+        // Ortolan's deal: the player's own second pair of hands.
+        if (has('extra_symbiont_slot_purchased') || this.questSystem?.getQuest('ortolan_arms')) {
+            panels.push({
+                title: 'Shed 521 — Four hands',
+                caption: "The deal you struck with Ortolan has settled into your own body: four hands now, where this morning there were two. As you sleep they flex once, all four together, testing the new arrangement, then fold like a small, careful congregation.",
+                bg: 'cs_shedapp',
+                bgTint: NIGHT,
+                sprites: [{ key: 'cs_ortolan', x: 400, y: 545, scale: 0.27, anim: 'sway' }]
+            });
+        }
+
+        // Seldo's embarrassing auction lot.
+        if (has('seldo_auction_success')) {
+            panels.push({
+                title: 'Lumen Directorate — Seldo, alone',
+                caption: "In a locked office at the Lumen Directorate, Seldo Thrice-Corrected finally unwraps the absurd little lot you won for him at the Voxmarket — too proud to be seen buying it himself, far too delighted to leave it in the box.",
+                bg: 'cs_lumen_int',
+                bgTint: 0x9fb0c8,
+                sprites: [{ key: 'cs_seldo', x: 400, y: 545, scale: 0.28, anim: 'bob' }]
+            });
+        }
+
+        // Rust Choir, three variants.
+        if (has('rust_feast_completed_full')) {
+            panels.push({
+                title: 'The Rust Domain — A full feast',
+                caption: "Down in the Rust Domain, Brukk's choir of machines sings full-throated tonight, fed on the redmass you brought whole. The old iron remembers a tune nobody has played since before the Board Games War.",
+                bg: 'cs_rust',
+                bgTint: 0xc89060,
+                sprites: [
+                    { key: 'cs_brukk', x: 300, y: 545, scale: 0.3, anim: 'sway' },
+                    { key: 'cs_living_core', x: 560, y: 470, scale: 0.26, anim: 'pulse' }
+                ]
+            });
+        } else if (has('rust_feast_completed_illusion')) {
+            panels.push({
+                title: 'The Rust Domain — A feast of nothing',
+                caption: "Down in the Rust Domain, the Rust Choir feasts on a redmass that was never there. For one night the illusion holds, and the machines sing as if they had truly been fed.",
+                bg: 'cs_rust',
+                bgTint: 0x9a86b0,
+                sprites: [
+                    { key: 'cs_brukk', x: 300, y: 545, scale: 0.3, anim: 'sway' },
+                    { key: 'cs_living_core', x: 560, y: 470, scale: 0.26, anim: 'pulse', alpha: 0.4 }
+                ]
+            });
+        } else if (has('rust_feast_completed_shard')) {
+            panels.push({
+                title: 'The Rust Domain — A thin tune',
+                caption: "Down in the Rust Domain, the Rust Choir hums a thin, half-fed melody — enough to keep the machines turning through the night, not quite enough to make them sing.",
+                bg: 'cs_rust',
+                bgTint: 0x8c7a66,
+                sprites: [{ key: 'cs_brukk', x: 400, y: 545, scale: 0.3, anim: 'sway' }]
+            });
+        }
+
+        // Redmass Island outcome.
+        if (has('redmass_spared')) {
+            panels.push({
+                title: 'Redmass Island — Left whole',
+                caption: "Out on Redmass Island, the living mass you chose not to harvest pulses quietly in the dark — still itself, still whole. Grateful, if a redmass can be grateful.",
+                bg: 'cs_redmass',
+                bgTint: 0x8f9fb0,
+                sprites: [{ key: 'cs_living_core', x: 400, y: 470, scale: 0.32, anim: 'pulse' }]
+            });
+        } else if (has('redmass_collected_voluntary')) {
+            panels.push({
+                title: 'Redmass Island — Given freely',
+                caption: "Out on Redmass Island, the redmass that gave a piece of itself to you glows a little dimmer tonight — and somehow a little prouder for the giving.",
+                bg: 'cs_redmass',
+                bgTint: 0x90a0a8,
+                sprites: [{ key: 'cs_living_core', x: 400, y: 470, scale: 0.3, anim: 'pulse', alpha: 0.75 }]
+            });
+        } else if (has('redmass_collected_force')) {
+            panels.push({
+                title: 'Redmass Island — Taken by force',
+                caption: "Out on Redmass Island, the wound where you tore the redmass loose still weeps in the dark. Something out there has learned your shape, and will not forget it.",
+                bg: 'cs_redmass',
+                bgTint: 0xc06a6a,
+                sprites: [{ key: 'cs_living_core', x: 400, y: 470, scale: 0.28, anim: 'pulse', alpha: 0.5 }]
+            });
+        }
+
+        // Sulkberry suspicion cleared.
+        if (sulkberriesCleared) {
+            panels.push({
+                title: 'A suspicion laid to rest',
+                caption: "The matter of the Bishop's spiced Sulkberries is settled — someone you trusted confirmed the berries were clean. One thing the city can stop whispering about tonight.",
+                bg: 'cs_lumen',
+                bgTint: NIGHT,
+                sprites: [{ key: 'cs_gardener', x: 400, y: 545, scale: 0.26, anim: 'sway' }]
+            });
+        }
+
+        // Magnekin.
+        if (has('magnekin_reveal') || has('magnekin_hopsalot_church')) {
+            panels.push({
+                title: 'Town Square — Magnekin scatters',
+                caption: "In the Town Square, the thing called Magnekin disperses into its thousand tiny cities for the night and reassembles by dawn — carrying, now, the small secret you learned about what it really is.",
+                bg: 'cs_townsquare',
+                bgTint: NIGHT,
+                sprites: [{ key: 'cs_magnekin_broken', x: 400, y: 545, scale: 0.32, anim: 'pulse' }]
+            });
+        }
+
+        // Noise God / Feral Toast.
+        if (has('noise_god_insight') || has('feral_toast_performance')) {
+            panels.push({
+                title: 'Screaming Cork Club — Feral Toast',
+                caption: "At the Screaming Cork Club, Feral Toast tear into a set so loud the dead god under the floorboards keeps the beat. You aren't there to hear it, but the whole of Burning Bear Street is.",
+                bg: 'cs_corkclub',
+                bgTint: 0xb89ad0,
+                sprites: [
+                    { key: 'cs_feral_g', x: 200, y: 545, scale: 0.2, anim: 'rock' },
+                    { key: 'cs_feral_d', x: 340, y: 545, scale: 0.2, anim: 'bob' },
+                    { key: 'cs_feral_b', x: 480, y: 545, scale: 0.2, anim: 'rock' },
+                    { key: 'cs_feral_s', x: 610, y: 545, scale: 0.2, anim: 'rock' }
+                ]
+            });
+        }
+
+        // Skyship.
+        if (has('floor_counter_tool') || this.questSystem?.getQuest('find_lumen_directorate')) {
+            panels.push({
+                title: 'Above the Crossroads — The Verdigrace',
+                caption: "High over the Crossroads the skyship Verdigrace hangs lit against the dark, and somewhere aboard a counter you handled today ticks off floors that should not exist.",
+                bg: 'cs_skyship',
+                bgTint: 0x6f80a8,
+                bgPulse: true
+            });
+        }
+
+        // The poet standoff — ties back to the freed clerk's daughter.
+        if (has('townhall_poet_resolved')) {
+            panels.push({
+                title: 'The Townhall — Quiet at last',
+                caption: "The Townhall stands silent for the first time in days. The mad poet's hostages have gone home; the clerk's six-year-old daughter is asleep before her father has even reached their door.",
+                bg: 'cs_townhall',
+                bgTint: NIGHT,
+                sprites: [{ key: 'cs_poet', x: 380, y: 545, scale: 0.22, anim: 'walkOff' }]
+            });
+        }
+
+        if (panels.length === 0) {
+            panels.push({
+                title: 'The city at night',
+                caption: "Upper Morkezela turns over in its sleep, indifferent and enormous, keeping its thousand small secrets to itself. You barely scratched its surface today — but you did scratch it.",
+                bg: 'cs_city',
+                bgTint: NIGHT
+            });
+        }
+
+        return panels;
+    }
+
+    /**
+     * Procedurally assemble a dream. Randomised, but quietly shaped by whatever
+     * symbionts the player carries — never named, only felt through the imagery.
+     * Returns the journal prose and an animated panel sequence.
+     */
+    generateDream() {
+        const sys = this.symbiontSystem;
+        const carries = (id) => !!sys?.hasSymbiont(id);
+        const pickIdx = (n) => Math.floor(Math.random() * n);
+
+        const DREAM_TINT = 0x6a4f8c;
+
+        // Random opening image, paired with a backdrop.
+        const openings = [
+            { text: "You are walking the length of a corridor that turns out to be a throat.", bg: 'cs_scraper' },
+            { text: "You are inside a cathedral that is also an egg, and the egg is breathing in time with you.", bg: 'cs_egg' },
+            { text: "You are back in the abandoned bus, and every seat holds a version of you at a different age, all waiting for the same stop.", bg: 'cs_bus' },
+            { text: "You are underwater somewhere warm, and the water tastes faintly of copper and old prayers.", bg: 'cs_echodrain' },
+            { text: "You are climbing a tower where each floor you pass is a year you have not lived yet.", bg: 'cs_scraper' }
+        ];
+        const opening = openings[pickIdx(openings.length)];
+
+        const panels = [];
+        const dreamProse = [];
+
+        // Opening beat.
+        panels.push({
+            title: 'A dream, tuned',
+            caption: opening.text,
+            bg: opening.bg,
+            bgTint: DREAM_TINT,
+            myc: true,
+            isDream: true
+        });
+        dreamProse.push(opening.text);
+
+        // Symbiont-shaped beats — expressed obliquely, never named.
+        const subtitles = [];
+        if (carries('neme-crownmire')) {
+            const line = "For a while you can see straight through everyone you pass — skin gone to clouded glass — and you read what each of them keeps folded out of sight. The cruelest things are the ones they hide from themselves.";
+            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_townsquare', bgTint: 0x39528f, myc: true, isDream: true });
+            dreamProse.push(line);
+            subtitles.push('of Glass People');
+        }
+        if (carries('thorne-still')) {
+            const line = "The ground goes soft and warm and blooms beneath you. Small pale caps push up between your feet, and each one murmurs a secret of yours back to you, a little wrong.";
+            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_fungal', bgTint: 0x3a6a40, myc: true, isDream: true });
+            dreamProse.push(line);
+            subtitles.push('of Blooming Ground');
+        }
+        if (carries('ulvarex-borrowed-horizon')) {
+            const line = "A second horizon unrolls behind the first, just as bright, and you can never quite tell which one you are allowed to walk toward. One of them, you suspect, is only a beautifully painted wall.";
+            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_skyship', bgTint: 0x6a4a9a, myc: true, isDream: true });
+            dreamProse.push(line);
+            subtitles.push('of Two Horizons');
+        }
+        if (carries('brine-scripture')) {
+            const line = "Salt blooms on your tongue and the place remembers out loud everything it ever soaked up: a tide that came through once, a grief dried into the plaster, the outline of everyone who stood exactly where you stand.";
+            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_harbor', bgTint: 0x2d6a78, myc: true, isDream: true });
+            dreamProse.push(line);
+            subtitles.push('of Salt and Doors');
+        }
+        if (subtitles.length === 0) {
+            const line = "Nothing rides along inside you tonight. The dream is only yours, and it is quieter for it — almost lonely, almost a relief.";
+            panels.push({ title: 'A dream, tuned', caption: line, bg: null, bgTint: 0x14122a, myc: true, isDream: true });
+            dreamProse.push(line);
+            subtitles.push('of a Quiet, Empty Self', 'You Were Paid to Have');
+        }
+
+        // Closing beat — sometimes the Bishop is waiting in it.
+        const closings = [
+            { text: "You almost understand what it means. Then morning reaches in and takes it.", bishop: false },
+            { text: "Somewhere in the middle of it, the dead Bishop turns to look at you — calm, unbreathing, already mid-sentence — and you wake.", bishop: true },
+            { text: "The dream folds itself up neatly, like a clerk closing a ledger, and tucks you back into the dark.", bishop: false }
+        ];
+        const closing = closings[pickIdx(closings.length)];
+        panels.push({
+            title: 'A dream, tuned',
+            caption: closing.text,
+            bg: closing.bishop ? 'cs_bus' : opening.bg,
+            bgTint: 0x3a2f55,
+            myc: true,
+            isDream: true,
+            sprites: closing.bishop ? [{ key: 'cs_bishop', x: 400, y: 545, scale: 0.26, anim: 'rise' }] : []
+        });
+        dreamProse.push(closing.text);
+
+        const title = `A Dream ${subtitles[pickIdx(subtitles.length)]}`;
+        const journalText = dreamProse.join('\n\n');
+
+        return { id: 'day1_paid_dream', title, journalText, panels };
+    }
+
+    /**
+     * Persist the end of Day 1 once, before the cutscene plays.
+     */
+    finishDay1() {
+        if (this.hasJournalEntry('day1_complete_slept')) return;
+
+        this.registry.set('gameDay', 2);
+
+        if (this.questSystem?.getQuest('who_killed_bishop')) {
+            this.questSystem.updateQuest(
+                'who_killed_bishop',
+                'Day 2 begins. Dr. Elphi has reconstructed the Bishop\'s final dream scene from the Cardinal Feast cartridge — I should see what she found, and start tracking down the Bishop\'s missing notebook.',
+                'day2_begins'
+            );
+        }
+
+        this.addJournalEntry(
+            'day1_complete_slept',
+            'Day 1 Complete: Rest at ARB Ambra',
+            'I ended the first day in Dr. Elphi\'s studio at ARB Ambra. After reporting everything from the Townhall — the mad poet, the freed clerk, and the Bishop\'s missing notebook — I slept under her care. Tomorrow she\'ll have the reconstructed Cardinal Feast cartridge ready, and the hunt for the Bishop\'s notebook begins in earnest.',
+            this.journalSystem.categories.EVENTS,
+            { character: 'Dr. Elphi Quarn', location: 'ARB Ambra' }
+        );
+    }
+
+    /**
+     * Texture keys → file paths for the cutscene. Loaded lazily, only for the
+     * panels that actually appear, so we never pay for assets a given playthrough
+     * doesn't use. Keys already loaded by the scene (scraperAmbraBg, drElphi) are
+     * referenced directly and skipped by the loader.
+     */
+    _cutsceneAssetTable() {
+        const B = 'assets/images/backgrounds/';
+        const C = 'assets/images/characters/';
+        return {
+            // Backgrounds
+            cs_corkint: B + 'ScreamingCorkInterior.png',
+            cs_corkclub: B + 'ScreamingCorkClub.png',
+            cs_lumen_int: B + 'LumenDirectorateInterior.png',
+            cs_lumen: B + 'LumenDirectorate.png',
+            cs_rust: B + 'RustDomain.png',
+            cs_redmass: B + 'RedmassIsland.png',
+            cs_townsquare: B + 'TownSquare.png',
+            cs_skyship: B + 'skyship_board.png',
+            cs_townhall: B + 'townhall.png',
+            cs_shedapp: B + 'ShedApplications.png',
+            cs_harbor: B + 'Harbor.png',
+            cs_echodrain: B + 'EchoDrainDelta.png',
+            cs_egg: B + 'egg-catedral.png',
+            cs_bus: B + 'AbandonedBus.png',
+            cs_scraper: B + 'Scraper1140.png',
+            cs_city: B + 'city.jpg',
+            cs_fungal: B + 'fungal_council_1.png',
+            cs_myc: B + 'mycelial_overlay.png',
+            // Characters
+            cs_edgar: C + 'EdgarEskola.png',
+            cs_busker: C + 'busker.png',
+            cs_ortolan: C + 'Ortolan.png',
+            cs_seldo: C + 'seldo.png',
+            cs_brukk: C + 'Brukk.png',
+            cs_living_core: C + 'living-core.png',
+            cs_gardener: C + 'gardener.png',
+            cs_magnekin_broken: C + 'magnekin_broken.png',
+            cs_feral_g: C + 'feral_guitarist.png',
+            cs_feral_d: C + 'feral_drummer.png',
+            cs_feral_b: C + 'feral_bassplayer.png',
+            cs_feral_s: C + 'feral_synth.png',
+            cs_poet: C + 'poet.png',
+            cs_bishop: C + 'DeadBishop.png'
+        };
+    }
+
+    /**
+     * Lazily loads any textures the panels need, then plays the animated sequence.
+     * @param {Array<Object>} panels - animated panel descriptors
+     * @param {Function} [onComplete]
+     */
+    playCutscene(panels, onComplete) {
+        if (!panels || panels.length === 0) {
+            if (onComplete) onComplete();
+            return;
+        }
+
+        const table = this._cutsceneAssetTable();
+        let toLoad = 0;
+        const queueKey = (key) => {
+            if (!key || this.textures.exists(key)) return;
+            const path = table[key];
+            if (!path) return;
+            this.load.image(key, path);
+            toLoad++;
+        };
+        panels.forEach(p => {
+            queueKey(p.bg);
+            if (p.myc) queueKey('cs_myc');
+            (p.sprites || []).forEach(s => queueKey(s.key));
+        });
+
+        const start = () => this._runCutscene(panels, onComplete);
+        if (toLoad > 0) {
+            this.load.once('complete', start);
+            this.load.start();
+        } else {
+            start();
+        }
+    }
+
+    /**
+     * Runs the animated panel sequence. Advances on click or SPACE; fades the
+     * whole overlay out at the end and calls onComplete.
+     */
+    _runCutscene(panels, onComplete) {
+        const W = 800, H = 600;
+
+        // Block world interaction / movement for the duration.
+        if (this.playerMovementSystem) this.playerMovementSystem.setDialogVisible(true);
+
+        const root = this.add.container(0, 0).setDepth(9000);
+        const blocker = this.add.rectangle(W / 2, H / 2, W, H, 0x000000, 1).setInteractive({ useHandCursor: true });
+        root.add(blocker);
+        const prompt = this.add.text(W / 2, 590, '▸ click or press SPACE', {
+            fontSize: '14px', fill: '#9fe8b0', stroke: '#000000', strokeThickness: 3
+        }).setOrigin(0.5);
+        root.add(prompt);
+        this.tweens.add({ targets: prompt, alpha: { from: 0.35, to: 1 }, duration: 900, yoyo: true, repeat: -1 });
+
+        let idx = -1;
+        let transitioning = false;
+        let current = null;
+
+        const teardownCurrent = (cb) => {
+            if (!current) { if (cb) cb(); return; }
+            const c = current;
+            current = null;
+            c.tweens.forEach(t => t && t.stop());
+            this.tweens.add({
+                targets: c.container, alpha: 0, duration: 240,
+                onComplete: () => { c.container.destroy(); if (cb) cb(); }
+            });
+        };
+
+        const cleanup = () => {
+            this.input.keyboard.off('keydown-SPACE', keyHandler);
+            blocker.off('pointerdown', advance);
+            if (this.playerMovementSystem) this.playerMovementSystem.setDialogVisible(false);
+        };
+
+        const advance = () => {
+            if (transitioning) return;
+            transitioning = true;
+            idx++;
+            if (idx >= panels.length) {
+                cleanup();
+                teardownCurrent(() => {
+                    this.tweens.add({
+                        targets: root, alpha: 0, duration: 600,
+                        onComplete: () => { root.destroy(); if (onComplete) onComplete(); }
+                    });
+                });
+                return;
+            }
+            teardownCurrent(() => {
+                current = this._buildCutscenePanel(panels[idx]);
+                root.add(current.container);
+                root.bringToTop(prompt);
+                current.container.setAlpha(0);
+                this.tweens.add({
+                    targets: current.container, alpha: 1, duration: 420,
+                    onComplete: () => { transitioning = false; }
+                });
+            });
+        };
+
+        blocker.on('pointerdown', advance);
+        const keyHandler = () => advance();
+        this.input.keyboard.on('keydown-SPACE', keyHandler);
+
+        advance();
+    }
+
+    /**
+     * Builds the visuals for a single animated panel into its own container.
+     * @returns {{ container: Phaser.GameObjects.Container, tweens: Array }}
+     */
+    _buildCutscenePanel(panel) {
+        const W = 800, H = 600;
+        const container = this.add.container(0, 0);
+        const tweens = [];
+
+        // Background image (tinted for mood) or a flat colour fallback.
+        if (panel.bg && this.textures.exists(panel.bg)) {
+            const bgImg = this.add.image(W / 2, H / 2, panel.bg).setDisplaySize(W, H);
+            if (panel.bgTint) bgImg.setTint(panel.bgTint);
+            container.add(bgImg);
+            if (panel.bgPulse) {
+                tweens.push(this.tweens.add({ targets: bgImg, alpha: { from: 0.65, to: 1 }, duration: 1600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' }));
+            }
+        } else {
+            container.add(this.add.rectangle(W / 2, H / 2, W, H, panel.bgTint || 0x02060a, 1));
+        }
+
+        // Drifting mycelial overlay for dream beats.
+        if (panel.myc && this.textures.exists('cs_myc')) {
+            const myc = this.add.image(W / 2, H / 2, 'cs_myc').setDisplaySize(W, H).setAlpha(0.18);
+            myc.setBlendMode(Phaser.BlendModes.ADD);
+            container.add(myc);
+            tweens.push(this.tweens.add({ targets: myc, x: W / 2 + 20, alpha: { from: 0.1, to: 0.28 }, duration: 4200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' }));
+        }
+
+        // Character sprites.
+        (panel.sprites || []).forEach(s => {
+            if (!this.textures.exists(s.key)) return;
+            const spr = this.add.image(s.x, s.y, s.key).setOrigin(0.5, 1).setScale(s.scale || 0.24);
+            if (s.flip) spr.setFlipX(true);
+            if (s.alpha != null) spr.setAlpha(s.alpha);
+            container.add(spr);
+            this._animateOverlaySprite(spr, s.anim, tweens);
+        });
+
+        // Title plate (top) and caption plate (bottom) for readability.
+        container.add(this.add.rectangle(W / 2, 58, W, 62, 0x02060a, 0.5));
+        container.add(this.add.text(W / 2, 58, panel.title || '', {
+            fontSize: '24px', fontStyle: 'bold', fill: panel.isDream ? '#c9b8ff' : '#7fff8e',
+            align: 'center', wordWrap: { width: 740 }, stroke: '#000000', strokeThickness: 4
+        }).setOrigin(0.5));
+
+        if (panel.caption) {
+            container.add(this.add.rectangle(W / 2, 512, W, 150, 0x02060a, 0.66));
+            container.add(this.add.text(W / 2, 508, panel.caption, {
+                fontSize: '18px', fill: panel.isDream ? '#e6dcff' : '#d7ffe0',
+                align: 'center', wordWrap: { width: 720 }, lineSpacing: 6
+            }).setOrigin(0.5));
+        }
+
+        return { container, tweens };
+    }
+
+    /** Attaches an idle animation to a cutscene sprite. */
+    _animateOverlaySprite(spr, anim, tweens) {
+        const add = (cfg) => tweens.push(this.tweens.add(cfg));
+        switch (anim) {
+            case 'sway':
+                add({ targets: spr, angle: { from: -3, to: 3 }, duration: 2200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                break;
+            case 'pulse': {
+                const sc = spr.scaleX;
+                add({ targets: spr, scaleX: sc * 1.06, scaleY: sc * 1.06, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                break;
+            }
+            case 'rock':
+                add({ targets: spr, angle: { from: -7, to: 7 }, duration: 240, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                break;
+            case 'walkOff':
+                add({ targets: spr, x: spr.x + 240, alpha: 0, duration: 2800, ease: 'Sine.easeIn' });
+                break;
+            case 'rise': {
+                const y = spr.y;
+                spr.y = y + 34;
+                spr.setAlpha(0);
+                add({ targets: spr, y, alpha: 1, duration: 1500, ease: 'Sine.easeOut' });
+                break;
+            }
+            case 'drift':
+                add({ targets: spr, x: spr.x + 14, duration: 3800, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                break;
+            case 'bob':
+            default:
+                add({ targets: spr, y: spr.y - 8, duration: 1800, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                break;
+        }
+    }
+
+    /** Grammar helper: choose 'a'/'an' for a noun phrase. */
+    aOrAn(phrase) {
+        const word = (phrase || '').trim();
+        return (/^[aeiou]/i.test(word) ? 'an ' : 'a ') + word;
+    }
+
+    /** A crowd reaction line for Edgar's reading, flavoured by the book's tone/genre. */
+    edgarCrowdReaction(tone, genre) {
+        if (tone === 'comical' || genre === 'funny animals') {
+            return "The Cork erupts — drinks slopped, one regular laughing so hard he has to be helped outside.";
+        }
+        if (tone === 'tragic') {
+            return "By the last line the room has gone dead quiet, and nobody wants to be the first to break it.";
+        }
+        if (genre === 'cosmic horror' || tone === 'existential') {
+            return "A few listeners drift out looking faintly unwell; the rest lean in closer, unable to stop.";
+        }
+        if (tone === 'romantic') {
+            return "Somewhere near the back, two strangers who came in separately leave together.";
+        }
+        if (tone === 'political') {
+            return "An argument breaks out before he's even finished — which, Edgar will tell you later, means it worked.";
+        }
+        return "The room listens, and when he finishes there's that rare, real silence before the applause.";
+    }
+
     shutdown() {
         // Clean up resources
         this.restoreBackgroundMusic();
