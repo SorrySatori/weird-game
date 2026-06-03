@@ -295,7 +295,10 @@ export default class MainScene extends Phaser.Scene {
         // Show the load menu
         this.loadMenuContainer.setVisible(true);
         this.loadMenuVisible = true;
-        
+
+        // Always start on the first page.
+        this.currentLoadPage = 0;
+
         // Populate with save files
         this.populateLoadMenu();
     }
@@ -349,7 +352,47 @@ export default class MainScene extends Phaser.Scene {
         // Add save slots container
         this.saveSlotContainer = this.add.container(this.cameras.main.width / 2, this.cameras.main.height / 2);
         this.loadMenuContainer.add(this.saveSlotContainer);
-        
+
+        // Pagination so every saved slot is reachable, not just the first six.
+        this.currentLoadPage = 0;
+        this.loadSlotsPerPage = 6;
+        const navY = this.cameras.main.height / 2 + 175;
+
+        this.loadPrevButton = this.add.text(this.cameras.main.width / 2 - 160, navY, '◀', {
+            fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial'
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadPrevButton);
+
+        this.loadPageText = this.add.text(this.cameras.main.width / 2, navY, '', {
+            fontSize: '18px', fill: '#7fff8e', fontFamily: 'Arial'
+        }).setOrigin(0.5);
+        this.loadMenuContainer.add(this.loadPageText);
+
+        this.loadNextButton = this.add.text(this.cameras.main.width / 2 + 160, navY, '▶', {
+            fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial'
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadNextButton);
+
+        this.loadPrevButton.on('pointerover', () => { this.loadPrevButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadPrevButton.on('pointerout', () => { this.loadPrevButton.setStyle({ fill: '#7fff8e' }); });
+        this.loadNextButton.on('pointerover', () => { this.loadNextButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadNextButton.on('pointerout', () => { this.loadNextButton.setStyle({ fill: '#7fff8e' }); });
+
+        this.loadPrevButton.on('pointerdown', () => {
+            if (this.currentLoadPage > 0) {
+                this.clickSound.play();
+                this.currentLoadPage--;
+                this.populateLoadMenu();
+            }
+        });
+        this.loadNextButton.on('pointerdown', () => {
+            if ((this.currentLoadPage + 1) * this.loadSlotsPerPage < (this._loadFileCount || 0)) {
+                this.clickSound.play();
+                this.currentLoadPage++;
+                this.populateLoadMenu();
+            }
+        });
+
         // Add back button
         const backButton = this.createButton(
             this.cameras.main.width / 2,
@@ -436,7 +479,12 @@ export default class MainScene extends Phaser.Scene {
         if (!saveFilesResult.success || !saveFilesResult.files || saveFilesResult.files.length === 0) {
             // No save files found - clear any existing content first
             this.saveSlotContainer.removeAll(true);
-            
+
+            this._loadFileCount = 0;
+            if (this.loadPageText) this.loadPageText.setText('');
+            if (this.loadPrevButton) this.loadPrevButton.setVisible(false);
+            if (this.loadNextButton) this.loadNextButton.setVisible(false);
+
             const noSavesText = this.add.text(0, 0, 'No save files found', {
                 fontSize: '24px',
                 fill: '#7fff8e',
@@ -455,13 +503,30 @@ export default class MainScene extends Phaser.Scene {
         
         // Add save slots
         let yPos = -190;
-        
+
         // Clear all existing content to prevent duplicates
         this.saveSlotContainer.removeAll(true);
-        
-        // Limit to 6 save slots to match in-game save menu
-        const filesToShow = saveFilesResult.files.slice(0, 6);
-        
+
+        // Sort by save-slot number ascending (save1, save2, …) so the list
+        // mirrors the numbered save slots; files without a number sort last.
+        const slotNumber = (name) => {
+            const match = /(\d+)\s*$/.exec(name || '');
+            return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
+        };
+        const allFiles = saveFilesResult.files.slice().sort((a, b) => slotNumber(a.name) - slotNumber(b.name));
+
+        // Paginate so every saved slot is reachable, not just the first six.
+        this._loadFileCount = allFiles.length;
+        const perPage = this.loadSlotsPerPage || 6;
+        const pageCount = Math.max(1, Math.ceil(allFiles.length / perPage));
+        if (this.currentLoadPage > pageCount - 1) this.currentLoadPage = pageCount - 1;
+        const pageStart = this.currentLoadPage * perPage;
+        const filesToShow = allFiles.slice(pageStart, pageStart + perPage);
+
+        if (this.loadPageText) this.loadPageText.setText(`Page ${this.currentLoadPage + 1} / ${pageCount}`);
+        if (this.loadPrevButton) this.loadPrevButton.setVisible(this.currentLoadPage > 0);
+        if (this.loadNextButton) this.loadNextButton.setVisible(this.currentLoadPage < pageCount - 1);
+
         // Double check we have files to show
         if (filesToShow.length === 0) {
             const noSavesText = this.add.text(0, 0, 'No save files found', {
@@ -473,7 +538,7 @@ export default class MainScene extends Phaser.Scene {
             this.saveSlotContainer.add(noSavesText);
             return;
         }
-        
+
         filesToShow.forEach(saveFile => {
             console.log('Processing save file:', saveFile);
             // Create container for this save slot

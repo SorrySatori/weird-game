@@ -546,7 +546,7 @@ export default class GameMenu {
         // Add save slots container
         this.saveSlotContainer = this.scene.add.container(0, 0);
         this.loadMenuContainer.add(this.saveSlotContainer);
-        
+
         // Add "No Save Files" text (will be hidden if saves exist)
         this.noSavesText = this.scene.add.text(
             this.scene.cameras.main.width / 2,
@@ -561,7 +561,52 @@ export default class GameMenu {
         );
         this.noSavesText.setOrigin(0.5);
         this.loadMenuContainer.add(this.noSavesText);
-        
+
+        // Pagination state for the load list (mirrors the save menu, so every
+        // saved slot — not just the first six — is reachable).
+        this.currentLoadPage = 0;
+        this.loadSlotsPerPage = 6;
+
+        const navY = this.scene.cameras.main.height / 2 + 235;
+
+        this.loadPrevButton = this.scene.add.text(
+            this.scene.cameras.main.width / 2 - 150, navY, '◀',
+            { fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial' }
+        ).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadPrevButton);
+
+        this.loadPageText = this.scene.add.text(
+            this.scene.cameras.main.width / 2, navY, '',
+            { fontSize: '18px', fill: '#7fff8e', fontFamily: 'Arial' }
+        ).setOrigin(0.5);
+        this.loadMenuContainer.add(this.loadPageText);
+
+        this.loadNextButton = this.scene.add.text(
+            this.scene.cameras.main.width / 2 + 150, navY, '▶',
+            { fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial' }
+        ).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadNextButton);
+
+        this.loadPrevButton.on('pointerover', () => { this.loadPrevButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadPrevButton.on('pointerout', () => { this.loadPrevButton.setStyle({ fill: '#7fff8e' }); });
+        this.loadNextButton.on('pointerover', () => { this.loadNextButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadNextButton.on('pointerout', () => { this.loadNextButton.setStyle({ fill: '#7fff8e' }); });
+
+        this.loadPrevButton.on('pointerdown', () => {
+            if (this.currentLoadPage > 0) {
+                this.clickSound.play();
+                this.currentLoadPage--;
+                this.populateLoadMenu();
+            }
+        });
+        this.loadNextButton.on('pointerdown', () => {
+            if ((this.currentLoadPage + 1) * this.loadSlotsPerPage < (this._loadFileCount || 0)) {
+                this.clickSound.play();
+                this.currentLoadPage++;
+                this.populateLoadMenu();
+            }
+        });
+
         // Hide the load menu initially
         this.loadMenuContainer.setVisible(false);
     }
@@ -600,6 +645,9 @@ export default class GameMenu {
      * Show the load menu
      */
     showLoadMenu() {
+        // Always start on the first page when (re)opening the load menu.
+        this.currentLoadPage = 0;
+
         // Initialize save system if needed
         if (!this.saveSystem) {
             // Lazy-load the SaveSystem
@@ -617,6 +665,17 @@ export default class GameMenu {
     }
     
     /**
+     * Extract the numeric slot index from a save name like "save12".
+     * Names without a trailing number sort to the end.
+     * @param {string} name
+     * @returns {number}
+     */
+    _saveSlotNumber(name) {
+        const match = /(\d+)\s*$/.exec(name || '');
+        return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
+    }
+
+    /**
      * Populate the load menu with save files
      */
     populateLoadMenu() {
@@ -632,27 +691,42 @@ export default class GameMenu {
         }
         
         const saveFiles = this.saveSystem.listSaveFiles();
-        
+
         if (!saveFiles || saveFiles.length === 0) {
             this.noSavesText.setVisible(true);
+            this._loadFileCount = 0;
+            if (this.loadPageText) this.loadPageText.setText('');
+            if (this.loadPrevButton) this.loadPrevButton.setVisible(false);
+            if (this.loadNextButton) this.loadNextButton.setVisible(false);
             return;
         }
-        
+
         this.noSavesText.setVisible(false);
-        
-        // Sort save files by date (newest first)
-        saveFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
-        
+
+        // Sort by save-slot number ascending (save1, save2, …) so the load list
+        // mirrors the numbered save slots. Files without a number sort last.
+        saveFiles.sort((a, b) => this._saveSlotNumber(a.name) - this._saveSlotNumber(b.name));
+
+        // Paginate so every slot is reachable, not just the first six.
+        this._loadFileCount = saveFiles.length;
+        const perPage = this.loadSlotsPerPage || 6;
+        const pageCount = Math.max(1, Math.ceil(saveFiles.length / perPage));
+        if (this.currentLoadPage > pageCount - 1) this.currentLoadPage = pageCount - 1;
+        const pageStart = this.currentLoadPage * perPage;
+        const pageFiles = saveFiles.slice(pageStart, pageStart + perPage);
+
+        if (this.loadPageText) this.loadPageText.setText(`Page ${this.currentLoadPage + 1} / ${pageCount}`);
+        if (this.loadPrevButton) this.loadPrevButton.setVisible(this.currentLoadPage > 0);
+        if (this.loadNextButton) this.loadNextButton.setVisible(this.currentLoadPage < pageCount - 1);
+
         // Add save slots
         const slotY = this.scene.cameras.main.height / 2 - 160;
         const slotSpacing = 55;
-        
-        saveFiles.forEach((saveFile, index) => {
-            if (index >= 6) return; // Limit to 6 save slots
-            
+
+        pageFiles.forEach((saveFile, index) => {
             const date = new Date(saveFile.date);
             const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-            
+
             // Create slot container
             const slotContainer = this.scene.add.container(
                 this.scene.cameras.main.width / 2,
