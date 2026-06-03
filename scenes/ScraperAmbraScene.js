@@ -731,10 +731,10 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_dream_offer: {
-                text: `Stay here tonight. The studio beds are safer than anything you'll find out there, and the signal's quiet on this floor.\n\nAnd let me do something for you — properly, not as a transaction. I'll tune you a dream. On me. People pay a small fortune for a session in one of my beds, but you've earned a good one. Something restful. Or strange, if you'd rather. The helmet reads what's riding along inside you and builds the rest.\n\n*A faint, tired smile.* Consider it the only honest thank-you a dream architect can give.`,
+                text: `Stay here tonight. The studio beds are safer than anything you'll find out there, and the signal's quiet on this floor.\n\nAnd let me make you an offer — a real one, with money in it. Sleep in one of my beds and let the helmet record whatever you dream. Raw dream-stock is my trade, and a vivid one, cut from a live and interesting head, sells for good gold. Yours, after a day like this, should be very interesting.\n\n*A tired, businesslike smile.* I'll read it back when you wake. If it's any good, you get paid for it. If it's flat, you still slept in the best bed in the city for free. Either way, you can't lose.`,
                 options: [
-                    { text: "I accept. Tune me a dream.", key: 'accept_the_dream', onSelect: () => this.beginDay1Sleep(true) },
-                    { text: "No dreams tonight. Just let me sleep.", key: 'decline_the_dream', onSelect: () => this.beginDay1Sleep(false) },
+                    { text: "Deal. Record whatever I dream.", key: 'accept_the_dream', onSelect: () => this.beginDay1Sleep(true) },
+                    { text: "My dreams aren't for sale. Just let me sleep.", key: 'decline_the_dream', onSelect: () => this.beginDay1Sleep(false) },
                 ]
             }
         };
@@ -900,21 +900,48 @@ export default class ScraperAmbraScene extends GameScene {
         // Morning.
         panels.push({
             title: 'Morning — Day 2',
-            caption: "You wake to the studio's pale green dawn. Dr. Elphi is already at her console, the reconstructed cartridge glinting in its cradle. \"You're up. I pulled the Bishop's last scene out of the Cardinal Feast. You're going to want to see what she saw.\"",
+            caption: "You wake to the studio's pale green dawn. Dr. Elphi is already at her console, the reconstructed cartridge glinting in its cradle. \"You're up. I pulled the Bishop's last scene out of the Cardinal Feast — but first, let's see what you gave me overnight.\"",
             bg: 'scraperAmbraBg',
             bgTint: 0xbfd6c2,
             sprites: [{ key: 'drElphi', x: 600, y: 500, scale: 0.2, anim: 'bob' }]
         });
 
+        // If the player sold a dream, Dr. Elphi appraises it on waking and pays.
+        let appraisal = null;
+        if (dream) {
+            appraisal = this.appraiseDream(dream);
+            panels.push({
+                title: appraisal.liked ? 'A dream worth selling' : 'A dream worth keeping',
+                caption: appraisal.liked
+                    ? `Dr. Elphi peels the recording from the helmet and goes very still as she reads it back. "...This. People will pay to sleep inside this." She counts ${appraisal.reward} gold into your hand. "Pleasure doing business — genuinely."`
+                    : `Dr. Elphi skims the recording and gives a small, honest shrug. "Restful. Clean. But there's nothing in it I can sell — no edges, no teeth to keep a buyer awake. The sleep's yours to keep, at least." She pockets the blank cartridge.`,
+                bg: 'scraperAmbraBg',
+                bgTint: 0xbfd6c2,
+                sprites: [{ key: 'drElphi', x: 600, y: 500, scale: 0.2, anim: 'sway' }]
+            });
+        }
+
         // Commit the persistent state before the cutscene runs, so a mid-cutscene
-        // reload still lands the player on Day 2 with the dream recorded.
+        // reload still lands the player on Day 2 with the dream (and payment) recorded.
         if (dream) {
             this.addJournalEntry(
                 dream.id,
                 dream.title,
                 dream.journalText,
                 this.journalSystem.categories.DREAMS,
-                { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', type: 'Paid dream' }
+                { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', type: 'Dream sold to Dr. Elphi' }
+            );
+        }
+        if (appraisal && appraisal.reward > 0 && !this.hasJournalEntry('day1_dream_sold')) {
+            // Suppress the floating notification — it would render behind the
+            // cutscene overlay; the verdict panel narrates the payment instead.
+            this.addMoney(appraisal.reward, false);
+            this.addJournalEntry(
+                'day1_dream_sold',
+                'Sold a Dream to Dr. Elphi',
+                `Dr. Elphi bought the dream I had in her studio bed and paid ${appraisal.reward} gold for the recording. She trades in raw dream-stock; apparently mine was vivid enough to sell.`,
+                this.journalSystem.categories.EVENTS,
+                { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', reward: appraisal.reward }
             );
         }
         this.finishDay1();
@@ -1203,7 +1230,37 @@ export default class ScraperAmbraScene extends GameScene {
         const title = `A Dream ${subtitles[pickIdx(subtitles.length)]}`;
         const journalText = dreamProse.join('\n\n');
 
-        return { id: 'day1_paid_dream', title, journalText, panels };
+        // How many symbionts coloured the dream — the richer it is, the more
+        // Dr. Elphi will pay for the recording.
+        const influenceCount = ['neme-crownmire', 'thorne-still', 'ulvarex-borrowed-horizon', 'brine-scripture']
+            .filter(carries).length;
+
+        return { id: 'day1_paid_dream', title, journalText, panels, influenceCount };
+    }
+
+    /**
+     * Dr. Elphi appraises the recorded dream. Richer (more symbiont-shaped) dreams
+     * are worth more; a plain dream may fetch a token sum or nothing at all.
+     * @returns {{ liked: boolean, reward: number }}
+     */
+    appraiseDream(dream) {
+        const n = dream?.influenceCount || 0;
+        const variance = 5 + Math.floor(Math.random() * 11); // 5..15
+        let liked = false;
+        let reward = 0;
+
+        if (n >= 2) {
+            liked = true;
+            reward = n * 12 + variance;            // a genuinely sellable dream
+        } else if (n === 1) {
+            liked = Math.random() < 0.85;
+            reward = liked ? 12 + variance : 0;
+        } else {
+            liked = Math.random() < 0.35;          // a plain dream rarely sells
+            reward = liked ? 5 + Math.floor(Math.random() * 6) : 0;
+        }
+
+        return { liked, reward };
     }
 
     /**
@@ -1260,10 +1317,10 @@ export default class ScraperAmbraScene extends GameScene {
             cs_city: B + 'city.jpg',
             cs_fungal: B + 'fungal_council_1.png',
             cs_myc: B + 'mycelial_overlay.png',
-            // Characters
-            cs_edgar: C + 'EdgarEskola.png',
+            // Characters (Edgar & Ortolan use their dedicated cutscene art)
+            cs_edgar: C + 'edgar_reading.png',
             cs_busker: C + 'busker.png',
-            cs_ortolan: C + 'Ortolan.png',
+            cs_ortolan: C + 'ortolan4.png',
             cs_seldo: C + 'seldo.png',
             cs_brukk: C + 'Brukk.png',
             cs_living_core: C + 'living-core.png',

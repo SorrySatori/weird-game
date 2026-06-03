@@ -30,10 +30,10 @@ export default {
         }
     },
     dr_elphi_dream_offer: {
-        text: "Zůstaňte tu na noc. Lůžka v ateliéru jsou bezpečnější než cokoliv venku a na tomhle patře je signál tichý.\n\nA dovolte mi něco pro vás udělat — pořádně, ne jako obchod. Naladím vám sen. Na můj účet. Lidé platí malé jmění za jednu relaci v mých lůžkách, ale vy jste si dobrý sen zasloužil. Něco odpočinkového. Nebo podivného, jestli chcete. Helma přečte, co se ve vás veze, a zbytek dotvoří.\n\n*Slabý, unavený úsměv.* Berte to jako jediné upřímné poděkování, jaké může architektka snů dát.",
+        text: "Zůstaňte tu na noc. Lůžka v ateliéru jsou bezpečnější než cokoliv venku a na tomhle patře je signál tichý.\n\nA dovolte mi nabídnout vám obchod — opravdový, s penězi. Lehněte si do jednoho z mých lůžek a nechte helmu nahrát všechno, co se vám bude zdát. Surový snový materiál je moje živnost a živý sen z bystré, zajímavé hlavy se prodává za pěkné zlato. Ten váš by po takovémhle dni měl být velmi zajímavý.\n\n*Unavený, věcný úsměv.* Až se probudíte, přehraju si ho. Jestli za něco stojí, zaplatím vám. Jestli bude mdlý, aspoň jste spal v nejlepší posteli ve městě zadarmo. Tak jako tak neproděláte.",
         options: {
-            accept_the_dream: "Přijímám. Nalaďte mi sen.",
-            decline_the_dream: "Dnes žádné sny. Jen mě nechte spát."
+            accept_the_dream: "Platí. Nahrajte, co se mi bude zdát.",
+            decline_the_dream: "Moje sny nejsou na prodej. Jen mě nechte spát."
         }
     },
     dr_elphi_bishop_path: {
