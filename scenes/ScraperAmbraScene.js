@@ -1513,7 +1513,7 @@ export default class ScraperAmbraScene extends GameScene {
                 break;
             }
             case 'rock':
-                add({ targets: spr, angle: { from: -7, to: 7 }, duration: 240, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                add({ targets: spr, angle: { from: -6, to: 6 }, duration: 620, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
                 break;
             case 'walkOff':
                 add({ targets: spr, x: spr.x + 240, alpha: 0, duration: 2800, ease: 'Sine.easeIn' });
