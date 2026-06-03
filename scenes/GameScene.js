@@ -1747,32 +1747,34 @@ export default class GameScene extends Phaser.Scene {
         dialogBg.setStrokeStyle(2, 0x7fff8e);
         this.dialogBox.add(dialogBg);
 
-        // Add 'X' close button
-        const closeBtn = this.add.container(280, -230);
-        const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
-        closeBg.setStrokeStyle(1, 0x7fff8e);
-        closeBg.setInteractive({ useHandCursor: true });
-        const closeText = this.add.text(0, 0, 'X', {
-            fontSize: '24px',
-            fill: '#7fff8e'
-        });
-        closeText.setOrigin(0.5);
-        closeBtn.add([closeBg, closeText]);
-        this.dialogBox.add(closeBtn);
+        // Add 'X' close button (skipped entirely for non-closable dialogs)
+        if (!content.hideCloseOption) {
+            const closeBtn = this.add.container(280, -230);
+            const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
+            closeBg.setStrokeStyle(1, 0x7fff8e);
+            closeBg.setInteractive({ useHandCursor: true });
+            const closeText = this.add.text(0, 0, 'X', {
+                fontSize: '24px',
+                fill: '#7fff8e'
+            });
+            closeText.setOrigin(0.5);
+            closeBtn.add([closeBg, closeText]);
+            this.dialogBox.add(closeBtn);
 
-        // Make close button interactive
-        closeBg.on('pointerover', () => {
-            closeBg.setFillStyle(0x0a2712, 0.8);
-            closeText.setStyle({ fill: '#b3ffcc' });
-        });
-        closeBg.on('pointerout', () => {
-            closeBg.setFillStyle(0x0a2712, 0.6);
-            closeText.setStyle({ fill: '#7fff8e' });
-        });
-        closeBg.on('pointerdown', () => {
-            this.clickSound.play();
-            this.hideDialog();
-        });
+            // Make close button interactive
+            closeBg.on('pointerover', () => {
+                closeBg.setFillStyle(0x0a2712, 0.8);
+                closeText.setStyle({ fill: '#b3ffcc' });
+            });
+            closeBg.on('pointerout', () => {
+                closeBg.setFillStyle(0x0a2712, 0.6);
+                closeText.setStyle({ fill: '#7fff8e' });
+            });
+            closeBg.on('pointerdown', () => {
+                this.clickSound.play();
+                this.hideDialog();
+            });
+        }
 
         // Create a separate container for text area with fixed height
         const textContainer = this.add.container(0, -140);

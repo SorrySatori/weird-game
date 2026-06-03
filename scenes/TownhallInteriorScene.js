@@ -45,14 +45,71 @@ export default class TownhallInteriorScene extends GameScene {
         return {
             ...super.dialogContent,
 
+            poet_intro: {
+                speaker: 'The Mad Poet',
+                hideCloseOption: true,
+                text: `The Townhall doors seal behind you with the soft, final sound of a drawer sliding shut. The air tastes of old ink and held breath.
+
+On the public reading dais stands a thin, ink-blackened figure — a revolver in one fist, a sheaf of bleeding-edged poems in the other. The clerk, the councilor, and the Complaint Eater sit rigid beneath the seal of the Townhall. He does not stop reading as you enter.
+
+"I read to empty halls for thirty years.
+Tonight the hall is full, and cannot leave.
+Behold the only honest audience —
+captive, breathing, made at last to receive.
+
+They stamped my life 'insufficiently civic,'
+so I have penned the civic masterpiece:
+a poem no clerk can file and no soul leaves politely.
+The city is a draft. I am its final edit."`,
+                options: [
+                    { text: "(Someone in the room is about to break.)", key: 'someone_about_to_break', next: "poet_intro_interrupt" },
+                ]
+            },
+
+            poet_intro_interrupt: {
+                speaker: 'Townhall Clerk',
+                hideCloseOption: true,
+                text: `The clerk on the floor cracks first. The words spill out before fear can swallow them:
+
+"Please — it's been three hours. My daughter is waiting at the registry window downstairs. She's six. She doesn't know how to—"
+
+The revolver swings toward her, and yet the poet's voice never loses its meter. That is the terrifying part. He does not even raise it.`,
+                options: [
+                    { text: "(The poet answers her.)", key: 'the_poet_answers_her', next: "poet_intro_silence" },
+                ]
+            },
+
+            poet_intro_silence: {
+                speaker: 'The Mad Poet',
+                hideCloseOption: true,
+                text: `"Do not interrupt the reading.
+Interruption is the only sin.
+The poem does not pause for daughters;
+the poem does not pause for anything living.
+
+She will wait. You will all wait.
+A held ear is the only ear that hears.
+The doors are stamped shut — and so is the discussion."
+
+He turns the barrel, slowly, until it finds you.
+
+"But you. You came in late, off the street, unstamped. Tell me — can you answer me in kind? Or are you just one more reader who would rather leave?"`,
+                options: [
+                    { text: "Challenge him to a poetry battle.", key: 'challenge_him_to_a_poetry_battle', next: "poet_challenge" },
+                    { text: "First — what do you actually want?", key: 'first_what_do_you_want', next: "poet_demands" },
+                    ...(hasBrine ? [{ text: "[Brine Scripture] Read the salt memory of the room.", key: 'brine_scripture_read_the_salt_memory', next: "poet_brine_read" }] : []),
+                ]
+            },
+
             poet_start: {
                 speaker: poetResolved ? 'Freed Clerk' : 'The Mad Poet',
                 textKey: poetStartTextKey,
+                hideCloseOption: !poetResolved,
                 text: poetResolved
                     ? `"The poet is gone. The hostages are safe. The Townhall is still shaking, but at least now it is shaking bureaucratically."`
-                    : `A thin, ink-stained figure stands on the public reading dais, one hand clutching an old revolver, the other waving a sheaf of bleeding-edged poems. The clerk, the councilor, and the Complaint Eater sit rigidly beneath the seal of the Townhall.
+                    : `The poet keeps the revolver loosely trained on the room, waiting. The reading is not finished. It will not be finished until someone gives him what he wants — or proves him right about the world.
 
-"No one leaves until the city hears me correctly," the poet declares. "Not politely. Not bureaucratically. Correctly."`,
+"No one leaves until the city hears me correctly," he says. "Not politely. Not bureaucratically. Correctly."`,
                 options: [
                     ...(poetResolved ? [{ text: "What happens now?", key: 'what_happens_now', next: "clerk_after_poet" }] : []),
                     ...(!poetResolved ? [{ text: "Challenge him to a poetry battle.", key: 'challenge_him_to_a_poetry_battle', next: "poet_challenge" }] : []),
@@ -63,20 +120,62 @@ export default class TownhallInteriorScene extends GameScene {
 
             poet_demands: {
                 speaker: 'The Mad Poet',
-                text: `"Wants? Wants are prose. I require witness. The Townhall stamped my chapbook 'insufficiently civic.' They called my enjambment a zoning violation.
+                hideCloseOption: true,
+                text: `"Wants? Wants are prose. I require witness.
 
-So now the public receives a reading. Every stanza. Every footnote. Every hostage-held breath."`,
+For thirty years this city read me the way it reads a parking notice — if at all. The Townhall stamped my chapbook 'insufficiently civic.' They called my line breaks a zoning violation. They filed my grief under 'miscellaneous.'
+
+So now the public receives a reading. Every stanza. Every footnote. Every hostage-held breath. They struck my name from the register, so I took a truer one: the Last Editor."`,
                 options: [
                     { text: "Then I'll answer in verse.", key: 'then_ill_answer_in_verse', next: "poet_challenge" },
-                    { text: "I need a moment.", key: 'i_need_a_moment', next: "closeDialog" },
+                    { text: "Why hostages? Why not simply publish?", key: 'why_hostages_not_publish', next: "poet_why" },
+                ]
+            },
+
+            poet_why: {
+                speaker: 'The Mad Poet',
+                hideCloseOption: true,
+                text: `"Publish?" He laughs, without any joy in it.
+
+"A published poem is a poem you can put down. A poem you can put down is a poem that changed nothing.
+
+A reader who is free will always leave
+the moment that the verse asks something true.
+So I removed the door. I removed the leaving.
+What stays must finally listen it through.
+
+A captive ear is the only honest ear. You will not leave — so you will finally hear me."`,
+                options: [
+                    { text: "Then I'll answer him in verse.", key: 'then_ill_answer_him_in_verse', next: "poet_challenge" },
+                    { text: "And after the reading? What then?", key: 'and_after_the_reading', next: "poet_tabula_rasa" },
+                ]
+            },
+
+            poet_tabula_rasa: {
+                speaker: 'The Mad Poet',
+                hideCloseOption: true,
+                text: `For a moment his eyes go somewhere vast and empty, somewhere past the walls.
+
+"After? After comes the clean ground.
+
+Every great poem begins on a blank page —
+and this city is no blank: a palimpsest of cowards,
+old ink scrawled over old ink, nothing erased,
+only stamped, and filed, and stamped again.
+
+To write the new, I must first unwrite the old. Tabula rasa. Bare earth. A page wide enough, at last, for the only line that matters. This little reading? It is merely the title."`,
+                options: [
+                    { text: "That isn't poetry. That's a bomb with footnotes.", key: 'bomb_with_footnotes', next: "poet_challenge" },
+                    { text: "Then I'll answer him in verse.", key: 'then_ill_answer_him_in_verse_2', next: "poet_challenge" },
                 ]
             },
 
             poet_brine_read: {
                 speaker: 'Brine Scripture',
-                text: `Salt wakes under your tongue. The floor remembers shoes grinding in panic, spilled ink drying into little black reefs, and one line repeated until it became a wound: "The city has no ear for me."
+                hideCloseOption: true,
+                text: `Salt wakes under your tongue. The floor remembers shoes grinding in panic, spilled ink drying into little black reefs, and one line repeated until it wore a groove into the boards: "The city has no ear for me."
 
-The Brine Scripture offers memory, not victory. It gives you material. You still need to make it sing.`,
+The Brine Scripture offers memory, not victory. It gives you material. You still have to make it sing.`,
                 options: [
                     { text: "Use that memory in the contest.", key: 'use_that_memory_in_the_contest', next: "poet_challenge" },
                 ],
@@ -95,9 +194,12 @@ The Brine Scripture offers memory, not victory. It gives you material. You still
 
             poet_challenge: {
                 speaker: 'The Mad Poet',
-                text: `"A challenger? Good. At last, the room develops a pulse. Three rounds. Image, wound, verdict. Bring me the city as you have lived it.
+                text: `"A challenger?" Something flickers across his face — closer to hope than to fury. "Good. At last the room develops a pulse.
 
-If your poem is alive, I release them. If it is dead, then we all learn what bad art costs."`,
+Three rounds, then. Image. Wound. Verdict. Bring me the city as you have actually lived it — not the version they keep on file.
+
+If your poem is alive, I let them walk into the morning.
+If your poem is dead, we all find out together what bad art costs."`,
                 hideCloseOption: true,
                 options: [
                     { text: "Begin the poetry battle.", key: 'begin_the_poetry_battle', next: "poet_round_one" },
@@ -205,11 +307,17 @@ The poet raises the revolver again, but uncertainty has entered his meter.
 
             poet_victory: {
                 speaker: 'The Mad Poet',
-                text: `The revolver clatters onto the dais.
+                text: `The revolver clatters onto the dais. The sound is louder than any line he read all night.
 
-"Fine," the poet says, suddenly very tired. "The room has heard enough of me. Perhaps that is what I wanted. Perhaps that is what I feared."
+"...Fine," the poet says, and the meter drains out of him all at once. "You answered. Someone finally answered.
 
-He gathers his pages and walks out between the freed hostages, leaving only ink, sweat, and a silence that belongs to everyone.`,
+Thirty years I mistook the silence for the city's verdict. Maybe the verdict was only ever that no one had said anything back."
+
+He gathers his pages with shaking hands.
+
+"Keep the gun. Burn the pages, if you like. I think I am done editing."
+
+He steps down between the freed hostages and walks out into the unstamped morning, leaving only ink, sweat, and a silence that belongs to everyone now.`,
                 options: [
                     { text: "Check on the hostages.", key: 'check_on_the_hostages', next: "clerk_after_poet" },
                 ],
@@ -221,11 +329,14 @@ He gathers his pages and walks out between the freed hostages, leaving only ink,
 
             poet_defeat: {
                 speaker: 'The Mad Poet',
-                text: `The poet listens to your last line and smiles with terrible relief.
+                text: `The poet listens to your last line, and something in his face settles into a terrible, grateful calm.
 
-"Dead art," he says. "At last, honesty."
+"Dead art," he murmurs. "At last — honesty. You have proved my thesis for me.
 
-The revolver rises. The hostages scream. The reading becomes history in the worst possible meter.`,
+A line that cannot live
+must end the way all dead lines end."
+
+The revolver rises without hurry. The clerk's scream is the last thing the Townhall files tonight, and the reading becomes history in the worst possible meter.`,
                 hideCloseOption: true,
                 options: [
                     { text: "GAME OVER", key: 'game_over', next: "poet_game_over" },
@@ -452,10 +563,16 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         }
 
         this.completeEnterTownhallQuestOnFirstEntry();
-        this.startPoetStandoffQuestIfNeeded();
+        const firstPoetEntry = this.startPoetStandoffQuestIfNeeded();
         this.createTownhallPlaceholders();
 
         this.cameras.main.fadeIn(800, 0, 0, 0);
+
+        // On the very first entry, the standoff opens itself — the poet is
+        // already mid-reading and will not let the player simply walk past it.
+        if (firstPoetEntry && !this.hasJournalEntry('townhall_poet_resolved')) {
+            this.time.delayedCall(900, () => this.showDialog('poet_intro'));
+        }
     }
 
     completeEnterTownhallQuestOnFirstEntry() {
@@ -480,7 +597,10 @@ But if the Bishop used official stationery as a private notebook, she was hiding
     }
 
     startPoetStandoffQuestIfNeeded() {
-        if (this.hasJournalEntry('townhall_poet_resolved')) return;
+        if (this.hasJournalEntry('townhall_poet_resolved')) return false;
+
+        // True only on the very first entry, before the standoff journal entry exists.
+        const isFirstEntry = !this.hasJournalEntry('townhall_poet_standoff');
 
         if (!this.questSystem?.getQuest('townhall_poet_standoff')) {
             this.questSystem.addQuest(
@@ -499,6 +619,8 @@ But if the Bishop used official stationery as a private notebook, she was hiding
                 { location: 'Townhall' }
             );
         }
+
+        return isFirstEntry;
     }
 
     createTownhallPlaceholders() {

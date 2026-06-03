@@ -4,15 +4,36 @@
 export default {
     _speakers: {
         'The Mad Poet': 'Šílený básník',
+        'Townhall Clerk': 'Radniční úředník',
         'Freed Clerk': 'Osvobozený úředník',
         'Brine Scripture': 'Solopis',
         'Complaint Eater': 'Požírač stížností',
         'Councilor Seraphel Dune': 'Radní Seraphel Dune',
     },
+    poet_intro: {
+        text: `Dveře Radnice se za vámi zavřou tichým, definitivním zvukem zasouvané zásuvky. Vzduch chutná po starém inkoustu a zadrženém dechu.\n\nNa pódiu pro veřejná čtení stojí hubená postava začerněná inkoustem — v jedné pěsti revolver, v druhé svazek básní s okraji jako krvácející papír. Úředník, radní a Požírač stížností sedí ztuhle pod pečetí Radnice. Když vejdete, čtení nepřeruší.\n\n"Třicet let jsem četl prázdným sálům.\nDnes je sál plný a odejít nesmí.\nHleďte na jediné poctivé publikum —\nzajaté, dýchající, konečně přinucené slyšet mě.\n\nOrazítkovali můj život jako 'nedostatečně občanský',\na tak jsem složil to nejobčanštější dílo:\nbáseň, již žádný úředník nezaloží a žádná duše zdvořile neopustí.\nMěsto je koncept. Já jsem jeho poslední redakce."`,
+        options: {
+            someone_about_to_break: '(Někdo v místnosti se každou chvíli zlomí.)',
+        }
+    },
+    poet_intro_interrupt: {
+        text: `Úředník na podlaze povolí první. Slova vyhrknou dřív, než je strach stačí spolknout:\n\n"Prosím — jsou to už tři hodiny. Moje dcera čeká dole u přepážky matriky. Je jí šest. Neví, jak má—"\n\nRevolver se otočí k němu, a přesto básníkův hlas ani na okamžik neztratí metrum. To je na tom to děsivé. Ani ho nezvýší.`,
+        options: {
+            the_poet_answers_her: '(Básník jí odpoví.)',
+        }
+    },
+    poet_intro_silence: {
+        text: `"Nepřerušujte čtení.\nPřerušení je jediný hřích.\nBáseň se nezastaví kvůli dcerám;\nbáseň se nezastaví kvůli ničemu živému.\n\nOna počká. Vy všichni počkáte.\nZadržené ucho je jediné ucho, které slyší.\nDveře jsou orazítkované na zámek — a stejně tak i debata."\n\nPomalu otočí hlaveň, dokud nenajde vás.\n\n"Ale vy. Vy jste přišli pozdě, z ulice, neorazítkovaní. Povězte mi — dokážete mi odpovědět stejnou měrou? Nebo jste jen další čtenář, který by raději odešel?"`,
+        options: {
+            challenge_him_to_a_poetry_battle: 'Vyzvat ho na básnický souboj.',
+            first_what_do_you_want: 'Nejdřív — co vlastně chcete?',
+            brine_scripture_read_the_salt_memory: '[Solopis] Přečíst solnou paměť místnosti.',
+        }
+    },
     poet_start: {
         text: {
             poet_start_resolved: `"Básník je pryč. Rukojmí jsou v bezpečí. Radnice se pořád třese, ale aspoň už se třese byrokraticky."`,
-            poet_start_hostage: `Na pódiu pro veřejná čtení stojí hubená postava potřísněná inkoustem, v jedné ruce starý revolver, v druhé svazek básní s okraji jako krvácející papír. Pod pečetí Radnice sedí úředník, radní a Požírač stížností ztuhle jako formuláře.\n\n"Nikdo neodejde, dokud mě město neuslyší správně," prohlásí básník. "Ne zdvořile. Ne byrokraticky. Správně."`,
+            poet_start_hostage: `Básník drží revolver volně namířený na místnost a čeká. Čtení neskončilo. Neskončí, dokud mu někdo nedá, co chce — nebo dokud mu nedá za pravdu o celém světě.\n\n"Nikdo neodejde, dokud mě město neuslyší správně," řekne. "Ne zdvořile. Ne byrokraticky. Správně."`,
         },
         options: {
             what_happens_now: 'Co bude teď?',
@@ -22,20 +43,34 @@ export default {
         }
     },
     poet_demands: {
-        text: `"Chce? Chtění je próza. Vyžaduji svědectví. Radnice orazítkovala mou sbírku jako 'nedostatečně občanskou'. Nazvala mé přesahy veršů porušením územního plánu.\n\nA tak veřejnost dostane čtení. Každou sloku. Každou poznámku pod čarou. Každý rukojmí držený nádech."`,
+        text: `"Chce? Chtění je próza. Vyžaduji svědectví.\n\nTřicet let mě tohle město četlo jako lístek za parkování — pokud vůbec. Radnice orazítkovala mou sbírku jako 'nedostatečně občanskou'. Nazvala mé zalomené verše porušením územního plánu. Můj žal založila pod 'různé'.\n\nA tak teď veřejnost dostane čtení. Každou sloku. Každou poznámku pod čarou. Každý rukojmí zadržený nádech. Vyškrtli mé jméno z rejstříku, a tak jsem si vzal pravdivější: Poslední redaktor."`,
         options: {
             then_ill_answer_in_verse: 'Pak odpovím veršem.',
-            i_need_a_moment: 'Potřebuji chvíli.',
+            why_hostages_not_publish: 'Proč rukojmí? Proč prostě nevydáte knihu?',
+        }
+    },
+    poet_why: {
+        text: `"Vydat?" Zasměje se, bez jediné kapky radosti.\n\n"Vydaná báseň je báseň, kterou můžete odložit. Báseň, kterou lze odložit, je báseň, jež nic nezměnila.\n\nSvobodný čtenář vždycky odejde\nve chvíli, kdy verš požádá o něco pravdivého.\nA tak jsem odstranil dveře. Odstranil jsem odchod.\nCo zůstane, musí konečně doposlouchat.\n\nZajaté ucho je jediné poctivé ucho. Vy neodejdete — a tak mě konečně uslyšíte."`,
+        options: {
+            then_ill_answer_him_in_verse: 'Pak mu odpovím veršem.',
+            and_after_the_reading: 'A po tom čtení? Co pak?',
+        }
+    },
+    poet_tabula_rasa: {
+        text: `Na okamžik mu oči zabloudí někam do nedozírné prázdnoty, někam za zdi.\n\n"Pak? Pak přijde čistá zem.\n\nKaždá velká báseň začíná prázdnou stránkou —\na tohle město prázdné není: palimpsest zbabělců,\nstarý inkoust načmáraný přes starý inkoust, nic vymazáno,\njen orazítkováno, založeno a znovu orazítkováno.\n\nAbych napsal nové, musím nejdřív odepsat staré. Tabula rasa. Holá zem. Stránka konečně dost široká pro jediný verš, na kterém záleží. Tohle malé čtení? To je pouhý titul."`,
+        options: {
+            bomb_with_footnotes: 'To není poezie. To je bomba s poznámkami pod čarou.',
+            then_ill_answer_him_in_verse_2: 'Pak mu odpovím veršem.',
         }
     },
     poet_brine_read: {
-        text: `Sůl se probudí pod jazykem. Podlaha si pamatuje boty drhnoucí o kámen v panice, rozlitý inkoust zasychající do malých černých útesů a jeden verš opakovaný tak dlouho, až se stal ranou: "Město pro mě nemá ucho."\n\nSolopis nabízí paměť, ne vítězství. Dává vám materiál. Zpívat ho stále musíte vy.`,
+        text: `Sůl se probudí pod jazykem. Podlaha si pamatuje boty drhnoucí v panice, rozlitý inkoust zasychající do malých černých útesů a jeden verš opakovaný tak dlouho, až vyryl do prken rýhu: "Město pro mě nemá ucho."\n\nSolopis nabízí paměť, ne vítězství. Dává vám materiál. Rozezpívat ho stále musíte vy.`,
         options: {
             use_that_memory_in_the_contest: 'Použít tu paměť v souboji.',
         }
     },
     poet_challenge: {
-        text: `"Vyzývatel? Dobře. Konečně má místnost tep. Tři kola. Obraz, rána, rozsudek. Přineste mi město tak, jak jste ho prožili.\n\nPokud je vaše báseň živá, propustím je. Pokud je mrtvá, všichni zjistíme, co špatné umění stojí."`,
+        text: `"Vyzývatel?" Tváří mu přeběhne něco bližšího naději než vzteku. "Dobře. Konečně má místnost tep.\n\nTedy tři kola. Obraz. Rána. Rozsudek. Přineste mi město tak, jak jste ho doopravdy prožili — ne tu verzi, kterou si vedou ve spisech.\n\nPokud je vaše báseň živá, nechám je odejít do rána.\nPokud je vaše báseň mrtvá, všichni společně zjistíme, co špatné umění stojí."`,
         options: {
             begin_the_poetry_battle: 'Zahájit básnický souboj.',
         }
@@ -140,13 +175,13 @@ export default {
         }
     },
     poet_victory: {
-        text: `Revolver zacinká o pódium.\n\n"Dobře," řekne básník, najednou velmi unavený. "Místnost mě slyšela dost. Možná jsem to chtěl. Možná jsem se toho bál."\n\nSebere své stránky a odejde mezi osvobozenými rukojmími. Zůstane po něm jen inkoust, pot a ticho, které patří všem.`,
+        text: `Revolver zacinká o pódium. Ten zvuk je hlasitější než kterýkoli verš, jejž celou noc přečetl.\n\n"...Dobře," řekne básník a metrum z něj naráz vyprchá. "Odpověděli jste. Konečně někdo odpověděl.\n\nTřicet let jsem si to ticho pletl s rozsudkem města. Možná ten rozsudek vždycky zněl jen tak, že nikdo nikdy nic neřekl nazpátek."\n\nRoztřesenýma rukama sebere své stránky.\n\n"Nechte si zbraň. Spalte ty stránky, jestli chcete. Myslím, že už mám doredigováno."\n\nSestoupí mezi osvobozené rukojmí a vyjde do neorazítkovaného rána. Zůstane po něm jen inkoust, pot a ticho, které teď patří všem.`,
         options: {
             check_on_the_hostages: 'Zkontrolovat rukojmí.',
         }
     },
     poet_defeat: {
-        text: `Básník vyslechne váš poslední verš a usměje se s děsivou úlevou.\n\n"Mrtvé umění," řekne. "Konečně upřímnost."\n\nRevolver se zvedne. Rukojmí vykřiknou. Čtení se stane historií v tom nejhorším možném metru.`,
+        text: `Básník vyslechne váš poslední verš a něco v jeho tváři se usadí do děsivého, vděčného klidu.\n\n"Mrtvé umění," zamumlá. "Konečně — upřímnost. Dokázali jste mou tezi za mě.\n\nVerš, jenž žít nedokáže,\nmusí skončit tak, jak končí všechny mrtvé verše."\n\nRevolver se beze spěchu zvedne. Úředníkův výkřik je poslední věc, kterou Radnice dnes v noci zakládá, a čtení se stane historií v tom nejhorším možném metru.`,
         options: {
             game_over: 'KONEC HRY',
         }
