@@ -15,11 +15,41 @@ export default {
     dr_elphi_start: {
         text: {
             "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there.": "Vypadáte, jako by vás město celý den žvýkalo a teprve teď vyplivlo. Sedněte si. Povězte mi, co jste tam venku zjistil.",
+            "Morning. The cartridge held together overnight — barely. I've got the Bishop's last session loaded and waiting. Whenever you're ready to see what she saw.": "Dobré ráno. Kazeta přes noc vydržela — tak tak. Mám nahranou poslední Biskupčinu relaci a čeká. Až budete připravený vidět, co viděla ona.",
+            "You've got the look of someone who just watched a ghost check the time. The Egg Cathedral, then. That's where it sent you.": "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Vaječná katedrála, tedy. Tam vás to poslalo.",
             "You're back. I can see it on your face. Something happened to her, didn't it?": "Jste zpět. Vidím vám to na obličeji. Něco se jí stalo, že?",
             "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.": "Hm. Nejste objednaný. Ani označený. Hádám — někdo chce neurální ladění, výkonnostní konzultaci, nebo jste přišel mě zase varovat před 'metafyzickým únikem'."
         },
         options: {
-            report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil."
+            report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil.",
+            load_bishops_last_session: "Nahrát Biskupčinu poslední relaci.",
+            the_game_told_me_where: "Ta hra mi řekla, kde je deník."
+        }
+    },
+    dr_elphi_cartridge_ready: {
+        text: "Přes noc jsem zrekonstruovala poškozené snímky relace. Samotná Kardinálská hostina je v pořádku — pitomá malá RPG o kardinálovi kanibalovi, jeden z našich lepších kšeftů. Ale její uložená hra je... špatně. Nechce se vrátit do menu.\n\nTohle musíte pochopit, než si nasadíte helmu: tyhle neurofikce si pamatují své hráče. Hluboce. Biskupka tohle prošla desetkrát. Postavy uvnitř ji znaly. A helma nepozná rozdíl mezi vámi a poslední hlavou, která ji nosila.\n\nTakže jestli s vámi začnou mluvit, jako by vás znaly — nechte je. Vyptávejte se jich. Zjistěte, co ta hra ví, ačkoliv by neměla.",
+        options: {
+            put_on_the_helmet: "Nasadit si helmu.",
+            give_me_a_moment_first: "Napřed mi dejte chvilku."
+        }
+    },
+    dr_elphi_after_feast: {
+        text: "Vaječná katedrála — to je vaše stopa k deníku, a dobrá. Ale nejdřív—\n\n*Strnula.* Říkáte, že to skončilo smyčkou. Prázdná síň. Postava v čele stolu, která se neotočí. A titulek: \"Nekonečná smyčka.\"\n\n*Ztiší hlas.* Potřebuju, abyste pochopil, že tohle jsem na kazetu nedala já. Ten název jsem neslyšela roky a doufala jsem, že už ho nikdy neuslyším.",
+        options: {
+            what_is_the_infinite_loop: "Vy ten název znáte. Co je Nekonečná smyčka?"
+        }
+    },
+    dr_elphi_loop_reveal: {
+        text: "Před lety jsem dělala snovou architekturu pro jeden experiment. Navrhl ho Ortolan — Ortolan byl vedoucí. Neměla to být hra. Kardinálská hostina byla jen slupka, ve které jsme to testovali, hezký příběh omotaný kolem té skutečné práce.\n\nTou skutečnou prací byla Smyčka. Sen, který nikdy neskončí. Místnost, ve které lze mysl přimět zůstat, bdělou, navždy, v domnění, že uběhly jen tři vteřiny.\n\nVyděsilo to nás oba. Experiment jsme ukončili a sestavení zapečetili. Ortolan ten týden navždy zanevřel na iluzní techniku a už se jí nedotkl — začal mlít o tom, jak je „hra s myslí morálně nestabilní“. Myslela jsem, že jediná kopie je pryč.\n\nA teď to běží znovu, na kazetě mrtvé ženy, a končí to přesně tam, kde skončila ona.",
+        options: {
+            why_send_me_to_ortolan: "Proč mě posíláte za Ortolanem?",
+            ill_find_ortolan_and_the_journal: "Najdu Ortolana. I ten deník."
+        }
+    },
+    dr_elphi_loop_ortolan: {
+        text: "Protože já postavila jen zdi. Ortolan vymyslel, k čemu mají sloužit. Jestli někdo živý ví, co měla Smyčka s člověkem provést — a jestli ji někdo mohl na Biskupku použít schválně — je to Ortolan.\n\nNajdete ho dole v Hangáru 521, jak se topí v papírech kvůli povolení na ruce. Řekněte, že vás posílám já. Řekněte, že to zase běží. Ortolan to nebude chtít slyšet, ale potřebuje to.",
+        options: {
+            ill_go_to_shed_521: "Vyrazím do Hangáru 521."
         }
     },
     dr_elphi_report_day1: {

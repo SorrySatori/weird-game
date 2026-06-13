@@ -412,7 +412,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_sulkberry_tamper: {
                 speaker: 'The Angle Corrector',
-                text: `"I think nothing. I correct angles — I do not speculate.\n\nBut the Bishop was found with neural trauma. Dream immersion, improperly administered or chemically altered, could cause exactly that kind of damage. The Cardinal Feast dream cartridge was found corrupted.\n\nDraw your own conclusions. I have given you what I can without compromising the Directorate's position."`,
+                text: `"I think nothing. I correct angles — I do not speculate. ministered or chemically altered, could cause exactly that kind of damage."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
                 ],

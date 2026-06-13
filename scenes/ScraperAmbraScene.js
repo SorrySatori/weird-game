@@ -162,6 +162,9 @@ export default class ScraperAmbraScene extends GameScene {
         const townhallRevealed = !!this.hasJournalEntry('townhall_bishop_records_checked');
         const day1Slept = !!this.hasJournalEntry('day1_complete_slept');
         const canReportDay1 = townhallRevealed && !day1Slept;
+        // Day 2: the repaired cartridge is ready to play once the player has slept.
+        const feastPlayed = !!this.hasJournalEntry('cardinal_feast_played');
+        const canPlayFeast = day1Slept && !feastPlayed;
 
         return {
             ...super.dialogContent,
@@ -178,12 +181,22 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_start: {
                 text: canReportDay1
                     ? "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there."
+                    : canPlayFeast
+                    ? "Morning. The cartridge held together overnight — barely. I've got the Bishop's last session loaded and waiting. Whenever you're ready to see what she saw."
+                    : feastPlayed
+                    ? "You've got the look of someone who just watched a ghost check the time. The Egg Cathedral, then. That's where it sent you."
                     : bishopDead
                     ? "You're back. I can see it on your face. Something happened to her, didn't it?"
                     : "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
                 options: [
                     ...(canReportDay1 ? [
                         { text: "Let me report everything I found today.", key: 'report_day1_investigation', next: "dr_elphi_report_day1" }
+                    ] : []),
+                    ...(canPlayFeast ? [
+                        { text: "Load the Bishop's last session.", key: 'load_bishops_last_session', next: "dr_elphi_cartridge_ready" }
+                    ] : []),
+                    ...(feastPlayed ? [
+                        { text: "The game told me where the journal is.", key: 'the_game_told_me_where', next: "dr_elphi_after_feast" }
                     ] : []),
                     ...(!bishopDead ? [
                         { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
@@ -735,6 +748,66 @@ export default class ScraperAmbraScene extends GameScene {
                 options: [
                     { text: "Deal. Record whatever I dream.", key: 'accept_the_dream', onSelect: () => this.beginDay1Sleep(true) },
                     { text: "My dreams aren't for sale. Just let me sleep.", key: 'decline_the_dream', onSelect: () => this.beginDay1Sleep(false) },
+                ]
+            },
+
+            // === Day 2: play the Bishop's repaired Cardinal Feast cartridge ===
+
+            dr_elphi_cartridge_ready: {
+                text: `I reconstructed the corrupted session frames overnight. The Cardinal Feast itself is intact — it's a daft little cannibal-cardinal RPG, one of our better sellers. But her save is... wrong. It won't return to the menu.\n\nHere's the thing you need to understand before you put the helmet on: these neurofictions remember their players. Deeply. The Bishop ran this one dozens of times. The characters in there knew her. And the helmet can't tell you apart from the last head that wore it.\n\nSo if they start talking to you like they know you — let them. Ask them things. See what the game knows that it shouldn't.`,
+                options: [
+                    {
+                        text: "Put on the helmet.",
+                        key: 'put_on_the_helmet',
+                        onSelect: () => {
+                            this.hideDialog();
+                            this.cameras.main.fadeOut(700, 0, 0, 0);
+                            this.cameras.main.once('camerafadeoutcomplete', () => {
+                                this.scene.start('CardinalFeastScene', { returnScene: 'ScraperAmbraScene' });
+                            });
+                        }
+                    },
+                    { text: "Give me a moment first.", key: 'give_me_a_moment_first', next: "closeDialog" },
+                ]
+            },
+
+            dr_elphi_after_feast: {
+                text: `The Egg Cathedral — that's your journal lead, and a good one. But first—\n\n*She has gone very still.* You said it ended in a loop. An empty hall. A figure at the head of the table that doesn't turn around. And a title card: "The Infinite Loop."\n\n*Her voice drops.* I need you to understand that I did not put that on the cartridge. I haven't heard that name in years, and I was hoping never to hear it again.`,
+                options: [
+                    { text: "You recognize it. What is the Infinite Loop?", key: 'what_is_the_infinite_loop', next: "dr_elphi_loop_reveal" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('infinite_loop_ortolan_lead')) {
+                        this.addJournalEntry(
+                            'infinite_loop_ortolan_lead',
+                            'The Infinite Loop',
+                            'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "The Infinite Loop" is the name of an old, sealed experimental project — and she insists she didn\'t put it on the cartridge. She says I should ask Ortolan about it: Ortolan was the lead on it, before swearing off illusion-tech entirely.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', related: 'Ortolan' }
+                        );
+                        if (this.questSystem?.getQuest('who_killed_bishop')) {
+                            this.questSystem.updateQuest(
+                                'who_killed_bishop',
+                                'Dr. Elphi recognized the glitch ending — "The Infinite Loop" — as an old, sealed experimental project she did not put on the cartridge. She told me to ask Ortolan, who was the lead on it. The journal itself is at the Egg Cathedral.',
+                                'infinite_loop_recognized'
+                            );
+                        }
+                    }
+                }
+            },
+
+            dr_elphi_loop_reveal: {
+                text: `Years ago I did the dream-architecture for an experiment. Ortolan designed it — Ortolan was the lead. It wasn't meant to be a game. The Cardinal Feast was just the shell we tested it inside, a pretty little story to wrap around the real work.\n\nThe real work was the Loop. A dream that doesn't end. A room a mind can be made to stay in, awake, forever, thinking it's only been three seconds.\n\nIt frightened us both. We ended the experiment and sealed the build. Ortolan swore off illusion-tech that same week and never touched it again — started ranting about how mindplay was "morally unstable." I thought the only copy was gone.\n\nAnd now it's run again, on a dead woman's cartridge, and it ends exactly where she ended.`,
+                options: [
+                    { text: "Why send me to Ortolan?", key: 'why_send_me_to_ortolan', next: "dr_elphi_loop_ortolan" },
+                    { text: "I'll find Ortolan. And the journal.", key: 'ill_find_ortolan_and_the_journal', next: "closeDialog" },
+                ]
+            },
+
+            dr_elphi_loop_ortolan: {
+                text: `Because I only built the walls. Ortolan built what they were *for*. If anyone alive knows what the Loop was designed to do to a person — and whether someone could have used it on the Bishop on purpose — it's Ortolan.\n\nYou'll find them down at Shed 521, drowning in arm-permit paperwork. Tell them I sent you. Tell them it's running again. Ortolan won't want to hear it, but they need to.`,
+                options: [
+                    { text: "I'll go to Shed 521.", key: 'ill_go_to_shed_521', next: "closeDialog" },
                 ]
             }
         };

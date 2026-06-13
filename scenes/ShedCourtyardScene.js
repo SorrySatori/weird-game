@@ -372,6 +372,49 @@ export default class ShedCourtyardScene extends GameScene {
                     }
                 }
             },
+            ortolan_loop: {
+                text: "Ortolan's three free hands all go still at once. The fourth, still in its permit-sling, twitches.\n\n\"...Say that name again and say it carefully. The Infinite Loop is *sealed.* I sealed it myself. It is supposed to be a thing that no longer exists.\" The friendly bureaucratic weariness is gone. \"Who told you that name?\"",
+                options: [
+                    { text: "Dr. Elphi. She rebuilt the Bishop's cartridge — it ended in the Loop.", key: 'elphi_rebuilt_cartridge', next: "ortolan_loop_2" }
+                ]
+            },
+            ortolan_loop_2: {
+                text: "\"Elphi.\" He says it like an old wound reopening. \"Of course it would come back through her. We made it together, the two of us — she built the walls of the dream, and I... I designed what the walls were *for.*\n\nUnderstand me: the Cardinal Feast was never the experiment. It was the *bait.* A charming little story to keep a mind happy and busy while we proved the real thing could be done. And the real thing was the Loop — a board with a single living piece, and a game that never, ever ends.\"",
+                options: [
+                    { text: "What does the Loop actually do to a person?", key: 'what_does_loop_do', next: "ortolan_loop_mind" },
+                    { text: "Could someone put a person in it on purpose?", key: 'put_a_person_in_it', next: "ortolan_loop_3" }
+                ]
+            },
+            ortolan_loop_mind: {
+                text: "\"I was a worldwright. I built worlds full of little sentient pieces and I sacrificed them by the thousand for other people's games. The Loop was meant to be my *penance* — a way to keep a mind, to never lose a player again. A single room. A single chair. Three seconds, repeating, and the piece never permitted to know it is trapped.\"\n\nHe shudders. \"The body cannot bear it. It burns out — quietly, no wound, just... stopped. But the playing self? The piece? It does not leave. It is still in the room. Still in its three seconds. We could never prove whether that is death, or something I do not have a word for. That is when I swore off mindplay forever.\"",
+                options: [
+                    { text: "Then the Bishop might still be in there.", key: 'bishop_still_in_there', next: "ortolan_loop_3" }
+                ]
+            },
+            ortolan_loop_3: {
+                text: "\"If her last session ended in the Loop, then what that game 'remembers' of her may be more than records.\" He will not soften it. \"Part of her may still be playing.\n\nAs for who could have unsealed it — not me, and I'll wager not Elphi. The two of us never owned that build once the money arrived to confiscate it. Ask yourself who funds a machine for keeping a mind forever, and who would want a troublesome cleric kept somewhere she could never speak again.\n\nGo and find why she walked into it. Her own words will tell you — and when you mean to shut the Loop for good, you come back to me. I owe that room a door.\"",
+                options: [
+                    { text: "Thank you, Ortolan.", key: 'thank_you_ortolan_loop', next: "goodbye" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('ortolan_infinite_loop')) {
+                        this.addJournalEntry(
+                            'ortolan_infinite_loop',
+                            'Ortolan and the Infinite Loop',
+                            'Ortolan was the lead on the Infinite Loop — an experiment built with Dr. Elphi. The Cardinal Feast was only "bait" wrapped around the real work: a dream that never ends, "a board with a single living piece." It is designed to keep a mind trapped in a single repeating moment. The body burns out (no wound — exactly how the Bishop died), but the trapped "playing self" never leaves. Ortolan and Elphi sealed it and Ortolan swore off illusion-tech. Neither of them owned the build after it was "confiscated" by whoever funded it — and Ortolan implies someone powerful may have used it deliberately to silence the Bishop. He warns part of her may still be inside, and offered to help shut the Loop for good once I understand why she entered it.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Ortolan', location: 'Shed 521 Courtyard', related: 'The Infinite Loop' }
+                        );
+                        if (this.questSystem?.getQuest('who_killed_bishop')) {
+                            this.questSystem.updateQuest(
+                                'who_killed_bishop',
+                                'Ortolan revealed the Infinite Loop was a sealed experiment built with Dr. Elphi to trap a mind forever in a single repeating moment — the body burns out exactly as the Bishop\'s did. Neither kept ownership after it was confiscated by whoever funded it. Ortolan suspects someone powerful used it to silence the Bishop on purpose, warns part of her may still be trapped inside, and will help shut the Loop once I learn why she entered it. Her journal at the Egg Cathedral should explain.',
+                                'ortolan_infinite_loop_revealed'
+                            );
+                        }
+                    }
+                }
+            },
             goodbye: {
                 text: "Don't get lost...",
                 options: [],
@@ -383,7 +426,23 @@ export default class ShedCourtyardScene extends GameScene {
     }
 
     get dialogContent() {
-        return this._ortholanDialogContent;
+        const dc = this._ortholanDialogContent;
+        const loopLead = !!this.hasJournalEntry('infinite_loop_ortolan_lead');
+        const loopAsked = !!this.hasJournalEntry('ortolan_infinite_loop');
+        // Once Dr. Elphi sends the player here, surface the Infinite Loop in Ortolan's menu.
+        if (loopLead && !loopAsked) {
+            return {
+                ...dc,
+                main: {
+                    ...dc.main,
+                    options: [
+                        { text: "Dr. Elphi sent me. The Infinite Loop is running again.", key: 'infinite_loop_running', next: 'ortolan_loop' },
+                        ...dc.main.options
+                    ]
+                }
+            };
+        }
+        return dc;
     }
 
     preload() {
