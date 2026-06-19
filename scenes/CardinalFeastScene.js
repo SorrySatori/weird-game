@@ -34,12 +34,36 @@ export default class CardinalFeastScene extends Phaser.Scene {
         this._finished = false;
         this.room = null;
         this.activeNpc = null;
+        this.path = null;         // click-to-move waypoint list (A* around obstacles)
+        this.pendingNpc = null;   // npc/object to talk to on arrival
     }
 
     preload() {
         this.load.image('emils1', 'assets/images/characters/Emils1.png'); // reading (book)
         this.load.image('emils2', 'assets/images/characters/Emils2.png'); // toast (wine + crosier)
         this.load.image('emils3', 'assets/images/characters/Emils3.png'); // welcome (crosier)
+        this.load.image('pimPortrait', 'assets/images/characters/Pim.png');
+        this.load.image('vesperPortrait', 'assets/images/characters/inquisitor.png');
+        this.load.image('marigoldPortrait', 'assets/images/characters/Marigold.png');
+        this.load.image('corneliusPortrait', 'assets/images/characters/Cornelius.png');
+        this.load.image('wrenPortrait', 'assets/images/characters/wren.png');
+        this.load.image('gallowPortrait', 'assets/images/characters/gallow.png');
+    }
+
+    // Pixel-art used for both overworld tokens and dialog portraits (per role).
+    // To add a character later: drop a PNG, load it above, add an entry here.
+    artKey(roleId, override) {
+        const ART = {
+            cardinal: override || 'emils3',
+            pim: 'pimPortrait',
+            vesper: 'vesperPortrait',
+            marigold: 'marigoldPortrait',
+            cornelius: 'corneliusPortrait',
+            wren: 'wrenPortrait',
+            gallow: 'gallowPortrait'
+        };
+        const key = ART[roleId];
+        return (key && this.textures.exists(key)) ? key : null;
     }
 
     create() {
@@ -60,7 +84,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
         this.interactKey2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         this.interactKey.on('down', () => this.onInteract());
         this.interactKey2.on('down', () => this.onInteract());
-        this.input.on('pointerdown', () => this.resumeAudio());
+        this.input.on('pointerdown', (pointer) => this.onPointer(pointer));
 
         // Layers.
         this.roomLayer = this.add.container(0, 0).setDepth(0);
@@ -164,8 +188,19 @@ export default class CardinalFeastScene extends Phaser.Scene {
 
     // A small top-down token: robe body + head, in the room.
     makeToken(roleId) {
-        const r = this.role(roleId);
         const c = this.add.container(0, 0);
+        const key = this.artKey(roleId);
+        if (key) {
+            // Use the pixel-art character, scaled to an overworld token (feet at origin).
+            c.add(this.add.ellipse(0, 6, 38, 12, 0x000000, 0.3));
+            const img = this.add.image(0, 10, key).setOrigin(0.5, 1);
+            img.setScale(60 / img.height);
+            c.add(img);
+            c.artImage = img; // pixel-accurate hit target
+            return c;
+        }
+        // Fallback: simple drawn token for roles without art yet.
+        const r = this.role(roleId);
         const g = this.add.graphics();
         g.fillStyle(0x000000, 0.25); g.fillEllipse(0, 18, 34, 10);          // shadow
         g.fillStyle(r.robe, 1); g.fillEllipse(0, 4, 30, 40);                 // robe (top-down body)
@@ -187,13 +222,10 @@ export default class CardinalFeastScene extends Phaser.Scene {
         // Clip only the character art to the inner square (frame stays crisp).
         const mask = this.make.graphics({ add: false }); mask.fillStyle(0xffffff); mask.fillRect(x, y, size, size);
 
-        // Portrait image key for this role. Only Emils has art so far — to add a
-        // character portrait later, drop a PNG, load it in preload(), and map it
-        // here (e.g. PORTRAITS.pim = 'pimPortrait'); everyone else falls back to
-        // the drawn bust below.
-        const PORTRAITS = { cardinal: portraitKey || 'emils3' };
-        const imgKey = PORTRAITS[roleId];
-        if (imgKey && this.textures.exists(imgKey)) {
+        // Use the role's pixel-art portrait if we have it (Emils picks a pose via
+        // portraitKey); roles without art fall back to the drawn bust below.
+        const imgKey = this.artKey(roleId, portraitKey);
+        if (imgKey) {
             // Fit to the box width and anchor at the TOP so the head/mitre is the
             // visible part (the figures are full-body, ~2:3 portraits).
             const img = this.add.image(x + size / 2, y - 6, imgKey).setOrigin(0.5, 0);
@@ -276,9 +308,16 @@ export default class CardinalFeastScene extends Phaser.Scene {
             fontFamily: 'Georgia, serif', fontSize: '11px', color: '#e8dcc0', backgroundColor: 'rgba(10,8,6,0.5)', padding: { x: 3, y: 1 }
         }).setOrigin(0.5);
         this.actorLayer.add(label); this.addItem(label);
-        token.setSize(40, 56); token.setInteractive(new Phaser.Geom.Rectangle(-20, -38, 40, 56), Phaser.Geom.Rectangle.Contains);
         const npc = { roleId, x, y, token, label, dialogStart, getNode: opts.getNode };
-        token.on('pointerdown', () => { if (!this.talking && this.near(npc)) this.talkTo(npc); });
+        // Pixel-accurate clickable area (cursor + click) that matches the visible art.
+        if (token.artImage) {
+            token.artImage.setInteractive({ useHandCursor: true, pixelPerfect: true });
+            token.artImage.setData('npcRef', npc);
+        } else {
+            token.setSize(40, 56);
+            token.setInteractive({ hitArea: new Phaser.Geom.Rectangle(-20, -38, 40, 56), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+            token.setData('npcRef', npc);
+        }
         this.npcs.push(npc);
         // NPCs block movement.
         this.colliders.push({ x: x - 18, y: y - 6, w: 36, h: 18 });
@@ -305,12 +344,12 @@ export default class CardinalFeastScene extends Phaser.Scene {
             // Pulpit (front-left, off the aisle so it never blocks the north door).
             g.fillStyle(0x4a3520, 1); g.fillRoundedRect(150, 150, 80, 40, 6); g.lineStyle(2, 0xc8a24a, 0.7); g.strokeRoundedRect(150, 150, 80, 40, 6);
             this.colliders.push({ x: 150, y: 150, w: 80, h: 46 });
-            this.addInteract(190, 200, 'pulpit', '✝ Pulpit');
+            this.addInteract(190, 200, 'pulpit', '✝ Pulpit', { x: 150, y: 148, w: 80, h: 50 });
             // Confession booth (west).
             g.fillStyle(0x3a261a, 1); g.fillRoundedRect(72, 360, 70, 110, 6); g.lineStyle(2, 0x8a6a2e, 0.8); g.strokeRoundedRect(72, 360, 70, 110, 6);
             g.fillStyle(0x140d0a, 1); g.fillRect(96, 392, 22, 40);
             this.colliders.push({ x: 72, y: 360, w: 70, h: 110 });
-            this.addInteract(150, 415, 'booth', '⌂ Confession');
+            this.addInteract(150, 415, 'booth', '⌂ Confession', { x: 72, y: 360, w: 70, h: 110 });
             // North doorway to the hall.
             g.fillStyle(0x6a4a2a, 1); g.fillRect(370, 116, 60, 12);
             this.doors.push({ x: 372, y: 116, w: 56, h: 34, to: 'hall', spawn: { x: 400, y: 500 }, locked: () => !this.feast.sermonGiven, lockMsg: 'The hall is not ready. Give the sermon first.' });
@@ -345,7 +384,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
             this.addNpc('gallow', 95, 285, 'start', { label: 'Gallow' });
             this.addNpc('vesper', 400, 150, 'start', { label: 'Tann' });
             // The guest-of-honour seat (head of table, east).
-            this.addInteract(650, 250, 'guesthonor', '☥ Name the guest of honour');
+            this.addInteract(650, 250, 'guesthonor', '☥ Name the guest of honour', { x: 614, y: 214, w: 74, h: 74 });
             this.titleBanner('The Long Hall');
         }
 
@@ -368,12 +407,20 @@ export default class CardinalFeastScene extends Phaser.Scene {
         t.setAlpha(0); this.tweens.add({ targets: t, alpha: 1, duration: 600, yoyo: true, hold: 1400, onComplete: () => t.setAlpha(0.5) });
     }
 
-    // Interactable objects (pulpit, booth, guest-of-honour) — invisible hotspots.
-    addInteract(x, y, id, label) {
+    // Interactable objects (pulpit, booth, guest-of-honour). `x,y` is the spot the
+    // player walks to; `hit` is the clickable footprint (defaults to a box around x,y).
+    addInteract(x, y, id, label, hit) {
         const npc = { roleId: 'system', x, y, isObject: true, dialogStart: id, label };
         const marker = this.add.text(x, y - 30, label, { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#e8c97a', backgroundColor: 'rgba(10,8,6,0.5)', padding: { x: 3, y: 1 } }).setOrigin(0.5).setDepth(15);
         this.actorLayer.add(marker); this.addItem(marker);
         npc.label2 = marker;
+        // A clickable zone matching the object so the hand cursor + clicks land on it.
+        const hz = hit || { x: x - 35, y: y - 60, w: 70, h: 80 };
+        const zone = this.add.zone(hz.x, hz.y, hz.w, hz.h).setOrigin(0, 0);
+        zone.setInteractive({ hitArea: new Phaser.Geom.Rectangle(0, 0, hz.w, hz.h), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        zone.setData('npcRef', npc);
+        npc.hit = { x: hz.x, y: hz.y, w: hz.w, h: hz.h }; // for the click fallback
+        this.actorLayer.add(zone); this.addItem(zone);
         this.npcs.push(npc);
         return npc;
     }
@@ -382,6 +429,57 @@ export default class CardinalFeastScene extends Phaser.Scene {
 
     near(npc) {
         return this.player && Phaser.Math.Distance.Between(this.player.x, this.player.y, npc.x, npc.y) < 70;
+    }
+
+    // Click-to-move and click-to-interact (works alongside the keyboard).
+    onPointer(pointer) {
+        this.resumeAudio();
+        if (this.talking || this._inLoop || this._finished || this._transitioning || !this.bounds) return;
+
+        // Accurate hit-test: did the click land on an interactive NPC/object?
+        const hits = this.input.hitTestPointer(pointer) || [];
+        let npc = null;
+        for (const h of hits) { const ref = h.getData && h.getData('npcRef'); if (ref) { npc = ref; break; } }
+        // Small safety net: a dead-centre click on a character whose exact pixel
+        // happened to be transparent still counts.
+        if (!npc) {
+            const px = pointer.worldX, py = pointer.worldY;
+            let bd = 26;
+            for (const n of this.npcs) {
+                if (n.hit) { if (px >= n.hit.x && px <= n.hit.x + n.hit.w && py >= n.hit.y && py <= n.hit.y + n.hit.h) { npc = n; break; } continue; }
+                const d = Phaser.Math.Distance.Between(px, py, n.x, n.y - 24);
+                if (d < bd) { bd = d; npc = n; }
+            }
+        }
+        if (npc) {
+            if (this.near(npc)) { this.path = null; this.pendingNpc = null; this.talkTo(npc); }
+            else { this.walkTo(npc.x, npc.y, npc); this.clickMark(npc.x, npc.y); }
+            return;
+        }
+
+        // Otherwise walk to the clicked floor point (routed around obstacles).
+        const tx = Phaser.Math.Clamp(pointer.worldX, this.bounds.x0 + 16, this.bounds.x1 - 16);
+        const ty = Phaser.Math.Clamp(pointer.worldY, this.bounds.y0 + 12, this.bounds.y1 - 6);
+        this.walkTo(tx, ty, null);
+        this.clickMark(tx, ty);
+    }
+
+    walkTo(tx, ty, npc) {
+        this.pendingNpc = npc || null;
+        const path = this.pathfind(this.player.x, this.player.y, tx, ty);
+        this.path = (path && path.length) ? path : [{ x: tx, y: ty }]; // straight-line fallback
+    }
+
+    arrivePath() {
+        const npc = this.pendingNpc;
+        this.path = null;
+        this.pendingNpc = null;
+        if (npc && this.near(npc)) this.talkTo(npc);
+    }
+
+    clickMark(x, y) {
+        const ring = this.add.circle(x, y, 6, 0xffcf7a, 0).setStrokeStyle(2, 0xffcf7a, 0.9).setDepth(8);
+        this.tweens.add({ targets: ring, scale: 2.4, alpha: { from: 0.9, to: 0 }, duration: 420, onComplete: () => ring.destroy() });
     }
 
     update() {
@@ -393,12 +491,32 @@ export default class CardinalFeastScene extends Phaser.Scene {
         if (this.cursors.up.isDown || this.keys.W.isDown) dy -= sp;
         if (this.cursors.down.isDown || this.keys.S.isDown) dy += sp;
 
-        if (dx !== 0) { const nx = this.player.x + dx; if (!this.blocked(nx, this.player.y)) this.player.x = nx; this.player.setFlipX(dx > 0); }
-        if (dy !== 0) { const ny = this.player.y + dy; if (!this.blocked(this.player.x, ny)) this.player.y = ny; }
+        const usingKeys = (dx !== 0 || dy !== 0);
+        if (usingKeys) { this.path = null; this.pendingNpc = null; }
+        else if (this.path && this.path.length) {
+            // Follow the computed path, waypoint by waypoint.
+            const wp = this.path[0];
+            const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, wp.x, wp.y);
+            if (dist <= sp) {
+                this.player.x = wp.x; this.player.y = wp.y; this.path.shift();
+                if (!this.path.length) this.arrivePath();
+            } else {
+                const a = Math.atan2(wp.y - this.player.y, wp.x - this.player.x);
+                dx = Math.cos(a) * sp; dy = Math.sin(a) * sp;
+            }
+        }
+
+        let moved = false;
+        const attempted = (dx !== 0 || dy !== 0);
+        if (dx !== 0) { const nx = this.player.x + dx; if (!this.blocked(nx, this.player.y)) { this.player.x = nx; moved = true; } this.player.setFlipX(dx > 0); }
+        if (dy !== 0) { const ny = this.player.y + dy; if (!this.blocked(this.player.x, ny)) { this.player.y = ny; moved = true; } }
 
         this.player.x = Phaser.Math.Clamp(this.player.x, this.bounds.x0 + 16, this.bounds.x1 - 16);
         this.player.y = Phaser.Math.Clamp(this.player.y, this.bounds.y0 + 12, this.bounds.y1 - 6);
         this.playerGlow.setPosition(this.player.x, this.player.y + 8);
+
+        // Wedged while following a path → give up gracefully (talk if we're near the target).
+        if (!usingKeys && this.path && attempted && !moved) this.arrivePath();
 
         // Doorways.
         for (const d of this.doors) {
@@ -427,9 +545,113 @@ export default class CardinalFeastScene extends Phaser.Scene {
         return false;
     }
 
+    // True if the straight segment between two points is free of obstacles.
+    clearLine(x1, y1, x2, y2) {
+        const dist = Phaser.Math.Distance.Between(x1, y1, x2, y2);
+        const steps = Math.max(1, Math.ceil(dist / 8));
+        for (let i = 0; i <= steps; i++) {
+            const t = i / steps;
+            if (this.blocked(x1 + (x2 - x1) * t, y1 + (y2 - y1) * t)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * A* over a coarse grid of the current room, routing the player AROUND
+     * obstacles (table, pulpit, booth, other guests) instead of through them.
+     * Returns a smoothed list of world-space waypoints, or null if unreachable.
+     */
+    pathfind(sx, sy, tx, ty) {
+        // Shortcut: if we can see the target in a straight line, just go.
+        if (this.clearLine(sx, sy, tx, ty)) return [{ x: tx, y: ty }];
+
+        const b = this.bounds, cell = 20;
+        const cols = Math.max(1, Math.ceil((b.x1 - b.x0) / cell));
+        const rows = Math.max(1, Math.ceil((b.y1 - b.y0) / cell));
+        const center = (cx, cy) => ({ x: b.x0 + cx * cell + cell / 2, y: b.y0 + cy * cell + cell / 2 });
+        const walkable = (cx, cy) => {
+            if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) return false;
+            const c = center(cx, cy);
+            if (c.x < b.x0 + 16 || c.x > b.x1 - 16 || c.y < b.y0 + 12 || c.y > b.y1 - 6) return false;
+            return !this.blocked(c.x, c.y);
+        };
+        const toCell = (x, y) => ({
+            cx: Phaser.Math.Clamp(Math.floor((x - b.x0) / cell), 0, cols - 1),
+            cy: Phaser.Math.Clamp(Math.floor((y - b.y0) / cell), 0, rows - 1)
+        });
+        const key = (cx, cy) => cy * cols + cx;
+
+        const start = toCell(sx, sy);
+        let goal = toCell(tx, ty);
+        let goalSnapped = false;
+        if (!walkable(goal.cx, goal.cy)) {
+            const g2 = this.nearestWalkable(goal, walkable, cols, rows);
+            if (!g2) return null;
+            goal = g2; goalSnapped = true;
+        }
+
+        const startKey = key(start.cx, start.cy), goalKey = key(goal.cx, goal.cy);
+        const open = [startKey], inOpen = new Set([startKey]), closed = new Set();
+        const came = {}, g = { [startKey]: 0 }, f = { [startKey]: 0 };
+        const h = (cx, cy) => Math.abs(cx - goal.cx) + Math.abs(cy - goal.cy);
+        const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
+
+        let guard = 0, found = (startKey === goalKey);
+        while (open.length && guard++ < 8000) {
+            let bi = 0; for (let i = 1; i < open.length; i++) if (f[open[i]] < f[open[bi]]) bi = i;
+            const cur = open.splice(bi, 1)[0]; inOpen.delete(cur);
+            if (cur === goalKey) { found = true; break; }
+            closed.add(cur);
+            const ccx = cur % cols, ccy = Math.floor(cur / cols);
+            for (const [dxc, dyc] of dirs) {
+                const nx = ccx + dxc, ny = ccy + dyc;
+                if (!walkable(nx, ny)) continue;
+                if (dxc !== 0 && dyc !== 0 && (!walkable(ccx + dxc, ccy) || !walkable(ccx, ccy + dyc))) continue; // no corner cutting
+                const nk = key(nx, ny);
+                if (closed.has(nk)) continue;
+                const tentative = g[cur] + ((dxc !== 0 && dyc !== 0) ? 1.414 : 1);
+                if (g[nk] === undefined || tentative < g[nk]) {
+                    came[nk] = cur; g[nk] = tentative; f[nk] = tentative + h(nx, ny);
+                    if (!inOpen.has(nk)) { open.push(nk); inOpen.add(nk); }
+                }
+            }
+        }
+        if (!found) return null;
+
+        const cells = [];
+        let ck = goalKey;
+        while (ck !== undefined && ck !== startKey) { cells.unshift({ cx: ck % cols, cy: Math.floor(ck / cols) }); ck = came[ck]; }
+        let pts = cells.map(c => center(c.cx, c.cy));
+        if (!goalSnapped) { if (pts.length) pts[pts.length - 1] = { x: tx, y: ty }; else pts = [{ x: tx, y: ty }]; }
+        return this.smoothPath(sx, sy, pts);
+    }
+
+    nearestWalkable(cell, walkable, cols, rows) {
+        for (let r = 1; r < Math.max(cols, rows); r++) {
+            for (let dx = -r; dx <= r; dx++) for (let dy = -r; dy <= r; dy++) {
+                if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+                if (walkable(cell.cx + dx, cell.cy + dy)) return { cx: cell.cx + dx, cy: cell.cy + dy };
+            }
+        }
+        return null;
+    }
+
+    // Collapse grid waypoints using line-of-sight so movement looks natural, not staircased.
+    smoothPath(sx, sy, pts) {
+        if (pts.length <= 1) return pts;
+        const out = []; let ax = sx, ay = sy, i = 0;
+        while (i < pts.length) {
+            let j = i;
+            for (let k = pts.length - 1; k >= i; k--) { if (this.clearLine(ax, ay, pts[k].x, pts[k].y)) { j = k; break; } }
+            out.push(pts[j]); ax = pts[j].x; ay = pts[j].y; i = j + 1;
+        }
+        return out;
+    }
+
     gotoRoom(to, spawn) {
         if (this._transitioning) return;
         this._transitioning = true;
+        this.path = null; this.pendingNpc = null;
         this.hint.setVisible(false);
         this.cameras.main.fadeOut(280, 0, 0, 0);
         this.cameras.main.once('camerafadeoutcomplete', () => {
