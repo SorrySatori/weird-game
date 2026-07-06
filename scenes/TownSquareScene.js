@@ -71,6 +71,19 @@ export default class TownSquareScene extends GameScene {
             400,
         );
 
+        // Down into the Godgraveyard (the scene shows a sealed gate until access is granted).
+        this.transitionManager.createTransitionZone(
+            500,
+            560,
+            150,
+            70,
+            'down',
+            'GodgraveyardScene',
+            400,
+            500,
+            'The Godgraveyard',
+        );
+
         this.createMagnekin();
         this.createBusker();
 

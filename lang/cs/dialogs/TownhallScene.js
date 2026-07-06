@@ -9,10 +9,17 @@ export default {
     phorGreeting: {
         text: "Ach, další poutník do archivů zapomenutého božství. Jsem Phor Calesta, archeolog ztracených teologií. Místní mi říkají 'Kopáč bohohrobů', i když já preferuji termín divinograf.",
         options: {
+            townhall_granted_permit: "Dobrá zpráva — Radnice vám schválila povolení k vykopávkám.",
             what_is_divinography: "Co je divinografie?",
             where_are_you_from: "Odkud jste?",
             what_are_you_doing_here: "Co tu děláte?",
             im_looking_for_a_living_redmass: "Hledám živou rudohmotu"
+        }
+    },
+    phorAccessGranted: {
+        text: "Phor Calesta málem upustí notes. \"Oni — oni to *schválili*? Po tom všem čekání?\" Vzchopí se, oči jí září. \"Tak není času nazbyt. Cesta dolů se otevírá z Náměstí — staré schodiště do Vaječné katedrály. Jděte tam a sejděte dolů; já vás počkám u brány. Konečně — někdo, kdo se mnou bude číst mrtvoly.\"",
+        options: {
+            meet_at_lower_doors: "Sejdeme se u spodních dveří."
         }
     },
     phorDivinography: {

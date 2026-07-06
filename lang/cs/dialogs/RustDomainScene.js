@@ -7,6 +7,17 @@ export default {
         'Brukk': 'Brukk',
         'Narrator': 'Vypravěč',
     },
+    brukk_start: {
+        options: {
+            ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?"
+        }
+    },
+    brukk_cellar_favor: {
+        text: "Brukk znehybní, cvakání v hrudi se zpomalí. \"Sklep těch tvůrců her. Odíráme mrtvá patra téhle věže — jejich dveře jsme našli už dávno. Nikdy jsme je neotevřeli; stroje řekly nechat je být.\" Zváží tě, Chór Chóru. \"Ale teď jsi jeden z nás. Dveře dole chtějí jméno. Jméno mrtvého boha: 'I FOLD.' Rez pamatuje, co živí zapomínají.\"\n\nOtočí se zpět k trubkám. \"Chór ti prokázal svou jedinou laskavost. O další nežádej.\"",
+        options: {
+            thanks_brukk_cellar: "\"I fold.\" Díky, Brukku."
+        }
+    },
     brukk_who: {
         text: "Brukk. Strážce strojů. Krmím je. Poslouchám je. Stroje mě sem zavolaly — jejich hukot mi vlezl do kostí. (Poklepe si na hruď. Cvakání zesílí.) Mám v sobě kov. Vyrostl tam sám od sebe. Chór říká, že to znamená, že si mě stroje vybraly.",
         options: {

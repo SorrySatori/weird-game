@@ -22,7 +22,24 @@ export default class ScraperInteriorScene extends GameScene {
         const hasElevatorButton = this.hasItem('forgotten_elevator_button');
         const hasLirisPart = this.registry.get('fixed_floor_counter') === true;
         const hasRustPassword = !!(questSystem?.getQuest('rust_feast')?.isComplete);
-        
+
+        // Sealed cellar (Ortolan & Elphi's old lab). The lift wants a passphrase = a dead
+        // god's epitaph from the Godgraveyard. Exactly one is correct.
+        const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started');
+        const cellarPasswordKnown = !!this.hasJournalEntry('cellar_password_learned');
+        const CELLAR_PASSWORD = 'I FOLD';
+        const GRAVE_EPITAPHS = {
+            grave_laimig: 'I FOLD',
+            grave_sisyla: 'SLEEP HAS NO DOOR',
+            grave_vhorn: 'COUNT ME OUT',
+            grave_liln: 'BE KIND, THEN LEAVE',
+            grave_lietus: 'IT WAS ONLY YESTERDAY'
+            // Hvétrdjaana's inscription is unreadable — no usable passphrase (atmosphere only).
+        };
+        const cellarCandidates = Object.keys(GRAVE_EPITAPHS)
+            .filter(id => this.hasJournalEntry(id))
+            .map(id => ({ id, ep: GRAVE_EPITAPHS[id] }));
+
         const interiorContent = {
             speaker: 'Lift Mother',
             lift_mother_start: {
@@ -30,6 +47,7 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", key: 'i_need_to_reach_dr_elphis_floor', next: "lift_mother_elphi_floor" }] : []),
                     ...(hasRustPassword ? [{ text: "Corrode.", key: 'corrode', next: "lift_mother_corrode" }] : []),
+                    ...(cellarQuestStarted ? [{ text: cellarPasswordKnown ? "Take me down to the old cellar." : "Take me down to the sealed cellar.", key: 'descend_to_cellar', next: cellarPasswordKnown ? "goto_scraper_cellar" : "lift_mother_cellar_prompt" }] : []),
                     { text: "Can you take me to other floors?", key: 'can_you_take_me_to_other_floors', next: "lift_mother_floors" },
                     { text: "What is the Before-Time?", key: 'what_is_the_beforetime', next: "lift_mother_before_time" },
                     { text: "Are you... alive?", key: 'are_you_alive', next: "lift_mother_alive" },
@@ -292,6 +310,68 @@ export default class ScraperInteriorScene extends GameScene {
                     });
                 }
             },
+            lift_mother_cellar_prompt: {
+                text: `The cables draw taut. "The lower cellar? That door has been dark a long time, spore-child. It answered only one word — a name, given by the two who worked below. Speak it, if you carry it."`,
+                options: [
+                    ...(cellarCandidates.length
+                        ? cellarCandidates.map(c => ({
+                            text: `"${c.ep}"`,
+                            key: 'cellar_say_' + c.id,
+                            next: c.ep === CELLAR_PASSWORD ? "lift_mother_cellar_correct" : "lift_mother_cellar_wrong"
+                        }))
+                        : [{ text: "(You have no name to offer yet.)", key: 'cellar_no_name', next: "lift_mother_cellar_none" }]),
+                    { text: "Never mind.", key: 'cellar_never_mind', next: "lift_mother_start" }
+                ]
+            },
+            lift_mother_cellar_correct: {
+                text: `A long, warm hum. "...Yes. That is the name they gave the doors below. I had near forgotten it. Descent permitted, spore-child."`,
+                options: [
+                    { text: "Descend into the cellar.", key: 'descend_into_the_cellar', next: "goto_scraper_cellar" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('cellar_password_learned')) {
+                        this.addJournalEntry(
+                            'cellar_password_learned',
+                            'The Cellar Passphrase',
+                            'The Lift-Mother accepted the passphrase to the sealed cellar under the Scraper — "I FOLD," the epitaph of Laimig Cel, the god who lost the game. Ortolan and Dr. Elphi chose it as the key to their old lab.',
+                            this.journalSystem.categories.EVENTS,
+                            { location: 'Scraper Cellar', related: 'The Infinite Loop' }
+                        );
+                        if (this.questSystem?.getQuest('find_loop_copy')) {
+                            this.questSystem.updateQuest(
+                                'find_loop_copy',
+                                'I gave the Lift-Mother the right passphrase — "I FOLD," from the grave of Laimig Cel. It\'s taking me down to the sealed cellar under the Scraper.',
+                                'passphrase_accepted'
+                            );
+                        }
+                    }
+                }
+            },
+            lift_mother_cellar_wrong: {
+                text: `A pause, almost gentle. "...No. The doors below do not stir for that name. It is not the one they were given."`,
+                options: [
+                    { text: "Try another name.", key: 'try_another_name', next: "lift_mother_cellar_prompt" },
+                    { text: "Step back.", key: 'cellar_step_back', next: "lift_mother_start" }
+                ]
+            },
+            lift_mother_cellar_none: {
+                text: `"You bring me no name, child. The one you need is kept by the dead gods beneath the Townhall — read their graves, and come back with a name on your tongue."`,
+                options: [
+                    { text: "I'll go and read them.", key: 'go_read_graves', next: "lift_mother_start" }
+                ]
+            },
+            goto_scraper_cellar: {
+                text: '',
+                options: [],
+                onShow: () => {
+                    this.time.delayedCall(1400, () => {
+                        this.cameras.main.fadeOut(800, 0, 0, 0);
+                        this.cameras.main.once('camerafadeoutcomplete', () => {
+                            this.scene.start('ScraperCellarScene');
+                        });
+                    });
+                }
+            },
             closeDialog: {
                 text: '',
                 options: [],
@@ -300,7 +380,7 @@ export default class ScraperInteriorScene extends GameScene {
                 }
             }
         };
-        
+
         // Return combined dialog content
         return { ...parentContent, ...interiorContent };
     }

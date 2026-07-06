@@ -15,12 +15,14 @@ export default class TownhallScene extends GameScene {
             const hasRustFeastQuest = questSystem.getQuest('rust_feast');
             const bishopQuest = questSystem?.getQuest('who_killed_bishop');
             const hasEnterTownhallQuest = !!questSystem?.getQuest('enter_townhall');
+            const hasGodgraveyardAccess = !!(this.hasJournalEntry('godgraveyard_access_granted') || this.hasItem('godgraveyard-access-permit'));
             return {
             ...super.dialogContent,
             speaker: 'Phor Calesta',
             phorGreeting: {
                 text: "Ah, another pilgrim to the archives of the forgotten divine. I am Phor Calesta, archaeologist of lost theologies. The locals call me 'Godgrave Excavator,' though I prefer the term Divinographer.",
                 options: [
+                    ...(hasGodgraveyardAccess ? [{ text: "Good news — the Townhall granted your excavation permit.", key: 'townhall_granted_permit', next: "phorAccessGranted" }] : []),
                     { text: "What is Divinography?", key: 'what_is_divinography', next: "phorDivinography" },
                     { text: "Where are you from?", key: 'where_are_you_from', next: "phorMurkvale" },
                     { text: "What are you doing here?", key: 'what_are_you_doing_here', next: "phorPurpose" },
@@ -106,6 +108,28 @@ export default class TownhallScene extends GameScene {
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ]
+            },
+
+            phorAccessGranted: {
+                text: "Phor Calesta nearly drops her notebook. \"They — they *approved* it? After all this waiting?\" She composes herself, eyes shining. \"Then there's no time to lose. The way down opens off the Town Square — an old stair into the Godgraveyard. Go there and take it down; I'll meet you at the gate. Finally — someone to read the corpses with me.\"",
+                options: [
+                    { text: "I'll meet you at the lower doors.", key: 'meet_at_lower_doors', next: "phorAskSomethingElse" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('phor_graveyard_ready')) {
+                        this.addJournalEntry(
+                            'phor_graveyard_ready',
+                            'Phor Will Meet Me at the Godgraveyard',
+                            'I told Phor Calesta the Townhall granted the excavation permit. She\'ll meet me at the gate to the Godgraveyard. The way down opens off the Town Square — an old stair down into the graves.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Phor Calesta', location: 'Godgraveyard' }
+                        );
+                        const eq = this.questSystem?.getQuest('excavation_permit');
+                        if (eq && !eq.isComplete) {
+                            this.questSystem.updateQuest('excavation_permit', 'Phor Calesta will meet me at the Godgraveyard gate — the lower doors inside the Townhall. Time to go down and read the graves.', 'phor_meets_at_graveyard');
+                        }
+                    }
+                }
             },
 
             phorTownhallClosed: {

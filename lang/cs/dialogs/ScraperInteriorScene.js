@@ -12,6 +12,7 @@ export default {
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
             corrode: "Rozežrat.",
+            descend_to_cellar: "Vezmi mě dolů do zapečetěného sklepa.",
             can_you_take_me_to_other_floors: "Můžeš mě vzít na jiná patra?",
             what_is_the_beforetime: "Co je Doba-Před?",
             are_you_alive: "Jsi... živá?",
@@ -148,6 +149,35 @@ export default {
         options: {
             step_out: "Vystoupit."
         }
+    },
+    lift_mother_cellar_prompt: {
+        text: "Kabely se napnou. \"Dolní sklep? Ty dveře jsou dlouho temné, sporové dítě. Odpovídaly jen na jedno slovo — jméno, které dali ti dva, co pracovali dole. Vyslov ho, jestli ho neseš.\"",
+        options: {
+            cellar_no_name: "(Zatím nemáš žádné jméno.)",
+            cellar_never_mind: "To nic."
+        }
+    },
+    lift_mother_cellar_correct: {
+        text: "Dlouhé, teplé zahučení. \"...Ano. To jméno dali dveřím dole. Málem jsem ho zapomněla. Sestup povolen, sporové dítě.\"",
+        options: {
+            descend_into_the_cellar: "Sestoupit do sklepa."
+        }
+    },
+    lift_mother_cellar_wrong: {
+        text: "Pauza, skoro laskavá. \"...Ne. Dveře dole se pro tohle jméno nepohnou. Není to to pravé.\"",
+        options: {
+            try_another_name: "Zkusit jiné jméno.",
+            cellar_step_back: "Ustoupit."
+        }
+    },
+    lift_mother_cellar_none: {
+        text: "\"Nepřinášíš mi žádné jméno, dítě. To, které potřebuješ, střeží mrtví bohové pod Radnicí — přečti si jejich hroby a vrať se se jménem na jazyku.\"",
+        options: {
+            go_read_graves: "Půjdu si je přečíst."
+        }
+    },
+    goto_scraper_cellar: {
+        text: ""
     },
     closeDialog: {
         text: ""

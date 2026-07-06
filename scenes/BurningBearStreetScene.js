@@ -64,8 +64,8 @@ export default class BurningBearStreetScene extends GameScene {
                 speaker: 'Ortolan',
                 textKey: helped ? 'helped' : 'cold',
                 text: helped
-                    ? `"A copy?" He sets the ledger down and goes still — all four hands quiet. "The master build. It'll still be in the cellar under the Scraper, where our old lab and workshop were. Sealed, filed, and forgotten, like everything the rulers are afraid of.\n\nAnd since you did me a good turn — listen closely. If that thing truly has someone caught inside, you don't smash your way out. Every board I ever built hides a *losing move* — one choice the game pretends isn't there, that lets the piece decide to leave. Elphi's seamless walls buried it, but my rules are still underneath. Find the losing move, and you can pull someone out. Remember that."`
-                    : `"A copy." He picks at a permit form, unhurried. "There'll be an old build in the cellar under the Scraper. That's where the lab was. Beyond that — you're on your own. I've paperwork of my own to fight, and you weren't much help with mine." He turns back to his forms.`,
+                    ? `"A copy?" He sets the ledger down and goes still — all four hands quiet. "The master build. It'll still be in the cellar under the Scraper, where our old lab and workshop were. Sealed, filed, and forgotten, like everything the rulers are afraid of.\n\nAnd the cellar's locked — I don't have the key any more, the rulers took it. But the lift's passphrase... we never made one up. We used a dead god's true name — one only its gravestone still remembers. Read the graves in the Godgraveyard beneath the Townhall; a divinographer can guide you. You'll know the one when you see it.\n\nAnd since you did me a good turn — the losing move. If that thing has someone caught inside, you don't smash your way out. Every board I built hides one choice the game pretends isn't there, that lets the piece decide to leave. Find the losing move, and you can pull someone out."`
+                    : `"A copy." He picks at a permit form, unhurried. "There'll be an old build in the cellar under the Scraper, where the lab was. It's sealed, mind — the lift wants a passphrase I've long since forgotten. Something to do with that graveyard beneath the Townhall, if that means anything to you. Beyond that, you're on your own. I've paperwork of my own, and you weren't much help with mine." He turns back to his forms.`,
                 options: [
                     { text: "Thank you, Ortolan.", key: 'thanks_ortolan_bb', next: "closeDialog" }
                 ],
@@ -96,6 +96,23 @@ export default class BurningBearStreetScene extends GameScene {
                                 'who_killed_bishop',
                                 'Ortolan (now on Burning Bear Street) says the Infinite Loop was an unfinished game he built with Dr. Elphi, shut down by the city\'s rulers as too dangerous. A master build is likely still sealed in the cellar under the Scraper — their old lab.' + (helped ? ' He also told me how to free a trapped mind: find the game\'s hidden "losing move."' : ' He wouldn\'t say more.') + ' I should search the Scraper cellar.',
                                 'ortolan_infinite_loop_revealed'
+                            );
+                        }
+                    }
+                    // Start the cellar hunt: the elevator needs a dead god's name as its passphrase.
+                    if (!this.hasJournalEntry('cellar_quest_started')) {
+                        this.addJournalEntry(
+                            'cellar_quest_started',
+                            'The Sealed Cellar',
+                            'A master copy of the Infinite Loop sits in the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. Ortolan no longer has the key, but the elevator\'s passphrase is a dead god\'s true name, remembered only on its gravestone in the Godgraveyard beneath the Townhall. I should read the graves there (Phor Calesta can guide me) and find the right name — or lean on a faction I belong to.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Ortolan', related: 'The Infinite Loop', location: 'Scraper Cellar' }
+                        );
+                        if (this.questSystem && !this.questSystem.getQuest('find_loop_copy')) {
+                            this.questSystem.addQuest(
+                                'find_loop_copy',
+                                'The Sealed Cellar',
+                                'Get into the sealed cellar under the Scraper, where a master copy of the Infinite Loop waits. The elevator (Lift-Mother) needs a passphrase — a dead god\'s name from the graves in the Godgraveyard beneath the Townhall (read them with Phor Calesta), or ask a faction you belong to.'
                             );
                         }
                     }

@@ -30,6 +30,8 @@ import lumenDirectorateInteriorScene from './LumenDirectorateInteriorScene.js';
 import voxmarketMarketScene from './VoxmarketMarketScene.js';
 import voxmarketHallScene from './VoxmarketHallScene.js';
 import burningBearStreetScene from './BurningBearStreetScene.js';
+import godgraveyardScene from './GodgraveyardScene.js';
+import scraperCellarScene from './ScraperCellarScene.js';
 
 export default {
     EntryScene: entryScene,
@@ -60,4 +62,6 @@ export default {
     VoxmarketMarketScene: voxmarketMarketScene,
     VoxmarketHallScene: voxmarketHallScene,
     BurningBearStreetScene: burningBearStreetScene,
+    GodgraveyardScene: godgraveyardScene,
+    ScraperCellarScene: scraperCellarScene,
 };

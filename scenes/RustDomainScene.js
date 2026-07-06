@@ -18,6 +18,10 @@ export default class RustDomainScene extends GameScene {
         const rustRep = this.factionSystem?.getReputation('RustChoir') || 0;
         const alreadyMember = !!this.hasJournalEntry('rust_choir_joined');
         const machinesDestroyed = !!this.hasJournalEntry('rust_choir_machines_destroyed');
+        // The Choir's one-time favor: telling the player the sealed-cellar passphrase.
+        const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started');
+        const cellarPasswordKnown = !!this.hasJournalEntry('cellar_password_learned');
+        const cellarFavorUsed = !!this.hasJournalEntry('rust_choir_favor_used');
 
         return {
             ...super.dialogContent,
@@ -39,6 +43,9 @@ export default class RustDomainScene extends GameScene {
                         { text: "What can you tell me about this building?", key: 'what_can_you_tell_me_about_this_building', next: "brukk_scraper" },
                         { text: "How are the machines?", key: 'how_are_the_machines', next: "brukk_machines_status" },
                     ] : []),
+                    ...(alreadyMember && !machinesDestroyed && cellarQuestStarted && !cellarPasswordKnown && !cellarFavorUsed ? [
+                        { text: "The Choir works this tower's guts. Can you get me into the sealed cellar below?", key: 'ask_cellar_favor', next: "brukk_cellar_favor" }
+                    ] : []),
                     ...(questActive && hasRustFeast && !machinesDestroyed ? [
                         { text: "I've brought the Rust Feast for the machines.", key: 'ive_brought_the_rust_feast_for_the_machines', next: isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard") }
                     ] : []),
@@ -46,6 +53,36 @@ export default class RustDomainScene extends GameScene {
                         { text: "I'm looking for the Rust Choir.", key: 'im_looking_for_the_rust_choir', next: "brukk_looking" }
                     ] : []),
                 ]
+            },
+            brukk_cellar_favor: {
+                speaker: 'Brukk',
+                text: `Brukk goes still, the clicking in his chest slowing. "The game-makers' cellar. We strip the dead floors of this tower — we found their door long ago. Never opened it; the machines said leave it be." He weighs you, Choir to Choir. "But you are one of us now. The doors below want a name. A dead god's name: 'I FOLD.' Rust remembers what the living forget."\n\nHe turns back to the pipes. "The Choir has done you its one favor. Do not ask for another."`,
+                options: [
+                    { text: "\"I fold.\" Thank you, Brukk.", key: 'thanks_brukk_cellar', next: "brukk_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('rust_choir_favor_used')) {
+                        this.addJournalEntry(
+                            'rust_choir_favor_used',
+                            'A Favor from the Rust Choir',
+                            'Brukk gave me the passphrase to the sealed cellar under the Scraper — "I FOLD," a dead god\'s name the Choir found while stripping the tower\'s dead floors. He was clear the Choir does this kind of favor only once. I should give the Lift-Mother that word.',
+                            this.journalSystem.categories.FACTIONS,
+                            { group: 'Rust Choir', character: 'Brukk', related: 'The Infinite Loop' }
+                        );
+                    }
+                    if (!this.hasJournalEntry('cellar_password_learned')) {
+                        this.addJournalEntry(
+                            'cellar_password_learned',
+                            'The Cellar Passphrase',
+                            'The passphrase to the sealed cellar under the Scraper is "I FOLD" — the epitaph of Laimig Cel, the god who lost the game. I can give it to the Lift-Mother to descend.',
+                            this.journalSystem.categories.EVENTS,
+                            { location: 'Scraper Cellar', related: 'The Infinite Loop' }
+                        );
+                    }
+                    if (this.questSystem?.getQuest('find_loop_copy')) {
+                        this.questSystem.updateQuest('find_loop_copy', 'The Rust Choir gave me the cellar passphrase — "I FOLD." I can take the Lift-Mother down to the sealed cellar now.', 'password_from_choir');
+                    }
+                }
             },
             brukk_who: {
                 speaker: 'Brukk',
