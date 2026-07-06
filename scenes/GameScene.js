@@ -1369,6 +1369,16 @@ export default class GameScene extends Phaser.Scene {
         if (!this.journalSystem) return false;
         return this.journalSystem.getEntry(id);
     }
+
+    /**
+     * Which in-game day are we on. Day 2 begins once the player has slept at the
+     * end of Day 1 (persisted via the journal, so it survives save/load).
+     * Scenes should gate Day-2 content behind this rather than duplicating scenes.
+     * @returns {boolean}
+     */
+    isDay2() {
+        return !!this.hasJournalEntry('day1_complete_slept');
+    }
     
     /**
      * Get a specific journal entry

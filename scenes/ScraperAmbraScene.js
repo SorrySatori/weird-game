@@ -160,7 +160,7 @@ export default class ScraperAmbraScene extends GameScene {
         // The Townhall clerk revelation is the end of the Day 1 investigation loop.
         // Once the player has it, returning to Elphi lets them report and end the day.
         const townhallRevealed = !!this.hasJournalEntry('townhall_bishop_records_checked');
-        const day1Slept = !!this.hasJournalEntry('day1_complete_slept');
+        const day1Slept = this.isDay2();
         const canReportDay1 = townhallRevealed && !day1Slept;
         // Day 2: the repaired cartridge is ready to play once the player has slept.
         const feastPlayed = !!this.hasJournalEntry('cardinal_feast_played');
@@ -751,7 +751,18 @@ export default class ScraperAmbraScene extends GameScene {
                 ]
             },
 
-            // === Day 2: play the Bishop's repaired Cardinal Feast cartridge ===
+            // Day-2 dialog (cartridge / feast / Infinite Loop) is kept in
+            // day2DialogContent() and merged in only on Day 2 — no day-branching here.
+            ...(this.isDay2() ? this.day2DialogContent : {})
+        };
+    }
+
+    // === Day 2 ===
+    // Cartridge / Cardinal Feast / Infinite Loop dialog. Merged into dialogContent
+    // only on Day 2, so the main (Day-1) tree stays free of day-branching sprawl.
+    get day2DialogContent() {
+        return {
+            speaker: 'Dr. Elphi',
 
             dr_elphi_cartridge_ready: {
                 text: `I reconstructed the corrupted session frames overnight. The Cardinal Feast itself is intact — it's a daft little cannibal-cardinal RPG, one of our better sellers. But her save is... wrong. It won't return to the menu.\n\nHere's the thing you need to understand before you put the helmet on: these neurofictions remember their players. Deeply. The Bishop ran this one dozens of times. The characters in there knew her. And the helmet can't tell you apart from the last head that wore it.\n\nSo if they start talking to you like they know you — let them. Ask them things. See what the game knows that it shouldn't.`,
@@ -781,14 +792,14 @@ export default class ScraperAmbraScene extends GameScene {
                         this.addJournalEntry(
                             'infinite_loop_ortolan_lead',
                             'The Infinite Loop',
-                            'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "The Infinite Loop" is the name of an old, sealed experimental project — and she insists she didn\'t put it on the cartridge. She says I should ask Ortolan about it: Ortolan was the lead on it, before swearing off illusion-tech entirely.',
+                            'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "The Infinite Loop" was an old experimental game she built with Ortolan years ago — shut down by the city\'s rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven\'t spoken since. She swears she didn\'t put it on the cartridge, and says I should find Ortolan — he\'s moved to Burning Bear Street — because he\'d know whether a copy survived.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', related: 'Ortolan' }
                         );
                         if (this.questSystem?.getQuest('who_killed_bishop')) {
                             this.questSystem.updateQuest(
                                 'who_killed_bishop',
-                                'Dr. Elphi recognized the glitch ending — "The Infinite Loop" — as an old, sealed experimental project she did not put on the cartridge. She told me to ask Ortolan, who was the lead on it. The journal itself is at the Egg Cathedral.',
+                                'Dr. Elphi recognized the glitch ending — "The Infinite Loop" — as an old experimental game she built with Ortolan, shut down years ago by the city\'s rulers. She insists she didn\'t put it on the cartridge and told me to find Ortolan, now on Burning Bear Street, about it. The Bishop\'s journal itself is at the Egg Cathedral.',
                                 'infinite_loop_recognized'
                             );
                         }
@@ -797,17 +808,16 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_loop_reveal: {
-                text: `Years ago I did the dream-architecture for an experiment. Ortolan designed it — Ortolan was the lead. It wasn't meant to be a game. The Cardinal Feast was just the shell we tested it inside, a pretty little story to wrap around the real work.\n\nThe real work was the Loop. A dream that doesn't end. A room a mind can be made to stay in, awake, forever, thinking it's only been three seconds.\n\nIt frightened us both. We ended the experiment and sealed the build. Ortolan swore off illusion-tech that same week and never touched it again — started ranting about how mindplay was "morally unstable." I thought the only copy was gone.\n\nAnd now it's run again, on a dead woman's cartridge, and it ends exactly where she ended.`,
+                text: `Years ago Ortolan and I built something together. He shaped the game; I shaped the dream it lived inside. The real work was the Loop — a dream that doesn't end. A room a mind can be made to stay in, awake, forever, believing only three seconds have passed.\n\nWe never finished it. The city's rulers decided it was too dangerous, too unpredictable, and shut the whole project down. Ortolan and I quarrelled over who'd keep the games afterward — bitterly. We haven't spoken since.\n\nI thought every copy was gone. And now it's run again, on a dead woman's cartridge, in entirely different game, like it... breaked into it or something. That should not be possible.`,
                 options: [
                     { text: "Why send me to Ortolan?", key: 'why_send_me_to_ortolan', next: "dr_elphi_loop_ortolan" },
                     { text: "I'll find Ortolan. And the journal.", key: 'ill_find_ortolan_and_the_journal', next: "closeDialog" },
                 ]
             },
-
             dr_elphi_loop_ortolan: {
-                text: `Because I only built the walls. Ortolan built what they were *for*. If anyone alive knows what the Loop was designed to do to a person — and whether someone could have used it on the Bishop on purpose — it's Ortolan.\n\nYou'll find them down at Shed 521, drowning in arm-permit paperwork. Tell them I sent you. Tell them it's running again. Ortolan won't want to hear it, but they need to.`,
+                text: `Because I only built the walls; Ortolan built what they were *for*. If anyone knows whether a copy of the Loop survived — and how it truly behaves — it's him. He'll wave it off as a harmless little toy; he always did. Don't believe that part.\n\nWe haven't spoken in years, but he'll talk to you. Last I heard he'd left the Shed and set up on Burning Bear Street, buried in permit forms as ever. Tell him it's running again.`,
                 options: [
-                    { text: "I'll go to Shed 521.", key: 'ill_go_to_shed_521', next: "closeDialog" },
+                    { text: "I'll find Ortolan on Burning Bear Street.", key: 'ill_find_ortolan_burning_bear', next: "closeDialog" },
                 ]
             }
         };

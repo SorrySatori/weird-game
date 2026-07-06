@@ -40,16 +40,16 @@ export default {
         }
     },
     dr_elphi_loop_reveal: {
-        text: "Před lety jsem dělala snovou architekturu pro jeden experiment. Navrhl ho Ortolan — Ortolan byl vedoucí. Neměla to být hra. Kardinálská hostina byla jen slupka, ve které jsme to testovali, hezký příběh omotaný kolem té skutečné práce.\n\nTou skutečnou prací byla Smyčka. Sen, který nikdy neskončí. Místnost, ve které lze mysl přimět zůstat, bdělou, navždy, v domnění, že uběhly jen tři vteřiny.\n\nVyděsilo to nás oba. Experiment jsme ukončili a sestavení zapečetili. Ortolan ten týden navždy zanevřel na iluzní techniku a už se jí nedotkl — začal mlít o tom, jak je „hra s myslí morálně nestabilní“. Myslela jsem, že jediná kopie je pryč.\n\nA teď to běží znovu, na kazetě mrtvé ženy, a končí to přesně tam, kde skončila ona.",
+        text: "Před lety jsme s Ortolanem něco vytvořili. On tvaroval hru; já sen, ve kterém žila. Tou skutečnou prací byla Smyčka — sen, který nikdy neskončí. Místnost, ve které lze mysl přimět zůstat, bdělou, navždy, v domnění, že uběhly jen tři vteřiny.\n\nNikdy jsme to nedokončili. Vládci města rozhodli, že je to příliš nebezpečné a nepředvídatelné, a celý projekt zarazili. Pak jsme se s Ortolanem pohádali o to, kdo si hry ponechá — ošklivě. Od té doby spolu nemluvíme.\n\nMyslela jsem, že každá kopie je pryč. A teď to běží znovu, na kazetě mrtvé ženy, a končí to přesně tam, kde skončila ona. To by nemělo být možné.",
         options: {
             why_send_me_to_ortolan: "Proč mě posíláte za Ortolanem?",
             ill_find_ortolan_and_the_journal: "Najdu Ortolana. I ten deník."
         }
     },
     dr_elphi_loop_ortolan: {
-        text: "Protože já postavila jen zdi. Ortolan vymyslel, k čemu mají sloužit. Jestli někdo živý ví, co měla Smyčka s člověkem provést — a jestli ji někdo mohl na Biskupku použít schválně — je to Ortolan.\n\nNajdete ho dole v Hangáru 521, jak se topí v papírech kvůli povolení na ruce. Řekněte, že vás posílám já. Řekněte, že to zase běží. Ortolan to nebude chtít slyšet, ale potřebuje to.",
+        text: "Protože já postavila jen zdi; Ortolan vymyslel, k čemu mají sloužit. Jestli někdo ví, jestli přežila kopie Smyčky — a jak se doopravdy chová — je to on. Bude to smetat ze stolu jako neškodnou hračku; to dělal vždycky. Tomu nevěřte.\n\nRoky jsme spolu nemluvili, ale s vámi mluvit bude. Naposledy jsem slyšela, že opustil Hangár a usadil se na Burning Bear Street, zavalený formuláři jako obvykle. Řekněte mu, že to zase běží.",
         options: {
-            ill_go_to_shed_521: "Vyrazím do Hangáru 521."
+            ill_find_ortolan_burning_bear: "Najdu Ortolana na Burning Bear Street."
         }
     },
     dr_elphi_report_day1: {
