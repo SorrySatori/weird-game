@@ -29,6 +29,7 @@ import lumenDirectorateScene from './LumenDirectorateScene.js';
 import lumenDirectorateInteriorScene from './LumenDirectorateInteriorScene.js';
 import voxmarketMarketScene from './VoxmarketMarketScene.js';
 import voxmarketHallScene from './VoxmarketHallScene.js';
+import burningBearStreetScene from './BurningBearStreetScene.js';
 
 export default {
     EntryScene: entryScene,
@@ -58,4 +59,5 @@ export default {
     LumenDirectorateInteriorScene: lumenDirectorateInteriorScene,
     VoxmarketMarketScene: voxmarketMarketScene,
     VoxmarketHallScene: voxmarketHallScene,
+    BurningBearStreetScene: burningBearStreetScene,
 };
