@@ -64,7 +64,7 @@ export default class BurningBearStreetScene extends GameScene {
                 speaker: 'Ortolan',
                 textKey: helped ? 'helped' : 'cold',
                 text: helped
-                    ? `"A copy?" He sets the ledger down and goes still — all four hands quiet. "The master build. It'll still be in the cellar under the Scraper, where our old lab and workshop were. Sealed, filed, and forgotten, like everything the rulers are afraid of.\n\nAnd the cellar's locked — I don't have the key any more, the rulers took it. But the lift's passphrase... we never made one up. We used a dead god's true name — one only its gravestone still remembers. Read the graves in the Godgraveyard beneath the Townhall; a divinographer can guide you. You'll know the one when you see it.\n\nAnd since you did me a good turn — the losing move. If that thing has someone caught inside, you don't smash your way out. Every board I built hides one choice the game pretends isn't there, that lets the piece decide to leave. Find the losing move, and you can pull someone out."`
+                    ? `"A copy?" He sets the ledger down and goes still — all four hands quiet. "The master build. It'll still be in the cellar under the Scraper, where our old lab and workshop were. Sealed, filed, and forgotten, like everything the rulers are afraid of.\n\nAnd the cellar's locked — I don't have the key any more, the rulers took it. But the lift's passphrase... we never made one up. We used a dead god's true name — one only its gravestone still remembers. Read the graves in the Godgraveyard beneath the Townhall; a divinographer can guide you. You'll know the one when you see it.\n\nAnd since you did me a good turn — I'll tell you what it was truly for. Infinite Fold, we named it, though I hear the thing only loops now, so 'Loop' it's become. It was never a game you could win or lose; there was no winning move, and no losing one. It was a question we built a machine to ask: can a thought arise that has no single author? We let a thousand players pour their small choices and dreams into it, and watched whether something new — a way of meaning none of us had written — would grow up out of all of them at once. The rulers pulled the plug precisely because it began to work: it started making sense in ways none of us could account for. So don't ask me what a sealed old build is now. Ask what it was built to become. That question was the whole experiment — and they were frightened enough of the answer to bury it down there."`
                     : `"A copy." He picks at a permit form, unhurried. "There'll be an old build in the cellar under the Scraper, where the lab was. It's sealed, mind — the lift wants a passphrase I've long since forgotten. Something to do with that graveyard beneath the Townhall, if that means anything to you. Beyond that, you're on your own. I've paperwork of my own, and you weren't much help with mine." He turns back to his forms.`,
                 options: [
                     { text: "Thank you, Ortolan.", key: 'thanks_ortolan_bb', next: "closeDialog" }
@@ -76,25 +76,25 @@ export default class BurningBearStreetScene extends GameScene {
                             'ortolan_infinite_loop',
                             'Ortolan and the Infinite Loop',
                             base + (helped
-                                ? ' Because I helped him win his extra arms, he shared how to free a trapped mind: every board he built hides a "losing move" — one choice the game hides that lets a trapped piece choose to leave. I\'ll need that if I ever enter the Loop.'
+                                ? ' Because I helped him win his extra arms, he told me what Infinite Fold was truly for: not a game to win, but a machine built to ask whether a thought could arise with no single author — a genuinely new way of meaning, grown from a thousand players at once. The rulers buried the project precisely because it began to succeed.'
                                 : ' He was curt — because I never helped him with his arms permit, he withheld anything beyond the location.'),
                             this.journalSystem.categories.EVENTS,
                             { character: 'Ortolan', location: 'Burning Bear Street', related: 'The Infinite Loop' }
                         );
                         // Prep for a future confrontation with the Loop — only if he trusted the player.
-                        if (helped && !this.hasJournalEntry('ortolan_losing_move')) {
+                        if (helped && !this.hasJournalEntry('infinite_fold_purpose')) {
                             this.addJournalEntry(
-                                'ortolan_losing_move',
-                                'The Losing Move',
-                                'Ortolan revealed that every board he designed — including the Infinite Loop — hides a "losing move": one choice the game conceals that lets a trapped mind decide to leave. To pull someone out of the Loop, I must find and make that losing move rather than trying to force an escape.',
+                                'infinite_fold_purpose',
+                                'The Purpose of Infinite Fold',
+                                'Ortolan revealed the true aim of Infinite Fold — the game people now know only by its glitch, the "Infinite Loop". It was never a game with a winning or losing move. He and Dr. Elphi built it to ask a single question: can a thought arise that has no single author? Thousands of players poured their choices and dreams into it, and the makers watched to see whether a genuinely new way of meaning — one none of them had written — would emerge from all of them at once. The city\'s rulers shut it down because it began to work, producing sense they could no longer account for.',
                                 this.journalSystem.categories.LORE,
-                                { character: 'Ortolan', related: 'The Infinite Loop' }
+                                { character: 'Ortolan', related: 'Infinite Fold' }
                             );
                         }
                         if (this.questSystem?.getQuest('who_killed_bishop')) {
                             this.questSystem.updateQuest(
                                 'who_killed_bishop',
-                                'Ortolan (now on Burning Bear Street) says the Infinite Loop was an unfinished game he built with Dr. Elphi, shut down by the city\'s rulers as too dangerous. A master build is likely still sealed in the cellar under the Scraper — their old lab.' + (helped ? ' He also told me how to free a trapped mind: find the game\'s hidden "losing move."' : ' He wouldn\'t say more.') + ' I should search the Scraper cellar.',
+                                'Ortolan (now on Burning Bear Street) says the Infinite Loop was an unfinished game — Infinite Fold — he built with Dr. Elphi, shut down by the city\'s rulers as too dangerous. A master build is likely still sealed in the cellar under the Scraper — their old lab.' + (helped ? ' He also told me what it was truly built to do: ask whether a thought could arise with no single author.' : ' He wouldn\'t say more.') + ' I should search the Scraper cellar.',
                                 'ortolan_infinite_loop_revealed'
                             );
                         }
