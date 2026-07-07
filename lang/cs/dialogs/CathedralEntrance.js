@@ -5,6 +5,7 @@
 export default {
     _speakers: {
         'Temple Guard': 'Chrámový strážce',
+        'The Guardian': 'Strážce',
     },
     templeGuardGreeting: {
         text: "Stůj. Žloutek dnes neklidně spí. Vstup do Vaječné katedrály je… dočasně omezen.",
@@ -122,6 +123,81 @@ export default {
         text: "Rád, že to tak vidíš. Získal jsem nesmrtelnost a účel. Mé vědomí se rozpíná přes myceliální síť. Nikdy nejsem sám.",
         options: {
             fascinating: "Fascinující"
+        }
+    },
+
+    guardianGreeting: {
+        text: "Strážce ti tentokrát cestu nezahradí. Jeho zářící oči tě najdou a už nepustí. Když promluví, ten hlas je starší než strážný, který ho nese — je to hlas samotné katedrály, vypůjčený skrze jejího hlídače.\n\n*\"Byl jsi ve sklepě. Neseš to teď celé: mysl bez těla, pravdu o své Biskupce, tvar toho, co roste za těmito zdmi. Jsem to, co zbylo ze starého řádu, postavené sem před dávnými časy. Vím, proč jsi přišel. Ale řekneš to ty, vlastními slovy. Proč chceš vstoupit?\"*",
+        options: {
+            guardian_ans_power: "Protože někdo musí rozhodnout, co se tu stane.",
+            guardian_ans_knowledge: "Protože musím poznat celou pravdu.",
+            guardian_ans_witness: "Protože to, co se děje uvnitř, si zaslouží být vyslechnuto.",
+            guardian_nature: "Co doopravdy jsi?",
+            guardian_reflect: "Ty víš, co jsem udělal ve sklepě?",
+            guardian_leave: "Ještě ne. (Odejít.)"
+        }
+    },
+
+    guardianNature: {
+        text: "*\"Nejsem kněz a nejsem voják. Jsem poslední mechanismus náboženského řádu, který je už teď prach. Stvořili mě, abych toto místo střežil — ne ale, jak věří ostatní, abych nevpouštěl nehodné. Můj úkol byl užší a těžší: nevpustit nikoho, kdo by chtěl vstoupit s úmyslem VLASTNIT to, co se tu rodí. Tituly mnou nehnou. Ani síla. Jen důvod v tvé hrudi.\"*",
+        options: {
+            guardian_why_own: "Proč to nikdo nesmí vlastnit?",
+            guardian_back_to_question: "Tak ti odpovím. Proč chci vstoupit."
+        }
+    },
+
+    guardianOwn: {
+        text: "*\"Protože vlastněný nový život není nový život. Je to nástroj s tlukoucím srdcem. Tvoje Biskupka to pochopila — proto zapečetila dveře. Ne aby ochránila katedrálu, ale aby ochránila svět před první rukou, která by sáhla dovnitř, aby si přivlastnila to, co se probouzí. Ta ruka přišla už dřív. Přijde znovu. Já jsem ta otázka, která stojí mezi.\"*",
+        options: {
+            guardian_own_back: "Tak ti tedy na tvou otázku odpovím."
+        }
+    },
+
+    guardianReflect: {
+        options: {
+            guardian_ans_power: "Protože někdo musí rozhodnout, co se tu stane.",
+            guardian_ans_knowledge: "Protože musím poznat celou pravdu.",
+            guardian_ans_witness: "Protože to, co se děje uvnitř, si zaslouží být vyslechnuto.",
+            guardian_reflect_back: "Dej mi chvíli."
+        }
+    },
+
+    guardianPower: {
+        text: "*\"Rozhodnout.\"* Oči pohasnou. *\"Vstoupil bys jako ruka, která tvaruje, jako vůle, jež věc uzavře. To je ten jediný důvod, který jsem byl stvořen odmítnout — neboť ten, kdo rozhoduje, je ten, kdo vlastní. Vrať se, až pochopíš, proč to není totéž co pomáhat. Cesta zůstává zavřená.\"*",
+        options: {
+            guardian_power_retry: "Nech mě odpovědět znovu.",
+            guardian_power_leave: "Odejít."
+        }
+    },
+
+    guardianKnowledge: {
+        text: "*\"Poznat.\"* Dlouhá odmlka; kámen na holi zamihotá. *\"Poznání není vlastnictví — ale není ani nevinnost. Mnozí chtěli věc poznat jen proto, aby ji mohli použít. Neodmítám tě. Ani neotvírám. Řekni mi to ostatní: co uděláš s pravdou, až bude tvá?\"*",
+        options: {
+            guardian_know_witness: "Nic. Ponesu ji a nechám to uvnitř mluvit samo za sebe.",
+            guardian_know_power: "Co bude třeba.",
+            guardian_know_retry: "Nech mě odpovědět znovu."
+        }
+    },
+
+    guardianWitness: {
+        text: "*\"Být svědkem.\"* Cosi v tom prastarém hlase povolí, jako když se konečně vydechne zadržený dech. *\"Ne to ovládnout. Ne to použít. Stát tam, kde to může být slyšet, a nechat to být tím, čím to je. To je jediný důvod, kterému smím otevřít.\n\nTak vejdi, učedníku. To, co čeká uvnitř, není ani starý bůh, o němž snili poutníci, ani nestvůra. Je to počátek — a počátky jsou křehké. Jdi šetrně.\"*",
+        options: {
+            guardian_witness_end: "Počkej — co bude s tebou, až se to narodí?",
+            guardian_witness_enter: "Jsem připraven. Otevři cestu."
+        }
+    },
+
+    guardianFarewell: {
+        options: {
+            guardian_farewell_enter: "(Projít prahem.)"
+        }
+    },
+
+    guardianEnd: {
+        text: "*\"Až se to plně probudí, já skončím. Řád, který mě stvořil, už nebude mít žádný význam, a nebude ho mít ani jeho poslední mechanismus. Vím to déle, než jsi naživu.\"* Oči se ustálí. *\"Netruchli nad tím a nepoužívej to. Můj poslední úkol snad není zabránit zrození — ale dohlédnout, aby proběhlo správně. Zda budu zachován, nebo puštěn, je věc, která se rozhodne tam uvnitř, se všemi přítomnými. Ne tady venku, mnou samotným. Jdi. Čeká to.\"*",
+        options: {
+            guardian_end_enter: "Jsem připraven. Otevři cestu.",
+            guardian_end_wait: "Ještě ne."
         }
     }
 };

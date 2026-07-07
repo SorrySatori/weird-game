@@ -14,7 +14,8 @@ export default {
             tell_me_about_yourself: "Řekněte mi o sobě.",
             what_do_you_know_about_the_burning_bear_festival: "Co víte o Festivalu hořícího medvěda?",
             im_looking_for_a_vestigel_i_heard_you_might_have_o: "Hledám vestigel, slyšel jsem, že byste mohl mít jeden.",
-            lets_start_with_some_inspirational_topics: "Pojďme začít s inspiračními tématy"
+            lets_start_with_some_inspirational_topics: "Pojďme začít s inspiračními tématy",
+            edgar_cathedral_ask: "[Než vejdu do katedrály] Pracoval jste všude v tomhle městě. Existuje cesta do Vaječné katedrály, o které se nemluví?"
         }
     },
     edgar_greeting: {
@@ -269,6 +270,28 @@ export default {
         text: "Pamatujte na svůj slib. Těším se na to, co spolu vytvoříme. Kniha, která skutečně zachytí podstatu... no, to je přesně to, co musíme objevit.",
         options: {
             back_to_other_topics: "Zpět k jiným tématům"
+        }
+    },
+    edgar_cathedral_way: {
+        text: "Medvědovitý tvor úplně znehybní — tak jako zvířata, když zaslechnou něco, co se hýbe pod podlahou. \"...Vaječná katedrála. Ano. Přemýšlel jsem o tom místě víc než většina lidí.\" Ztiší hlas. \"Zametal jsem její servisní chodby. Mazal její výtahové klece. Vynášel její popel. Nikdo nesleduje toho, kdo vynáší popel. A naučil jsem se něco, co ti kněží nikdy: všichni hledali hlavní vchod. Velké dveře. Strážce. Závoj. Já jsem vždycky hledal místa, kde něco úplně netěsní. A ta skořápka není mrtvá, ať už si biskupčina pečeť říká cokoli. Některé noci ty zdi dýchají.\"",
+        options: {
+            the_walls_breathe: "Zdi dýchají?",
+            then_show_me_the_way_in: "Tak mi ukažte tu cestu dovnitř.",
+            back_to_other_topics: "Zpět k jiným tématům"
+        }
+    },
+    edgar_cathedral_breathe: {
+        text: "\"Dýchají. Nádech a výdech, pomalu, jako něco, co sní. Servisní patra pod Žloutkem měla být mrtvý prostor — odvodnění, chladicí komory, sklady, které nikdo nefinancuje. Nejsou mrtvá. Něco tam dole je teplé a bylo to čím dál teplejší, a přestal jsem brát tu směnu ještě před zapečetěním, protože si radši ušetřím nervy. Ale ty chodby tam pořád jsou. Pečeti hnijí. A skořápka — skořápka praská zevnitř. To je celý smysl skořápky.\"",
+        options: {
+            so_there_is_a_way_in: "Takže cesta dovnitř existuje.",
+            back_to_other_topics: "Zpět k jiným tématům"
+        }
+    },
+    edgar_cathedral_path: {
+        text: "\"Existuje. Za starým popelníkovým skluzem na severní straně, kde se skořápka setkává s vrstvou mrtvých bohů — zedníci ho nikdy nedotěsnili, protože se jim pod nohama pořád posouvala půda. Škvíra na šířku medvědích ramen, pokud vám nevadí pach toho, co je dole. Jděte před Zráním. Ať už se tam uvnitř probouzí cokoli, škvíru dlouho otevřenou nenechá.\" Zaváhá, jednu velkou tlapu položenou na stole. \"Buďte opatrný. Já jsem ten, kdo si všímá toho, čeho si nikdo jiný nevšimne. Nerad bych skončil jako poslední, kdo si všiml vás.\"",
+        options: {
+            thank_you_edgar_cathedral: "Děkuji, Edgare.",
+            i_should_go: "Měl bych jít."
         }
     }
 };

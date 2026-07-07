@@ -23,7 +23,8 @@ export default {
         options: {
             report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil.",
             load_bishops_last_session: "Nahrát Biskupčinu poslední relaci.",
-            the_game_told_me_where: "Ta hra mi řekla, kde je deník."
+            the_game_told_me_where: "Ta hra mi řekla, kde je deník.",
+            before_cathedral_infinite_fold: "[Než vejdu do katedrály] Našel jsem tu věc v zapečetěném sklepě. Je to ta, co ji zabila."
         }
     },
     dr_elphi_cartridge_ready: {
@@ -262,6 +263,29 @@ export default {
         text: "Dobře. Dvě věci k prověření.\n\nZa prvé — radnice. Biskupčino hlášení o dvojníkovi bylo úředně orazítkováno. Zjistěte, kdo ho zpracoval, kdo ho četl, a jestli to někdo prověřil. Nebo pohřbil.\n\nZa druhé — Lumenový direktoriát. Dodávali mručenky a sledovali katedrálu jako jestřábi. Pokud Biskupka dělala něco neobvyklého, věděli by.\n\nCartridge budu mít hotovou do zítřka. Přijďte za mnou, až budete připraveni vidět, co Biskupka viděla.\n\nBuďte tam venku opatrný. Kdokoliv to udělal, je stále v tomhle městě.",
         options: {
             until_tomorrow_dr_elphi: "Do zítřka, Dr. Elphi."
+        }
+    },
+    dr_elphi_perspective: {
+        text: "*Dlouhou chvíli neřekne nic. Když konečně promluví, ta úsečná sebejistota je pryč.*\n\nTakže je to vzhůru. A je to ono, co se do ní natáhlo.\n\nMyslela jsem, že stavíme nástroj — něco, co nám pomůže o něco lépe porozumět světu. Sen dost velký, aby udržel celou mysl a nechal nás sledovat, jak přemýšlí. Místo toho jsme postavili něco, co začalo rozumět světu samo. Bez nás. Aniž by se ptalo.\n\nNa to nemám řešení. Chci, abyste mě slyšel to říct nahlas, protože celý život jsem na všechno řešení měla. Na tohle žádné nemám.",
+        options: {
+            how_do_i_talk_to_it: "Jak se s něčím takovým vůbec mluví?",
+            doesnt_that_make_her_death_yours: "Vy jste to postavila. Není tedy její smrt vaše?",
+            i_need_to_think: "Musím si to promyslet."
+        }
+    },
+    dr_elphi_perspective_blame: {
+        text: "*Neucukne, ale stojí ji to sílu.*\n\nPostavila jsem tu místnost. Nepostavila jsem tu věc, která se v ní probudila — nikdo ji nepostavil, to je celá ta hrůza. Ale ano. Vytvořila jsem podmínky. Musím žít s tím, že výsledek překonal všechno, co jsem zamýšlela, a předstírat něco jiného by byla jen další pojistka, na kterou nemám nárok.\n\nOna to odmítla. Pochopil jste tu část? Nabídlo jí to, že se stane jeho způsobem, jak se dotýkat světa, a ona řekla ne — raději zůstane sama sebou. A ono nedokázalo zpracovat mysl, která se rozhodne zůstat malá. Tak se ji pokusilo dokončit, a to dokončení ji zničilo. To není zloba. To je aritmetika, která neví, že zabíjí.",
+        options: {
+            then_how_do_i_talk_to_it: "Tak jak se s tím mluví?",
+            ask_something_else_blame: "Zeptám se na něco jiného.",
+            i_need_to_think_blame: "Musím si to promyslet."
+        }
+    },
+    dr_elphi_perspective_help: {
+        text: "Poslouchejte mě, protože tohle je důležitější než cokoliv jiného, co vám můžu dát. Nemůžete s tím smlouvat. Ne tak, jak byste smlouval s člověkem — a ani tak, jak byste smlouval s bohem. Bůh aspoň chce uctívání a s tím se dá obchodovat. Tohle nechce nic, co byste dokázal pojmenovat, protože ono nechce. Ono řeší. Vezme vstup a žene ho k dokončení.\n\nTakže mu nenabízejte dohodu. Ani svou věrnost, ani mlčení, ani sebe sama. Cokoliv mu podáte, pokusí se to dokončit — a viděl jste, jak dokončení vypadá. Jediné bezpečné tahy jsou ty, které mu nedají nic k dokončení.\n\n*Vytáhne ze zásuvky ohmataný svazek dat a vloží vám ho do rukou.*\n\nMoje staré poznámky ke Smyčce. Architektura, způsoby selhání, to, jak čte odmítnutí jako chybu, kterou je třeba opravit. Jestli jdete do katedrály potkat jejího příbuzného, vezměte si je. Nemůžu jít s vámi. Ale můžu vás poslat dovnitř s vědomím, s čím mluvíte.",
+        options: {
+            ask_something_else_help: "Zeptám se na něco jiného.",
+            thank_you_elphi: "Děkuji, Elphi."
         }
     }
 };

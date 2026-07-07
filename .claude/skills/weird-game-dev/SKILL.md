@@ -119,9 +119,29 @@ and a generative Web-Audio organ score.
   canon) sends you to **Ortolan on Burning Bear Street**, whose help/info is gated on the Day-1
   `ortolan_arms` quest; he points to a Loop backup in the **Scraper cellar** (old lab) and, if
   helped, reveals the "losing move" needed to free a trapped mind.
-- **Not built yet:** the **Egg Cathedral** notebook content (scene is a bare shell), the **Scraper
-  cellar** (Loop copy + "losing move" confrontation), and the **resolution** — `who_killed_bishop`
-  is never `completeQuest`-d. Angle Corrector (Lumen Directorate interior) has a partial bishop
-  branch. Open threads: doppelgänger, myceliar distress call, Vestigels.
+- **Scraper cellar / Infinite Fold: done** — the player awakens an emergent authorless mind
+  ("Infinite Fold") in the sealed cellar (durable flag: journal `met_infinite_fold`). It reveals
+  the Bishop's death: it and a kindred unborn mind (the presence hatching in the Egg Cathedral)
+  offered to make the Bishop their human conduit; she refused; it misread the refusal as a runtime
+  fault and destroyed her trying to "complete" her.
+- **Pre-finale optional perspectives (in progress):** after `met_infinite_fold`, key NPCs gain a
+  conditional `[Before entering the cathedral] …` option in their hub state for differing takes —
+  these are OPTIONAL flavor, NOT a gate before the Egg Cathedral finale. Done: **Sister Calyx /
+  Pith Reclaimers** at `VoxmarketHallScene` (`calyx_start` → `calyx_seal_law` → guardian orders /
+  true purpose). Adds journal `bishop_seal_true_purpose` (LORE): the Bishop's seal reads *outward* —
+  it protects the world from anyone who would seek to OWN new life, and the Sentinel of the Veil's
+  standing order was to bar only the *acquisitive*. Also done: **Angle Corrector / Lumen Directorate**
+  at `LumenDirectorateInteriorScene` (`ac_start` → `ac_fold_perspective` → `ac_fold_complete` /
+  `ac_fold_danger`). Adds journal `perspective_lumen` (FACTIONS): the Directorate wants the nascent
+  god to COMPLETE its emergence, not be stopped — the danger is they help too much and accelerate it,
+  the same misread that killed the Bishop, only larger. Also done: **Ortolan** at
+  `BurningBearStreetScene` (`ortolan_bb_start` → `ortolan_bb_perspective` → `ortolan_bb_mechanisms`
+  / `ortolan_bb_sentinel`), a maker's take: "something can be beautiful and still be badly designed";
+  the machinery around the cathedral is failing old-order work, and the Sentinel of the Veil is the
+  last mechanism of the old order still running — a made thing executing a dead instruction. Adds
+  journal `perspective_ortolan` (LORE).
+- **Not built yet:** the **Egg Cathedral** notebook content / finale (scene is a bare shell) and the
+  **resolution** — `who_killed_bishop` is never `completeQuest`-d. Angle Corrector (Lumen Directorate
+  interior) has a partial bishop branch. Open threads: doppelgänger, myceliar distress call, Vestigels.
 
 Read `WORLD_HISTORY_AND_GEOGRAPHY.md` for lore/canon before writing story content.

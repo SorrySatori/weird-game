@@ -32,6 +32,7 @@ import voxmarketHallScene from './VoxmarketHallScene.js';
 import burningBearStreetScene from './BurningBearStreetScene.js';
 import godgraveyardScene from './GodgraveyardScene.js';
 import scraperCellarScene from './ScraperCellarScene.js';
+import eggCathedralInteriorScene from './EggCathedralInteriorScene.js';
 
 export default {
     EntryScene: entryScene,
@@ -64,4 +65,5 @@ export default {
     BurningBearStreetScene: burningBearStreetScene,
     GodgraveyardScene: godgraveyardScene,
     ScraperCellarScene: scraperCellarScene,
+    EggCathedralInteriorScene: eggCathedralInteriorScene,
 };
