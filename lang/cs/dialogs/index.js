@@ -33,6 +33,7 @@ import burningBearStreetScene from './BurningBearStreetScene.js';
 import godgraveyardScene from './GodgraveyardScene.js';
 import scraperCellarScene from './ScraperCellarScene.js';
 import eggCathedralInteriorScene from './EggCathedralInteriorScene.js';
+import eggCathedralStudyScene from './EggCathedralStudyScene.js';
 
 export default {
     EntryScene: entryScene,
@@ -66,4 +67,5 @@ export default {
     GodgraveyardScene: godgraveyardScene,
     ScraperCellarScene: scraperCellarScene,
     EggCathedralInteriorScene: eggCathedralInteriorScene,
+    EggCathedralStudyScene: eggCathedralStudyScene,
 };

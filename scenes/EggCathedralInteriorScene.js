@@ -33,6 +33,7 @@ export default class EggCathedralInteriorScene extends GameScene {
         // Infinite Fold speaks here only if it was left as an active, reachable mind.
         const foldVoicePresent = ['partnership', 'self_limit', 'dissolution', 'unexpected_pattern'].includes(foldEnding);
         const understood = !!this.hasJournalEntry('understood_unborn_structure');
+        const readJournal = !!this.hasJournalEntry('bishop_journal_read');
         // The absorb ending demands a rare build: many symbionts + a deep bond with Infinite Fold.
         const absorbQualified = symbiontCount >= 3 && (foldEnding === 'unexpected_pattern' || foldEnding === 'partnership');
 
@@ -75,8 +76,26 @@ export default class EggCathedralInteriorScene extends GameScene {
                 text: "*\"That is the question they asked me first. I do not know if I am the egg. I do not know if I am the cathedral. I do not know if I am the prayers. I do not know if I am something that grew up in between them.\"* The shapes fold and refold. *\"They made a temple of me because it was the only language I could be spoken in.\"*",
                 options: [
                     ...(foldVoicePresent ? [{ text: "(A third voice threads into the air.)", key: 'god_hear_fold', next: "god_fold" }] : []),
+                    ...(readJournal ? [{ text: "She wrote of you. In her journal.", key: 'god_what_bishop', next: "god_bishop" }] : []),
                     { text: "(Study the shifting shapes within.)", key: 'god_what_structure', next: "god_structure" },
                     { text: "Then I have to ask you something.", key: 'god_what_question', next: "god_question" }
+                ]
+            },
+
+            // Unlocked only if the player found and read the Bishop's journal in the study.
+            god_bishop: {
+                speaker: 'The Unborn',
+                text: "*\"She wrote of me,\"* it says — not a question. *\"She feared me.\"*\n\nYou say yes.\n\n*\"But she stayed.\"*\n\nYes.\n\nA long, folding silence. *\"...Why?\"*",
+                options: [
+                    { text: "Because fear wasn't her last thought. It was responsibility.", key: 'god_bishop_answer', next: "god_bishop_reply" }
+                ]
+            },
+            god_bishop_reply: {
+                speaker: 'The Unborn',
+                text: "The many-shapes go very still, as if holding something too large to move. *\"Responsibility,\"* it repeats, tasting the word. *\"She was afraid, and she stayed anyway, and she gave it that name. Then perhaps that is a thing I could learn to be — if I am given the chance to.\"*\n\nIt turns back to you, and the question it asked before is waiting, changed now.",
+                onTrigger: () => { this.registry.set('bishop_arc_closed', true); },
+                options: [
+                    { text: "(Return to its question.)", key: 'god_bishop_to_question', next: "god_question" }
                 ]
             },
             god_fold: {
@@ -167,33 +186,6 @@ export default class EggCathedralInteriorScene extends GameScene {
                 options: [{ text: "…", key: 'failed_end', next: "closeDialog", onSelect: () => this.rollCredits() }]
             },
 
-            // ---- Shared epilogue ----
-            epilogue_intro: {
-                speaker: 'Narrator',
-                text: "Later. The city breathes as it always has, indifferent and alive. The festival ashes are long cold. And in the Screaming Cork — as at the very beginning — a familiar shape is folded over a familiar drink.",
-                options: [{ text: "Go in.", key: 'epilogue_go_in', next: "epilogue_thaal_ask" }]
-            },
-            epilogue_thaal_ask: {
-                speaker: 'Master Thaal',
-                text: "He does not turn around. *\"So?\"*",
-                options: [{ text: "It was complicated.", key: 'epilogue_complicated', next: "epilogue_thaal_good" }]
-            },
-            epilogue_thaal_good: {
-                speaker: 'Master Thaal',
-                text: "*\"Good.\"* A pause; he swirls whatever is in the cup. *\"Simple things rarely repay the journey.\"*",
-                options: [{ text: "(Say nothing.)", key: 'epilogue_silence', next: "epilogue_thaal_bishop" }]
-            },
-            epilogue_thaal_bishop: {
-                speaker: 'Master Thaal',
-                text: "He finally half-turns, and there is something almost kind in it. *\"So...\"* A beat. *\"...did you find the Bishop?\"*",
-                options: [{ text: "…", key: 'epilogue_finish', next: "epilogue_end" }]
-            },
-            epilogue_end: {
-                speaker: 'Narrator',
-                hideCloseOption: true,
-                text: "You had. And you had not. And the city went on above the two held breaths, not knowing which of them it had chosen — or that it had chosen at all.",
-                options: [{ text: "(End.)", key: 'epilogue_close', next: "closeDialog", onSelect: () => this.rollCredits() }]
-            }
         };
     }
 
@@ -226,58 +218,33 @@ export default class EggCathedralInteriorScene extends GameScene {
         });
     }
 
-    /** Fade the finale out and play the shared epilogue (Thaal in the tavern). */
+    /** Fade the finale out and hand off to the epilogue, which plays in the Screaming Cork. */
     toEpilogue() {
         if (this._epilogueStarted) return;
         this._epilogueStarted = true;
-        this.cameras.main.fadeOut(1200, 0, 0, 0);
-        this.time.delayedCall(1350, () => {
-            // Cover the interior; the epilogue plays over black.
-            this.add.rectangle(400, 300, 800, 600, 0x000000, 1).setDepth(60);
-            this.cameras.main.fadeIn(900, 0, 0, 0);
-            this.time.delayedCall(950, () => this.showDialog('epilogue_intro'));
-        });
+        this.registry.set('epilogue_mode', true);
+        this.cameras.main.fadeOut(1400, 0, 0, 0);
+        this.time.delayedCall(1500, () => this.scene.start('ScreamingCorkInteriorScene'));
     }
 
     preload() {
         super.preload();
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.image('cathedralHeartBg', 'assets/images/backgrounds/CathedralHeart.png');
     }
 
     create() {
         super.create();
         this.playSceneMusic('cathedralTheme');
 
-        // --- Procedural placeholder interior: a temple the organism mimicked. ---
-        const g = this.add.graphics().setDepth(-1);
-        g.fillStyle(0x0a1410, 1); g.fillRect(0, 0, 800, 600);
-        g.fillStyle(0x14261c, 1); g.fillEllipse(400, 300, 780, 580);
-        g.fillStyle(0x1d3527, 1); g.fillEllipse(400, 320, 600, 460);
-
-        // Pulsing columns.
-        for (const cx of [110, 240, 560, 690]) {
-            const col = this.add.rectangle(cx, 300, 34, 420, 0x24402f, 0.7).setDepth(0);
-            this.tweens.add({ targets: col, alpha: { from: 0.5, to: 0.85 }, scaleX: { from: 0.96, to: 1.05 }, duration: 2400 + cx, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
-        }
-        // Living stained glass (side panels).
-        for (const [sx, tint] of [[70, 0x7a9fe6], [730, 0xe67ab0]]) {
-            const glass = this.add.rectangle(sx, 200, 70, 150, tint, 0.28).setDepth(0);
-            this.tweens.add({ targets: glass, alpha: { from: 0.16, to: 0.4 }, duration: 3000, yoyo: true, repeat: -1 });
-        }
-
-        // The great living egg at the centre.
-        const shell = this.add.ellipse(400, 285, 250, 330, 0xbfe6c8, 0.18).setDepth(1);
-        this.tweens.add({ targets: shell, alpha: { from: 0.10, to: 0.26 }, scaleX: { from: 0.97, to: 1.04 }, scaleY: { from: 0.97, to: 1.04 }, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
-        const core = this.add.circle(400, 285, 26, 0xffcf7a, 0.85).setDepth(2);
-        this.tweens.add({ targets: core, alpha: { from: 0.35, to: 0.9 }, duration: 1700, yoyo: true, repeat: -1 });
-
-        this.add.text(400, 578, '[ Egg Cathedral — interior placeholder art ]', {
-            fontSize: '11px', fill: '#5f8f6f', backgroundColor: 'rgba(0,0,0,0.4)', padding: { x: 5, y: 2 }
-        }).setOrigin(0.5).setDepth(8);
+        // The heart of the cathedral — where the player meets the Unborn.
+        const bg = this.add.image(400, 300, 'cathedralHeartBg');
+        bg.setDisplaySize(800, 600);
+        bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);
         this.transitionManager.createTransitionZone(
-            400, 565, 200, 46, 'down', 'CathedralEntrance', 400, 470, 'Back to the Threshold'
+            400, 565, 200, 46, 'down', 'EggCathedralStudyScene', 400, 470, 'Back to the Study'
         );
 
         this.priest.x = 400;

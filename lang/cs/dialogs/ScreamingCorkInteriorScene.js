@@ -6,6 +6,29 @@ export default {
     _speakers: {
         'Ravla': 'Ravla',
         'Heliodor': 'Heliodor',
+        'Narrator': 'Vypravěč',
+        'Master Thaal': 'Mistr Thaal',
+    },
+
+    epilogue_intro: {
+        text: "Později. Město dýchá, jak vždycky dýchalo, lhostejné a živé. Popel po festivalu dávno vychladl. A tady, U Řvoucího korku — jako na úplném začátku — se nad známým pitím usazuje známá postava.",
+        options: { epilogue_go_in: "Jít za ním." }
+    },
+    epilogue_thaal_ask: {
+        text: "Neotočí se. *\"Tak?\"*",
+        options: { epilogue_complicated: "Bylo to složité." }
+    },
+    epilogue_thaal_good: {
+        text: "*\"Dobře.\"* Pauza; zakrouží tím, co má v poháru. *\"Jednoduché věci většinou nestojí za cestu.\"*",
+        options: { epilogue_silence: "(Neříct nic.)" }
+    },
+    epilogue_thaal_bishop: {
+        text: "Konečně se napůl otočí a je v tom cosi skoro laskavého. *\"Takže...\"* Pauza. *\"...našel jsi biskupku?\"*",
+        options: { epilogue_finish: "…" }
+    },
+    epilogue_end: {
+        text: "Našel. A nenašel. A město šlo dál nad těmi dvěma zadrženými dechy, aniž vědělo, který z nich si zvolilo — nebo že si vůbec zvolilo.",
+        options: { epilogue_close: "(Konec.)" }
     },
     ravla_start: {
         text: "Ravla vzhlédne od své práce...",

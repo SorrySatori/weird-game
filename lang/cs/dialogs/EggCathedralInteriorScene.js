@@ -37,8 +37,21 @@ export default {
         text: "*\"To je otázka, kterou mi položili jako první. Nevím, zda jsem vejce. Nevím, zda jsem katedrála. Nevím, zda jsem ty modlitby. Nevím, zda jsem něco, co vyrostlo mezi nimi.\"* Tvary se skládají a znovu skládají. *\"Udělali ze mě chrám, protože to byl jediný jazyk, kterým jsem mohl být vysloven.\"*",
         options: {
             god_hear_fold: "(Do vzduchu se vplete třetí hlas.)",
+            god_what_bishop: "Psala o tobě. Ve svém deníku.",
             god_what_structure: "(Prozkoumat měnící se tvary uvnitř.)",
             god_what_question: "Tak se tě musím na něco zeptat."
+        }
+    },
+    god_bishop: {
+        text: "*\"Psala o mně,\"* řekne — ne jako otázku. *\"Bála se mě.\"*\n\nŘekneš ano.\n\n*\"Ale zůstala.\"*\n\nAno.\n\nDlouhé, skládající se ticho. *\"...Proč?\"*",
+        options: {
+            god_bishop_answer: "Protože strach nebyl její poslední myšlenka. Byla jí odpovědnost."
+        }
+    },
+    god_bishop_reply: {
+        text: "Ty mnohé tvary úplně znehybní, jako by držely něco příliš velkého, než aby se to dalo pohnout. *\"Odpovědnost,\"* zopakuje a ochutnává to slovo. *\"Bála se, a přesto zůstala, a dala tomu to jméno. Pak je to snad věc, kterou bych se mohl naučit být — když k tomu dostanu příležitost.\"*\n\nObrátí se zpět k tobě a otázka, kterou položil předtím, čeká, teď proměněná.",
+        options: {
+            god_bishop_to_question: "(Zpět k jeho otázce.)"
         }
     },
     god_fold: {
@@ -90,26 +103,5 @@ export default {
     god_end_failed: {
         text: "Sáhneš dovnitř — a nejsi připraven. Není žádné spojení, jen srážka. Nová mysl neudrží tvůj tvar; ty neudržíš její. Ani jeden z vás nevzejde. Vzejde něco mezi vámi.\n\nPosledním obrazem je prázdná katedrála. Vejce pořád stojí, celé a tiché. Ale zevnitř zaznívá slabě lidský hlas — mluví, nebo se o to pokouší. A nikdo, kdo ho kdy uslyší, nedokáže říct, komu patří.",
         options: { failed_end: "…" }
-    },
-
-    epilogue_intro: {
-        text: "Později. Město dýchá, jak vždycky dýchalo, lhostejné a živé. Popel po festivalu dávno vychladl. A U Řvoucího korku — jako na úplném začátku — se nad známým pitím hrbí známá postava.",
-        options: { epilogue_go_in: "Vejít." }
-    },
-    epilogue_thaal_ask: {
-        text: "Neotočí se. *\"Tak?\"*",
-        options: { epilogue_complicated: "Bylo to složité." }
-    },
-    epilogue_thaal_good: {
-        text: "*\"Dobře.\"* Pauza; zakrouží tím, co má v poháru. *\"Jednoduché věci většinou nestojí za cestu.\"*",
-        options: { epilogue_silence: "(Neříct nic.)" }
-    },
-    epilogue_thaal_bishop: {
-        text: "Konečně se napůl otočí a je v tom cosi skoro laskavého. *\"Takže...\"* Pauza. *\"...našel jsi biskupku?\"*",
-        options: { epilogue_finish: "…" }
-    },
-    epilogue_end: {
-        text: "Našel. A nenašel. A město šlo dál nad těmi dvěma zadrženými dechy, aniž vědělo, který z nich si zvolilo — nebo že si vůbec zvolilo.\n\n— Konec —",
-        options: { epilogue_close: "(Konec.)" }
     }
 };

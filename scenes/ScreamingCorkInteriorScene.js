@@ -23,6 +23,38 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
         return {
             ...super.dialogContent,
+
+            // ---- Finale epilogue (only reached via epilogue_mode; Thaal at the bar) ----
+            epilogue_intro: {
+                speaker: 'Narrator',
+                hideCloseOption: true,
+                text: "Later. The city breathes as it always has, indifferent and alive. The festival ashes are long cold. And here in the Screaming Cork — as at the very beginning — a familiar shape settles over a familiar drink.",
+                options: [{ text: "Go to him.", key: 'epilogue_go_in', next: "epilogue_thaal_ask" }]
+            },
+            epilogue_thaal_ask: {
+                speaker: 'Master Thaal',
+                hideCloseOption: true,
+                text: "He does not turn around. *\"So?\"*",
+                options: [{ text: "It was complicated.", key: 'epilogue_complicated', next: "epilogue_thaal_good" }]
+            },
+            epilogue_thaal_good: {
+                speaker: 'Master Thaal',
+                hideCloseOption: true,
+                text: "*\"Good.\"* A pause; he swirls whatever is in the cup. *\"Simple things rarely repay the journey.\"*",
+                options: [{ text: "(Say nothing.)", key: 'epilogue_silence', next: "epilogue_thaal_bishop" }]
+            },
+            epilogue_thaal_bishop: {
+                speaker: 'Master Thaal',
+                hideCloseOption: true,
+                text: "He finally half-turns, and there is something almost kind in it. *\"So...\"* A beat. *\"...did you find the Bishop?\"*",
+                options: [{ text: "…", key: 'epilogue_finish', next: "epilogue_end" }]
+            },
+            epilogue_end: {
+                speaker: 'Narrator',
+                hideCloseOption: true,
+                text: "You had. And you had not. And the city went on above the two held breaths, not knowing which of them it had chosen — or that it had chosen at all.",
+                options: [{ text: "(End.)", key: 'epilogue_close', next: "closeDialog", onSelect: () => this.rollCredits() }]
+            },
             speaker: 'Ravla',
 
             // Ravla dialog - the forger
@@ -513,6 +545,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         // Load NPC sprites as static images first to ensure they exist
         this.load.image('ravla_static', 'assets/images/characters/ravla.png');
         this.load.image('heliodor_static', 'assets/images/characters/heliodor.png');
+        this.load.image('fungal_master', 'assets/images/characters/fungal_master.png');
     }
 
     create() {
@@ -539,7 +572,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
-        
+
+        // Finale epilogue: a scripted cutscene (Thaal walks in), not the normal tavern.
+        // Skip the usual exits and NPCs so the player can't wander off.
+        if (this.registry.get('epilogue_mode')) {
+            this.startEpilogueCutscene();
+            return;
+        }
+
         // Create exit back to ScreamingCorkScene at the left edge
         this.transitionManager.createTransitionZone(
             50, // x position
@@ -568,7 +608,51 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         // Create NPCs
         this.createNPCs();
     }
-    
+
+    /**
+     * Finale epilogue cutscene: the apprentice waits at the bar; Master Thaal walks in from
+     * the side; once he reaches his place, the closing dialog opens.
+     */
+    startEpilogueCutscene() {
+        // Apprentice, settled at the bar.
+        this.priest.x = 300;
+        this.priest.y = 470;
+        if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
+
+        // Master Thaal enters from the right (fungal_master image + green fungal glow).
+        const startX = 860, endX = 470, y = 470;
+        const thaal = this.add.image(startX, y, 'fungal_master').setScale(0.15).setDepth(6);
+        const glow = this.add.image(startX, y, 'fungal_master').setScale(0.155).setTint(0x00ff00).setAlpha(0.3).setDepth(5);
+        glow.setBlendMode(Phaser.BlendModes.ADD);
+        this.tweens.add({ targets: glow, alpha: 0.5, duration: 1500, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+
+        this.time.delayedCall(900, () => {
+            this.tweens.add({
+                targets: [thaal, glow],
+                x: endX,
+                duration: 2600,
+                ease: 'Sine.easeInOut',
+                onComplete: () => {
+                    // Settle: a gentle breathing idle, then open the dialog.
+                    this.tweens.add({ targets: thaal, scaleX: 0.153, scaleY: 0.153, duration: 2000, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                    this.time.delayedCall(450, () => this.showDialog('epilogue_intro'));
+                }
+            });
+        });
+    }
+
+    /** End the epilogue and roll the credits (the real game-over). */
+    rollCredits() {
+        if (this._creditsStarted) return;
+        this._creditsStarted = true;
+        this.registry.set('epilogue_mode', false);
+        this.registry.set('game_finale_complete', true);
+        this.cameras.main.fadeOut(1400, 0, 0, 0);
+        this.time.delayedCall(1500, () => {
+            this.scene.start('CreditsScene', { ending: this.registry.get('finale_ending') || null });
+        });
+    }
+
     createNPCs() {
         // Create Ravla NPC (the forger) using static image
         this.ravla = this.add.image(700, 470, 'ravla_static');

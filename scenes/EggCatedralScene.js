@@ -58,6 +58,22 @@ export default class EggCatedralScene extends GameScene {
         
         // Left transition removed - no going back to EntryScene
         // The Fungal Master has left and the apprentice's journey continues forward
+
+        // Edgar's secret way in: an unsealed gap in the shell that bypasses the Guardian and
+        // drops straight into the Bishop's study. Only present once Edgar has revealed it.
+        if (this.hasJournalEntry('edgar_cathedral_path')) {
+            const gx = 90, gy = 330;
+            const gap = this.add.ellipse(gx, gy, 46, 90, 0x0a1410, 0.85).setDepth(0);
+            const glow = this.add.circle(gx, gy, 7, 0x7fff8e, 0.8).setDepth(1);
+            this.tweens.add({ targets: glow, alpha: { from: 0.25, to: 0.8 }, duration: 1600, yoyo: true, repeat: -1 });
+            this.transitionManager.createTransitionZone(
+                gx, gy, 70, 120,
+                'left',
+                'EggCathedralStudyScene',
+                gx + 10, gy,
+                "Edgar's Gap"
+            );
+        }
     }
     
 

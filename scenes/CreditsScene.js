@@ -18,6 +18,11 @@ export default class CreditsScene extends Phaser.Scene {
         this._done = false;
     }
 
+    preload() {
+        this.load.audio('creditsMusic', 'assets/sounds/kdyz-brod-je-jeste-daleko.mp3');
+        this.load.image('tempurraLogo', 'assets/images/ui/TempurraLogo.png');
+    }
+
     create() {
         const W = this.scale.width;
         const H = this.scale.height;
@@ -25,6 +30,13 @@ export default class CreditsScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#05080a');
         this.cameras.main.fadeIn(1200, 0, 0, 0);
+
+        // Credits theme.
+        this.sound.stopAll();
+        try {
+            this.creditsMusic = this.sound.add('creditsMusic', { loop: true, volume: 0.6 });
+            this.creditsMusic.play();
+        } catch (e) { /* audio may be unavailable in some environments */ }
 
         // A soft breathing spore-mote or two behind the text, for atmosphere.
         for (let i = 0; i < 3; i++) {
@@ -57,6 +69,8 @@ export default class CreditsScene extends Phaser.Scene {
             cs ? 'Sporová rada' : 'The Spore Council',
             cs ? 'Všem, kdo čekali v Přízračné frontě' : 'Everyone who waited in the Phantom Queue',
             cs ? 'Biskupce' : 'The Bishop',
+            cs ? 'Hedvice' : 'Hedvika',
+
             '', '', '', '',
             cs ? 'Děkujeme, že jsi hrál.' : 'Thank you for playing.',
             '', '', '', '', '', ''
@@ -124,11 +138,10 @@ export default class CreditsScene extends Phaser.Scene {
         if (this.scrollText) this.scrollText.setVisible(false);
         if (this.skipHint) this.skipHint.setVisible(false);
 
-        this.add.text(W / 2, H / 2 - 70, '◆  T E M P U R R A   G A M E S  ◆', {
-            fontFamily: 'serif', fontSize: '20px', color: '#7fff8e', align: 'center'
-        }).setOrigin(0.5).setDepth(3);
+        const logo = this.add.image(W / 2, H / 2 - 100, 'tempurraLogo').setDepth(3);
+        logo.setDisplaySize(140, 140); // 1024×1024 source — scaled down to fit
 
-        this.add.text(W / 2, H / 2, cs ? '— Konec —' : '— The End —', {
+        this.add.text(W / 2, H / 2 + 20, cs ? '— Konec —' : '— The End —', {
             fontFamily: 'serif', fontSize: '34px', color: '#e8f3ea', align: 'center'
         }).setOrigin(0.5).setDepth(3);
 
@@ -141,6 +154,9 @@ export default class CreditsScene extends Phaser.Scene {
     _finish() {
         if (this._done) return;
         this._done = true;
+        if (this.creditsMusic) {
+            this.tweens.add({ targets: this.creditsMusic, volume: 0, duration: 900, onComplete: () => this.creditsMusic.stop() });
+        }
         this.cameras.main.fadeOut(900, 0, 0, 0);
         this.time.delayedCall(950, () => this.scene.start('MainScene'));
     }

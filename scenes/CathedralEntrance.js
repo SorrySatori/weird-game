@@ -181,7 +181,7 @@ export default class CathedralEntrance extends GameScene {
                 200, // width
                 40,  // height
                 'up', // direction
-                'EggCathedralInteriorScene', // target scene
+                'EggCathedralStudyScene', // target scene (first room: the Bishop's study)
                 400, // walk to x
                 80,  // walk to y
                 'Into the Cathedral' // destination name
@@ -377,7 +377,7 @@ export default class CathedralEntrance extends GameScene {
         if (this.clickSound) this.clickSound.play();
         this.cameras.main.fadeOut(600, 0, 0, 0);
         this.time.delayedCall(650, () => {
-            this.scene.start('EggCathedralInteriorScene');
+            this.scene.start('EggCathedralStudyScene');
         });
     }
     
