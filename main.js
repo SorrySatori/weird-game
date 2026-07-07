@@ -41,6 +41,7 @@ import CardinalFeastScene from './scenes/CardinalFeastScene.js';
 import GodgraveyardScene from './scenes/GodgraveyardScene.js';
 import ScraperCellarScene from './scenes/ScraperCellarScene.js';
 import EggCathedralInteriorScene from './scenes/EggCathedralInteriorScene.js';
+import CreditsScene from './scenes/CreditsScene.js';
 
 // WebGL errors are handled by error-blocker.js
 
@@ -61,7 +62,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownhallInteriorScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene, LumenDirectorateScene, LumenDirectorateInteriorScene, CardinalFeastScene, GodgraveyardScene, ScraperCellarScene, EggCathedralInteriorScene],
+    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownhallInteriorScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene, LumenDirectorateScene, LumenDirectorateInteriorScene, CardinalFeastScene, GodgraveyardScene, ScraperCellarScene, EggCathedralInteriorScene, CreditsScene],
     backgroundColor: '#2d2d2d',
     scale: {
         mode: Phaser.Scale.RESIZE,

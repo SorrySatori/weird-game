@@ -106,13 +106,13 @@ export default class EggCathedralInteriorScene extends GameScene {
             },
             god_question: {
                 speaker: 'The Unborn',
+                hideCloseOption: true,
                 text: "The many-thoughts gather into something almost like a single voice. *\"My waking will change your world. When I am fully here, the Guardian ends. The old order ends. The city will not be as it was.\"* A pause that is almost fear. *\"Shall I continue?\"*",
                 options: [
                     { text: "You don't have to be what they imagined. Be something new.", key: 'god_opt_accept', next: "god_end_accept" },
                     { text: "Continue — but slowly. Let the world learn you first.", key: 'god_opt_pact', next: "god_end_pact" },
                     { text: "We can't risk what we don't understand.", key: 'god_opt_destroy', next: "god_end_destroy" },
-                    ...(understood ? [{ text: "You shouldn't be left alone. Let me take you in.", key: 'god_opt_merge', next: "god_merge" }] : []),
-                    { text: "I need a moment.", key: 'god_opt_wait', next: "closeDialog" }
+                    ...(understood ? [{ text: "You shouldn't be left alone. Let me take you in.", key: 'god_opt_merge', next: "god_merge" }] : [])
                 ]
             },
 
@@ -163,7 +163,8 @@ export default class EggCathedralInteriorScene extends GameScene {
                 speaker: 'The Unborn',
                 text: "You reach through — and you are not ready. There is no joining, only collision. The new mind cannot hold your shape; you cannot hold its. Neither of you emerges. Something between you does.\n\nThe last image is an empty cathedral. The egg still stands, whole and quiet. But from inside it, faintly, comes a human voice — speaking, or trying to. And no one who ever hears it will be able to say whose it is.",
                 onTrigger: () => this.finalizeFinale('failed_merge', 'unknown', 'The Voice in the Egg', "I reached into the Unborn before I was ready. There was no joining — only collision. Neither of us emerged whole; something between us did. The cathedral is empty now, the egg intact and quiet. From inside it comes a faint human voice that no one will be able to name.", true),
-                options: [{ text: "…", key: 'failed_end', next: "closeDialog" }]
+                hideCloseOption: true,
+                options: [{ text: "…", key: 'failed_end', next: "closeDialog", onSelect: () => this.rollCredits() }]
             },
 
             // ---- Shared epilogue ----
@@ -189,9 +190,9 @@ export default class EggCathedralInteriorScene extends GameScene {
             },
             epilogue_end: {
                 speaker: 'Narrator',
-                text: "You had. And you had not. And the city went on above the two held breaths, not knowing which of them it had chosen — or that it had chosen at all.\n\n— Konec —",
-                onTrigger: () => { this.registry.set('game_finale_complete', true); },
-                options: [{ text: "(End.)", key: 'epilogue_close', next: "closeDialog" }]
+                hideCloseOption: true,
+                text: "You had. And you had not. And the city went on above the two held breaths, not knowing which of them it had chosen — or that it had chosen at all.",
+                options: [{ text: "(End.)", key: 'epilogue_close', next: "closeDialog", onSelect: () => this.rollCredits() }]
             }
         };
     }
@@ -212,6 +213,17 @@ export default class EggCathedralInteriorScene extends GameScene {
             // A bad end with no clean return — mark the run complete without the Thaal epilogue.
             this.registry.set('game_finale_complete', true);
         }
+    }
+
+    /** Roll the end credits (the real game-over). */
+    rollCredits() {
+        if (this._creditsStarted) return;
+        this._creditsStarted = true;
+        this.registry.set('game_finale_complete', true);
+        this.cameras.main.fadeOut(1400, 0, 0, 0);
+        this.time.delayedCall(1500, () => {
+            this.scene.start('CreditsScene', { ending: this.registry.get('finale_ending') || null });
+        });
     }
 
     /** Fade the finale out and play the shared epilogue (Thaal in the tavern). */

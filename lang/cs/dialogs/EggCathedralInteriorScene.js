@@ -59,8 +59,7 @@ export default {
             god_opt_accept: "Nemusíš být tím, co si představovali. Buď něčím novým.",
             god_opt_pact: "Pokračuj — ale pomalu. Nech svět, ať se tě nejdřív naučí.",
             god_opt_destroy: "Nemůžeme riskovat něco, čemu nerozumíme.",
-            god_opt_merge: "Nesmíš zůstat sám. Nech mě, ať tě přijmu do sebe.",
-            god_opt_wait: "Potřebuji chvíli."
+            god_opt_merge: "Nesmíš zůstat sám. Nech mě, ať tě přijmu do sebe."
         }
     },
 
