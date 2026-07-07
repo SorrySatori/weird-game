@@ -1,8 +1,11 @@
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 let SPOREBAR_ID = 1;
 export default class SporeBar {
 
     constructor(scene, x, y) {
         this.id = SPOREBAR_ID++;
+        this.lang = LanguageSystem.getInstance();
         this.scene = scene;
         
         // Create container for the spore bar
@@ -18,7 +21,7 @@ export default class SporeBar {
         this.fillBar.setOrigin(0, 0);
         
         // Create label
-        this.label = scene.add.text(75, 24, 'SPORES', {
+        this.label = scene.add.text(75, 24, this.lang.t('sporeBar.label'), {
             fontSize: '14px',
             fill: '#7fff8e',
             align: 'center'
@@ -73,9 +76,9 @@ export default class SporeBar {
         
         // Create text for displaying tooltip
         this.tooltipText = this.scene.add.text(10, 40, 
-            'Spore Energy\n' +
-            'Used for fungal abilities and rituals.\n' +
-            'Current: 0/0', {
+            this.lang.t('sporeBar.tooltipTitle') + '\n' +
+            this.lang.t('sporeBar.tooltipDesc') + '\n' +
+            this.lang.t('sporeBar.tooltipCurrent', { current: 0, max: 0 }), {
             fontSize: '12px',
             fill: '#ffffff',
             align: 'left',
@@ -91,9 +94,9 @@ export default class SporeBar {
         if (this.scene.sporeSystem) {
             const current = this.scene.sporeSystem.getSporeLevel();
             const max = this.scene.sporeSystem.getMaxSpores();
-            const tooltipContent = 'Spore Energy\n' +
-                'Used for fungal abilities and rituals.\n' +
-                `Current: ${current}/${max}`;
+            const tooltipContent = this.lang.t('sporeBar.tooltipTitle') + '\n' +
+                this.lang.t('sporeBar.tooltipDesc') + '\n' +
+                this.lang.t('sporeBar.tooltipCurrent', { current, max });
             this.tooltipText.setText(tooltipContent);
         }
         

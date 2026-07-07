@@ -1,7 +1,10 @@
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 export default class QuestLog {
     constructor(scene, x = 750, y = 50) {
         this.scene = scene;
         this.questSystem = scene.registry.get('questSystem');
+        this.lang = LanguageSystem.getInstance();
         this.expandedQuests = new Set();
         
         // Create quest log button
@@ -61,7 +64,7 @@ export default class QuestLog {
         spot2.setAlpha(0.7);
         
         // Add text label
-        const label = this.scene.add.text(0, 20, 'Quests', {
+        const label = this.scene.add.text(0, 20, this.lang.t('ui.hud.quests'), {
             font: '12px Arial',
             fill: '#7fff8e',
             align: 'center'
@@ -158,8 +161,8 @@ export default class QuestLog {
         this.addParchmentTexture(tabBg, -300, -250, 290, 45, 0.1);
         this.addParchmentTexture(tabBg, 0, -250, 290, 45, 0.1);
         
-        this.activeTabButton = this.scene.add.text(-270, -237, 'ACTIVE QUESTS', activeTabStyle);
-        this.finishedTabButton = this.scene.add.text(30, -237, 'COMPLETED QUESTS', inactiveTabStyle);
+        this.activeTabButton = this.scene.add.text(-270, -237, this.lang.t('ui.hud.activeQuests'), activeTabStyle);
+        this.finishedTabButton = this.scene.add.text(30, -237, this.lang.t('ui.hud.completedQuests'), inactiveTabStyle);
         
         this.activeTabButton.setInteractive({ useHandCursor: true });
         this.finishedTabButton.setInteractive({ useHandCursor: true });
@@ -268,9 +271,16 @@ export default class QuestLog {
     }
 
     createQuestEntry(quest, yOffset) {
+        // Resolve translated quest content
+        const tKey = `quests.${quest.id}`;
+        const tTitle = this.lang.t(`${tKey}.title`);
+        const tDesc = this.lang.t(`${tKey}.description`);
+        const displayTitle = tTitle === `${tKey}.title` ? quest.title : tTitle;
+        const displayDesc = tDesc === `${tKey}.description` ? quest.description : tDesc;
+
         // Simple approach to ensure text is visible
         const container = this.scene.add.container(0, yOffset);
-        const isExpanded = this.expandedQuests.has(quest.title);
+        const isExpanded = this.expandedQuests.has(quest.id);
         
         // Create background
         const entryBg = this.scene.add.graphics();
@@ -289,7 +299,7 @@ export default class QuestLog {
         });
         
         // Add quest title
-        const title = this.scene.add.text(-200, 15, quest.title, {
+        const title = this.scene.add.text(-200, 15, displayTitle, {
             font: 'bold 22px Georgia',
             fill: quest.isComplete ? '#00ff00' : '#7fff8e',
             stroke: '#000000',
@@ -302,7 +312,7 @@ export default class QuestLog {
         headerZone.setOrigin(0);
         headerZone.setInteractive({ useHandCursor: true });
         headerZone.on('pointerdown', () => {
-            this.toggleQuestExpansion(quest.title);
+            this.toggleQuestExpansion(quest.id);
         });
         
         // Add hover effect
@@ -329,7 +339,7 @@ export default class QuestLog {
         // Add description and updates if expanded
         if (isExpanded) {
             // Add description
-            const desc = this.scene.add.text(-230, contentY, quest.description, {
+            const desc = this.scene.add.text(-230, contentY, displayDesc, {
                 font: '18px Georgia',
                 fill: '#7fff8e',
                 wordWrap: { width: 460 },
@@ -341,7 +351,7 @@ export default class QuestLog {
             // Add updates if any
             if (quest.updates && quest.updates.length > 0) {
                 // Add header
-                const updatesHeader = this.scene.add.text(-230, contentY, 'Progress:', {
+                const updatesHeader = this.scene.add.text(-230, contentY, this.lang.t('ui.hud.questProgress'), {
                     font: 'italic 18px Georgia',
                     fill: '#00ff00',
                     stroke: '#000000',
@@ -352,6 +362,14 @@ export default class QuestLog {
                 
                 // Add each update
                 quest.updates.forEach(update => {
+                    // Resolve translated update text via the update key
+                    let displayUpdate = update.text;
+                    if (update.key) {
+                        const uKey = `${tKey}.updates.${update.key}`;
+                        const tUpdate = this.lang.t(uKey);
+                        if (tUpdate !== uKey) displayUpdate = tUpdate;
+                    }
+
                     // Add bullet
                     const bullet = this.scene.add.graphics();
                     bullet.fillStyle(0x7fff8e, 0.8);
@@ -359,7 +377,7 @@ export default class QuestLog {
                     container.add(bullet);
                     
                     // Add update text
-                    const updateText = this.scene.add.text(-205, contentY, update.text, {
+                    const updateText = this.scene.add.text(-205, contentY, displayUpdate, {
                         font: '16px Georgia',
                         fill: '#5c9b6b',
                         wordWrap: { width: 420 },
@@ -405,8 +423,8 @@ export default class QuestLog {
         if (filteredQuests.length === 0) {
             const noQuestsText = this.scene.add.text(0, 0, 
                 this.activeTab === 'active' ? 
-                'You have no active quests.' : 
-                'You have not completed any quests yet.', 
+                this.lang.t('ui.hud.noActiveQuests') : 
+                this.lang.t('ui.hud.noCompletedQuests'), 
                 {
                     font: 'italic 20px Georgia',
                     fill: '#5c9b6b',
@@ -430,11 +448,11 @@ export default class QuestLog {
         this.contentHeight = yOffset;
     }
 
-    toggleQuestExpansion(questTitle) {
-        if (this.expandedQuests.has(questTitle)) {
-            this.expandedQuests.delete(questTitle);
+    toggleQuestExpansion(questId) {
+        if (this.expandedQuests.has(questId)) {
+            this.expandedQuests.delete(questId);
         } else {
-            this.expandedQuests.add(questTitle);
+            this.expandedQuests.add(questId);
         }
         this.updateQuestDisplay();
     }

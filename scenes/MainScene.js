@@ -1,4 +1,5 @@
 import SaveSystem from '../systems/SaveSystem.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -26,6 +27,7 @@ export default class MainScene extends Phaser.Scene {
 
     create() {
         console.log('MainScene create started');
+        this.langModal = null;
         try {
             // Create an invisible rectangle that covers the entire game area
             const gameArea = this.add.rectangle(0, 0, 800, 600, 0x000000, 0);
@@ -39,6 +41,8 @@ export default class MainScene extends Phaser.Scene {
             // Add hover and click sounds
             this.hoverSound = this.sound.add('hoverSound');
             this.clickSound = this.sound.add('clickSound');
+
+            const i18n = LanguageSystem.getInstance();
 
             const title = this.add.text(400, 170, 'Upper Morkezela:', {
                 fontSize: '72px',
@@ -68,7 +72,7 @@ export default class MainScene extends Phaser.Scene {
             buttonBg.setInteractive({ useHandCursor: true });;
 
             // Add start game text
-            const startText = this.add.text(400, 400, 'Start Game', {
+            const startText = this.add.text(400, 400, i18n.t('ui.menu.startGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -80,7 +84,7 @@ export default class MainScene extends Phaser.Scene {
             loadGameBg.setStrokeStyle(2, 0x7fff8e);
             loadGameBg.setInteractive({ useHandCursor: true });
 
-            const loadGameText = this.add.text(400, 480, 'Load Game', {
+            const loadGameText = this.add.text(400, 480, i18n.t('ui.menu.loadGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -104,6 +108,30 @@ export default class MainScene extends Phaser.Scene {
             addHoverEffects(buttonBg, startText);
             addHoverEffects(loadGameBg, loadGameText);
 
+            // Add Language button
+            this.langSystem = LanguageSystem.getInstance();
+            const currentLang = this.langSystem.supportedLanguages.find(
+                l => l.code === this.langSystem.getLanguage()
+            );
+
+            const langBg = this.add.rectangle(400, 540, 200, 50, 0x0a2712, 0.4);
+            langBg.setStrokeStyle(2, 0x7fff8e);
+            langBg.setInteractive({ useHandCursor: true });
+
+            this.langText = this.add.text(400, 540, currentLang ? currentLang.name : 'Language', {
+                fontSize: '24px',
+                fill: '#7fff8e',
+                fontFamily: 'Arial'
+            });
+            this.langText.setOrigin(0.5);
+
+            addHoverEffects(langBg, this.langText);
+
+            langBg.on('pointerdown', () => {
+                this.clickSound.play();
+                this.showLanguageModal(addHoverEffects);
+            });
+
             // Add click handlers
             buttonBg.on('pointerdown', () => {
                 this.clickSound.play();
@@ -120,11 +148,10 @@ export default class MainScene extends Phaser.Scene {
                 this.showLoadMenu();
             });
 
-            if (!this.backgroundMusic) {
-                this.backgroundMusic = this.sound.add('mainMenuMusic', { loop: true });
+            if (!this.sceneMusic || !this.sceneMusic.isPlaying) {
+                this.sceneMusic = this.sound.add('mainMenuMusic', { loop: true });
+                this.sceneMusic.play();
             }
-            this.sceneMusic = this.sound.add('mainMenuMusic', { loop: true });
-            this.sceneMusic.play();
             
             // Initialize save system
             this.saveSystem = new SaveSystem(this);
@@ -171,7 +198,86 @@ export default class MainScene extends Phaser.Scene {
             this.saveNameInput.style.top = `${y}px`;
         }
     }
-    
+
+    /**
+     * Show the language selection modal
+     */
+    showLanguageModal(addHoverEffects) {
+        if (this.langModal) return;
+
+        const cx = this.cameras.main.width / 2;
+        const cy = this.cameras.main.height / 2;
+        const langs = this.langSystem.supportedLanguages;
+        const currentCode = this.langSystem.getLanguage();
+
+        this.langModal = this.add.container(0, 0);
+        this.langModal.setDepth(2000);
+
+        // Dim overlay
+        const overlay = this.add.rectangle(cx, cy, 800, 600, 0x000000, 0.7);
+        overlay.setInteractive(); // blocks clicks to elements beneath
+        this.langModal.add(overlay);
+
+        // Panel
+        const panelH = 60 + langs.length * 60 + 60;
+        const panel = this.add.rectangle(cx, cy, 320, panelH, 0x0a2712, 0.95);
+        panel.setStrokeStyle(2, 0x7fff8e);
+        this.langModal.add(panel);
+
+        // Title
+        const title = this.add.text(cx, cy - panelH / 2 + 30, this.langSystem.t('ui.menu.language'), {
+            fontSize: '28px',
+            fill: '#7fff8e',
+            fontFamily: 'Arial'
+        });
+        title.setOrigin(0.5);
+        this.langModal.add(title);
+
+        // Language options
+        langs.forEach((lang, idx) => {
+            const y = cy - panelH / 2 + 80 + idx * 60;
+            const isActive = lang.code === currentCode;
+
+            const optBg = this.add.rectangle(cx, y, 260, 44, 0x0a2712, isActive ? 0.8 : 0.4);
+            optBg.setStrokeStyle(isActive ? 2 : 1, isActive ? 0x2fff91 : 0x7fff8e);
+            optBg.setInteractive({ useHandCursor: true });
+
+            const optText = this.add.text(cx, y, lang.name, {
+                fontSize: '24px',
+                fill: isActive ? '#2fff91' : '#7fff8e',
+                fontFamily: 'Arial',
+                fontStyle: isActive ? 'bold' : ''
+            });
+            optText.setOrigin(0.5);
+
+            if (!isActive) {
+                addHoverEffects(optBg, optText);
+            }
+
+            optBg.on('pointerdown', () => {
+                if (lang.code === currentCode) {
+                    // Close modal when clicking already-active language
+                    this.clickSound.play();
+                    this.langModal.destroy();
+                    this.langModal = null;
+                    return;
+                }
+                this.clickSound.play();
+                this.langSystem.setLanguage(lang.code);
+                this.scene.restart();
+            });
+
+            this.langModal.add([optBg, optText]);
+        });
+
+        // Close on overlay click
+        overlay.on('pointerdown', () => {
+            this.clickSound.play();
+            this.langModal.destroy();
+            this.langModal = null;
+        });
+    }
+
     /**
      * Show the load game menu
      */
@@ -189,7 +295,10 @@ export default class MainScene extends Phaser.Scene {
         // Show the load menu
         this.loadMenuContainer.setVisible(true);
         this.loadMenuVisible = true;
-        
+
+        // Always start on the first page.
+        this.currentLoadPage = 0;
+
         // Populate with save files
         this.populateLoadMenu();
     }
@@ -243,7 +352,47 @@ export default class MainScene extends Phaser.Scene {
         // Add save slots container
         this.saveSlotContainer = this.add.container(this.cameras.main.width / 2, this.cameras.main.height / 2);
         this.loadMenuContainer.add(this.saveSlotContainer);
-        
+
+        // Pagination so every saved slot is reachable, not just the first six.
+        this.currentLoadPage = 0;
+        this.loadSlotsPerPage = 6;
+        const navY = this.cameras.main.height / 2 + 175;
+
+        this.loadPrevButton = this.add.text(this.cameras.main.width / 2 - 160, navY, '◀', {
+            fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial'
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadPrevButton);
+
+        this.loadPageText = this.add.text(this.cameras.main.width / 2, navY, '', {
+            fontSize: '18px', fill: '#7fff8e', fontFamily: 'Arial'
+        }).setOrigin(0.5);
+        this.loadMenuContainer.add(this.loadPageText);
+
+        this.loadNextButton = this.add.text(this.cameras.main.width / 2 + 160, navY, '▶', {
+            fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial'
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadNextButton);
+
+        this.loadPrevButton.on('pointerover', () => { this.loadPrevButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadPrevButton.on('pointerout', () => { this.loadPrevButton.setStyle({ fill: '#7fff8e' }); });
+        this.loadNextButton.on('pointerover', () => { this.loadNextButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadNextButton.on('pointerout', () => { this.loadNextButton.setStyle({ fill: '#7fff8e' }); });
+
+        this.loadPrevButton.on('pointerdown', () => {
+            if (this.currentLoadPage > 0) {
+                this.clickSound.play();
+                this.currentLoadPage--;
+                this.populateLoadMenu();
+            }
+        });
+        this.loadNextButton.on('pointerdown', () => {
+            if ((this.currentLoadPage + 1) * this.loadSlotsPerPage < (this._loadFileCount || 0)) {
+                this.clickSound.play();
+                this.currentLoadPage++;
+                this.populateLoadMenu();
+            }
+        });
+
         // Add back button
         const backButton = this.createButton(
             this.cameras.main.width / 2,
@@ -330,7 +479,12 @@ export default class MainScene extends Phaser.Scene {
         if (!saveFilesResult.success || !saveFilesResult.files || saveFilesResult.files.length === 0) {
             // No save files found - clear any existing content first
             this.saveSlotContainer.removeAll(true);
-            
+
+            this._loadFileCount = 0;
+            if (this.loadPageText) this.loadPageText.setText('');
+            if (this.loadPrevButton) this.loadPrevButton.setVisible(false);
+            if (this.loadNextButton) this.loadNextButton.setVisible(false);
+
             const noSavesText = this.add.text(0, 0, 'No save files found', {
                 fontSize: '24px',
                 fill: '#7fff8e',
@@ -349,13 +503,30 @@ export default class MainScene extends Phaser.Scene {
         
         // Add save slots
         let yPos = -190;
-        
+
         // Clear all existing content to prevent duplicates
         this.saveSlotContainer.removeAll(true);
-        
-        // Limit to 6 save slots to match in-game save menu
-        const filesToShow = saveFilesResult.files.slice(0, 6);
-        
+
+        // Sort by save-slot number ascending (save1, save2, …) so the list
+        // mirrors the numbered save slots; files without a number sort last.
+        const slotNumber = (name) => {
+            const match = /(\d+)\s*$/.exec(name || '');
+            return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
+        };
+        const allFiles = saveFilesResult.files.slice().sort((a, b) => slotNumber(a.name) - slotNumber(b.name));
+
+        // Paginate so every saved slot is reachable, not just the first six.
+        this._loadFileCount = allFiles.length;
+        const perPage = this.loadSlotsPerPage || 6;
+        const pageCount = Math.max(1, Math.ceil(allFiles.length / perPage));
+        if (this.currentLoadPage > pageCount - 1) this.currentLoadPage = pageCount - 1;
+        const pageStart = this.currentLoadPage * perPage;
+        const filesToShow = allFiles.slice(pageStart, pageStart + perPage);
+
+        if (this.loadPageText) this.loadPageText.setText(`Page ${this.currentLoadPage + 1} / ${pageCount}`);
+        if (this.loadPrevButton) this.loadPrevButton.setVisible(this.currentLoadPage > 0);
+        if (this.loadNextButton) this.loadNextButton.setVisible(this.currentLoadPage < pageCount - 1);
+
         // Double check we have files to show
         if (filesToShow.length === 0) {
             const noSavesText = this.add.text(0, 0, 'No save files found', {
@@ -367,7 +538,7 @@ export default class MainScene extends Phaser.Scene {
             this.saveSlotContainer.add(noSavesText);
             return;
         }
-        
+
         filesToShow.forEach(saveFile => {
             console.log('Processing save file:', saveFile);
             // Create container for this save slot

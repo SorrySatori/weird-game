@@ -15,6 +15,7 @@ import EffectsSystem from '../systems/EffectsSystem.js';
 import SaveSystem from '../systems/SaveSystem.js';
 import GameMenu from '../ui/GameMenu.js';
 import MapUI from '../ui/MapUI.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -1368,6 +1369,16 @@ export default class GameScene extends Phaser.Scene {
         if (!this.journalSystem) return false;
         return this.journalSystem.getEntry(id);
     }
+
+    /**
+     * Which in-game day are we on. Day 2 begins once the player has slept at the
+     * end of Day 1 (persisted via the journal, so it survives save/load).
+     * Scenes should gate Day-2 content behind this rather than duplicating scenes.
+     * @returns {boolean}
+     */
+    isDay2() {
+        return !!this.hasJournalEntry('day1_complete_slept');
+    }
     
     /**
      * Get a specific journal entry
@@ -1714,6 +1725,12 @@ export default class GameScene extends Phaser.Scene {
             this.hideDialog();
             return;
         }
+
+        // Apply i18n translation if not English
+        if (typeof state === 'string') {
+            const langSys = LanguageSystem.getInstance();
+            content = langSys.translateDialog(this.scene.key, state, content);
+        }
         
         // Check if this state has an onTrigger handler (runs without closing dialog)
         if (content.onTrigger) {
@@ -1740,32 +1757,34 @@ export default class GameScene extends Phaser.Scene {
         dialogBg.setStrokeStyle(2, 0x7fff8e);
         this.dialogBox.add(dialogBg);
 
-        // Add 'X' close button
-        const closeBtn = this.add.container(280, -230);
-        const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
-        closeBg.setStrokeStyle(1, 0x7fff8e);
-        closeBg.setInteractive({ useHandCursor: true });
-        const closeText = this.add.text(0, 0, 'X', {
-            fontSize: '24px',
-            fill: '#7fff8e'
-        });
-        closeText.setOrigin(0.5);
-        closeBtn.add([closeBg, closeText]);
-        this.dialogBox.add(closeBtn);
+        // Add 'X' close button (skipped entirely for non-closable dialogs)
+        if (!content.hideCloseOption) {
+            const closeBtn = this.add.container(280, -230);
+            const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
+            closeBg.setStrokeStyle(1, 0x7fff8e);
+            closeBg.setInteractive({ useHandCursor: true });
+            const closeText = this.add.text(0, 0, 'X', {
+                fontSize: '24px',
+                fill: '#7fff8e'
+            });
+            closeText.setOrigin(0.5);
+            closeBtn.add([closeBg, closeText]);
+            this.dialogBox.add(closeBtn);
 
-        // Make close button interactive
-        closeBg.on('pointerover', () => {
-            closeBg.setFillStyle(0x0a2712, 0.8);
-            closeText.setStyle({ fill: '#b3ffcc' });
-        });
-        closeBg.on('pointerout', () => {
-            closeBg.setFillStyle(0x0a2712, 0.6);
-            closeText.setStyle({ fill: '#7fff8e' });
-        });
-        closeBg.on('pointerdown', () => {
-            this.clickSound.play();
-            this.hideDialog();
-        });
+            // Make close button interactive
+            closeBg.on('pointerover', () => {
+                closeBg.setFillStyle(0x0a2712, 0.8);
+                closeText.setStyle({ fill: '#b3ffcc' });
+            });
+            closeBg.on('pointerout', () => {
+                closeBg.setFillStyle(0x0a2712, 0.6);
+                closeText.setStyle({ fill: '#7fff8e' });
+            });
+            closeBg.on('pointerdown', () => {
+                this.clickSound.play();
+                this.hideDialog();
+            });
+        }
 
         // Create a separate container for text area with fixed height
         const textContainer = this.add.container(0, -140);
@@ -1972,7 +1991,9 @@ export default class GameScene extends Phaser.Scene {
             
             // Add close option if it fits on this page (unless hideCloseOption is true)
             if (endIdx === content.options.length && (endIdx - startIdx) < visibleOptionsCount && !content.hideCloseOption) {
-                const closeElements = this.createDialogOption('I should go', currentY, () => {
+                const i18n = LanguageSystem.getInstance();
+                const closeLabel = i18n.t('ui.dialog.close');
+                const closeElements = this.createDialogOption(closeLabel, currentY, () => {
                     this.hideDialog();
                 });
                 this.dialogOptions.add(closeElements);

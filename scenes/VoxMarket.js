@@ -21,6 +21,9 @@ export default class VoxMarket extends GameScene {
 
     get dialogContent() {
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
+        const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
+        const sulkberriesClearedKloor = !!this.hasJournalEntry('sulkberries_cleared_kloor');
+        const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
 
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
@@ -29,17 +32,19 @@ export default class VoxMarket extends GameScene {
             kloor_start: {
                 text: "Kloor Venn eyes you with a mixture of suspicion and interest. 'What do you want? I'm busy.'" ,
                 options: [
-                    { text: "Who are you?", next: "kloor_who" },
-                    { text: "What are you selling?", next: "kloor_selling" },
-                    { text: "I want to sell you some spores.", next: "kloor_buy_spores" },
+                    { text: "Who are you?", key: 'who_are_you', next: "kloor_who" },
+                    { text: "What are you selling?", key: 'what_are_you_selling', next: "kloor_selling" },
+                    { text: "I want to sell you some spores.", key: 'i_want_to_sell_you_some_spores', next: "kloor_buy_spores" },
                     ...(this.registry.get('questSystem')?.getQuest('find_bishop') ? [
-                        { text: "Do you know anything about the Bishop?", next: "kloor_bishop" }
+                        { text: "Do you know anything about the Bishop?", key: 'do_you_know_anything_about_the_bishop', next: "kloor_bishop" }
                     ] : []),
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
-                        { text: "About those Vestigels...", next: "kloor_vestigels_progress" }
+                        { text: "About those Vestigels...", key: 'about_those_vestigels', next: "kloor_vestigels_progress" }
                     ] : []),
+                    ...(knowsSulkberries && !sulkberriesClearedKloor ? [
+                        { text: "I need your expertise on some Sulkberries.", key: 'i_need_your_expertise_on_some_sulkberries', next: "kloor_sulkberry_analyze" }] : []),
                     ...(hasFindRustQuest ? [
-                        { text: "Can you help me to get to Rust Choir headquarters?.", next: "rustDomain" }] : []),
+                        { text: "Can you help me to get to Rust Choir headquarters?.", key: 'can_you_help_me_to_get_to_rust_choir_headquarters', next: "rustDomain" }] : []),
                 ],
                 onTrigger: () => {
                     // Add journal entry for meeting Kloor Venn if not already added
@@ -58,41 +63,41 @@ export default class VoxMarket extends GameScene {
             kloor_who: {
                 text: "'The name's Kloor Venn. I'm a... pharmaceutical entrepreneur. I deal in specialized substances that expand the mind.' He taps his temple and grins.",
                 options: [
-                    { text: "What kind of substances?", next: "kloor_substances" },
-                    { text: "Back", next: "kloor_start" }
+                    { text: "What kind of substances?", key: 'what_kind_of_substances', next: "kloor_substances" },
+                    { text: "Back", key: 'back', next: "kloor_start" }
                 ]
             },
             
             kloor_substances: {
                 text: "'I specialize in Oltrac - a rare psychoactive compound derived from certain... biological materials.' He eyes your fungal growths with interest. 'Materials not unlike what you seem to be carrying around.'",
                 options: [
-                    { text: "Tell me more about Oltrac", next: "kloor_oltrac" },
-                    { text: "Back", next: "kloor_start" }
+                    { text: "Tell me more about Oltrac", key: 'tell_me_more_about_oltrac', next: "kloor_oltrac" },
+                    { text: "Back", key: 'back', next: "kloor_start" }
                 ]
             },
             
             kloor_oltrac: {
                 text: "'Oltrac comes in different varieties. Gray is common, Violet is more potent, and Amber... well, Amber Oltrac is something special. Opens doors in the mind that most don't even know exist. The quality depends on the source material.'",
                 options: [
-                    { text: "I want to buy some", next: "kloor_shop" },
-                    { text: "I could sell you some spores", next: "kloor_buy_spores" },
-                    { text: "Back", next: "kloor_start" }
+                    { text: "I want to buy some", key: 'i_want_to_buy_some', next: "kloor_shop" },
+                    { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
+                    { text: "Back", key: 'back', next: "kloor_start" }
                 ]
             },
             
             kloor_selling: {
                 text: "'I deal in Oltrac - finest mind-expanding substance in the Voxmarket. Opens your perception to the true nature of reality.' He lowers his voice. 'Interested in buying? Or perhaps... selling me some of those spores you're carrying?'",
                 options: [
-                    { text: "Show me what you have", next: "kloor_shop" },
-                    { text: "I could sell you some spores", next: "kloor_buy_spores" },
-                    { text: "Back", next: "kloor_start" }
+                    { text: "Show me what you have", key: 'show_me_what_you_have', next: "kloor_shop" },
+                    { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
+                    { text: "Back", key: 'back', next: "kloor_start" }
                 ]
             },
             
             kloor_shop: {
                 text: "'Take a look at my wares. Quality guaranteed.'",
                 options: [
-                    { text: "Not now", next: "kloor_start" }
+                    { text: "Not now", key: 'not_now', next: "kloor_start" }
                 ],
                 onShow: () => {
                     this.hideDialog();
@@ -103,18 +108,18 @@ export default class VoxMarket extends GameScene {
             kloor_buy_spores: {
                 text: "Kloor's eyes light up with interest. 'I'm always in the market for quality spores. They're the key ingredient in my Oltrac. I'll pay you based on what I can make with them. How much are you willing to part with?'",
                 options: [
-                    { text: "Sell 10 spores", next: "kloor_sell_spores_10" },
-                    { text: "Sell 20 spores", next: "kloor_sell_spores_20" },
-                    { text: "Sell 30 spores", next: "kloor_sell_spores_30" },
-                    { text: "Not now", next: "kloor_start" }
+                    { text: "Sell 10 spores", key: 'sell_10_spores', next: "kloor_sell_spores_10" },
+                    { text: "Sell 20 spores", key: 'sell_20_spores', next: "kloor_sell_spores_20" },
+                    { text: "Sell 30 spores", key: 'sell_30_spores', next: "kloor_sell_spores_30" },
+                    { text: "Not now", key: 'not_now', next: "kloor_start" }
                 ]
             },
             
             kloor_sell_spores_10: {
                 text: "You offer to sell 10 spores to Kloor.",
                 options: [
-                    { text: "Confirm", next: "" },
-                    { text: "Back", next: "kloor_buy_spores" },
+                    { text: "Confirm", key: 'confirm', next: "" },
+                    { text: "Back", key: 'back', next: "kloor_buy_spores" },
                 ],
                 onTrigger: (option) => {
                     if (option && option.text === "Confirm") {
@@ -127,8 +132,8 @@ export default class VoxMarket extends GameScene {
             kloor_sell_spores_20: {
                 text: "You offer to sell 20 spores to Kloor.",
                 options: [
-                    { text: "Confirm", next: "" },
-                    { text: "Back", next: "kloor_buy_spores" },
+                    { text: "Confirm", key: 'confirm', next: "" },
+                    { text: "Back", key: 'back', next: "kloor_buy_spores" },
                 ],
                 onTrigger: (option) => {
                     if (option && option.text === "Confirm") {
@@ -141,8 +146,8 @@ export default class VoxMarket extends GameScene {
             kloor_sell_spores_30: {
                 text: "You offer to sell 30 spores to Kloor.",
                 options: [
-                    { text: "Confirm", next: "" },
-                    { text: "Back", next: "kloor_buy_spores" },
+                    { text: "Confirm", key: 'confirm', next: "" },
+                    { text: "Back", key: 'back', next: "kloor_buy_spores" },
                 ],
                 onTrigger: (option) => {
                     if (option && option.text === "Confirm") {
@@ -155,7 +160,7 @@ export default class VoxMarket extends GameScene {
             kloor_not_enough_spores: {
                 text: "Kloor frowns. 'You don't have enough spores. Come back when you've collected more.'",
                 options: [
-                    { text: "OK", next: "kloor_start" }
+                    { text: "OK", key: 'ok', next: "kloor_start" }
                 ]
             },
             
@@ -164,7 +169,7 @@ export default class VoxMarket extends GameScene {
             kloor_gray_oltrac_8: {
                 text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 8 gold coins. 'Pleasure doing business with you.'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 1);
@@ -174,7 +179,7 @@ export default class VoxMarket extends GameScene {
             kloor_gray_oltrac_16: {
                 text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 16 gold coins. 'Pleasure doing business with you.'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 2);
@@ -184,7 +189,7 @@ export default class VoxMarket extends GameScene {
             kloor_gray_oltrac_24: {
                 text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 24 gold coins. 'Pleasure doing business with you.'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 3);
@@ -194,7 +199,7 @@ export default class VoxMarket extends GameScene {
             kloor_violet_oltrac_15: {
                 text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 15 gold coins with a grin. 'Very good business indeed.'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 4);
@@ -204,7 +209,7 @@ export default class VoxMarket extends GameScene {
             kloor_violet_oltrac_30: {
                 text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 30 gold coins with a grin. 'Very good business indeed.'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 5);
@@ -214,7 +219,7 @@ export default class VoxMarket extends GameScene {
             kloor_violet_oltrac_45: {
                 text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 45 gold coins with a grin. 'Very good business indeed.'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 6);
@@ -224,7 +229,7 @@ export default class VoxMarket extends GameScene {
             kloor_amber_oltrac_25: {
                 text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 25 gold coins. 'Exceptional business! Come back anytime!'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 7);
@@ -234,7 +239,7 @@ export default class VoxMarket extends GameScene {
             kloor_amber_oltrac_50: {
                 text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 50 gold coins. 'Exceptional business! Come back anytime!'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 8);
@@ -244,58 +249,107 @@ export default class VoxMarket extends GameScene {
             kloor_amber_oltrac_75: {
                 text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 75 gold coins. 'Exceptional business! Come back anytime!'",
                 options: [
-                    { text: "Thanks", next: "kloor_start" }
+                    { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 9);
                 }
             },
             
+            // --- Sulkberry analysis (Dead End investigation) ---
+            kloor_sulkberry_analyze: {
+                text: `Kloor takes the Sulkberry sample with practiced fingers, rolling it between thumb and forefinger. He sniffs it, then produces a small glass vial from his coat and crushes a fragment into it. The liquid turns a deep, clean amber.\n\n'Spiced Sulkberry. Premium grade — this is Directorate stock, no question. The alkaloid profile is...' He holds the vial up to the light. '...textbook. Perfectly calibrated for dream immersion work.'\n\nHe sets the vial down. 'There's nothing wrong with this berry. No adulterants, no toxins, no foreign compounds. If someone told you the Bishop was poisoned through these — they're wrong. Or lying.'`,
+                options: [
+                    ...(hasNeme ? [{ text: "[Photosentience] Read Kloor's bio-signals for deception.", key: 'photosentience_read_kloors_biosignals_for_deceptio', next: "kloor_sulkberry_neme" }] : []),
+                    { text: "You're sure? Your reputation is on the line.", key: 'youre_sure_your_reputation_is_on_the_line', next: "kloor_sulkberry_sure" },
+                    { text: "Thanks for the analysis.", key: 'thanks_for_the_analysis', next: "kloor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_cleared_kloor')) {
+                        this.addJournalEntry(
+                            'sulkberries_cleared_kloor',
+                            'Kloor Venn: Sulkberries Are Pure',
+                            'Kloor Venn performed a chemical analysis of the spiced Sulkberries from the Directorate. The alkaloid profile is clean — no adulterants, no toxins, no foreign compounds. His pharmaceutical expertise confirms the berries were not tampered with.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Kloor Venn' }
+                        );
+                    }
+                    if (this.questSystem?.getQuest('who_killed_bishop') && !this.questSystem.getQuest('who_killed_bishop').isComplete) {
+                        this.questSystem.updateQuest('who_killed_bishop', 'Kloor Venn analyzed the Sulkberries — clean, no adulterants or toxins. The poisoning angle grows weaker.', 'kloor_sulkberry_clear');
+                    }
+                }
+            },
+
+            kloor_sulkberry_neme: {
+                text: `You let Neme's awareness seep outward, reading the web of bio-signals around Kloor's nervous system. Interest — genuine, scientific interest. Professional pride in his analysis. A flicker of opportunism, wondering if he can charge you for the consultation. But no deception. No concealment.\n\nNeme murmurs: "The drug dealer is many things, but a liar about chemistry he is not. His vanity wouldn't allow it."\n\nKloor's analysis is honest. The Sulkberries are clean.`,
+                options: [
+                    { text: "Good to know. Thanks, Kloor.", key: 'good_to_know_thanks_kloor', next: "kloor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('sulkberries_neme_kloor')) {
+                        this.addJournalEntry(
+                            'sulkberries_neme_kloor',
+                            'Neme Confirms: Kloor Is Truthful',
+                            'Used Neme\'s Photosentience to verify Kloor Venn\'s Sulkberry analysis. No deception — his pride in his chemical expertise is genuine. The Sulkberries are confirmed pure.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Kloor Venn' }
+                        );
+                    }
+                }
+            },
+
+            kloor_sulkberry_sure: {
+                text: `'My reputation IS my livelihood.' Kloor looks almost offended. 'I've been analyzing alkaloid compounds since before the Directorate started growing these premium batches. I know what contamination looks like — in the color shift, in the crystalline structure, in the way the oils separate.\n\nThese berries are pristine. The Bishop didn't die from eating them. Look elsewhere.'`,
+                options: [
+                    { text: "Back", key: 'back', next: "kloor_start" },
+                ]
+            },
+
             kloor_bishop: {
                 text: "Kloor's expression shifts to one of caution. 'The Bishop? Yeah, I've seen her around. Not someone to mess with. She was here in the market recently, trading with some of the merchants.'",
                 options: [
-                    { text: "Do you know where she went?", next: "kloor_bishop_location" },
-                    { text: "What was she trading?", next: "kloor_bishop_trading" },
-                    { text: "Back", next: "kloor_start" }
+                    { text: "Do you know where she went?", key: 'do_you_know_where_she_went', next: "kloor_bishop_location" },
+                    { text: "What was she trading?", key: 'what_was_she_trading', next: "kloor_bishop_trading" },
+                    { text: "Back", key: 'back', next: "kloor_start" }
                 ]
             },
             
             kloor_bishop_location: {
                 text: "'Can't say for certain. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But I heard she was heading toward the Hall. She has contacts there.'",
                 options: [
-                    { text: "Thanks for the information", next: "kloor_start" },
-                    { text: "What was she trading?", next: "kloor_bishop_trading" }
+                    { text: "Thanks for the information", key: 'thanks_for_the_information', next: "kloor_start" },
+                    { text: "What was she trading?", key: 'what_was_she_trading', next: "kloor_bishop_trading" }
                 ]
             },
             
             kloor_bishop_trading: {
                 text: "'Now that's interesting.' Kloor leans in closer. 'She had this strange currency - called Vestigels. Not like regular money. They're rare, experimental. Supposedly they hold... properties. A merchant named Zerren got one from her.'",
                 options: [
-                    ...(!this.questSystem.getQuest('the_three_vestigels')) ? [{ text: "Tell me more about these Vestigels", next: "kloor_vestigels" }] : [],
-                    { text: "Thanks for the information", next: "kloor_start" }
+                    ...(!this.questSystem.getQuest('the_three_vestigels')) ? [{ text: "Tell me more about these Vestigels", key: 'tell_me_more_about_these_vestigels', next: "kloor_vestigels" }] : [],
+                    { text: "Thanks for the information", key: 'thanks_for_the_information', next: "kloor_start" }
                 ]
             },
             
             kloor_vestigels: {
                 text: "'Vestigels are strange. They're like coins but... alive somehow. There are three known to exist in the market. I've been trying to get my hands on one to study its properties. Could be valuable for my... research.'",
                 options: [
-                    { text: "I could help you get one", next: "kloor_vestigels_help" },
-                    { text: "Sounds dangerous", next: "kloor_start" }
+                    { text: "I could help you get one", key: 'i_could_help_you_get_one', next: "kloor_vestigels_help" },
+                    { text: "Sounds dangerous", key: 'sounds_dangerous', next: "kloor_start" }
                 ]
             },
             
             kloor_vestigels_help: {
                 text: "'Really? That would be... useful.' Kloor's eyes narrow with suspicion, then he nods. 'If you can get me one of the Vestigels, I'll tell you everything I know about the Bishop's movements. Deal?'",
                 options: [
-                    { text: "Deal", next: "kloor_vestigels_quest_start" },
-                    { text: "I need to think about it", next: "kloor_start" }
+                    { text: "Deal", key: 'deal', next: "kloor_vestigels_quest_start" },
+                    { text: "I need to think about it", key: 'i_need_to_think_about_it', next: "kloor_start" }
                 ]
             },
             
             kloor_vestigels_quest_start: {
                 text: "Perfect! Let me know when you have one.",
                 options: [
-                    { text: "OK", next: "kloor_start" }
+                    { text: "OK", key: 'ok', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     // Start the quest if it doesn't exist yet
@@ -314,16 +368,16 @@ export default class VoxMarket extends GameScene {
             kloor_vestigels_quest_info: {
                 text: "'Here's what I know: Zerren has one Vestigel. He's usually in the Market area. The other two are held by merchants named Liss and Dovan. Find one of them, get me a Vestigel, and I'll tell you what you need to know about the Bishop.'",
                 options: [
-                    { text: "I'll find one for you", next: "closeDialog" }
+                    { text: "I'll find one for you", key: 'ill_find_one_for_you', next: "closeDialog" }
                 ]
             },
             
             kloor_vestigels_progress: {
                 text: "'Any luck finding a Vestigel? Those things aren't easy to come by.'",
                 options: [
-                    { text: "Not yet", next: "kloor_start" },
+                    { text: "Not yet", key: 'not_yet', next: "kloor_start" },
                     ...(this.hasItem('vestigel') ? [
-                        { text: "I have one right here", next: "kloor_vestigels_complete" }
+                        { text: "I have one right here", key: 'i_have_one_right_here', next: "kloor_vestigels_complete" }
                     ] : [])
                 ]
             },
@@ -331,7 +385,7 @@ export default class VoxMarket extends GameScene {
             kloor_vestigels_complete: {
                 text: "Kloor's eyes widen as you show him the Vestigel. 'Incredible! You actually found one!' He carefully takes it from you, examining it with fascination. 'As promised, I'll tell you what I know about the Bishop.'",
                 options: [
-                    { text: "Tell me", next: "kloor_bishop_reveal" }
+                    { text: "Tell me", key: 'tell_me', next: "kloor_bishop_reveal" }
                 ],
                 onTrigger: function() {
                     // Remove the Vestigel from inventory
@@ -362,14 +416,14 @@ export default class VoxMarket extends GameScene {
             kloor_bishop_reveal: {
                 text: "'From what I know, she shops for rare gaming items. You see, our Bishop became addicted to dream games from Dr. Elphi Quarn. She visited Dr. Elphi quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. The Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. You should look for Dr. Elphi at the Scraper 1140..'",
                 options: [
-                    { text: "The dream games?", next: "kloor_dream_games" }
+                    { text: "The dream games?", key: 'the_dream_games', next: "kloor_dream_games" }
                 ]
             },
             
             kloor_dream_games: {
                 text: "'The dream games? Yes, they could be... addictive. ARB Ambra Studio produces the best... actually the only existing ones. I heard that finding a good imaginator is quite hard. The studio is equipped with specially adapted beds, the imaginators wear silver helmets without visors on their heads, to which is attached a complex system of wires, cables and electrodes. The helmets are the doctor's invention and she is duly proud of them.'",
                 options: [
-                    { text: "Thank you for the information", next: "kloor_quest_update" }
+                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "kloor_quest_update" }
                 ]
             },
             
@@ -402,17 +456,17 @@ export default class VoxMarket extends GameScene {
             rustDomain: {
                 text: "Kloor eyes you thoughtfully. 'Rust Choir headquarters, huh? That's not exactly public knowledge. But... I might be able to help you out. For a price, of course.'",
                 options: [
-                    { text: "What do you need?", next: "rustDomain_price" },
+                    { text: "What do you need?", key: 'what_do_you_need', next: "rustDomain_price" },
                     ...(this.registry.get('reputationSystem')?.getFactionReputation('rust_choir') >= 50 ? [
-                        { text: "Come on, I did some favors for the Rust Choir already. We are practically comrades.", next: "factionAppeal" }
+                        { text: "Come on, I did some favors for the Rust Choir already. We are practically comrades.", key: 'come_on_i_did_some_favors_for_the_rust_choir_alrea', next: "factionAppeal" }
                     ] : []),
-                    { text: "Never mind, I have other questions.", next: "kloor_start" }
+                    { text: "Never mind, I have other questions.", key: 'never_mind_i_have_other_questions', next: "kloor_start" }
                 ]
             },
             factionAppeal: {
                 text: "Kloor raises an eyebrow, considering your appeal. 'Well, I suppose I can make an exception for someone who's done favors for the Rust Choir. Just this once. Talk to Ravla in Screaming Cork. She'll test you. If you pass, she'll let you in.'",
                 options: [
-                    { text: "I have other questions.", next: "kloor_start" }
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_rust_choir', 'Kloor mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
@@ -421,15 +475,15 @@ export default class VoxMarket extends GameScene {
             rustDomain_price: {
                 text: "If you can get me some of your spores, I can point you to someone who can get you inside. Or, if the spores are too precious for you, a few coins as a contribution will work as well. Deal?'",
                 options: [
-                    { text: "Here's 20 spores", next: "rustDomain_spores" },
-                    ...(this.hasEnoughMoney(50) ? [{ text: "Here's 50 coins", next: "rustDomain_coins" }] : []),
-                    { text: "You know what, I have other questions.", next: "kloor_start" }
+                    { text: "Here's 20 spores", key: 'heres_20_spores', next: "rustDomain_spores" },
+                    ...(this.hasEnoughMoney(50) ? [{ text: "Here's 50 coins", key: 'heres_50_coins', next: "rustDomain_coins" }] : []),
+                    { text: "You know what, I have other questions.", key: 'you_know_what_i_have_other_questions', next: "kloor_start" }
                 ]
             },
             rustDomain_spores: {
                 text: "Kloor examines the spores you hand over, nodding approvingly. 'Good quality. Talk to Ravla at the Screaming Cork tavern. She'll test you. If you pass, she'll let you in.'",
                 options: [
-                    { text: "Thanks for the help.", next: "kloor_start" }
+                    { text: "Thanks for the help.", key: 'thanks_for_the_help', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     const sporeSystem = this.registry.get('sporeSystem');
@@ -440,7 +494,7 @@ export default class VoxMarket extends GameScene {
             rustDomain_coins: {
                 text: "Kloor counts the coins you give him, a satisfied grin spreading across his face. 'Good doing business with you. Now, talk to Ravla at the Screaming Cork tavern. She'll test you. If you pass, she'll let you in.'",
                 options: [
-                    { text: "Thanks for the help.", next: "kloor_start" }
+                    { text: "Thanks for the help.", key: 'thanks_for_the_help', next: "kloor_start" }
                 ],
                 onTrigger: () => {
                     this.subtractMoney(50);

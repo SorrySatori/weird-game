@@ -232,14 +232,17 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Plant spores in it',
+                        key: 'plant_spores_in_it',
                         next: 'plantSpores'
                     },
                     {
                         text: 'Cut it open',
+                        key: 'cut_it_open',
                         next: 'acceptSymbiont'
                     },
                     {
                         text: 'Leave it alone',
+                        key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
                 ]
@@ -249,6 +252,7 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Leave it alone',
+                        key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
                 ]
@@ -258,14 +262,17 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Accept Thorne-Still as your symbiont',
+                        key: 'accept_thornestill_as_your_symbiont',
                         next: 'acceptSymbiontConfirm'
                     },
                     {
                         text: 'Plant spores in it instead',
+                        key: 'plant_spores_in_it_instead',
                         next: 'plantSpores'
                     },
                     {
                         text: 'Leave it alone',
+                        key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
                 ]
@@ -275,6 +282,7 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Continue',
+                        key: 'continue',
                         next: 'closeDialogAndGrow'
                     }
                 ]
@@ -284,10 +292,12 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Accept Thorne-Still as your symbiont',
+                        key: 'accept_thornestill_as_your_symbiont',
                         next: 'acceptSymbiontConfirm'
                     },
                     {
                         text: 'Decline',
+                        key: 'decline',
                         next: 'declineSymbiont'
                     }
                 ],
@@ -306,6 +316,7 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Continue',
+                        key: 'continue',
                         next: 'closeDialogAndAcceptSymbiont'
                     }
                 ]
@@ -315,6 +326,7 @@ export default class CrossroadScene extends GameScene {
                 options: [
                     {
                         text: 'Continue',
+                        key: 'continue',
                         next: 'closeDialogAndDeclineSymbiont'
                     }
                 ]

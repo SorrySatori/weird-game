@@ -1,6 +1,8 @@
 /**
  * GameMenu.js - In-game menu system triggered by ESC key
  */
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 export default class GameMenu {
     /**
      * @param {Phaser.Scene} scene - The scene this menu belongs to
@@ -11,6 +13,7 @@ export default class GameMenu {
         this.container = null;
         this.saveSystem = null;
         this.saveSlot = 'save1';
+        this.lang = LanguageSystem.getInstance();
         
         // Sound effects
         this.hoverSound = scene.sound.add('hoverSound');
@@ -94,7 +97,7 @@ export default class GameMenu {
         const title = this.scene.add.text(
             this.scene.cameras.main.width / 2,
             100,
-            'GAME MENU',
+            this.lang.t('ui.gameMenu.title'),
             {
                 fontSize: '48px',
                 fill: '#7fff8e',
@@ -110,7 +113,7 @@ export default class GameMenu {
         const helpText = this.scene.add.text(
             this.scene.cameras.main.width / 2,
             550,
-            'Keyboard Shortcuts: F5 = Quick Save | F9 = Quick Load | ESC = Menu',
+            this.lang.t('ui.gameMenu.shortcuts'),
             {
                 fontSize: '16px',
                 fill: '#5c9b6b',
@@ -169,7 +172,7 @@ export default class GameMenu {
         const resumeButton = this.createButton(
             this.scene.cameras.main.width / 2,
             buttonY,
-            'Resume Game',
+            this.lang.t('ui.gameMenu.resume'),
             buttonStyle,
             () => this.hideMenu()
         );
@@ -179,7 +182,7 @@ export default class GameMenu {
         const saveButton = this.createButton(
             this.scene.cameras.main.width / 2,
             buttonY + buttonSpacing,
-            'Save Game',
+            this.lang.t('ui.gameMenu.save'),
             buttonStyle,
             () => this.showSaveMenu()
         );
@@ -189,17 +192,26 @@ export default class GameMenu {
         const loadButton = this.createButton(
             this.scene.cameras.main.width / 2,
             buttonY + buttonSpacing * 2,
-            'Load Game',
+            this.lang.t('ui.gameMenu.load'),
             buttonStyle,
             () => this.showLoadMenu()
         );
         this.container.add(loadButton);
         
+        const langButton = this.createButton(
+            this.scene.cameras.main.width / 2,
+            buttonY + buttonSpacing * 3,
+            this.lang.t('ui.menu.language'),
+            buttonStyle,
+            () => this.showLanguageModal()
+        );
+        this.container.add(langButton);
+        
         // Exit to Main Menu button
         const exitButton = this.createButton(
             this.scene.cameras.main.width / 2,
-            buttonY + buttonSpacing * 3,
-            'Exit to Main Menu',
+            buttonY + buttonSpacing * 4,
+            this.lang.t('ui.gameMenu.exitToMain'),
             buttonStyle,
             () => {
                 this.clickSound.play();
@@ -280,7 +292,7 @@ export default class GameMenu {
         const title = this.scene.add.text(
             this.scene.cameras.main.width / 2,
             this.scene.cameras.main.height / 2 - 170,
-            'SAVE GAME',
+            this.lang.t('ui.saveLoad.saveTitle'),
             {
                 fontSize: '32px',
                 fill: '#7fff8e',
@@ -303,7 +315,7 @@ export default class GameMenu {
         const saveButton = this.createButton(
             this.scene.cameras.main.width / 2,
             this.scene.cameras.main.height / 2 - 120,
-            'Save',
+            this.lang.t('ui.saveLoad.save'),
             buttonStyle,
             () => this.saveGame()
         );
@@ -519,7 +531,7 @@ export default class GameMenu {
         const title = this.scene.add.text(
             this.scene.cameras.main.width / 2,
             this.scene.cameras.main.height / 2 - 230,
-            'LOAD GAME',
+            this.lang.t('ui.saveLoad.loadTitle'),
             {
                 fontSize: '32px',
                 fill: '#7fff8e',
@@ -534,12 +546,12 @@ export default class GameMenu {
         // Add save slots container
         this.saveSlotContainer = this.scene.add.container(0, 0);
         this.loadMenuContainer.add(this.saveSlotContainer);
-        
+
         // Add "No Save Files" text (will be hidden if saves exist)
         this.noSavesText = this.scene.add.text(
             this.scene.cameras.main.width / 2,
             this.scene.cameras.main.height / 2,
-            'No save files found',
+            this.lang.t('ui.saveLoad.noSaves'),
             {
                 fontSize: '24px',
                 fill: '#7fff8e',
@@ -549,7 +561,52 @@ export default class GameMenu {
         );
         this.noSavesText.setOrigin(0.5);
         this.loadMenuContainer.add(this.noSavesText);
-        
+
+        // Pagination state for the load list (mirrors the save menu, so every
+        // saved slot — not just the first six — is reachable).
+        this.currentLoadPage = 0;
+        this.loadSlotsPerPage = 6;
+
+        const navY = this.scene.cameras.main.height / 2 + 235;
+
+        this.loadPrevButton = this.scene.add.text(
+            this.scene.cameras.main.width / 2 - 150, navY, '◀',
+            { fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial' }
+        ).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadPrevButton);
+
+        this.loadPageText = this.scene.add.text(
+            this.scene.cameras.main.width / 2, navY, '',
+            { fontSize: '18px', fill: '#7fff8e', fontFamily: 'Arial' }
+        ).setOrigin(0.5);
+        this.loadMenuContainer.add(this.loadPageText);
+
+        this.loadNextButton = this.scene.add.text(
+            this.scene.cameras.main.width / 2 + 150, navY, '▶',
+            { fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial' }
+        ).setOrigin(0.5).setInteractive({ useHandCursor: true });
+        this.loadMenuContainer.add(this.loadNextButton);
+
+        this.loadPrevButton.on('pointerover', () => { this.loadPrevButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadPrevButton.on('pointerout', () => { this.loadPrevButton.setStyle({ fill: '#7fff8e' }); });
+        this.loadNextButton.on('pointerover', () => { this.loadNextButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
+        this.loadNextButton.on('pointerout', () => { this.loadNextButton.setStyle({ fill: '#7fff8e' }); });
+
+        this.loadPrevButton.on('pointerdown', () => {
+            if (this.currentLoadPage > 0) {
+                this.clickSound.play();
+                this.currentLoadPage--;
+                this.populateLoadMenu();
+            }
+        });
+        this.loadNextButton.on('pointerdown', () => {
+            if ((this.currentLoadPage + 1) * this.loadSlotsPerPage < (this._loadFileCount || 0)) {
+                this.clickSound.play();
+                this.currentLoadPage++;
+                this.populateLoadMenu();
+            }
+        });
+
         // Hide the load menu initially
         this.loadMenuContainer.setVisible(false);
     }
@@ -588,6 +645,9 @@ export default class GameMenu {
      * Show the load menu
      */
     showLoadMenu() {
+        // Always start on the first page when (re)opening the load menu.
+        this.currentLoadPage = 0;
+
         // Initialize save system if needed
         if (!this.saveSystem) {
             // Lazy-load the SaveSystem
@@ -605,6 +665,17 @@ export default class GameMenu {
     }
     
     /**
+     * Extract the numeric slot index from a save name like "save12".
+     * Names without a trailing number sort to the end.
+     * @param {string} name
+     * @returns {number}
+     */
+    _saveSlotNumber(name) {
+        const match = /(\d+)\s*$/.exec(name || '');
+        return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
+    }
+
+    /**
      * Populate the load menu with save files
      */
     populateLoadMenu() {
@@ -614,33 +685,48 @@ export default class GameMenu {
         // Check if gameAPI is available
         if (!window.gameAPI) {
             console.error('Game API not available');
-            this.noSavesText.setText('Save system not available');
+            this.noSavesText.setText(this.lang.t('ui.saveLoad.saveUnavailable'));
             this.noSavesText.setVisible(true);
             return;
         }
         
         const saveFiles = this.saveSystem.listSaveFiles();
-        
+
         if (!saveFiles || saveFiles.length === 0) {
             this.noSavesText.setVisible(true);
+            this._loadFileCount = 0;
+            if (this.loadPageText) this.loadPageText.setText('');
+            if (this.loadPrevButton) this.loadPrevButton.setVisible(false);
+            if (this.loadNextButton) this.loadNextButton.setVisible(false);
             return;
         }
-        
+
         this.noSavesText.setVisible(false);
-        
-        // Sort save files by date (newest first)
-        saveFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
-        
+
+        // Sort by save-slot number ascending (save1, save2, …) so the load list
+        // mirrors the numbered save slots. Files without a number sort last.
+        saveFiles.sort((a, b) => this._saveSlotNumber(a.name) - this._saveSlotNumber(b.name));
+
+        // Paginate so every slot is reachable, not just the first six.
+        this._loadFileCount = saveFiles.length;
+        const perPage = this.loadSlotsPerPage || 6;
+        const pageCount = Math.max(1, Math.ceil(saveFiles.length / perPage));
+        if (this.currentLoadPage > pageCount - 1) this.currentLoadPage = pageCount - 1;
+        const pageStart = this.currentLoadPage * perPage;
+        const pageFiles = saveFiles.slice(pageStart, pageStart + perPage);
+
+        if (this.loadPageText) this.loadPageText.setText(`Page ${this.currentLoadPage + 1} / ${pageCount}`);
+        if (this.loadPrevButton) this.loadPrevButton.setVisible(this.currentLoadPage > 0);
+        if (this.loadNextButton) this.loadNextButton.setVisible(this.currentLoadPage < pageCount - 1);
+
         // Add save slots
         const slotY = this.scene.cameras.main.height / 2 - 160;
         const slotSpacing = 55;
-        
-        saveFiles.forEach((saveFile, index) => {
-            if (index >= 6) return; // Limit to 6 save slots
-            
+
+        pageFiles.forEach((saveFile, index) => {
             const date = new Date(saveFile.date);
             const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-            
+
             // Create slot container
             const slotContainer = this.scene.add.container(
                 this.scene.cameras.main.width / 2,
@@ -705,6 +791,101 @@ export default class GameMenu {
         });
     }
     
+    /**
+     * Show language selection modal
+     */
+    showLanguageModal() {
+        if (this.langModal) return;
+
+        const cx = this.scene.cameras.main.width / 2;
+        const cy = this.scene.cameras.main.height / 2;
+        const langs = this.lang.supportedLanguages;
+        const currentCode = this.lang.getLanguage();
+
+        this.langModal = this.scene.add.container(0, 0);
+        this.langModal.setDepth(1002);
+
+        // Dim overlay
+        const overlay = this.scene.add.rectangle(cx, cy, 800, 600, 0x000000, 0.7);
+        overlay.setInteractive();
+        this.langModal.add(overlay);
+
+        // Panel
+        const panelH = 60 + langs.length * 60 + 60;
+        const panel = this.scene.add.rectangle(cx, cy, 320, panelH, 0x0a2712, 0.95);
+        panel.setStrokeStyle(2, 0x7fff8e);
+        this.langModal.add(panel);
+
+        // Title
+        const title = this.scene.add.text(cx, cy - panelH / 2 + 30, this.lang.t('ui.menu.language'), {
+            fontSize: '28px',
+            fill: '#7fff8e',
+            fontFamily: 'Arial'
+        });
+        title.setOrigin(0.5);
+        this.langModal.add(title);
+
+        // Language options
+        langs.forEach((lang, idx) => {
+            const y = cy - panelH / 2 + 80 + idx * 60;
+            const isActive = lang.code === currentCode;
+
+            const optBg = this.scene.add.rectangle(cx, y, 260, 44, 0x0a2712, isActive ? 0.8 : 0.4);
+            optBg.setStrokeStyle(isActive ? 2 : 1, isActive ? 0x2fff91 : 0x7fff8e);
+            optBg.setInteractive({ useHandCursor: true });
+
+            const optText = this.scene.add.text(cx, y, lang.name, {
+                fontSize: '24px',
+                fill: isActive ? '#2fff91' : '#7fff8e',
+                fontFamily: 'Arial',
+                fontStyle: isActive ? 'bold' : ''
+            });
+            optText.setOrigin(0.5);
+
+            if (!isActive) {
+                optBg.on('pointerover', () => {
+                    optBg.setFillStyle(0x0a2712, 0.6);
+                    optText.setStyle({ fontSize: '24px', fill: '#2fff91', fontFamily: 'Arial' });
+                    this.hoverSound.play();
+                });
+                optBg.on('pointerout', () => {
+                    optBg.setFillStyle(0x0a2712, 0.4);
+                    optText.setStyle({ fontSize: '24px', fill: '#7fff8e', fontFamily: 'Arial' });
+                });
+            }
+
+            optBg.on('pointerdown', () => {
+                this.clickSound.play();
+                if (lang.code === currentCode) {
+                    this.closeLangModal();
+                    return;
+                }
+                this.lang.setLanguage(lang.code);
+                this.closeLangModal();
+                this.hideMenu();
+                // Restart the current scene to apply new language
+                this.scene.scene.restart();
+            });
+
+            this.langModal.add([optBg, optText]);
+        });
+
+        // Close on overlay click
+        overlay.on('pointerdown', () => {
+            this.clickSound.play();
+            this.closeLangModal();
+        });
+
+        this.container.add(this.langModal);
+    }
+
+    closeLangModal() {
+        if (this.langModal) {
+            this.langModal.destroy();
+            this.langModal = null;
+        }
+    }
+
     /**
      * Toggle menu visibility
      * Note: We're not using this method directly anymore, but keeping it for compatibility
@@ -778,7 +959,7 @@ export default class GameMenu {
         // Check if gameAPI is available
         if (!window.gameAPI) {
             console.error('Game API not available');
-            this.scene.showNotification('Save system not available', 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.saveUnavailable'), 0xff0000);
             return;
         }
         
@@ -794,7 +975,7 @@ export default class GameMenu {
         const timeString = now.toLocaleTimeString();
         
         // Show saving notification
-        this.scene.showNotification(`Saving game...`, 0x7fff8e);
+        this.scene.showNotification(this.lang.t('ui.saveLoad.savingGame'), 0x7fff8e);
         
         // Save the game
         const result = await this.saveSystem.saveGame(saveName);
@@ -805,9 +986,9 @@ export default class GameMenu {
             if (this.scene.sound.get('clickSound')) {
                 this.scene.sound.play('clickSound');
             }
-            this.scene.showNotification(`Game saved at ${timeString}`, 0x00ff00);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.gameSaved', { time: timeString }), 0x00ff00);
         } else {
-            this.scene.showNotification(`Failed to save game: ${result.message}`, 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.saveFailed', { error: result.message }), 0xff0000);
         }
     }
     
@@ -829,14 +1010,14 @@ export default class GameMenu {
         
         // If no slot is selected, show a notification
         if (!slotSelected) {
-            this.scene.showNotification('Please select a save slot', 0xff9900);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.selectSlot'), 0xff9900);
             return;
         }
         
         // Check if gameAPI is available
         if (!window.gameAPI) {
             console.error('Game API not available');
-            this.scene.showNotification('Save system not available', 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.saveUnavailable'), 0xff0000);
             return;
         }
         
@@ -852,9 +1033,9 @@ export default class GameMenu {
         
         // Show notification
         if (result.success) {
-            this.scene.showNotification(`Game saved as "${saveName}"`);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.gameSaved', { time: saveName }));
         } else {
-            this.scene.showNotification(`Failed to save game: ${result.message}`, 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.saveFailed', { error: result.message }), 0xff0000);
         }
         
         // Hide the save menu
@@ -878,7 +1059,7 @@ export default class GameMenu {
         // Check if gameAPI is available
         if (!window.gameAPI) {
             console.error('Game API not available');
-            this.scene.showNotification('Load system not available', 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.loadUnavailable'), 0xff0000);
             return;
         }
         
@@ -887,7 +1068,7 @@ export default class GameMenu {
         const quicksaveExists = saveFiles.success && saveFiles.files.some(file => file.name === 'quicksave');
         
         if (!quicksaveExists) {
-            this.scene.showNotification('No quicksave found', 0xff9900);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.noQuicksave'), 0xff9900);
             return;
         }
         
@@ -899,7 +1080,7 @@ export default class GameMenu {
         }
         
         // Show loading notification
-        this.scene.showNotification(`Loading quicksave...`, 0x7fff8e);
+        this.scene.showNotification(this.lang.t('ui.saveLoad.loadingQuicksave'), 0x7fff8e);
         
         // Load the game
         const result = await this.saveSystem.loadGame(saveName);
@@ -910,14 +1091,14 @@ export default class GameMenu {
             if (this.scene.sound.get('clickSound')) {
                 this.scene.sound.play('clickSound');
             }
-            this.scene.showNotification(`Game loaded successfully`, 0x00ff00);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.gameLoaded'), 0x00ff00);
             
             // Hide the menu if it's open
             if (this.visible) {
                 this.hideMenu();
             }
         } else {
-            this.scene.showNotification(`Failed to load game: ${result.message}`, 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.loadFailed', { error: result.message }), 0xff0000);
         }
     }
     
@@ -928,7 +1109,7 @@ export default class GameMenu {
         // Check if gameAPI is available
         if (!window.gameAPI) {
             console.error('Game API not available');
-            this.scene.showNotification('Save system not available', 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.saveUnavailable'), 0xff0000);
             return;
         }
         
@@ -944,11 +1125,11 @@ export default class GameMenu {
         
         // Show notification
         if (result.success) {
-            this.scene.showNotification(`Game loaded from "${slotName}"`);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.gameLoaded'));
             // Hide the menu
             this.hideMenu();
         } else {
-            this.scene.showNotification(`Failed to load game: ${result.message}`, 0xff0000);
+            this.scene.showNotification(this.lang.t('ui.saveLoad.loadFailed', { error: result.message }), 0xff0000);
         }
     }
     

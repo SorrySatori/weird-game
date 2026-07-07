@@ -1,6 +1,9 @@
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 export default class GrowthDecayIndicator {
     constructor(scene, x, y) {
         this.scene = scene;
+        this.lang = LanguageSystem.getInstance();
         
         // Create container for the indicator
         this.container = scene.add.container(x, y);
@@ -60,7 +63,7 @@ export default class GrowthDecayIndicator {
     updateMenuText() {
         const system = this.scene.growthDecaySystem;
         this.menuText.setText(
-            `Growth: ${system.getGrowth()}%\nDecay: ${system.getDecay()}%`
+            this.lang.t('ui.growthLabel', { value: system.getGrowth() }) + '\n' + this.lang.t('ui.decayLabel', { value: system.getDecay() })
         );
     }
     

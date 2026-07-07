@@ -23,25 +23,25 @@ export default class ScreamingCorkClubScene extends GameScene {
             feral_welcome: {
                 text: "The band members of Feral Toast notice you entering the club. The lead guitarist nods in your direction. \"Hey there, fungal friend! We're about to start our rehearsal. Stick around for some mind-melting tunes!\"",
                 options: [
-                    { text: "I'd love to hear you play", next: "feral_play" },
-                    { text: "What kind of music do you play?", next: "feral_style" },
-                    { text: "Who are you all?", next: "feral_intro" },
+                    { text: "I'd love to hear you play", key: 'id_love_to_hear_you_play', next: "feral_play" },
+                    { text: "What kind of music do you play?", key: 'what_kind_of_music_do_you_play', next: "feral_style" },
+                    { text: "Who are you all?", key: 'who_are_you_all', next: "feral_intro" },
                 ]
             },
             
             feral_style: {
                 text: "\"We call it 'ultranoise futurepunk' - a blend of psychedelic noise with beats that don't exist... yet.\"",
                 options: [
-                    { text: "Sounds interesting. Play something!", next: "feral_play" },
-                    { text: "Tell me about the band members", next: "feral_intro" },
+                    { text: "Sounds interesting. Play something!", key: 'sounds_interesting_play_something', next: "feral_play" },
+                    { text: "Tell me about the band members", key: 'tell_me_about_the_band_members', next: "feral_intro" },
                 ]
             },
             
             feral_intro: {
                 text: "\"I'm Telka on guitar. That's Bass Player Xl on bass, we get him on sale. Fluffy Kārlis on drums, and Mira Dron on synth. Together we're Feral Toast - the most mind-expanding band in the underground. We make the best noise in town.\"",
                 options: [
-                    { text: "Let's hear some music!", next: "feral_play" },
-                    { text: "What's your musical style?", next: "feral_style" },
+                    { text: "Let's hear some music!", key: 'lets_hear_some_music', next: "feral_play" },
+                    { text: "What's your musical style?", key: 'whats_your_musical_style', next: "feral_style" },
                 ]
             },
             

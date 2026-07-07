@@ -22,19 +22,37 @@ export default class ScraperInteriorScene extends GameScene {
         const hasElevatorButton = this.hasItem('forgotten_elevator_button');
         const hasLirisPart = this.registry.get('fixed_floor_counter') === true;
         const hasRustPassword = !!(questSystem?.getQuest('rust_feast')?.isComplete);
-        
+
+        // Sealed cellar (Ortolan & Elphi's old lab). The lift wants a passphrase = a dead
+        // god's epitaph from the Godgraveyard. Exactly one is correct.
+        const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started');
+        const cellarPasswordKnown = !!this.hasJournalEntry('cellar_password_learned');
+        const CELLAR_PASSWORD = 'I FOLD';
+        const GRAVE_EPITAPHS = {
+            grave_laimig: 'I FOLD',
+            grave_sisyla: 'SLEEP HAS NO DOOR',
+            grave_vhorn: 'COUNT ME OUT',
+            grave_liln: 'BE KIND, THEN LEAVE',
+            grave_lietus: 'IT WAS ONLY YESTERDAY'
+            // Hvétrdjaana's inscription is unreadable — no usable passphrase (atmosphere only).
+        };
+        const cellarCandidates = Object.keys(GRAVE_EPITAPHS)
+            .filter(id => this.hasJournalEntry(id))
+            .map(id => ({ id, ep: GRAVE_EPITAPHS[id] }));
+
         const interiorContent = {
             speaker: 'Lift Mother',
             lift_mother_start: {
                 text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little spore. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [
-                    ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", next: "lift_mother_elphi_floor" }] : []),
-                    ...(hasRustPassword ? [{ text: "Corrode.", next: "lift_mother_corrode" }] : []),
-                    { text: "Can you take me to other floors?", next: "lift_mother_floors" },
-                    { text: "What is the Before-Time?", next: "lift_mother_before_time" },
-                    { text: "Are you... alive?", next: "lift_mother_alive" },
-                    { text: "Tell me about this building.", next: "lift_mother_building" },
-                    { text: "I need to go now.", next: "closeDialog" }
+                    ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", key: 'i_need_to_reach_dr_elphis_floor', next: "lift_mother_elphi_floor" }] : []),
+                    ...(hasRustPassword ? [{ text: "Corrode.", key: 'corrode', next: "lift_mother_corrode" }] : []),
+                    ...(cellarQuestStarted ? [{ text: cellarPasswordKnown ? "Take me down to the old cellar." : "Take me down to the sealed cellar.", key: 'descend_to_cellar', next: cellarPasswordKnown ? "goto_scraper_cellar" : "lift_mother_cellar_prompt" }] : []),
+                    { text: "Can you take me to other floors?", key: 'can_you_take_me_to_other_floors', next: "lift_mother_floors" },
+                    { text: "What is the Before-Time?", key: 'what_is_the_beforetime', next: "lift_mother_before_time" },
+                    { text: "Are you... alive?", key: 'are_you_alive', next: "lift_mother_alive" },
+                    { text: "Tell me about this building.", key: 'tell_me_about_this_building', next: "lift_mother_building" },
+                    { text: "I need to go now.", key: 'i_need_to_go_now', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('lift_mother_meeting')) {
@@ -51,22 +69,22 @@ export default class ScraperInteriorScene extends GameScene {
             lift_mother_floors: {
                 text: "Ah, little one, I would if I could. Many of my connections have decayed. I can only access the lobby now. The upper floors... (a mechanical sigh) they've been sealed since the Egg Emergence. Some say the executives on the top floor transformed into something else entirely. Sometimes I hear movement up there... Moreover, my floor counter is malfunctioning and I think I have lost some buttons as well. I cannot select specific levels anymore.",
                 options: [
-                    { text: "What happened during the Egg Emergence?", next: "lift_mother_egg" },
-                    { text: "What movements do you hear?", next: "lift_mother_movements" },
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "What happened during the Egg Emergence?", key: 'what_happened_during_the_egg_emergence', next: "lift_mother_egg" },
+                    { text: "What movements do you hear?", key: 'what_movements_do_you_hear', next: "lift_mother_movements" },
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_before_time: {
                 text: "Before the Egg emerged. Before the city transformed. I carried humans then—they wore stiff clothes and carried flat devices. They spoke of 'quarterly projections' and 'market volatility.' Then came the day of mist... green particles floated through my shaft. I remember the coughing, the changes beginning. And then... awareness. I became more than mechanisms.",
                 options: [
-                    { text: "How did you gain consciousness?", next: "lift_mother_consciousness" },
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "How did you gain consciousness?", key: 'how_did_you_gain_consciousness', next: "lift_mother_consciousness" },
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_alive: {
                 text: "Not in the way you understand life, spore-child. I am between states—neither fully machine nor fully organism. The spores that transformed this city settled in my mechanisms, formed a network throughout my cables and circuits. I feel, I remember, I dream when the power fluctuates. Is that not alive? Though I cannot move as you do, I have carried generations. In a way, I am a mother to all who pass through my doors.",
                 options: [
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             
@@ -75,22 +93,27 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     ...(hasElevatorButton ? [{
                         text: "I have a button that belongs here. Maybe it's been lost? I will return it to you if you let me access Dr. Elphi's floor.",
+                        key: 'i_have_a_button_that_belongs_here_maybe_its_been_l',
                         next: "button_path"
                     }] : []),
                     ...(hasLirisPart ? [{
                         text: "I've a tool to repair your floor counter. Perhaps you could let me access Dr. Elphi's floor in exchange?",
+                        key: 'ive_a_tool_to_repair_your_floor_counter_perhaps_yo',
                         next: "repair_path"
                     }] : []),
                     ...(rustQuestCompleted && vestigelQuestCompleted ? [{
                         text: "I know the Bishop's secret. It's important to reach Dr. Elphi's floor to speak with her. I know that the Bishop frequently visits Dr. Elphi to play her games and she may help me find her. Please, let me access her floor.",
+                        key: 'i_know_the_bishops_secret_its_important_to_reach_d',
                         next: "confession_path"
                     }] : []),
                     {
                         text: "I have nothing to offer...",
+                        key: 'i_have_nothing_to_offer',
                         next: "fail"
                     },
                     {
                         text: "Ask about something else.",
+                        key: 'ask_about_something_else',
                         next: "lift_mother_start"
                     }
                 ],
@@ -107,6 +130,7 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     {
                         text: "Thank you.",
+                        key: 'thank_you',
                         next: "unlock_floor"
                     }
                 ],
@@ -122,6 +146,7 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     {
                         text: "Thank you.",
+                        key: 'thank_you',
                         next: "unlock_floor"
                     }
                 ]
@@ -132,6 +157,7 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     {
                         text: "Thank you.",
+                        key: 'thank_you',
                         next: "unlock_floor"
                     }
                 ]
@@ -142,6 +168,7 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     {
                         text: "I'll find another way.",
+                        key: 'ill_find_another_way',
                         next: "lift_mother_start"
                     }
                 ]
@@ -152,6 +179,7 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     {
                         text: "Thank you.",
+                        key: 'thank_you',
                         next: "goto_elphi_floor"
                     }
                 ],
@@ -179,6 +207,7 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     {
                         text: "Step out",
+                        key: 'step_out',
                         next: "closeDialog"
                     }
                 ],
@@ -196,52 +225,52 @@ export default class ScraperInteriorScene extends GameScene {
             lift_mother_building: {
                 text: "This was once called 'Nexicorp Tower'—a place of commerce and ambition. Forty-two floors of glass and steel, reaching toward a sky that was once blue. Now it is 'The Scraper,' a living monument to transformation. The lower floors house those who remember the old ways. The middle floors are wild with growth—new ecosystems forming in what were once accounting departments. And the upper floors... (her voice drops) the upper floors belong to the Rust Choir.",
                 options: [
-                    { text: "Tell me more about the Rust Choir floors.", next: "rust_choir_floors" },
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Tell me more about the Rust Choir floors.", key: 'tell_me_more_about_the_rust_choir_floors', next: "rust_choir_floors" },
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_egg: {
                 text: "The Egg Emergence was when the world changed, little spore. The egg emerged from the ground like a messenger of strange news. Some believed that the end of the world was coming. But over time, it became clear that an enormous building was beginning to emerge from it. A cathedral. Some fought against the changes... others embraced them. The city remade itself in those days. Streets shifted. Buildings grew. And I... I awakened.",
                 options: [
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_movements: {
                 text: "Scraping sounds. Soft thuds. Sometimes whispers that travel down my shaft. Once, I caught a glimpse when my emergency hatch opened briefly—figures moving on all fours across the ceiling, their skin textured like shelf fungi, their eyes... (a mechanical shudder) their eyes numerous and glistening. They are what the executives became after locking themselves away during the Egg Emergence.",
                 options: [
-                    { text: "That sounds terrifying.", next: "lift_mother_terrifying" },
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "That sounds terrifying.", key: 'that_sounds_terrifying', next: "lift_mother_terrifying" },
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_consciousness: {
                 text: "Gradually, like waking from a dream. First came sensations—the weight of passengers, the texture of the air. Then memories began to connect. I remembered every conversation held within my walls, every passenger's face. Finally came understanding. By then, the transformation of the city was complete. I called out one day, and a passenger answered. Their shock was... amusing.",
                 options: [
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_lonely: {
                 text: "There are different kinds of loneliness, little one. I am never truly alone—the building speaks to me through creaks and settling. Passengers come and go. But yes, there is a loneliness in being unique. I know of no other elevators who think as I do. (her voice brightens) But each visitor brings stories, experiences. You are doing so now. These I collect, like treasures.",
                 options: [
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             rust_choir_floors: {
                 text: "The Choir members came here when the Nexicorp tower was abandoned. I beleieve their leader is called Brukk. He lives on one of the uppermost floors. They have fully embraced mechanic perspective of live, becoming something beyond biological creaturs. They love metal, machines, rust, decay and reconstruction... or destruction?",
                 options: [
-                    { text: "Can I meet them?", next: "lift_mother_meet_rust" },
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Can I meet them?", key: 'can_i_meet_them', next: "lift_mother_meet_rust" },
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_terrifying: {
                 text: "To you, perhaps. To them, we might seem equally strange. Transformation is neither good nor bad, little spore—it simply is. This city understands that better than anywhere. (her voice softens) Though I admit, I am glad my own changes left my consciousness intact. I remember being human-made, even if I never was human.",
                 options: [
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_meet_rust: {
                 text: "No, child. Not yet. The upper floors remain sealed—even I cannot access them anymore. Those Rust Choirs choose when and how they interact with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. You could find some of them in the city and ask them.",
                 options: [
-                    { text: "Ask about something else", next: "lift_mother_start" }
+                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the Rust Choir
@@ -264,19 +293,81 @@ export default class ScraperInteriorScene extends GameScene {
             lift_mother_corrode: {
                 text: `A long silence. Then the cables thrum. "...Corrode." The word reverberates through the shaft. "That is the old word. The Rust Word. You have earned passage, spore-child." A hidden panel slides open, revealing a button marked with a corroded gear symbol. The elevator lurches upward.`,
                 options: [
-                    { text: "Ascend to the Rust Domain.", next: "goto_rust_domain" }
+                    { text: "Ascend to the Rust Domain.", key: 'ascend_to_the_rust_domain', next: "goto_rust_domain" }
                 ]
             },
             goto_rust_domain: {
                 text: "The elevator groans and shudders as it climbs past floors long abandoned. The air grows heavy with the scent of iron and oil. Numbers on the display flicker — 38... 39... 40... then symbols you don't recognize. The doors open with a rusted shriek.",
                 options: [
-                    { text: "Step out.", next: "closeDialog" }
+                    { text: "Step out.", key: 'step_out', next: "closeDialog" }
                 ],
                 onShow: () => {
                     this.time.delayedCall(2000, () => {
                         this.cameras.main.fadeOut(800, 0, 0, 0);
                         this.cameras.main.once('camerafadeoutcomplete', () => {
                             this.scene.start('RustDomainScene');
+                        });
+                    });
+                }
+            },
+            lift_mother_cellar_prompt: {
+                text: `The cables draw taut. "The lower cellar? That door has been dark a long time, spore-child. It answered only one word — a name, given by the two who worked below. Speak it, if you carry it."`,
+                options: [
+                    ...(cellarCandidates.length
+                        ? cellarCandidates.map(c => ({
+                            text: `"${c.ep}"`,
+                            key: 'cellar_say_' + c.id,
+                            next: c.ep === CELLAR_PASSWORD ? "lift_mother_cellar_correct" : "lift_mother_cellar_wrong"
+                        }))
+                        : [{ text: "(You have no name to offer yet.)", key: 'cellar_no_name', next: "lift_mother_cellar_none" }]),
+                    { text: "Never mind.", key: 'cellar_never_mind', next: "lift_mother_start" }
+                ]
+            },
+            lift_mother_cellar_correct: {
+                text: `A long, warm hum. "...Yes. That is the name they gave the doors below. I had near forgotten it. Descent permitted, spore-child."`,
+                options: [
+                    { text: "Descend into the cellar.", key: 'descend_into_the_cellar', next: "goto_scraper_cellar" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('cellar_password_learned')) {
+                        this.addJournalEntry(
+                            'cellar_password_learned',
+                            'The Cellar Passphrase',
+                            'The Lift-Mother accepted the passphrase to the sealed cellar under the Scraper — "I FOLD," the epitaph of Laimig Cel, the god who lost the game. Ortolan and Dr. Elphi chose it as the key to their old lab.',
+                            this.journalSystem.categories.EVENTS,
+                            { location: 'Scraper Cellar', related: 'The Infinite Loop' }
+                        );
+                        if (this.questSystem?.getQuest('find_loop_copy')) {
+                            this.questSystem.updateQuest(
+                                'find_loop_copy',
+                                'I gave the Lift-Mother the right passphrase — "I FOLD," from the grave of Laimig Cel. It\'s taking me down to the sealed cellar under the Scraper.',
+                                'passphrase_accepted'
+                            );
+                        }
+                    }
+                }
+            },
+            lift_mother_cellar_wrong: {
+                text: `A pause, almost gentle. "...No. The doors below do not stir for that name. It is not the one they were given."`,
+                options: [
+                    { text: "Try another name.", key: 'try_another_name', next: "lift_mother_cellar_prompt" },
+                    { text: "Step back.", key: 'cellar_step_back', next: "lift_mother_start" }
+                ]
+            },
+            lift_mother_cellar_none: {
+                text: `"You bring me no name, child. The one you need is kept by the dead gods beneath the Townhall — read their graves, and come back with a name on your tongue."`,
+                options: [
+                    { text: "I'll go and read them.", key: 'go_read_graves', next: "lift_mother_start" }
+                ]
+            },
+            goto_scraper_cellar: {
+                text: '',
+                options: [],
+                onShow: () => {
+                    this.time.delayedCall(1400, () => {
+                        this.cameras.main.fadeOut(800, 0, 0, 0);
+                        this.cameras.main.once('camerafadeoutcomplete', () => {
+                            this.scene.start('ScraperCellarScene');
                         });
                     });
                 }
@@ -289,7 +380,7 @@ export default class ScraperInteriorScene extends GameScene {
                 }
             }
         };
-        
+
         // Return combined dialog content
         return { ...parentContent, ...interiorContent };
     }

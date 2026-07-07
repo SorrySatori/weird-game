@@ -2,10 +2,13 @@
  * MapUI.js
  * Fast travel map of Upper Morkezela. Shows visited locations as clickable nodes.
  */
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 export default class MapUI {
     constructor(scene) {
         this.scene = scene;
         this.visible = false;
+        this.lang = LanguageSystem.getInstance();
 
         // Visited scenes persisted in registry
         if (!this.scene.registry.get('visitedScenes')) {
@@ -102,7 +105,7 @@ export default class MapUI {
         this.container.add(bg);
 
         // Title
-        const title = this.scene.add.text(0, -270, 'UPPER MORKEZELA', {
+        const title = this.scene.add.text(0, -270, this.lang.t('ui.mapTitle'), {
             fontSize: '28px',
             fontFamily: 'Georgia',
             color: '#7fff8e',
@@ -110,7 +113,7 @@ export default class MapUI {
         }).setOrigin(0.5);
         this.container.add(title);
 
-        const subtitle = this.scene.add.text(0, -245, 'Fast Travel Map', {
+        const subtitle = this.scene.add.text(0, -245, this.lang.t('ui.mapSubtitle'), {
             fontSize: '14px',
             fontFamily: 'Georgia',
             color: '#4a9e5c',
@@ -146,21 +149,21 @@ export default class MapUI {
         // Legend
         const legendY = 260;
         const visitedDot = this.scene.add.circle(-100, legendY, 5, 0x7fff8e);
-        const visitedLabel = this.scene.add.text(-90, legendY, 'Visited', {
+        const visitedLabel = this.scene.add.text(-90, legendY, this.lang.t('ui.mapVisited'), {
             fontSize: '12px', fontFamily: 'Georgia', color: '#7fff8e'
         }).setOrigin(0, 0.5);
         const unvisitedDot = this.scene.add.circle(0, legendY, 5, 0x333333);
-        const unvisitedLabel = this.scene.add.text(10, legendY, 'Undiscovered', {
+        const unvisitedLabel = this.scene.add.text(10, legendY, this.lang.t('ui.mapUndiscovered'), {
             fontSize: '12px', fontFamily: 'Georgia', color: '#555555'
         }).setOrigin(0, 0.5);
         const currentDot = this.scene.add.circle(120, legendY, 5, 0xffd700);
-        const currentLabel = this.scene.add.text(130, legendY, 'You are here', {
+        const currentLabel = this.scene.add.text(130, legendY, this.lang.t('ui.mapYouAreHere'), {
             fontSize: '12px', fontFamily: 'Georgia', color: '#ffd700'
         }).setOrigin(0, 0.5);
         this.container.add([visitedDot, visitedLabel, unvisitedDot, unvisitedLabel, currentDot, currentLabel]);
 
         // Hint text
-        const hint = this.scene.add.text(0, 280, 'Click a visited location to fast travel  •  Press M or ESC to close', {
+        const hint = this.scene.add.text(0, 280, this.lang.t('ui.mapHint'), {
             fontSize: '11px', fontFamily: 'Georgia', color: '#4a9e5c', align: 'center'
         }).setOrigin(0.5);
         this.container.add(hint);
@@ -246,7 +249,7 @@ export default class MapUI {
 
             // Label
             const labelColor = isCurrent ? '#ffd700' : visited ? '#7fff8e' : '#555555';
-            const label = this.scene.add.text(loc.x, loc.y + (radius + 8), loc.name, {
+            const label = this.scene.add.text(loc.x, loc.y + (radius + 8), this.lang.t(`locations.${loc.key}`) || loc.name, {
                 fontSize: '10px',
                 fontFamily: 'Georgia',
                 color: labelColor,
@@ -284,7 +287,8 @@ export default class MapUI {
 
     fastTravel(sceneKey, locationName) {
         this.hide();
-        this.scene.showNotification(`Traveling to ${locationName}...`);
+        const translatedName = this.lang.t(`locations.${sceneKey}`) || locationName;
+        this.scene.showNotification(this.lang.t('ui.travelingTo', { location: translatedName }));
         // Short delay so notification is visible before transition
         this.scene.time.delayedCall(400, () => {
             this.scene.transitionToScene(sceneKey);

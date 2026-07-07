@@ -2,12 +2,15 @@
  * JournalUI.js
  * User interface for displaying journal entries with a fungal theme
  */
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 class JournalUI {
     constructor(scene) {
         this.scene = scene;
         this.visible = false;
         this.currentCategory = null;
         this.journalSystem = this.scene.journalSystem;
+        this.lang = LanguageSystem.getInstance();
         
         // Create UI container
         this.container = this.scene.add.container(400, 300);
@@ -41,7 +44,7 @@ class JournalUI {
         this.container.add(this.background);
         
         // Title
-        this.title = this.scene.add.text(0, -260, "JOURNAL", {
+        this.title = this.scene.add.text(0, -260, this.lang.t('ui.hud.journal'), {
             fontSize: '32px',
             fontFamily: 'Georgia',
             color: '#7fff8e',
@@ -264,7 +267,7 @@ class JournalUI {
         
         if (entries.length === 0) {
             const noEntriesText = this.scene.add.text(360, yOffset, 
-                `No entries in ${this.currentCategory || "journal"} yet.`, {
+                this.lang.t('ui.hud.noJournalEntries', { category: this.currentCategory || 'journal' }), {
                 fontSize: '18px',
                 fontFamily: 'Georgia',
                 color: '#7fff8e',
@@ -275,6 +278,13 @@ class JournalUI {
             yOffset += noEntriesText.height + padding;
         } else {
             entries.forEach(entry => {
+                // Resolve translated journal content
+                const jKey = `journal.${entry.id}`;
+                const tTitle = this.lang.t(`${jKey}.title`);
+                const tContent = this.lang.t(`${jKey}.description`);
+                const displayTitle = tTitle === `${jKey}.title` ? entry.title : tTitle;
+                const displayContent = tContent === `${jKey}.description` ? entry.content : tContent;
+
                 // Entry container with fungal styling
                 const entryBox = this.scene.add.graphics();
                 entryBox.fillStyle(0x1a3b23, 0.8); // Entry background
@@ -285,7 +295,7 @@ class JournalUI {
                                 
                 // Title with date
                 const titleText = this.scene.add.text(padding, yOffset + padding, 
-                    `${entry.title}`, {
+                    `${displayTitle}`, {
                     fontSize: '20px',
                     fontFamily: 'Georgia',
                     color: '#7fff8e',
@@ -296,7 +306,7 @@ class JournalUI {
                 
                 // Content text
                 const contentText = this.scene.add.text(padding, yOffset + titleText.height + padding * 2, 
-                    entry.content, {
+                    displayContent, {
                     fontSize: '16px',
                     fontFamily: 'Georgia',
                     color: '#ffffff',
@@ -329,7 +339,7 @@ class JournalUI {
         
         // Section title for reputation
         const reputationTitle = this.scene.add.text(360, yOffset, 
-            'FACTION STANDING', {
+            this.lang.t('ui.hud.factionStanding'), {
             fontSize: '22px',
             fontFamily: 'Georgia',
             color: '#7fff8e',
@@ -362,7 +372,7 @@ class JournalUI {
             
             if (discoveredFactions.length === 0) {
                 const noFactionsText = this.scene.add.text(360, yOffset, 
-                    'No factions discovered yet.', {
+                    this.lang.t('ui.hud.noFactions'), {
                     fontSize: '16px',
                     fontFamily: 'Georgia',
                     color: '#aaaaaa',
@@ -507,7 +517,7 @@ class JournalUI {
         
         // Section title for journal entries
         const journalTitle = this.scene.add.text(360, yOffset, 
-            'FACTION RECORDS', {
+            this.lang.t('ui.hud.factionRecords'), {
             fontSize: '22px',
             fontFamily: 'Georgia',
             color: '#7fff8e',
@@ -521,7 +531,7 @@ class JournalUI {
         
         if (entries.length === 0) {
             const noEntriesText = this.scene.add.text(360, yOffset, 
-                'No faction records yet.', {
+                this.lang.t('ui.hud.noFactionRecords'), {
                 fontSize: '16px',
                 fontFamily: 'Georgia',
                 color: '#aaaaaa',
@@ -536,6 +546,13 @@ class JournalUI {
             entries.sort((a, b) => b.timestamp - a.timestamp);
             
             entries.forEach(entry => {
+                // Resolve translated journal content
+                const jKey = `journal.${entry.id}`;
+                const tTitle = this.lang.t(`${jKey}.title`);
+                const tContent = this.lang.t(`${jKey}.description`);
+                const displayTitle = tTitle === `${jKey}.title` ? entry.title : tTitle;
+                const displayContent = tContent === `${jKey}.description` ? entry.content : tContent;
+
                 // Entry container with fungal styling
                 const entryBox = this.scene.add.graphics();
                 entryBox.fillStyle(0x1a3b23, 0.8);
@@ -545,7 +562,7 @@ class JournalUI {
                 
                 // Title
                 const titleText = this.scene.add.text(padding, yOffset + padding, 
-                    entry.title, {
+                    displayTitle, {
                     fontSize: '20px',
                     fontFamily: 'Georgia',
                     color: '#7fff8e',
@@ -555,7 +572,7 @@ class JournalUI {
                 
                 // Content text
                 const contentText = this.scene.add.text(padding, yOffset + titleText.height + padding * 2, 
-                    entry.content, {
+                    displayContent, {
                     fontSize: '16px',
                     fontFamily: 'Georgia',
                     color: '#ffffff',

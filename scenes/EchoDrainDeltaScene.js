@@ -18,10 +18,12 @@ export default class EchoDrainDeltaScene extends GameScene {
                 options: [
                     {
                         text: 'Plant spores (costs 15 spores)',
+                        key: 'plant_spores_costs_15_spores',
                         next: 'sporePlantConfirm'
                     },
                     {
                         text: 'Not now',
+                        key: 'not_now',
                         next: 'closeDialog'
                     }
                 ]

@@ -96,6 +96,7 @@ To add a new symbiont, update these locations:
 | `thorne-still` | Thorne-Still | Brain Rot (confuse NPCs) | CrossroadScene (corpse) | Decay |
 | `neme-crownmire` | Neme of the Crownmire | Photosentience (detect lies) | AbandonedBusScene (Bishop's body) | Growth |
 | `ulvarex-borrowed-horizon` | Ulvarex the Borrowed Horizon | Mirage Weave (create illusions) | HarborScene (water mirage) | Spores |
+| `brine-scripture` | Brine Scripture | Salt Recall (read environmental residue) | Planned: Voxmarket Auction Hall | Growth |
 
 ## UI Integration
 - Symbiont icons appear bottom-left in GameScene (60px spacing)

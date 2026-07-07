@@ -29,10 +29,10 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_start: {
                 text: "A woman with vibrant clothing and a small stall of trinkets notices your approach. 'Welcome to my little corner of Voxmarket. I'm Zerren. Looking for anything special today?'",
                 options: [
-                    { text: "Who are you?", next: "zerren_who" },
-                    { text: "What do you sell?", next: "zerren_selling" },
+                    { text: "Who are you?", key: 'who_are_you', next: "zerren_who" },
+                    { text: "What do you sell?", key: 'what_do_you_sell', next: "zerren_selling" },
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
-                        { text: "About the Vestigel you had...", next: "zerren_vestigel_inquiry" }
+                        { text: "About the Vestigel you had...", key: 'about_the_vestigel_you_had', next: "zerren_vestigel_inquiry" }
                     ] : []),
                 ]
             },
@@ -40,17 +40,17 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_who: {
                 text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket for years now. You'll find all sorts of interesting trinkets at my stall that you won't see anywhere else.'",
                 options: [
-                    { text: "What kind of trinkets?", next: "zerren_selling" },
-                    { text: "Back", next: "zerren_start" }
+                    { text: "What kind of trinkets?", key: 'what_kind_of_trinkets', next: "zerren_selling" },
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_selling: {
                 text: "'I specialize in rare oddities and collectibles. Decorative items mostly, but sometimes I get my hands on things with... unusual properties.' She gestures to her collection of strange figurines, crystals, and small mechanical devices.",
                 options: [
-                    { text: "Interesting collection", next: "zerren_collection" },
-                    { text: "Show me what you have for sale", next: "zerren_shop" },
-                    { text: "Back", next: "zerren_start" }
+                    { text: "Interesting collection", key: 'interesting_collection', next: "zerren_collection" },
+                    { text: "Show me what you have for sale", key: 'show_me_what_you_have_for_sale', next: "zerren_shop" },
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ]
             },
             
@@ -74,33 +74,33 @@ export default class VoxmarketMarketScene extends GameScene {
         speaker: 'Unknown',
                 text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular - sold it just last week. Strange little thing, but charming in its own way.'",
                 options: [
-                    { text: "Tell me more about that toy", next: "zerren_plush_toy" },
-                    { text: "Back", next: "zerren_start" }
+                    { text: "Tell me more about that toy", key: 'tell_me_more_about_that_toy', next: "zerren_plush_toy" },
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_plush_toy: {
                 text: "'It was an odd little thing - looked like a cross between a stuffed animal and some kind of abstract sculpture. Got it from a traveler passing through.'",
                 options: [
-                    { text: "Who bought it?", next: "zerren_buyer_inquiry" },
-                    { text: "Back", next: "zerren_start" }
+                    { text: "Who bought it?", key: 'who_bought_it', next: "zerren_buyer_inquiry" },
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_vestigel_inquiry: {
                 text: "Zerren looks confused. 'Vestigel? How do you... how do you know about it? It was the worst deal I made in my life.'",
                 options: [
-                    { text: "Kloor told me about it.", next: "zerren_kloor_inquiry" },
-                    { text: "I can't tell you, it doesn't matter.", next: "zerren_refuse_inquiry" },
-                    { text: "Back", next: "zerren_start" }
+                    { text: "Kloor told me about it.", key: 'kloor_told_me_about_it', next: "zerren_kloor_inquiry" },
+                    { text: "I can't tell you, it doesn't matter.", key: 'i_cant_tell_you_it_doesnt_matter', next: "zerren_refuse_inquiry" },
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_kloor_inquiry: {
                 text: "I see. That bastard wants it for himself, doesn't he? I don't know what he plans to do with it, but it's not good. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
                 options: [
-                    { text: "Who did you sell it to?", next: "zerren_buyer_inquiry" },
-                    { text: "Back", next: "zerren_start" }
+                    { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ],
                 onTrigger: () => {
                     const factionSystem = this.registry.get('factionSystem');
@@ -135,8 +135,8 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_refuse_inquiry: {
                 text: "Hmm... allright, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
                 options: [
-                    { text: "Who did you sell it to?", next: "zerren_buyer_inquiry" },
-                    { text: "Back", next: "zerren_start" }
+                    { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ],
                 onTrigger: () => {
                     const factionSystem = this.registry.get('factionSystem');
@@ -172,23 +172,23 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_buyer_inquiry: {
                 text: "Zerren suddenly becomes guarded. 'I... I don't typically disclose information about my customers. It's a matter of professional discretion, you understand.' She glances away nervously.",
                 options: [
-                    { text: "Offer 50 dinar as incentive", next: "zerren_bribe_attempt" },
-                    { text: "Try to persuade her", next: "zerren_persuade_attempt" },
+                    { text: "Offer 50 dinar as incentive", key: 'offer_50_dinar_as_incentive', next: "zerren_bribe_attempt" },
+                    { text: "Try to persuade her", key: 'try_to_persuade_her', next: "zerren_persuade_attempt" },
                     ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') ? [
-                        { text: "Use Thorne-still's Brain Rot power", next: "zerren_thorne_still_power" }
+                        { text: "Use Thorne-still's Brain Rot power", key: 'use_thornestills_brain_rot_power', next: "zerren_thorne_still_power" }
                     ] : []),
                     ...(this.registry.get('reputationSystem')?.getFactionReputation('LumenDirectorate') >= 50 ? [
-                        { text: "Appeal to Lumen Directorate relationship", next: "zerren_lumen_directorate_appeal" }
+                        { text: "Appeal to Lumen Directorate relationship", key: 'appeal_to_lumen_directorate_relationship', next: "zerren_lumen_directorate_appeal" }
                     ] : []),
-                    { text: "Back", next: "zerren_start" }
+                    { text: "Back", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_bribe_attempt: {
                 text: "You offer Zerren 50 dinar for the information.",
                 options: [
-                    { text: "Confirm", next: "zerren_bribe_success" },
-                    { text: "Back", next: "zerren_buyer_inquiry" }
+                    { text: "Confirm", key: 'confirm', next: "zerren_bribe_success" },
+                    { text: "Back", key: 'back', next: "zerren_buyer_inquiry" }
                 ],
                 onTrigger: (option) => {
                     if (option && option.text === "Confirm") {
@@ -206,14 +206,14 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_not_enough_money: {
                 text: "'That's a generous offer, but...' Zerren eyes your coin purse. 'It seems you don't actually have that much to spare.'",
                 options: [
-                    { text: "Try something else", next: "zerren_buyer_inquiry" }
+                    { text: "Try something else", key: 'try_something_else', next: "zerren_buyer_inquiry" }
                 ]
             },
             
             zerren_bribe_success: {
                 text: "Zerren quickly pockets the gold coins. 'Well, for this kind of compensation, I suppose I can make an exception.' She leans in closer. 'It was Edgar Eskola who bought the toy. Eccentric collector, lives in the upper district. Always looking for strange artifacts.'",
                 options: [
-                    { text: "Thank you for the information", next: "zerren_quest_update" }
+                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "zerren_quest_update" }
                 ],
                 onTrigger: () => {
                     // Update the quest
@@ -227,7 +227,7 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_persuade_attempt: {
                 text: "'This is really important. The Vestigel inside that toy could be dangerous in the wrong hands. I need to find it for the safety of everyone in Upper Morkezela.' Zerren looks uncertain, weighing your words carefully.",
                 options: [
-                    { text: "Continue persuading", next: "zerren_persuade_roll" }
+                    { text: "Continue persuading", key: 'continue_persuading', next: "zerren_persuade_roll" }
                 ],
                 onTrigger: () => {
                     // Simulate a persuasion check based on charisma or similar stat
@@ -244,7 +244,7 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_persuade_success: {
                 text: "Zerren sighs, relenting. 'I suppose if it's that important... The buyer was Edgar Eskola. He's a collector of oddities with deep pockets. Has a place in the upper district. Very private person, though. Be careful how you approach him.'",
                 options: [
-                    { text: "Thank you for understanding", next: "zerren_quest_update" }
+                    { text: "Thank you for understanding", key: 'thank_you_for_understanding', next: "zerren_quest_update" }
                 ],
                 onTrigger: () => {
                     // Update the quest
@@ -259,7 +259,7 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_persuade_fail: {
                 text: "Zerren shakes her head firmly. 'I'm sorry, but I can't break my customers' trust. Perhaps there's another way you could find this information?'",
                 options: [
-                    { text: "Try something else", next: "zerren_buyer_inquiry" }
+                    { text: "Try something else", key: 'try_something_else', next: "zerren_buyer_inquiry" }
                 ]
             },
             
@@ -267,7 +267,7 @@ export default class VoxmarketMarketScene extends GameScene {
                 text: "You feel Thorne-still's presence intensify as the symbiont's power flows through you. Reality seems to waver around Zerren as the Brain Rot ability takes effect. Her eyes glaze slightly as she stumbles into a daze.",
                 hideCloseOption: true,
                 options: [
-                    { text: "Who bought the plush toy?", next: "zerren_thorne_still_success" }
+                    { text: "Who bought the plush toy?", key: 'who_bought_the_plush_toy', next: "zerren_thorne_still_success" }
                 ],
                 onTrigger: () => {
                     const sporeSystem = this.registry.get('sporeSystem');
@@ -285,14 +285,14 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_not_enough_spores: {
                 text: "Zerren shakes her head firmly. 'I'm sorry, but I can't break my customers' trust. Perhaps there's another way you could find this information?'",
                 options: [
-                    { text: "Try something else", next: "zerren_buyer_inquiry" }
+                    { text: "Try something else", key: 'try_something_else', next: "zerren_buyer_inquiry" }
                 ]
             },
             
             zerren_thorne_still_success: {
                 text: "Zerren speaks in a distant voice, as if reciting a fact from memory rather than revealing a secret. 'Urggh... Edgar Eskola purchased the plush toy. Grrrr... He lives in the upper district of Voxmarket. Collector of strange artifacts. Grrrr... ' She blinks, momentarily confused about what just happened.",
                 options: [
-                    { text: "Thank you for your help. Maybe take some rest, you dont' look well.", next: "zerren_quest_update" }
+                    { text: "Thank you for your help. Maybe take some rest, you dont' look well.", key: 'thank_you_for_your_help_maybe_take_some_rest_you_d', next: "zerren_quest_update" }
                 ],
                 onTrigger: () => {
                     // Update the quest
@@ -309,21 +309,21 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_lumen_directorate_appeal: {
                 text: "'As an ally of the Lumen Directorate, I'm tracking down these Vestigels on their behalf. They consider this a matter of great importance to the balance of power in the region.'",
                 options: [
-                    { text: "Continue", next: "zerren_lumen_directorate_success" }
+                    { text: "Continue", key: 'continue', next: "zerren_lumen_directorate_success" }
                 ]
             },
             
             zerren_lumen_directorate_success: {
                 text: "Zerren's eyes widen with recognition. 'Oh! You're with the Directorate? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector in the upper district.'",
                 options: [
-                    { text: "The Directorate appreciates your cooperation", next: "zerren_quest_update" }
+                    { text: "The Directorate appreciates your cooperation", key: 'the_directorate_appreciates_your_cooperation', next: "zerren_quest_update" }
                 ]
             },
             
             zerren_quest_update: {
                 text: "'I hope you find what you're looking for. And please... if you see Edgar, don't mention I sent you. He values his privacy.' Zerren returns to arranging her merchandise, occasionally glancing in your direction.",
                 options: [
-                    { text: "Leave", next: "closeDialog" }
+                    { text: "Leave", key: 'leave', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     // Update the quest

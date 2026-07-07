@@ -152,6 +152,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Look around',
+                        key: 'look_around',
                         next: 'lookAround'
                     },
                 ]
@@ -161,6 +162,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'main'
                     }
                 ]
@@ -170,27 +172,38 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'How does this ship fly?',
+                        key: 'how_does_this_ship_fly',
                         next: 'captainTechnology'
                     },
                     {
                         text: 'Where are you headed?',
+                        key: 'where_are_you_headed',
                         next: 'captainDestination'
                     },
                     {
                         text: 'Tell me about yourself.',
+                        key: 'tell_me_about_yourself',
                         next: 'captainAbout'
                     },
                     {
                         text: 'Is flying dangerous?',
+                        key: 'is_flying_dangerous',
                         next: 'captainDanger'
                     },
                     {
                         text: 'What cargo do you carry?',
+                        key: 'what_cargo_do_you_carry',
                         next: 'captainCargo'
                     },
                     ...(this.hasJournalEntry('lift_mother_meeting') ? [{
                         text: 'I need help with an elevator system.',
+                        key: 'i_need_help_with_an_elevator_system',
                         next: 'captainElevator'
+                    }] : []),
+                    ...(this.hasJournalEntry('met_infinite_fold') ? [{
+                        text: "[Before entering the cathedral] You watch that egg from up here. Tell me what you see.",
+                        key: 'before_entering_liris',
+                        next: 'lirisPerspective'
                     }] : []),
                 ],
                 onTrigger: () => {
@@ -211,10 +224,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'What is the Lumen Directorate?',
+                        key: 'what_is_the_lumen_directorate',
                         next: 'captainAccord'
                     },
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -224,14 +239,17 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     },
                     {
                         text: "What is you mission?",
+                        key: 'what_is_you_mission',
                         next: "captainMission"
                     },
                     {
                         text: "Does Lumen Directorate have some enemies?",
+                        key: 'does_lumen_directorate_have_some_enemies',
                         next: "captainEnemies"
                     }
                 ],
@@ -248,6 +266,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -257,6 +276,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ],
@@ -282,10 +302,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'That sounds dangerous.',
+                        key: 'that_sounds_dangerous',
                         next: 'captainDanger'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -296,10 +318,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'That sounds dangerous.',
+                        key: 'that_sounds_dangerous',
                         next: 'captainDanger'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -309,6 +333,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -318,10 +343,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Could I travel with you?',
+                        key: 'could_i_travel_with_you',
                         next: 'captainTravel'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -330,10 +357,12 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've proven your worth. The Verdigrace is particularly picky about who it accepts. If you really mean it, visit Lumen Directorate headqurarters in the city and ask about joining the crew. They might have some tasks for you to prove your dedication.",
                 options: [
                     {   text: 'Where can I find the Lumen Directorate headquarters?',
+                        key: 'where_can_i_find_the_lumen_directorate_headquarter',
                         next: 'captainDirectorate'
                     },
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -343,6 +372,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Thank you! I have some other questions.',
+                        key: 'thank_you_i_have_some_other_questions',
                         next: 'captainMain'
                     }
                 ],
@@ -362,10 +392,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Do you have anything to trade?',
+                        key: 'do_you_have_anything_to_trade',
                         next: 'captainTrade'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -375,6 +407,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Other topics',
+                        key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
@@ -385,10 +418,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'The floor counter is broken.',
+                        key: 'the_floor_counter_is_broken',
                         next: 'captainFloorCounter'
                     },
                     {
                         text: 'Never mind, ask something else.',
+                        key: 'never_mind_ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -399,10 +434,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Could I borrow this tool?',
+                        key: 'could_i_borrow_this_tool',
                         next: 'captainGivesTool'
                     },
                     {
                         text: 'How does it work?',
+                        key: 'how_does_it_work',
                         next: 'captainToolExplanation'
                     }
                 ]
@@ -413,10 +450,12 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Could I borrow this tool?',
+                        key: 'could_i_borrow_this_tool',
                         next: 'captainGivesTool'
                     },
                     {
                         text: 'Ask something else',
+                        key: 'ask_something_else',
                         next: 'captainMain'
                     }
                 ]
@@ -427,6 +466,7 @@ export default class SkyshipBoardScene extends GameScene {
                 options: [
                     {
                         text: 'Thank you!',
+                        key: 'thank_you',
                         next: 'closeDialog'
                     }
                 ],
@@ -452,6 +492,67 @@ export default class SkyshipBoardScene extends GameScene {
                     
                     // Show notification
                     this.showNotification('Obtained: Elevator Calibration Tool', '', '', 5000);
+                }
+            },
+            lirisPerspective: {
+                text: "So you're going in. I won't ask what for — that's your business. But I've been anchored over this Crossroads a month now, and I keep the ship's eye on that cathedral because it's the most interesting thing on the continent. You want the truth? It isn't static. It never was. The old survey charts I inherited put the shell three spans shorter and the eastern buttress where there's now open air. The Verdigrace logs it every watch. That thing is growing while everyone below stands around arguing whose god it belongs to.",
+                options: [
+                    {
+                        text: 'Show me the records.',
+                        key: 'show_me_the_records',
+                        next: 'lirisRecords'
+                    },
+                    {
+                        text: 'What happens when I come back out?',
+                        key: 'what_happens_when_i_come_back_out',
+                        next: 'lirisReturn'
+                    },
+                    {
+                        text: 'Other topics',
+                        key: 'other_topics',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            lirisRecords: {
+                text: "Here — the current chart against the last Directorate survey. The outline's changed by more than weather could explain. The scripture-light patterns drift, then settle into new shapes, always more ordered than the last. Structural mass keeps climbing, watch after watch. I've charted storms, migrations, whole colonies dissolving into spore — I know what a thing looks like when it's dying, and I know what a thing looks like when it's building toward something. That cathedral is building. Slowly, patiently, toward a shape it hasn't shown us yet.",
+                options: [
+                    {
+                        text: 'What happens when I come back out?',
+                        key: 'what_happens_when_i_come_back_out',
+                        next: 'lirisReturn'
+                    },
+                    {
+                        text: 'Other topics',
+                        key: 'other_topics',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            lirisReturn: {
+                text: "One more thing, and then I'll leave you to it. I don't know what you found in there. But I know someone should be outside when you come back out. So here's my offer: when you're done behind the Veil, signal from the cathedral steps and the Verdigrace will drop a line. A lift out — a way home, wherever home is for you now. Whatever that egg becomes, you won't have to walk away from it alone.",
+                options: [
+                    {
+                        text: 'Thank you, Captain.',
+                        key: 'thank_you_captain',
+                        next: 'closeDialog'
+                    },
+                    {
+                        text: 'Other topics',
+                        key: 'other_topics',
+                        next: 'captainMain'
+                    }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('perspective_liris')) {
+                        this.addJournalEntry(
+                            'perspective_liris',
+                            'Liris — A Watcher from Above',
+                            "Before I entered the Egg Cathedral, Captain Liris told me what the Verdigrace has seen from the sky. The cathedral is not static — her survey charts show the shell growing, the scripture-light settling into ever more ordered patterns, structural mass climbing watch after watch. Whatever is inside it, it is building toward a shape no one has seen yet. She offered a lift out when I am done: signal from the steps and the Verdigrace will drop a line. \"I don't know what you found in there. But I know someone should be outside when you come back out.\"",
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Captain Liris', location: 'Verdigrace Skyship' }
+                        );
+                    }
                 }
             },
             closeDialog: {

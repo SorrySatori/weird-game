@@ -104,6 +104,7 @@ class JournalSystem extends Phaser.Events.EventEmitter {
 
         // Store the entry
         this.entries.set(id, entry);
+        this.syncRegistryJournal();
         
         // Notify subscribers and emit event
         this.notifySubscribers();
@@ -181,6 +182,7 @@ class JournalSystem extends Phaser.Events.EventEmitter {
 
         // Add update timestamp
         entry.lastUpdated = new Date();
+        this.syncRegistryJournal();
         
         // Notify subscribers and emit event
         this.notifySubscribers();
@@ -211,6 +213,12 @@ class JournalSystem extends Phaser.Events.EventEmitter {
             entries: Array.from(this.entries.entries())
         };
     }
+
+    syncRegistryJournal() {
+        if (this.scene?.registry?.has('savedJournal')) {
+            this.scene.registry.set('savedJournal', this.getSerializableData());
+        }
+    }
     
     /**
      * Load data from a save file
@@ -221,8 +229,15 @@ class JournalSystem extends Phaser.Events.EventEmitter {
             // Clear existing entries
             this.entries.clear();
             
+            // Track seen IDs to skip duplicates in save data
+            const seen = new Set();
+            
             // Restore entries from data
             data.entries.forEach(([id, entry]) => {
+                // Skip duplicate entries — keep only the first occurrence
+                if (seen.has(id)) return;
+                seen.add(id);
+                
                 // Convert date strings back to Date objects
                 if (entry.timestamp) {
                     entry.timestamp = new Date(entry.timestamp);
