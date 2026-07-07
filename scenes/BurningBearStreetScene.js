@@ -35,11 +35,59 @@ export default class BurningBearStreetScene extends GameScene {
                         ? `"Well — if it isn't the soul who wrangled me a second pair of hands out of that paper-mill." He flexes all four, pleased. "I don't forget a kindness. But you've the look of someone Elphi sent... and she and I haven't traded a civil word in years. What does she want?"`
                         : `He barely glances up from his forms. "You. You watched me drown in permits and strolled on by. And now you turn up wearing Elphi's name like a badge. We haven't spoken in years, she and I. Say your piece and let me work."`,
                 options: asked
-                    ? [{ text: "Right. The Scraper cellar.", key: 'right_scraper_cellar', next: "closeDialog" }]
+                    ? [
+                        ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] You built the old systems. What am I walking into?", key: 'perspective_ortolan_open', next: "ortolan_bb_perspective" }] : []),
+                        { text: "Right. The Scraper cellar.", key: 'right_scraper_cellar', next: "closeDialog" }
+                    ]
                     : [
+                        ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] You built the old systems. What am I walking into?", key: 'perspective_ortolan_open', next: "ortolan_bb_perspective" }] : []),
                         { text: "The Infinite Loop. Elphi says it's running again.", key: 'the_infinite_loop_running', next: "ortolan_bb_loop" },
                         { text: "Never mind.", key: 'never_mind_bb', next: "closeDialog" }
                     ]
+            },
+
+            // === Perspective branch (only after meeting Infinite Fold in the cellar) ===
+            // Ortolan speaks as a maker: he understands the flaws of his own creations,
+            // and reads the cathedral and its old machinery with a practical, technical eye.
+            ortolan_bb_perspective: {
+                speaker: 'Ortolan',
+                text: `He sets down whichever ledger is nearest and, for once, gives you all four hands' worth of attention. "So you've been down to the cellar. I can see it on you — the look of someone who's had a machine talk back.\n\nThen hear a maker's honest word, since Elphi never will: something can be beautiful and still be badly designed. I've built both, sometimes in the same afternoon. A thing can sing and still be broken at the root — the flaw isn't the opposite of the beauty, it's *baked into it*. That thing hatching in the cathedral is no different. It's an older make than anything I ever bolted together, but it was still *made*, and everything made has seams. If you're walking in there, walk in knowing that."`,
+                options: [
+                    { text: "What surrounds it? The old machinery.", key: 'ortolan_bb_perspective_machinery', next: "ortolan_bb_mechanisms" },
+                    { text: "Tell me about the guard at the door.", key: 'ortolan_bb_perspective_guard', next: "ortolan_bb_sentinel" },
+                    { text: "I'll keep it in mind.", key: 'ortolan_bb_perspective_close', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('perspective_ortolan')) {
+                        this.addJournalEntry(
+                            'perspective_ortolan',
+                            "Ortolan's Perspective: A Flawed Make",
+                            "Before entering the Egg Cathedral I asked Ortolan, a maker, what I was walking into. He gave me a builder's read of it: \"Something can be beautiful and still be badly designed\" — a thing can sing and still be broken at its root, the flaw baked into the beauty rather than opposed to it. He says the presence hatching in the cathedral is an older make than anything he built, but it was still *made*, and everything made has seams. The machinery ringing the cathedral is old-order work — pre-war regulators and dampers meant to hold the site steady, most of it now failing quietly. The one part still honestly running is the Sentinel of the Veil at the door: the last working mechanism of the old order, a guard-system wired into the city's mycelial network, still faithfully executing an instruction whose authors are all dead. Ortolan warns that a mechanism doesn't stop being dangerous just because it's obsolete — it stops being *understood*.",
+                            this.journalSystem.categories.LORE,
+                            { character: 'Ortolan', location: 'Egg Cathedral', related: 'Infinite Fold' }
+                        );
+                    }
+                }
+            },
+
+            ortolan_bb_mechanisms: {
+                speaker: 'Ortolan',
+                text: `"The machinery? Old-order work, all of it — pre-war, from before the egg ever broke ground. Regulators, dampers, load-bearing wards; the sort of thing you build to hold a site *steady* while something delicate cooks inside it." He taps a knuckle on the desk in a slow, mechanical rhythm. "Most of it's failing now. Not dramatically — that's the trap. It fails the way old code fails: quietly, in the corners, doing the wrong thing very confidently. The men who tuned it are decades dead, and the site kept growing around their settings like a tree swallowing a fence.\n\nSo don't trust anything in there that hums along like it knows what it's doing. Knowing-what-it's-doing is exactly the failure mode. A well-made thing left running long enough stops being a tool and starts being *weather.*"`,
+                options: [
+                    { text: "And the guard at the door?", key: 'ortolan_bb_mechanisms_guard', next: "ortolan_bb_sentinel" },
+                    { text: "Ask something else.", key: 'ortolan_bb_mechanisms_back', next: "ortolan_bb_perspective" },
+                    { text: "Enough. Thank you, Ortolan.", key: 'ortolan_bb_mechanisms_close', next: "closeDialog" }
+                ]
+            },
+
+            ortolan_bb_sentinel: {
+                speaker: 'Ortolan',
+                text: `"The Sentinel of the Veil." He says the name the way you'd name a machine you respect and don't quite trust. "That one's the last of them — the last mechanism of the old order still honestly running. Flesh turned to plant, mind spliced into the city's mycelial net; a guard-system, really, dressed as a guardian. Someone gave it a single instruction a very long time ago — *keep the veil shut* — and every author of that instruction is dead now, and it is still executing it. Faithfully. Without appeal.\n\nThat's what makes it dangerous, and it's the same fault as the thing in the cellar: a made thing carrying out a purpose past the death of everyone who could have told it to stop. It won't reason. It won't relent. It only knows the rule it was given. If you mean to pass it, don't argue with the man — there's no man left to argue with. Work the rule."`,
+                options: [
+                    { text: "How do the surrounding systems tie in?", key: 'ortolan_bb_sentinel_machinery', next: "ortolan_bb_mechanisms" },
+                    { text: "Ask something else.", key: 'ortolan_bb_sentinel_back', next: "ortolan_bb_perspective" },
+                    { text: "Enough. Thank you, Ortolan.", key: 'ortolan_bb_sentinel_close', next: "closeDialog" }
+                ]
             },
 
             ortolan_bb_loop: {

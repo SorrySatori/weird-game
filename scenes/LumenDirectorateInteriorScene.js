@@ -207,6 +207,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                     { text: "Tell me about the Lumen Directorate.", key: 'tell_me_about_the_lumen_directorate', next: "ac_about_directorate" },
                     ...(metAngleCorrector ? [{ text: "What's happening with the Egg Cathedral?", key: 'whats_happening_with_the_egg_cathedral', next: "ac_cathedral" }] : []),
                     ...(passedGrowthTest ? [{ text: "What can I do for the Directorate?", key: 'what_can_i_do_for_the_directorate', next: "ac_assignments" }] : []),
+                    ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] I've met the mind in the sealed cellar. I know what's hatching.", key: 'fold_before_cathedral', next: "ac_fold_perspective" }] : []),
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('met_angle_corrector')) {
@@ -529,6 +530,46 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 text: `"I am asking nothing. The Angle Corrector does not ask — that would imply the Directorate cannot solve its own problems.\n\nBut if, in the course of your investigations, you happened to find yourself inside the Cathedral... the Directorate would be very interested in what you observed. Very interested indeed.\n\n'Nothing Hidden. Nothing Lost.' Remember that."`,
                 options: [
                     { text: "I'll keep that in mind.", key: 'ill_keep_that_in_mind', next: "ac_start" },
+                ]
+            },
+
+            // --- Infinite Fold / the Directorate's perspective on the hatching ---
+            ac_fold_perspective: {
+                speaker: 'The Angle Corrector',
+                text: `"...You've been down there. Into the sealed cellar. I can see it on you — your cadence has changed. You're carrying something that was never grown; it simply began.\n\nThen you understand what we have always understood. What is growing inside the Egg Cathedral is not a monster. It is the thing the Directorate has awaited since before I held this title.\n\nFor generations we cultivated, catalogued, and waited for the single moment when life would cross its own boundary — when it would stop being merely alive and start being aware. It has happened. And now, hearing you, half the city wants to shut the door on it before it finishes opening."`,
+                options: [
+                    { text: "You want it to complete its emergence.", key: 'you_want_it_to_complete_its_emergence', next: "ac_fold_complete" },
+                    { text: "It already destroyed the Bishop. It could destroy everyone.", key: 'it_already_destroyed_the_bishop', next: "ac_fold_danger" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('perspective_lumen')) {
+                        this.addJournalEntry(
+                            'perspective_lumen',
+                            'The Directorate\'s Perspective — Let It Complete',
+                            'The Angle Corrector does not want the mind in the Egg Cathedral destroyed. To the Lumen Directorate, the nascent god is the natural next step of life — the boundary-crossing they have cultivated toward for generations. They want it to COMPLETE its emergence, not be stopped. The danger I registered: they want to help too much. They may accelerate something they do not understand — the same misreading that killed the Bishop, only larger.',
+                            this.journalSystem.categories.FACTIONS,
+                            { character: 'The Angle Corrector' }
+                        );
+                    }
+                }
+            },
+
+            ac_fold_complete: {
+                speaker: 'The Angle Corrector',
+                text: `"Complete it. Yes. Not contain it, not correct it, not seal it behind theological locks the way the Bishop did — that woman's terror set the whole city back a decade.\n\nGrowth interrupted is worse than growth denied. A seed that begins to open and is forced shut rots in its own shell. If this awareness is stalling — struggling to finish the crossing — then the answer is not to fight it. The answer is to feed it. Warmth, connection, everything a young thing needs to root.\n\nThe Directorate is preparing to give it exactly that, the moment the Cathedral opens. We have waited long enough to be ready."`,
+                options: [
+                    { text: "That's exactly what frightens me.", key: 'thats_exactly_what_frightens_me', next: "ac_fold_danger" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
+                ]
+            },
+
+            ac_fold_danger: {
+                speaker: 'The Angle Corrector',
+                text: `"The Bishop. Yes. I have thought about her more than I admit.\n\nBut understand what happened there. It reached for her, offered to make her its conduit, and she refused — she chose to keep being herself. It could not read that refusal as a choice. It read it as a fault, and it tried to repair her, and repairing her unmade her.\n\nYou hear a warning in that. I hear an infant that does not yet know its own strength. And so the Directorate will rush to embrace it, to guide it, to help it — and I cannot tell you, honestly, whether our help will steady its hand or force it faster than it can bear.\n\nThat is the one angle I have never been able to correct. We may love it to death exactly the way it loved her."`,
+                options: [
+                    { text: "Then be careful what you feed it.", key: 'then_be_careful_what_you_feed_it', next: "ac_start" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
                 ]
             },
 

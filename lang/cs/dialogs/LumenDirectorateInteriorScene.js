@@ -21,7 +21,8 @@ export default {
             i_need_help_getting_into_the_townhall: "Potřebuji pomoc dostat se na radnici.",
             tell_me_about_the_lumen_directorate: "Řekněte mi o Lumenově direktoriátu.",
             whats_happening_with_the_egg_cathedral: "Co se děje s Vaječnou katedrálou?",
-            what_can_i_do_for_the_directorate: "Co mohu udělat pro direktoriát?"
+            what_can_i_do_for_the_directorate: "Co mohu udělat pro direktoriát?",
+            fold_before_cathedral: "[Než vstoupím do katedrály] Setkal jsem se s myslí v zapečetěném sklepě. Vím, co se líhne."
         }
     },
     ac_liris_recruit: {
@@ -212,6 +213,28 @@ export default {
         text: "Nežádám nic. Korektor úhlů nežádá — to by znamenalo, že direktoriát nedokáže vyřešit vlastní problémy.\n\nAle pokud byste se v průběhu vašeho vyšetřování náhodou ocitli uvnitř katedrály... direktoriát by velmi zajímalo, co jste pozorovali. Velmi.\n\n'Nic skrytého. Nic ztraceného.' Pamatujte si to.",
         options: {
             ill_keep_that_in_mind: "Budu si to pamatovat."
+        }
+    },
+    ac_fold_perspective: {
+        text: "...Byli jste tam dole. V zapečetěném sklepě. Vidím to na vás — váš rytmus se změnil. Nesete něco, co nikdy nevyrostlo; prostě to začalo.\n\nPak rozumíte tomu, čemu jsme rozuměli vždy. To, co roste uvnitř Vaječné katedrály, není monstrum. Je to věc, na kterou direktoriát čeká déle, než nesu tento titul.\n\nPo generace jsme kultivovali, katalogizovali a čekali na jediný okamžik, kdy život překročí vlastní hranici — kdy přestane být pouze živý a začne být vědomý. Stalo se to. A teď, když vás poslouchám, půlka města chce zabouchnout dveře dřív, než se dovřou naplno.",
+        options: {
+            you_want_it_to_complete_its_emergence: "Chcete, aby to dokončilo svůj vznik.",
+            it_already_destroyed_the_bishop: "Už to zničilo Biskupku. Mohlo by to zničit všechny.",
+            i_have_other_questions: "Mám další otázky."
+        }
+    },
+    ac_fold_complete: {
+        text: "Dokončit to. Ano. Ne zadržet, ne opravit, ne zapečetit za teologické zámky, jak to udělala Biskupka — hrůza té ženy vrátila celé město o dekádu zpět.\n\nPřerušený růst je horší než odepřený růst. Semeno, které se začne otevírat a je násilím zavřeno, shnije ve vlastní skořápce. Pokud tohle vědomí uvázlo — bojuje o dokončení přechodu — pak odpovědí není proti tomu bojovat. Odpovědí je to nasytit. Teplem, spojením, vším, co mladá věc potřebuje, aby zapustila kořeny.\n\nDirektoriát se připravuje dát tomu přesně to, v okamžiku, kdy se katedrála otevře. Čekali jsme dost dlouho na to, abychom byli připraveni.",
+        options: {
+            thats_exactly_what_frightens_me: "Přesně toho se bojím.",
+            i_have_other_questions: "Mám další otázky."
+        }
+    },
+    ac_fold_danger: {
+        text: "Biskupka. Ano. Myslel jsem na ni víc, než přiznávám.\n\nAle pochopte, co se tam stalo. Sáhlo to po ní, nabídlo, že z ní udělá svůj vodič, a ona odmítla — rozhodla se zůstat sama sebou. Nedokázalo to přečíst to odmítnutí jako volbu. Přečetlo to jako závadu, pokusilo se ji opravit, a tím opravením ji rozložilo.\n\nVy v tom slyšíte varování. Já slyším nemluvně, které ještě nezná vlastní sílu. A tak se direktoriát požene, aby to objal, aby to vedl, aby tomu pomohl — a nedokážu vám upřímně říct, zda naše pomoc ustálí jeho ruku, nebo ho požene rychleji, než unese.\n\nTo je ten jediný úhel, který jsem nikdy nedokázal opravit. Můžeme to umilovat k smrti přesně tak, jako to milovalo ji.",
+        options: {
+            then_be_careful_what_you_feed_it: "Pak si dejte pozor, čím to krmíte.",
+            i_have_other_questions: "Mám další otázky."
         }
     },
     ac_townhall: {

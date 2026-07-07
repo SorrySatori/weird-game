@@ -26,7 +26,8 @@ export default {
             tell_me_about_yourself: "Řekněte mi o sobě.",
             is_flying_dangerous: "Je létání nebezpečné?",
             what_cargo_do_you_carry: "Jaký náklad vezete?",
-            i_need_help_with_an_elevator_system: "Potřebuji pomoc s výtahovým systémem."
+            i_need_help_with_an_elevator_system: "Potřebuji pomoc s výtahovým systémem.",
+            before_entering_liris: "[Než vejdu do katedrály] Sledujete to vejce shora. Řekněte mi, co vidíte."
         }
     },
     captainAbout: {
@@ -134,6 +135,28 @@ export default {
         text: "Samozřejmě! Vždycky s sebou nosím zálohy — nikdy nevíte, kdy budete potřebovat něco opravit uprostřed letu. Tady, vezměte si tento kalibrační modul. Je jednoduchý na použití: stačí ho připojit k servisnímu panelu výtahového systému a automaticky překalibruje počítadlo pater. Droni uvnitř udělají veškerou práci.",
         options: {
             thank_you: "Děkuji!"
+        }
+    },
+    lirisPerspective: {
+        text: "Takže tam jdete. Nebudu se ptát proč — to je vaše věc. Ale kotvím nad tímhle Rozcestím už měsíc a nespouštím z té katedrály lodní oko, protože je to ta nejzajímavější věc na celém kontinentu. Chcete pravdu? Není statická. Nikdy nebyla. Staré měřičské mapy, které jsem zdědila, umisťují skořápku o tři sáhy níž a východní opěrák tam, kde je teď volný vzduch. Verdigrace to zaznamenává každou hlídku. Ta věc roste, zatímco všichni dole postávají a hádají se, čímu bohu vlastně patří.",
+        options: {
+            show_me_the_records: "Ukažte mi ty záznamy.",
+            what_happens_when_i_come_back_out: "Co se stane, až vyjdu ven?",
+            other_topics: "Jiná témata"
+        }
+    },
+    lirisRecords: {
+        text: "Tady — aktuální mapa proti poslednímu průzkumu direktoriátu. Obrys se změnil víc, než by dokázalo vysvětlit počasí. Vzory světla písma se posouvají a pak se ustálí do nových tvarů, pokaždé uspořádanějších než ty minulé. Konstrukční hmota neustále roste, hlídku za hlídkou. Zmapovala jsem bouře, migrace, celé kolonie rozpouštějící se ve spory — vím, jak vypadá věc, která umírá, a vím, jak vypadá věc, která se k něčemu propracovává. Ta katedrála se propracovává. Pomalu, trpělivě, k tvaru, který nám ještě neukázala.",
+        options: {
+            what_happens_when_i_come_back_out: "Co se stane, až vyjdu ven?",
+            other_topics: "Jiná témata"
+        }
+    },
+    lirisReturn: {
+        text: "Ještě jednu věc a pak vás nechám být. Nevím, co jste tam našel. Ale vím, že až vyjdete ven, měl by být venku někdo, kdo vás čeká. Takže tady je má nabídka: až budete hotov za Závojem, dejte signál ze schodů katedrály a Verdigrace shodí lano. Odvoz ven — cestu domů, ať už je teď domov kdekoli. Ať se z toho vejce stane cokoli, nebudete od něj muset odcházet sám.",
+        options: {
+            thank_you_captain: "Děkuji, kapitánko.",
+            other_topics: "Jiná témata"
         }
     },
     closeDialog: {

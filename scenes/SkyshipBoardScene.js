@@ -200,6 +200,11 @@ export default class SkyshipBoardScene extends GameScene {
                         key: 'i_need_help_with_an_elevator_system',
                         next: 'captainElevator'
                     }] : []),
+                    ...(this.hasJournalEntry('met_infinite_fold') ? [{
+                        text: "[Before entering the cathedral] You watch that egg from up here. Tell me what you see.",
+                        key: 'before_entering_liris',
+                        next: 'lirisPerspective'
+                    }] : []),
                 ],
                 onTrigger: () => {
                     // Add journal entry for meeting Captain Liris if not already added
@@ -487,6 +492,67 @@ export default class SkyshipBoardScene extends GameScene {
                     
                     // Show notification
                     this.showNotification('Obtained: Elevator Calibration Tool', '', '', 5000);
+                }
+            },
+            lirisPerspective: {
+                text: "So you're going in. I won't ask what for — that's your business. But I've been anchored over this Crossroads a month now, and I keep the ship's eye on that cathedral because it's the most interesting thing on the continent. You want the truth? It isn't static. It never was. The old survey charts I inherited put the shell three spans shorter and the eastern buttress where there's now open air. The Verdigrace logs it every watch. That thing is growing while everyone below stands around arguing whose god it belongs to.",
+                options: [
+                    {
+                        text: 'Show me the records.',
+                        key: 'show_me_the_records',
+                        next: 'lirisRecords'
+                    },
+                    {
+                        text: 'What happens when I come back out?',
+                        key: 'what_happens_when_i_come_back_out',
+                        next: 'lirisReturn'
+                    },
+                    {
+                        text: 'Other topics',
+                        key: 'other_topics',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            lirisRecords: {
+                text: "Here — the current chart against the last Directorate survey. The outline's changed by more than weather could explain. The scripture-light patterns drift, then settle into new shapes, always more ordered than the last. Structural mass keeps climbing, watch after watch. I've charted storms, migrations, whole colonies dissolving into spore — I know what a thing looks like when it's dying, and I know what a thing looks like when it's building toward something. That cathedral is building. Slowly, patiently, toward a shape it hasn't shown us yet.",
+                options: [
+                    {
+                        text: 'What happens when I come back out?',
+                        key: 'what_happens_when_i_come_back_out',
+                        next: 'lirisReturn'
+                    },
+                    {
+                        text: 'Other topics',
+                        key: 'other_topics',
+                        next: 'captainMain'
+                    }
+                ]
+            },
+            lirisReturn: {
+                text: "One more thing, and then I'll leave you to it. I don't know what you found in there. But I know someone should be outside when you come back out. So here's my offer: when you're done behind the Veil, signal from the cathedral steps and the Verdigrace will drop a line. A lift out — a way home, wherever home is for you now. Whatever that egg becomes, you won't have to walk away from it alone.",
+                options: [
+                    {
+                        text: 'Thank you, Captain.',
+                        key: 'thank_you_captain',
+                        next: 'closeDialog'
+                    },
+                    {
+                        text: 'Other topics',
+                        key: 'other_topics',
+                        next: 'captainMain'
+                    }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('perspective_liris')) {
+                        this.addJournalEntry(
+                            'perspective_liris',
+                            'Liris — A Watcher from Above',
+                            "Before I entered the Egg Cathedral, Captain Liris told me what the Verdigrace has seen from the sky. The cathedral is not static — her survey charts show the shell growing, the scripture-light settling into ever more ordered patterns, structural mass climbing watch after watch. Whatever is inside it, it is building toward a shape no one has seen yet. She offered a lift out when I am done: signal from the steps and the Verdigrace will drop a line. \"I don't know what you found in there. But I know someone should be outside when you come back out.\"",
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Captain Liris', location: 'Verdigrace Skyship' }
+                        );
+                    }
                 }
             },
             closeDialog: {

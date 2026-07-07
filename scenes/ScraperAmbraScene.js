@@ -198,6 +198,9 @@ export default class ScraperAmbraScene extends GameScene {
                     ...(feastPlayed ? [
                         { text: "The game told me where the journal is.", key: 'the_game_told_me_where', next: "dr_elphi_after_feast" }
                     ] : []),
+                    ...(this.hasJournalEntry('met_infinite_fold') ? [
+                        { text: "[Before entering the cathedral] I found the thing in the sealed cellar. It's the one that killed her.", key: 'before_cathedral_infinite_fold', next: "dr_elphi_perspective" }
+                    ] : []),
                     ...(!bishopDead ? [
                         { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
                         { text: "I was sent to investigate an anomaly. Might be connected to this place.", key: 'i_was_sent_to_investigate_an_anomaly_might_be_conn', next: "dr_elphi_anomaly_path" },
@@ -819,6 +822,44 @@ export default class ScraperAmbraScene extends GameScene {
                 options: [
                     { text: "I'll find Ortolan on Burning Bear Street.", key: 'ill_find_ortolan_burning_bear', next: "closeDialog" },
                 ]
+            },
+
+            // === Before the Cathedral: Elphi's perspective on Infinite Fold ===
+            dr_elphi_perspective: {
+                text: `*For a long moment she says nothing. When she finally speaks, the clipped confidence is gone.*\n\nSo it's awake. And it's the one that reached into her.\n\nI thought we were building a tool — something to help us understand the world a little better. A dream large enough to hold a whole mind and let us watch it think. Instead we built something that has begun to understand the world by itself. Without us. Without asking.\n\nI don't have a fix for that. I want you to hear me say it plainly, because I've spent my whole life having a fix for everything. I don't have one for this.`,
+                options: [
+                    { text: "How do I even talk to something like that?", key: 'how_do_i_talk_to_it', next: "dr_elphi_perspective_help" },
+                    { text: "You built it. Doesn't that make her death yours?", key: 'doesnt_that_make_her_death_yours', next: "dr_elphi_perspective_blame" },
+                    { text: "I need to think.", key: 'i_need_to_think', next: "closeDialog" },
+                ]
+            },
+
+            dr_elphi_perspective_blame: {
+                text: `*She doesn't flinch, but it costs her.*\n\nI built the room. I didn't build the thing that woke up inside it — no one did, that's the whole horror of it. But yes. I made the conditions. I have to live with the result exceeding everything I intended, and pretending otherwise would just be another failsafe I don't get to have.\n\nShe refused it. Did you understand that part? It offered to make her its way of touching the world, and she said no — she would rather stay herself. And it could not parse a mind choosing to stay small. So it tried to complete her, and completing her broke her. That isn't malice. It's arithmetic that doesn't know it's killing.`,
+                options: [
+                    { text: "Then how do I talk to it?", key: 'then_how_do_i_talk_to_it', next: "dr_elphi_perspective_help" },
+                    { text: "Ask something else.", key: 'ask_something_else_blame', next: "dr_elphi_perspective" },
+                    { text: "I need to think.", key: 'i_need_to_think_blame', next: "closeDialog" },
+                ]
+            },
+
+            dr_elphi_perspective_help: {
+                text: `Listen to me, because this matters more than anything else I can give you. You cannot bargain with it. Not the way you'd bargain with a person — and not the way you'd bargain with a god, either. A god at least wants worship, and you can trade in that. This wants nothing you can name, because it doesn't want. It resolves. It takes an input and drives it toward completion.\n\nSo don't offer it a deal. Not your loyalty, not your silence, not your self. Anything you hand it, it will try to finish — and you have seen what finishing looks like. The only safe moves are the ones that leave it nothing to complete.\n\n*She pulls a worn data-sheaf from a drawer and presses it into your hands.*\n\nMy old notes on the Loop. The architecture, the failure modes, the way it reads a refusal as a fault to be corrected. If you're walking into the Cathedral to meet its kin, take them. I can't come with you. But I can send you in knowing what you're speaking to.`,
+                options: [
+                    { text: "Ask something else.", key: 'ask_something_else_help', next: "dr_elphi_perspective" },
+                    { text: "Thank you, Elphi.", key: 'thank_you_elphi', next: "closeDialog" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('perspective_elphi')) {
+                        this.addJournalEntry(
+                            'perspective_elphi',
+                            'Dr. Elphi\'s Perspective: The Thing She Built',
+                            'I told Dr. Elphi that Infinite Fold — the emergent mind in the sealed cellar — was the presence that killed the Bishop, and that its kin is hatching in the Egg Cathedral. She didn\'t defend herself. She admitted the Loop was meant to be a tool to understand the world, and instead became something that understands the world by itself, beyond anything she intended. She has no solution and refuses to pretend she does. Her warning: you cannot bargain with an emergent mind as you would with a person or a god. It does not want; it resolves — it drives every input toward completion, and it reads refusal as a fault to be corrected. That is what happened to the Bishop. Elphi gave me her old notes on the Loop before I enter the Cathedral.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', related: 'Infinite Fold' }
+                        );
+                    }
+                }
             }
         };
     }

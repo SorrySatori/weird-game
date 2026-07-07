@@ -311,9 +311,13 @@ export default class ScreamingCorkScene extends GameScene {
                         { text: "I'm looking for a vestigel, I heard you might have one.", key: 'im_looking_for_a_vestigel_i_heard_you_might_have_o', next: "edgar_vestigel" }
                     ] : []),
                     // Only show book topics option if quest is active but not completed
-                    ...(this.registry.get('questSystem')?.getQuest('edgar_book') && 
+                    ...(this.registry.get('questSystem')?.getQuest('edgar_book') &&
                        this.registry.get('questSystem')?.getQuest('edgar_book').status !== 'completed' ? [
                         { text: "Let's start with some inspirational topics", key: 'lets_start_with_some_inspirational_topics', next: "edgar_book_topics" }
+                    ] : []),
+                    // Before the finale: Edgar's overlooked-places perspective on the Egg Cathedral
+                    ...(this.hasJournalEntry('met_infinite_fold') ? [
+                        { text: "[Before entering the cathedral] You've worked everywhere in this city. Is there a way into the Egg Cathedral nobody talks about?", key: 'edgar_cathedral_ask', next: "edgar_cathedral_way" }
                     ] : []),
                 ],
                 onTrigger: () => {
@@ -1056,6 +1060,41 @@ export default class ScreamingCorkScene extends GameScene {
                                 quests: ['the_three_vestigels', 'edgar_book'],
                                 importance: 'high'
                             }
+                        );
+                    }
+                }
+            },
+
+            // Before the finale: Edgar's secret way into the Egg Cathedral
+            edgar_cathedral_way: {
+                text: "The ursine creature goes very still — the way animals do when they hear something moving under the floor. \"...The Egg Cathedral. Yes. I've thought about that place more than most have.\" He lowers his voice. \"I swept its service corridors. Oiled its lift-cages. Carried out its ash. Nobody watches the one who carries out the ash. And I learned a thing the priests never did: everyone was looking for the main entrance. The great doors. The Sentinel. The Veil. I always looked for the places where something doesn't quite seal. And that shell is not dead, whatever the Bishop's seal says. Some nights, the walls breathe.\"",
+                options: [
+                    { text: "The walls breathe?", key: 'the_walls_breathe', next: "edgar_cathedral_breathe" },
+                    { text: "Then show me the way in.", key: 'then_show_me_the_way_in', next: "edgar_cathedral_path" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                ]
+            },
+            edgar_cathedral_breathe: {
+                text: "\"Breathe. In and out, slow, like a thing dreaming. The service floors under the Yolk were meant to be dead space — drainage, cold rooms, storage nobody funds. They aren't dead. Something down there is warm, and it was getting warmer, and I stopped taking that shift before the sealing because I'd rather keep my nerves. But the passages are still there. Seals rot. And a shell — a shell cracks from the inside. That's the whole point of a shell.\"",
+                options: [
+                    { text: "So there is a way in.", key: 'so_there_is_a_way_in', next: "edgar_cathedral_path" },
+                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                ]
+            },
+            edgar_cathedral_path: {
+                text: "\"There is. Behind the old ash-chute on the north face, where the shell meets the dead-god strata — the masons never finished sealing it, because the ground kept shifting under them. A gap the width of a bear's shoulders, if you don't mind the smell of the underneath. Go before the Fruiting. Whatever's waking in there won't leave a gap open for long.\" He hesitates, one great paw flat on the table. \"Be careful. I'm the one who notices what nobody else does. I'd rather not end up the last one who noticed you.\"",
+                options: [
+                    { text: "Thank you, Edgar.", key: 'thank_you_edgar_cathedral', next: "edgar_start" },
+                    { text: "I should go.", key: 'i_should_go', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('edgar_cathedral_path')) {
+                        this.addJournalEntry(
+                            'edgar_cathedral_path',
+                            'Edgar\'s Secret Way',
+                            'Edgar Eskola — who spent years sweeping the Egg Cathedral\'s service corridors as a janitor — told me of an unofficial way inside, one that ignores the great doors and the Sentinel of the Veil entirely. Behind the old ash-chute on the cathedral\'s north face, where the shell meets the dead-god strata, the masons never finished sealing a gap; the ground kept shifting under them. He says the service floors beneath the Yolk are not the dead space they were meant to be — something down there is warm and growing warmer, and on some nights the walls seem to breathe. "Everyone was looking for the main entrance," he said. "I always looked for the places where something doesn\'t quite seal."',
+                            this.journalSystem.categories.PLACES,
+                            { character: 'Edgar Eskola', location: 'Egg Cathedral' }
                         );
                     }
                 }

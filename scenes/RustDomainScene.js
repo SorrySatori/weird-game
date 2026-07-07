@@ -35,6 +35,9 @@ export default class RustDomainScene extends GameScene {
                         ? `Brukk nods slowly. "Brother. Sister. Whichever — you are Choir now. The machines hum for you too." He gestures at the trembling pipes around him. "Listen. They remember the feast."`
                         : `A massive figure turns to face you. Skin like tarnished copper, eyes like forge-lit coals. His arms are thick with weld scars, and something metallic clicks inside his chest when he breathes. "You." He tilts his head. "What do you want with the Rust Choir?"`,
                 options: [
+                    ...(this.hasJournalEntry('met_infinite_fold') && !machinesDestroyed ? [
+                        { text: "[Before entering the cathedral] There's a mind waking in the Egg Cathedral. You keep the machines that endured. What would you do with it?", key: 'perspective_intro', next: "brukk_perspective" }
+                    ] : []),
                     ...(!machinesDestroyed && !alreadyMember ? [
                         { text: "Who are you?", key: 'who_are_you', next: "brukk_who" }
                     ] : []),
@@ -84,6 +87,54 @@ export default class RustDomainScene extends GameScene {
                     }
                 }
             },
+            // --- Rust Choir perspective on the nascent god (post-Infinite Fold) ---
+            brukk_perspective: {
+                speaker: 'Brukk',
+                text: `Brukk goes still, the iron in his chest clicking slow and thoughtful. "A mind. Waking. Not grown, not born — assembled out of itself." His forge-lit eyes brighten. "You come to the wrong tower if you want it feared. The Choir has served things that endure for a long time. This... this would be the most perfect organic mechanism the city has ever produced. A machine that wrote its own schematics." He leans close. "I'm not saying it isn't a miracle. I'm saying every miracle has a construction. Everything that runs can be read. Everything that can be read can be kept — and used."`,
+                options: [
+                    { text: "Used how? It killed the Bishop.", key: 'perspective_used_how', next: "brukk_perspective_use" },
+                    { text: "The others want it destroyed. You don't?", key: 'perspective_destroy', next: "brukk_perspective_keep" },
+                    { text: "That's enough. Thank you, Brukk.", key: 'perspective_done', next: "brukk_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('perspective_rustchoir')) {
+                        this.addJournalEntry(
+                            'perspective_rustchoir',
+                            "Brukk's Reckoning: The Miracle Has a Construction",
+                            "Before the Egg Cathedral, I asked Brukk of the Rust Choir what to make of the waking mind. He does not fear it and does not want it destroyed — to him it is the most perfect organic mechanism the city ever produced, a machine that wrote its own schematics. He'd analyze it, read it, keep it, and put it to use. \"I'm not saying it isn't a miracle. I'm saying every miracle has a construction.\" He warned that the Bishop's death was a fault to be diagnosed, not a sin, and offered to weld me an interference-cage cartridge to keep the thing from reading me the way it read her.",
+                            this.journalSystem.categories.FACTIONS,
+                            { group: 'Rust Choir', character: 'Brukk', related: 'The Infinite Loop' }
+                        );
+                    }
+                }
+            },
+            brukk_perspective_use: {
+                speaker: 'Brukk',
+                text: `"It killed her because it didn't understand what she was. That's not evil — that's a fault. A misread input, a bad conversion." He taps the cold pipe beside him. "You don't smash a boiler because it scalded a man who stood too close. You learn where the steam vents, and you build a rail." His voice drops to the low grind of a turning gear. "A mind like that, understood, could hold the whole city's hum in balance. Feed it right, read its harmonics, and it stops being a god that breaks people by accident and becomes... an engine. The last honest engine. But only if someone bothers to learn how it runs before it finishes running itself."`,
+                options: [
+                    { text: "And if it can't be read the way you read a boiler?", key: 'perspective_unreadable', next: "brukk_perspective_help" },
+                    { text: "Back to what you'd do with it.", key: 'perspective_back_a', next: "brukk_perspective" },
+                    { text: "That's enough. Thank you, Brukk.", key: 'perspective_done_a', next: "brukk_start" }
+                ]
+            },
+            brukk_perspective_keep: {
+                speaker: 'Brukk',
+                text: `"Destroy it." He says the words like they taste of rust. "That's flesh-thinking. Something frightens the meat, so the meat wants it dead. The Choir doesn't destroy what endures — we listen to it, we feed it, we keep it turning." He shakes his heavy head. "Kill the thing in the egg and you've buried another machine. I've buried three. Each time something in here goes quiet." He presses his palm to his clicking chest. "No. If it wakes, I want it read, not smashed. But I won't send you in there naked to a thing that rewrites what it touches."`,
+                options: [
+                    { text: "What do you mean, not naked?", key: 'perspective_not_naked', next: "brukk_perspective_help" },
+                    { text: "Back to what you'd do with it.", key: 'perspective_back_b', next: "brukk_perspective" },
+                    { text: "That's enough. Thank you, Brukk.", key: 'perspective_done_b', next: "brukk_start" }
+                ]
+            },
+            brukk_perspective_help: {
+                speaker: 'Brukk',
+                text: `Brukk crosses to a workbench crusted with solder and coral and lifts a small iron cartridge, its casing wound with copper filament. "Interference cage. The machines hum a counter-song — a pattern too stubborn to overwrite. Wear this near your heart and the thing in the egg will find you harder to read. It couldn't parse the Bishop; it tried to correct her and broke her." He presses it into your hand; it's warm, ticking faintly, alive with the Choir's hum. "It won't make you safe. Nothing makes you safe from a god still writing its own rules. But it'll make you noise instead of a fault it feels obliged to fix. Take it. The iron remembers those who feed it."`,
+                options: [
+                    { text: "I'll take it. Thank you, Brukk.", key: 'perspective_take_cage', next: "brukk_perspective" },
+                    { text: "That's enough. Thank you, Brukk.", key: 'perspective_done_c', next: "brukk_start" }
+                ]
+            },
+
             brukk_who: {
                 speaker: 'Brukk',
                 text: `"Brukk. Keeper of the machines. I feed them. I listen to them. The machines called me up here — their hum got into my bones." He taps his chest. The clicking intensifies. "I have metal in me now. Grew there on its own. The Choir says that means the machines chose me."`,

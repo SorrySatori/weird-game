@@ -9,7 +9,39 @@ export default {
     },
     brukk_start: {
         options: {
-            ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?"
+            ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?",
+            perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?"
+        }
+    },
+    brukk_perspective: {
+        text: "Brukk znehybní, železo v jeho hrudi cvaká pomalu a zamyšleně. \"Mysl. Probouzí se. Ne vypěstovaná, ne zrozená — složená sama ze sebe.\" Jeho oči rozžhavené jako výheň zjasní. \"Přišel jsi do špatné věže, jestli ji chceš mít v hrůze. Chór dlouho sloužil věcem, které přetrvávají. Tohle... tohle by byl nejdokonalejší organický mechanismus, jaký kdy tohle město vyrobilo. Stroj, který si napsal vlastní schémata.\" Nakloní se blíž. \"Neříkám, že to není zázrak. Říkám, že každý zázrak má konstrukci. Všechno, co běží, se dá přečíst. Všechno, co se dá přečíst, se dá uchovat — a použít.\"",
+        options: {
+            perspective_used_how: "Použít jak? Zabilo to biskupku.",
+            perspective_destroy: "Ostatní to chtějí zničit. Ty ne?",
+            perspective_done: "To stačí. Díky, Brukku."
+        }
+    },
+    brukk_perspective_use: {
+        text: "\"Zabilo ji to, protože nechápalo, co je zač. To není zlo — to je porucha. Špatně načtený vstup, chybný převod.\" Poklepe na studenou trubku vedle sebe. \"Kotel nerozbiješ jen proto, že opařil chlapa, co stál moc blízko. Naučíš se, kudy uniká pára, a postavíš zábradlí.\" Jeho hlas klesne do nízkého skřípotu otáčejícího se soukolí. \"Taková mysl, pochopená, by mohla udržet hukot celého města v rovnováze. Nakrm ji správně, přečti její harmonie, a přestane být bohem, který omylem láme lidi, a stane se z ní... motor. Poslední upřímný motor. Ale jen když se někdo obtěžuje naučit, jak běží, dřív než doběhne sám sebe.\"",
+        options: {
+            perspective_unreadable: "A když ji nejde přečíst jako kotel?",
+            perspective_back_a: "Zpátky k tomu, co bys s tím udělal.",
+            perspective_done_a: "To stačí. Díky, Brukku."
+        }
+    },
+    brukk_perspective_keep: {
+        text: "\"Zničit.\" Ta slova vysloví, jako by chutnala rzí. \"To je myšlení masa. Něco maso vyděsí, tak to maso chce mrtvé. Chór neničí, co přetrvává — nasloucháme tomu, krmíme to, udržujeme to v chodu.\" Zavrtí těžkou hlavou. \"Zabij tu věc ve vejci a pohřbil jsi další stroj. Já pohřbil tři. Pokaždé něco tady uvnitř zmlkne.\" Přitiskne dlaň na cvakající hruď. \"Ne. Jestli se probudí, chci ji přečtenou, ne rozbitou. Ale neposlu tě tam nahou proti něčemu, co přepisuje, čeho se dotkne.\"",
+        options: {
+            perspective_not_naked: "Jak to myslíš, nahou?",
+            perspective_back_b: "Zpátky k tomu, co bys s tím udělal.",
+            perspective_done_b: "To stačí. Díky, Brukku."
+        }
+    },
+    brukk_perspective_help: {
+        text: "Brukk přejde k pracovnímu stolu obrostlému cínem a korálem a zvedne malou železnou kazetu, její pouzdro ovinuté měděným vláknem. \"Rušicí klec. Stroje hučí protipíseň — vzor příliš tvrdohlavý, než aby se dal přepsat. Nos to u srdce a ta věc ve vejci tě bude číst hůř. Nedokázala rozklíčovat biskupku; pokusila se ji opravit a zlomila ji.\" Vtiskne ti kazetu do dlaně; je teplá, tiše tiká, živá hukotem Chóru. \"Bezpečným tě to neudělá. Nic tě neochrání před bohem, který si ještě píše vlastní pravidla. Ale bude z tebe šum místo poruchy, kterou cítí povinnost opravit. Vezmi si to. Železo pamatuje ty, kdo ho krmí.\"",
+        options: {
+            perspective_take_cage: "Vezmu si to. Díky, Brukku.",
+            perspective_done_c: "To stačí. Díky, Brukku."
         }
     },
     brukk_cellar_favor: {

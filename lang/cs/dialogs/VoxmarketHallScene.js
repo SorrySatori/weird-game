@@ -107,6 +107,7 @@ export default {
         options: {
             just_browsing_what_are_the_pith_reclaimers: "Jen se rozhlížím. Co jsou Reklamátoři jádra?",
             what_are_you_bidding_on: "Na co dražíte?",
+            before_cathedral_seal_law: "[Před vstupem do katedrály] Co říká právo Reklamátorů o Biskupčině pečeti na Vaječné katedrále?",
             im_here_for_the_chronoslurry_toadlet: "Jsem tu kvůli Chronobřečkovému Ropušátku.",
             photosentience_read_her_biosignals: "[Fotosentience] Přečíst její bio-signály.",
             mirage_weave_create_a_distraction: "[Tkaní přeludů] Vytvořit rozptýlení.",
@@ -180,6 +181,44 @@ export default {
         text: `„Kapitula nefinancuje polovičatosti. Když identifikujeme zdroj jádra hodný akvizice, získáme ho. 150 zlatých je skromné podle reklamátorských standardů — některé kapituly posílají delegace s desetinásobkem.\n\nAle Horní Morkezela je malá kapitula. Jsme... opatrní s alokacemi. Proto musím dražit strategicky, ne emotivně."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    // --- Před katedrálou: čtení pečeti Reklamátory jádra ---
+    calyx_seal_law: {
+        text: `Calyx odloží položku, kterou zkoumala. „Vaječná katedrála. Chcete reklamátorské čtení. Ne to, zda byla Biskupčina smrt tragická — žal není kategorie k založení do spisu. Chcete vědět: jaký je *právní status* té pečeti?"
+
+Z rukávu vytáhne složený dokument — křehký, úřední, orazítkovaný mrtvou rukou. „Vytáhla jsem kopie kapituly, než jsem odešla. Reklamátoři jádra si uchovávají všechno; paměť je náš jediný skutečný inventář. Toto je původní uzavírací listina katedrály a její kustodská charta. Obě jsou starší než Biskupka, která je uplatnila."
+
+„Nouzová pečeť není rozmar. Je to právní akt s *účelovou klauzulí*. A účel, který je zde zapsán, není ten, který všichni předpokládají."`,
+        options: {
+            what_were_the_sentinels_original_orders: "Jaké byly původní rozkazy Strážce?",
+            then_what_was_the_seals_actual_purpose: "Tak jaký byl skutečný účel pečeti?",
+            i_have_other_questions: "Mám další otázky.",
+        }
+    },
+
+    calyx_seal_guardian_orders: {
+        text: `„Kustodská charta jmenuje strážce u závoje — Strážce. Jeho tělo bylo dáno rostlinám a jeho mysl mycelární síti, aby mohl udržet *jediný pokyn* napříč staletími bez odchýlení. Úředníci zapomínají. Strážci ne."
+
+Čte to věcně, tak jak Reklamátoři čtou všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* — komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům zlata. Zlodějům *autorství*."
+
+„Všichni si Strážce pamatují jako dveře. Byl sepsán jako filtr. Ten rozdíl je celý ten případ."`,
+        options: {
+            so_the_seal_filtered_for_one_kind_of_person: "Takže pečeť filtrovala jeden konkrétní druh člověka.",
+            go_back_a_step: "Vrátit se o krok zpět.",
+        }
+    },
+
+    calyx_seal_true_purpose: {
+        text: `„Nyní k samotné uzavírací listině." Uhladí křehkou stránku. „Lidé předpokládají, že Biskupka zapečetila katedrálu, aby *chránila katedrálu* — před lupiči, před přístroji Direktoriátu, před tím, co se líhne uvnitř vejce. To je sentimentální čtení. Je mylné."
+
+„Účelová klauzule čte směrem ven, ne dovnitř. Pečeť nebyla zdvižena, aby udržela svět *mimo* katedrálu. Byla zdvižena, aby to, co je *uvnitř*, nebylo vyneseno do světa nesprávnýma rukama — aby chránila *svět* před vstupem kohokoli, kdo by chtěl *vlastnit* nový život."
+
+Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli. Bezautorské. Biskupka chápala — právně, přesně — že nebezpečím nikdy nebyl ten zrod. Bylo jím vlastnictví. Zapečetila dveře, aby zastavila *nárok*. A pak si nějaká mysl chtěla nárokovat *ji*. To, myslím, mi váš obličej celou dobu říká, že už víte."`,
+        options: {
+            theres_more_i_want_to_ask: "Chci se zeptat na víc.",
+            thank_you_sister_thats_what_i_needed: "Děkuji, sestro. To jsem potřeboval.",
         }
     },
 

@@ -184,6 +184,7 @@ export default class VoxmarketHallScene extends GameScene {
                 options: [
                     { text: "Just browsing. What are the Pith Reclaimers?", key: 'just_browsing_what_are_the_pith_reclaimers', next: "calyx_pith" },
                     { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "calyx_bidding" },
+                    ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] What does Reclaimer law say about the Bishop's seal on the Egg Cathedral?", key: 'before_cathedral_seal_law', next: "calyx_seal_law" }] : []),
                     ...(hasAuctionErrand ? [{ text: "I'm here for the Chrono-Slurry Toadlet.", key: 'im_here_for_the_chronoslurry_toadlet', next: "calyx_toadlet_rival" }] : []),
                     ...(hasNeme && !calyxLieDetected ? [{ text: "[Photosentience] Read her bio-signals.", key: 'photosentience_read_her_biosignals', next: "calyx_neme" }] : []),
                     ...(hasUlvarex && !calyxMiraged ? [{ text: "[Mirage Weave] Create a distraction.", key: 'mirage_weave_create_a_distraction', next: "calyx_mirage" }] : []),
@@ -289,6 +290,58 @@ export default class VoxmarketHallScene extends GameScene {
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]
+            },
+
+            // --- Before the Cathedral: the Pith Reclaimer reading of the seal ---
+            calyx_seal_law: {
+                speaker: 'Sister Calyx',
+                text: `Calyx sets down the lot she was examining. "The Egg Cathedral. You want a Reclaimer's reading of it. Not whether the Bishop's death was tragic — grief is not a filing category. You want to know: what is the *legal status* of that seal?"
+
+She produces a folded document from her sleeve — brittle, official, stamped in a dead hand. "I pulled the chapter's copies before I left. The Pith Reclaimers keep everything; memory is our only real inventory. This is the cathedral's original closure instrument and its custodial charter. Both are older than the Bishop who invoked them."
+
+"An emergency seal is not a whim. It is a legal act with a *purpose clause*. And the purpose written here is not the one everyone assumes."`,
+                options: [
+                    { text: "What were the Sentinel's original orders?", key: 'what_were_the_sentinels_original_orders', next: "calyx_seal_guardian_orders" },
+                    { text: "Then what was the seal's actual purpose?", key: 'then_what_was_the_seals_actual_purpose', next: "calyx_seal_true_purpose" },
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
+                ]
+            },
+
+            calyx_seal_guardian_orders: {
+                speaker: 'Sister Calyx',
+                text: `"The custodial charter names the guardian at the veil — the Sentinel. His flesh was given to the plants and his mind to the mycelial network so he could hold *one instruction* across centuries without drift. Clerks forget. Guardians do not."
+
+She reads it flatly, the way Reclaimers read everything: as inventory. "'The keeper shall admit the reverent, the curious, and the poor. The keeper shall bar only the *acquisitive* — any who approach the sacred growth intending ownership, patent, or claim.' Not thieves of gold. Thieves of *authorship*."
+
+"Everyone remembers the Sentinel as a door. He was written as a filter. That distinction is the whole case."`,
+                options: [
+                    { text: "So the seal filtered for one specific kind of person.", key: 'so_the_seal_filtered_for_one_kind_of_person', next: "calyx_seal_true_purpose" },
+                    { text: "Go back a step.", key: 'go_back_a_step', next: "calyx_seal_law" },
+                ]
+            },
+
+            calyx_seal_true_purpose: {
+                speaker: 'Sister Calyx',
+                text: `"Now the closure instrument itself." She flattens the brittle page. "People assume the Bishop sealed the cathedral to *protect the cathedral* — from looters, from the Directorate's instruments, from whatever is hatching inside the egg. That is the sentimental reading. It is wrong."
+
+"The purpose clause reads outward, not inward. The seal was not raised to keep the world *out of* the cathedral. It was raised to keep what is *inside* from being carried into the world by the wrong hands — to protect the *world* from the entry of anyone who would seek to *own* new life."
+
+Her clinical calm slips, just slightly. "New minds are being born in this city. Unauthored ones. The Bishop understood — legally, precisely — that the danger was never the birth. It was ownership. She sealed a door to stop a *claim*. And then something tried to claim *her*. That, I think, is what your face has been telling me you already know."`,
+                options: [
+                    { text: "There's more I want to ask.", key: 'theres_more_i_want_to_ask', next: "calyx_seal_law" },
+                    { text: "Thank you, Sister. That's what I needed.", key: 'thank_you_sister_thats_what_i_needed', next: "closeDialog" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('bishop_seal_true_purpose')) {
+                        this.addJournalEntry(
+                            'bishop_seal_true_purpose',
+                            'The Seal\'s True Purpose',
+                            'Sister Calyx of the Pith Reclaimers read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Egg Cathedral', character: 'Sister Calyx', related: 'Bishop' }
+                        );
+                    }
+                }
             },
 
             // --- Symbiont interactions with Calyx ---
