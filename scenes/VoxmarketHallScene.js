@@ -46,6 +46,7 @@ export default class VoxmarketHallScene extends GameScene {
             ? 'silence_start_after_neme'
             : (metSilence ? 'silence_start_return' : 'silence_start_first');
         const auctionComplete = !!this.hasJournalEntry('seldo_auction_success') || !!this.hasJournalEntry('auction_toadlet_lost');
+        const auctionActive = hasAuctionErrand && !auctionComplete;
         const brineAlreadyResolved = !!this.hasJournalEntry('auction_brine_scripture_won') || !!this.hasJournalEntry('auction_brine_scripture_skipped');
         const brinePrice = this.calculateBrineScripturePrice();
         const toadletPrice = this.calculateToadletPrice();
@@ -58,19 +59,25 @@ export default class VoxmarketHallScene extends GameScene {
             // ——— Hesh & Vell, the Twin Auctioneers ———
             twins_start: {
                 speaker: 'Hesh & Vell',
-                textKey: twinsStartTextKey,
-                text: metTwins
-                    ? (confusedTwins
-                        ? `"Welcome... back," says Hesh. Vell mouths the words a half-second late, but stumbles — the rhythm is off, the synchronization cracked. "The auction will... begin shortly," Hesh continues, and Vell's lips catch up too late.\n\nThey're still functional, but their famous pacing is compromised. The auctioneer's edge — dulled."`
-                        : `"Welcome back," says Hesh. Vell mouths the same words half a second late, their lips forming each syllable in eerie delay. "The auction will begin shortly. Browse. Socialize. The lots are displayed along the far wall."`)
-                    : `"Welcome to the Voxmarket Auction Hall," says Hesh — or is it Vell? One speaks, the other mouths the same words half a second behind, creating an unsettling echo effect without any actual echo.\n\n"I am Hesh," says the one on the left. "And I am Vell," mouths the one on the right, a beat too late. "We conduct the auction. All sales are final. All bids are binding. All regrets are your own."\n\nTheir synchronization is hypnotic — practiced, precise, and deeply wrong.`,
+                textKey: auctionActive
+                    ? twinsStartTextKey
+                    : (metTwins ? 'twins_start_no_auction_return' : 'twins_start_no_auction_first'),
+                text: auctionActive
+                    ? (metTwins
+                        ? (confusedTwins
+                            ? `"Welcome... back," says Hesh. Vell mouths the words a half-second late, but stumbles — the rhythm is off, the synchronization cracked. "The auction will... begin shortly," Hesh continues, and Vell's lips catch up too late.\n\nThey're still functional, but their famous pacing is compromised. The auctioneer's edge — dulled."`
+                            : `"Welcome back," says Hesh. Vell mouths the same words half a second late, their lips forming each syllable in eerie delay. "The auction will begin shortly. Browse. Socialize. The lots are displayed along the far wall."`)
+                        : `"Welcome to the Voxmarket Auction Hall," says Hesh — or is it Vell? One speaks, the other mouths the same words half a second behind, creating an unsettling echo effect without any actual echo.\n\n"I am Hesh," says the one on the left. "And I am Vell," mouths the one on the right, a beat too late. "We conduct the auction. All sales are final. All bids are binding. All regrets are your own."\n\nTheir synchronization is hypnotic — practiced, precise, and deeply wrong.`)
+                    : (metTwins
+                        ? `"Back again?" says Hesh, and Vell's lips trail half a beat behind. "No auction today, I'm afraid — the hall is dark, the lots locked away. Come back when the Voxmarket calls the next sale. You'll know when. Everyone does."`
+                        : `"The hall is closed for bidding," says Hesh — and Vell forms the words a half-second behind, the echo unsettling in the empty room. "We are Hesh, and Vell. We conduct the auctions... when there are auctions. There is none today." Both twins tilt their heads in unison. "Come back when the Voxmarket calls a sale."`),
                 options: [
                     { text: "How does the auction work?", key: 'how_does_the_auction_work', next: "twins_auction_rules" },
-                    { text: "What's being auctioned today?", key: 'whats_being_auctioned_today', next: "twins_lots" },
-                    ...(hasAuctionErrand ? [{ text: "I'm here for a specific lot — a Chrono-Slurry Toadlet.", key: 'im_here_for_a_specific_lot_a_chronoslurry_toadlet', next: "twins_toadlet" }] : []),
-                    ...(hasAuctionErrand && !auctionComplete ? [{ text: "I'm ready to begin the auction.", key: 'im_ready_to_begin_the_auction', next: "auction_start" }] : []),
+                    ...(auctionActive ? [{ text: "What's being auctioned today?", key: 'whats_being_auctioned_today', next: "twins_lots" }] : []),
+                    ...(auctionActive ? [{ text: "I'm here for a specific lot — a Chrono-Slurry Toadlet.", key: 'im_here_for_a_specific_lot_a_chronoslurry_toadlet', next: "twins_toadlet" }] : []),
+                    ...(auctionActive ? [{ text: "I'm ready to begin the auction.", key: 'im_ready_to_begin_the_auction', next: "auction_start" }] : []),
                     { text: "Why do you do that — the delayed mouthing?", key: 'why_do_you_do_that_the_delayed_mouthing', next: "twins_echo" },
-                    ...(hasThorne && !confusedTwins ? [{ text: "[Brain Rot] Disrupt their synchronization.", key: 'brain_rot_disrupt_their_synchronization', next: "twins_brain_rot" }] : []),
+                    ...(hasThorne && !confusedTwins && auctionActive ? [{ text: "[Brain Rot] Disrupt their synchronization.", key: 'brain_rot_disrupt_their_synchronization', next: "twins_brain_rot" }] : []),
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('met_hesh_vell')) {
@@ -89,7 +96,7 @@ export default class VoxmarketHallScene extends GameScene {
                 speaker: 'Hesh & Vell',
                 text: `"The rules are simple," says Hesh. Vell's lips follow. "Lots are presented one by one. Bidding starts at the listed price. Raise your hand to bid. Highest bidder when we call 'Settled' wins the lot.\n\nPayment is immediate. Gold only — no barter, no vestigels, no promises. If you can't pay, you leave. If you cause a scene, you leave faster.\n\nThe pre-auction social period is just as important. Know your competition. Make friends. Or make them nervous."`,
                 options: [
-                    { text: "What's being auctioned today?", key: 'whats_being_auctioned_today', next: "twins_lots" },
+                    ...(auctionActive ? [{ text: "What's being auctioned today?", key: 'whats_being_auctioned_today', next: "twins_lots" }] : []),
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },
                 ]
             },
@@ -967,12 +974,18 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
             this.stranger.destroy();
         }
 
-        // Create NPCs
+        // Create NPCs. The twins are always present; the auction crowd (bidders and lot-owners)
+        // only appears while the auction quest is live — otherwise the hall stands empty.
         this.createTwinAuctioneers();
-        this.createHeartbrokerLune();
-        this.createHeirToAquarium();
-        this.createSilenceBeneathStairwell();
-        this.createSisterCalyx();
+        const auctionActive = this.hasJournalEntry('seldo_auction_errand')
+            && !this.hasJournalEntry('seldo_auction_success')
+            && !this.hasJournalEntry('auction_toadlet_lost');
+        if (auctionActive) {
+            this.createHeartbrokerLune();
+            this.createHeirToAquarium();
+            this.createSilenceBeneathStairwell();
+            this.createSisterCalyx();
+        }
 
         this.grantAuctionTestingFunds();
 
