@@ -77,7 +77,18 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "Name's Ravla. I'm an... artist of sorts. Been at the Cork for years now. It's quiet, keeps the authorities at a distance.",
                 options: [
                     { text: "Back", key: 'back', next: "ravla_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('met_ravla')) {
+                        this.addJournalEntry(
+                            'met_ravla',
+                            'Ravla',
+                            "Ravla holds a corner of the Screaming Cork, forging documents for anyone who can pay and keeping the authorities at arm's length. She is also the Rust Choir's gatekeeper — nothing reaches Brukk or the machines without passing her first. Sharp-eyed, unsentimental, and unmoved by charm.",
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Ravla', location: 'Screaming Cork' }
+                        );
+                    }
+                }
             },
             ravla_job: {
                 text: "I provide services for those who need certain... paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
@@ -616,6 +627,16 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             'Enter Club Area' // custom name
         );
         
+        if (!this.hasJournalEntry('screaming_cork_place')) {
+            this.addJournalEntry(
+                'screaming_cork_place',
+                'The Screaming Cork',
+                "A tavern said to be the first building raised after the Collapse — old, dim, and a good place to disappear. Heliodor tends the bar as many creatures wearing a single name; Ravla forges papers in the corner; and somewhere past the back room a band called Feral Toast rehearses something that isn't quite music.",
+                this.journalSystem.categories.PLACES,
+                { location: 'Screaming Cork' }
+            );
+        }
+
         // Create NPCs
         this.createNPCs();
     }

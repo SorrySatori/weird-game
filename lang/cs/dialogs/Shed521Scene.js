@@ -4,7 +4,7 @@
  */
 export default {
     _speakers: {
-        'Gruk': 'Gruk',
+        'Gnur': 'Gnur',
     },
     start: {
         text: "Další zatoulanec bloumal žilami Kůlny 521... Co hledáš, cizinče? Vylepšení těla? Nové plíce? Nebo jen špatné nápady? Zasmál se, hlas praská jako rozbitý sbor. Řekni, co potřebuješ. Možná má starý Gnur šepot na prodej.",

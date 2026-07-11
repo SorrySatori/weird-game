@@ -526,7 +526,7 @@ export default class VoxmarketMarketScene extends GameScene {
                 'forgotten_elevator_button_available',
                 'Mysterious Button at Zerren\'s Shop',
                 'Zerren has added a strange item to her inventory - a "Forgotten Elevator Button" with unusual markings. It appears to be for accessing a floor that doesn\'t officially exist. This might be useful for reaching Dr. Elphi\'s studio that the Bishop mentioned.',
-                this.journalSystem.categories.ITEMS,
+                this.journalSystem.categories.EVENTS,
                 { location: 'Voxmarket', character: 'Zerren' }
             );
             

@@ -78,7 +78,7 @@ export default class VoxmarketHallScene extends GameScene {
                             'met_hesh_vell',
                             'The Twin Auctioneers: Hesh & Vell',
                             'Met the twin auctioneers at the Voxmarket Auction Hall. One speaks, the other mouths the same words half a second late. Their synchronization is unsettling and precise — and likely deliberate. They run the auction together.',
-                            this.journalSystem.categories.EVENTS,
+                            this.journalSystem.categories.PEOPLE,
                             { character: 'Hesh & Vell' }
                         );
                     }
@@ -195,7 +195,7 @@ export default class VoxmarketHallScene extends GameScene {
                             'met_sister_calyx',
                             'Sister Calyx — Pith Reclaimers',
                             'Met Sister Calyx of the Pith Reclaimers at the Voxmarket Auction Hall. She\'s here on chapter business, examining the lots with clinical precision. Fungal filaments are woven into her vestments.',
-                            this.journalSystem.categories.EVENTS,
+                            this.journalSystem.categories.PEOPLE,
                             { character: 'Sister Calyx' }
                         );
                     }
@@ -507,7 +507,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                             'met_heartbroker_lune',
                             'Heartbroker Lune',
                             'Met Heartbroker Lune at the Voxmarket Auction Hall. She carries multiple living hearts in a glass harness and trades feelings mid-conversation. She is looking for emotion-linked artifacts.',
-                            this.journalSystem.categories.EVENTS,
+                            this.journalSystem.categories.PEOPLE,
                             { character: 'Heartbroker Lune' }
                         );
                     }
@@ -616,7 +616,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                             'met_yellow_aquarium_heir',
                             'Heir to the Yellow Aquarium',
                             'Met the Heir to the Yellow Aquarium at the Voxmarket Auction Hall. Their translucent body is filled with slowly floating fish embryos, and they react more to vibration and light than spoken words. They want living artifacts and symbionts.',
-                            this.journalSystem.categories.EVENTS,
+                            this.journalSystem.categories.PEOPLE,
                             { character: 'Heir to the Yellow Aquarium' }
                         );
                     }
@@ -690,7 +690,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                             'met_stairwell_silence',
                             'The Silence Beneath the Stairwell',
                             'Met a small dark auction guest called The Silence Beneath the Stairwell. It has almost no visible face, never bids verbally, and signals only with its fingers. It seems interested in objects tied to secrecy and isolation.',
-                            this.journalSystem.categories.EVENTS,
+                            this.journalSystem.categories.PEOPLE,
                             { character: 'The Silence Beneath the Stairwell' }
                         );
                     }

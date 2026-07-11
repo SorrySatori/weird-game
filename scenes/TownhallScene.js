@@ -46,7 +46,18 @@ export default class TownhallScene extends GameScene {
                     { text: "That sounds like grave robbery", key: 'that_sounds_like_grave_robbery', next: "phorGraveRobbery" },
                     { text: "Fascinating. What have you found?", key: 'fascinating_what_have_you_found', next: "phorFindings" },
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
-                ]
+                ],
+                onTrigger: () => {
+                    if (this.journalSystem && !this.journalSystem.hasEntry('dead_gods_cosmology')) {
+                        this.addJournalEntry(
+                            'dead_gods_cosmology',
+                            'Where Gods Come to Die',
+                            "Phor Calesta laid out the cosmology beneath the city: Upper Morkezela is where dead gods gather. When a deity stops being believed in, it does not vanish — it fossilizes here, dragging its streets and forgotten cultures down with it. Prayers harden into strata, halos crystallize into mineral, godmetal hums with the last of its faith. The whole city is built on the corpses of the divine. As Phor puts it: gods lie to their followers, but their corpses tell only truth.",
+                            this.journalSystem.categories.LORE,
+                            { related: 'Divinography', character: 'Phor Calesta' }
+                        );
+                    }
+                }
             },
             phorGraveRobbery: {
                 text: "(Chuckles wetly) Perhaps. But tell me—is it robbery if the deceased has no heirs? No worshippers? When a god dies and their faithful scatter, their remains become... unclaimed property. I simply ensure they're studied rather than forgotten.",

@@ -946,7 +946,7 @@ export default class ScreamingCorkScene extends GameScene {
                         'edgar_book_vestigel_path',
                         'Literary Exchange',
                         'Edgar seems more enthusiastic about his book than holding onto the vestigel. This is the perfect opportunity to obtain one of the three vestigels I need while also helping him fulfill his dream of becoming a writer.',
-                        this.journalSystem.categories.THOUGHTS,
+                        this.journalSystem.categories.EVENTS,
                         {
                             character: 'Edgar Eskola',
                             location: 'Screaming Cork',

@@ -1697,7 +1697,7 @@ export default class GameScene extends Phaser.Scene {
                         'guard': 'Guard',
                         'merchant': 'Merchant',
                         'edgar': 'Edgar',
-                        'ortholan': 'Ortholan',
+                        'ortolan': 'Ortolan',
                         'registrar': 'Registrar',
                         'clerk': 'Clerk',
                         'scientist': 'Scientist',

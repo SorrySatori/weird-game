@@ -87,6 +87,16 @@ export default class TownSquareScene extends GameScene {
         this.createMagnekin();
         this.createBusker();
 
+        if (!this.hasJournalEntry('town_square_place')) {
+            this.addJournalEntry(
+                'town_square_place',
+                'The Town Square',
+                "The open heart of Upper Morkezela, where paths run out to the Townhall, the harbor, the Lumen Directorate, and down into the Godgraveyard. A busker sings the songs of a dead world for whoever will listen. And something calling itself an 'average, real citizen' loiters here, doing a poor job of pretending to be a man.",
+                this.journalSystem.categories.PLACES,
+                { location: 'Town Square' }
+            );
+        }
+
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 
@@ -295,7 +305,7 @@ export default class TownSquareScene extends GameScene {
                         'magnekin_hopsalot_conversion',
                         'Maltimus Hopsalot Conversion',
                         'Seriously, what just happened? I have converted Magnekin to the faith of Maltimus Hopsalot. I need to write down that I totally made up Lagerlandia and Maltimus Hopsalot on the spot. Yet this creature believed me. Unbelievable. I have my own cult now.',
-                        this.journalSystem.categories.EVENT,
+                        this.journalSystem.categories.EVENTS,
                     );
                     this.addJournalEntry(
                         'magnekin_hopsalot_church',
@@ -445,7 +455,7 @@ export default class TownSquareScene extends GameScene {
                         'magnekin_destroyed',
                         'The Destruction of Magnekin',
                         'I destroyed Magnekin, the collective of micro-cities. I took everything—oil, metal, and even the Redmass that held their consciousness. The Redmass spoke to me, begged me to spare it, but I took it anyway. I feel... different now. Heavier. The weight of thousands of lives extinguished.',
-                        this.journalSystem.categories.EVENT,
+                        this.journalSystem.categories.EVENTS,
                     );
                     // Mark Magnekin as destroyed in registry
                     this.registry.set('magnekin_destroyed', true);
@@ -464,7 +474,7 @@ export default class TownSquareScene extends GameScene {
                         'magnekin_destroyed_mercy',
                         'The Destruction of Magnekin',
                         'I destroyed Magnekin, the collective of micro-cities. I took the oil and metal, but when the Redmass begged for mercy, I let it go. Perhaps it was foolish. Perhaps it was the only human thing I could do after such destruction. The Redmass said it would remember my mercy. I wonder what that means.',
-                        this.journalSystem.categories.EVENT,
+                        this.journalSystem.categories.EVENTS,
                     );
                     // Mark Magnekin as destroyed but spared the Redmass
                     this.registry.set('magnekin_destroyed', true);

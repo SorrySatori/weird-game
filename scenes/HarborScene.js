@@ -163,6 +163,16 @@ export default class HarborScene extends GameScene {
         // Create Ulvarex mirage encounter
         this.createUlvarexEncounter();
 
+        if (!this.hasJournalEntry('harbor_place')) {
+            this.addJournalEntry(
+                'harbor_place',
+                'The Harbor',
+                "Where the city meets the Yolk Sea. Oil slicks the water in slow rainbows, and something shifts beneath the surface — a reflection that does not always match what casts it. The docks run east toward the Echo Drain Delta. A quiet place, so long as you don't look too long at your own reflection.",
+                this.journalSystem.categories.PLACES,
+                { location: 'Harbor' }
+            );
+        }
+
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 

@@ -592,7 +592,7 @@ export default class ScraperCellarScene extends GameScene {
                 'scraper_cellar_entered',
                 'The Sealed Cellar',
                 'The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi\'s old lab. The master build of Infinite Fold is still here, seated in its cradle and quietly powered. I should examine the console.',
-                this.journalSystem.categories.EVENTS,
+                this.journalSystem.categories.PLACES,
                 { location: 'Scraper Cellar', related: 'Infinite Fold' }
             );
             if (this.questSystem?.getQuest('find_loop_copy')) {

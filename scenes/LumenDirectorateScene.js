@@ -165,7 +165,7 @@ export default class LumenDirectorateScene extends GameScene {
                             'met_gardener_verrik',
                             'Met Verrik the Gardener',
                             'Met a gardener named Verrik outside the Lumen Directorate headquarters. He tends the living architecture around the building.',
-                            this.journalSystem.categories.EVENTS,
+                            this.journalSystem.categories.PEOPLE,
                             { character: 'Verrik the Gardener' }
                         );
                     }

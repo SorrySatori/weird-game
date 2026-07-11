@@ -63,7 +63,18 @@ a poem no clerk can file and no soul leaves politely.
 The city is a draft. I am its final edit."`,
                 options: [
                     { text: "(Someone in the room is about to break.)", key: 'someone_about_to_break', next: "poet_intro_interrupt" },
-                ]
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('met_mad_poet')) {
+                        this.addJournalEntry(
+                            'met_mad_poet',
+                            'The Mad Poet',
+                            "A thin, ink-blackened figure who read to empty halls for thirty years — until he sealed the Townhall doors, drew a revolver, and made a captive audience of the clerks beneath the city seal. The city stamped his life 'insufficiently civic.' Now he means to deliver his masterpiece to a room that cannot leave.",
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'The Mad Poet', location: 'Townhall' }
+                        );
+                    }
+                }
             },
 
             poet_intro_interrupt: {

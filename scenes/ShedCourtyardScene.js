@@ -10,7 +10,7 @@ export default class ShedCourtyardScene extends GameScene {
         this._ortolan = null;
         this.journalSystem = JournalSystem.getInstance();
         this._ortholanDialogContent = {
-            speaker: 'Ortholan',
+            speaker: 'Ortolan',
 
             main: {
         

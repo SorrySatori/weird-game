@@ -55,7 +55,18 @@ export default class EggCathedralInteriorScene extends GameScene {
             glass_look: {
                 speaker: 'Narrator',
                 text: "The stained glass moves. Not images — memories, layered in living cells: the Bishop, sealing a door; Infinite Fold, a lattice of a thousand small lights; the first swelling of the egg from bare ground; old prayers with no god yet to hear them. You are not looking at a record. You are looking at something remembering.",
-                options: [{ text: "Look away.", key: 'glass_back', next: "closeDialog" }]
+                options: [{ text: "Look away.", key: 'glass_back', next: "closeDialog" }],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('green_mist_emergence')) {
+                        this.addJournalEntry(
+                            'green_mist_emergence',
+                            'The Green Mist / The Emergence',
+                            "The living glass remembers the day it began. A green mist rolled through the city, and then a vast egg pushed up through the ground — through layer upon layer of dead gods and forgotten faith. Many took it for the end of the world. Instead the streets shifted, the buildings grew, and the city remade itself around the swelling shell. That was the Emergence, and the egg has been becoming the Egg Cathedral ever since.",
+                            this.journalSystem.categories.LORE,
+                            { location: 'Egg Cathedral', related: 'The Unborn God' }
+                        );
+                    }
+                }
             },
             priests_look: {
                 speaker: 'Narrator',
@@ -298,7 +309,7 @@ export default class EggCathedralInteriorScene extends GameScene {
                 'egg_cathedral_entered',
                 'Within the Shell',
                 "I stepped inside the Egg Cathedral. It made a temple of itself — pulsing columns, breathing pipes, glass that remembers. At its heart waits the Unborn: many possibilities trying to become one. This is where it ends.",
-                this.journalSystem.categories.EVENTS,
+                this.journalSystem.categories.PLACES,
                 { location: 'Egg Cathedral', related: 'The Unborn God' }
             );
         }

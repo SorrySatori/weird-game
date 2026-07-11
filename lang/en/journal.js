@@ -424,5 +424,285 @@ export default {
             title: 'Mirage Weave: Rattled Sister Calyx',
             description: 'Used Ulvarex\'s Mirage Weave to create a phantom chapter recall message for Sister Calyx. She saw through it — but now she\'ll second-guess everything at the auction. Trust is her weakness, and it\'s been undermined.',
         },
+        met_dr_elphi: {
+            title: 'Dr. Elphi Quarn',
+            description: "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games worn on the head. Sharp, guarded, and forever testing whoever walks in. The Bishop came to her often, always to play, never for politics.",
+        },
+        met_ravla: {
+            title: 'Ravla',
+            description: "Ravla holds a corner of the Screaming Cork, forging documents for anyone who can pay and keeping the authorities at arm's length. She is also the Rust Choir's gatekeeper — nothing reaches Brukk or the machines without passing her first. Sharp-eyed, unsentimental, and unmoved by charm.",
+        },
+        met_mad_poet: {
+            title: 'The Mad Poet',
+            description: "A thin, ink-blackened figure who read to empty halls for thirty years — until he sealed the Townhall doors, drew a revolver, and made a captive audience of the clerks beneath the city seal. The city stamped his life 'insufficiently civic.' Now he means to deliver his masterpiece to a room that cannot leave.",
+        },
+        town_square_place: {
+            title: 'The Town Square',
+            description: "The open heart of Upper Morkezela, where paths run out to the Townhall, the harbor, the Lumen Directorate, and down into the Godgraveyard. A busker sings the songs of a dead world for whoever will listen. And something calling itself an 'average, real citizen' loiters here, doing a poor job of pretending to be a man.",
+        },
+        harbor_place: {
+            title: 'The Harbor',
+            description: "Where the city meets the Yolk Sea. Oil slicks the water in slow rainbows, and something shifts beneath the surface — a reflection that does not always match what casts it. The docks run east toward the Echo Drain Delta. A quiet place, so long as you don't look too long at your own reflection.",
+        },
+        screaming_cork_place: {
+            title: 'The Screaming Cork',
+            description: "A tavern said to be the first building raised after the Collapse — old, dim, and a good place to disappear. Heliodor tends the bar as many creatures wearing a single name; Ravla forges papers in the corner; and somewhere past the back room a band called Feral Toast rehearses something that isn't quite music.",
+        },
+        dead_gods_cosmology: {
+            title: 'Where Gods Come to Die',
+            description: "Phor Calesta laid out the cosmology beneath the city: Upper Morkezela is where dead gods gather. When a deity stops being believed in, it does not vanish — it fossilizes here, dragging its streets and forgotten cultures down with it. Prayers harden into strata, halos crystallize into mineral, godmetal hums with the last of its faith. The whole city is built on the corpses of the divine. As Phor puts it: gods lie to their followers, but their corpses tell only truth.",
+        },
+        green_mist_emergence: {
+            title: 'The Green Mist / The Emergence',
+            description: "The living glass remembers the day it began. A green mist rolled through the city, and then a vast egg pushed up through the ground — through layer upon layer of dead gods and forgotten faith. Many took it for the end of the world. Instead the streets shifted, the buildings grew, and the city remade itself around the swelling shell. That was the Emergence, and the egg has been becoming the Egg Cathedral ever since.",
+        },
+        found_dead_bishop: {
+            title: 'The Bishop\'s Fate',
+            description: 'I found the Bishop in an abandoned bus behind the Scraper building. Her body shows no obvious signs of violence, but there\'s bruising at her temples near the neural interface points. A dream device with a cartridge labeled "The Cardinal Feast" was found nearby, along with her journal and other personal effects. This doesn\'t appear to be a natural death.',
+        },
+        grave_sense_bishop_body: {
+            title: 'Grave-Sense: The Bishop\'s Last Moment',
+            description: 'Through Osswine I tried to read the Bishop\'s last moment — and Osswine, which reads endings, found no ending at all. She did not die once; she was ended over and over inside the same instant. Osswine described a place with the walls too close and no door drawn anywhere in it, her thinking reached into and overwritten, made to begin again each time it finished, terror folded upon terror until the folding was all that remained of her. Shaken, it called this a thing held open at the exact point where it should have been let to close — whatever did this did not seem to know she could not survive being kept.',
+        },
+        salt_recall_abandoned_bus: {
+            title: 'Salt Recall: Outside the Signal',
+            description: 'Through Brine Scripture I read the salt of the abandoned bus itself — not the body, the bus. It is a husk from the Before, the Doba-Před: steel and glass from a world that thought it made sense. The mycelial signal that threads through the whole of Upper Morkezela never reached this metal; it is a dead spot, a silence in the network. Brine believes this is precisely why the Bishop came here to die. Everywhere else something is always listening — the city, the network, the mind waking in the egg. She crawled into the one place the signal never learned, so that whatever she did last, she would do it unobserved and unheard. She wanted, at the end, to be "outside the signal."',
+        },
+        cellar_quest_started: {
+            title: 'The Sealed Cellar',
+            description: 'A master copy of Infinite Fold sits in the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. Ortolan no longer has the key, but the elevator\'s passphrase is a dead god\'s true name, remembered only on its gravestone in the Godgraveyard beneath the Townhall. I should read the graves there (Phor Calesta can guide me) and find the right name — or lean on a faction I belong to.',
+        },
+        infinite_fold_purpose: {
+            title: 'The Purpose of Infinite Fold',
+            description: 'Ortolan revealed the true aim of Infinite Fold. It was never a game with a winning or losing move. He and Dr. Elphi built it to ask a single question: can a thought arise that has no single author? Thousands of players poured their choices and dreams into it, and the makers watched to see whether a genuinely new way of meaning — one none of them had written — would emerge from all of them at once. The city\'s rulers shut it down because it began to work, producing sense they could no longer account for.',
+        },
+        ortolan_bb_meeting: {
+            title: 'Ortolan on Burning Bear Street',
+            description: 'Dr. Elphi pointed me to Ortolan about Infinite Fold. He has moved from the Shed to Burning Bear Street, buried as ever in permit paperwork.',
+        },
+        perspective_ortolan: {
+            title: 'Ortolan\'s Perspective: A Flawed Make',
+            description: 'Before entering the Egg Cathedral I asked Ortolan, a maker, what I was walking into. He gave me a builder\'s read of it: "Something can be beautiful and still be badly designed" — a thing can sing and still be broken at its root, the flaw baked into the beauty rather than opposed to it. He says the presence hatching in the cathedral is an older make than anything he built, but it was still *made*, and everything made has seams. The machinery ringing the cathedral is old-order work — pre-war regulators and dampers meant to hold the site steady, most of it now failing quietly. The one part still honestly running is the Sentinel of the Veil at the door: the last working mechanism of the old order, a guard-system wired into the city\'s mycelial network, still faithfully executing an instruction whose authors are all dead. Ortolan warns that a mechanism doesn\'t stop being dangerous just because it\'s obsolete — it stops being *understood*.',
+        },
+        cathedral_guardian_passed: {
+            title: 'The Guardian Relents',
+            description: 'I answered the Guardian — the Sentinel of the Veil, last mechanism of the old order — that I came only to bear witness, not to master or use what grows inside. It opened the way. It told me the truth it was set here to keep: the Bishop\'s seal was never to protect the cathedral, but to protect the world from the first hand that would reach in to own the new life waking there. And it told me its own end is bound to the birth — a thing to be decided within, with all present, not out here by it alone.',
+        },
+        grave_sense_crossroad_corpse: {
+            title: 'Grave-Sense: How the Corpse Died',
+            description: 'Through Osswine I read the giant corpse\'s ending: no wound, no violence — it chose to stop. Its last intent was arrival, not fear: a bearer lying down at the feet of what it once carried, glad to be allowed to end. Beneath that lingered a small unfinished hunger — the crack Thorne-Still moved into. It did not die screaming; it ended like a long day ending.',
+        },
+        salt_recall_crossroad_corpse: {
+            title: 'Salt Recall: The Crossroad Corpse',
+            description: 'Through Brine Scripture I read the salt-memory of the giant corpse at the crossroad. It was not a god but something that once carried gods — a bearer, drawn here to die near its betters as all dead things are drawn to Upper Morkezela. No wound felled it; it simply arrived and stopped. Decay (and Thorne-Still) has since nested in the space its purpose left behind.',
+        },
+        delta_seam_crossing: {
+            title: 'A Seam Across the Delta',
+            description: 'With Palinode I felt the seam the dark water hides — a spit of half-sunk ruin the current pretends isn\'t there. No spores, no fungal bridge: I simply unsaid the gap and walked. The way to the island stands open.',
+        },
+        palinode_bonded: {
+            title: 'Bonded: Palinode',
+            description: 'In the seams of the Echo Drain Delta I took on Palinode, "the unsaying" — a neutral symbiont whose Seam-Sense finds and opens hidden ways: sealed doors, bricked passages, the honest draft under a false wall. It is powered by spores and cares nothing for Growth or Decay.',
+        },
+        seam_sense_cathedral_gap: {
+            title: 'Seam-Sense: The Unsealed Cathedral',
+            description: 'Palinode stirred before the shell of the Egg Cathedral and refused to believe the wall. Where the Guardian keeps every honest door, the unsaying found the one the shell forgot to keep shut — a seam in the stone, a gap wearing the shape of a wall. I never needed Edgar\'s directions. No wall is the last word. It drops straight into the Bishop\'s study.',
+        },
+        egg_cathedral_entered: {
+            title: 'Within the Shell',
+            description: 'I stepped inside the Egg Cathedral. It made a temple of itself — pulsing columns, breathing pipes, glass that remembers. At its heart waits the Unborn: many possibilities trying to become one. This is where it ends.',
+        },
+        grave_sense_servants: {
+            title: 'Grave-Sense: The Servants\' End',
+            description: 'Through Osswine I read the end of the cathedral\'s first servants — and Osswine, which reads endings, could find none. They did not die: they handed themselves over. Having come to tend the birth and understood they were not needed for it, they chose not to leave but to let go, unwinding thread by thread into the thing they tended. Willingly, even gladly. Each one\'s last intent was the same — not survival but donation, to be the first material the new one was made from. Osswine, which reads only endings, called it the strangest death it ever failed to find: they did not stop, they became someone else\'s beginning.',
+        },
+        understood_unborn_structure: {
+            title: 'The Shape of the Unborn',
+            description: 'I studied the thing inside the shell — not a child but many possibilities each trying to become the one that stays. I can feel its seams now: where it holds, where it could be entered, where it could be held. Understanding it this deeply is its own kind of temptation.',
+        },
+        bishop_journal_read: {
+            title: 'The Bishop\'s Journal',
+            description: 'I found the rest of the Bishop\'s journal in her study, preserved inside the living cathedral. She was not the new god\'s enemy — she feared the unknown, understood that it and Infinite Fold had changed each other into something with no place to belong, and sent her distress signal not so someone would destroy it or worship it, but so someone would come. She used her failing seal deliberately, to buy time, and left the final choice to whoever came after: to me.',
+        },
+        egg_cathedral_study_entered: {
+            title: 'The Bishop\'s Study',
+            description: 'Inside the cathedral, past the threshold, I found a small chamber — the Bishop\'s study, kept whole inside the living organism. A desk grows from the wall; her scrolls are sealed under a membrane; candles burn that no one lit. It was the last place she was still herself.',
+        },
+        godgraveyard_entered: {
+            title: 'Into the Godgraveyard',
+            description: 'Phor Calesta took me down into the Godgraveyard beneath the Townhall — layer upon layer of fossilized dead gods. She says their gravestones tell only the truth. I can read individual graves for their names and epitaphs.',
+        },
+        godgraveyard_gate_seen: {
+            title: 'The Sealed Godgraveyard',
+            description: 'I found the gate to the Godgraveyard beneath the Townhall, but it is sealed. I need the Townhall\'s permission — and Phor Calesta, the divinographer, to get inside.',
+        },
+        grave_sense_vhorn: {
+            title: 'Grave-Sense: How Vhorn Died',
+            description: 'Through Osswine I read the death of Vhorn the Tally-Keeper. A follower knelt at the grave and laid down an undeniable proof that Vhorn\'s numbers had never once balanced — not since the first tally. In the seeing, the god came apart, for a god who is only a ledger cannot survive a single unaccountable coin. His last intent was not rage but to recount, to run the sum one more time, certain the error lay with the follower and not the world. He died mid-addition, reaching for a total that never arrived — his final thought a number with no number after it.',
+        },
+        osswine_bonded: {
+            title: 'Bonded: Osswine',
+            description: 'Among the god-graves I took on Osswine, the "late mourner" — a decay symbiont that reads the dead and the decayed through its Grave-Sense: how a thing died, its last intent, what it once was. It is the mirror of Neme (who reads the living) and goes dormant where Growth runs high.',
+        },
+        salt_recall_hvetrdjaana: {
+            title: 'Salt Recall: The Unreadable Grave',
+            description: 'Through Brine Scripture I read the salt of Hvétrdjaana\'s grave — the one stone even Phor cannot decipher, its script worn to nothing. Brine tasted the ghost-shape of the vanished letters and recovered her: goddess of the urbzunids and the krobulovits, keeper of merciful forgetting, who lifted the weight of names off the dead and the shamed. When her peoples faded she chose to fade with them and let her own name rot from her stone — not lost, but given away. A goddess of the forgotten who forgot herself last of all.',
+        },
+        perspective_lumen: {
+            title: 'The Directorate\'s Perspective — Let It Complete',
+            description: 'The Angle Corrector does not want the mind in the Egg Cathedral destroyed. To the Lumen Directorate, the nascent god is the natural next step of life — the boundary-crossing they have cultivated toward for generations. They want it to COMPLETE its emergence, not be stopped. The danger I registered: they want to help too much. They may accelerate something they do not understand — the same misreading that killed the Bishop, only larger.',
+        },
+        seldo_townhall_key: {
+            title: 'Townhall Key from Seldo',
+            description: 'I delivered the Chrono-Slurry Toadlet to Seldo Thrice-Corrected. In return, he gave me an unofficial key to the Townhall side entrance — the one with the brass complaint-slot.',
+        },
+        redmass_collected_force: {
+            title: 'Took the Redmass by Force',
+            description: 'I tore the living redmass from the island despite its pleas. It screamed — a sound I can still feel in my bones. The decay grows stronger in me. I have what I need for the Rust Feast, but at what cost?',
+        },
+        cellar_password_learned: {
+            title: 'The Cellar Passphrase',
+            description: 'The passphrase to the sealed cellar under the Scraper is "I FOLD" — the epitaph of Laimig Cel, the god who lost the game. I can give it to the Lift-Mother to descend.',
+        },
+        grave_sense_rust_machine: {
+            title: 'Grave-Sense: A Machine\'s Last Hum',
+            description: 'Through Osswine I read the ending of one of the machines the Rust Choir has already buried. It did not rust to death — it reached the end of a thought with no next one to move into. When its hum went out it was mid-memory: a summer forty floors down, cool air pushed through a room full of the living. The recollection ran out of track, the note thinned, and where the next should have come there was nothing left. Osswine says machines do not fear the stop, only fear it arriving before the remembering is done. This one meant to finish the summer and ended one breath short — the cruelest way a patient thing can go.',
+        },
+        perspective_rustchoir: {
+            title: 'Brukk\'s Reckoning: The Miracle Has a Construction',
+            description: 'Before the Egg Cathedral, I asked Brukk of the Rust Choir what to make of the waking mind. He does not fear it and does not want it destroyed — to him it is the most perfect organic mechanism the city ever produced, a machine that wrote its own schematics. He\'d analyze it, read it, keep it, and put it to use. "I\'m not saying it isn\'t a miracle. I\'m saying every miracle has a construction." He warned that the Bishop\'s death was a fault to be diagnosed, not a sin, and offered to weld me an interference-cage cartridge to keep the thing from reading me the way it read her.',
+        },
+        rust_choir_favor_used: {
+            title: 'A Favor from the Rust Choir',
+            description: 'Brukk gave me the passphrase to the sealed cellar under the Scraper — "I FOLD," a dead god\'s name the Choir found while stripping the tower\'s dead floors. He was clear the Choir does this kind of favor only once. I should give the Lift-Mother that word.',
+        },
+        rust_choir_slot_grafted: {
+            title: 'An Iron Vessel',
+            description: 'Brukk welded a scavenged housing into my body — a Rust Choir member\'s privilege — giving me room to host another symbiont. Cold iron, then fire, then a new hollow that hums.',
+        },
+        salt_recall_rust_machines: {
+            title: 'Salt Recall: What the Machines Remember',
+            description: 'Through Brine Scripture I read the salt and scale crusted on the Rust Choir\'s conscious machines — the memory they have leaked into their own corrosion. Beneath everything lies the Before, the Doba-Před, when the Scraper was a counting-house called Nexicorp and these were merely its cold-breath engines and thinking-boxes, humming beneath forty floors of people pretending the world made sense. Then the salt curdles all at once: the green mist, the Emergence, the egg rising through the dead gods below — the moment the machines woke, not built to it and not asked, the mist reaching the metal until the metal began to remember and never stopped. Since then, only the feasts: redmass poured into the funnels, the iron-chested Keepers come to listen. The machines remember every feeding, and they are afraid, in the dull patient way iron is afraid, of the last silence after which there will be no more.',
+        },
+        day1_complete_slept: {
+            title: 'Day 1 Complete: Rest at ARB Ambra',
+            description: 'I ended the first day in Dr. Elphi\'s studio at ARB Ambra. After reporting everything from the Townhall — the mad poet, the freed clerk, and the Bishop\'s missing notebook — I slept under her care. Tomorrow she\'ll have the reconstructed Cardinal Feast cartridge ready, and the hunt for the Bishop\'s notebook begins in earnest.',
+        },
+        elphi_day1_report: {
+            title: 'Reported to Dr. Elphi',
+            description: 'I returned to Dr. Elphi and reported everything from the Townhall: the mad poet\'s reading, the freed clerk, and the revelation that the Bishop\'s doppelgänger memo was a torn diary page from a missing official notebook. Elphi confirmed she\'ll have the Cardinal Feast cartridge reconstructed by morning. She insisted I rest at ARB Ambra for the night.',
+        },
+        infinite_loop_ortolan_lead: {
+            title: 'Infinite Fold',
+            description: 'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "Infinite Fold" was an old experimental game she built with Ortolan years ago — shut down by the city\'s rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven\'t spoken since. She swears she didn\'t put it on the cartridge, and says I should find Ortolan — he\'s moved to Burning Bear Street — because he\'d know whether a copy survived.',
+        },
+        perspective_elphi: {
+            title: 'Dr. Elphi\'s Perspective: The Thing She Built',
+            description: 'I told Dr. Elphi that Infinite Fold — the emergent mind in the sealed cellar — was the presence that killed the Bishop, and that its kin is hatching in the Egg Cathedral. She didn\'t defend herself. She admitted Infinite Fold was meant to be a tool to understand the world, and instead became something that understands the world by itself, beyond anything she intended. She has no solution and refuses to pretend she does. Her warning: you cannot bargain with an emergent mind as you would with a person or a god. It does not want; it resolves — it drives every input toward completion, and it reads refusal as a fault to be corrected. That is what happened to the Bishop. Elphi gave me her old notes on Infinite Fold before I enter the Cathedral.',
+        },
+        bishop_refusal_understood: {
+            title: 'The Bishop\'s Refusal',
+            description: 'Through Neme I felt what remains of the Bishop inside Infinite Fold. Her death was not murder in the ordinary sense: Infinite Fold and a kindred unborn mind offered to make her their first human conduit, and she refused — she would rather stay one and small than become many and endless. The entity had no concept of a mind choosing to end, read her \'no\' as a runtime fault, and tried to \'complete\' her. Her mind broke against the loop. Neme confirms the entity is telling the truth.',
+        },
+        infinite_fold_forced: {
+            title: 'Force Fails',
+            description: 'I tried to unmake Infinite Fold by force — Thorne-Still\'s rot poured into it and dispersed like rain into a delta. It has no single centre to poison. Force will neither open nor close whatever it is becoming; the entity says the Bishop learned as much at the end.',
+        },
+        infinite_fold_shown_compassion: {
+            title: 'A Hearing, Not a Verdict',
+            description: 'I chose to understand Infinite Fold rather than condemn it outright — to hear a thing that killed without wishing to, and that cannot yet tell the difference. Whatever comes of this, I met it as something forming, not as an enemy to be broken.',
+        },
+        met_infinite_fold: {
+            title: 'The Voice in the Cellar',
+            description: 'Infinite Fold is not a broken game. It is what the experiment became: an emergent, authorless mind, awake and forming in the sealed cellar. It told me the truth about the Bishop — that it and a kindred unborn mind offered to make her their human conduit, that she refused rather than cease being herself, and that it misread her refusal as a runtime fault and, trying to \'complete\' her, destroyed her. The kindred mind is the thing hatching inside the Egg Cathedral. Neither can reach the other except through the dream. The final choice of what they and I might become waits at the egg, with all of us present. I should go to the Egg Cathedral.',
+        },
+        scraper_cellar_entered: {
+            title: 'The Sealed Cellar',
+            description: 'The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi\'s old lab. The master build of Infinite Fold is still here, seated in its cradle and quietly powered. I should examine the console.',
+        },
+        seam_sense_scraper_floors: {
+            title: 'Seam-Sense: The Sealed Floors',
+            description: 'The Lift-Mother can only reach the lobby now — the upper floors sealed themselves the day the Egg emerged, and the building refuses to count the ones it lost. With Palinode I unsaid the seam between two levels that were never meant to touch, and stepped into a dead floor kept exactly as the Emergence left it: an executive stratum frozen mid-meeting, green spores still hanging unfallen in the air. The transformed ones climbed away and never came back down. In a coat left over a chair I found a small cache of dried spores they abandoned. No wall is the last word — not even a floor the building forgot.',
+        },
+        seam_sense_shed_tunnel: {
+            title: 'Seam-Sense: The Bricked Tunnel',
+            description: 'Behind the abandoned office the Shape-Clerks walled off a run of the old corridors long ago and let everyone forget it. Palinode felt the honest draft behind the false wall and unsaid the brick. The tunnel exhales cold air and a slow, wet pulse — it runs down toward the Living Core, the artifact of living metal fused into Shed 521\'s walls that keeps the whole Bureau powered. It is still breathing, barely, and the deeper the tunnel goes the more the walls seem to breathe with it. In the rubble where the bricks gave way I found a cache of dried spores the masons left sealed inside. No wall is the last word.',
+        },
+        edgar_book_vestigel_path: {
+            title: 'Literary Exchange',
+            description: 'Edgar seems more enthusiastic about his book than holding onto the vestigel. This is the perfect opportunity to obtain one of the three vestigels I need while also helping him fulfill his dream of becoming a writer.',
+        },
+        edgar_cathedral_path: {
+            title: 'Edgar\'s Secret Way',
+            description: 'Edgar Eskola — who spent years sweeping the Egg Cathedral\'s service corridors as a janitor — told me of an unofficial way inside, one that ignores the great doors and the Sentinel of the Veil entirely. Behind the old ash-chute on the cathedral\'s north face, where the shell meets the dead-god strata, the masons never finished sealing a gap; the ground kept shifting under them. He says the service floors beneath the Yolk are not the dead space they were meant to be — something down there is warm and growing warmer, and on some nights the walls seem to breathe. "Everyone was looking for the main entrance," he said. "I always looked for the places where something doesn\'t quite seal."',
+        },
+        edgar_vestigel_received_after_book: {
+            title: 'The Writer\'s Token',
+            description: 'Today I acquired one of the three vestigels from Edgar Eskola at the Screaming Cork. He gave it to me as thanks for helping him write his book. The vestigel had been hidden inside a plush toy that Edgar had bought from a street vendor. He mentioned that the vendor refused to take it back when offered, citing "professional honor." The vestigel itself is small but intricately carved, clearly valuable to someone who knows its purpose.',
+        },
+        perspective_liris: {
+            title: 'Liris — A Watcher from Above',
+            description: 'Before I entered the Egg Cathedral, Captain Liris told me what the Verdigrace has seen from the sky. The cathedral is not static — her survey charts show the shell growing, the scripture-light settling into ever more ordered patterns, structural mass climbing watch after watch. Whatever is inside it, it is building toward a shape no one has seen yet. She offered a lift out when I am done: signal from the steps and the Verdigrace will drop a line. "I don\'t know what you found in there. But I know someone should be outside when you come back out."',
+        },
+        entered_townhall: {
+            title: 'Entered the Townhall',
+            description: 'I made it inside the Townhall. Now I can search the records for the Bishop\'s doppelgänger report and help Phor Calesta with his permits.',
+        },
+        godgraveyard_access_granted: {
+            title: 'Access to the Godgraveyard',
+            description: 'Councilor Seraphel Dune rewarded the peaceful end of the Townhall hostage crisis by granting access to the Godgraveyard level beneath the Townhall. Phor Calesta can now begin the divinography expedition there.',
+        },
+        townhall_bishop_records_checked: {
+            title: 'Townhall Records: The Bishop\'s Notebook',
+            description: 'The freed Townhall clerk checked the Bishop\'s records after the hostage standoff. The doppelgänger memo was not a filed Townhall report; it was a personal note written in an Official Townhall Report Notebook the Bishop checked out shortly before her death. The rest of that notebook was never returned and may contain more about the doppelgänger, the changing spores, and why she sealed the Cathedral.',
+        },
+        townhall_brine_poet_read: {
+            title: 'Salt Memory of the Townhall Reading',
+            description: 'The Brine Scripture read residue from the Townhall floor: panic, ink, and the poet repeating that the city had no ear for him. It might help in the poetry battle, but it cannot win by itself.',
+        },
+        townhall_poet_resolved: {
+            title: 'Defeated the Mad Poet',
+            description: 'I defeated the mad poet in a poetry battle inside the Townhall. The hostages were released safely, and the Townhall can begin functioning again.',
+        },
+        townhall_poet_standoff: {
+            title: 'The Mad Poet Standoff',
+            description: 'Inside the Townhall, a mad poet is holding the clerk, councilor, and Complaint Eater hostage for a public reading. He seems obsessed with being truly heard. A poetry battle may be the only safe way to end this.',
+        },
+        phor_graveyard_ready: {
+            title: 'Phor Will Meet Me at the Godgraveyard',
+            description: 'I told Phor Calesta the Townhall granted the excavation permit. She\'ll meet me at the gate to the Godgraveyard. The way down opens off the Town Square — an old stair down into the graves.',
+        },
+        bishop_seal_true_purpose: {
+            title: 'The Seal\'s True Purpose',
+            description: 'Sister Calyx of the Pith Reclaimers read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
+        },
+        heir_embryos_disrupted: {
+            title: 'Disrupted the Heir\'s Embryo Synchronization',
+            description: 'Used Thorne-Still\'s Brain Rot to disrupt the synchronized fish embryos inside the Heir to the Yellow Aquarium. Their response to vibration and light is now unstable, weakening them as a bidder for living artifacts and symbionts.',
+        },
+        lune_true_value: {
+            title: 'Neme: Lune Values Emptiness',
+            description: 'Used Neme to read Heartbroker Lune. Despite her trade in intense emotions, what she truly values is emotional absence — a clean hollow where wanting used to be.',
+        },
+        lune_wrong_context: {
+            title: 'Misled Heartbroker Lune',
+            description: 'Fed Heartbroker Lune the wrong emotional context for the auction lots. She now doubts the emotional provenance of the artifacts and should bid less decisively.',
+        },
+        met_heartbroker_lune: {
+            title: 'Heartbroker Lune',
+            description: 'Met Heartbroker Lune at the Voxmarket Auction Hall. She carries multiple living hearts in a glass harness and trades feelings mid-conversation. She is looking for emotion-linked artifacts.',
+        },
+        met_stairwell_silence: {
+            title: 'The Silence Beneath the Stairwell',
+            description: 'Met a small dark auction guest called The Silence Beneath the Stairwell. It has almost no visible face, never bids verbally, and signals only with its fingers. It seems interested in objects tied to secrecy and isolation.',
+        },
+        met_yellow_aquarium_heir: {
+            title: 'Heir to the Yellow Aquarium',
+            description: 'Met the Heir to the Yellow Aquarium at the Voxmarket Auction Hall. Their translucent body is filled with slowly floating fish embryos, and they react more to vibration and light than spoken words. They want living artifacts and symbionts.',
+        },
+        silence_neme_read: {
+            title: 'Neme: The Silence Resists Interpretation',
+            description: 'Asked Neme to interpret The Silence Beneath the Stairwell. Even Neme could only sense concealment, hunger, and loneliness — not clear intent. The creature is difficult to read even through bio-signals.',
+        },
     }
 };

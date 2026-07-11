@@ -447,7 +447,7 @@ export default class RustDomainScene extends GameScene {
                 'rust_choir_slot_grafted',
                 'An Iron Vessel',
                 'Brukk welded a scavenged housing into my body — a Rust Choir member\'s privilege — giving me room to host another symbiont. Cold iron, then fire, then a new hollow that hums.',
-                this.journalSystem.categories.EVENTS,
+                this.journalSystem.categories.FACTIONS,
                 { group: 'Rust Choir', character: 'Brukk' }
             );
         }

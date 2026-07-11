@@ -219,6 +219,15 @@ export default class ScraperAmbraScene extends GameScene {
                     if (questSystem && questSystem.getQuest('level_177_access') && !questSystem.getQuest('level_177_access').isComplete) {
                         questSystem.completeQuest('level_177_access');
                     }
+                    if (!this.hasJournalEntry('met_dr_elphi')) {
+                        this.addJournalEntry(
+                            'met_dr_elphi',
+                            'Dr. Elphi Quarn',
+                            "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games worn on the head. Sharp, guarded, and forever testing whoever walks in. The Bishop came to her often, always to play, never for politics.",
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Dr. Elphi Quarn', location: 'ARB Ambra' }
+                        );
+                    }
                     // Trigger any animations or effects when dialog starts
                     if (this.drElphi) {
                         this.tweens.add({
