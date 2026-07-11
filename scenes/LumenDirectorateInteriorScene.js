@@ -188,6 +188,15 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         const growth = this.growthDecaySystem?.getGrowth() || 50;
         const decay = this.growthDecaySystem?.getDecay() || 50;
 
+        // Lumen membership via sabotaging the Rust Choir.
+        const joinedLumen = !!this.hasJournalEntry('lumen_directorate_joined');
+        const machinesDestroyed = !!this.hasJournalEntry('rust_choir_machines_destroyed');
+        const sabotageQuest = this.questSystem?.getQuest('join_lumen_directorate');
+        const hasSabotageQuest = !!(sabotageQuest && !sabotageQuest.isComplete);
+        // Directorate Clearance perk: archive reveal (currently surfaces the vestigel-buyer lead).
+        const vestigelQuest = this.questSystem?.getQuest('the_three_vestigels');
+        const canRevealEskola = !!(joinedLumen && vestigelQuest && !vestigelQuest.isComplete && !vestigelQuest.updates?.some(u => u.key === 'found_eskola_lead'));
+
         return {
             ...super.dialogContent,
 
@@ -208,6 +217,9 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                     { text: "Tell me about the Lumen Directorate.", key: 'tell_me_about_the_lumen_directorate', next: "ac_about_directorate" },
                     ...(metAngleCorrector ? [{ text: "What's happening with the Egg Cathedral?", key: 'whats_happening_with_the_egg_cathedral', next: "ac_cathedral" }] : []),
                     ...(passedGrowthTest ? [{ text: "What can I do for the Directorate?", key: 'what_can_i_do_for_the_directorate', next: "ac_assignments" }] : []),
+                    ...(passedGrowthTest && !joinedLumen && !hasSabotageQuest && !machinesDestroyed ? [{ text: "I want to be more than an associate. What would full membership take?", key: 'i_want_full_membership', next: "ac_membership_offer" }] : []),
+                    ...(passedGrowthTest && !joinedLumen && machinesDestroyed ? [{ text: "The Rust Choir's machines are dead. It's done.", key: 'the_rust_choirs_machines_are_dead', next: "ac_sabotage_report" }] : []),
+                    ...(joinedLumen ? [{ text: "Consult the Directorate's files. (Nothing Hidden.)", key: 'consult_the_directorate_files', next: "ac_archive" }] : []),
                     ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] I've met the mind in the sealed cellar. I know what's hatching.", key: 'fold_before_cathedral', next: "ac_fold_perspective" }] : []),
                 ],
                 onTrigger: () => {
@@ -607,6 +619,79 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 onTrigger: () => {
                     if (lumenRep < 5) {
                         this.modifyFactionReputation('LumenDirectorate', 3);
+                    }
+                }
+            },
+
+            // --- Full membership: sabotage the Rust Choir ---
+            ac_membership_offer: {
+                speaker: 'The Angle Corrector',
+                text: `The Angle Corrector studies you for a long moment. "Full membership. You've shown you understand growth as an idea. Now I need you to act on it.\n\nThe Rust Choir keeps a shrine of machines — iron kept breathing long past its season. A monument to arrested decay, a refusal to let dead things lie. The Directorate would see it composted.\n\nCripple it. Kill the machines. Do that, and you are one of us." A thin smile. "As for method — Verrik keeps a cultivar behind glass for exactly this kind of gardening. Ask him, tell him I sent you. Or find your own way inside the Choir; I don't need the details. 'Nothing Hidden' has its polite exceptions."`,
+                options: [
+                    { text: "Consider it done.", key: 'consider_it_done', next: "ac_sabotage_accepted" },
+                    { text: "I'll think about it.", key: 'ill_think_about_it_membership', next: "ac_start" },
+                ]
+            },
+            ac_sabotage_accepted: {
+                speaker: 'The Angle Corrector',
+                text: `"Good. See Verrik on the ground floor if you want the clean method. The machines have stood too long already."`,
+                options: [
+                    { text: "I'll see it done.", key: 'ill_see_it_done', next: "ac_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.questSystem?.getQuest('join_lumen_directorate')) {
+                        this.questSystem.addQuest('join_lumen_directorate', 'Nothing Grows in Iron', 'The Angle Corrector will grant me full Lumen Directorate membership if I cripple the Rust Choir\'s machine-shrine. Verrik keeps a restricted cultivar for the purpose — grind it into the Rust Feast oil. Or I can sabotage the machines another way (Ulvarex\'s Mirage Weave would serve). Then report back.');
+                        this.showNotification('New quest: Nothing Grows in Iron', 0x556B2F);
+                    }
+                }
+            },
+            ac_sabotage_report: {
+                speaker: 'The Angle Corrector',
+                text: `The Angle Corrector goes very still, then exhales something like satisfaction. "I felt it. A whole shrine of arrested iron, going quiet at once. The city's cadence shifted toward life." They incline their head — the closest thing to a bow you've seen from them. "You did what the Directorate could not without a war. You are no longer an associate. You are one of us.\n\nWelcome, member. 'Nothing Hidden. Nothing Lost.' — least of all you."`,
+                options: [
+                    { text: "What does membership give me?", key: 'what_does_membership_give_me', next: "ac_membership_benefits" },
+                    { text: "Thank you.", key: 'thank_you_membership', next: "ac_start" },
+                ],
+                onTrigger: () => {
+                    const q = this.questSystem?.getQuest('join_lumen_directorate');
+                    if (q && !q.isComplete) {
+                        this.questSystem.completeQuest('join_lumen_directorate');
+                        this.showNotification('Quest complete: Nothing Grows in Iron', 0x556B2F);
+                    }
+                    if (!this.hasJournalEntry('lumen_directorate_joined')) {
+                        this.addJournalEntry(
+                            'lumen_directorate_joined',
+                            'Member of the Lumen Directorate',
+                            'By crippling the Rust Choir\'s machine-shrine, I proved my commitment to growth over stagnation. The Angle Corrector inducted me as a full member of the Lumen Directorate. Their covenant is mine now: Nothing Hidden, Nothing Lost.',
+                            this.journalSystem.categories.FACTIONS,
+                            { group: 'Lumen Directorate' }
+                        );
+                        this.modifyFactionReputation('LumenDirectorate', 25);
+                        this.registry.set('lumen_clearance', true);
+                        this.showNotification('You are now a member of the Lumen Directorate', 0x556B2F);
+                    }
+                }
+            },
+            ac_membership_benefits: {
+                speaker: 'The Angle Corrector',
+                text: `"Clearance. Every archive, every ledger, every filing the Directorate keeps is open to you now — and we keep files on everything. 'Nothing Hidden' cuts both ways: what others must guess at, you will simply be told, and Verrik's cultivation beds pay their own a little better. Consult the files whenever you're chasing something buried." A pause. "Use it well. Or use it poorly — either way, we'll have it on record."`,
+                options: [
+                    { text: "Understood.", key: 'understood_benefits', next: "ac_start" },
+                ]
+            },
+            ac_archive: {
+                speaker: 'The Angle Corrector',
+                textKey: canRevealEskola ? 'ac_archive_reveal' : 'ac_archive_empty',
+                text: canRevealEskola
+                    ? `You present your clearance. An aide pulls a slim, cross-referenced file without being asked twice. "The plush toy? Acquisitioned by one Edgar Eskola — collector, upper district, frequents the Screaming Cork. Everything is filed, member. Everything." Nothing Hidden, indeed.`
+                    : `You present your clearance. The aide riffles through the stacks, then shrugs. "Nothing in the files speaks to what you're chasing today. Come back when you're actually looking for something — we'll have it. We always do."`,
+                options: [
+                    { text: "Thank you.", key: 'thank_you_archive', next: "ac_start" },
+                ],
+                onTrigger: () => {
+                    if (canRevealEskola) {
+                        this.questSystem.updateQuest('the_three_vestigels', "The Directorate's files named Edgar Eskola as the buyer of the plush toy containing a Vestigel — upper district, frequents the Screaming Cork.", 'found_eskola_lead');
+                        this.showNotification('Directorate files: lead uncovered', 0x556B2F);
                     }
                 }
             },

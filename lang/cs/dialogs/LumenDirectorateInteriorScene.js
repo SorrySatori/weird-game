@@ -22,6 +22,9 @@ export default {
             tell_me_about_the_lumen_directorate: "Řekněte mi o Lumenově direktoriátu.",
             whats_happening_with_the_egg_cathedral: "Co se děje s Vaječnou katedrálou?",
             what_can_i_do_for_the_directorate: "Co mohu udělat pro direktoriát?",
+            i_want_full_membership: "Chci být víc než jen spolupracovník. Co by vyžadovalo plné členství?",
+            the_rust_choirs_machines_are_dead: "Stroje Rezavého chóru jsou mrtvé. Je hotovo.",
+            consult_the_directorate_files: "Nahlédnout do složek direktoriátu. (Nic skrytého.)",
             fold_before_cathedral: "[Než vstoupím do katedrály] Setkal jsem se s myslí v zapečetěném sklepě. Vím, co se líhne."
         }
     },
@@ -235,6 +238,41 @@ export default {
         options: {
             then_be_careful_what_you_feed_it: "Pak si dejte pozor, čím to krmíte.",
             i_have_other_questions: "Mám další otázky."
+        }
+    },
+    ac_membership_offer: {
+        text: "Korektor úhlů si vás dlouhou chvíli měří. \"Plné členství. Ukázali jste, že rozumíte růstu jako myšlence. Teď potřebuji, abyste podle ní jednali.\n\nRezavý chór opatruje svatyni strojů — železo udržované v dechu dávno po jeho době. Pomník zadrženého rozkladu, odmítnutí nechat mrtvé věci ležet. Direktoriát by ji viděl raději zkompostovanou.\n\nOchromte ji. Zabijte ty stroje. Udělejte to, a jste jedním z nás.\" Tenký úsměv. \"Co se metody týče — Verrik chová za sklem kultivar přesně pro tenhle druh zahradničení. Zeptejte se ho, řekněte, že vás posílám já. Nebo si najděte vlastní cestu do Chóru; podrobnosti nepotřebuji. 'Nic skrytého' má své zdvořilé výjimky.\"",
+        options: {
+            consider_it_done: "Považujte to za hotové.",
+            ill_think_about_it_membership: "Rozmyslím si to."
+        }
+    },
+    ac_sabotage_accepted: {
+        text: "\"Dobře. Za čistou metodou navštivte Verrika v přízemí. Ty stroje stály už příliš dlouho.\"",
+        options: {
+            ill_see_it_done: "Postarám se o to."
+        }
+    },
+    ac_sabotage_report: {
+        text: "Korektor úhlů znehybní, pak vydechne cosi jako uspokojení. \"Cítil jsem to. Celá svatyně zadrženého železa naráz utichla. Rytmus města se přiklonil k životu.\" Skloní hlavu — nejblíž úkloně, co jste u nich viděli. \"Udělali jste, co direktoriát nedokázal bez války. Už nejste spolupracovník. Jste jedním z nás.\n\nVítejte, člene. 'Nic skrytého. Nic ztraceného.' — nejméně ze všeho vy.\"",
+        options: {
+            what_does_membership_give_me: "Co mi členství dává?",
+            thank_you_membership: "Děkuji."
+        }
+    },
+    ac_membership_benefits: {
+        text: "\"Prověrku. Každý archiv, každá kniha, každé podání, které direktoriát vede, je vám teď otevřené — a vedeme složky o všem. 'Nic skrytého' řeže do obou stran: co ostatní musí hádat, vám prostě řeknou, a Verrikovy kultivační záhony platí svým o něco lépe. Nahlédněte do složek, kdykoli honíte něco pohřbeného.\" Odmlka. \"Využijte to dobře. Nebo špatně — tak či tak to budeme mít v záznamech.\"",
+        options: {
+            understood_benefits: "Rozumím."
+        }
+    },
+    ac_archive: {
+        text: {
+            ac_archive_reveal: "Předložíte svou prověrku. Asistent vytáhne štíhlou, křížově odkazovanou složku, aniž by se ptal dvakrát. \"Ta plyšová hračka? Pořízena jistým Edgarem Eskolou — sběratel, horní čtvrť, chodívá k Řvoucímu korku. Všechno je v záznamech, člene. Všechno.\" Nic skrytého, vskutku.",
+            ac_archive_empty: "Předložíte svou prověrku. Asistent zalistuje ve štosech, pak pokrčí rameny. \"Ve složkách nic nemluví o tom, co dneska honíte. Vraťte se, až budete skutečně něco hledat — budeme to mít. Vždycky máme.\""
+        },
+        options: {
+            thank_you_archive: "Děkuji."
         }
     },
     ac_townhall: {

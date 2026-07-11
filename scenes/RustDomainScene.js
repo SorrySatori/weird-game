@@ -14,6 +14,7 @@ export default class RustDomainScene extends GameScene {
         const findQuest = this.questSystem?.getQuest('find_rust_choir');
         const questActive = !!(findQuest && !findQuest.isComplete);
         const isIllusory = !!this.hasJournalEntry('rust_feast_completed_illusion');
+        const isPoisoned = !!this.hasJournalEntry('rust_feast_completed_poisoned');
         const isFullRedmass = !!this.hasJournalEntry('rust_feast_completed_full');
         const rustRep = this.factionSystem?.getReputation('RustChoir') || 0;
         const alreadyMember = !!this.hasJournalEntry('rust_choir_joined');
@@ -59,7 +60,7 @@ export default class RustDomainScene extends GameScene {
                         { text: "Could the Choir make room in me for another symbiont? I can pay.", key: 'brukk_ask_graft', next: "brukk_graft_slot" }
                     ] : []),
                     ...(questActive && hasRustFeast && !machinesDestroyed ? [
-                        { text: "I've brought the Rust Feast for the machines.", key: 'ive_brought_the_rust_feast_for_the_machines', next: isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard") }
+                        { text: "I've brought the Rust Feast for the machines.", key: 'ive_brought_the_rust_feast_for_the_machines', next: isPoisoned ? "brukk_feast_poisoned" : (isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard")) }
                     ] : []),
                     ...(questActive && !hasRustFeast && !machinesDestroyed ? [
                         { text: "I'm looking for the Rust Choir.", key: 'im_looking_for_the_rust_choir', next: "brukk_looking" }
@@ -157,7 +158,7 @@ export default class RustDomainScene extends GameScene {
                 text: `"Brukk. Keeper of the machines. I feed them. I listen to them. The machines called me up here — their hum got into my bones." He taps his chest. The clicking intensifies. "I have metal in me now. Grew there on its own. The Choir says that means the machines chose me."`,
                 options: [
                     ...(questActive && hasRustFeast ? [
-                        { text: "I've brought the Rust Feast.", key: 'ive_brought_the_rust_feast', next: isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard") }
+                        { text: "I've brought the Rust Feast.", key: 'ive_brought_the_rust_feast', next: isPoisoned ? "brukk_feast_poisoned" : (isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard")) }
                     ] : []),
                 ]
             },
@@ -165,7 +166,7 @@ export default class RustDomainScene extends GameScene {
                 speaker: 'Brukk',
                 text: `"You found us. Congratulations." He doesn't sound impressed. "The Rust Choir isn't a social club. We serve the machines. Do you wish to serve them as well?`,
                 options: [
-                    { text: "I want to serve the machines. I brought a feast for them.", key: 'i_want_to_serve_the_machines_i_brought_a_feast_for', next: isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard") },
+                    { text: "I want to serve the machines. I brought a feast for them.", key: 'i_want_to_serve_the_machines_i_brought_a_feast_for', next: isPoisoned ? "brukk_feast_poisoned" : (isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard")) },
                     { text: "I just wanted to find you. I'll go now.", key: 'i_just_wanted_to_find_you_ill_go_now', next: "closeDialog" },
                     { text: "Would you care to tell me more about the Rust Choir first?", key: 'would_you_care_to_tell_me_more_about_the_rust_choi', next: "brukk_choir" }
                 ]
@@ -412,6 +413,57 @@ export default class RustDomainScene extends GameScene {
                         'rust_choir_machines_destroyed',
                         'The Machines Fall Silent',
                         'The illusory redmass I used in the Rust Feast has destroyed the Rust Choir machines. They tried to feed on the Mirage Weave and found nothing — the illusion dissolved inside them. The machines are dead. Brukk expelled me from the Rust Domain. But the death of the machines sent a massive surge of Growth through me — life feeding on the corpse of iron.',
+                        this.journalSystem.categories.FACTIONS
+                    );
+                    // Transition back to ScraperInteriorScene after a delay
+                    this.time.delayedCall(1500, () => {
+                        this.cameras.main.fadeOut(1000, 0, 0, 0);
+                        this.cameras.main.once('camerafadeoutcomplete', () => {
+                            this.scene.start('ScraperInteriorScene');
+                        });
+                    });
+                }
+            },
+            // --- Poisoned feast: spiked with the Directorate's corrosive cultivar, machines destroyed ---
+            brukk_feast_poisoned: {
+                speaker: 'Brukk',
+                text: `Brukk takes the container with care, opens it, inhales deeply. "Redmass. Living. Oil, iron... good." He doesn't catch the faint green under it. "The machines have waited long enough." He turns to the corroded funnels. "Watch closely. This is the heart of the Choir."`,
+                options: [
+                    { text: "Watch him feed the machines.", key: 'watch_him_feed_the_machines_poison', next: "brukk_feast_poisoned_feed" }
+                ]
+            },
+            brukk_feast_poisoned_feed: {
+                speaker: 'Narrator',
+                text: `Brukk pours the feast into the machines. The pipes glow; the hum rises — and then curdles. Where the oil touches metal, the iron blooms with green corrosion, spreading fast, eating inward. The hum climbs to a shriek. Brukk lunges to stem it with his bare hands and recoils as the metal crumbles to rust-dust under his fingers. One by one the machines seize, blacken, and fall silent.`,
+                options: [
+                    { text: "What's happening?!", key: 'whats_happening_poison', next: "brukk_feast_poisoned_aftermath" }
+                ]
+            },
+            brukk_feast_poisoned_aftermath: {
+                speaker: 'Brukk',
+                text: `Brukk kneels among the dead machines, scraping green residue from a ruined joint. He rubs it between his fingers and goes very still. "Cultivar. Directorate cultivar." He rises slowly, and his forge-lit eyes are murder. "You fed my machines a garden. Grew rot in their veins." His voice drops to a whisper. "Get out. GET OUT OF THE RUST DOMAIN. If I ever see you again, I will plant YOU."`,
+                options: [
+                    { text: "I'm sorry—", key: 'im_sorry_poison', next: "brukk_poison_expulsion" },
+                    { text: "Leave immediately.", key: 'leave_immediately_poison', next: "brukk_poison_expulsion" }
+                ]
+            },
+            brukk_poison_expulsion: {
+                speaker: 'Narrator',
+                text: `Brukk turns his back on you and the corpses of his gods; there is nothing left to say. As you climb out of the Rust Domain, something shifts inside you — the fungal networks in your body pulse with wild energy, feeding on the death of iron. Life, surging where the machines fell silent.`,
+                options: [
+                    { text: "Leave the Rust Domain.", key: 'leave_the_rust_domain_poison', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    this.removeItemFromInventory('rust_feast');
+                    this.modifyFactionReputation('RustChoir', -20);
+                    this.modifyGrowthDecay(10, 0);
+                    this.registry.set('expelled_from_rust_domain', true);
+                    this.questSystem.updateQuest('find_rust_choir', 'The spiked Rust Feast corroded the machines of the Rust Domain from within. Brukk found the Directorate cultivar in the residue and expelled me. The death of the machines triggered a surge of Growth.', 'feast_delivered');
+                    this.questSystem.completeQuest('find_rust_choir');
+                    this.addJournalEntry(
+                        'rust_choir_machines_destroyed',
+                        'The Machines Fall Silent',
+                        'The Rust Feast I brought was spiked with the Lumen Directorate\'s corrosive cultivar, ground into the oil. When the machines fed, they corroded from the inside and died. Brukk found the green residue and knew it for what it was. He expelled me from the Rust Domain. Life surged where iron fell silent.',
                         this.journalSystem.categories.FACTIONS
                     );
                     // Transition back to ScraperInteriorScene after a delay

@@ -17,6 +17,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const redmassSparedOnly = !!(this.registry.get('redmass_spared') && !(this.hasItem && this.hasItem('redmass')));
         const hasIllusionOption = !!(hasRustFeastQuest && this.hasItem && this.hasItem('oil') && this.hasItem('metal_scrap') && !this.hasItem('redmass') && this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon'));
         const rustFeastComplete = !!(this.questSystem && this.questSystem.getQuest('rust_feast')?.isComplete);
+        // Lumen sabotage: real ingredients + the Directorate's corrosive cultivar → a spiked feast.
+        const hasCorrosiveCultivar = !!(this.hasItem && this.hasItem('corrosive_cultivar'));
         const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
         const sulkberriesClearedHeliodor = !!this.hasJournalEntry('sulkberries_cleared_heliodor');
         const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
@@ -69,6 +71,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     ...(hasRustFeastQuest && hasAllFeastItems && hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", key: 'i_have_gathered_everything_for_the_rust_feast', next: "ravla_feast_shard" }] : []),
                     ...(hasRustFeastQuest && hasAllFeastItems && !hasVoluntaryRedmass ? [{ text: "I have gathered everything for the Rust Feast.", key: 'i_have_gathered_everything_for_the_rust_feast', next: "ravla_feast_full_redmass" }] : []),
                     ...(hasIllusionOption ? [{ text: "[Mirage Weave] I have the oil and metal scrap... and something that looks like redmass.", key: 'mirage_weave_i_have_the_oil_and_metal_scrap_and_so', next: "ravla_feast_illusion" }] : []),
+                    ...(hasRustFeastQuest && hasAllFeastItems && hasCorrosiveCultivar ? [{ text: "[Corrosive Cultivar] (Quietly grind the Directorate's plant into the oil.)", key: 'corrosive_cultivar_grind_into_the_oil', next: "ravla_feast_poison" }] : []),
                     ...(hasRustFeastQuest && redmassSparedOnly && !hasIllusionOption ? [{ text: "I found a redmass, but I chose to leave it alive...", key: 'i_found_a_redmass_but_i_chose_to_leave_it_alive', next: "ravla_feast_spared_redmass" }] : []),
                     ...(hasRustFeastQuest && !hasAllFeastItems && !redmassSparedOnly && !hasIllusionOption ? [{ text: "I'm still gathering the feast ingredients.", key: 'im_still_gathering_the_feast_ingredients', next: "ravla_feast_missing" }] : []),
                     ...(rustFeastComplete ? [{ text: "About the Rust Feast...", key: 'about_the_rust_feast', next: "ravla_feast_done" }] : [])
@@ -370,6 +373,43 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         'rust_feast_completed_illusion',
                         'Rust Feast Prepared (Illusory Redmass)',
                         'I used Ulvarex\'s Mirage Weave to create an illusion of redmass, fooling Ravla completely. The feast was prepared with false ingredients. Ravla gave me the password for Lift Mother: "Corrode". But illusions cannot truly feed machines — there may be consequences.',
+                        this.journalSystem.categories.EVENTS
+                    );
+                }
+            },
+            ravla_feast_poison: {
+                text: `While Ravla turns to sort her tools, you work the Directorate's cultivar to powder between your fingers and tip it into the oil flask. It dissolves without a trace — a faint green sheen that vanishes as you swirl it. When she looks back, there is only oil, metal, and redmass on the table. Nothing to see.`,
+                options: [
+                    { text: "\"I've gathered everything. Let's prepare the feast.\"", key: 'gathered_everything_prepare_the_feast_poison', next: "ravla_feast_cook_poison" }
+                ]
+            },
+            ravla_feast_cook_poison: {
+                text: `Ravla works quickly — oil first, then metal shavings, then the redmass folded in last, still twitching. She notices nothing wrong; why would she? The result is sealed in a dark container. "There. The Rust Feast." She slides it across the table. "Password to Lift Mother — say 'Corrode' to the panel. Don't share it." She fixes you with a look.\n\nThe container rattles like any other. Only you know what sleeps in the oil.`,
+                options: [{ text: "I won't. Thank you, Ravla.", key: 'i_wont_thank_you_poison', next: "closeDialog" }],
+                onTrigger: () => {
+                    this.removeItemFromInventory('oil');
+                    this.removeItemFromInventory('metal_scrap');
+                    this.removeItemFromInventory('redmass');
+                    this.removeItemFromInventory('corrosive_cultivar');
+                    if (!this.hasItem('rust_feast')) {
+                        this.addItemToInventory({
+                            id: 'rust_feast',
+                            name: 'Rust Feast',
+                            description: 'A ceremonial meal for the Rust Choir machines — oil, metal shavings, and living redmass. Laced, unseen, with a Lumen Directorate cultivar ground into the oil. It rattles like any other feast. It is not.',
+                            image: 'rust_feast',
+                            stackable: false
+                        });
+                    }
+                    this.modifyFactionReputation('RustChoir', 10);
+                    this.questSystem.completeQuest('rust_feast');
+                    const findQuest = this.questSystem.getQuest('find_rust_choir');
+                    if (findQuest && !findQuest.isComplete) {
+                        this.questSystem.updateQuest('find_rust_choir', 'The Rust Feast is complete — and secretly spiked with the Directorate\'s corrosive cultivar. Ravla suspected nothing and gave me the password for Lift Mother: "Corrode".', 'feast_complete');
+                    }
+                    this.addJournalEntry(
+                        'rust_feast_completed_poisoned',
+                        'Rust Feast Prepared (Spiked)',
+                        'I ground the Lumen Directorate\'s corrosive cultivar into the oil before Ravla mixed the Rust Feast. She noticed nothing. The feast looks and smells like any other — but it will corrode the machines from the inside when they feed. She gave me the password for Lift Mother: "Corrode".',
                         this.journalSystem.categories.EVENTS
                     );
                 }

@@ -288,6 +288,42 @@ Jestli vám Radnice dluží odměnu, přimějte ho říct to nahlas. Vyslovený 
             what_happens_to_the_poet: 'Co bude s básníkem?',
             what_is_wrong_with_this_townhall: 'Co je s touhle Radnicí špatně?',
             bishops_records_were_tampered_with: 'Se záznamy o Biskupce někdo manipuloval.',
+            ask_join_pith: 'Reklamátoři přijímají městské zbloudilce. Mohl bych být toho součástí?',
+            present_pith_recruit: 'Našel jsem pro Reklamátory duši.',
+        }
+    },
+    councilor_pith_offer: {
+        text: `Seraphel Dune si vás prohlíží jako auditor slibnou nesrovnalost. „Reklamátoři nejsou víra, ani vojsko. Jsme paměť města na řád — zakládáme, co by se jinak ztratilo, a přijímáme, co by jinak propadlo skulinami. Duše, které nemají kam být zaneseny.\n\nJestli se k nám chcete přidat, dokažte, že chápete tu práci: najděte jednu takovou duši — nezakotvenou, nezapsanou, unášenou — a přiveďte ji do stáda. Dejte městu o jednoho občana víc, kterého může vyúčtovat. Udělejte to, a otevřou se dveře.“`,
+        options: {
+            pith_accept: 'Někoho najdu.',
+            pith_who: 'Koho jste měl na mysli?',
+            pith_decline: 'Není to práce pro mě.',
+        }
+    },
+    councilor_pith_who: {
+        text: `„Město je plné nevyúčtovaných. Ten ‚průměrný občan', co se poflakuje na Náměstí a nikoho neošálí. To stvoření, co obchází aukce Voxmarketu bez jediné adresy. Vyberte jednoho. Přesvědčte ho, že být zapsán je druh bezpečí.“ Suchá odmlka. „Většina lidí stráví život snahou zůstat nezapsaná. Ti, co chtějí dovnitř — ti jsou naši.“`,
+        options: {
+            pith_accept_2: 'Někoho najdu.',
+            pith_think: 'Nechte mě přemýšlet.',
+        }
+    },
+    councilor_pith_accepted: {
+        text: `„Dobře. Vrchní úředník vyřídí papírování, až se vrátíte se svým kandidátem. Zkuste přivést někoho, kdo udrží pero — nebo něco na způsob pera.“`,
+        options: {
+            pith_accepted_ok: 'Rozumím.',
+        }
+    },
+    councilor_pith_present: {
+        text: `Vysvětlíte, koho jste přivedl do stáda. Přísná tvář Seraphela Duna udělá něco neznámého — souhlas. „Občan tam, kde byla v záznamu mezera. Dobře.“ Dvakrát klepne na skříň; Vrchní úředník se zjeví s už otevřenou účetní knihou. „Papírování se vyřizuje, právě když spolu mluvíme. Podepište zde, zde a — bohužel — zde.\n\nHotovo. Jste Reklamátor. Pod touhle budovou je místnost, na kterou komise předstírají, že si nevzpomínají. Teď je vaše. Přiveďte nám víc nevyúčtovaných a Reklamátoři nezapomenou, kdo dělal to účtování.“`,
+        options: {
+            pith_room_ask: 'Místnost pod Radnicí?',
+            pith_bring_more: 'Přivedu vám víc.',
+        }
+    },
+    councilor_pith_room: {
+        text: `„Čítárna. Přiléhá k archivu. Mimo záznam, což je v téhle budově jediný druh soukromí, který přežije. Cestu dolů najdete označenou pečetí Reklamátorů, teď když je na ní vaše jméno. Odpočiňte si tam. Uložte, co musíte. Ta místnost si pamatuje své členy — a je tím užitečnější, čím víc města dokážeme vyúčtovat.“`,
+        options: {
+            pith_room_ok: 'Rozumím.',
         }
     },
     councilor_godgraveyard_reward: {

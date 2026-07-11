@@ -235,6 +235,10 @@ export default {
             title: 'Rezavá Hostina Připravena (Iluzorní Rudá Hmota)',
             description: 'Použil jsem Ulvarexovu Přeludovou Tkaninu k vytvoření iluze rudé hmoty.',
         },
+        rust_feast_completed_poisoned: {
+            title: 'Rezavá Hostina Připravena (Otrávená)',
+            description: 'Než Ravla zamíchala Rezavou hostinu, rozetřel jsem do oleje žíravý kultivar Lumenova direktoriátu. Ničeho si nevšimla — ale až se stroje nakrmí, sežere je zevnitř.',
+        },
         ravla_feast_refused_spared: {
             title: 'Ravla Odmítla — Rudá Hmota Ušetřena',
             description: 'Ravla zuřila, že jsem ušetřil rudou hmotu.',
@@ -275,6 +279,10 @@ export default {
             title: 'Setkání se Zahradníkem Verrikem',
             description: 'Potkal jsem zahradníka jménem Verrik před Lumen Direktoriátem.',
         },
+        verrik_gave_cultivar: {
+            title: 'Kultivar direktoriátu',
+            description: 'Verrik mi dal zakázaný kultivar direktoriátu — řízenou hnilobu vyšlechtěnou žrát kov. Rozetřený do oleje a předložený strojům Rezavého chóru je zkoroduje zevnitř.',
+        },
         gardener_bishop_visits: {
             title: 'Návštěvy Biskupky u Lumen Direktoriátu',
             description: 'Zahradník Verrik prozradil, že Biskupka pravidelně navštěvovala.',
@@ -282,6 +290,10 @@ export default {
         grew_mushroom_verrik: {
             title: 'Vyrostla Houba pro Verrika',
             description: 'Obětoval jsem spóry u Lumen Direktoriátu a vyrostl houbu.',
+        },
+        lumen_directorate_joined: {
+            title: 'Člen Lumenova direktoriátu',
+            description: 'Tím, že jsem ochromil strojovou svatyni Rezavého chóru, jsem dokázal svou oddanost růstu nad stagnací. Korektor úhlů mě uvedl jako plného člena Lumenova direktoriátu: Nic skrytého, nic ztraceného.',
         },
         met_angle_corrector: {
             title: 'Setkání s Korektorem Úhlu',
@@ -702,6 +714,30 @@ export default {
         silence_neme_read: {
             title: 'Neme: Ticho vzdoruje výkladu',
             description: 'Požádal jsem Neme, aby vyložilo Ticho pod schodištěm. I Neme dokázalo vycítit jen zatajování, hlad a osamělost — nikoli jasný úmysl. To stvoření je těžké číst i skrze bio-signály.',
+        },
+        pith_recruit_magnekin: {
+            title: 'Duše pro jádro: Magnekin',
+            description: 'Magnekin — kolektiv mikro-měst předstírající, že je občan — souhlasil, že ho Reklamátoři jádra zapíšou jako skutečného, chráněného občana. Je to přesně ta sounáležitost, kvůli které překročil měřítka. Měl bych říct radnímu Seraphelu Dunovi, že mám pro frakci duši.',
+        },
+        pith_recruit_heir: {
+            title: 'Duše pro jádro: Dědic',
+            description: 'Dědic Žlutého akvária souhlasil, že ho Reklamátoři jádra zapíšou jako občana. Pro tvora, který sbírá „pokračování“, je být zanesen do záznamu druhem uchování — pamatování dopředu. Měl bych říct radnímu Seraphelu Dunovi, že mám pro frakci duši.',
+        },
+        pith_reclaimers_joined: {
+            title: 'Člen Reklamátorů jádra',
+            description: 'Přinesl jsem Reklamátorům jádra duši k zapsání a radní Seraphel Dune mě přijal do frakce. Reklamátoři uchovávají řád města tím, že vyúčtují, co by se jinak ztratilo — a otevřeli mi skrytou místnost pod Radnicí. Čím víc duší jim přivedu, tím víc mi Reklamátoři dluží.',
+        },
+        pith_room_entered: {
+            title: 'Místnost Reklamátorů',
+            description: 'Skrytá čítárna pod Radnicí, mimo každý oficiální záznam — což je pro Reklamátory jádra jediné soukromí, které přežije. Po stěnách šplhají police se spisy; zapečetěná registratura drží podíl Reklamátorů za každou duši, kterou přivedu do stáda.',
+        },
+        pith_cache_magnekin: {
+            title: 'Získaný podíl',
+            description: 'Reklamátoři jádra odložili podíl za zapsání Magnekina do záznamu.',
+        },
+        pith_cache_heir: {
+            title: 'Získaný podíl',
+            description: 'Reklamátoři jádra odložili podíl za zapsání Dědice do záznamu.',
         },
     }
 };

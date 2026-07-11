@@ -37,6 +37,7 @@ import RustDomainScene from './scenes/RustDomainScene.js';
 import AbandonedBusScene from './scenes/AbandonedBusScene.js';
 import LumenDirectorateScene from './scenes/LumenDirectorateScene.js';
 import LumenDirectorateInteriorScene from './scenes/LumenDirectorateInteriorScene.js';
+import PithReclaimersRoomScene from './scenes/PithReclaimersRoomScene.js';
 import CardinalFeastScene from './scenes/CardinalFeastScene.js';
 import GodgraveyardScene from './scenes/GodgraveyardScene.js';
 import ScraperCellarScene from './scenes/ScraperCellarScene.js';
@@ -63,7 +64,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownhallInteriorScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene, LumenDirectorateScene, LumenDirectorateInteriorScene, CardinalFeastScene, GodgraveyardScene, ScraperCellarScene, EggCathedralInteriorScene, EggCathedralStudyScene, CreditsScene],
+    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownhallInteriorScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene, LumenDirectorateScene, LumenDirectorateInteriorScene, CardinalFeastScene, GodgraveyardScene, ScraperCellarScene, EggCathedralInteriorScene, EggCathedralStudyScene, CreditsScene, PithReclaimersRoomScene],
     backgroundColor: '#2d2d2d',
     scale: {
         mode: Phaser.Scale.RESIZE,

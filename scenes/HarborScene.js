@@ -10,8 +10,63 @@ export default class HarborScene extends GameScene {
     }
 
     get dialogContent() {
+        const pithKnown = !!this.hasJournalEntry('pith_reclaimers_faction');
+        const heirRecruited = !!this.hasJournalEntry('pith_recruit_heir');
+        const metHeir = !!this.hasJournalEntry('met_yellow_aquarium_heir');
         return {
             ...super.dialogContent,
+
+            // --- Heir to the Yellow Aquarium (resident here when not at auction) ---
+            heir_harbor_start: {
+                speaker: 'Heir to the Yellow Aquarium',
+                textKey: metHeir ? 'heir_harbor_start_return' : 'heir_harbor_start_first',
+                text: metHeir
+                    ? `The Heir stands at the dock's edge, embryos drifting inside them in slow spirals that match the swell of the Yolk Sea. Away from the auction lamps, they seem almost at rest. As your footsteps travel through the boards, every embryo turns toward you.`
+                    : `A tall translucent figure stands at the very edge of the dock, facing the Yolk Sea, their body filled with slowly floating fish embryos suspended in yellow fluid, turning in schools with the tide. A plaque on their collar reads: Heir to the Yellow Aquarium. They do not turn when you greet them — but when your voice shakes the boards, every embryo inside them turns your way.`,
+                options: [
+                    { text: "What are you doing out here?", key: 'what_are_you_doing_out_here', next: "heir_harbor_wants" },
+                    ...(pithKnown && !heirRecruited ? [{ text: "The Pith Reclaimers could file you into the record — give you a place that stays.", key: 'heir_pith_offer', next: "heir_harbor_pith" }] : []),
+                    { text: "I'll leave you to the tide.", key: 'leave_heir_harbor', next: "closeDialog" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('met_yellow_aquarium_heir')) {
+                        this.addJournalEntry(
+                            'met_yellow_aquarium_heir',
+                            'Heir to the Yellow Aquarium',
+                            'Met the Heir to the Yellow Aquarium at the Harbor, where they drift when no auction calls them. Their translucent body is filled with floating fish embryos, and they react more to vibration and light than to spoken words. They collect living artifacts — "continuations," they call them.',
+                            this.journalSystem.categories.PEOPLE,
+                            { character: 'Heir to the Yellow Aquarium' }
+                        );
+                    }
+                }
+            },
+            heir_harbor_wants: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `The embryos gather toward the seaward side of their body, all facing the horizon. "The auction ends. The lamps go dark. The lots are carried off to dry houses." A ripple passes through the yellow fluid. "We have no dry house. No shelf. No plaque but this one." They touch their collar. "So we come to the water, where things that are not finished are allowed to keep moving. It is not belonging. It is the next-best current."`,
+                options: [
+                    ...(pithKnown && !heirRecruited ? [{ text: "The Pith Reclaimers give the unaccounted a place in the record. That could be your shelf.", key: 'heir_pith_offer_2', next: "heir_harbor_pith" }] : []),
+                    { text: "I have other questions.", key: 'i_have_other_questions_heir', next: "heir_harbor_start" },
+                ]
+            },
+            heir_harbor_pith: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `The Heir goes very still. The embryos stop spiraling and hang, listening. "Filed. Recorded. Inherited by the register itself." Their yellow light brightens, slow and certain. "A living thing kept because it can still change — that is what the Yellow Aquarium collects. And your Reclaimers would collect... us. Keep us. Continue us." A long, tidal pause. "Yes. Take us to be written down. To be written down is to be remembered forward."`,
+                options: [
+                    { text: "Then come to the Townhall when you're ready. Councilor Dune will file you.", key: 'heir_pith_agree', next: "heir_harbor_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('pith_recruit_heir')) {
+                        this.addJournalEntry(
+                            'pith_recruit_heir',
+                            'A Soul for the Pith: the Heir',
+                            'The Heir to the Yellow Aquarium agreed to be filed as a citizen by the Pith Reclaimers. To a creature that collects "continuations," being written into the record is a kind of being kept — remembered forward. I should tell Councilor Seraphel Dune I have a soul for the faction.',
+                            this.journalSystem.categories.FACTIONS,
+                            { character: 'Heir to the Yellow Aquarium', group: 'Pith Reclaimers' }
+                        );
+                        this.showNotification('Recruited for the Pith Reclaimers: the Heir', 0xffdf7a);
+                    }
+                }
+            },
 
             // Ulvarex the Borrowed Horizon encounter
             ulvarex_mirage: {
@@ -122,6 +177,7 @@ export default class HarborScene extends GameScene {
 
         this.load.image('harborBg', 'assets/images/backgrounds/Harbor.png');
         this.load.image('oil', 'assets/images/items/oil.png');
+        this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
     }
 
     create() {
@@ -162,6 +218,9 @@ export default class HarborScene extends GameScene {
 
         // Create Ulvarex mirage encounter
         this.createUlvarexEncounter();
+
+        // The Heir to the Yellow Aquarium drifts here when no auction calls them.
+        this.createHeirResident();
 
         if (!this.hasJournalEntry('harbor_place')) {
             this.addJournalEntry(
@@ -209,6 +268,28 @@ export default class HarborScene extends GameScene {
             } else {
                 this.showDialog('ulvarex_mirage');
             }
+        });
+    }
+
+    createHeirResident() {
+        this.heir = this.add.image(640, 450, 'heirToAquarium');
+        this.heir.setScale(0.11);
+        this.heir.setDepth(5);
+        this.heir.setInteractive({ useHandCursor: true });
+        this.tweens.add({
+            targets: this.heir,
+            alpha: { from: 0.85, to: 1 },
+            duration: 1800,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+        this.heir.on('pointerover', () => { this.heir.setScale(0.12); document.body.style.cursor = 'pointer'; });
+        this.heir.on('pointerout', () => { this.heir.setScale(0.11); document.body.style.cursor = 'default'; });
+        this.heir.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('heir_harbor_start');
         });
     }
 

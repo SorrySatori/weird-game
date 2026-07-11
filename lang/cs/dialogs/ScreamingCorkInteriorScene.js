@@ -37,7 +37,8 @@ export default {
             who_are_you: "Kdo jsi?",
             what_do_you_do_here: "Co tady děláš?",
             i_was_told_you_can_get_me_to_rust_choir_base: "Řekli mi, že mě můžeš dostat na základnu Rezavého chóru.",
-            i_have_gathered_everything_for_the_rust_feast: "Shromáždil jsem vše pro Rezavou hostinu."
+            i_have_gathered_everything_for_the_rust_feast: "Shromáždil jsem vše pro Rezavou hostinu.",
+            corrosive_cultivar_grind_into_the_oil: "[Žíravý kultivar] (Tiše rozetřít direktoriátskou rostlinu do oleje.)"
         }
     },
     ravla_who: {
@@ -114,6 +115,18 @@ export default {
     },
     ravla_feast_cook_illusion: {
         text: "Ravla pracuje zkušenýma rukama..."
+    },
+    ravla_feast_poison: {
+        text: "Zatímco se Ravla otočí, aby přerovnala nářadí, rozetřeš direktoriátský kultivar mezi prsty na prášek a nasypeš ho do olejové láhve. Rozpustí se beze stopy — slabý zelený lesk, který zmizí, jak s ní zakroužíš. Když se ohlédne, je na stole jen olej, kov a rudá hmota. Není co vidět.",
+        options: {
+            gathered_everything_prepare_the_feast_poison: "\"Shromáždil jsem všechno. Pojďme připravit hostinu.\""
+        }
+    },
+    ravla_feast_cook_poison: {
+        text: "Ravla pracuje rychle — nejdřív olej, pak kovové piliny, potom nakonec vmíchá rudou hmotu, stále sebou škubající. Nevšimne si ničeho špatného; proč taky? Výsledek zapečetí v tmavé nádobě. \"Tady. Rezavá hostina.\" Přisune ji přes stůl. \"Heslo pro Lift-Matku — řekni panelu 'Koroduj'. S nikým se o něj neděl.\" Změří si tě pohledem.\n\nNádoba chrastí jako každá jiná. Jen ty víš, co spí v tom oleji.",
+        options: {
+            i_wont_thank_you_poison: "Nebudu. Díky, Ravlo."
+        }
     },
     ravla_feast_spared_redmass: {
         text: "Ravlin výraz ztuhne..."

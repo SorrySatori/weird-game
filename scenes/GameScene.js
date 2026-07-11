@@ -1535,6 +1535,11 @@ export default class GameScene extends Phaser.Scene {
         return line === key ? '' : line; // t() returns the key path when missing
     }
 
+    /** True once inducted into the Lumen Directorate. Save-persisted (journal-backed). */
+    isLumenMember() {
+        return !!this.hasJournalEntry('lumen_directorate_joined');
+    }
+
     modifyFactionReputation(faction, amount) {
         const factionSystem = this.registry.get('factionSystem');
         const result = factionSystem.modifyReputation(faction, amount);

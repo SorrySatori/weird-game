@@ -125,6 +125,10 @@ export default class LumenDirectorateScene extends GameScene {
         const sulkberriesCleared = !!this.hasJournalEntry('sulkberries_cleared_verrik');
         const alreadyMetGardener = !!this.hasJournalEntry('met_gardener_verrik');
         const alreadyGrewMushroom = !!this.hasJournalEntry('grew_mushroom_verrik');
+        // Lumen sabotage quest: Verrik hands over the restricted corrosive cultivar.
+        const hasLumenSabotageQuest = !!(this.questSystem?.getQuest('join_lumen_directorate') && !this.questSystem.getQuest('join_lumen_directorate').isComplete);
+        const gaveCultivar = !!this.hasJournalEntry('verrik_gave_cultivar');
+        const hasCultivar = !!(this.hasItem && this.hasItem('corrosive_cultivar'));
 
         // Mushroom growing: gather game history for outcome determination
         const completedQuests = this.questSystem?.getAllQuests().filter(q => q.isComplete) || [];
@@ -154,6 +158,7 @@ export default class LumenDirectorateScene extends GameScene {
                     { text: "What is this place?", key: 'what_is_this_place', next: "gardener_about_lumen" },
                     ...(hasLumenQuest ? [{ text: "I was told to come here — about joining the crew.", key: 'i_was_told_to_come_here_about_joining_the_crew', next: "gardener_join" }] : []),
                     ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall. Any ideas?", key: 'i_need_to_get_into_the_townhall_any_ideas', next: "gardener_townhall" }] : []),
+                    ...(hasLumenSabotageQuest && !hasCultivar && !gaveCultivar ? [{ text: "The Angle Corrector sent me — he said you keep a cultivar for... difficult problems.", key: 'the_angle_corrector_said_you_keep_a_cultivar', next: "gardener_cultivar" }] : []),
                     ...(knowsLumenLead ? [{ text: "I need to speak with someone about Cathedral oversight.", key: 'i_need_to_speak_with_someone_about_cathedral_overs', next: "gardener_bishop_lead" }] : []),
                     ...(knowsSulkberries && !sulkberriesCleared ? [{ text: "About those Sulkberries the Directorate supplied — were they clean?", key: 'about_those_sulkberries_the_directorate_supplied_w', next: "gardener_sulkberry_verify" }] : []),
                     ...(knowsSulkberries && !knowsLumenLead ? [{ text: "I'm looking into spiced Sulkberries. Who supplies them?", key: 'im_looking_into_spiced_sulkberries_who_supplies_th', next: "gardener_sulkberries" }] : []),
@@ -410,6 +415,33 @@ export default class LumenDirectorateScene extends GameScene {
             },
 
             // --- Mushroom growing activity ---
+            gardener_cultivar: {
+                speaker: 'Verrik the Gardener',
+                text: `Verrik's easy manner cools. "...So the Angle Corrector's sending people to me for THAT now." He glances at a sealed cold-frame at the back of the bed. "We grow more than pretty walls here. There's a cultivar we keep behind glass — a controlled rot, bred to eat metal and only metal. 'Nothing Hidden,' they say. Mostly true. Some things we just... shelve."\n\nHe works a key, lifts out a squat, blackish-green bulb weeping faint verdigris, and wraps it in oilcloth. "Grind it into oil and whatever machine drinks it will corrode from the inside out. The Choir's shrine won't sing again." He presses it into your hands. "Don't spill it on anything you'd miss."`,
+                options: [
+                    { text: "Take the cultivar.", key: 'take_the_cultivar', next: "gardener_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('verrik_gave_cultivar')) {
+                        this.addItemToInventory({
+                            id: 'corrosive_cultivar',
+                            name: 'Corrosive Cultivar',
+                            description: "A restricted Lumen Directorate plant — a controlled rot bred to devour metal. Ground into oil and fed to a machine, it corrodes it from the inside. Handle with care.",
+                            image: 'corrosive_cultivar',
+                            stackable: false
+                        });
+                        this.addJournalEntry(
+                            'verrik_gave_cultivar',
+                            "The Directorate's Cultivar",
+                            "Verrik gave me a restricted Directorate cultivar — a controlled rot bred to eat metal. Ground into oil and fed to the Rust Choir's machines, it will corrode them from within. I should have Ravla work it into the Rust Feast without the Choir noticing.",
+                            this.journalSystem.categories.FACTIONS,
+                            { character: 'Verrik the Gardener', related: 'Lumen Directorate' }
+                        );
+                        this.showNotification('Received: Corrosive Cultivar');
+                    }
+                }
+            },
+
             gardener_work_offer: {
                 speaker: 'Verrik the Gardener',
                 text: alreadyGrewMushroom
@@ -775,6 +807,10 @@ export default class LumenDirectorateScene extends GameScene {
         // Decay-aligned bodies grow richer mushrooms — mirror of the Growth boost on Oltrac sales.
         // Boost only above 50 (no penalty below).
         payment = Math.round(payment * (1 + Math.max(0, (decay - 50) / 100)));
+        // Directorate Clearance perk: members get a standing cultivation bonus.
+        if (this.isLumenMember && this.isLumenMember()) {
+            payment = Math.round(payment * 1.25);
+        }
 
         const traitText = traits.length > 1
             ? traits.slice(0, -1).join(', ') + ' and ' + traits[traits.length - 1]

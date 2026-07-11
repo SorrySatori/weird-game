@@ -20,7 +20,14 @@ export default {
             about_those_sulkberries_the_directorate_supplied_w: "O těch mručenkách, co direktoriát dodával — byly čisté?",
             im_looking_into_spiced_sulkberries_who_supplies_th: "Zajímají mě kořeněné mručenky...",
             im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky...",
+            the_angle_corrector_said_you_keep_a_cultivar: "Poslal mě Korektor úhlů — prý chováte kultivar pro... obtížné problémy.",
             looking_for_work_anything_i_can_help_with: "Hledám práci. Něco, s čím bych mohl pomoct?"
+        }
+    },
+    gardener_cultivar: {
+        text: "Verrikova nenucenost vychladne. \"...Takže Korektor úhlů teď za mnou posílá lidi kvůli TOMUHLE.\" Mrkne po zapečetěném pařeništi vzadu v záhonu. \"Pěstujeme tu víc než jen hezké zdi. Máme jeden kultivar za sklem — řízenou hnilobu, vyšlechtěnou žrát kov a jen kov. 'Nic skrytého,' říkají. Většinou pravda. Některé věci prostě... odložíme do skříně.\"\n\nOtočí klíčem, vyzvedne zavalitou, černozelenou hlízu ronící slabou měděnku a zabalí ji do naolejovaného plátna. \"Rozetři to do oleje a jakýkoli stroj, co se toho napije, zkoroduje zevnitř. Svatyně Chóru už nezazpívá.\" Vtiskne ti ji do rukou. \"Nerozlij to na nic, co by ti chybělo.\"",
+        options: {
+            take_the_cultivar: "Vzít kultivar."
         }
     },
     gardener_about_lumen: {

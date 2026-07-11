@@ -42,6 +42,13 @@ export default class TownhallInteriorScene extends GameScene {
         const councilorStartTextKey = hasGodgraveyardAccess ? 'councilor_start_access_granted' : 'councilor_start_needs_reward';
         const complaintEaterBishopTextKey = townhallRecordsChecked ? 'complaint_eater_bishop_records_checked' : 'complaint_eater_bishop_records_locked';
 
+        // --- Pith Reclaimers membership (Seraphel Dune) ---
+        const pithKnown = !!this.hasJournalEntry('pith_reclaimers_faction');
+        const pithJoined = !!this.hasJournalEntry('pith_reclaimers_joined');
+        const pithQuestObj = this.questSystem?.getQuest('join_pith_reclaimers');
+        const hasPithQuest = !!(pithQuestObj && !pithQuestObj.isComplete);
+        const hasPithRecruit = !!(this.hasJournalEntry('pith_recruit_magnekin') || this.hasJournalEntry('pith_recruit_heir'));
+
         return {
             ...super.dialogContent,
 
@@ -483,6 +490,8 @@ If the Townhall owes you a reward, make him say it out loud. Spoken debt is hard
                     { text: "What happens to the poet?", key: 'what_happens_to_the_poet', next: "councilor_poet" },
                     { text: "What is wrong with this Townhall?", key: 'what_is_wrong_with_this_townhall', next: "councilor_townhall" },
                     ...(townhallRecordsChecked ? [{ text: "The Bishop's records were tampered with.", key: 'bishops_records_were_tampered_with', next: "councilor_bishop_records" }] : []),
+                    ...(pithKnown && !pithJoined && !hasPithQuest ? [{ text: "The Reclaimers take in the city's strays. Could I be part of that?", key: 'ask_join_pith', next: "councilor_pith_offer" }] : []),
+                    ...(hasPithQuest && !pithJoined && hasPithRecruit ? [{ text: "I've found a soul for the Reclaimers.", key: 'present_pith_recruit', next: "councilor_pith_present" }] : []),
                 ]
             },
 
@@ -530,6 +539,76 @@ But if the Bishop used official stationery as a private notebook, she was hiding
                     { text: "The missing notebook is still the lead.", key: 'missing_notebook_is_still_the_lead', next: "councilor_start" },
                 ]
             },
+
+            // --- Pith Reclaimers: joining ---
+            councilor_pith_offer: {
+                speaker: 'Councilor Seraphel Dune',
+                text: `Seraphel Dune considers you the way an auditor considers a promising irregularity. "The Reclaimers are not a faith, and not an army. We are the city's memory of order — we file what would otherwise be lost, and take in what would otherwise fall through the cracks. Souls with nowhere to be indexed.\n\nIf you would join us, prove you understand the work: find one such soul — unmoored, unfiled, adrift — and bring them into the fold. Give the city one more citizen it can account for. Do that, and a door opens."`,
+                options: [
+                    { text: "I'll find someone.", key: 'pith_accept', next: "councilor_pith_accepted" },
+                    { text: "Who did you have in mind?", key: 'pith_who', next: "councilor_pith_who" },
+                    { text: "Not my kind of work.", key: 'pith_decline', next: "councilor_start" },
+                ]
+            },
+            councilor_pith_who: {
+                speaker: 'Councilor Seraphel Dune',
+                text: `"The city is full of the unaccounted. That 'average citizen' who loiters in the Town Square and fools no one. The creature that haunts the Voxmarket auctions with no address to its name. Pick one. Convince them that being written down is a kind of safety." A dry pause. "Most people spend their lives trying to stay un-filed. The ones who want in — those are ours."`,
+                options: [
+                    { text: "I'll find someone.", key: 'pith_accept_2', next: "councilor_pith_accepted" },
+                    { text: "Let me think.", key: 'pith_think', next: "councilor_start" },
+                ]
+            },
+            councilor_pith_accepted: {
+                speaker: 'Councilor Seraphel Dune',
+                text: `"Good. The Senior Clerk will handle the paperwork when you return with your candidate. Try to bring someone who can hold a pen — or approximate one."`,
+                options: [
+                    { text: "Understood.", key: 'pith_accepted_ok', next: "councilor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.questSystem?.getQuest('join_pith_reclaimers')) {
+                        this.questSystem.addQuest('join_pith_reclaimers', 'One More Citizen', 'Councilor Seraphel Dune will admit me to the Pith Reclaimers if I bring them a soul — someone unmoored and unfiled — and convince them to be recorded as a citizen. Candidates: the "average real citizen" (Magnekin) in the Town Square, or the Heir who haunts the Voxmarket auction. Then return to Seraphel.');
+                        this.showNotification('New quest: One More Citizen', 0xffdf7a);
+                    }
+                }
+            },
+            councilor_pith_present: {
+                speaker: 'Councilor Seraphel Dune',
+                text: `You explain who you've brought into the fold. Seraphel Dune's severe face does something unfamiliar — approval. "A citizen where there was a gap in the record. Good." He raps the cabinet twice; the Senior Clerk materializes with a ledger already open. "The paperwork is being done as we speak. Sign here, here, and — regrettably — here.\n\nIt is done. You are a Reclaimer. There is a room beneath this building the committees pretend not to remember. It is yours now. Bring us more of the unaccounted, and the Reclaimers will not forget who did the accounting."`,
+                options: [
+                    { text: "A room beneath the Townhall?", key: 'pith_room_ask', next: "councilor_pith_room" },
+                    { text: "I'll bring you more.", key: 'pith_bring_more', next: "councilor_start" },
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('pith_reclaimers_joined')) {
+                        this.addJournalEntry(
+                            'pith_reclaimers_joined',
+                            'Member of the Pith Reclaimers',
+                            'I brought the Pith Reclaimers a soul to file, and Councilor Seraphel Dune admitted me to the faction. The Reclaimers preserve the city\'s order by accounting for what would otherwise be lost — and they have opened a hidden room beneath the Townhall to me. The more souls I bring them, the more the Reclaimers owe me.',
+                            this.journalSystem.categories.FACTIONS,
+                            { group: 'Pith Reclaimers' }
+                        );
+                        this.modifyFactionReputation('PithReclaimers', 25);
+                        this.registry.set('pith_room_unlocked', true);
+                        this.showNotification('You are now a Pith Reclaimer', 0xffdf7a);
+                        if (this.moneySystem) {
+                            this.moneySystem.add(30);
+                            this.showNotification('The Reclaimers grant a filing stipend: +30', 0xffdf7a);
+                        }
+                    }
+                    const q = this.questSystem?.getQuest('join_pith_reclaimers');
+                    if (q && !q.isComplete) {
+                        this.questSystem.completeQuest('join_pith_reclaimers');
+                        this.showNotification('Quest complete: One More Citizen', 0xffdf7a);
+                    }
+                }
+            },
+            councilor_pith_room: {
+                speaker: 'Councilor Seraphel Dune',
+                text: `"A reading room. Archive-adjacent. Off the record, which in this building is the only kind of privacy that survives. You'll find the way down marked with the Reclaimers' seal, now that your name is on it. Rest there. Store what you must. The room remembers its members — and grows more useful the more of the city we manage to account for."`,
+                options: [
+                    { text: "Understood.", key: 'pith_room_ok', next: "councilor_start" },
+                ]
+            },
         };
     }
 
@@ -564,6 +643,13 @@ But if the Bishop used official stationery as a private notebook, she was hiding
             540,
             'Townhall Exterior'
         );
+
+        // Members-only: the hidden Reclaimers' Room opens once you've joined the Pith.
+        if (this.hasJournalEntry('pith_reclaimers_joined')) {
+            this.transitionManager.createTransitionZone(
+                90, 300, 70, 240, 'left', 'PithReclaimersRoomScene', 700, 480, "The Reclaimers' Room"
+            );
+        }
 
         this.priest.x = 400;
         this.priest.y = 520;

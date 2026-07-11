@@ -236,6 +236,10 @@ export default {
             title: 'Rust Feast Prepared (Illusory Redmass)',
             description: "I used Ulvarex's Mirage Weave to create an illusion of redmass.",
         },
+        rust_feast_completed_poisoned: {
+            title: 'Rust Feast Prepared (Spiked)',
+            description: "I ground the Lumen Directorate's corrosive cultivar into the oil before Ravla mixed the Rust Feast. She noticed nothing — but it will corrode the machines from the inside when they feed.",
+        },
         ravla_feast_refused_spared: {
             title: 'Ravla Refused — Redmass Spared',
             description: 'Ravla was furious that I spared the redmass.',
@@ -276,6 +280,10 @@ export default {
             title: 'Met Verrik the Gardener',
             description: 'Met a gardener named Verrik outside the Lumen Directorate.',
         },
+        verrik_gave_cultivar: {
+            title: "The Directorate's Cultivar",
+            description: "Verrik gave me a restricted Directorate cultivar — a controlled rot bred to eat metal. Ground into oil and fed to the Rust Choir's machines, it will corrode them from within.",
+        },
         gardener_bishop_visits: {
             title: "Bishop's Visits to the Lumen Directorate",
             description: 'Verrik the gardener revealed the Bishop visited regularly.',
@@ -283,6 +291,10 @@ export default {
         grew_mushroom_verrik: {
             title: 'Grew a Mushroom for Verrik',
             description: 'Sacrificed spores at the Lumen Directorate and grew a mushroom.',
+        },
+        lumen_directorate_joined: {
+            title: 'Member of the Lumen Directorate',
+            description: "By crippling the Rust Choir's machine-shrine, I proved my commitment to growth over stagnation. The Angle Corrector inducted me as a full member of the Lumen Directorate: Nothing Hidden, Nothing Lost.",
         },
         met_angle_corrector: {
             title: 'Met the Angle Corrector',
@@ -703,6 +715,30 @@ export default {
         silence_neme_read: {
             title: 'Neme: The Silence Resists Interpretation',
             description: 'Asked Neme to interpret The Silence Beneath the Stairwell. Even Neme could only sense concealment, hunger, and loneliness — not clear intent. The creature is difficult to read even through bio-signals.',
+        },
+        pith_recruit_magnekin: {
+            title: 'A Soul for the Pith: Magnekin',
+            description: 'Magnekin — the collective of micro-cities pretending to be a citizen — agreed to be filed as a real, protected citizen by the Pith Reclaimers. It is exactly the belonging they crossed scales to find. I should tell Councilor Seraphel Dune I have a soul for the faction.',
+        },
+        pith_recruit_heir: {
+            title: 'A Soul for the Pith: the Heir',
+            description: 'The Heir to the Yellow Aquarium agreed to be filed as a citizen by the Pith Reclaimers. To a creature that collects "continuations," being written into the record is a kind of being kept — remembered forward. I should tell Councilor Seraphel Dune I have a soul for the faction.',
+        },
+        pith_reclaimers_joined: {
+            title: 'Member of the Pith Reclaimers',
+            description: 'I brought the Pith Reclaimers a soul to file, and Councilor Seraphel Dune admitted me to the faction. The Reclaimers preserve the city\'s order by accounting for what would otherwise be lost — and they have opened a hidden room beneath the Townhall to me. The more souls I bring them, the more the Reclaimers owe me.',
+        },
+        pith_room_entered: {
+            title: "The Reclaimers' Room",
+            description: 'A hidden reading room beneath the Townhall, off every official record — which, for the Pith Reclaimers, is the only privacy that survives. Shelved files climb the walls; a sealed filing-cabinet holds the Reclaimers\' share for every soul I bring into the fold.',
+        },
+        pith_cache_magnekin: {
+            title: 'Reclaimed Share',
+            description: 'The Pith Reclaimers set aside a share for filing Magnekin into the record.',
+        },
+        pith_cache_heir: {
+            title: 'Reclaimed Share',
+            description: 'The Pith Reclaimers set aside a share for filing the Heir into the record.',
         },
     }
 };

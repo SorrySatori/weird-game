@@ -193,5 +193,30 @@ export default {
             im_sorry: "Omlouvám se—",
             leave_immediately: "Okamžitě odejít."
         }
+    },
+    brukk_feast_poisoned: {
+        text: "Brukk opatrně převezme nádobu, otevře ji, zhluboka se nadechne. \"Rudá hmota. Živá. Olej, železo... dobré.\" Nezachytí tu slabou zeleň pod tím. \"Stroje čekaly dost dlouho.\" Otočí se ke zkorodovaným trychtýřům. \"Sleduj pozorně. Tohle je srdce Chóru.\"",
+        options: {
+            watch_him_feed_the_machines_poison: "Sledovat, jak krmí stroje."
+        }
+    },
+    brukk_feast_poisoned_feed: {
+        text: "Brukk lije hostinu do strojů. Trubky se rozžhaví; hukot stoupá — a pak sesedne. Kde se olej dotkne kovu, železo rozkvete zelenou korozí, rychle se šíří, prožírá se dovnitř. Hukot stoupá do výkřiku. Brukk se vrhne, aby to zastavil holýma rukama, a couvne, když se mu kov pod prsty rozpadá na rezavý prach. Jeden po druhém se stroje zaseknou, zčernají a zmlknou.",
+        options: {
+            whats_happening_poison: "Co se děje?!"
+        }
+    },
+    brukk_feast_poisoned_aftermath: {
+        text: "Brukk klečí mezi mrtvými stroji a seškrabuje zelený povlak ze zničeného spoje. Rozetře si ho mezi prsty a znehybní. \"Kultivar. Direktoriátský kultivar.\" Pomalu vstane a v očích rozžhavených jako výheň má vraždu. \"Nakrmil jsi mé stroje zahradou. Nechal jsi jim v žilách vyrůst hnilobu.\" Jeho hlas klesne do šepotu. \"Zmiz. ZMIZ Z REZAVÉ DOMÉNY. Jestli tě ještě někdy uvidím, zasadím TEBE.\"",
+        options: {
+            im_sorry_poison: "Omlouvám se—",
+            leave_immediately_poison: "Okamžitě odejít."
+        }
+    },
+    brukk_poison_expulsion: {
+        text: "Brukk se otočí zády k tobě i k mrtvolám svých bohů; není už co říct. Jak stoupáš z Rezavé domény, něco se v tobě pohne — houbové sítě v tvém těle pulzují divokou energií, sytí se smrtí železa. Život, prýštící tam, kde stroje zmlkly.",
+        options: {
+            leave_the_rust_domain_poison: "Opustit Rezavou doménu."
+        }
     }
 };

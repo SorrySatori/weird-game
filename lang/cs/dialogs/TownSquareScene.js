@@ -199,6 +199,27 @@ export default {
             it_was_nice_to_meet_you_but_i_have_other_questions: "Bylo milé tě poznat, ale mám jiné otázky."
         }
     },
+    magnekin_blend: {
+        text: "\"Zapadnout? Ty bys... pomohl? Ostatní říkali, že velcí tvorové věci jenom rozebírají.\" Vypůjčená tvář Magnekina se zachvěje něčím, co připomíná naději. \"Co jsi měl na mysli?\"",
+        options: {
+            pith_make_you_real: "Reklamátoři jádra zapisují občany do existence. Nech je udělat tě skutečným — na papíře. S papírem se nikdo nehádá.",
+            blend_advice: "Mluv pomaleji. Říkej *skutečný* míň. Poflakuj se s účelem. (Dát pár rad.)",
+            blend_later: "Nech mě to promyslet."
+        }
+    },
+    magnekin_blend_advice: {
+        text: "Magnekin naslouchá s intenzitou tisíce drobných zasedání rady. \"Pomaleji. Míň *skutečných*. Poflakovat se s účelem. Ano. Ano, to zvládneme.\" Odmlka. \"Není to ale velký život — to předstírání. Vždycky jedno špatné slovo od sutin.\"",
+        options: {
+            pith_make_you_real_2: "Je lepší způsob. Reklamátoři jádra by tě mohli udělat oficiálním.",
+            blend_advice_ok: "Je to začátek."
+        }
+    },
+    magnekin_pith_recruit: {
+        text: "Města uvnitř Magnekina se rozvlní — tisíc drobných oken se rozsvítí naráz. \"Zapsán. Orazítkován. *Oficiální.* Skutečný občan, výnosem.\" Hlas se zachvěje. \"Přišli jsme pozorovat váš svět. Nemysleli jsme, že nás nechá zůstat.\" Odmlka, a pak tišeji: \"Vezmi nás ke svým Reklamátorům jádra. Podepíšeme cokoli, co nám předloží.\"",
+        options: {
+            pith_recruit_settled: "Tak je to domluvené. Radní Dune má úřadovny v Radnici."
+        }
+    },
     magnekin_destroy: {
         text: "Natáhneš ruku k Magnekinovi s nepřátelským úmyslem. Kolektiv okamžitě vycítí tvou agresi. 'Počkej! Prosím! Nechceme ublížit!' Ale je pozdě. Udeříš do magnetických vazeb, které drží formu pohromadě.",
         options: {

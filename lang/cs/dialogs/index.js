@@ -34,6 +34,7 @@ import godgraveyardScene from './GodgraveyardScene.js';
 import scraperCellarScene from './ScraperCellarScene.js';
 import eggCathedralInteriorScene from './EggCathedralInteriorScene.js';
 import eggCathedralStudyScene from './EggCathedralStudyScene.js';
+import pithReclaimersRoomScene from './PithReclaimersRoomScene.js';
 
 export default {
     EntryScene: entryScene,
@@ -68,4 +69,5 @@ export default {
     ScraperCellarScene: scraperCellarScene,
     EggCathedralInteriorScene: eggCathedralInteriorScene,
     EggCathedralStudyScene: eggCathedralStudyScene,
+    PithReclaimersRoomScene: pithReclaimersRoomScene,
 };
