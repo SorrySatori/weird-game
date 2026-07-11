@@ -383,7 +383,7 @@ export default class ShedCourtyardScene extends GameScene {
     }
 
     get dialogContent() {
-        // The Infinite Loop conversation lives at Burning Bear Street on Day 2,
+        // Infinite Fold conversation lives at Burning Bear Street on Day 2,
         // where Ortolan relocates. Here he only handles the Day-1 arms quest.
         return this._ortholanDialogContent;
     }

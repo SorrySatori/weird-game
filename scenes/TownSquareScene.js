@@ -357,7 +357,7 @@ export default class TownSquareScene extends GameScene {
                 ]
             },
             magnekin_origin: {
-                text: "Well, it's a bit complicated. Our historians teach that in the Crownmire, there was once a cult that worshiped ancient magnetic spirits. When their shrine collapsed after unknown disaster, its lodestone heart shattered into millions of shards—each shard becoming a cornerstone for a micro-city’s consciousness. Our civilization only recenlty discovered that there is another world beyond, at entirely different scale. We are still learning how to interact with you.",
+                text: "Well, it's a bit complicated. Our historians teach that in the Crownmire, there was once a cult that worshiped ancient magnetic spirits. When their shrine collapsed after unknown disaster, its lodestone heart shattered into millions of shards—each shard becoming a cornerstone for a micro-city’s consciousness. Our civilization only recently discovered that there is another world beyond, at entirely different scale. We are still learning how to interact with you.",
             options: [
                 { text: "Incredible. I can help you to blend in, if you want.", key: 'incredible_i_can_help_you_to_blend_in_if_you_want', next: "magnekin_origin" },
                 { text: "Interesting. But you seem fragile and from valuable resources (try to destroy Magnekin).", key: 'interesting_but_you_seem_fragile_and_from_valuable', next: "magnekin_destroy" },

@@ -359,7 +359,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 speaker: 'The Angle Corrector',
                 text: knowsBishopVisits
                     ? `"So the gardener has been talking. Verrik means well, but he sees packages and formal visits and imagines secrets. Some of what he told you is true. Some... requires context.\n\nYes, the Bishop visited regularly. Yes, the visits stopped. What would you like to know?"`
-                    : `"The Bishop's death. I wondered when someone would come asking about the Directorate's connection.\n\nWe were not uninvolved. The Bishop and I had a professional relationship — regular meetings, mutual interests. I will answer what I can, within reason."`,
+                    : `"The Bishop's death. That's new information. How unfortunate. It is true that we knew each other. \n\n. The Bishop and I had a professional relationship — regular meetings, mutual interests. I will answer what I can, within reason."`,
                 options: [
                     { text: "What was your relationship with the Bishop?", key: 'what_was_your_relationship_with_the_bishop', next: "ac_bishop_relationship" },
                     ...(knowsBishopVisits ? [{ text: "What were the packages Verrik saw?", key: 'what_were_the_packages_verrik_saw', next: "ac_bishop_packages" }] : []),

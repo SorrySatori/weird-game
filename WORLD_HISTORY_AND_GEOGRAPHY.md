@@ -755,7 +755,7 @@ The NPCs respond as though continuing a conversation they had with her — and i
 
 **The reveal:** the rest of Bishop's journal is at the **Egg Cathedral — a real-world location, outside the game entirely.** The player learns this not by exploring the swamp, but by interrogating a piece of software about its dead previous owner and getting an answer that points *out* of the screen. That's the horror beat: the game knows something it shouldn't, about a person who is no longer alive, and it tells you because it thinks you're her. Whether the player then *goes* to the Egg Cathedral is the bridge back out into the outer game.
 
-### Hint 2 — The Infinite Loop (the glitch)
+### Hint 2 — The Infinite Fold (the glitch)
 
 After the final scene resolves — *any* ending — the game does not return to the menu. It **glitches.**
 

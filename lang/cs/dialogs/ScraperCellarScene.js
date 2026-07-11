@@ -1,10 +1,10 @@
 /**
  * Czech dialog translations for ScraperCellarScene
- * Speakers: the Loop console, Infinite Fold (the emergent mind), Neme, Brine Scripture
+ * Speakers: the Fold console, Infinite Fold (the emergent mind), Neme, Brine Scripture
  */
 export default {
     _speakers: {
-        'The Loop Console': 'Konzole Smyčky',
+        'The Fold Console': 'Konzole Foldu',
         'Infinite Fold': 'Infinite Fold',
         'Neme': 'Neme',
         'Brine Scripture': 'Solné písmo',

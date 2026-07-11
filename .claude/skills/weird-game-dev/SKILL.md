@@ -115,7 +115,7 @@ and a generative Web-Audio organ score.
   (mad-poet poetry battle → clerk reveals the missing notebook), report to Elphi, she *buys* a
   dream, nightlife cutscene, sleep.
 - **Day 2: partly done** — Elphi's repaired cartridge → play **The Cardinal Feast**; NPCs leak that
-  the Bishop hid her journal at the **Egg Cathedral**; Infinite Loop glitch ending. Elphi (feud
+  the Bishop hid her journal at the **Egg Cathedral**; Infinite Fold glitch ending. Elphi (feud
   canon) sends you to **Ortolan on Burning Bear Street**, whose help/info is gated on the Day-1
   `ortolan_arms` quest; he points to a Loop backup in the **Scraper cellar** (old lab) and, if
   helped, reveals the "losing move" needed to free a trapped mind.

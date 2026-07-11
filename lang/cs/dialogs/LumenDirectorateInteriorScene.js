@@ -109,8 +109,8 @@ export default {
     },
     ac_bishop_inquiry: {
         text: {
-            "So the gardener has been talking...": "Takže zahradník mluvil...",
-            "The Bishop's death. I wondered when someone would come asking about the Directorate's connection. We were not uninvolved...": "Smrt Biskupky. Říkal jsem si, kdy se někdo přijde ptát na spojení s direktoriátem. Nebyli jsme nezúčastnění..."
+            [`"So the gardener has been talking. Verrik means well, but he sees packages and formal visits and imagines secrets. Some of what he told you is true. Some... requires context.\n\nYes, the Bishop visited regularly. Yes, the visits stopped. What would you like to know?"`]: `"Takže zahradník mluvil. Verrik to myslí dobře, ale vidí balíčky a formální návštěvy a představuje si tajemství. Něco z toho, co vám řekl, je pravda. Něco... vyžaduje kontext.\n\nAno, Biskupka sem pravidelně chodila. Ano, návštěvy ustaly. Co byste chtěl vědět?"`,
+            [`"The Bishop's death. That's new information. How unfortunate. It is true that we knew each other. \n\n. The Bishop and I had a professional relationship — regular meetings, mutual interests. I will answer what I can, within reason."`]: `"Smrt Biskupky. To je nová informace. Jaká smůla. Je pravda, že jsme se znali.\n\nBiskupka a já jsme měli profesionální vztah — pravidelné schůzky, společné zájmy. Odpovím, co mohu, v rozumných mezích."`
         },
         options: {
             what_was_your_relationship_with_the_bishop: "Jaký byl váš vztah s Biskupkou?",

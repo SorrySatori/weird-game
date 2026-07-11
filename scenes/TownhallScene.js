@@ -101,6 +101,10 @@ export default class TownhallScene extends GameScene {
                 ],
                 onTrigger: () => {
                         this.questSystem.addQuest('excavation_permit', 'Divinography', 'I should help Phor Calesta obtain excavation permits for the Godgraveyard of the townhall. First, I need to get inside the townhall somehow.', 'talked_to_phor');
+                        // Divinography requires getting inside first — start that objective too.
+                        if (!this.questSystem.getQuest('enter_townhall')) {
+                            this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'The Townhall is closed and nobody knows why. I need to find a way inside — the Bishop\'s doppelgänger report was filed there, and Phor Calesta needs access too. Maybe someone in the city knows how to get in.');
+                        }
                     }
             },
             phorAmbitious: {

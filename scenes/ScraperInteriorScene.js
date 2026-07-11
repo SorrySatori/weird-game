@@ -335,7 +335,7 @@ export default class ScraperInteriorScene extends GameScene {
                             'The Cellar Passphrase',
                             'The Lift-Mother accepted the passphrase to the sealed cellar under the Scraper — "I FOLD," the epitaph of Laimig Cel, the god who lost the game. Ortolan and Dr. Elphi chose it as the key to their old lab.',
                             this.journalSystem.categories.EVENTS,
-                            { location: 'Scraper Cellar', related: 'The Infinite Loop' }
+                            { location: 'Scraper Cellar', related: 'Infinite Fold' }
                         );
                         if (this.questSystem?.getQuest('find_loop_copy')) {
                             this.questSystem.updateQuest(

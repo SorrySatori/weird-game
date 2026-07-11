@@ -35,20 +35,20 @@ export default {
         }
     },
     dr_elphi_after_feast: {
-        text: "Vaječná katedrála — to je vaše stopa k deníku, a dobrá. Ale nejdřív—\n\n*Strnula.* Říkáte, že to skončilo smyčkou. Prázdná síň. Postava v čele stolu, která se neotočí. A titulek: \"Nekonečná smyčka.\"\n\n*Ztiší hlas.* Potřebuju, abyste pochopil, že tohle jsem na kazetu nedala já. Ten název jsem neslyšela roky a doufala jsem, že už ho nikdy neuslyším.",
+        text: "Vaječná katedrála — to je vaše stopa k deníku, a dobrá. Ale nejdřív—\n\n*Strnula.* Říkáte, že to skončilo smyčkou. Prázdná síň. Postava v čele stolu, která se neotočí. A titulek: \"Infinite Fold.\"\n\n*Ztiší hlas.* Potřebuju, abyste pochopil, že tohle jsem na kazetu nedala já. Ten název jsem neslyšela roky a doufala jsem, že už ho nikdy neuslyším.",
         options: {
-            what_is_the_infinite_loop: "Vy ten název znáte. Co je Nekonečná smyčka?"
+            what_is_the_infinite_loop: "Vy ten název znáte. Co je Infinite Fold?"
         }
     },
     dr_elphi_loop_reveal: {
-        text: "Před lety jsme s Ortolanem něco vytvořili. On tvaroval hru; já sen, ve kterém žila. Tou skutečnou prací byla Smyčka — sen, který nikdy neskončí. Místnost, ve které lze mysl přimět zůstat, bdělou, navždy, v domnění, že uběhly jen tři vteřiny.\n\nNikdy jsme to nedokončili. Vládci města rozhodli, že je to příliš nebezpečné a nepředvídatelné, a celý projekt zarazili. Pak jsme se s Ortolanem pohádali o to, kdo si hry ponechá — ošklivě. Od té doby spolu nemluvíme.\n\nMyslela jsem, že každá kopie je pryč. A teď to běží znovu, na kazetě mrtvé ženy, a končí to přesně tam, kde skončila ona. To by nemělo být možné.",
+        text: "Před lety jsme s Ortolanem něco vytvořili. On tvaroval hru; já sen, ve kterém žila. Tou skutečnou prací byl Infinite Fold — sen, který nikdy neskončí. Místnost, ve které lze mysl přimět zůstat, bdělou, navždy, v domnění, že uběhly jen tři vteřiny.\n\nNikdy jsme to nedokončili. Vládci města rozhodli, že je to příliš nebezpečné a nepředvídatelné, a celý projekt zarazili. Pak jsme se s Ortolanem pohádali o to, kdo si hry ponechá — ošklivě. Od té doby spolu nemluvíme.\n\nMyslela jsem, že každá kopie je pryč. A teď to běží znovu, na kazetě mrtvé ženy, a končí to přesně tam, kde skončila ona. To by nemělo být možné.",
         options: {
             why_send_me_to_ortolan: "Proč mě posíláte za Ortolanem?",
             ill_find_ortolan_and_the_journal: "Najdu Ortolana. I ten deník."
         }
     },
     dr_elphi_loop_ortolan: {
-        text: "Protože já postavila jen zdi; Ortolan vymyslel, k čemu mají sloužit. Jestli někdo ví, jestli přežila kopie Smyčky — a jak se doopravdy chová — je to on. Bude to smetat ze stolu jako neškodnou hračku; to dělal vždycky. Tomu nevěřte.\n\nRoky jsme spolu nemluvili, ale s vámi mluvit bude. Naposledy jsem slyšela, že opustil Hangár a usadil se na Burning Bear Street, zavalený formuláři jako obvykle. Řekněte mu, že to zase běží.",
+        text: "Protože já postavila jen zdi; Ortolan vymyslel, k čemu mají sloužit. Jestli někdo ví, jestli přežila kopie Infinite Foldu — a jak se doopravdy chová — je to on. Bude to smetat ze stolu jako neškodnou hračku; to dělal vždycky. Tomu nevěřte.\n\nRoky jsme spolu nemluvili, ale s vámi mluvit bude. Naposledy jsem slyšela, že opustil Hangár a usadil se na Burning Bear Street, zavalený formuláři jako obvykle. Řekněte mu, že to zase běží.",
         options: {
             ill_find_ortolan_burning_bear: "Najdu Ortolana na Burning Bear Street."
         }
@@ -104,7 +104,7 @@ export default {
         }
     },
     dr_elphi_dead_bus: {
-        text: "Ten starý autobus? Chodila tam někdy. Říkala, že je 'mimo signál.' Cokoliv tím myslela.\n\nBála se, že je pozorována. Ne lidmi — něčím jiným. Nikdy to nerozváděla.",
+        text: "Ten starý autobus? Chodila tam někdy. \n\nBála se, že je pozorována. Ne lidmi — něčím jiným. Nikdy to nerozváděla.",
         options: {
             observed_by_what: "Pozorována čím?",
             i_found_evidence_that_might_explain_what_happened: "Našel jsem důkazy, které by mohly vysvětlit, co se stalo."
@@ -150,7 +150,7 @@ export default {
         text: "Ukažte mi, co jste našel. Možná nejsem vyšetřovatel, ale snové technologii rozumím lépe než kdokoliv v tomhle městě."
     },
     dr_elphi_clues_bruising: {
-        text: "Modřiny v místech neurálního rozhraní. *Nakloní se dopředu a studuje neviditelný vzor ve vzduchu.* To odpovídá zpětnovazebnému přetížení — druhu, jaký byste dostal ze snové relace bez omezovačů.\n\nNormální helmy omezují neurální propustnost na bezpečnou úroveň. Modřiny znamenají, že něco protlačilo přes tyto limity. Násilně.\n\nTohle nebyla nehoda. Někdo odstranil bezpečnostní protokoly z jejího zařízení.",
+        text: "Modřiny v místech neurálního rozhraní. *Nakloní se dopředu a studuje neviditelný vzor ve vzduchu.* To odpovídá zpětnovazebnému přetížení — druhu, jaký byste dostal ze snové relace bez omezovačů.\n\nNormální helmy omezují neurální propustnost na bezpečnou úroveň. Modřiny znamenají, že něco protlačilo přes tyto limity. Násilně.\n\nTohle nebyla nehoda.",
         options: {
             could_she_have_done_it_herself: "Mohla to udělat sama?",
             back_to_other_clues: "Zpět k dalším stopám."
@@ -190,7 +190,7 @@ export default {
         }
     },
     dr_elphi_clues_memo: {
-        text: "*Pozorně čte poznámku, pak ztichne.*\n\n\"Vypadal jako já. Nedýchal. Nemrkal. A dokončil mou větu.\"\n\n*Dlouhá pauza.* Nemám ponětí, co tohle je. A to neříkám často. Tohle není snové prosakování, není to neurální reziduum, není to žádný vedlejší efekt, který jsem kdy zdokumentovala nebo teoretizovala.\n\nNěkdo — nebo něco — co vypadalo přesně jako Biskupka, se procházelo tímto městem. A podle této zprávy měla Biskupka dost strach na to, aby to formálně nahlásila.",
+        text: "*Pozorně čte poznámku, pak ztichne.*\n\n\"Vypadal jako já. Nedýchal. Nemrkal. A dokončil mou větu.\"\n\n*Dlouhá pauza.* Nemám ponětí, co tohle je. A to neříkám často. Tohle není snové prosakování, není to neurální reziduum, není to žádný vedlejší efekt, který jsem kdy zdokumentovala nebo teoretizovala.\n\nNěkdo — nebo něco — co vypadalo přesně jako Biskupka, se procházelo tímto městem. Nebo možná mluvila o něčem, co viděla ve hře? Jak by to ale bylo možné, netuším.",
         options: {
             this_was_stamped_as_a_townhall_log: "Tohle bylo orazítkováno jako radniční záznam.",
             could_dream_technology_cause_something_like_this: "Mohla snová technologie něco takového způsobit?",

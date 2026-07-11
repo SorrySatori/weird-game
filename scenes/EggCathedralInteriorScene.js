@@ -274,7 +274,7 @@ export default class EggCathedralInteriorScene extends GameScene {
             this.addJournalEntry(
                 'egg_cathedral_entered',
                 'Within the Shell',
-                "The Guardian opened the way and I stepped inside the Egg Cathedral. It made a temple of itself — pulsing columns, breathing pipes, glass that remembers. At its heart waits the Unborn: many possibilities trying to become one. This is where it ends.",
+                "I stepped inside the Egg Cathedral. It made a temple of itself — pulsing columns, breathing pipes, glass that remembers. At its heart waits the Unborn: many possibilities trying to become one. This is where it ends.",
                 this.journalSystem.categories.EVENTS,
                 { location: 'Egg Cathedral', related: 'The Unborn God' }
             );

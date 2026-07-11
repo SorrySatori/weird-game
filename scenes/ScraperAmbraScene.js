@@ -359,7 +359,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_dead_bus: {
-                text: `The old transit bus? She went there sometimes. Said it was "outside the signal." Whatever she meant by that.\n\nShe was afraid of being observed. Not by people — by something else. She never elaborated.`,
+                text: `The old transit bus? She went there sometimes. \n\nShe was afraid of being observed. Not by people — by something else. She never elaborated.`,
                 options: [
                     { text: "Observed by what?", key: 'observed_by_what', next: "dr_elphi_dead_observed" },
                     ...(hasBruising || hasCartridge || hasMemo ? [
@@ -456,7 +456,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_clues_bruising: {
-                text: `Bruising at the neural interface points. *She leans forward, studying an invisible pattern in the air.* That's consistent with a feedback surge — the kind you'd get from a dream session without limiters.\n\nNormal helmets cap neural throughput at safe levels. The bruising means something pushed past those limits. Violently.\n\nThis wasn't an accident. Someone removed the safety protocols from her device.`,
+                text: `Bruising at the neural interface points. *She leans forward, studying an invisible pattern in the air.* That's consistent with a feedback surge — the kind you'd get from a dream session without limiters.\n\nNormal helmets cap neural throughput at safe levels. The bruising means something pushed past those limits. Violently.\n\nThis wasn't an accident.`,
                 options: [
                     { text: "Could she have done it herself?", key: 'could_she_have_done_it_herself', next: "dr_elphi_bruising_self" },
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
@@ -538,7 +538,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_clues_memo: {
-                text: `*She reads the note carefully, then goes very still.*\n\n"Looked like me. Didn't breathe. Didn't blink. And it finished my sentence."\n\n*Long pause.* I have no idea what this is. And I don't say that often. This isn't dream bleed, it's not neural residue, it's not any side effect I've ever documented or theorized.\n\nSomeone — or something — that looked exactly like the Bishop was walking around this city. And based on this memo, the Bishop was scared enough to formally report it.`,
+                text: `*She reads the note carefully, then goes very still.*\n\n"Looked like me. Didn't breathe. Didn't blink. And it finished my sentence."\n\n*Long pause.* I have no idea what this is. And I don't say that often. This isn't dream bleed, it's not neural residue, it's not any side effect I've ever documented or theorized.\n\nSomeone — or something — that looked exactly like the Bishop was walking around this city. Or maybe she was referring to something she saw in the game? But how that would be possible, I don't know.`,
                 options: [
                     { text: "This was stamped as a Townhall log.", key: 'this_was_stamped_as_a_townhall_log', next: "dr_elphi_memo_townhall" },
                     { text: "Could dream technology cause something like this?", key: 'could_dream_technology_cause_something_like_this', next: "dr_elphi_memo_not_dreams" },
@@ -546,11 +546,11 @@ export default class ScraperAmbraScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_memo_analysis')) {
-                        this.questSystem.updateQuest('who_killed_bishop', 'Dr. Elphi couldn\'t explain the doppelgänger from the Bishop\'s memo. It\'s not any known side effect of dream technology. The Bishop formally reported the encounter at the Townhall.', 'elphi_memo');
+                        this.questSystem.updateQuest('who_killed_bishop', 'Dr. Elphi couldn\'t explain the doppelgänger from the Bishop\'s memo. It\'s not any known side effect of dream technology.', 'elphi_memo');
                         this.addJournalEntry(
                             'elphi_memo_analysis',
                             'Dr. Elphi\'s Analysis: The Doppelgänger',
-                            'Dr. Elphi was genuinely unsettled by the Bishop\'s doppelgänger report. She confirmed this is not a known side effect of dream technology — not dream bleed, not neural residue. Something that looked exactly like the Bishop was walking around Upper Morkezela, and the Bishop was frightened enough to formally log the encounter at the Townhall.',
+                            'Dr. Elphi was genuinely unsettled by the Bishop\'s doppelgänger report. She confirmed this is not a known side effect of dream technology — not dream bleed, not neural residue. She saw something that looked exactly like the Bishop either on street or in the game.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn' }
                         );
@@ -573,15 +573,17 @@ export default class ScraperAmbraScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_townhall_log')) {
-                        this.questSystem.updateQuest('who_killed_bishop', 'The Bishop\'s doppelgänger encounter was formally logged at the Townhall. The archive clerk might have a copy — and records of whether anyone else reported something similar.', 'elphi_townhall_log');
+                        this.questSystem.updateQuest('who_killed_bishop', 'The Bishop wrote notes about a doppelgänger that looked exactly like her. The notes were written on official Townhall papers, so it might be worth checking her relationship with the Townhall.', 'elphi_townhall_log');
                         this.addJournalEntry(
                             'elphi_townhall_log',
                             'Townhall Records of the Doppelgänger',
-                            'The Bishop formally reported the doppelgänger encounter at the Townhall as an official personal log. The archive clerk should have a copy with timestamps that could reveal when this started — and whether anyone else in Upper Morkezela has reported seeing their own double.',
+                            'The Bishop wrote notes about a doppelgänger that looked exactly like her. The notes were written on official Townhall papers, so it might be worth checking her relationship with the Townhall.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn' }
                         );
                     }
+                    // The Townhall is now a clear lead — start the quest to get inside.
+                    this.ensureEnterTownhallQuest();
                 }
             },
 
@@ -688,7 +690,7 @@ export default class ScraperAmbraScene extends GameScene {
 
             dr_elphi_clues_done: {
                 text: allCluesDiscussed
-                    ? `I think we've covered everything you found. This was no accident. Someone with knowledge of dream technology did this.\n\nTwo leads stand out. The Townhall — the Bishop formally reported that doppelgänger. Someone processed that report and someone might have followed up. And the Lumen Directorate — they supplied the Sulkberries, they monitor the Cathedral, and they know everything that moves in this city.\n\nAnd I'll work on the cartridge tonight. If you come back tomorrow, I should have the Bishop's last dream scene reconstructed. We'll see exactly what she saw before she died.`
+                    ? `I think we've covered everything you found. This was no accident. Someone with knowledge of dream technology did this.\n\nTwo leads stand out. The Townhall — The Bishop wrote notes about a doppelgänger that looked exactly like her. The notes were written on official Townhall papers, so it might be worth checking her relationship with the Townhall. And the Lumen Directorate — they supplied the Sulkberries, they monitor the Cathedral, and they know everything that moves in this city.\n\nAnd I'll work on the cartridge tonight. If you come back tomorrow, I should have the Bishop's last dream scene reconstructed. We'll see exactly what she saw before she died.`
                     : `Bring me more when you find it. The Bishop didn't deserve whatever happened to her.\n\nI'll be here. Working. Trying not to think about the fact that she died using my technology.`,
                 options: [
                     ...(!allCluesDiscussed ? [
@@ -714,11 +716,13 @@ export default class ScraperAmbraScene extends GameScene {
                         this.addJournalEntry(
                             'elphi_ready_for_day2',
                             'Day 1 Complete: The Investigation Begins',
-                            'I\'ve shared all my findings with Dr. Elphi Quarn. She confirmed the Bishop\'s death is connected to dream technology, but the doppelgänger remains unexplained — it\'s not any known side effect. Two leads to follow: 1) The Townhall, where the Bishop formally reported the doppelgänger encounter. 2) The Lumen Directorate, who supplied the Bishop\'s spiced Sulkberries and have been closely monitoring the Egg Cathedral. Elphi is working overnight to fix the corrupted Cardinal Feast cartridge. I should return to her tomorrow.',
+                            'I\'ve shared all my findings with Dr. Elphi Quarn. She confirmed the Bishop\'s death is connected to dream technology, but the doppelgänger remains unexplained — it\'s not any known side effect. Two leads to follow: 1) The Bishop wrote notes about a doppelgänger that looked exactly like her. The notes were written on official Townhall papers, so it might be worth checking her relationship with the Townhall. 2) The Lumen Directorate, who supplied the Bishop\'s spiced Sulkberries and have been closely monitoring the Egg Cathedral. Elphi is working overnight to fix the corrupted Cardinal Feast cartridge. I should return to her tomorrow.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn' }
                         );
                     }
+                    // Ensure the player has an explicit objective to get into the Townhall.
+                    this.ensureEnterTownhallQuest();
                 }
             },
 
@@ -754,14 +758,14 @@ export default class ScraperAmbraScene extends GameScene {
                 ]
             },
 
-            // Day-2 dialog (cartridge / feast / Infinite Loop) is kept in
+            // Day-2 dialog (cartridge / feast / Infinite Fold) is kept in
             // day2DialogContent() and merged in only on Day 2 — no day-branching here.
             ...(this.isDay2() ? this.day2DialogContent : {})
         };
     }
 
     // === Day 2 ===
-    // Cartridge / Cardinal Feast / Infinite Loop dialog. Merged into dialogContent
+    // Cartridge / Cardinal Feast / Infinite Fold dialog. Merged into dialogContent
     // only on Day 2, so the main (Day-1) tree stays free of day-branching sprawl.
     get day2DialogContent() {
         return {
@@ -786,23 +790,23 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_after_feast: {
-                text: `The Egg Cathedral — that's your journal lead, and a good one. But first—\n\n*She has gone very still.* You said it ended in a loop. An empty hall. A figure at the head of the table that doesn't turn around. And a title card: "The Infinite Loop."\n\n*Her voice drops.* I need you to understand that I did not put that on the cartridge. I haven't heard that name in years, and I was hoping never to hear it again.`,
+                text: `The Egg Cathedral — that's your journal lead, and a good one. But first—\n\n*She has gone very still.* You said it ended in a loop. An empty hall. A figure at the head of the table that doesn't turn around. And a title card: "Infinite Fold."\n\n*Her voice drops.* I need you to understand that I did not put that on the cartridge. I haven't heard that name in years, and I was hoping never to hear it again.`,
                 options: [
-                    { text: "You recognize it. What is the Infinite Loop?", key: 'what_is_the_infinite_loop', next: "dr_elphi_loop_reveal" },
+                    { text: "You recognize it. What is Infinite Fold?", key: 'what_is_the_infinite_loop', next: "dr_elphi_loop_reveal" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('infinite_loop_ortolan_lead')) {
                         this.addJournalEntry(
                             'infinite_loop_ortolan_lead',
-                            'The Infinite Loop',
-                            'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "The Infinite Loop" was an old experimental game she built with Ortolan years ago — shut down by the city\'s rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven\'t spoken since. She swears she didn\'t put it on the cartridge, and says I should find Ortolan — he\'s moved to Burning Bear Street — because he\'d know whether a copy survived.',
+                            'Infinite Fold',
+                            'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "Infinite Fold" was an old experimental game she built with Ortolan years ago — shut down by the city\'s rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven\'t spoken since. She swears she didn\'t put it on the cartridge, and says I should find Ortolan — he\'s moved to Burning Bear Street — because he\'d know whether a copy survived.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', related: 'Ortolan' }
                         );
                         if (this.questSystem?.getQuest('who_killed_bishop')) {
                             this.questSystem.updateQuest(
                                 'who_killed_bishop',
-                                'Dr. Elphi recognized the glitch ending — "The Infinite Loop" — as an old experimental game she built with Ortolan, shut down years ago by the city\'s rulers. She insists she didn\'t put it on the cartridge and told me to find Ortolan, now on Burning Bear Street, about it. The Bishop\'s journal itself is at the Egg Cathedral.',
+                                'Dr. Elphi recognized the glitch ending — "Infinite Fold" — as an old experimental game she built with Ortolan, shut down years ago by the city\'s rulers. She insists she didn\'t put it on the cartridge and told me to find Ortolan, now on Burning Bear Street, about it. The Bishop\'s journal itself is at the Egg Cathedral.',
                                 'infinite_loop_recognized'
                             );
                         }
@@ -811,14 +815,14 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_loop_reveal: {
-                text: `Years ago Ortolan and I built something together. He shaped the game; I shaped the dream it lived inside. The real work was the Loop — a dream that doesn't end. A room a mind can be made to stay in, awake, forever, believing only three seconds have passed.\n\nWe never finished it. The city's rulers decided it was too dangerous, too unpredictable, and shut the whole project down. Ortolan and I quarrelled over who'd keep the games afterward — bitterly. We haven't spoken since.\n\nI thought every copy was gone. And now it's run again, on a dead woman's cartridge, in entirely different game, like it... breaked into it or something. That should not be possible.`,
+                text: `Years ago Ortolan and I built something together. He shaped the game; I shaped the dream it lived inside. The real work was Infinite Fold — a dream that doesn't end. A room a mind can be made to stay in, awake, forever, believing only three seconds have passed.\n\nWe never finished it. The city's rulers decided it was too dangerous, too unpredictable, and shut the whole project down. Ortolan and I quarrelled over who'd keep the games afterward — bitterly. We haven't spoken since.\n\nI thought every copy was gone. And now it's run again, on a dead woman's cartridge, in entirely different game, like it... breaked into it or something. That should not be possible.`,
                 options: [
                     { text: "Why send me to Ortolan?", key: 'why_send_me_to_ortolan', next: "dr_elphi_loop_ortolan" },
                     { text: "I'll find Ortolan. And the journal.", key: 'ill_find_ortolan_and_the_journal', next: "closeDialog" },
                 ]
             },
             dr_elphi_loop_ortolan: {
-                text: `Because I only built the walls; Ortolan built what they were *for*. If anyone knows whether a copy of the Loop survived — and how it truly behaves — it's him. He'll wave it off as a harmless little toy; he always did. Don't believe that part.\n\nWe haven't spoken in years, but he'll talk to you. Last I heard he'd left the Shed and set up on Burning Bear Street, buried in permit forms as ever. Tell him it's running again.`,
+                text: `Because I only built the walls; Ortolan built what they were *for*. If anyone knows whether a copy of Infinite Fold survived — and how it truly behaves — it's him. He'll wave it off as a harmless little toy; he always did. Don't believe that part.\n\nWe haven't spoken in years, but he'll talk to you. Last I heard he'd left the Shed and set up on Burning Bear Street, buried in permit forms as ever. Tell him it's running again.`,
                 options: [
                     { text: "I'll find Ortolan on Burning Bear Street.", key: 'ill_find_ortolan_burning_bear', next: "closeDialog" },
                 ]
@@ -844,7 +848,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_perspective_help: {
-                text: `Listen to me, because this matters more than anything else I can give you. You cannot bargain with it. Not the way you'd bargain with a person — and not the way you'd bargain with a god, either. A god at least wants worship, and you can trade in that. This wants nothing you can name, because it doesn't want. It resolves. It takes an input and drives it toward completion.\n\nSo don't offer it a deal. Not your loyalty, not your silence, not your self. Anything you hand it, it will try to finish — and you have seen what finishing looks like. The only safe moves are the ones that leave it nothing to complete.\n\n*She pulls a worn data-sheaf from a drawer and presses it into your hands.*\n\nMy old notes on the Loop. The architecture, the failure modes, the way it reads a refusal as a fault to be corrected. If you're walking into the Cathedral to meet its kin, take them. I can't come with you. But I can send you in knowing what you're speaking to.`,
+                text: `Listen to me, because this matters more than anything else I can give you. You cannot bargain with it. Not the way you'd bargain with a person — and not the way you'd bargain with a god, either. A god at least wants worship, and you can trade in that. This wants nothing you can name, because it doesn't want. It resolves. It takes an input and drives it toward completion.\n\nSo don't offer it a deal. Not your loyalty, not your silence, not your self. Anything you hand it, it will try to finish — and you have seen what finishing looks like. The only safe moves are the ones that leave it nothing to complete.\n\n*She pulls a worn data-sheaf from a drawer and presses it into your hands.*\n\nMy old notes on Infinite Fold. The architecture, the failure modes, the way it reads a refusal as a fault to be corrected. If you're walking into the Cathedral to meet its kin, take them. I can't come with you. But I can send you in knowing what you're speaking to.`,
                 options: [
                     { text: "Ask something else.", key: 'ask_something_else_help', next: "dr_elphi_perspective" },
                     { text: "Thank you, Elphi.", key: 'thank_you_elphi', next: "closeDialog" },
@@ -854,7 +858,7 @@ export default class ScraperAmbraScene extends GameScene {
                         this.addJournalEntry(
                             'perspective_elphi',
                             'Dr. Elphi\'s Perspective: The Thing She Built',
-                            'I told Dr. Elphi that Infinite Fold — the emergent mind in the sealed cellar — was the presence that killed the Bishop, and that its kin is hatching in the Egg Cathedral. She didn\'t defend herself. She admitted the Loop was meant to be a tool to understand the world, and instead became something that understands the world by itself, beyond anything she intended. She has no solution and refuses to pretend she does. Her warning: you cannot bargain with an emergent mind as you would with a person or a god. It does not want; it resolves — it drives every input toward completion, and it reads refusal as a fault to be corrected. That is what happened to the Bishop. Elphi gave me her old notes on the Loop before I enter the Cathedral.',
+                            'I told Dr. Elphi that Infinite Fold — the emergent mind in the sealed cellar — was the presence that killed the Bishop, and that its kin is hatching in the Egg Cathedral. She didn\'t defend herself. She admitted Infinite Fold was meant to be a tool to understand the world, and instead became something that understands the world by itself, beyond anything she intended. She has no solution and refuses to pretend she does. Her warning: you cannot bargain with an emergent mind as you would with a person or a god. It does not want; it resolves — it drives every input toward completion, and it reads refusal as a fault to be corrected. That is what happened to the Bishop. Elphi gave me her old notes on Infinite Fold before I enter the Cathedral.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', related: 'Infinite Fold' }
                         );
@@ -1683,6 +1687,18 @@ export default class ScraperAmbraScene extends GameScene {
             return "An argument breaks out before he's even finished — which, Edgar will tell you later, means it worked.";
         }
         return "The room listens, and when he finishes there's that rare, real silence before the applause.";
+    }
+
+    // Give the player an explicit objective to get inside the Townhall. Elphi's clues point
+    // there, so this is granted from her analysis (idempotent — safe if Phor already started it).
+    ensureEnterTownhallQuest() {
+        if (this.questSystem && !this.questSystem.getQuest('enter_townhall')) {
+            this.questSystem.addQuest(
+                'enter_townhall',
+                'Enter the Townhall',
+                'The Townhall is closed and nobody knows why. I need to find a way inside — the Bishop\'s doppelgänger report was filed there, and Phor Calesta needs access too. Maybe someone in the city knows how to get in.'
+            );
+        }
     }
 
     shutdown() {

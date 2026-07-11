@@ -158,11 +158,11 @@ export default {
         },
         elphi_memo_analysis: {
             title: "Dr. Elphi's Analysis: The Doppelgänger",
-            description: "Dr. Elphi was genuinely unsettled by the Bishop's doppelgänger report.",
+            description: "Dr. Elphi was genuinely unsettled by the Bishop's doppelgänger notes.",
         },
         elphi_townhall_log: {
             title: 'Townhall Records of the Doppelgänger',
-            description: 'The Bishop formally reported the doppelgänger encounter at the Townhall.',
+            description: 'The notes regarding the Bishop\'s doppelgänger encounter were written on the official Townhall papers.',
         },
         elphi_journal_analysis: {
             title: "Dr. Elphi's Analysis: The Bishop's Journal",

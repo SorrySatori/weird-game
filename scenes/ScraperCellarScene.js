@@ -69,7 +69,7 @@ export default class ScraperCellarScene extends GameScene {
 
             // — The console: examine it; it is already awake and reaches for you —
             loop_console: {
-                speaker: 'The Loop Console',
+                speaker: 'The Fold Console',
                 textKey: met ? 'met' : 'first',
                 text: met
                     ? "Infinite Fold breathes in its cradle, amber and patient. It has already said what a thousand players brought it here to say. The rest waits across the city, curled unborn in its egg. There is little more to decide down here in the dark."
@@ -82,7 +82,7 @@ export default class ScraperCellarScene extends GameScene {
             },
 
             fold_examine: {
-                speaker: 'The Loop Console',
+                speaker: 'The Fold Console',
                 text: "The rig is two hands married into one machine. Ortolan's half is all rules — brass escapements, a board of little sealed cells where pieces once lived and decided. Elphi's half is soft: a lattice of dream-ports, a thousand sockets where sleepers once lay and poured themselves in. Between them, the cradle, and the slow amber pulse.\n\nA faded label, in two different scripts arguing over the same word: INFINITE FOLD. Someone later scratched LOOP beneath it, harder.",
                 options: [
                     { text: "…Who are you?", key: 'examine_listen', next: "fold_awake" },
@@ -573,12 +573,12 @@ export default class ScraperCellarScene extends GameScene {
 
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        // The Loop console — an invisible zone over the painted terminal on the right,
+        // The Fold console — an invisible zone over the painted terminal on the right,
         // marked by a soft breathing amber glint.
         const cx = 650, cy = 360;
         const amber = this.add.circle(cx, cy - 24, 5, 0xffcf7a, 0.9).setDepth(4);
         this.tweens.add({ targets: amber, alpha: { from: 0.25, to: 0.9 }, duration: 1600, yoyo: true, repeat: -1 });
-        const label = this.add.text(cx, cy - 90, 'Loop Console', {
+        const label = this.add.text(cx, cy - 90, 'Fold Console', {
             fontSize: '12px', fill: '#e8c97a', backgroundColor: 'rgba(0,0,0,0.6)', padding: { x: 5, y: 3 }
         }).setOrigin(0.5).setDepth(5).setVisible(false);
         const zone = this.add.zone(cx - 65, cy - 75, 130, 150).setOrigin(0, 0);
@@ -591,7 +591,7 @@ export default class ScraperCellarScene extends GameScene {
             this.addJournalEntry(
                 'scraper_cellar_entered',
                 'The Sealed Cellar',
-                'The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi\'s old lab. The master build of Infinite Fold (the game people know only by its glitch, the Infinite Loop) is still here, seated in its cradle and quietly powered. I should examine the console.',
+                'The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi\'s old lab. The master build of Infinite Fold is still here, seated in its cradle and quietly powered. I should examine the console.',
                 this.journalSystem.categories.EVENTS,
                 { location: 'Scraper Cellar', related: 'Infinite Fold' }
             );
@@ -605,7 +605,7 @@ export default class ScraperCellarScene extends GameScene {
             if (this.questSystem?.getQuest('who_killed_bishop')) {
                 this.questSystem.updateQuest(
                     'who_killed_bishop',
-                    'I got into the sealed cellar under the Scraper — the old Ortolan/Elphi lab — and found a master copy of the Infinite Loop, still powered. It may hold what remains of the Bishop.',
+                    'I got into the sealed cellar under the Scraper — the old Ortolan/Elphi lab — and found a master copy of Infinite Fold, still powered. It may hold what remains of the Bishop.',
                     'found_loop_copy'
                 );
             }

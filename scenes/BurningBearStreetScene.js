@@ -41,7 +41,7 @@ export default class BurningBearStreetScene extends GameScene {
                     ]
                     : [
                         ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] You built the old systems. What am I walking into?", key: 'perspective_ortolan_open', next: "ortolan_bb_perspective" }] : []),
-                        { text: "The Infinite Loop. Elphi says it's running again.", key: 'the_infinite_loop_running', next: "ortolan_bb_loop" },
+                        { text: "Infinite Fold. Elphi says it's running again.", key: 'the_infinite_loop_running', next: "ortolan_bb_loop" },
                         { text: "Never mind.", key: 'never_mind_bb', next: "closeDialog" }
                     ]
             },
@@ -92,7 +92,7 @@ export default class BurningBearStreetScene extends GameScene {
 
             ortolan_bb_loop: {
                 speaker: 'Ortolan',
-                text: `"The Infinite Loop." He says it flatly — more annoyed than afraid. "An old experiment. Elphi and I built it together, years back: she shaped the dream, I shaped the game underneath. We never finished it. The city's rulers got nervous — called it dangerous, *unpredictable* — and shut the whole project down.\n\nThen Elphi and I fell out over who'd keep the keys to the games afterward. Haven't spoken since." He shrugs. "It was a game. That's all it ever was."`,
+                text: `"Infinite Fold." He says it flatly — more annoyed than afraid. "An old experiment. Elphi and I built it together, years back: she shaped the dream, I shaped the game underneath. We never finished it. The city's rulers got nervous — called it dangerous, *unpredictable* — and shut the whole project down.\n\nThen Elphi and I fell out over who'd keep the keys to the games afterward. Haven't spoken since." He shrugs. "It was a game. That's all it ever was."`,
                 options: [
                     { text: "Elphi thinks it killed the Bishop.", key: 'elphi_thinks_it_killed', next: "ortolan_bb_danger" },
                     { text: "Is there still a copy of it anywhere?", key: 'still_a_copy_anywhere', next: "ortolan_bb_copy" }
@@ -101,7 +101,7 @@ export default class BurningBearStreetScene extends GameScene {
 
             ortolan_bb_danger: {
                 speaker: 'Ortolan',
-                text: `He actually laughs. "Killed her? Elphi always did flinch at her own shadow. A game does not reach out of a helmet and stop a heart. If the Bishop died with it running, look to the hardware — or to whatever hand tampered with the cartridge — not to my rules.\n\nThe Loop is temperamental. Not murderous." A flicker of doubt crosses him, quickly buried. "...Unfinished, granted. But not *that.*"`,
+                text: `He actually laughs. "Killed her? Elphi always did flinch at her own shadow. A game does not reach out of a helmet and stop a heart. If the Bishop died with it running, look to the hardware — or to whatever hand tampered with the cartridge — not to my rules.\n\nInfinite Fold is temperamental. Not murderous." A flicker of doubt crosses him, quickly buried. "...Unfinished, granted. But not *that.*"`,
                 options: [
                     { text: "Then where could a copy be?", key: 'where_could_a_copy_be', next: "ortolan_bb_copy" },
                     { text: "I hope you're right.", key: 'i_hope_youre_right', next: "closeDialog" }
@@ -112,29 +112,29 @@ export default class BurningBearStreetScene extends GameScene {
                 speaker: 'Ortolan',
                 textKey: helped ? 'helped' : 'cold',
                 text: helped
-                    ? `"A copy?" He sets the ledger down and goes still — all four hands quiet. "The master build. It'll still be in the cellar under the Scraper, where our old lab and workshop were. Sealed, filed, and forgotten, like everything the rulers are afraid of.\n\nAnd the cellar's locked — I don't have the key any more, the rulers took it. But the lift's passphrase... we never made one up. We used a dead god's true name — one only its gravestone still remembers. Read the graves in the Godgraveyard beneath the Townhall; a divinographer can guide you. You'll know the one when you see it.\n\nAnd since you did me a good turn — I'll tell you what it was truly for. Infinite Fold, we named it, though I hear the thing only loops now, so 'Loop' it's become. It was never a game you could win or lose; there was no winning move, and no losing one. It was a question we built a machine to ask: can a thought arise that has no single author? We let a thousand players pour their small choices and dreams into it, and watched whether something new — a way of meaning none of us had written — would grow up out of all of them at once. The rulers pulled the plug precisely because it began to work: it started making sense in ways none of us could account for. So don't ask me what a sealed old build is now. Ask what it was built to become. That question was the whole experiment — and they were frightened enough of the answer to bury it down there."`
+                    ? `"A copy?" He sets the ledger down and goes still — all four hands quiet. "The master build. It'll still be in the cellar under the Scraper, where our old lab and workshop were. Sealed, filed, and forgotten, like everything the rulers are afraid of.\n\nAnd the cellar's locked — I don't have the key any more, the rulers took it. But the lift's passphrase... we never made one up. We used a dead god's true name — one only its gravestone still remembers. Read the graves in the Godgraveyard beneath the Townhall; a divinographer can guide you. You'll know the one when you see it.\n\nAnd since you did me a good turn — I'll tell you what it was truly for. Infinite Fold, we named it. It was never a game you could win or lose; there was no winning move, and no losing one. It was a question we built a machine to ask: can a thought arise that has no single author? We let a thousand players pour their small choices and dreams into it, and watched whether something new — a way of meaning none of us had written — would grow up out of all of them at once. The rulers pulled the plug precisely because it began to work: it started making sense in ways none of us could account for. So don't ask me what a sealed old build is now. Ask what it was built to become. That question was the whole experiment — and they were frightened enough of the answer to bury it down there."`
                     : `"A copy." He picks at a permit form, unhurried. "There'll be an old build in the cellar under the Scraper, where the lab was. It's sealed, mind — the lift wants a passphrase I've long since forgotten. Something to do with that graveyard beneath the Townhall, if that means anything to you. Beyond that, you're on your own. I've paperwork of my own, and you weren't much help with mine." He turns back to his forms.`,
                 options: [
                     { text: "Thank you, Ortolan.", key: 'thanks_ortolan_bb', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('ortolan_infinite_loop')) {
-                        const base = 'Ortolan — now on Burning Bear Street — told me the Infinite Loop was an unfinished experimental game he built with Dr. Elphi years ago. The city\'s rulers shut the project down as dangerous and unpredictable; Ortolan and Elphi then fell out over control of the games and haven\'t spoken since. He dismisses the idea that it could have killed the Bishop, blaming tampered hardware, and believes a master build is still sealed in the cellar under the Scraper — their old laboratory and workshop.';
+                        const base = 'Ortolan — now on Burning Bear Street — told me Infinite Fold was an unfinished experimental game he built with Dr. Elphi years ago. The city\'s rulers shut the project down as dangerous and unpredictable; Ortolan and Elphi then fell out over control of the games and haven\'t spoken since. He dismisses the idea that it could have killed the Bishop, blaming tampered hardware, and believes a master build is still sealed in the cellar under the Scraper — their old laboratory and workshop.';
                         this.addJournalEntry(
                             'ortolan_infinite_loop',
-                            'Ortolan and the Infinite Loop',
+                            'Ortolan and Infinite Fold',
                             base + (helped
                                 ? ' Because I helped him win his extra arms, he told me what Infinite Fold was truly for: not a game to win, but a machine built to ask whether a thought could arise with no single author — a genuinely new way of meaning, grown from a thousand players at once. The rulers buried the project precisely because it began to succeed.'
                                 : ' He was curt — because I never helped him with his arms permit, he withheld anything beyond the location.'),
                             this.journalSystem.categories.EVENTS,
-                            { character: 'Ortolan', location: 'Burning Bear Street', related: 'The Infinite Loop' }
+                            { character: 'Ortolan', location: 'Burning Bear Street', related: 'Infinite Fold' }
                         );
-                        // Prep for a future confrontation with the Loop — only if he trusted the player.
+                        // Prep for a future confrontation with Infinite Fold — only if he trusted the player.
                         if (helped && !this.hasJournalEntry('infinite_fold_purpose')) {
                             this.addJournalEntry(
                                 'infinite_fold_purpose',
                                 'The Purpose of Infinite Fold',
-                                'Ortolan revealed the true aim of Infinite Fold — the game people now know only by its glitch, the "Infinite Loop". It was never a game with a winning or losing move. He and Dr. Elphi built it to ask a single question: can a thought arise that has no single author? Thousands of players poured their choices and dreams into it, and the makers watched to see whether a genuinely new way of meaning — one none of them had written — would emerge from all of them at once. The city\'s rulers shut it down because it began to work, producing sense they could no longer account for.',
+                                'Ortolan revealed the true aim of Infinite Fold. It was never a game with a winning or losing move. He and Dr. Elphi built it to ask a single question: can a thought arise that has no single author? Thousands of players poured their choices and dreams into it, and the makers watched to see whether a genuinely new way of meaning — one none of them had written — would emerge from all of them at once. The city\'s rulers shut it down because it began to work, producing sense they could no longer account for.',
                                 this.journalSystem.categories.LORE,
                                 { character: 'Ortolan', related: 'Infinite Fold' }
                             );
@@ -142,7 +142,7 @@ export default class BurningBearStreetScene extends GameScene {
                         if (this.questSystem?.getQuest('who_killed_bishop')) {
                             this.questSystem.updateQuest(
                                 'who_killed_bishop',
-                                'Ortolan (now on Burning Bear Street) says the Infinite Loop was an unfinished game — Infinite Fold — he built with Dr. Elphi, shut down by the city\'s rulers as too dangerous. A master build is likely still sealed in the cellar under the Scraper — their old lab.' + (helped ? ' He also told me what it was truly built to do: ask whether a thought could arise with no single author.' : ' He wouldn\'t say more.') + ' I should search the Scraper cellar.',
+                                'Ortolan (now on Burning Bear Street) says Infinite Fold was an unfinished game he built with Dr. Elphi, shut down by the city\'s rulers as too dangerous. A master build is likely still sealed in the cellar under the Scraper — their old lab.' + (helped ? ' He also told me what it was truly built to do: ask whether a thought could arise with no single author.' : ' He wouldn\'t say more.') + ' I should search the Scraper cellar.',
                                 'ortolan_infinite_loop_revealed'
                             );
                         }
@@ -152,15 +152,15 @@ export default class BurningBearStreetScene extends GameScene {
                         this.addJournalEntry(
                             'cellar_quest_started',
                             'The Sealed Cellar',
-                            'A master copy of the Infinite Loop sits in the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. Ortolan no longer has the key, but the elevator\'s passphrase is a dead god\'s true name, remembered only on its gravestone in the Godgraveyard beneath the Townhall. I should read the graves there (Phor Calesta can guide me) and find the right name — or lean on a faction I belong to.',
+                            'A master copy of Infinite Fold sits in the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. Ortolan no longer has the key, but the elevator\'s passphrase is a dead god\'s true name, remembered only on its gravestone in the Godgraveyard beneath the Townhall. I should read the graves there (Phor Calesta can guide me) and find the right name — or lean on a faction I belong to.',
                             this.journalSystem.categories.EVENTS,
-                            { character: 'Ortolan', related: 'The Infinite Loop', location: 'Scraper Cellar' }
+                            { character: 'Ortolan', related: 'Infinite Fold', location: 'Scraper Cellar' }
                         );
                         if (this.questSystem && !this.questSystem.getQuest('find_loop_copy')) {
                             this.questSystem.addQuest(
                                 'find_loop_copy',
                                 'The Sealed Cellar',
-                                'Get into the sealed cellar under the Scraper, where a master copy of the Infinite Loop waits. The elevator (Lift-Mother) needs a passphrase — a dead god\'s name from the graves in the Godgraveyard beneath the Townhall (read them with Phor Calesta), or ask a faction you belong to.'
+                                'Get into the sealed cellar under the Scraper, where a master copy of Infinite Fold waits. The elevator (Lift-Mother) needs a passphrase — a dead god\'s name from the graves in the Godgraveyard beneath the Townhall (read them with Phor Calesta), or ask a faction you belong to.'
                             );
                         }
                     }
@@ -242,7 +242,7 @@ export default class BurningBearStreetScene extends GameScene {
     // === Day 2 ===
     // All Day-2 scene content lives here, kept out of create() to avoid day-branching sprawl.
     setupDay2() {
-        // Once Dr. Elphi has sent the player about the Infinite Loop, Ortolan has
+        // Once Dr. Elphi has sent the player about Infinite Fold, Ortolan has
         // relocated here from Shed 521.
         if (this.hasJournalEntry('infinite_loop_ortolan_lead')) {
             this.createOrtolan();
@@ -270,7 +270,7 @@ export default class BurningBearStreetScene extends GameScene {
             this.addJournalEntry(
                 'ortolan_bb_meeting',
                 'Ortolan on Burning Bear Street',
-                'Dr. Elphi pointed me to Ortolan about the Infinite Loop. He has moved from the Shed to Burning Bear Street, buried as ever in permit paperwork.',
+                'Dr. Elphi pointed me to Ortolan about Infinite Fold. He has moved from the Shed to Burning Bear Street, buried as ever in permit paperwork.',
                 this.journalSystem.categories.PEOPLE,
                 { character: 'Ortolan', location: 'Burning Bear Street' }
             );

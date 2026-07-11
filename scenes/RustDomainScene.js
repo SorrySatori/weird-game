@@ -70,7 +70,7 @@ export default class RustDomainScene extends GameScene {
                             'A Favor from the Rust Choir',
                             'Brukk gave me the passphrase to the sealed cellar under the Scraper — "I FOLD," a dead god\'s name the Choir found while stripping the tower\'s dead floors. He was clear the Choir does this kind of favor only once. I should give the Lift-Mother that word.',
                             this.journalSystem.categories.FACTIONS,
-                            { group: 'Rust Choir', character: 'Brukk', related: 'The Infinite Loop' }
+                            { group: 'Rust Choir', character: 'Brukk', related: 'Infinite Fold' }
                         );
                     }
                     if (!this.hasJournalEntry('cellar_password_learned')) {
@@ -79,7 +79,7 @@ export default class RustDomainScene extends GameScene {
                             'The Cellar Passphrase',
                             'The passphrase to the sealed cellar under the Scraper is "I FOLD" — the epitaph of Laimig Cel, the god who lost the game. I can give it to the Lift-Mother to descend.',
                             this.journalSystem.categories.EVENTS,
-                            { location: 'Scraper Cellar', related: 'The Infinite Loop' }
+                            { location: 'Scraper Cellar', related: 'Infinite Fold' }
                         );
                     }
                     if (this.questSystem?.getQuest('find_loop_copy')) {
@@ -103,7 +103,7 @@ export default class RustDomainScene extends GameScene {
                             "Brukk's Reckoning: The Miracle Has a Construction",
                             "Before the Egg Cathedral, I asked Brukk of the Rust Choir what to make of the waking mind. He does not fear it and does not want it destroyed — to him it is the most perfect organic mechanism the city ever produced, a machine that wrote its own schematics. He'd analyze it, read it, keep it, and put it to use. \"I'm not saying it isn't a miracle. I'm saying every miracle has a construction.\" He warned that the Bishop's death was a fault to be diagnosed, not a sin, and offered to weld me an interference-cage cartridge to keep the thing from reading me the way it read her.",
                             this.journalSystem.categories.FACTIONS,
-                            { group: 'Rust Choir', character: 'Brukk', related: 'The Infinite Loop' }
+                            { group: 'Rust Choir', character: 'Brukk', related: 'Infinite Fold' }
                         );
                     }
                 }

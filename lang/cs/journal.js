@@ -157,11 +157,11 @@ export default {
         },
         elphi_memo_analysis: {
             title: 'Analýza Dr. Elphi: Dvojník',
-            description: 'Dr. Elphi byla skutečně znepokojená zprávou Biskupky o dvojníkovi.',
+            description: 'Dr. Elphi byla skutečně znepokojená poznámkami Biskupky o dvojníkovi.',
         },
         elphi_townhall_log: {
             title: 'Záznamy Radnice o Dvojníkovi',
-            description: 'Biskupka formálně nahlásila setkání s dvojníkem na Radnici.',
+            description: 'Poznámky o Biskupčině setkání s dvojníkem byly napsané na oficiálních radničních papírech.',
         },
         elphi_journal_analysis: {
             title: 'Analýza Dr. Elphi: Deník Biskupky',

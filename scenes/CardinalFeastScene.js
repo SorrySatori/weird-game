@@ -10,7 +10,7 @@ import JournalSystem from '../systems/JournalSystem.js';
  * Beneath the dark comedy runs the séance: the NPCs remember the Bishop and
  * can't tell you apart from her. Asking after "your" journal leaks the Egg
  * Cathedral. After the feast resolves, the cartridge collapses into the
- * Infinite Loop — the last thing she saw before she died.
+ * Infinite Fold — the last thing she saw before she died.
  *
  * Self-contained top-down movement + collision + proximity-talk + portrait
  * dialog, with a generative low-organ score. Emils uses the pixel-art portraits
@@ -935,9 +935,9 @@ export default class CardinalFeastScene extends Phaser.Scene {
         for (let i = 0; i < 6; i++) { g.fillStyle(0x5a1020, 0.45); g.fillRect(0, 60 + i * 70, this.W, 3); }
 
         const panels = [
-            { title: 'THE INFINITE LOOP', text: "The warm gold drains out of the world. The hall again — but empty, lightless, every candle snuffed. The long table is set for one. At its head sits a presence that is not the cardinal, and it does not turn around." },
-            { title: 'THE INFINITE LOOP', text: "The same three seconds play, and play, and play. Each pass a fraction darker. A held organ note. A sound like a held breath. You cannot reach the menu." },
-            { title: 'THE INFINITE LOOP', text: () => "This is not a bug. This is the last thing she saw. She sat where you are sitting. Then she was gone."
+            { title: 'INFINITE FOLD', text: "The warm gold drains out of the world. The hall again — but empty, lightless, every candle snuffed. The long table is set for one. At its head sits a presence that is not the cardinal, and it does not turn around." },
+            { title: 'INFINITE FOLD', text: "The same three seconds play, and play, and play. Each pass a fraction darker. A held organ note. A sound like a held breath. You cannot reach the menu." },
+            { title: 'INFINITE FOLD', text: () => "This is not a bug. This is the last thing she saw. She sat where you are sitting. Then she was gone."
                 + (this.learnedEggCathedral ? "\n\nThe rest is out there, in her own hand, where she hid it: the Egg Cathedral." : "\n\nWhatever she meant to tell you, she left it somewhere only the game still remembers.") }
         ];
         let i = 0;
@@ -972,7 +972,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
 
         if (this.journalSystem && !this.journalSystem.hasEntry('cardinal_feast_played')) {
             this.journalSystem.addEntry('cardinal_feast_played', 'Played The Cardinal Feast',
-                "I resumed the Bishop's last session of The Cardinal Feast on Dr. Elphi's repaired cartridge — a small top-down RPG where you play a cannibal cardinal hosting a feast. Its characters remember the Bishop and answered me as if I were her. After the feast resolved, the cartridge collapsed into \"The Infinite Loop\": an empty hall with a faceless presence at the head of the table. It is the last thing the Bishop saw before she died.",
+                "I resumed the Bishop's last session of The Cardinal Feast on Dr. Elphi's repaired cartridge — a small top-down RPG where you play a cannibal cardinal hosting a feast. Its characters remember the Bishop and answered me as if I were her. After the feast resolved, the cartridge collapsed into \"Infinite Fold\": an empty hall with a faceless presence at the head of the table. It is the last thing the Bishop saw before she died.",
                 cat.EVENTS, { location: 'ARB Ambra', character: 'The Bishop', related: 'Dream cartridge' });
         }
         if (this.journalSystem && !this.journalSystem.hasEntry('bishop_journal_egg_cathedral')) {
@@ -983,7 +983,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
         if (this.questSystem) {
             if (this.questSystem.getQuest('who_killed_bishop')) {
                 this.questSystem.updateQuest('who_killed_bishop',
-                    "Dr. Elphi's reconstructed cartridge let me play the Bishop's last session of The Cardinal Feast. Its characters remember her and answered as if I were her — leaking that she hid the rest of her journal at the Egg Cathedral. The session ends in \"The Infinite Loop\": the last thing she saw before she died.",
+                    "Dr. Elphi's reconstructed cartridge let me play the Bishop's last session of The Cardinal Feast. Its characters remember her and answered as if I were her — leaking that she hid the rest of her journal at the Egg Cathedral. The session ends in \"Infinite Fold\": the last thing she saw before she died.",
                     'cardinal_feast_egg_cathedral_lead');
             }
             if (this.questSystem.getQuest('find_bishop_notebook')) {
