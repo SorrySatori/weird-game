@@ -658,6 +658,7 @@ export default class MainScene extends Phaser.Scene {
                 if (saveData.money) this.registry.set('savedMoney', saveData.money);
                 if (saveData.inventory) this.registry.set('inventory', saveData.inventory);
                 if (saveData.growthDecay) this.registry.set('growthDecayBalance', saveData.growthDecay);
+                if (saveData.visitedScenes) this.registry.set('visitedScenes', saveData.visitedScenes);
                 if (saveData.usedDialogOptions) this.registry.set('usedDialogOptions', new Map(saveData.usedDialogOptions));
                 
                 // Start the saved scene

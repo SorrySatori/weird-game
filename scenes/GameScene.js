@@ -1619,7 +1619,13 @@ export default class GameScene extends Phaser.Scene {
             const moneyData = this.registry.get('savedMoney');
             this.moneySystem.setAmount(moneyData.amount);
         }
-        
+
+        // Load growth/decay balance (both load paths stash it under 'growthDecayBalance').
+        // Without this the freshly-created GrowthDecaySystem stays at its default 50/50.
+        if (this.registry.has('growthDecayBalance') && this.growthDecaySystem) {
+            this.growthDecaySystem.loadFromData(this.registry.get('growthDecayBalance'));
+        }
+
         // Show notification
         this.showNotification('Game data loaded successfully');
     }
