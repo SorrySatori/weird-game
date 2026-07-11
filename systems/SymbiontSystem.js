@@ -1,3 +1,5 @@
+import GrowthDecaySystem from './GrowthDecaySystem.js';
+
 export default class SymbiontSystem {
     constructor(scene) {
         this.scene = scene;
@@ -566,8 +568,9 @@ export default class SymbiontSystem {
         if (!this.symbionts.has('thorne-still')) {
             return false;
         }
-        const symbiont = this.symbionts.get('thorne-still');
-        return symbiont.power > 30; // Only works if decay is at least 30
+        // Live: Thorne-Still's brain-rot only bites when Decay is high enough to feed it
+        // (mirror of nemeCanRead — computed from current balance, not a stale power stat).
+        return GrowthDecaySystem.getInstance().getDecay() > 30;
     }
     
     /**
@@ -597,13 +600,19 @@ export default class SymbiontSystem {
      */
     nemeCanRead() {
         const s = this.symbionts.get('neme-crownmire');
-        return !!s && !s.silenced;
+        if (!s) return false;
+        // Compute silence live from the CURRENT Decay so the gate is correct in every scene —
+        // not just the two that call checkDecayGrowthEffects(). Keeps s.silenced fresh too.
+        s.silenced = GrowthDecaySystem.getInstance().getDecay() > 70;
+        return !s.silenced;
     }
 
     /** True if Osswine is present AND not dormant. Grave-Sense fails where Growth > 70. */
     osswineCanRead() {
         const s = this.symbionts.get('osswine');
-        return !!s && !s.silenced;
+        if (!s) return false;
+        s.silenced = GrowthDecaySystem.getInstance().getGrowth() > 70;
+        return !s.silenced;
     }
 
     /**
@@ -612,15 +621,10 @@ export default class SymbiontSystem {
      * @returns {number} - Modified chance with Neme's Growth Affinity bonus
      */
     applyGrowthAffinity(baseChance) {
-        if (!this.symbionts.has('neme-crownmire')) {
+        // Live check: Neme must be present AND not silenced by high Decay (see nemeCanRead).
+        if (!this.nemeCanRead()) {
             return baseChance;
         }
-        
-        const symbiont = this.symbionts.get('neme-crownmire');
-        if (symbiont.silenced) {
-            return baseChance;
-        }
-        
         // Add 15% bonus to growth-aligned dialog choices
         return Math.min(100, baseChance + 15);
     }

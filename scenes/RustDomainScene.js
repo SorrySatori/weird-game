@@ -34,6 +34,7 @@ export default class RustDomainScene extends GameScene {
             // --- Brukk dialogs ---
             brukk_start: {
                 speaker: 'Brukk',
+                moodNpc: 'brukk',
                 text: machinesDestroyed
                     ? `Brukk stands amid the silent machines, his massive frame hunched. He doesn't look at you. "You. You did this." His voice is a low rumble, like grinding gears. "Leave. Before I forget the Choir teaches patience."`
                     : alreadyMember
@@ -403,7 +404,7 @@ export default class RustDomainScene extends GameScene {
                 onTrigger: () => {
                     this.removeItemFromInventory('rust_feast');
                     this.modifyFactionReputation('RustChoir', -20);
-                    this.modifyGrowthDecay(25, 0);
+                    this.modifyGrowthDecay(10, 0);
                     this.registry.set('expelled_from_rust_domain', true);
                     this.questSystem.updateQuest('find_rust_choir', 'The illusory Rust Feast destroyed the machines of the Rust Domain. Brukk expelled me. The death of the machines triggered a massive surge of Growth within me.', 'feast_delivered');
                     this.questSystem.completeQuest('find_rust_choir');

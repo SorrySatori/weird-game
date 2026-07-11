@@ -105,6 +105,7 @@ export default class TownSquareScene extends GameScene {
             speaker: 'Magnekin',
 
             magnekin_start: {
+                moodNpc: 'townsquare_citizen',
                 text: "Hello, who are you? I am... hmm, Magnekin, an average real citizen of this city. ",
                 options: [
                     { text: "Hi, I am an aprentice of master Thaal from Obazoba church.", key: 'hi_i_am_an_aprentice_of_master_thaal_from_obazoba_', next: "magnekin_greeting" },
@@ -423,8 +424,8 @@ export default class TownSquareScene extends GameScene {
                         description: 'Magnetic metal fragments from destroyed micro-cities.',
                         image: 'metal_scrap'
                     });
-                    // Massive Decay increase
-                    this.modifyGrowthDecay(0, 50);
+                    // Massive Decay increase — the single largest decay act in the game
+                    this.modifyGrowthDecay(0, 12);
                     this.showNotification('Decay increased significantly', 'You feel the weight of destruction');
                 }
             },
@@ -450,7 +451,7 @@ export default class TownSquareScene extends GameScene {
                         image: 'redmass'
                     });
                     // Additional Decay for taking the Redmass
-                    this.modifyGrowthDecay(0, 30);
+                    this.modifyGrowthDecay(0, 8);
                     this.addJournalEntry(
                         'magnekin_destroyed',
                         'The Destruction of Magnekin',
@@ -468,8 +469,8 @@ export default class TownSquareScene extends GameScene {
                     { text: "Watch it go.", key: 'watch_it_go', next: null },
                 ],
                 onTrigger: () => {
-                    // Less Decay for showing mercy
-                    this.modifyGrowthDecay(5, 20);
+                    // Less Decay for showing mercy — gentler than taking the Redmass
+                    this.modifyGrowthDecay(4, 6);
                     this.addJournalEntry(
                         'magnekin_destroyed_mercy',
                         'The Destruction of Magnekin',

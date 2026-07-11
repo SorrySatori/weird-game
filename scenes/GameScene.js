@@ -1484,9 +1484,55 @@ export default class GameScene extends Phaser.Scene {
 
     // Helper method for other scenes to modify Growth/Decay balance
     modifyGrowthDecay(growthChange, decayChange) {
-        if (this.growthDecaySystem) {
-            this.growthDecaySystem.modifyBalance(growthChange, decayChange);
+        if (!this.growthDecaySystem) return;
+        const beforeDecay = this.growthDecaySystem.getDecay();
+        const beforeGrowth = this.growthDecaySystem.getGrowth();
+        this.growthDecaySystem.modifyBalance(growthChange, decayChange);
+        const afterDecay = this.growthDecaySystem.getDecay();
+        const afterGrowth = this.growthDecaySystem.getGrowth();
+
+        // Announce when the balance crosses a symbiont's silence threshold (>70), so the player
+        // understands why a read ability just switched off/on. Only fires if they host it.
+        const sym = this.symbiontSystem || this.registry.get('symbiontSystem');
+        if (sym && sym.hasSymbiont) {
+            const i18n = LanguageSystem.getInstance();
+            if (sym.hasSymbiont('neme-crownmire')) {
+                if (beforeDecay <= 70 && afterDecay > 70) this.showNotification?.(i18n.t('notifications.nemeSilenced'), 0x8B0000);
+                else if (beforeDecay > 70 && afterDecay <= 70) this.showNotification?.(i18n.t('notifications.nemeRecovered'), 0x4caf50);
+            }
+            if (sym.hasSymbiont('osswine')) {
+                if (beforeGrowth <= 70 && afterGrowth > 70) this.showNotification?.(i18n.t('notifications.osswineSilenced'), 0x4caf50);
+                else if (beforeGrowth > 70 && afterGrowth <= 70) this.showNotification?.(i18n.t('notifications.osswineRecovered'), 0x8B0000);
+            }
         }
+    }
+
+    /**
+     * Current Growth/Decay tendency for NPC mood reactions.
+     * Only 'pronounced' balances react — a near-even split stays quiet.
+     * @returns {'growthDominant'|'decayDominant'|'balanced'}
+     */
+    getGDTendency() {
+        const g = this.growthDecaySystem?.getGrowth() ?? 50;
+        if (g >= 65) return 'growthDominant';
+        if ((100 - g) >= 65) return 'decayDominant';
+        return 'balanced';
+    }
+
+    /**
+     * Localized reactive "mood aside" for an NPC who reacts to the player's Growth/Decay by
+     * their nature. Returns '' when the balance is not pronounced, or when no line exists for
+     * this npc/tendency. NPCs opt in by tagging their greeting state with `moodNpc: '<key>'`;
+     * showDialog() prepends the (already-localized) result after translation.
+     * @param {string} npcKey
+     * @returns {string}
+     */
+    moodAside(npcKey) {
+        const tendency = this.getGDTendency();
+        if (tendency === 'balanced') return '';
+        const key = `mood.${npcKey}.${tendency}`;
+        const line = LanguageSystem.getInstance().t(key);
+        return line === key ? '' : line; // t() returns the key path when missing
     }
 
     modifyFactionReputation(faction, amount) {
@@ -1731,7 +1777,15 @@ export default class GameScene extends Phaser.Scene {
             const langSys = LanguageSystem.getInstance();
             content = langSys.translateDialog(this.scene.key, state, content);
         }
-        
+
+        // Growth/Decay mood aside — a state tagged with `moodNpc` gets a reactive line prepended
+        // when the player's balance is pronounced. Applied AFTER translation (so the localized line
+        // survives Czech text replacement); clone content first so we never mutate the cached tree.
+        if (content && content.moodNpc && typeof content.text === 'string') {
+            const aside = this.moodAside(content.moodNpc);
+            if (aside) content = { ...content, text: `${aside}\n\n${content.text}` };
+        }
+
         // Check if this state has an onTrigger handler (runs without closing dialog)
         if (content.onTrigger) {
             content.onTrigger.call(this); // Bind the correct 'this' context

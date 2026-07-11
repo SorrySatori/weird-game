@@ -194,6 +194,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
             // --- Entry point ---
             ac_start: {
                 speaker: 'The Angle Corrector',
+                moodNpc: 'angle_corrector',
                 text: metAngleCorrector
                     ? (passedGrowthTest
                         ? `"You return. Good — I prefer those who come back over those who linger. What brings you to the third floor this time?"`

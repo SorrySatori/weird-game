@@ -26,6 +26,7 @@ export default class Shed521Scene extends GameScene {
             ...super.dialogContent,
             speaker: 'Gnur',
             start: {
+                moodNpc: 'gnur',
                 text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", key: 'who_are_you_exactly', next: "background" },

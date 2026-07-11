@@ -146,6 +146,7 @@ export default class LumenDirectorateScene extends GameScene {
 
             gardener_start: {
                 speaker: 'Verrik the Gardener',
+                moodNpc: 'verrik',
                 text: alreadyMetGardener
                     ? `"Back again? The hedges don't trim themselves, but I can spare a moment."`
                     : `"Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`,
@@ -771,6 +772,9 @@ export default class LumenDirectorateScene extends GameScene {
 
         // Tier bonus
         payment += (tier - 1) * 5;
+        // Decay-aligned bodies grow richer mushrooms — mirror of the Growth boost on Oltrac sales.
+        // Boost only above 50 (no penalty below).
+        payment = Math.round(payment * (1 + Math.max(0, (decay - 50) / 100)));
 
         const traitText = traits.length > 1
             ? traits.slice(0, -1).join(', ') + ' and ' + traits[traits.length - 1]

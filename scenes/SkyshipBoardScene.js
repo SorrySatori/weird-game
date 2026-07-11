@@ -168,6 +168,7 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainMain: {
+                moodNpc: 'liris',
                 text: "Ah, a visitor! Welcome aboard the Verdigrace. I'm Captain Liris, navigator of the aerial currents and keeper of this fine vessel. What brings you to my ship?",
                 options: [
                     {

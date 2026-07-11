@@ -289,7 +289,7 @@ export default class RedmassIslandScene extends GameScene {
         });
 
         if (added) {
-            this.modifyGrowthDecay(0, 10);
+            this.modifyGrowthDecay(0, 5);
 
             this.registry.set('delta_redmass_collected', true);
 

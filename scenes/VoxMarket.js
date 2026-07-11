@@ -30,6 +30,7 @@ export default class VoxMarket extends GameScene {
             speaker: 'Kloor Venn',
             // Kloor Venn dialog
             kloor_start: {
+                moodNpc: 'kloor',
                 text: "Kloor Venn eyes you with a mixture of suspicion and interest. 'What do you want? I'm busy.'" ,
                 options: [
                     { text: "Who are you?", key: 'who_are_you', next: "kloor_who" },
@@ -778,11 +779,14 @@ export default class VoxMarket extends GameScene {
         
         // Determine Oltrac type and payment based on amount
         let oltracType, paymentAmount;
-        
+        // Growth-aligned spores yield richer Oltrac — bias the grade roll upward.
+        // Boost only above 50 (no penalty below); mirrors the Decay boost on mushroom-growing.
+        const growthBias = Math.max(0, ((this.growthDecaySystem?.getGrowth() ?? 50) - 50) / 100) * 0.5;
+
         // Determine Oltrac type based on amount of spores
         if (amount === 10) {
             // 10 spores - 80% Gray, 20% Violet
-            const roll = Math.random();
+            const roll = Math.random() + growthBias;
             if (roll < 0.8) {
                 oltracType = 'Gray';
                 paymentAmount = 8; // Base payment for Gray
@@ -792,7 +796,7 @@ export default class VoxMarket extends GameScene {
             }
         } else if (amount === 20) {
             // 20 spores - 60% Gray, 35% Violet, 5% Amber
-            const roll = Math.random();
+            const roll = Math.random() + growthBias;
             if (roll < 0.6) {
                 oltracType = 'Gray';
                 paymentAmount = 16; // Double payment for Gray
@@ -805,7 +809,7 @@ export default class VoxMarket extends GameScene {
             }
         } else if (amount === 30) {
             // 30 spores - 40% Gray, 50% Violet, 10% Amber
-            const roll = Math.random();
+            const roll = Math.random() + growthBias;
             if (roll < 0.4) {
                 oltracType = 'Gray';
                 paymentAmount = 24; // Triple payment for Gray

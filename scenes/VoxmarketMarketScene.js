@@ -174,7 +174,7 @@ export default class VoxmarketMarketScene extends GameScene {
                 options: [
                     { text: "Offer 50 dinar as incentive", key: 'offer_50_dinar_as_incentive', next: "zerren_bribe_attempt" },
                     { text: "Try to persuade her", key: 'try_to_persuade_her', next: "zerren_persuade_attempt" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') ? [
+                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') && this.registry.get('symbiontSystem')?.brainRot() ? [
                         { text: "Use Thorne-still's Brain Rot power", key: 'use_thornestills_brain_rot_power', next: "zerren_thorne_still_power" }
                     ] : []),
                     ...(this.registry.get('reputationSystem')?.getFactionReputation('LumenDirectorate') >= 50 ? [
@@ -230,10 +230,13 @@ export default class VoxmarketMarketScene extends GameScene {
                     { text: "Continue persuading", key: 'continue_persuading', next: "zerren_persuade_roll" }
                 ],
                 onTrigger: () => {
-                    // Simulate a persuasion check based on charisma or similar stat
-                    const roll = Math.random() * 20;
-                    
-                    if (roll > 15) {
+                    // Base 25% persuasion chance. Neme's Growth Affinity adds +15 when growth-aligned
+                    // (Neme hosted and not silenced by high Decay), so your balance shifts the odds.
+                    const sym = this.registry.get('symbiontSystem');
+                    const baseChance = 25;
+                    const chance = sym?.applyGrowthAffinity ? sym.applyGrowthAffinity(baseChance) : baseChance;
+
+                    if (Math.random() * 100 < chance) {
                         return "zerren_persuade_success";
                     } else {
                         return "zerren_persuade_fail";
@@ -301,7 +304,7 @@ export default class VoxmarketMarketScene extends GameScene {
                         questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
                         this.showNotification("Quest updated: The Three Vestigels");
                     }
-                    this.modifyGrowthDecay(0, 10);
+                    this.modifyGrowthDecay(0, 5);
                     this.showNotification("Decay + 10");
                 }
             },

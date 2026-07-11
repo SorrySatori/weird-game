@@ -60,6 +60,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
             // Ravla dialog - the forger
             ravla_start: {
+                moodNpc: 'ravla',
                 text: "Ravla looks up from her work, eyes sharp and calculating. \"Need something? I'm busy, so make it quick.\"",
                 options: [
                     { text: "Who are you?", key: 'who_are_you', next: "ravla_who" },
