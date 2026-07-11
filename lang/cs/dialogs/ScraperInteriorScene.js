@@ -6,6 +6,7 @@ export default {
     _speakers: {
         'Lift Mother': 'Výtahová matka',
         'Lift-Mother': 'Výtahová matka',
+        'Palinode': 'Palinode',
     },
     lift_mother_start: {
         text: "Výtah se otřese a odkudsi z jeho mechanismů se line hlas — teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá sporo. Přepravila jsem nespočet duší mezi patry od Doby-Před.'",
@@ -13,6 +14,7 @@ export default {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
             corrode: "Rozežrat.",
             descend_to_cellar: "Vezmi mě dolů do zapečetěného sklepa.",
+            seam_scraper_deadfloors: "[Smysl pro švy] Zapečetěná mrtvá patra — nahmatej cestu dovnitř.",
             can_you_take_me_to_other_floors: "Můžeš mě vzít na jiná patra?",
             what_is_the_beforetime: "Co je Doba-Před?",
             are_you_alive: "Jsi... živá?",
@@ -178,6 +180,19 @@ export default {
     },
     goto_scraper_cellar: {
         text: ""
+    },
+    seam_scraper_prompt: {
+        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Výtahové matce. \"Ale tahle budova si drží patra, ke kterým se nepřizná — úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
+        options: {
+            seam_scraper_open_opt: "[Smysl pro švy] Otevřít šev do mrtvého patra.",
+            seam_scraper_back: "Teď ne. Vezmi mě zpět."
+        }
+    },
+    seam_scraper_open: {
+        text: "Zeď mezi dvěma čísly zeslábne a povolí. Vykročíš stranou z výtahu do patra, o kterém budova předstírá, že ho ztratila — manažerská vrstva zamrzlá v okamžiku Emergence. Zelené částice visí v nehybném vzduchu, aniž by dopadly. Kolem stolu je připraveno jednání pro lidi, kteří se už nikdy nevrátili dolů: odsunuté židle, džbán vody proměněný ve sklo a v kabátě přehozeném přes jednu židli schránka, kterou proměnění nechali, než vylezli na strop. \"Od té doby tu nikdo nestál,\" řekne Palinode. \"Jen proto to přežilo.\"",
+        options: {
+            seam_scraper_take: "Prohledat schránku a odejít."
+        }
     },
     closeDialog: {
         text: ""

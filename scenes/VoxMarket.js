@@ -23,7 +23,7 @@ export default class VoxMarket extends GameScene {
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
         const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
         const sulkberriesClearedKloor = !!this.hasJournalEntry('sulkberries_cleared_kloor');
-        const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
+        const hasNeme = !!this.symbiontSystem?.nemeCanRead();
 
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs

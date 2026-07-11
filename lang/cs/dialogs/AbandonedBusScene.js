@@ -6,6 +6,8 @@ export default {
     _speakers: {
         'Dead Bishop': 'Mrtvá biskupka',
         'Narrator': 'Vypravěč',
+        'Brine Scripture': 'Solné písmo',
+        'Osswine': 'Osswine',
     },
     dead_bishop_start: {
         text: "Tělo před tebou je zjevně tělo duchovní — biskupka Obazoba v ceremoniálních rouchách potřísněných houbovým porostem. Její tvář je klidná, ale bledá, s jemnými modřinami viditelnými na spáncích. Poblíž si všimneš přenosného snového zařízení, opotřebovaného zápisníku a přilby pro snové rozhraní (stále připojené) a malého pytlíku s něčím, co vypadá jako bobule. V jejím rukávu si všimneš nějakých papírů.",
@@ -17,7 +19,21 @@ export default {
             read_the_memo_note: "Přečíst poznámku",
             inspect_the_berries: "Prohlédnout bobule",
             dissect_the_dead_body: "Pitvat mrtvé tělo",
+            salt_recall_bus: "[Solná paměť] Přečti sůl samotného autobusu.",
+            grave_sense_bishop: "[Hrobový smysl] Přečti poslední okamžik biskupky.",
             step_back: "Ustoupit"
+        }
+    },
+    bishop_grave_sense: {
+        text: "Osswine se probudí u chladnoucího masa biskupky — a couvne, poprvé v životě. *\"...Ne. Tahle neskončila. Byla ukončena, znovu a znovu, v tomtéž jediném okamžiku.\"* Ten suchý hlas tápe po slovech, která nemá. *\"Není tu žádný poslední okamžik, knězi. Jsou jich tisíce, a každý z nich je ten samý. Místo, kde jsou stěny příliš blízko a nikde v nich nakreslené dveře. Něco sáhlo do jejího myšlení a začalo psát, a pokaždé, když to dopsalo, byla přinucena začít znovu — a znovu — hrůza složená na hrůzu, dokud to skládání nebylo vše, co z ní zbylo.\"*\n\nDlouhé, roztřesené ticho. *\"Já čtu konce. Tohle nebyl konec. Tohle byla věc držená otevřená přesně v bodě, kde měla být puštěna, aby se zavřela. Ať to udělalo cokoli, zdá se, že nevědělo, že nemůže přežít, když je držena. Odveď mě od ní. I mrtví mají být puštěni, aby se zastavili, a ona nebyla.\"*",
+        options: {
+            grave_sense_bishop_back: "Ustoupit."
+        }
+    },
+    bus_salt_recall: {
+        text: "Solné písmo se pohne a sáhne za tělo, za houbu, do mrtvé skořápky samotného autobusu. Ztichne. *\"...Tahle věc je stará, knězi. Starší než rozkvět, starší než hniloba. Vůz z Doby-Před — z toho Předtím — ocel a sklo postavené, aby vozily lidi, kteří si mysleli, že svět dává smysl. A tady je ta zvláštnost: mlha ho nikdy nedosáhla. Myceliální signál, který běží každou zdí a kamenem tohohle města, ten šum, díky němuž Strážce a síť slyší — tohohle kovu se nedotýká. Tohle je mrtvé místo. Ticho.\"*\n\nZbytek se stáhne, jako by chápal. *\"Věděla to. Proto sem přišla zemřít. Všude jinde v Horní Morkezele něco vždycky naslouchá — město, síť, ta věc, co se probouzí ve vejci. Ale tady ne. Vlezla do jediné skořápky, kterou se signál nikdy nenaučil, aby ať udělala cokoli naposledy, udělala to nespatřena a nevyslyšena. Chtěla na úplném konci být mimo signál.\"*",
+        options: {
+            salt_recall_bus_back: "Ustoupit."
         }
     },
     dead_bishop_bruising: {

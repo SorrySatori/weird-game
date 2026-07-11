@@ -143,5 +143,42 @@ and a generative Web-Audio organ score.
 - **Not built yet:** the **Egg Cathedral** notebook content / finale (scene is a bare shell) and the
   **resolution** — `who_killed_bishop` is never `completeQuest`-d. Angle Corrector (Lumen Directorate
   interior) has a partial bishop branch. Open threads: doppelgänger, myceliar distress call, Vestigels.
+- **Brine Scripture "Salt Recall" lore probes (optional flavor):** if the player carries the
+  `brine-scripture` symbiont, certain scenes offer a gated `[Salt Recall] Read …` dialog option
+  whose lore state (`speaker: 'Brine Scripture'`) reads the salt/mineral place-memory of a thing and
+  writes a once-only `LORE` journal entry (`{ via: 'brine-scripture' }`). Done in: **CrossroadScene**
+  (`salt_recall_crossroad_corpse`), **GodgraveyardScene** (Hvétrdjaana's unreadable grave →
+  `salt_recall_hvetrdjaana`), **AbandonedBusScene** (the bus is a Before-Time dead spot the mycelial
+  signal never reached → `salt_recall_abandoned_bus`), **RustDomainScene** (the machines' corrosion
+  remembers Nexicorp → the Emergence → the feasts → `salt_recall_rust_machines`). Pattern is easy to
+  replicate in more scenes; not a quest gate.
+- **Osswine "Grave-Sense" death-reading probes (optional flavor):** the mirror of Salt Recall. If the
+  player carries the `osswine` symbiont (the "late mourner," bonded at **GodgraveyardScene**'s ossuary
+  niche), certain scenes gate a `[Grave-Sense]` option (Czech `[Hrobový smysl]`) whose lore state
+  (`speaker: 'Osswine'`) reads the ENDING of a dead/decayed thing — HOW it died, its last intent, what
+  it was before it stopped — and writes a once-only `LORE` journal entry (`{ via: 'osswine' }`).
+  Distinct from Brine's place/salt reading. Done in: **CrossroadScene** (the giant corpse chose to stop
+  → `grave_sense_crossroad_corpse`), **RustDomainScene** (a buried/silenced machine ended mid-memory,
+  gated in `brukk_machines_status` → `grave_sense_rust_machine`), **GodgraveyardScene** (Vhorn the
+  Tally-Keeper died the instant a follower proved the sums never balanced → `grave_sense_vhorn`),
+  **AbandonedBusScene** (the Bishop's body: read via the `dead_bishop_start` exam hub — deliberately
+  EVOCATIVE & AMBIGUOUS, a mind ended over and over in a doorless loop, does NOT name Infinite Fold/the
+  cause → `grave_sense_bishop_body`), **EggCathedralInteriorScene** (the cathedral's servants did not
+  die but dissolved willingly into the growing god, read at `priests_look` → `grave_sense_servants`).
+  Speaker cs is `'Osswine': 'Osswine'`. Idempotent; not a quest gate.
+- **Palinode "Seam-Sense" traversal hooks (optional flavor):** if the player carries the `palinode`
+  symbiont (the unsaying; bonded at **EchoDrainDeltaScene**), certain scenes gate a `[Seam-Sense]`
+  hook (`speaker: 'Palinode'`; Czech `[Smysl pro švy]`) that OPENS a hidden/sealed way others can't —
+  a passage where one fits, else a lore pocket/cache. Idempotent, no quest completion; persisted via a
+  registry flag and/or a once-only journal entry (`{ via: 'palinode' }`). Done in: **EchoDrainDeltaScene**
+  (alt crossing, registry `delta_seam_opened`, journal `delta_seam_crossing`), **EggCatedralScene**
+  (alternate way to Edgar's study gap WITHOUT Edgar — the gap transition is now created if Edgar's
+  path OR Palinode; Palinode-found adds journal `seam_sense_cathedral_gap`), **ScraperInteriorScene**
+  (Lift-Mother `lift_mother_start` → `seam_scraper_prompt` → `seam_scraper_open`; unseals a "dead
+  floor" lore pocket, registry `scraper_deadfloor_opened`, journal `seam_sense_scraper_floors`, +12
+  spores), **ShedAbandonedOfficeScene** (hotspot reveal of a bricked tunnel toward the Living Core —
+  registry `shed_tunnel_opened` restored in `create()`, journal `seam_sense_shed_tunnel`, +12 spores;
+  hotspot+notification instead of a dialog tree since this scene has no cs file). Speaker cs is
+  `'Palinode': 'Palinode'`. Pattern easy to replicate; not a quest gate.
 
 Read `WORLD_HISTORY_AND_GEOGRAPHY.md` for lore/canon before writing story content.

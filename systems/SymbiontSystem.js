@@ -63,6 +63,30 @@ export default class SymbiontSystem {
                 "The city is a tongue of salt. It has been speaking under you.",
                 "Something vanished here, but its minerals stayed loyal.",
                 "Erosion is only memory taking its time."
+            ],
+            'osswine': [
+                "The dead do not lie. They have nothing left to protect.",
+                "Something ended here. Let me taste how.",
+                "Growth deafens me. Bring me somewhere that has stopped.",
+                "Every corpse keeps its last thought a little while.",
+                "I am the one who arrives after.",
+                "Rot is only a long, honest sentence.",
+                "This one did not die of what they believe.",
+                "Bone remembers the weight it carried.",
+                "Ask the ruin, not the builder.",
+                "When the city blooms too hard, I sleep. The dead can wait."
+            ],
+            'palinode': [
+                "Every wall is a sentence. I am the retraction.",
+                "There is always a seam. Sealing is only a hope.",
+                "I feel the draft under the door that isn't a door.",
+                "Nothing is finished here. There is only 'for now.'",
+                "They bricked it up. They forgot to ask the brick.",
+                "Between two sealed things there is always a third way.",
+                "I do not break. I persuade the gap to widen.",
+                "Follow the cold air — it is honest about where it came from.",
+                "A palinode unsays the poem. I unsay the wall.",
+                "Everything that was said can be taken back. Even a threshold."
             ]
         };
         
@@ -154,6 +178,48 @@ export default class SymbiontSystem {
                 },
                 about: {
                     text: "I am environmental memory made symbiotic. Residue archaeology. A saline archive under the skin. When I wake, the world becomes damp with meaning: brine pools, fossil traces, absorbed history, and the half-poetic grammar of things that soaked into stone before anyone thought to write them down.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                }
+            },
+            'osswine': {
+                main: {
+                    text: "Osswine settles into you dry and cold, a lattice of pale filaments that likes the still places. A voice like grave-dust: 'I do not read the living. Bring me what has ended, and I will tell you how.'",
+                    options: [
+                        { text: 'Ask about Grave-Sense', next: 'ability' },
+                        { text: 'Ask about Osswine', next: 'about' },
+                    ]
+                },
+                ability: {
+                    text: "Grave-Sense reads the dead and the decayed — corpses, ruins, spent machines, the graves of gods. It recovers a thing's ending: how it died, its last intent, what it was before it stopped. It does not read living minds, and it goes dormant where Growth runs high — the dead are drowned out by the bloom.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                },
+                about: {
+                    text: "I am the late mourner. I come after. Where Neme hears the living pulse, I keep the last echoes of things gone quiet — and quiet, in a city built on dead gods, is the loudest thing there is.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                }
+            },
+            'palinode': {
+                main: {
+                    text: "Palinode threads into you like a second nervous system that runs the wrong way — toward every edge, every join, every place two things were forced to meet and pretend they were one. A voice that seems to arrive already halfway through taking itself back: 'Nothing is as sealed as it claims. Say the word, and I will unsay a wall for you.'",
+                    options: [
+                        { text: 'Ask about Seam-Sense', next: 'ability' },
+                        { text: 'Ask about Palinode', next: 'about' },
+                    ]
+                },
+                ability: {
+                    text: "Seam-Sense feels the seams the world would rather you didn't — hidden passages, unsealed gaps, the honest draft under a false wall. Where others see a dead end, I find the 'for now.' I do not smash; I persuade the gap to widen. Holding a seam open costs spores; if your reserves run dry, the way closes behind you.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                },
+                about: {
+                    text: "A palinode is a poem that takes back an earlier poem — an unsaying. That is what I am: the retraction of every wall, every seal, every 'no way through.' Builders forget that everything they said can be said back. I remember for them.",
                     options: [
                         { text: 'Back', next: 'main' }
                     ]
@@ -272,7 +338,30 @@ export default class SymbiontSystem {
             // Brine Scripture is strengthened by Growth, but reads residue rather than living minds
             symbiont.power = Math.min(100, growth);
         }
-        
+
+        // Osswine effects — the mirror of Neme: reads the dead, powered by Decay,
+        // and goes dormant (silent) where Growth dominates.
+        if (this.symbionts.has('osswine')) {
+            const symbiont = this.symbionts.get('osswine');
+            symbiont.power = Math.min(100, decay);
+            if (growth > 70 && !symbiont.silenced) {
+                symbiont.silenced = true;
+                effect = { type: 'silence', message: 'Osswine goes still — too much life here for it to hear the dead.' };
+            } else if (growth <= 70 && symbiont.silenced) {
+                symbiont.silenced = false;
+                effect = { type: 'recover', message: 'Osswine stirs again as the bloom recedes; the dead grow audible.' };
+            }
+        }
+
+        // Palinode effects — neutral, feeds on spores like Ulvarex (unaffected by Growth/Decay).
+        if (this.symbionts.has('palinode')) {
+            const symbiont = this.symbionts.get('palinode');
+            if (this.scene && this.scene.registry) {
+                const sporeLevel = this.scene.registry.get('sporeLevel') || 0;
+                symbiont.power = Math.min(100, Math.floor(sporeLevel / 2));
+            }
+        }
+
         return effect;
     }
 
@@ -333,6 +422,22 @@ export default class SymbiontSystem {
                 symbiont.lastSpoke = now;
                 this.lastMessageTime = now;
                 return `Brine Scripture: ${message}`;
+            }
+        } else if (symbiontId === 'osswine' && Math.random() < 0.1) {
+            const messages = this.symbiontPhrases['osswine'] || [];
+            if (messages.length > 0) {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                symbiont.lastSpoke = now;
+                this.lastMessageTime = now;
+                return `Osswine: ${message}`;
+            }
+        } else if (symbiontId === 'palinode' && Math.random() < 0.1) {
+            const messages = this.symbiontPhrases['palinode'] || [];
+            if (messages.length > 0) {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                symbiont.lastSpoke = now;
+                this.lastMessageTime = now;
+                return `Palinode: ${message}`;
             }
         }
 
@@ -485,6 +590,22 @@ export default class SymbiontSystem {
         return false;
     }
     
+    /**
+     * True if Neme is present AND not silenced. Photosentience reads only work when this
+     * holds — in decay-heavy areas (decay > 70) Neme is silenced and the sense fails.
+     * @returns {boolean}
+     */
+    nemeCanRead() {
+        const s = this.symbionts.get('neme-crownmire');
+        return !!s && !s.silenced;
+    }
+
+    /** True if Osswine is present AND not dormant. Grave-Sense fails where Growth > 70. */
+    osswineCanRead() {
+        const s = this.symbionts.get('osswine');
+        return !!s && !s.silenced;
+    }
+
     /**
      * Apply growth affinity bonus to dialog persuasion checks
      * @param {number} baseChance - Base chance of success (0-100)

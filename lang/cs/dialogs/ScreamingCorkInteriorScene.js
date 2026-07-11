@@ -8,6 +8,7 @@ export default {
         'Heliodor': 'Heliodor',
         'Narrator': 'Vypravěč',
         'Master Thaal': 'Mistr Thaal',
+        'Neme': 'Neme',
     },
 
     epilogue_intro: {
@@ -158,7 +159,15 @@ export default {
         text: "Několik Heliodorových složkových organismů se postupně nakloní dopředu — nejprve se zúží oči, pak se roztaží nosní dírky, poté prsty, které jako by patřily jiné osobnosti, se natáhnou a převezmou vzorek.\n\nDlouhá pauza. Různé části Heliodorova kompozitního těla se radí v šeptavých cvakáních a hučení.\n\n'Prozkoumali jsme vzorek. Tři naše složky ochutnaly, dvě analyzovaly reziduální spory a Oorarabaz — krátce probuzený — potvrdil alkaloidní strukturu membránovou absorpcí.\n\nPlod je čistý. Žádné toxiny, žádné modifikace, žádné parazitické zásahy. Toto je prémiový produkt Lumenového direktoriátu v dokonalém stavu.'",
         options: {
             photosentience_read_heliodors_biosignals_for_decep: "[Fotosenzitivita] Číst Heliodorovy biosignály kvůli podvodu.",
+            photosentience_silenced_heliodor: "[Fotosenzitivita] Zkusit číst Heliodora… (tvůj smysl skomírá)",
             thank_you_thats_very_thorough: "Děkuji. To je velmi důkladné."
+        }
+    },
+
+    heliodor_sulkberry_neme_silenced: {
+        text: "Saháš po Nemině zraku — a on se ti vysmekne jako ruka, která se sevře kolem kouře. *\"Tady ne,\"* zvládne Neme, slabě a odkudsi z dálky. *\"V tomhle vzduchu je příliš mnoho hniloby; skoro spím. Nedokážu ti ho přečíst. Tentokrát věř vlastním uším.\"* Biosignály se rozmažou v nesmyslný šum.",
+        options: {
+            neme_silenced_ok: "Rozumím."
         }
     },
     heliodor_sulkberry_neme: {

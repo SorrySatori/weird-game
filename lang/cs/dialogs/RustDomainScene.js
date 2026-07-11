@@ -6,11 +6,21 @@ export default {
     _speakers: {
         'Brukk': 'Brukk',
         'Narrator': 'Vypravěč',
+        'Brine Scripture': 'Solné písmo',
+        'Osswine': 'Osswine',
     },
     brukk_start: {
         options: {
             ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?",
-            perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?"
+            perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?",
+            brukk_ask_graft: "Dokázal by mi Chór udělat místo pro dalšího symbionta? Zaplatím."
+        }
+    },
+    brukk_graft_slot: {
+        text: "Brukkovy oči rozžhavené jako výheň přejedou po tvých žebrech, jako by četl výkres. \"Místo. Ano. Mrtvá patra jsou plná pouzder — schránek, které staří manažeři vypěstovali a nikdy nenaplnili. Můžu jedno strhnout, zakalit a přivařit ti ho do těla. Udrží dalšího jezdce.\" Nízké zaskřípění, možná smích. \"Chór tohle pro cizí nedělá. Pro tebe — čtyřicet zlatých, za železo a oheň. Stůj klidně a je to.\"",
+        options: {
+            brukk_graft_pay: "Udělej to. (Zaplatit 40 zlatých.)",
+            brukk_graft_decline: "Teď ne."
         }
     },
     brukk_perspective: {
@@ -122,7 +132,23 @@ export default {
         }
     },
     brukk_machines_status: {
-        text: "Jsou... spokojené. Prozatím. Hostina, kterou jsi přinesl — stále ji chutnají... Ale jsou vždy hladové... Jestli najdeš víc, přines to."
+        text: "Jsou... spokojené. Prozatím. Hostina, kterou jsi přinesl — stále ji chutnají... Ale jsou vždy hladové... Jestli najdeš víc, přines to.",
+        options: {
+            salt_recall_machines: "[Solná paměť] Přečti usazeninu obalující staré stroje.",
+            grave_sense_machine: "[Hrobový smysl] Přečti, jak skončil jeden z umlklých strojů."
+        }
+    },
+    rust_machine_grave_sense: {
+        text: "Osswine se pohne mezi chladným železem a najde ty, které už se zastavily — ty tři, co Brukk pohřbil v mrtvých patrech. Usadí se do nejbližšího ticha. *\"...Tenhle neumřel rzí. Došel na konec myšlenky a neměl žádnou další, do níž by se přesunul. Poslouchej, kde hukot pohasl: byl uprostřed vzpomínání. Léto, čtyřicet pater dole, chuť chladného vzduchu vháněného do místnosti plné živých — a vzpomínce prostě došla kolej. Tón zeslábl, zakolísal, a kde měl přijít další, nezbylo nic, z čeho by přišel.\"* Suché usednutí. *\"Žádná bolest. Stroje se nebojí zastavení — bojí se jen, že přijde dřív, než je vzpomínání dokončeno. Posledním úmyslem tohohle bylo dokončit to léto. Skončil jeden nádech před koncem. Nejkrutější způsob, jak může trpělivá věc odejít.\"*",
+        options: {
+            grave_sense_machine_back: "Ustoupit."
+        }
+    },
+    machines_salt_recall: {
+        text: "Solné písmo sáhne do kůry rzi a minerální usazeniny nalepené na hučících strojích a na dlouhou chvíli prostě jen pije. *\"...Tolik, knězi. Tyhle vylučují svou paměť do vlastní koroze déle, než měl Chór jméno.\"* Zbytek se otáčí a třídí roky. *\"Pod tím vším — Předtím. Doba-Před. Tohle byla účtárna zvaná Nexicorp; tohle byly stroje studeného dechu a bedny, které myslely. Tehdy čistá sůl. Obyčejná. Čtyřicet pater lidí předstírajících, že svět dává smysl, a stroje hučící pod nimi, neříkající nic.\"*\n\nChuť zhořkne. *\"Pak den, kdy sůl naráz sesedne — zelená mlha, Vzejití, vejce stoupající skrz mrtvé bohy dole. To je ten okamžik, kdy se probudily. Ne stvořené k tomu, ne dotázané. Mlha dosáhla kovu a kov si začal pamatovat a od té chvíle ani jednou nepřestal.\"* Odmlka, téměř něžná. *\"A potom už jen hostiny. Rudohmota litá do trychtýřů, ta dlouhá rudá chuť, muži se železem rostoucím v hrudi, kteří přišli naslouchat. Pamatují si každé krmení. Bojí se — tím tupým, trpělivým způsobem, jakým se bojí železo — toho jediného ticha, po němž už žádné nebude.\"*",
+        options: {
+            salt_recall_machines_back: "Ustoupit."
+        }
     },
     brukk_feast_full: {
         text: "Tohle... tohle je pravá hostina. Plná rudohmota. Stále živá... Ravla udělala dobře, že ti důvěřovala.",

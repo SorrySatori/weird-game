@@ -318,12 +318,29 @@ export default class AbandonedBusScene extends GameScene {
             // Get the original dialog content
             const originalContent = this.dialogContent[state];
             if (originalContent) {
+                let options = this.getAvailableExaminationOptions();
+                // Brine Scripture can taste the salt of the bus itself — offered at the main body-exam hub.
+                if (state === 'dead_bishop_start' && this.symbiontSystem?.hasSymbiont('brine-scripture')) {
+                    options = [
+                        ...options.slice(0, -1),
+                        { text: '[Salt Recall] Read the salt of the bus itself.', key: 'salt_recall_bus', next: 'bus_salt_recall' },
+                        options[options.length - 1]
+                    ];
+                }
+                // Osswine reads the death itself — how the Bishop ended.
+                if (state === 'dead_bishop_start' && this.symbiontSystem?.hasSymbiont('osswine')) {
+                    options = [
+                        ...options.slice(0, -1),
+                        { text: "[Grave-Sense] Read the Bishop's last moment.", key: 'grave_sense_bishop', next: 'bishop_grave_sense' },
+                        options[options.length - 1]
+                    ];
+                }
                 // Create a modified version with dynamic options
                 const modifiedContent = {
                     ...originalContent,
-                    options: this.getAvailableExaminationOptions()
+                    options
                 };
-                
+
                 // Call parent showDialog with the modified content object
                 super.showDialog(modifiedContent);
                 return;
@@ -691,6 +708,42 @@ export default class AbandonedBusScene extends GameScene {
                         'dead_bishop_berries'
                     )
                 }
+            },
+            bus_salt_recall: {
+                speaker: 'Brine Scripture',
+                text: "Brine Scripture stirs and reaches past the body, past the fungus, into the dead husk of the bus itself. It goes very quiet. *\"...This thing is old, priest. Older than the bloom, older than the rot. A carriage from the Before — the Doba-Před — steel and glass built to carry people who thought the world made sense. And here is the strange part: the mist never reached it. The mycelial signal that runs through every wall and stone of this city, the hum that lets the Sentinel and the network hear — it does not touch this metal. This is a dead spot. A silence.\"*\n\nThe residue tightens, as if it understands. *\"She knew. That is why she came here to die. Everywhere else in Upper Morkezela something is always listening — the city, the network, the thing waking in the egg. But not here. She crawled inside the one husk the signal never learned, so that whatever she did last, she would do it unobserved and unheard. She wanted, at the very end, to be outside the signal.\"*",
+                onTrigger: () => {
+                    if (this.journalSystem && !this.journalSystem.hasEntry('salt_recall_abandoned_bus')) {
+                        this.addJournalEntry(
+                            'salt_recall_abandoned_bus',
+                            'Salt Recall: Outside the Signal',
+                            'Through Brine Scripture I read the salt of the abandoned bus itself — not the body, the bus. It is a husk from the Before, the Doba-Před: steel and glass from a world that thought it made sense. The mycelial signal that threads through the whole of Upper Morkezela never reached this metal; it is a dead spot, a silence in the network. Brine believes this is precisely why the Bishop came here to die. Everywhere else something is always listening — the city, the network, the mind waking in the egg. She crawled into the one place the signal never learned, so that whatever she did last, she would do it unobserved and unheard. She wanted, at the end, to be "outside the signal."',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Abandoned Bus', via: 'brine-scripture' }
+                        );
+                    }
+                },
+                options: [
+                    { text: 'Step back.', key: 'salt_recall_bus_back', next: 'closeDialog' }
+                ]
+            },
+            bishop_grave_sense: {
+                speaker: 'Osswine',
+                text: "Osswine wakes against the Bishop's cooling flesh — and recoils, the first time it has ever done so. *\"...No. This one did not end. It was ended, over and over, in the very same instant.\"* The dry voice gropes for words it does not own. *\"There is no last moment here, priest. There are thousands, and every one of them is the same one. A place with the walls too close and no door drawn anywhere in them. Something reached into her thinking and began to write, and each time it finished she was made to begin again — and again — terror folded onto terror until the folding was all that was left of her.\"*\n\nA long, unsteady stillness. *\"I read endings. This was not an ending. This was a thing held open at the exact point where it should have been let to close. Whatever did it did not seem to know she could not survive being kept. Take me away from her. Even the dead should be allowed to stop, and she was not.\"*",
+                onTrigger: () => {
+                    if (this.journalSystem && !this.journalSystem.hasEntry('grave_sense_bishop_body')) {
+                        this.addJournalEntry(
+                            'grave_sense_bishop_body',
+                            "Grave-Sense: The Bishop's Last Moment",
+                            'Through Osswine I tried to read the Bishop\'s last moment — and Osswine, which reads endings, found no ending at all. She did not die once; she was ended over and over inside the same instant. Osswine described a place with the walls too close and no door drawn anywhere in it, her thinking reached into and overwritten, made to begin again each time it finished, terror folded upon terror until the folding was all that remained of her. Shaken, it called this a thing held open at the exact point where it should have been let to close — whatever did this did not seem to know she could not survive being kept.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Abandoned Bus', via: 'osswine' }
+                        );
+                    }
+                },
+                options: [
+                    { text: 'Step back.', key: 'grave_sense_bishop_back', next: 'closeDialog' }
+                ]
             },
         };
 

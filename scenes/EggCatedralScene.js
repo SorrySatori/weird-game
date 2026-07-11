@@ -59,19 +59,38 @@ export default class EggCatedralScene extends GameScene {
         // Left transition removed - no going back to EntryScene
         // The Fungal Master has left and the apprentice's journey continues forward
 
-        // Edgar's secret way in: an unsealed gap in the shell that bypasses the Guardian and
-        // drops straight into the Bishop's study. Only present once Edgar has revealed it.
-        if (this.hasJournalEntry('edgar_cathedral_path')) {
+        // A secret way in: an unsealed gap in the shell that bypasses the Guardian and drops
+        // straight into the Bishop's study. Two ways to find it:
+        //   1. Edgar reveals it (journal 'edgar_cathedral_path').
+        //   2. Palinode's Seam-Sense feels the seam directly, without ever needing Edgar.
+        const hasEdgarPath = !!this.hasJournalEntry('edgar_cathedral_path');
+        const hasPalinode = !!this.symbiontSystem?.hasSymbiont('palinode');
+        if (hasEdgarPath || hasPalinode) {
             const gx = 90, gy = 330;
             const gap = this.add.ellipse(gx, gy, 46, 90, 0x0a1410, 0.85).setDepth(0);
-            const glow = this.add.circle(gx, gy, 7, 0x7fff8e, 0.8).setDepth(1);
+            // Palinode's shimmer runs a cooler seam-green; Edgar's stays the familiar spore-green.
+            const glowColor = (hasPalinode && !hasEdgarPath) ? 0xbfe6c8 : 0x7fff8e;
+            const glow = this.add.circle(gx, gy, 7, glowColor, 0.8).setDepth(1);
             this.tweens.add({ targets: glow, alpha: { from: 0.25, to: 0.8 }, duration: 1600, yoyo: true, repeat: -1 });
+
+            // When it is Palinode — not Edgar — who finds the gap, record the Seam-Sense discovery.
+            if (hasPalinode && !hasEdgarPath && !this.hasJournalEntry('seam_sense_cathedral_gap')) {
+                this.addJournalEntry(
+                    'seam_sense_cathedral_gap',
+                    'Seam-Sense: The Unsealed Cathedral',
+                    'Palinode stirred before the shell of the Egg Cathedral and refused to believe the wall. Where the Guardian keeps every honest door, the unsaying found the one the shell forgot to keep shut — a seam in the stone, a gap wearing the shape of a wall. I never needed Edgar\'s directions. No wall is the last word. It drops straight into the Bishop\'s study.',
+                    this.journalSystem.categories.EVENTS,
+                    { location: 'Egg Cathedral', via: 'palinode' }
+                );
+            }
+
+            const label = hasEdgarPath ? "Edgar's Gap" : "A Seam in the Shell";
             this.transitionManager.createTransitionZone(
                 gx, gy, 70, 120,
                 'left',
                 'EggCathedralStudyScene',
                 gx + 10, gy,
-                "Edgar's Gap"
+                label
             );
         }
     }

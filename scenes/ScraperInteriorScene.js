@@ -40,6 +40,11 @@ export default class ScraperInteriorScene extends GameScene {
             .filter(id => this.hasJournalEntry(id))
             .map(id => ({ id, ep: GRAVE_EPITAPHS[id] }));
 
+        // Palinode (Seam-Sense) can open a seam into one of the sealed "dead floors" the
+        // Lift-Mother can no longer reach — a duplicate level the building forgot to keep.
+        const hasPalinode = !!this.symbiontSystem?.hasSymbiont('palinode');
+        const deadFloorOpened = !!this.registry.get('scraper_deadfloor_opened');
+
         const interiorContent = {
             speaker: 'Lift Mother',
             lift_mother_start: {
@@ -48,6 +53,7 @@ export default class ScraperInteriorScene extends GameScene {
                     ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", key: 'i_need_to_reach_dr_elphis_floor', next: "lift_mother_elphi_floor" }] : []),
                     ...(hasRustPassword ? [{ text: "Corrode.", key: 'corrode', next: "lift_mother_corrode" }] : []),
                     ...(cellarQuestStarted ? [{ text: cellarPasswordKnown ? "Take me down to the old cellar." : "Take me down to the sealed cellar.", key: 'descend_to_cellar', next: cellarPasswordKnown ? "goto_scraper_cellar" : "lift_mother_cellar_prompt" }] : []),
+                    ...(hasPalinode && !deadFloorOpened ? [{ text: "[Seam-Sense] The sealed dead floors — feel for a way in.", key: 'seam_scraper_deadfloors', next: "seam_scraper_prompt" }] : []),
                     { text: "Can you take me to other floors?", key: 'can_you_take_me_to_other_floors', next: "lift_mother_floors" },
                     { text: "What is the Before-Time?", key: 'what_is_the_beforetime', next: "lift_mother_before_time" },
                     { text: "Are you... alive?", key: 'are_you_alive', next: "lift_mother_alive" },
@@ -370,6 +376,40 @@ export default class ScraperInteriorScene extends GameScene {
                             this.scene.start('ScraperCellarScene');
                         });
                     });
+                }
+            },
+            // --- Palinode / Seam-Sense: the sealed dead floors ---
+            seam_scraper_prompt: {
+                speaker: 'Palinode',
+                text: `Inside the shaft Palinode wakes and leans against the numbers. "She counts what still answers," it murmurs of the Lift-Mother. "But this building keeps floors it will not admit to — a level sealed the day the Egg came up, still holding its last held breath. The others rode past it without ever slowing. I can unsay the seam between two floors that were never supposed to touch. There is no lift to it. There is only the way I make. Shall I?"`,
+                options: [
+                    { text: "[Seam-Sense] Open the seam into the dead floor.", key: 'seam_scraper_open_opt', next: "seam_scraper_open" },
+                    { text: "Not now. Take me back.", key: 'seam_scraper_back', next: "lift_mother_start" }
+                ]
+            },
+            seam_scraper_open: {
+                speaker: 'Palinode',
+                text: `The wall between two numbers thins and gives. You step sideways out of the lift into a floor the building has been pretending it lost — an executive stratum frozen at the moment of the Emergence. Green particles hang unfallen in the still air. A meeting is arranged around a table for people who never came back down: chairs pushed out, a jug of water gone to glass, and, folded into a coat left over one chair, a cache the transformed ones left behind before they climbed the ceiling. "No one has stood here since," Palinode says. "That is the only reason it survived."`,
+                hideCloseOption: true,
+                options: [
+                    { text: "Search the cache, then leave.", key: 'seam_scraper_take', next: "lift_mother_start" }
+                ],
+                onTrigger: () => {
+                    if (this.registry.get('scraper_deadfloor_opened')) return;
+                    this.registry.set('scraper_deadfloor_opened', true);
+                    if (!this.hasJournalEntry('seam_sense_scraper_floors')) {
+                        this.addJournalEntry(
+                            'seam_sense_scraper_floors',
+                            'Seam-Sense: The Sealed Floors',
+                            'The Lift-Mother can only reach the lobby now — the upper floors sealed themselves the day the Egg emerged, and the building refuses to count the ones it lost. With Palinode I unsaid the seam between two levels that were never meant to touch, and stepped into a dead floor kept exactly as the Emergence left it: an executive stratum frozen mid-meeting, green spores still hanging unfallen in the air. The transformed ones climbed away and never came back down. In a coat left over a chair I found a small cache of dried spores they abandoned. No wall is the last word — not even a floor the building forgot.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Scraper Building', via: 'palinode' }
+                        );
+                    }
+                    if (typeof this.modifySpores === 'function') {
+                        this.modifySpores(12);
+                    }
+                    this.showNotification('Palinode unsays the seam — a dead floor opens. You gather abandoned spores.');
                 }
             },
             closeDialog: {

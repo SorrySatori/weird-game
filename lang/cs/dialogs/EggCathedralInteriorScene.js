@@ -7,6 +7,7 @@ export default {
         'Infinite Fold': 'Infinite Fold',
         'Narrator': 'Vypravěč',
         'Master Thaal': 'Mistr Thaal',
+        'Osswine': 'Osswine',
     },
 
     altar_look: {
@@ -23,7 +24,16 @@ export default {
     },
     priests_look: {
         text: "Ne Archikněží Obazoby — tohle byli první služebníci samotné katedrály, kteří přišli opatrovat zrození, na jaké je žádné písmo nepřipravilo. Nenajdeš těla. Jen poslední lidské stopy, stále vpletené do zdí, mluvící překrývajícími se hlasy:\n\n*\"Mysleli jsme, že budeme jeho správci—\"*\n*\"—ale dítě nepotřebuje správce. Potřebuje prostor.\"*\n*\"Jestli nás nepotřebuje... co jsme potom byli?\"*\n*\"Paměť zůstává, i když jméno zmizí.\"*",
-        options: { priests_back: "Nechat je jejich tichu." }
+        options: {
+            grave_sense_servants: "[Hrobový smysl] Přečti, jak služebníci skončili.",
+            priests_back: "Nechat je jejich tichu."
+        }
+    },
+    servants_grave_sense: {
+        text: "Osswine se pohne malátně — tady, v nabobtnalém srdci tolika nového života, se sotva probudí, truchlící napůl utonulý ve zrození. Ale najde je: ty slabé vpletené stopy ve zdech, a čte. *\"...Tihle neumřeli. Pořád sahám po konci a žádný tu není — jen předání. Přišli opatrovat zrození, pochopili, že k němu nejsou potřeba, a místo aby odešli, pustili se. Rozmotali se, vlákno po vlákně, do té věci, kterou opatrovali. Dobrovolně. Dokonce rádi.\"*\n\nTiché, závistivé usednutí. *\"Poslední úmysl každého z nich byl stejný — ne přežití, ale dar. Být první látkou, z níž byl ten nový utvořen. Není tu žádný žal, který by se dal číst, knězi. To je nejpodivnější smrt, jakou se mi kdy nepodařilo najít. Nezastavili se. Stali se něčím začátkem.\"*",
+        options: {
+            grave_sense_servants_back: "Nechat je jejich tichu."
+        }
     },
 
     god_first: {

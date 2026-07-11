@@ -28,6 +28,7 @@ export default class EggCathedralInteriorScene extends GameScene {
         const sys = this.symbiontSystem || this.registry.get('symbiontSystem');
         const symbiontCount = ['neme-crownmire', 'thorne-still', 'ulvarex-borrowed-horizon', 'brine-scripture']
             .filter(id => !!sys?.hasSymbiont(id)).length;
+        const hasOsswine = !!sys?.hasSymbiont('osswine');
         const foldJournal = this.getJournalEntry ? this.getJournalEntry('infinite_fold_ending') : null;
         const foldEnding = this.registry.get('infinite_fold_ending') || foldJournal?.metadata?.ending;
         // Infinite Fold speaks here only if it was left as an active, reachable mind.
@@ -59,7 +60,29 @@ export default class EggCathedralInteriorScene extends GameScene {
             priests_look: {
                 speaker: 'Narrator',
                 text: "Not the Archpriests of Obazoba — these were the cathedral's own first servants, who came to tend a birth no scripture had prepared them for. You find no bodies. Only the last human traces still folded into the walls, speaking in overlapping voices:\n\n*\"We thought we would be its keepers—\"*\n*\"—but a child does not need keepers. It needs room.\"*\n*\"If it does not need us... then what were we?\"*\n*\"Memory remains, even when the name is gone.\"*",
-                options: [{ text: "Leave them to their quiet.", key: 'priests_back', next: "closeDialog" }]
+                options: [
+                    ...(hasOsswine ? [{ text: '[Grave-Sense] Read how the servants ended.', key: 'grave_sense_servants', next: "servants_grave_sense" }] : []),
+                    { text: "Leave them to their quiet.", key: 'priests_back', next: "closeDialog" }
+                ]
+            },
+            // Osswine reads the servants' end — a willing dissolution into the growing god.
+            servants_grave_sense: {
+                speaker: 'Osswine',
+                text: "Osswine stirs sluggishly — here, at the swollen heart of so much new life, it can barely wake, a mourner half-drowned in a birth. But it finds them: the faint folded traces in the walls, and it reads. *\"...These did not die. I keep reaching for the ending and there is none — only a handing-over. They came to tend a birth, understood they were not needed for it, and rather than leave, they let go. Unwound themselves, thread by thread, into the thing they were tending. Willing. Glad, even.\"*\n\nA soft, envious settling. *\"Each one's last intent was the same — not survival, but donation. To be the first material the new one was made from. There is no grief to read here, priest. That is the strangest death I have ever failed to find. They did not stop. They became someone else's beginning.\"*",
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('grave_sense_servants')) {
+                        this.addJournalEntry(
+                            'grave_sense_servants',
+                            "Grave-Sense: The Servants' End",
+                            "Through Osswine I read the end of the cathedral's first servants — and Osswine, which reads endings, could find none. They did not die: they handed themselves over. Having come to tend the birth and understood they were not needed for it, they chose not to leave but to let go, unwinding thread by thread into the thing they tended. Willingly, even gladly. Each one's last intent was the same — not survival but donation, to be the first material the new one was made from. Osswine, which reads only endings, called it the strangest death it ever failed to find: they did not stop, they became someone else's beginning.",
+                            this.journalSystem.categories.LORE,
+                            { location: 'Egg Cathedral', via: 'osswine' }
+                        );
+                    }
+                },
+                options: [
+                    { text: "Leave them to their quiet.", key: 'grave_sense_servants_back', next: "closeDialog" }
+                ]
             },
 
             // ---- The god ----

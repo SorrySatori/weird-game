@@ -9,7 +9,7 @@ export default class VoxmarketHallScene extends GameScene {
 
     get dialogContent() {
         const hasThorne = !!this.symbiontSystem?.hasSymbiont('thorne-still');
-        const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
+        const hasNeme = !!this.symbiontSystem?.nemeCanRead();
         const hasUlvarex = !!this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon');
         const hasAuctionErrand = !!this.hasJournalEntry('seldo_auction_errand');
         const metTwins = !!this.hasJournalEntry('met_hesh_vell');

@@ -22,6 +22,11 @@ export default class RustDomainScene extends GameScene {
         const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started');
         const cellarPasswordKnown = !!this.hasJournalEntry('cellar_password_learned');
         const cellarFavorUsed = !!this.hasJournalEntry('rust_choir_favor_used');
+        // Choir members can have Brukk graft an extra symbiont vessel for gold.
+        const canGraftSlot = alreadyMember && !machinesDestroyed && !!this.symbiontSystem
+            && this.symbiontSystem.unlockedSlots < this.symbiontSystem.maxSlots;
+        const hasBrine = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
+        const hasOsswine = !!this.symbiontSystem?.hasSymbiont('osswine');
 
         return {
             ...super.dialogContent,
@@ -49,12 +54,23 @@ export default class RustDomainScene extends GameScene {
                     ...(alreadyMember && !machinesDestroyed && cellarQuestStarted && !cellarPasswordKnown && !cellarFavorUsed ? [
                         { text: "The Choir works this tower's guts. Can you get me into the sealed cellar below?", key: 'ask_cellar_favor', next: "brukk_cellar_favor" }
                     ] : []),
+                    ...(canGraftSlot ? [
+                        { text: "Could the Choir make room in me for another symbiont? I can pay.", key: 'brukk_ask_graft', next: "brukk_graft_slot" }
+                    ] : []),
                     ...(questActive && hasRustFeast && !machinesDestroyed ? [
                         { text: "I've brought the Rust Feast for the machines.", key: 'ive_brought_the_rust_feast_for_the_machines', next: isIllusory ? "brukk_feast_illusion" : (isFullRedmass ? "brukk_feast_full" : "brukk_feast_shard") }
                     ] : []),
                     ...(questActive && !hasRustFeast && !machinesDestroyed ? [
                         { text: "I'm looking for the Rust Choir.", key: 'im_looking_for_the_rust_choir', next: "brukk_looking" }
                     ] : []),
+                ]
+            },
+            brukk_graft_slot: {
+                speaker: 'Brukk',
+                text: `Brukk's forge-eyes flick over your ribs as though reading a blueprint. "Room. Aye. The dead floors are full of housings — vessels the old managers grew and never filled. I can strip one, temper it, weld it into you. It will hold another rider." A low grind that might be a laugh. "The Choir does not do this for outsiders. For you — forty gold, for the iron and the fire. Hold still and it's done."`,
+                options: [
+                    { text: "Do it. (Pay 40 gold.)", key: 'brukk_graft_pay', next: "brukk_start", onSelect: () => this.buyRustChoirSlot() },
+                    { text: "Not now.", key: 'brukk_graft_decline', next: "brukk_start" }
                 ]
             },
             brukk_cellar_favor: {
@@ -233,7 +249,52 @@ export default class RustDomainScene extends GameScene {
             brukk_machines_status: {
                 speaker: 'Brukk',
                 text: `Brukk closes his eyes and listens. The pipes tremble. Something deep in the walls groans and shifts. "They are... content. For now. The feast you brought — they still taste it. I hear it in their harmonics." He opens one eye. "But they are always hungry. Always. The redmass sustains them, but it fades. If you find more, bring it. The Choir remembers those who feed the iron." He taps his chest one final time. "And so do I."`,
-                options: []
+                options: [
+                    ...(hasBrine && !machinesDestroyed ? [
+                        { text: '[Salt Recall] Read the scale crusted on the old machines.', key: 'salt_recall_machines', next: 'machines_salt_recall' }
+                    ] : []),
+                    ...(hasOsswine && !machinesDestroyed ? [
+                        { text: '[Grave-Sense] Read how one of the silent machines ended.', key: 'grave_sense_machine', next: 'rust_machine_grave_sense' }
+                    ] : []),
+                ]
+            },
+            // Osswine reads the death of one of the machines the Choir has already buried.
+            rust_machine_grave_sense: {
+                speaker: 'Osswine',
+                text: `Osswine stirs among the cold iron and finds the ones that already stopped — the three Brukk buried in the dead floors. It settles into the nearest silence. *"...This one did not rust to death. It reached the end of a thought and had no next one to move into. Listen to where the hum went out: it was mid-remembering. A summer, forty floors below, the taste of cool air pushed through a room full of the living — and the memory simply ran out of track. The note thinned, wavered, and where the next should have come there was nothing left to come from."* A dry settling. *"No pain. Machines do not fear the stop — only fear it arriving before the remembering is done. This one's last intent was to finish the summer. It ended one breath short of an ending. The cruelest way a patient thing can go."*`,
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('grave_sense_rust_machine')) {
+                        this.addJournalEntry(
+                            'grave_sense_rust_machine',
+                            "Grave-Sense: A Machine's Last Hum",
+                            'Through Osswine I read the ending of one of the machines the Rust Choir has already buried. It did not rust to death — it reached the end of a thought with no next one to move into. When its hum went out it was mid-memory: a summer forty floors down, cool air pushed through a room full of the living. The recollection ran out of track, the note thinned, and where the next should have come there was nothing left. Osswine says machines do not fear the stop, only fear it arriving before the remembering is done. This one meant to finish the summer and ended one breath short — the cruelest way a patient thing can go.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Rust Domain', via: 'osswine' }
+                        );
+                    }
+                },
+                options: [
+                    { text: 'Step back.', key: 'grave_sense_machine_back', next: 'brukk_start' }
+                ]
+            },
+            // Brine Scripture reads the salt and scale on the conscious machines — what they remember.
+            machines_salt_recall: {
+                speaker: 'Brine Scripture',
+                text: `Brine Scripture reaches into the crust of rust and mineral scale caked over the humming machines, and for a long moment it simply drinks. *"...So much, priest. These have been leaking their memory into their own corrosion for longer than the Choir has had a name."* The residue turns, sorting years. *"Beneath it all — the Before. The Doba-Před. This was a counting-house called Nexicorp; these were the cold-breath engines and the boxes that thought. Clean salt, then. Ordinary. Forty floors of people pretending the world made sense, and the machines humming underneath them, saying nothing."*\n\nThe taste sours. *"Then a day the salt curdles all at once — the green mist, the Emergence, the egg rising through the dead gods below. That is the moment they woke. Not built to it, not asked. The mist reached the metal and the metal began to remember, and it has never once stopped since."* A pause, almost tender. *"And after that, only the feasts. Redmass poured into the funnels, the long red taste, the men with iron growing in their chests come to listen. They remember every feeding. They are afraid — in the dull, patient way iron is afraid — of the one silence after which there will be no more."*`,
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('salt_recall_rust_machines')) {
+                        this.addJournalEntry(
+                            'salt_recall_rust_machines',
+                            'Salt Recall: What the Machines Remember',
+                            'Through Brine Scripture I read the salt and scale crusted on the Rust Choir\'s conscious machines — the memory they have leaked into their own corrosion. Beneath everything lies the Before, the Doba-Před, when the Scraper was a counting-house called Nexicorp and these were merely its cold-breath engines and thinking-boxes, humming beneath forty floors of people pretending the world made sense. Then the salt curdles all at once: the green mist, the Emergence, the egg rising through the dead gods below — the moment the machines woke, not built to it and not asked, the mist reaching the metal until the metal began to remember and never stopped. Since then, only the feasts: redmass poured into the funnels, the iron-chested Keepers come to listen. The machines remember every feeding, and they are afraid, in the dull patient way iron is afraid, of the last silence after which there will be no more.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Rust Domain', via: 'brine-scripture' }
+                        );
+                    }
+                },
+                options: [
+                    { text: 'Step back.', key: 'salt_recall_machines_back', next: 'brukk_start' }
+                ]
             },
 
             // --- Full redmass feast: player joins Rust Choir ---
@@ -362,6 +423,34 @@ export default class RustDomainScene extends GameScene {
                 }
             },
         };
+    }
+
+    /** Brukk grafts an extra symbiont vessel for gold (Rust Choir member perk). */
+    buyRustChoirSlot() {
+        const cost = 40;
+        const money = this.moneySystem;
+        const sym = this.symbiontSystem || this.registry.get('symbiontSystem');
+        if (!money || !sym) return;
+        if (sym.unlockedSlots >= sym.maxSlots) {
+            this.showNotification('You already have the maximum number of symbiont slots!');
+            return;
+        }
+        if (!money.hasEnough(cost)) {
+            this.showNotification('Not enough gold!');
+            return;
+        }
+        money.subtract(cost, true);
+        sym.unlockSlot();
+        this.showNotification('The Choir welds a new symbiont vessel into you.');
+        if (!this.hasJournalEntry('rust_choir_slot_grafted')) {
+            this.addJournalEntry(
+                'rust_choir_slot_grafted',
+                'An Iron Vessel',
+                'Brukk welded a scavenged housing into my body — a Rust Choir member\'s privilege — giving me room to host another symbiont. Cold iron, then fire, then a new hollow that hums.',
+                this.journalSystem.categories.EVENTS,
+                { group: 'Rust Choir', character: 'Brukk' }
+            );
+        }
     }
 
     preload() {

@@ -53,6 +53,9 @@ export default class GodgraveyardScene extends GameScene {
     }
 
     get dialogContent() {
+        const hasBrine = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
+        const hasOsswine = !!this.symbiontSystem?.hasSymbiont('osswine');
+        const hasFreeSlot = !!this.symbiontSystem && this.symbiontSystem.symbionts.size < this.symbiontSystem.unlockedSlots;
         const states = {
             ...super.dialogContent,
             speaker: 'Phor Calesta',
@@ -76,12 +79,21 @@ export default class GodgraveyardScene extends GameScene {
 
         // One dialog state per grave (Phor narrates; records the candidate).
         this.graves().forEach(g => {
+            const graveOptions = [
+                { text: "Note it down.", key: 'note_it_down_' + g.slug, next: "closeDialog" }
+            ];
+            // Only Hvétrdjaana's stone is unreadable — Brine can taste the salt where the letters wore away.
+            if (g.slug === 'hvetrdjaana' && hasBrine) {
+                graveOptions.unshift({ text: '[Salt Recall] Read the letters the stone forgot.', key: 'salt_recall_hvetrdjaana', next: 'hvetrdjaana_salt_recall' });
+            }
+            // Osswine can read the exact moment the tally-keeper's counting broke.
+            if (g.slug === 'vhorn' && hasOsswine) {
+                graveOptions.unshift({ text: '[Grave-Sense] Read how Vhorn died.', key: 'grave_sense_vhorn', next: 'vhorn_grave_sense' });
+            }
             states['grave_' + g.slug] = {
                 speaker: 'Phor Calesta',
                 text: `You brush moss from the stone. Phor reads over your shoulder:\n\n${g.lore}`,
-                options: [
-                    { text: "Note it down.", key: 'note_it_down_' + g.slug, next: "closeDialog" }
-                ],
+                options: graveOptions,
                 onTrigger: () => {
                     const id = 'grave_' + g.slug;
                     if (!this.hasJournalEntry(id)) {
@@ -97,7 +109,117 @@ export default class GodgraveyardScene extends GameScene {
             };
         });
 
+        // Brine Scripture reads the salt of the one grave no living hand can — Hvétrdjaana's.
+        states['hvetrdjaana_salt_recall'] = {
+            speaker: 'Brine Scripture',
+            text: `Brine Scripture stirs against the unreadable stone and tastes the mineral ghost of letters that wore away centuries before Phor was born. *"...The salt still holds their shape, the way a dry bed holds the river that left it. Hvétrdjaana. The urbzunids and the krobulovits prayed to her when they wished to be unremembered — she was the keeper of merciful forgetting, who lifted the weight of names off the dead, the shamed, the simply tired. They loved her for the mercy of it."*\n\nThe residue shifts, reluctant. *"And that was her undoing. A goddess of forgetting cannot ask to be remembered — it would betray the whole of her. So when her peoples faded, she chose to fade with them, and let her own name rot from her own stone. Not lost, priest. Given away. The last thing she ever forgot was herself."*`,
+            onTrigger: () => {
+                if (!this.hasJournalEntry('salt_recall_hvetrdjaana')) {
+                    this.addJournalEntry(
+                        'salt_recall_hvetrdjaana',
+                        'Salt Recall: The Unreadable Grave',
+                        'Through Brine Scripture I read the salt of Hvétrdjaana\'s grave — the one stone even Phor cannot decipher, its script worn to nothing. Brine tasted the ghost-shape of the vanished letters and recovered her: goddess of the urbzunids and the krobulovits, keeper of merciful forgetting, who lifted the weight of names off the dead and the shamed. When her peoples faded she chose to fade with them and let her own name rot from her stone — not lost, but given away. A goddess of the forgotten who forgot herself last of all.',
+                        this.journalSystem.categories.LORE,
+                        { location: 'Godgraveyard', via: 'brine-scripture' }
+                    );
+                }
+            },
+            options: [
+                { text: 'Step back.', key: 'salt_recall_hvetrdjaana_back', next: 'closeDialog' }
+            ]
+        };
+
+        // Osswine reads the death of the tally-keeper — the instant the sums broke.
+        states['vhorn_grave_sense'] = {
+            speaker: 'Osswine',
+            text: `Osswine leans into the tally-keeper's fossilised bone and reads the exact instant the counting stopped. *"...Here. A follower knelt where you kneel now and set down a proof — clean, patient, undeniable — that the numbers had never once balanced. Not since the first tally he ever made. Vhorn saw it. And in the seeing the whole of him came apart, because a god who is only a ledger cannot survive a single unaccountable coin."*\n\nThe residue stills, like a column of figures refusing to add. *"His last intent was not rage. It was to recount — to run the sum one more time, certain the error lay in the follower and not the world. He died mid-addition, reaching for a total that would never arrive. The last thing in him was a number with no number after it."*`,
+            onTrigger: () => {
+                if (!this.hasJournalEntry('grave_sense_vhorn')) {
+                    this.addJournalEntry(
+                        'grave_sense_vhorn',
+                        'Grave-Sense: How Vhorn Died',
+                        'Through Osswine I read the death of Vhorn the Tally-Keeper. A follower knelt at the grave and laid down an undeniable proof that Vhorn\'s numbers had never once balanced — not since the first tally. In the seeing, the god came apart, for a god who is only a ledger cannot survive a single unaccountable coin. His last intent was not rage but to recount, to run the sum one more time, certain the error lay with the follower and not the world. He died mid-addition, reaching for a total that never arrived — his final thought a number with no number after it.',
+                        this.journalSystem.categories.LORE,
+                        { location: 'Godgraveyard', via: 'osswine' }
+                    );
+                }
+            },
+            options: [
+                { text: 'Step back.', key: 'grave_sense_vhorn_back', next: 'closeDialog' }
+            ]
+        };
+
+        // --- Osswine, the late mourner: a decay symbiont bonded among the god-graves. ---
+        states['osswine_offer'] = {
+            speaker: 'Osswine',
+            text: `In a niche of stacked skulls at the graveyard's edge, something pale and dry unfurls — not a plant, not quite. It has waited among the dead so long it has half become them. A voice like grave-dust settles at the back of your skull:\n\n"You walk among the ended and do not flinch. Rare. I am Osswine — the late mourner. The living have Neme and her kind to read their breathing lies. No one reads the dead. I would. Carry me, and what has stopped will speak to you: how it died, what it meant, what it was before it went quiet."`,
+            options: [
+                ...(hasFreeSlot
+                    ? [{ text: "Bond with it. (take Osswine)", key: 'osswine_bond', next: 'osswine_accept' }]
+                    : [{ text: "I have no room to carry it.", key: 'osswine_no_room', next: 'osswine_no_slot' }]),
+                { text: "What are you, exactly?", key: 'osswine_what', next: 'osswine_about' },
+                { text: "Leave it among the bones.", key: 'osswine_leave', next: 'closeDialog' }
+            ]
+        };
+        states['osswine_about'] = {
+            speaker: 'Osswine',
+            text: `"I am what settles into a thing once its purpose leaves — the reader of endings. I wake where the city rots and sleep where it blooms; too much life and I go dumb. Fitting, for a mourner. Neme keeps the living pulse; I keep the last echo. Between us, little would stay hidden."`,
+            options: [
+                { text: "Back.", key: 'osswine_about_back', next: 'osswine_offer' }
+            ]
+        };
+        states['osswine_no_slot'] = {
+            speaker: 'Osswine',
+            text: `The pale growth stills. "You are already full — another rider crowds your marrow. Make room and come back. The shape-clerks at the Shed will register a vessel, or the rust-folk will weld you one. The dead are patient. It is our one virtue."`,
+            options: [
+                { text: "I'll come back.", key: 'osswine_no_slot_back', next: 'closeDialog' }
+            ]
+        };
+        states['osswine_accept'] = {
+            speaker: 'Osswine',
+            text: `You reach into the niche. Cold filaments thread up your wrist and settle, dry and patient, along your bones. The graveyard seems to lean a little closer.\n\n"Good. Now — bring me what has ended, and I will tell you how."`,
+            onTrigger: () => this.bondOsswine(),
+            options: [
+                { text: "Understood.", key: 'osswine_accept_ok', next: 'closeDialog' }
+            ]
+        };
+
         return states;
+    }
+
+    /** Bond the Osswine symbiont (Grave-Sense). Mirrors the other acquisition flows. */
+    bondOsswine() {
+        if (this.symbiontSystem?.hasSymbiont('osswine')) return;
+        const data = { name: 'Osswine', power: 0, ability: 'Grave-Sense', phrases: this.symbiontSystem.getSymbiontPhrases('osswine') };
+        const success = this.symbiontSystem?.addSymbiont('osswine', data);
+        if (!success) { this.showNotification('No free symbiont slot!'); return; }
+        if (this.addSymbiontIcon) this.addSymbiontIcon('osswine', data);
+        if (!this.hasJournalEntry('osswine_bonded')) {
+            this.addJournalEntry(
+                'osswine_bonded',
+                'Bonded: Osswine',
+                'Among the god-graves I took on Osswine, the "late mourner" — a decay symbiont that reads the dead and the decayed through its Grave-Sense: how a thing died, its last intent, what it once was. It is the mirror of Neme (who reads the living) and goes dormant where Growth runs high.',
+                this.journalSystem.categories.PEOPLE,
+                { location: 'Godgraveyard', symbiont: 'osswine' }
+            );
+        }
+        this.showNotification('Gained Symbiont: Osswine');
+    }
+
+    /** The ossuary niche where Osswine waits — only until it has bonded. */
+    createOsswineNiche() {
+        if (this.symbiontSystem?.hasSymbiont('osswine')) return;
+        const cx = 60, cy = 300;
+        const glint = this.add.text(cx, cy - 40, '✦', { fontSize: '15px', fill: '#cdd7c0' }).setOrigin(0.5).setDepth(7).setAlpha(0.5);
+        this.tweens.add({ targets: glint, alpha: { from: 0.3, to: 0.85 }, y: cy - 46, duration: 1500, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        const label = this.add.text(cx, cy - 72, 'OSSUARY NICHE', {
+            fontSize: '12px', fill: '#cdd7c0', backgroundColor: 'rgba(0,0,0,0.6)', padding: { x: 5, y: 3 }
+        }).setOrigin(0.5).setDepth(8).setVisible(false);
+        const zone = this.add.zone(cx - 45, cy - 90, 90, 180).setOrigin(0, 0);
+        zone.setInteractive({ hitArea: new Phaser.Geom.Rectangle(0, 0, 90, 180), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        zone.on('pointerover', () => { label.setVisible(true); document.body.style.cursor = 'pointer'; });
+        zone.on('pointerout', () => { label.setVisible(false); document.body.style.cursor = 'default'; });
+        zone.on('pointerdown', () => { if (this.dialogVisible) return; if (this.clickSound) this.clickSound.play(); this.showDialog('osswine_offer'); });
     }
 
     preload() {
@@ -146,9 +268,10 @@ export default class GodgraveyardScene extends GameScene {
             return;
         }
 
-        // Open graveyard: Phor + clickable graves.
+        // Open graveyard: Phor + clickable graves + the ossuary niche (Osswine).
         this.createPhor();
         this.createGraves();
+        this.createOsswineNiche();
 
         if (!this.hasJournalEntry('godgraveyard_entered')) {
             this.addJournalEntry(

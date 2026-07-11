@@ -101,7 +101,7 @@ export default class TownSquareScene extends GameScene {
                     { text: "Hello there, I'm an Obazoba cult adept.", key: 'hello_there_im_an_obazoba_cult_adept', next: "magnekin_sense" },
                     { text: "What do you mean, *real citizen*?", key: 'what_do_you_mean_real_citizen', next: "magnekin_suspicious" },
                     { text: "Hello, my name is Lord Murmurspine, I am en envoy from the Lagerlandia. Do you have a moment to talk about our lord and saviour, Maltimus Hopsalot?", key: 'hello_my_name_is_lord_murmurspine_i_am_en_envoy_fr', next: "magnekin_hopsalot" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                 ]
@@ -113,7 +113,7 @@ export default class TownSquareScene extends GameScene {
                     { text: "I came here with my master to search for an origin of a distress signal. Did you seen any distress signal lately? Or anything unusual?", key: 'i_came_here_with_my_master_to_search_for_an_origin', next: "magnekin_signal" },
                     { text: "Why do you keep saying *real*? You know, that sounds a bit suspicious.", key: 'why_do_you_keep_saying_real_you_know_that_sounds_a', next: "magnekin_suspicious" },
                     { text: "I am looking for my master. Have you ever heard about a place called Fermented Cap?", key: 'i_am_looking_for_my_master_have_you_ever_heard_abo', next: "magnekin_fermented_cap" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                     ...(this.questSystem.getQuest('rust_feast') ? [{
@@ -138,7 +138,7 @@ export default class TownSquareScene extends GameScene {
                     { text: "I came here with my master to search for an origin of a distress signal. Did you seen any distress signal lately? Or anything unusual?", key: 'i_came_here_with_my_master_to_search_for_an_origin', next: "magnekin_signal" },
                     { text: "Why do you keep saying *real*? You know, that sounds a bit suspicious.", key: 'why_do_you_keep_saying_real_you_know_that_sounds_a', next: "magnekin_suspicious" },
                     { text: "I am looking for my master. Have you ever heard about a pub called Fermented Cap?", key: 'i_am_looking_for_my_master_have_you_ever_heard_abo', next: "magnekin_fermented_cap" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                     ...(this.questSystem.getQuest('rust_feast') ? [{
@@ -154,7 +154,7 @@ export default class TownSquareScene extends GameScene {
                     { text: "Sorry, but there is something off about you.", key: 'sorry_but_there_is_something_off_about_you', next: "magnekin_off" },
                     { text: "Cut the act. Who are you really?", key: 'cut_the_act_who_are_you_really', next: "magnekin_what_are_you" },
                     { text: "Come on. Nobody talks like that. Just tell me what you are.", key: 'come_on_nobody_talks_like_that_just_tell_me_what_y', next: "magnekin_what_are_you" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                     { text: "Alright then, keep your secrets.", key: 'alright_then_keep_your_secrets', next: "magnekin_main" }
@@ -165,7 +165,7 @@ export default class TownSquareScene extends GameScene {
                 options: [
                     { text: "Maltimus Hopsalot is a beer god, everybody knows that. Hm, I think there's something wrong with you... or suspicious.", key: 'maltimus_hopsalot_is_a_beer_god_everybody_knows_th', next: "magnekin_suspicious" },
                     { text: "Maltimus wants you to contribute for the Endless Feast", key: 'maltimus_wants_you_to_contribute_for_the_endless_f', next: "magnekin_contribution" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                     { text: "Maltimus Hopsalot wants you to join the faith!.", key: 'maltimus_hopsalot_wants_you_to_join_the_faith', next: "magnekin_join_faith" },
@@ -184,7 +184,7 @@ export default class TownSquareScene extends GameScene {
                 options: [
                     { text: "What the hell arou you talking about?", key: 'what_the_hell_arou_you_talking_about', next: "magnekin_wtf" },
                     { text: "Thanks... I guees. I have some other questions.", key: 'thanks_i_guees_i_have_some_other_questions', next: "magnekin_main" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                 ]
@@ -193,7 +193,7 @@ export default class TownSquareScene extends GameScene {
                 text: "Oh, sorry about that. I guess my sense of humour is a bit... offbeat. But if you're looking for something unusual, you might want to check out the old ruins outside the city. People say strange things happen there.",
                 options: [
                     { text: "Thanks for the tip. Anything else I should know?", key: 'thanks_for_the_tip_anything_else_i_should_know', next: "magnekin_main" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                 ],
@@ -203,7 +203,7 @@ export default class TownSquareScene extends GameScene {
                 options: [
                     { text: "What are you talking about? It's not a museum, it's a pub.", key: 'what_are_you_talking_about_its_not_a_museum_its_a_', next: "magnekin_main" },
                     { text: "Museum of old things? Nobody talks like that, what's wrong with you?", key: 'museum_of_old_things_nobody_talks_like_that_whats_', next: "magnekin_wtf" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                     { text: "Err... Thanks... I guees. I have some other questions.", key: 'err_thanks_i_guees_i_have_some_other_questions', next: "magnekin_main" },
@@ -213,7 +213,7 @@ export default class TownSquareScene extends GameScene {
                 text: "Ah, metal scraps! Yes, I know a place where you can find some. Go to Echo Drain delta place, there are plenty of metal scraps lying around. ",
                 options: [
                     { text: "Thanks for the info. Can I ask for something else?", key: 'thanks_for_the_info_can_i_ask_for_something_else', next: "magnekin_main" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                 ],
@@ -255,7 +255,7 @@ export default class TownSquareScene extends GameScene {
                 text: "Ah, the Endless Feast! A noble cause indeed. Contributing to the feast is a way to honor Maltimus Hopsalot and ensure that his blessings continue to flow. Here's 10 dinars, good man.",
                 options: [
                     { text: "Thank you. Anything else I should know?", key: 'thank_you_anything_else_i_should_know', next: "magnekin_main" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                 ],
@@ -368,7 +368,7 @@ export default class TownSquareScene extends GameScene {
                 text: "Thank you, my friend! I feel... different now. Like a new purpose has awakened within me. I am honored to be a follower of Maltimus Hopsalot. May the endless hops guide my path!",
                 options: [
                     { text: "Glad to hear that. Anything else I should know?", key: 'glad_to_hear_that_anything_else_i_should_know', next: "magnekin_main" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('neme-crownmire') ? [
+                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                     ] : []),
                 ],

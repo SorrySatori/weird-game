@@ -20,6 +20,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
         const sulkberriesClearedHeliodor = !!this.hasJournalEntry('sulkberries_cleared_heliodor');
         const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
+        const nemeCanRead = !!this.symbiontSystem?.nemeCanRead(); // false when silenced by high decay
 
         return {
             ...super.dialogContent,
@@ -400,7 +401,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 speaker: 'Heliodor',
                 text: `Several of Heliodor's component organisms lean forward in sequence — first the eyes narrow, then the nostrils flare, then fingers that seem to belong to a different personality reach out and accept the berry sample.\n\nA long pause. Various parts of Heliodor's composite body confer in whispered clicks and hums.\n\n"We have examined the specimen. Three of our components have tasted, two have analyzed the spore residue, and Oorarabaz — briefly roused — confirmed the alkaloid structure through membrane absorption.\n\nThe berry is clean. No toxins, no modifications, no parasitic interference. This is a Lumen Directorate premium product in perfect condition."`,
                 options: [
-                    ...(hasNeme ? [{ text: "[Photosentience] Read Heliodor's bio-signals for deception.", key: 'photosentience_read_heliodors_biosignals_for_decep', next: "heliodor_sulkberry_neme" }] : []),
+                    ...(nemeCanRead
+                        ? [{ text: "[Photosentience] Read Heliodor's bio-signals for deception.", key: 'photosentience_read_heliodors_biosignals_for_decep', next: "heliodor_sulkberry_neme" }]
+                        : (hasNeme ? [{ text: "[Photosentience] Try to read Heliodor… (your sense gutters)", key: 'photosentience_silenced_heliodor', next: "heliodor_sulkberry_neme_silenced" }] : [])),
                     { text: "Thank you. That's very thorough.", key: 'thank_you_thats_very_thorough', next: "heliodor_start" },
                 ],
                 onTrigger: () => {
@@ -436,6 +439,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         );
                     }
                 }
+            },
+
+            heliodor_sulkberry_neme_silenced: {
+                speaker: 'Neme',
+                text: `You reach for Neme's sight — and it slides away like a hand closing on smoke. *"Not here,"* Neme manages, faint and far off. *"There is too much rot in this air; I am nearly asleep. I cannot read him for you. Trust your own ears this time."* The bio-signals blur into meaningless noise.`,
+                options: [
+                    { text: "Understood.", key: 'neme_silenced_ok', next: "heliodor_sulkberry_check" }
+                ]
             },
 
             heliodor_who: {

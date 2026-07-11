@@ -320,7 +320,7 @@ export default class LumenDirectorateScene extends GameScene {
                 speaker: 'Verrik the Gardener',
                 text: `"The Sulkberries? I cultivate them personally — well, the lower-grade stock. The premium spiced batches go through the cultivation team upstairs, but I prepare the soil beds and monitor the early growth stages.\n\nI can tell you this: nothing was wrong with those berries. I'd have noticed contamination in the soil chemistry, in the spore patterns, in the color of the root-tips. A sick Sulkberry plant screams louder than a healthy one whispers.\n\nWhatever happened to the Bishop, it didn't come from our cultivation beds."`,
                 options: [
-                    ...(hasNeme ? [{ text: "[Photosentience] Sense whether Verrik is telling the truth.", key: 'photosentience_sense_whether_verrik_is_telling_the', next: "gardener_sulkberry_neme" }] : []),
+                    ...(this.symbiontSystem?.nemeCanRead() ? [{ text: "[Photosentience] Sense whether Verrik is telling the truth.", key: 'photosentience_sense_whether_verrik_is_telling_the', next: "gardener_sulkberry_neme" }] : []),
                     { text: "You're certain? No contamination at all?", key: 'youre_certain_no_contamination_at_all', next: "gardener_sulkberry_certain" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ],

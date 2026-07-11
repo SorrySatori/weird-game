@@ -6,19 +6,36 @@ export default {
     _speakers: {
         'Giant Corpse': 'Obří mrtvola',
         'Thorne-Still': 'Thorne-Still',
+        'Osswine': 'Osswine',
     },
     corpseMain: {
         text: "Nacházíš podivnou, gigantickou mrtvolu. Její maso jako by pulzovalo nadpozemskou energií. Je zřejmé, že tu leží už nějakou dobu, ale překvapivě vůbec nezapáchá. Co uděláš?",
         options: {
             plant_spores_in_it: 'Zasadit do ní spory',
             cut_it_open: 'Rozříznout ji',
+            salt_recall_corpse: '[Solná paměť] Přečti, co v ní zůstalo.',
+            grave_sense_corpse: '[Hrobový smysl] Přečti, jak zemřela.',
             leave_it_alone: 'Nechat ji být'
         }
     },
     corpseExhausted: {
         text: "S mrtvoji už nemůžeš udělat nic víc. Její účel byl naplněn.",
         options: {
+            salt_recall_corpse: '[Solná paměť] Přečti, co v ní zůstalo.',
+            grave_sense_corpse: '[Hrobový smysl] Přečti, jak zemřela.',
             leave_it_alone: 'Nechat ji být'
+        }
+    },
+    corpse_salt_recall: {
+        text: "Solné písmo se probudí a ochutná sůl, kterou to obrovské tělo léta vyluhovalo do křižovatky. *\"...Tenhle šel dlouhou cestu, aby si lehl. Ne bůh — starší, pokornější; věc, která kdysi bohy nosila, jako cesta nosí kroky. Ucítil, jak ho město táhne, jak sem táhne všechno mrtvé, a přišel být blízko těch ostatních. Nezabila ho žádná rána. Prostě dorazil a zastavil se. Sůl pořád drží tvar toho posledního, dlouhého výdechu.\"*\n\nZbytek se zavře. *\"Teď se mu do hlavy nastěhoval rozklad. Vždycky to tak je — usadí se do místa, které po sobě zanechá účel.\"*",
+        options: {
+            salt_recall_corpse_back: 'Ustoupit.'
+        }
+    },
+    corpse_grave_sense: {
+        text: "Osswine se probudí v chladu té věci a čte její konec zevnitř ven. *\"...Žádné násilí. Zvolila si zastavení. Jejím posledním úmyslem nebyl strach — byl to příchod. Nosič, který ulehl u nohou všeho, co kdysi nesl, konečně rád, že smí skončit. A pod tím, slaběji: malý, trpělivý hlad, který nikdy nestihl dojíst.\"* Suchá pauza. *\"Ten nedojedený hlad je ta skulina, do níž vlezl tvůj Thorne-Still. Nic tu neumřelo s křikem. Skončilo to, jak končí dlouhý den.\"*",
+        options: {
+            grave_sense_corpse_back: 'Ustoupit.'
         }
     },
     corpseReconsider: {

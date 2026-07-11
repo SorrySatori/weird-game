@@ -224,6 +224,8 @@ export default class CrossroadScene extends GameScene {
     }
 
     get dialogContent() {
+        const hasBrine = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
+        const hasOsswine = !!this.symbiontSystem?.hasSymbiont('osswine');
         return {
             ...super.dialogContent,
             speaker: 'Giant Corpse',
@@ -240,6 +242,8 @@ export default class CrossroadScene extends GameScene {
                         key: 'cut_it_open',
                         next: 'acceptSymbiont'
                     },
+                    ...(hasBrine ? [{ text: '[Salt Recall] Read what remains in it.', key: 'salt_recall_corpse', next: 'corpse_salt_recall' }] : []),
+                    ...(hasOsswine ? [{ text: '[Grave-Sense] Read how it died.', key: 'grave_sense_corpse', next: 'corpse_grave_sense' }] : []),
                     {
                         text: 'Leave it alone',
                         key: 'leave_it_alone',
@@ -250,11 +254,49 @@ export default class CrossroadScene extends GameScene {
             corpseExhausted: {
                 text: `There is nothing more you can do with the old corpse. Its purpose has been fulfilled.`,
                 options: [
+                    ...(hasBrine ? [{ text: '[Salt Recall] Read what remains in it.', key: 'salt_recall_corpse', next: 'corpse_salt_recall' }] : []),
+                    ...(hasOsswine ? [{ text: '[Grave-Sense] Read how it died.', key: 'grave_sense_corpse', next: 'corpse_grave_sense' }] : []),
                     {
                         text: 'Leave it alone',
                         key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
+                ]
+            },
+            corpse_grave_sense: {
+                speaker: 'Osswine',
+                text: `Osswine wakes in the cold of the thing and reads its ending from the inside out. *"...No violence. It chose the stop. Its last intent was not fear — it was arrival. A bearer, laid down at the feet of everything it once carried, glad to finally be let end. And beneath that, fainter: a small, patient hunger that never got to finish."* A dry pause. *"That unfinished hunger is the crack your Thorne-Still crawled into. Nothing here died screaming. It ended the way a long day ends."*`,
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('grave_sense_crossroad_corpse')) {
+                        this.addJournalEntry(
+                            'grave_sense_crossroad_corpse',
+                            'Grave-Sense: How the Corpse Died',
+                            'Through Osswine I read the giant corpse\'s ending: no wound, no violence — it chose to stop. Its last intent was arrival, not fear: a bearer lying down at the feet of what it once carried, glad to be allowed to end. Beneath that lingered a small unfinished hunger — the crack Thorne-Still moved into. It did not die screaming; it ended like a long day ending.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Crossroad', via: 'osswine' }
+                        );
+                    }
+                },
+                options: [
+                    { text: 'Step back.', key: 'grave_sense_corpse_back', next: 'closeDialog' }
+                ]
+            },
+            corpse_salt_recall: {
+                speaker: 'Brine Scripture',
+                text: `Brine Scripture stirs and tastes the salt the great body has been leaking into the crossroad for years. *"...This one walked a long way to lie down. Not a god — older, humbler; a thing that carried gods once, the way a road carries feet. It felt the city pull, the way all dead things are pulled here, and it came to be near the others. No wound killed it. It simply arrived, and stopped. The salt still holds the shape of that last, long exhale."*\n\nThe residue closes over. *"Decay has moved into its head now. It always does — settling into the space a purpose leaves behind."*`,
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('salt_recall_crossroad_corpse')) {
+                        this.addJournalEntry(
+                            'salt_recall_crossroad_corpse',
+                            'Salt Recall: The Crossroad Corpse',
+                            'Through Brine Scripture I read the salt-memory of the giant corpse at the crossroad. It was not a god but something that once carried gods — a bearer, drawn here to die near its betters as all dead things are drawn to Upper Morkezela. No wound felled it; it simply arrived and stopped. Decay (and Thorne-Still) has since nested in the space its purpose left behind.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Crossroad', via: 'brine-scripture' }
+                        );
+                    }
+                },
+                options: [
+                    { text: 'Step back.', key: 'salt_recall_corpse_back', next: 'closeDialog' }
                 ]
             },
             corpseReconsider: {
