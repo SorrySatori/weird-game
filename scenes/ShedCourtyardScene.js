@@ -412,7 +412,9 @@ export default class ShedCourtyardScene extends GameScene {
             this.priest.play('idle');
         }
 
-        // Add Ortolan
+        // Add Ortolan — Day 1 only. On Day 2 he has relocated to Burning Bear Street,
+        // so he must not also be standing here.
+        if (!this.isDay2()) {
         this._ortolan = this.add.sprite(600, 520, 'ortolan');
         this._ortolan.setOrigin(0.5, 1);
         this._ortolan.setScale(0.15);
@@ -457,6 +459,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             loop: true
         });
+        }
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -548,6 +551,7 @@ export default class ShedCourtyardScene extends GameScene {
     
     // Create a visual celebration effect for quest completion
     createCompletionEffect() {
+        if (!this._ortolan) return;
         // Create particles for celebration
         const particles = this.add.particles('particle', {
             x: this._ortolan.x,
