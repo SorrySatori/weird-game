@@ -613,6 +613,19 @@ class JournalUI {
                 return { text: '✖ Membership Denied', color: '#ff8844' };
             }
         }
+        if (factionKey === 'PithReclaimers') {
+            if (this.journalSystem.hasEntry('pith_reclaimers_joined')) {
+                return { text: '⚙ Member', color: '#ffd700' };
+            }
+        }
+        if (factionKey === 'LumenDirectorate') {
+            if (this.journalSystem.hasEntry('lumen_directorate_joined')) {
+                return { text: '⚙ Member', color: '#ffd700' };
+            }
+            if (this.journalSystem.hasEntry('ac_growth_test_passed')) {
+                return { text: '⚙ Associate', color: '#b87333' };
+            }
+        }
         return null;
     }
     

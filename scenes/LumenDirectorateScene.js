@@ -129,6 +129,8 @@ export default class LumenDirectorateScene extends GameScene {
         const hasLumenSabotageQuest = !!(this.questSystem?.getQuest('join_lumen_directorate') && !this.questSystem.getQuest('join_lumen_directorate').isComplete);
         const gaveCultivar = !!this.hasJournalEntry('verrik_gave_cultivar');
         const hasCultivar = !!(this.hasItem && this.hasItem('corrosive_cultivar'));
+        const passedGrowthTest = !!this.hasJournalEntry('ac_growth_test_passed');
+        const joinedLumen = !!this.hasJournalEntry('lumen_directorate_joined');
 
         // Mushroom growing: gather game history for outcome determination
         const completedQuests = this.questSystem?.getAllQuests().filter(q => q.isComplete) || [];
@@ -156,7 +158,7 @@ export default class LumenDirectorateScene extends GameScene {
                     : `"Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`,
                 options: [
                     { text: "What is this place?", key: 'what_is_this_place', next: "gardener_about_lumen" },
-                    ...(hasLumenQuest ? [{ text: "I was told to come here — about joining the crew.", key: 'i_was_told_to_come_here_about_joining_the_crew', next: "gardener_join" }] : []),
+                    ...(!passedGrowthTest && !joinedLumen ? [{ text: "How does someone join the Directorate?", key: 'i_was_told_to_come_here_about_joining_the_crew', next: "gardener_join" }] : []),
                     ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall. Any ideas?", key: 'i_need_to_get_into_the_townhall_any_ideas', next: "gardener_townhall" }] : []),
                     ...(hasLumenSabotageQuest && !hasCultivar && !gaveCultivar ? [{ text: "The Angle Corrector sent me — he said you keep a cultivar for... difficult problems.", key: 'the_angle_corrector_said_you_keep_a_cultivar', next: "gardener_cultivar" }] : []),
                     ...(knowsLumenLead ? [{ text: "I need to speak with someone about Cathedral oversight.", key: 'i_need_to_speak_with_someone_about_cathedral_overs', next: "gardener_bishop_lead" }] : []),
@@ -246,13 +248,19 @@ export default class LumenDirectorateScene extends GameScene {
 
             gardener_join: {
                 speaker: 'Verrik the Gardener',
-                text: `"Joining up, eh? Captain Liris sent you? She's always looking for promising recruits. The Directorate values dedication to growth — in all its forms.\n\nYou'll want to speak with the Angle Corrector inside. Third floor, through the atrium. Tell them Liris sent you. That should get you through the door, at least."`,
+                text: `"Joining up, eh? The Directorate's always growing — and it values dedication to growth in all its forms. Doesn't matter who sent you; the door's the same.\n\nYou'll want the Angle Corrector inside. Third floor, through the atrium. Tell them you're here to join and that the gardener pointed you up. That should get you through, at least."`,
                 options: [
                     { text: "What should I expect?", key: 'what_should_i_expect', next: "gardener_join_expect" },
                     { text: "Thanks. I'll head inside.", key: 'thanks_ill_head_inside', next: "closeDialog" },
                 ],
                 onTrigger: () => {
-                    this.questSystem.updateQuest('find_lumen_directorate', 'The gardener Verrik directed me to speak with the Angle Corrector on the third floor of the Directorate. Captain Liris\'s name should get me through the door.', 'gardener_directions');
+                    const q = this.questSystem?.getQuest('find_lumen_directorate');
+                    if (!q) {
+                        this.questSystem.addQuest('find_lumen_directorate', 'Nothing Hidden. Nothing Lost', 'Verrik, the Directorate\'s gardener, pointed me to the Angle Corrector on the third floor. I should speak with them about joining the Lumen Directorate.');
+                        this.showNotification('New quest: Nothing Hidden. Nothing Lost', 0x556B2F);
+                    } else if (!q.isComplete) {
+                        this.questSystem.updateQuest('find_lumen_directorate', 'The gardener Verrik directed me to speak with the Angle Corrector on the third floor of the Directorate about joining.', 'gardener_directions');
+                    }
                 }
             },
 

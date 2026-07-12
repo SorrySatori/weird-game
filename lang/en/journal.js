@@ -740,5 +740,9 @@ export default {
             title: 'Reclaimed Share',
             description: 'The Pith Reclaimers set aside a share for filing the Heir into the record.',
         },
+        rust_choir_warned_of_lumen: {
+            title: 'A Warning for the Choir',
+            description: "The Lumen Directorate tasked me with destroying the Rust Choir's machines. Instead I warned Brukk. The Choir counts me loyal now — and marks the Directorate for a reckoning. There is no returning to the Directorate after this.",
+        },
     }
 };

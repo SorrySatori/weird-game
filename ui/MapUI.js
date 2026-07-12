@@ -96,13 +96,24 @@ export default class MapUI {
         this.container.visible = false;
         this.container.setScrollFactor(0);
 
-        // Dark background
+        // Dark background (backdrop / fallback behind the map image)
         const bg = this.scene.add.graphics();
         bg.fillStyle(0x0a1a12, 0.95);
         bg.fillRect(-400, -300, 800, 600);
-        bg.lineStyle(2, 0x2a623d);
-        bg.strokeRect(-400, -300, 800, 600);
         this.container.add(bg);
+
+        // Map artwork — aligns with the node coordinates below. Sits behind lines/nodes/labels.
+        if (this.scene.textures.exists('mapBg')) {
+            const mapImage = this.scene.add.image(0, 0, 'mapBg');
+            mapImage.setDisplaySize(800, 600);
+            this.container.add(mapImage);
+        }
+
+        // Border frame on top of the artwork
+        const frame = this.scene.add.graphics();
+        frame.lineStyle(2, 0x2a623d);
+        frame.strokeRect(-400, -300, 800, 600);
+        this.container.add(frame);
 
         // Title
         const title = this.scene.add.text(0, -270, this.lang.t('ui.mapTitle'), {

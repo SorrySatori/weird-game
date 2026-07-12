@@ -8,13 +8,22 @@ export default {
         'Busker': 'Pouliční muzikant',
     },
     magnekin_start: {
-        text: "Ahoj, kdo jsi? Já jsem... hmm, Magnekin, průměrný skutečný občan tohoto města.",
+        text: {
+            magnekin_start_pretense: "Ahoj, kdo jsi? Já jsem... hmm, Magnekin, průměrný skutečný občan tohoto města.",
+            magnekin_start_revealed: "Magnekinova vypůjčená tvář se uvolní, jakmile tě pozná — s tebou už tu přetvářku držet nemusí. Tisíce drobných okének zablikají na pozdrav. „Á. Ty. Co může... 'průměrný skutečný občan' udělat pro přítele?“"
+        },
         options: {
             hi_i_am_an_aprentice_of_master_thaal_from_obazoba_: "Ahoj, jsem učedník mistra Thaala z církve Obazoba.",
             hello_there_im_an_obazoba_cult_adept: "Nazdar, jsem adept kultu Obazoba.",
             what_do_you_mean_real_citizen: "Co myslíš tím *skutečný občan*?",
             hello_my_name_is_lord_murmurspine_i_am_en_envoy_fr: "Dobrý den, jmenuji se Lord Murmurspine, jsem vyslanec z Lagerlandie. Máte chvíli si pohovořit o našem pánu a spasiteli, Maltimu Chmeloskoku?",
-            use_nemes_power_to_detect_lies_and_pretense: "Použít Nemovu moc k odhalení lží a přetvářky."
+            use_nemes_power_to_detect_lies_and_pretense: "Použít Nemovu moc k odhalení lží a přetvářky.",
+            magnekin_cities_recall: "Připomeň mi — jak funguje celá sbírka měst?",
+            magnekin_origin_recall: "Pověz mi znovu svůj příběh o původu.",
+            magnekin_blend_recall: "Ohledně toho, jak splynout s okolím...",
+            you_know_i_see_your_body_is_made_of_metal_you_must: "Musíš toho o kovu hodně vědět. Nevíš, kde bych sehnal nějaký kovový šrot?",
+            magnekin_signal_recall: "Zahlédl jsi nějaký nouzový signál nebo něco neobvyklého?",
+            magnekin_goodbye: "Jen se zastavuji. Opatruj se."
         }
     },
     magnekin_greeting: {

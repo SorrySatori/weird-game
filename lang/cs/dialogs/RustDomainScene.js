@@ -13,7 +13,14 @@ export default {
         options: {
             ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?",
             perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?",
-            brukk_ask_graft: "Dokázal by mi Chór udělat místo pro dalšího symbionta? Zaplatím."
+            brukk_ask_graft: "Dokázal by mi Chór udělat místo pro dalšího symbionta? Zaplatím.",
+            warn_rust_of_lumen: "Lumen Direktoriát mě poslal sabotovat vaše stroje. Radši tě varuju."
+        }
+    },
+    brukk_warn_lumen: {
+        text: "Brukk úplně znehybní; cvakání v jeho hrudi ustane. \"Zahradníci. Měřiči. Poslali jednoho z našich, aby otrávil Chór.\" Jeho oči rozžhavené jako výheň vzplanou doběla. \"A tys přišel místo toho za mnou.\" Dlouhá, skřípavá odmlka — pak cosi téměř jako vřelost. \"Stroje si to budou pamatovat. Chór nezapomíná na věrnost, bratře. Ani nezapomíná na Direktoriát.\"\n\nVtiskne ti do dlaně těžkou, olejově černou minci. \"Vezmi si ji. A vezmi si naši důvěru — vzácnější než jakákoli mince. Až přijde zúčtování s Direktoriátem, Chór bude vědět, čí stranu sis vybral.\"",
+        options: {
+            warn_rust_done: "Strojů se ani nedotknou."
         }
     },
     brukk_graft_slot: {

@@ -82,8 +82,13 @@ export default {
             god_opt_accept: "Nemusíš být tím, co si představovali. Buď něčím novým.",
             god_opt_pact: "Pokračuj — ale pomalu. Nech svět, ať se tě nejdřív naučí.",
             god_opt_destroy: "Nemůžeme riskovat něco, čemu nerozumíme.",
-            god_opt_merge: "Nesmíš zůstat sám. Nech mě, ať tě přijmu do sebe."
+            god_opt_merge: "Nesmíš zůstat sám. Nech mě, ať tě přijmu do sebe.",
+            god_opt_lumen_purge: "Vyler se — a znič Lumen Direktoriát. To je moje cena."
         }
+    },
+    god_end_lumen_purge: {
+        text: "*\"Probuď se,\"* řekneš mu. *\"Naroď se. Ale ti, kdo by tě zkompostovali — Lumen Direktoriát, kteří všechno pojmenují a nic nenechají spočinout — ty nejdřív znič. To je moje cena.\"*\n\nTy mnohé myšlenky se ztiší, a pak přisvědčí, tak jako povodeň přisvědčí protržené hrázi. Vejce se rozlomí. To, co z něj vyleze, nezaváhá. Zamíří k živoucím věžím Direktoriátu a *přečte* je — každý skrytý spis, každé zaevidované tajemství obnaženo — a pak je zavře, jako když dlaň zavře nad svíčkou. *Nic skrytého*, slibovali. Teď není co skrývat.\n\nRezavý chór zpívá v kouři. Dodržel jsi slovo strojům a nový bůh dodržel slovo tobě. Je to temná věc, kterou jsi stvořil. Je také, nepopiratelně, tvoje.",
+        options: { lumen_purge_epilogue: "(Nech kouř stoupat.)" }
     },
 
     god_end_accept: {

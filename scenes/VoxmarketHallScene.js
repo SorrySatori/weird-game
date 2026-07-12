@@ -982,7 +982,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
             && !this.hasJournalEntry('auction_toadlet_lost');
         if (auctionActive) {
             this.createHeartbrokerLune();
-            this.createHeirToAquarium();
+            if (!this.hasJournalEntry('pith_recruit_heir')) this.createHeirToAquarium();
             this.createSilenceBeneathStairwell();
             this.createSisterCalyx();
         }

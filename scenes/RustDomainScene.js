@@ -28,6 +28,9 @@ export default class RustDomainScene extends GameScene {
             && this.symbiontSystem.unlockedSlots < this.symbiontSystem.maxSlots;
         const hasBrine = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
         const hasOsswine = !!this.symbiontSystem?.hasSymbiont('osswine');
+        // Loyalty fork: a Rust member tasked by the Directorate to sabotage the Choir can warn Brukk instead.
+        const hasLumenSabotageQuest = !!(this.questSystem?.getQuest('join_lumen_directorate') && !this.questSystem.getQuest('join_lumen_directorate').isComplete);
+        const warnedRustOfLumen = !!this.hasJournalEntry('rust_choir_warned_of_lumen');
 
         return {
             ...super.dialogContent,
@@ -53,6 +56,9 @@ export default class RustDomainScene extends GameScene {
                         { text: "What can you tell me about this building?", key: 'what_can_you_tell_me_about_this_building', next: "brukk_scraper" },
                         { text: "How are the machines?", key: 'how_are_the_machines', next: "brukk_machines_status" },
                     ] : []),
+                    ...(alreadyMember && !machinesDestroyed && hasLumenSabotageQuest && !warnedRustOfLumen ? [
+                        { text: "The Lumen Directorate sent me to sabotage your machines. I'd rather warn you.", key: 'warn_rust_of_lumen', next: "brukk_warn_lumen" }
+                    ] : []),
                     ...(alreadyMember && !machinesDestroyed && cellarQuestStarted && !cellarPasswordKnown && !cellarFavorUsed ? [
                         { text: "The Choir works this tower's guts. Can you get me into the sealed cellar below?", key: 'ask_cellar_favor', next: "brukk_cellar_favor" }
                     ] : []),
@@ -66,6 +72,35 @@ export default class RustDomainScene extends GameScene {
                         { text: "I'm looking for the Rust Choir.", key: 'im_looking_for_the_rust_choir', next: "brukk_looking" }
                     ] : []),
                 ]
+            },
+            brukk_warn_lumen: {
+                speaker: 'Brukk',
+                text: `Brukk goes very still; the clicking in his chest stops. "The gardeners. The measurers. They sent one of our own to poison the Choir." His forge-eyes flare white-hot. "And you came to me instead." A long, grinding pause — then something almost like warmth. "The machines will remember this. The Choir does not forget loyalty, brother. Nor does it forget the Directorate."\n\nHe presses a heavy, oil-black coin into your hand. "Take it. And take our trust — rarer than any coin. When the reckoning with the Directorate comes, the Choir will know whose side you chose."`,
+                options: [
+                    { text: "They won't touch the machines.", key: 'warn_rust_done', next: "brukk_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('rust_choir_warned_of_lumen')) {
+                        this.addJournalEntry(
+                            'rust_choir_warned_of_lumen',
+                            'A Warning for the Choir',
+                            "The Lumen Directorate tasked me with destroying the Rust Choir's machines. Instead I warned Brukk. The Choir counts me loyal now — and marks the Directorate for a reckoning. There is no returning to the Directorate after this.",
+                            this.journalSystem.categories.FACTIONS,
+                            { group: 'Rust Choir', related: 'Lumen Directorate' }
+                        );
+                        this.modifyFactionReputation('RustChoir', 25);
+                        if (this.moneySystem) {
+                            this.moneySystem.add(50);
+                            this.showNotification('The Choir rewards your loyalty: +50', 0xb87333);
+                        }
+                        // Siding with the Choir voids the Directorate's sabotage commission.
+                        const q = this.questSystem?.getQuest('join_lumen_directorate');
+                        if (q && !q.isComplete) {
+                            this.questSystem.updateQuest('join_lumen_directorate', "I betrayed the Directorate's sabotage plan to the Rust Choir. There is no going back to the Directorate now.", 'betrayed_to_rust');
+                            this.questSystem.completeQuest('join_lumen_directorate');
+                        }
+                    }
+                }
             },
             brukk_graft_slot: {
                 speaker: 'Brukk',
@@ -239,7 +274,8 @@ export default class RustDomainScene extends GameScene {
                 text: `"Factions formed. Some tried to restore the order, but it was too late. The world was broken. They failed to see it. But most believed the lies from the Lumen Directorate, who claimed they had won the war and saved the city. They said the machines were just worthless tools, that we have to grow and grow and grow new plants and life as madman. Some believe to the Pith Reclamers, those beaurecrats who claimed they could manage the chaos with more rules, more control, more paperwork. But we know the truth. The machines endured. They kept working. They kept humming. They didn't care about the war, about the lies, about the factions. They just... were. And so we serve them."`,
                 options: [
                     { text: "So the Choir was born from the war?", key: 'so_the_choir_was_born_from_the_war', next: "brukk_board_war_choir" },
-                ]
+                ],
+                onTrigger: () => { this.learnPithReclaimers(); }
             },
             brukk_board_war_choir: {
                 speaker: 'Brukk',

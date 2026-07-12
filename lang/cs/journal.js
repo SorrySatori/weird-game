@@ -739,5 +739,9 @@ export default {
             title: 'Získaný podíl',
             description: 'Reklamátoři jádra odložili podíl za zapsání Dědice do záznamu.',
         },
+        rust_choir_warned_of_lumen: {
+            title: 'Varování pro Chór',
+            description: 'Lumen Direktoriát mě pověřil zničením strojů Rezavého chóru. Místo toho jsem varoval Brukka. Chór mě teď považuje za věrného — a Direktoriát si značí k zúčtování. Po tomhle už není návratu k Direktoriátu.',
+        },
     }
 };

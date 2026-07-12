@@ -122,11 +122,12 @@ export default class ShedApplicationsScene extends GameScene {
                 ],
                 onShow: () => {
                     const factionSystem = this.registry.get('factionSystem');
-                
+
                     if (factionSystem) {
                         factionSystem.modifyReputation('PithReclaimers', 20);
                         this.showNotification('Pith Reclaimers Reputation +20');
                     }
+                    this.learnPithReclaimers();
                 }
             },
             edgar: {

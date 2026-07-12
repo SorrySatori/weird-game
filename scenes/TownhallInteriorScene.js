@@ -552,7 +552,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
             },
             councilor_pith_who: {
                 speaker: 'Councilor Seraphel Dune',
-                text: `"The city is full of the unaccounted. That 'average citizen' who loiters in the Town Square and fools no one. The creature that haunts the Voxmarket auctions with no address to its name. Pick one. Convince them that being written down is a kind of safety." A dry pause. "Most people spend their lives trying to stay un-filed. The ones who want in — those are ours."`,
+                text: `"The city is full of the unaccounted. Pick one. Convince them that being written down is a kind of safety." A dry pause. "Most people spend their lives trying to stay un-filed. The ones who want in — those are ours."`,
                 options: [
                     { text: "I'll find someone.", key: 'pith_accept_2', next: "councilor_pith_accepted" },
                     { text: "Let me think.", key: 'pith_think', next: "councilor_start" },
@@ -566,7 +566,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
                 ],
                 onTrigger: () => {
                     if (!this.questSystem?.getQuest('join_pith_reclaimers')) {
-                        this.questSystem.addQuest('join_pith_reclaimers', 'One More Citizen', 'Councilor Seraphel Dune will admit me to the Pith Reclaimers if I bring them a soul — someone unmoored and unfiled — and convince them to be recorded as a citizen. Candidates: the "average real citizen" (Magnekin) in the Town Square, or the Heir who haunts the Voxmarket auction. Then return to Seraphel.');
+                        this.questSystem.addQuest('join_pith_reclaimers', 'One More Citizen', 'Councilor Seraphel Dune will admit me to the Pith Reclaimers if I bring them a soul — someone unmoored and unfiled — and convince them to be recorded as a citizen. Then return to Seraphel.');
                         this.showNotification('New quest: One More Citizen', 0xffdf7a);
                     }
                 }

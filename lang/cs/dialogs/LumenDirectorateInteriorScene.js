@@ -15,7 +15,7 @@ export default {
             [`"Ah, you again. Still circling, still uncertain. Have you decided what growth means to you yet?"`]: `"Ach, zase vy. Stále kroužíte, stále váháte. Už jste se rozhodli, co pro vás růst znamená?"`
         },
         options: {
-            captain_liris_sent_me_im_here_to_join_the_director: "Poslala mě kapitánka Liris. Chci se připojit k direktoriátu.",
+            captain_liris_sent_me_im_here_to_join_the_director: "Chci se připojit k Direktoriátu.",
             im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky.",
             i_need_to_ask_about_spiced_sulkberries: "Potřebuji se zeptat na kořeněné mručenky.",
             i_need_help_getting_into_the_townhall: "Potřebuji pomoc dostat se na radnici.",
@@ -29,7 +29,7 @@ export default {
         }
     },
     ac_liris_recruit: {
-        text: "Liris. Ano, má talent na odhalování potenciálu na nepravděpodobných místech. Jednou naverbovala navigátora, který nerozeznával pravobočku od levobočky — ukázalo se, že je to nejlepší čtenář větru, jakého Verdigrace kdy měla.\n\nAle doporučení od Liris otevírá dveře. Neusazuje vás ke stolu. K tomu potřebuji nejdřív něčemu porozumět.",
+        text: "Přidat se, tedy. Přicházejí ke mně tak či onak — ať už je pošle kapitánka Liris z Verdigrace, nebo je zahradník nasměruje po schodech nahoru. Mně je to jedno.\n\nDoporučení otevírá dveře. Neusazuje vás ke stolu. K tomu potřebuji nejdřív něčemu porozumět.",
         options: {
             what_do_you_need_to_know: "Co potřebujete vědět?",
             i_thought_this_was_a_formality: "Myslel jsem, že je to formalita."
@@ -241,7 +241,10 @@ export default {
         }
     },
     ac_membership_offer: {
-        text: "Korektor úhlů si vás dlouhou chvíli měří. \"Plné členství. Ukázali jste, že rozumíte růstu jako myšlence. Teď potřebuji, abyste podle ní jednali.\n\nRezavý chór opatruje svatyni strojů — železo udržované v dechu dávno po jeho době. Pomník zadrženého rozkladu, odmítnutí nechat mrtvé věci ležet. Direktoriát by ji viděl raději zkompostovanou.\n\nOchromte ji. Zabijte ty stroje. Udělejte to, a jste jedním z nás.\" Tenký úsměv. \"Co se metody týče — Verrik chová za sklem kultivar přesně pro tenhle druh zahradničení. Zeptejte se ho, řekněte, že vás posílám já. Nebo si najděte vlastní cestu do Chóru; podrobnosti nepotřebuji. 'Nic skrytého' má své zdvořilé výjimky.\"",
+        text: {
+            ac_membership_offer_default: "Korektor úhlů si vás dlouhou chvíli měří. \"Plné členství. Ukázali jste, že rozumíte růstu jako myšlence. Teď potřebuji, abyste podle ní jednali.\n\nRezavý chór opatruje svatyni strojů — železo udržované v dechu dávno po jeho době. Pomník zadrženého rozkladu, odmítnutí nechat mrtvé věci ležet. Direktoriát by ji viděl raději zkompostovanou.\n\nOchromte ji. Zabijte ty stroje. Udělejte to, a jste jedním z nás.\" Tenký úsměv. \"Co se metody týče — Verrik chová za sklem kultivar přesně pro tenhle druh zahradničení. Zeptejte se ho, řekněte, že vás posílám já. Nebo si najděte vlastní cestu do Chóru; podrobnosti nepotřebuji. 'Nic skrytého' má své zdvořilé výjimky.\"",
+            ac_membership_offer_defector: "Pohled Korektora úhlů na vás dosedne jako měřicí přístroj. \"Nosíte rez Chóru — cítím na vás ten olej. A přesto tu stojíte a žádáte o růst.\" Tenký úsměv. \"Dobře. Přeběhlík řízne hlouběji než cizinec, a vy jste ideálně umístěni, abyste zaplatili cenu členství: ochromte svatyni strojů Rezavého chóru. Zabijte stroje, kterým jste sloužili.\n\nUž jste uvnitř jejich zdí — využijte toho. Verrik chová za sklem kultivar přesně pro tenhle druh zahradničení; vetřete jej do jejich hostiny. Nebo improvizujte. Podrobnosti nepotřebuji. 'Nic skrytého' má své zdvořilé výjimky.\"",
+        },
         options: {
             consider_it_done: "Považujte to za hotové.",
             ill_think_about_it_membership: "Rozmyslím si to."

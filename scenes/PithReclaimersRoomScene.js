@@ -57,6 +57,34 @@ export default class PithReclaimersRoomScene extends GameScene {
                 options: pending.length
                     ? [{ text: "Take the Reclaimers' share.", key: 'take_pith_cache', next: "closeDialog", onSelect: () => this._collectCache() }]
                     : [{ text: "Close the drawer.", key: 'close_pith_cache', next: "closeDialog" }]
+            },
+
+            // --- Filed souls, now residing in the room ---
+            magnekin_room_start: {
+                speaker: 'Magnekin',
+                text: `Magnekin stands among the shelves, borrowed face at ease. "A collection of cities. Now, officially, one citizen — filed, stamped, cross-referenced." A thousand tiny windows glow warm. "It is strange. We spent so long pretending to belong, and a single form made it... true. Thank you, friend. We are accounted for."`,
+                options: [
+                    { text: "You seem at home here.", key: 'magnekin_room_home', next: "magnekin_room_home" },
+                    { text: "Take care, Magnekin.", key: 'magnekin_room_bye', next: "closeDialog" },
+                ]
+            },
+            magnekin_room_home: {
+                speaker: 'Magnekin',
+                text: `"The Reclaimers do not ask us to be less strange. Only to be written down. We can live with being written down." A pause. "The cities inside me have started a small archive of their own. We are learning the local custom: keep everything, throw away nothing."`,
+                options: [{ text: "Fitting.", key: 'magnekin_room_fitting', next: "magnekin_room_start" }]
+            },
+            heir_room_start: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `The Heir stands very still among the files, embryos drifting in slow, contented spirals. "Recorded," they say, and the word moves through the floorboards. "Continued. The register keeps us the way the Yellow Aquarium keeps its living things — because we can still change." Their yellow light is steady now. "We are remembered forward. It is enough."`,
+                options: [
+                    { text: "No more haunting the auctions, then?", key: 'heir_room_auctions', next: "heir_room_auctions" },
+                    { text: "Rest well.", key: 'heir_room_bye', next: "closeDialog" },
+                ]
+            },
+            heir_room_auctions: {
+                speaker: 'Heir to the Yellow Aquarium',
+                text: `"The lots still call. But a collector who is themselves collected need not chase the tide." A ripple of embryos. "We visit. We do not drift. There is a difference, now that there is a shelf with our name on it."`,
+                options: [{ text: "There is.", key: 'heir_room_diff', next: "heir_room_start" }]
             }
         };
     }
@@ -65,6 +93,27 @@ export default class PithReclaimersRoomScene extends GameScene {
         super.preload();
         // Reuse the abandoned-office interior for the archival reading room.
         this.load.image('pith-room-bg', 'assets/images/backgrounds/ShedAbandonedOffice.png');
+        // Recruited souls that now reside here.
+        this.load.image('magnekin', 'assets/images/characters/magnekin.png');
+        this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
+    }
+
+    // A filed soul lives in the room; clicking them opens their settled dialog.
+    createRecruitNpc(recruitFlag, textureKey, x, y, scale, tint, dialogState) {
+        if (!this.hasJournalEntry(recruitFlag)) return;
+        const npc = this.add.image(x, y, textureKey);
+        npc.setScale(scale);
+        if (tint !== null) npc.setTint(tint);
+        npc.setDepth(5);
+        npc.setInteractive({ useHandCursor: true });
+        npc.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
+        npc.on('pointerout', () => { document.body.style.cursor = 'default'; });
+        npc.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog(dialogState);
+        });
+        return npc;
     }
 
     create() {
@@ -98,6 +147,10 @@ export default class PithReclaimersRoomScene extends GameScene {
             if (this.clickSound) this.clickSound.play();
             this.showDialog('pith_cache');
         });
+
+        // Souls the player has filed into the Pith now reside here instead of their old haunts.
+        this.createRecruitNpc('pith_recruit_magnekin', 'magnekin', 330, 440, 0.18, 0xc0c0c0, 'magnekin_room_start');
+        this.createRecruitNpc('pith_recruit_heir', 'heirToAquarium', 500, 450, 0.11, null, 'heir_room_start');
 
         if (!this.hasJournalEntry('pith_room_entered')) {
             this.addJournalEntry(

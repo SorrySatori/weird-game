@@ -272,6 +272,8 @@ export default class HarborScene extends GameScene {
     }
 
     createHeirResident() {
+        // Once filed into the Pith Reclaimers, the Heir has left the Harbor for the Reclaimers' Room.
+        if (this.hasJournalEntry('pith_recruit_heir')) return;
         this.heir = this.add.image(640, 450, 'heirToAquarium');
         this.heir.setScale(0.11);
         this.heir.setDepth(5);

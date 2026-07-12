@@ -193,6 +193,8 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         const machinesDestroyed = !!this.hasJournalEntry('rust_choir_machines_destroyed');
         const sabotageQuest = this.questSystem?.getQuest('join_lumen_directorate');
         const hasSabotageQuest = !!(sabotageQuest && !sabotageQuest.isComplete);
+        const rustMember = !!(this.hasJournalEntry('rust_choir_joined') && !machinesDestroyed);
+        const warnedRustOfLumen = !!this.hasJournalEntry('rust_choir_warned_of_lumen');
         // Directorate Clearance perk: archive reveal (currently surfaces the vestigel-buyer lead).
         const vestigelQuest = this.questSystem?.getQuest('the_three_vestigels');
         const canRevealEskola = !!(joinedLumen && vestigelQuest && !vestigelQuest.isComplete && !vestigelQuest.updates?.some(u => u.key === 'found_eskola_lead'));
@@ -210,14 +212,14 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                         : `"Ah, you again. Still circling, still uncertain. Have you decided what growth means to you yet?"`)
                     : `"Stop. Don't come any closer until I've had a look at you.\n\n...Interesting. You carry spores — everyone does — but yours have an unusual cadence. Like a song that hasn't decided what key it's in.\n\nI am the Angle Corrector. That is my title, my name, and my function. State your business."`,
                 options: [
-                    ...(hasLumenQuest && !passedGrowthTest ? [{ text: "Captain Liris sent me. I'm here to join the Directorate.", key: 'captain_liris_sent_me_im_here_to_join_the_director', next: "ac_liris_recruit" }] : []),
+                    ...(hasLumenQuest && !passedGrowthTest ? [{ text: "I'm here to join the Directorate.", key: 'captain_liris_sent_me_im_here_to_join_the_director', next: "ac_liris_recruit" }] : []),
                     ...(hasBishopQuest && (knowsLumenLead || knowsBishopVisits) ? [{ text: "I'm investigating the Bishop's death.", key: 'im_investigating_the_bishops_death', next: "ac_bishop_inquiry" }] : []),
                     ...(hasBishopQuest && knowsSulkberries && !knowsSulkberryRecords ? [{ text: "I need to ask about spiced Sulkberries.", key: 'i_need_to_ask_about_spiced_sulkberries', next: "ac_sulkberries" }] : []),
                     ...(hasEnterTownhallQuest ? [{ text: "I need help getting into the Townhall.", key: 'i_need_help_getting_into_the_townhall', next: "ac_townhall" }] : []),
                     { text: "Tell me about the Lumen Directorate.", key: 'tell_me_about_the_lumen_directorate', next: "ac_about_directorate" },
                     ...(metAngleCorrector ? [{ text: "What's happening with the Egg Cathedral?", key: 'whats_happening_with_the_egg_cathedral', next: "ac_cathedral" }] : []),
                     ...(passedGrowthTest ? [{ text: "What can I do for the Directorate?", key: 'what_can_i_do_for_the_directorate', next: "ac_assignments" }] : []),
-                    ...(passedGrowthTest && !joinedLumen && !hasSabotageQuest && !machinesDestroyed ? [{ text: "I want to be more than an associate. What would full membership take?", key: 'i_want_full_membership', next: "ac_membership_offer" }] : []),
+                    ...(passedGrowthTest && !joinedLumen && !hasSabotageQuest && !machinesDestroyed && !warnedRustOfLumen ? [{ text: "I want to be more than an associate. What would full membership take?", key: 'i_want_full_membership', next: "ac_membership_offer" }] : []),
                     ...(passedGrowthTest && !joinedLumen && machinesDestroyed ? [{ text: "The Rust Choir's machines are dead. It's done.", key: 'the_rust_choirs_machines_are_dead', next: "ac_sabotage_report" }] : []),
                     ...(joinedLumen ? [{ text: "Consult the Directorate's files. (Nothing Hidden.)", key: 'consult_the_directorate_files', next: "ac_archive" }] : []),
                     ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] I've met the mind in the sealed cellar. I know what's hatching.", key: 'fold_before_cathedral', next: "ac_fold_perspective" }] : []),
@@ -238,7 +240,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
             // --- Liris recruitment branch ---
             ac_liris_recruit: {
                 speaker: 'The Angle Corrector',
-                text: `"Liris. Yes, she has a talent for spotting potential in unlikely places. She once recruited a navigator who couldn't tell port from starboard — turned out to be the best wind-reader the Verdigrace ever had.\n\nBut Liris's recommendation opens the door. It doesn't seat you at the table. For that, I need to understand something about you first."`,
+                text: `"Joining, then. They come to me one way or another — whether Captain Liris sends them from the Verdigrace or the gardener points them up the stairs. It makes no difference to me.\n\nA recommendation opens the door. It does not seat you at the table. For that, I need to understand something about you first."`,
                 options: [
                     { text: "What do you need to know?", key: 'what_do_you_need_to_know', next: "ac_growth_test" },
                     { text: "I thought this was a formality.", key: 'i_thought_this_was_a_formality', next: "ac_not_formality" },
@@ -356,7 +358,8 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 text: `"The Rust Choir worships entropy. They dress corrosion in sacred robes and call it 'the silence between.' Romantic nonsense — decay without purpose is just death.\n\nThe Pith Reclaimers are bureaucrats who believe they can manage chaos with enough forms and procedures. They emerged from the wreckage of the Ludarchs' administrative apparatus and never stopped filing.\n\nWe work with both when necessary. The Directorate is pragmatic above all."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
-                ]
+                ],
+                onTrigger: () => { this.learnPithReclaimers(); }
             },
 
             ac_role: {
@@ -626,7 +629,10 @@ export default class LumenDirectorateInteriorScene extends GameScene {
             // --- Full membership: sabotage the Rust Choir ---
             ac_membership_offer: {
                 speaker: 'The Angle Corrector',
-                text: `The Angle Corrector studies you for a long moment. "Full membership. You've shown you understand growth as an idea. Now I need you to act on it.\n\nThe Rust Choir keeps a shrine of machines — iron kept breathing long past its season. A monument to arrested decay, a refusal to let dead things lie. The Directorate would see it composted.\n\nCripple it. Kill the machines. Do that, and you are one of us." A thin smile. "As for method — Verrik keeps a cultivar behind glass for exactly this kind of gardening. Ask him, tell him I sent you. Or find your own way inside the Choir; I don't need the details. 'Nothing Hidden' has its polite exceptions."`,
+                textKey: rustMember ? 'ac_membership_offer_defector' : 'ac_membership_offer_default',
+                text: rustMember
+                    ? `The Angle Corrector's gaze settles on you like a measurement. "You wear the Choir's rust — I can smell the oil on you. And yet here you stand, asking to grow." A thin smile. "Good. A defector cuts deeper than any stranger, and you are perfectly placed to pay membership's price: cripple the Rust Choir's machine-shrine. Kill the machines you have been serving.\n\nYou are already inside their walls — use it. Verrik keeps a cultivar behind glass for exactly this kind of gardening; grind it into their feast. Or improvise. I don't need the details. 'Nothing Hidden' has its polite exceptions."`
+                    : `The Angle Corrector studies you for a long moment. "Full membership. You've shown you understand growth as an idea. Now I need you to act on it.\n\nThe Rust Choir keeps a shrine of machines — iron kept breathing long past its season. A monument to arrested decay, a refusal to let dead things lie. The Directorate would see it composted.\n\nCripple it. Kill the machines. Do that, and you are one of us." A thin smile. "As for method — Verrik keeps a cultivar behind glass for exactly this kind of gardening. Ask him, tell him I sent you. Or find your own way inside the Choir; I don't need the details. 'Nothing Hidden' has its polite exceptions."`,
                 options: [
                     { text: "Consider it done.", key: 'consider_it_done', next: "ac_sabotage_accepted" },
                     { text: "I'll think about it.", key: 'ill_think_about_it_membership', next: "ac_start" },
@@ -640,7 +646,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.questSystem?.getQuest('join_lumen_directorate')) {
-                        this.questSystem.addQuest('join_lumen_directorate', 'Nothing Grows in Iron', 'The Angle Corrector will grant me full Lumen Directorate membership if I cripple the Rust Choir\'s machine-shrine. Verrik keeps a restricted cultivar for the purpose — grind it into the Rust Feast oil. Or I can sabotage the machines another way (Ulvarex\'s Mirage Weave would serve). Then report back.');
+                        this.questSystem.addQuest('join_lumen_directorate', 'Nothing Grows in Iron', 'The Angle Corrector will grant me full Lumen Directorate membership if I cripple the Rust Choir\'s machine-shrine. Verrik keeps a restricted cultivar for the purpose — grind it into the Rust Feast oil. Or I can sabotage the machines another way. Then report back.');
                         this.showNotification('New quest: Nothing Grows in Iron', 0x556B2F);
                     }
                 }

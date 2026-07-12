@@ -104,6 +104,9 @@ export default class GameScene extends Phaser.Scene {
         // Load Growth/Decay indicator image
         this.load.image('growthDecay', 'assets/images/ui/growthDecay.jpg');
 
+        // Fast-travel map background
+        this.load.image('mapBg', 'assets/images/ui/map.png');
+
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {
             console.log('Error loading asset:', fileObj.key);
@@ -1538,6 +1541,18 @@ export default class GameScene extends Phaser.Scene {
     /** True once inducted into the Lumen Directorate. Save-persisted (journal-backed). */
     isLumenMember() {
         return !!this.hasJournalEntry('lumen_directorate_joined');
+    }
+
+    /** Idempotently record the Pith Reclaimers as a discovered faction — the gate for joining them. */
+    learnPithReclaimers() {
+        if (!this.hasJournalEntry || this.hasJournalEntry('pith_reclaimers_faction')) return;
+        this.addJournalEntry(
+            'pith_reclaimers_faction',
+            'The Pith Reclaimers - Keepers of Balance',
+            'The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant. They run the city\'s administrative apparatus from the Townhall.',
+            this.journalSystem.categories.FACTIONS,
+            { faction: 'Pith Reclaimers' }
+        );
     }
 
     modifyFactionReputation(faction, amount) {

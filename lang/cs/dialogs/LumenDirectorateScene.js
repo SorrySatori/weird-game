@@ -14,7 +14,7 @@ export default {
         },
         options: {
             what_is_this_place: "Co je to za místo?",
-            i_was_told_to_come_here_about_joining_the_crew: "Bylo mi řečeno, abych sem přišel...",
+            i_was_told_to_come_here_about_joining_the_crew: "Jak se člověk přidá k Direktoriátu?",
             i_need_to_get_into_the_townhall_any_ideas: "Potřebuji se dostat na radnici...",
             i_need_to_speak_with_someone_about_cathedral_overs: "Potřebuji mluvit s někým o dohledu nad katedrálou...",
             about_those_sulkberries_the_directorate_supplied_w: "O těch mručenkách, co direktoriát dodával — byly čisté?",
@@ -83,7 +83,7 @@ export default {
         }
     },
     gardener_join: {
-        text: "Vstoupit, jo? Kapitánka Liris vás poslala? Vždycky hledá slibné rekruty. Direktoriát si cení oddanosti růstu — ve všech jeho formách.\n\nBudete chtít mluvit s Korektorem úhlů uvnitř. Třetí patro, přes atrium. Řekněte, že vás poslala Liris. To by vás mělo dostat alespoň za dveře.",
+        text: "Vstoupit, jo? Direktoriát pořád roste — a cení si oddanosti růstu ve všech jeho formách. Nezáleží na tom, kdo vás poslal; dveře jsou stejné.\n\nBudete chtít Korektora úhlů uvnitř. Třetí patro, přes atrium. Řekněte, že se chcete přidat a že vás nahoru poslal zahradník. To by vás mělo dostat alespoň za dveře.",
         options: {
             what_should_i_expect: "Co mám očekávat?",
             thanks_ill_head_inside: "Díky. Půjdu dovnitř."

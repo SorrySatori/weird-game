@@ -104,21 +104,35 @@ export default class TownSquareScene extends GameScene {
         // Pith recruitment: once the player knows the Pith exist, they can offer Magnekin citizenship.
         const pithKnown = !!this.hasJournalEntry('pith_reclaimers_faction');
         const magnekinRecruited = !!this.hasJournalEntry('pith_recruit_magnekin');
+        // Once the collective's secret is out, drop the "average real citizen" act on return visits.
+        const magnekinRevealed = !!this.hasJournalEntry('magnekin_reveal');
         this._magnekinDialogContent = {
             speaker: 'Magnekin',
 
             magnekin_start: {
                 moodNpc: 'townsquare_citizen',
-                text: "Hello, who are you? I am... hmm, Magnekin, an average real citizen of this city. ",
-                options: [
-                    { text: "Hi, I am an aprentice of master Thaal from Obazoba church.", key: 'hi_i_am_an_aprentice_of_master_thaal_from_obazoba_', next: "magnekin_greeting" },
-                    { text: "Hello there, I'm an Obazoba cult adept.", key: 'hello_there_im_an_obazoba_cult_adept', next: "magnekin_sense" },
-                    { text: "What do you mean, *real citizen*?", key: 'what_do_you_mean_real_citizen', next: "magnekin_suspicious" },
-                    { text: "Hello, my name is Lord Murmurspine, I am en envoy from the Lagerlandia. Do you have a moment to talk about our lord and saviour, Maltimus Hopsalot?", key: 'hello_my_name_is_lord_murmurspine_i_am_en_envoy_fr', next: "magnekin_hopsalot" },
-                    ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
-                        { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
-                    ] : []),
-                ]
+                textKey: magnekinRevealed ? 'magnekin_start_revealed' : 'magnekin_start_pretense',
+                text: magnekinRevealed
+                    ? "The Magnekin's borrowed face eases the moment it recognizes you — no need to keep up the act, not with the one who saw through it. A thousand tiny windows flicker in greeting. \"Ah. You. What can an... 'average real citizen' do for a friend?\""
+                    : "Hello, who are you? I am... hmm, Magnekin, an average real citizen of this city. ",
+                options: magnekinRevealed
+                    ? [
+                        { text: "Remind me — how does a whole collection of cities work?", key: 'magnekin_cities_recall', next: "magnekin_cities" },
+                        { text: "Tell me your origin story again.", key: 'magnekin_origin_recall', next: "magnekin_origin" },
+                        { text: "About helping you blend in...", key: 'magnekin_blend_recall', next: "magnekin_blend" },
+                        ...(this.questSystem.getQuest('rust_feast') ? [{ text: 'You must know a lot about metal. Where can I find some metal scraps?', key: 'you_know_i_see_your_body_is_made_of_metal_you_must', next: 'magenekin_metal_scraps' }] : []),
+                        { text: "Seen any distress signal, or anything unusual?", key: 'magnekin_signal_recall', next: "magnekin_signal" },
+                        { text: "Just checking in. Take care.", key: 'magnekin_goodbye', next: "closeDialog" },
+                    ]
+                    : [
+                        { text: "Hi, I am an aprentice of master Thaal from Obazoba church.", key: 'hi_i_am_an_aprentice_of_master_thaal_from_obazoba_', next: "magnekin_greeting" },
+                        { text: "Hello there, I'm an Obazoba cult adept.", key: 'hello_there_im_an_obazoba_cult_adept', next: "magnekin_sense" },
+                        { text: "What do you mean, *real citizen*?", key: 'what_do_you_mean_real_citizen', next: "magnekin_suspicious" },
+                        { text: "Hello, my name is Lord Murmurspine, I am en envoy from the Lagerlandia. Do you have a moment to talk about our lord and saviour, Maltimus Hopsalot?", key: 'hello_my_name_is_lord_murmurspine_i_am_en_envoy_fr', next: "magnekin_hopsalot" },
+                        ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
+                            { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
+                        ] : []),
+                    ]
             },
 
             magnekin_greeting: {
@@ -150,7 +164,7 @@ export default class TownSquareScene extends GameScene {
                 text: "So, do you have any other questions for me, fellow citizen?",
                 options: [
                     { text: "I came here with my master to search for an origin of a distress signal. Did you seen any distress signal lately? Or anything unusual?", key: 'i_came_here_with_my_master_to_search_for_an_origin', next: "magnekin_signal" },
-                    { text: "Why do you keep saying *real*? You know, that sounds a bit suspicious.", key: 'why_do_you_keep_saying_real_you_know_that_sounds_a', next: "magnekin_suspicious" },
+                    ...(!magnekinRevealed ? [{ text: "Why do you keep saying *real*? You know, that sounds a bit suspicious.", key: 'why_do_you_keep_saying_real_you_know_that_sounds_a', next: "magnekin_suspicious" }] : []),
                     { text: "I am looking for my master. Have you ever heard about a pub called Fermented Cap?", key: 'i_am_looking_for_my_master_have_you_ever_heard_abo', next: "magnekin_fermented_cap" },
                     ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                         { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
@@ -520,6 +534,9 @@ export default class TownSquareScene extends GameScene {
             },
 
         };
+
+        // Once filed into the Pith Reclaimers, Magnekin has left the Town Square for the Reclaimers' Room.
+        if (magnekinRecruited) return;
 
         this.magnekin = this.add.container(250, 300);
         this.magnekin.setDepth(-1);

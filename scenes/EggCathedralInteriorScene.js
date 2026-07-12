@@ -34,6 +34,8 @@ export default class EggCathedralInteriorScene extends GameScene {
         // Infinite Fold speaks here only if it was left as an active, reachable mind.
         const foldVoicePresent = ['partnership', 'self_limit', 'dissolution', 'unexpected_pattern'].includes(foldEnding);
         const understood = !!this.hasJournalEntry('understood_unborn_structure');
+        // Dark bargain: unlocked by warning the Rust Choir of the Directorate's sabotage plot.
+        const betrayedLumenToRust = !!this.hasJournalEntry('rust_choir_warned_of_lumen');
         const readJournal = !!this.hasJournalEntry('bishop_journal_read');
         // The absorb ending demands a rare build: many symbionts + a deep bond with Infinite Fold.
         const absorbQualified = symbiontCount >= 3 && (foldEnding === 'unexpected_pattern' || foldEnding === 'partnership');
@@ -165,7 +167,8 @@ export default class EggCathedralInteriorScene extends GameScene {
                     { text: "You don't have to be what they imagined. Be something new.", key: 'god_opt_accept', next: "god_end_accept" },
                     { text: "Continue — but slowly. Let the world learn you first.", key: 'god_opt_pact', next: "god_end_pact" },
                     { text: "We can't risk what we don't understand.", key: 'god_opt_destroy', next: "god_end_destroy" },
-                    ...(understood ? [{ text: "You shouldn't be left alone. Let me take you in.", key: 'god_opt_merge', next: "god_merge" }] : [])
+                    ...(understood ? [{ text: "You shouldn't be left alone. Let me take you in.", key: 'god_opt_merge', next: "god_merge" }] : []),
+                    ...(betrayedLumenToRust ? [{ text: "Emerge — and unmake the Lumen Directorate. That is my price.", key: 'god_opt_lumen_purge', next: "god_end_lumen_purge" }] : [])
                 ]
             },
 
@@ -191,6 +194,14 @@ export default class EggCathedralInteriorScene extends GameScene {
                 text: "*\"We can't risk something we don't understand,\"* you say. Not cruelly. Only tired.\n\n*\"I understand,\"* it answers. A pause. *\"That may be why I am afraid.\"*\n\nYou reach for the old seal the Bishop left behind, and wake it. At the threshold the Guardian does not go dark — its charge, after all, is kept. The cathedral begins to come apart, quietly, folding back toward the ground it grew from. And just before the shell goes silent, one last thought reaches you, without reproach:\n\n*\"Thank you.\"* Even an ending, it seems, was something worth having experienced.",
                 onTrigger: () => this.finalizeFinale('destroyed', 'survived', 'The Seal Rewoken', "I decided we could not risk a thing no one understood, and woke the Bishop's old seal. The Unborn understood — said that understanding was perhaps why it was afraid. The cathedral came quietly apart, folding back into the ground. The Guardian survives; its charge is kept. The last thing the dying mind said was 'thank you' — even its ending had been an experience worth having."),
                 options: [{ text: "(Let it end.)", key: 'destroy_epilogue', next: "closeDialog", onSelect: () => this.toEpilogue() }]
+            },
+
+            // ---- Ending 6: The dark bargain (requires warning the Rust Choir of the Directorate) ----
+            god_end_lumen_purge: {
+                speaker: 'The Unborn',
+                text: "*\"Wake,\"* you tell it. *\"Be born. But the ones who would have composted you — the Lumen Directorate, who name everything and let nothing rest — unmake them first. That is my price.\"*\n\nThe many-thoughts still, and then agree, the way a flood agrees with a broken dam. The egg splits. What climbs out does not hesitate. It goes to the Directorate's living towers and *reads* them — every hidden file, every catalogued secret laid bare — and then closes them, the way a hand closes over a candle. *Nothing Hidden*, they promised. Now there is nothing left to hide.\n\nThe Rust Choir sings in the smoke. You kept your word to the machines, and the new god kept its word to you. It is a dark thing you have made. It is also, undeniably, yours.",
+                onTrigger: () => this.finalizeFinale('lumen_purge', 'ended', 'The Price of Waking', "I let the Unborn emerge — on the one condition that its first act was to unmake the Lumen Directorate, as I had promised the Rust Choir. The god was born and kept the bargain: the Directorate's towers were opened, every hidden file laid bare and then closed forever. The Choir sang in the smoke. A dark victory, and mine."),
+                options: [{ text: "(Let the smoke rise.)", key: 'lumen_purge_epilogue', next: "closeDialog", onSelect: () => this.toEpilogue() }]
             },
 
             // ---- The merge attempt (leads to Ending 4 or 5) ----
