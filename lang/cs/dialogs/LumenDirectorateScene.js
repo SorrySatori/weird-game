@@ -6,6 +6,7 @@ export default {
     _speakers: {
         'Verrik the Gardener': 'Verrik Zahradník',
         'Verrik': 'Verrik',
+        'Narrator': 'Vypravěč',
     },
     gardener_start: {
         text: {
@@ -14,6 +15,8 @@ export default {
         },
         options: {
             what_is_this_place: "Co je to za místo?",
+            gardener_overflowing: "Záhony přetékají — celé tohle místo kvete.",
+            gardener_beds_sick: "Vaše záhony vypadají nemocně. Co se to obrací v půdě?",
             i_was_told_to_come_here_about_joining_the_crew: "Jak se člověk přidá k Direktoriátu?",
             i_need_to_get_into_the_townhall_any_ideas: "Potřebuji se dostat na radnici...",
             i_need_to_speak_with_someone_about_cathedral_overs: "Potřebuji mluvit s někým o dohledu nad katedrálou...",
@@ -22,6 +25,31 @@ export default {
             im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky...",
             the_angle_corrector_said_you_keep_a_cultivar: "Poslal mě Korektor úhlů — prý chováte kultivar pro... obtížné problémy.",
             looking_for_work_anything_i_can_help_with: "Hledám práci. Něco, s čím bych mohl pomoct?"
+        }
+    },
+    gardener_bloom_talk: {
+        text: `Verrik září a rozpřáhne ruce k té bujné spoušti kolem. „Přetékají, přesně tak! Nikdy jsem záhony takhle neviděl — úponky jsou tři formace napřed a zdi přímo předou. Když se město nakloní k růstu, tohle místo odpoví první.“ Kývne k naběhlému trsu u zdi. „Je tu přebytek, který ani nestíhám využít. Jestli venku dozrál květ, vezmi si ho — líp ve sběrači spor než aby praskl na stonku.“`,
+        options: {
+            gardener_bloom_ok: "Poslužím si."
+        }
+    },
+    gardener_blight: {
+        text: `Verrikova obvyklá pohoda je pryč. Přikrčí se k záhonu stočených, šedě olemovaných výhonků. „Nemocné, ano. Živá architektura nedrží vzor — zdi zapomínají tvar, do kterého jsem je přemluvil, kořenové úponky přes noc ochabnou.“ Podívá se na tebe a je v tom cosi ostražitého. „Kopíruje to město. Když se rovnováha nakloní k hnilobě, Direktoriát to ucítí první. A ty...“ Rozhodne se nedokončit. „Drž se od mladých záhonů dál, buď tak hodný.“`,
+        options: {
+            gardener_blight_reverse: "Dá se to zvrátit?",
+            gardener_blight_ok: "Budu se držet dál."
+        }
+    },
+    gardener_blight_reverse: {
+        text: `„Růst léčí hnilobu — to je celé krédo. Nakloň město zpátky k zeleni a záhony si samy vzpomenou. Do té doby...“ Otře si z dlaně drolící se list. „Kompostuji, co nedokážu zachránit. Poctivá práce, i když je to zármutek.“`,
+        options: {
+            gardener_blight_understood: "Rozumím."
+        }
+    },
+    gardener_blight_bed: {
+        text: `Pěstební záhon, který se zvrtl: půda ztvrdlá došeda, výhonky stočené do sebe jako pěsti. Tam, kde by měl záhon Direktoriátu hučet pomalým zeleným životem, tenhle už jen slabě tiká a chladne. Něco v rovnováze města dosáhlo i sem.`,
+        options: {
+            blight_bed_back: "Ustoupit."
         }
     },
     gardener_cultivar: {

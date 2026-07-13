@@ -91,8 +91,7 @@ export default class PithReclaimersRoomScene extends GameScene {
 
     preload() {
         super.preload();
-        // Reuse the abandoned-office interior for the archival reading room.
-        this.load.image('pith-room-bg', 'assets/images/backgrounds/ShedAbandonedOffice.png');
+        this.load.image('pith-room-bg', 'assets/images/backgrounds/ReclaimersRoom.png');
         // Recruited souls that now reside here.
         this.load.image('magnekin', 'assets/images/characters/magnekin.png');
         this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
@@ -123,7 +122,6 @@ export default class PithReclaimersRoomScene extends GameScene {
         const bg = this.add.image(400, 300, 'pith-room-bg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
-        bg.setTint(0xd9c98f); // warm archival cast, to distinguish it from the Shed office
 
         this.transitionManager = new SceneTransitionManager(this);
         this.transitionManager.createTransitionZone(

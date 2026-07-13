@@ -744,5 +744,9 @@ export default {
             title: 'A Warning for the Choir',
             description: "The Lumen Directorate tasked me with destroying the Rust Choir's machines. Instead I warned Brukk. The Choir counts me loyal now — and marks the Directorate for a reckoning. There is no returning to the Directorate after this.",
         },
+        lumen_surplus_harvested: {
+            title: 'A Surplus Bloom',
+            description: "The Directorate's beds were so overgrown that a bloom had ripened with nothing left to feed. I harvested it — a windfall of living spores. The city's tilt toward growth had left more life than even the gardeners could use.",
+        },
     }
 };

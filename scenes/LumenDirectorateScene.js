@@ -11,6 +11,11 @@ export default class LumenDirectorateScene extends GameScene {
         super.preload();
         this.load.image('lumenDirectorateBg', 'assets/images/backgrounds/LumenDirectorate.png');
         this.load.image('gardener', 'assets/images/characters/gardener.png');
+        // Optional Growth/Decay alternate art — used automatically if the files exist, else the
+        // base background is tinted. Missing files are handled by the loaderror handler.
+        this.load.image('LumenDirectorate_growth', 'assets/images/backgrounds/LumenDirectorate_growth.png');
+        this.load.image('LumenDirectorate_decay', 'assets/images/backgrounds/LumenDirectorate_decay.png');
+        this.load.image('surplus_bloom', 'assets/images/items/surplus_bloom.png');
     }
 
     create() {
@@ -65,6 +70,73 @@ export default class LumenDirectorateScene extends GameScene {
 
         // Create the Gardener NPC
         this.createGardener();
+
+        // Growth/Decay alternate scene state (assetless; hot-swaps to dedicated art if present).
+        this.applyLumenGDState(bg);
+    }
+
+    /** Reskin the Directorate grounds to reflect a pronounced Growth/Decay balance. */
+    applyLumenGDState(bg) {
+        const t = this.getGDTendency ? this.getGDTendency() : 'balanced';
+        if (t === 'balanced') return;
+        const growth = t === 'growthDominant';
+        const altKey = growth ? 'LumenDirectorate_growth' : 'LumenDirectorate_decay';
+        if (this.textures.exists(altKey)) {
+            bg.setTexture(altKey);
+            bg.setDisplaySize(800, 600);
+        } else {
+            bg.setTint(growth ? 0xbfe8a0 : 0x9a8a6a); // lush green vs sickly sallow
+        }
+        if (growth) this._createLumenGrowthState();
+        else this._createLumenDecayState();
+    }
+
+    _createLumenGrowthState() {
+        // Extra bloom clusters spilling from the beds.
+        for (const [x, y] of [[150, 470], [330, 500], [560, 485], [690, 465]]) {
+            this.add.circle(x, y, 7 + Math.random() * 6, 0x9be86a, 0.85).setDepth(2);
+        }
+        // A ripe surplus bloom — harvestable once for spores while Growth runs high.
+        if (!this.hasJournalEntry('lumen_surplus_harvested')) {
+            const surplus = this.textures.exists('surplus_bloom')
+                ? this.add.image(120, 430, 'surplus_bloom').setScale(0.2)
+                : this.add.circle(120, 430, 15, 0xd6ff8a, 1).setStrokeStyle(2, 0x4caf50);
+            surplus.setDepth(3);
+            surplus.setInteractive({ useHandCursor: true });
+            surplus.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
+            surplus.on('pointerout', () => { document.body.style.cursor = 'default'; });
+            surplus.on('pointerdown', () => {
+                if (this.dialogVisible || this.hasJournalEntry('lumen_surplus_harvested')) return;
+                if (this.clickSound) this.clickSound.play();
+                if (this.modifySpores) this.modifySpores(20);
+                this.addJournalEntry(
+                    'lumen_surplus_harvested',
+                    'A Surplus Bloom',
+                    "The Directorate's beds were so overgrown that a bloom had ripened with nothing left to feed. I harvested it — a windfall of living spores. The city's tilt toward growth had left more life than even the gardeners could use.",
+                    this.journalSystem.categories.EVENTS,
+                    { location: 'Lumen Directorate' }
+                );
+                this.showNotification('Harvested surplus bloom: +20 spores', 0x4caf50);
+                surplus.destroy();
+            });
+        }
+    }
+
+    _createLumenDecayState() {
+        // Curling, grey-edged growth.
+        for (const [x, y] of [[150, 470], [330, 500], [560, 485]]) {
+            this.add.circle(x, y, 6, 0x6b5a3a, 0.7).setDepth(2);
+        }
+        // A blighted bed you can examine.
+        const blight = this.add.rectangle(200, 505, 100, 44, 0x4a3a24, 0.55).setStrokeStyle(1, 0x2a2418);
+        blight.setDepth(2);
+        blight.setInteractive({ useHandCursor: true });
+        blight.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
+        blight.on('pointerout', () => { document.body.style.cursor = 'default'; });
+        blight.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            this.showDialog('gardener_blight_bed');
+        });
     }
 
     createGardener() {
@@ -158,6 +230,8 @@ export default class LumenDirectorateScene extends GameScene {
                     : `"Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`,
                 options: [
                     { text: "What is this place?", key: 'what_is_this_place', next: "gardener_about_lumen" },
+                    ...(growth >= 65 ? [{ text: "The beds are overflowing — the whole place is in bloom.", key: 'gardener_overflowing', next: "gardener_bloom_talk" }] : []),
+                    ...(decay >= 65 ? [{ text: "Your beds look sick. What's turning in the soil?", key: 'gardener_beds_sick', next: "gardener_blight" }] : []),
                     ...(!passedGrowthTest && !joinedLumen ? [{ text: "How does someone join the Directorate?", key: 'i_was_told_to_come_here_about_joining_the_crew', next: "gardener_join" }] : []),
                     ...(hasEnterTownhallQuest ? [{ text: "I need to get into the Townhall. Any ideas?", key: 'i_need_to_get_into_the_townhall_any_ideas', next: "gardener_townhall" }] : []),
                     ...(hasLumenSabotageQuest && !hasCultivar && !gaveCultivar ? [{ text: "The Angle Corrector sent me — he said you keep a cultivar for... difficult problems.", key: 'the_angle_corrector_said_you_keep_a_cultivar', next: "gardener_cultivar" }] : []),
@@ -423,6 +497,33 @@ export default class LumenDirectorateScene extends GameScene {
             },
 
             // --- Mushroom growing activity ---
+            gardener_bloom_talk: {
+                speaker: 'Verrik the Gardener',
+                text: `Verrik beams, arms spread at the riot of growth around him. "Overflowing is the word! I've never seen the beds like this — the tendrils are three formations ahead of schedule and the walls are practically purring. When the city leans toward growth, this place answers first." He nods at a swollen cluster near the wall. "There's surplus I can't even use. If a bloom's come ripe out there, take it — better in a spore-carrier than left to burst on the vine."`,
+                options: [
+                    { text: "I'll help myself.", key: 'gardener_bloom_ok', next: "gardener_start" }
+                ]
+            },
+            gardener_blight: {
+                speaker: 'Verrik the Gardener',
+                text: `Verrik's usual ease is gone. He crouches by a bed of curling, grey-edged shoots. "Sick, aye. The living architecture won't hold its pattern — the walls forget the shape I coaxed them into, the root-tendrils go slack overnight." He looks at you, and there's something wary in it. "It tracks the city. When the balance tips toward rot, the Directorate feels it before anyone. And you..." He decides not to finish. "Keep clear of the young beds, if you would."`,
+                options: [
+                    { text: "Can it be reversed?", key: 'gardener_blight_reverse', next: "gardener_blight_reverse" },
+                    { text: "I'll keep my distance.", key: 'gardener_blight_ok', next: "gardener_start" }
+                ]
+            },
+            gardener_blight_reverse: {
+                speaker: 'Verrik the Gardener',
+                text: `"Growth cures rot — that's the whole creed. Tip the city back toward the green and the beds will remember themselves. Until then..." He brushes a crumbling leaf from his palm. "I compost what I can't save. Honest work, even when it's grief."`,
+                options: [
+                    { text: "I understand.", key: 'gardener_blight_understood', next: "gardener_start" }
+                ]
+            },
+            gardener_blight_bed: {
+                speaker: 'Narrator',
+                text: `A cultivation bed gone wrong: the soil crusted grey, the shoots curled in on themselves like fists. Where a Directorate bed should hum with slow green life, this one only ticks faintly, cooling. Something in the city's balance has reached even here.`,
+                options: [{ text: "Step back.", key: 'blight_bed_back', next: "closeDialog" }]
+            },
             gardener_cultivar: {
                 speaker: 'Verrik the Gardener',
                 text: `Verrik's easy manner cools. "...So the Angle Corrector's sending people to me for THAT now." He glances at a sealed cold-frame at the back of the bed. "We grow more than pretty walls here. There's a cultivar we keep behind glass — a controlled rot, bred to eat metal and only metal. 'Nothing Hidden,' they say. Mostly true. Some things we just... shelve."\n\nHe works a key, lifts out a squat, blackish-green bulb weeping faint verdigris, and wraps it in oilcloth. "Grind it into oil and whatever machine drinks it will corrode from the inside out. The Choir's shrine won't sing again." He presses it into your hands. "Don't spill it on anything you'd miss."`,

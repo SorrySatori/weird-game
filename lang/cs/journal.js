@@ -743,5 +743,9 @@ export default {
             title: 'Varování pro Chór',
             description: 'Lumen Direktoriát mě pověřil zničením strojů Rezavého chóru. Místo toho jsem varoval Brukka. Chór mě teď považuje za věrného — a Direktoriát si značí k zúčtování. Po tomhle už není návratu k Direktoriátu.',
         },
+        lumen_surplus_harvested: {
+            title: 'Přebytečný květ',
+            description: 'Záhony Direktoriátu byly tak přerostlé, že jeden květ dozrál a neměl už co živit. Sklidil jsem ho — hrst živých spor. Náklon města k růstu zanechal víc života, než dokázali využít i zahradníci.',
+        },
     }
 };

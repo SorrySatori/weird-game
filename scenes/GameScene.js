@@ -152,6 +152,9 @@ export default class GameScene extends Phaser.Scene {
         // Create the game menu (ESC key menu)
         this.gameMenu = new GameMenu(this);
 
+        // Growth/Decay world ambience (colour cast + motes; balanced = nothing).
+        this.applyGDAmbience();
+
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
@@ -1553,6 +1556,50 @@ export default class GameScene extends Phaser.Scene {
             this.journalSystem.categories.FACTIONS,
             { faction: 'Pith Reclaimers' }
         );
+    }
+
+    /**
+     * Growth/Decay ambience: washes the environment (not the characters) in a colour cast and
+     * drifting motes reflecting the current balance. Renders above the background but below
+     * characters (depth 0.5), so "the world changes, not the player." Balanced = untouched.
+     * Applied automatically to every gameplay scene from create().
+     */
+    applyGDAmbience() {
+        if (this._gdAmbience) { this._gdAmbience.destroy(); this._gdAmbience = null; }
+        const tendency = this.getGDTendency ? this.getGDTendency() : 'balanced';
+        if (tendency === 'balanced') return;
+
+        const growth = tendency === 'growthDominant';
+        const washColor = growth ? 0x7fdf5a : 0x9c5a28; // green bloom vs rust/sepia
+        const washAlpha = growth ? 0.12 : 0.16;
+        const moteColor = growth ? 0xcdeeb0 : 0xb08a5a;
+
+        const layer = this.add.container(0, 0);
+        layer.setDepth(0.5);
+        layer.setScrollFactor(0);
+        this._gdAmbience = layer;
+
+        // Colour cast over the scenery.
+        layer.add(this.add.rectangle(400, 300, 800, 600, washColor, washAlpha));
+
+        // Drifting motes — spores rising (growth) / ash settling (decay).
+        for (let i = 0; i < 16; i++) {
+            const x = Math.random() * 800;
+            const y = Math.random() * 600;
+            const mote = this.add.circle(x, y, 1 + Math.random() * 2.5, moteColor, 0.5);
+            layer.add(mote);
+            const drift = growth ? -(40 + Math.random() * 60) : (30 + Math.random() * 50);
+            this.tweens.add({
+                targets: mote,
+                y: y + drift,
+                alpha: { from: 0.15, to: 0.6 },
+                duration: 4000 + Math.random() * 4000,
+                delay: Math.random() * 3000,
+                ease: 'Sine.easeInOut',
+                yoyo: true,
+                repeat: -1
+            });
+        }
     }
 
     modifyFactionReputation(faction, amount) {
