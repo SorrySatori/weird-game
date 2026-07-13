@@ -729,7 +729,7 @@ export default {
         },
         pith_room_entered: {
             title: 'Místnost Reklamátorů',
-            description: 'Skrytá čítárna pod Radnicí, mimo každý oficiální záznam — což je pro Reklamátory jádra jediné soukromí, které přežije. Po stěnách šplhají police se spisy; zapečetěná registratura drží podíl Reklamátorů za každou duši, kterou přivedu do stáda.',
+            description: 'Skrytá čítárna pod Radnicí, mimo každý oficiální záznam — což je pro Reklamátory jádra jediné soukromí, které přežije. Po stěnách šplhají police se spisy; zakalená skleněná koule na podstavci drží podíl Reklamátorů za každou duši, kterou přivedu do stáda.',
         },
         pith_cache_magnekin: {
             title: 'Získaný podíl',

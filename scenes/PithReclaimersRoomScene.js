@@ -52,11 +52,11 @@ export default class PithReclaimersRoomScene extends GameScene {
                 speaker: 'Narrator',
                 textKey: pending.length ? 'pith_cache_full' : 'pith_cache_empty',
                 text: pending.length
-                    ? `A squat iron filing-cabinet in the corner bears the Reclaimers' seal. A drawer slides open at your touch — inside, neatly labelled, is a share set aside for every soul you have filed into the record.`
-                    : `The Reclaimers' filing-cabinet stands open and empty. Its ledger notes, in a clerk's precise hand: "Balance disbursed. Bring us more of the unaccounted."`,
+                    ? `The glass orb on its pedestal clouds at your touch, then clears — and there, suspended within it, is the Reclaimers' share set aside for every soul you have filed into the record.`
+                    : `The orb hangs clear and empty. A whisper moves through it in a clerk's precise voice: "Balance disbursed. Bring us more of the unaccounted."`,
                 options: pending.length
                     ? [{ text: "Take the Reclaimers' share.", key: 'take_pith_cache', next: "closeDialog", onSelect: () => this._collectCache() }]
-                    : [{ text: "Close the drawer.", key: 'close_pith_cache', next: "closeDialog" }]
+                    : [{ text: "Step away from the orb.", key: 'close_pith_cache', next: "closeDialog" }]
             },
 
             // --- Filed souls, now residing in the room ---
@@ -119,9 +119,16 @@ export default class PithReclaimersRoomScene extends GameScene {
         super.create();
         this.playSceneMusic('genericMusic');
 
+        if (this.ground) { this.ground.destroy(); this.ground = null; }
+
         const bg = this.add.image(400, 300, 'pith-room-bg');
         bg.setDisplaySize(800, 600);
         bg.setDepth(-1);
+
+        const floor = this.add.graphics().setDepth(0);
+        floor.fillGradientStyle(0x322819, 0x322819, 0x16110a, 0x16110a, 1); // lit warm stone → shadowed fore
+        floor.fillRect(0, 466, 800, 134);
+        for (const ly of [500, 535, 570]) this.add.rectangle(400, ly, 800, 1, 0x120d07, 0.5).setDepth(0); // faint flagstone seams
 
         this.transitionManager = new SceneTransitionManager(this);
         this.transitionManager.createTransitionZone(
@@ -129,32 +136,30 @@ export default class PithReclaimersRoomScene extends GameScene {
         );
 
         if (this.priest) {
-            this.priest.x = 700;
-            this.priest.y = 480;
+            this.priest.x = 650;
+            this.priest.y = 520;
         }
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
-        // The Reclaimed Cache — pays out per soul filed.
-        const cache = this.add.rectangle(180, 430, 70, 90, 0x6b5b2f, 1).setStrokeStyle(2, 0xffdf7a);
-        cache.setDepth(5);
-        cache.setInteractive({ useHandCursor: true });
-        cache.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
-        cache.on('pointerout', () => { document.body.style.cursor = 'default'; });
-        cache.on('pointerdown', () => {
+        const stash = this.add.zone(405, 360, 130, 175).setInteractive({ useHandCursor: true });
+        stash.setDepth(5);
+        stash.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
+        stash.on('pointerout', () => { document.body.style.cursor = 'default'; });
+        stash.on('pointerdown', () => {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();
             this.showDialog('pith_cache');
         });
 
-        // Souls the player has filed into the Pith now reside here instead of their old haunts.
-        this.createRecruitNpc('pith_recruit_magnekin', 'magnekin', 330, 440, 0.18, 0xc0c0c0, 'magnekin_room_start');
-        this.createRecruitNpc('pith_recruit_heir', 'heirToAquarium', 500, 450, 0.11, null, 'heir_room_start');
+        // Souls the player has filed into the Pith now reside here — standing further back in the room.
+        this.createRecruitNpc('pith_recruit_magnekin', 'magnekin', 300, 395, 0.15, 0xc0c0c0, 'magnekin_room_start');
+        this.createRecruitNpc('pith_recruit_heir', 'heirToAquarium', 500, 400, 0.095, null, 'heir_room_start');
 
         if (!this.hasJournalEntry('pith_room_entered')) {
             this.addJournalEntry(
                 'pith_room_entered',
                 "The Reclaimers' Room",
-                'A hidden reading room beneath the Townhall, off every official record — which, for the Pith Reclaimers, is the only privacy that survives. Shelved files climb the walls; a sealed filing-cabinet holds the Reclaimers\' share for every soul I bring into the fold.',
+                'A hidden reading room beneath the Townhall, off every official record — which, for the Pith Reclaimers, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Reclaimers\' share for every soul I bring into the fold.',
                 this.journalSystem.categories.PLACES,
                 { location: "The Reclaimers' Room" }
             );

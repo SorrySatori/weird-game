@@ -10,12 +10,12 @@ export default {
     },
     pith_cache: {
         text: {
-            pith_cache_full: `V rohu stojí zavalitá železná registratura s pečetí Reklamátorů. Na dotek se vysune zásuvka — uvnitř, úhledně popsaný, leží podíl odložený za každou duši, kterou jsi zapsal do záznamu.`,
-            pith_cache_empty: `Registratura Reklamátorů stojí otevřená a prázdná. Její kniha poznamenává úředníkovým přesným rukopisem: „Zůstatek vyplacen. Přiveďte nám víc nevyúčtovaných.“`,
+            pith_cache_full: `Skleněná koule na podstavci se při doteku zakalí, pak projasní — a v ní, vznášející se, leží podíl Reklamátorů odložený za každou duši, kterou jsi zapsal do záznamu.`,
+            pith_cache_empty: `Koule visí čirá a prázdná. Prochází jí šepot úředníkova přesného hlasu: „Zůstatek vyplacen. Přiveďte nám víc nevyúčtovaných.“`,
         },
         options: {
             take_pith_cache: "Vzít podíl Reklamátorů.",
-            close_pith_cache: "Zavřít zásuvku.",
+            close_pith_cache: "Odstoupit od koule.",
         }
     },
     magnekin_room_start: {

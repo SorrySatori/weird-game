@@ -488,6 +488,7 @@ export default class GameScene extends Phaser.Scene {
             // Add ground/street platform
             const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
             ground.setDepth(1);
+            this.ground = ground; // stored so scenes can remove/replace the generic floor strip
 
             // Initialize inventory system
             if (this.inventorySystem) {
@@ -506,6 +507,7 @@ export default class GameScene extends Phaser.Scene {
             // Create the Fungal Apprentice character (using the same priest sprite)
             this.priest = this.add.sprite(100, 470, 'priest');
             this.priest.setScale(2);
+            this.priest.setDepth(20); // the player renders in front of the ground, NPCs, and props
             // Also create an apprentice reference for clarity
             this.apprentice = this.priest;
             
@@ -519,6 +521,7 @@ export default class GameScene extends Phaser.Scene {
             glowFX.setTint(0x00FF00);  // Green glow
             glowFX.setAlpha(0.2);  // Transparent glow
             glowFX.setBlendMode(Phaser.BlendModes.ADD);  // Additive blending for glow effect
+            glowFX.setDepth(19); // just behind the player
             
             // Make the glow follow the priest
             this.priestGlow = glowFX;

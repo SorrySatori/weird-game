@@ -730,7 +730,7 @@ export default {
         },
         pith_room_entered: {
             title: "The Reclaimers' Room",
-            description: 'A hidden reading room beneath the Townhall, off every official record — which, for the Pith Reclaimers, is the only privacy that survives. Shelved files climb the walls; a sealed filing-cabinet holds the Reclaimers\' share for every soul I bring into the fold.',
+            description: 'A hidden reading room beneath the Townhall, off every official record — which, for the Pith Reclaimers, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Reclaimers\' share for every soul I bring into the fold.',
         },
         pith_cache_magnekin: {
             title: 'Reclaimed Share',
