@@ -11,7 +11,8 @@ export default class ScraperAmbraScene extends GameScene {
         super.preload();
         this.load.image('scraperAmbraBg', 'assets/images/backgrounds/ScraperAmbra.png');
         this.load.image('drElphi', 'assets/images/characters/DrElphi.png');
-        
+        this.load.audio('divinorium', 'assets/sounds/sorrysatori-divinorium.mp3');
+
         // Make sure sounds are loaded
         if (!this.sound.get('click')) {
             this.load.audio('click', 'assets/audio/click.mp3');
@@ -33,7 +34,7 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Add fade-in effect
         this.cameras.main.fadeIn(1200, 0, 0, 0);
-        
+
         // Position the priest at the center when entering this scene
         this.priest.x = 400;
         this.priest.y = 450; // Position on the ground
@@ -1009,6 +1010,8 @@ export default class ScraperAmbraScene extends GameScene {
         // don't want the player wandering off during that brief window.
         if (this.playerMovementSystem) this.playerMovementSystem.setDialogVisible(true);
 
+        this.playSceneMusic('divinorium');
+
         const panels = [];
 
         // Nightfall in the studio. Reuses textures already loaded by this scene.
@@ -1084,7 +1087,8 @@ export default class ScraperAmbraScene extends GameScene {
         }
         this.finishDay1();
 
-        this.playCutscene(panels);
+        // When the sequence ends (Day 2 begins in the studio), return to the normal theme.
+        this.playCutscene(panels, () => this.playSceneMusic('dr_elphi_theme'));
     }
 
     /**
