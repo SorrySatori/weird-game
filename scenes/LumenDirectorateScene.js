@@ -143,6 +143,7 @@ export default class LumenDirectorateScene extends GameScene {
         this.gardener = this.add.image(220, 430, 'gardener');
         this.gardener.setScale(0.15);
         this.gardener.setDepth(5);
+        this.addGroundShadow(220, 430 + this.gardener.displayHeight * 0.42, this.gardener.displayWidth * 0.55, this.gardener.displayHeight * 0.12);
         this.gardener.setInteractive({ useHandCursor: true });
 
         // Glow effect

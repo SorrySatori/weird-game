@@ -887,6 +887,7 @@ export default class ScraperAmbraScene extends GameScene {
         // Set scale to match the priest character (priest is at scale 2.0)
         this.drElphi.setScale(0.1); // Reduced scale to match priest proportions
         this.drElphi.setDepth(5);
+        this.addGroundShadow(this.drElphi.x, this.drElphi.y + this.drElphi.displayHeight * 0.42, this.drElphi.displayWidth * 0.55, this.drElphi.displayHeight * 0.12);
         
         // Log to console for debugging
         console.log('Creating Dr. Elphi at position:', this.drElphi.x, this.drElphi.y);

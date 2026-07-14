@@ -248,6 +248,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             const member = this.add.image(config.x, config.y, config.key);
             member.setScale(config.scale);
             member.setDepth(3);
+            this.addGroundShadow(config.x, config.y + member.displayHeight * 0.42, member.displayWidth * 0.55, member.displayHeight * 0.12);
             member.originalY = config.y; // Store original Y for animations
             member.originalScale = config.scale; // Store original scale for animations
             

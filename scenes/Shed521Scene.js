@@ -298,6 +298,7 @@ export default class Shed521Scene extends GameScene {
         this.gnur = this.add.sprite(400, 470, 'gnur');
         this.gnur.setDisplaySize(80, 80); // Set a fixed size
         this.gnur.setDepth(1); // Ensure it's above background
+        this.addGroundShadow(400, 470 + this.gnur.displayHeight * 0.42, this.gnur.displayWidth * 0.55, this.gnur.displayHeight * 0.12);
         this.gnur.setInteractive({ useHandCursor: true });
 
         // Create transition to Shed521FloorsScene at the elevator

@@ -287,6 +287,7 @@ export default class GodgraveyardScene extends GameScene {
 
     createPhor() {
         const p = this.add.sprite(400, 470, 'phor').setOrigin(0.5, 1).setScale(0.14).setDepth(6);
+        this.addGroundShadow(400, 470, p.displayWidth * 0.55, p.displayHeight * 0.10);
         p.setInteractive({ useHandCursor: true });
         const label = this.add.text(400, 470 - p.displayHeight - 6, 'PHOR CALESTA', {
             fontSize: '13px', fill: '#c9e8ff', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 4, y: 2 }

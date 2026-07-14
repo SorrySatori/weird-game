@@ -999,6 +999,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.twins = this.add.image(440, 345, 'heshAndVell');
         this.twins.setScale(0.16);
         this.twins.setDepth(5);
+        this.addGroundShadow(440, 345 + this.twins.displayHeight * 0.42, this.twins.displayWidth * 0.55, this.twins.displayHeight * 0.12);
         this.twins.setInteractive({ useHandCursor: true });
 
         // Subtle idle sway — slightly offset to suggest desynchronization
@@ -1032,6 +1033,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.calyx = this.add.image(650, 420, 'sisterCalyx');
         this.calyx.setScale(0.15);
         this.calyx.setDepth(5);
+        this.addGroundShadow(650, 420 + this.calyx.displayHeight * 0.42, this.calyx.displayWidth * 0.55, this.calyx.displayHeight * 0.12);
         this.calyx.setInteractive({ useHandCursor: true });
 
         this.calyx.on('pointerover', () => {
@@ -1055,6 +1057,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.lune = this.add.image(250, 420, 'heartbrokerLune');
         this.lune.setScale(0.14);
         this.lune.setDepth(5);
+        this.addGroundShadow(250, 420 + this.lune.displayHeight * 0.42, this.lune.displayWidth * 0.55, this.lune.displayHeight * 0.12);
         this.lune.setInteractive({ useHandCursor: true });
 
         this.tweens.add({
@@ -1087,6 +1090,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.heir = this.add.image(540, 425, 'heirToAquarium');
         this.heir.setScale(0.11);
         this.heir.setDepth(5);
+        this.addGroundShadow(540, 425 + this.heir.displayHeight * 0.42, this.heir.displayWidth * 0.55, this.heir.displayHeight * 0.12);
         this.heir.setInteractive({ useHandCursor: true });
 
         this.tweens.add({
@@ -1119,6 +1123,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.silence = this.add.image(350, 435, 'silence');
         this.silence.setScale(0.11);
         this.silence.setDepth(5);
+        this.addGroundShadow(350, 435 + this.silence.displayHeight * 0.42, this.silence.displayWidth * 0.55, this.silence.displayHeight * 0.12);
         this.silence.setInteractive({ useHandCursor: true });
 
         this.tweens.add({

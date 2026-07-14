@@ -385,6 +385,7 @@ export default class CathedralEntrance extends GameScene {
         // Create a container for the temple guard
         this.templeGuard = this.add.container(380, 450);
         this.templeGuard.setDepth(5);
+        this.addGroundShadow(380, 508, 72, 18);
         
         // Create the guard using the sprite image
         const guardSprite = this.add.sprite(0, 0, 'guard');

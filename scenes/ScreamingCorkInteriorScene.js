@@ -731,12 +731,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.ravla = this.add.image(700, 470, 'ravla_static');
         this.ravla.setScale(0.125); // Further reduced scale to make sprite more proportional
         this.ravla.setDepth(5);
+        this.addGroundShadow(700, 470 + this.ravla.displayHeight * 0.42, this.ravla.displayWidth * 0.55, this.ravla.displayHeight * 0.12);
         this.ravla.setInteractive({ useHandCursor: true });
-        
+
         // Create Heliodor NPC using static image
         this.heliodor = this.add.image(300, 470, 'heliodor_static');
         this.heliodor.setScale(0.125); // Further reduced scale to make sprite more proportional
         this.heliodor.setDepth(5);
+        this.addGroundShadow(300, 470 + this.heliodor.displayHeight * 0.42, this.heliodor.displayWidth * 0.55, this.heliodor.displayHeight * 0.12);
         this.heliodor.setInteractive({ useHandCursor: true });
         
         // Initialize shop system

@@ -170,7 +170,14 @@ export default class GameScene extends Phaser.Scene {
         if (this.playerMovementSystem) {
             this.playerMovementSystem.update();
         }
-        
+
+        // Keep the player's ground shadow under its feet.
+        if (this.priestShadow && this.priest) {
+            this.priestShadow.x = this.priest.x;
+            this.priestShadow.y = this.priest.y + 58;
+            this.priestShadow.setVisible(this.priest.visible);
+        }
+
         // Update game menu if it exists
         if (this.gameMenu) {
             this.gameMenu.update();
@@ -525,6 +532,9 @@ export default class GameScene extends Phaser.Scene {
             
             // Make the glow follow the priest
             this.priestGlow = glowFX;
+
+            // Soft ground shadow that tracks the player (kept under its feet in update()).
+            this.priestShadow = this.addGroundShadow(this.priest.x, this.priest.y + 58, 66, 16);
             
             // Add pulsating effect to the glow
             this.tweens.add({
@@ -1603,6 +1613,16 @@ export default class GameScene extends Phaser.Scene {
                 repeat: -1
             });
         }
+    }
+
+    /**
+     * Soft elliptical ground shadow (a drawn decal — no asset). Sits on the ground beneath
+     * characters. Returns the ellipse; reposition it each frame if its owner moves.
+     */
+    addGroundShadow(x, y, width = 60, height = 16) {
+        const shadow = this.add.ellipse(x, y, width, height, 0x000000, 0.35);
+        shadow.setDepth(2);
+        return shadow;
     }
 
     modifyFactionReputation(faction, amount) {

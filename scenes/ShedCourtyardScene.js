@@ -418,6 +418,7 @@ export default class ShedCourtyardScene extends GameScene {
         this._ortolan = this.add.sprite(600, 520, 'ortolan');
         this._ortolan.setOrigin(0.5, 1);
         this._ortolan.setScale(0.15);
+        this.addGroundShadow(600, 520, this._ortolan.displayWidth * 0.55, this._ortolan.displayHeight * 0.10);
         this._ortolan.setInteractive({ useHandCursor: true });
         this._ortolan.on('pointerdown', () => {
             // Add journal entry when first meeting Ortolan

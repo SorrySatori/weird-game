@@ -1194,6 +1194,7 @@ export default class ScreamingCorkScene extends GameScene {
         this.edgar.setScale(0.125); // Set appropriate scale
         this.edgar.setOrigin(0.5, 1.0); // Set origin to bottom center to align with ground
         this.edgar.setDepth(5);
+        this.addGroundShadow(200, 510, this.edgar.displayWidth * 0.55, this.edgar.displayHeight * 0.10);
         this.edgar.setInteractive({ useHandCursor: true });
 
         // Add dialog interaction

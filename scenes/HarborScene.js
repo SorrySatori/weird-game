@@ -277,6 +277,7 @@ export default class HarborScene extends GameScene {
         this.heir = this.add.image(640, 450, 'heirToAquarium');
         this.heir.setScale(0.11);
         this.heir.setDepth(5);
+        this.addGroundShadow(640, 450 + this.heir.displayHeight * 0.42, this.heir.displayWidth * 0.55, this.heir.displayHeight * 0.12);
         this.heir.setInteractive({ useHandCursor: true });
         this.tweens.add({
             targets: this.heir,

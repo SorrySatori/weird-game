@@ -226,6 +226,7 @@ export default class ShedRegistrationScene extends GameScene {
             const alreadyMet = this.journalSystem.hasEntry('registration_senior_clerk')
             this.seniorClerk = this.add.image(400, 300, 'clerk2');
             this.seniorClerk.setScale(0.7);
+            this.addGroundShadow(400, 300 + this.seniorClerk.displayHeight * 0.42, this.seniorClerk.displayWidth * 0.55, this.seniorClerk.displayHeight * 0.12);
             this.seniorClerk.setInteractive({ useHandCursor: true });
             this.seniorClerk.setVisible(true)
             this.seniorClerk.on('pointerdown', () => {

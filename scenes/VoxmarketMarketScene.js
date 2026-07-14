@@ -427,6 +427,7 @@ export default class VoxmarketMarketScene extends GameScene {
         this.zerren = this.add.sprite(200, 440, 'zerren');
         this.zerren.setScale(0.15);
         this.zerren.setDepth(5);
+        this.addGroundShadow(200, 440 + this.zerren.displayHeight * 0.42, this.zerren.displayWidth * 0.55, this.zerren.displayHeight * 0.12);
         this.zerren.setInteractive({ useHandCursor: true });
         
         // Add dialog interaction

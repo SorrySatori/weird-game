@@ -304,6 +304,7 @@ export default class ShedApplicationsScene extends GameScene {
         this.clerk.setFlipX(true);
         this.clerk.setDisplaySize(80, 180); // Set a fixed size
         this.clerk.setDepth(1); // Ensure it's above background
+        this.addGroundShadow(100, 400 + this.clerk.displayHeight * 0.42, this.clerk.displayWidth * 0.55, this.clerk.displayHeight * 0.12);
         this.clerk.setInteractive({ useHandCursor: true });
         
         // Initialize the transition manager

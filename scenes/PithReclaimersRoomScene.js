@@ -104,6 +104,7 @@ export default class PithReclaimersRoomScene extends GameScene {
         npc.setScale(scale);
         if (tint !== null) npc.setTint(tint);
         npc.setDepth(5);
+        this.addGroundShadow(x, y + npc.displayHeight * 0.40, npc.displayWidth * 0.55, npc.displayHeight * 0.12);
         npc.setInteractive({ useHandCursor: true });
         npc.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
         npc.on('pointerout', () => { document.body.style.cursor = 'default'; });

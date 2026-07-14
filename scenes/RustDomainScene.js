@@ -621,6 +621,7 @@ export default class RustDomainScene extends GameScene {
         this.brukk = this.add.image(550, 430, 'brukk_static');
         this.brukk.setScale(0.125);
         this.brukk.setDepth(5);
+        this.addGroundShadow(550, 430 + this.brukk.displayHeight * 0.42, this.brukk.displayWidth * 0.55, this.brukk.displayHeight * 0.12);
         this.brukk.setInteractive({ useHandCursor: true });
 
         this.brukk.on('pointerdown', () => {

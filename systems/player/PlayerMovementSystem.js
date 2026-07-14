@@ -18,6 +18,7 @@ export default class PlayerMovementSystem {
             down: false
         };
         this.isMoving = false;
+        this.isTweenMoving = false; // true while a click-to-move tween is running
         this.dialogVisible = false;
         this.controlsDisabled = false;
     }
@@ -125,9 +126,10 @@ export default class PlayerMovementSystem {
             this.scene.tweens.killTweensOf(this.priestGlow);
         }
         
-        // Play walk animation
+        // Play walk animation (flag it so update() doesn't cancel it back to idle each frame)
+        this.isTweenMoving = true;
         this.priest.play('walk', true); // Force restart the animation
-        
+
         // Create new tween
         this.scene.tweens.add({
             targets: this.priestGlow ? [this.priest, this.priestGlow] : [this.priest],
@@ -135,6 +137,7 @@ export default class PlayerMovementSystem {
             duration: Math.abs(targetX - this.priest.x) * 5,
             ease: 'Linear',
             onComplete: () => {
+                this.isTweenMoving = false;
                 this.priest.play('idle', true); // Force restart the animation
             }
         });
@@ -187,7 +190,7 @@ export default class PlayerMovementSystem {
             if (!this.priest.anims.isPlaying || this.priest.anims.currentAnim.key !== 'walk') {
                 this.priest.play('walk');
             }
-        } else if (this.priest.anims.currentAnim && this.priest.anims.currentAnim.key === 'walk') {
+        } else if (!this.isTweenMoving && this.priest.anims.currentAnim && this.priest.anims.currentAnim.key === 'walk') {
             this.priest.play('idle');
         }
 

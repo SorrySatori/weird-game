@@ -73,6 +73,7 @@ export default class SkyshipBoardScene extends GameScene {
         this.captainLiris = this.add.image(600, 300, 'captainLiris');
         this.captainLiris.setScale(0.2);
         this.captainLiris.setDepth(5);
+        this.addGroundShadow(600, 300 + this.captainLiris.displayHeight * 0.42, this.captainLiris.displayWidth * 0.55, this.captainLiris.displayHeight * 0.12);
         this.captainLiris.setInteractive({ useHandCursor: true });
         
         // Add a subtle glow effect around the captain

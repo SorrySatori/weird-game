@@ -255,6 +255,7 @@ export default class BurningBearStreetScene extends GameScene {
         // If the player won him his extra pair of arms on Day 1, he now sports all four.
         const armsHelped = !!this.questSystem?.getQuest('ortolan_arms')?.isComplete;
         this.ortolan = this.add.sprite(x, groundY, armsHelped ? 'ortolan4' : 'ortolan').setOrigin(0.5, 1).setScale(0.15).setDepth(6);
+        this.addGroundShadow(x, groundY, this.ortolan.displayWidth * 0.55, this.ortolan.displayHeight * 0.10);
         this.ortolan.setInteractive({ useHandCursor: true });
 
         const label = this.add.text(x, groundY - this.ortolan.displayHeight - 6, 'ORTOLAN', {

@@ -548,6 +548,8 @@ export default class TownSquareScene extends GameScene {
 
         this.magnekin.add(magnekinSprite);
 
+        this.addGroundShadow(250, 388, 72, 18);
+
         this.magnekinGlow = this.add.graphics();
         this.magnekinGlow.fillStyle(0x8888ff, 0.15);
         this.magnekinGlow.fillCircle(250, 350, 45);
@@ -647,6 +649,8 @@ export default class TownSquareScene extends GameScene {
         buskerSprite.setTint(0xffcc88);
 
         this.busker.add(buskerSprite);
+
+        this.addGroundShadow(550, 418, 72, 18);
 
         this.buskerGlow = this.add.graphics();
         this.buskerGlow.fillStyle(0xffaa44, 0.15);

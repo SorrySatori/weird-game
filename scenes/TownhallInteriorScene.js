@@ -811,6 +811,8 @@ But if the Bishop used official stationery as a private notebook, she was hiding
 
         const sprite = this.add.image(0, 0, texture).setOrigin(0.5, 1).setScale(scale);
 
+        this.addGroundShadow(x, y + 4, sprite.displayWidth * 0.55, sprite.displayHeight * 0.10);
+
         container.add(sprite);
 
         const width = sprite.displayWidth + 12;

@@ -63,6 +63,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         this.angleCorrector = this.add.image(600, 320, 'angleCorrector');
         this.angleCorrector.setScale(0.18);
         this.angleCorrector.setDepth(5);
+        this.addGroundShadow(600, 320 + this.angleCorrector.displayHeight * 0.42, this.angleCorrector.displayWidth * 0.55, this.angleCorrector.displayHeight * 0.12);
         this.angleCorrector.setInteractive({ useHandCursor: true });
 
         // Olive-green glow effect
@@ -112,6 +113,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         this.seldo = this.add.image(200, 340, 'seldo');
         this.seldo.setScale(0.16);
         this.seldo.setDepth(5);
+        this.addGroundShadow(200, 340 + this.seldo.displayHeight * 0.42, this.seldo.displayWidth * 0.55, this.seldo.displayHeight * 0.12);
         this.seldo.setInteractive({ useHandCursor: true });
 
         // Amber bureaucratic glow
