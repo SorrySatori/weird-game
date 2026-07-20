@@ -9,6 +9,7 @@ export default {
         'Brine Scripture': 'Solopis',
         'Complaint Eater': 'Požírač stížností',
         'Councilor Seraphel Dune': 'Radní Seraphel Dune',
+        'Priest': 'Kněz',
     },
     poet_intro: {
         text: `Dveře Radnice se za vámi zavřou tichým, definitivním zvukem zasouvané zásuvky. Vzduch chutná po starém inkoustu a zadrženém dechu.\n\nNa pódiu pro veřejná čtení stojí hubená postava začerněná inkoustem — v jedné pěsti revolver, v druhé svazek básní s okraji jako krvácející papír. Úředník, radní a Požírač stížností sedí ztuhle pod pečetí Radnice. Když vejdete, čtení nepřeruší.\n\n"Třicet let jsem četl prázdným sálům.\nDnes je sál plný a odejít nesmí.\nHleďte na jediné poctivé publikum —\nzajaté, dýchající, konečně přinucené slyšet mě.\n\nOrazítkovali můj život jako 'nedostatečně občanský',\na tak jsem složil to nejobčanštější dílo:\nbáseň, již žádný úředník nezaloží a žádná duše zdvořile neopustí.\nMěsto je koncept. Já jsem jeho poslední redakce."`,
@@ -356,6 +357,23 @@ Požírač stížností brání tomu, aby se tím Radnice zadusila. Sotva."`,
 Ale jestli Biskupka používala úřední papír jako soukromý zápisník, schovávala pravdu na jediné místo, kde by tady nikdo dobrovolně nečetl: do papírování."`,
         options: {
             missing_notebook_is_still_the_lead: 'Chybějící zápisník je pořád hlavní stopa.',
+        }
+    },
+
+    // ===== Gang of Lamps (Sconcin úkol): prohledávání spisových zásuvek =====
+    dossier_search: {
+        text: `Archivní zásuvky se táhnou po celé délce zdi, tisíce čísel případů v pořádku mrtvého byrokrata. Někde tady je ten jeden spis, založený proto, aby se zapomněl — číslo, které neodpovídá ničemu. Najít ho ručně by mohlo trvat celou noc.`,
+        options: {
+            dossier_plain: "Prohledávat zásuvky ručně, dokud se to špatné číslo neobjeví.",
+            dossier_palinode: "[Palinode] Odeříct pečeť ze zásuvky, která nikam nepatří.",
+            dossier_brine: "[Solopis · Solná paměť] Najít ho podle občanské jizvy, kterou zanechal v papíru.",
+            dossier_cancel: "Zatím ty zásuvky nechat být.",
+        }
+    },
+    councilor_drug_surrender_talk: {
+        text: `Dune si oba balíčky prohlíží s únavou muže, který jich už příliš mnoho založil. „Wickmilk a Gloamdust. A vy mi je nesete, místo abyste je rozvezl.“ Odkudsi jakoby z ničeho vytáhne účetní knihu. „Reklamátoři vedou účet o tom, co město odhazuje — včetně kšeftu, který odhazuje lidi. Zapíše se to jako zabavené pašované zboží a to, že vám to prošlo rukama, se poctivě zapíše hned vedle. Žádný zisk pro vás. Ale ani díra v záznamu.“ Vezme balíčky. „To je nabídka Reklamátorů: nejste tu hrdina ani zločinec. Jste *zaevidován*.“`,
+        options: {
+            councilor_drug_surrender_close: "Zapište to. Všechno.",
         }
     },
 };

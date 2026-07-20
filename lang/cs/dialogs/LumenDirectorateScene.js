@@ -7,6 +7,7 @@ export default {
         'Verrik the Gardener': 'Verrik Zahradník',
         'Verrik': 'Verrik',
         'Narrator': 'Vypravěč',
+        'Priest': 'Kněz',
     },
     gardener_start: {
         text: {
@@ -242,5 +243,14 @@ export default {
             grow_another: "Vypěstovat další?",
             i_have_other_questions: "Mám další otázky."
         }
-    }
+    },
+    eavesdrop_listen: {
+        text: "Zahrada direktoriátu je samý přistřižený živý plot a tichý pořádek, ale nízká průduchová mřížka ve zdi dýchá teplý vzduch — a hlasy — z archivních místností uvnitř. Dva z jejich vlastních spolu mluví, opatrně a tlumeně. Stačilo by prostě naslouchat.",
+        options: {
+            eavesdrop_plain: "Přitisknout se blíž a poslouchat.",
+            eavesdrop_neme: "[Neme · Fotosenzitivita] Přečíst vinu pod tím, co říkají.",
+            eavesdrop_brine: "[Brine · Solná paměť] Ochutnat, co pila půda téhle zahrady.",
+            eavesdrop_cancel: "Odstoupit."
+        }
+    },
 };

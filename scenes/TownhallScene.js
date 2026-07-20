@@ -1,6 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
-import { createStreetLamp, meetLamp, lampsFoundCount } from '../utils/GangOfLamps.js';
+import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
 export default class TownhallScene extends GameScene {
     constructor() {
@@ -22,6 +22,22 @@ export default class TownhallScene extends GameScene {
             const sconceMet = !!this.hasJournalEntry('met_lamp_sconce');
             const found = lampsFoundCount(this);
             const allLampsFound = found === 4;
+
+            // --- L2: Sconce's recover quest ---
+            const recoverStatus = gangQuestStatus(this, GANG_QUEST_IDS.sconce);
+            const hasDossier = this.hasItem('filed_dossier');
+            const sconceConnectedOptions = [
+                ...(recoverStatus === 'none'
+                    ? [{ text: "You said there'd be something you needed?", key: 'sconce_recover_offer', next: "sconce_recover_brief" }]
+                    : []),
+                ...(recoverStatus === 'active' && hasDossier
+                    ? [{ text: "I found your dossier. Here.", key: 'sconce_recover_deliver', next: "sconce_recover_report" }]
+                    : []),
+                ...(recoverStatus === 'active' && !hasDossier
+                    ? [{ text: "Where is this thing filed, again?", key: 'sconce_recover_status', next: "sconce_recover_statusinfo" }]
+                    : []),
+                { text: "You're not alone now, Sconce.", key: 'sconce_connected_close', next: "closeDialog" },
+            ];
             return {
             ...super.dialogContent,
 
@@ -50,10 +66,7 @@ export default class TownhallScene extends GameScene {
                             { text: "Your secret's safe. (Leave.)", key: 'sconce_leave', next: "closeDialog" }
                         ])
                     : (allLampsFound
-                        ? [
-                            // TODO L2: quest offer
-                            { text: "You're not alone now, Sconce.", key: 'sconce_connected_close', next: "closeDialog" }
-                        ]
+                        ? sconceConnectedOptions
                         : [
                             { text: "Remind me who's still out there.", key: 'sconce_remind', next: "sconce_lamp_family" },
                             { text: "I'll keep looking.", key: 'sconce_searching_close', next: "closeDialog" }
@@ -66,6 +79,42 @@ export default class TownhallScene extends GameScene {
                 options: [
                     { text: "I'll tell them.", key: 'sconce_family_close', next: "closeDialog" }
                 ]
+            },
+
+            // ===== L2: Sconce's quest — "Recover What Was Filed" =====
+            sconce_recover_brief: {
+                speaker: 'Sconce',
+                text: `The little flame steadies, urgent. "There *is* something. I watched them file it wrong on purpose — a sealed dossier, shoved into the archive drawers inside, under a case-number that doesn't exist so no one would ever pull it. I don't even know whose it is. But a thing filed to be forgotten is a thing someone was afraid of." A nervous flicker toward the steps. "You can go inside. The records room. Find the dossier that doesn't belong and bring it out to me — before the clerks 'lose' it for good."`,
+                options: [
+                    { text: "A misfiled dossier in the records room. I'll find it.", key: 'sconce_recover_accept', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.questSystem?.getQuest(GANG_QUEST_IDS.sconce)) {
+                        this.questSystem.addQuest(GANG_QUEST_IDS.sconce, 'Recover What Was Filed', "Sconce says the Townhall clerks deliberately misfiled a sealed dossier in the interior records room, buried under a fake case-number. I need to go inside, find the dossier that doesn't belong, and bring it out to him.");
+                    }
+                }
+            },
+            sconce_recover_statusinfo: {
+                speaker: 'Sconce',
+                text: `"Inside. The records room, in the drawers where the case-numbers run out. The dossier that doesn't match anything — that's the one. Bring it to me quick; I don't trust them not to burn it." The flame gutters anxiously.`,
+                options: [
+                    { text: "Records room, the drawer that doesn't add up. Got it.", key: 'sconce_recover_statusinfo_close', next: "closeDialog" }
+                ]
+            },
+            sconce_recover_report: {
+                speaker: 'Sconce',
+                text: `The sconce's flame flares, then bends close to the dossier as if reading it by its own light. "That's it. That's the one they buried." A long, shaky exhale of flame. "I can't even open it from this bracket — but *you* have it now, out where it can't be quietly unhappened. That's enough. That's everything." The little lamp glows with fierce, grateful warmth. "Take this, please. It's all a fixture like me has to give."`,
+                options: [
+                    { text: "It's safe now, Sconce.", key: 'sconce_recover_report_close', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    const q = this.questSystem?.getQuest(GANG_QUEST_IDS.sconce);
+                    if (q && !q.isComplete) {
+                        this.removeItemFromInventory('filed_dossier');
+                        this.questSystem.completeQuest(GANG_QUEST_IDS.sconce);
+                        this.addMoney(35);
+                    }
+                }
             },
 
             speaker: 'Phor Calesta',

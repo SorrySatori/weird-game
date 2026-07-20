@@ -7,6 +7,7 @@ export default {
         'Narrator': 'Vypravěč',
         'Ulvarex': 'Ulvarex',
         'Heir to the Yellow Aquarium': 'Dědic Žlutého akvária',
+        'Torchère': 'Torchère',
     },
     heir_harbor_start: {
         text: {
@@ -90,6 +91,54 @@ export default {
         options: {
             alright_bond_with_me: "Dobře, spoj se se mnou.",
             not_yet: "Ještě ne."
+        }
+    },
+
+    // ===== Gang of Lamps: Torchère (neposedný, prchlivý pašerák z doků) =====
+    torchere_lamp_start: {
+        text: {
+            torchere_lamp_first: `Vysoký železný torchère trčí z prken mola, plamen sráží stranou mořský vítr. Jak se blížíš, otočí se k tobě se zasyčením jisker. „Ztratil ses? Ne? Tak jsi první užitečná věc, co na tohle molo tenhle týden vkročila.“ Plamen zapraská a měří si tě. „Říkají mi Torchère. A než se zeptáš — jo, mluvím, a jo, jsem jeden z těch roztroušených. Lampy, co myslí, lampy, co se nedokážou *hnout*. Víš, jaké to je, být přivařený k jednomu místu, zatímco kolem tebe proplouvá celé město z dosahu? K zešílení. Mám vzkazy pro ostatní a žádný způsob, jak je donést.\n\nJenže ty máš nohy a nevypadáš jako celník. Roznášej mé vzkazy. Najdi zbytek nás. Udělej to a nezapomenu na to — jsem prchlivý, ne nevděčný.“`,
+            torchere_lamp_first_some: `Vysoký železný torchère trčí z prken mola, plamen sráží stranou mořský vítr. Otočí se k tobě — pak povolí, jiskry se usadí. „Neztratil ses a už neseš hlasy ostatních — cítím, jak praskají po drátě. Měl jsi napilno, co.“ Drsné kývnutí zablikáním. „Říkají mi Torchère, jeden z roztroušených, přivařený k tomuhle molu. Něco jsi rozjel, to ti přiznám. Najdi zbytek a pochodeň u vody ti bude dlužna.“`,
+            torchere_lamp_first_last: `Vysoký železný torchère trčí z prken mola, plamen praská v mořském větru — a jak se blížíš, prudce a náhle vzplane. „Počkej. *Počkej.* Cítím, jak se za tebou rozsvítila celá linka — všichni, teplí na drátě.“ Jiskry zapraskají, napůl nevěřícně. „Našel jsi každého z ostatních, než jsi dorazil ke mně. No jasně že jo.“ Drsné, neochotné teplo. „...Tak to jsem poslední zhaslý, zhasláku. Tak mě zapoj a skoncujem to. Poprvé, co je celá parta rozsvícená, co si pamatuju. A neopovaž se jim říct, že jsem změknul.“`,
+            torchere_lamp_searching: `Jiskry netrpělivě prskají. „Pořád na to sám? Jsme pořád roztroušení, zhasláku. Hni sebou — Don nahoře na vysoké lávce pod Škrabákem 1140, Chandelier venku na náměstí, nástěnná lampa u domu razítek. Nerad čekám.“`,
+            torchere_lamp_connected: `Plamen stojí vysoký a klidný, tlumeně hučí něčím, co připomíná radost. „Ha! Tys to fakt dokázal. Zase cítím každého z nich po drátě — celý okruh rozsvícený a hučící. Nečekal jsem, že to v sobě máš.“ Jiskry se usadí. „Sedni si na chvíli. Popadni dech. Brzo bude co roznášet — na vodě je vždycky práce — ale dneska ti je pochodeň u vody dlužna.“`,
+        },
+        options: {
+            torchere_who: "Koho mám hledat?",
+            torchere_leave: "Mluvící lampa na molu. No jistě.",
+            torchere_last_close: "Jsi poslední, Torchère. To jsou všichni čtyři.",
+            torchere_connected_close: "Hoř klidně, Torchère.",
+            torchere_remind: "Připomeň mi, kde mám hledat.",
+            torchere_searching_close: "Budu hledat dál.",
+            torchere_smuggle_offer: "Říkal jsi, že na vodě je vždycky práce.",
+            torchere_smuggle_deliver: "Zásilka je předaná. Hotovo.",
+            torchere_smuggle_status: "Kam že to mám doručit?",
+        }
+    },
+    torchere_lamp_family: {
+        text: `„Ještě tři z nás jsou venku, rezaví na kusy. Je tu *Don* — trůní nahoře na vysoké lávce pod Škrabákem 1140, jako by mu patřilo nebe; prý vůdce. Je tu *Chandelier*, postavená na fajnovém sloupu venku na náměstí — snobka, ale slyší leccos. A je tu jedna *nástěnná lampa*, přišroubovaná ke sloupu u domu razítek, cukne sebou při každém úředníkovi, co vyjde po schodech — nervózní drobek, ale věrný. Vystopuj je. Vyřiď jim, že pochodeň u vody pořád hoří.“`,
+        options: {
+            torchere_family_close: "Najdu je.",
+        }
+    },
+
+    // ===== L2: Torchèrova zakázka — „Proklouznout kolem celníků" =====
+    torchere_smuggle_brief: {
+        text: `Plamen klesne a ztlumí se, spiklenecky. „Dobrá. Jednoduchá pochůzka, žádné hrdinství. Dva balíčky — *Wickmilk* a *Gloamdust*, ani k jednomu nečichej — které by celníci moc rádi našli, a nenajdou. Mám svou mrtvou schránku: uvolněná mříž na Ulici Hořícího Medvěda, vzadu, kde girlandy visí nízko. Vezmeš je, dojdeš tam, strčíš je do mříže a odejdeš. Neběž. Ty, co běží, si lidé pamatují.“ Sprška jisker ti balíčky vtiskne do rukou. „Udělej to čistě a pochodeň ti bude dlužna, jak se patří.“`,
+        options: {
+            torchere_smuggle_accept: "Wickmilk, Gloamdust, mříž na Ulici Hořícího Medvěda. Čistě.",
+        }
+    },
+    torchere_smuggle_statusinfo: {
+        text: `„Ta mříž, zhasláku. Ulice Hořícího Medvěda, vzadu, kde girlandy visí nízko nad starou dlažbou. Wickmilk a Gloamdust dovnitř, a ty domů. Prosté.“ Jiskry sjednou. „A přestaň si s nima hrát.“`,
+        options: {
+            torchere_smuggle_statusinfo_close: "Mříž na Ulici Hořícího Medvěda. Jasně.",
+        }
+    },
+    torchere_smuggle_report: {
+        text: `Plamen vzplane jasně a spokojeně. „Čistá pochůzka. Žádný povyk, žádní celníci, žádná jména. Takhle se to dělá.“ Jiskry se usadí do něčeho skoro laskavého. „Jsi v pohodě, zhasláku. Pochodeň u vody splácí své dluhy — tady.“ Teplé zablikání, a o něco těžší kapsa.`,
+        options: {
+            torchere_smuggle_report_close: "Kdykoli, Torchère.",
         }
     }
 };

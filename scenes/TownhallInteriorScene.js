@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
 export default class TownhallInteriorScene extends GameScene {
     constructor() {
@@ -48,9 +49,27 @@ export default class TownhallInteriorScene extends GameScene {
         const pithQuestObj = this.questSystem?.getQuest('join_pith_reclaimers');
         const hasPithQuest = !!(pithQuestObj && !pithQuestObj.isComplete);
         const hasPithRecruit = !!(this.hasJournalEntry('pith_recruit_magnekin') || this.hasJournalEntry('pith_recruit_heir'));
+        // Gang of Lamps: surrender Torchère's contraband to the Reclaimers instead of running it.
+        const canGiveDrugsPith = pithKnown && gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wickmilk') && this.hasItem('gloamdust'));
+
+        // Gang of Lamps (Sconce's quest): route choices at the records drawers.
+        const hasPalinode = !!this.symbiontSystem?.hasSymbiont('palinode');
+        const hasBrineDossier = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
 
         return {
             ...super.dialogContent,
+
+            // Gang of Lamps (Sconce's quest): search the records drawers, with method choices.
+            dossier_search: {
+                speaker: 'Priest',
+                text: `The records drawers run the length of the wall, thousands of case-numbers in a dead bureaucrat's order. Somewhere in here is the one dossier filed to be forgotten — a number that matches nothing. Finding it by hand could take all night.`,
+                options: [
+                    { text: "Search the drawers by hand until the wrong number turns up.", key: 'dossier_plain', next: "closeDialog", onSelect: () => this.deliverDossier('plain') },
+                    ...(hasPalinode ? [{ text: "[Palinode] Unsay the seal on the drawer that refuses to belong.", key: 'dossier_palinode', next: "closeDialog", onSelect: () => this.deliverDossier('palinode') }] : []),
+                    ...(hasBrineDossier ? [{ text: "[Brine · Salt Recall] Find it by the civic scar it left in the paper.", key: 'dossier_brine', next: "closeDialog", onSelect: () => this.deliverDossier('brine') }] : []),
+                    { text: "Leave the drawers for now.", key: 'dossier_cancel', next: "closeDialog" },
+                ]
+            },
 
             poet_intro: {
                 speaker: 'The Mad Poet',
@@ -492,7 +511,26 @@ If the Townhall owes you a reward, make him say it out loud. Spoken debt is hard
                     ...(townhallRecordsChecked ? [{ text: "The Bishop's records were tampered with.", key: 'bishops_records_were_tampered_with', next: "councilor_bishop_records" }] : []),
                     ...(pithKnown && !pithJoined && !hasPithQuest ? [{ text: "The Reclaimers take in the city's strays. Could I be part of that?", key: 'ask_join_pith', next: "councilor_pith_offer" }] : []),
                     ...(hasPithQuest && !pithJoined && hasPithRecruit ? [{ text: "I've found a soul for the Reclaimers.", key: 'present_pith_recruit', next: "councilor_pith_present" }] : []),
+                    ...(canGiveDrugsPith ? [{ text: "[Contraband] I'm carrying smuggled narcotics. I want them off the street, on the record.", key: 'councilor_drug_surrender', next: "councilor_drug_surrender_talk" }] : []),
                 ]
+            },
+
+            councilor_drug_surrender_talk: {
+                speaker: 'Councilor Seraphel Dune',
+                text: `Dune regards the two parcels with the weariness of a man who has filed too many like them. "Wickmilk and Gloamdust. And you're bringing them to me rather than moving them." He produces a ledger seemingly from nowhere. "The Reclaimers account for what the city discards — including the trade that discards people. This will be entered as recovered contraband, and the fact that it passed through your hands will be entered honestly alongside it. No profit for you. No hole in the record either." He takes the parcels. "That is the deal the Reclaimers offer: you are neither hero nor criminal here. You are *accounted for*."`,
+                options: [
+                    { text: "Enter it. All of it.", key: 'councilor_drug_surrender_close', next: "councilor_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('gang_smuggle_gave_pith')) {
+                        this.removeItemFromInventory('wickmilk');
+                        this.removeItemFromInventory('gloamdust');
+                        this.addJournalEntry('gang_smuggle_gave_pith', 'Surrendered to the Reclaimers', "Rather than run Torchère's contraband, I surrendered the Wickmilk and Gloamdust to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+                        this.modifyFactionReputation('PithReclaimers', 15);
+                        this.modifyGrowthDecay(5, 0);
+                        this.showNotification('Contraband entered on the record. The world leans toward Growth.', 0x7fff8e);
+                    }
+                }
             },
 
             councilor_godgraveyard_reward: {
@@ -620,6 +658,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         this.load.image('townhallClerk', 'assets/images/characters/townhall_clerk.png');
         this.load.image('complaintEater', 'assets/images/characters/complaint_eater.png');
         this.load.image('councilorSeraphelDune', 'assets/images/characters/councilor_seraphel_dune.png');
+        this.load.image('box', 'assets/images/items/box.png');
     }
 
     create() {
@@ -662,6 +701,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         this.completeEnterTownhallQuestOnFirstEntry();
         const firstPoetEntry = this.startPoetStandoffQuestIfNeeded();
         this.createTownhallPlaceholders();
+        this.createMisfiledDossierSpot();
 
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
@@ -790,6 +830,49 @@ But if the Bishop used official stationery as a private notebook, she was hiding
             depth: 5,
             labelColor: '#d6bcff'
         });
+    }
+
+    // Gang of Lamps (Sconce's quest): the misfiled dossier buried in the records drawers.
+    // Present only while Sconce's recover job is active and the dossier hasn't been pulled.
+    // Clicking opens a route-choice dialog (plain / Palinode / Brine).
+    createMisfiledDossierSpot() {
+        const active = gangQuestStatus(this, GANG_QUEST_IDS.sconce) === 'active';
+        const alreadyHas = this.hasItem('filed_dossier');
+        const alreadyPulled = !!this.hasJournalEntry('gang_dossier_recovered');
+        if (!active || alreadyHas || alreadyPulled) return;
+
+        const x = 120, y = 430;
+        const drawer = this.add.rectangle(x, y, 44, 30, 0x0e120a, 0.5).setDepth(3);
+        drawer.setStrokeStyle(2, 0x3a3320, 0.9);
+        drawer.setInteractive({ useHandCursor: true });
+        const hint = this.add.text(x, y - 28, 'Records drawers', {
+            fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+        }).setOrigin(0.5).setDepth(10).setAlpha(0);
+        drawer.on('pointerover', () => { hint.setAlpha(1); document.body.style.cursor = 'pointer'; });
+        drawer.on('pointerout', () => { hint.setAlpha(0); document.body.style.cursor = 'default'; });
+        this._dossierCleanup = () => { drawer.disableInteractive(); drawer.destroy(); hint.destroy(); this._dossierCleanup = null; };
+        drawer.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('dossier_search');
+        });
+    }
+
+    // Complete the dossier recovery. `mode`: 'plain' | 'palinode' | 'brine'. Dragging a record
+    // that was buried to be forgotten back into the light leans the world toward Growth;
+    // using a read/unseal power to do it cleanly leans it a touch further.
+    deliverDossier(mode) {
+        if (!this.hasJournalEntry('gang_dossier_recovered')) {
+            this.addItemToInventory({ id: 'filed_dossier', name: 'Misfiled Dossier', description: "A sealed dossier the Townhall buried under a case-number that doesn't exist. Sconce wants it brought out where it can't be quietly unhappened.", texture: 'box', icon: 'box', stackable: false });
+            this.addJournalEntry('gang_dossier_recovered', 'The Buried Dossier', "Under a case-number that matches nothing, I found a sealed dossier that plainly didn't belong, and pulled it. Time to get it out to Sconce by the steps.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'Recover What Was Filed' });
+            if (this.questSystem?.getQuest(GANG_QUEST_IDS.sconce)) {
+                this.questSystem.updateQuest(GANG_QUEST_IDS.sconce, "I found the misfiled dossier in the records drawers. Take it out to Sconce by the townhall steps.", 'gang_dossier_recovered');
+            }
+        }
+        const growth = (mode === 'palinode' || mode === 'brine') ? 5 : 3;
+        this.modifyGrowthDecay(growth, 0);
+        this.showNotification('A buried truth, back in the light. The world leans toward Growth.', 0x7fff8e);
+        if (this._dossierCleanup) this._dossierCleanup();
     }
 
     createCouncilorCharacter() {

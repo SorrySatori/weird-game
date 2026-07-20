@@ -1,6 +1,6 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
-import { createStreetLamp, meetLamp, lampsFoundCount } from '../utils/GangOfLamps.js'
+import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus, eavesdropReportable } from '../utils/GangOfLamps.js'
 
 export default class TownSquareScene extends GameScene {
     constructor() {
@@ -14,6 +14,21 @@ export default class TownSquareScene extends GameScene {
         // visit it includes Chandelier herself. Drives the progress-aware greeting.
         const found = lampsFoundCount(this);
         const allLampsFound = found === 4;
+
+        // --- L2: Chandelier's eavesdrop quest ---
+        const eavesdropStatus = gangQuestStatus(this, GANG_QUEST_IDS.chandelier);
+        const chandelierConnectedOptions = [
+            ...(eavesdropStatus === 'none'
+                ? [{ text: "You said you'd make it worth my while. Go on, then.", key: 'chandelier_eavesdrop_offer', next: "chandelier_eavesdrop_brief" }]
+                : []),
+            ...(eavesdropStatus === 'active' && eavesdropReportable(this)
+                ? [{ text: "I heard something you'll adore.", key: 'chandelier_eavesdrop_deliver', next: "chandelier_eavesdrop_report" }]
+                : []),
+            ...(eavesdropStatus === 'active' && !eavesdropReportable(this)
+                ? [{ text: "Where was I listening again?", key: 'chandelier_eavesdrop_status', next: "chandelier_eavesdrop_statusinfo" }]
+                : []),
+            { text: "Enjoy the quiet, Chandelier.", key: 'chandelier_connected_close', next: "closeDialog" },
+        ];
         return {
             ...super.dialogContent,
             ...this._magnekinDialogContent,
@@ -44,10 +59,7 @@ export default class TownSquareScene extends GameScene {
                             { text: "A gossiping chandelier. Of course.", key: 'chandelier_leave', next: "closeDialog" }
                         ])
                     : (allLampsFound
-                        ? [
-                            // TODO L2: quest offer
-                            { text: "Enjoy the quiet, Chandelier.", key: 'chandelier_connected_close', next: "closeDialog" }
-                        ]
+                        ? chandelierConnectedOptions
                         : [
                             { text: "Remind me where to look.", key: 'chandelier_remind', next: "chandelier_lamp_family" },
                             { text: "I'll keep looking.", key: 'chandelier_searching_close', next: "closeDialog" }
@@ -60,6 +72,41 @@ export default class TownSquareScene extends GameScene {
                 options: [
                     { text: "I'll bring you their words.", key: 'chandelier_family_close', next: "closeDialog" }
                 ]
+            },
+
+            // ===== L2: Chandelier's quest — "A Choice Morsel" (eavesdrop) =====
+            chandelier_eavesdrop_brief: {
+                speaker: 'Chandelier',
+                text: `Every lustre leans in, positively glittering. "Now. There is a house that *hoards* its secrets, darling, and it drives me to distraction — the Lumen Directorate, with their pruned little garden and their 'nothing hidden, nothing lost.' *Ha.* They hide plenty; they simply file it prettily." A conspiratorial chime. "Go and *linger* by their garden. There's a spot where the vents carry every word from inside. Stand there, let it wash over you, and bring me back something juicy — a name, a fear, a quiet little betrayal. I shall dine on it for weeks."`,
+                options: [
+                    { text: "Eavesdrop on the Lumen Directorate. Delicious.", key: 'chandelier_eavesdrop_accept', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.questSystem?.getQuest(GANG_QUEST_IDS.chandelier)) {
+                        this.questSystem.addQuest(GANG_QUEST_IDS.chandelier, 'A Choice Morsel', "Chandelier wants gossip. She sent me to eavesdrop at the Lumen Directorate garden — there's a vent that carries voices from inside. Listen there, then bring her what I overhear.");
+                    }
+                }
+            },
+            chandelier_eavesdrop_statusinfo: {
+                speaker: 'Chandelier',
+                text: `"The Lumen Directorate garden, darling — that manicured little kingdom. Find the vent where the voices leak out and simply *listen*. Then hurry back; a morsel goes stale if you dawdle."`,
+                options: [
+                    { text: "The Directorate garden. On my way.", key: 'chandelier_eavesdrop_statusinfo_close', next: "closeDialog" }
+                ]
+            },
+            chandelier_eavesdrop_report: {
+                speaker: 'Chandelier',
+                text: `You relay what you overheard, and Chandelier's prisms fairly *sing*, scattering little rainbows across the cobbles in delight. "Oh — *oh*, that is exquisite. The things they'd do to keep that quiet. I shall be insufferable at every window for a month." A warm, grateful shimmer. "You are a treasure, darling. Here — a little something for the finest source I've had in years."`,
+                options: [
+                    { text: "Always a pleasure, Chandelier.", key: 'chandelier_eavesdrop_report_close', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    const q = this.questSystem?.getQuest(GANG_QUEST_IDS.chandelier);
+                    if (q && !q.isComplete) {
+                        this.questSystem.completeQuest(GANG_QUEST_IDS.chandelier);
+                        this.addMoney(35);
+                    }
+                }
             }
         };
     }

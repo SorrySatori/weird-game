@@ -180,17 +180,24 @@ and a generative Web-Audio organ score.
   registry `shed_tunnel_opened` restored in `create()`, journal `seam_sense_shed_tunnel`, +12 spores;
   hotspot+notification instead of a dialog tree since this scene has no cs file). Speaker cs is
   `'Palinode': 'Palinode'`. Pattern easy to replicate; not a quest gate.
-- **The Gang of Lamps questline (`gang_of_lamps`):** four disguised sentient street-lamps, IMMOVABLE and
-  out of contact, who use the player as courier. Shared mechanic lives on **GameScene** (do not modify):
-  `createStreetLamp(texKey,x,y,scale,dialogKey,depth=6)`, `meetLamp(id,name)` (idempotent; writes
-  `met_lamp_<id>`, starts/advances quest `gang_of_lamps`), `lampsFoundCount()` (0–4). **Phase L1 (DONE, EN
-  only):** placed + find/relay intro dialog for all four — **Don Girandole** (`don`, BurningBearStreetScene,
-  texKey `lamp_don`), **Chandelier** (`chandelier`, ScreamingCorkScene, `lamp_chandelier`), **Sconce**
-  (`sconce`, TownhallInteriorScene, `lamp_sconce`), **Torchère** (`torchere`, HarborScene, `lamp_torchere`).
-  Each start state `<id>_lamp_start` switches text via `textKey` among `_first`/`_searching`/`_connected`
-  (computed from `met_lamp_<id>` + `lampsFoundCount()===4`) and calls `meetLamp` in `onTrigger`; a
-  `<id>_lamp_family` state repeats the cryptic hints toward the other three. Connected variant is a close-only
-  ack with a `// TODO L2: quest offer`. **Not built yet:** L2 (per-lamp quests once all four found) and the
-  Czech dialog files (`lang/cs/dialogs/*` — EN-only for now).
+- **The Gang of Lamps questline (`gang_of_lamps`) — COMPLETE (L1+L2+systems+betrayals+CZ):** four disguised
+  sentient street-lamps, IMMOVABLE and out of contact, who use the player as courier. Shared mechanic lives in
+  **`utils/GangOfLamps.js`** (moved off GameScene): `createStreetLamp(scene,texKey,x,y,scale,dialogKey,depth)`
+  (returns null once the Gang is destroyed), `meetLamp(scene,id,name)` (idempotent; writes `met_lamp_<id>`,
+  starts/advances `gang_of_lamps`), `lampsFoundCount(scene)`, plus L2 helpers `GANG_QUEST_IDS`,
+  `gangQuestStatus`, `spyFragmentCount`/`recordSpyFragment`, `spyReportable`/`eavesdropReportable`/`smuggleReportable`,
+  `gangDeceived`, `destroyGangLamps`, `grantGangVestigel`. Scenes `import {…} from '../utils/GangOfLamps.js'` and pass `this`.
+  **Placements:** **Don Girandole** (`don`, **ScraperScene**, `lamp_don`), **Chandelier** (`chandelier`,
+  **TownSquareScene**, `lamp_chandelier`), **Sconce** (`sconce`, **TownhallScene EXTERIOR**, `lamp_sconce`),
+  **Torchère** (`torchere`, HarborScene, `lamp_torchere`). Each `<id>_lamp_start` switches `textKey` among
+  `_first`/`_first_some`/`_first_last`/`_searching`/`_connected` (progress-aware) and calls `meetLamp` in `onTrigger`.
+  **L2:** once all four connected, each lamp offers a quest → all done → Don gives a real `'vestigel'`. Don=spy
+  the Rust Choir (Brukk/Gnur/Ravla), Torchère=smuggle Wickmilk+Gloamdust to a dead-drop, Chandelier=eavesdrop at
+  the Lumen vent, Sconce=recover a misfiled dossier. Each quest uses **G/D** (`this.modifyGrowthDecay`) and offers
+  optional **symbiont routes** (Neme/Osswine/Ulvarex/Brine/Palinode, gated by G/D silence thresholds). **Betrayals:**
+  tell the target faction (false intel + rep + G/D), fence/divert the drugs; giving drugs to the Lumen is TERMINAL —
+  `destroyGangLamps` removes all lamps forever (no Vestigel). Full detail in memory `gang-of-lamps-quest.md`.
+  **CZ:** done — all states in `lang/cs/dialogs/*` (incl. new `ScraperScene.js`, registered in `dialogs/index.js`);
+  13 fixed journal ids in en+cs; route-variant journals intentionally EN-only.
 
 Read `WORLD_HISTORY_AND_GEOGRAPHY.md` for lore/canon before writing story content.

@@ -6,6 +6,7 @@ export default {
     _speakers: {
         'Magnekin': 'Magnekin',
         'Busker': 'Pouliční muzikant',
+        'Chandelier': 'Chandelier',
     },
     magnekin_start: {
         text: {
@@ -293,6 +294,54 @@ export default {
         options: {
             tell_me_more: "Řekněte mi víc.",
             farewell: "Sbohem."
+        }
+    },
+
+    // ===== Gang of Lamps: Chandelier (odtažitá, klevetivá společenská dáma) =====
+    chandelier_lamp_start: {
+        text: {
+            chandelier_lamp_first: `To, co jsi měl za ozdobnou pouliční lampu na náměstí, je celý křišťálový lustr, nasazený na železném sloupu a naklánějící své ověsky k tobě s jemným, cinkavým povzdechem. „Mm. *Nová* tvář. Jak osvěžující — kolemjdoucí přestali být zajímaví už před lety.“ Hranoly se otáčejí a zachycují tě naráz z tuctu úhlů. „Jsem Chandelier, drahoušku. Ano, mluvím; ano, jsem jedna z *nich* — z té roztroušené společnosti, z lamp, které se nedokážou ani zhoupnout ze svých úchytů, aby si pořádně poklevetily. Je to *muka*, být takhle dobře informovaná a takhle nehybná. Z náměstí, jako je tohle, člověk slyší úplně všechno, a nemá to komu povědět.\n\nAle ty. Ty se *hýbeš*. Buď tak hodný a nos mezi námi zprávy. Vynahradím ti to — vím věci, a tolik ráda se dělím.“`,
+            chandelier_lamp_first_some: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu, ověsky už se k tobě natáčejí s vědoucím drobným třpytem. „Mm — nová tvář, a taková, co *voní* po mých roztroušených příbuzných. Nosil jsi zprávy mezi ostatními, viď? Cítím to na drátě.“ Potěšený, cinkavý povzdech. „Jsem Chandelier, drahoušku — jedna z lamp, které mluví a nemohou se hnout ani o píď. Rozjel jsi to překrásně. Přiveď do rozhovoru i zbytek nás.“`,
+            chandelier_lamp_first_last: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu — a jak se blížíš, každý ověsek se už chvěje vzrušením. „*Ty.* Ó, ty chytrá, chytrá věcičko — slyším, jak celý zbytek rodiny za tebou zpívá po drátě. Každý jeden nalezen, jen já *ne*.“ Kaskáda nadšeného cinkání. „Tak to jsem poslední a ty jsi přišel učinit nás celými. Víš, jak dlouho jsem čekala, až budu posledním dílkem *čehokoli*? Zapoj mě, drahoušku. Zapoj mě ihned.“`,
+            chandelier_lamp_searching: `Hranoly se netrpělivě lehce zachvějí. „Pořád roztroušení, drahoušku. Pořád čekáme. Pospěš si — *Don* nahoře na vysoké lávce pod Škrabákem 1140, ta nervózní nástěnná lampička u domu razítek, pochodeň rezavějící u vody. Posel, který se loudá, není žádný posel.“`,
+            chandelier_lamp_connected: `Každý ověsek naráz zazáří, u vytržení. „Tak. Všichni zase spolu navlečení — zase je *slyším*, celý okruh bzučí klevetami. Ty úžasné malé poslíčkovské světýlko.“ Křišťálem zazní spokojené cinknutí. „Posaď se. Vyhřej se. Brzo bude o co požádat — vždycky je — ale teď mě prostě nech obdivovat toho, kdo nás znovu spojil.“`,
+        },
+        options: {
+            chandelier_who: "Kdo další je venku?",
+            chandelier_leave: "Klevetící lustr. No ovšem.",
+            chandelier_last_close: "Jsi poslední, Chandelier. To jsou všichni čtyři.",
+            chandelier_connected_close: "Užij si ten klid, Chandelier.",
+            chandelier_remind: "Připomeň mi, kde mám hledat.",
+            chandelier_searching_close: "Budu hledat dál.",
+            chandelier_eavesdrop_offer: "Říkala jsi, že mi to vynahradíš. Tak povídej.",
+            chandelier_eavesdrop_deliver: "Zaslechl jsem něco, co si zamiluješ.",
+            chandelier_eavesdrop_status: "Kde že jsem měl poslouchat?",
+        }
+    },
+    chandelier_lamp_family: {
+        text: `„Kdo další je venku? Je tu jedna stará strašidelná lampa, co si o sobě myslí, že je *Don* — trůní nahoře na vysoké lávce pod Škrabákem 1140, samý tuk a vznešenost; na toho si dej pozor na způsoby. Je tu cukavá malá *nástěnná lampička* přišpendlená ke zdi v domě razítek, dívá se, jak úředníci topí svět ve formulářích — chudák nervózní. A je tu jeden *torchère*, samá saze a vztek, rezaví dole u vody mezi bednami. Najdeš je, viď? A přijď mi to referovat. *Zbožňuji* vracející se zdroj.“`,
+        options: {
+            chandelier_family_close: "Přinesu ti jejich slova.",
+        }
+    },
+
+    // ===== L2: Chandelieřina zakázka — „Vybrané sousto" (odposlech) =====
+    chandelier_eavesdrop_brief: {
+        text: `Každý ověsek se nakloní, přímo se třpytí. „Tak. Je tu jeden dům, který si své tajnosti *hromadí*, drahoušku, a přivádí mě to k šílenství — Lumenový direktoriát, s tou svou přistřiženou zahrádkou a jejich ‚nic skryto, nic ztraceno'. *Ha.* Skrývají spoustu; jen to hezky zakládají do složek.“ Spiklenecké cinknutí. „Jdi a *poflakuj se* u jejich zahrady. Je tam místo, kde větrací šachty donesou každé slovo zevnitř. Postav se tam, nech to na sebe doléhat, a přines mi něco šťavnatého — jméno, strach, tichou malou zradu. Budu se tím hostit celé týdny.“`,
+        options: {
+            chandelier_eavesdrop_accept: "Odposlouchat Lumenový direktoriát. Lahodné.",
+        }
+    },
+    chandelier_eavesdrop_statusinfo: {
+        text: `„Zahrada Lumenového direktoriátu, drahoušku — to jejich upravené královstvíčko. Najdi průduch, kterým prosakují hlasy, a prostě *poslouchej*. Pak honem zpátky; sousto zvětrá, když se loudáš.“`,
+        options: {
+            chandelier_eavesdrop_statusinfo_close: "Zahrada direktoriátu. Už běžím.",
+        }
+    },
+    chandelier_eavesdrop_report: {
+        text: `Odvyprávíš, cos zaslechl, a Chandelieřiny hranoly přímo *zpívají*, rozhazují po dlažbě drobné duhy samou radostí. „Ó — *ó*, to je znamenité. Co všechno by udělali, aby to udrželi v tajnosti. Budu u každého okna nesnesitelná celý měsíc.“ Vřelý, vděčný třpyt. „Jsi poklad, drahoušku. Tady — maličkost pro nejlepší zdroj, jaký jsem za léta měla.“`,
+        options: {
+            chandelier_eavesdrop_report_close: "Vždycky rád, Chandelier.",
         }
     }
 };

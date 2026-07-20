@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import { GANG_QUEST_IDS, gangQuestStatus, recordSpyFragment } from '../utils/GangOfLamps.js';
 
 export default class RustDomainScene extends GameScene {
     constructor() {
@@ -31,6 +32,17 @@ export default class RustDomainScene extends GameScene {
         // Loyalty fork: a Rust member tasked by the Directorate to sabotage the Choir can warn Brukk instead.
         const hasLumenSabotageQuest = !!(this.questSystem?.getQuest('join_lumen_directorate') && !this.questSystem.getQuest('join_lumen_directorate').isComplete);
         const warnedRustOfLumen = !!this.hasJournalEntry('rust_choir_warned_of_lumen');
+        // Gang of Lamps: Don's spy quest — prise a secret out of Brukk.
+        const canSpyBrukk = gangQuestStatus(this, GANG_QUEST_IDS.don) === 'active' && !this.hasJournalEntry('gang_spy_brukk') && !machinesDestroyed;
+        // Osswine (Grave-Sense) can read the Choir's venerated dead machines directly — a
+        // decay-aligned route that works here because the Rust domain runs decay-heavy.
+        const canSpyBrukkOsswine = canSpyBrukk && !!this.symbiontSystem?.osswineCanRead();
+        // Betrayal: instead of spying FOR the lamps, sell the lamps out to Brukk.
+        const canBetraySpy = gangQuestStatus(this, GANG_QUEST_IDS.don) === 'active' && !this.hasJournalEntry('gang_spy_betrayed') && !machinesDestroyed;
+        // A probationary Choir member who betrays the lamps to Brukk proves loyalty → promotion to full standing.
+        const isProbationaryRust = !!this.hasJournalEntry('rust_choir_probationary') && !this.hasJournalEntry('rust_choir_full_member');
+        // Divert Torchère's contraband to the Choir instead of the dead-drop.
+        const canGiveDrugsRust = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wickmilk') && this.hasItem('gloamdust')) && !machinesDestroyed;
 
         return {
             ...super.dialogContent,
@@ -71,7 +83,92 @@ export default class RustDomainScene extends GameScene {
                     ...(questActive && !hasRustFeast && !machinesDestroyed ? [
                         { text: "I'm looking for the Rust Choir.", key: 'im_looking_for_the_rust_choir', next: "brukk_looking" }
                     ] : []),
+                    ...(canSpyBrukk ? [
+                        { text: "[Draw Brukk out] The machines — what are they really waiting for?", key: 'brukk_spy_probe', next: "brukk_spy_secret" }
+                    ] : []),
+                    ...(canSpyBrukkOsswine ? [
+                        { text: "[Osswine · Grave-Sense] (Read the silent machines the Choir keeps.)", key: 'brukk_spy_osswine', next: "brukk_spy_osswine_read" }
+                    ] : []),
+                    ...(canBetraySpy ? [
+                        { text: "[Betray] A gang of talking lamps sent me to spy on you. I'd sooner deal with you.", key: 'brukk_spy_betray', next: "brukk_spy_betray_talk" }
+                    ] : []),
+                    ...(canGiveDrugsRust ? [
+                        { text: "[Contraband] I'm carrying Wickmilk and Gloamdust. The Choir want it?", key: 'brukk_drug_give', next: "brukk_drug_give_talk" }
+                    ] : []),
                 ]
+            },
+            brukk_spy_betray_talk: {
+                speaker: 'Brukk',
+                textKey: isProbationaryRust ? 'brukk_spy_betray_promote' : 'brukk_spy_betray_plain',
+                text: isProbationaryRust
+                    ? `Brukk goes very still, then something like a grin cracks the copper of his face. "Lamps. The little talking lights. They think they can watch the Choir — and you came to *tell* us." The gears in his chest tick. "You joined us on a thin feast, brother. On probation. I've wondered which way you'd break." He places a heavy, deliberate hand on your shoulder. "Now I know. That's not the loyalty of a hanger-on. That's Choir." The pipes around you groan in something like approval. "The probation's over. You're one of us — fully, in the iron's own count." Then, lower: "Go back to your lamps. Tell them *this* —" and he feeds you a tidy fiction of harmless routines and false timetables. "Let them chew on that."`
+                    : `Brukk goes very still, then something like a grin cracks the copper of his face. "Lamps. The little talking lights." A low, grinding laugh. "They think they can watch the Choir. And you — you came to *tell* us." The gears in his chest tick, considering. "Loyalty's rare. We'll remember it." He leans close. "Go back to your lamps. Tell them whatever you like — here's what to say." He feeds you a tidy fiction: harmless routines, false timetables, a Choir that is smaller and softer than it is. "Let them chew on that."`,
+                options: [
+                    { text: "The lamps will hear exactly what you want them to.", key: 'brukk_spy_betray_close', next: "brukk_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('gang_spy_betrayed')) {
+                        this.addJournalEntry('gang_spy_betrayed', 'Sold Out the Lamps', "Instead of spying on the Rust Choir for the Gang of Lamps, I told Brukk exactly what they'd sent me to do. The Choir was pleased — and handed me a pack of comfortable lies to carry back to Don Girandole. He'll never know the difference.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'Ears on the Rust Choir' });
+                        this.modifyFactionReputation('RustChoir', 20);
+                        this.modifyGrowthDecay(0, 5);
+                        this.showNotification('You sided with the Choir. The world sours toward Decay.', 0x8B0000);
+                        // A probationary member who sells out the lamps has proven loyalty — lift the probation.
+                        if (this.hasJournalEntry('rust_choir_probationary') && !this.hasJournalEntry('rust_choir_full_member')) {
+                            this.addJournalEntry('rust_choir_full_member', 'Rust Choir: Full Member', 'By warning Brukk that the Gang of Lamps meant to spy on the Choir, I proved my loyalty to the iron. Brukk lifted my probation — I am a full member of the Rust Choir now.', this.journalSystem.categories.FACTIONS);
+                            this.modifyFactionReputation('RustChoir', 15);
+                            this.showNotification('Promoted: full member of the Rust Choir', 0xb87333);
+                        }
+                    }
+                }
+            },
+            brukk_drug_give_talk: {
+                speaker: 'Brukk',
+                textKey: isProbationaryRust ? 'brukk_drug_give_promote' : 'brukk_drug_give_plain',
+                text: isProbationaryRust
+                    ? `Brukk turns the two parcels over in his welded hands, sniffs, and rumbles low with interest. "Wickmilk. Gloamdust. Flesh-toys — but the *residue*..." He holds one up to a trembling pipe, then fixes you with those forge-lit eyes. "You came to us on a thin feast, brother. On probation. And now you bring the Choir a gift when you could've sold it or dropped it for coin." He pockets both parcels. "That's not a hanger-on. That's Choir." The pipes groan in approval. "The probation's over. You're one of us — fully, in the iron's own count. And the Choir keeps what it's given."`
+                    : `Brukk turns the two parcels over in his welded hands, sniffs, and rumbles low with interest. "Wickmilk. Gloamdust. Flesh-toys — but the *residue*..." He holds one up to a trembling pipe. "The Choir can render this down. Learn what the living pour into themselves to feel like machines." He pockets both. "You did well bringing it here instead of to whoever wanted it dropped. The Choir keeps what it's given."`,
+                options: [
+                    { text: "It's yours. (Hand it over.)", key: 'brukk_drug_give_close', next: "brukk_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('gang_smuggle_gave_rust')) {
+                        this.removeItemFromInventory('wickmilk');
+                        this.removeItemFromInventory('gloamdust');
+                        this.addJournalEntry('gang_smuggle_gave_rust', 'Fed the Choir', "Rather than run Torchère's contraband to his dead-drop, I gave the Wickmilk and Gloamdust to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcels actually went.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+                        this.modifyFactionReputation('RustChoir', 15);
+                        this.modifyGrowthDecay(0, 5);
+                        this.addMoney(20);
+                        this.showNotification('The Choir keeps the contraband. The world sours toward Decay.', 0x8B0000);
+                        // Bringing the Choir a gift (over selling/dropping it) proves a probationary member's loyalty.
+                        if (this.hasJournalEntry('rust_choir_probationary') && !this.hasJournalEntry('rust_choir_full_member')) {
+                            this.addJournalEntry('rust_choir_full_member', 'Rust Choir: Full Member', 'By handing the smuggled contraband to the Rust Choir instead of selling it or running it, I proved my loyalty to the iron. Brukk lifted my probation — I am a full member of the Rust Choir now.', this.journalSystem.categories.FACTIONS);
+                            this.modifyFactionReputation('RustChoir', 15);
+                            this.showNotification('Promoted: full member of the Rust Choir', 0xb87333);
+                        }
+                    }
+                }
+            },
+            brukk_spy_osswine_read: {
+                speaker: 'Osswine',
+                text: `Grave-Sense settles over the dead machines like frost. Osswine's voice rises from your marrow, dry and patient. "They are not silent. They *remember*." Through the symbiont you feel the Choir's method fossilized in the iron: a low regulator-tone the old pipes still carry city-wide; when a district's tone falls dead — its power gone for good — the Choir moves in to claim its machines before the rust does. There is a list. The machines have been counting the dying for years. Brukk, oblivious, keeps welding.`,
+                options: [
+                    { text: "(Withdraw the Grave-Sense.)", key: 'brukk_spy_osswine_close', next: "brukk_start" }
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(0, 5);
+                    this.showNotification('You read the dead. The world sours toward Decay.', 0x8B0000);
+                    recordSpyFragment(this, 'brukk', "Rust Choir Secret: the Machines' Count", "Through Osswine's Grave-Sense I read it straight from the Choir's dead machines: they carry a low regulator-tone through the city's old pipes, and when a district's tone falls silent — its power dead for good — the Choir moves in to claim its machines before the rust does. The machines have been counting the dying for years.");
+                }
+            },
+            brukk_spy_secret: {
+                speaker: 'Brukk',
+                text: `Brukk's forge-eyes narrow, but pride loosens his tongue — the Choir cannot help but boast of the machines. "Waiting? For the last empire to rot enough that iron is all that's left standing. We do not fight it. We *outlast* it." His chest-gears click. "There is a signal — a low tone the old regulators still carry through the city's pipes. When it drops silent, the Choir knows a district's power has failed for good, and we move in and claim its machines before the rust does. We have a list. We are patient." He catches himself, and grunts. "...You ask a lot of questions."`,
+                options: [
+                    { text: "Just curious. (Remember this.)", key: 'brukk_spy_secret_close', next: "brukk_start" }
+                ],
+                onTrigger: () => {
+                    recordSpyFragment(this, 'brukk', "Rust Choir Secret: Brukk", "Brukk let slip how the Rust Choir operates: they don't fight the failing empire, they outlast it. They track a low regulator-tone carried through the city's pipes; when a district's tone falls silent (its power dead for good), the Choir moves in to claim its machines before the rust does. They keep a list and wait.");
+                }
             },
             brukk_warn_lumen: {
                 speaker: 'Brukk',
@@ -396,6 +493,14 @@ export default class RustDomainScene extends GameScene {
                             'rust_choir_joined',
                             'Probationary Member of the Rust Choir',
                             'I delivered a meager Rust Feast to Brukk — just a shard. But my standing with the Rust Choir was enough to earn a place among them, at least on probation.',
+                            this.journalSystem.categories.FACTIONS
+                        );
+                        // Marker distinguishing a probationary member from a full one (both share
+                        // rust_choir_joined). Lifted to full standing if the player later proves loyalty.
+                        this.addJournalEntry(
+                            'rust_choir_probationary',
+                            'Rust Choir: On Probation',
+                            'My place in the Rust Choir is provisional. Brukk let me in on the strength of my reputation, not a proper feast — I am on probation until I prove my loyalty to the iron.',
                             this.journalSystem.categories.FACTIONS
                         );
                     } else {

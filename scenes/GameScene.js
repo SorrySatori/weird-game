@@ -1952,25 +1952,33 @@ export default class GameScene extends Phaser.Scene {
         textBg.setStrokeStyle(1, 0x7fff8e);
         textContainer.add(textBg);
         
-        // Create mask for scrollable text
-        this.textMaskGraphics = this.add.graphics();
-        this.textMaskGraphics.fillStyle(0xffffff);
-        this.textMaskGraphics.fillRect(400 - 270, 300 - 220, 540, textBgHeight - 10);
-        
-        // Create text with proper wrapping
         // Add speaker name if provided
         let speakerName = content.speaker;
-        
-        const speakerText = this.add.text(-260, -(textBgHeight/2) + 10, speakerName + ':', {
-            fontSize: '22px',
-            fontStyle: 'bold',
-            fill: '#ffff00', // Yellow color for speaker name
-            align: 'left'
-        });
-        speakerText.setOrigin(0, 0);
-        textContainer.add(speakerText);
+        const hasSpeaker = !!speakerName;
+        // Body text starts BELOW the speaker line (when present) and the scroll area is
+        // clamped/masked to that band, so a long scrollable body can never slide up over
+        // the speaker name. textTopY / textBottomY are the body area's top/bottom (container-space).
+        const textTopY = -(textBgHeight / 2) + (hasSpeaker ? 44 : 12);
+        const textBottomY = (textBgHeight / 2) - 6;
+        const textContainerWorldY = 300 - 140; // dialogBox(300,300) + textContainer offset(-140)
 
-        this.dialogText = this.add.text(-260, -(textBgHeight/2) + 40, content.text, {
+        // Create mask for scrollable text — clipped to the body band (below the speaker).
+        this.textMaskGraphics = this.add.graphics();
+        this.textMaskGraphics.fillStyle(0xffffff);
+        this.textMaskGraphics.fillRect(400 - 270, textContainerWorldY + textTopY, 540, textBottomY - textTopY);
+
+        if (hasSpeaker) {
+            const speakerText = this.add.text(-260, -(textBgHeight / 2) + 10, speakerName + ':', {
+                fontSize: '22px',
+                fontStyle: 'bold',
+                fill: '#ffff00', // Yellow color for speaker name
+                align: 'left'
+            });
+            speakerText.setOrigin(0, 0);
+            textContainer.add(speakerText);
+        }
+
+        this.dialogText = this.add.text(-260, textTopY, content.text, {
             fontSize: '22px',
             fill: '#7fff8e',
             wordWrap: { width: 520 },
@@ -1979,24 +1987,24 @@ export default class GameScene extends Phaser.Scene {
         });
         this.dialogText.setOrigin(0, 0); // Left align text
         textContainer.add(this.dialogText);
-        
+
         // Set up text scrolling if needed
         const textHeight = this.dialogText.height;
-        const textAreaHeight = textBgHeight - 20; // Account for padding
+        const textAreaHeight = textBottomY - textTopY; // Visible body band (below the speaker)
         
         if (textHeight > textAreaHeight) {
             // Text needs scrolling
             this.dialogText.setMask(new Phaser.Display.Masks.GeometryMask(this, this.textMaskGraphics));
             
-            // Add scroll indicators
-            const upArrow = this.add.text(-260, -(textBgHeight/2) + 5, '▲', {
+            // Add scroll indicators (right margin, clear of the speaker name and body text)
+            const upArrow = this.add.text(268, textTopY, '▲', {
                 fontSize: '18px',
                 fill: '#7fff8e'
             });
             upArrow.setOrigin(0.5);
             textContainer.add(upArrow);
-            
-            const downArrow = this.add.text(-260, (textBgHeight/2) - 5, '▼', {
+
+            const downArrow = this.add.text(268, textBottomY, '▼', {
                 fontSize: '18px',
                 fill: '#7fff8e'
             });
@@ -2009,10 +2017,10 @@ export default class GameScene extends Phaser.Scene {
             upArrow.on('pointerout', () => upArrow.setStyle({ fill: '#7fff8e' }));
             upArrow.on('pointerdown', () => {
                 this.clickSound.play();
-                if (this.dialogText.y < -(textBgHeight/2) + 10) {
+                if (this.dialogText.y < textTopY) {
                     this.dialogText.y += 20;
-                    if (this.dialogText.y > -(textBgHeight/2) + 10) {
-                        this.dialogText.y = -(textBgHeight/2) + 10;
+                    if (this.dialogText.y > textTopY) {
+                        this.dialogText.y = textTopY;
                     }
                 }
             });
@@ -2022,7 +2030,7 @@ export default class GameScene extends Phaser.Scene {
             downArrow.on('pointerout', () => downArrow.setStyle({ fill: '#7fff8e' }));
             downArrow.on('pointerdown', () => {
                 this.clickSound.play();
-                const minY = -(textBgHeight/2) + 10 - (textHeight - textAreaHeight);
+                const minY = textTopY - (textHeight - textAreaHeight);
                 if (this.dialogText.y > minY) {
                     this.dialogText.y -= 20;
                     if (this.dialogText.y < minY) {
@@ -2036,12 +2044,12 @@ export default class GameScene extends Phaser.Scene {
                 if (this.dialogVisible && pointer.y < 300) {
                     const scrollAmount = deltaY > 0 ? -20 : 20;
                     const newY = this.dialogText.y + scrollAmount;
-                    const minY = -(textBgHeight/2) + 10 - (textHeight - textAreaHeight);
-                    
-                    if (newY <= -(textBgHeight/2) + 10 && newY >= minY) {
+                    const minY = textTopY - (textHeight - textAreaHeight);
+
+                    if (newY <= textTopY && newY >= minY) {
                         this.dialogText.y = newY;
-                    } else if (newY > -(textBgHeight/2) + 10) {
-                        this.dialogText.y = -(textBgHeight/2) + 10;
+                    } else if (newY > textTopY) {
+                        this.dialogText.y = textTopY;
                     } else if (newY < minY) {
                         this.dialogText.y = minY;
                     }

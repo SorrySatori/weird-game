@@ -259,6 +259,14 @@ export default {
             title: 'Odmítnut Rezavým chórem',
             description: 'Doručil jsem Rezavou Hostinu, ale střep byl příliš skrovný.',
         },
+        rust_choir_probationary: {
+            title: 'Rezavý chór: Ve zkušební době',
+            description: 'Mé místo v Rezavém chóru je jen prozatímní. Brukk mě přijal na sílu mé pověsti, ne za pořádnou hostinu — jsem ve zkušební době, dokud nedokážu svou oddanost železu.',
+        },
+        rust_choir_full_member: {
+            title: 'Rezavý chór: Plný člen',
+            description: 'Dokázal jsem svou oddanost železu a Brukk zrušil mou zkušební dobu — teď jsem plnohodnotný člen Rezavého chóru.',
+        },
         rust_choir_machines_destroyed: {
             title: 'Stroje Umlkly',
             description: 'Iluzorní rudá hmota, kterou jsem použil v Rezavé Hostině, zničila stroje Rezavého chóru.',
@@ -746,6 +754,58 @@ export default {
         lumen_surplus_harvested: {
             title: 'Přebytečný květ',
             description: 'Záhony Direktoriátu byly tak přerostlé, že jeden květ dozrál a neměl už co živit. Sklidil jsem ho — hrst živých spor. Náklon města k růstu zanechal víc života, než dokázali využít i zahradníci.',
+        },
+        met_lamp_don: {
+            title: 'Don Girandole',
+            description: 'Našel jsem Dona Girandolea — jednoho z Gangu lamp, vědomou pouliční lampu, která se nemůže hýbat a spoléhá na mě, abych přenášel slovo ostatním.',
+        },
+        met_lamp_torchere: {
+            title: 'Torchère',
+            description: 'Našel jsem Torchère — jednu z Gangu lamp, vědomou pouliční lampu, která se nemůže hýbat a spoléhá na mě, abych přenášel slovo ostatním.',
+        },
+        met_lamp_chandelier: {
+            title: 'Chandelier',
+            description: 'Našel jsem Chandelier — jednu z Gangu lamp, vědomou pouliční lampu, která se nemůže hýbat a spoléhá na mě, abych přenášel slovo ostatním.',
+        },
+        met_lamp_sconce: {
+            title: 'Sconce',
+            description: 'Našel jsem Sconce — jednu z Gangu lamp, vědomou pouliční lampu, která se nemůže hýbat a spoléhá na mě, abych přenášel slovo ostatním.',
+        },
+        gang_spy_location_told: {
+            title: 'Don ví o Rezavé doméně',
+            description: 'Řekl jsem Donu Girandoleovi, kde ve skutečnosti leží doména Rezavého chóru. Za tu informaci mi zaplatil.',
+        },
+        gang_smuggle_delivered: {
+            title: 'Zásilka je uložena',
+            description: 'Zastrčil jsem Torchèrovy balíčky — Wickmilk a Gloamdust — do uvolněné mříže na Ulici hořícího medvěda. Měl bych se ohlásit zpátky u pochodně u vody.',
+        },
+        gang_smuggle_sold: {
+            title: 'Zpeněžil jsem pašované zboží',
+            description: 'Torchèrovu zásilku jsem nikdy nedoručil. Wickmilk a Gloamdust jsem prodal sám a peníze si nechal. Až uvidím pochodeň u vody, řeknu jí, že to proběhlo hladce.',
+        },
+        gang_spy_betrayed: {
+            title: 'Prodal jsem lampy',
+            description: 'Místo abych pro Gang lamp špehoval Rezavý chór, řekl jsem Brukkovi přesně, co mě poslali udělat. Chór byl potěšen — a předal mi balík příjemných lží, které mám odnést zpět Donu Girandoleovi. Nikdy nepozná rozdíl.',
+        },
+        gang_smuggle_gave_rust: {
+            title: 'Nakrmil jsem chór',
+            description: 'Místo abych Torchèrovo pašované zboží donesl do jeho tajné schránky, dal jsem Wickmilk a Gloamdust Rezavému chóru. Brukk to hodlá rozložit a prostudovat. Torchère se nikdy nemusí dozvědět, kam jeho balíčky doopravdy zmizely.',
+        },
+        gang_eavesdrop_betrayed: {
+            title: 'Udal jsem to Direktoriátu',
+            description: 'Místo abych pro Chandelier odposlouchával, řekl jsem Verrikovi, že mě poslaly lampy. Direktoriát byl vděčný — a nakrmil mě vyrobeným „tajemstvím“, které mám odnést zpět jí. Bude z té lži nadšená.',
+        },
+        gang_dossier_recovered: {
+            title: 'Zahrabaný spis',
+            description: 'Pod číslem případu, které neodpovídá ničemu, jsem našel zapečetěný spis, který tam zjevně nepatřil, a vytáhl ho. Je čas dostat ho ven ke Sconce u schodů.',
+        },
+        gang_smuggle_gave_pith: {
+            title: 'Vydáno Reklamátorům',
+            description: 'Místo abych rozvážel Torchèrovo pašované zboží, vydal jsem Wickmilk a Gloamdust radnímu Dunovi. Reklamátoři jádra to zaevidovali jako zabavené pašované zboží — a poctivě zaevidovali i můj podíl na tom. Torchère bude předpokládat, že zásilka byla doručena.',
+        },
+        gang_lamps_destroyed: {
+            title: 'Gang je pryč',
+            description: 'Předal jsem Direktoriátu pašované zboží a řekl jim, odkud pochází. Neváhali. Do soumraku byla každá z Gangu lamp — Don Girandole, Chandelier, Torchère, malá Sconce — tiše stažena ze svého stanoviště a zničena, jejich okruh navždy pohasl. Direktoriát je vděčný. Město je o něco tišší. Ať už mi Don cokoli schovával, pohaslo to s ním.',
         },
     }
 };

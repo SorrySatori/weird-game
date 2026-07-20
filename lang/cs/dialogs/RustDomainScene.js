@@ -225,5 +225,35 @@ export default {
         options: {
             leave_the_rust_domain_poison: "Opustit Rezavou doménu."
         }
+    },
+    brukk_spy_secret: {
+        text: "Brukkovi se přivřou výheňové oči, ale pýcha mu rozváže jazyk — Chór si prostě nemůže odpustit chvástání stroji. „Čekáme? Až poslední říše shnije natolik, že zůstane stát jen železo. My s tím nebojujeme. My to *přečkáme*.“ Ozubená kola v jeho hrudi cvaknou. „Existuje signál — nízký tón, který staré regulátory pořád nesou městskými trubkami. Když utichne, Chór ví, že v tom obvodu selhala energie nadobro, a my tam vtrhneme a zabereme jeho stroje dřív, než to udělá rez. Máme seznam. Jsme trpěliví.“ Zarazí se a zabručí. „...Ptáš se ale hodně.“",
+        options: {
+            brukk_spy_secret_close: "Jen ze zvědavosti. (Zapamatovat si to.)"
+        }
+    },
+    brukk_spy_osswine_read: {
+        text: "Hrobový smysl usedne na mrtvé stroje jako jinovatka. Hlas Osswine se ti zvedá z morku, suchý a trpělivý. „Nejsou němé. *Pamatují si*.“ Skrz symbionta cítíš metodu Chóru zkamenělou v železe: nízký regulátorový tón, který staré trubky pořád nesou celým městem; když tón nějakého obvodu utichne — jeho energie nadobro pryč — Chór přijde zabrat jeho stroje dřív, než to udělá rez. Existuje seznam. Ty stroje léta počítají umírající. Brukk si toho nevšímá a dál svařuje.",
+        options: {
+            brukk_spy_osswine_close: "(Stáhnout Hrobový smysl.)"
+        }
+    },
+    brukk_spy_betray_talk: {
+        text: {
+            brukk_spy_betray_promote: "Brukk úplně znehybní, pak něco jako úšklebek popraská měď jeho tváře. „Lampy. Ta malá mluvící světýlka. Myslí si, že můžou hlídat Chór — a tys nám to přišel *říct*.“ Ozubená kola v jeho hrudi tikají. „Přidal ses k nám za hubenou hostinu, bratře. Ve zkušební době. Říkal jsem si, na kterou stranu se zlomíš.“ Položí ti těžkou, rozvážnou ruku na rameno. „Teď to vím. Tohle není věrnost nějakého přívažku. Tohle je Chór.“ Trubky kolem tebe zaduní v čemsi jako souhlas. „Zkušební doba skončila. Jsi jeden z nás — plně, v samotném počtu železa.“ Pak tišeji: „Vrať se ke svým lampám. Řekni jim *tohle* —“ a nakrmí tě úhlednou smyšlenkou o neškodných rutinách a falešných rozvrzích. „Ať si na tom pochutnají.“",
+            brukk_spy_betray_plain: "Brukk úplně znehybní, pak něco jako úšklebek popraská měď jeho tváře. „Lampy. Ta malá mluvící světýlka.“ Nízký, skřípavý smích. „Myslí si, že můžou hlídat Chór. A ty — tys nám to přišel *říct*.“ Ozubená kola v jeho hrudi tikají a zvažují. „Věrnost je vzácná. Zapamatujeme si ji.“ Nakloní se blíž. „Vrať se ke svým lampám. Řekni jim, co chceš — tady máš, co jim navykládat.“ Nakrmí tě úhlednou smyšlenkou: neškodné rutiny, falešné rozvrhy, Chór menší a měkčí, než ve skutečnosti je. „Ať si na tom pochutnají.“"
+        },
+        options: {
+            brukk_spy_betray_close: "Lampy uslyší přesně to, co budeš chtít ty."
+        }
+    },
+    brukk_drug_give_talk: {
+        text: {
+            brukk_drug_give_promote: "Brukk převrací oba balíčky ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wickmilk. Gloamdust. Hračky pro maso — ale ten *zbytek*...“ Zvedne jeden k rozechvělé trubce a pak si tě změří těma očima jako z výhně. „Přišels k nám za hubenou hostinu, bratře. Ve zkušební době. A teď neseš Chóru dar, i když jsi to mohl prodat nebo shodit za pár mincí.“ Strčí si oba balíčky do kapsy. „Tohle není přívažek. Tohle je Chór.“ Trubky zaduní souhlasem. „Zkušební doba skončila. Jsi jeden z nás — plně, v samotném počtu železa. A Chór si nechává, co dostane.“",
+            brukk_drug_give_plain: "Brukk převrací oba balíčky ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wickmilk. Gloamdust. Hračky pro maso — ale ten *zbytek*...“ Zvedne jeden k rozechvělé trubce. „Chór to dokáže rozložit. Zjistit, co do sebe živí lijí, aby si připadali jako stroje.“ Oba si strčí do kapsy. „Dobřes udělal, žes to přinesl sem a ne tomu, kdo to chtěl shodit. Chór si nechává, co dostane.“"
+        },
+        options: {
+            brukk_drug_give_close: "Je to tvoje. (Předat.)"
+        }
     }
 };

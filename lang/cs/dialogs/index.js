@@ -25,6 +25,7 @@ import echoDrainDeltaScene from './EchoDrainDeltaScene.js';
 import skyshipBoardScene from './SkyshipBoardScene.js';
 import scraperAmbraScene from './ScraperAmbraScene.js';
 import scraperInteriorScene from './ScraperInteriorScene.js';
+import scraperScene from './ScraperScene.js';
 import lumenDirectorateScene from './LumenDirectorateScene.js';
 import lumenDirectorateInteriorScene from './LumenDirectorateInteriorScene.js';
 import voxmarketMarketScene from './VoxmarketMarketScene.js';
@@ -60,6 +61,7 @@ export default {
     SkyshipBoardScene: skyshipBoardScene,
     ScraperAmbraScene: scraperAmbraScene,
     ScraperInteriorScene: scraperInteriorScene,
+    ScraperScene: scraperScene,
     LumenDirectorateScene: lumenDirectorateScene,
     LumenDirectorateInteriorScene: lumenDirectorateInteriorScene,
     VoxmarketMarketScene: voxmarketMarketScene,

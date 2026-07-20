@@ -5,6 +5,7 @@
 export default {
     _speakers: {
         'Ortolan': 'Ortolan',
+        'Priest': 'Kněz',
     },
     ortolan_bb_start: {
         text: {
@@ -64,6 +65,18 @@ export default {
         },
         options: {
             thanks_ortolan_bb: "Děkuji, Ortolane."
+        }
+    },
+
+    // ===== Gang of Lamps (Torchèrův úkol): schránka pro pašované zboží =====
+    smuggle_drop: {
+        text: `Mříž je rzí přivařená ke kočičím hlavám a Torchèrovy dva balíčky těžce spočívají v kabátě — Wickmilk a Gloamdust, taková váha, o jaké se celníkům zdá. Ulice je tichá. Prozatím.`,
+        options: {
+            smuggle_plain: "Vypáčit mříž a zastrčit je dovnitř.",
+            smuggle_ulvarex: "[Ulvarex · Tkaní přeludů] Zahalit balíčky a upustit je nepozorovaně.",
+            smuggle_palinode: "[Palinode] Odeříct zrezivělou mříž, aby se otevřela jako nová.",
+            smuggle_fence: "[Zrada] Nechat si je. Prodat je sám a Torchèrovi říct, že je hotovo.",
+            smuggle_cancel: "Tady ne. Ještě ne.",
         }
     }
 };

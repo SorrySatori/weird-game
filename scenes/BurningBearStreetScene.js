@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
 export default class BurningBearStreetScene extends GameScene {
     constructor() {
@@ -10,9 +11,24 @@ export default class BurningBearStreetScene extends GameScene {
     get dialogContent() {
         // Day-2 dialog is kept in its own getter so this scene doesn't accumulate
         // day-branching spaghetti. See day2DialogContent().
+        const hasUlvarex = !!this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon');
+        const hasPalinode = !!this.symbiontSystem?.hasSymbiont('palinode');
         return {
             ...super.dialogContent, // symbiont dialogs etc.
             ...(this.isDay2() ? this.day2DialogContent : {}),
+
+            // Gang of Lamps (Torchère's quest): the dead-drop, with method choices.
+            smuggle_drop: {
+                speaker: 'Priest',
+                text: `The grate is rust-welded into the cobbles, and Torchère's two parcels sit heavy in your coat — Wickmilk and Gloamdust, the kind of weight the customs men dream about. The street is quiet. For now.`,
+                options: [
+                    { text: "Pry the grate up and tuck them in.", key: 'smuggle_plain', next: "closeDialog", onSelect: () => this.deliverSmuggle('plain') },
+                    ...(hasUlvarex ? [{ text: "[Ulvarex · Mirage Weave] Shroud the parcels and drop them unseen.", key: 'smuggle_ulvarex', next: "closeDialog", onSelect: () => this.deliverSmuggle('ulvarex') }] : []),
+                    ...(hasPalinode ? [{ text: "[Palinode] Unsay the rusted grate so it opens like new.", key: 'smuggle_palinode', next: "closeDialog", onSelect: () => this.deliverSmuggle('palinode') }] : []),
+                    { text: "[Betray] Keep them. Sell them yourself and tell Torchère it's done.", key: 'smuggle_fence', next: "closeDialog", onSelect: () => this.fenceSmuggle() },
+                    { text: "Not here. Not yet.", key: 'smuggle_cancel', next: "closeDialog" },
+                ]
+            },
         };
     }
 
@@ -237,7 +253,74 @@ export default class BurningBearStreetScene extends GameScene {
             470 // walk to y
         );
 
+        this.createSmuggleDeadDrop();
+
         if (this.isDay2()) this.setupDay2();
+    }
+
+    // Gang of Lamps (Torchère's quest): a loose grate on the street the player uses as a
+    // dead-drop for the contraband. Only present while the run is active and undelivered.
+    // Clicking opens a route-choice dialog (plain / Ulvarex / Palinode).
+    createSmuggleDeadDrop() {
+        const active = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active';
+        const delivered = !!this.hasJournalEntry('gang_smuggle_delivered');
+        const hasParcels = this.hasItem('wickmilk') && this.hasItem('gloamdust');
+        if (!active || delivered || !hasParcels) return;
+
+        const x = 610, y = 545;
+        const grate = this.add.rectangle(x, y, 46, 22, 0x0a0d0a, 0.55).setDepth(3);
+        grate.setStrokeStyle(2, 0x1c241c, 0.9);
+        grate.setInteractive({ useHandCursor: true });
+        const hint = this.add.text(x, y - 26, 'Loose grate', {
+            fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+        }).setOrigin(0.5).setDepth(10).setAlpha(0);
+        grate.on('pointerover', () => { hint.setAlpha(1); document.body.style.cursor = 'pointer'; });
+        grate.on('pointerout', () => { hint.setAlpha(0); document.body.style.cursor = 'default'; });
+        this._smuggleDropCleanup = () => { grate.disableInteractive(); grate.destroy(); hint.destroy(); this._smuggleDropCleanup = null; };
+        grate.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('smuggle_drop');
+        });
+    }
+
+    // Complete Torchère's dead-drop. `mode`: 'plain' | 'ulvarex' | 'palinode'. Running narcotics
+    // sours the balance toward Decay; wearing Ulvarex's mirage to do it unseen sours it further.
+    deliverSmuggle(mode) {
+        this.removeItemFromInventory('wickmilk');
+        this.removeItemFromInventory('gloamdust');
+        if (!this.hasJournalEntry('gang_smuggle_delivered')) {
+            this.addJournalEntry('gang_smuggle_delivered', 'The Drop Is Made', "I tucked Torchère's parcels — Wickmilk and Gloamdust — into the loose grate on Burning Bear Street. I should report back to the torch by the water.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+            if (this.questSystem?.getQuest(GANG_QUEST_IDS.torchere)) {
+                this.questSystem.updateQuest(GANG_QUEST_IDS.torchere, 'The parcels are in the grate. Report back to Torchère at the Harbor.', 'gang_smuggle_delivered');
+            }
+        }
+        if (mode === 'ulvarex') {
+            this.modifyGrowthDecay(0, 6);
+            this.addMoney(10);
+            this.showNotification('A clean run, wrapped in a lie. The world sours toward Decay.', 0x8B0000);
+        } else {
+            this.modifyGrowthDecay(0, 4);
+            this.showNotification('Contraband dropped. The world sours toward Decay.', 0x8B0000);
+        }
+        if (this._smuggleDropCleanup) this._smuggleDropCleanup();
+    }
+
+    // Betrayal: keep Torchère's contraband and fence it for profit instead of dropping it,
+    // then lie that the run was made. Pure self-interest — sours the balance toward Decay.
+    fenceSmuggle() {
+        this.removeItemFromInventory('wickmilk');
+        this.removeItemFromInventory('gloamdust');
+        if (!this.hasJournalEntry('gang_smuggle_sold')) {
+            this.addJournalEntry('gang_smuggle_sold', 'Fenced the Contraband', "I never made Torchère's drop. I sold the Wickmilk and Gloamdust myself and pocketed the coin. When I see the torch by the water, I'll tell him the run went clean.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+            if (this.questSystem?.getQuest(GANG_QUEST_IDS.torchere)) {
+                this.questSystem.updateQuest(GANG_QUEST_IDS.torchere, "I fenced Torchère's contraband for myself. I can still report a 'clean drop' back to him at the Harbor.", 'gang_smuggle_sold');
+            }
+        }
+        this.addMoney(45);
+        this.modifyGrowthDecay(0, 5);
+        this.showNotification('Sold for a tidy sum. The world sours toward Decay.', 0x8B0000);
+        if (this._smuggleDropCleanup) this._smuggleDropCleanup();
     }
 
     // === Day 2 ===

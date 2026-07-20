@@ -117,5 +117,17 @@ export default {
         options: {
             back_to_other_topics: "Zpět k jiným tématům"
         }
+    },
+    gnur_spy_secret: {
+        text: "Gnurovo praskání klesne do spikleneckého mumlání. „Šepot, jo? Pro tebe lacino — mám dneska dobrou náladu.“ Nakloní se blíž, dech po oleji a statika. „Chór má někoho *uvnitř* Lumen Direktoriátu. Jeden z jejich upjatých archivářků nám potajmu zpívá — donáší Brukkovi, které obvody se Direktoriát chystá odepsat, takže víme, které stroje půjdou brzo lacino. Ty krásný lidičky si myslí, že prořezávají město. Ve skutečnosti nám jen ukazují, kde kopat.“ Narovná se, úšklebek zapraská. „Ten šepot má cenu víc, než jsi dal. Neříkej, že ti starej Gnur nikdy nic nedal.“",
+        options: {
+            gnur_spy_secret_close: "Za každý kousek to stálo. (Zapamatovat si to.)"
+        }
+    },
+    gnur_spy_ulvarex_read: {
+        text: "Ulvarex rozlije světlo přes tvůj obrys a *ohne* ho — a Gnurovi se výheňové oči rozšíří poznáním nadřízeného, který tam nikdy nebyl. „Á — neslyšel jsem tě sejít dolů, šéfe, odpusť—“ Narovná se, dychtivý zavděčit se přeludu. „Ten krtek? Jo, jo, pořád zpívá sladce. Jejich archivářek v Lumen Direktoriátu donáší Brukkovi, které obvody se ti krásní chystají odepsat, ať víme, které stroje půjdou lacino. A prý je uvnitř *druhý* pár rukou, výš postavený, ale jméno mi neřekli.“ Zamrká, jak se miráž třepí. „...Počkat. Kdo—“ Pozdě; už to máš.",
+        options: {
+            gnur_spy_ulvarex_close: "(Nechat miráž rozplynout.)"
+        }
     }
 };

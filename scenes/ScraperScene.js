@@ -1,7 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
-import { createStreetLamp, meetLamp, lampsFoundCount } from '../utils/GangOfLamps.js';
+import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus, spyFragmentCount, spyReportable, allGangQuestsComplete, gangRewardClaimed, grantGangVestigel } from '../utils/GangOfLamps.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
@@ -16,6 +16,36 @@ export default class ScraperScene extends GameScene {
         // return visit it includes Don himself. Drives the progress-aware greeting.
         const found = lampsFoundCount(this);
         const allLampsFound = found === 4;
+
+        // --- L2: Don's spy quest + the Vestigel reward (only once all lamps are connected) ---
+        const spyStatus = gangQuestStatus(this, GANG_QUEST_IDS.don);
+        const fragments = spyFragmentCount(this);
+        const knowsRustDomain = ['rust_choir_joined', 'cellar_password_learned', 'rust_feast_completed_full', 'rust_feast_completed_illusion', 'rust_feast_completed_poisoned'].some(f => this.hasJournalEntry(f));
+        const toldLocation = !!this.hasJournalEntry('gang_spy_location_told');
+        const allDone = allGangQuestsComplete(this);
+        const rewardClaimed = gangRewardClaimed(this);
+        const donConnectedOptions = rewardClaimed
+            ? [{ text: "Rest easy, Don.", key: 'don_connected_close', next: "closeDialog" }]
+            : allDone
+                ? [{ text: "You said the family looks after its friends.", key: 'don_reward_ask', next: "don_reward" }]
+                : [
+                    ...(spyStatus === 'none'
+                        ? [{ text: "You mentioned there'd be work.", key: 'don_spy_offer', next: "don_spy_brief" }]
+                        : []),
+                    ...(spyStatus === 'active' && (spyReportable(this) || fragments >= 1)
+                        ? [{ text: "Let me tell you what I've dug up on the Rust Choir.", key: 'don_spy_deliver', next: "don_spy_report" }]
+                        : []),
+                    ...(spyStatus === 'active' && !spyReportable(this) && fragments === 0
+                        ? [{ text: "Still poking around the Rust Choir.", key: 'don_spy_status', next: "don_spy_statusinfo" }]
+                        : []),
+                    ...(spyStatus === 'active' && knowsRustDomain && !toldLocation
+                        ? [{ text: "[Tell the Don where the Rust Choir's domain actually is]", key: 'don_spy_tell_location', next: "don_spy_location" }]
+                        : []),
+                    ...(spyStatus === 'done'
+                        ? [{ text: "How are the family's other errands?", key: 'don_other_jobs_ask', next: "don_other_jobs" }]
+                        : []),
+                    { text: "Rest easy, Don.", key: 'don_connected_close', next: "closeDialog" },
+                ];
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
 
@@ -44,10 +74,7 @@ export default class ScraperScene extends GameScene {
                             { text: "...you're a talking lamp.", key: 'don_leave', next: "closeDialog" }
                         ])
                     : (allLampsFound
-                        ? [
-                            // TODO L2: quest offer
-                            { text: "Rest easy, Don.", key: 'don_connected_close', next: "closeDialog" }
-                        ]
+                        ? donConnectedOptions
                         : [
                             { text: "Remind me who's still out there.", key: 'don_remind', next: "don_lamp_family" },
                             { text: "I'll keep looking.", key: 'don_searching_close', next: "closeDialog" }
@@ -60,6 +87,82 @@ export default class ScraperScene extends GameScene {
                 options: [
                     { text: "Consider it done, Don.", key: 'don_family_close', next: "closeDialog" }
                 ]
+            },
+
+            // ===== L2: Don's quest — "Ears on the Rust Choir" =====
+            don_spy_brief: {
+                speaker: 'Don Girandole',
+                text: `The Don's flame drops to a conspiratorial murmur. "Here's the work, friend. That Rust Choir — the ones who love their machines more than their neighbors — they've been humming louder lately, and a father likes to know what his street is singing. I can't exactly walk down there and ask." A dry crackle of a laugh. "You can. Get in among their people — Brukk keeps the domain, Gnur deals whispers down in Shed 521, Ravla forges papers behind the Screaming Cork. Lean on them, learn what the Choir's really about, and bring it back to me. I'll know when you've brought me enough. And if you turn up where their domain actually sits — well, that's a gift on top."`,
+                options: [
+                    { text: "I'll find out what the Choir's hiding.", key: 'don_spy_accept', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.questSystem?.getQuest(GANG_QUEST_IDS.don)) {
+                        this.questSystem.addQuest(GANG_QUEST_IDS.don, 'Ears on the Rust Choir', "Don Girandole wants me to spy on the Rust Choir — get in among their people (Brukk in their domain, Gnur in Shed 521, Ravla behind the Screaming Cork), learn what they're really up to, and bring it back to him. He'll tell me if I've dug up enough. If I find where their domain actually is, I can pass that along too.");
+                    }
+                }
+            },
+            don_spy_statusinfo: {
+                speaker: 'Don Girandole',
+                text: `"Still at it? Good. Lean on the Rust Choir's people — Brukk down in their domain, Gnur in the guts of Shed 521, Ravla forging behind the Screaming Cork. Get 'em talking, learn what you can, and come tell me what you've turned up. I'll know if it's enough."`,
+                options: [
+                    { text: "I'm on it.", key: 'don_spy_statusinfo_close', next: "closeDialog" }
+                ]
+            },
+            don_spy_location: {
+                speaker: 'Don Girandole',
+                text: `The Don goes very still, then his flame swells with satisfaction. "Now *that* is worth knowing. The domain itself. I'll thread that down the family's wire tonight." A coin's worth of warmth. "Here — for your trouble. A father pays for good intelligence."`,
+                options: [
+                    { text: "Glad to help the family.", key: 'don_spy_location_close', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('gang_spy_location_told')) {
+                        this.addJournalEntry('gang_spy_location_told', 'The Don Knows the Rust Domain', "I told Don Girandole where the Rust Choir's domain actually sits. He paid me for the intelligence.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps' });
+                        this.addMoney(40);
+                        // Dragging the decay-faction's hidden seat into the light leans Growth.
+                        this.modifyGrowthDecay(4, 0);
+                    }
+                }
+            },
+            don_spy_report: {
+                speaker: 'Don Girandole',
+                textKey: spyReportable(this) ? 'don_spy_report_full' : 'don_spy_report_partial',
+                text: spyReportable(this)
+                    ? `The Don listens without a flicker, drinking in every word. When you finish, the flame glows deep and approving. "Now *that's* more than I'd hoped for, friend. That's the sound of a street that can't surprise me anymore." He dims, pleased. "You did the family a service. Don't think it's forgotten — nothing is, with me."`
+                    : `The Don listens, flame tilting as he weighs it. "Mm. A whisper. It's a start, friend — but one loose thread isn't the whole cloth." The light flickers, not unkind. "Get back in among them and prise loose a little more. I'll know when you've brought me enough."`,
+                options: [
+                    { text: "Understood, Don.", key: 'don_spy_report_close', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    // Only a report the Don judges sufficient (2 secrets, or false intel from a betrayal)
+                    // completes the job. A single whisper just earns an encouraging "learn more."
+                    if (!spyReportable(this)) return;
+                    const q = this.questSystem?.getQuest(GANG_QUEST_IDS.don);
+                    if (q && !q.isComplete) {
+                        this.questSystem.completeQuest(GANG_QUEST_IDS.don);
+                        this.addMoney(30);
+                        // Shedding real light on what the Choir hid nudges Growth — but only if the
+                        // intel is genuine. A betrayer feeds the Don lies (the decay was already paid).
+                        if (!this.hasJournalEntry('gang_spy_betrayed')) {
+                            this.modifyGrowthDecay(3, 0);
+                        }
+                    }
+                }
+            },
+            don_other_jobs: {
+                speaker: 'Don Girandole',
+                text: `"My end's settled, thanks to you. But the family's still got irons out — the torch has a run he needs made, the chandelier wants some morsel of gossip only she'd treasure, and the little sconce has something the clerks buried that he'd dearly like back. See them all right, and come back to me. There's a reward waiting that a family only gives its truest friend."`,
+                options: [
+                    { text: "I'll finish their errands.", key: 'don_other_jobs_close', next: "closeDialog" }
+                ]
+            },
+            don_reward: {
+                speaker: 'Don Girandole',
+                text: `The Don's flame rises tall and golden, and for a moment he looks less like a lamp than like an old man at the head of a full table. "Every errand run. Every one of my family lit and humming, and every debt they owed, paid through *you*." A long, warm pause. "A family keeps its promises. We've had this squirreled away in a gutter for longer than you've been alive — never trusted a soul enough to hand it over. Take it. One of the three alive-coins. A *Vestigel*." The object drops into your palm, faintly pulsing. "Whatever you do with it, friend — you did right by us."`,
+                options: [
+                    { text: "Thank you, Don. Truly.", key: 'don_reward_close', next: "closeDialog" }
+                ],
+                onTrigger: () => { grantGangVestigel(this); }
             }
         };
     }
@@ -70,6 +173,7 @@ export default class ScraperScene extends GameScene {
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('lamp_don', 'assets/images/characters/don_girandole.png');
+        this.load.image('vestigel', 'assets/images/items/vestigel.png');
     }
 
     create() {

@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
 export default class LumenDirectorateScene extends GameScene {
     constructor() {
@@ -73,6 +74,67 @@ export default class LumenDirectorateScene extends GameScene {
 
         // Growth/Decay alternate scene state (assetless; hot-swaps to dedicated art if present).
         this.applyLumenGDState(bg);
+
+        this.createEavesdropSpot();
+    }
+
+    // Gang of Lamps (Chandelier's quest): a vent by the garden that leaks the Directorate's
+    // private talk. Present only while the eavesdrop job is active and unheard.
+    // Clicking opens a route-choice dialog (plain / Neme / Brine).
+    createEavesdropSpot() {
+        const active = gangQuestStatus(this, GANG_QUEST_IDS.chandelier) === 'active';
+        const heard = !!this.hasJournalEntry('gang_eavesdrop_heard');
+        if (!active || heard) return;
+
+        const x = 120, y = 430;
+        const vent = this.add.rectangle(x, y, 40, 30, 0x0c120c, 0.5).setDepth(3);
+        vent.setStrokeStyle(2, 0x2a3a2a, 0.9);
+        vent.setInteractive({ useHandCursor: true });
+        const hint = this.add.text(x, y - 28, 'Listen at the vent', {
+            fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+        }).setOrigin(0.5).setDepth(10).setAlpha(0);
+        vent.on('pointerover', () => { hint.setAlpha(1); document.body.style.cursor = 'pointer'; });
+        vent.on('pointerout', () => { hint.setAlpha(0); document.body.style.cursor = 'default'; });
+        this._eavesdropCleanup = () => { vent.disableInteractive(); vent.destroy(); hint.destroy(); this._eavesdropCleanup = null; };
+        vent.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('eavesdrop_listen');
+        });
+    }
+
+    // Complete Chandelier's eavesdrop. `mode`: 'plain' | 'neme' | 'brine'. Simply spreading the
+    // Directorate's dirt as gossip sours toward Decay; drawing the truth out with a read
+    // (Neme's guilt-sense, Brine's residue) leans it toward Growth instead.
+    deliverEavesdrop(mode) {
+        let title, secret, questNote;
+        if (mode === 'neme') {
+            title = 'Read at the Directorate';
+            secret = "Through Neme I read past the words to the guilt underneath: an Angle Corrector who quietly *unfiled* a whole shelf of records — 'pruned' the archive so a superior's buried mistake could never surface — and is sick with fear of an audit. Beneath even that, the sharper truth: they suspect one of their own is feeding the Rust Choir, and they've told no one. Chandelier will feast, and so might the Don.";
+            questNote = "Neme's sight drew the whole guilty truth out of the Directorate vent — a purged archive, and a Corrector who suspects a Rust mole among them. Take it to Chandelier.";
+        } else if (mode === 'brine') {
+            title = 'Tasted at the Directorate';
+            secret = "Brine's Salt Recall tasted what the garden soil had drunk: years of shredded paper composted into the beds, ink and fear leaching down. This 'nothing hidden, nothing lost' garden is fed on destroyed records — the Directorate has been quietly gutting its own archive and burying the ash in the flowerbeds. Chandelier will adore the irony.";
+            questNote = "Brine's residue-reading revealed the Directorate garden is literally fed on shredded records — they've been gutting their own archive and composting the evidence. Take it to Chandelier.";
+        } else {
+            title = 'Overheard at the Directorate';
+            secret = "Pressed to the garden vent, I caught two of the Directorate's own talking low: an Angle Corrector confessing they'd quietly *unfiled* a whole shelf of records — 'pruned' the archive so a superior's old mistake would never surface — and terrified of being audited. 'Nothing hidden, nothing lost,' one laughed, bitter. Chandelier will feast on this.";
+            questNote = "I overheard a Directorate secret at the garden vent — an Angle Corrector quietly gutted the archive to bury a superior's mistake. Take it back to Chandelier.";
+        }
+        if (!this.hasJournalEntry('gang_eavesdrop_heard')) {
+            this.addJournalEntry('gang_eavesdrop_heard', title, secret, this.journalSystem.categories.LORE, { group: 'Gang of Lamps', related: 'A Choice Morsel' });
+            if (this.questSystem?.getQuest(GANG_QUEST_IDS.chandelier)) {
+                this.questSystem.updateQuest(GANG_QUEST_IDS.chandelier, questNote, 'gang_eavesdrop_heard');
+            }
+        }
+        if (mode === 'neme' || mode === 'brine') {
+            this.modifyGrowthDecay(5, 0);
+            this.showNotification('You drew out the truth, not just the dirt. The world leans toward Growth.', 0x7fff8e);
+        } else {
+            this.modifyGrowthDecay(0, 4);
+            this.showNotification('Fresh gossip to spread. The world sours toward Decay.', 0x8B0000);
+        }
+        if (this._eavesdropCleanup) this._eavesdropCleanup();
     }
 
     /** Reskin the Directorate grounds to reflect a pronounced Growth/Decay balance. */
@@ -220,8 +282,23 @@ export default class LumenDirectorateScene extends GameScene {
         const canAfford25 = currentSpores >= 25;
         const canAfford50 = currentSpores >= 50;
 
+        // Gang of Lamps (Chandelier's quest): route choices at the eavesdrop vent.
+        const canReadNeme = !!this.symbiontSystem?.nemeCanRead();
+        const hasBrine = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
+
         return {
             ...super.dialogContent,
+
+            eavesdrop_listen: {
+                speaker: 'Priest',
+                text: `The Directorate's garden is all clipped hedges and quiet order, but a low vent in the wall breathes warm air — and voices — from the archive-rooms within. Two of their own are talking, careful and low. You could simply listen.`,
+                options: [
+                    { text: "Press close and listen.", key: 'eavesdrop_plain', next: "closeDialog", onSelect: () => this.deliverEavesdrop('plain') },
+                    ...(canReadNeme ? [{ text: "[Neme · Photosentience] Read the guilt beneath what they say.", key: 'eavesdrop_neme', next: "closeDialog", onSelect: () => this.deliverEavesdrop('neme') }] : []),
+                    ...(hasBrine ? [{ text: "[Brine · Salt Recall] Taste what this garden's soil has drunk.", key: 'eavesdrop_brine', next: "closeDialog", onSelect: () => this.deliverEavesdrop('brine') }] : []),
+                    { text: "Step away.", key: 'eavesdrop_cancel', next: "closeDialog" },
+                ]
+            },
 
             gardener_start: {
                 speaker: 'Verrik the Gardener',

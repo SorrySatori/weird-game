@@ -260,6 +260,14 @@ export default {
             title: 'Rejected by the Rust Choir',
             description: 'I delivered the Rust Feast, but the shard was too meager.',
         },
+        rust_choir_probationary: {
+            title: 'Rust Choir: On Probation',
+            description: 'My place in the Rust Choir is provisional. Brukk let me in on the strength of my reputation, not a proper feast — I am on probation until I prove my loyalty to the iron.',
+        },
+        rust_choir_full_member: {
+            title: 'Rust Choir: Full Member',
+            description: 'I proved my loyalty to the iron, and Brukk lifted my probation — I am a full member of the Rust Choir now.',
+        },
         rust_choir_machines_destroyed: {
             title: 'The Machines Fall Silent',
             description: 'The illusory redmass I used in the Rust Feast has destroyed the Rust Choir machines.',
@@ -747,6 +755,58 @@ export default {
         lumen_surplus_harvested: {
             title: 'A Surplus Bloom',
             description: "The Directorate's beds were so overgrown that a bloom had ripened with nothing left to feed. I harvested it — a windfall of living spores. The city's tilt toward growth had left more life than even the gardeners could use.",
+        },
+        met_lamp_don: {
+            title: 'Don Girandole',
+            description: 'I found Don Girandole — one of the Gang of Lamps, a sentient street-lamp that cannot move and relies on me to carry word to the others.',
+        },
+        met_lamp_torchere: {
+            title: 'Torchère',
+            description: 'I found Torchère — one of the Gang of Lamps, a sentient street-lamp that cannot move and relies on me to carry word to the others.',
+        },
+        met_lamp_chandelier: {
+            title: 'Chandelier',
+            description: 'I found Chandelier — one of the Gang of Lamps, a sentient street-lamp that cannot move and relies on me to carry word to the others.',
+        },
+        met_lamp_sconce: {
+            title: 'Sconce',
+            description: 'I found Sconce — one of the Gang of Lamps, a sentient street-lamp that cannot move and relies on me to carry word to the others.',
+        },
+        gang_spy_location_told: {
+            title: 'The Don Knows the Rust Domain',
+            description: "I told Don Girandole where the Rust Choir's domain actually sits. He paid me for the intelligence.",
+        },
+        gang_smuggle_delivered: {
+            title: 'The Drop Is Made',
+            description: "I tucked Torchère's parcels — Wickmilk and Gloamdust — into the loose grate on Burning Bear Street. I should report back to the torch by the water.",
+        },
+        gang_smuggle_sold: {
+            title: 'Fenced the Contraband',
+            description: "I never made Torchère's drop. I sold the Wickmilk and Gloamdust myself and pocketed the coin. When I see the torch by the water, I'll tell him the run went clean.",
+        },
+        gang_spy_betrayed: {
+            title: 'Sold Out the Lamps',
+            description: "Instead of spying on the Rust Choir for the Gang of Lamps, I told Brukk exactly what they'd sent me to do. The Choir was pleased — and handed me a pack of comfortable lies to carry back to Don Girandole. He'll never know the difference.",
+        },
+        gang_smuggle_gave_rust: {
+            title: 'Fed the Choir',
+            description: "Rather than run Torchère's contraband to his dead-drop, I gave the Wickmilk and Gloamdust to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcels actually went.",
+        },
+        gang_eavesdrop_betrayed: {
+            title: 'Tipped Off the Directorate',
+            description: "Instead of eavesdropping for Chandelier, I told Verrik the lamps had sent me. The Directorate was grateful — and fed me a manufactured 'secret' to carry back to her. She'll be delighted by a lie.",
+        },
+        gang_dossier_recovered: {
+            title: 'The Buried Dossier',
+            description: "Under a case-number that matches nothing, I found a sealed dossier that plainly didn't belong, and pulled it. Time to get it out to Sconce by the steps.",
+        },
+        gang_smuggle_gave_pith: {
+            title: 'Surrendered to the Reclaimers',
+            description: "Rather than run Torchère's contraband, I surrendered the Wickmilk and Gloamdust to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.",
+        },
+        gang_lamps_destroyed: {
+            title: 'The Gang Is Gone',
+            description: "I handed the Directorate the contraband and told them where it came from. They did not hesitate. By nightfall every one of the Gang of Lamps — Don Girandole, Chandelier, Torchère, the little Sconce — had been quietly pulled from its post and unmade, their circuit gone dark for good. The Directorate is grateful. The city is a little quieter. Whatever the Don had been keeping for me, it went dark with him.",
         },
     }
 };

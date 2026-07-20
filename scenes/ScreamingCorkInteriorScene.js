@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
+import { GANG_QUEST_IDS, gangQuestStatus, recordSpyFragment } from '../utils/GangOfLamps.js';
 
 export default class ScreamingCorkInteriorScene extends GameScene {
     constructor() {
@@ -23,6 +24,11 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const sulkberriesClearedHeliodor = !!this.hasJournalEntry('sulkberries_cleared_heliodor');
         const hasNeme = !!this.symbiontSystem?.hasSymbiont('neme-crownmire');
         const nemeCanRead = !!this.symbiontSystem?.nemeCanRead(); // false when silenced by high decay
+        // Gang of Lamps: Don's spy quest — get a secret out of Ravla the forger.
+        const canSpyRavla = gangQuestStatus(this, GANG_QUEST_IDS.don) === 'active' && !this.hasJournalEntry('gang_spy_ravla');
+        // Neme (Photosentience) can read the guilt under her composure — a truth route that
+        // needs no coercion and leans the balance toward growth. Silenced at high decay.
+        const canSpyRavlaNeme = canSpyRavla && !!this.symbiontSystem?.nemeCanRead();
 
         return {
             ...super.dialogContent,
@@ -74,8 +80,30 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     ...(hasRustFeastQuest && hasAllFeastItems && hasCorrosiveCultivar ? [{ text: "[Corrosive Cultivar] (Quietly grind the Directorate's plant into the oil.)", key: 'corrosive_cultivar_grind_into_the_oil', next: "ravla_feast_poison" }] : []),
                     ...(hasRustFeastQuest && redmassSparedOnly && !hasIllusionOption ? [{ text: "I found a redmass, but I chose to leave it alive...", key: 'i_found_a_redmass_but_i_chose_to_leave_it_alive', next: "ravla_feast_spared_redmass" }] : []),
                     ...(hasRustFeastQuest && !hasAllFeastItems && !redmassSparedOnly && !hasIllusionOption ? [{ text: "I'm still gathering the feast ingredients.", key: 'im_still_gathering_the_feast_ingredients', next: "ravla_feast_missing" }] : []),
-                    ...(rustFeastComplete ? [{ text: "About the Rust Feast...", key: 'about_the_rust_feast', next: "ravla_feast_done" }] : [])
+                    ...(rustFeastComplete ? [{ text: "About the Rust Feast...", key: 'about_the_rust_feast', next: "ravla_feast_done" }] : []),
+                    ...(canSpyRavla ? [{ text: "You forge for half this city. What's the Rust Choir hiding in all that paper?", key: 'ravla_spy_probe', next: "ravla_spy_secret" }] : []),
+                    ...(canSpyRavlaNeme ? [{ text: "[Neme · Photosentience] (Read the guilt she keeps under that composure.)", key: 'ravla_spy_neme', next: "ravla_spy_neme_read" }] : [])
                 ]
+            },
+            ravla_spy_neme_read: {
+                text: "You let Neme's sight settle on her, and beneath the forger's flat calm the guilt blooms bright and legible. She feels the attention — glances up, uneasy. \"...Why are you looking at me like that.\" It comes out of her almost against her will, quiet: \"Every 'reclamation' I file for the Choir has a second set of papers. Officially they scrap dead machines. Unofficially those machines get logged as still running somewhere else — paper ghosts drawing power and permits the Choir siphons off. Half of what the Choir 'owns' doesn't exist on any honest ledger. I drew all of it.\" She looks faintly sick to have said it. \"...Get out of my head.\"",
+                options: [
+                    { text: "(Ease off. Thank her silently.)", key: 'ravla_spy_neme_close', next: "ravla_start" }
+                ],
+                onTrigger: () => {
+                    this.modifyGrowthDecay(5, 0);
+                    this.showNotification('You drew the truth into the light. The world leans toward Growth.', 0x7fff8e);
+                    recordSpyFragment(this, 'ravla', "Rust Choir Secret: the Paper Ghosts", "Reading Ravla with Neme, I drew the truth out without a threat: every Rust Choir 'reclamation' she files has a second set of papers. Officially they scrap dead machines; unofficially those machines are logged as still running elsewhere — paper ghosts drawing power and permits the Choir siphons. Half of what the Choir 'owns' exists only on ledgers she forged.");
+                }
+            },
+            ravla_spy_secret: {
+                text: "Ravla sets down her pen and studies you a long moment. \"You ask the wrong questions in the right voice. Fine — one, because it costs me nothing and might cost *them*.\" Her eyes flick to the door. \"Every 'reclamation' the Choir files through me has a second set of papers. Officially, they salvage dead machines for scrap. Unofficially, those same machines get logged as *still running* somewhere else — a paper ghost, drawing power and permits the Choir siphons off. Half of what the Choir 'owns' doesn't exist on any honest ledger. I should know. I drew it.\" She picks the pen back up. \"That's all you get. Ask again and I forget your face.\"",
+                options: [
+                    { text: "That's plenty. (Remember this.)", key: 'ravla_spy_secret_close', next: "ravla_start" }
+                ],
+                onTrigger: () => {
+                    recordSpyFragment(this, 'ravla', "Rust Choir Secret: Ravla", "Ravla the forger let one slip: every Rust Choir 'reclamation' she files has a second set of papers. Officially they scrap dead machines; unofficially those machines are logged as still running elsewhere — paper ghosts drawing power and permits the Choir quietly siphons. Half of what the Choir 'owns' exists only on ledgers she forged.");
+                }
             },
             ravla_who: {
                 text: "Name's Ravla. I'm an... artist of sorts. Been at the Cork for years now. It's quiet, keeps the authorities at a distance.",

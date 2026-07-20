@@ -25,9 +25,33 @@ export default {
             i_want_full_membership: "Chci být víc než jen spolupracovník. Co by vyžadovalo plné členství?",
             the_rust_choirs_machines_are_dead: "Stroje Rezavého chóru jsou mrtvé. Je hotovo.",
             consult_the_directorate_files: "Nahlédnout do složek direktoriátu. (Nic skrytého.)",
-            fold_before_cathedral: "[Než vstoupím do katedrály] Setkal jsem se s myslí v zapečetěném sklepě. Vím, co se líhne."
+            fold_before_cathedral: "[Než vstoupím do katedrály] Setkal jsem se s myslí v zapečetěném sklepě. Vím, co se líhne.",
+            ac_eavesdrop_betray: "[Zrada] Gang mluvících lamp mě poslal, abych odposlouchával Direktoriát. Měli byste to vědět.",
+            ac_drug_report: "[Nahlásit hrozbu] Nesu narkotika, která mě lampa žádala propašovat. To je věc Direktoriátu."
         }
     },
+
+    // ===== Gang lamp: zrady nahlášené Korektorovi úhlů =====
+    ac_eavesdrop_betray_talk: {
+        text: "Korektor úhlů znehybní a místnost jako by se srovnala podle jeho pozornosti. „Mluvící lampy. Nastraží kurýra, aby poslouchal u našich průduchů.“ Ani stopa překvapení. „Nic skryto, nic ztraceno — to heslo platí na obě strany, a vy jste nám právě dokázal tu druhou půlku.“ Přesné, chladné uznání. „Zachoval jste se správně, že jste to přinesl sem, a ne jim. Vraťte se. Řekněte svým lampám, že pochůzka je hotová, a řekněte jim *tohle* —“ a podá vám hladké, vyrobené tajemství, zkonstruované tak, aby potěšilo drbnu a neznamenalo nic. „Direktoriát si zapíše dluh ve váš prospěch.“",
+        options: {
+            ac_eavesdrop_betray_close: "Uslyší tu verzi, kterou byste chtěli vy."
+        }
+    },
+    ac_drug_warn: {
+        text: "V okamžiku, kdy ty balíčky pojmenujete, se celý postoj Korektora úhlů zaostří. „Wickmilk. A *Gloamdust*. Vneseno otevřeně do této budovy.“ Vezme si oba, aniž by se zeptal, a drží je od těla jako chybu měření, která nabyla těla. „A do pohybu to uvedla *lampa*.“ Dlouhá, vyrovnaná odmlka. „Víte, co Direktoriát dělá s hrozbou, kterou umí pojmenovat a najít. Ty lampy budou nalezeny, odšroubovány a opraveny z existence — všechny do jedné. Ještě dnes v noci.“ Jeho pohled spočine na vás. „Řekněte slovo a rozkaz je vydán. Nelze jej odvolat.“",
+        options: {
+            ac_drug_confirm_yes: "Vydejte rozkaz. Skoncujte s lampami.",
+            ac_drug_confirm_no: "Ne — to je příliš daleko. Nechte ty balíčky z toho."
+        }
+    },
+    ac_drug_confirm: {
+        text: "Korektor úhlů skloní hlavu o přesných pár stupňů a kdesi pod vámi se dá do pohybu tichá mašinerie následků. „Pak je to hotovo. Oprava bude čistá.“ Odloží kontraband stranou, už v myšlenkách jinde. „Do rána bude město uklizenější a Direktoriát si zapamatuje, kdo tu vadu vynesl na světlo. To má větší cenu, než teď chápete.“ Vrátí se ke své práci, jako by právě nenařídil čtyři malé smrti.",
+        options: {
+            ac_drug_confirm_close: "(Odejít. Je hotovo.)"
+        }
+    },
+
     ac_liris_recruit: {
         text: "Přidat se, tedy. Přicházejí ke mně tak či onak — ať už je pošle kapitánka Liris z Verdigrace, nebo je zahradník nasměruje po schodech nahoru. Mně je to jedno.\n\nDoporučení otevírá dveře. Neusazuje vás ke stolu. K tomu potřebuji nejdřív něčemu porozumět.",
         options: {

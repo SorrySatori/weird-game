@@ -188,5 +188,17 @@ export default {
         options: {
             thank_you_heliodor: "Děkuji, Heliodore."
         }
+    },
+    ravla_spy_secret: {
+        text: "Ravla odloží pero a dlouhou chvíli si tě prohlíží. „Ptáš se na špatné otázky správným hlasem. Dobrá — jednu, protože mě to nic nestojí a *je* to možná něco stát bude.“ Očima střelí ke dveřím. „Každá ‚reklamace‘, kterou Chór podá skrze mě, má druhou sadu papírů. Oficiálně sešrotují mrtvé stroje. Neoficiálně se tytéž stroje zapíšou jako *stále v provozu* někde jinde — papírový přízrak, který čerpá energii a povolení, jež si Chór odsává. Půlka toho, co Chór ‚vlastní‘, neexistuje v žádné poctivé účetní knize. Já to musím vědět. Já to nakreslila.“ Zase zvedne pero. „Víc nedostaneš. Zeptej se znovu a zapomenu tvůj obličej.“",
+        options: {
+            ravla_spy_secret_close: "To bohatě stačí. (Zapamatovat si to.)"
+        }
+    },
+    ravla_spy_neme_read: {
+        text: "Necháš Nemův zrak spočinout na ní a pod plochým klidem padělatelky vina rozkvete jasně a čitelně. Cítí tu pozornost — nejistě vzhlédne. „...Proč se na mě tak díváš.“ Vyklouzne to z ní skoro proti její vůli, tiše: „Každá ‚reklamace‘, kterou pro Chór vyřídím, má druhou sadu papírů. Oficiálně šrotují mrtvé stroje. Neoficiálně se ty stroje zapíšou jako stále běžící někde jinde — papíroví přízraci, kteří čerpají energii a povolení, jež si Chór odsává. Půlka toho, co Chór ‚vlastní‘, neexistuje v žádné poctivé knize. Nakreslila jsem to všechno.“ Vypadá, že se jí z toho přiznání dělá slabo. „...Vypadni mi z hlavy.“",
+        options: {
+            ravla_spy_neme_close: "(Povolit. Poděkovat jí mlčky.)"
+        }
     }
 };

@@ -1,7 +1,7 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
 import JournalSystem from '../systems/JournalSystem.js'
-import { createStreetLamp, meetLamp, lampsFoundCount } from '../utils/GangOfLamps.js'
+import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js'
 
 export default class HarborScene extends GameScene {
     constructor() {
@@ -19,6 +19,21 @@ export default class HarborScene extends GameScene {
         // visit it includes Torchère. Drives the progress-aware greeting.
         const found = lampsFoundCount(this);
         const allLampsFound = found === 4;
+
+        // --- L2: Torchère's smuggle quest ---
+        const smuggleStatus = gangQuestStatus(this, GANG_QUEST_IDS.torchere);
+        const torchereConnectedOptions = [
+            ...(smuggleStatus === 'none'
+                ? [{ text: "You said there's always a job on the water.", key: 'torchere_smuggle_offer', next: "torchere_smuggle_brief" }]
+                : []),
+            ...(smuggleStatus === 'active' && smuggleReportable(this)
+                ? [{ text: "The drop's made. It's done.", key: 'torchere_smuggle_deliver', next: "torchere_smuggle_report" }]
+                : []),
+            ...(smuggleStatus === 'active' && !smuggleReportable(this)
+                ? [{ text: "Where am I dropping this again?", key: 'torchere_smuggle_status', next: "torchere_smuggle_statusinfo" }]
+                : []),
+            { text: "Burn steady, Torchère.", key: 'torchere_connected_close', next: "closeDialog" },
+        ];
         return {
             ...super.dialogContent,
 
@@ -47,10 +62,7 @@ export default class HarborScene extends GameScene {
                             { text: "A talking dock-lamp. Sure.", key: 'torchere_leave', next: "closeDialog" }
                         ])
                     : (allLampsFound
-                        ? [
-                            // TODO L2: quest offer
-                            { text: "Burn steady, Torchère.", key: 'torchere_connected_close', next: "closeDialog" }
-                        ]
+                        ? torchereConnectedOptions
                         : [
                             { text: "Remind me where to look.", key: 'torchere_remind', next: "torchere_lamp_family" },
                             { text: "I'll keep looking.", key: 'torchere_searching_close', next: "closeDialog" }
@@ -63,6 +75,43 @@ export default class HarborScene extends GameScene {
                 options: [
                     { text: "I'll find them.", key: 'torchere_family_close', next: "closeDialog" }
                 ]
+            },
+
+            // ===== L2: Torchère's quest — "A Run Past the Customs" =====
+            torchere_smuggle_brief: {
+                speaker: 'Torchère',
+                text: `The flame drops low, conspiratorial. "Alright. Simple run, no heroics. Two parcels — *Wickmilk* and *Gloamdust*, don't sniff either — that the customs men would love to find and won't. There's a dead-drop I use: a loose grate on Burning Bear Street, back where the bunting sags. You take these, you walk 'em over, you tuck 'em in the grate, you walk away. Don't run. Runners get remembered." A shower of sparks presses the parcels into your hands. "Do it clean and the torch owes you proper."`,
+                options: [
+                    { text: "Wickmilk, Gloamdust, the grate on Burning Bear Street. Clean.", key: 'torchere_smuggle_accept', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.questSystem?.getQuest(GANG_QUEST_IDS.torchere)) {
+                        this.questSystem.addQuest(GANG_QUEST_IDS.torchere, 'A Run Past the Customs', "Torchère gave me two parcels of contraband — Wickmilk and Gloamdust — to smuggle to his dead-drop: a loose grate on Burning Bear Street. Tuck them in the grate, then report back.");
+                        this.addItemToInventory({ id: 'wickmilk', name: 'Wickmilk', description: 'A thick, tallow-white narcotic that smells of guttered candles. Torchère wants it dropped, not sold. Contraband.', texture: 'oil', icon: 'oil', stackable: false });
+                        this.addItemToInventory({ id: 'gloamdust', name: 'Gloamdust', description: 'A dark violet powder that seems to drink the light around it. Torchère wants it dropped, not sold. Contraband.', texture: 'redmass', icon: 'redmass', stackable: false });
+                    }
+                }
+            },
+            torchere_smuggle_statusinfo: {
+                speaker: 'Torchère',
+                text: `"The grate, deadlight. Burning Bear Street, back where the bunting hangs low over the old cobbles. Wickmilk and Gloamdust go in, you go home. Simple." Sparks snap. "And quit fidgeting with 'em."`,
+                options: [
+                    { text: "The grate on Burning Bear Street. Right.", key: 'torchere_smuggle_statusinfo_close', next: "closeDialog" }
+                ]
+            },
+            torchere_smuggle_report: {
+                speaker: 'Torchère',
+                text: `The flame flares bright and satisfied. "Clean run. No fuss, no customs, no names. That's how it's done." The sparks settle into something almost fond. "You're alright, deadlight. The torch by the water pays its debts — here." A warm flicker, and a little heavier pocket.`,
+                options: [
+                    { text: "Any time, Torchère.", key: 'torchere_smuggle_report_close', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    const q = this.questSystem?.getQuest(GANG_QUEST_IDS.torchere);
+                    if (q && !q.isComplete) {
+                        this.questSystem.completeQuest(GANG_QUEST_IDS.torchere);
+                        this.addMoney(35);
+                    }
+                }
             },
 
             // --- Heir to the Yellow Aquarium (resident here when not at auction) ---
@@ -227,6 +276,7 @@ export default class HarborScene extends GameScene {
         this.load.image('harborBg', 'assets/images/backgrounds/Harbor.png');
         this.load.image('oil', 'assets/images/items/oil.png');
         this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
+        this.load.image('redmass', 'assets/images/items/redmass.png');
         this.load.image('lamp_torchere', 'assets/images/characters/Torchere.png');
     }
 

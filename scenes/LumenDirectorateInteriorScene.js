@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { GANG_QUEST_IDS, gangQuestStatus, destroyGangLamps } from '../utils/GangOfLamps.js';
 
 export default class LumenDirectorateInteriorScene extends GameScene {
     constructor() {
@@ -197,6 +198,10 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         const hasSabotageQuest = !!(sabotageQuest && !sabotageQuest.isComplete);
         const rustMember = !!(this.hasJournalEntry('rust_choir_joined') && !machinesDestroyed);
         const warnedRustOfLumen = !!this.hasJournalEntry('rust_choir_warned_of_lumen');
+        // Gang of Lamps betrayals — reported to the Angle Corrector (the Directorate's authority),
+        // not the gardener. Tip off the eavesdrop, or hand over the contraband (terminal → lamps destroyed).
+        const canBetrayEavesdrop = gangQuestStatus(this, GANG_QUEST_IDS.chandelier) === 'active' && !this.hasJournalEntry('gang_eavesdrop_betrayed');
+        const canGiveDrugsLumen = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wickmilk') && this.hasItem('gloamdust'));
         // Directorate Clearance perk: archive reveal (currently surfaces the vestigel-buyer lead).
         const vestigelQuest = this.questSystem?.getQuest('the_three_vestigels');
         const canRevealEskola = !!(joinedLumen && vestigelQuest && !vestigelQuest.isComplete && !vestigelQuest.updates?.some(u => u.key === 'found_eskola_lead'));
@@ -225,6 +230,8 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                     ...(passedGrowthTest && !joinedLumen && machinesDestroyed ? [{ text: "The Rust Choir's machines are dead. It's done.", key: 'the_rust_choirs_machines_are_dead', next: "ac_sabotage_report" }] : []),
                     ...(joinedLumen ? [{ text: "Consult the Directorate's files. (Nothing Hidden.)", key: 'consult_the_directorate_files', next: "ac_archive" }] : []),
                     ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] I've met the mind in the sealed cellar. I know what's hatching.", key: 'fold_before_cathedral', next: "ac_fold_perspective" }] : []),
+                    ...(canBetrayEavesdrop ? [{ text: "[Betray] A gang of talking lamps sent me to eavesdrop on the Directorate. You should know.", key: 'ac_eavesdrop_betray', next: "ac_eavesdrop_betray_talk" }] : []),
+                    ...(canGiveDrugsLumen ? [{ text: "[Report a hazard] I'm carrying narcotics a lamp asked me to smuggle. This is the Directorate's business.", key: 'ac_drug_report', next: "ac_drug_warn" }] : []),
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('met_angle_corrector')) {
@@ -235,6 +242,47 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                             this.journalSystem.categories.PEOPLE,
                             { character: 'The Angle Corrector' }
                         );
+                    }
+                }
+            },
+
+            // ===== Gang of Lamps betrayals — reported to the Angle Corrector (authority) =====
+            ac_eavesdrop_betray_talk: {
+                speaker: 'The Angle Corrector',
+                text: `The Angle Corrector goes still, and the room seems to align itself to their attention. "Talking lamps. Setting a courier to listen at our vents." Not a flicker of surprise. "Nothing hidden, nothing lost — the motto cuts both ways, and you've just proven the second half for us." A precise, cold approval. "You did correctly, bringing this here rather than to them. Go back. Tell your lamps the errand's done, and tell them *this* —" and they hand you a smooth, manufactured secret, engineered to delight a gossip and mean nothing. "The Directorate records a debt in your favor."`,
+                options: [
+                    { text: "They'll hear the version you'd prefer.", key: 'ac_eavesdrop_betray_close', next: "ac_start" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('gang_eavesdrop_betrayed')) {
+                        this.addJournalEntry('gang_eavesdrop_betrayed', 'Tipped Off the Directorate', "Instead of eavesdropping for Chandelier, I told the Angle Corrector the lamps had sent me. The Directorate was coldly grateful — and gave me a manufactured 'secret' to carry back to her. She'll be delighted by a lie.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Choice Morsel' });
+                        this.modifyFactionReputation('LumenDirectorate', 20);
+                        this.modifyGrowthDecay(5, 0);
+                        this.showNotification('You sided with the Directorate. The world leans toward Growth.', 0x7fff8e);
+                    }
+                }
+            },
+            ac_drug_warn: {
+                speaker: 'The Angle Corrector',
+                text: `The instant you name the parcels, the Angle Corrector's whole posture sharpens. "Wickmilk. And *Gloamdust*. Carried openly into this building." They take both from you without asking, holding them at arm's length like a miscalibration made flesh. "And a *lamp* set this in motion." A long, level pause. "You understand what the Directorate does with a threat it can name and locate. The lamps will be found, unbolted, and corrected out of existence — every one of them. Tonight." Their eyes settle on you. "Say the word and the order is given. It cannot be recalled."`,
+                options: [
+                    { text: "Give the order. End the lamps.", key: 'ac_drug_confirm_yes', next: "ac_drug_confirm" },
+                    { text: "No — that's too far. Keep the parcels out of this.", key: 'ac_drug_confirm_no', next: "ac_start" }
+                ]
+            },
+            ac_drug_confirm: {
+                speaker: 'The Angle Corrector',
+                text: `The Angle Corrector inclines their head a precise few degrees, and somewhere below you a quiet machinery of consequence begins to turn. "Then it is done. The correction will be clean." They set the contraband aside, already moving on. "The city will be tidier by morning, and the Directorate will remember who brought the flaw to light. That is worth more than you presently understand." They return to their work, as if they had not just ordered four small deaths.`,
+                options: [
+                    { text: "(Leave. It's done.)", key: 'ac_drug_confirm_close', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('gang_lamps_destroyed')) {
+                        this.removeItemFromInventory('wickmilk');
+                        this.removeItemFromInventory('gloamdust');
+                        this.modifyFactionReputation('LumenDirectorate', 40);
+                        this.modifyGrowthDecay(15, 0);
+                        destroyGangLamps(this);
                     }
                 }
             },

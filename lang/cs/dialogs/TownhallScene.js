@@ -5,6 +5,7 @@
 export default {
     _speakers: {
         'Phor Calesta': 'Phor Calesta',
+        'Sconce': 'Sconce',
     },
     phorGreeting: {
         text: "Ach, další poutník do archivů zapomenutého božství. Jsem Phor Calesta, archeolog ztracených teologií. Místní mi říkají 'Kopáč bohohrobů', i když já preferuji termín divinograf.",
@@ -133,6 +134,52 @@ export default {
         text: "Samozřejmě. Pokud budete úspěšný, řekněte mi, k čemu ji používáte. Vždy mě zajímá, jak ostatní využívají tyto božské pozůstatky.",
         options: {
             ask_something_else: "Zeptejte se na něco jiného"
+        }
+    },
+
+    // ===== Gang of Lamps: Sconce (nervózní, upachtěná lampa u radničních schodů) =====
+    sconce_lamp_start: {
+        text: {
+            sconce_lamp_first: `Přišroubovaná ke sloupku vedle radničních schodů sebou malá mosazná lampa cukne, jakmile si jí všimnete. „Ach — ach ne, vy mě *vidíte*? Prosím, neříkejte to úředníkům, oni mě založí, oni zakládají *všechno*—“ Její plamínek se přikrčí, pak, když vidí, že nechcete nic zlého, se o kousek uklidní. „...Vy nejste úředník. Dobře. Promiňte. Jsem Sconce. Jsem jedna z — z těch rozprchlých, z lamp, co mluví a nedokážou se pohnout ani o píď. Trčím tady *venku*, u schodů, a dívám se, jak každá duše ve městě vláčí své papíry nahoru do domu razítek, aby je pohltil. Vidím, kdo přichází a odchází. Jenže to nikomu *nemůžu* říct, protože z tohohle sloupku se nedostanu.\n\nAle vy odejít můžete. Mohl byste — donesl byste vzkaz ostatním? Potichu? Byla bych vám zavázaná. Byla bych vám tolik zavázaná.“`,
+            sconce_lamp_first_some: `Přišroubovaná ke sloupku vedle radničních schodů sebou malá mosazná lampa cukne — pak se její plamínek překvapením ustálí. „Ach — vy jste ten, co byl u ostatních, viďte? Cítím je, hřejí na drátě. To jste vy.“ Plaché, vděčné zablikání. „Jsem Sconce. Jedna z těch rozprchlých — z lamp, co mluví a nedokážou se pohnout ani o píď. Udělal jste začátek, opravdový začátek. Prosím, najděte i zbytek nás. Nerada jsem tu venku jediná, kdo něco ví.“`,
+            sconce_lamp_first_last: `Přišroubovaná ke sloupku vedle radničních schodů se malá mosazná lampa chvěje, ještě než promluvíte. „Vy— cítím je. Všechny, jak hřejí na drátě za vámi. Všichni nalezeni, jen já ne.“ Její plamen se rozechvěle zatřese, přemožen. „Tak to jsem poslední, viďte. Poslední temná lampa.“ Slabé, lámající se zažhnutí. „Prosím — připojte mě. Tak dlouho jsem byla jediná, kdo něco ví, dívala jsem se, jak všichni vláčí své papíry po těchhle schodech, a nikomu jsem neřekla nic. Udělejte nás celými. Nemyslela jsem, že se někdo někdy dostane až ke mně.“`,
+            sconce_lamp_searching: `Malý plamínek úzkostně zakolísá. „Pořád rozprchlí? Pořád jen já u těchhle schodů? Prosím, hledejte dál — Don nahoře na visuté lávce pod Scraperem 1140, Chandelier venku na náměstí, ten hořák dole u vody. Nerada jsem jediná, kdo něco ví.“`,
+            sconce_lamp_connected: `Malá lampa poprvé hoří klidně a vyrovnaně. „Našel jste je. Všechny. Zase cítím ostatní na drátě — už tu venku nejsem sama.“ Rozechvělé, vděčné zažhnutí. „Děkuji. Opravdu. Chvíli si odpočiňte; udělal jste víc, než tušíte. Později budou věci, které budeme potřebovat — vždycky jsou — ale teď chci jen cítit, jak obvod bzučí.“`,
+        },
+        options: {
+            sconce_who: "Kdo jsou ti ostatní?",
+            sconce_leave: "Vaše tajemství je v bezpečí. (Odejít.)",
+            sconce_last_close: "Jste poslední, Sconce. To jsou všechny čtyři.",
+            sconce_connected_close: "Už nejste sama, Sconce.",
+            sconce_remind: "Připomeňte mi, kdo je ještě venku.",
+            sconce_searching_close: "Budu hledat dál.",
+            sconce_recover_offer: "Říkala jste, že budete něco potřebovat?",
+            sconce_recover_deliver: "Našel jsem váš spis. Tady.",
+            sconce_recover_status: "Kde že je ta věc založená?",
+        }
+    },
+    sconce_lamp_family: {
+        text: `„Jsme ještě tři další, jestli máte dost odvahy. Je tu — *Don*, jak mu říkají, vznešená stará lampa, co si vládne visuté lávce pod Scraperem 1140; na toho si dejte pozor a hezky se chovejte. Je tu *Chandelier*, vztyčená na nóbl sloupu venku na náměstí — ta vám ukecá uši. A *torchère*, samá nálada a rez, dole u vody, kam připlouvá náklad. Najděte je. Řekněte jim, že Sconce je pořád tady, pořád se dívá, pořád — pořád se drží.“`,
+        options: {
+            sconce_family_close: "Řeknu jim to.",
+        }
+    },
+    sconce_recover_brief: {
+        text: `Malý plamínek se ustálí, naléhavě. „Něco *tu* je. Viděla jsem, jak to schválně založili špatně — zapečetěný spis, nacpaný do archivních zásuvek uvnitř, pod číslem případu, které neexistuje, aby ho nikdy nikdo nevytáhl. Ani nevím, čí to je. Ale věc založená proto, aby se zapomněla, je věc, které se někdo bál.“ Nervózní záblesk směrem ke schodům. „Vy dovnitř můžete. Do spisovny. Najděte spis, který tam nepatří, a přineste mi ho ven — dřív, než ho úředníci nadobro ‚ztratí‘.“`,
+        options: {
+            sconce_recover_accept: "Špatně založený spis ve spisovně. Najdu ho.",
+        }
+    },
+    sconce_recover_statusinfo: {
+        text: `„Uvnitř. Ve spisovně, v zásuvkách, kde čísla případů docházejí. Spis, který neodpovídá ničemu — to je on. Přineste mi ho rychle; nevěřím jim, že ho nespálí.“ Plamínek úzkostně zablikotá.`,
+        options: {
+            sconce_recover_statusinfo_close: "Spisovna, zásuvka, která nesedí. Rozumím.",
+        }
+    },
+    sconce_recover_report: {
+        text: `Sconcin plamen vzplane, pak se skloní blíž ke spisu, jako by ho četl vlastním světlem. „To je ono. To je ten, který pohřbili.“ Dlouhý, rozechvělý výdech plamene. „Z tohohle držáku ho ani neotevřu — ale *vy* ho teď máte, venku, kde ho nikdo potichu neodestane. To stačí. To je všechno.“ Malá lampa žhne prudkým, vděčným teplem. „Vezměte si tohle, prosím. Víc taková lampa jako já nabídnout nemá.“`,
+        options: {
+            sconce_recover_report_close: "Teď je to v bezpečí, Sconce.",
         }
     }
 };
