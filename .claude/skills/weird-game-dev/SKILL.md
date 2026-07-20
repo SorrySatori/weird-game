@@ -180,5 +180,17 @@ and a generative Web-Audio organ score.
   registry `shed_tunnel_opened` restored in `create()`, journal `seam_sense_shed_tunnel`, +12 spores;
   hotspot+notification instead of a dialog tree since this scene has no cs file). Speaker cs is
   `'Palinode': 'Palinode'`. Pattern easy to replicate; not a quest gate.
+- **The Gang of Lamps questline (`gang_of_lamps`):** four disguised sentient street-lamps, IMMOVABLE and
+  out of contact, who use the player as courier. Shared mechanic lives on **GameScene** (do not modify):
+  `createStreetLamp(texKey,x,y,scale,dialogKey,depth=6)`, `meetLamp(id,name)` (idempotent; writes
+  `met_lamp_<id>`, starts/advances quest `gang_of_lamps`), `lampsFoundCount()` (0–4). **Phase L1 (DONE, EN
+  only):** placed + find/relay intro dialog for all four — **Don Girandole** (`don`, BurningBearStreetScene,
+  texKey `lamp_don`), **Chandelier** (`chandelier`, ScreamingCorkScene, `lamp_chandelier`), **Sconce**
+  (`sconce`, TownhallInteriorScene, `lamp_sconce`), **Torchère** (`torchere`, HarborScene, `lamp_torchere`).
+  Each start state `<id>_lamp_start` switches text via `textKey` among `_first`/`_searching`/`_connected`
+  (computed from `met_lamp_<id>` + `lampsFoundCount()===4`) and calls `meetLamp` in `onTrigger`; a
+  `<id>_lamp_family` state repeats the cryptic hints toward the other three. Connected variant is a close-only
+  ack with a `// TODO L2: quest offer`. **Not built yet:** L2 (per-lamp quests once all four found) and the
+  Czech dialog files (`lang/cs/dialogs/*` — EN-only for now).
 
 Read `WORLD_HISTORY_AND_GEOGRAPHY.md` for lore/canon before writing story content.

@@ -367,7 +367,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_vestigels_quest_info: {
-                text: "'Here's what I know: Zerren has one Vestigel. He's usually in the Market area. The other two are held by merchants named Liss and Dovan. Find one of them, get me a Vestigel, and I'll tell you what you need to know about the Bishop.'",
+                text: "'Here's what I know: Zerren has one Vestigel. He's usually in the Market area. That's the only one I've got a line on — the other two, nobody seems to know where they ended up. Get me Zerren's, and I'll tell you what you need to know about the Bishop.'",
                 options: [
                     { text: "I'll find one for you", key: 'ill_find_one_for_you', next: "closeDialog" }
                 ]

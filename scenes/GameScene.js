@@ -1821,7 +1821,10 @@ export default class GameScene extends Phaser.Scene {
             // State key passed, look up in dialogContent
             this.dialogState = state;
             content = this.dialogContent[state];
-            if (content && this.dialogContent?.speaker) {
+            // The scene's top-level `speaker` is a DEFAULT, not an override: only apply it
+            // when the state doesn't declare its own speaker (otherwise a scene with a
+            // primary NPC would mislabel every other NPC's dialog, e.g. a lamp shown as "Busker").
+            if (content && !content.speaker && this.dialogContent?.speaker) {
                 content.speaker = this.dialogContent.speaker;
             }
             // Check if we need to inherit speaker from parent dialog group

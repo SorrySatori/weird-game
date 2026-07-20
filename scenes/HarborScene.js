@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
 import JournalSystem from '../systems/JournalSystem.js'
+import { createStreetLamp, meetLamp, lampsFoundCount } from '../utils/GangOfLamps.js'
 
 export default class HarborScene extends GameScene {
     constructor() {
@@ -13,8 +14,56 @@ export default class HarborScene extends GameScene {
         const pithKnown = !!this.hasJournalEntry('pith_reclaimers_faction');
         const heirRecruited = !!this.hasJournalEntry('pith_recruit_heir');
         const metHeir = !!this.hasJournalEntry('met_yellow_aquarium_heir');
+        const torchereMet = !!this.hasJournalEntry('met_lamp_torchere');
+        // At first meeting `found` counts the OTHER lamps already met (0–3); on a return
+        // visit it includes Torchère. Drives the progress-aware greeting.
+        const found = lampsFoundCount(this);
+        const allLampsFound = found === 4;
         return {
             ...super.dialogContent,
+
+            // ===== Gang of Lamps: Torchère (restless, hot-tempered dockside smuggler) =====
+            torchere_lamp_start: {
+                speaker: 'Torchère',
+                textKey: torchereMet
+                    ? (allLampsFound ? 'torchere_lamp_connected' : 'torchere_lamp_searching')
+                    : (found === 3 ? 'torchere_lamp_first_last' : found >= 1 ? 'torchere_lamp_first_some' : 'torchere_lamp_first'),
+                text: !torchereMet
+                    ? (found === 3
+                        ? `A tall iron torchère juts up from the dockboards, flame snapping in the sea-wind — and as you approach it flares hard and sudden. "Hold on. *Hold on.* I can feel the whole line lit up behind you — all of 'em, warm on the wire." The sparks crackle, half-disbelieving. "You found every one of the others before you got to me. Course you did." A rough, grudging heat. "...Then I'm the last one dark, deadlight. So plug me in and let's finish it. First time the whole crew's been lit since I can remember. Don't you dare tell 'em I got sentimental."`
+                        : found >= 1
+                            ? `A tall iron torchère juts up from the dockboards, flame snapping sideways in the sea-wind. It rounds on you — then eases, sparks settling. "You're not lost, and you're already carrying the others' voices — I can feel 'em crackle down the line. Been busy, huh." A gruff nod of a flicker. "Name's Torchère, one of the scattered ones, welded to this dock. You've made a start, I'll give you that. Find the rest and the torch by the water owes you."`
+                            : `A tall iron torchère juts up from the dockboards, its flame snapping sideways in the sea-wind. As you approach it rounds on you with a hiss of sparks. "You lost? No? Then you're the first useful thing to walk this dock all week." The flame crackles, sizing you up. "Name's Torchère. And before you ask — yeah, I talk, and yeah, I'm one of the scattered ones. Lamps that think, lamps that can't *move*. You know what it's like, welded to one spot while the whole city drifts past out of reach? Maddening. I've got words for the others and no way to carry 'em.\n\nBut you've got feet, and you don't look like a customs man. Run my messages. Find the rest of us. Do it and I won't forget it — I'm hot-tempered, not ungrateful."`)
+                    : (allLampsFound
+                        ? `The flame stands tall and steady, roaring low with something like joy. "Ha! You actually did it. I can feel every one of 'em down the line again — the whole circuit lit and humming. Didn't think you had it in you." The sparks settle. "Sit down a minute. Catch your breath. There'll be running to do soon enough — there's always a job on the water — but tonight, the torch by the water owes you one."`
+                        : `Sparks spit impatiently. "Still on your own out there? We're still scattered, deadlight. Move it — the Don up on the high walkway under Scraper 1140, Chandelier out in the town square, the sconce by the house of stamps. I don't like waiting."`),
+                options: !torchereMet
+                    ? (found === 3
+                        ? [
+                            { text: "You're the last one, Torchère. That's all four.", key: 'torchere_last_close', next: "closeDialog" }
+                        ]
+                        : [
+                            { text: "Who am I looking for?", key: 'torchere_who', next: "torchere_lamp_family" },
+                            { text: "A talking dock-lamp. Sure.", key: 'torchere_leave', next: "closeDialog" }
+                        ])
+                    : (allLampsFound
+                        ? [
+                            // TODO L2: quest offer
+                            { text: "Burn steady, Torchère.", key: 'torchere_connected_close', next: "closeDialog" }
+                        ]
+                        : [
+                            { text: "Remind me where to look.", key: 'torchere_remind', next: "torchere_lamp_family" },
+                            { text: "I'll keep looking.", key: 'torchere_searching_close', next: "closeDialog" }
+                        ]),
+                onTrigger: () => { meetLamp(this, 'torchere', 'Torchère'); }
+            },
+            torchere_lamp_family: {
+                speaker: 'Torchère',
+                text: `"Three more of us out there, rusting apart. There's the *Don* — perched up on the high walkway under Scraper 1140 like he owns the sky; leader, supposedly. There's *Chandelier*, stood up on a fancy post out in the town square — snob, but she hears things. And there's a *sconce*, bolted to a post out by the house of stamps, jumping at every clerk that climbs the steps — nervy little thing, but loyal. Track 'em down. Tell 'em the torch by the water's still burning."`,
+                options: [
+                    { text: "I'll find them.", key: 'torchere_family_close', next: "closeDialog" }
+                ]
+            },
 
             // --- Heir to the Yellow Aquarium (resident here when not at auction) ---
             heir_harbor_start: {
@@ -178,6 +227,7 @@ export default class HarborScene extends GameScene {
         this.load.image('harborBg', 'assets/images/backgrounds/Harbor.png');
         this.load.image('oil', 'assets/images/items/oil.png');
         this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
+        this.load.image('lamp_torchere', 'assets/images/characters/Torchere.png');
     }
 
     create() {
@@ -221,6 +271,9 @@ export default class HarborScene extends GameScene {
 
         // The Heir to the Yellow Aquarium drifts here when no auction calls them.
         this.createHeirResident();
+
+        // Gang of Lamps: Torchère rusts by the water.
+        createStreetLamp(this, 'lamp_torchere', 175, 430, 0.18, 'torchere_lamp_start');
 
         if (!this.hasJournalEntry('harbor_place')) {
             this.addJournalEntry(

@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
+import { createStreetLamp, meetLamp, lampsFoundCount } from '../utils/GangOfLamps.js'
 
 export default class TownSquareScene extends GameScene {
     constructor() {
@@ -8,10 +9,58 @@ export default class TownSquareScene extends GameScene {
     }
 
     get dialogContent() {
+        const chandelierMet = !!this.hasJournalEntry('met_lamp_chandelier');
+        // At first meeting `found` counts the OTHER lamps already met (0–3); on a return
+        // visit it includes Chandelier herself. Drives the progress-aware greeting.
+        const found = lampsFoundCount(this);
+        const allLampsFound = found === 4;
         return {
             ...super.dialogContent,
             ...this._magnekinDialogContent,
-            ...this._buskerDialogContent
+            ...this._buskerDialogContent,
+
+            // ===== Gang of Lamps: Chandelier (aloof, gossipy socialite) — set on an ornate post in the square =====
+            chandelier_lamp_start: {
+                speaker: 'Chandelier',
+                textKey: chandelierMet
+                    ? (allLampsFound ? 'chandelier_lamp_connected' : 'chandelier_lamp_searching')
+                    : (found === 3 ? 'chandelier_lamp_first_last' : found >= 1 ? 'chandelier_lamp_first_some' : 'chandelier_lamp_first'),
+                text: !chandelierMet
+                    ? (found === 3
+                        ? `What you took for an ornate street-lamp is a full crystal chandelier atop an iron post — and every lustre is already trembling with excitement as you approach. "*You.* Oh, you clever, clever thing — I can hear the whole rest of the family singing down the wire behind you. Every one of them found but *me*." A cascade of delighted chiming. "Then I am the last, and you have come to make us whole. Do you know how long I have waited to be the final piece of *anything*? Thread me in, darling. Thread me in at once."`
+                        : found >= 1
+                            ? `What you took for an ornate street-lamp is a full crystal chandelier atop an iron post, lustres already turning toward you with a knowing little shimmer. "Mm — a new face, and one that *smells* of my scattered kin. You've been carrying word between the others, haven't you? I can feel it on the wire." A pleased, tinkling sigh. "I am Chandelier, darling — one of the lamps who talk and cannot move an inch. You've made a lovely start. Do bring the rest of us into the conversation."`
+                            : `What you took for an ornate street-lamp in the square is a full crystal chandelier, mounted atop an iron post and tilting its lustres toward you with a delicate, tinkling sigh. "Mm. A *new* face. How refreshing — the passers-by stopped being interesting years ago." The prisms turn, catching you from a dozen angles at once. "I am Chandelier, darling. Yes, I talk; yes, I am one of *them* — the scattered lot, the lamps who cannot so much as sway from their fixtures to gossip properly. It is *agony*, being this well-informed and this immobile. One hears simply everything from a square like this, and has no one to tell it to.\n\nYou, though. You *move*. Be a dear and carry word between us? I shall make it worth your while — I know things, and I do so love to share."`)
+                    : (allLampsFound
+                        ? `Every lustre blazes at once, delighted. "There. All of us threaded back together — I can *hear* them again, the whole circuit humming with gossip. You marvellous little errand-light." A satisfied chime rings through the crystal. "Sit. Bask. There will be favors to ask soon enough — there always are — but for now, simply let me admire the one who reconnected us."`
+                        : `The prisms give an impatient little shiver. "Still scattered, darling. Still waiting. Do hurry — the *Don* up on the high walkway under Scraper 1140, the nervy little sconce by the house of stamps, the torch rusting by the water. A courier who dawdles is no courier at all."`),
+                options: !chandelierMet
+                    ? (found === 3
+                        ? [
+                            { text: "You're the last one, Chandelier. That's all four.", key: 'chandelier_last_close', next: "closeDialog" }
+                        ]
+                        : [
+                            { text: "Who else is out there?", key: 'chandelier_who', next: "chandelier_lamp_family" },
+                            { text: "A gossiping chandelier. Of course.", key: 'chandelier_leave', next: "closeDialog" }
+                        ])
+                    : (allLampsFound
+                        ? [
+                            // TODO L2: quest offer
+                            { text: "Enjoy the quiet, Chandelier.", key: 'chandelier_connected_close', next: "closeDialog" }
+                        ]
+                        : [
+                            { text: "Remind me where to look.", key: 'chandelier_remind', next: "chandelier_lamp_family" },
+                            { text: "I'll keep looking.", key: 'chandelier_searching_close', next: "closeDialog" }
+                        ]),
+                onTrigger: () => { meetLamp(this, 'chandelier', 'Chandelier'); }
+            },
+            chandelier_lamp_family: {
+                speaker: 'Chandelier',
+                text: `"Who else is out there? There is an old fright of a lamppost who fancies himself a *Don* — perched up on the high walkway under Scraper 1140, all grease and grandeur; do mind your manners with that one. There is a twitchy little *sconce* pinned to a wall in the house of stamps, watching the clerks drown the world in forms — poor nervous thing. And there is a *torchère*, all soot and temper, rusting down by the water among the crates. Find them, won't you? And do report back. I *adore* a returning source."`,
+                options: [
+                    { text: "I'll bring you their words.", key: 'chandelier_family_close', next: "closeDialog" }
+                ]
+            }
         };
     }
 
@@ -25,6 +74,7 @@ export default class TownSquareScene extends GameScene {
         this.load.image('metal_scrap', 'assets/images/items/metal_scrap.png');
         this.load.image('redmass', 'assets/images/items/redmass.png');
         this.load.image('magnekin_broken', 'assets/images/characters/magnekin_broken.png');
+        this.load.image('lamp_chandelier', 'assets/images/characters/Chandelier.png');
     }
 
     create() {
@@ -86,6 +136,10 @@ export default class TownSquareScene extends GameScene {
 
         this.createMagnekin();
         this.createBusker();
+
+        // Gang of Lamps: Chandelier stands on an ornate post on the square's cobbles,
+        // left side (at the spot the player marked), clear of Magnekin (250,300) and busker (550,380).
+        createStreetLamp(this, 'lamp_chandelier', 175, 290, 0.26, 'chandelier_lamp_start');
 
         if (!this.hasJournalEntry('town_square_place')) {
             this.addJournalEntry(

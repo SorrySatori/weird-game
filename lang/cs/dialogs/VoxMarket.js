@@ -187,7 +187,7 @@ export default {
         options: { "OK": "OK" }
     },
     kloor_vestigels_quest_info: {
-        text: "'Tady je, co vím: Zerren má jeden Vestigel. Obvykle bývá v tržní oblasti. Další dva drží obchodníci jménem Liss a Dovan. Najdi jednoho z nich, sežeň mi Vestigel a já ti řeknu, co potřebuješ vědět o Biskupce.'",
+        text: "'Tady je, co vím: Zerren má jeden Vestigel. Obvykle bývá v tržní oblasti. To je jediný, o kterém něco vím — kde skončily zbylé dva, to netuší nikdo. Sežeň mi ten Zerrenův a já ti řeknu, co potřebuješ vědět o Biskupce.'",
         options: {
             ill_find_one_for_you: "Jeden vám seženu"
         }

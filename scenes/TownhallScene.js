@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { createStreetLamp, meetLamp, lampsFoundCount } from '../utils/GangOfLamps.js';
 
 export default class TownhallScene extends GameScene {
     constructor() {
@@ -16,8 +17,57 @@ export default class TownhallScene extends GameScene {
             const bishopQuest = questSystem?.getQuest('who_killed_bishop');
             const hasEnterTownhallQuest = !!questSystem?.getQuest('enter_townhall');
             const hasGodgraveyardAccess = !!(this.hasJournalEntry('godgraveyard_access_granted') || this.hasItem('godgraveyard-access-permit'));
+            // Gang of Lamps: Sconce. At first meeting `found` counts the OTHER lamps already
+            // met (0–3); on a return visit it includes Sconce. Drives the progress-aware greeting.
+            const sconceMet = !!this.hasJournalEntry('met_lamp_sconce');
+            const found = lampsFoundCount(this);
+            const allLampsFound = found === 4;
             return {
             ...super.dialogContent,
+
+            // ===== Gang of Lamps: Sconce (nervous, put-upon fixture) — bolted to a post by the townhall steps =====
+            sconce_lamp_start: {
+                speaker: 'Sconce',
+                textKey: sconceMet
+                    ? (allLampsFound ? 'sconce_lamp_connected' : 'sconce_lamp_searching')
+                    : (found === 3 ? 'sconce_lamp_first_last' : found >= 1 ? 'sconce_lamp_first_some' : 'sconce_lamp_first'),
+                text: !sconceMet
+                    ? (found === 3
+                        ? `Bolted to a post beside the townhall steps, a little brass lamp is trembling before you even speak. "You— I can feel them. All of them, warm on the wire behind you. Every one found but me." Its flame quivers, overwhelmed. "Then I'm the last, aren't I. The last dark lamp." A small, breaking glow. "Please — thread me in. I've been the only one who knows things for so long, watching everyone haul their paperwork up these steps and saying nothing to no one. Make us whole. I didn't think anyone would ever get all the way to me."`
+                        : found >= 1
+                            ? `Bolted to a post beside the townhall steps, a little brass lamp flinches — then its flame steadies with surprise. "Oh — you're the one who's been round the others, aren't you? I can feel them, warm on the wire. That's you." A shy, grateful flicker. "I'm Sconce. One of the scattered ones — the lamps that talk and can't move an inch. You've made a start, a real start. Please find the rest of us. I don't like being the only one out here who knows things."`
+                            : `Bolted to a post beside the townhall steps, a little brass lamp flinches as you notice it. "Oh — oh no, you can *see* me? Please don't tell the clerks, they'll file me, they file *everything*—" Its flame ducks low, then, seeing you mean no harm, steadies a fraction. "...You're not a clerk. Good. Sorry. I'm Sconce. I'm one of the — the scattered ones, the lamps that talk and can't move an inch. I'm stuck out *here*, by the steps, watching every soul in the city haul their paperwork up into the house of stamps to be swallowed. I see who comes and goes. I just can't *tell* anyone, because I can't leave this post.\n\nYou can leave, though. Could you — would you carry word to the others? Quietly? I'd owe you. I'd owe you so much."`)
+                    : (allLampsFound
+                        ? `For once the little lamp burns calm and even. "You found them. All of them. I can feel the others again down the wire — I'm not alone out here anymore." A shaky, grateful glow. "Thank you. Truly. Rest a while; you've done more than you know. There'll be things we need, later — there always are — but right now I just want to feel the circuit hum."`
+                        : `The little flame wavers anxiously. "Still scattered? Still just me by these steps? Please keep looking — the Don up on the high walkway under Scraper 1140, Chandelier out in the town square, the torch by the water. I don't like being the only one who knows things."`),
+                options: !sconceMet
+                    ? (found === 3
+                        ? [
+                            { text: "You're the last one, Sconce. That's all four.", key: 'sconce_last_close', next: "closeDialog" }
+                        ]
+                        : [
+                            { text: "Who are the others?", key: 'sconce_who', next: "sconce_lamp_family" },
+                            { text: "Your secret's safe. (Leave.)", key: 'sconce_leave', next: "closeDialog" }
+                        ])
+                    : (allLampsFound
+                        ? [
+                            // TODO L2: quest offer
+                            { text: "You're not alone now, Sconce.", key: 'sconce_connected_close', next: "closeDialog" }
+                        ]
+                        : [
+                            { text: "Remind me who's still out there.", key: 'sconce_remind', next: "sconce_lamp_family" },
+                            { text: "I'll keep looking.", key: 'sconce_searching_close', next: "closeDialog" }
+                        ]),
+                onTrigger: () => { meetLamp(this, 'sconce', 'Sconce'); }
+            },
+            sconce_lamp_family: {
+                speaker: 'Sconce',
+                text: `"There are three more of us, if you're brave enough. There's the — the *Don*, they call him, a grand old lamppost lording it over the high walkway under Scraper 1140; mind your manners with that one. There's *Chandelier*, stood up on a fancy post out in the town square — she'll talk your ear off. And a *torchère*, all temper and rust, down by the water where the cargo comes in. Find them. Tell them Sconce is still here, still watching, still — still holding on."`,
+                options: [
+                    { text: "I'll tell them.", key: 'sconce_family_close', next: "closeDialog" }
+                ]
+            },
+
             speaker: 'Phor Calesta',
             phorGreeting: {
                 text: "Ah, another pilgrim to the archives of the forgotten divine. I am Phor Calesta, archaeologist of lost theologies. The locals call me 'Godgrave Excavator,' though I prefer the term Divinographer.",
@@ -216,6 +266,7 @@ export default class TownhallScene extends GameScene {
         this.load.image('growthGate', 'assets/images/items/growthGate.png');
         this.load.image('rustGate', 'assets/images/items/rustGate.png');
         this.load.image('townhallDoor', 'assets/images/ui/door.png');
+        this.load.image('lamp_sconce', 'assets/images/characters/Sconce.png');
     }
 
     create() {
@@ -293,6 +344,11 @@ export default class TownhallScene extends GameScene {
         if (!this.clickSound) {
             this.clickSound = this.sound.add('click');
         }
+
+        // Gang of Lamps: Sconce is bolted to a post on the right of the walkway by the townhall
+        // steps (moved right per the player's marker). Capped at x650 — just left of the right
+        // exit zone (x680-760 → TownSquare) so lamp clicks don't collide with the transition.
+        createStreetLamp(this, 'lamp_sconce', 670, 425, 0.18, 'sconce_lamp_start');
 
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }

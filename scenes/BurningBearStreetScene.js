@@ -12,7 +12,7 @@ export default class BurningBearStreetScene extends GameScene {
         // day-branching spaghetti. See day2DialogContent().
         return {
             ...super.dialogContent, // symbiont dialogs etc.
-            ...(this.isDay2() ? this.day2DialogContent : {})
+            ...(this.isDay2() ? this.day2DialogContent : {}),
         };
     }
 
@@ -251,11 +251,13 @@ export default class BurningBearStreetScene extends GameScene {
     }
 
     createOrtolan() {
-        const x = 250, groundY = 500;
+        const x = 250, groundY = 525;
         // If the player won him his extra pair of arms on Day 1, he now sports all four.
         const armsHelped = !!this.questSystem?.getQuest('ortolan_arms')?.isComplete;
         this.ortolan = this.add.sprite(x, groundY, armsHelped ? 'ortolan4' : 'ortolan').setOrigin(0.5, 1).setScale(0.15).setDepth(6);
-        this.addGroundShadow(x, groundY, this.ortolan.displayWidth * 0.55, this.ortolan.displayHeight * 0.10);
+        // The Ortolan.png art has transparent padding below the feet, so the shadow is
+        // tucked up under the visible soles rather than at the sprite's padded origin.
+        this.addGroundShadow(x, groundY - 14, this.ortolan.displayWidth * 0.55, this.ortolan.displayHeight * 0.10);
         this.ortolan.setInteractive({ useHandCursor: true });
 
         const label = this.add.text(x, groundY - this.ortolan.displayHeight - 6, 'ORTOLAN', {
