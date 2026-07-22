@@ -71,6 +71,14 @@ export default class CrossroadScene extends GameScene {
             });
         }
 
+        // Examine: the signpost/junction (placed on the upper post, clear of the corpse's own
+        // interactive zone at center). Comment reflects the corpse's fate + how the world leans.
+        this.createObservable(400, 150, 230, 90, () => {
+            if (this.hasJournalEntry('crossroad_corpse_spores_planted')) return this.t('observe.crossroads.planted');
+            if (this.getGDTendency && this.getGDTendency() === 'growthDominant') return this.t('observe.crossroads.overgrown');
+            return this.t('observe.crossroads.default');
+        }, { hint: this.t('observe.crossroads.hint') });
+
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 

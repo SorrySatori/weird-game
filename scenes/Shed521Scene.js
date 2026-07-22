@@ -322,6 +322,12 @@ export default class Shed521Scene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
+        // Examine: the rust-choked pipes/guts of the Shed (upper-centre, clear of Gnur below).
+        this.createObservable(400, 195, 240, 150, () => {
+            if (this.hasJournalEntry('rust_choir_joined')) return this.t('observe.shed_pipes.member');
+            return this.t('observe.shed_pipes.default');
+        }, { hint: this.t('observe.shed_pipes.hint') });
+
         // Add Gnur NPC with proper size
         this.gnur = this.add.sprite(400, 470, 'gnur');
         this.gnur.setDisplaySize(80, 80); // Set a fixed size

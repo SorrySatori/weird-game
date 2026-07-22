@@ -203,6 +203,17 @@ export default class CathedralEntrance extends GameScene {
         if (!this.dialogMurmur) {
             this.dialogMurmur = this.sound.add('dialogMurmur');
         }
+
+        // Examine: the glowing Egg in the arch (upper glow, clear of the Sentinel at the door).
+        // What the protagonist says shifts once they've met the mind in the cellar / heard
+        // Ortolan's "flawed make" read of it.
+        // On the UPPER glow of the egg — the Sentinel (guard container at 380,450, hit area
+        // ~y350-510) sits over the lower egg and would otherwise eat the click.
+        this.createObservable(385, 250, 200, 130, () => {
+            if (this.hasJournalEntry('perspective_ortolan')) return this.t('observe.egg_cathedral.ortolan');
+            if (this.hasJournalEntry('met_infinite_fold')) return this.t('observe.egg_cathedral.knows');
+            return this.t('observe.egg_cathedral.default');
+        }, { hint: this.t('observe.egg_cathedral.hint'), overObject: true }); // priest spawns far left; anchor the bubble to the egg
     }
     
     // Override the dialogContent getter from GameScene

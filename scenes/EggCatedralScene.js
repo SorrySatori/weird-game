@@ -55,6 +55,14 @@ export default class EggCatedralScene extends GameScene {
             470, // walk to y
             'Crossroads' // destination name
         );
+
+        // Examine: the whole Egg Cathedral, anchored to the great egg-dome. The bubble auto-flips
+        // below it (tail up) so it clears the top HUD. Clear of the entrance-door transition (450,300).
+        this.createObservable(410, 175, 300, 140, () => {
+            if (this.hasJournalEntry('perspective_ortolan')) return this.t('observe.egg_cathedral_approach.ortolan');
+            if (this.hasJournalEntry('met_infinite_fold')) return this.t('observe.egg_cathedral_approach.knows');
+            return this.t('observe.egg_cathedral_approach.default');
+        }, { hint: this.t('observe.egg_cathedral_approach.hint'), overObject: true });
         
         // Left transition removed - no going back to EntryScene
         // The Fungal Master has left and the apprentice's journey continues forward

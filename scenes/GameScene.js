@@ -1025,11 +1025,13 @@ export default class GameScene extends Phaser.Scene {
 
     /**
      * Show a comic-style speech bubble above a target (a sprite/container with numeric x/y,
-     * or a plain {x, y}). The bubble follows the target while alive and auto-fades.
+     * or a plain {x, y}). The bubble follows the target while alive.
      * Reusable across scenes for monologues/asides over characters or objects.
      * @param {object} target - object with numeric .x/.y
      * @param {string} message - the line to speak
-     * @param {object} [opts] - { duration=3200, maxWidth=220, offsetY=78, depth=900 }
+     * @param {object} [opts] - { duration=3200, maxWidth=220, offsetY=78, depth=900,
+     *   persistent=false } — persistent bubbles skip the timed fade and stay until the player
+     *   dismisses them (an ✕ button, or a click anywhere outside the bubble).
      * @returns {Phaser.GameObjects.Container|null}
      */
     showSpeechBubble(target, message, opts = {}) {
@@ -1049,42 +1051,114 @@ export default class GameScene extends Phaser.Scene {
         const padX = 12, padY = 8, tailH = 10, radius = 8;
         const w = text.width + padX * 2;
         const h = text.height + padY * 2;
-        const bx = -w / 2, byTop = -(h + tailH);
+        const bx = -w / 2;
+
+        // Bubble sits above the target by default; but if there isn't room above without hitting
+        // the top HUD (the spores bar), flip it BELOW the target with the tail pointing up.
+        const topSafe = 82;
+        const flip = ((target.y - offsetY) - (h + tailH)) < topSafe;
+        const byTop = flip ? tailH : -(h + tailH); // body top, container-local
 
         const bubble = this.add.graphics();
         bubble.fillStyle(0xf5f2e6, 0.96);
         bubble.fillRoundedRect(bx, byTop, w, h, radius);
-        bubble.fillTriangle(-8, -tailH, 8, -tailH, 0, 0); // tail pointing down to the target
+        if (flip) bubble.fillTriangle(-8, tailH, 8, tailH, 0, 0);   // tail points up (bubble below)
+        else bubble.fillTriangle(-8, -tailH, 8, -tailH, 0, 0);      // tail points down (bubble above)
         bubble.lineStyle(2, 0x1b1b1b, 0.9);
         bubble.strokeRoundedRect(bx, byTop, w, h, radius);
         bubble.beginPath();
-        bubble.moveTo(-8, -tailH); bubble.lineTo(0, 0); bubble.lineTo(8, -tailH);
+        if (flip) { bubble.moveTo(-8, tailH); bubble.lineTo(0, 0); bubble.lineTo(8, tailH); }
+        else { bubble.moveTo(-8, -tailH); bubble.lineTo(0, 0); bubble.lineTo(8, -tailH); }
         bubble.strokePath();
 
-        text.setPosition(0, byTop + h - padY); // sit inside the bubble body
+        text.setPosition(0, byTop + h - padY); // sit inside the bubble body (origin 0.5,1)
         container.add([bubble, text]);
         container.setAlpha(0);
         this.tweens.add({ targets: container, alpha: 1, duration: 150, ease: 'Sine.easeOut' });
 
-        const minY = h + tailH + 6; // keep the bubble fully on-screen
+        const minY = h + tailH + 6;          // non-flipped: keep body top on-screen
+        const maxY = 600 - 6 - (h + tailH);  // flipped: keep body bottom on-screen
         const follow = () => {
             if (!container.active) return;
             container.x = target.x;
-            container.y = Math.max(minY, target.y - offsetY);
+            container.y = flip ? Math.min(maxY, target.y) : Math.max(minY, target.y - offsetY);
         };
         this.events.on('update', follow);
 
+        let overlay = null;
         const cleanup = () => {
             this.events.off('update', follow);
             this.events.off('shutdown', cleanup);
+            if (overlay && overlay.active) overlay.destroy();
             if (container.active) container.destroy();
         };
-        this.time.delayedCall(duration, () => {
+        const close = () => {
             if (!container.active) return;
+            if (overlay) overlay.disableInteractive();
             this.tweens.add({ targets: container, alpha: 0, duration: 200, onComplete: cleanup });
-        });
+        };
+
+        if (opts.persistent) {
+            // Persistent bubble: stays until dismissed with the ✕ or a click anywhere outside it.
+            const bodyZone = this.add.zone(0, byTop + h / 2, w, h).setInteractive(); // absorb clicks on the body
+            const closeX = this.add.text(w / 2 - 12, byTop + 11, '✕', {
+                fontSize: '13px', fontStyle: 'bold', fill: '#7a1010',
+                backgroundColor: '#e7e0cc', padding: { x: 4, y: 1 }
+            }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+            closeX.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
+            closeX.on('pointerout', () => { document.body.style.cursor = 'default'; });
+            closeX.on('pointerdown', () => close());
+            container.add([bodyZone, closeX]);
+            // Full-screen catcher just below the bubble; a click outside dismisses it. This frame's
+            // pointerdown has already been dispatched, so the opening click won't self-close it.
+            overlay = this.add.zone(400, 300, 1600, 1200).setScrollFactor(0).setDepth(depth - 1).setInteractive();
+            overlay.on('pointerdown', () => close());
+        } else {
+            this.time.delayedCall(duration, () => close());
+        }
         this.events.once('shutdown', cleanup);
         return container;
+    }
+
+    /** Convenience: translate a key via the shared LanguageSystem (current language). */
+    t(key) {
+        return LanguageSystem.getInstance().t(key);
+    }
+
+    /**
+     * Make a location/object examinable. Clicking the (invisible) zone makes the protagonist
+     * comment in their own words via a speech bubble. `resolve` returns the line to say — the
+     * scene author computes it from context (what the player knows / has seen / was told), so
+     * the same object reads differently over the course of the game. Reusable across scenes.
+     * @param {number} x @param {number} y @param {number} width @param {number} height
+     * @param {(function():string)|string} resolve - the comment (or a fn returning it by context)
+     * @param {object} [opts] - { hint, depth=2, overObject=false, bubble:{duration,maxWidth,offsetY} }
+     * @returns {Phaser.GameObjects.Zone|null}
+     */
+    createObservable(x, y, width, height, resolve, opts = {}) {
+        if (!this.add) return null;
+        const zone = this.add.zone(x, y, width, height).setInteractive({ useHandCursor: true });
+        zone.setDepth(opts.depth ?? 2);
+
+        let hint = null;
+        if (opts.hint) {
+            hint = this.add.text(x, y - height / 2 - 14, opts.hint, {
+                fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+            }).setOrigin(0.5).setDepth(100).setAlpha(0);
+        }
+        zone.on('pointerover', () => { if (hint) hint.setAlpha(1); document.body.style.cursor = 'pointer'; });
+        zone.on('pointerout', () => { if (hint) hint.setAlpha(0); document.body.style.cursor = 'default'; });
+        zone.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            const line = (typeof resolve === 'function') ? resolve() : resolve;
+            if (!line) return;
+            // Bubble over the protagonist (they're the one speaking); or over the object if asked.
+            const target = opts.overObject ? { x, y: y - height / 2 } : (this.priest || { x, y });
+            // Examine asides are persistent + closable (read at leisure); callers may override.
+            this.showSpeechBubble(target, line, { persistent: true, ...(opts.bubble || {}) });
+        });
+        return zone;
     }
 
     showNotification(title, subtitle = '', amount = '', duration = 400) {

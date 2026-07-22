@@ -161,6 +161,15 @@ export default class EchoDrainDeltaScene extends GameScene {
         // Palinode waits in the delta's seams until it has bonded.
         this.createPalinodeSpot();
 
+        // Examine: the scrap delta. Knows-tier fires once Magnekin has tipped you off (a
+        // rust_feast quest update) about the metal scrap here.
+        this.createObservable(400, 210, 250, 140, () => {
+            const rf = this.questSystem?.getQuest('rust_feast');
+            const heardTip = !!(rf && rf.updates && rf.updates.some(u => u.key === 'magnekin_tip'));
+            if (heardTip) return this.t('observe.echo_drain.knows');
+            return this.t('observe.echo_drain.default');
+        }, { hint: this.t('observe.echo_drain.hint') });
+
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 

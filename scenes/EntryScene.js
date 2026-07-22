@@ -230,7 +230,18 @@ export default class EntryScene extends GameScene {
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
-                ]
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('heard_stomach_clock')) {
+                        this.addJournalEntry(
+                            'heard_stomach_clock',
+                            'The Stomach Clock',
+                            'Someone told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock, where time runs in loops and bile is sacred.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Townhall' }
+                        );
+                    }
+                }
             }
         };
     }

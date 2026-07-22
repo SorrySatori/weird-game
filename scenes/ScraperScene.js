@@ -371,6 +371,14 @@ export default class ScraperScene extends GameScene {
         // (the structure the player marked). Above the right-edge exit zone (y370-570), so no
         // click conflict. Depth 6 keeps him behind the walking priest.
         createStreetLamp(this, 'lamp_don', 750, 210, 0.13, 'don_lamp_start');
+
+        // Examine: the tower & its "SCRAPER 1140" sign (upper-center, clear of Don at x750 and
+        // the entrance below). Comment deepens once you've been inside / learned of the cellar lab.
+        this.createObservable(430, 170, 240, 150, () => {
+            if (this.hasJournalEntry('met_infinite_fold')) return this.t('observe.scraper.knows_cellar');
+            if (this.hasJournalEntry('scraper_building')) return this.t('observe.scraper.been_inside');
+            return this.t('observe.scraper.default');
+        }, { hint: this.t('observe.scraper.hint') });
     }
 
     update() {

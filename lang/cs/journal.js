@@ -3,6 +3,10 @@
  */
 export default {
     journal: {
+        heard_stomach_clock: {
+            title: 'Žaludeční hodiny',
+            description: 'Někdo mi vyprávěl o Žaludečních hodinách na radnici: biomechanická komora ve tvaru trávicích hodin, kde čas běží v kruzích a žluč je posvátná.',
+        },
         obazoba_cult: {
             title: 'Kult Obazoba',
             description: 'Kult Obazoba je kult houbových uctívačů, kteří uctívají Obazobu, mýtickou houbovou entitu.',

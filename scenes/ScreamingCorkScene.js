@@ -1182,6 +1182,12 @@ export default class ScreamingCorkScene extends GameScene {
 
         // Add Edgar Eskola NPC
         this.createEdgarEskola();
+
+        // Examine: the tavern & the beat under its floorboards (sign/building, upper-center).
+        this.createObservable(400, 235, 260, 130, () => {
+            if (this.hasJournalEntry('noise_god_insight') || this.hasJournalEntry('feral_toast_performance')) return this.t('observe.screaming_cork.knows_noise');
+            return this.t('observe.screaming_cork.default');
+        }, { hint: this.t('observe.screaming_cork.hint') });
     }
 
     update() {

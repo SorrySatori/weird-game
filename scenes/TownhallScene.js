@@ -399,6 +399,19 @@ export default class TownhallScene extends GameScene {
         // exit zone (x680-760 → TownSquare) so lamp clicks don't collide with the transition.
         createStreetLamp(this, 'lamp_sconce', 670, 425, 0.18, 'sconce_lamp_start');
 
+        // Examine mechanic: the Stomach Clock on the townhall facade. The protagonist comments
+        // in their own words; what they say depends on what they know — been inside > heard of
+        // it (from the Entry-scene guide) > just what they see.
+        this.createObservable(400, 200, 210, 140, () => {
+            const beenInside = this.hasJournalEntry('townhall_poet_resolved')
+                || this.hasJournalEntry('townhall_bishop_records_checked')
+                || this.hasItem('townhall-key')
+                || this.hasJournalEntry('seldo_townhall_key');
+            if (beenInside) return this.t('observe.stomach_clock.been_inside');
+            if (this.hasJournalEntry('heard_stomach_clock')) return this.t('observe.stomach_clock.heard');
+            return this.t('observe.stomach_clock.default');
+        }, { hint: this.t('observe.stomach_clock.hint') });
+
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 
@@ -409,19 +422,21 @@ export default class TownhallScene extends GameScene {
         const currentDecay = growthDecaySystem?.getDecay() || 50;
 
         if (hasSeldoKey) {
+            // Entry zone sits on the actual door at the base of the facade (was up at y280,
+            // overlapping the Stomach Clock). Click-based, so the priest spawn (400,470) is fine.
             this.transitionManager.createTransitionZone(
-                400,
-                280,
-                170,
-                180,
+                370,
+                455,
+                120,
+                130,
                 'up',
                 'TownhallInteriorScene',
-                400,
-                320,
+                370,
+                475,
                 'Townhall Interior'
             );
         } else {
-            const lockedDoor = this.add.image(400, 280, 'townhallDoor')
+            const lockedDoor = this.add.image(370, 455, 'townhallDoor')
                 .setScale(0.55)
                 .setAlpha(0.55)
                 .setDepth(1)

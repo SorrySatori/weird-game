@@ -58,6 +58,12 @@ export default class SkyshipBoardScene extends GameScene {
         exitText.setOrigin(0.5);
         exitText.setDepth(10);
 
+        // Examine: the dial-board itself (upper area). Knows-tier once the floor-counter's taken.
+        this.createObservable(400, 170, 260, 120, () => {
+            if (this.hasJournalEntry('floor_counter_tool')) return this.t('observe.skyship_board.knows');
+            return this.t('observe.skyship_board.default');
+        }, { hint: this.t('observe.skyship_board.hint') });
+
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 

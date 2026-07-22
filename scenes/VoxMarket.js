@@ -556,6 +556,12 @@ export default class VoxMarket extends GameScene {
             this.priestGlow.y = this.priest.y;
         }
         
+        // Examine: the market itself (upper-centre, clear of the priest spawn at x750).
+        this.createObservable(360, 235, 240, 150, () => {
+            if (this.questSystem?.getQuest('the_three_vestigels')) return this.t('observe.voxmarket.knows_vestigels');
+            return this.t('observe.voxmarket.default');
+        }, { hint: this.t('observe.voxmarket.hint') });
+
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
         

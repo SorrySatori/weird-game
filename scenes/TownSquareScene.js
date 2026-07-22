@@ -188,6 +188,12 @@ export default class TownSquareScene extends GameScene {
         // left side (at the spot the player marked), clear of Magnekin (250,300) and busker (550,380).
         createStreetLamp(this, 'lamp_chandelier', 175, 290, 0.26, 'chandelier_lamp_start');
 
+        // Examine: the dirigible drifting over the square (up in the sky, clear of NPCs).
+        this.createObservable(340, 95, 240, 90, () => {
+            if (this.hasJournalEntry('floor_counter_tool')) return this.t('observe.airship.knows');
+            return this.t('observe.airship.default');
+        }, { hint: this.t('observe.airship.hint') });
+
         if (!this.hasJournalEntry('town_square_place')) {
             this.addJournalEntry(
                 'town_square_place',

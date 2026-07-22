@@ -251,6 +251,22 @@ export default class GodgraveyardScene extends GameScene {
         this.priest.y = 500;
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
+        // Examine: the great half-buried god's face (only once inside the open graveyard).
+        // Osswine grave-senses a literal dead god; Phor's divinography reframes what you see.
+        if (access) {
+            this.createObservable(370, 215, 190, 150, () => {
+                if (this.symbiontSystem?.osswineCanRead && this.symbiontSystem.osswineCanRead()) return this.t('observe.godgraveyard.osswine');
+                if (this.hasJournalEntry('phor_calesta')) return this.t('observe.godgraveyard.knows');
+                return this.t('observe.godgraveyard.default');
+            }, { hint: this.t('observe.godgraveyard.hint') });
+        } else {
+            // Locked gate: a quick examine aside (distinct from the formal gate_sealed dialog).
+            this.createObservable(400, 250, 240, 180, () => {
+                if (this.hasJournalEntry('phor_calesta') || this.questSystem?.getQuest('excavation_permit')) return this.t('observe.godgraveyard_gate.knows');
+                return this.t('observe.godgraveyard_gate.default');
+            }, { hint: this.t('observe.godgraveyard_gate.hint') });
+        }
+
         this.cameras.main.fadeIn(700, 0, 0, 0);
 
         if (!access) {

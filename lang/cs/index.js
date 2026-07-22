@@ -5,6 +5,7 @@ import locations from './locations.js';
 import dialogs from './dialogs/index.js';
 import quests from './quests.js';
 import journal from './journal.js';
+import observe from './observe.js';
 
 export default {
     ...ui,
@@ -14,4 +15,5 @@ export default {
     dialogs,
     ...quests,
     ...journal,
+    ...observe,
 };

@@ -217,6 +217,14 @@ export default class RedmassIslandScene extends GameScene {
         // Create the redmass interaction
         this.createRedmass();
 
+        // Examine: the redmass / island (placed high, clear of the redmass's own interactive
+        // object). Reads differently once you've spared or harvested it.
+        this.createObservable(400, 160, 260, 120, () => {
+            if (this.hasJournalEntry('redmass_spared')) return this.t('observe.redmass_island.spared');
+            if (this.hasJournalEntry('redmass_collected_voluntary') || this.hasJournalEntry('redmass_collected_force')) return this.t('observe.redmass_island.collected');
+            return this.t('observe.redmass_island.default');
+        }, { hint: this.t('observe.redmass_island.hint') });
+
         this.cameras.main.fadeIn(800, 0, 0, 0);
     }
 

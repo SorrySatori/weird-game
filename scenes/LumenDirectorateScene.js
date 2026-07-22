@@ -76,6 +76,14 @@ export default class LumenDirectorateScene extends GameScene {
         this.applyLumenGDState(bg);
 
         this.createEavesdropSpot();
+
+        // Examine: the ivy-throttled "living" facade (upper-center, clear of the eavesdrop vent
+        // at 120,430). Reads differently once you're a member / when growth is running wild.
+        this.createObservable(400, 220, 240, 160, () => {
+            if (this.hasJournalEntry('lumen_directorate_joined')) return this.t('observe.lumen_architecture.joined');
+            if (this.getGDTendency && this.getGDTendency() === 'growthDominant') return this.t('observe.lumen_architecture.overgrown');
+            return this.t('observe.lumen_architecture.default');
+        }, { hint: this.t('observe.lumen_architecture.hint') });
     }
 
     // Gang of Lamps (Chandelier's quest): a vent by the garden that leaks the Directorate's

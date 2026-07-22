@@ -324,6 +324,13 @@ export default class HarborScene extends GameScene {
         // Gang of Lamps: Torchère rusts by the water.
         createStreetLamp(this, 'lamp_torchere', 175, 430, 0.18, 'torchere_lamp_start');
 
+        // Examine: the Yolk Sea itself (the glowing water/horizon, center).
+        this.createObservable(440, 390, 230, 110, () => {
+            if (this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon')) return this.t('observe.yolk_sea.ulvarex');
+            if (this.hasJournalEntry('met_yellow_aquarium_heir')) return this.t('observe.yolk_sea.met_heir');
+            return this.t('observe.yolk_sea.default');
+        }, { hint: this.t('observe.yolk_sea.hint') });
+
         if (!this.hasJournalEntry('harbor_place')) {
             this.addJournalEntry(
                 'harbor_place',

@@ -710,6 +710,14 @@ export default class RustDomainScene extends GameScene {
         // Create Brukk NPC
         this.createBrukk();
 
+        // Examine: the Choir's central boiler-vats (the "singing machines"), upper-center above
+        // Brukk. Reads differently once you're one of the Choir. (Destroying the machines expels
+        // you from this scene, so that state is handled by the guard above — not shown here.)
+        this.createObservable(400, 270, 190, 120, () => {
+            if (this.hasJournalEntry('rust_choir_joined')) return this.t('observe.rust_machines.member');
+            return this.t('observe.rust_machines.default');
+        }, { hint: this.t('observe.rust_machines.hint') });
+
         // Journal entry on first visit
         if (!this.hasJournalEntry('rust_domain_arrival')) {
             this.addJournalEntry(

@@ -45,6 +45,9 @@ export default class AbandonedBusScene extends GameScene {
             }
         }
 
+        // Examine: the bus interior itself (upper-left, clear of the dead bishop at ~500,400).
+        this.createObservable(300, 195, 240, 130, () => this.t('observe.abandoned_bus.default'), { hint: this.t('observe.abandoned_bus.hint') });
+
         // Add exit back to ScraperBackyardScene
         this.exitArea = this.add.image(100, 470, 'exitArea')
             .setDisplaySize(120, 200)

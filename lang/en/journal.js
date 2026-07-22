@@ -4,6 +4,10 @@
  */
 export default {
     journal: {
+        heard_stomach_clock: {
+            title: 'The Stomach Clock',
+            description: 'Someone told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock, where time runs in loops and bile is sacred.',
+        },
         obazoba_cult: {
             title: 'Obazoba Cult',
             description: 'The Obazoba Cult is a cult of fungal worshippers that worships the Obazoba, a mythical fungal entity.',
