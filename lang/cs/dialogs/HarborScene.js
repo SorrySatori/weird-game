@@ -124,13 +124,13 @@ export default {
 
     // ===== L2: Torchèrova zakázka — „Proklouznout kolem celníků" =====
     torchere_smuggle_brief: {
-        text: `Plamen klesne a ztlumí se, spiklenecky. „Dobrá. Jednoduchá pochůzka, žádné hrdinství. Dva balíčky — *Wickmilk* a *Gloamdust*, ani k jednomu nečichej — které by celníci moc rádi našli, a nenajdou. Mám svou mrtvou schránku: uvolněná mříž na Ulici Hořícího Medvěda, vzadu, kde girlandy visí nízko. Vezmeš je, dojdeš tam, strčíš je do mříže a odejdeš. Neběž. Ty, co běží, si lidé pamatují.“ Sprška jisker ti balíčky vtiskne do rukou. „Udělej to čistě a pochodeň ti bude dlužna, jak se patří.“`,
+        text: `Plamen klesne a ztlumí se, spiklenecky. „Dobrá. Jednoduchá pochůzka, žádné hrdinství. Jeden balíček — *Wimlick*, a opovaž se k němu přičichnout — něco, co by celníci moc rádi našli, a nenajdou. Mám svou mrtvou schránku: uvolněná mříž na Ulici Hořícího Medvěda, vzadu, kde girlandy visí nízko. Vezmeš ho, dojdeš tam, strčíš ho do mříže a odejdeš. Neběž. Ty, co běží, si lidé pamatují.“ Sprška jisker ti balíček vtiskne do rukou. „Udělej to čistě a pochodeň ti bude dlužna, jak se patří.“`,
         options: {
-            torchere_smuggle_accept: "Wickmilk, Gloamdust, mříž na Ulici Hořícího Medvěda. Čistě.",
+            torchere_smuggle_accept: "Wimlick, mříž na Ulici Hořícího Medvěda. Čistě.",
         }
     },
     torchere_smuggle_statusinfo: {
-        text: `„Ta mříž, zhasláku. Ulice Hořícího Medvěda, vzadu, kde girlandy visí nízko nad starou dlažbou. Wickmilk a Gloamdust dovnitř, a ty domů. Prosté.“ Jiskry sjednou. „A přestaň si s nima hrát.“`,
+        text: `„Ta mříž, zhasláku. Ulice Hořícího Medvěda, vzadu, kde girlandy visí nízko nad starou dlažbou. Wimlick dovnitř, a ty domů. Prosté.“ Jiskry sjednou. „A přestaň si s ním hrát.“`,
         options: {
             torchere_smuggle_statusinfo_close: "Mříž na Ulici Hořícího Medvěda. Jasně.",
         }

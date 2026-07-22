@@ -291,6 +291,7 @@ Jestli vám Radnice dluží odměnu, přimějte ho říct to nahlas. Vyslovený 
             bishops_records_were_tampered_with: 'Se záznamy o Biskupce někdo manipuloval.',
             ask_join_pith: 'Reklamátoři přijímají městské zbloudilce. Mohl bych být toho součástí?',
             present_pith_recruit: 'Našel jsem pro Reklamátory duši.',
+            councilor_drug_surrender: '[Pašované zboží] Nesu pašovaná narkotika. Chci je z ulice pryč, do záznamu.',
         }
     },
     councilor_pith_offer: {
@@ -371,7 +372,7 @@ Ale jestli Biskupka používala úřední papír jako soukromý zápisník, scho
         }
     },
     councilor_drug_surrender_talk: {
-        text: `Dune si oba balíčky prohlíží s únavou muže, který jich už příliš mnoho založil. „Wickmilk a Gloamdust. A vy mi je nesete, místo abyste je rozvezl.“ Odkudsi jakoby z ničeho vytáhne účetní knihu. „Reklamátoři vedou účet o tom, co město odhazuje — včetně kšeftu, který odhazuje lidi. Zapíše se to jako zabavené pašované zboží a to, že vám to prošlo rukama, se poctivě zapíše hned vedle. Žádný zisk pro vás. Ale ani díra v záznamu.“ Vezme balíčky. „To je nabídka Reklamátorů: nejste tu hrdina ani zločinec. Jste *zaevidován*.“`,
+        text: `Dune si balíček prohlíží s únavou muže, který jich už příliš mnoho založil. „Wimlick. A vy mi ho nesete, místo abyste ho rozvezl.“ Odkudsi jakoby z ničeho vytáhne účetní knihu. „Reklamátoři vedou účet o tom, co město odhazuje — včetně kšeftu, který odhazuje lidi. Zapíše se to jako zabavené pašované zboží a to, že vám to prošlo rukama, se poctivě zapíše hned vedle. Žádný zisk pro vás. Ale ani díra v záznamu.“ Vezme balíček. „To je nabídka Reklamátorů: nejste tu hrdina ani zločinec. Jste *zaevidován*.“`,
         options: {
             councilor_drug_surrender_close: "Zapište to. Všechno.",
         }

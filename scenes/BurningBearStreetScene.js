@@ -1,6 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
-import { GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
+import { GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js';
 
 export default class BurningBearStreetScene extends GameScene {
     constructor() {
@@ -20,12 +20,12 @@ export default class BurningBearStreetScene extends GameScene {
             // Gang of Lamps (Torchère's quest): the dead-drop, with method choices.
             smuggle_drop: {
                 speaker: 'Priest',
-                text: `The grate is rust-welded into the cobbles, and Torchère's two parcels sit heavy in your coat — Wickmilk and Gloamdust, the kind of weight the customs men dream about. The street is quiet. For now.`,
+                text: `The grate is rust-welded into the cobbles, and Torchère's parcel sits heavy in your coat — Wimlick, the kind of weight the customs men dream about. The street is quiet. For now.`,
                 options: [
-                    { text: "Pry the grate up and tuck them in.", key: 'smuggle_plain', next: "closeDialog", onSelect: () => this.deliverSmuggle('plain') },
-                    ...(hasUlvarex ? [{ text: "[Ulvarex · Mirage Weave] Shroud the parcels and drop them unseen.", key: 'smuggle_ulvarex', next: "closeDialog", onSelect: () => this.deliverSmuggle('ulvarex') }] : []),
+                    { text: "Pry the grate up and tuck it in.", key: 'smuggle_plain', next: "closeDialog", onSelect: () => this.deliverSmuggle('plain') },
+                    ...(hasUlvarex ? [{ text: "[Ulvarex · Mirage Weave] Shroud the parcel and drop it unseen.", key: 'smuggle_ulvarex', next: "closeDialog", onSelect: () => this.deliverSmuggle('ulvarex') }] : []),
                     ...(hasPalinode ? [{ text: "[Palinode] Unsay the rusted grate so it opens like new.", key: 'smuggle_palinode', next: "closeDialog", onSelect: () => this.deliverSmuggle('palinode') }] : []),
-                    { text: "[Betray] Keep them. Sell them yourself and tell Torchère it's done.", key: 'smuggle_fence', next: "closeDialog", onSelect: () => this.fenceSmuggle() },
+                    { text: "[Betray] Keep it. Tell Torchère the drop was made. (What I do with it is my business.)", key: 'smuggle_keep', next: "closeDialog", onSelect: () => this.keepSmuggle() },
                     { text: "Not here. Not yet.", key: 'smuggle_cancel', next: "closeDialog" },
                 ]
             },
@@ -263,9 +263,11 @@ export default class BurningBearStreetScene extends GameScene {
     // Clicking opens a route-choice dialog (plain / Ulvarex / Palinode).
     createSmuggleDeadDrop() {
         const active = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active';
-        const delivered = !!this.hasJournalEntry('gang_smuggle_delivered');
-        const hasParcels = this.hasItem('wickmilk') && this.hasItem('gloamdust');
-        if (!active || delivered || !hasParcels) return;
+        // Hide the grate once the run is resolved any way (dropped, kept, or diverted to a
+        // faction). `smuggleReportable` covers all of those; still requires the parcel in hand.
+        const unresolved = !smuggleReportable(this);
+        const hasParcel = this.hasItem('wimlick');
+        if (!active || !unresolved || !hasParcel) return;
 
         const x = 610, y = 545;
         const grate = this.add.rectangle(x, y, 46, 22, 0x0a0d0a, 0.55).setDepth(3);
@@ -287,12 +289,11 @@ export default class BurningBearStreetScene extends GameScene {
     // Complete Torchère's dead-drop. `mode`: 'plain' | 'ulvarex' | 'palinode'. Running narcotics
     // sours the balance toward Decay; wearing Ulvarex's mirage to do it unseen sours it further.
     deliverSmuggle(mode) {
-        this.removeItemFromInventory('wickmilk');
-        this.removeItemFromInventory('gloamdust');
+        this.removeItemFromInventory('wimlick');
         if (!this.hasJournalEntry('gang_smuggle_delivered')) {
-            this.addJournalEntry('gang_smuggle_delivered', 'The Drop Is Made', "I tucked Torchère's parcels — Wickmilk and Gloamdust — into the loose grate on Burning Bear Street. I should report back to the torch by the water.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+            this.addJournalEntry('gang_smuggle_delivered', 'The Drop Is Made', "I tucked Torchère's parcel — the Wimlick — into the loose grate on Burning Bear Street. I should report back to the torch by the water.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
             if (this.questSystem?.getQuest(GANG_QUEST_IDS.torchere)) {
-                this.questSystem.updateQuest(GANG_QUEST_IDS.torchere, 'The parcels are in the grate. Report back to Torchère at the Harbor.', 'gang_smuggle_delivered');
+                this.questSystem.updateQuest(GANG_QUEST_IDS.torchere, 'The Wimlick is in the grate. Report back to Torchère at the Harbor.', 'gang_smuggle_delivered');
             }
         }
         if (mode === 'ulvarex') {
@@ -306,20 +307,18 @@ export default class BurningBearStreetScene extends GameScene {
         if (this._smuggleDropCleanup) this._smuggleDropCleanup();
     }
 
-    // Betrayal: keep Torchère's contraband and fence it for profit instead of dropping it,
-    // then lie that the run was made. Pure self-interest — sours the balance toward Decay.
-    fenceSmuggle() {
-        this.removeItemFromInventory('wickmilk');
-        this.removeItemFromInventory('gloamdust');
-        if (!this.hasJournalEntry('gang_smuggle_sold')) {
-            this.addJournalEntry('gang_smuggle_sold', 'Fenced the Contraband', "I never made Torchère's drop. I sold the Wickmilk and Gloamdust myself and pocketed the coin. When I see the torch by the water, I'll tell him the run went clean.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+    // Betrayal: DON'T make the drop — pocket the Wimlick and lie to Torchère that it's done.
+    // The parcel STAYS in the inventory: the player can later sell it to any trader with a
+    // buy/sell counter, use it themselves, or (before reporting to Torchère) still reconsider.
+    keepSmuggle() {
+        if (!this.hasJournalEntry('gang_smuggle_kept')) {
+            this.addJournalEntry('gang_smuggle_kept', 'Kept the Contraband', "I never made Torchère's drop. I'm keeping the Wimlick — I can sell it to a trader for coin, try it myself, or just sit on it. Whatever I do, when I see the torch by the water I'll tell him the run went clean.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
             if (this.questSystem?.getQuest(GANG_QUEST_IDS.torchere)) {
-                this.questSystem.updateQuest(GANG_QUEST_IDS.torchere, "I fenced Torchère's contraband for myself. I can still report a 'clean drop' back to him at the Harbor.", 'gang_smuggle_sold');
+                this.questSystem.updateQuest(GANG_QUEST_IDS.torchere, "I kept Torchère's Wimlick for myself instead of dropping it. I can still report a 'clean drop' to him at the Harbor — and the parcel is mine to sell or use.", 'gang_smuggle_kept');
             }
         }
-        this.addMoney(45);
-        this.modifyGrowthDecay(0, 5);
-        this.showNotification('Sold for a tidy sum. The world sours toward Decay.', 0x8B0000);
+        this.modifyGrowthDecay(0, 4);
+        this.showNotification('The parcel stays in your coat. The world sours toward Decay.', 0x8B0000);
         if (this._smuggleDropCleanup) this._smuggleDropCleanup();
     }
 

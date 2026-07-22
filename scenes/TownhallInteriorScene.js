@@ -50,7 +50,7 @@ export default class TownhallInteriorScene extends GameScene {
         const hasPithQuest = !!(pithQuestObj && !pithQuestObj.isComplete);
         const hasPithRecruit = !!(this.hasJournalEntry('pith_recruit_magnekin') || this.hasJournalEntry('pith_recruit_heir'));
         // Gang of Lamps: surrender Torchère's contraband to the Reclaimers instead of running it.
-        const canGiveDrugsPith = pithKnown && gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wickmilk') && this.hasItem('gloamdust'));
+        const canGiveDrugsPith = pithKnown && gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wimlick'));
 
         // Gang of Lamps (Sconce's quest): route choices at the records drawers.
         const hasPalinode = !!this.symbiontSystem?.hasSymbiont('palinode');
@@ -517,15 +517,14 @@ If the Townhall owes you a reward, make him say it out loud. Spoken debt is hard
 
             councilor_drug_surrender_talk: {
                 speaker: 'Councilor Seraphel Dune',
-                text: `Dune regards the two parcels with the weariness of a man who has filed too many like them. "Wickmilk and Gloamdust. And you're bringing them to me rather than moving them." He produces a ledger seemingly from nowhere. "The Reclaimers account for what the city discards — including the trade that discards people. This will be entered as recovered contraband, and the fact that it passed through your hands will be entered honestly alongside it. No profit for you. No hole in the record either." He takes the parcels. "That is the deal the Reclaimers offer: you are neither hero nor criminal here. You are *accounted for*."`,
+                text: `Dune regards the parcel with the weariness of a man who has filed too many like it. "Wimlick. And you're bringing it to me rather than moving it." He produces a ledger seemingly from nowhere. "The Reclaimers account for what the city discards — including the trade that discards people. This will be entered as recovered contraband, and the fact that it passed through your hands will be entered honestly alongside it. No profit for you. No hole in the record either." He takes the parcel. "That is the deal the Reclaimers offer: you are neither hero nor criminal here. You are *accounted for*."`,
                 options: [
                     { text: "Enter it. All of it.", key: 'councilor_drug_surrender_close', next: "councilor_start" }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('gang_smuggle_gave_pith')) {
-                        this.removeItemFromInventory('wickmilk');
-                        this.removeItemFromInventory('gloamdust');
-                        this.addJournalEntry('gang_smuggle_gave_pith', 'Surrendered to the Reclaimers', "Rather than run Torchère's contraband, I surrendered the Wickmilk and Gloamdust to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+                        this.removeItemFromInventory('wimlick');
+                        this.addJournalEntry('gang_smuggle_gave_pith', 'Surrendered to the Reclaimers', "Rather than run Torchère's contraband, I surrendered the Wimlick to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
                         this.modifyFactionReputation('PithReclaimers', 15);
                         this.modifyGrowthDecay(5, 0);
                         this.showNotification('Contraband entered on the record. The world leans toward Growth.', 0x7fff8e);

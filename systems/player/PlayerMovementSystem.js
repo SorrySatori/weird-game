@@ -11,6 +11,9 @@ export default class PlayerMovementSystem {
         this.priest = null;
         this.priestGlow = null;
         this.speed = 4;
+        // Multiplier applied to walk speed (arrow-key step + click-to-move tween). Drug/status
+        // effects (e.g. the Wimlick stimulant) raise this; reset to 1 when the effect wears off.
+        this.speedMultiplier = 1;
         this.movementState = {
             left: false,
             right: false,
@@ -134,7 +137,7 @@ export default class PlayerMovementSystem {
         this.scene.tweens.add({
             targets: this.priestGlow ? [this.priest, this.priestGlow] : [this.priest],
             x: targetX,
-            duration: Math.abs(targetX - this.priest.x) * 5,
+            duration: Math.abs(targetX - this.priest.x) * 5 / (this.speedMultiplier || 1),
             ease: 'Linear',
             onComplete: () => {
                 this.isTweenMoving = false;
@@ -172,14 +175,15 @@ export default class PlayerMovementSystem {
         
         let moved = false;
 
+        const step = this.speed * (this.speedMultiplier || 1);
         if (this.movementState.left) {
-            this.priest.x -= this.speed;
+            this.priest.x -= step;
             this.priest.setScale(-2, 2);
             this.priestGlow.setScale(-2.1, 2.1);
             moved = true;
-        } 
+        }
         else if (this.movementState.right) {
-            this.priest.x += this.speed;
+            this.priest.x += step;
             this.priest.setScale(2, 2);
             this.priestGlow.setScale(2.1, 2.1);
             moved = true;

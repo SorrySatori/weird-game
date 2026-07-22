@@ -14,7 +14,11 @@ export default {
             ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?",
             perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?",
             brukk_ask_graft: "Dokázal by mi Chór udělat místo pro dalšího symbionta? Zaplatím.",
-            warn_rust_of_lumen: "Lumen Direktoriát mě poslal sabotovat vaše stroje. Radši tě varuju."
+            warn_rust_of_lumen: "Lumen Direktoriát mě poslal sabotovat vaše stroje. Radši tě varuju.",
+            brukk_spy_probe: "[Rozmluvit Brukka] Ty stroje — na co doopravdy čekají?",
+            brukk_spy_osswine: "[Osswine · Hrobový smysl] (Přečíst mlčenlivé stroje, které Chór opatruje.)",
+            brukk_spy_betray: "[Zrada] Poslal mě špehovat vás gang mluvících lamp. Radši budu jednat s vámi.",
+            brukk_drug_give: "[Pašované zboží] Nesu Wimlick. Chce ho Chór?"
         }
     },
     brukk_warn_lumen: {
@@ -249,8 +253,8 @@ export default {
     },
     brukk_drug_give_talk: {
         text: {
-            brukk_drug_give_promote: "Brukk převrací oba balíčky ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wickmilk. Gloamdust. Hračky pro maso — ale ten *zbytek*...“ Zvedne jeden k rozechvělé trubce a pak si tě změří těma očima jako z výhně. „Přišels k nám za hubenou hostinu, bratře. Ve zkušební době. A teď neseš Chóru dar, i když jsi to mohl prodat nebo shodit za pár mincí.“ Strčí si oba balíčky do kapsy. „Tohle není přívažek. Tohle je Chór.“ Trubky zaduní souhlasem. „Zkušební doba skončila. Jsi jeden z nás — plně, v samotném počtu železa. A Chór si nechává, co dostane.“",
-            brukk_drug_give_plain: "Brukk převrací oba balíčky ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wickmilk. Gloamdust. Hračky pro maso — ale ten *zbytek*...“ Zvedne jeden k rozechvělé trubce. „Chór to dokáže rozložit. Zjistit, co do sebe živí lijí, aby si připadali jako stroje.“ Oba si strčí do kapsy. „Dobřes udělal, žes to přinesl sem a ne tomu, kdo to chtěl shodit. Chór si nechává, co dostane.“"
+            brukk_drug_give_promote: "Brukk převrací balíček ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wimlick. Hračka pro maso — ale ten *zbytek*...“ Zvedne ho k rozechvělé trubce a pak si tě změří těma očima jako z výhně. „Přišels k nám za hubenou hostinu, bratře. Ve zkušební době. A teď neseš Chóru dar, i když jsi ho mohl prodat nebo shodit za pár mincí.“ Strčí si ho do kapsy. „Tohle není přívažek. Tohle je Chór.“ Trubky zaduní souhlasem. „Zkušební doba skončila. Jsi jeden z nás — plně, v samotném počtu železa. A Chór si nechává, co dostane.“",
+            brukk_drug_give_plain: "Brukk převrací balíček ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wimlick. Hračka pro maso — ale ten *zbytek*...“ Zvedne ho k rozechvělé trubce. „Chór to dokáže rozložit. Zjistit, co do sebe živí lijí, aby si připadali jako stroje.“ Strčí si ho do kapsy. „Dobřes udělal, žes to přinesl sem a ne tomu, kdo to chtěl shodit. Chór si nechává, co dostane.“"
         },
         options: {
             brukk_drug_give_close: "Je to tvoje. (Předat.)"

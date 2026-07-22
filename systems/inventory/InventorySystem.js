@@ -426,12 +426,12 @@ export default class InventorySystem {
                 this.scene.itemUseSound.play();
             }
             
-            // Check if this is a drug item (Oltrac)
-            const isDrug = item.id && (
-                item.id === 'grayOltrac' || 
-                item.id === 'violetOltrac' || 
+            // Check if this is a drug item (Oltrac variants, or anything flagged isDrug)
+            const isDrug = item.isDrug === true || (item.id && (
+                item.id === 'grayOltrac' ||
+                item.id === 'violetOltrac' ||
                 item.id === 'amberOltrac'
-            );
+            ));
             
             // Apply drug effects if applicable
             if (isDrug && this.scene.effectsSystem) {

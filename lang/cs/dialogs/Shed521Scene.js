@@ -11,7 +11,9 @@ export default {
         options: {
             who_are_you_exactly: "Kdo přesně jste?",
             about_that_living_core_you_lied_to_me: "O tom živém jádru... lhal jste mi.",
-            im_looking_for_the_way_how_to_reach_the_rust_choir: "Hledám cestu k centrále Rezavého chóru ve Škrabáku. Můžete mi pomoct?"
+            im_looking_for_the_way_how_to_reach_the_rust_choir: "Hledám cestu k centrále Rezavého chóru ve Škrabáku. Můžete mi pomoct?",
+            gnur_spy_probe: "Říkal jsi, že prodáváš šepoty. Co Rezavý chór nahlas neříká?",
+            gnur_spy_ulvarex: "[Ulvarex · Tkaní přeludů] (Ať uvidí nadřízeného z Chóru, a vymáhej celou pravdu.)"
         }
     },
     background: {

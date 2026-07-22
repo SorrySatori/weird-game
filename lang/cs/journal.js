@@ -777,11 +777,11 @@ export default {
         },
         gang_smuggle_delivered: {
             title: 'Zásilka je uložena',
-            description: 'Zastrčil jsem Torchèrovy balíčky — Wickmilk a Gloamdust — do uvolněné mříže na Ulici hořícího medvěda. Měl bych se ohlásit zpátky u pochodně u vody.',
+            description: 'Zastrčil jsem Torchèrův balíček — Wimlick — do uvolněné mříže na Ulici hořícího medvěda. Měl bych se ohlásit zpátky u pochodně u vody.',
         },
-        gang_smuggle_sold: {
-            title: 'Zpeněžil jsem pašované zboží',
-            description: 'Torchèrovu zásilku jsem nikdy nedoručil. Wickmilk a Gloamdust jsem prodal sám a peníze si nechal. Až uvidím pochodeň u vody, řeknu jí, že to proběhlo hladce.',
+        gang_smuggle_kept: {
+            title: 'Nechal jsem si pašované zboží',
+            description: 'Torchèrovu zásilku jsem nikdy nedoručil. Wimlick si nechávám — můžu ho prodat obchodníkovi za peníze, zkusit ho sám, nebo si ho jen nechat ležet. Ať udělám cokoli, až uvidím pochodeň u vody, řeknu jí, že to proběhlo hladce.',
         },
         gang_spy_betrayed: {
             title: 'Prodal jsem lampy',
@@ -789,11 +789,11 @@ export default {
         },
         gang_smuggle_gave_rust: {
             title: 'Nakrmil jsem chór',
-            description: 'Místo abych Torchèrovo pašované zboží donesl do jeho tajné schránky, dal jsem Wickmilk a Gloamdust Rezavému chóru. Brukk to hodlá rozložit a prostudovat. Torchère se nikdy nemusí dozvědět, kam jeho balíčky doopravdy zmizely.',
+            description: 'Místo abych Torchèrovo pašované zboží donesl do jeho tajné schránky, dal jsem Wimlick Rezavému chóru. Brukk to hodlá rozložit a prostudovat. Torchère se nikdy nemusí dozvědět, kam jeho balíček doopravdy zmizel.',
         },
         gang_eavesdrop_betrayed: {
             title: 'Udal jsem to Direktoriátu',
-            description: 'Místo abych pro Chandelier odposlouchával, řekl jsem Verrikovi, že mě poslaly lampy. Direktoriát byl vděčný — a nakrmil mě vyrobeným „tajemstvím“, které mám odnést zpět jí. Bude z té lži nadšená.',
+            description: 'Místo abych pro Chandelier odposlouchával, řekl jsem Korektorovi úhlů, že mě poslaly lampy. Direktoriát byl chladně vděčný — a nakrmil mě vyrobeným „tajemstvím“, které mám odnést zpět jí. Bude z té lži nadšená.',
         },
         gang_dossier_recovered: {
             title: 'Zahrabaný spis',
@@ -801,7 +801,7 @@ export default {
         },
         gang_smuggle_gave_pith: {
             title: 'Vydáno Reklamátorům',
-            description: 'Místo abych rozvážel Torchèrovo pašované zboží, vydal jsem Wickmilk a Gloamdust radnímu Dunovi. Reklamátoři jádra to zaevidovali jako zabavené pašované zboží — a poctivě zaevidovali i můj podíl na tom. Torchère bude předpokládat, že zásilka byla doručena.',
+            description: 'Místo abych rozvážel Torchèrovo pašované zboží, vydal jsem Wimlick radnímu Dunovi. Reklamátoři jádra to zaevidovali jako zabavené pašované zboží — a poctivě zaevidovali i můj podíl na tom. Torchère bude předpokládat, že zásilka byla doručena.',
         },
         gang_lamps_destroyed: {
             title: 'Gang je pryč',

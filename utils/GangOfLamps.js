@@ -114,7 +114,7 @@ export function recordSpyFragment(scene, memberKey, title, secret) {
 
 /** True if the player fed any lamp false intel or diverted the contraband instead of playing straight. */
 export function gangDeceived(scene) {
-    return ['gang_spy_betrayed', 'gang_eavesdrop_betrayed', 'gang_smuggle_sold', 'gang_smuggle_gave_rust', 'gang_smuggle_gave_pith']
+    return ['gang_spy_betrayed', 'gang_eavesdrop_betrayed', 'gang_smuggle_kept', 'gang_smuggle_gave_rust', 'gang_smuggle_gave_pith']
         .some(f => scene.hasJournalEntry(f));
 }
 
@@ -130,7 +130,7 @@ export function eavesdropReportable(scene) {
 
 /** Torchère's run is reportable once dropped honestly OR diverted (fenced / given to Rust / given to Pith). */
 export function smuggleReportable(scene) {
-    return ['gang_smuggle_delivered', 'gang_smuggle_sold', 'gang_smuggle_gave_rust', 'gang_smuggle_gave_pith']
+    return ['gang_smuggle_delivered', 'gang_smuggle_kept', 'gang_smuggle_gave_rust', 'gang_smuggle_gave_pith']
         .some(f => scene.hasJournalEntry(f));
 }
 

@@ -201,7 +201,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         // Gang of Lamps betrayals — reported to the Angle Corrector (the Directorate's authority),
         // not the gardener. Tip off the eavesdrop, or hand over the contraband (terminal → lamps destroyed).
         const canBetrayEavesdrop = gangQuestStatus(this, GANG_QUEST_IDS.chandelier) === 'active' && !this.hasJournalEntry('gang_eavesdrop_betrayed');
-        const canGiveDrugsLumen = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wickmilk') && this.hasItem('gloamdust'));
+        const canGiveDrugsLumen = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wimlick'));
         // Directorate Clearance perk: archive reveal (currently surfaces the vestigel-buyer lead).
         const vestigelQuest = this.questSystem?.getQuest('the_three_vestigels');
         const canRevealEskola = !!(joinedLumen && vestigelQuest && !vestigelQuest.isComplete && !vestigelQuest.updates?.some(u => u.key === 'found_eskola_lead'));
@@ -264,7 +264,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
             },
             ac_drug_warn: {
                 speaker: 'The Angle Corrector',
-                text: `The instant you name the parcels, the Angle Corrector's whole posture sharpens. "Wickmilk. And *Gloamdust*. Carried openly into this building." They take both from you without asking, holding them at arm's length like a miscalibration made flesh. "And a *lamp* set this in motion." A long, level pause. "You understand what the Directorate does with a threat it can name and locate. The lamps will be found, unbolted, and corrected out of existence — every one of them. Tonight." Their eyes settle on you. "Say the word and the order is given. It cannot be recalled."`,
+                text: `The instant you name the parcel, the Angle Corrector's whole posture sharpens. "*Wimlick.* Carried openly into this building." They take it from you without asking, holding it at arm's length like a miscalibration made flesh. "And a *lamp* set this in motion." A long, level pause. "You understand what the Directorate does with a threat it can name and locate. The lamps will be found, unbolted, and corrected out of existence — every one of them. Tonight." Their eyes settle on you. "Say the word and the order is given. It cannot be recalled."`,
                 options: [
                     { text: "Give the order. End the lamps.", key: 'ac_drug_confirm_yes', next: "ac_drug_confirm" },
                     { text: "No — that's too far. Keep the parcels out of this.", key: 'ac_drug_confirm_no', next: "ac_start" }
@@ -278,8 +278,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('gang_lamps_destroyed')) {
-                        this.removeItemFromInventory('wickmilk');
-                        this.removeItemFromInventory('gloamdust');
+                        this.removeItemFromInventory('wimlick');
                         this.modifyFactionReputation('LumenDirectorate', 40);
                         this.modifyGrowthDecay(15, 0);
                         destroyGangLamps(this);

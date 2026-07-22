@@ -70,12 +70,12 @@ export default {
 
     // ===== Gang of Lamps (Torchèrův úkol): schránka pro pašované zboží =====
     smuggle_drop: {
-        text: `Mříž je rzí přivařená ke kočičím hlavám a Torchèrovy dva balíčky těžce spočívají v kabátě — Wickmilk a Gloamdust, taková váha, o jaké se celníkům zdá. Ulice je tichá. Prozatím.`,
+        text: `Mříž je rzí přivařená ke kočičím hlavám a Torchèrův balíček těžce spočívá v kabátě — Wimlick, taková váha, o jaké se celníkům zdá. Ulice je tichá. Prozatím.`,
         options: {
-            smuggle_plain: "Vypáčit mříž a zastrčit je dovnitř.",
-            smuggle_ulvarex: "[Ulvarex · Tkaní přeludů] Zahalit balíčky a upustit je nepozorovaně.",
+            smuggle_plain: "Vypáčit mříž a zastrčit ho dovnitř.",
+            smuggle_ulvarex: "[Ulvarex · Tkaní přeludů] Zahalit balíček a upustit ho nepozorovaně.",
             smuggle_palinode: "[Palinode] Odeříct zrezivělou mříž, aby se otevřela jako nová.",
-            smuggle_fence: "[Zrada] Nechat si je. Prodat je sám a Torchèrovi říct, že je hotovo.",
+            smuggle_keep: "[Zrada] Nechat si ho. Torchèrovi říct, že je hotovo. (Co s ním udělám, je moje věc.)",
             smuggle_cancel: "Tady ne. Ještě ne.",
         }
     }

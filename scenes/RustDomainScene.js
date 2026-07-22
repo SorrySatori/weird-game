@@ -42,7 +42,7 @@ export default class RustDomainScene extends GameScene {
         // A probationary Choir member who betrays the lamps to Brukk proves loyalty → promotion to full standing.
         const isProbationaryRust = !!this.hasJournalEntry('rust_choir_probationary') && !this.hasJournalEntry('rust_choir_full_member');
         // Divert Torchère's contraband to the Choir instead of the dead-drop.
-        const canGiveDrugsRust = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wickmilk') && this.hasItem('gloamdust')) && !machinesDestroyed;
+        const canGiveDrugsRust = gangQuestStatus(this, GANG_QUEST_IDS.torchere) === 'active' && !!(this.hasItem && this.hasItem('wimlick')) && !machinesDestroyed;
 
         return {
             ...super.dialogContent,
@@ -93,7 +93,7 @@ export default class RustDomainScene extends GameScene {
                         { text: "[Betray] A gang of talking lamps sent me to spy on you. I'd sooner deal with you.", key: 'brukk_spy_betray', next: "brukk_spy_betray_talk" }
                     ] : []),
                     ...(canGiveDrugsRust ? [
-                        { text: "[Contraband] I'm carrying Wickmilk and Gloamdust. The Choir want it?", key: 'brukk_drug_give', next: "brukk_drug_give_talk" }
+                        { text: "[Contraband] I'm carrying Wimlick. The Choir want it?", key: 'brukk_drug_give', next: "brukk_drug_give_talk" }
                     ] : []),
                 ]
             },
@@ -125,16 +125,15 @@ export default class RustDomainScene extends GameScene {
                 speaker: 'Brukk',
                 textKey: isProbationaryRust ? 'brukk_drug_give_promote' : 'brukk_drug_give_plain',
                 text: isProbationaryRust
-                    ? `Brukk turns the two parcels over in his welded hands, sniffs, and rumbles low with interest. "Wickmilk. Gloamdust. Flesh-toys — but the *residue*..." He holds one up to a trembling pipe, then fixes you with those forge-lit eyes. "You came to us on a thin feast, brother. On probation. And now you bring the Choir a gift when you could've sold it or dropped it for coin." He pockets both parcels. "That's not a hanger-on. That's Choir." The pipes groan in approval. "The probation's over. You're one of us — fully, in the iron's own count. And the Choir keeps what it's given."`
-                    : `Brukk turns the two parcels over in his welded hands, sniffs, and rumbles low with interest. "Wickmilk. Gloamdust. Flesh-toys — but the *residue*..." He holds one up to a trembling pipe. "The Choir can render this down. Learn what the living pour into themselves to feel like machines." He pockets both. "You did well bringing it here instead of to whoever wanted it dropped. The Choir keeps what it's given."`,
+                    ? `Brukk turns the parcel over in his welded hands, sniffs, and rumbles low with interest. "Wimlick. A flesh-toy — but the *residue*..." He holds it up to a trembling pipe, then fixes you with those forge-lit eyes. "You came to us on a thin feast, brother. On probation. And now you bring the Choir a gift when you could've sold it or dropped it for coin." He pockets it. "That's not a hanger-on. That's Choir." The pipes groan in approval. "The probation's over. You're one of us — fully, in the iron's own count. And the Choir keeps what it's given."`
+                    : `Brukk turns the parcel over in his welded hands, sniffs, and rumbles low with interest. "Wimlick. A flesh-toy — but the *residue*..." He holds it up to a trembling pipe. "The Choir can render this down. Learn what the living pour into themselves to feel like machines." He pockets it. "You did well bringing it here instead of to whoever wanted it dropped. The Choir keeps what it's given."`,
                 options: [
                     { text: "It's yours. (Hand it over.)", key: 'brukk_drug_give_close', next: "brukk_start" }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('gang_smuggle_gave_rust')) {
-                        this.removeItemFromInventory('wickmilk');
-                        this.removeItemFromInventory('gloamdust');
-                        this.addJournalEntry('gang_smuggle_gave_rust', 'Fed the Choir', "Rather than run Torchère's contraband to his dead-drop, I gave the Wickmilk and Gloamdust to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcels actually went.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+                        this.removeItemFromInventory('wimlick');
+                        this.addJournalEntry('gang_smuggle_gave_rust', 'Fed the Choir', "Rather than run Torchère's contraband to his dead-drop, I gave the Wimlick to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcel actually went.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
                         this.modifyFactionReputation('RustChoir', 15);
                         this.modifyGrowthDecay(0, 5);
                         this.addMoney(20);

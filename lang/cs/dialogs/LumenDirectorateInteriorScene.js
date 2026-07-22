@@ -39,10 +39,10 @@ export default {
         }
     },
     ac_drug_warn: {
-        text: "V okamžiku, kdy ty balíčky pojmenujete, se celý postoj Korektora úhlů zaostří. „Wickmilk. A *Gloamdust*. Vneseno otevřeně do této budovy.“ Vezme si oba, aniž by se zeptal, a drží je od těla jako chybu měření, která nabyla těla. „A do pohybu to uvedla *lampa*.“ Dlouhá, vyrovnaná odmlka. „Víte, co Direktoriát dělá s hrozbou, kterou umí pojmenovat a najít. Ty lampy budou nalezeny, odšroubovány a opraveny z existence — všechny do jedné. Ještě dnes v noci.“ Jeho pohled spočine na vás. „Řekněte slovo a rozkaz je vydán. Nelze jej odvolat.“",
+        text: "V okamžiku, kdy ten balíček pojmenujete, se celý postoj Korektora úhlů zaostří. „*Wimlick.* Vneseno otevřeně do této budovy.“ Vezme si ho, aniž by se zeptal, a drží ho od těla jako chybu měření, která nabyla těla. „A do pohybu to uvedla *lampa*.“ Dlouhá, vyrovnaná odmlka. „Víte, co Direktoriát dělá s hrozbou, kterou umí pojmenovat a najít. Ty lampy budou nalezeny, odšroubovány a opraveny z existence — všechny do jedné. Ještě dnes v noci.“ Jeho pohled spočine na vás. „Řekněte slovo a rozkaz je vydán. Nelze jej odvolat.“",
         options: {
             ac_drug_confirm_yes: "Vydejte rozkaz. Skoncujte s lampami.",
-            ac_drug_confirm_no: "Ne — to je příliš daleko. Nechte ty balíčky z toho."
+            ac_drug_confirm_no: "Ne — to je příliš daleko. Nechte ten balíček z toho."
         }
     },
     ac_drug_confirm: {

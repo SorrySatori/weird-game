@@ -778,11 +778,11 @@ export default {
         },
         gang_smuggle_delivered: {
             title: 'The Drop Is Made',
-            description: "I tucked Torchère's parcels — Wickmilk and Gloamdust — into the loose grate on Burning Bear Street. I should report back to the torch by the water.",
+            description: "I tucked Torchère's parcel — the Wimlick — into the loose grate on Burning Bear Street. I should report back to the torch by the water.",
         },
-        gang_smuggle_sold: {
-            title: 'Fenced the Contraband',
-            description: "I never made Torchère's drop. I sold the Wickmilk and Gloamdust myself and pocketed the coin. When I see the torch by the water, I'll tell him the run went clean.",
+        gang_smuggle_kept: {
+            title: 'Kept the Contraband',
+            description: "I never made Torchère's drop. I'm keeping the Wimlick — I can sell it to a trader for coin, try it myself, or just sit on it. Whatever I do, when I see the torch by the water I'll tell him the run went clean.",
         },
         gang_spy_betrayed: {
             title: 'Sold Out the Lamps',
@@ -790,11 +790,11 @@ export default {
         },
         gang_smuggle_gave_rust: {
             title: 'Fed the Choir',
-            description: "Rather than run Torchère's contraband to his dead-drop, I gave the Wickmilk and Gloamdust to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcels actually went.",
+            description: "Rather than run Torchère's contraband to his dead-drop, I gave the Wimlick to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcel actually went.",
         },
         gang_eavesdrop_betrayed: {
             title: 'Tipped Off the Directorate',
-            description: "Instead of eavesdropping for Chandelier, I told Verrik the lamps had sent me. The Directorate was grateful — and fed me a manufactured 'secret' to carry back to her. She'll be delighted by a lie.",
+            description: "Instead of eavesdropping for Chandelier, I told the Angle Corrector the lamps had sent me. The Directorate was coldly grateful — and fed me a manufactured 'secret' to carry back to her. She'll be delighted by a lie.",
         },
         gang_dossier_recovered: {
             title: 'The Buried Dossier',
@@ -802,7 +802,7 @@ export default {
         },
         gang_smuggle_gave_pith: {
             title: 'Surrendered to the Reclaimers',
-            description: "Rather than run Torchère's contraband, I surrendered the Wickmilk and Gloamdust to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.",
+            description: "Rather than run Torchère's contraband, I surrendered the Wimlick to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.",
         },
         gang_lamps_destroyed: {
             title: 'The Gang Is Gone',

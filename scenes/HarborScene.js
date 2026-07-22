@@ -80,21 +80,20 @@ export default class HarborScene extends GameScene {
             // ===== L2: Torchère's quest — "A Run Past the Customs" =====
             torchere_smuggle_brief: {
                 speaker: 'Torchère',
-                text: `The flame drops low, conspiratorial. "Alright. Simple run, no heroics. Two parcels — *Wickmilk* and *Gloamdust*, don't sniff either — that the customs men would love to find and won't. There's a dead-drop I use: a loose grate on Burning Bear Street, back where the bunting sags. You take these, you walk 'em over, you tuck 'em in the grate, you walk away. Don't run. Runners get remembered." A shower of sparks presses the parcels into your hands. "Do it clean and the torch owes you proper."`,
+                text: `The flame drops low, conspiratorial. "Alright. Simple run, no heroics. One parcel — *Wimlick*, and don't you dare sniff it — the kind of thing the customs men would love to find and won't. There's a dead-drop I use: a loose grate on Burning Bear Street, back where the bunting sags. You take it, you walk it over, you tuck it in the grate, you walk away. Don't run. Runners get remembered." A shower of sparks presses the parcel into your hands. "Do it clean and the torch owes you proper."`,
                 options: [
-                    { text: "Wickmilk, Gloamdust, the grate on Burning Bear Street. Clean.", key: 'torchere_smuggle_accept', next: "closeDialog" }
+                    { text: "Wimlick, the grate on Burning Bear Street. Clean.", key: 'torchere_smuggle_accept', next: "closeDialog" }
                 ],
                 onTrigger: () => {
                     if (!this.questSystem?.getQuest(GANG_QUEST_IDS.torchere)) {
-                        this.questSystem.addQuest(GANG_QUEST_IDS.torchere, 'A Run Past the Customs', "Torchère gave me two parcels of contraband — Wickmilk and Gloamdust — to smuggle to his dead-drop: a loose grate on Burning Bear Street. Tuck them in the grate, then report back.");
-                        this.addItemToInventory({ id: 'wickmilk', name: 'Wickmilk', description: 'A thick, tallow-white narcotic that smells of guttered candles. Torchère wants it dropped, not sold. Contraband.', texture: 'oil', icon: 'oil', stackable: false });
-                        this.addItemToInventory({ id: 'gloamdust', name: 'Gloamdust', description: 'A dark violet powder that seems to drink the light around it. Torchère wants it dropped, not sold. Contraband.', texture: 'redmass', icon: 'redmass', stackable: false });
+                        this.questSystem.addQuest(GANG_QUEST_IDS.torchere, 'A Run Past the Customs', "Torchère gave me a parcel of contraband — Wimlick — to smuggle to his dead-drop: a loose grate on Burning Bear Street. Tuck it in the grate, then report back. (I don't have to — I could keep it, sell it to a trader, or even try it myself.)");
+                        this.addItemToInventory({ id: 'wimlick', name: 'Wimlick', description: 'A thick, tallow-white stimulant that smells of guttered candles — sharpens you up, speeds you up, and loosens the tongue. Torchère wants it dropped, not sold. Contraband, but it has a street value.', texture: 'oil', icon: 'oil', usable: true, consumable: true, isDrug: true, price: 40, stackable: false });
                     }
                 }
             },
             torchere_smuggle_statusinfo: {
                 speaker: 'Torchère',
-                text: `"The grate, deadlight. Burning Bear Street, back where the bunting hangs low over the old cobbles. Wickmilk and Gloamdust go in, you go home. Simple." Sparks snap. "And quit fidgeting with 'em."`,
+                text: `"The grate, deadlight. Burning Bear Street, back where the bunting hangs low over the old cobbles. Wimlick goes in, you go home. Simple." Sparks snap. "And quit fidgeting with it."`,
                 options: [
                     { text: "The grate on Burning Bear Street. Right.", key: 'torchere_smuggle_statusinfo_close', next: "closeDialog" }
                 ]

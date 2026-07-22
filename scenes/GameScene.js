@@ -716,7 +716,7 @@ export default class GameScene extends Phaser.Scene {
                 maxItems: 12 // Maximum number of items in inventory
             });
         }
-        
+
         // Create inventory button (mushroom shape)
         this.inventoryButton = this.add.container(60, 540);
         this.inventoryButton.setDepth(100);
@@ -1021,6 +1021,70 @@ export default class GameScene extends Phaser.Scene {
             return this.inventorySystem.hasItem(itemId);
         }
         return false;
+    }
+
+    /**
+     * Show a comic-style speech bubble above a target (a sprite/container with numeric x/y,
+     * or a plain {x, y}). The bubble follows the target while alive and auto-fades.
+     * Reusable across scenes for monologues/asides over characters or objects.
+     * @param {object} target - object with numeric .x/.y
+     * @param {string} message - the line to speak
+     * @param {object} [opts] - { duration=3200, maxWidth=220, offsetY=78, depth=900 }
+     * @returns {Phaser.GameObjects.Container|null}
+     */
+    showSpeechBubble(target, message, opts = {}) {
+        if (!target || typeof target.x !== 'number' || !this.add || !this.cameras?.main) return null;
+        const duration = opts.duration ?? 3200;
+        const maxWidth = opts.maxWidth ?? 220;
+        const offsetY = opts.offsetY ?? 78;
+        const depth = opts.depth ?? 900;
+
+        const container = this.add.container(target.x, target.y - offsetY).setDepth(depth);
+
+        const text = this.add.text(0, 0, message, {
+            fontSize: '13px', fontStyle: 'bold', fill: '#1b1b1b',
+            align: 'center', wordWrap: { width: maxWidth }
+        }).setOrigin(0.5, 1);
+
+        const padX = 12, padY = 8, tailH = 10, radius = 8;
+        const w = text.width + padX * 2;
+        const h = text.height + padY * 2;
+        const bx = -w / 2, byTop = -(h + tailH);
+
+        const bubble = this.add.graphics();
+        bubble.fillStyle(0xf5f2e6, 0.96);
+        bubble.fillRoundedRect(bx, byTop, w, h, radius);
+        bubble.fillTriangle(-8, -tailH, 8, -tailH, 0, 0); // tail pointing down to the target
+        bubble.lineStyle(2, 0x1b1b1b, 0.9);
+        bubble.strokeRoundedRect(bx, byTop, w, h, radius);
+        bubble.beginPath();
+        bubble.moveTo(-8, -tailH); bubble.lineTo(0, 0); bubble.lineTo(8, -tailH);
+        bubble.strokePath();
+
+        text.setPosition(0, byTop + h - padY); // sit inside the bubble body
+        container.add([bubble, text]);
+        container.setAlpha(0);
+        this.tweens.add({ targets: container, alpha: 1, duration: 150, ease: 'Sine.easeOut' });
+
+        const minY = h + tailH + 6; // keep the bubble fully on-screen
+        const follow = () => {
+            if (!container.active) return;
+            container.x = target.x;
+            container.y = Math.max(minY, target.y - offsetY);
+        };
+        this.events.on('update', follow);
+
+        const cleanup = () => {
+            this.events.off('update', follow);
+            this.events.off('shutdown', cleanup);
+            if (container.active) container.destroy();
+        };
+        this.time.delayedCall(duration, () => {
+            if (!container.active) return;
+            this.tweens.add({ targets: container, alpha: 0, duration: 200, onComplete: cleanup });
+        });
+        this.events.once('shutdown', cleanup);
+        return container;
     }
 
     showNotification(title, subtitle = '', amount = '', duration = 400) {

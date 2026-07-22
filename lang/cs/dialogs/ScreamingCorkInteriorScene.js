@@ -38,7 +38,9 @@ export default {
             what_do_you_do_here: "Co tady děláš?",
             i_was_told_you_can_get_me_to_rust_choir_base: "Řekli mi, že mě můžeš dostat na základnu Rezavého chóru.",
             i_have_gathered_everything_for_the_rust_feast: "Shromáždil jsem vše pro Rezavou hostinu.",
-            corrosive_cultivar_grind_into_the_oil: "[Žíravý kultivar] (Tiše rozetřít direktoriátskou rostlinu do oleje.)"
+            corrosive_cultivar_grind_into_the_oil: "[Žíravý kultivar] (Tiše rozetřít direktoriátskou rostlinu do oleje.)",
+            ravla_spy_probe: "Paděláš pro půlku města. Co Rezavý chór ukrývá ve všech těch papírech?",
+            ravla_spy_neme: "[Neme · Fotosenzitivita] (Přečíst vinu, kterou skrývá pod tím klidem.)"
         }
     },
     ravla_who: {
