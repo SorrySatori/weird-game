@@ -1,3 +1,5 @@
+import { ITEM_ICONS } from '../utils/itemIcons.js';
+
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
         super({ key: 'LoadingScene' });
@@ -6,11 +8,19 @@ export default class LoadingScene extends Phaser.Scene {
     preload() {
         // Load the Tempurra logo
         this.load.image('tempurraLogo', 'assets/images/ui/TempurraLogo.png');
-        
+
         // Load other essential assets needed for MainScene
         this.load.image('background', 'assets/images/backgrounds/background.png');
         this.load.audio('hoverSound', 'assets/sounds/hover.wav');
         this.load.audio('clickSound', 'assets/sounds/click.mp3');
+
+        // Central item-icon registry. Loaded once here so every icon is available game-wide
+        // (inventory in any scene, after a save load). An icon not yet drawn simply fails to
+        // load and the item falls back to its lettered-circle placeholder — so we quietly
+        // ignore load errors for these optional textures.
+        const iconKeys = new Set(ITEM_ICONS.map(i => i.key));
+        this.load.on('loaderror', (file) => { if (file && iconKeys.has(file.key)) { /* optional icon missing — placeholder is used */ } });
+        ITEM_ICONS.forEach(({ key, path }) => this.load.image(key, path));
         
         // Create loading text
         const loadingText = this.add.text(400, 400, 'Loading...', {
