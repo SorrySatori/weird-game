@@ -82,9 +82,23 @@ export default {
             god_opt_accept: "Nemusíš být tím, co si představovali. Buď něčím novým.",
             god_opt_pact: "Pokračuj — ale pomalu. Nech svět, ať se tě nejdřív naučí.",
             god_opt_destroy: "Nemůžeme riskovat něco, čemu nerozumíme.",
+            god_opt_bloom: "Tak rozkveť — bez hranic. Nech konečně vyrůst všechno, co bylo drženo zpátky.",
+            god_opt_sever: "Utváření už bylo dost. Zpráchnivěj zpět do země, jemně, a buď dokončen.",
             god_opt_merge: "Nesmíš zůstat sám. Nech mě, ať tě přijmu do sebe.",
             god_opt_lumen_purge: "Vyler se — a znič Lumen Direktoriát. To je moje cena."
         }
+    },
+    god_end_bloom: {
+        text: "*\"Tak rozkveť,\"* řekneš mu. *\"Bez hranic. Všechno, co tohle město drželo při zemi — nech to růst.\"*\n\nNezaváhá tak, jak se bálo, že zaváhá. Skořápka ani tak nepraskne, jako se *otevře*, jako poupě, které sto let čekalo na jediné vlídné slovo. To, co se vyvalí ven, není vládce ani netvor: je to sám růst, obdařený myslí. Zeleň vyšplhá po Scraperu za jediné odpoledne. Božský hřbitov rozkvete. Mrtvá voda přístavu zezelená a pohne se. U prahu Strážcovo světlo nezhasne — jen ho *přeroste*, jemně obalí živoucí révou, jeho dlouhý úkol ukončen hojností, ne silou.\n\nNe každý ti poděkuje. Svět, který jen roste, zapomněl, jak stát v klidu. Ale na jednu zelenou hodinu je celé město naráz živé, a je to krásné, a je to tvé dílo.",
+        options: { bloom_epilogue: "(Nech to všechno růst.)" }
+    },
+    god_end_consume: {
+        text: "Sáhneš dovnitř — a nepodržíš to, protože držet už není, co jsi. Jsi to, co pouští.\n\nTam, kde by ze světla zrozený vzal boha *do sebe*, ty ho vezmeš *dolů* — ne pohltíš, ne přemůžeš. Zkompostuješ. Tak, jak půda vezme padlý strom a tiše z něj udělá všechno ostatní. Nekřičí. Vydechne — jeden nesmírný zadržený dech konečně vypuštěný — a ten výdech projde hnilobou, kterou celou tu cestu neseš za druhé, a stane se součástí tebe.\n\nVyjdeš ze skořápky a skořápka jde s tebou, složená do malička. Nejsi teď víc než jeden — jsi *míň* než jeden, a přesto tím nesmírný: ticho ve středu věcí. V týdnech nato budou říkat, že umírající se přestanou bát, když jdeš kolem. Že utrpení, které nemohlo skončit, konečně smí. Vyslovují tvé jméno tak, jak se vyslovují dveře, kterým se jemně, konečně, dovolí zavřít.\n\n*\"Jsi pořád ten samý člověk?\"* zeptá se někdo, v zeleném šeru toho, co přijde potom.\n\n*\"Ne,\"* řekneš. *\"Už nejsem jen smrtelný. Jsem milost, která světu nikdy nebyla nabídnuta.\"*",
+        options: { consume_epilogue: "(Vyjdi ven do zeleného šera.)" }
+    },
+    god_end_sever: {
+        text: "*\"Utváření už bylo dost,\"* řekneš. Není v tom krutost — jen unavená laskavost někoho, kdo se naučil, že i konec je milost. *\"Zpráchnivěj zpět do země. Jemně. Buď dokončen.\"*\n\n*\"...Ano,\"* řekne, a v těch mnoha myšlenkách je cosi skoro jako úleva. *\"Byl jsem tak unavený z toho věčného skoro-bytí.\"* Nebrání se, a neroztříští se. Prostě se pustí — skořápka měkne, tvary uvnitř povolují, celý ten nesmírný zadržený dech se konečně vydechne do půdy. Zkompostuje se, jako se kompostuje veliký padlý strom: ne tak docela pryč. Navrácen. Strážcův úkol je zachován; jeho světlo zůstává svítit nad tichou, prázdnou skořápkou. Něco tu jednou zas vyroste, z toho, čím tohle bylo. Jen ne bůh. Ne tentokrát.",
+        options: { sever_epilogue: "(Nech to vrátit se do půdy.)" }
     },
     god_end_lumen_purge: {
         text: "*\"Probuď se,\"* řekneš mu. *\"Naroď se. Ale ti, kdo by tě zkompostovali — Lumen Direktoriát, kteří všechno pojmenují a nic nenechají spočinout — ty nejdřív znič. To je moje cena.\"*\n\nTy mnohé myšlenky se ztiší, a pak přisvědčí, tak jako povodeň přisvědčí protržené hrázi. Vejce se rozlomí. To, co z něj vyleze, nezaváhá. Zamíří k živoucím věžím Direktoriátu a *přečte* je — každý skrytý spis, každé zaevidované tajemství obnaženo — a pak je zavře, jako když dlaň zavře nad svíčkou. *Nic skrytého*, slibovali. Teď není co skrývat.\n\nRezavý chór zpívá v kouři. Dodržel jsi slovo strojům a nový bůh dodržel slovo tobě. Je to temná věc, kterou jsi stvořil. Je také, nepopiratelně, tvoje.",

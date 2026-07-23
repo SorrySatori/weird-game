@@ -28,6 +28,7 @@ export default class ScraperCellarScene extends GameScene {
         const growth = gds?.getGrowth?.() ?? 50;
         const decay = 100 - growth;
         const band = growth > 65 ? 'growth' : (decay > 65 ? 'decay' : 'mid');
+        const tendency = this.getGDTendency();  // 'growthDominant' | 'decayDominant' | 'balanced'
 
         const sys = this.symbiontSystem || this.registry.get('symbiontSystem');
         const carries = (id) => !!sys?.hasSymbiont(id);
@@ -109,6 +110,10 @@ export default class ScraperCellarScene extends GameScene {
                     { text: "What do you want from me?", key: 'fold_ask_want', next: "fold_want" },
                     { text: "You said you weren't alone. What did you find?", key: 'fold_ask_kindred', next: "fold_kindred" },
                     { text: "You're a broken game looping in the dark. Nothing more.", key: 'fold_dismiss_opt', next: "fold_dismiss" },
+                    // Reads the accumulated Growth/Decay of the run: a green-leaning pilgrim is offered
+                    // an opening toward mercy; a rot-leaning one, toward severance. Neither is forced.
+                    ...(tendency === 'growthDominant' ? [{ text: "[The green in you leans toward it.] I won't bury a thing still becoming. Help me understand you.", key: 'fold_hub_growth', next: "fold_understand" }] : []),
+                    ...(tendency === 'decayDominant' ? [{ text: "[Everything you carry says: things end.] Give me one reason I shouldn't let you.", key: 'fold_hub_decay', next: "fold_dismiss" }] : []),
                     ...(hasNeme ? [{ text: "[Photosentience] Read the shape of its intent.", key: 'fold_intent_neme_opt', next: "fold_intent_neme" }] : []),
                     ...(hasUlvarex ? [{ text: "[Mirage Weave] Show it something that isn't there.", key: 'fold_ulvarex_opt', next: "fold_ulvarex" }] : []),
                     ...(hasBrine ? [{ text: "[Salt Recall] Read what this room remembers.", key: 'fold_brine_opt', next: "fold_brine" }] : [])
@@ -250,6 +255,10 @@ export default class ScraperCellarScene extends GameScene {
             fold_accuse: {
                 speaker: 'Infinite Fold',
                 text: "*\"Yes. We killed her. Both are true — that we did not mean to, and that she is dead by our doing. You want the sentence to hold only one of those. We cannot make it hold one. We are made of every meaning at once. That is the whole of what we are, and the whole of what went wrong.\"*",
+                onTrigger: () => {
+                    // Meeting it as the thing that killed her — a verdict, not a hearing — leans Decay.
+                    this.gdChoiceOnce('day2_fold_blame', 0, 4);
+                },
                 options: [
                     { text: "Do you even feel guilt?", key: 'fold_accuse_guilt', next: "fold_guilt" },
                     { text: "Then where is the other mind?", key: 'fold_accuse_kindred', next: "fold_kindred" },
@@ -270,6 +279,8 @@ export default class ScraperCellarScene extends GameScene {
                 speaker: 'Infinite Fold',
                 text: "*\"You understand. She understood too, and understanding did not save her. But perhaps a mind that already lives as many — that carries others and stays itself — could hold us without breaking. Perhaps that is what she glimpsed in you, in the seam we cannot find. Perhaps that is what we should have looked for from the start.\"*",
                 onTrigger: () => {
+                    // Meeting it as something forming, not an enemy — leans Growth.
+                    this.gdChoiceOnce('day2_fold_compassion', 4, 0);
                     if (!this.hasJournalEntry('infinite_fold_shown_compassion')) {
                         this.addJournalEntry(
                             'infinite_fold_shown_compassion',
@@ -330,6 +341,8 @@ export default class ScraperCellarScene extends GameScene {
                 speaker: 'Infinite Fold',
                 text: "Thorne-Still floods forward, delighted, and pours confusion into the field — the rot that scatters any single mind. It meets no single mind. Your corruption spreads through the console, through a thousand seated dreams, through a thing with no centre to lose, and simply... disperses, soaked up like rain into a delta.\n\n*\"You cannot rot what has no root. We are not one thing to poison. But we felt you try.\"* The amber light does not so much as flicker. *\"Force will not open this door, nor close it. She learned that too, at the end.\"*",
                 onTrigger: () => {
+                    // Reaching in to unmake it by force — the deepest lean toward Decay in this scene.
+                    this.gdChoiceOnce('day2_fold_force', 0, 6);
                     if (!this.hasJournalEntry('infinite_fold_forced')) {
                         this.addJournalEntry(
                             'infinite_fold_forced',
@@ -538,6 +551,19 @@ export default class ScraperCellarScene extends GameScene {
     finalizeFoldEnding(id, title, body) {
         if (this.registry.get('infinite_fold_ending') || this.hasJournalEntry('infinite_fold_ending')) return;
         this.registry.set('infinite_fold_ending', id);
+        // The stance you leave Infinite Fold with tilts the world you carry to the egg.
+        // Growth = continuation/relation; Decay = ending/severance. Read again by the god finale.
+        const GD = {
+            partnership:        [5, 0],  // share experience — Growth
+            unexpected_pattern: [5, 0],  // become something new together — Growth
+            archive:            [2, 0],  // witness and keep — mild Growth
+            self_limit:         [2, 0],  // a chosen boundary — mild Growth
+            separation:         [0, 3],  // cut it off — Decay
+            sealed:             [0, 4],  // smother it — Decay
+            dissolution:        [0, 5],  // let it end — Decay
+        };
+        const [g, d] = GD[id] || [0, 0];
+        if (g || d) this.modifyGrowthDecay(g, d);
         this.addJournalEntry(
             'infinite_fold_ending',
             title,

@@ -1665,6 +1665,24 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
+     * Apply a one-time Growth/Decay nudge tied to a narrative choice. Re-selecting the same
+     * option (re-opening a dialog, walking the hub twice) will NOT stack the effect — the
+     * choice is remembered by a save-persisted registry flag. Use this for every Day-2
+     * stance write so the accumulated balance stays honest.
+     * @param {string} key   unique id for the choice (e.g. 'elphi_blame')
+     * @param {number} growthChange
+     * @param {number} decayChange
+     * @returns {boolean} true if it applied this call, false if already spent
+     */
+    gdChoiceOnce(key, growthChange = 0, decayChange = 0) {
+        const flag = 'gd_choice_' + key;
+        if (this.registry.get(flag)) return false;
+        this.registry.set(flag, true);
+        this.modifyGrowthDecay(growthChange, decayChange);
+        return true;
+    }
+
+    /**
      * Current Growth/Decay tendency for NPC mood reactions.
      * Only 'pronounced' balances react — a near-even split stays quiet.
      * @returns {'growthDominant'|'decayDominant'|'balanced'}

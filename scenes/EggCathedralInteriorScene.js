@@ -25,6 +25,7 @@ export default class EggCathedralInteriorScene extends GameScene {
         const gds = this.growthDecaySystem || this.registry.get('growthDecaySystem');
         const growth = gds?.getGrowth?.() ?? 50;
         const decay = 100 - growth;
+        const tendency = this.getGDTendency();  // 'growthDominant' | 'decayDominant' | 'balanced'
         const sys = this.symbiontSystem || this.registry.get('symbiontSystem');
         const symbiontCount = ['neme-crownmire', 'thorne-still', 'ulvarex-borrowed-horizon', 'brine-scripture']
             .filter(id => !!sys?.hasSymbiont(id)).length;
@@ -37,8 +38,18 @@ export default class EggCathedralInteriorScene extends GameScene {
         // Dark bargain: unlocked by warning the Rust Choir of the Directorate's sabotage plot.
         const betrayedLumenToRust = !!this.hasJournalEntry('rust_choir_warned_of_lumen');
         const readJournal = !!this.hasJournalEntry('bishop_journal_read');
-        // The absorb ending demands a rare build: many symbionts + a deep bond with Infinite Fold.
-        const absorbQualified = symbiontCount >= 3 && (foldEnding === 'unexpected_pattern' || foldEnding === 'partnership');
+        // The absorb ending demands a rare build: many symbionts + a deep bond with Infinite Fold —
+        // AND a body not ruled by rot. A decay-dominant pilgrim who reaches through collides instead
+        // of joining (god_end_failed). The accumulated Growth/Decay of the whole run decides it here.
+        const absorbQualified = symbiontCount >= 3
+            && (foldEnding === 'unexpected_pattern' || foldEnding === 'partnership')
+            && tendency !== 'decayDominant';
+        // The Decay mirror of absorption — just as rare, just as cool. A rot-ruled pilgrim who
+        // carries many others and brought Infinite Fold down to a finite, letting-go thing does
+        // not hold the god; they compost it, and become the world's mercy of endings.
+        const consumeQualified = symbiontCount >= 3
+            && (foldEnding === 'unexpected_pattern' || foldEnding === 'dissolution')
+            && tendency === 'decayDominant';
 
         return {
             ...super.dialogContent,
@@ -167,6 +178,10 @@ export default class EggCathedralInteriorScene extends GameScene {
                     { text: "You don't have to be what they imagined. Be something new.", key: 'god_opt_accept', next: "god_end_accept" },
                     { text: "Continue — but slowly. Let the world learn you first.", key: 'god_opt_pact', next: "god_end_pact" },
                     { text: "We can't risk what we don't understand.", key: 'god_opt_destroy', next: "god_end_destroy" },
+                    // Hard-gated by the world you have grown. A green-soaked pilgrim can bid it flood
+                    // the city with life; a rot-soaked one can bid it compost quietly back into the ground.
+                    ...(tendency === 'growthDominant' ? [{ text: "Then bloom — without limit. Let everything that was held back grow at last.", key: 'god_opt_bloom', next: "god_end_bloom" }] : []),
+                    ...(tendency === 'decayDominant' ? [{ text: "There's been enough becoming. Rot back into the ground, gently, and be done.", key: 'god_opt_sever', next: "god_end_sever" }] : []),
                     ...(understood ? [{ text: "You shouldn't be left alone. Let me take you in.", key: 'god_opt_merge', next: "god_merge" }] : []),
                     ...(betrayedLumenToRust ? [{ text: "Emerge — and unmake the Lumen Directorate. That is my price.", key: 'god_opt_lumen_purge', next: "god_end_lumen_purge" }] : [])
                 ]
@@ -196,6 +211,22 @@ export default class EggCathedralInteriorScene extends GameScene {
                 options: [{ text: "(Let it end.)", key: 'destroy_epilogue', next: "closeDialog", onSelect: () => this.toEpilogue() }]
             },
 
+            // ---- Ending 7: The Green Hour (Growth-dominant only) ----
+            god_end_bloom: {
+                speaker: 'The Unborn',
+                text: "*\"Then bloom,\"* you tell it. *\"Without limit. Everything this city held down — let it grow.\"*\n\nIt does not hesitate the way it feared it would. The shell doesn't crack so much as *open*, like a bud that waited a hundred years for one warm word. What pours out is not a ruler and not a monster: it is growth itself, given a mind. Green climbs the Scraper in an afternoon. The Godgraveyard flowers. The harbour's dead water greens and stirs. At the threshold the Guardian's light does not go out — it is simply *overgrown*, wrapped gently in living vine, its long task ended by abundance rather than force.\n\nNot everyone will thank you. A world that only grows has forgotten how to hold still. But for one green hour, the whole city is alive at once, and it is beautiful, and it is your doing.",
+                onTrigger: () => this.finalizeFinale('bloom', 'overgrown', 'The Green Hour', "The world I carried to the egg was green to its roots, and so I could tell the Unborn to bloom without limit. It opened like a bud that had waited a century, and growth-with-a-mind poured out over the whole city — the Scraper vined over in an afternoon, the graveyard in flower, the dead harbour greening. The Guardian was not switched off but gently overgrown, its task ended by abundance. A world that only grows forgets how to be still; not all will thank me. But for one hour the whole city was alive at once, and it was mine."),
+                options: [{ text: "(Let it all grow.)", key: 'bloom_epilogue', next: "closeDialog", onSelect: () => this.toEpilogue() }]
+            },
+
+            // ---- Ending 8: The Quiet Composting (Decay-dominant only) ----
+            god_end_sever: {
+                speaker: 'The Unborn',
+                text: "*\"There's been enough becoming,\"* you say. There is no cruelty in it — only the tired kindness of someone who has learned that ending is a mercy too. *\"Rot back into the ground. Gently. Be done.\"*\n\n*\"...Yes,\"* it says, and there is something almost like relief in the many-thoughts. *\"I was so tired of nearly being.\"* It does not fight, and it does not shatter. It simply lets go — the shell softening, the shapes inside unclenching, the whole vast held breath finally exhaled into the soil. It composts, the way a great fallen tree composts: not gone, exactly. Returned. The Guardian's charge is kept; its light stays lit over a quiet, empty shell. Something will grow here again, someday, out of what this was. Just not a god. Not this time.",
+                onTrigger: () => this.finalizeFinale('sever', 'survived', 'The Quiet Composting', "The world I carried to the egg had turned toward rot and ending, and so I offered the Unborn the one mercy it had never been given: permission to stop. I told it to rot back into the ground, gently. It agreed — almost with relief, tired of nearly-being. It did not shatter; it composted, the way a fallen tree composts, returned rather than destroyed. The Guardian's charge is kept, its light steady over an empty shell. Something may grow here again one day — but not a god, and not this time."),
+                options: [{ text: "(Let it return to the soil.)", key: 'sever_epilogue', next: "closeDialog", onSelect: () => this.toEpilogue() }]
+            },
+
             // ---- Ending 6: The dark bargain (requires warning the Rust Choir of the Directorate) ----
             god_end_lumen_purge: {
                 speaker: 'The Unborn',
@@ -209,7 +240,7 @@ export default class EggCathedralInteriorScene extends GameScene {
                 speaker: 'The Unborn',
                 text: "You step closer than you should. *\"You shouldn't be left alone,\"* you tell it. *\"Let me take you in. I'll keep you safe.\"*\n\n*\"You would protect me?\"*\n\n*\"Yes.\"* It is not the whole truth. Beneath the word *protect* is another word you do not say aloud: to hold. To understand. To have.\n\nThe shell thins where you touch it. There is no turning back once you reach through.",
                 options: [
-                    { text: "(Reach through.)", key: 'merge_commit', next: absorbQualified ? "god_end_absorb" : "god_end_failed" },
+                    { text: "(Reach through.)", key: 'merge_commit', next: absorbQualified ? "god_end_absorb" : (consumeQualified ? "god_end_consume" : "god_end_failed") },
                     { text: "Pull your hand back.", key: 'merge_pull_back', next: "god_question" }
                 ]
             },
@@ -220,6 +251,14 @@ export default class EggCathedralInteriorScene extends GameScene {
                 text: "You reach through, and it comes — not devoured, not conquered. It passes through you the way light passes through water, and settles into the spaces the symbionts already taught you to keep for others. You do not break. You have had practice at being more than one.\n\nYou walk out of the shell on your own two feet. Later, in the city, someone asks whether you are still the same person.\n\n*\"Yes,\"* you say. And then, after a pause: *\"But I am no longer only human.\"*",
                 onTrigger: () => this.finalizeFinale('absorbed', 'ended', 'No Longer Only Human', "I told the Unborn it should not be left alone — and took it into myself. It was not devoured; it passed through me and settled into the room the symbionts had already taught me to hold for others. I did not break. I walked out whole. I am still myself. But I am no longer only human."),
                 options: [{ text: "(Walk out into the light.)", key: 'absorb_epilogue', next: "closeDialog", onSelect: () => this.toEpilogue() }]
+            },
+
+            // ---- Ending 9: The Mercy of Endings (hidden — Decay mirror of absorption) ----
+            god_end_consume: {
+                speaker: 'The Unborn',
+                text: "You reach through — and you do not hold it, because holding is not what you are any more. You are the thing that lets go.\n\nWhere the light-born would have taken the god *in*, you take it *down* — not devoured, not conquered. Composted. The way soil takes a fallen tree and quietly makes it into everything else. It does not scream. It exhales, one enormous held breath finally let out, and the exhale passes through the rot you have carried for others all this way, and becomes part of you.\n\nYou walk out of the shell, and the shell comes with you, folded small. You are not more than one now — you are *less* than one, and somehow vast for it: a stillness at the centre of things. In the weeks after, they will say the dying stop being afraid when you pass. That the suffering-that-could-not-end are, at last, allowed to. They say your name the way you say a door being gently, finally, let to close.\n\n*\"Are you still the same person?\"* someone asks, in the green-dark of the after.\n\n*\"No,\"* you say. *\"I am no longer only mortal. I am the mercy the world was never offered.\"*",
+                onTrigger: () => this.finalizeFinale('consumed', 'inherited', 'No Longer Only Mortal', "I reached into the Unborn — and I did not hold it, because I had become the thing that lets go. I did not absorb it the way the light-born would; I composted it, the way soil takes a fallen tree. Its last vast breath passed through the rot I had carried for others and became part of me. I walked out less than one, and somehow vast for it — a stillness at the centre of things. They say the dying stop being afraid when I pass, that what could not end is finally allowed to. I am still myself, and I am no longer only mortal. I am the mercy the world was never offered."),
+                options: [{ text: "(Walk out into the green-dark.)", key: 'consume_epilogue', next: "closeDialog", onSelect: () => this.toEpilogue() }]
             },
 
             // ---- Ending 5: Failed merge (hidden bad end) ----
@@ -239,6 +278,21 @@ export default class EggCathedralInteriorScene extends GameScene {
         if (this.registry.get('finale_ending')) return;
         this.registry.set('finale_ending', id);
         this.registry.set('guardian_fate', guardianFate);
+        // The final act writes the world's last state — continuation/life leans Growth, ending/severance
+        // leans Decay. Terminal, so it can only be spent once; read by the epilogue/credits.
+        const GD = {
+            bloom:       [10, 0],  // life without limit
+            accept:      [6, 0],   // a new being allowed to become
+            absorbed:    [6, 0],   // taken in, made more
+            pact:        [3, 0],   // slow continuation
+            destroyed:   [0, 6],   // the seal rewoken
+            lumen_purge: [0, 8],   // a dark unmaking
+            failed_merge:[0, 6],   // collision, ruin
+            sever:       [0, 10],  // composted back to soil
+            consumed:    [0, 8],   // the god composted into you — the Decay apotheosis
+        };
+        const [g, d] = GD[id] || [0, 0];
+        if (g || d) this.modifyGrowthDecay(g, d);
         this.addJournalEntry(
             'finale_ending',
             title,

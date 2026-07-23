@@ -115,6 +115,10 @@ export default class CreditsScene extends Phaser.Scene {
             pact: cs ? 'Nedokončený mír' : 'An Unfinished Peace',
             destroyed: cs ? 'Probuzená pečeť' : 'The Seal Rewoken',
             absorbed: cs ? 'Už ne pouze člověk' : 'No Longer Only Human',
+            consumed: cs ? 'Už ne pouze smrtelný' : 'No Longer Only Mortal',
+            bloom: cs ? 'Zelená hodina' : 'The Green Hour',
+            sever: cs ? 'Tiché kompostování' : 'The Quiet Composting',
+            lumen_purge: cs ? 'Cena probuzení' : 'The Price of Waking',
             failed_merge: cs ? 'Hlas ve vejci' : 'The Voice in the Egg'
         };
         return this.ending ? (map[this.ending] || null) : null;

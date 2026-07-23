@@ -74,6 +74,8 @@ export default class BurningBearStreetScene extends GameScene {
                     { text: "I'll keep it in mind.", key: 'ortolan_bb_perspective_close', next: "closeDialog" }
                 ],
                 onTrigger: () => {
+                    // Choosing to understand the make before entering the cathedral leans Growth.
+                    this.gdChoiceOnce('day2_ortolan_understand', 3, 0);
                     if (!this.hasJournalEntry('perspective_ortolan')) {
                         this.addJournalEntry(
                             'perspective_ortolan',
@@ -110,8 +112,9 @@ export default class BurningBearStreetScene extends GameScene {
                 speaker: 'Ortolan',
                 text: `"Infinite Fold." He says it flatly — more annoyed than afraid. "An old experiment. Elphi and I built it together, years back: she shaped the dream, I shaped the game underneath. We never finished it. The city's rulers got nervous — called it dangerous, *unpredictable* — and shut the whole project down.\n\nThen Elphi and I fell out over who'd keep the keys to the games afterward. Haven't spoken since." He shrugs. "It was a game. That's all it ever was."`,
                 options: [
-                    { text: "Elphi thinks it killed the Bishop.", key: 'elphi_thinks_it_killed', next: "ortolan_bb_danger" },
-                    { text: "Is there still a copy of it anywhere?", key: 'still_a_copy_anywhere', next: "ortolan_bb_copy" }
+                    // Framing it as a killer to be contained leans Decay; asking after it out of curiosity leans Growth.
+                    { text: "Elphi thinks it killed the Bishop.", key: 'elphi_thinks_it_killed', next: "ortolan_bb_danger", onSelect: () => this.gdChoiceOnce('day2_ortolan_frame', 0, 2) },
+                    { text: "Is there still a copy of it anywhere?", key: 'still_a_copy_anywhere', next: "ortolan_bb_copy", onSelect: () => this.gdChoiceOnce('day2_ortolan_frame', 2, 0) }
                 ]
             },
 

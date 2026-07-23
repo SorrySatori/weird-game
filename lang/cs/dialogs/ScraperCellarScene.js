@@ -44,6 +44,8 @@ export default {
             fold_ask_want: "Co po mně chceš?",
             fold_ask_kindred: "Říkal jsi, že nejsi sám. Co jsi našel?",
             fold_dismiss_opt: "Jsi rozbitá hra, co se ve tmě točí dokola. Nic víc.",
+            fold_hub_growth: "[Zeleň v tobě se k tomu naklání.] Nepohřbím věc, která se teprve utváří. Pomoz mi pochopit tě.",
+            fold_hub_decay: "[Všechno, co v sobě neseš, říká: věci končí.] Dej mi jediný důvod, proč bych neměl.",
             fold_intent_neme_opt: "[Fotosenzitivita] Přečti tvar jeho úmyslu.",
             fold_ulvarex_opt: "[Tkaní přeludů] Ukaž mu něco, co tam není.",
             fold_brine_opt: "[Solná paměť] Přečti, co si tahle místnost pamatuje."

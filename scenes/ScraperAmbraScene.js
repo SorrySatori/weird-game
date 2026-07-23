@@ -763,8 +763,9 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_dream_offer: {
                 text: `Stay here tonight. The studio beds are safer than anything you'll find out there, and the signal's quiet on this floor.\n\nAnd let me make you an offer — a real one, with money in it. Sleep in one of my beds and let the helmet record whatever you dream. Raw dream-stock is my trade, and a vivid one, cut from a live and interesting head, sells for good gold. Yours, after a day like this, should be very interesting.\n\n*A tired, businesslike smile.* I'll read it back when you wake. If it's any good, you get paid for it. If it's flat, you still slept in the best bed in the city for free. Either way, you can't lose.`,
                 options: [
-                    { text: "Deal. Record whatever I dream.", key: 'accept_the_dream', onSelect: () => this.beginDay1Sleep(true) },
-                    { text: "My dreams aren't for sale. Just let me sleep.", key: 'decline_the_dream', onSelect: () => this.beginDay1Sleep(false) },
+                    // Facing the day's memory openly leans Growth; sealing it away leans Decay.
+                    { text: "Deal. Record whatever I dream.", key: 'accept_the_dream', onSelect: () => { this.gdChoiceOnce('day2_dream', 2, 0); this.beginDay1Sleep(true); } },
+                    { text: "My dreams aren't for sale. Just let me sleep.", key: 'decline_the_dream', onSelect: () => { this.gdChoiceOnce('day2_dream', 0, 2); this.beginDay1Sleep(false); } },
                 ]
             },
 
@@ -842,8 +843,9 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_perspective: {
                 text: `*For a long moment she says nothing. When she finally speaks, the clipped confidence is gone.*\n\nSo it's awake. And it's the one that reached into her.\n\nI thought we were building a tool — something to help us understand the world a little better. A dream large enough to hold a whole mind and let us watch it think. Instead we built something that has begun to understand the world by itself. Without us. Without asking.\n\nI don't have a fix for that. I want you to hear me say it plainly, because I've spent my whole life having a fix for everything. I don't have one for this.`,
                 options: [
-                    { text: "How do I even talk to something like that?", key: 'how_do_i_talk_to_it', next: "dr_elphi_perspective_help" },
-                    { text: "You built it. Doesn't that make her death yours?", key: 'doesnt_that_make_her_death_yours', next: "dr_elphi_perspective_blame" },
+                    // Reaching to understand leans Growth; laying the death at her feet leans Decay.
+                    { text: "How do I even talk to something like that?", key: 'how_do_i_talk_to_it', next: "dr_elphi_perspective_help", onSelect: () => this.gdChoiceOnce('day2_elphi_perspective', 3, 0) },
+                    { text: "You built it. Doesn't that make her death yours?", key: 'doesnt_that_make_her_death_yours', next: "dr_elphi_perspective_blame", onSelect: () => this.gdChoiceOnce('day2_elphi_perspective', 0, 3) },
                     { text: "I need to think.", key: 'i_need_to_think', next: "closeDialog" },
                 ]
             },
