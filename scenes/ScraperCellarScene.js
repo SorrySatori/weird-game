@@ -36,8 +36,7 @@ export default class ScraperCellarScene extends GameScene {
         const hasThorne = carries('thorne-still');
         const hasUlvarex = carries('ulvarex-borrowed-horizon');
         const hasBrine = carries('brine-scripture');
-        const symbiontCount = ['neme-crownmire', 'thorne-still', 'ulvarex-borrowed-horizon', 'brine-scripture']
-            .filter(carries).length;
+        const symbiontCount = sys?.getSymbiontCount?.() ?? 0;  // ALL symbionts count toward "you are many"
 
         const spared = !!this.registry.get('redmass_spared') || !!this.hasJournalEntry('redmass_spared');
         const knewPurpose = !!this.hasJournalEntry('infinite_fold_purpose');

@@ -238,8 +238,7 @@ export default class CathedralEntrance extends GameScene {
      */
     _guardianDialogContent() {
         const sys = this.symbiontSystem || this.registry.get('symbiontSystem');
-        const symbiontCount = ['neme-crownmire', 'thorne-still', 'ulvarex-borrowed-horizon', 'brine-scripture']
-            .filter(id => !!sys?.hasSymbiont(id)).length;
+        const symbiontCount = sys?.getSymbiontCount?.() ?? 0;  // ALL symbionts count toward "you are many"
         const foldJournal = this.getJournalEntry ? this.getJournalEntry('infinite_fold_ending') : null;
         const foldEnding = this.registry.get('infinite_fold_ending') || foldJournal?.metadata?.ending;
         const foldEngaged = !!foldEnding && foldEnding !== 'sealed';

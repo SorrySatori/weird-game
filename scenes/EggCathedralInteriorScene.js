@@ -27,8 +27,7 @@ export default class EggCathedralInteriorScene extends GameScene {
         const decay = 100 - growth;
         const tendency = this.getGDTendency();  // 'growthDominant' | 'decayDominant' | 'balanced'
         const sys = this.symbiontSystem || this.registry.get('symbiontSystem');
-        const symbiontCount = ['neme-crownmire', 'thorne-still', 'ulvarex-borrowed-horizon', 'brine-scripture']
-            .filter(id => !!sys?.hasSymbiont(id)).length;
+        const symbiontCount = sys?.getSymbiontCount?.() ?? 0;  // ALL symbionts count toward "you are many"
         const hasOsswine = !!sys?.hasSymbiont('osswine');
         const foldJournal = this.getJournalEntry ? this.getJournalEntry('infinite_fold_ending') : null;
         const foldEnding = this.registry.get('infinite_fold_ending') || foldJournal?.metadata?.ending;

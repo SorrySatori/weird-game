@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 export default class ScraperAmbraScene extends GameScene {
     constructor() {
@@ -1293,16 +1294,19 @@ export default class ScraperAmbraScene extends GameScene {
         const sys = this.symbiontSystem;
         const carries = (id) => !!sys?.hasSymbiont(id);
         const pickIdx = (n) => Math.floor(Math.random() * n);
+        const cs = (LanguageSystem.getInstance?.().getLanguage?.() === 'cs');
+        const tr = (en, cz) => cs ? cz : en;
+        const PANEL_TITLE = tr('A dream, tuned', 'Sen, naladěný');
 
         const DREAM_TINT = 0x6a4f8c;
 
         // Random opening image, paired with a backdrop.
         const openings = [
-            { text: "You are walking the length of a corridor that turns out to be a throat.", bg: 'cs_scraper' },
-            { text: "You are inside a cathedral that is also an egg, and the egg is breathing in time with you.", bg: 'cs_egg' },
-            { text: "You are back in the abandoned bus, and every seat holds a version of you at a different age, all waiting for the same stop.", bg: 'cs_bus' },
-            { text: "You are underwater somewhere warm, and the water tastes faintly of copper and old prayers.", bg: 'cs_echodrain' },
-            { text: "You are climbing a tower where each floor you pass is a year you have not lived yet.", bg: 'cs_scraper' }
+            { text: tr("You are walking the length of a corridor that turns out to be a throat.", "Jdeš dlouhou chodbou, která se ukáže být hrdlem."), bg: 'cs_scraper' },
+            { text: tr("You are inside a cathedral that is also an egg, and the egg is breathing in time with you.", "Jsi uvnitř katedrály, která je zároveň vejcem, a to vejce dýchá v jednom rytmu s tebou."), bg: 'cs_egg' },
+            { text: tr("You are back in the abandoned bus, and every seat holds a version of you at a different age, all waiting for the same stop.", "Jsi zpátky v opuštěném autobuse a na každé sedačce sedí jedna tvoje verze v jiném věku, všechny čekají na stejnou zastávku."), bg: 'cs_bus' },
+            { text: tr("You are underwater somewhere warm, and the water tastes faintly of copper and old prayers.", "Jsi pod vodou někde v teple a voda slabě chutná po mědi a starých modlitbách."), bg: 'cs_echodrain' },
+            { text: tr("You are climbing a tower where each floor you pass is a year you have not lived yet.", "Šplháš věží, kde každé patro, které mineš, je rok, který jsi ještě neprožil."), bg: 'cs_scraper' }
         ];
         const opening = openings[pickIdx(openings.length)];
 
@@ -1311,7 +1315,7 @@ export default class ScraperAmbraScene extends GameScene {
 
         // Opening beat.
         panels.push({
-            title: 'A dream, tuned',
+            title: PANEL_TITLE,
             caption: opening.text,
             bg: opening.bg,
             bgTint: DREAM_TINT,
@@ -1320,48 +1324,61 @@ export default class ScraperAmbraScene extends GameScene {
         });
         dreamProse.push(opening.text);
 
-        // Symbiont-shaped beats — expressed obliquely, never named.
+        // Symbiont-shaped beats — expressed obliquely, never named. Subtitles carry both
+        // languages so the dream's title reads naturally in either.
         const subtitles = [];
         if (carries('neme-crownmire')) {
-            const line = "For a while you can see straight through everyone you pass — skin gone to clouded glass — and you read what each of them keeps folded out of sight. The cruelest things are the ones they hide from themselves.";
-            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_townsquare', bgTint: 0x39528f, myc: true, isDream: true });
+            const line = tr("For a while you can see straight through everyone you pass — skin gone to clouded glass — and you read what each of them keeps folded out of sight. The cruelest things are the ones they hide from themselves.", "Chvíli vidíš skrz každého, koho míjíš — kůže se změnila v zakalené sklo — a čteš, co si každý z nich schovává z dohledu. Ty nejkrutější věci jsou ty, které skrývají sami před sebou.");
+            panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_townsquare', bgTint: 0x39528f, myc: true, isDream: true });
             dreamProse.push(line);
-            subtitles.push('of Glass People');
+            subtitles.push(tr('of Glass People', 'o skleněných lidech'));
         }
         if (carries('thorne-still')) {
-            const line = "The ground goes soft and warm and blooms beneath you. Small pale caps push up between your feet, and each one murmurs a secret of yours back to you, a little wrong.";
-            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_fungal', bgTint: 0x3a6a40, myc: true, isDream: true });
+            const line = tr("The ground goes soft and warm and blooms beneath you. Small pale caps push up between your feet, and each one murmurs a secret of yours back to you, a little wrong.", "Země pod tebou měkne, hřeje a rozkvétá. Mezi chodidly ti vyrážejí drobné bledé klobouky a každý ti zamumlá zpátky nějaké tvé tajemství, trochu popletené.");
+            panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_fungal', bgTint: 0x3a6a40, myc: true, isDream: true });
             dreamProse.push(line);
-            subtitles.push('of Blooming Ground');
+            subtitles.push(tr('of Blooming Ground', 'o kvetoucí zemi'));
         }
         if (carries('ulvarex-borrowed-horizon')) {
-            const line = "A second horizon unrolls behind the first, just as bright, and you can never quite tell which one you are allowed to walk toward. One of them, you suspect, is only a beautifully painted wall.";
-            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_skyship', bgTint: 0x6a4a9a, myc: true, isDream: true });
+            const line = tr("A second horizon unrolls behind the first, just as bright, and you can never quite tell which one you are allowed to walk toward. One of them, you suspect, is only a beautifully painted wall.", "Za prvním obzorem se rozvine druhý, stejně jasný, a nikdy si nejsi úplně jistý, ke kterému smíš jít. Jeden z nich, tušíš, je jen krásně namalovaná zeď.");
+            panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_skyship', bgTint: 0x6a4a9a, myc: true, isDream: true });
             dreamProse.push(line);
-            subtitles.push('of Two Horizons');
+            subtitles.push(tr('of Two Horizons', 'o dvou obzorech'));
         }
         if (carries('brine-scripture')) {
-            const line = "Salt blooms on your tongue and the place remembers out loud everything it ever soaked up: a tide that came through once, a grief dried into the plaster, the outline of everyone who stood exactly where you stand.";
-            panels.push({ title: 'A dream, tuned', caption: line, bg: 'cs_harbor', bgTint: 0x2d6a78, myc: true, isDream: true });
+            const line = tr("Salt blooms on your tongue and the place remembers out loud everything it ever soaked up: a tide that came through once, a grief dried into the plaster, the outline of everyone who stood exactly where you stand.", "Na jazyku ti rozkvete sůl a to místo nahlas vzpomíná na všechno, co kdy nasáklo: příliv, který jím jednou prošel, žal zaschlý v omítce, obrys každého, kdo stál přesně tam, kde stojíš ty.");
+            panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_harbor', bgTint: 0x2d6a78, myc: true, isDream: true });
             dreamProse.push(line);
-            subtitles.push('of Salt and Doors');
+            subtitles.push(tr('of Salt and Doors', 'o soli a dveřích'));
+        }
+        if (carries('osswine')) {
+            const line = tr("Everyone you pass has been dead a long while, and none of them mind. They go about small, patient errands, and when you ask them anything the dead answer plainly — there is nothing left in them that still needs to lie.", "Každý, koho míjíš, je už dlouho mrtvý, a nikomu z nich to nevadí. Vyřizují si drobné trpělivé pochůzky, a když se jich na cokoli zeptáš, mrtví odpovídají přímo — nezbylo v nich nic, co by ještě potřebovalo lhát.");
+            panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_city', bgTint: 0x5a4a38, myc: true, isDream: true });
+            dreamProse.push(line);
+            subtitles.push(tr('of the Honest Dead', 'o poctivých mrtvých'));
+        }
+        if (carries('palinode')) {
+            const line = tr("Every wall you meet has a seam in it, and when you press the seam the wall admits it was never quite a wall. Doors open in things that had no doors. Somewhere a voice keeps quietly taking back what it just said, until nothing that was decided stays decided.", "Každá zeď, na kterou narazíš, má v sobě šev, a když na šev zatlačíš, zeď přizná, že nikdy nebyla tak úplně zdí. Ve věcech, které neměly dveře, se otevírají dveře. Kdesi jakýsi hlas tiše odvolává, co právě řekl, dokud nic, co bylo rozhodnuto, nezůstane rozhodnuté.");
+            panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_egg', bgTint: 0x4a4470, myc: true, isDream: true });
+            dreamProse.push(line);
+            subtitles.push(tr('of Unsaid Walls', 'o odvolaných zdech'));
         }
         if (subtitles.length === 0) {
-            const line = "Nothing rides along inside you tonight. The dream is only yours, and it is quieter for it — almost lonely, almost a relief.";
-            panels.push({ title: 'A dream, tuned', caption: line, bg: null, bgTint: 0x14122a, myc: true, isDream: true });
+            const line = tr("Nothing rides along inside you tonight. The dream is only yours, and it is quieter for it — almost lonely, almost a relief.", "Dnes v noci s tebou nejede nic. Sen je jen tvůj, a je proto tišší — skoro osamělý, skoro úleva.");
+            panels.push({ title: PANEL_TITLE, caption: line, bg: null, bgTint: 0x14122a, myc: true, isDream: true });
             dreamProse.push(line);
-            subtitles.push('of a Quiet, Empty Self', 'You Were Paid to Have');
+            subtitles.push(tr('of a Quiet, Empty Self', 'o tichém, prázdném já'), tr('You Were Paid to Have', 'za který ti zaplatili'));
         }
 
         // Closing beat — sometimes the Bishop is waiting in it.
         const closings = [
-            { text: "You almost understand what it means. Then morning reaches in and takes it.", bishop: false },
-            { text: "Somewhere in the middle of it, the dead Bishop turns to look at you — calm, unbreathing, already mid-sentence — and you wake.", bishop: true },
-            { text: "The dream folds itself up neatly, like a clerk closing a ledger, and tucks you back into the dark.", bishop: false }
+            { text: tr("You almost understand what it means. Then morning reaches in and takes it.", "Skoro pochopíš, co to znamená. Pak sáhne dovnitř ráno a vezme ti to."), bishop: false },
+            { text: tr("Somewhere in the middle of it, the dead Bishop turns to look at you — calm, unbreathing, already mid-sentence — and you wake.", "Někde uprostřed toho se po tobě mrtvá Biskupka otočí — klidná, nedýchající, už uprostřed věty — a ty se probudíš."), bishop: true },
+            { text: tr("The dream folds itself up neatly, like a clerk closing a ledger, and tucks you back into the dark.", "Sen se úhledně složí, jako když úředník zavírá účetní knihu, a zastrčí tě zpátky do tmy."), bishop: false }
         ];
         const closing = closings[pickIdx(closings.length)];
         panels.push({
-            title: 'A dream, tuned',
+            title: PANEL_TITLE,
             caption: closing.text,
             bg: closing.bishop ? 'cs_bus' : opening.bg,
             bgTint: 0x3a2f55,
@@ -1371,13 +1388,13 @@ export default class ScraperAmbraScene extends GameScene {
         });
         dreamProse.push(closing.text);
 
-        const title = `A Dream ${subtitles[pickIdx(subtitles.length)]}`;
+        const subtitle = subtitles[pickIdx(subtitles.length)];
+        const title = tr(`A Dream ${subtitle}`, `Sen ${subtitle}`);
         const journalText = dreamProse.join('\n\n');
 
         // How many symbionts coloured the dream — the richer it is, the more
-        // Dr. Elphi will pay for the recording.
-        const influenceCount = ['neme-crownmire', 'thorne-still', 'ulvarex-borrowed-horizon', 'brine-scripture']
-            .filter(carries).length;
+        // Dr. Elphi will pay for the recording. Every symbiont now shapes a beat.
+        const influenceCount = sys?.getSymbiontCount?.() ?? 0;
 
         return { id: 'day1_paid_dream', title, journalText, panels, influenceCount };
     }

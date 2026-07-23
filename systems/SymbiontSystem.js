@@ -259,6 +259,16 @@ export default class SymbiontSystem {
         return this.symbionts.has(id);
     }
 
+    /**
+     * Total number of symbionts the player currently carries — ALL of them, not a
+     * fixed subset. Used by the "you are already many" gates (the Cathedral merge,
+     * the Fold's symbiosis reading, the Guardian's reflection).
+     * @returns {number}
+     */
+    getSymbiontCount() {
+        return this.symbionts.size;
+    }
+
     unlockSlot() {
         if (this.unlockedSlots < this.maxSlots) {
             this.unlockedSlots++;
