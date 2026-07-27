@@ -27,6 +27,14 @@ export default {
             title: 'Růst a Rozklad',
             description: 'Moje činy mohou změnit město a jeho budoucnost. Růst živí to, co žije; Rozklad strhává to, co přetrvává.',
         },
+        spores_lore: {
+            title: 'Spóry',
+            description: 'Spóry znám — jsou moje vlastní, boží dech, který jsem od dětství dýchal v podzemním Obazobově chrámu. Pod širým nebem se ale chovají jinak: řídké a rozptýlené, nesou šepot města po myceliu — právě na nich dorazilo nouzové volání k Radě. Časem se ve mně hromadí a něco v tomhle městě se právě tím živí.',
+        },
+        symbionts_lore: {
+            title: 'Symbionti',
+            description: 'O symbiontech jsem zatím jen četl; žádného nenosím. Jsou to živé bytosti, které si kultista zve do vlastního masa — každá se svým hlasem a darem (myšlenka za tváří, slova mrtvých, šev ve zdi). Žijí v podivných koutech města a lze si je vzít do sebe; reagují na rovnováhu: někteří sílí v Růstu a umlkají v Rozkladu, jiní naopak.',
+        },
         abandoned_bus_interior: {
             title: 'Interiér Opuštěného Autobusu',
             description: 'Vnitřek autobusu je podivná směs rozpadu a nového růstu.',

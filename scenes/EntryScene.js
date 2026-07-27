@@ -110,9 +110,11 @@ export default class EntryScene extends GameScene {
             },
             farewell: {
                 hideCloseOption: true,
-                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed. Remember, your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you. Now off you go, apprentice! Glory to the Eternal Mushroom!",
+                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences — some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's walking, talking fungus ever take an interest in you — the symbionts, that you've only read about — best you know a little first. Well? Anything to ask before you go?",
                 options: [
-                    { text: "Wait! Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
+                    { text: "Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
+                    { text: "The spores — a different beast how?", key: 'the_spores_different_how', next: 'spores' },
+                    { text: "The symbionts. Tell me more.", key: 'the_symbionts_tell_me_more', next: 'symbionts' },
                     { text: "Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'close' }
                 ]
             },
@@ -144,6 +146,43 @@ export default class EntryScene extends GameScene {
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
+            spores: {
+                text: "Down in the temple the spores lie thick and close and obedient — the god's own breath, pooled in the dark. That is all you have ever known of them. But out here, under open sky, they thin and scatter and get into everything. They drift the streets; they carry the city's whispering along the mycelium — that is how the distress call reached the Council at all, riding the spores through the myceliar network. Your temple-lungs will find it strange awhile. And mind: the spores gather in you over time, a quiet pressure behind the eyes — and there are things in this city that feed on exactly that.",
+                options: [
+                    { text: "Things that feed on it? The symbionts?", key: 'things_that_feed_symbionts', next: 'symbionts' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewell' }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('spores_lore')) {
+                        this.addJournalEntry(
+                            'spores_lore',
+                            'The Spores',
+                            'I know spores — they are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. But above ground, under open sky, Thaal says they behave differently: thin and scattered, drifting the streets, carrying the city\'s whispers along the mycelium. The distress call that brought us here rode them, through the myceliar network. They gather in me over time — and some things in this city feed on exactly that.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Upper Morkezela suburb' }
+                        );
+                    }
+                }
+            },
+            symbionts: {
+                text: "Heard of them in the cloister archives, no doubt — and never seen one bonded. You carry none; you'd walk differently if you did. A symbiont is a living thing you invite into your own flesh, apprentice: bonded to you, each with its own voice and its own gift — one reads the thought folded behind a face, one the last words of the dead, one the seam in a wall that only pretends to be solid. This city keeps them in its odd corners. Should one offer itself, and you prove worthy — or foolish enough — you may take it in. But mind the balance: some wax strong in Growth and fall silent in Decay; others the reverse. Tip the city too far and your new voice may simply stop speaking. Enough! I have communion to attend.",
+                options: [
+                    { text: "And these spores you mentioned?", key: 'and_these_spores', next: 'spores' },
+                    { text: "Tell me again about growth and decay.", key: 'tell_me_again_growth_decay', next: 'growthDecay' },
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewell' }
+                ],
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('symbionts_lore')) {
+                        this.addJournalEntry(
+                            'symbionts_lore',
+                            'Symbionts',
+                            'I have only ever read of symbionts; I carry none. Thaal says they are living things a cultist invites into their own flesh — each bonded, each with a voice and a gift (reading the thought behind a face, the words of the dead, the seam in a wall). They live in the city\'s odd corners and can be taken in. They react to the city\'s balance: some strengthen in Growth and fall silent in Decay, others the reverse — push Growth or Decay to an extreme and a symbiont may go quiet.',
+                            this.journalSystem.categories.LORE,
+                            { location: 'Upper Morkezela suburb' }
+                        );
+                    }
+                }
+            },
             advice: {
                 text: "Remember, all your actions have consequences. Some of them will cause the city to grow, some will cause it to rot and decay. Your action can change the city and its future. They can change how the city will look and how its inhabitants will live and react to you.",
                 options: [
@@ -161,22 +200,22 @@ export default class EntryScene extends GameScene {
                 ]
             },
             priests: {
-                text: "Go to the Egg Catedral and talk to some of the priests there. They are always happy to chat. I mean, talk to the our priest or the Bistop. Don't talk to the other god's priests. I mean, the false gods' priests. The false priests. Ehm. You get me.",
+                text: "Go to the Egg Cathedral and talk to some of the priests there. They are always happy to chat. I mean, talk to our priest or the Bishop. Don't talk to the other gods' priests. I mean, the false gods' priests. The false priests. Ehm. You get me.",
                 options: [
-                    { text: "Could you tell me more about the Egg Catedral?", key: 'could_you_tell_me_more_about_the_egg_catedral', next: 'eggCatedral' },
+                    { text: "Could you tell me more about the Egg Cathedral?", key: 'could_you_tell_me_more_about_the_egg_catedral', next: 'eggCatedral' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             eggCatedral: {
-                text: "The Egg Cathedral is, well, a huge catedral that is hatching from gigantic egg. A massive, shell-grown structure inhabited by fungal clergy, flickering with bio-luminescent scripture... They don't know which to which religion the cathedral belongs. So all major churches send their priest just to be sure. They wait for the signs they hope for, but the cathedral is still hatching...",
+                text: "The Egg Cathedral is, well, a huge cathedral that is hatching from a gigantic egg. A massive, shell-grown structure inhabited by fungal clergy, flickering with bio-luminescent scripture... They don't know which religion the cathedral belongs to. So all major churches send their priests just to be sure. They wait for the signs they hope for, but the cathedral is still hatching...",
                 options: [
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
                 ]
             },
             locations: {
-                text: "The city has many locations, but the most significant ones are the Yolk Sea, Shed 512, Scraper 1140, Voxmarket, and the Stomach Clock. Which one interests you?",
+                text: "The city has many locations, but the most significant ones are the Yolk Sea, Shed 521, Scraper 1140, Voxmarket, and the Stomach Clock. Which one interests you?",
                 options: [
-                    { text: "Shed 512", key: 'shed_512', next: 'shed512' },
+                    { text: "Shed 521", key: 'shed_512', next: 'shed512' },
                     { text: "Yolk Sea", key: 'yolk_sea', next: 'yolkSea' },
                     { text: "Scraper 1140", key: 'scraper_1140', next: 'scraper1140' },
                     { text: "Voxmarket", key: 'voxmarket', next: 'voxmarket' },
@@ -185,7 +224,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             shed512: {
-                text: "Shed 512, also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
+                text: "Shed 521, also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
                 options: [
                     { text: "What is the Egg Cathedral?", key: 'what_is_the_egg_cathedral', next: 'eggCatedral' },
                     { text: "What is the Yolk Sea?", key: 'what_is_the_yolk_sea', next: 'yolkSea' },
@@ -198,7 +237,7 @@ export default class EntryScene extends GameScene {
             yolkSea: {
                 text: "The Yolk Sea is a glowing, sentient ocean of living yolk. Boats float like seeds, and whispers rise from its depths.",
                 options: [
-                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
@@ -208,7 +247,7 @@ export default class EntryScene extends GameScene {
             scraper1140: {
                 text: "It's a crooked skyscraper retrofitted into a vertical slum. Each floor houses a different caste, age, or species. I'm afraid I don't know much about it, but I would be careful around this place",
                 options: [
-                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
@@ -217,7 +256,7 @@ export default class EntryScene extends GameScene {
             voxmarket: {
                 text: "The Voxmarket is a bustling marketplace... audio bazaar where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed. I have heard that also black market thrives here.",
                 options: [
-                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
@@ -226,7 +265,7 @@ export default class EntryScene extends GameScene {
             stomachClock: {
                 text: "The Stomach Clock is a biomechanical chamber shaped like a digestive clock. Time runs in loops; bile is sacred. You can see it at the townhall",
                 options: [
-                    { text: "What is the Shed 512?", key: 'what_is_the_shed_512', next: 'shed512' },
+                    { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }

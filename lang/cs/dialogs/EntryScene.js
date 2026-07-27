@@ -45,9 +45,11 @@ export default {
         }
     },
     farewell: {
-        text: "Výborně! Vaječná katedrála je hned na východ. A kdyby se někdo ptal, řekni, že se věnuji VELMI důležitému duchovnímu obcování, které nesmí být rušeno. Pamatuj, tvé činy mají následky. Některé způsobí, že město poroste, jiné že bude hnít a chátrat. Tvé jednání může změnit město a jeho budoucnost. Může změnit, jak město bude vypadat a jak jeho obyvatelé budou žít a reagovat na tebe. A teď už běž, učedníku! Sláva Věčné houbě!",
+        text: "Výborně! Vaječná katedrála je hned na východ. A kdyby se někdo ptal, řekni, že se věnuji VELMI důležitému duchovnímu obcování, které nesmí být rušeno.\n\nAle než půjdeš, dej pozor na pár věcí, učedníku. Tvé činy mají následky — některé nechají město růst, jiné hnít a chátrat, a město podle toho bude vypadat i jednat s tebou. A dávej pozor na spóry tady nahoře: dosud jsi dýchal jen hustý, poslušný vzduch Obazobova chrámu, a pod širým nebem jsou to úplně jiná zvěř. A kdyby o tebe někdy projevila zájem chodící, mluvící houba tohohle města — symbionti, o kterých jsi jen četl — bude lepší, když o nich něco víš. Tak co? Chceš se na něco zeptat, než vyrazíš?",
         options: {
-            wait_tell_me_more_about_the_growth_and_decay: "Počkejte! Řekněte mi víc o růstu a rozkladu.",
+            wait_tell_me_more_about_the_growth_and_decay: "Řekněte mi víc o růstu a rozkladu.",
+            the_spores_different_how: "Spóry — jak jako jiná zvěř?",
+            the_symbionts_tell_me_more: "Symbionti. Řekněte mi víc.",
             glory_to_the_eternal_mushroom: "Sláva Věčné houbě..."
         }
     },
@@ -66,6 +68,21 @@ export default {
             ask_about_the_gods: "Zeptejte se na bohy",
             do_you_have_any_advice_for_me: "Máte pro mě nějakou radu?",
             tell_me_more_about_city_locations: "Řekněte mi víc o místech ve městě.",
+            return_to_previous_topic: "Zpět k předchozímu tématu"
+        }
+    },
+    spores: {
+        text: "Dole v chrámu leží spóry husté, blízké a poslušné — vlastní dech boha, nahromaděný ve tmě. Nic jiného jsi nepoznal. Ale tady venku, pod širým nebem, řídnou, rozptylují se a lezou úplně všude. Vanou ulicemi; nesou šepot města po myceliu — právě tak vůbec dorazilo nouzové volání k Radě, na spórách, myceliární sítí. Tvým chrámovým plícím to chvíli přijde divné. A dej pozor: spóry se v tobě časem hromadí, tichý tlak za očima — a v tomhle městě jsou věci, které se právě tím živí.",
+        options: {
+            things_that_feed_symbionts: "Věci, co se tím živí? Symbionti?",
+            return_to_previous_topic: "Zpět k předchozímu tématu"
+        }
+    },
+    symbionts: {
+        text: "O těch jsi jistě četl v klášterních archivech — a nikdy žádného spojeného neviděl. Sám žádného nenosíš; jinak by ses hýbal jinak. Symbiont je živá věc, kterou zveš do vlastního masa, učedníku: spojená s tebou, každý má svůj hlas a svůj dar — jeden čte myšlenku složenou za tváří, jiný poslední slova mrtvých, další šev ve zdi, která jen předstírá, že je pevná. Tohle město je chová ve svých podivných koutech. Kdyby se ti některý nabídl a ty se ukázal hoden — nebo dost pošetilý — můžeš si ho vzít do sebe. Ale dej pozor na rovnováhu: někteří sílí v Růstu a umlkají v Rozkladu, jiní naopak. Nakloň město příliš a tvůj nový hlas možná prostě přestane mluvit. Dost! Čeká mě obcování.",
+        options: {
+            and_these_spores: "A ty spóry, co jste zmínil?",
+            tell_me_again_growth_decay: "Řekněte mi znovu o růstu a rozkladu.",
             return_to_previous_topic: "Zpět k předchozímu tématu"
         }
     },
@@ -99,9 +116,9 @@ export default {
         }
     },
     locations: {
-        text: "Město má mnoho lokací, ale ty nejvýznamnější jsou Žloutkové moře, Kůlna 512, Škrabák 1140, Voxmarket a Žaludeční hodiny. Která tě zajímá?",
+        text: "Město má mnoho lokací, ale ty nejvýznamnější jsou Žloutkové moře, Kůlna 521, Škrabák 1140, Voxmarket a Žaludeční hodiny. Která tě zajímá?",
         options: {
-            shed_512: "Kůlna 512",
+            shed_512: "Kůlna 521",
             yolk_sea: "Žloutkové moře",
             scraper_1140: "Škrabák 1140",
             voxmarket: "Voxmarket",
@@ -110,7 +127,7 @@ export default {
         }
     },
     shed512: {
-        text: "Kůlna 512, také známá jako Úřad tvarů. Zkroucená byrokracie ve starém překladišti přeměněná v neustále se rozrůstající labyrint kancelářských boxů. Lidé sem chodí registrovat svou současnou podobu nebo žádat o tělesné úpravy. Najdeš ji hned vedle Voxmarketu.",
+        text: "Kůlna 521, také známá jako Úřad tvarů. Zkroucená byrokracie ve starém překladišti přeměněná v neustále se rozrůstající labyrint kancelářských boxů. Lidé sem chodí registrovat svou současnou podobu nebo žádat o tělesné úpravy. Najdeš ji hned vedle Voxmarketu.",
         options: {
             what_is_the_egg_cathedral: "Co je Vaječná katedrála?",
             what_is_the_yolk_sea: "Co je Žloutkové moře?",
@@ -123,7 +140,7 @@ export default {
     yolkSea: {
         text: "Žloutkové moře je zářící, vnímající oceán živého žloutku. Lodě plují jako semena a z hlubin stoupají šepoty.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 512?",
+            what_is_the_shed_512: "Co je Kůlna 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_voxmarket: "Co je Voxmarket?",
             what_is_the_stomach_clock: "Co jsou Žaludeční hodiny?",
@@ -133,7 +150,7 @@ export default {
     scraper1140: {
         text: "Je to zkřivený mrakodrap přestavěný na vertikální slum. Každé patro obývá jiná kasta, věk nebo druh. Bohužel o tom moc nevím, ale na tomhle místě bych si dával pozor.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 512?",
+            what_is_the_shed_512: "Co je Kůlna 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_stomach_clock: "Co jsou Žaludeční hodiny?",
             return_to_previous_topic: "Zpět k předchozímu tématu"
@@ -142,7 +159,7 @@ export default {
     voxmarket: {
         text: "Voxmarket je rušný tržiště... zvukový bazar, kde se prodávají nahrané hlasy, zvuky a myšlenky. Stánky vystavují tiché smyčky konverzací. Můžeš si koupit zvuk něčího prvního zlomeného srdce nebo výkřik z doby před existencí ohně. Slyšel jsem, že tu také kvete černý trh.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 512?",
+            what_is_the_shed_512: "Co je Kůlna 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_stomach_clock: "Co jsou Žaludeční hodiny?",
             return_to_previous_topic: "Zpět k předchozímu tématu"
@@ -151,7 +168,7 @@ export default {
     stomachClock: {
         text: "Žaludeční hodiny jsou biomechanická komora ve tvaru trávicích hodin. Čas běží ve smyčkách; žluč je posvátná. Můžeš je vidět na radnici.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 512?",
+            what_is_the_shed_512: "Co je Kůlna 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_voxmarket: "Co je Voxmarket?",
             return_to_previous_topic: "Zpět k předchozímu tématu"

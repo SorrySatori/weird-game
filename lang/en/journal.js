@@ -28,6 +28,14 @@ export default {
             title: 'Growth and Decay',
             description: 'My actions can change the city and its future. Growth feeds what lives; Decay strips what lingers.',
         },
+        spores_lore: {
+            title: 'The Spores',
+            description: 'I know spores — they are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. Above ground, under open sky, they behave differently: thin and scattered, carrying the city\'s whispers along the mycelium — the distress call rode them to the Council. They gather in me over time, and some things in this city feed on exactly that.',
+        },
+        symbionts_lore: {
+            title: 'Symbionts',
+            description: 'I have only ever read of symbionts; I carry none. They are living things a cultist invites into their own flesh — each with a voice and a gift (the thought behind a face, the words of the dead, the seam in a wall). Found in the city\'s odd corners, they can be taken in, and they react to the balance: some strengthen in Growth and fall silent in Decay, others the reverse.',
+        },
         abandoned_bus_interior: {
             title: 'Abandoned Bus Interior',
             description: 'The inside of the bus is a strange mix of decay and new growth.',
