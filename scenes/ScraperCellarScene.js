@@ -577,11 +577,12 @@ export default class ScraperCellarScene extends GameScene {
         super.preload();
         this.load.image('scraperCellarBg', 'assets/images/backgrounds/ScraperBasement.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.audio('scrappedSong', 'assets/sounds/scrapped-song.mp3');
     }
 
     create() {
         super.create();
-        this.playSceneMusic('genericMusic');
+        this.playSceneMusic('scrappedSong');
 
         const bg = this.add.image(400, 300, 'scraperCellarBg');
         bg.setDisplaySize(800, 600);
