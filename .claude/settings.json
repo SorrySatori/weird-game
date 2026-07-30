@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"console.log\\('phaser', require\\('./node_modules/phaser/package.json'\\).version\\)\")",
+      "Bash(node --check /tmp/_chk.mjs)",
+      "Bash(cp scenes/CardinalFeastScene.js /tmp/_chk.mjs)",
+      "Bash(rm -f /tmp/_chk.mjs)",
+      "Bash(grep -oE \"'[a-z_]+'\\\\\\)$\")",
+      "Edit(/.claude/skills/weird-game-dev/**)",
+      "Bash(identify -format '%wx%h alpha=%A\\\\n' assets/images/backgrounds/ScraperBasement.png)",
+      "Bash(grep -nE \"^#{1,3} \" WORLD_HISTORY_AND_GEOGRAPHY.md)",
+      "Bash(node \"/tmp/claude-1000/-home-mateja-CascadeProjects-weird-game/ecc58fb8-318c-410f-9935-c519d15118c5/scratchpad/audit.mjs\")",
+      "Bash(node \"/tmp/claude-1000/-home-mateja-CascadeProjects-weird-game/ecc58fb8-318c-410f-9935-c519d15118c5/scratchpad/audit2.mjs\")",
+      "Bash(command cp -f scenes/ScraperCellarScene.js /tmp/_c1.mjs)",
+      "Bash(node --check /tmp/_c1.mjs)",
+      "Bash(command cp -f lang/cs/dialogs/ScraperCellarScene.js /tmp/_c2.mjs)",
+      "Bash(node --check /tmp/_c2.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/scenes/BurningBearStreetScene.js /tmp/_v.mjs)",
+      "Bash(node --check /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/scenes/ScraperAmbraScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/scenes/RustDomainScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/scenes/ScreamingCorkScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/scenes/SkyshipBoardScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/lang/cs/dialogs/SkyshipBoardScene.js /tmp/_v2.mjs)",
+      "Bash(node --check /tmp/_v2.mjs)",
+      "Bash(command cp -f scenes/VoxmarketHallScene.js /tmp/_v1.mjs)",
+      "Bash(node --check /tmp/_v1.mjs)",
+      "Bash(command cp -f lang/cs/dialogs/VoxmarketHallScene.js /tmp/_v2.mjs)",
+      "Bash(node --input-type=module -e ' *)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/lang/cs/dialogs/LumenDirectorateInteriorScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/lang/cs/dialogs/BurningBearStreetScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/lang/cs/dialogs/ScreamingCorkScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/lang/cs/dialogs/RustDomainScene.js /tmp/_v.mjs)",
+      "Bash(command cp -f /home/mateja/CascadeProjects/weird-game/lang/cs/dialogs/ScraperAmbraScene.js /tmp/_v.mjs)",
+      "Bash(node --input-type=module)",
+      "Bash(awk '/get dialogContent/{f=1} f{print NR\": \"$0} f&&/return \\\\{/{c++} c&&/^        \\\\};/{exit}' scenes/ScreamingCorkInteriorScene.js)",
+      "Bash(command cp -f scenes/EggCathedralInteriorScene.js /tmp/_v.mjs)",
+      "Bash(awk '{print $5, $NF}')",
+      "Bash(command cp -f scenes/CreditsScene.js /tmp/_v.mjs)"
+    ],
+    "additionalDirectories": [
+      "/home/mateja/.claude/projects/-home-mateja-CascadeProjects-weird-game"
+    ]
+  }
+}

@@ -15,21 +15,44 @@
  * A key whose file does not exist yet degrades gracefully to the lettered-circle placeholder
  * (LoadingScene suppresses the load error), so it is safe to list an icon before it is drawn.
  */
+// NOTE: every item below resolves by its `id` (the resolver checks item.texture, then item.id,
+// then the name). So the texture key MUST equal the item's id, and the file is <id>.png. No item
+// definition needs editing — dream_cartridge (icon: field) and corrosive_cultivar (image: field)
+// both still resolve because their id matches the key here.
 export const ITEM_ICONS = [
-    // --- Keys (first hand-drawn batch) ---
-    { key: 'townhall-key',         path: 'assets/images/items/townhall-key.png' },
-    { key: 'scraper_backyard_key', path: 'assets/images/items/scraper_backyard_key.png' },
+    // --- Keys (done) ---
+    { key: 'townhall-key',            path: 'assets/images/items/townhall-key.png' },
+    { key: 'scraper_backyard_key',    path: 'assets/images/items/scraper_backyard_key.png' },
 
-    // --- Other placeholder items awaiting art — uncomment as each is drawn ---
-    // { key: 'chrono-slurry-toadlet',   path: 'assets/images/items/chrono-slurry-toadlet.png' },
-    // { key: 'godgraveyard-access-permit', path: 'assets/images/items/godgraveyard-access-permit.png' },
-    // { key: 'forged-arms-permission',  path: 'assets/images/items/forged-arms-permission.png' },
-    // { key: 'grayOltrac',              path: 'assets/images/items/grayOltrac.png' },
-    // { key: 'violetOltrac',            path: 'assets/images/items/violetOltrac.png' },
-    // { key: 'amberOltrac',             path: 'assets/images/items/amberOltrac.png' },
-    // NOTE: 'dream_cartridge' has only an icon: field (ignored by the resolver) — after drawing,
-    //       also give that item a texture:'dream_cartridge' field so it resolves.
-    // { key: 'dream_cartridge',         path: 'assets/images/items/dream_cartridge.png' },
-    // NOTE: 'corrosive_cultivar' has only an image: field (ignored) — same fix (add texture:).
-    // { key: 'corrosive_cultivar',      path: 'assets/images/items/corrosive_cultivar.png' },
+    // --- Current batch (active — drop the PNGs in and they show) ---
+    { key: 'grayOltrac',              path: 'assets/images/items/grayOltrac.png' },     // Oltrac drug — gray (draw once, recolour ×3)
+    { key: 'violetOltrac',            path: 'assets/images/items/violetOltrac.png' },   // Oltrac drug — violet
+    { key: 'amberOltrac',             path: 'assets/images/items/amberOltrac.png' },    // Oltrac drug — amber (rarest)
+    { key: 'dream_cartridge',         path: 'assets/images/items/dream_cartridge.png' },// "The Cardinal Feast" cartridge (the Bishop's last game)
+
+    // --- Remaining inventory placeholders — uncomment each as you draw it ---
+    // Story / quest items:
+    // { key: 'chrono-slurry-toadlet',     path: 'assets/images/items/chrono-slurry-toadlet.png' },   // prophetic toad in a brass jar
+    // { key: 'corrosive_cultivar',        path: 'assets/images/items/corrosive_cultivar.png' },       // rot-plant that eats metal
+    // { key: 'godgraveyard-access-permit',path: 'assets/images/items/godgraveyard-access-permit.png' },
+    // { key: 'forged-arms-permission',    path: 'assets/images/items/forged-arms-permission.png' },
+    // Ortolan "extra arms" quest chain (forms = one visual family; game pieces = another):
+    // { key: 'game-prototype',            path: 'assets/images/items/game-prototype.png' },
+    // { key: 'probability-die',           path: 'assets/images/items/probability-die.png' },
+    // { key: 'worldwright-piece',         path: 'assets/images/items/worldwright-piece.png' },
+    // { key: 'luck-token',                path: 'assets/images/items/luck-token.png' },
+    // { key: 'strategy-guide',            path: 'assets/images/items/strategy-guide.png' },
+    // { key: 'fate-altering-piece',       path: 'assets/images/items/fate-altering-piece.png' },
+    // { key: 'creative-spores',           path: 'assets/images/items/creative-spores.png' },
+    // { key: 'rulebook-fragment',         path: 'assets/images/items/rulebook-fragment.png' },
+    // { key: 'silent-sentence',           path: 'assets/images/items/silent-sentence.png' },
+    // { key: 'artisan-exemption-form',    path: 'assets/images/items/artisan-exemption-form.png' },
+    // { key: 'deformity-form',            path: 'assets/images/items/deformity-form.png' },
+    // { key: 'special-dispensation',      path: 'assets/images/items/special-dispensation.png' },
+    // { key: 'temporary-permit',          path: 'assets/images/items/temporary-permit.png' },
+    // Voxmarket shop stock:
+    // { key: 'trinket_box',               path: 'assets/images/items/trinket_box.png' },
+    // { key: 'crystal_vial',              path: 'assets/images/items/crystal_vial.png' },
+    // { key: 'market_map',                path: 'assets/images/items/market_map.png' },
+    // { key: 'forgotten_elevator_button', path: 'assets/images/items/forgotten_elevator_button.png' },
 ];

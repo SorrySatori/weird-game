@@ -16,6 +16,7 @@ import SaveSystem from '../systems/SaveSystem.js';
 import GameMenu from '../ui/GameMenu.js';
 import MapUI from '../ui/MapUI.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { renderDialogLayout } from '../utils/dialogLayouts.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -134,6 +135,7 @@ export default class GameScene extends Phaser.Scene {
                 this.journalUI.toggle();
             }
         });
+
         
         // Create symbiont UI
         this.createSymbiontUI();
@@ -1877,75 +1879,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     // Dialog option creation
-    createDialogOption(text, y, callback, isUsed = false) {
-        // Create text first to calculate its height
-        const optionText = this.add.text(-250, y, `• ${text}`, {
-            fontSize: '20px',
-            fill: isUsed ? '#5a8c6b' : '#7fff8e', // Gray-ish green for used options
-            wordWrap: { width: 540 },
-            align: 'left'
-        });
-        optionText.setOrigin(0, 0); // Left align text at top
-        
-        // Calculate dynamic height based on text content with padding
-        const textHeight = optionText.height;
-        // Ensure enough height for the text plus padding (10px on top and bottom)
-        const optionHeight = textHeight + 10; // Just a bit of padding for Fallout style // Minimum 40px height with 20px padding
-        
-        // Create background with dynamic height
-        const optionBg = this.add.rectangle(0, y + optionHeight/2, 560, optionHeight, 0x0a2712, 0);
-        optionBg.setInteractive({ useHandCursor: true });
-        
-        // Return the actual height used for proper spacing in the caller
-        optionBg.actualHeight = optionHeight;
-        
-        // Store the used state for reference in event handlers
-        optionBg.isUsed = isUsed;
-        optionText.isUsed = isUsed;
-
-        optionBg.on('pointerover', () => {
-            // No background change for Fallout style
-            optionText.setStyle({ fill: "#ffffff" }); // Bright white on hover
-        });
-
-        optionBg.on('pointerout', () => {
-            // No background change for Fallout style
-            optionText.setStyle({ fill: optionBg.isUsed ? '#5a8c6b' : '#7fff8e' }); // Restore original color based on used state
-        });
-
-        optionBg.on('pointerdown', () => {
-            this.dialogMurmur.play();
-            
-            // Disable interaction to prevent multiple clicks
-            optionBg.disableInteractive();
-            
-            // Hide clicked option with fade out
-            this.tweens.add({
-                targets: [optionBg, optionText],
-                alpha: 0,
-                duration: 200,
-                ease: 'Power2'
-            });
-            
-            this.tweens.add({
-                targets: this.dialogOptions,
-                y: 200,
-                duration: 300,
-                ease: 'Power2',
-                onComplete: () => {
-                    this.dialogOptionsY = 200; // Update tracked position
-                    // Play dialog murmur sound before showing next dialog
-                    this.dialogMurmur.play({
-                        volume: 0.8,
-                        rate: 0.8
-                    });
-                    callback();
-                }
-            });
-        });
-
-        return [optionBg, optionText];
-    }
 
     showDialog(state) {
         // Destroy previous dialog if it exists
@@ -1957,6 +1890,7 @@ export default class GameScene extends Phaser.Scene {
             this.textMaskGraphics.destroy();
             this.textMaskGraphics = null;
         }
+        this.clearDialogLayoutArtifacts();
         if (this.avatar) {
             this.avatar.setVisible(true);
         }
@@ -2056,349 +1990,52 @@ export default class GameScene extends Phaser.Scene {
             content.onShow();
             return; // Don't show dialog if onShow is defined
         }
-        
-        // Create new dialog box
-        this.dialogBox = this.add.container(400, 300);
-        this.dialogBox.setDepth(1000);
-        
-        // We'll set the dialog background size after calculating content height
-        const dialogBg = this.add.rectangle(0, 0, 600, 500, 0x0a2712, 0.9);
-        dialogBg.setStrokeStyle(2, 0x7fff8e);
-        this.dialogBox.add(dialogBg);
 
-        // Add 'X' close button (skipped entirely for non-closable dialogs)
+        // Present the dialog via the finalized layout (utils/dialogLayouts.js).
+        renderDialogLayout(this, this._buildDialogModel(state, content));
+    }
+
+    /** Clean up scroll masks + wheel handlers created by non-classic dialog layouts. */
+    clearDialogLayoutArtifacts() {
+        if (this._dialogMasks) { this._dialogMasks.forEach(m => m.destroy()); this._dialogMasks = null; }
+        if (this._dialogWheel) { this._dialogWheel.forEach(h => this.input.off('wheel', h)); this._dialogWheel = null; }
+    }
+
+    /**
+     * Normalize the current dialog state into a layout-agnostic model for the presenter layer.
+     * The option `activate()` carries the EXACT same navigation logic as the classic renderer
+     * (mark used → onSelect → onTrigger-return → next), so only presentation differs.
+     */
+    _buildDialogModel(state, content) {
+        const stateKey = typeof state === 'string' ? state : (this.dialogState || 'dialog');
+        let opts = content.options;
+        if (typeof opts === 'function') opts = opts.call(this);
+        if (!Array.isArray(opts)) opts = [];
+
+        const options = opts.map(option => ({
+            label: option.text,
+            used: this.usedDialogOptions.has(this.createDialogOptionKey(stateKey, option.text)),
+            isClose: false,
+            activate: () => {
+                this.markDialogOptionAsUsed(this.createDialogOptionKey(stateKey, option.text));
+                if (option.onSelect) option.onSelect.call(this);
+                if (content.onTrigger) {
+                    const nextDialog = content.onTrigger.call(this, option);
+                    if (nextDialog) { this.showDialog(nextDialog); return; }
+                }
+                if (option.next) this.showDialog(option.next);
+            },
+        }));
+
         if (!content.hideCloseOption) {
-            const closeBtn = this.add.container(280, -230);
-            const closeBg = this.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
-            closeBg.setStrokeStyle(1, 0x7fff8e);
-            closeBg.setInteractive({ useHandCursor: true });
-            const closeText = this.add.text(0, 0, 'X', {
-                fontSize: '24px',
-                fill: '#7fff8e'
-            });
-            closeText.setOrigin(0.5);
-            closeBtn.add([closeBg, closeText]);
-            this.dialogBox.add(closeBtn);
-
-            // Make close button interactive
-            closeBg.on('pointerover', () => {
-                closeBg.setFillStyle(0x0a2712, 0.8);
-                closeText.setStyle({ fill: '#b3ffcc' });
-            });
-            closeBg.on('pointerout', () => {
-                closeBg.setFillStyle(0x0a2712, 0.6);
-                closeText.setStyle({ fill: '#7fff8e' });
-            });
-            closeBg.on('pointerdown', () => {
-                this.clickSound.play();
-                this.hideDialog();
+            options.push({
+                label: LanguageSystem.getInstance().t('ui.dialog.close'),
+                used: false, isClose: true,
+                activate: () => this.hideDialog(),
             });
         }
 
-        // Create a separate container for text area with fixed height
-        const textContainer = this.add.container(0, -140);
-        this.dialogBox.add(textContainer);
-        
-        // Store text container position for reference when positioning options
-        const textContainerY = -140;
-        
-        // Create background for text area
-        const textBgHeight = 180; // Increased height for more text
-        const textBg = this.add.rectangle(0, 0, 560, textBgHeight, 0x0a2712, 0.8);
-        textBg.setStrokeStyle(1, 0x7fff8e);
-        textContainer.add(textBg);
-        
-        // Add speaker name if provided
-        let speakerName = content.speaker;
-        const hasSpeaker = !!speakerName;
-        // Body text starts BELOW the speaker line (when present) and the scroll area is
-        // clamped/masked to that band, so a long scrollable body can never slide up over
-        // the speaker name. textTopY / textBottomY are the body area's top/bottom (container-space).
-        const textTopY = -(textBgHeight / 2) + (hasSpeaker ? 44 : 12);
-        const textBottomY = (textBgHeight / 2) - 6;
-        const textContainerWorldY = 300 - 140; // dialogBox(300,300) + textContainer offset(-140)
-
-        // Create mask for scrollable text — clipped to the body band (below the speaker).
-        this.textMaskGraphics = this.add.graphics();
-        this.textMaskGraphics.fillStyle(0xffffff);
-        this.textMaskGraphics.fillRect(400 - 270, textContainerWorldY + textTopY, 540, textBottomY - textTopY);
-
-        if (hasSpeaker) {
-            const speakerText = this.add.text(-260, -(textBgHeight / 2) + 10, speakerName + ':', {
-                fontSize: '22px',
-                fontStyle: 'bold',
-                fill: '#ffff00', // Yellow color for speaker name
-                align: 'left'
-            });
-            speakerText.setOrigin(0, 0);
-            textContainer.add(speakerText);
-        }
-
-        this.dialogText = this.add.text(-260, textTopY, content.text, {
-            fontSize: '22px',
-            fill: '#7fff8e',
-            wordWrap: { width: 520 },
-            lineSpacing: 6,
-            align: 'left'
-        });
-        this.dialogText.setOrigin(0, 0); // Left align text
-        textContainer.add(this.dialogText);
-
-        // Set up text scrolling if needed
-        const textHeight = this.dialogText.height;
-        const textAreaHeight = textBottomY - textTopY; // Visible body band (below the speaker)
-        
-        if (textHeight > textAreaHeight) {
-            // Text needs scrolling
-            this.dialogText.setMask(new Phaser.Display.Masks.GeometryMask(this, this.textMaskGraphics));
-            
-            // Add scroll indicators (right margin, clear of the speaker name and body text)
-            const upArrow = this.add.text(268, textTopY, '▲', {
-                fontSize: '18px',
-                fill: '#7fff8e'
-            });
-            upArrow.setOrigin(0.5);
-            textContainer.add(upArrow);
-
-            const downArrow = this.add.text(268, textBottomY, '▼', {
-                fontSize: '18px',
-                fill: '#7fff8e'
-            });
-            downArrow.setOrigin(0.5);
-            textContainer.add(downArrow);
-            
-            // Make arrows interactive
-            upArrow.setInteractive({ useHandCursor: true });
-            upArrow.on('pointerover', () => upArrow.setStyle({ fill: '#b3ffcc' }));
-            upArrow.on('pointerout', () => upArrow.setStyle({ fill: '#7fff8e' }));
-            upArrow.on('pointerdown', () => {
-                this.clickSound.play();
-                if (this.dialogText.y < textTopY) {
-                    this.dialogText.y += 20;
-                    if (this.dialogText.y > textTopY) {
-                        this.dialogText.y = textTopY;
-                    }
-                }
-            });
-            
-            downArrow.setInteractive({ useHandCursor: true });
-            downArrow.on('pointerover', () => downArrow.setStyle({ fill: '#b3ffcc' }));
-            downArrow.on('pointerout', () => downArrow.setStyle({ fill: '#7fff8e' }));
-            downArrow.on('pointerdown', () => {
-                this.clickSound.play();
-                const minY = textTopY - (textHeight - textAreaHeight);
-                if (this.dialogText.y > minY) {
-                    this.dialogText.y -= 20;
-                    if (this.dialogText.y < minY) {
-                        this.dialogText.y = minY;
-                    }
-                }
-            });
-            
-            // Add mouse wheel support
-            this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
-                if (this.dialogVisible && pointer.y < 300) {
-                    const scrollAmount = deltaY > 0 ? -20 : 20;
-                    const newY = this.dialogText.y + scrollAmount;
-                    const minY = textTopY - (textHeight - textAreaHeight);
-
-                    if (newY <= textTopY && newY >= minY) {
-                        this.dialogText.y = newY;
-                    } else if (newY > textTopY) {
-                        this.dialogText.y = textTopY;
-                    } else if (newY < minY) {
-                        this.dialogText.y = minY;
-                    }
-                }
-            });
-        }
-        
-        // Create options container - positioned below the text area
-        // Position it with appropriate spacing (reduced from previous value)
-        const optionsContainer = this.add.container(0, textContainerY + textBgHeight + 20); // Text area position + height + spacing
-        this.dialogBox.add(optionsContainer);
-        
-        // Create dialog options container
-        this.dialogOptions = this.add.container(0, 0);
-        optionsContainer.add(this.dialogOptions);
-        
-        // Create dialog options
-        const visibleOptionsCount = 3; // Maximum number of visible options (reduced to fit in viewport)
-        // We'll use dynamic heights for options based on content
-        
-        // Calculate total options including "Close"
-        // Handle options that are functions
-        if (typeof content.options === 'function') {
-            content.options = content.options.call(this);
-        }
-        
-        // Make sure content.options exists and is an array
-        if (!content.options || !Array.isArray(content.options)) {
-            content.options = [];
-        }
-        
-        const totalOptions = content.options.length + 1; // +1 for Close button
-        
-        // Calculate total pages needed
-        const totalPages = Math.ceil(totalOptions / visibleOptionsCount);
-        
-        // Determine if we need pagination - we need at least 2 pages
-        const needsPagination = totalPages > 1;
-        
-        // Track current page
-        this.currentOptionPage = 0;
-        
-        // Debug pagination info
-        console.log(`Dialog pagination: ${totalOptions} options, ${visibleOptionsCount} visible, ${totalPages} pages, needs pagination: ${needsPagination}`);
-        
-        // Function to show options for current page
-        const showOptionsForPage = (page) => {
-            // Clear existing options
-            this.dialogOptions.removeAll(true);
-            
-            // Calculate start and end indices for current page
-            const startIdx = page * visibleOptionsCount;
-            const endIdx = Math.min(startIdx + visibleOptionsCount, content.options.length);
-            
-            // Add options for current page with dynamic spacing
-            let currentY = 0; // Track the current Y position
-            
-            for (let i = startIdx; i < endIdx; i++) {
-                const option = content.options[i];
-                
-                // Check if this option has been used before
-                const optionKey = this.createDialogOptionKey(state, option.text);
-                const isUsed = this.usedDialogOptions.has(optionKey);
-                
-                // Create a callback function for this option
-                const optionCallback = function() {
-                    // Mark this option as used when selected
-                    const optionKey = this.createDialogOptionKey(state, option.text);
-                    this.markDialogOptionAsUsed(optionKey);
-                    
-                    // Call onSelect if it exists
-                    if (option.onSelect) {
-                        option.onSelect.call(this); // Bind the correct 'this' context
-                    }
-                    
-                    // Check if there's an onTrigger function that returns a dialog ID
-                    if (content.onTrigger) {
-                        const nextDialog = content.onTrigger.call(this, option); // Bind the correct 'this' context
-                        if (nextDialog) {
-                            // If onTrigger returns a dialog ID, use that instead of option.next
-                            this.showDialog(nextDialog);
-                            return;
-                        }
-                    }
-                    
-                    // Otherwise use the option's next value
-                    if (option.next) {
-                        this.showDialog(option.next);
-                    }
-                }.bind(this); // Bind 'this' to ensure proper context
-                
-                // Create the dialog option with the callback and isUsed parameter
-                const elements = this.createDialogOption(option.text, currentY, optionCallback, isUsed);
-                this.dialogOptions.add(elements);
-                
-                // Increment Y position by the actual height of this option plus spacing
-                const spacing = 8; // Reduced spacing for Fallout style
-                currentY += elements[0].actualHeight + spacing;
-            }
-            
-            // Add close option if it fits on this page (unless hideCloseOption is true)
-            if (endIdx === content.options.length && (endIdx - startIdx) < visibleOptionsCount && !content.hideCloseOption) {
-                const i18n = LanguageSystem.getInstance();
-                const closeLabel = i18n.t('ui.dialog.close');
-                const closeElements = this.createDialogOption(closeLabel, currentY, () => {
-                    this.hideDialog();
-                });
-                this.dialogOptions.add(closeElements);
-                
-                const spacing = 15; // Same spacing as between other options
-                currentY += closeElements[0].actualHeight + spacing;
-            }
-            
-            // Add pagination controls if needed
-            if (needsPagination) {
-                // Create pagination container
-                const paginationContainer = this.add.container(0, currentY + 20);
-                this.dialogOptions.add(paginationContainer);
-                
-                // Add page indicator text
-                const pageText = this.add.text(-15, 0, 
-                    `Page ${page + 1}/${totalPages}`, {
-                    fontSize: '18px',
-                    fill: '#7fff8e'
-                });
-                pageText.setOrigin(0.5);
-                paginationContainer.add(pageText);
-                
-                // Add navigation arrows based on current page
-                if (page < totalPages - 1) {
-                    // Add right arrow for next page
-                    const rightArrow = this.add.text(pageText.width/2 + 15, 0, '▶', {
-                        fontSize: '18px',
-                        fill: '#7fff8e'
-                    });
-                    rightArrow.setOrigin(0.5);
-                    rightArrow.setInteractive({ useHandCursor: true });
-                    paginationContainer.add(rightArrow);
-                    
-                    // Add hover and click effects
-                    rightArrow.on('pointerover', () => rightArrow.setStyle({ fill: '#b3ffcc' }));
-                    rightArrow.on('pointerout', () => rightArrow.setStyle({ fill: '#7fff8e' }));
-                    rightArrow.on('pointerdown', () => {
-                        this.clickSound.play();
-                        this.currentOptionPage++;
-                        showOptionsForPage(this.currentOptionPage);
-                    });
-                }
-                
-                if (page > 0) {
-                    // Add left arrow for previous page
-                    const leftArrow = this.add.text(-pageText.width/2 - 30, 0, '◀', {
-                        fontSize: '18px',
-                        fill: '#7fff8e'
-                    });
-                    leftArrow.setOrigin(0.5);
-                    leftArrow.setInteractive({ useHandCursor: true });
-                    paginationContainer.add(leftArrow);
-                    
-                    // Add hover and click effects
-                    leftArrow.on('pointerover', () => leftArrow.setStyle({ fill: '#b3ffcc' }));
-                    leftArrow.on('pointerout', () => leftArrow.setStyle({ fill: '#7fff8e' }));
-                    leftArrow.on('pointerdown', () => {
-                        this.clickSound.play();
-                        this.currentOptionPage--;
-                        showOptionsForPage(this.currentOptionPage);
-                    });
-                }
-                
-                // Update currentY to include pagination controls
-                currentY += 50;
-            }
-            
-            // Resize dialog background based on content height
-            if (this.dialogBg) {
-                // Calculate total height needed: text area (120px) + spacing (20px) + options area (currentY) + bottom padding (30px)
-                const totalHeight = 120 + 20 + currentY + 30;
-                // Set minimum height to 500px to match initial height
-                const newHeight = Math.max(500, totalHeight);
-                this.dialogBg.height = newHeight;
-                
-                // Center the dialog box vertically based on new height
-                this.dialogBox.y = 300;
-                
-                // No need to reposition options container as it's already positioned relative to text area
-            }
-        };
-        
-        // Show options for the first page
-        showOptionsForPage(0);
-        
-        // Store reference to dialog background for resizing
-        this.dialogBg = dialogBg;
+        return { speaker: content.speaker || null, text: content.text || '', options };
     }
 
     hideDialog() {
@@ -2410,6 +2047,7 @@ export default class GameScene extends Phaser.Scene {
             this.textMaskGraphics.destroy();
             this.textMaskGraphics = null;
         }
+        this.clearDialogLayoutArtifacts();
         this.dialogVisible = false;
         
         // Update dialog visibility in player movement system

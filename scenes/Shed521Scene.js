@@ -335,6 +335,17 @@ export default class Shed521Scene extends GameScene {
         this.addGroundShadow(400, 470 + this.gnur.displayHeight * 0.42, this.gnur.displayWidth * 0.55, this.gnur.displayHeight * 0.12);
         this.gnur.setInteractive({ useHandCursor: true });
 
+        // Looping walk-cycle animation (anims are global — create once).
+        if (!this.anims.exists('gnur_walk')) {
+            this.anims.create({
+                key: 'gnur_walk',
+                frames: this.anims.generateFrameNumbers('gnur', { start: 0, end: 5 }),
+                frameRate: 8,
+                repeat: -1
+            });
+        }
+        this.gnur.play('gnur_walk');
+
         // Create transition to Shed521FloorsScene at the elevator
         this.transitionManager = new SceneTransitionManager(this);
         
@@ -415,7 +426,8 @@ export default class Shed521Scene extends GameScene {
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('mysteriousSpore', 'assets/images/items/spore.png');
         // Load Gnur sprite
-        this.load.image('gnur', './assets/images/characters/Gnur.png');
+        // Gnur2 = Gnur as a 6-frame walk-cycle spritesheet (3×2 grid, 582×982 per frame).
+        this.load.spritesheet('gnur', './assets/images/characters/Gnur2.png', { frameWidth: 582, frameHeight: 982 });
     }
 
     update() {
