@@ -54,8 +54,10 @@ export default {
         }
     },
     growthDecay: {
-        text: "No, ty pojmy mluví samy za sebe, ne? Růst je, když město roste, když prosperuje a vzkvétá. Rozklad je, když město chátrá, když má navrch hniloba. Jak víš, můj učedníku, Obazoba je pánem obou principů. Proto jsou si rovny, žádný není lepší než druhý. Ale samozřejmě, ne každý občan tady bude sdílet tento názor. Někteří budou preferovat růst, jiní rozklad. Někteří budou preferovat rovnováhu mezi nimi. Někteří nebudou preferovat ani jedno. Je na tobě, abys to zjistil, ale buď opatrný. Teď už opravdu musím jít, mám hodně... práce. Sláva Věčné houbě!",
+        text: "No, ty pojmy mluví samy za sebe, ne? Růst je, když město roste, když prosperuje a vzkvétá. Rozklad je, když město chátrá, když má navrch hniloba. Jak víš, můj učedníku, Obazoba je pánem obou principů. Proto jsou si rovny, žádný není lepší než druhý. Ale samozřejmě, ne každý občan tady bude sdílet tento názor. Někteří budou preferovat růst, jiní rozklad. Někteří budou preferovat rovnováhu mezi nimi. Někteří nebudou preferovat ani jedno. Je na tobě, abys to zjistil, ale buď opatrný.",
         options: {
+            and_these_spores: "A ty spóry, co jste zmínil?",
+            the_symbionts_tell_me_more: "A co ti symbionti?",
             glory_to_the_eternal_mushroom: "Sláva Věčné houbě..."
         }
     },

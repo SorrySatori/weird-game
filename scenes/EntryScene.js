@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 export default class EntryScene extends GameScene {
     constructor() {
@@ -10,8 +11,8 @@ export default class EntryScene extends GameScene {
     }
 
     get dialogContent() {
-        return {
-            ...super.dialogContent,
+        const cs = LanguageSystem.getInstance?.().getLanguage?.() === 'cs';
+        const states = {
             speaker: 'Master Thaal',
             main: {
                 text: "Ah, my apprentice, there you are! *sigh* I've been waiting for you. Listen carefully, for I have an important task that requires... well, someone of your particular talents.",
@@ -119,8 +120,10 @@ export default class EntryScene extends GameScene {
                 ]
             },
             growthDecay: {
-                text: "Well, the terms speak for themselves, aren't they? Growth is when the city is growing, when it is thriving and prospering. Decay is when the city is decaying, when the rot has the upper hand. As you know, my apprentice, Obazoba is master of both principles. Therefore, they are equal, none of them is better than the other. But of course, not every citizen here will share this opinion. Some of them will prefer growth, some will prefer decay. Some will prefer balance between them. Some will prefer none of them. It's up to you to find out, but be careful. Now I really have to go, I have a lot of... work to do. Glory to the Eternal Mushroom!",
+                text: "Well, the terms speak for themselves, aren't they? Growth is when the city is growing, when it is thriving and prospering. Decay is when the city is decaying, when the rot has the upper hand. As you know, my apprentice, Obazoba is master of both principles. Therefore, they are equal, none of them is better than the other. But of course, not every citizen here will share this opinion. Some of them will prefer growth, some will prefer decay. Some will prefer balance between them. Some will prefer none of them. It's up to you to find out, but be careful.",
                 options: [
+                    { text: "And the spores you mentioned?", key: 'and_these_spores', next: 'spores' },
+                    { text: "What about the symbionts?", key: 'the_symbionts_tell_me_more', next: 'symbionts' },
                     { text: "Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'close' }
                 ],
                 onTrigger: () => {
@@ -283,6 +286,19 @@ export default class EntryScene extends GameScene {
                 }
             }
         };
+
+        // Tutorial funnel: surface the route to `farewell` (Growth/Decay, spores & symbionts) in
+        // EVERY state and hide the auto "Leave"/X, so the intro's mechanics blurb is never missed.
+        // `close` keeps its X as the single deliberate exit (reached via farewell's "Glory" option).
+        for (const [id, st] of Object.entries(states)) {
+            if (id === 'close' || !st || typeof st !== 'object' || !Array.isArray(st.options)) continue;
+            st.hideCloseOption = true;
+            if (id !== 'farewell' && !st.options.some(o => o.next === 'farewell' || o.key === 'ill_be_on_my_way')) {
+                st.options.push({ text: cs ? 'Už půjdu.' : "I'll be on my way.", key: 'ill_be_on_my_way', next: 'farewell' });
+            }
+        }
+
+        return { ...super.dialogContent, ...states };
     }
 
     preload() {
