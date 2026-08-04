@@ -24,7 +24,6 @@ export default class GameScene extends Phaser.Scene {
         super(config);
         this.dialogVisible = false;
         this.dialogState = 'main';
-        this.dialogOptionsY = 0; // Track options position
         this.isTransitioning = false; // Flag to prevent multiple transitions
         this.symbiontContainer = null;
         this.symbiontSlots = [];
@@ -46,7 +45,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     init(data) {
-        console.log('GameScene init with data:', data);
         
         // Reset transition flag when scene starts
         this.isTransitioning = false;
@@ -111,12 +109,11 @@ export default class GameScene extends Phaser.Scene {
 
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {
-            console.log('Error loading asset:', fileObj.key);
+            console.warn('Error loading asset:', fileObj.key);
         });
     }
 
     create() {
-        console.log('GameScene create');
         
         // Reset dialog state for clean scene entry
         this.dialogVisible = false;
@@ -159,7 +156,6 @@ export default class GameScene extends Phaser.Scene {
         
         // If we have a loaded position from a save game, set player position
         if (this.loadedPosition && this.player) {
-            console.log('Setting player position from loaded save:', this.loadedPosition);
             this.player.setPosition(this.loadedPosition.x, this.loadedPosition.y);
         }
     }
@@ -200,7 +196,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     initSystems() {
-        console.log('Initializing game systems');
         
         // Initialize Journal System
         this.journalSystem = JournalSystem.getInstance();
@@ -1289,20 +1284,7 @@ export default class GameScene extends Phaser.Scene {
             this.dialogBox.destroy();
             this.dialogBox = null;
         }
-        if (this.dialogText) {
-            this.dialogText.destroy();
-            this.dialogText = null;
-        }
-        if (this.dialogOptions) {
-            if (typeof this.dialogOptions.destroy === 'function') {
-                this.dialogOptions.destroy();
-            } else if (Array.isArray(this.dialogOptions)) {
-                this.dialogOptions.forEach(option => option.destroy());
-            }
-        }
-        this.dialogOptions = null;
         this.dialogVisible = false;
-        this.dialogCallback = null;
 
         // Remove all event listeners
         this.input.removeAllListeners();
@@ -1506,31 +1488,26 @@ export default class GameScene extends Phaser.Scene {
      * Load saved data from registry
      */
     loadSavedData() {
-        console.log('Loading saved data from registry');
         
         // Only proceed if this is a loaded save
         if (!this.isLoadedSave) {
-            console.log('Not a loaded save, skipping data loading');
             return;
         }
         
         // Load quest data
         if (this.registry.has('savedQuests') && this.questSystem) {
-            console.log('Loading saved quests');
             const questData = this.registry.get('savedQuests');
             this.questSystem.loadFromData(questData);
         }
         
         // Load journal data
         if (this.registry.has('savedJournal') && this.journalSystem) {
-            console.log('Loading saved journal');
             const journalData = this.registry.get('savedJournal');
             this.journalSystem.loadFromData(journalData);
         }
         
         // Load symbiont data
         if (this.registry.has('savedSymbionts') && this.symbiontSystem) {
-            console.log('Loading saved symbionts');
             const symbiontData = this.registry.get('savedSymbionts');
             this.symbiontSystem.loadFromData(symbiontData);
             
@@ -1540,21 +1517,18 @@ export default class GameScene extends Phaser.Scene {
         
         // Load faction data
         if (this.registry.has('savedFactions') && this.factionSystem) {
-            console.log('Loading saved factions');
             const factionData = this.registry.get('savedFactions');
             this.factionSystem.setReputations(factionData);
         }
         
         // Load effects data
         if (this.registry.has('savedEffects') && this.effectsSystem) {
-            console.log('Loading saved effects');
             const effectsData = this.registry.get('savedEffects');
             this.effectsSystem.loadEffects(effectsData);
         }
         
         // Load spore data
         if (this.registry.has('savedSpores') && this.sporeSystem) {
-            console.log('Loading saved spores');
             const sporeData = this.registry.get('savedSpores');
             this.sporeSystem.setSporeLevel(sporeData.currentSpores);
             this.sporeSystem.setMaxSpores(sporeData.maxSpores);
@@ -1570,7 +1544,6 @@ export default class GameScene extends Phaser.Scene {
         
         // Load money data
         if (this.registry.has('savedMoney') && this.moneySystem) {
-            console.log('Loading saved money');
             const moneyData = this.registry.get('savedMoney');
             this.moneySystem.setAmount(moneyData.amount);
         }
@@ -1702,7 +1675,7 @@ export default class GameScene extends Phaser.Scene {
         renderDialogLayout(this, this._buildDialogModel(state, content));
     }
 
-    /** Clean up scroll masks + wheel handlers created by non-classic dialog layouts. */
+    /** Clean up scroll masks + wheel handlers created by the dialog layout. */
     clearDialogLayoutArtifacts() {
         if (this._dialogMasks) { this._dialogMasks.forEach(m => m.destroy()); this._dialogMasks = null; }
         if (this._dialogWheel) { this._dialogWheel.forEach(h => this.input.off('wheel', h)); this._dialogWheel = null; }
@@ -1710,8 +1683,8 @@ export default class GameScene extends Phaser.Scene {
 
     /**
      * Normalize the current dialog state into a layout-agnostic model for the presenter layer.
-     * The option `activate()` carries the EXACT same navigation logic as the classic renderer
-     * (mark used → onSelect → onTrigger-return → next), so only presentation differs.
+     * The option `activate()` carries the full navigation logic
+     * (mark used → onSelect → onTrigger-return → next), so the presenter only renders.
      */
     _buildDialogModel(state, content) {
         const stateKey = typeof state === 'string' ? state : (this.dialogState || 'dialog');
@@ -1802,61 +1775,6 @@ export default class GameScene extends Phaser.Scene {
         // Save to registry for persistence between scenes
         this.registry.set('usedDialogOptions', Array.from(this.usedDialogOptions.entries()));
     }
-
-    makeItemCollectable(item, sprite) {
-        // Make the item sprite interactive
-        sprite.setInteractive({ useHandCursor: true });
-
-        // Create item description container if it doesn't exist
-        if (!this.worldItemDescription) {
-            this.worldItemDescription = this.add.container(0, 0);
-            this.worldItemDescription.setDepth(1000);
-            this.worldItemDescription.setVisible(false);
-
-            // Description background
-            const descBg = this.add.rectangle(0, 0, 200, 80, 0x0a2712, 0.9);
-            descBg.setStrokeStyle(1, 0x7fff8e);
-            this.worldItemDescription.add(descBg);
-
-            // Description text
-            this.worldDescriptionText = this.add.text(0, 0, '', {
-                fontSize: '16px',
-                fill: '#7fff8e',
-                align: 'left',
-                wordWrap: { width: 180 }
-            });
-            this.worldDescriptionText.setOrigin(0.5);
-            this.worldItemDescription.add(this.worldDescriptionText);
-        }
-
-        // Show description on hover
-        sprite.on('pointerover', () => {
-            this.worldDescriptionText.setText(item.description || item.name);
-            
-            // Position tooltip above the item
-            const tooltipX = sprite.x;
-            const tooltipY = sprite.y - sprite.displayHeight/2 - 50;
-            this.worldItemDescription.setPosition(tooltipX, tooltipY);
-            this.worldItemDescription.setVisible(true);
-        });
-
-        // Hide description when not hovering
-        sprite.on('pointerout', () => {
-            this.worldItemDescription.setVisible(false);
-        });
-
-        // Add item to inventory on click
-        sprite.on('pointerdown', () => {
-            if (this.clickSound) this.clickSound.play();
-            if (this.addItemToInventory(item)) {
-                // Successfully added to inventory
-                this.showNotification(`Added to inventory: ${item.name}`);
-                sprite.destroy(); // Remove from world
-                this.worldItemDescription.setVisible(false);
-            }
-        });
-    }
-
 
 }
 
