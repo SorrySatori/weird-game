@@ -71,9 +71,21 @@ export default class EntryScene extends GameScene {
                         );
                     }
                     
-                    // Listen for dialog closed event to make the master walk away
-                    this.events.once('dialog-closed', this.masterWalkAway.bind(this));
+                    // Master walks off once the dialog closes — UNLESS the player accepted the
+                    // tutorial, in which case his exit is deferred until the tutorial finishes.
+                    this.events.once('dialog-closed', () => { if (this._walkAwayOnClose !== false) this.masterWalkAway(); });
                 }
+            },
+            // Neutral re-entry hub for "return to previous topic" — avoids replaying the
+            // first-meeting greeting mid-conversation. (The funnel below adds the send-off option.)
+            hub: {
+                text: "*He glances up, impatient to get back to his tankard.* Was there something else, apprentice?",
+                options: [
+                    { text: "Tell me more about the city.", key: 'tell_me_more_about_the_city', next: 'city' },
+                    { text: "Who are the gods here?", key: 'who_are_the_gods', next: 'gods' },
+                    { text: "Tell me about the city's locations.", key: 'tell_me_more_about_city_locations', next: 'locations' },
+                    { text: "Do you have any advice for me?", key: 'do_you_have_any_advice_for_me', next: 'advice' }
+                ]
             },
             task: {
                 hideCloseOption: true,
@@ -116,7 +128,7 @@ export default class EntryScene extends GameScene {
                     { text: "Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
                     { text: "The spores — a different beast how?", key: 'the_spores_different_how', next: 'spores' },
                     { text: "The symbionts. Tell me more.", key: 'the_symbionts_tell_me_more', next: 'symbionts' },
-                    { text: "Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'close' }
+                    { text: "Thank you, I have nothing more to ask. Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'tutorialOffer' }
                 ]
             },
             growthDecay: {
@@ -124,7 +136,7 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "And the spores you mentioned?", key: 'and_these_spores', next: 'spores' },
                     { text: "What about the symbionts?", key: 'the_symbionts_tell_me_more', next: 'symbionts' },
-                    { text: "Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'close' }
+                    { text: "Thank you, I have nothing more to ask. Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'tutorialOffer' }
                 ],
                 onTrigger: () => {
                     this.addJournalEntry(
@@ -136,6 +148,15 @@ export default class EntryScene extends GameScene {
                     );
                 }
             },
+            // The player tries to leave → Thaal offers an optional, meta-narrative "equipment" tutorial.
+            tutorialOffer: {
+                hideCloseOption: true,
+                text: "*He is already half-turned toward the tavern when he stops, one finger raised.* Wait! You should know that a master priest of my rank commands one further superpower: meta-narrative awareness — deeply useful for explaining how this world actually works. So, before I go: shall I show you how to use your gear? Your diary, the map, that sort of thing?",
+                options: [
+                    { text: "Yes please, Master.", key: 'tutorial_yes', onSelect: () => { this._walkAwayOnClose = false; this.events.once('equipment-tutorial-finished', () => this.masterWalkAway()); this.time.delayedCall(420, () => this.startEquipmentTutorial()); }, next: 'closeDialog' },
+                    { text: "No need. Objectively, the best games were made in 1997 — and we did just fine without tutorials back then.", key: 'tutorial_no', next: 'close' }
+                ]
+            },
             close: {
                 text: "*waves dismissively while eyeing the path to the tavern*",
                 options: []
@@ -146,7 +167,7 @@ export default class EntryScene extends GameScene {
                     { text: "Ask about the gods", key: 'ask_about_the_gods', next: 'gods' },
                     { text: "Do you have any advice for me?", key: 'do_you_have_any_advice_for_me', next: 'advice' },
                     { text: "Tell me more about city locations.", key: 'tell_me_more_about_city_locations', next: 'locations' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             spores: {
@@ -191,7 +212,7 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "Ask about the gods", key: 'ask_about_the_gods', next: 'gods' },
                     { text: "Tell me more about city locations.", key: 'tell_me_more_about_city_locations', next: 'locations' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             gods: {
@@ -199,20 +220,20 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "Ask about the city", key: 'ask_about_the_city', next: 'city' },
                     { text: "Where can I learn more about the gods?", key: 'where_can_i_learn_more_about_the_gods', next: 'priests' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             priests: {
                 text: "Go to the Egg Cathedral and talk to some of the priests there. They are always happy to chat. I mean, talk to our priest or the Bishop. Don't talk to the other gods' priests. I mean, the false gods' priests. The false priests. Ehm. You get me.",
                 options: [
                     { text: "Could you tell me more about the Egg Cathedral?", key: 'could_you_tell_me_more_about_the_egg_catedral', next: 'eggCatedral' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             eggCatedral: {
                 text: "The Egg Cathedral is, well, a huge cathedral that is hatching from a gigantic egg. A massive, shell-grown structure inhabited by fungal clergy, flickering with bio-luminescent scripture... They don't know which religion the cathedral belongs to. So all major churches send their priests just to be sure. They wait for the signs they hope for, but the cathedral is still hatching...",
                 options: [
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             locations: {
@@ -223,7 +244,7 @@ export default class EntryScene extends GameScene {
                     { text: "Scraper 1140", key: 'scraper_1140', next: 'scraper1140' },
                     { text: "Voxmarket", key: 'voxmarket', next: 'voxmarket' },
                     { text: "Stomach Clock", key: 'stomach_clock', next: 'stomachClock' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             shed512: {
@@ -234,7 +255,7 @@ export default class EntryScene extends GameScene {
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             yolkSea: {
@@ -244,7 +265,7 @@ export default class EntryScene extends GameScene {
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             scraper1140: {
@@ -253,7 +274,7 @@ export default class EntryScene extends GameScene {
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             voxmarket: {
@@ -262,7 +283,7 @@ export default class EntryScene extends GameScene {
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             stomachClock: {
@@ -271,7 +292,7 @@ export default class EntryScene extends GameScene {
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'main' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('heard_stomach_clock')) {
@@ -288,12 +309,15 @@ export default class EntryScene extends GameScene {
         };
 
         // Tutorial funnel: surface the route to `farewell` (Growth/Decay, spores & symbionts) in
-        // EVERY state and hide the auto "Leave"/X, so the intro's mechanics blurb is never missed.
+        // the topic states and hide the auto "Leave"/X, so the intro's mechanics blurb is never missed.
         // `close` keeps its X as the single deliberate exit (reached via farewell's "Glory" option).
+        // BRIEFING states are excluded: while Thaal is still handing over the task, "I'll be on my way"
+        // makes no sense — the player hasn't been sent off yet.
+        const NO_LEAVE = new Set(['farewell', 'main', 'task', 'whyNot', 'avoiding', 'tutorialOffer']);
         for (const [id, st] of Object.entries(states)) {
             if (id === 'close' || !st || typeof st !== 'object' || !Array.isArray(st.options)) continue;
             st.hideCloseOption = true;
-            if (id !== 'farewell' && !st.options.some(o => o.next === 'farewell' || o.key === 'ill_be_on_my_way')) {
+            if (!NO_LEAVE.has(id) && !st.options.some(o => o.next === 'farewell' || o.key === 'ill_be_on_my_way')) {
                 st.options.push({ text: cs ? 'Už půjdu.' : "I'll be on my way.", key: 'ill_be_on_my_way', next: 'farewell' });
             }
         }
@@ -304,7 +328,7 @@ export default class EntryScene extends GameScene {
     preload() {
         super.preload();
         // Load any EntryScene-specific assets here
-        // this.load.image('desolateUrban', 'assets/images/backgrounds/Desolate Urban Landscape.png');
+        // this.loa d.image('desolateUrban', 'assets/images/backgrounds/Desolate Urban Landscape.png');
         // Load fungal master sprite as a regular image since it's not a spritesheet
         this.load.image('fungal_master', 'assets/images/characters/fungal_master.png');
     }

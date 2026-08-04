@@ -13,6 +13,15 @@ export default {
             why_cant_you_do_it_yourself: "Proč to nemůžete udělat sám?"
         }
     },
+    hub: {
+        text: "*Zvedne pohled, netrpělivý, aby se vrátil ke svému džbánku.* Bylo ještě něco, učedníku?",
+        options: {
+            tell_me_more_about_the_city: "Řekněte mi víc o městě.",
+            who_are_the_gods: "Kdo jsou zdejší bohové?",
+            tell_me_more_about_city_locations: "Řekněte mi o místech ve městě.",
+            do_you_have_any_advice_for_me: "Máte pro mě nějakou radu?"
+        }
+    },
     task: {
         text: "Musíš najít Biskupku v Vaječné katedrále. Možná ví něco o nouzovém volání, které jsme přijali z tohoto města přes myceliární síť. Biskupka by měla být přítomna ve Vaječné katedrále.",
         options: {
@@ -59,6 +68,13 @@ export default {
             and_these_spores: "A ty spóry, co jste zmínil?",
             the_symbionts_tell_me_more: "A co ti symbionti?",
             glory_to_the_eternal_mushroom: "Sláva Věčné houbě..."
+        }
+    },
+    tutorialOffer: {
+        text: "*Už je napůl otočený k hospodě, když se zastaví a zvedne prst.* Počkej! Měl bys vědět, že mistr kněz mého řádu ovládá ještě jednu superschopnost: meta-narativní vědomí — nesmírně užitečné pro vysvětlování, jak tenhle svět vlastně funguje. Takže než půjdu: mám ti ukázat, jak zacházet s výbavou? Deník, mapa a tak podobně?",
+        options: {
+            tutorial_yes: "Ano prosím, Mistře.",
+            tutorial_no: "Netřeba. Nejlepší hry objektivně vznikly v roce 1997 — a tenkrát jsme se bez tutoriálů taky obešli."
         }
     },
     close: {
