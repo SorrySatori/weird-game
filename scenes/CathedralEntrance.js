@@ -135,7 +135,7 @@ export default class CathedralEntrance extends GameScene {
         super.preload();
         this.load.image('cathedralEntranceBg', 'assets/images/backgrounds/CathedralEntrance.png');
         this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
-        this.load.image('guard', 'assets/images/characters/guard.png');
+        this.load.spritesheet('guard', 'assets/images/characters/guardian1.png', { frameWidth: 128, frameHeight: 176 });
     }
 
     create() {
@@ -392,80 +392,31 @@ export default class CathedralEntrance extends GameScene {
     }
     
     createTempleGuard() {
-        // Create a container for the temple guard
+        // Container for the temple guard, standing just below the cathedral door.
         this.templeGuard = this.add.container(380, 450);
         this.templeGuard.setDepth(5);
         this.addGroundShadow(380, 508, 72, 18);
-        
-        // Create the guard using the sprite image
-        const guardSprite = this.add.sprite(0, 0, 'guard');
-        guardSprite.setScale(0.2); // Match the scale of the apprentice figure
-        
-        // Apply a green tint to match the fungal theme
-        guardSprite.setTint(0x7fff8e);
-        
-        // Create a container for the head for independent movement
-        const headContainer = this.add.container(0, -50);
-        
-        // Add glowing eyes effect
-        const leftEye = this.add.graphics();
-        leftEye.fillStyle(0x7fff8e, 1);
-        leftEye.fillCircle(-10, 0, 3);
-        
-        const rightEye = this.add.graphics();
-        rightEye.fillStyle(0x7fff8e, 1);
-        rightEye.fillCircle(10, 0, 3);
-        
-        // Add pulsating effect to eyes
-        this.tweens.add({
-            targets: [leftEye, rightEye],
-            alpha: { from: 1, to: 0.5 },
-            duration: 1200,
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add eyes to head container
-        headContainer.add([leftEye, rightEye]);
-        
-        // Add staff with glowing orb
-        const guardStaff = this.add.graphics();
-        guardStaff.lineStyle(4, 0x7fff8e, 1);
-        guardStaff.beginPath();
-        guardStaff.moveTo(40, -80);
-        guardStaff.lineTo(40, 60);
-        guardStaff.closePath();
-        guardStaff.strokePath();
-        
-        // Add staff orb
-        const staffOrb = this.add.graphics();
-        staffOrb.fillStyle(0x7fff8e, 0.8);
-        staffOrb.fillCircle(40, -70, 8);
-        
-        // Add pulsating effect to the orb
-        this.tweens.add({
-            targets: staffOrb,
-            alpha: { from: 0.8, to: 0.4 },
-            duration: 1500,
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add all elements to the container
-        this.templeGuard.add([
-            guardSprite,
-            headContainer,
-            guardStaff,
-            staffOrb
-        ]);
-        
-        // Add a subtle pulsating glow effect around the guard
+
+        // Hand-drawn pixel-art guard (guardian1.png): a 6-frame idle animation laid out as a
+        // 3×2 grid of 128×176 frames, shown at native size (scale 1). Origin is bottom-centre so
+        // the feet rest on the shadow line (world y ≈ 508).
+        const guardSprite = this.add.sprite(0, 58, 'guard').setOrigin(0.5, 1);
+        this.templeGuard.add(guardSprite);
+        if (!this.anims.exists('guardIdle')) {
+            this.anims.create({
+                key: 'guardIdle',
+                frames: this.anims.generateFrameNumbers('guard', { start: 0, end: 5 }),
+                frameRate: 6,
+                repeat: -1,
+            });
+        }
+        guardSprite.play('guardIdle');
+
+        // Subtle green sentinel aura behind him (fungal-cathedral theme).
         this.guardGlow = this.add.graphics();
         this.guardGlow.fillStyle(0x7fff8e, 0.2);
         this.guardGlow.fillCircle(380, 450, 50);
         this.guardGlow.setDepth(4);
-        
-        // Animate the glow
         this.tweens.add({
             targets: this.guardGlow,
             alpha: { from: 0.2, to: 0.1 },
@@ -473,108 +424,24 @@ export default class CathedralEntrance extends GameScene {
             yoyo: true,
             repeat: -1
         });
-        
-        // Add subtle swaying movement to the guard
-        this.tweens.add({
-            targets: this.templeGuard,
-            angle: { from: -1, to: 1 },
-            duration: 2500,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add subtle breathing movement
-        this.tweens.add({
-            targets: this.templeGuard,
-            scaleY: { from: 1, to: 1.02 },
-            y: { from: 450, to: 449 },
-            duration: 1800,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add occasional head movement
-        this.time.addEvent({
-            delay: 5000,
-            callback: () => {
-                // Random head movement
-                const lookDirection = Phaser.Math.Between(0, 2);
-                let targetX = 0;
-                
-                if (lookDirection === 0) targetX = -3; // Look left
-                else if (lookDirection === 1) targetX = 3; // Look right
-                
-                this.tweens.add({
-                    targets: headContainer,
-                    x: targetX,
-                    duration: 1000,
-                    ease: 'Power1',
-                    yoyo: true,
-                    hold: 1500
-                });
-            },
-            callbackScope: this,
-            loop: true
-        });
-        
-        // Add occasional staff movement
-        this.time.addEvent({
-            delay: 8000,
-            callback: () => {
-                // Subtle staff adjustment
-                this.tweens.add({
-                    targets: [guardStaff, staffOrb],
-                    x: { from: 0, to: 2 },
-                    duration: 800,
-                    ease: 'Bounce.easeOut',
-                    yoyo: true
-                });
-            },
-            callbackScope: this,
-            loop: true
-        });
-        
-        // Make guard interactive - create a hit area
-        const hitArea = new Phaser.Geom.Rectangle(-40, -100, 80, 160);
+
+        // Interactive — hit area matches the 128×176 sprite footprint.
+        const hitArea = new Phaser.Geom.Rectangle(-64, -118, 128, 176);
         this.templeGuard.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
-        
-        // Add hover effect
+
+        // Hover effect
         this.templeGuard.on('pointerover', () => {
             this.templeGuard.setScale(1.05);
             document.body.style.cursor = 'pointer';
-            
-            // Alert animation when hovered
-            this.tweens.add({
-                targets: headContainer,
-                y: -3,
-                duration: 300,
-                ease: 'Power1',
-                yoyo: true
-            });
         });
-        
         this.templeGuard.on('pointerout', () => {
             this.templeGuard.setScale(1);
             document.body.style.cursor = 'default';
-            
-            // Reset head position
-            this.tweens.add({
-                targets: headContainer,
-                y: 0,
-                duration: 300,
-                ease: 'Power1'
-            });
         });
-        
-        // Show dialog on click
+
+        // Show dialog on click, with a little acknowledging bob.
         this.templeGuard.on('pointerdown', () => {
-            if (this.clickSound) {
-                this.clickSound.play();
-            }
-            
-            // Alert animation when clicked
+            if (this.clickSound) this.clickSound.play();
             this.tweens.add({
                 targets: this.templeGuard,
                 y: { from: 450, to: 445 },
@@ -582,7 +449,6 @@ export default class CathedralEntrance extends GameScene {
                 ease: 'Power1',
                 yoyo: true
             });
-            
             this.showDialog(this.hasJournalEntry('met_infinite_fold') ? 'guardianGreeting' : 'templeGuardGreeting');
         });
     }
