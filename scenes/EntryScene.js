@@ -330,7 +330,8 @@ export default class EntryScene extends GameScene {
         // Load any EntryScene-specific assets here
         // this.loa d.image('desolateUrban', 'assets/images/backgrounds/Desolate Urban Landscape.png');
         // Load fungal master sprite as a regular image since it's not a spritesheet
-        this.load.image('fungal_master', 'assets/images/characters/fungal_master.png');
+        this.load.spritesheet('thaal', 'assets/images/characters/master_thaal.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('thaal_walk', 'assets/images/characters/master_thaal_walk.png', { frameWidth: 128, frameHeight: 128 });
     }
 
     create() {
@@ -406,43 +407,50 @@ export default class EntryScene extends GameScene {
     // }
 
     createFungalMaster() {
-        // Add the fungal master character
-        this.master = this.add.image(600, 470, 'fungal_master');
-        
-        // Scale down the master image as it's a large image
-        this.master.setScale(0.15);  // Adjust scale to fit the scene
-        this.master.setInteractive({ useHandCursor: true });
-        
-        // Add a green glow effect for the fungal appearance
-        const masterGlowFX = this.add.image(600, 470, 'fungal_master');
-        masterGlowFX.setScale(0.155);  // Slightly larger than the character
-        masterGlowFX.setTint(0x00FF00);  // Green glow
-        masterGlowFX.setAlpha(0.3);  // Transparent glow
-        masterGlowFX.setBlendMode(Phaser.BlendModes.ADD);  // Additive blending for glow effect
-        this.masterGlow = masterGlowFX;
-        
-        // Add pulsating effect to the glow
+        // Master Thaal — hand-drawn pixel-art idle animation (master_thaal.png): 7 frames in a
+        // 3×3 grid of 128×128 cells (frames 0–6; the last two cells are empty). Shown at native
+        // size (scale 1), origin bottom-centre so his feet rest on the walkway line (y ≈ 530,
+        // same as the apprentice: priest at y=470, origin-centre, scale 2 → feet ≈ 534).
+
+        // Subtle green fungal aura behind him (kept simple so his drawn colours show through).
+        // Positioned locally so masterWalkAway() can slide it off in sync with the sprite.
+        this.masterGlow = this.add.graphics();
+        this.masterGlow.fillStyle(0x7fff8e, 0.2);
+        this.masterGlow.fillCircle(0, 0, 50);
+        this.masterGlow.setPosition(600, 486).setDepth(5); // above the ground strip (depth 1), behind Thaal
         this.tweens.add({
             targets: this.masterGlow,
-            alpha: 0.5,
+            alpha: { from: 0.2, to: 0.1 },
             duration: 1500,
             yoyo: true,
             repeat: -1,
             ease: 'Sine.easeInOut'
         });
-        
-        // Add subtle breathing animation to the master
-        this.tweens.add({
-            targets: this.master,
-            scaleX: this.master.scaleX * 1.02,
-            scaleY: this.master.scaleY * 1.02,
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
-        
-        // Add click handler for NPC
+
+        // Sprite faces right by default; the apprentice stands to his left, so flip him to face
+        // them during the conversation (masterWalkAway flips him back before he leaves rightward).
+        // Depth 6: above the ground strip (1) and shadows (2), below the player (20).
+        this.master = this.add.sprite(600, 530, 'thaal').setOrigin(0.5, 1).setFlipX(true).setDepth(6);
+        this.master.setInteractive({ useHandCursor: true });
+        if (!this.anims.exists('thaalIdle')) {
+            this.anims.create({
+                key: 'thaalIdle',
+                frames: this.anims.generateFrameNumbers('thaal', { start: 0, end: 6 }),
+                frameRate: 6,
+                repeat: -1
+            });
+        }
+        if (!this.anims.exists('thaalWalk')) {
+            this.anims.create({
+                key: 'thaalWalk',
+                frames: this.anims.generateFrameNumbers('thaal_walk', { start: 0, end: 8 }),
+                frameRate: 9,
+                repeat: -1
+            });
+        }
+        this.master.play('thaalIdle');
+
+        // Click → intro dialog.
         this.master.on('pointerdown', () => {
             if (!this.dialogVisible) {
                 this.clickSound.play();
@@ -579,6 +587,9 @@ export default class EntryScene extends GameScene {
      */
     masterWalkAway() {
         if (this.master && this.masterGlow) {
+            // He now walks off to the right, so face him back that way and switch to the walk anim.
+            this.master.setFlipX(false);
+            if (this.master.anims) this.master.play('thaalWalk');
             // Create a tween to make the master walk to the right and disappear
             this.tweens.add({
                 targets: [this.master, this.masterGlow],

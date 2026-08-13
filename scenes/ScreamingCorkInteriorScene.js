@@ -636,7 +636,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         // Load NPC sprites as static images first to ensure they exist
         this.load.image('ravla_static', 'assets/images/characters/ravla.png');
         this.load.image('heliodor_static', 'assets/images/characters/heliodor.png');
-        this.load.image('fungal_master', 'assets/images/characters/fungal_master.png');
+        this.load.spritesheet('thaal', 'assets/images/characters/master_thaal.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('thaal_walk', 'assets/images/characters/master_thaal_walk.png', { frameWidth: 128, frameHeight: 128 });
     }
 
     create() {
@@ -720,22 +721,26 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.priest.y = 470;
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
-        // Master Thaal enters from the right (fungal_master image + green fungal glow).
-        const startX = 860, endX = 470, y = 470;
-        const thaal = this.add.image(startX, y, 'fungal_master').setScale(0.15).setDepth(6);
-        const glow = this.add.image(startX, y, 'fungal_master').setScale(0.155).setTint(0x00ff00).setAlpha(0.3).setDepth(5);
-        glow.setBlendMode(Phaser.BlendModes.ADD);
-        this.tweens.add({ targets: glow, alpha: 0.5, duration: 1500, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        // Master Thaal enters from the right, walking, then settles into his idle.
+        const startX = 860, endX = 470, y = 530; // feet on the floor line, level with the apprentice
+        // Sprite faces right by default; here he walks LEFT (860→470), so flip him to face left.
+        const thaal = this.add.sprite(startX, y, 'thaal').setOrigin(0.5, 1).setDepth(6).setFlipX(true);
+        if (!this.anims.exists('thaalIdle')) {
+            this.anims.create({ key: 'thaalIdle', frames: this.anims.generateFrameNumbers('thaal', { start: 0, end: 6 }), frameRate: 6, repeat: -1 });
+        }
+        if (!this.anims.exists('thaalWalk')) {
+            this.anims.create({ key: 'thaalWalk', frames: this.anims.generateFrameNumbers('thaal_walk', { start: 0, end: 8 }), frameRate: 9, repeat: -1 });
+        }
+        thaal.play('thaalWalk');
 
         this.time.delayedCall(900, () => {
             this.tweens.add({
-                targets: [thaal, glow],
+                targets: thaal,
                 x: endX,
                 duration: 2600,
                 ease: 'Sine.easeInOut',
                 onComplete: () => {
-                    // Settle: a gentle breathing idle, then open the dialog.
-                    this.tweens.add({ targets: thaal, scaleX: 0.153, scaleY: 0.153, duration: 2000, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                    thaal.play('thaalIdle');
                     this.time.delayedCall(450, () => this.showDialog('epilogue_intro'));
                 }
             });
