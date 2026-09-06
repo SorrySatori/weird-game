@@ -105,7 +105,7 @@ export default {
         }
     },
     obazoba_mycelium: {
-        text: "Ach, myceliová síť! Je fascinující, jak je všechno propojené. Skrze mycelium můžeme sdílet myšlenky, emoce a dokonce vzpomínky. Je to jako živá síť, která nás všechny spojuje. Svým způsobem je to připomínka, že nikdy nejsme opravdu sami. Mohl bys mi říct víc?",
+        text: "Ach, myceliální síť! Je fascinující, jak je všechno propojené. Skrze mycelium můžeme sdílet myšlenky, emoce a dokonce vzpomínky. Je to jako živá síť, která nás všechny spojuje. Svým způsobem je to připomínka, že nikdy nejsme opravdu sami. Mohl bys mi říct víc?",
         options: {
             would_you_prefer_the_official_doctrine_or_the_fun_: "Dáte přednost oficiální doktríně nebo zábavné verzi?",
             let_me_tell_you_about_the_urmushroom: "Nechte mě vám vyprávět o Pra-houbě.",

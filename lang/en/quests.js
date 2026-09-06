@@ -18,6 +18,8 @@ export default {
                 reached_elphi_studio: "I've reached Dr. Elphi's studio on floor 177-Quiet. Now I need to find clues about the Bishop.",
                 check_shard_backyard: 'Dr. Elphi mentioned the Bishop was last seen in the Shard backyard. I should check there next.',
                 found_elevator_button: "I found a Forgotten Elevator Button at Zerren's shop that might help me access Dr. Elphi's floor.",
+                guard_voxmarket: 'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.',
+                guard_shed521: 'Shed 521, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.',
             }
         },
         who_killed_bishop: {

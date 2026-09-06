@@ -201,7 +201,7 @@ Z rukávu vytáhne složený dokument — křehký, úřední, orazítkovaný mr
     },
 
     calyx_seal_guardian_orders: {
-        text: `„Kustodská charta jmenuje strážce u závoje — Strážce. Jeho tělo bylo dáno rostlinám a jeho mysl mycelární síti, aby mohl udržet *jediný pokyn* napříč staletími bez odchýlení. Úředníci zapomínají. Strážci ne."
+        text: `„Kustodská charta jmenuje strážce u závoje — Strážce. Jeho tělo bylo dáno rostlinám a jeho mysl myceliální síti, aby mohl udržet *jediný pokyn* napříč staletími bez odchýlení. Úředníci zapomínají. Strážci ne."
 
 Čte to věcně, tak jak Reklamátoři čtou všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* — komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům zlata. Zlodějům *autorství*."
 

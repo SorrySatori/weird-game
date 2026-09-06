@@ -211,7 +211,7 @@ export default {
         }
     },
     dr_elphi_clues_journal: {
-        text: "\"Město mě už neslyší. Možná sny budou.\"\n\n*Dlouho mlčí.* To zní jako odpojení od myceliární sítě. Biskupka byla vysoce postavená klerička Obazoba — měla by být k síti připojena neustále.\n\nPokud ztratila to spojení... musela být zoufalá. Izolovaná. Sny byly její poslední možnost komunikace.",
+        text: "\"Město mě už neslyší. Možná sny budou.\"\n\n*Dlouho mlčí.* To zní jako odpojení od myceliální sítě. Biskupka byla vysoce postavená klerička Obazoba — měla by být k síti připojena neustále.\n\nPokud ztratila to spojení... musela být zoufalá. Izolovaná. Sny byly její poslední možnost komunikace.",
         options: {
             why_would_she_lose_the_connection: "Proč by ztratila spojení?",
             back_to_other_clues: "Zpět k dalším stopám."

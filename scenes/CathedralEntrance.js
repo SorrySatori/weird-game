@@ -17,7 +17,7 @@ export default class CathedralEntrance extends GameScene {
                     { text: "Why is it closed?", key: 'why_is_it_closed', next: "templeGuardWhy" },
                     { text: "Who are you?", key: 'who_are_you', next: "templeGuardWho" },
                     { text: "I need to speak with someone inside", key: 'i_need_to_speak_with_someone_inside', next: "speakWithSomeoneInside" },
-                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" }
+                    { text: "I'm Master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" }
                 ]
             },
             templeGuardAskSomethingElse: {
@@ -27,39 +27,42 @@ export default class CathedralEntrance extends GameScene {
                     { text: "Why is it closed?", key: 'why_is_it_closed', next: "templeGuardWhy" },
                     { text: "Who are you?", key: 'who_are_you', next: "templeGuardWho" },
                     { text: "I need to speak with someone inside", key: 'i_need_to_speak_with_someone_inside', next: "speakWithSomeoneInside" },
-                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" }
+                    { text: "I'm Master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" }
                 ]
             },
             iAmFungalApprentice: {
-        text: "(Tilts head) Even rot-born clergy must heed the pulses. The Cathedral breathes its own rhythm. You must attune.",
+        text: "(Tilts head) Even fungus-born clergy must heed the pulses. The Cathedral breathes its own rhythm. You must attune.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardWhen: {
-        text: "I have no idea. When the great Council say so. It could be days, it could be centuries. We stand guard until the Awakening.",
+        text: "I have no idea. When the great Council says so. It could be days, it could be centuries. We stand guard until the Awakening.",
                 options: [
                     { text: "The Awakening?", key: 'the_awakening', next: "templeGuardAwakening" },
                     { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
-                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardGreeting" }
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardAwakening: {
-        text: "The Awakening is the moment when's the cathedral fully grown. Hatched. We stand guard until the Awakening.",
+        text: "The Awakening is the moment when the cathedral is fully grown. Hatched. We stand guard until the Awakening.",
                 options: [
-                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardGreeting" }
+                    // Leads into the guard's speculation about the hatching — the one place he nudges
+                    // Growth/Decay (see showDialog below). Was unreachable before this option existed.
+                    { text: "And what happens when it hatches?", key: 'what_happens_when_it_hatches', next: "templeGuardFruiting" },
+                    { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             speakWithSomeoneInside: {
                 text: "No summons have been issued. No minds may enter without resonance. Wait. Or seek for your Bishop. She's one of the Council, I am sure you know.",
                 options: [
-                    { text: "I'm a master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" },
+                    { text: "I'm Master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" },
                     { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             bishop_info: {
-        text: "Probably at the Voxmarket, or around Shed 521. She dwells where the walls still echo with initiation. Look for the door that doesn’t open—until it does",
+        text: "Probably at the Voxmarket, or around Shed 521. Look for the door that doesn’t open — until it does.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: "templeGuardVoxmarket"},
@@ -67,14 +70,14 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardVoxmarket: {
-                text: "It's an audio bazaar near Shed 521 where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed.",
+                text: "It's a sound market near Shed 521, where recorded voices, sounds, hisses, screams and static are sold. I've heard that every sound this city has ever made is filed away there somewhere by some trader, and can be bought. But that doesn't make sense.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_521', next: "templeGuardShed521" },
                 ]
             },
             templeGuardShed521: {
-                text: "It's also known as the Bureau of Shapes. A twisted bureaucracy in an old shipping yard turned into an ever-expanding cubicle labyrinth. People come here to register their current form or apply for bodily adjustments. You can find it right next to the Voxmarket",
+                text: "Its official name is the Bureau of Shapes. If you want to change your body shape, you'll need a certificate. This is where you can get that certificate. You'll find it right next to Voxmarket.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
                     { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
@@ -89,14 +92,14 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardWho: {
-        text: "I am a Sentinel of the Veil, sworn to protect the sacred Egg Cathedral from contamination. My eyes have witnessed a thousand years of spore patterns.",
+        text: "I am a Sentinel of the Veil, sworn to protect the sacred Egg Cathedral from contamination.",
                 options: [
                     { text: "How long have you been here?", key: 'how_long_have_you_been_here', next: "templeGuardTime" },
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardFruiting: {
-        text: "When the cathedral's fully hatched from its egg, something miraculous will happen. The walls will burst, spreading our consciousness across the stars... Or somqething like that. You know, nobody really knows, but I imagine it will be something truly magnificent.",
+        text: "When the cathedral's fully hatched from its egg, something miraculous will happen. The walls will burst, spreading our consciousness across the stars... Or something like that. You know, nobody really knows, but I imagine it will be something truly magnificent.",
                 options: [
                     { text: "That sounds apocalyptic", key: 'that_sounds_apocalyptic', next: "templeGuardApocalypse" },
                     { text: "That sounds fascinating", key: 'that_sounds_fascinating', next: "templeGuardFascinating" },
@@ -104,7 +107,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardTime: {
-                text: "I have stood at this post since the Third Sporulation. My flesh has long since been replaced by plants. My consciousness is connected to the city. I think my left foot is made from rodent.",
+                text: "I have stood at this post for three thousand digestions of the Stomach Clock. The city stopped counting years when the Tally-Keeper died. We count digestions now. My flesh has long since been partly replaced by plants. My consciousness is connected to the city. I think my left foot is made from rodents.",
                 options: [
                     { text: "That's... familiar", key: 'thats_familiar', next: "templeGuardDisturbing" },
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
@@ -117,13 +120,13 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardApocalypse: {
-                text: "Apocalypse? No. Transformation. The cathedral will become something truly new, some say that it will become a birthplace of a new god. Nobody really know, that's why all churches have their representatives present. It's all very interesting, see.",
+                text: "Apocalypse? No. Transformation. The cathedral will become something truly new, some say that it will become a birthplace of a new god. Nobody really knows, that's why all churches have their representatives present. It's all very interesting, see.",
                 options: [
                     { text: "I see", key: 'i_see', next: "templeGuardAskSomethingElse" }
                 ]
             },
             templeGuardDisturbing: {
-                text: "Glad you see it that way. I have gained immortality and purpose. My consciousness spans the mycelial network. I am never alone.",
+                text: "Glad you see it that way. I have gained immortality and purpose. I am never alone.",
                 options: [
                     { text: "Fascinating", key: 'fascinating', next: "templeGuardAskSomethingElse" }
                 ]
@@ -249,31 +252,31 @@ export default class CathedralEntrance extends GameScene {
         // Built dynamically, so localized here rather than via the (static) cs file.
         let reflect;
         if (cs) {
-            reflect = "*\"Sleduji tě déle, než tušíš — mycelium nese zprávy o těch, kdo se pohybují městem.\"*";
-            if (foldEngaged) reflect += " *\"Setkal ses s myslí bez těla, a nesáhl jsi hned po nápravě. Nechal jsi ji být podivnou.\"*";
-            if (symbiontCount >= 1) reflect += " *\"Neseš v sobě jiný život, a nezmizel jsi v něm. Už víš, jaké to je být víc než jeden a přesto zůstat sebou.\"*";
-            if (edgarPath) reflect += " *\"A naslouchal jsi hlasu, který se město naučilo ignorovat — tomu, kdo najde místa, jež netěsní.\"*";
+            reflect = "*\"Sleduji tě déle, než tušíš.\"*";
+            if (foldEngaged) reflect += " *\"Setkal ses s myslí bez těla, a nesáhl jsi hned po nápravě. Nechal jsi ji být, ať už je podivná, jak chce.\"*";
+            if (symbiontCount >= 1) reflect += " *\"Neseš v sobě jiný život, a nezmizel jsi v něm. Už víš, jaké to je být víc než jeden a přesto zůstat sám sebou.\"*";
+            if (edgarPath) reflect += " *\"A naslouchal jsi hlasu, který město ignoruje — tomu, kdo hledá a nachází místa, jež se rozpadají.\"*";
             if (!foldEngaged && symbiontCount < 1 && !edgarPath) reflect += " *\"Přicházíš nalehko, s málem za sebou. To není chyba. Jen je toho míň k zvážení.\"*";
-            reflect += " *\"Všechno jsem zvážil. Vyslov svůj vstup, až budeš připraven.\"*";
+            reflect += " *\"Všechno jsem zvážil. Řekni, co potřebuješ, až budeš připraven.\"*";
         } else {
-            reflect = "*\"I have watched you longer than you know — the mycelium carries word of those who move through the city.\"*";
+            reflect = "*\"I have watched you longer than you know.\"*";
             if (foldEngaged) reflect += " *\"You met a mind without a body, and did not reach at once for the cure. You let it be strange.\"*";
-            if (symbiontCount >= 1) reflect += " *\"You carry another life inside your own, and have not vanished into it. You know already what it is to be more than one and remain yourself.\"*";
+            if (symbiontCount >= 1) reflect += " *\"You carry another life inside your own, and have not vanished into it. You already know what it is to be more than one and remain yourself.\"*";
             if (edgarPath) reflect += " *\"And you listened to a voice the city taught itself to ignore — the one who finds the places that do not seal.\"*";
             if (!foldEngaged && symbiontCount < 1 && !edgarPath) reflect += " *\"You come lightly, with little behind you. That is not a fault. It is only less to weigh.\"*";
-            reflect += " *\"All of it, I have weighed. Ask your entry, when you are ready.\"*";
+            reflect += " *\"All of it, I have weighed. Say what you have to say, when you are ready.\"*";
         }
 
         // The gate dissolving + the Guardian's farewell (dynamic → localized here).
         let farewell;
         if (cs) {
-            farewell = "Brána se neotevře jako brána. Kámen se pomalu rozpouští jako stará jizva, dokud nezůstane jen měkký prah světla.\n\n*\"Půjdeš se mnou?\"* zeptáš se.\n\n*\"Ne.\"* Odmlka. *\"Vznikl jsem, abych hlídal dveře. Ne abych prošel za ně.\"*";
-            if (symbiontCount >= 1) farewell += " *\"Neseš něco, co nejsi ty — a přesto jsi zůstal celý. Snad právě proto tě nechala vstoupit.\"*";
+            farewell = "Brána se neotevře jako obyčejné dveře. Kámen se pomalu rozpouští jako stará jizva.\n\n*\"Půjdeš se mnou?\"* zeptáš se.\n\n*\"Ne.\"* Odmlka. *\"Vznikl jsem, abych hlídal dveře. Ne abych prošel.\"*";
+            if (symbiontCount >= 1) farewell += " *\"Neseš něco, co nejsi ty — a přesto jsi zůstal celý. Snad právě proto jsi mohl vstoupit.\"*";
             if (foldEngaged) farewell += " *\"Setkal ses s myslí bez těla a nepokusil ses ji hned napravit. To si pamatuji.\"*";
-            farewell += " Ustoupí stranou. *\"Tak tedy zjisti, co se narodilo.\"*";
+            farewell += " Ustoupí stranou. *\"Tak tedy běž zjistit, co se tu zrodilo.\"*";
         } else {
-            farewell = "The gate does not open like a gate. The stone slowly dissolves, like an old scar, until only a soft threshold of light remains.\n\n*\"Will you come with me?\"* you ask.\n\n*\"No.\"* A pause. *\"I was made to guard the door. Not to pass beyond it.\"*";
-            if (symbiontCount >= 1) farewell += " *\"You carry something that is not you — and yet you have stayed whole. Perhaps that is why it let you enter.\"*";
+            farewell = "The gate does not open like a gate. The stone slowly dissolves, like an old scar.\n\n*\"Will you come with me?\"* you ask.\n\n*\"No.\"* A pause. *\"I was made to guard the door. Not to pass beyond it.\"*";
+            if (symbiontCount >= 1) farewell += " *\"You carry something that is not you — and yet you have stayed whole. Perhaps that is why it lets you enter.\"*";
             if (foldEngaged) farewell += " *\"You met a mind without a body, and did not try at once to correct it. That, I remember.\"*";
             farewell += " It steps aside. *\"Then go, and learn what has been born.\"*";
         }
@@ -287,18 +290,18 @@ export default class CathedralEntrance extends GameScene {
         return {
             guardianGreeting: {
                 speaker: 'The Guardian',
-                text: "The Sentinel does not bar your way this time. Its glowing eyes find you and hold. When it speaks, the voice is older than the guard who carries it — the cathedral's own, borrowed through its watchman.\n\n*\"You have been to the cellar. You carry the whole of it now: the mind without a body, the truth of your Bishop, the shape of what grows behind these walls. I am what remains of the old order, set here long ago. I know why you have come. But you will say it, in your own words. Why do you wish to enter?\"*",
+                text: "The Sentinel does not bar your way this time. Its glowing eyes find you and hold. When it speaks, the voice sounds ancient — as the cathedral's own, borrowed through its watchman.\n\n*\"You have been to the cellar. You carry almost the whole story now: the mind without a body, the truth of your Bishop, the shape of what grows behind these walls. I am what remains of the old order. I know why you have come. But you will say it, in your own words. Why do you wish to enter?\"*",
                 options: [
                     ...testOptions,
                     { text: "What are you, truly?", key: 'guardian_nature', next: "guardianNature" },
-                    { text: "You know what I did in the cellar?", key: 'guardian_reflect', next: "guardianReflect" },
+                    { text: "You know what I did in the cellar of the Scraper?", key: 'guardian_reflect', next: "guardianReflect" },
                     { text: "Not yet. (Leave.)", key: 'guardian_leave', next: "closeDialog" }
                 ]
             },
 
             guardianNature: {
                 speaker: 'The Guardian',
-                text: "*\"I am no priest, and no soldier. I am the last mechanism of a religious order that is already dust. They made me to guard this place — but not, as the others believe, to keep out the unworthy. My charge was narrower, and heavier: to keep out anyone who would enter meaning to own what is born here. Titles do not move me. Nor strength. Only the reason in your chest.\"*",
+                text: "*\"I am no priest, and no soldier. I am the last mechanism of a religious order that is already dust. They made me guard this place — but not, as the others believe, to keep out the unworthy. My charge was narrower, and very specific: to keep out anyone who would enter meaning to own what is born here. Titles do not move me. Nor strength. Only the reason.\"*",
                 options: [
                     { text: "Why can't anyone own it?", key: 'guardian_why_own', next: "guardianOwn" },
                     { text: "Then let me answer. Why I wish to enter.", key: 'guardian_back_to_question', next: "guardianGreeting" }
@@ -307,7 +310,7 @@ export default class CathedralEntrance extends GameScene {
 
             guardianOwn: {
                 speaker: 'The Guardian',
-                text: "*\"Because a new life owned is not a new life. It is a tool with a heartbeat. Your Bishop understood this — it is why she sealed the doors. Not to protect the cathedral, but to protect the world from the first hand that would reach in to possess what wakes. That hand has come before. It will come again. I am the question standing between.\"*",
+                text: "*\"Because a new life owned is not a life. It is a tool with a heartbeat. Your Bishop understood this — it is why she sealed the doors. Not to protect the cathedral, but to protect the world from the first hand that would reach in to possess what wakes. That hand has come before. It will come again. I am the power standing between.\"*",
                 options: [
                     { text: "Let me answer your question, then.", key: 'guardian_own_back', next: "guardianGreeting" }
                 ]
@@ -372,7 +375,7 @@ export default class CathedralEntrance extends GameScene {
 
             guardianEnd: {
                 speaker: 'The Guardian',
-                text: "*\"When it wakes fully, I end. The order that made me will have no more meaning, and neither will its last mechanism. I have known this longer than you have been alive.\"* The eyes steady. *\"Do not grieve it, and do not use it. My last charge may not be to prevent the birth — but to see that it happens rightly. Whether I am kept, or let go, is a thing to be decided in there, with all of you present. Not out here, by me alone. Go. It is waiting.\"*",
+                text: "*\"When it wakes fully, I end. The order that made me will have no more meaning, and neither will its last mechanism. I have known this longer than you have been alive.\"* The eyes blink. *\"Do not grieve it. My last charge may not be to prevent the birth — but to see that it happens rightly. Whether I am kept, or let go, is a thing to be decided in there. Not out here, by me alone. I have nothing else to say. Go. It is waiting.\"*",
                 options: [
                     { text: "I'm ready. Open the way.", key: 'guardian_end_enter', next: "guardianFarewell" },
                     { text: "Not yet.", key: 'guardian_end_wait', next: "closeDialog" }
@@ -504,13 +507,15 @@ export default class CathedralEntrance extends GameScene {
         } else if (dialogKey === 'templeGuardVoxmarket' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
-                'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.'
+                'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.',
+                'guard_voxmarket'
             );
             this.showNotification('Quest updated: Find the Bishop');
         } else if (dialogKey === 'templeGuardShed521' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
-                'Shed 521, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.'
+                'Shed 521, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.',
+                'guard_shed521'
             );
             this.showNotification('Quest updated: Find the Bishop');
         }

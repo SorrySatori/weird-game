@@ -5,7 +5,7 @@ export default {
     quests: {
         find_bishop: {
             title: 'Najít Biskupku',
-            description: 'Houbový Mistr mě pověřil nalezením Biskupky v Vaječné Katedrále. Mohla by vědět o nouzovém volání přijatém z města přes myceliární síť. Musím s ní promluvit a zjistit víc.',
+            description: 'Houbový Mistr mě pověřil nalezením Biskupky ve Vaječné Katedrále. Mohla by něco vědět o nouzovém volání přijatém z města přes myceliální síť. Musím s ní promluvit a zjistit víc.',
             updates: {
                 vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů na trhu. Zmínil, že jeden má obchodnice jménem Zerren.',
                 elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elpi Quarnovou... Měl bych ji hledat ve Škrabáku 1140.',
@@ -17,6 +17,8 @@ export default {
                 reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Ticho. Teď musím najít stopy po Biskupce.',
                 check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku Střepu. Měl bych se tam podívat.',
                 found_elevator_button: 'Našel jsem Zapomenutý Výtahový Knoflík u Zerren, který mi může pomoct dostat se na patro Dr. Elphi.',
+                guard_voxmarket: 'Voxmarket je zvukové tržiště, kde se obchoduje s nahranými hlasy a zvuky. Biskupka by tam mohla být k nalezení.',
+                guard_shed521: 'Kůlna 521, známá také jako Úřad tvarů, je byrokratické bludiště, kde si lidé registrují své tvary. Biskupka prý toto místo navštěvuje.',
             }
         },
         who_killed_bishop: {
@@ -41,7 +43,7 @@ export default {
                 elphi_helmet: 'Dr. Elphi říká, že poškozený port helmy potvrzuje, že signálová zátěž překročila limity hardware.',
                 elphi_memo: 'Dr. Elphi nedokázala vysvětlit dvojníka z poznámky Biskupky. Není to známý vedlejší efekt snové technologie.',
                 elphi_townhall_log: 'Setkání Biskupky s dvojníkem bylo formálně zaznamenáno na Radnici. Archivní úředník by mohl mít kopii.',
-                elphi_journal: 'Dr. Elphi interpretovala zápis v deníku Biskupky jako důkaz, že byla odpojena od myceliární sítě.',
+                elphi_journal: 'Dr. Elphi interpretovala zápis v deníku Biskupky jako důkaz, že byla odpojena od myceliální sítě.',
                 elphi_dissection: 'Dr. Elphi věří, že houbový výrůstek uvnitř Biskupky byl symbiont. Vrah mohl mířit na samotného symbionta.',
                 elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu — specialitu Lumen Direktoriátu.',
                 elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Lumen Direktoriátem. Prodávají kořeněné Mručenky.',

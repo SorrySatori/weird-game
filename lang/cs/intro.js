@@ -5,7 +5,7 @@ export default {
     intro: {
         dialogues: [
             { speaker: 'VYPRAVĚČ', text: 'V podzemním chrámu Obazoba je shromážděna Sporová Rada.' },
-            { speaker: 'ACHKNĚZ VARHUN', text: 'Nouzový signál skrze myceliární síť. Ne plíseň. Ne květ. Volání o pomoc.' },
+            { speaker: 'ACHKNĚZ VARHUN', text: 'Nouzový signál skrze myceliální síť. Ne plíseň. Ne květ. Volání o pomoc.' },
             { speaker: 'ACHKNĚZ TYNRI', text: 'Z povrchu. Z města Horní Morkezela.' },
             { speaker: 'ACHKNĚZ VARHUN', text: 'Musíme odpovědět, i když nevíme, kdo volá.' },
             { speaker: 'ACHKNĚZ RHULL', text: 'Vajíčková Katedrála je místo, kam bychom měli jít. Biskupka by měla vědět více. Sledovala, co se ve městě děje.' },
