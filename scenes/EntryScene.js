@@ -79,7 +79,7 @@ export default class EntryScene extends GameScene {
             // Neutral re-entry hub for "return to previous topic" — avoids replaying the
             // first-meeting greeting mid-conversation. (The funnel below adds the send-off option.)
             hub: {
-                text: "*He glances up, impatient to get back to his tankard.* Was there something else, apprentice?",
+                text: "*He glances up, impatient to leave.* Was there something else, apprentice?",
                 options: [
                     { text: "Tell me more about the city.", key: 'tell_me_more_about_the_city', next: 'city' },
                     { text: "Who are the gods here?", key: 'who_are_the_gods', next: 'gods' },
@@ -89,7 +89,7 @@ export default class EntryScene extends GameScene {
             },
             task: {
                 hideCloseOption: true,
-                text: "You must find the Bishop at the Egg Cathedral. She might knows about the distress call we have received from this city via myceliar network. The Bishop should be present at the Egg Cathedral.",
+                text: "You must find the Bishop at the Egg Cathedral. She might know about the distress call we have received from this city via myceliar network. The Bishop should be probably present at the Egg Cathedral.",
                 options: [
                     { text: "Wait, do you mean the task you have been given by the Spore Council? The only reason we are here? Why can't we go see the Bishop together?", key: 'wait_do_you_mean_the_task_you_have_been_given_by_t', next: 'whyNot' },
                     { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
@@ -101,20 +101,20 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "You're just avoiding work, aren't you?", key: 'youre_just_avoiding_work_arent_you', next: 'avoiding' },
                     { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' },
-                    { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' }
+                    { text: "Tell me more about the city first.", key: 'tell_me_more_about_the_city_first', next: 'city' }
                 ]
             },
             avoiding: {
                 hideCloseOption: true,
-                text: "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of mushroom ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!",
+                text: "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of local ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!",
                 options: [
                     { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' },
                     { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
-                    { text: "Master, I have heard that Upper Morkezela is called the Dead gods city. Could you tell me more?", key: 'master_i_have_heard_that_upper_morkezela_is_called', next: 'gods' }
+                    { text: "Master, I have heard that Upper Morkezela is called the Dead Gods city. Could you tell me more?", key: 'master_i_have_heard_that_upper_morkezela_is_called', next: 'gods' }
                 ]
             },
             tellBishop: {
-                text: "Tell her you're my apprentice, sent to assist with the spore disturbance investigation. She'll know what to do. And remember to represent the fungal clergy with dignity! No embarrassing me this time. Now, was there anything else you needed to know before you go?",
+                text: "Tell her you're my apprentice, sent to assist with the distress signal investigation. She'll know what to do. And remember to represent the fungal clergy with dignity! No embarrassing me this time. Now, was there anything else you needed to know?",
                 options: [
                     { text: "Tell me more about the city", key: 'tell_me_more_about_the_city', next: 'city' },
                     { text: "Who are the gods?", key: 'who_are_the_gods', next: 'gods' },
@@ -123,7 +123,7 @@ export default class EntryScene extends GameScene {
             },
             farewell: {
                 hideCloseOption: true,
-                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences — some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's walking, talking fungus ever take an interest in you — the symbionts, that you've only read about — best you know a little first. Well? Anything to ask before you go?",
+                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences — some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's symbionts that you've probably only read about ever take an interest in you — best you know a little first. Well? Anything to ask before you go?",
                 options: [
                     { text: "Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
                     { text: "The spores — a different beast how?", key: 'the_spores_different_how', next: 'spores' },
@@ -151,7 +151,7 @@ export default class EntryScene extends GameScene {
             // The player tries to leave → Thaal offers an optional, meta-narrative "equipment" tutorial.
             tutorialOffer: {
                 hideCloseOption: true,
-                text: "*He is already half-turned toward the tavern when he stops, one finger raised.* Wait! You should know that a master priest of my rank commands one further superpower: meta-narrative awareness — deeply useful for explaining how this world actually works. So, before I go: shall I show you how to use your gear? Your diary, the map, that sort of thing?",
+                text: "*He is already half-turned when he stops, one finger raised.* Wait! You should know that a master priest of my rank commands one further superpower: meta-narrative awareness — deeply useful for explaining how this world actually works. So, before I go: shall I show you how to use your gear? Your diary, the map, that sort of thing?",
                 options: [
                     { text: "Yes please, Master.", key: 'tutorial_yes', onSelect: () => { this._walkAwayOnClose = false; this.events.once('equipment-tutorial-finished', () => this.masterWalkAway()); this.time.delayedCall(420, () => this.startEquipmentTutorial()); }, next: 'closeDialog' },
                     { text: "No need. Objectively, the best games were made in 1997 — and we did just fine without tutorials back then.", key: 'tutorial_no', next: 'close' }
@@ -162,7 +162,7 @@ export default class EntryScene extends GameScene {
                 options: []
             },
             city: {
-                text: "Upper Morkezela... it breathes with ancient spores. The buildings grow like mushrooms in the dark, their patterns shifting when no one watches. Some say the entire city is a graveyard of forgotten gods from many spheres. Each time people cease to believe in some god, it grows. The dying gods bring streets, building and forgotten culture with them. They don't want to be alone in the void, afterlife or whatever there is for them after they die, you know. ",
+                text: "Upper Morkezela... some say the entire city is a graveyard of forgotten gods from many spheres. Each time people cease to believe in some god, it grows. The dying gods bring streets, buildings and forgotten culture with them. They don't want to be alone in the void, afterlife or whatever there is for them after they die, you know.",
                 options: [
                     { text: "Ask about the gods", key: 'ask_about_the_gods', next: 'gods' },
                     { text: "Do you have any advice for me?", key: 'do_you_have_any_advice_for_me', next: 'advice' },
@@ -171,7 +171,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             spores: {
-                text: "Down in the temple the spores lie thick and close and obedient — the god's own breath, pooled in the dark. That is all you have ever known of them. But out here, under open sky, they thin and scatter and get into everything. They drift the streets; they carry the city's whispering along the mycelium — that is how the distress call reached the Council at all, riding the spores through the myceliar network. Your temple-lungs will find it strange awhile. And mind: the spores gather in you over time, a quiet pressure behind the eyes — and there are things in this city that feed on exactly that.",
+                text: "Down in the temple the spores lie thick, quiet and obedient — like a god's breath gathered in the dark. It's all you've ever known. But out here, under open sky, they thin, they drift, and they get absolutely everywhere. You may find that this city holds creatures that feed on spores, or that would find all manner of uses for them. Some may try to buy them off you; some may help you out of a tight spot. Either way — go sparingly with the spores you carry, and keep an eye on your levels. They replenish slowly and with difficulty, though you may yet discover ways to hasten it.",
                 options: [
                     { text: "Things that feed on it? The symbionts?", key: 'things_that_feed_symbionts', next: 'symbionts' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewell' }
@@ -181,7 +181,7 @@ export default class EntryScene extends GameScene {
                         this.addJournalEntry(
                             'spores_lore',
                             'The Spores',
-                            'I know spores — they are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. But above ground, under open sky, Thaal says they behave differently: thin and scattered, drifting the streets, carrying the city\'s whispers along the mycelium. The distress call that brought us here rode them, through the myceliar network. They gather in me over time — and some things in this city feed on exactly that.',
+                            'I know spores — they are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. Above ground, under open sky, Thaal says they thin and drift and get into everything. This city holds creatures that feed on spores, and others who would buy them off me or find their own uses for them. I should go sparingly with the ones I carry and watch my levels: they replenish slowly and with difficulty, though there may be ways to hasten it.',
                             this.journalSystem.categories.LORE,
                             { location: 'Upper Morkezela suburb' }
                         );
@@ -189,7 +189,7 @@ export default class EntryScene extends GameScene {
                 }
             },
             symbionts: {
-                text: "Heard of them in the cloister archives, no doubt — and never seen one bonded. You carry none; you'd walk differently if you did. A symbiont is a living thing you invite into your own flesh, apprentice: bonded to you, each with its own voice and its own gift — one reads the thought folded behind a face, one the last words of the dead, one the seam in a wall that only pretends to be solid. This city keeps them in its odd corners. Should one offer itself, and you prove worthy — or foolish enough — you may take it in. But mind the balance: some wax strong in Growth and fall silent in Decay; others the reverse. Tip the city too far and your new voice may simply stop speaking. Enough! I have communion to attend.",
+                text: "Heard of them in the cloister archives, no doubt — and never seen one bonded. You carry none; you'd walk differently if you did. A symbiont is a living thing you invite into your own flesh, apprentice: bonded to you, each with its own voice and its own gift — one reads the thought folded behind a face, one the last words of the dead. Their abilities can be amazing or utterly peculiar. This city keeps them in its odd corners. Should one offer itself, and you prove worthy — or foolish enough — you may take it in. But mind the balance: some wax strong in Growth and fall silent in Decay; others the reverse. Tip the city too far and your new voice may simply stop speaking. Enough! I need a beer… I mean, I have communion to attend.",
                 options: [
                     { text: "And these spores you mentioned?", key: 'and_these_spores', next: 'spores' },
                     { text: "Tell me again about growth and decay.", key: 'tell_me_again_growth_decay', next: 'growthDecay' },
@@ -200,7 +200,7 @@ export default class EntryScene extends GameScene {
                         this.addJournalEntry(
                             'symbionts_lore',
                             'Symbionts',
-                            'I have only ever read of symbionts; I carry none. Thaal says they are living things a cultist invites into their own flesh — each bonded, each with a voice and a gift (reading the thought behind a face, the words of the dead, the seam in a wall). They live in the city\'s odd corners and can be taken in. They react to the city\'s balance: some strengthen in Growth and fall silent in Decay, others the reverse — push Growth or Decay to an extreme and a symbiont may go quiet.',
+                            'I have only ever read of symbionts; I carry none. Thaal says they are living things a cultist invites into their own flesh — each bonded, each with a voice and a gift (reading the thought behind a face, the words of the dead), their abilities amazing or utterly peculiar. They live in the city\'s odd corners and can be taken in. They react to the city\'s balance: some strengthen in Growth and fall silent in Decay, others the reverse — push Growth or Decay to an extreme and a symbiont may go quiet.',
                             this.journalSystem.categories.LORE,
                             { location: 'Upper Morkezela suburb' }
                         );
@@ -216,7 +216,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             gods: {
-                text: "You know, or you should know, that there is only one real god. Obozoba, the Ur-mushroom, the one who created the world and all life and death in it. The other gods are just illusions... but yeah, this is a city where gods are going to die. See, not all gods live forever.",
+                text: "You know, or you should know, that there is only one real god. Obazoba, the Ur-mushroom, the one who created the world and all life and death in it. The other gods are just illusions... but yeah, this is a city where gods are going to die. See, not all gods live forever.",
                 options: [
                     { text: "Ask about the city", key: 'ask_about_the_city', next: 'city' },
                     { text: "Where can I learn more about the gods?", key: 'where_can_i_learn_more_about_the_gods', next: 'priests' },
@@ -231,7 +231,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             eggCatedral: {
-                text: "The Egg Cathedral is, well, a huge cathedral that is hatching from a gigantic egg. A massive, shell-grown structure inhabited by fungal clergy, flickering with bio-luminescent scripture... They don't know which religion the cathedral belongs to. So all major churches send their priests just to be sure. They wait for the signs they hope for, but the cathedral is still hatching...",
+                text: "The Egg Cathedral is, well, a huge cathedral that is hatching from a gigantic egg. A massive, shell-grown structure inhabited by various clergy... They don't know which religion the cathedral belongs to. So all major churches send their priests just to be sure. They wait for the signs they hope for, but the cathedral is still hatching...",
                 options: [
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
@@ -259,7 +259,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             yolkSea: {
-                text: "The Yolk Sea is a glowing, sentient ocean of living yolk. Boats float like seeds, and whispers rise from its depths.",
+                text: "The Yolk Sea is a glowing, sentient ocean of living yolk. They say that the cholesterol level of this sea is so high, that it could eradicate the entire planet.",
                 options: [
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
@@ -278,7 +278,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             voxmarket: {
-                text: "The Voxmarket is a bustling marketplace... audio bazaar where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed. I have heard that also black market thrives here.",
+                text: "The Voxmarket is a bustling marketplace... audio bazaar where recorded voices, sounds, and thoughts are sold. Stalls display silent conversation loops. You can buy the sound of someone’s first heartbreak or a scream from before fire existed. I have heard that a black market also thrives here.",
                 options: [
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
@@ -287,7 +287,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             stomachClock: {
-                text: "The Stomach Clock is a biomechanical chamber shaped like a digestive clock. Time runs in loops; bile is sacred. You can see it at the townhall",
+                text: "The Stomach Clock is a biomechanical chamber shaped like a digestive clock. Some say that it is a real stomach of the first god who came to the city, others that it's just a poor copy of a different clock from a different town. Be that as it may, its bile is sacred and reportedly healthy. You can see it at the townhall",
                 options: [
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
@@ -299,7 +299,7 @@ export default class EntryScene extends GameScene {
                         this.addJournalEntry(
                             'heard_stomach_clock',
                             'The Stomach Clock',
-                            'Someone told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock, where time runs in loops and bile is sacred.',
+                            'Thaal told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock. Some say it is the real stomach of the first god who came to the city to die, others that it\'s just a poor copy of a clock from some other town. Either way, its bile is sacred — and reportedly healthy.',
                             this.journalSystem.categories.LORE,
                             { location: 'Townhall' }
                         );

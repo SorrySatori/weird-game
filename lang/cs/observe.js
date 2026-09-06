@@ -6,7 +6,7 @@ export default {
         stomach_clock: {
             hint: 'Žaludeční hodiny',
             default: "Hodiny velké jako dům — a ony... dýchají. Ciferník je z kosti, ručičky jsou cosi mokrého. Ať už v tomhle městě měří čas cokoli, nejsou to vteřiny.",
-            heard: "Tak tohle jsou ty Žaludeční hodiny, o kterých mi vyprávěli. „Čas běží v kruzích; žluč je posvátná.“ Když teď stojím pod nimi, konečně věřím oběma půlkám té věty.",
+            heard: "Tak tohle jsou ty Žaludeční hodiny, o kterých mi vyprávěl Thaal. Skutečný žaludek prvního boha, který sem přišel umřít — nebo jen mizerná kopie hodin odjinud, podle toho, kdo to vypráví. Když teď stojím pod nimi a dívám se, jak tráví, vím, které verzi věřím. A vůbec nespěchám zjišťovat, jestli je ta žluč fakt tak léčivá, jak se říká.",
             been_inside: "Stál jsem uvnitř jejich útrob. Vědomí toho, co ta věc nahoře doopravdy tráví, se na to nedívá o nic líp — spíš hůř.",
         },
         crossroads: {

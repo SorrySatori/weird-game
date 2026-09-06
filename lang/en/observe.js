@@ -8,7 +8,7 @@ export default {
         stomach_clock: {
             hint: 'Stomach Clock',
             default: "A clock the size of a house, and it's... breathing. The face is bone; the hands are something wet. Whatever keeps time in this city, it isn't seconds.",
-            heard: "So this is the Stomach Clock they told me about. 'Time runs in loops; bile is sacred.' Standing under it, I finally believe both halves of that sentence.",
+            heard: "So this is the Stomach Clock Thaal told me about. The real stomach of the first god who came here to die — or a poor copy of some other town's clock, depending on who's telling it. Standing under it, watching it digest, I know which story I believe. And I'm in no hurry to test whether the bile is as healthy as they say.",
             been_inside: "I've stood inside its gut. Knowing what the thing up there is actually digesting doesn't make it easier to look at — it makes it worse.",
         },
         crossroads: {

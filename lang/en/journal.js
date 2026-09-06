@@ -6,7 +6,7 @@ export default {
     journal: {
         heard_stomach_clock: {
             title: 'The Stomach Clock',
-            description: 'Someone told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock, where time runs in loops and bile is sacred.',
+            description: 'Thaal told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock. Some say it is the real stomach of the first god who came to the city to die, others that it\'s just a poor copy of a clock from some other town. Either way, its bile is sacred — and reportedly healthy.',
         },
         obazoba_cult: {
             title: 'Obazoba Cult',
@@ -30,11 +30,11 @@ export default {
         },
         spores_lore: {
             title: 'The Spores',
-            description: 'I know spores — they are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. Above ground, under open sky, they behave differently: thin and scattered, carrying the city\'s whispers along the mycelium — the distress call rode them to the Council. They gather in me over time, and some things in this city feed on exactly that.',
+            description: 'I know spores — they are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. Above ground, under open sky, Thaal says they thin and drift and get into everything. This city holds creatures that feed on spores, and others who would buy them off me or find their own uses for them. I should go sparingly with the ones I carry and watch my levels: they replenish slowly and with difficulty, though there may be ways to hasten it.',
         },
         symbionts_lore: {
             title: 'Symbionts',
-            description: 'I have only ever read of symbionts; I carry none. They are living things a cultist invites into their own flesh — each with a voice and a gift (the thought behind a face, the words of the dead, the seam in a wall). Found in the city\'s odd corners, they can be taken in, and they react to the balance: some strengthen in Growth and fall silent in Decay, others the reverse.',
+            description: 'I have only ever read of symbionts; I carry none. They are living things a cultist invites into their own flesh — each with a voice and a gift (the thought behind a face, the words of the dead), their abilities amazing or utterly peculiar. Found in the city\'s odd corners, they can be taken in, and they react to the balance: some strengthen in Growth and fall silent in Decay, others the reverse.',
         },
         abandoned_bus_interior: {
             title: 'Abandoned Bus Interior',

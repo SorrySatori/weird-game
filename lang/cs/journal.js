@@ -5,7 +5,7 @@ export default {
     journal: {
         heard_stomach_clock: {
             title: 'Žaludeční hodiny',
-            description: 'Někdo mi vyprávěl o Žaludečních hodinách na radnici: biomechanická komora ve tvaru trávicích hodin, kde čas běží v kruzích a žluč je posvátná.',
+            description: 'Thaal mi vyprávěl o Žaludečních hodinách na radnici: biomechanická komora ve tvaru trávicích hodin. Někdo říká, že je to skutečný žaludek prvního boha, který přišel do města umřít, jiní, že jen mizerná kopie hodin odjinud. Buď jak buď, jejich žluč je posvátná — a prý dokonce léčivá.',
         },
         obazoba_cult: {
             title: 'Kult Obazoba',
@@ -17,23 +17,23 @@ export default {
         },
         fungal_apprentice: {
             title: 'Houbový Učeň',
-            description: 'Jako nejnovější učeň Houbového Mistra Thaala se musím hodně naučit o světě spór a mycelia.',
+            description: 'Jako nejnovější učeň Houbového Mistra Thaala se musím hodně naučit o světě spor a mycelia.',
         },
         fungal_master: {
             title: 'Houbový Mistr Thaal',
-            description: 'Výstřední Houbový Mistr Thaal je známý svými rozsáhlými znalostmi spór a hub.',
+            description: 'Výstřední Houbový Mistr Thaal je známý svými rozsáhlými znalostmi spor a hub.',
         },
         growthDecay: {
             title: 'Růst a Rozklad',
             description: 'Moje činy mohou změnit město a jeho budoucnost. Růst živí to, co žije; Rozklad strhává to, co přetrvává.',
         },
         spores_lore: {
-            title: 'Spóry',
-            description: 'Spóry znám — jsou moje vlastní, boží dech, který jsem od dětství dýchal v podzemním Obazobově chrámu. Pod širým nebem se ale chovají jinak: řídké a rozptýlené, nesou šepot města po myceliu — právě na nich dorazilo nouzové volání k Radě. Časem se ve mně hromadí a něco v tomhle městě se právě tím živí.',
+            title: 'Spory',
+            description: 'Spory znám — jsou moje vlastní, boží dech, který jsem od dětství dýchal v podzemním Obazobově chrámu. Pod širým nebem ale podle Thaala řídnou, poletují a dostanou se úplně všude. V tomhle městě jsou bytosti, které se sporami živí, a jiné, které by je ode mě koupily nebo pro ně našly využití. S těmi, co v sobě nosím, mám šetřit a hlídat si hladinu: doplňují se jen pomalu a obtížně, i když snad existují způsoby, jak to urychlit.',
         },
         symbionts_lore: {
             title: 'Symbionti',
-            description: 'O symbiontech jsem zatím jen četl; žádného nenosím. Jsou to živé bytosti, které si kultista zve do vlastního masa — každá se svým hlasem a darem (myšlenka za tváří, slova mrtvých, šev ve zdi). Žijí v podivných koutech města a lze si je vzít do sebe; reagují na rovnováhu: někteří sílí v Růstu a umlkají v Rozkladu, jiní naopak.',
+            description: 'O symbiontech jsem zatím jen četl; žádného nenosím. Jsou to živé bytosti, které si kultista zve do vlastního těla — každá se svým hlasem a darem (myšlenka za tváří, slova mrtvých), schopnosti úžasné i fakt dost divné. Žijí v podivných koutech města a lze si je vzít do sebe; reagují na rovnováhu: někteří sílí v Růstu a umlkají v Rozkladu, jiní naopak.',
         },
         abandoned_bus_interior: {
             title: 'Interiér Opuštěného Autobusu',
@@ -84,8 +84,8 @@ export default {
             description: 'V podivné mrtvole na křižovatce jsem našel symbiotickou entitu, která si říká Trn-Klid.',
         },
         crossroad_corpse_spores_planted: {
-            title: 'Zasazeny Spóry v Mrtvole na Křižovatce',
-            description: 'Zasadil jsem spóry do podivné mrtvoly na křižovatce.',
+            title: 'Zasazeny Spory v Mrtvole na Křižovatce',
+            description: 'Zasadil jsem spory do podivné mrtvoly na křižovatce.',
         },
         symbiont_thorne_still_declined: {
             title: 'Odmítnutí Trnu-Klidu',
@@ -101,7 +101,7 @@ export default {
         },
         delta_fungal_bridge: {
             title: 'Houbový Most v Deltě Ozvěnového Odpadu',
-            description: 'Zasadil jsem spóry do sedimentu mezi ostrovy delty.',
+            description: 'Zasadil jsem spory do sedimentu mezi ostrovy delty.',
         },
         redmass_encountered: {
             title: 'Živá Rudá Hmota',
@@ -309,7 +309,7 @@ export default {
         },
         grew_mushroom_verrik: {
             title: 'Vyrostla Houba pro Verrika',
-            description: 'Obětoval jsem spóry u Lumen Direktoriátu a vyrostl houbu.',
+            description: 'Obětoval jsem spory u Lumen Direktoriátu a vyrostl houbu.',
         },
         lumen_directorate_joined: {
             title: 'Člen Lumenova direktoriátu',
@@ -529,11 +529,11 @@ export default {
         },
         delta_seam_crossing: {
             title: 'Šev přes deltu',
-            description: 'S Palinode jsem ucítil šev, který temná voda skrývá — výběžek napůl potopené ruiny, o němž proud předstírá, že tam není. Žádné spóry, žádný houbový most: prostě jsem tu mezeru odřekl a přešel. Cesta na ostrov je otevřená.',
+            description: 'S Palinode jsem ucítil šev, který temná voda skrývá — výběžek napůl potopené ruiny, o němž proud předstírá, že tam není. Žádné spory, žádný houbový most: prostě jsem tu mezeru odřekl a přešel. Cesta na ostrov je otevřená.',
         },
         palinode_bonded: {
             title: 'Spojen: Palinode',
-            description: 'Ve švech Delty Ozvěnového odtoku jsem na sebe vzal Palinode, „odříkání“ — neutrálního symbionta, jehož Smysl pro švy nachází a otevírá skryté cesty: zapečetěné dveře, zazděné chodby, poctivý průvan pod falešnou zdí. Pohání ho spóry a Růst ani Rozklad ho nezajímají.',
+            description: 'Ve švech Delty Ozvěnového odtoku jsem na sebe vzal Palinode, „odříkání“ — neutrálního symbionta, jehož Smysl pro švy nachází a otevírá skryté cesty: zapečetěné dveře, zazděné chodby, poctivý průvan pod falešnou zdí. Pohání ho spory a Růst ani Rozklad ho nezajímají.',
         },
         seam_sense_cathedral_gap: {
             title: 'Smysl pro švy: Odpečetěná katedrála',
@@ -653,11 +653,11 @@ export default {
         },
         seam_sense_scraper_floors: {
             title: 'Smysl pro švy: Zapečetěná patra',
-            description: 'Matka-Výtah teď dosáhne jen do vstupní haly — horní patra se zapečetila v den, kdy vzešlo Vejce, a budova odmítá počítat ty, které ztratila. S Palinodou jsem odřekl šev mezi dvěma úrovněmi, které se nikdy neměly dotknout, a vstoupil na mrtvé patro zachované přesně tak, jak je Vzejití zanechalo: manažerskou vrstvu zmrzlou uprostřed porady, zelené spóry stále visící nespadlé ve vzduchu. Ti proměnění vyšplhali pryč a už se nevrátili dolů. V kabátě přehozeném přes židli jsem našel malou zásobu sušených spór, kterou opustili. Žádná zeď není poslední slovo — dokonce ani patro, na které budova zapomněla.',
+            description: 'Matka-Výtah teď dosáhne jen do vstupní haly — horní patra se zapečetila v den, kdy vzešlo Vejce, a budova odmítá počítat ty, které ztratila. S Palinodou jsem odřekl šev mezi dvěma úrovněmi, které se nikdy neměly dotknout, a vstoupil na mrtvé patro zachované přesně tak, jak je Vzejití zanechalo: manažerskou vrstvu zmrzlou uprostřed porady, zelené spory stále visící nespadlé ve vzduchu. Ti proměnění vyšplhali pryč a už se nevrátili dolů. V kabátě přehozeném přes židli jsem našel malou zásobu sušených spor, kterou opustili. Žádná zeď není poslední slovo — dokonce ani patro, na které budova zapomněla.',
         },
         seam_sense_shed_tunnel: {
             title: 'Smysl pro švy: Zazděný tunel',
-            description: 'Za opuštěnou kanceláří Tvaroví-Písaři kdysi dávno zazdili úsek starých chodeb a nechali na něj všechny zapomenout. Palinoda ucítila poctivý průvan za falešnou zdí a odřekla cihlu. Tunel vydechuje studený vzduch a pomalý, vlhký tep — vede dolů k Živému jádru, artefaktu z živého kovu vrostlému do zdí Kůlny 521, který napájí celý Úřad. Stále dýchá, sotva, a čím hlouběji tunel vede, tím víc se zdá, že zdi dýchají s ním. V sutinách, kde cihly povolily, jsem našel zásobu sušených spór, kterou tam zedníci nechali zapečetěnou. Žádná zeď není poslední slovo.',
+            description: 'Za opuštěnou kanceláří Tvaroví-Písaři kdysi dávno zazdili úsek starých chodeb a nechali na něj všechny zapomenout. Palinoda ucítila poctivý průvan za falešnou zdí a odřekla cihlu. Tunel vydechuje studený vzduch a pomalý, vlhký tep — vede dolů k Živému jádru, artefaktu z živého kovu vrostlému do zdí Kůlny 521, který napájí celý Úřad. Stále dýchá, sotva, a čím hlouběji tunel vede, tím víc se zdá, že zdi dýchají s ním. V sutinách, kde cihly povolily, jsem našel zásobu sušených spor, kterou tam zedníci nechali zapečetěnou. Žádná zeď není poslední slovo.',
         },
         edgar_book_vestigel_path: {
             title: 'Literární výměna',
