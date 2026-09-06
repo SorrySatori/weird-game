@@ -657,7 +657,7 @@ export default class RustDomainScene extends GameScene {
 
         // Set background
         const bg = this.add.image(400, 300, 'rustDomainBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         // Initialize the scene transition manager

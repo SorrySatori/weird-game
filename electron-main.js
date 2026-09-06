@@ -14,14 +14,15 @@ const createWindow = () => {
     // width: 800,
     // height: 600,
     backgroundColor: '#2d2d2d',
+    fullscreen: true,       // launch in true fullscreen — no title bar, covers the taskbar
+    autoHideMenuBar: true,  // hide the File/View menu bar (its F11 / Ctrl+Q accelerators still work)
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
       // Disable security warnings in development
       devTools: true
-    },
-    autoHideMenuBar: false
+    }
   });
 
   // Create menu

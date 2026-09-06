@@ -283,7 +283,7 @@ export default class HarborScene extends GameScene {
         super.create();
 
         const bg = this.add.image(400, 300, 'harborBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);
@@ -366,7 +366,7 @@ export default class HarborScene extends GameScene {
         });
 
         // Interactive zone
-        const mirageZone = this.add.zone(580, 490, 70, 70);
+        const mirageZone = this.add.zone(Math.round(580 * this.scale.width / 800), 490, Math.round(70 * this.scale.width / 800), 70);
         mirageZone.setInteractive({ useHandCursor: true });
         mirageZone.setDepth(10);
 

@@ -7,7 +7,9 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #2d2d2d;
+            /* Black letterbox bars (the 4:3 game centred on a widescreen) read as intentional,
+               unlike the old grey. */
+            background-color: #000000;
             overflow: hidden;
             width: 100%;
             height: 100%;
@@ -21,9 +23,10 @@
             left: 0;
         }
         canvas {
-            width: 100%;
-            height: 100%;
-            object-fit: fill;
+            /* Phaser's FIT scale mode sizes and centres the canvas itself (inline styles);
+               don't force width/height here or it would stretch and distort. Keep pixels crisp. */
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
     </style>
 </head>

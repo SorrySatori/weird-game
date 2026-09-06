@@ -315,7 +315,7 @@ export default class Shed521Scene extends GameScene {
 
         // Set up scene background and elements
         const bg = this.add.image(400, 300, 'Shed521Bg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         this.playSceneMusic('genericMusic');
 

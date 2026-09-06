@@ -202,6 +202,12 @@ export default class PlayerMovementSystem {
         if (this.priestGlow && this.priest) {
             this.priestGlow.x = this.priest.x;
             this.priestGlow.y = this.priest.y;
+            // Some scenes anchor the priest at the feet (setOrigin(0.5, 1)); the glow is a second
+            // sprite of the same texture, so it must share the origin or it renders half a body
+            // lower as a ghostly silhouette. Keep them in sync here, centrally.
+            if (this.priestGlow.originX !== this.priest.originX || this.priestGlow.originY !== this.priest.originY) {
+                this.priestGlow.setOrigin(this.priest.originX, this.priest.originY);
+            }
         }
     }
 

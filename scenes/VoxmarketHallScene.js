@@ -927,7 +927,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.playSceneMusic('marketTheme');
         
         const bg = this.add.image(400, 300, 'voxmarketHallBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         this.createHallGround();
@@ -1348,7 +1348,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         const groundGraphics = this.add.graphics();
         
         // Set the ground dimensions
-        const groundWidth = 800;
+        const groundWidth = this.scale.width; // full canvas width (1067)
         const groundHeight = 160;
         const groundY = 500;
         

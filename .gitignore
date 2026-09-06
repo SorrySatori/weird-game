@@ -9,7 +9,7 @@ out/
 
 # Electron Forge output
 out/
-forge.config.js
+# NOTE: forge.config.js is the Forge *config* (needed for `npm start`), not output — it is tracked.
 
 # Build outputs
 build/

@@ -532,7 +532,7 @@ export default class VoxMarket extends GameScene {
         
         // Set vox market background
         const bg = this.add.image(400, 200, 'voxMarketBg');
-        bg.setDisplaySize(800, 750); // Further increased height to fully cover the ground
+        this.fitBackground(bg); // whole image fitted to the 1067×600 canvas
         bg.setDepth(-1);
         
         // Create a custom ground for the market scene
@@ -865,8 +865,8 @@ export default class VoxMarket extends GameScene {
         // Create a graphics object for the ground
         const groundGraphics = this.add.graphics();
         
-        // Set the ground dimensions
-        const groundWidth = 800;
+        // Set the ground dimensions (full canvas width — the game is 1067 wide now)
+        const groundWidth = this.scale.width;
         const groundHeight = 160;
         const groundY = 500;
         

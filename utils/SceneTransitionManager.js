@@ -79,6 +79,15 @@ export default class SceneTransitionManager {
      * @returns {Phaser.GameObjects.Zone} The created transition zone
      */
     createTransitionZone(x, y, width, height, direction, targetScene, walkX, walkY, destinationName = '', options = {}) {
+        // Scenes still place their exits in the original 800-wide layout. Remap X proportionally
+        // into the current canvas width (1067) so left exits stay left, right exits stay right and
+        // door hotspots land where the widened background put them. Y is unchanged (height is
+        // still 600). walkX — where the priest walks before leaving — gets the same treatment.
+        const kx = this.scene.scale.width / 800;
+        x = Math.round(x * kx);
+        width = Math.round(width * kx);   // keep relative spacing so remapped zones don't overlap neighbours
+        if (typeof walkX === 'number') walkX = Math.round(walkX * kx);
+
         // If no destination name is provided, create one from the target scene
         if (!destinationName) {
             // Convert camelCase to Title Case with spaces

@@ -27,7 +27,7 @@ export default class ScraperAmbraScene extends GameScene {
 
         // Set background
         const bg = this.add.image(400, 300, 'scraperAmbraBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         // Initialize the scene transition manager
@@ -127,7 +127,7 @@ export default class ScraperAmbraScene extends GameScene {
         // Add a subtle green glow effect to the scene
         const ambientGlow = this.add.graphics();
         ambientGlow.fillStyle(0x7fff8e, 0.05);
-        ambientGlow.fillRect(0, 0, 800, 600);
+        ambientGlow.fillRect(0, 0, this.scale.width, this.scale.height);
         ambientGlow.setDepth(2);
         
         // Add pulsating effect to the glow

@@ -337,7 +337,7 @@ export default class EggCathedralInteriorScene extends GameScene {
 
         // The heart of the cathedral — where the player meets the Unborn.
         const bg = this.add.image(400, 300, 'cathedralHeartBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);

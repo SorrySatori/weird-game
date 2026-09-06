@@ -237,7 +237,7 @@ export default class GodgraveyardScene extends GameScene {
         const access = this.hasGraveyardAccess();
 
         const bg = this.add.image(400, 300, access ? 'godgraveyardBg' : 'godgraveyardGateBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);

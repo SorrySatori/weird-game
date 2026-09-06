@@ -186,19 +186,21 @@ const RENDERERS = {
     chronicle(scene, model) {
         const box = newBox(scene);
         const INK = '#c8e6d0', DIM = '#5f7a68', HL = '#ffffff', NAME = '#e8c46a', FONT = '"Courier New", monospace';
+        // The dialog is laid out 800 wide; centre it on the actual canvas. `dx` shifts the 800-design.
+        const CX = Math.round(scene.scale.width / 2), dx = CX - 400;
 
-        box.add(scene.add.rectangle(400, 300, 800, 600, 0x05080a, 0.82));              // dim the world
-        const panel = scene.add.rectangle(400, 300, 720, 520, 0x0c1410, 0.97).setStrokeStyle(2, 0x2f5a44);
+        box.add(scene.add.rectangle(CX, 300, scene.scale.width, 600, 0x05080a, 0.82));  // dim the world
+        const panel = scene.add.rectangle(CX, 300, 720, 520, 0x0c1410, 0.97).setStrokeStyle(2, 0x2f5a44);
         box.add(panel);
 
         // Name / portrait plate, top-right — a static portrait from the speaker's own scene sprite.
-        addPortrait(scene, box, 650, 150, 150, 170, resolvePortraitTexture(scene, model.speaker), model.speaker, { font: FONT, nameColor: NAME });
+        addPortrait(scene, box, 650 + dx, 150, 150, 170, resolvePortraitTexture(scene, model.speaker), model.speaker, { font: FONT, nameColor: NAME });
 
         // A thin rule under the log region, separating narration from responses.
-        box.add(scene.add.rectangle(400, 392, 660, 1, 0x2f5a44, 0.7));
+        box.add(scene.add.rectangle(CX, 392, 660, 1, 0x2f5a44, 0.7));
 
         // Narration log, left.
-        const view = { x: 70, y: 82, w: 486, h: 296, arrowColor: NAME };
+        const view = { x: 70 + dx, y: 82, w: 486, h: 296, arrowColor: NAME };
         const logC = scene.add.container(view.x, view.y);
         box.add(logC);
         const speakerLine = model.speaker
@@ -212,7 +214,7 @@ const RENDERERS = {
         attachScroll(scene, logC, (speakerLine ? 34 : 0) + body.height, view);
 
         // Numbered response lines, bottom (their own scroll area if long).
-        const oview = { x: 70, y: 410, w: 660, h: 148, arrowColor: NAME };
+        const oview = { x: 70 + dx, y: 410, w: 660, h: 148, arrowColor: NAME };
         const optsC = scene.add.container(oview.x, oview.y);
         box.add(optsC);
         let y = 0;

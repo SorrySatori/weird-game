@@ -20,7 +20,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
         this.playSceneMusic('genericMusic');
 
         const bg = this.add.image(400, 300, 'lumenInteriorBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);

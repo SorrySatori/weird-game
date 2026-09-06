@@ -18,6 +18,7 @@ import MapUI from '../ui/MapUI.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { renderDialogLayout } from '../utils/dialogLayouts.js';
 import { runEquipmentTutorial } from '../utils/equipmentTutorial.js';
+import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
@@ -166,10 +167,13 @@ export default class GameScene extends Phaser.Scene {
             this.playerMovementSystem.update();
         }
 
-        // Keep the player's ground shadow under its feet.
+        // Keep the player's ground shadow under its feet. Derive the feet line from the sprite's
+        // actual origin: some scenes anchor the priest at the feet (setOrigin(0.5, 1)), and a
+        // fixed "+58" (a centre-origin assumption) then drops the shadow half a body too low.
         if (this.priestShadow && this.priest) {
+            const feetY = this.priest.y + this.priest.displayHeight * (1 - this.priest.originY);
             this.priestShadow.x = this.priest.x;
-            this.priestShadow.y = this.priest.y + 58;
+            this.priestShadow.y = feetY - 6;
             this.priestShadow.setVisible(this.priest.visible);
         }
 
@@ -292,7 +296,7 @@ export default class GameScene extends Phaser.Scene {
             });
         }
         this.questSystem = this.registry.get('questSystem');
-        this.questLog = new QuestLog(this);
+        this.questLog = new QuestLog(this, this.scale.width - 50, 50);
 
         // Initialize Faction system if not already initialized
         if (!this.registry.get('factionSystem')) {
@@ -487,7 +491,7 @@ export default class GameScene extends Phaser.Scene {
             // Keyboard shortcuts are now handled by their respective systems
 
             // Add ground/street platform
-            const ground = this.add.tileSprite(400, 550, 800, 100, 'ground');
+            const ground = this.add.tileSprite(this.scale.width / 2, 550, this.scale.width, 100, 'ground'); // spans the full canvas width
             ground.setDepth(1);
             this.ground = ground; // stored so scenes can remove/replace the generic floor strip
 
@@ -528,7 +532,7 @@ export default class GameScene extends Phaser.Scene {
             this.priestGlow = glowFX;
 
             // Soft ground shadow that tracks the player (kept under its feet in update()).
-            this.priestShadow = this.addGroundShadow(this.priest.x, this.priest.y + 58, 66, 16);
+            this.priestShadow = this.addGroundShadow(this.priest.x, this.priest.y + this.priest.displayHeight * (1 - this.priest.originY) - 6, 66, 16); // feet line, origin-agnostic
             
             // Add pulsating effect to the glow
             this.tweens.add({
@@ -567,7 +571,7 @@ export default class GameScene extends Phaser.Scene {
             }
             
             // Create journal button container at top right corner (aligned with Quest button)
-            const journalBtnContainer = this.add.container(690, 50);
+            const journalBtnContainer = this.add.container(this.scale.width - 110, 50);
             journalBtnContainer.setDepth(100);
             
             // Create mushroom-shaped button background for journal
@@ -596,7 +600,7 @@ export default class GameScene extends Phaser.Scene {
             journalBtnContainer.add([journalBtnBg, journalSpot1, journalSpot2, journalIcon]);
 
             // Create map button container (left of journal)
-            const mapBtnContainer = this.add.container(630, 50);
+            const mapBtnContainer = this.add.container(this.scale.width - 170, 50);
             mapBtnContainer.setDepth(100);
 
             const mapBtnBg = this.add.graphics();
@@ -700,6 +704,14 @@ export default class GameScene extends Phaser.Scene {
         if (this.playerMovementSystem) {
             this.playerMovementSystem.movePriestTo(targetX);
         }
+    }
+
+    /**
+     * Size a scene background to cover the whole 1067×600 canvas — uniform scale (no distortion),
+     * centred, bottom edge flush with the canvas so the ground line stays put. See utils/fitBackground.js.
+     */
+    fitBackground(img) {
+        return fitBackgroundToCanvas(this, img);
     }
 
     // Method to add an item to inventory
@@ -841,6 +853,13 @@ export default class GameScene extends Phaser.Scene {
      */
     createObservable(x, y, width, height, resolve, opts = {}) {
         if (!this.add) return null;
+        // Scenes place observables in the original 800-wide layout, anchored to things in the
+        // background picture. Backgrounds are now stretched to the 1067-wide canvas, so remap X
+        // and width proportionally (Y is unchanged — height is still 600). Same trick as the
+        // exit zones in SceneTransitionManager; callers keep passing their 800-space numbers.
+        const kx = this.scale.width / 800;
+        x = Math.round(x * kx);
+        width = Math.round(width * kx);
         const zone = this.add.zone(x, y, width, height).setInteractive({ useHandCursor: true });
         zone.setDepth(opts.depth ?? 2);
 
@@ -1440,7 +1459,7 @@ export default class GameScene extends Phaser.Scene {
         this._gdAmbience = layer;
 
         // Colour cast over the scenery.
-        layer.add(this.add.rectangle(400, 300, 800, 600, washColor, washAlpha));
+        layer.add(this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, washColor, washAlpha));
 
         // Drifting motes — spores rising (growth) / ash settling (decay).
         for (let i = 0; i < 16; i++) {

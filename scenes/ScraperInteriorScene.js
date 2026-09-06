@@ -437,7 +437,7 @@ export default class ScraperInteriorScene extends GameScene {
         
         // Set background
         const bg = this.add.image(400, 300, 'scraperInteriorBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         // Initialize the scene transition manager
@@ -492,7 +492,7 @@ export default class ScraperInteriorScene extends GameScene {
         });
 
         // Add elevator
-        this.elevator = this.add.image(450, 370, 'door');
+        this.elevator = this.add.image(Math.round(450 * this.scale.width / 800), 370, 'door');
         this.elevator.setScale(0.9);
         this.elevator.setOrigin(0.5, 0.5);
         this.elevator.setDepth(5);

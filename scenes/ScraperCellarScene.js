@@ -585,7 +585,7 @@ export default class ScraperCellarScene extends GameScene {
         this.playSceneMusic('scrappedSong');
 
         const bg = this.add.image(400, 300, 'scraperCellarBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);

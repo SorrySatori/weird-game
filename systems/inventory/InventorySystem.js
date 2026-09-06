@@ -103,7 +103,7 @@ export default class InventorySystem {
      */
     createInventoryPanel() {
         // Create inventory panel container
-        this.inventoryPanel = this.scene.add.container(400, 300);
+        this.inventoryPanel = this.scene.add.container(this.scene.scale.width / 2, 300);
         this.inventoryPanel.setDepth(1000); // Above most elements
         this.inventoryPanel.setVisible(false);
         
