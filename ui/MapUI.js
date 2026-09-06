@@ -91,7 +91,7 @@ export default class MapUI {
     }
 
     createUI() {
-        this.container = this.scene.add.container(400, 300);
+        this.container = this.scene.add.container(this.scene.scale.width / 2, 300);
         this.container.setDepth(1000);
         this.container.visible = false;
         this.container.setScrollFactor(0);

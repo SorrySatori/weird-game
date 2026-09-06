@@ -24,7 +24,7 @@ export default class LumenDirectorateScene extends GameScene {
         this.playSceneMusic('genericMusic');
 
         const bg = this.add.image(400, 300, 'lumenDirectorateBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);
@@ -153,7 +153,7 @@ export default class LumenDirectorateScene extends GameScene {
         const altKey = growth ? 'LumenDirectorate_growth' : 'LumenDirectorate_decay';
         if (this.textures.exists(altKey)) {
             bg.setTexture(altKey);
-            bg.setDisplaySize(800, 600);
+            this.fitBackground(bg);
         } else {
             bg.setTint(growth ? 0xbfe8a0 : 0x9a8a6a); // lush green vs sickly sallow
         }

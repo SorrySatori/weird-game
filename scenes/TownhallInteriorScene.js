@@ -665,7 +665,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         this.playSceneMusic('genericMusic');
 
         const bg = this.add.image(400, 300, 'townhallInteriorBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);
@@ -1147,7 +1147,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
     showPoetryGameOver() {
         this.hideDialog();
 
-        const overlay = this.add.rectangle(400, 300, 800, 600, 0x050000, 0.95);
+        const overlay = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x050000, 0.95);
         overlay.setDepth(5000);
 
         const title = this.add.text(400, 210, 'GAME OVER', {

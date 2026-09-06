@@ -49,7 +49,7 @@ import CreditsScene from './scenes/CreditsScene.js';
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 1067,   // 16:9 at height 600 — fills widescreen with no bars (FIT letterboxes other aspects)
     height: 600,
     parent: 'game-container',
     physics: {
@@ -65,22 +65,21 @@ const config = {
         gamepad: false
     },
     scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownhallInteriorScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene, LumenDirectorateScene, LumenDirectorateInteriorScene, CardinalFeastScene, GodgraveyardScene, ScraperCellarScene, EggCathedralInteriorScene, EggCathedralStudyScene, CreditsScene, PithReclaimersRoomScene],
-    backgroundColor: '#2d2d2d',
+    backgroundColor: '#000000', // canvas clear — the not-yet-widened scene backgrounds show black (not grey) beside them
     scale: {
-        mode: Phaser.Scale.RESIZE,
+        // The game renders at a fixed 1067×600 (16:9). FIT scales it uniformly to fill the window,
+        // centred, preserving aspect — no distortion, crisp pixels, and no bars on 16:9 displays.
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        fullscreenTarget: 'game-container',
-        width: window.innerWidth,
-        height: window.innerHeight
+        width: 1067,
+        height: 600
     }
 };
 
 const game = new Phaser.Game(config);
 
-// Add window resize event handler
-window.addEventListener('resize', () => {
-    game.scale.resize(window.innerWidth, window.innerHeight);
-});
+// FIT mode auto-refits the canvas when the window changes size — no manual resize needed.
+// (Calling game.scale.resize here would change the base game size and re-break the layout.)
 
 // Initialize game state in registry
 game.registry.set('inventoryVisible', false);

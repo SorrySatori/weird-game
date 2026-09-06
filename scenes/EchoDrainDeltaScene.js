@@ -127,7 +127,7 @@ export default class EchoDrainDeltaScene extends GameScene {
         super.create();
 
         const bg = this.add.image(400, 300, 'echoDrainDeltaBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.journalSystem = JournalSystem.getInstance();
@@ -190,7 +190,7 @@ export default class EchoDrainDeltaScene extends GameScene {
         });
 
         // Invisible interactive zone over the spot
-        const plantZone = this.add.zone(620, 380, 50, 50)
+        const plantZone = this.add.zone(Math.round(620 * this.scale.width / 800), 380, Math.round(50 * this.scale.width / 800), 50)
             .setInteractive({ useHandCursor: true })
             .setDepth(7);
 

@@ -195,7 +195,7 @@ export default class RedmassIslandScene extends GameScene {
         super.create();
 
         const bg = this.add.image(400, 300, 'redmassIslandBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.journalSystem = JournalSystem.getInstance();
@@ -233,7 +233,7 @@ export default class RedmassIslandScene extends GameScene {
 
         if (collected) {
             // Show empty spot where redmass was — just an interactive zone
-            const scarZone = this.add.zone(400, 350, 60, 60)
+            const scarZone = this.add.zone(Math.round(400 * this.scale.width / 800), 350, Math.round(60 * this.scale.width / 800), 60)
                 .setInteractive({ useHandCursor: true })
                 .setDepth(10);
 

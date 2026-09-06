@@ -19,7 +19,7 @@ export default class EggCatedralScene extends GameScene {
         
         // Set egg cathedral background
         const bg = this.add.image(400, 300, 'eggCatedralBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         // Initialize the scene transition manager

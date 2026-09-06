@@ -113,7 +113,7 @@ export default class QuestLog {
     }
 
     createQuestPanel() {
-        this.questPanel = this.scene.add.container(400, 280);
+        this.questPanel = this.scene.add.container(this.scene.scale.width / 2, 280);
         this.questPanel.setDepth(1000); // Increased to display over Spore bar
         this.questPanel.setScrollFactor(0);
         this.questPanel.visible = false;

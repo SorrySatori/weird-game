@@ -30,7 +30,7 @@ export default class CrossroadScene extends GameScene {
         
         const bgKey = this.hasGrowth ? 'crossroadBg_growth' : 'crossroadBg';
         this.background = this.add.image(400, 300, bgKey);
-        this.background.setDisplaySize(800, 600);
+        this.fitBackground(this.background);
         this.background.setDepth(-1);
         this.playSceneMusic('genericMusic');
 
@@ -41,23 +41,23 @@ export default class CrossroadScene extends GameScene {
         this.transitionManager = new SceneTransitionManager(this);
 
         if (!this.hasGrowth) {
-            this.corpse = this.add.image(400, 300, 'door');
+            this.corpse = this.add.image(this.scale.width / 2, 300, 'door'); // the corpse sits at the (widened) background's centre
             this.corpse.setDisplaySize(120, 200);
             this.corpse.setAlpha(0.01);
             this.corpse.setInteractive({ useHandCursor: true });
             this.corpse.on('pointerdown', () => this.showCorpseDialog());
         } else {
             // Add skyship transition area when growth is present
-            this.skyshipTransition = this.add.image(400, 200, 'door')
+            this.skyshipTransition = this.add.image(this.scale.width / 2, 200, 'door') // centred on the widened background
                 .setDisplaySize(100, 150)
                 .setAlpha(0.01)
                 .setInteractive({ useHandCursor: true });
             this.skyshipTransition.setDepth(10);
-            
+
             // Add a subtle glow effect to hint at the interactive area
             const skyshipGlow = this.add.graphics();
             skyshipGlow.fillStyle(0x7fff8e, 0.2);
-            skyshipGlow.fillCircle(400, 200, 50);
+            skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
             skyshipGlow.setDepth(9);
             
             // Add pulsating animation to the glow
@@ -73,7 +73,7 @@ export default class CrossroadScene extends GameScene {
 
         // Examine: the signpost/junction (placed on the upper post, clear of the corpse's own
         // interactive zone at center). Comment reflects the corpse's fate + how the world leans.
-        this.createObservable(400, 150, 230, 90, () => {
+        this.createObservable(400, 150, 230, 90, () => { // 800-space coords; createObservable remaps X itself
             if (this.hasJournalEntry('crossroad_corpse_spores_planted')) return this.t('observe.crossroads.planted');
             if (this.getGDTendency && this.getGDTendency() === 'growthDominant') return this.t('observe.crossroads.overgrown');
             return this.t('observe.crossroads.default');
@@ -176,7 +176,7 @@ export default class CrossroadScene extends GameScene {
         // Add a subtle glow effect to hint at the interactive area
         const skyshipGlow = this.add.graphics();
         skyshipGlow.fillStyle(0x7fff8e, 0.2);
-        skyshipGlow.fillCircle(400, 200, 50);
+        skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
         skyshipGlow.setDepth(9);
         
         // Add pulsating animation to the glow
@@ -418,17 +418,17 @@ export default class CrossroadScene extends GameScene {
                     
                     // Directly create the skyship transition area
                     if (!this.skyshipTransition) {
-                        // Add skyship transition area
-                        this.skyshipTransition = this.add.image(400, 200, 'door')
+                        // Add skyship transition area (centred on the widened background)
+                        this.skyshipTransition = this.add.image(this.scale.width / 2, 200, 'door')
                             .setDisplaySize(100, 150)
                             .setAlpha(0.01)
                             .setInteractive({ useHandCursor: true });
                         this.skyshipTransition.setDepth(10);
-                        
+
                         // Add a subtle glow effect to hint at the interactive area
                         const skyshipGlow = this.add.graphics();
                         skyshipGlow.fillStyle(0x7fff8e, 0.2);
-                        skyshipGlow.fillCircle(400, 200, 50);
+                        skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
                         skyshipGlow.setDepth(9);
                         
                         // Add pulsating animation to the glow
@@ -636,17 +636,17 @@ export default class CrossroadScene extends GameScene {
             
             // Add skyship transition area if it doesn't exist yet
             if (!this.skyshipTransition) {
-                // Add skyship transition area
-                this.skyshipTransition = this.add.image(400, 200, 'door')
+                // Add skyship transition area (centred on the widened background)
+                this.skyshipTransition = this.add.image(this.scale.width / 2, 200, 'door')
                     .setDisplaySize(100, 150)
                     .setAlpha(0.01)
                     .setInteractive({ useHandCursor: true });
                 this.skyshipTransition.setDepth(10);
-                
+
                 // Add a subtle glow effect to hint at the interactive area
                 const skyshipGlow = this.add.graphics();
                 skyshipGlow.fillStyle(0x7fff8e, 0.2);
-                skyshipGlow.fillCircle(400, 200, 50);
+                skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
                 skyshipGlow.setDepth(9);
                 
                 // Add pulsating animation to the glow
@@ -733,7 +733,7 @@ export default class CrossroadScene extends GameScene {
         super.update();
 
         // Check if player is at the right edge of the screen
-        if (this.priest && this.priest.x > 780 && !this.isTransitioning) {
+        if (this.priest && this.priest.x > this.scale.width - 20 && !this.isTransitioning) { // right edge relative to the canvas (literal 780 misfired after the x-remap)
             this.isTransitioning = true;
             this.priest.play('idle');
             this.cameras.main.fadeOut(800, 0, 0, 0);

@@ -81,7 +81,7 @@ export default class ShedHallScene extends GameScene {
         super.create();
         
         const bg = this.add.image(400, 300, 'hall-bg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         if (this.priest) {

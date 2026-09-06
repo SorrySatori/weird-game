@@ -125,7 +125,7 @@ export default class ScreamingCorkClubScene extends GameScene {
 
         // Set background
         const bg = this.add.image(400, 300, 'screamingCorkClubBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         // Add ambient lighting effects
@@ -171,7 +171,7 @@ export default class ScreamingCorkClubScene extends GameScene {
     
     createAmbientLighting() {
         // Add a dark overlay to dim the scene
-        const darkOverlay = this.add.rectangle(400, 300, 800, 600, 0x000000, 0.4);
+        const darkOverlay = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x000000, 0.4);
         darkOverlay.setDepth(0);
         
         // Add stage lights using triangles instead of cones
@@ -288,7 +288,7 @@ export default class ScreamingCorkClubScene extends GameScene {
         });
         
         // Make the whole band interactive as a group
-        const bandZone = this.add.zone(400, 320, 400, 200)
+        const bandZone = this.add.zone(Math.round(400 * this.scale.width / 800), 320, Math.round(400 * this.scale.width / 800), 200)
             .setInteractive({ useHandCursor: true })
             .setOrigin(0.5);
             
@@ -525,7 +525,7 @@ export default class ScreamingCorkClubScene extends GameScene {
         // Create color-changing overlay for psychedelic effect
         this.psychedelicOverlay = this.add.graphics();
         this.psychedelicOverlay.fillStyle(0x00ff00, 0.05);
-        this.psychedelicOverlay.fillRect(0, 0, 800, 600);
+        this.psychedelicOverlay.fillRect(0, 0, this.scale.width, this.scale.height);
         this.psychedelicOverlay.setDepth(10);
         
         // Animate the overlay colors
@@ -552,7 +552,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             onUpdate: () => {
                 this.psychedelicOverlay.clear();
                 this.psychedelicOverlay.fillStyle(this.psychedelicOverlay.fillColor, 0.05);
-                this.psychedelicOverlay.fillRect(0, 0, 800, 600);
+                this.psychedelicOverlay.fillRect(0, 0, this.scale.width, this.scale.height);
             }
         });
     }

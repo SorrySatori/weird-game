@@ -376,7 +376,7 @@ export default class EntryScene extends GameScene {
     createCityBackground() {
         // Add the city background
         const bg = this.add.image(400, 300, 'cityBackground');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-2); // Set lower depth for background
     }
 
@@ -390,7 +390,7 @@ export default class EntryScene extends GameScene {
 
         // Set up both layers
         // [this.foreground1, this.foreground2].forEach(fg => {
-        //     fg.setDisplaySize(800, 600);
+        //     this.fitBackground(fg);
         //     fg.setDepth(0);
         //     fg.setBlendMode(Phaser.BlendModes.MULTIPLY);
         // });

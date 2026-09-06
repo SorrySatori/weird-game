@@ -402,7 +402,7 @@ export default class ShedCourtyardScene extends GameScene {
         super.create();
         
         const bg = this.add.image(400, 300, 'courtyard-bg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         if (this.priest) {

@@ -87,7 +87,7 @@ export default class EggCathedralStudyScene extends GameScene {
 
         // --- Procedural placeholder: a study grown into living tissue. ---
         const g = this.add.graphics().setDepth(-1);
-        g.fillStyle(0x0b1512, 1); g.fillRect(0, 0, 800, 600);
+        g.fillStyle(0x0b1512, 1); g.fillRect(0, 0, this.scale.width, this.scale.height);
         g.fillStyle(0x162a20, 1); g.fillEllipse(400, 300, 780, 580);
         g.fillStyle(0x203b2c, 1); g.fillEllipse(400, 330, 560, 420);
         // Desk growing out of the wall.

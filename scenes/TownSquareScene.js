@@ -129,7 +129,7 @@ export default class TownSquareScene extends GameScene {
         this.playSceneMusic('busker_theme');
 
         const bg = this.add.image(400, 300, 'townSquareBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         this.transitionManager = new SceneTransitionManager(this);

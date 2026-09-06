@@ -20,7 +20,7 @@ export default class SkyshipBoardScene extends GameScene {
 
         // Set skyship board background
         this.background = this.add.image(400, 300, 'skyshipBoardBg');
-        this.background.setDisplaySize(800, 600);
+        this.fitBackground(this.background);
         this.background.setDepth(-1);
 
         // Create symbiont UI

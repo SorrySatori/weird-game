@@ -23,7 +23,7 @@ export default class LoadingScene extends Phaser.Scene {
         ITEM_ICONS.forEach(({ key, path }) => this.load.image(key, path));
         
         // Create loading text
-        const loadingText = this.add.text(400, 400, 'Loading...', {
+        const loadingText = this.add.text(this.scale.width / 2, 400, 'Loading...', {
             fontSize: '24px',
             fill: '#7fff8e',
             fontFamily: 'Arial'
@@ -33,23 +33,24 @@ export default class LoadingScene extends Phaser.Scene {
         // Add loading progress bar
         const progressBar = this.add.graphics();
         const progressBox = this.add.graphics();
+        const cx = this.scale.width / 2; // centre the bar on the (now 1067-wide) canvas
         progressBox.fillStyle(0x0a2712, 0.8);
-        progressBox.fillRect(240, 430, 320, 30);
-        
+        progressBox.fillRect(cx - 160, 430, 320, 30);
+
         // Register loading progress events
         this.load.on('progress', (value) => {
             progressBar.clear();
             progressBar.fillStyle(0x7fff8e, 1);
-            progressBar.fillRect(250, 440, 300 * value, 10);
+            progressBar.fillRect(cx - 150, 440, 300 * value, 10);
         });
     }
 
     create() {
         // Create a dark background
-        this.add.rectangle(400, 300, 800, 600, 0x000000).setOrigin(0.5);
+        this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x000000).setOrigin(0.5);
         
         // Add the Tempurra logo
-        const logo = this.add.image(400, 300, 'tempurraLogo');
+        const logo = this.add.image(this.scale.width / 2, 300, 'tempurraLogo');
         logo.setScale(0.4);
         
         // Add a subtle glow effect around the logo

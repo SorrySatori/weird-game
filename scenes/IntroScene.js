@@ -1,6 +1,8 @@
 // Phaser.js cutscene implementation: "The Myceliar Summons"
 // This assumes you have a scene set up, a dialogue system in place, and backgrounds prepared
 
+import { fitBackground } from '../utils/fitBackground.js';
+
 class IntroScene extends Phaser.Scene {
     constructor() {
       super({ key: 'IntroScene' });
@@ -45,9 +47,10 @@ class IntroScene extends Phaser.Scene {
       ];
   
       // Overlay animation
-      this.overlay = this.add.image(400, 300, 'mycelialOverlay')
+      this.overlay = this.add.image(this.scale.width / 2, this.scale.height / 2, 'mycelialOverlay')
         .setBlendMode('ADD')
         .setAlpha(0.15);
+      fitBackground(this, this.overlay); // whole overlay fitted to the 1067×600 canvas
       this.tweens.add({
         targets: this.overlay,
         alpha: 0.3,

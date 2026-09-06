@@ -325,7 +325,7 @@ export default class TownhallScene extends GameScene {
 
         // Set townhall background
         const bg = this.add.image(400, 300, 'townhallBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         // Initialize the scene transition manager

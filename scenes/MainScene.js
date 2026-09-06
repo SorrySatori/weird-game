@@ -1,6 +1,8 @@
 import SaveSystem from '../systems/SaveSystem.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 
+import { fitBackground } from '../utils/fitBackground.js';
+
 export default class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainScene' });
@@ -29,14 +31,17 @@ export default class MainScene extends Phaser.Scene {
         console.log('MainScene create started');
         this.langModal = null;
         try {
+            // The menu is designed 800-wide; centre everything on the actual canvas (CX).
+            const CX = this.scale.width / 2;
+
             // Create an invisible rectangle that covers the entire game area
-            const gameArea = this.add.rectangle(0, 0, 800, 600, 0x000000, 0);
+            const gameArea = this.add.rectangle(0, 0, this.scale.width, 600, 0x000000, 0);
             gameArea.setOrigin(0, 0);
             gameArea.setInteractive();
 
-            // Add background
-            const bg = this.add.image(400, 300, 'background');
-            bg.setDisplaySize(800, 600);
+            // Add background — cover-fit (uniform scale, no distortion, bottom-anchored); see utils/fitBackground.js.
+            const bg = this.add.image(CX, 300, 'background');
+            fitBackground(this, bg);
 
             // Add hover and click sounds
             this.hoverSound = this.sound.add('hoverSound');
@@ -44,7 +49,7 @@ export default class MainScene extends Phaser.Scene {
 
             const i18n = LanguageSystem.getInstance();
 
-            const title = this.add.text(400, 170, 'Upper Morkezela:', {
+            const title = this.add.text(CX, 170, 'Upper Morkezela:', {
                 fontSize: '72px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial',
@@ -53,7 +58,7 @@ export default class MainScene extends Phaser.Scene {
                 shadow: { color: '#2fff91', blur: 10, stroke: true, fill: true }
             })
 
-            const subTitle = this.add.text(400, 250, 'A Weird Game', {
+            const subTitle = this.add.text(CX, 250, 'A Weird Game', {
                 fontSize: '72px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial',
@@ -67,12 +72,12 @@ export default class MainScene extends Phaser.Scene {
             subTitle.setOrigin(0.5)
 
             // Create button background
-            const buttonBg = this.add.rectangle(400, 400, 200, 60, 0x0a2712, 0.4);
+            const buttonBg = this.add.rectangle(CX, 400, 200, 60, 0x0a2712, 0.4);
             buttonBg.setStrokeStyle(2, 0x7fff8e);
             buttonBg.setInteractive({ useHandCursor: true });;
 
             // Add start game text
-            const startText = this.add.text(400, 400, i18n.t('ui.menu.startGame'), {
+            const startText = this.add.text(CX, 400, i18n.t('ui.menu.startGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -80,11 +85,11 @@ export default class MainScene extends Phaser.Scene {
             startText.setOrigin(0.5);
 
             // Add Load Game button with matching style
-            const loadGameBg = this.add.rectangle(400, 480, 200, 60, 0x0a2712, 0.4);
+            const loadGameBg = this.add.rectangle(CX, 480, 200, 60, 0x0a2712, 0.4);
             loadGameBg.setStrokeStyle(2, 0x7fff8e);
             loadGameBg.setInteractive({ useHandCursor: true });
 
-            const loadGameText = this.add.text(400, 480, i18n.t('ui.menu.loadGame'), {
+            const loadGameText = this.add.text(CX, 480, i18n.t('ui.menu.loadGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -114,11 +119,11 @@ export default class MainScene extends Phaser.Scene {
                 l => l.code === this.langSystem.getLanguage()
             );
 
-            const langBg = this.add.rectangle(400, 540, 200, 50, 0x0a2712, 0.4);
+            const langBg = this.add.rectangle(CX, 540, 200, 50, 0x0a2712, 0.4);
             langBg.setStrokeStyle(2, 0x7fff8e);
             langBg.setInteractive({ useHandCursor: true });
 
-            this.langText = this.add.text(400, 540, currentLang ? currentLang.name : 'Language', {
+            this.langText = this.add.text(CX, 540, currentLang ? currentLang.name : 'Language', {
                 fontSize: '24px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -156,23 +161,9 @@ export default class MainScene extends Phaser.Scene {
             // Initialize save system
             this.saveSystem = new SaveSystem(this);
 
-            // Add F11 key handler for fullscreen
-            this.input.keyboard.on('keydown-F11', (event) => {
-                event.preventDefault();
-                if (!document.fullscreenElement) {
-                    this.scale.startFullscreen();
-                    // Force resize after fullscreen
-                    setTimeout(() => {
-                        this.scale.resize(window.innerWidth, window.innerHeight);
-                    }, 100);
-                } else if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                    // Force resize after exiting fullscreen
-                    setTimeout(() => {
-                        this.scale.resize(window.innerWidth, window.innerHeight);
-                    }, 100);
-                }
-            });
+            // Fullscreen is handled at the Electron window level (the app launches fullscreen and the
+            // app menu's F11 toggles it). With Scale.FIT the canvas auto-refits, so we must NOT call
+            // this.scale.resize() here — that would change the base game size and re-break the layout.
 
 
             // Add global click handler to debug

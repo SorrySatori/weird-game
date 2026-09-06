@@ -21,7 +21,7 @@ export default class ScraperBackyardScene extends GameScene {
         super.create();
         
         const bg = this.add.image(400, 300, 'scraperBackyardBg');
-        bg.setDisplaySize(800, 750); 
+        this.fitBackground(bg);
         bg.setPosition(400, 180);
         bg.setDepth(-1);
         
@@ -66,7 +66,7 @@ export default class ScraperBackyardScene extends GameScene {
         });
         
         // Add abandoned bus - adjusted position for the zoomed out background
-        this.abandonedBus = this.add.image(400, 420, 'door');
+        this.abandonedBus = this.add.image(Math.round(400 * this.scale.width / 800), 420, 'door');
         this.abandonedBus.setScale(1.0); // Increased scale for better visibility
         this.abandonedBus.setDepth(5);
         this.abandonedBus.setInteractive({ useHandCursor: true });

@@ -24,7 +24,7 @@ export default class Shed521FloorsScene extends GameScene {
         
         // Set initial priest position to first floor
         if (this.priest) {
-            this.priest.x = 400;  // Center of the scene
+            this.priest.x = Math.round(400 * this.scale.width / 800);  // Center of the scene
             this.priest.y = 520;  // Adjusted ground level (first floor)
             this.priest.setOrigin(0.5, 1);  // Ensure origin is at feet
             this.priest.play('idle');
@@ -32,7 +32,7 @@ export default class Shed521FloorsScene extends GameScene {
 
         // Set crossroad background
         const bg = this.add.image(400, 300, 'floors');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         // Create transition zones for each area using SceneTransitionManager
@@ -203,7 +203,7 @@ export default class Shed521FloorsScene extends GameScene {
         this.secondFloorPlatform = this.add.graphics();
         // Use background-matching color and subtle opacity
         this.secondFloorPlatform.fillStyle(0x1a2420, 0.7); // Match dark greenish-gray, slightly transparent
-        this.secondFloorPlatform.fillRect(0, 340, 800, 8); // x, y, width, height
+        this.secondFloorPlatform.fillRect(0, 340, this.scale.width, 8); // x, y, width, height
         this.secondFloorPlatform.setDepth(2);
 
         // Optionally, add physics body for collision (if priest uses arcade physics)
@@ -270,7 +270,7 @@ export default class Shed521FloorsScene extends GameScene {
                     
                     // Short delay before teleporting
                     this.time.delayedCall(200, () => {
-                        priest.x = 650;
+                        priest.x = Math.round(650 * this.scale.width / 800);
                         priest.y = 340; // Second floor level
                         
                         this.currentFloor = 2;
@@ -291,7 +291,7 @@ export default class Shed521FloorsScene extends GameScene {
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
                     
-                    priest.x = 650;
+                    priest.x = Math.round(650 * this.scale.width / 800);
                     priest.y = 340; // Second floor level
                     
                     this.currentFloor = 2;
@@ -350,7 +350,7 @@ export default class Shed521FloorsScene extends GameScene {
                     
                     // Short delay before teleporting
                     this.time.delayedCall(200, () => {
-                        priest.x = 400;
+                        priest.x = Math.round(400 * this.scale.width / 800);
                         priest.y = 520; // First floor level
                         
                         this.currentFloor = 1;
@@ -371,7 +371,7 @@ export default class Shed521FloorsScene extends GameScene {
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
                     
-                    priest.x = 400;
+                    priest.x = Math.round(400 * this.scale.width / 800);
                     priest.y = 520; // First floor level
                     
                     this.currentFloor = 1;
@@ -430,7 +430,7 @@ export default class Shed521FloorsScene extends GameScene {
                     
                     // Short delay before teleporting
                     this.time.delayedCall(200, () => {
-                        priest.x = 690;
+                        priest.x = Math.round(690 * this.scale.width / 800);
                         priest.y = 180; // Third floor level
                         
                         this.currentFloor = 3;
@@ -451,7 +451,7 @@ export default class Shed521FloorsScene extends GameScene {
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
                     
-                    priest.x = 690;
+                    priest.x = Math.round(690 * this.scale.width / 800);
                     priest.y = 180; // Third floor level
                     
                     this.currentFloor = 3;
@@ -510,7 +510,7 @@ export default class Shed521FloorsScene extends GameScene {
                     
                     // Short delay before teleporting
                     this.time.delayedCall(200, () => {
-                        priest.x = 690;
+                        priest.x = Math.round(690 * this.scale.width / 800);
                         priest.y = 340; // Second floor level
                         
                         this.currentFloor = 2;
@@ -531,7 +531,7 @@ export default class Shed521FloorsScene extends GameScene {
                     priest.play('idle');
                     this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
                     
-                    priest.x = 690;
+                    priest.x = Math.round(690 * this.scale.width / 800);
                     priest.y = 340; // Second floor level
                     
                     this.currentFloor = 2;
@@ -596,7 +596,7 @@ export default class Shed521FloorsScene extends GameScene {
             const priest = this.priest;
             this.tweens.killTweensOf(priest);
 
-            priest.x = 400;
+            priest.x = Math.round(400 * this.scale.width / 800);
             priest.y = 340;
             priest.play('idle');
             this.cameras.main.flash(300, 127, 255, 142);
@@ -619,8 +619,9 @@ export default class Shed521FloorsScene extends GameScene {
     update() {
         super.update();
         
-        // Check if player is at the right edge of the screen
-        if (this.priest && this.priest.x > 780 && !this.isTransitioning) {
+        // Check if player is at the right edge of the screen (relative to the canvas width —
+        // a literal 780 fired on the way to the remapped second-floor stairs at ~867)
+        if (this.priest && this.priest.x > this.scale.width - 20 && !this.isTransitioning) {
             this.isTransitioning = true;
             this.priest.play('idle');
             this.cameras.main.fadeOut(800, 0, 0, 0);
@@ -633,7 +634,7 @@ export default class Shed521FloorsScene extends GameScene {
         // --- Only adjust priest y to third floor surface when actually on third floor ---
         if (
             this.priest &&
-            this.priest.x >= 0 && this.priest.x <= 800 &&
+            this.priest.x >= 0 && this.priest.x <= this.scale.width &&
             this.priest.y >= 140 && this.priest.y <= 200 // Only when near third floor
         ) {
             const targetY = this.getThirdFloorY(this.priest.x);

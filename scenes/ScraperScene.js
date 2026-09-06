@@ -182,7 +182,7 @@ export default class ScraperScene extends GameScene {
         
         // Set scraper background
         const bg = this.add.image(400, 300, 'scraperBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         this.playSceneMusic('genericMusic');
 

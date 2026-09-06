@@ -144,7 +144,7 @@ export default class CathedralEntrance extends GameScene {
         
         // Set cathedral entrance background
         const bg = this.add.image(400, 300, 'cathedralEntranceBg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         // Initialize the scene transition manager

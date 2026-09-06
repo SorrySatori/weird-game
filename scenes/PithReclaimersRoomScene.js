@@ -123,13 +123,13 @@ export default class PithReclaimersRoomScene extends GameScene {
         if (this.ground) { this.ground.destroy(); this.ground = null; }
 
         const bg = this.add.image(400, 300, 'pith-room-bg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
 
         const floor = this.add.graphics().setDepth(0);
         floor.fillGradientStyle(0x322819, 0x322819, 0x16110a, 0x16110a, 1); // lit warm stone → shadowed fore
-        floor.fillRect(0, 466, 800, 134);
-        for (const ly of [500, 535, 570]) this.add.rectangle(400, ly, 800, 1, 0x120d07, 0.5).setDepth(0); // faint flagstone seams
+        floor.fillRect(0, 466, this.scale.width, 134); // full canvas width (1067)
+        for (const ly of [500, 535, 570]) this.add.rectangle(this.scale.width / 2, ly, this.scale.width, 1, 0x120d07, 0.5).setDepth(0); // faint flagstone seams
 
         this.transitionManager = new SceneTransitionManager(this);
         this.transitionManager.createTransitionZone(
@@ -142,7 +142,7 @@ export default class PithReclaimersRoomScene extends GameScene {
         }
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
-        const stash = this.add.zone(405, 360, 130, 175).setInteractive({ useHandCursor: true });
+        const stash = this.add.zone(Math.round(405 * this.scale.width / 800), 360, Math.round(130 * this.scale.width / 800), 175).setInteractive({ useHandCursor: true });
         stash.setDepth(5);
         stash.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
         stash.on('pointerout', () => { document.body.style.cursor = 'default'; });

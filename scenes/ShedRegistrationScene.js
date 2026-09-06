@@ -48,7 +48,7 @@ export default class ShedRegistrationScene extends GameScene {
 
         // Set background
         const bg = this.add.image(400, 300, 'registration-bg');
-        bg.setDisplaySize(800, 600);
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
         this.transitionManager.createTransitionZone(

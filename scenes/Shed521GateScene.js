@@ -26,7 +26,7 @@ export default class Shed521GateScene extends GameScene {
         
         // Set vox market background
         const bg = this.add.image(400, 200, 'Shed521GateBg');
-        bg.setDisplaySize(800, 750); // Further increased height to fully cover the ground
+        this.fitBackground(bg); // whole image fitted to the 1067×600 canvas
         bg.setDepth(-1);
         
         // Create a custom ground for the market scene
@@ -101,7 +101,7 @@ export default class Shed521GateScene extends GameScene {
         const groundGraphics = this.add.graphics();
         
         // Set the ground dimensions
-        const groundWidth = 800;
+        const groundWidth = this.scale.width; // full canvas width (1067)
         const groundHeight = 160;
         const groundY = 500;
         
