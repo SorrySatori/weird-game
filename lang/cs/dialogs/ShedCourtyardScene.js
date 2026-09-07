@@ -8,7 +8,7 @@ export default {
         'Ortolan Šmelc': 'Ortolan Šmelc',
     },
     main: {
-        text: "Ach, další návštěvník téhle byrokratické noční můry...",
+        text: "Ach, další návštěvník téhle byrokratické noční můry... *povzdech* Už jedenáct trávení se tu snažím vyřídit povolení na další pár rukou. Víte vůbec, jak těžké je navrhovat složité deskové hry jen se dvěma rukama?",
         options: {
             why_do_you_need_extra_arms: "Proč potřebujete ruce navíc?",
             board_games_what_do_you_mean: "Deskové hry? Jak to myslíte?",
@@ -38,7 +38,7 @@ export default {
         text: "Pořád uvízlý v byrokratickém limbu..."
     },
     give_artisan_form: {
-        text: "Formulář o řemeslnické výjimce?!..."
+        text: "Formulář o řemeslnické výjimce?! To je dokonalé! Tvůrčí výjimka ze standardních omezení končetin... přesně to, co potřebuju! Tenhle formulář uznává mou práci jako plnohodnotné umění, které si zaslouží zvláštní posouzení. Ušetřil jste mi sto trávení úředního handrkování!"
     },
     give_deformity_form: {
         text: "Formulář o zděděné deformitě?..."
@@ -62,7 +62,7 @@ export default {
         text: "No, tak bych se úplně nepopisoval..."
     },
     complete_quest_dispensation: {
-        text: "To je pozoruhodné!..."
+        text: "To je pozoruhodné! Zvláštní dispens je vskutku vzácnost. Ušetřil jste mi stovky trávení, možná tisíce, handrkování s úředníky. Prosím, vezměte si tuhle figurku, na které pracuju. Je to zvláštní figurka 'světatvůrce', která dokáže změnit pravidla jakékoli hry, do níž se položí. Velmi užitečná pro tvůrčí myšlení."
     },
     complete_quest_temporary: {
         text: "Není to ideální, ale je to začátek!..."

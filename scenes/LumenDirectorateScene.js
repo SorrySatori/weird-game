@@ -1,6 +1,71 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
+
+/**
+ * Czech forms for Verrik's generated mushroom appraisal. The English `color`/`shape`/`rarity`
+ * values above stay the internal keys (spawnMushroomVisual matches the colour by name and sizes
+ * the sprite by rarity) — these are display strings only.
+ *
+ * Colours are all hard adjectives ending in -ý, so the feminine/neuter/accusative forms are
+ * derived. Shapes carry their own adjective already inflected for the noun's gender, plus the
+ * accusative needed by the payment line ("za <houbu>").
+ */
+const CS_MUSHROOM_COLORS = {
+    'rust-veined': 'rezavě žilkovaný', 'ashen grey': 'popelavě šedý',
+    'bruise-purple': 'modřinově fialový', 'corroded bronze': 'zkorodovaně bronzový',
+    'vivid emerald': 'sytě smaragdový', 'sun-gold': 'slunečně zlatý',
+    'bright coral': 'jasně korálový', 'phosphor white': 'fosforově bílý',
+    'shifting opalescent': 'měnivě opálový', 'translucent silver': 'průsvitně stříbrný',
+    'mirage-pink': 'přeludově růžový', 'chrome-rainbow': 'chromově duhový',
+    'deep green': 'temně zelený', 'amber': 'jantarový',
+    'forest brown': 'lesně hnědý', 'moss-spotted': 'mechově skvrnitý',
+    'pale grey': 'bledě šedý', 'soot-black': 'sazově černý',
+    'iron red': 'železitě rudý', 'dust-yellow': 'prašně žlutý',
+    'dull olive': 'kalně olivový', 'speckled tan': 'kropenatě béžový',
+    'faded blue': 'vybledle modrý', 'clay orange': 'hlinkově oranžový',
+};
+
+const CS_MUSHROOM_SHAPES = {
+    'spiralling helix': { nom: 'spirálovitá šroubovice', acc: 'spirálovitou šroubovici', g: 'f' },
+    'cathedral spire': { nom: 'katedrální věžička', acc: 'katedrální věžičku', g: 'f' },
+    'branching coral': { nom: 'větvící se korál', acc: 'větvící se korál', g: 'm' },
+    'nested rings': { nom: 'vnořený prstenec', acc: 'vnořený prstenec', g: 'm' },
+    'jagged crown': { nom: 'zubatá koruna', acc: 'zubatou korunu', g: 'f' },
+    'gear-toothed cap': { nom: 'ozubený klobouk', acc: 'ozubený klobouk', g: 'm' },
+    'industrial honeycomb': { nom: 'průmyslová plástev', acc: 'průmyslovou plástev', g: 'f' },
+    'rusted bell': { nom: 'rezavý zvon', acc: 'rezavý zvon', g: 'm' },
+    'perfectly symmetrical dome': { nom: 'dokonale souměrná kupole', acc: 'dokonale souměrnou kupoli', g: 'f' },
+    'stacked disc': { nom: 'naskládaný kotouč', acc: 'naskládaný kotouč', g: 'm' },
+    'rolled scroll': { nom: 'svinutý svitek', acc: 'svinutý svitek', g: 'm' },
+    'stamped cylinder': { nom: 'orazítkovaný válec', acc: 'orazítkovaný válec', g: 'm' },
+    'weeping candle': { nom: 'plačící svíce', acc: 'plačící svíci', g: 'f' },
+    'cracked egg shell': { nom: 'prasklá vaječná skořápka', acc: 'prasklou vaječnou skořápku', g: 'f' },
+    'hollow bell': { nom: 'dutý zvon', acc: 'dutý zvon', g: 'm' },
+    'drooping veil': { nom: 'splihlý závoj', acc: 'splihlý závoj', g: 'm' },
+    'lumpy bulb': { nom: 'hrbolatá cibule', acc: 'hrbolatou cibuli', g: 'f' },
+    'flat shelf': { nom: 'plochá police', acc: 'plochou polici', g: 'f' },
+    'stubby button': { nom: 'zavalitý knoflík', acc: 'zavalitý knoflík', g: 'm' },
+    'crooked stem': { nom: 'křivý třeň', acc: 'křivý třeň', g: 'm' },
+};
+
+// Verb phrases. The Czech templates put "Houba" in front and join several with ", "/" a ",
+// so none of these may open with the clitic "se" — it would land wrong in the list.
+const CS_MUSHROOM_TRAITS = {
+    'faintly hums when touched': 'při doteku slabě hučí',
+    'smells of salt and deep water': 'voní solí a hlubokou vodou',
+    'leaks a thin dream-vapour': 'roní tenký snový opar',
+    'flickers between two shapes': 'přebliká mezi dvěma tvary',
+    'crumbles slightly at the edges': 'po okrajích lehce opadává',
+    'pulses with a faint heartbeat': 'tepe slabým srdečním rytmem',
+    'already starting to decompose beautifully': 'už krásně zahnívá',
+    'sprouting tiny secondary caps': 'raší drobnými druhotnými kloboučky',
+    'slightly warm to the touch': 'je na dotek mírně teplá',
+    'gives off a faint glow': 'slabě světélkuje',
+    'perfectly ordinary-looking': 'vypadá naprosto obyčejně',
+    'wobbles gently on its stem': 'má jemně rozviklaný třeň',
+};
 
 export default class LumenDirectorateScene extends GameScene {
     constructor() {
@@ -313,7 +378,7 @@ export default class LumenDirectorateScene extends GameScene {
                 moodNpc: 'verrik',
                 text: alreadyMetGardener
                     ? `"Back again? The hedges don't trim themselves, but I can spare a moment."`
-                    : `"Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`,
+                    : `"Careful where you step — those root-tendrils took me twenty digestions to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`,
                 options: [
                     { text: "What is this place?", key: 'what_is_this_place', next: "gardener_about_lumen" },
                     ...(growth >= 65 ? [{ text: "The beds are overflowing — the whole place is in bloom.", key: 'gardener_overflowing', next: "gardener_bloom_talk" }] : []),
@@ -468,7 +533,7 @@ export default class LumenDirectorateScene extends GameScene {
 
             gardener_bishop_visits: {
                 speaker: 'Verrik the Gardener',
-                text: `"Oh yes, every week or so. Always very formal — the Bishop and the Angle Corrector behind closed doors. I'd see her leaving with packages sometimes. Small ones, carefully wrapped.\n\nThe Sulkberries, most likely. The spiced ones. The Directorate grows them in special conditions — very particular about who gets the good stock.\n\nBut then one day, the Cathedral sealed up and the Bishop stopped coming. The Angle Corrector started having longer meetings with the council. Something changed."`,
+                text: `"Oh yes, every six digestions or so. Always very formal — the Bishop and the Angle Corrector behind closed doors. I'd see her leaving with packages sometimes. Small ones, carefully wrapped.\n\nThe Sulkberries, most likely. The spiced ones. The Directorate grows them in special conditions — very particular about who gets the good stock.\n\nBut then one day, the Cathedral sealed up and the Bishop stopped coming. The Angle Corrector started having longer meetings with the council. Something changed."`,
                 options: [
                     { text: "I need to speak with the Angle Corrector.", key: 'i_need_to_speak_with_the_angle_corrector', next: "gardener_angle_advice" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
@@ -535,7 +600,7 @@ export default class LumenDirectorateScene extends GameScene {
 
             gardener_sulkberry_certain: {
                 speaker: 'Verrik the Gardener',
-                text: `"Certain as roots go down. I've been cultivating Sulkberries for the Directorate for eleven years. I know a contaminated batch the way you know a wrong note in a song you've heard a thousand times.\n\nIf someone wanted to poison the Bishop through the berries, they'd have had to tamper with them after they left our gardens. And the Angle Corrector's people handle transport security — that's not my department.\n\nBut the berries themselves? Clean. I'd stake my garden on it."`,
+                text: `"Certain as roots go down. I've been cultivating Sulkberries for the Directorate three thousand digestions and change — since the Egg came up, near enough. I know a contaminated batch the way you know a wrong note in a song you've heard a thousand times.\n\nIf someone wanted to poison the Bishop through the berries, they'd have had to tamper with them after they left our gardens. And the Angle Corrector's people handle transport security — that's not my department.\n\nBut the berries themselves? Clean. I'd stake my garden on it."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "gardener_start" },
                 ]
@@ -1015,7 +1080,7 @@ export default class LumenDirectorateScene extends GameScene {
 
         // --- Build result texts ---
         const text = rarity === 'Exceptional'
-            ? `"By the roots... look at that. A ${name}. ${rarity} quality. It ${traitText}.\n\nI've been cultivating for twenty years and I've seen maybe a handful like this. Your spores carry something special — the city has marked you, and the mycelium knows it."`
+            ? `"By the roots... look at that. A ${name}. ${rarity} quality. It ${traitText}.\n\nI've been cultivating six thousand digestions and I've seen maybe a handful like this. Your spores carry something special — the city has marked you, and the mycelium knows it."`
             : rarity === 'Remarkable'
                 ? `"Well now. A ${name}. That's ${rarity.toLowerCase()} work. It ${traitText}.\n\nThe Directorate will want this one for the upper corridors. Your history in this city shows in the growth — the mycelium reads you like a journal."`
                 : rarity === 'Decent'
@@ -1031,6 +1096,46 @@ export default class LumenDirectorateScene extends GameScene {
                     : `"A balanced specimen. Neither strongly growth nor decay. The Directorate calls these 'neutral cultivars' — versatile, if unremarkable.\n\nIf you want more distinctive results, lean into one direction. Growth or decay — both produce more interesting fungi."`;
 
         const payText = `"Here's ${payment} gold for the ${name}. ${rarity === 'Exceptional' ? 'And a tip for the quality — the Directorate remembers generosity.' : rarity === 'Remarkable' ? 'Good work. The upper floors will appreciate this one.' : 'Fair pay for fair work. Come back anytime.'}"`;
+
+        // The appraisal is assembled at runtime, so it can't go through the cs dialog file —
+        // it's localized here, the way the Guardian's dynamic lines are in CathedralEntrance.
+        if (LanguageSystem.getInstance?.().getLanguage?.() === 'cs') {
+            const sh = CS_MUSHROOM_SHAPES[shape] || { nom: '', acc: '', g: 'm' };
+            const csColor = (accusative) => {
+                const base = CS_MUSHROOM_COLORS[color] || '';
+                const stem = base.slice(0, -1); // all colour adjectives end in -ý
+                if (sh.g === 'f') return stem + (accusative ? 'ou' : 'á');
+                if (sh.g === 'n') return stem + 'é';
+                return base; // masculine inanimate: accusative = nominative
+            };
+            const csName = `${csColor(false)} ${sh.nom}`.trim();
+            const csNameAcc = `${csColor(true)} ${sh.acc}`.trim();
+            const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+            const csTraits = traits.map(t => CS_MUSHROOM_TRAITS[t] || t);
+            const csTraitText = csTraits.length > 1
+                ? csTraits.slice(0, -1).join(', ') + ' a ' + csTraits[csTraits.length - 1]
+                : csTraits[0];
+
+            const csText = rarity === 'Exceptional'
+                ? `"U všech kořenů... podívejte se na to. ${cap(csName)}. Výjimečná kvalita. Houba ${csTraitText}.\n\nPěstuji šest tisíc trávení a takových jsem viděl možná hrstku. Vaše spory nesou něco zvláštního — město si vás poznamenalo a mycelium to ví."`
+                : rarity === 'Remarkable'
+                    ? `"No tohle. ${cap(csName)}. To je pozoruhodná práce. Houba ${csTraitText}.\n\nTuhle bude direktoriát chtít do horních chodeb. Vaše historie v tomhle městě je na tom růstu vidět — mycelium vás čte jako deník."`
+                    : rarity === 'Decent'
+                        ? `"${cap(csName)}. Slušný exemplář. Houba ${csTraitText}.\n\nNic, o čem by se psaly traktáty, ale poctivé. Živé zdi je pořád potřeba krmit. Máte potenciál — vraťte se s víc sporami a víc příběhy a výsledky se zlepší."`
+                        : `"${cap(csName)}. Všední, bohužel. Houba ${csTraitText}.\n\nNeberte si to osobně — mycelium je vybíravé. Reaguje na zkušenost, na váhu toho, co jste v tomhle městě dokázal. Zkoumejte dál, žijte dál, a vaše spory ponesou víc... vyprávění."`;
+
+            const csLore = symbiontInfluence !== 'none'
+                ? `"Vidíte, jak ${csTraits[0]}? To se do ní propisuje vliv vašeho symbionta. Tvor, který ve vás žije — jeho podstata se mísí s vašimi sporami. Každá houba, kterou vypěstujete, ponese jeho podpis.\n\n${symbiontInfluence === 'decay' ? 'Houby dotčené rozkladem jsou ceněné pro svou odolnost. Krmí zdi, které čelí nejhoršímu počasí.' : symbiontInfluence === 'growth' ? 'Exempláře požehnané růstem jsou miláčky direktoriátu. Čirá vitalita v houbové podobě.' : 'Houby poznamenané iluzí jsou vzácné a hluboce znepokojivé. Badatelé direktoriátu za ně dobře zaplatí.'}"`
+                : growth > 65
+                    ? `"Vaše spory se kloní k růstu — a houba to odráží. Direktoriát si cení exemplářů vypěstovaných z esence naladěné na růst. Lépe se začleňují do živé architektury.\n\nDržte se růstu a vaše sklizně se budou už jen lepšit."`
+                    : decay > 65
+                        ? `"Je v ní podpis rozkladu. Nic špatného — rozkladné houby mají svou vlastní krásu. Rozebírají, co je potřeba rozebrat, a dělají místo tomu, co přijde po tom.\n\nRezavý chór by je zbožňoval, ale direktoriát pro ně má využití taky. Kompostování starých zdí, recyklace mrtvé architektury."`
+                        : `"Vyvážený exemplář. Ani výrazně růstový, ani rozkladný. Direktoriát jim říká 'neutrální kultivary' — všestranné, byť nevýrazné.\n\nJestli chcete výraznější výsledky, přikloňte se k jedné straně. Růst, nebo rozklad — obojí plodí zajímavější houby."`;
+
+            const csPayText = `"Tady je ${payment} zlatých za ${csNameAcc}. ${rarity === 'Exceptional' ? 'A něco navíc za tu kvalitu — direktoriát si pamatuje štědrost.' : rarity === 'Remarkable' ? 'Dobrá práce. Horní patra to ocení.' : 'Poctivá odměna za poctivou práci. Přijďte kdykoliv.'}"`;
+
+            return { text: csText, lore: csLore, payText: csPayText, payment, repBonus, growthEffect, rarity, name };
+        }
 
         return { text, lore, payText, payment, repBonus, growthEffect, rarity, name };
     }

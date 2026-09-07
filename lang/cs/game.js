@@ -2,6 +2,12 @@
  * Czech game strings — oznámení, popisy úkolů, kategorie deníku
  */
 export default {
+    cutscene: {
+        stomach_clock: {
+            title: 'Žaludeční hodiny se překlopí',
+            caption: "Na radnici Žaludeční hodiny dokončí další trávení a s vlhce znějícím úderem začnou nové.",
+        },
+    },
     notifications: {
         newQuest: 'Nový úkol',
         questUpdated: 'Úkol aktualizován',

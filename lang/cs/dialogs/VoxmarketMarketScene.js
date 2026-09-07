@@ -15,7 +15,7 @@ export default {
         }
     },
     zerren_who: {
-        text: "'Jsem Zerren, sběratelka a prodejkyně kuriozit z celých říší. Obchoduji tady na Voxmarketu už léta. U mého stánku najdete nejrůznější zajímavé cetky, které jinde neuvidíte.'",
+        text: "'Jsem Zerren, sběratelka a prodejkyně kuriozit z celých říší. Obchoduji tady na Voxmarketu už dobrých dva tisíce trávení. U mého stánku najdete nejrůznější zajímavé cetky, které jinde neuvidíte.'",
         options: {
             what_kind_of_trinkets: "Jaké cetky?",
             back: "Zpět"
@@ -33,7 +33,7 @@ export default {
         text: "'Samozřejmě! Podívejte se na můj aktuální sortiment. Stále dostávám nové zboží, tak se stavte pravidelně.'"
     },
     zerren_collection: {
-        text: "'Děkuji! Jsem pyšná na nacházení unikátních předmětů. Nedávno jsem měla krásného plyšáka, který byl docela populární — prodala jsem ho minulý týden. Podivná malá věcička, ale okouzlující svým způsobem.'",
+        text: "'Děkuji! Jsem pyšná na nacházení unikátních předmětů. Nedávno jsem měla krásného plyšáka, který byl docela populární — prodala jsem ho ani ne před šesti tráveními. Podivná malá věcička, ale okouzlující svým způsobem.'",
         options: {
             tell_me_more_about_that_toy: "Řekněte mi víc o tom plyšákovi",
             back: "Zpět"

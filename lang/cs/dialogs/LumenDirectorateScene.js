@@ -12,7 +12,7 @@ export default {
     gardener_start: {
         text: {
             [`"Back again? The hedges don't trim themselves, but I can spare a moment."`]: `"Zase zpět? Živé ploty se samy nezastřihnou, ale chvilku si udělám."`,
-            [`"Careful where you step — those root-tendrils took me three weeks to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`]: `"Pozor, kam šlapete — tyhle kořenové úponky mi trvalo tři týdny přemluvit do spirálového tvaru. Jmenuju se Verrik. Starám se o živou architekturu tady v direktoriátu."`,
+            [`"Careful where you step — those root-tendrils took me twenty digestions to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`]: `"Pozor, kam šlapete — tyhle kořenové úponky mi trvalo dvacet trávení přemluvit do spirálového tvaru. Jmenuju se Verrik. Starám se o živou architekturu tady v direktoriátu."`,
         },
         options: {
             what_is_this_place: "Co je to za místo?",
@@ -138,7 +138,7 @@ export default {
         }
     },
     gardener_bishop_visits: {
-        text: "Ach ano, každý týden nebo tak. Vždycky velmi formálně — Biskupka a Korektor úhlů za zavřenými dveřmi. Viděl jsem ji odcházet s balíčky někdy. Malými, pečlivě zabalenými.\n\nMručenky, nejspíš. Ty kořeněné. Direktoriát je pěstuje ve speciálních podmínkách — jsou velmi vybíraví, kdo dostane tu kvalitní šarži.\n\nAle pak jednoho dne se katedrála zapečetila a Biskupka přestala chodit. Korektor úhlů začal mít delší porady s radou. Něco se změnilo.",
+        text: "Ach ano, každých šest trávení nebo tak. Vždycky velmi formálně — Biskupka a Korektor úhlů za zavřenými dveřmi. Viděl jsem ji odcházet s balíčky někdy. Malými, pečlivě zabalenými.\n\nMručenky, nejspíš. Ty kořeněné. Direktoriát je pěstuje ve speciálních podmínkách — jsou velmi vybíraví, kdo dostane tu kvalitní šarži.\n\nAle pak jednoho dne se katedrála zapečetila a Biskupka přestala chodit. Korektor úhlů začal mít delší porady s radou. Něco se změnilo.",
         options: {
             i_need_to_speak_with_the_angle_corrector: "Potřebuji mluvit s Korektorem úhlů.",
             i_have_other_questions: "Mám další otázky."
@@ -166,7 +166,7 @@ export default {
         }
     },
     gardener_sulkberry_certain: {
-        text: "Jistý jako že kořeny míří dolů. Pěstuji mručenky pro direktoriát jedenáct let. Poznám kontaminovanou šarži stejně, jako poznáte falešný tón v písni, kterou jste slyšeli tisíckrát.\n\nKdyby někdo chtěl otrávit Biskupku přes mručenky, musel by je upravit poté, co opustily naše zahrady. A lidé Korektora úhlů řeší bezpečnost přepravy — to není můj obor.\n\nAle samotné plody? Čisté. Vsadil bych na to svou zahradu.",
+        text: "Jistý jako že kořeny míří dolů. Pěstuji mručenky pro direktoriát tři tisíce trávení a něco — prakticky od chvíle, kdy vzešlo Vejce. Poznám kontaminovanou šarži stejně, jako poznáte falešný tón v písni, kterou jste slyšeli tisíckrát.\n\nKdyby někdo chtěl otrávit Biskupku přes mručenky, musel by je upravit poté, co opustily naše zahrady. A lidé Korektora úhlů řeší bezpečnost přepravy — to není můj obor.\n\nAle samotné plody? Čisté. Vsadil bych na to svou zahradu.",
         options: {
             i_have_other_questions: "Mám další otázky."
         }

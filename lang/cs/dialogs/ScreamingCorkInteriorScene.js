@@ -44,7 +44,7 @@ export default {
         }
     },
     ravla_who: {
-        text: "Jmenuju se Ravla. Jsem... tak trochu umělkyně..."
+        text: "Jmenuju se Ravla. Jsem... tak trochu umělkyně. V Korku jsem už pár tisíc trávení. Je tu klid a úřady si drží odstup."
     },
     ravla_job: {
         text: "Poskytuji služby těm, kdo potřebují určité... úpravy dokumentů..."

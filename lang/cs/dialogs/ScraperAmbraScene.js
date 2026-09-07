@@ -48,7 +48,7 @@ export default {
         }
     },
     dr_elphi_loop_ortolan: {
-        text: "Protože já postavila jen zdi; Ortolan vymyslel, k čemu mají sloužit. Jestli někdo ví, jestli přežila kopie Infinite Foldu — a jak se doopravdy chová — je to on. Bude to smetat ze stolu jako neškodnou hračku; to dělal vždycky. Tomu nevěřte.\n\nRoky jsme spolu nemluvili, ale s vámi mluvit bude. Naposledy jsem slyšela, že opustil Hangár a usadil se na Burning Bear Street, zavalený formuláři jako obvykle. Řekněte mu, že to zase běží.",
+        text: "Protože já postavila jen zdi; Ortolan vymyslel, k čemu mají sloužit. Jestli někdo ví, jestli přežila kopie Infinite Foldu — a jak se doopravdy chová — je to on. Bude to smetat ze stolu jako neškodnou hračku; to dělal vždycky. Tomu nevěřte.\n\nTisíc trávení jsme spolu nemluvili, ale s vámi mluvit bude. Naposledy jsem slyšela, že opustil Hangár a usadil se na Burning Bear Street, zavalený formuláři jako obvykle. Řekněte mu, že to zase běží.",
         options: {
             ill_find_ortolan_burning_bear: "Najdu Ortolana na Burning Bear Street."
         }
@@ -68,7 +68,7 @@ export default {
         }
     },
     dr_elphi_bishop_path: {
-        text: "Biskupka? No, jdete pozdě. Chodila sem. Často, vlastně. Vždycky kvůli simulacím. Nikdy kvůli politice.\n\nMěla ráda ty jemnější. Imerzivní fikce, snová prostředí. Kardinálská hostina byla její oblíbená.\n\nNaposledy jsem ji viděla? Před třemi dny, možná čtyřmi. Ukončila relaci, řekla, že možná zůstane chvíli venku. Měla klíč od dvorku.\n\nNemyslela jsem si nic zlého. Vypadala... roztržitě. Víc než obvykle.",
+        text: "Biskupka? No, jdete pozdě. Chodila sem. Často, vlastně. Vždycky kvůli simulacím. Nikdy kvůli politice.\n\nMěla ráda ty jemnější. Imerzivní fikce, snová prostředí. Kardinálská hostina byla její oblíbená.\n\nNaposledy jsem ji viděla? Před třemi tráveními, možná čtyřmi. Ukončila relaci, řekla, že možná zůstane chvíli venku. Měla klíč od dvorku.\n\nNemyslela jsem si nic zlého. Vypadala... roztržitě. Víc než obvykle.",
         options: {
             whats_in_the_backyard: "Co je na dvorku?",
             did_she_say_where_she_was_going: "Řekla, kam jde?",
@@ -111,7 +111,7 @@ export default {
         }
     },
     dr_elphi_dead_unnatural: {
-        text: "Ne přirozené. *Pomalu vydechne.* Ne. To bych nečekala. Byla paranoidní celé týdny. Pořád pouštěla tu samou hru znovu a znovu — Kardinálskou hostinu. RPG o kardinálovi-ještěrovi. Neškodné, vlastně. Populární titul.\n\nAle hrála ji posedlé. Říkala, že potřebuje 'najít někoho uvnitř.' Řekla jsem jí, že je to jen hra — nikdo tam uvnitř k nalezení není.\n\nOna nesouhlasila.",
+        text: "Ne přirozené. *Pomalu vydechne.* Ne. To bych nečekala. Byla paranoidní dobrých dvacet trávení. Pořád pouštěla tu samou hru znovu a znovu — Kardinálskou hostinu. RPG o kardinálovi-ještěrovi. Neškodné, vlastně. Populární titul.\n\nAle hrála ji posedlé. Říkala, že potřebuje 'najít někoho uvnitř.' Řekla jsem jí, že je to jen hra — nikdo tam uvnitř k nalezení není.\n\nOna nesouhlasila.",
         options: {
             what_is_the_cardinal_feast_exactly: "Co přesně je Kardinálská hostina?",
             i_found_some_clues_at_the_scene: "Našel jsem na místě nějaké stopy."
@@ -184,7 +184,7 @@ export default {
         }
     },
     dr_elphi_helmet_portable: {
-        text: "Měla vlastní. Přinesla ho před měsíci — říkala, že potřebuje cvičit mimo studio. Přišlo mi to divné, ale Biskupka byla vždycky divná.\n\nNabídla jsem jí místo toho relace pod dohledem. Odmítla. Říkala, že studio má 'příliš mnoho uší.'\n\nKdokoliv ji zabil, věděl, že bude používat přenosné zařízení. Sama. Mimo dosah signálu. Tohle bylo naplánované.",
+        text: "Měla vlastní. Přinesla ho před nějakou stovkou trávení — říkala, že potřebuje cvičit mimo studio. Přišlo mi to divné, ale Biskupka byla vždycky divná.\n\nNabídla jsem jí místo toho relace pod dohledem. Odmítla. Říkala, že studio má 'příliš mnoho uší.'\n\nKdokoliv ji zabil, věděl, že bude používat přenosné zařízení. Sama. Mimo dosah signálu. Tohle bylo naplánované.",
         options: {
             back_to_other_clues: "Zpět k dalším stopám."
         }

@@ -564,7 +564,7 @@ export default class CrossroadScene extends GameScene {
                     this.addJournalEntry(
                         'skyship_sighting',
                         'Strange Vessel in the Emerald Sky',
-                        'A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. The locals say it appeared a month ago and hasn\'t moved since. Some believe it to be a vessel of the fungal gods, others whisper of more terrestrial origins. Its purpose remains unknown, but its presence has changed the city\'s atmosphere, both literally and figuratively - spores seem to drift from its direction when the wind is right.',
+                        'A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. The locals say it appeared "twenty-some digestions ago" — whatever it is they count by here — and hasn\'t moved since. Some believe it to be a vessel of the fungal gods, others whisper of more terrestrial origins. Its purpose remains unknown, but its presence has changed the city\'s atmosphere, both literally and figuratively - spores seem to drift from its direction when the wind is right.',
                         this.journalSystem.categories.EVENTS,
                         { location: 'Upper Morkezela skyline' }
                     );

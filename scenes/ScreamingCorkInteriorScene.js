@@ -106,7 +106,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_who: {
-                text: "Name's Ravla. I'm an... artist of sorts. Been at the Cork for years now. It's quiet, keeps the authorities at a distance.",
+                text: "Name's Ravla. I'm an... artist of sorts. Been at the Cork a couple thousand digestions now. It's quiet, keeps the authorities at a distance.",
                 options: [
                     { text: "Back", key: 'back', next: "ravla_start" }
                 ],

@@ -34,7 +34,7 @@ export default {
         }
     },
     templeGuardWhen: {
-        text: "Nemám tušení. Až to velká Rada nařídí. Může to trvat dny, může trvat staletí. Stojíme na stráži až do Probuzení.",
+        text: "Nemám tušení. Až to velká Rada nařídí. Může to trvat jedno trávení, může to trvat sto tisíc. Stojíme na stráži až do Probuzení.",
         options: {
             the_awakening: "Probuzení?",
             where_can_i_find_the_bishop: "Kde najdu Biskupku?",

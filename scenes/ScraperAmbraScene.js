@@ -244,7 +244,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_bishop_path: {
-                text: "The Bishop? Well, you're late. She came here. Often, actually. Always for simulations. Never politics.\n\nShe liked the softer ones. Immersive fictions, drift environments. The Cardinal Feast was a favorite.\n\nLast I saw her? Three days ago, maybe four. She ended her session, said she might stay outside awhile. She had a key to the backyard.\n\nI didn't think much of it. She seemed… distracted. More than usual.",
+                text: "The Bishop? Well, you're late. She came here. Often, actually. Always for simulations. Never politics.\n\nShe liked the softer ones. Immersive fictions, drift environments. The Cardinal Feast was a favorite.\n\nLast I saw her? Three digestions ago, maybe four. She ended her session, said she might stay outside awhile. She had a key to the backyard.\n\nI didn't think much of it. She seemed… distracted. More than usual.",
                 options: [
                     { text: "What's in the backyard?", key: 'whats_in_the_backyard', next: "dr_elphi_backyard_info" },
                     { text: "Did she say where she was going?", key: 'did_she_say_where_she_was_going', next: "dr_elphi_bishop_destination" },
@@ -380,7 +380,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_dead_unnatural: {
-                text: `Not natural. *She exhales slowly.* No. I wouldn't expect it to be. She'd been paranoid for weeks. Kept running the same game over and over — The Cardinal Feast. An RPG about a lizard cardinal. Harmless, really. Popular title.\n\nBut she played it obsessively. Said she needed to "find someone inside." I told her it's just a game — there's nobody to find in there.\n\nShe didn't agree.`,
+                text: `Not natural. *She exhales slowly.* No. I wouldn't expect it to be. She'd been paranoid for a good twenty digestions. Kept running the same game over and over — The Cardinal Feast. An RPG about a lizard cardinal. Harmless, really. Popular title.\n\nBut she played it obsessively. Said she needed to "find someone inside." I told her it's just a game — there's nobody to find in there.\n\nShe didn't agree.`,
                 options: [
                     { text: "What is The Cardinal Feast exactly?", key: 'what_is_the_cardinal_feast_exactly', next: "dr_elphi_cardinal_feast_explained" },
                     ...(hasBruising || hasCartridge || hasMemo ? [
@@ -542,7 +542,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_helmet_portable: {
-                text: `She had her own. Brought it months ago — said she needed to practice outside the studio. I thought it was odd, but the Bishop was always odd.\n\nI offered her supervised sessions instead. She refused. Said the studio "had too many ears."\n\nWhoever killed her knew she'd be using the portable device. Alone. Outside signal range. This was planned.`,
+                text: `She had her own. Brought it a hundred-odd digestions ago — said she needed to practice outside the studio. I thought it was odd, but the Bishop was always odd.\n\nI offered her supervised sessions instead. She refused. Said the studio "had too many ears."\n\nWhoever killed her knew she'd be using the portable device. Alone. Outside signal range. This was planned.`,
                 options: [
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
@@ -834,7 +834,7 @@ export default class ScraperAmbraScene extends GameScene {
                 ]
             },
             dr_elphi_loop_ortolan: {
-                text: `Because I only built the walls; Ortolan built what they were *for*. If anyone knows whether a copy of Infinite Fold survived — and how it truly behaves — it's him. He'll wave it off as a harmless little toy; he always did. Don't believe that part.\n\nWe haven't spoken in years, but he'll talk to you. Last I heard he'd left the Shed and set up on Burning Bear Street, buried in permit forms as ever. Tell him it's running again.`,
+                text: `Because I only built the walls; Ortolan built what they were *for*. If anyone knows whether a copy of Infinite Fold survived — and how it truly behaves — it's him. He'll wave it off as a harmless little toy; he always did. Don't believe that part.\n\nWe haven't spoken in a thousand digestions, but he'll talk to you. Last I heard he'd left the Shed and set up on Burning Bear Street, buried in permit forms as ever. Tell him it's running again.`,
                 options: [
                     { text: "I'll find Ortolan on Burning Bear Street.", key: 'ill_find_ortolan_burning_bear', next: "closeDialog" },
                 ]
@@ -1040,6 +1040,14 @@ export default class ScraperAmbraScene extends GameScene {
                 bgTint: 0x05070a
             });
         }
+
+        // The day boundary is a Stomach Clock boundary: one digestion ends, the next begins.
+        panels.push({
+            title: this.t('cutscene.stomach_clock.title'),
+            caption: this.t('cutscene.stomach_clock.caption'),
+            bg: null,
+            bgTint: 0x2f3440
+        });
 
         // Morning.
         panels.push({

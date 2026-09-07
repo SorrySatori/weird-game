@@ -144,7 +144,7 @@ export default {
         text: "(Úředník zaváhá, pak razítkuje formulář...)"
     },
     registration_failure: {
-        text: "(Úředník razítkuje 'ZAMÍTNUTO'...)"
+        text: "(Úředník s konečnou platností otiskne na formulář razítko 'ZAMÍTNUTO'.)\n\n'Vaše žádost se zamítá. Nedostatečná kvalifikace, dokumentace nebo účel. Znovu můžete žádat po standardní čekací lhůtě 47 trávení.'"
     },
     registration_complete_success: {
         text: "(Vrchní úředník ukáže ke dveřím)..."

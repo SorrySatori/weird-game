@@ -38,7 +38,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_who: {
-                text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket for years now. You'll find all sorts of interesting trinkets at my stall that you won't see anywhere else.'",
+                text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket a good two thousand digestions now. You'll find all sorts of interesting trinkets at my stall that you won't see anywhere else.'",
                 options: [
                     { text: "What kind of trinkets?", key: 'what_kind_of_trinkets', next: "zerren_selling" },
                     { text: "Back", key: 'back', next: "zerren_start" }
@@ -72,7 +72,7 @@ export default class VoxmarketMarketScene extends GameScene {
             
             zerren_collection: {
         speaker: 'Unknown',
-                text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular - sold it just last week. Strange little thing, but charming in its own way.'",
+                text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular - sold it not six digestions ago. Strange little thing, but charming in its own way.'",
                 options: [
                     { text: "Tell me more about that toy", key: 'tell_me_more_about_that_toy', next: "zerren_plush_toy" },
                     { text: "Back", key: 'back', next: "zerren_start" }

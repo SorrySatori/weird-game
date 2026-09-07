@@ -108,7 +108,7 @@ The city is a draft. I am its final edit."`,
                 hideCloseOption: true,
                 text: `The clerk on the floor cracks first. The words spill out before fear can swallow them:
 
-"Please — it's been three hours. My daughter is waiting at the registry window downstairs. She's six. She doesn't know how to—"
+"Please — it's been a tenth of a digestion. My daughter is waiting at the registry window downstairs. She's six. She doesn't know how to—"
 
 The revolver swings toward her, and yet the poet's voice never loses its meter. That is the terrifying part. He does not even raise it.`,
                 options: [
@@ -404,7 +404,7 @@ The records office is still a mess, but the Townhall can breathe again. If you n
 
 The clerk unlocks three cabinets, rejects two drawers as "emotionally inaccurate," and finally produces a thin intake ledger.
 
-"This is the strange part. There is no official incident report under the Bishop's name. No filed doppelgänger complaint. No follow-up. What exists is a stationery issue record: she requested an Official Townhall Report Notebook three days before she died. I stamped it myself.
+"This is the strange part. There is no official incident report under the Bishop's name. No filed doppelgänger complaint. No follow-up. What exists is a stationery issue record: she requested an Official Townhall Report Notebook three digestions before she died. I stamped it myself.
 
 That fragment you found was not an official report. It was a personal note written in official stationery."`,
                 options: [

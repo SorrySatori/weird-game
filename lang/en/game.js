@@ -2,6 +2,12 @@
  * English game strings — notifications, quest descriptions, journal categories
  */
 export default {
+    cutscene: {
+        stomach_clock: {
+            title: 'The Stomach Clock turns over',
+            caption: "At the townhall, the Stomach Clock finishes another digestion and, with a wet chime, begins the next.",
+        },
+    },
     notifications: {
         newQuest: 'New quest',
         questUpdated: 'Quest updated',

@@ -3,6 +3,10 @@
  */
 export default {
     journal: {
+        learned_digestions: {
+            title: 'Počítání v tráveních',
+            description: 'Strážce u Vaječné katedrály počítá čas v tráveních Žaludečních hodin — na svém postu jich odstál tři tisíce. Město přestalo počítat roky, když zemřel Počtář. Jedno trávení trvá o něco déle než den a proti slunci se pomalu posouvá; šest jich dá týden, tři sta rok.',
+        },
         heard_stomach_clock: {
             title: 'Žaludeční hodiny',
             description: 'Thaal mi vyprávěl o Žaludečních hodinách na radnici: biomechanická komora ve tvaru trávicích hodin. Někdo říká, že je to skutečný žaludek prvního boha, který přišel do města umřít, jiní, že jen mizerná kopie hodin odjinud. Buď jak buď, jejich žluč je posvátná — a prý dokonce léčivá.',
@@ -97,7 +101,7 @@ export default {
         },
         skyship_sighting: {
             title: 'Podivné Plavidlo na Smaragdové Obloze',
-            description: 'Nad Horní Morkezelou se vznáší obrovská vzdušná loď.',
+            description: 'Nad Horní Morkezelou se vznáší obrovská vzducholoď, trup se jí leskne nepřirozeným světlem. Místní říkají, že se objevila „před nějakými dvaceti tráveními" — ať už tu počítají cokoli — a od té doby se nehnula. Někteří věří, že je to plavidlo houbových bohů, jiní šeptají o pozemštějším původu. Její účel zůstává neznámý, ale její přítomnost změnila ovzduší města, doslova i obrazně — když fouká správný vítr, zdá se, že od ní přilétají spory.',
         },
         delta_fungal_bridge: {
             title: 'Houbový Most v Deltě Ozvěnového Odpadu',

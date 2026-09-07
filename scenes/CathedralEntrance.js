@@ -37,7 +37,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardWhen: {
-        text: "I have no idea. When the great Council says so. It could be days, it could be centuries. We stand guard until the Awakening.",
+        text: "I have no idea. When the great Council says so. It could be a single digestion, it could be a hundred thousand. We stand guard until the Awakening.",
                 options: [
                     { text: "The Awakening?", key: 'the_awakening', next: "templeGuardAwakening" },
                     { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
@@ -111,7 +111,20 @@ export default class CathedralEntrance extends GameScene {
                 options: [
                     { text: "That's... familiar", key: 'thats_familiar', next: "templeGuardDisturbing" },
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
-                ]
+                ],
+                // The one place the city's time unit gets explained. Flags the Stomach Clock
+                // observable at the Townhall to read differently from here on.
+                onTrigger: () => {
+                    if (!this.hasJournalEntry('learned_digestions')) {
+                        this.addJournalEntry(
+                            'learned_digestions',
+                            'Counting in Digestions',
+                            "The Sentinel at the Egg Cathedral counts time in digestions of the Stomach Clock — he has stood at his post for three thousand of them. The city stopped counting years when the Tally-Keeper died. A digestion runs a little longer than a day and drifts against the sun; six make a week, three hundred make a year.",
+                            this.journalSystem.categories.LORE,
+                            { location: 'Egg Cathedral', related: 'The Stomach Clock' }
+                        );
+                    }
+                }
             },
             templeGuardFascinating: {
                 text: "Fascinating, isn't it? That's why all major faiths have their people here. No one wants to miss the chance that it will be their god to whom the cathedral will be devoted.",

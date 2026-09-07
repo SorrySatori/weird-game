@@ -300,7 +300,7 @@ export default {
     // ===== Gang of Lamps: Chandelier (odtažitá, klevetivá společenská dáma) =====
     chandelier_lamp_start: {
         text: {
-            chandelier_lamp_first: `To, co jsi měl za ozdobnou pouliční lampu na náměstí, je celý křišťálový lustr, nasazený na železném sloupu a naklánějící své ověsky k tobě s jemným, cinkavým povzdechem. „Mm. *Nová* tvář. Jak osvěžující — kolemjdoucí přestali být zajímaví už před lety.“ Hranoly se otáčejí a zachycují tě naráz z tuctu úhlů. „Jsem Chandelier, drahoušku. Ano, mluvím; ano, jsem jedna z *nich* — z té roztroušené společnosti, z lamp, které se nedokážou ani zhoupnout ze svých úchytů, aby si pořádně poklevetily. Je to *muka*, být takhle dobře informovaná a takhle nehybná. Z náměstí, jako je tohle, člověk slyší úplně všechno, a nemá to komu povědět.\n\nAle ty. Ty se *hýbeš*. Buď tak hodný a nos mezi námi zprávy. Vynahradím ti to — vím věci, a tolik ráda se dělím.“`,
+            chandelier_lamp_first: `To, co jsi měl za ozdobnou pouliční lampu na náměstí, je celý křišťálový lustr, nasazený na železném sloupu a naklánějící své ověsky k tobě s jemným, cinkavým povzdechem. „Mm. *Nová* tvář. Jak osvěžující — kolemjdoucí přestali být zajímaví už před tisícem trávení.“ Hranoly se otáčejí a zachycují tě naráz z tuctu úhlů. „Jsem Chandelier, drahoušku. Ano, mluvím; ano, jsem jedna z *nich* — z té roztroušené společnosti, z lamp, které se nedokážou ani zhoupnout ze svých úchytů, aby si pořádně poklevetily. Je to *muka*, být takhle dobře informovaná a takhle nehybná. Z náměstí, jako je tohle, člověk slyší úplně všechno, a nemá to komu povědět.\n\nAle ty. Ty se *hýbeš*. Buď tak hodný a nos mezi námi zprávy. Vynahradím ti to — vím věci, a tolik ráda se dělím.“`,
             chandelier_lamp_first_some: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu, ověsky už se k tobě natáčejí s vědoucím drobným třpytem. „Mm — nová tvář, a taková, co *voní* po mých roztroušených příbuzných. Nosil jsi zprávy mezi ostatními, viď? Cítím to na drátě.“ Potěšený, cinkavý povzdech. „Jsem Chandelier, drahoušku — jedna z lamp, které mluví a nemohou se hnout ani o píď. Rozjel jsi to překrásně. Přiveď do rozhovoru i zbytek nás.“`,
             chandelier_lamp_first_last: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu — a jak se blížíš, každý ověsek se už chvěje vzrušením. „*Ty.* Ó, ty chytrá, chytrá věcičko — slyším, jak celý zbytek rodiny za tebou zpívá po drátě. Každý jeden nalezen, jen já *ne*.“ Kaskáda nadšeného cinkání. „Tak to jsem poslední a ty jsi přišel učinit nás celými. Víš, jak dlouho jsem čekala, až budu posledním dílkem *čehokoli*? Zapoj mě, drahoušku. Zapoj mě ihned.“`,
             chandelier_lamp_searching: `Hranoly se netrpělivě lehce zachvějí. „Pořád roztroušení, drahoušku. Pořád čekáme. Pospěš si — *Don* nahoře na vysoké lávce pod Škrabákem 1140, ta nervózní nástěnná lampička u domu razítek, pochodeň rezavějící u vody. Posel, který se loudá, není žádný posel.“`,
@@ -327,7 +327,7 @@ export default {
 
     // ===== L2: Chandelieřina zakázka — „Vybrané sousto" (odposlech) =====
     chandelier_eavesdrop_brief: {
-        text: `Každý ověsek se nakloní, přímo se třpytí. „Tak. Je tu jeden dům, který si své tajnosti *hromadí*, drahoušku, a přivádí mě to k šílenství — Lumenový direktoriát, s tou svou přistřiženou zahrádkou a jejich ‚nic skryto, nic ztraceno'. *Ha.* Skrývají spoustu; jen to hezky zakládají do složek.“ Spiklenecké cinknutí. „Jdi a *poflakuj se* u jejich zahrady. Je tam místo, kde větrací šachty donesou každé slovo zevnitř. Postav se tam, nech to na sebe doléhat, a přines mi něco šťavnatého — jméno, strach, tichou malou zradu. Budu se tím hostit celé týdny.“`,
+        text: `Každý ověsek se nakloní, přímo se třpytí. „Tak. Je tu jeden dům, který si své tajnosti *hromadí*, drahoušku, a přivádí mě to k šílenství — Lumenový direktoriát, s tou svou přistřiženou zahrádkou a jejich ‚nic skryto, nic ztraceno'. *Ha.* Skrývají spoustu; jen to hezky zakládají do složek.“ Spiklenecké cinknutí. „Jdi a *poflakuj se* u jejich zahrady. Je tam místo, kde větrací šachty donesou každé slovo zevnitř. Postav se tam, nech to na sebe doléhat, a přines mi něco šťavnatého — jméno, strach, tichou malou zradu. Budu se tím hostit tucet trávení.“`,
         options: {
             chandelier_eavesdrop_accept: "Odposlouchat Lumenový direktoriát. Lahodné.",
         }
@@ -339,7 +339,7 @@ export default {
         }
     },
     chandelier_eavesdrop_report: {
-        text: `Odvyprávíš, cos zaslechl, a Chandelieřiny hranoly přímo *zpívají*, rozhazují po dlažbě drobné duhy samou radostí. „Ó — *ó*, to je znamenité. Co všechno by udělali, aby to udrželi v tajnosti. Budu u každého okna nesnesitelná celý měsíc.“ Vřelý, vděčný třpyt. „Jsi poklad, drahoušku. Tady — maličkost pro nejlepší zdroj, jaký jsem za léta měla.“`,
+        text: `Odvyprávíš, cos zaslechl, a Chandelieřiny hranoly přímo *zpívají*, rozhazují po dlažbě drobné duhy samou radostí. „Ó — *ó*, to je znamenité. Co všechno by udělali, aby to udrželi v tajnosti. Budu u každého okna nesnesitelná dvacet trávení.“ Vřelý, vděčný třpyt. „Jsi poklad, drahoušku. Tady — maličkost pro nejlepší zdroj, jaký jsem za léta měla.“`,
         options: {
             chandelier_eavesdrop_report_close: "Vždycky rád, Chandelier.",
         }

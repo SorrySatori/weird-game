@@ -148,7 +148,7 @@ export default {
         }
     },
     ac_bishop_relationship: {
-        text: "Profesionální. Zdvořilý. Občas napjatý.\n\nBiskupka zastupovala zájmy Vaječné katedrály. Direktoriát katedrálu vždy monitoroval — líhnutí je nejvýznamnější růstová událost za desítky let a zamýšleli jsme být přítomni, až k němu dojde.\n\nNaše schůzky se týkaly přístupu do katedrály, kultivačních vzorků a teologických důsledků bio-růstu v posvátné architektuře. Biskupka tolerovala náš zájem. Někdy ho dokonce vítala.",
+        text: "Profesionální. Zdvořilý. Občas napjatý.\n\nBiskupka zastupovala zájmy Vaječné katedrály. Direktoriát katedrálu vždy monitoroval — líhnutí je nejvýznamnější růstová událost za deset tisíc trávení a zamýšleli jsme být přítomni, až k němu dojde.\n\nNaše schůzky se týkaly přístupu do katedrály, kultivačních vzorků a teologických důsledků bio-růstu v posvátné architektuře. Biskupka tolerovala náš zájem. Někdy ho dokonce vítala.",
         options: {
             what_changed: "Co se změnilo?",
             i_have_other_questions: "Mám další otázky."
@@ -204,7 +204,7 @@ export default {
         }
     },
     ac_bishop_anger: {
-        text: "Hněvali? Ne. Hněv je plýtvání metabolickou energií.\n\nZklamání. Znepokojení. Biskupka a já jsme vybudovali něco produktivního — most mezi teologií katedrály a biologií direktoriátu. Zapečetění ten most zničilo bez konzultace.\n\nPřál jsem jí ublížení? Nikdy. Živá byla pro nás užitečnější než mrtvá. Její smrt vytvořila komplikace, které bude trvat roky rozplést.\n\nKdokoliv Biskupku zabil, direktoriátu tím nepomohl.",
+        text: "Hněvali? Ne. Hněv je plýtvání metabolickou energií.\n\nZklamání. Znepokojení. Biskupka a já jsme vybudovali něco produktivního — most mezi teologií katedrály a biologií direktoriátu. Zapečetění ten most zničilo bez konzultace.\n\nPřál jsem jí ublížení? Nikdy. Živá byla pro nás užitečnější než mrtvá. Její smrt vytvořila komplikace, které bude trvat tisíc trávení rozplést.\n\nKdokoliv Biskupku zabil, direktoriátu tím nepomohl.",
         options: {
             i_have_other_questions: "Mám další otázky."
         }
@@ -251,7 +251,7 @@ export default {
         }
     },
     ac_fold_complete: {
-        text: "Dokončit to. Ano. Ne zadržet, ne opravit, ne zapečetit za teologické zámky, jak to udělala Biskupka — hrůza té ženy vrátila celé město o dekádu zpět.\n\nPřerušený růst je horší než odepřený růst. Semeno, které se začne otevírat a je násilím zavřeno, shnije ve vlastní skořápce. Pokud tohle vědomí uvázlo — bojuje o dokončení přechodu — pak odpovědí není proti tomu bojovat. Odpovědí je to nasytit. Teplem, spojením, vším, co mladá věc potřebuje, aby zapustila kořeny.\n\nDirektoriát se připravuje dát tomu přesně to, v okamžiku, kdy se katedrála otevře. Čekali jsme dost dlouho na to, abychom byli připraveni.",
+        text: "Dokončit to. Ano. Ne zadržet, ne opravit, ne zapečetit za teologické zámky, jak to udělala Biskupka — hrůza té ženy vrátila celé město o tři tisíce trávení zpět.\n\nPřerušený růst je horší než odepřený růst. Semeno, které se začne otevírat a je násilím zavřeno, shnije ve vlastní skořápce. Pokud tohle vědomí uvázlo — bojuje o dokončení přechodu — pak odpovědí není proti tomu bojovat. Odpovědí je to nasytit. Teplem, spojením, vším, co mladá věc potřebuje, aby zapustila kořeny.\n\nDirektoriát se připravuje dát tomu přesně to, v okamžiku, kdy se katedrála otevře. Čekali jsme dost dlouho na to, abychom byli připraveni.",
         options: {
             thats_exactly_what_frightens_me: "Přesně toho se bojím.",
             i_have_other_questions: "Mám další otázky."

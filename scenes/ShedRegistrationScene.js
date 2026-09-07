@@ -881,7 +881,7 @@ export default class ShedRegistrationScene extends GameScene {
             },
             registration_failure: {
         
-                text: "(The clerk stamps 'REJECTED' on the form with finality.)\n\n'Your application is denied. Insufficient qualification, documentation, or purpose. You may reapply after a standard waiting period of 47 days.'",
+                text: "(The clerk stamps 'REJECTED' on the form with finality.)\n\n'Your application is denied. Insufficient qualification, documentation, or purpose. You may reapply after a standard waiting period of 47 digestions.'",
                 options: [
                     { text: "I see...", key: 'i_see', next: "registration_complete_failure" }
                 ],

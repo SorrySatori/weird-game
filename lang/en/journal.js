@@ -4,6 +4,10 @@
  */
 export default {
     journal: {
+        learned_digestions: {
+            title: 'Counting in Digestions',
+            description: 'The Sentinel at the Egg Cathedral counts time in digestions of the Stomach Clock — he has stood at his post for three thousand of them. The city stopped counting years when the Tally-Keeper died. A digestion runs a little longer than a day and drifts against the sun; six make a week, three hundred make a year.',
+        },
         heard_stomach_clock: {
             title: 'The Stomach Clock',
             description: 'Thaal told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock. Some say it is the real stomach of the first god who came to the city to die, others that it\'s just a poor copy of a clock from some other town. Either way, its bile is sacred — and reportedly healthy.',
@@ -98,7 +102,7 @@ export default {
         },
         skyship_sighting: {
             title: 'Strange Vessel in the Emerald Sky',
-            description: 'A massive skyship hovers above Upper Morkezela.',
+            description: 'A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. The locals say it appeared "twenty-some digestions ago" — whatever it is they count by here — and hasn\'t moved since. Some believe it to be a vessel of the fungal gods, others whisper of more terrestrial origins. Its purpose remains unknown, but its presence has changed the city\'s atmosphere, both literally and figuratively — spores seem to drift from its direction when the wind is right.',
         },
         delta_fungal_bridge: {
             title: 'Fungal Bridge at Echo Drain Delta',

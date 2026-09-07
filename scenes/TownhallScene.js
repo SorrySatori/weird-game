@@ -247,7 +247,7 @@ export default class TownhallScene extends GameScene {
             },
 
             phorTownhallClosed: {
-                text: "Closed, yes. No one seems to know exactly why. The clerks just stopped coming one day. Some say it's a bureaucratic restructuring. Others say the building itself is refusing visitors — you know how things are in this city, buildings develop opinions.\n\nI've been waiting here for days. If you find a way in, I'd be eternally grateful.",
+                text: "Closed, yes. No one seems to know exactly why. The clerks just stopped coming one day. Some say it's a bureaucratic restructuring. Others say the building itself is refusing visitors — you know how things are in this city, buildings develop opinions.\n\nI've been waiting here nine digestions. Nothing to do but watch the Clock go round. If you find a way in, I'd be eternally grateful.",
                 options: [
                     { text: "I'll figure something out.", key: 'ill_figure_something_out', next: "phorAskSomethingElse" },
                 ],
@@ -408,6 +408,8 @@ export default class TownhallScene extends GameScene {
                 || this.hasItem('townhall-key')
                 || this.hasJournalEntry('seldo_townhall_key');
             if (beenInside) return this.t('observe.stomach_clock.been_inside');
+            // The Sentinel at the cathedral is where the unit gets a name; here it clicks into place.
+            if (this.hasJournalEntry('learned_digestions')) return this.t('observe.stomach_clock.digestions');
             if (this.hasJournalEntry('heard_stomach_clock')) return this.t('observe.stomach_clock.heard');
             return this.t('observe.stomach_clock.default');
         }, { hint: this.t('observe.stomach_clock.hint') });

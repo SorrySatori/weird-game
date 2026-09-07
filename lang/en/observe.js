@@ -9,6 +9,7 @@ export default {
             hint: 'Stomach Clock',
             default: "A clock the size of a house, and it's... breathing. The face is bone; the hands are something wet. Whatever keeps time in this city, it isn't seconds.",
             heard: "So this is the Stomach Clock Thaal told me about. The real stomach of the first god who came here to die — or a poor copy of some other town's clock, depending on who's telling it. Standing under it, watching it digest, I know which story I believe. And I'm in no hurry to test whether the bile is as healthy as they say.",
+            digestions: "Digestions, the Sentinel called them. Standing here, watching the thing chew its way through another one, I finally know what he was counting — and that this city has been keeping time by its own stomach the whole while.",
             been_inside: "I've stood inside its gut. Knowing what the thing up there is actually digesting doesn't make it easier to look at — it makes it worse.",
         },
         crossroads: {

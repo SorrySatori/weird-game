@@ -18,7 +18,7 @@ export default {
         }
     },
     poet_intro_interrupt: {
-        text: `Úředník na podlaze povolí první. Slova vyhrknou dřív, než je strach stačí spolknout:\n\n"Prosím — jsou to už tři hodiny. Moje dcera čeká dole u přepážky matriky. Je jí šest. Neví, jak má—"\n\nRevolver se otočí k němu, a přesto básníkův hlas ani na okamžik neztratí metrum. To je na tom to děsivé. Ani ho nezvýší.`,
+        text: `Úředník na podlaze povolí první. Slova vyhrknou dřív, než je strach stačí spolknout:\n\n"Prosím — je to už desetina trávení. Moje dcera čeká dole u přepážky matriky. Je jí šest. Neví, jak má—"\n\nRevolver se otočí k němu, a přesto básníkův hlas ani na okamžik neztratí metrum. To je na tom to děsivé. Ani ho nezvýší.`,
         options: {
             the_poet_answers_her: '(Básník jí odpoví.)',
         }
@@ -202,7 +202,7 @@ export default {
 
 Úředník odemkne tři skříně, odmítne dvě zásuvky jako "emočně nepřesné" a nakonec vytáhne tenkou přijímací knihu.
 
-"Tohle je ta podivná část. Pod jménem Biskupky není žádná oficiální incidentní zpráva. Žádná podaná stížnost na dvojníka. Žádné následné řízení. Existuje jen záznam o vydání kancelářských tiskovin: tři dny před smrtí si vyžádala Oficiální radniční reportní zápisník. Razítkoval jsem ho sám.
+"Tohle je ta podivná část. Pod jménem Biskupky není žádná oficiální incidentní zpráva. Žádná podaná stížnost na dvojníka. Žádné následné řízení. Existuje jen záznam o vydání kancelářských tiskovin: tři trávení před smrtí si vyžádala Oficiální radniční reportní zápisník. Razítkoval jsem ho sám.
 
 Ten útržek, který jste našli, nebyla oficiální zpráva. Byla to osobní poznámka napsaná na oficiálním papíře."`,
         options: {

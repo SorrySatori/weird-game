@@ -88,7 +88,7 @@ export default {
         }
     },
     phorTownhallClosed: {
-        text: "Zavřená, ano. Nikdo přesně neví proč. Úředníci jednoho dne prostě přestali chodit. Někteří říkají, že jde o byrokratickou restrukturalizaci. Jiní říkají, že budova sama odmítá návštěvníky — víte, jak to v tomhle městě chodí, budovy si vytvářejí názory.\n\nČekám tu už několik dní. Kdybyste našel cestu dovnitř, byl bych vám neskonale vděčný.",
+        text: "Zavřená, ano. Nikdo přesně neví proč. Úředníci jednoho dne prostě přestali chodit. Někteří říkají, že jde o byrokratickou restrukturalizaci. Jiní říkají, že budova sama odmítá návštěvníky — víte, jak to v tomhle městě chodí, budovy si vytvářejí názory.\n\nČekám tu už devět trávení. Nezbývá než koukat, jak Hodiny tráví. Kdybyste našel cestu dovnitř, byl bych vám neskonale vděčný.",
         options: {
             ill_figure_something_out: "Něco vymyslím."
         }

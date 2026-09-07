@@ -436,7 +436,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_bishop_relationship: {
                 speaker: 'The Angle Corrector',
-                text: `"Professional. Cordial. Occasionally tense.\n\nThe Bishop represented the Egg Cathedral's interests. The Directorate has always monitored the Cathedral — the hatching is the most significant growth event in decades, and we intended to be present when it happened.\n\nOur meetings covered Cathedral access, cultivation samples, and the theological implications of bio-growth within sacred architecture. The Bishop tolerated our interest. Sometimes she even welcomed it."`,
+                text: `"Professional. Cordial. Occasionally tense.\n\nThe Bishop represented the Egg Cathedral's interests. The Directorate has always monitored the Cathedral — the hatching is the most significant growth event in ten thousand digestions, and we intended to be present when it happened.\n\nOur meetings covered Cathedral access, cultivation samples, and the theological implications of bio-growth within sacred architecture. The Bishop tolerated our interest. Sometimes she even welcomed it."`,
                 options: [
                     { text: "What changed?", key: 'what_changed', next: "ac_bishop_stopped" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
@@ -548,7 +548,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_bishop_anger: {
                 speaker: 'The Angle Corrector',
-                text: `"Angry? No. Anger is a waste of metabolic energy.\n\nDisappointed. Concerned. The Bishop and I had built something productive — a bridge between the Cathedral's theology and the Directorate's biology. The sealing destroyed that bridge without consultation.\n\nDid I wish her harm? Never. She was more useful to us alive than dead. Her death has created complications that will take years to untangle.\n\nWhoever killed the Bishop did not do the Directorate any favors."`,
+                text: `"Angry? No. Anger is a waste of metabolic energy.\n\nDisappointed. Concerned. The Bishop and I had built something productive — a bridge between the Cathedral's theology and the Directorate's biology. The sealing destroyed that bridge without consultation.\n\nDid I wish her harm? Never. She was more useful to us alive than dead. Her death has created complications that will take a thousand digestions to untangle.\n\nWhoever killed the Bishop did not do the Directorate any favors."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
                 ],
@@ -622,7 +622,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_fold_complete: {
                 speaker: 'The Angle Corrector',
-                text: `"Complete it. Yes. Not contain it, not correct it, not seal it behind theological locks the way the Bishop did — that woman's terror set the whole city back a decade.\n\nGrowth interrupted is worse than growth denied. A seed that begins to open and is forced shut rots in its own shell. If this awareness is stalling — struggling to finish the crossing — then the answer is not to fight it. The answer is to feed it. Warmth, connection, everything a young thing needs to root.\n\nThe Directorate is preparing to give it exactly that, the moment the Cathedral opens. We have waited long enough to be ready."`,
+                text: `"Complete it. Yes. Not contain it, not correct it, not seal it behind theological locks the way the Bishop did — that woman's terror set the whole city back three thousand digestions.\n\nGrowth interrupted is worse than growth denied. A seed that begins to open and is forced shut rots in its own shell. If this awareness is stalling — struggling to finish the crossing — then the answer is not to fight it. The answer is to feed it. Warmth, connection, everything a young thing needs to root.\n\nThe Directorate is preparing to give it exactly that, the moment the Cathedral opens. We have waited long enough to be ready."`,
                 options: [
                     { text: "That's exactly what frightens me.", key: 'thats_exactly_what_frightens_me', next: "ac_fold_danger" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },

@@ -14,7 +14,7 @@ export default class ShedCourtyardScene extends GameScene {
 
             main: {
         
-                text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've been here for days trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
+                text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've been in this queue eleven digestions trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
                 options: [
                     { text: "Why do you need extra arms?", key: 'why_do_you_need_extra_arms', next: "explain_need" },
                     { text: "Board games? What do you mean?", key: 'board_games_what_do_you_mean', next: "board_games" },
@@ -89,7 +89,7 @@ export default class ShedCourtyardScene extends GameScene {
             // Form submission dialogs
             give_artisan_form: {
         
-                text: "An Artisan's Exemption Form?! This is perfect! Creative exemption from standard limb restrictions... exactly what I need! This form recognizes my work as a legitimate art form deserving of special consideration. You've saved me months of bureaucratic wrangling!",
+                text: "An Artisan's Exemption Form?! This is perfect! Creative exemption from standard limb restrictions... exactly what I need! This form recognizes my work as a legitimate art form deserving of special consideration. You've saved me a hundred digestions of bureaucratic wrangling!",
                 options: [
                     { text: "Happy to help.", key: 'happy_to_help', next: "complete_quest_artisan" }
                 ],
@@ -194,7 +194,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             complete_quest_dispensation: {
-                text: "This is remarkable! A special dispensation is rare indeed. You've saved me months, possibly years of bureaucratic struggle. Please, take this game piece I've been working on. It's a special 'worldwright' piece that can alter the rules of any game it's placed in. Very useful for creative thinking.",
+                text: "This is remarkable! A special dispensation is rare indeed. You've saved me hundreds of digestions, possibly thousands, of bureaucratic struggle. Please, take this game piece I've been working on. It's a special 'worldwright' piece that can alter the rules of any game it's placed in. Very useful for creative thinking.",
                 options: [
                     { text: "It's beautiful, thank you.", key: 'its_beautiful_thank_you', next: "quest_completed" }
                 ],

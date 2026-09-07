@@ -7,6 +7,7 @@ export default {
             hint: 'Žaludeční hodiny',
             default: "Hodiny velké jako dům — a ony... dýchají. Ciferník je z kosti, ručičky jsou cosi mokrého. Ať už v tomhle městě měří čas cokoli, nejsou to vteřiny.",
             heard: "Tak tohle jsou ty Žaludeční hodiny, o kterých mi vyprávěl Thaal. Skutečný žaludek prvního boha, který sem přišel umřít — nebo jen mizerná kopie hodin odjinud, podle toho, kdo to vypráví. Když teď stojím pod nimi a dívám se, jak tráví, vím, které verzi věřím. A vůbec nespěchám zjišťovat, jestli je ta žluč fakt tak léčivá, jak se říká.",
+            digestions: "Trávení, říkal strážce. Teď, když tu stojím a dívám se, jak se ta věc prokousává dalším, konečně vím, co počítal — a že tohle město celou dobu měří čas vlastním žaludkem.",
             been_inside: "Stál jsem uvnitř jejich útrob. Vědomí toho, co ta věc nahoře doopravdy tráví, se na to nedívá o nic líp — spíš hůř.",
         },
         crossroads: {
