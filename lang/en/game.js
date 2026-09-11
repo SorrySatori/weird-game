@@ -27,6 +27,10 @@ export default {
         nemeRecovered: 'The air clears — Neme can read again.',
         osswineSilenced: 'Too much life here — Osswine goes still.',
         osswineRecovered: 'The bloom recedes — the dead grow audible to Osswine.',
+        growthIncreased: 'Growth increased!',
+        growthDecreased: 'Growth decreased!',
+        decayIncreased: 'Decay increased!',
+        decayDecreased: 'Decay decreased!',
     },
 
     factions: {

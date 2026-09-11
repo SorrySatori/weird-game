@@ -8,12 +8,12 @@ export default {
             description: 'Houbový Mistr mě pověřil nalezením Biskupky ve Vaječné Katedrále. Mohla by něco vědět o nouzovém volání přijatém z města přes myceliální síť. Musím s ní promluvit a zjistit víc.',
             updates: {
                 vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů na trhu. Zmínil, že jeden má obchodnice jménem Zerren.',
-                elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elpi Quarnovou... Měl bych ji hledat ve Škrabáku 1140.',
+                elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji hledat ve Škrabáku 1140.',
                 bishop_clue_gnur: "Biskupka byla viděna u Škrabáku 1140, jak provádí neobvyklý obchod s 'herní čočkou'. Gnur by mohl vědět víc, ale chce něco na oplátku.",
-                edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Křičící Korek. Možná něco ví.',
+                edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka byla naposledy viděna, jak míří do Škrabáku 1140 za Dr. Elphi.',
-                got_floor_counter_tool: 'Kapitán Liris mi dal kalibrační nástroj na opravu počítadla pater Matky Výtahu, což by mi mělo umožnit přístup do studia Dr. Elphi.',
-                lift_mother_permission: 'Matka Výtahu mi udělila přístup do studia Dr. Elphi v patře 177-Ticho.',
+                got_floor_counter_tool: 'Kapitán Liris mi dal kalibrační nástroj na opravu počítadla pater Lift-Mother, což by mi mělo umožnit přístup do studia Dr. Elphi.',
+                lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Ticho.',
                 reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Ticho. Teď musím najít stopy po Biskupce.',
                 check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku Střepu. Měl bych se tam podívat.',
                 found_elevator_button: 'Našel jsem Zapomenutý Výtahový Knoflík u Zerren, který mi může pomoct dostat se na patro Dr. Elphi.',
@@ -79,15 +79,15 @@ export default {
             title: 'Najít Rezavý chór',
             description: 'Musím najít způsob, jak se setkat s Rezavým chórem, který sídlí v horních patrech budovy Škrabáku.',
             updates: {
-                talk_to_ravla: 'Měl bych nejdřív promluvit s Ravlou v hospodě Křičící Korek.',
-                talked_to_ravla: 'Ravla v Křičícím Koreku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
-                feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Matku Výtahu: „Koroduj". Teď mohu vstoupit do domény Rezavého chóru.',
+                talk_to_ravla: 'Měl bych nejdřív promluvit s Ravlou v hospodě Řvoucí korek.',
+                talked_to_ravla: 'Ravla v Řvoucím korku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
+                feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Lift-Mother: „Koroduj". Teď mohu vstoupit do domény Rezavého chóru.',
                 feast_delivered: 'Doručil jsem Rezavou Hostinu Brukkovi v Rezavé Doméně.',
             }
         },
         rust_feast: {
             title: 'Rezavá Hostina',
-            description: 'Připravit hostinu pro stroje Rezavého chóru sesbíráním oleje, kovu a živé rudé hmoty, a přinést vše Ravle do Křičícího Koreku.',
+            description: 'Připravit hostinu pro stroje Rezavého chóru sesbíráním oleje, kovu a živé rudé hmoty, a přinést vše Ravle do Řvoucího korku.',
             updates: {
                 talked_to_archeologist_hint: 'Ravla navrhla, abych promluvil s archeologem u radnice a dozvěděl se víc o rudé hmotě.',
                 gathered_rust_materials_hint: 'Ravla mi poradila hledat šrot kolem Škrabáku... a zkontrolovat doky u Žloutkového Moře nebo Deltu Ozvěnového Odpadu kvůli oleji.',
@@ -114,8 +114,8 @@ export default {
                 forge_documents_suggestion: 'Když jsem úředníkovi navrhl padělat dokumenty pro Ortolana, podíval se na mě směsí překvapení a podráždění.',
                 artisan_form_clue: 'Úředník mi řekl jít na Registrační úřad pro Formulář Řemeslnické Výjimky.',
                 nonverbal_gesture_clue: 'Úředník mi řekl jít na Registrační úřad a udělat co nejlepší neverbální gesto.',
-                ravla_forger_hint: 'Heliodor v Křičícím Koreku zmínil, že Ravla je zkušená padělatelka dokumentů.',
-                ravla_forger_agreement: 'Ravla v Křičícím Koreku může padělat Formulář Řemeslnické Výjimky pro Ortolana, ale chce za práci 50 dinárů.',
+                ravla_forger_hint: 'Heliodor v Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
+                ravla_forger_agreement: 'Ravla v Řvoucím korku může padělat Formulář Řemeslnické Výjimky pro Ortolana, ale chce za práci 50 dinárů.',
                 document_obtained: 'Získali jste padělaný Formulář Řemeslnické Výjimky od Ravly. Doručte ho Ortolanovi na Nádvoří Skladu.',
                 bureaucratic_incantation: 'Dutá Žena ve frontě na registraci mě naučila podivné byrokratické zaklínadlo.',
                 form_obtained: 'Úspěšně jsem získal formulář pro Ortolana.',
@@ -152,7 +152,7 @@ export default {
         },
         level_177_access: {
             title: 'Přístup na Úroveň 177',
-            description: 'Musím získat přístup do studia Dr. Elphi Quarnové v patře 177-Ticho v budově Škrabáku.',
+            description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Ticho v budově Škrabáku.',
         },
         edgar_book: {
             title: 'Pomoct Edgarovi napsat knihu',

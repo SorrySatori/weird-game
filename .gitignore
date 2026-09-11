@@ -2,6 +2,9 @@
 node_modules/
 jspm_packages/
 
+# Local working files (dialog review exports — deleted after each round)
+dialog-review/
+
 # Electron build directories
 dist/
 out/

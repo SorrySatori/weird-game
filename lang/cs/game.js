@@ -27,6 +27,10 @@ export default {
         nemeRecovered: 'Vzduch se čistí — Neme opět čte.',
         osswineSilenced: 'Zde je příliš mnoho života — Osswine strne.',
         osswineRecovered: 'Květ ustupuje — mrtví jsou pro Osswine opět slyšitelní.',
+        growthIncreased: 'Růst vzrostl!',
+        growthDecreased: 'Růst poklesl!',
+        decayIncreased: 'Rozklad vzrostl!',
+        decayDecreased: 'Rozklad poklesl!',
     },
 
     factions: {

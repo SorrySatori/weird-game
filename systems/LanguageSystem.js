@@ -124,13 +124,21 @@ export default class LanguageSystem {
             }
         }
         
-        // Translate options — use opt.key for lookup, fallback to opt.text
+        // Translate options — use opt.key for lookup, fallback to opt.text.
+        // `options` may be a function (resolved later, after onTrigger, with the scene as `this`);
+        // wrap it so the translation happens on whatever it returns instead of crashing on `.map`.
         if (stateTrans?.options && translated.options) {
-            translated.options = translated.options.map(opt => {
+            const translateOptions = (opts) => (Array.isArray(opts) ? opts : []).map(opt => {
                 const lookupKey = opt.key || opt.text;
                 const translatedText = stateTrans.options[lookupKey];
                 return translatedText ? { ...opt, text: translatedText } : opt;
             });
+            if (typeof translated.options === 'function') {
+                const original = translated.options;
+                translated.options = function () { return translateOptions(original.call(this)); };
+            } else {
+                translated.options = translateOptions(translated.options);
+            }
         }
         
         return translated;

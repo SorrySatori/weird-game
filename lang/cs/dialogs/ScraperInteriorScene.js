@@ -1,11 +1,11 @@
 /**
  * Czech dialog translations for ScraperInteriorScene
- * Speaker: Lift Mother (Výtahová matka)
+ * Speaker: Lift Mother (Lift-Mother — the name stays English in Czech)
  */
 export default {
     _speakers: {
-        'Lift Mother': 'Výtahová matka',
-        'Lift-Mother': 'Výtahová matka',
+        'Lift Mother': 'Lift-Mother',
+        'Lift-Mother': 'Lift-Mother',
         'Palinode': 'Palinode',
     },
     lift_mother_start: {
@@ -182,7 +182,7 @@ export default {
         text: ""
     },
     seam_scraper_prompt: {
-        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Výtahové matce. \"Ale tahle budova si drží patra, ke kterým se nepřizná — úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
+        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Lift-Mother. \"Ale tahle budova si drží patra, ke kterým se nepřizná — úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
         options: {
             seam_scraper_open_opt: "[Smysl pro švy] Otevřít šev do mrtvého patra.",
             seam_scraper_back: "Teď ne. Vezmi mě zpět."

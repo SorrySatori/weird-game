@@ -1,6 +1,83 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
+
+/**
+ * Display labels for the book-building choices. The dialog stores short internal ids
+ * (`bad scientist`, `god graveyard`, …) that used to leak straight into Edgar's lines and the
+ * generated titles. `en`/`cs` are sentence forms (cs in the nominative — the completion line is
+ * built so no label needs declining); `title` is the Title-Case form used by generateBookTitle.
+ */
+const BOOK_LABELS = {
+    tone: {
+        tragic:       { en: 'tragic',       cs: 'tragický' },
+        metaphysical: { en: 'metaphysical', cs: 'metafyzický' },
+        romantic:     { en: 'romantic',     cs: 'romantický' },
+        existential:  { en: 'existential',  cs: 'existenciální' },
+        political:    { en: 'political',    cs: 'politický' },
+        comical:      { en: 'comical',      cs: 'komický' },
+    },
+    genre: {
+        'fungal techno':   { en: 'fungal techno-thriller',       cs: 'houbový techno-thriller' },
+        'postmodern':      { en: 'postmodern novel',             cs: 'postmoderní román' },
+        'urban fantasy':   { en: 'urban fantasy',                cs: 'městská fantasy' },
+        'funny animals':   { en: 'funny animals with depression', cs: 'vtipná zvířata s depresí' },
+        'detective':       { en: 'detective novel',              cs: 'detektivní román' },
+        'weird fiction':   { en: 'dreamy weird fiction',         cs: 'snová weird fiction' },
+        'mythic war epic': { en: 'mythic war epic',              cs: 'mýtický válečný epos' },
+        'cosmic horror':   { en: 'cosmic horror',                cs: 'kosmický horor' },
+    },
+    protagonist: {
+        'disoriented tourist': { en: 'a disoriented tourist',                          cs: 'dezorientovaný turista',                    title: 'Disoriented Tourist' },
+        'bad scientist':       { en: 'a renegade fungal scientist',                    cs: 'houbový vědec renegát',                    title: 'Renegade Scientist' },
+        'mišutkenn':           { en: 'a mišutkenn seeking identity',                   cs: 'mišutkenn hledající identitu',              title: 'Mišutkenn' },
+        'strange amnesiac':    { en: 'an amnesiac with strange abilities',             cs: 'člověk trpící ztrátou paměti s podivnými schopnostmi', title: 'Amnesiac' },
+        'fungal colony':       { en: 'a sentient fungal colony',                       cs: 'inteligentní kolonie hub',              title: 'Fungal Colony' },
+        'dream detective':     { en: 'a dream detective',                              cs: 'snový detektiv',                            title: 'Dream Detective' },
+        'rogue Ludarch':       { en: 'a rogue Ludarch',                                cs: 'odpadlický Ludarch',                        title: 'Rogue Ludarch' },
+        'living collective':   { en: 'a living collective pretending to be one person', cs: 'kolektiv bytostí předstírající jednu osobu',   title: 'Living Collective' },
+    },
+    setting: {
+        'scraper':           { en: "the Scraper's shifting floors",                     cs: 'proměnlivá patra Škrabáku',                                  title: 'Scraper' },
+        'magical school':    { en: 'a murderous magical school',                       cs: 'vražedná magická škola',                                    title: 'Magical School' },
+        'immortal mammal':   { en: 'a giant immortal mammal swimming in the ocean',    cs: 'obří nesmrtelný savec plovoucí v oceánu',                   title: 'Immortal Mammal' },
+        'fungal wilds':      { en: 'the fungal wilds',                                 cs: 'houbová divočina',                                          title: 'Fungal Wilds' },
+        'skyship':           { en: 'a skyship above the clouds',                       cs: 'vzducholoď mezi oblaky',                                    title: 'Skyship' },
+        'markets':           { en: 'the subterranean markets',                         cs: 'podzemní trhy',                                             title: 'Subterranean Markets' },
+        'living board game': { en: 'a war-torn board game that became real',           cs: 'válkou zničená desková hra, která se stala skutečností',    title: 'Living Board Game' },
+        'god graveyard':     { en: 'the graveyard of dead gods',                       cs: 'hřbitov mrtvých bohů',                                      title: 'God Graveyard' },
+    },
+};
+
+/**
+ * Czech declension for the generated book titles. Titles put the protagonist and the setting
+ * into real sentences, so each needs its cases: nom / gen / acc / ins, plus for settings the
+ * prepositional phrases the templates use (`loc` = v/na + locative, `locb` = bare locative after
+ * o/po, `from` = z/ze + genitive, `to` = do/na + direction). `g` drives který/která and -l/-la.
+ */
+const CS_TITLE_FORMS = {
+    protagonist: {
+        'disoriented tourist': { nom: 'dezorientovaný turista', gen: 'dezorientovaného turisty', acc: 'dezorientovaného turistu', ins: 'dezorientovaným turistou', g: 'm' },
+        'bad scientist':       { nom: 'vědec renegát',          gen: 'vědce renegáta',           acc: 'vědce renegáta',           ins: 'vědcem renegátem',         g: 'm' },
+        'mišutkenn':           { nom: 'mišutkenn',              gen: 'mišutkenna',               acc: 'mišutkenna',               ins: 'mišutkennem',              g: 'm' },
+        'strange amnesiac':    { nom: 'amnezik',                gen: 'amnezika',                 acc: 'amnezika',                 ins: 'amnezikem',                g: 'm' },
+        'fungal colony':       { nom: 'kolonie hub',            gen: 'kolonie hub',              acc: 'kolonii hub',              ins: 'kolonií hub',              g: 'f' },
+        'dream detective':     { nom: 'snový detektiv',         gen: 'snového detektiva',        acc: 'snového detektiva',        ins: 'snovým detektivem',        g: 'm' },
+        'rogue Ludarch':       { nom: 'odpadlický Ludarch',     gen: 'odpadlického Ludarcha',    acc: 'odpadlického Ludarcha',    ins: 'odpadlickým Ludarchem',    g: 'm' },
+        'living collective':   { nom: 'kolektiv bytostí',       gen: 'kolektivu bytostí',        acc: 'kolektiv bytostí',         ins: 'kolektivem bytostí',       g: 'm' },
+    },
+    setting: {
+        'scraper':           { nom: 'Škrabák',            gen: 'Škrabáku',            acc: 'Škrabák',             ins: 'Škrabákem',            loc: 've Škrabáku',           locb: 'Škrabáku',           from: 'ze Škrabáku',           to: 'do Škrabáku' },
+        'magical school':    { nom: 'magická škola',      gen: 'magické školy',       acc: 'magickou školu',      ins: 'magickou školou',      loc: 'v magické škole',       locb: 'magické škole',      from: 'z magické školy',       to: 'do magické školy' },
+        'immortal mammal':   { nom: 'nesmrtelný savec',   gen: 'nesmrtelného savce',  acc: 'nesmrtelného savce',  ins: 'nesmrtelným savcem',   loc: 'v nesmrtelném savci',   locb: 'nesmrtelném savci',  from: 'z nesmrtelného savce',  to: 'do nesmrtelného savce' },
+        'fungal wilds':      { nom: 'houbová divočina',   gen: 'houbové divočiny',    acc: 'houbovou divočinu',   ins: 'houbovou divočinou',   loc: 'v houbové divočině',    locb: 'houbové divočině',   from: 'z houbové divočiny',    to: 'do houbové divočiny' },
+        'skyship':           { nom: 'vzducholoď',         gen: 'vzducholodi',         acc: 'vzducholoď',          ins: 'vzducholodí',          loc: 've vzducholodi',        locb: 'vzducholodi',        from: 'ze vzducholodi',        to: 'do vzducholodi' },
+        'markets':           { nom: 'podzemní trhy',      gen: 'podzemních trhů',     acc: 'podzemní trhy',       ins: 'podzemními trhy',      loc: 'na podzemních trzích',  locb: 'podzemních trzích',  from: 'z podzemních trhů',     to: 'na podzemní trhy' },
+        'living board game': { nom: 'živá desková hra',   gen: 'živé deskové hry',    acc: 'živou deskovou hru',  ins: 'živou deskovou hrou',  loc: 'v živé deskové hře',    locb: 'živé deskové hře',   from: 'ze živé deskové hry',   to: 'do živé deskové hry' },
+        'god graveyard':     { nom: 'hřbitov bohů',       gen: 'hřbitova bohů',       acc: 'hřbitov bohů',        ins: 'hřbitovem bohů',       loc: 'na hřbitově bohů',      locb: 'hřbitově bohů',      from: 'ze hřbitova bohů',      to: 'na hřbitov bohů' },
+    },
+};
 
 export default class ScreamingCorkScene extends GameScene {
     constructor() {
@@ -27,6 +104,13 @@ export default class ScreamingCorkScene extends GameScene {
     // Helper method for compatibility with dialog system
     hasJournalEntry(entryId) {
         return this.journalSystem.getEntry(entryId);
+    }
+
+    /** Display label for the current pick of `kind` (tone/genre/protagonist/setting); `form` = en | cs | title. */
+    bookLabel(kind, form = 'en') {
+        const value = { tone: this.bookTone, genre: this.bookGenre, protagonist: this.bookProtagonist, setting: this.bookSetting }[kind];
+        const entry = BOOK_LABELS[kind]?.[value];
+        return entry?.[form] ?? entry?.en ?? value ?? '';
     }
 
     // Helper method to get available inspirational topics based on journal entries
@@ -171,128 +255,205 @@ export default class ScreamingCorkScene extends GameScene {
         return topics;
     }
 
-    // Helper method to format the book title based on selections
-    generateBookTitle() {
-        // Generate different title formats based on genre
-        let title = '';
+    // Title from the picked genre × tone. One template per pair (the old if/if/else chains let the
+    // last `else` win for most tones), built from Title-Case labels instead of raw ids.
+    // `lang` = 'en' | 'cs' — the English title is what gets persisted (the nightlife cutscene is EN-only).
+    generateBookTitle(lang = 'en') {
+        if (lang === 'cs') return this.generateBookTitleCs();
+        const P = this.bookLabel('protagonist', 'title');
+        const S = this.bookLabel('setting', 'title');
+        const T = this.bookTone;
+        const pick = (byTone, fallback) => byTone[T] || fallback;
+
         switch (this.bookGenre) {
             case 'fungal techno':
-                if (this.bookTone === 'tragic') {
-                    title = `The Last ${this.bookProtagonist} of ${this.bookSetting}`;
-                } else if (this.bookTone === 'metaphysical') {
-                    title = `${this.bookSetting} Recursions`;
-                } else if (this.bookTone === 'romantic') {
-                    title = `Techno Weekend: ${this.bookSetting} of Love`;
-                } else if (this.bookTone === 'existential') {
-                    title = `The ${this.bookProtagonist}'s Dilemma`;
-                } else if (this.bookTone === 'political') {
-                    title = `Revolution in the ${this.bookSetting}`;
-                } else {
-                    title = `The Ridiculous Adventures of a ${this.bookProtagonist} in ${this.bookSetting}`;
-                }
-                break;
+                return pick({
+                    tragic: `The Last ${P} of the ${S}`,
+                    metaphysical: `${S} Recursions`,
+                    romantic: `Techno Weekend: ${S} of Love`,
+                    existential: `The ${P}'s Dilemma`,
+                    political: `Revolution in the ${S}`,
+                }, `The Ridiculous Adventures of a ${P} in the ${S}`);
 
             case 'postmodern':
-                if (this.bookTone === 'existential' || this.bookTone === 'metaphysical') {
-                    title = `${this.bookSetting}, ${this.bookSetting}, ${this.bookProtagonist}`;
-                }
-                if (this.bookTone === 'romantic') {
-                    title = `The Secret Life of ${this.bookProtagonist} in ${this.bookSetting}`;
-                }
-                if (this.bookTone === 'political') {
-                    title = `The ${this.bookProtagonist} Who Changed ${this.bookSetting}`;
-                }
-                if (this.bookTone === 'comical') {
-                    title = `The Absurd Chronicles of ${this.bookProtagonist} in ${this.bookSetting}`;
-                }
-                if (this.bookTone === 'metaphysical') {
-                    title = `The Day When ${this.bookProtagonist} Discovered ${this.bookSetting}'s Secret`;
-                }
-                if (this.bookTone === 'tragic') {
-                    title = `The Making of ${this.bookProtagonist} from ${this.bookSetting}`;
-                }
-                else {
-                    title = `In the Name of ${this.bookProtagonist}`;
-                }
-                break;
+                return pick({
+                    existential: `${S}, ${S}, ${P}`,
+                    metaphysical: `The Day the ${P} Discovered the ${S}'s Secret`,
+                    romantic: `The Secret Life of the ${P} in the ${S}`,
+                    political: `The ${P} Who Changed the ${S}`,
+                    comical: `The Absurd Chronicles of the ${P} in the ${S}`,
+                    tragic: `The Making of the ${P} from the ${S}`,
+                }, `In the Name of the ${P}`);
 
             case 'urban fantasy':
-                if (this.bookTone === 'political') { title = `The ${this.bookProtagonist} of ${this.bookSetting} Street`;
-                } 
-                if (this.bookTone === 'metaphysical') {
-                    title = `The Tale of ${this.bookProtagonist}'travels to ${this.bookSetting}`;
-                }
-                if (this.bookTone === 'tragic') {
-                    title = `The ${this.bookProtagonist} Who Lost ${this.bookSetting}`;
-                }
-                if (this.bookTone === 'comical') {
-                    title = `The Hilarious Misadventures of ${this.bookProtagonist} in ${this.bookSetting}`;
-                }
-                if (this.bookTone === 'romantic') {
-                    title = `A Love Story in ${this.bookSetting}: Life of ${this.bookProtagonist}`;
-                }
-                if(this.bookTone === 'existential') {
-                    title = `What Can Change ${this.bookProtagonist} and the Average ${this.bookSetting} Citizen?`;
-                }
-                
-                else {
-                    title = `The ${this.bookProtagonist} of ${this.bookSetting}`;
-                }
-                break;
+                return pick({
+                    political: `The ${P} of ${S} Street`,
+                    metaphysical: `The Tale of the ${P}'s Travels to the ${S}`,
+                    tragic: `The ${P} Who Lost the ${S}`,
+                    comical: `The Hilarious Misadventures of the ${P} in the ${S}`,
+                    romantic: `A Love Story in the ${S}: Life of the ${P}`,
+                    existential: `What Can Change the ${P} and the Average ${S} Citizen?`,
+                }, `The ${P} of the ${S}`);
 
             case 'funny animals':
-                if(this.bookTone === 'political') title = `${this.bookProtagonist}'s Guide to ${this.bookTone.charAt(0).toUpperCase()} Living`;
-                if (this.bookTone === 'existential') title = `The ${this.bookProtagonist} Who Thought Too Much`;
-                if (this.bookTone === 'tragic') title = `The Sad Tale of ${this.bookProtagonist} who Wished to be a Zookeeper`;
-                if (this.bookTone === 'romantic') title = `Finding Love in the ${this.bookSetting}: A ${this.bookProtagonist}'s Story`;
-                if (this.bookTone === 'metaphysical') title = `The ${this.bookProtagonist} and the Meaning of Life`;
-                else title = `Crazy Cats of ${this.bookSetting}: The Day When ${this.bookProtagonist} Went Wild`;
-                break;
+                return pick({
+                    political: `The ${P}'s Guide to Political Living`,
+                    existential: `The ${P} Who Thought Too Much`,
+                    tragic: `The Sad Tale of the ${P} Who Wished to Be a Zookeeper`,
+                    romantic: `Finding Love in the ${S}: A ${P}'s Story`,
+                    metaphysical: `The ${P} and the Meaning of Life`,
+                }, `Crazy Cats of the ${S}: The Day the ${P} Went Wild`);
 
             case 'detective':
-                if(this.bookTone === 'metaphysical') title = `The ${this.bookSetting} ${this.bookSetting || ''} Mystery`;
-                if(this.bookTone === 'tragic') title = `The Sad ${this.bookProtagonist} Case`;
-                if(this.bookTone === 'comical') title = `The Hilarious ${this.bookProtagonist} and the ${this.bookSetting} ${this.bookSetting || ''} Murder`;
-                if(this.bookTone === 'existential') title = `${this.bookProtagonist} Travels to ${this.bookSetting} to Find Himself and Make Some Existencial Hardcore Decisions`;
-                if(this.bookTone === 'romantic') title = `Love in the Time of ${this.bookSetting} Crimes`;
-                if(this.bookTone === 'political') title = `The ${this.bookProtagonist} vs. the ${this.bookSetting} Conspiracy`;
-                else title = `The Case of the ${this.bookSetting} ${this.bookSetting || ''}`;
-                break;
+                return pick({
+                    metaphysical: `The ${S} Mystery`,
+                    tragic: `The Sad ${P} Case`,
+                    comical: `The Hilarious ${P} and the ${S} Murder`,
+                    existential: `The ${P} Travels to the ${S} to Find Himself and Make Some Existential Hardcore Decisions`,
+                    romantic: `Love in the Time of ${S} Crimes`,
+                    political: `The ${P} vs. the ${S} Conspiracy`,
+                }, `The Case of the ${S}`);
 
             case 'weird fiction':
-                if(this.bookTone === 'comical') title = `Making fun of ${this.bookProtagonist} Dreams of ${this.bookSetting}`;
-                if(this.bookTone === 'tragic') title = `The ${this.bookProtagonist} Who Cried Fungi`;
-                if(this.bookTone === 'romantic') title = `A ${this.bookProtagonist}'s Guide to Love in ${this.bookSetting}`;
-                if(this.bookTone === 'political') title = `The Manifest of ${this.bookProtagonist}: How to Destroy ${this.bookSetting} and Make a Revolution`;
-                if(this.bookTone === 'existential') title = `The ${this.bookProtagonist} and the ${this.bookSetting} Paradox`;
-                else title = `The ${this.bookProtagonist} in the ${this.bookSetting} Labyrinth`;
-                break;
+                return pick({
+                    comical: `Making Fun of the ${P}'s Dreams of the ${S}`,
+                    tragic: `The ${P} Who Cried Fungi`,
+                    romantic: `A ${P}'s Guide to Love in the ${S}`,
+                    political: `The Manifesto of the ${P}: How to Destroy the ${S} and Make a Revolution`,
+                    existential: `The ${P} and the ${S} Paradox`,
+                }, `The ${P} in the ${S} Labyrinth`);
 
             case 'mythic war epic':
-                if(this.bookTone === 'tragic') title = `The Last Game of ${this.bookProtagonist}`;
-                else if(this.bookTone === 'metaphysical') title = `${this.bookSetting}: Rules of the Fallen`;
-                else if(this.bookTone === 'romantic') title = `Love Between Moves: A ${this.bookProtagonist}'s War`;
-                else if(this.bookTone === 'existential') title = `Why the ${this.bookProtagonist} Stopped Playing`;
-                else if(this.bookTone === 'political') title = `The ${this.bookProtagonist}'s Gambit for ${this.bookSetting}`;
-                else if(this.bookTone === 'comical') title = `The ${this.bookProtagonist} Who Cheated at ${this.bookSetting}`;
-                else title = `${this.bookProtagonist}: Chronicle of the ${this.bookSetting} Wars`;
-                break;
+                return pick({
+                    tragic: `The Last Game of the ${P}`,
+                    metaphysical: `${S}: Rules of the Fallen`,
+                    romantic: `Love Between Moves: A ${P}'s War`,
+                    existential: `Why the ${P} Stopped Playing`,
+                    political: `The ${P}'s Gambit for the ${S}`,
+                    comical: `The ${P} Who Cheated at the ${S}`,
+                }, `${P}: Chronicle of the ${S} Wars`);
 
             case 'cosmic horror':
-                if(this.bookTone === 'tragic') title = `The Silence After ${this.bookSetting}`;
-                else if(this.bookTone === 'metaphysical') title = `${this.bookSetting}: What the ${this.bookProtagonist} Heard`;
-                else if(this.bookTone === 'romantic') title = `A ${this.bookProtagonist}'s Hymn to the Dying ${this.bookSetting}`;
-                else if(this.bookTone === 'existential') title = `The ${this.bookProtagonist} Who Listened Too Long`;
-                else if(this.bookTone === 'political') title = `Who Buried the Gods of ${this.bookSetting}?`;
-                else if(this.bookTone === 'comical') title = `The ${this.bookProtagonist} and the Very Dead God of ${this.bookSetting}`;
-                else title = `Beneath ${this.bookSetting}: The ${this.bookProtagonist}'s Descent`;
-                break;
-        }
+                return pick({
+                    tragic: `The Silence After the ${S}`,
+                    metaphysical: `${S}: What the ${P} Heard`,
+                    romantic: `A ${P}'s Hymn to the Dying ${S}`,
+                    existential: `The ${P} Who Listened Too Long`,
+                    political: `Who Buried the Gods of the ${S}?`,
+                    comical: `The ${P} and the Very Dead God of the ${S}`,
+                }, `Beneath the ${S}: The ${P}'s Descent`);
 
-        return title;
+            default:
+                return `The ${P} of the ${S}`;
+        }
+    }
+
+    // Czech counterpart of generateBookTitle — same genre × tone grid, real declension.
+    generateBookTitleCs() {
+        const p = CS_TITLE_FORMS.protagonist[this.bookProtagonist] || { nom: this.bookProtagonist || '', gen: '', acc: '', ins: '', g: 'm' };
+        const s = CS_TITLE_FORMS.setting[this.bookSetting] || { nom: this.bookSetting || '', gen: '', acc: '', ins: '', loc: '', locb: '', from: '', to: '' };
+        const f = p.g === 'f';
+        const ktery = f ? 'která' : 'který';   // relative pronoun
+        const la = f ? 'la' : 'l';             // past-tense ending
+        const sam = f ? 'sama' : 'sám';
+        const T = this.bookTone;
+        const pick = (byTone, fallback) => byTone[T] || fallback;
+        const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+
+        let title;
+        switch (this.bookGenre) {
+            case 'fungal techno':
+                title = pick({
+                    tragic: `Poslední ${p.nom} ${s.from}`,
+                    metaphysical: `Rekurze ${s.gen}`,
+                    romantic: `Techno víkend: ${s.nom} lásky`,
+                    existential: `Dilema ${p.gen}`,
+                    political: `Revoluce ${s.loc}`,
+                }, `Směšná dobrodružství ${p.gen} ${s.loc}`);
+                break;
+            case 'postmodern':
+                title = pick({
+                    existential: `${s.nom}, ${s.nom}, ${p.nom}`,
+                    metaphysical: `Den, kdy ${p.nom} odhali${la} tajemství ${s.gen}`,
+                    romantic: `Tajný život ${p.gen} ${s.loc}`,
+                    political: `${p.nom}, ${ktery} změni${la} ${s.acc}`,
+                    comical: `Absurdní kroniky ${p.gen} ${s.loc}`,
+                    tragic: `Zrození ${p.gen} ${s.from}`,
+                }, `Ve jménu ${p.gen}`);
+                break;
+            case 'urban fantasy':
+                title = pick({
+                    political: `${p.nom} z ulice ${s.gen}`,
+                    metaphysical: `Příběh o cestách ${p.gen} ${s.to}`,
+                    tragic: `${p.nom}, ${ktery} ztrati${la} ${s.acc}`,
+                    comical: `Veselé nehody ${p.gen} ${s.loc}`,
+                    romantic: `Milostný příběh ${s.loc}: život ${p.gen}`,
+                    existential: `Co může změnit ${p.acc} a průměrného občana ${s.gen}?`,
+                }, `${p.nom} ${s.from}`);
+                break;
+            case 'funny animals':
+                title = pick({
+                    political: `Průvodce ${p.gen} politickým životem`,
+                    existential: `${p.nom}, ${ktery} příliš přemýšle${la}`,
+                    tragic: `Smutný příběh ${p.gen}, ${ktery} chtě${la} být ošetřovatelem v zoo`,
+                    romantic: `Hledání lásky ${s.loc}: příběh ${p.gen}`,
+                    metaphysical: `${p.nom} a smysl života`,
+                }, `Šílené kočky ${s.gen}: den, kdy se ${p.nom} zblázni${la}`);
+                break;
+            case 'detective':
+                title = pick({
+                    metaphysical: `Záhada ${s.gen}`,
+                    tragic: `Smutný případ ${p.gen}`,
+                    comical: `${f ? 'Veselá' : 'Veselý'} ${p.nom} a vražda ${s.loc}`,
+                    existential: `${p.nom} jede ${s.to}, aby naše${la} ${sam} sebe a učini${la} pár existenciálně hardcore rozhodnutí`,
+                    romantic: `Láska za časů zločinů ${s.gen}`,
+                    political: `${p.nom} versus spiknutí ${s.gen}`,
+                }, `Případ ${s.gen}`);
+                break;
+            case 'weird fiction':
+                title = pick({
+                    comical: `Jak si utahovat ze snů ${p.gen} o ${s.locb}`,
+                    tragic: `${p.nom}, ${ktery} plaka${la} houby`,
+                    romantic: `Průvodce ${p.gen} láskou ${s.loc}`,
+                    political: `Manifest ${p.gen}: jak zničit ${s.acc} a udělat revoluci`,
+                    existential: `${p.nom} a paradox ${s.gen}`,
+                }, `${p.nom} v labyrintu ${s.gen}`);
+                break;
+            case 'mythic war epic':
+                title = pick({
+                    tragic: `Poslední hra ${p.gen}`,
+                    metaphysical: `${s.nom}: pravidla padlých`,
+                    romantic: `Láska mezi tahy: válka ${p.gen}`,
+                    existential: `Proč ${p.nom} přesta${la} hrát`,
+                    political: `Gambit ${p.gen} o ${s.locb}`,
+                    comical: `${p.nom}, ${ktery} podvádě${la} ${s.loc}`,
+                }, `${p.nom}: kronika válek o ${s.acc}`);
+                break;
+            case 'cosmic horror':
+                title = pick({
+                    tragic: `Ticho po ${s.locb}`,
+                    metaphysical: `${s.nom}: co ${p.nom} slyše${la}`,
+                    romantic: `Hymna ${p.gen} na umírající ${s.acc}`,
+                    existential: `${p.nom}, ${ktery} naslouchal${f ? 'a' : ''} příliš dlouho`,
+                    political: `Kdo pohřbil bohy ${s.gen}?`,
+                    comical: `${p.nom} a velmi mrtvý bůh ${s.gen}`,
+                }, `Pod ${s.ins}: sestup ${p.gen}`);
+                break;
+            default:
+                title = `${p.nom} ${s.from}`;
+        }
+        return cap(title);
     }
 
     get dialogContent() {
+        // QuestSystem tracks completion as `isComplete` (there is no `status` field).
+        const bookDone = !!this.questSystem.getQuest('edgar_book')?.isComplete;
+        // Finishing the book while the Vestigel hunt is open hands the token over in the farewell.
+        // Computed here (the getter runs at show time) — assigning into `this.dialogContent.x.text`
+        // from an onTrigger is lost, because every getter call builds a fresh object.
+        const farewellGivesVestigel = !!this.questSystem.getQuest('the_three_vestigels') && !this.hasItem('vestigel');
+        const cs = LanguageSystem.getInstance?.().getLanguage?.() === 'cs';
+
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
 
@@ -311,9 +472,8 @@ export default class ScreamingCorkScene extends GameScene {
                         { text: "I'm looking for a vestigel, I heard you might have one.", key: 'im_looking_for_a_vestigel_i_heard_you_might_have_o', next: "edgar_vestigel" }
                     ] : []),
                     // Only show book topics option if quest is active but not completed
-                    ...(this.registry.get('questSystem')?.getQuest('edgar_book') &&
-                       this.registry.get('questSystem')?.getQuest('edgar_book').status !== 'completed' ? [
-                        { text: "Let's start with some inspirational topics", key: 'lets_start_with_some_inspirational_topics', next: "edgar_book_topics" }
+                    ...(this.questSystem.getQuest('edgar_book') && !this.questSystem.getQuest('edgar_book').isComplete ? [
+                        { text: "Let's start with some inspirational topics.", key: 'lets_start_with_some_inspirational_topics', next: "edgar_book_topics" }
                     ] : []),
                     // Before the finale: Edgar's overlooked-places perspective on the Egg Cathedral
                     ...(this.hasJournalEntry('met_infinite_fold') ? [
@@ -325,8 +485,8 @@ export default class ScreamingCorkScene extends GameScene {
                     if (!this.hasJournalExperience('edgar_eskola_meeting')) {
                         this.addJournalEntry(
                             'edgar_eskola_meeting',
-                            'Edgar Eskola - The Mišutkenn of Screaming Cork',
-                            'I met Edgar Eskola, a mišutkenn patron at the Screaming Cork tavern. He seems uncomfortable around humans, which is understandable given the history of prejudice against his kind in Upper Morkezela. Despite his bearish appearance, there\'s a softness to him - an intellectual quality that suggests he\'s more than the city\'s stereotypes would imply.',
+                            'Edgar Eskola — The Mišutkenn of Screaming Cork',
+                            'I met Edgar Eskola, a mišutkenn patron at the Screaming Cork tavern. He seems uncomfortable around humans, which is understandable given the history of prejudice against his kind in Upper Morkezela. Despite his bearish appearance, there\'s a softness to him — an intellectual quality that suggests he\'s more than the city\'s stereotypes would imply.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Edgar Eskola', location: 'Screaming Cork' }
                         );
@@ -335,7 +495,7 @@ export default class ScreamingCorkScene extends GameScene {
             },
             edgar_greeting: {
         
-                text: "Mmm. Hello," + "Not often people choose to speak with me. Most avoid mišutkenn if they can help it.",
+                text: "Mmm. Hello. Not often people choose to speak with me. Most avoid mišutkenn if they can help it.",
                 options: [
                     { text: "Why is that?", key: 'why_is_that', next: "edgar_prejudice" },
                     { text: "What are mišutkenn?", key: 'what_are_miutkenn', next: "edgar_what" },
@@ -344,13 +504,12 @@ export default class ScreamingCorkScene extends GameScene {
             },
             edgar_what: {
         
-                text: "Mišutkenn are... well, we're not exactly human. Or anything else, for that matter. We're... different.",
+                text: "Mišutkenn are... well, we're not exactly human. We're... different.",
                 options: [
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
-                    this.showNotification('Growth increased');
-                    this.modifyGrowthDecay(1, 0);
+                    this.modifyGrowthDecay(1, 0); // the G/D system announces the change itself
                 }
             },
             edgar_prejudice: {
@@ -439,12 +598,16 @@ export default class ScreamingCorkScene extends GameScene {
             // Topic selection dialog - lets player choose inspirational topics
             edgar_book_topics: {
                 text: "What inspires you about this city? What experiences might make a good story? I've been stuck in the same routines for so long, I need fresh perspectives.",
+                // `key: topic.id` lets the cs file translate the labels. The pick is parked in
+                // `currentTopic`; edgar_book_topic_selected's onTrigger records it (topic list +
+                // journal) — previously nothing ever set currentTopic, so that journal never fired.
                 options: this.getAvailableTopics().map(function(topic) {
                     return {
                         text: topic.text,
+                        key: topic.id,
                         next: "edgar_book_topic_selected",
                         onSelect: function() {
-                            this.bookTopics.push(topic);
+                            this.currentTopic = topic;
                         }
                     };
                 }),
@@ -493,12 +656,12 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Now that we have some topics to work with, what tone should the book have? I'm thinking about the emotional feel of it.",
                 hideCloseOption: true,
                 options: [
-                    { text: "Tragic - a tale of sorrow and loss", key: 'tragic_a_tale_of_sorrow_and_loss', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'tragic'; } },
-                    { text: "Metaphysical - exploring consciousness", key: 'metaphysical_exploring_consciousness', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'metaphysical'; } },
-                    { text: "Romantic - focusing on connections", key: 'romantic_focusing_on_connections', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'romantic'; } },
-                    { text: "Existential - pondering meaning and mortality", key: 'existential_pondering_meaning_and_mortality', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'existential'; } },
-                    { text: "Political - examining power dynamics", key: 'political_examining_power_dynamics', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'political'; } },
-                    { text: "Comical - finding humor in the strange", key: 'comical_finding_humor_in_the_strange', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'comical'; } }
+                    { text: "Tragic — a tale of sorrow and loss", key: 'tragic_a_tale_of_sorrow_and_loss', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'tragic'; } },
+                    { text: "Metaphysical — exploring nature of reality", key: 'metaphysical_exploring_consciousness', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'metaphysical'; } },
+                    { text: "Romantic — focusing on connections", key: 'romantic_focusing_on_connections', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'romantic'; } },
+                    { text: "Existential — pondering meaning of life and mortality", key: 'existential_pondering_meaning_and_mortality', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'existential'; } },
+                    { text: "Political — examining power dynamics", key: 'political_examining_power_dynamics', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'political'; } },
+                    { text: "Comical — finding humor in the strange", key: 'comical_finding_humor_in_the_strange', next: "edgar_book_tone_selected", onSelect: function() { this.bookTone = 'comical'; } }
                 ]
             },
 
@@ -615,12 +778,12 @@ export default class ScreamingCorkScene extends GameScene {
                     // Add journal entry about the protagonist selection
                     let protagonistDescription;
                     switch (this.bookProtagonist) {
-                        case 'tourist': protagonistDescription = 'experiencing the strange city with fresh, confused eyes'; break;
-                        case 'scientist': protagonistDescription = 'delving into the mysteries of the city\'s fungal biology'; break;
-                        case 'misutkenn': protagonistDescription = 'searching for identity and belonging between worlds'; break;
-                        case 'amnesiac': protagonistDescription = 'uncovering their past while wielding unusual abilities'; break;
+                        case 'disoriented tourist': protagonistDescription = 'experiencing the strange city with fresh, confused eyes'; break;
+                        case 'bad scientist': protagonistDescription = 'delving into the mysteries of the city\'s fungal biology'; break;
+                        case 'mišutkenn': protagonistDescription = 'searching for identity and belonging between worlds'; break;
+                        case 'strange amnesiac': protagonistDescription = 'uncovering their past while wielding unusual abilities'; break;
                         case 'fungal colony': protagonistDescription = 'a collective consciousness experiencing individuality'; break;
-                        case 'detective': protagonistDescription = 'solving mysteries by entering people\'s dreams'; break;
+                        case 'dream detective': protagonistDescription = 'solving mysteries by entering people\'s dreams'; break;
                         case 'rogue Ludarch': protagonistDescription = 'the last reality-bending game designer, haunted by the wars they helped start'; break;
                         case 'living collective': protagonistDescription = 'millions of tiny beings pretending to be one person, experiencing the big world for the first time'; break;
                         default: protagonistDescription = 'navigating the complexities of Upper Morkezela'; break;
@@ -659,7 +822,7 @@ export default class ScreamingCorkScene extends GameScene {
             // Setting selected dialog
             edgar_book_setting_selected: {
                 hideCloseOption: true,
-                text: "What an evocative setting! It creates the perfect atmosphere and provides so many narrative possibilities.",
+                text: "What an excellent setting! It creates the perfect atmosphere and provides so many narrative possibilities.",
                 options: [
                     { text: "Let's see what book we've created", key: 'lets_see_what_book_weve_created', next: "edgar_book_completion" }
                 ],
@@ -694,8 +857,12 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Final book completion dialog
             edgar_book_completion: {
-                // Use a placeholder - the actual title will be replaced in the onTrigger function
-                text: `"${this.generateBookTitle()}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. It will be about ${this.bookProtagonist} and the genre will be ${this.bookGenre}, I like that. Nice touch with the overall ${this.bookTone} book tone. The setting is ${this.bookSetting}, very original. I think we have an ultimate hit in our hands! Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`,
+                // Assembled at show time from the player's picks. Localized here (like the Guardian's
+                // dynamic lines) because the cs dialog file can't template — its `text: ""` was ignored
+                // and the whole payoff showed in English. Labels come from BOOK_LABELS, not raw ids.
+                text: cs
+                    ? `„${this.generateBookTitle('cs')}"... To je dokonalé! Spojuje všechny prvky do něčeho soudržného, a přitom překvapivého. Už vidím, jak se celý příběh rýsuje. Hlavní postava: ${this.bookLabel('protagonist', 'cs')}. Žánr: ${this.bookLabel('genre', 'cs')} — to se mi líbí. A ten celkově ${this.bookLabel('tone', 'cs')} tón, pěkný tah. Prostředí: ${this.bookLabel('setting', 'cs')}, velmi originální. Myslím, že máme v rukou trhák! Děkuji, příteli. Pomohl jste mi najít můj spisovatelský hlas. Pustím se do toho hned. Až to vyjde, dostanete první výtisk, slibuji.`
+                    : `"${this.generateBookTitle()}"... This is perfect! It combines all the elements into something cohesive yet surprising. I can see the whole narrative taking shape already. It will be about ${this.bookLabel('protagonist')} and the genre will be ${this.bookLabel('genre')}, I like that. Nice touch with the overall ${this.bookLabel('tone')} book tone. The setting is ${this.bookLabel('setting')}, very original. I think we have an ultimate hit on our hands! Thank you, my friend. You've helped me find my voice as a writer. I'll start working on it right away. When it's published, you'll get the first copy, I promise.`,
                 options: [
                     { text: "I look forward to reading it", key: 'i_look_forward_to_reading_it', next: "edgar_book_farewell" },
                     { text: "Make sure to credit me as co-author", key: 'make_sure_to_credit_me_as_coauthor', next: "edgar_book_farewell" }
@@ -708,21 +875,25 @@ export default class ScreamingCorkScene extends GameScene {
                     this.questSystem.updateQuest('edgar_book', 'You have helped Edgar Eskola develop his book concept. He is very grateful to you.', 'completed');
                     this.questSystem.completeQuest('edgar_book');
 
-                    // Add journal entry about the completed book
-                    let topicsText = '';
-                    if (this.bookTopics.length > 0) {
-                        topicsText = 'Drawing inspiration from ' +
-                            this.bookTopics.map(t => t.text.toLowerCase()).join(', ') +
-                            ', ';
-                    }
+                    // Journal entry about the completed book. Built at runtime from the picks, so it
+                    // is localized here (lang/*/journal.js can't template); topic labels come back
+                    // translated through the same lookup the dialog options use.
+                    const topicLabels = LanguageSystem.getInstance().translateDialog(
+                        this.scene.key, 'edgar_book_topics',
+                        { options: this.bookTopics.map(t => ({ text: t.text, key: t.id })) }
+                    ).options.map(o => o.text);
+                    const L = (kind) => this.bookLabel(kind, cs ? 'cs' : 'en');
+                    const bookTitleCs = this.generateBookTitle('cs');
+                    const shownTitle = cs ? bookTitleCs : bookTitle;
+                    const journalTitle = cs ? `Edgarova kniha: „${shownTitle}"` : `Edgar's Book: "${shownTitle}"`;
+                    const journalText = cs
+                        ? `Pomohl jsem Edgaru Eskolovi vymyslet koncept jeho knihy. ${topicLabels.length ? 'Inspirovali jsme se tématy: ' + topicLabels.map(t => `„${t}"`).join(', ') + '. ' : ''}Žánr: ${L('genre')}, tón: ${L('tone')}. Hlavní postava: ${L('protagonist')}. Prostředí: ${L('setting')}. Edgar knihu nazval „${shownTitle}" a vypadal, že se do psaní opravdu těší. Slíbil mi první výtisk, až vyjde.`
+                        : `I helped Edgar Eskola develop his book concept. ${topicLabels.length ? 'Drawing inspiration from ' + topicLabels.map(t => t.toLowerCase()).join(', ') + ', ' : ''}we created a ${L('tone')} ${L('genre')} featuring ${L('protagonist')} in ${L('setting')}. Edgar titled it "${bookTitle}" and seemed genuinely inspired to begin writing. He promised me the first copy when it's published.`;
 
                     this.addJournalEntry(
                         'edgar_book_completed',
-                        `Edgar's Book: "${bookTitle}"`,
-                        `I helped Edgar Eskola develop his book concept. ${topicsText}we created a ${this.bookTone} ${this.bookGenre.replace('_', ' ')} 
-                        featuring a ${this.bookProtagonist.replace('_', ' ')} in ${this.bookSetting.replace('_', ' ')}. 
-                        Edgar titled it "${bookTitle}" and seemed genuinely inspired to begin writing. 
-                        He promised me the first copy when it's published.`,
+                        journalTitle,
+                        journalText,
                         this.journalSystem.categories.EVENTS,
                         {
                             character: 'Edgar Eskola',
@@ -731,7 +902,8 @@ export default class ScreamingCorkScene extends GameScene {
                             quest_status: 'completed',
                             // Persist the chosen book variant so later scenes (e.g. the
                             // Day 1 nightlife cutscene) can reference the exact book.
-                            book_title: bookTitle,
+                            book_title: bookTitle,       // EN — the nightlife cutscene captions are English
+                            book_title_cs: bookTitleCs,
                             book_genre: this.bookGenre,
                             book_tone: this.bookTone,
                             book_protagonist: this.bookProtagonist,
@@ -740,18 +912,15 @@ export default class ScreamingCorkScene extends GameScene {
                         }
                     );
                     
-                    // Check if the player has the vestigel quest and was promised the vestigel
-                    if (this.questSystem.getQuest('the_three_vestigels')) {
-                        // Next dialog will give the vestigel
-                        this.dialogContent.edgar_book_farewell.text = "I should get to work now. The ideas are flowing, and I don't want to lose them. Oh, and as promised, here's the vestigel. It's of more use to you than to me. Thank you again for your help. Feel free to check in on my progress sometime.";
-                    }
                 }
             },
 
             // Final farewell after completing the book quest
             edgar_book_farewell: {
-        
-                text: "I should get to work now. The ideas are flowing, and I don't want to lose them. Thank you again for your help. Feel free to check in on my progress sometime.",
+                textKey: farewellGivesVestigel ? 'vestigel' : 'plain',
+                text: farewellGivesVestigel
+                    ? "I should get to work now. The ideas are flowing, and I don't want to lose them. Oh, and as promised, here's the vestigel. It's of more use to you than to me. Thank you again for your help. Feel free to check in on my progress sometime."
+                    : "I should get to work now. The ideas are flowing, and I don't want to lose them. Thank you again for your help. Feel free to check in on my progress sometime.",
                 options: [
                     { text: "Good luck, Edgar", key: 'good_luck_edgar', next: "closeDialog" }
                 ],
@@ -804,7 +973,7 @@ export default class ScreamingCorkScene extends GameScene {
             },
             edgar_jobs: {
         
-                text: "Bad timing, mostly. The Scraper took the Rusty Choir and stopped being an official part of the city - no need for a janitor then. The other jobs... well, being a mišutkenn doesn't help with job security in this city.",
+                text: "Bad timing, mostly. The Scraper took the Rust Choir and stopped being an official part of the city — no need for a janitor then. The other jobs... Well, being a mišutkenn doesn't help with job security in this city.",
                 options: [
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
@@ -839,19 +1008,18 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
-                    this.showNotification('Growth increased');
-                    this.modifyGrowthDecay(1, 0);
+                    this.modifyGrowthDecay(1, 0); // the G/D system announces the change itself
                 }
             },
 
             // New vestigel dialog path
             edgar_vestigel: {
         
-                text: "A vestigel? Yes... I do have one. It's a peculiar object, a small small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
+                text: "A vestigel? Yes... I do have one. It's a peculiar object, a small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
                 options: [
                     // Use ternary to determine next dialog based on book quest completion status
-                    { text: "I need it for an important purpose.", key: 'i_need_it_for_an_important_purpose', next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_need" },
-                    { text: "May I have it?", key: 'may_i_have_it', next: this.questSystem.getQuest('edgar_book')?.status === 'completed' ? "edgar_vestigel_give_completed" : "edgar_vestigel_request" },
+                    { text: "I need it for an important purpose.", key: 'i_need_it_for_an_important_purpose', next: bookDone ? "edgar_vestigel_give_completed" : "edgar_vestigel_need" },
+                    { text: "May I have it?", key: 'may_i_have_it', next: bookDone ? "edgar_vestigel_give_completed" : "edgar_vestigel_request" },
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
@@ -862,55 +1030,6 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "What do you need?", key: 'what_do_you_need', next: "edgar_vestigel_convince" },
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
-            },
-            edgar_vestigel_book_offer: {
-                text: "You would do that for me? In exchange for the vestigel... Very well. Here, take it. It's of more use to you than to me, it seems. And I look forward to our literary collaboration.",
-                options: [
-                    { text: "Thank you. I'll help you create something wonderful.", key: 'thank_you_ill_help_you_create_something_wonderful', next: "edgar_vestigel_thanks" }
-                ],
-                onTrigger: () => {
-                    this.questSystem.addQuest(
-                        'edgar_book',
-                        'Help Edgar to write a book',
-                        'Edgar Eskola mentioned he wants to write a book. I should help him.'
-                    );
-
-                    // Create the vestigel item
-                    const vestigelItem = {
-                        id: 'vestigel',
-                        name: 'Writer\'s Vestigel',
-                        description: 'A small, intricately carved token that Edgar found hidden inside a plush toy. It seems to have some mysterious significance.',
-                        icon: 'vestigel',
-                        usable: false,
-                        consumable: false,
-                        value: 0
-                    };
-                    
-                    // Add the vestigel to inventory
-                    this.addItemToInventory(vestigelItem);
-
-                    // Update quest progress
-                    this.questSystem.updateQuest('the_three_vestigels', 'Received a vestigel from Edgar in exchange for helping with his book.', 'edgar_vestigel_acquired');
-
-                    // Growth increase
-                    this.showNotification('Growth increased');
-                    this.modifyGrowthDecay(1, 0);
-
-                    // Add journal entry about receiving the vestigel
-                    this.addJournalEntry(
-                        'edgar_vestigel_received',
-                        'The Writer\'s Token',
-                        'Today I acquired one of the three vestigels from Edgar Eskola at the Screaming Cork. He gave it to me in exchange for my promise to help him write his book. The vestigel had been hidden inside a plush toy that Edgar had bought from a street vendor. He mentioned that the vendor refused to take it back when offered, citing "professional honor." The vestigel itself is small but intricately carved, clearly valuable to someone who knows its purpose.',
-                        this.journalSystem.categories.EVENTS,
-                        {
-                            character: 'Edgar Eskola',
-                            location: 'Screaming Cork',
-                            item: 'Vestigel',
-                            quest: 'the_three_vestigels',
-                            importance: 'high'
-                        }
-                    );
-                }
             },
             edgar_vestigel_request: {
         
@@ -925,7 +1044,7 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Hmm...",
                 options: [
                     // Determine which option to show based on book quest status
-                    ...(this.questSystem.getQuest('edgar_book')?.status === 'completed' ? [
+                    ...(bookDone ? [
                         { text: "I already helped you write your book.", key: 'i_already_helped_you_write_your_book', next: "edgar_vestigel_give_completed" }
                     ] : this.questSystem.getQuest('edgar_book') ? [
                         { text: "I could help with your book, as we discussed earlier.", key: 'i_could_help_with_your_book_as_we_discussed_earlie', next: "edgar_vestigel_book_help" }
@@ -935,28 +1054,8 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
-            edgar_vestigel_book_help: {
-                text: "Ah yes, the book. I've been thinking more about it since we talked. If you're serious about helping me with it, I could part with the vestigel. It seems like a fair exchange.",
-                options: [
-                    { text: "I'll definitely help you write something meaningful.", key: 'ill_definitely_help_you_write_something_meaningful', next: "edgar_vestigel_book_offer" }
-                ],
-                onTrigger: () => {
-                    // Add journal entry about this decision point
-                    this.addJournalEntry(
-                        'edgar_book_vestigel_path',
-                        'Literary Exchange',
-                        'Edgar seems more enthusiastic about his book than holding onto the vestigel. This is the perfect opportunity to obtain one of the three vestigels I need while also helping him fulfill his dream of becoming a writer.',
-                        this.journalSystem.categories.EVENTS,
-                        {
-                            character: 'Edgar Eskola',
-                            location: 'Screaming Cork',
-                            quests: ['the_three_vestigels', 'edgar_book']
-                        }
-                    );
-                }
-            },
             edgar_vestigel_offer: {
-                text: "Hmm... maybe you could help me with something. Do you know something about literature? I would like to become... a writer. But I don't know where to start. You would help me with that? I've been struggling to find a voice, a story worth telling. If you could truly help me...",
+                text: "Hmm... maybe you could help me with something. Do you know something about literature? I would like to become... a writer. But I don't know where to start. Would you help me with that? I've been struggling to find a voice, a story worth telling. If you could truly help me...",
                 options: [
                     { text: "I'll do my best.", key: 'ill_do_my_best', next: "edgar_vestigel_thanks" }
                 ],
@@ -983,7 +1082,7 @@ export default class ScreamingCorkScene extends GameScene {
                 }
             },
             edgar_vestigel_book_help: {
-                text: "Yes, you did offer to help with my book. A fair exchange - your help for the vestigel. I've been collecting ideas but haven't made much progress.",
+                text: "Yes, you did offer to help with my book. A fair exchange — your help for the vestigel. I've been collecting ideas but haven't made much progress.",
                 options: [
                     { text: "I'll make sure your book becomes a reality.", key: 'ill_make_sure_your_book_becomes_a_reality', next: "edgar_vestigel_thanks" }
                 ]
@@ -1040,9 +1139,8 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
-                    this.showNotification('Growth increased');
                     this.modifyGrowthDecay(1, 0);
-                    
+
                     // Only update the quest state if we haven't already received the vestigel
                     if (!this.hasItem('vestigel')) {
                         this.questSystem.updateQuest('the_three_vestigels', 'Edgar Eskola would trade the Vestigel for your help with his book.', 'edgar_book_trade');
@@ -1067,7 +1165,7 @@ export default class ScreamingCorkScene extends GameScene {
 
             // Before the finale: Edgar's secret way into the Egg Cathedral
             edgar_cathedral_way: {
-                text: "The ursine creature goes very still — the way animals do when they hear something moving under the floor. \"...The Egg Cathedral. Yes. I've thought about that place more than most have.\" He lowers his voice. \"I swept its service corridors. Oiled its lift-cages. Carried out its ash. Nobody watches the one who carries out the ash. And I learned a thing the priests never did: everyone was looking for the main entrance. The great doors. The Sentinel. The Veil. I always looked for the places where something doesn't quite seal. And that shell is not dead, whatever the Bishop's seal says. Some nights, the walls breathe.\"",
+                text: "The ursine creature goes very still — the way animals do when they hear something potentially dangerous. \"The Egg Cathedral… Yes. I've thought about that place more than most have.\" He lowers his voice. \"I swept its corridors. Oiled its lift-cages. Carried out its ash. Nobody watches the one who carries out the ash. And I learned a thing the priests never did: everyone was using the main entrance. The great doors. The Sentinel. I always looked for the hidden places. Some nights, the walls breathe.\"",
                 options: [
                     { text: "The walls breathe?", key: 'the_walls_breathe', next: "edgar_cathedral_breathe" },
                     { text: "Then show me the way in.", key: 'then_show_me_the_way_in', next: "edgar_cathedral_path" },
@@ -1075,14 +1173,14 @@ export default class ScreamingCorkScene extends GameScene {
                 ]
             },
             edgar_cathedral_breathe: {
-                text: "\"Breathe. In and out, slow, like a thing dreaming. The service floors under the Yolk were meant to be dead space — drainage, cold rooms, storage nobody funds. They aren't dead. Something down there is warm, and it was getting warmer, and I stopped taking that shift before the sealing because I'd rather keep my nerves. But the passages are still there. Seals rot. And a shell — a shell cracks from the inside. That's the whole point of a shell.\"",
+                text: "\"They're breathing. In and out, slowly, as if something were sleeping there. Everyone thinks the cathedral's cellars are just a dead, empty space where nothing exists. But I don't think they're dead. There's something down there. Honestly, I stopped working there because I got scared. I have no idea if those corridors have changed in any way since then — you'll have to see for yourself.\"",
                 options: [
                     { text: "So there is a way in.", key: 'so_there_is_a_way_in', next: "edgar_cathedral_path" },
                     { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_cathedral_path: {
-                text: "\"There is. Behind the old ash-chute on the north face, where the shell meets the dead-god strata — the masons never finished sealing it, because the ground kept shifting under them. A gap the width of a bear's shoulders, if you don't mind the smell of the underneath. Go before the Fruiting. Whatever's waking in there won't leave a gap open for long.\" He hesitates, one great paw flat on the table. \"Be careful. I'm the one who notices what nobody else does. I'd rather not end up the last one who noticed you.\"",
+                text: "\"There is. On the north side, where the cathedral wall meets the dead gods strata, there is a spot where the ground is constantly shifting, creating a narrow passage. A gap the width of a bear's shoulders, if you don't mind the smell of the underneath. You'd better go right away. Whatever's waking in there won't leave a gap open for long.\" He hesitates, one great paw flat on the table. \"Be careful. I've always thought of myself as someone who notices things that no one else notices. I wouldn't want to be the last person to see you alive.\"",
                 options: [
                     { text: "Thank you, Edgar.", key: 'thank_you_edgar_cathedral', next: "edgar_start" },
                     { text: "I should go.", key: 'i_should_go', next: "closeDialog" }
@@ -1092,7 +1190,7 @@ export default class ScreamingCorkScene extends GameScene {
                         this.addJournalEntry(
                             'edgar_cathedral_path',
                             'Edgar\'s Secret Way',
-                            'Edgar Eskola — who spent years sweeping the Egg Cathedral\'s service corridors as a janitor — told me of an unofficial way inside, one that ignores the great doors and the Sentinel of the Veil entirely. Behind the old ash-chute on the cathedral\'s north face, where the shell meets the dead-god strata, the masons never finished sealing a gap; the ground kept shifting under them. He says the service floors beneath the Yolk are not the dead space they were meant to be — something down there is warm and growing warmer, and on some nights the walls seem to breathe. "Everyone was looking for the main entrance," he said. "I always looked for the places where something doesn\'t quite seal."',
+                            'Edgar Eskola — who spent years as a janitor in the Egg Cathedral, sweeping its corridors and carrying out its ash — told me of a way inside that ignores the great doors and the Sentinel entirely. On the north side, where the cathedral wall meets the dead-god strata, the ground is constantly shifting and has opened a narrow passage — a gap the width of a bear\'s shoulders. He says the cellars everyone takes for dead space are not dead: something is down there, and some nights the walls breathe. He stopped working there because it frightened him, and he doesn\'t know how the corridors have changed since. "Everyone was using the main entrance," he said. "I always looked for the hidden places."',
                             this.journalSystem.categories.PLACES,
                             { character: 'Edgar Eskola', location: 'Egg Cathedral' }
                         );
@@ -1160,7 +1258,7 @@ export default class ScreamingCorkScene extends GameScene {
         );
 
         // Add a hint about the tavern entrance
-        const doorHint = this.add.text(400, 380, 'Enter Tavern', {
+        const doorHint = this.add.text(400, 380, this.t('ui.hints.enterTavern'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',

@@ -75,6 +75,11 @@ export default {
             close: 'I should go',
         },
 
+        // In-world hints (door labels etc.)
+        hints: {
+            enterTavern: 'Enter Tavern',
+        },
+
         // Inventory
         inventory: {
             title: 'SPORE COLLECTION',

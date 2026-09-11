@@ -75,6 +75,11 @@ export default {
             close: 'Měl bych jít',
         },
 
+        // Nápovědy ve světě (popisky dveří apod.)
+        hints: {
+            enterTavern: 'Vstoupit do hospody',
+        },
+
         // Inventář
         inventory: {
             title: 'SBÍRKA SPOR',

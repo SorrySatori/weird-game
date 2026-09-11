@@ -230,7 +230,7 @@ export default {
         },
         bishop_elphi_contact: {
             title: "The Bishop's Contact with Dr. Elphi",
-            description: 'According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often.',
+            description: 'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often.',
         },
         pith_reclaimers_faction: {
             title: 'The Pith Reclaimers - Keepers of Balance',
@@ -369,7 +369,7 @@ export default {
             description: 'Seldo wants me to buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf — a rare toad that grants three minutes of foresight when licked. In return, he\'ll give me a spare key to the Townhall.',
         },
         edgar_eskola_meeting: {
-            title: 'Edgar Eskola - The Mišutkenn of Screaming Cork',
+            title: 'Edgar Eskola — The Mišutkenn of Screaming Cork',
             description: 'I met Edgar Eskola, a mišutkenn patron at the Screaming Cork.',
         },
         edgar_aspiration: {
@@ -391,6 +391,191 @@ export default {
         edgar_vestigel_agreement: {
             title: 'The Vestigel Bargain',
             description: 'Edgar agreed to give me his vestigel once I help him write his book.',
+        },
+        // --- Edgar's book questline: one entry per possible pick (ids are built at runtime in ScreamingCorkScene) ---
+        'edgar_book_topic_scraper_building': {
+            title: 'Book Inspiration: The mysterious Scraper building',
+            description: 'I suggested the mysterious Scraper building as inspiration for Edgar\'s book — a building that seems to shift and change, with floors that rearrange themselves. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_lift_mother': {
+            title: 'Book Inspiration: The sentient elevator Lift-Mother',
+            description: 'I suggested the sentient elevator Lift-Mother as inspiration for Edgar\'s book — an ancient, conscious elevator that remembers the city\'s history. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_ortolan': {
+            title: 'Book Inspiration: Ortolan, the board game designer',
+            description: 'I suggested ortolan, the board game designer as inspiration for Edgar\'s book — a character who creates complex games and seeks more arms for playtesting. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_dream_queue': {
+            title: 'Book Inspiration: The Dream Queue',
+            description: 'I suggested the Dream Queue as inspiration for Edgar\'s book — a mysterious place where people\'s dreams are processed and stored. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_spore_infection': {
+            title: 'Book Inspiration: The fungal spore infection',
+            description: 'I suggested the fungal spore infection as inspiration for Edgar\'s book — the strange spores that infect people and change them. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_vestigels': {
+            title: 'Book Inspiration: The mysterious vestigels',
+            description: 'I suggested the mysterious vestigels as inspiration for Edgar\'s book — ancient artifacts with unknown powers that I\'m collecting. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_kloor_venn': {
+            title: 'Book Inspiration: The enigmatic Kloor Venn',
+            description: 'I suggested the enigmatic Kloor Venn as inspiration for Edgar\'s book — a character who speaks in riddles and seems to exist in multiple places at once. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_skyships': {
+            title: 'Book Inspiration: The skyships above the city',
+            description: 'I suggested the skyships above the city as inspiration for Edgar\'s book — massive vessels that drift through the clouds for reasons unknown. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_rust_choir': {
+            title: 'Book Inspiration: The mysterious Rust Choir',
+            description: 'I suggested the mysterious Rust Choir as inspiration for Edgar\'s book — a faction that communicates through the vibrations of rusting metal. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_burning_bear': {
+            title: 'Book Inspiration: The Burning Bear Festival',
+            description: 'I suggested the Burning Bear Festival as inspiration for Edgar\'s book — a controversial festival with deep meaning for Edgar. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_board_games_war': {
+            title: 'Book Inspiration: The Board Games War',
+            description: 'I suggested the Board Games War as inspiration for Edgar\'s book — an ancient conflict where Ludarchs — game designers who could rewrite reality — destroyed entire cities as pawns in their games. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_noise_god': {
+            title: 'Book Inspiration: The Noise God',
+            description: 'I suggested the Noise God as inspiration for Edgar\'s book — a forgotten deity that came to die in Upper Morkezela, whose presence still pulses through broken amplifiers and magnetic dust. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_magnekin': {
+            title: 'Book Inspiration: Magnekin — A Civilization in One Body',
+            description: 'I suggested magnekin — A Civilization in One Body as inspiration for Edgar\'s book — a collective of tiny cities held together by magnetic forces, disguised as a single humanoid citizen. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_god_graveyard': {
+            title: 'Book Inspiration: The God Graveyard beneath the city',
+            description: 'I suggested the God Graveyard beneath the city as inspiration for Edgar\'s book — layers of fossilized dead gods lying beneath Upper Morkezela, their prayers turned to strata and halos crystallized into mineral deposits. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_city_mystery': {
+            title: 'Book Inspiration: The mysteries of Upper Morkezela',
+            description: 'I suggested the mysteries of Upper Morkezela as inspiration for Edgar\'s book — the strange city with its fungal growth and unusual inhabitants. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_topic_misutken_life': {
+            title: 'Book Inspiration: Life as a mišutkenn in the city',
+            description: 'I suggested life as a mišutkenn in the city as inspiration for Edgar\'s book — the challenges and perspectives of being different in Upper Morkezela. Edgar seemed intrigued by the concept and jotted down some notes.',
+        },
+        'edgar_book_tone_tragic': {
+            title: 'Book Tone: Tragic',
+            description: 'I suggested that Edgar\'s book should have a tragic tone — a somber exploration of loss and sorrow. He seemed to embrace the idea, considering how it would fit with the inspirations we discussed.',
+        },
+        'edgar_book_tone_metaphysical': {
+            title: 'Book Tone: Metaphysical',
+            description: 'I suggested that Edgar\'s book should have a metaphysical tone — a deep dive into questions of consciousness and reality. He seemed to embrace the idea, considering how it would fit with the inspirations we discussed.',
+        },
+        'edgar_book_tone_romantic': {
+            title: 'Book Tone: Romantic',
+            description: 'I suggested that Edgar\'s book should have a romantic tone — a story focused on connection and love. He seemed to embrace the idea, considering how it would fit with the inspirations we discussed.',
+        },
+        'edgar_book_tone_existential': {
+            title: 'Book Tone: Existential',
+            description: 'I suggested that Edgar\'s book should have a existential tone — a meditation on meaning and mortality. He seemed to embrace the idea, considering how it would fit with the inspirations we discussed.',
+        },
+        'edgar_book_tone_political': {
+            title: 'Book Tone: Political',
+            description: 'I suggested that Edgar\'s book should have a political tone — an examination of power structures and their effects. He seemed to embrace the idea, considering how it would fit with the inspirations we discussed.',
+        },
+        'edgar_book_tone_comical': {
+            title: 'Book Tone: Comical',
+            description: 'I suggested that Edgar\'s book should have a comical tone — a humorous look at the absurdities of life. He seemed to embrace the idea, considering how it would fit with the inspirations we discussed.',
+        },
+        'edgar_book_genre_fungal techno': {
+            title: 'Book Genre: Fungal Techno-Thriller',
+            description: 'I suggested that Edgar write a fungal techno-thriller — combining biotechnology with horror elements. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_genre_postmodern': {
+            title: 'Book Genre: Postmodern Novel',
+            description: 'I suggested that Edgar write a postmodern novel — breaking conventional narrative rules. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_genre_urban fantasy': {
+            title: 'Book Genre: Urban Fantasy',
+            description: 'I suggested that Edgar write an urban fantasy — bringing magical elements into the city setting. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_genre_funny animals': {
+            title: 'Book Genre: Funny Animals with Depression',
+            description: 'I suggested that Edgar write a book about funny animals with depression — using anthropomorphic characters to explore deeper emotions. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_genre_detective': {
+            title: 'Book Genre: Detective Novel',
+            description: 'I suggested that Edgar write a detective novel — following clues to unravel mysteries. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_genre_weird fiction': {
+            title: 'Book Genre: Dreamy Weird Fiction',
+            description: 'I suggested that Edgar write a piece of dreamy weird fiction — blurring the lines between reality and dreams. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_genre_mythic war epic': {
+            title: 'Book Genre: Mythic War Epic',
+            description: 'I suggested that Edgar write a mythic war epic — an epic recounting of ancient wars where games rewrote reality. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_genre_cosmic horror': {
+            title: 'Book Genre: Cosmic Horror',
+            description: 'I suggested that Edgar write a cosmic horror — confronting the terrifying remnants of dead gods and forgotten entities. Edgar seemed to see the potential in using this genre to express his experiences in Upper Morkezela.',
+        },
+        'edgar_book_protagonist_disoriented tourist': {
+            title: 'Book Protagonist: Disoriented Tourist',
+            description: 'I suggested that the main character of Edgar\'s book should be a disoriented tourist — experiencing the strange city with fresh, confused eyes. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_protagonist_bad scientist': {
+            title: 'Book Protagonist: Renegade Scientist',
+            description: 'I suggested that the main character of Edgar\'s book should be a renegade fungal scientist — delving into the mysteries of the city\'s fungal biology. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_protagonist_mišutkenn': {
+            title: 'Book Protagonist: Mišutkenn',
+            description: 'I suggested that the main character of Edgar\'s book should be a mišutkenn seeking identity — searching for identity and belonging between worlds. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_protagonist_strange amnesiac': {
+            title: 'Book Protagonist: Amnesiac',
+            description: 'I suggested that the main character of Edgar\'s book should be an amnesiac with strange abilities — uncovering their past while wielding unusual abilities. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_protagonist_fungal colony': {
+            title: 'Book Protagonist: Fungal Colony',
+            description: 'I suggested that the main character of Edgar\'s book should be a sentient fungal colony — a collective consciousness experiencing individuality. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_protagonist_dream detective': {
+            title: 'Book Protagonist: Dream Detective',
+            description: 'I suggested that the main character of Edgar\'s book should be a dream detective — solving mysteries by entering people\'s dreams. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_protagonist_rogue Ludarch': {
+            title: 'Book Protagonist: Rogue Ludarch',
+            description: 'I suggested that the main character of Edgar\'s book should be a rogue Ludarch — the last reality-bending game designer, haunted by the wars they helped start. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_protagonist_living collective': {
+            title: 'Book Protagonist: Living Collective',
+            description: 'I suggested that the main character of Edgar\'s book should be a living collective pretending to be one person — millions of tiny beings pretending to be one person, experiencing the big world for the first time. Edgar seemed excited about developing this character for his story.',
+        },
+        'edgar_book_setting_scraper': {
+            title: 'Book Setting: The Scraper',
+            description: 'I suggested that Edgar\'s book should be set in the Scraper\'s shifting floors — a mysterious building with floors that rearrange themselves. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
+        },
+        'edgar_book_setting_magical school': {
+            title: 'Book Setting: The Magical School',
+            description: 'I suggested that Edgar\'s book should be set in a murderous magical school — a magical school where kids die every year under suspicious circumstances — except the main protagonist, of course. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
+        },
+        'edgar_book_setting_immortal mammal': {
+            title: 'Book Setting: The Immortal Mammal',
+            description: 'I suggested that Edgar\'s book should be set in a giant immortal mammal swimming in the ocean — an enormous creature without a name, swimming eternally in the depths. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
+        },
+        'edgar_book_setting_fungal wilds': {
+            title: 'Book Setting: The Fungal Wilds',
+            description: 'I suggested that Edgar\'s book should be set in the fungal wilds — the untamed areas where fungal growths take their most primordial forms. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
+        },
+        'edgar_book_setting_skyship': {
+            title: 'Book Setting: The Skyship',
+            description: 'I suggested that Edgar\'s book should be set in a skyship above the clouds — a vessel drifting above the clouds, isolated yet connected to the city below. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
+        },
+        'edgar_book_setting_markets': {
+            title: 'Book Setting: The Subterranean Markets',
+            description: 'I suggested that Edgar\'s book should be set in the subterranean markets — the underground commercial spaces where anything can be traded. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
+        },
+        'edgar_book_setting_living board game': {
+            title: 'Book Setting: The Living Board Game',
+            description: 'I suggested that Edgar\'s book should be set in a war-torn board game that became real — a war-torn board game that became real, its miniaturized world now populated by sentient pawns. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
+        },
+        'edgar_book_setting_god graveyard': {
+            title: 'Book Setting: The God Graveyard',
+            description: 'I suggested that Edgar\'s book should be set in the graveyard of dead gods — the fossilized layers of dead gods beneath the city, where prayers turned to stone and halos became crystal. Edgar seemed inspired by this location and how it would interact with the story\'s other elements.',
         },
         feral_toast_performance: {
             title: 'Feral Toast Concert',
@@ -670,7 +855,7 @@ export default {
         },
         edgar_cathedral_path: {
             title: 'Edgar\'s Secret Way',
-            description: 'Edgar Eskola — who spent years sweeping the Egg Cathedral\'s service corridors as a janitor — told me of an unofficial way inside, one that ignores the great doors and the Sentinel of the Veil entirely. Behind the old ash-chute on the cathedral\'s north face, where the shell meets the dead-god strata, the masons never finished sealing a gap; the ground kept shifting under them. He says the service floors beneath the Yolk are not the dead space they were meant to be — something down there is warm and growing warmer, and on some nights the walls seem to breathe. "Everyone was looking for the main entrance," he said. "I always looked for the places where something doesn\'t quite seal."',
+            description: 'Edgar Eskola — who spent years as a janitor in the Egg Cathedral, sweeping its corridors and carrying out its ash — told me of a way inside that ignores the great doors and the Sentinel entirely. On the north side, where the cathedral wall meets the dead-god strata, the ground is constantly shifting and has opened a narrow passage — a gap the width of a bear\'s shoulders. He says the cellars everyone takes for dead space are not dead: something is down there, and some nights the walls breathe. He stopped working there because it frightened him, and he doesn\'t know how the corridors have changed since. "Everyone was using the main entrance," he said. "I always looked for the hidden places."',
         },
         edgar_vestigel_received_after_book: {
             title: 'The Writer\'s Token',

@@ -436,7 +436,7 @@ export default class VoxMarket extends GameScene {
                     if (this.questSystem.getQuest('find_bishop')) {
                         this.questSystem.updateQuest(
                             'find_bishop',
-                            'According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
+                            'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
                             'elphi_contact'
                         );
                         this.showNotification('Quest Updated: Find the Bishop');
@@ -445,7 +445,7 @@ export default class VoxMarket extends GameScene {
                         this.addJournalEntry(
                             'bishop_elphi_contact',
                             'The Bishop\'s Contact with Dr. Elphi',
-                            'According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
+                            'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
                             this.journalSystem.categories.EVENTS,
                         );
                     }

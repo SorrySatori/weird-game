@@ -241,12 +241,14 @@ export default class GameScene extends Phaser.Scene {
             this.registry.set('growthDecaySystem', growthDecaySystem);
             
             growthDecaySystem.on('growthChanged', (amount) => {
-                const message = amount > 0 ? 'Growth increased!' : 'Growth decreased!';
+                const i18n = LanguageSystem.getInstance();
+                const message = amount > 0 ? i18n.t('notifications.growthIncreased') : i18n.t('notifications.growthDecreased');
                 this.showNotification(message, amount > 0 ? 0x00ff00 : 0xff0000);
             });
             
             growthDecaySystem.on('decayChanged', (amount) => {
-                const message = amount > 0 ? 'Decay increased!' : 'Decay decreased!';
+                const i18n = LanguageSystem.getInstance();
+                const message = amount > 0 ? i18n.t('notifications.decayIncreased') : i18n.t('notifications.decayDecreased');
                 this.showNotification(message, amount > 0 ? 0x8b4513 : 0x00ff00);
             });
         }

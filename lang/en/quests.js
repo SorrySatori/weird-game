@@ -9,7 +9,7 @@ export default {
             description: 'The Fungal Master has tasked me with finding the Bishop at the Egg Cathedral. She might know about the distress call received from the city via the myceliar network. I need to speak with her to learn more.',
             updates: {
                 vestigel: 'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.',
-                elphi_contact: "According to Kloor Venn, the Bishop visited Dr. Elpi Quarn quite often... I should look for Dr. Elphi at the Scraper 1140.",
+                elphi_contact: "According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often... I should look for Dr. Elphi at the Scraper 1140.",
                 bishop_clue_gnur: "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.",
                 edgar_eskola_clue: 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.',
                 bishop_location_scraper: 'The Bishop was last seen heading to Scraper 1140 to meet with Dr. Elphi.',
