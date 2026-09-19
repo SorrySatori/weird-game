@@ -227,8 +227,8 @@ export default class GameScene extends Phaser.Scene {
         
         // Initialize Money System
         this.moneySystem = new MoneySystem(this, {
-            initialAmount: 25, // Start with 25 gold
-            currencyName: 'gold',
+            initialAmount: 25, // Start with 25 dinar
+            currencyName: 'dinar',
             position: {
                 x: 700,
                 y: 50
@@ -1499,7 +1499,7 @@ export default class GameScene extends Phaser.Scene {
         if (result) {
             const sign = amount > 0 ? '+' : '';
             this.showNotification(
-                `${result.faction} Reputation ${sign}${amount}`,
+                LanguageSystem.getInstance().t('notifications.reputationChange', { faction: result.faction, sign, change: amount }),
                 result.amount > 0 ? 0xb87333 : 0x8B0000
             );
         }

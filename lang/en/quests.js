@@ -63,7 +63,7 @@ export default {
             title: 'The Three Vestigels',
             description: 'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.',
             updates: {
-                found_eskola_lead: 'Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel.',
+                found_eskola_lead: 'Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can usually be found around the Screaming Cork tavern.',
                 completed: 'I gave the vestigel to Kloor Venn in exchange for information about the Bishop.',
                 edgar_vestigel_acquired: 'Received a vestigel from Edgar Eskola in exchange for helping with his book.',
                 edgar_book_trade: 'Edgar Eskola would trade the Vestigel for your help with his book.',

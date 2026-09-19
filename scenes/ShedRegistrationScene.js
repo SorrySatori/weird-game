@@ -666,7 +666,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_extra_symbiont: {
-                text: "'Extra symbiont slot registration is not actually difficult. Just a form to fill out. And pay a registration fee of 50 gold, of course.'",
+                text: "'Extra symbiont slot registration is not actually difficult. Just a form to fill out. And pay a registration fee of 50 dinar, of course.'",
                 options: [
                     { text: "I'll pay the fee and register for an extra slot.", key: 'ill_pay_the_fee_and_register_for_an_extra_slot', next: "registration_extra_symbiont_pay" },
                     { text: "I change my mind. I would like to register for something else.", key: 'i_change_my_mind_i_would_like_to_register_for_some', next: "registration_reconsider" },
@@ -703,7 +703,7 @@ export default class ShedRegistrationScene extends GameScene {
                                 this.journalSystem.addEntry(
                                     'extra_symbiont_slot_purchased',
                                     'Extra Symbiont Slot',
-                                    'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward - just a form and a fee of 50 gold. Now I can host another symbiont entity within my body.',
+                                    'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward - just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
                                     this.journalSystem.categories.EVENTS,
                                     { location: 'Shed 521 Registration Office' }
                                 );
@@ -717,7 +717,7 @@ export default class ShedRegistrationScene extends GameScene {
                         }
                     } else {
                         // Not enough money
-                        this.showNotification('Not enough gold!');
+                        this.showNotification(this.t('notifications.notEnoughMoney'));
                         this.registry.set('symbiont_slot_result', 'no_money');
                     }
                 }
@@ -729,7 +729,7 @@ export default class ShedRegistrationScene extends GameScene {
                         return "'I apologize, but it appears you've already reached the maximum number of symbiont slots allowed by regulation. I've refunded your payment.'";
                     }
                     if (result === 'no_money') {
-                        return "'I'm sorry, but it appears you don't have sufficient funds for this transaction. The fee is 50 gold.'";
+                        return "'I'm sorry, but it appears you don't have sufficient funds for this transaction. The fee is 50 dinar.'";
                     }
                     return "'Your registration is complete. You now have an additional symbiont slot available. Please take care with what entities you choose to host.'";
                 })(),

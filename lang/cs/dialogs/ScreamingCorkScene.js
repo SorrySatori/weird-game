@@ -23,33 +23,33 @@ export default {
         options: {
             why_is_that: "Proč?",
             what_are_miutkenn: "Co jsou mišutkenni?",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_what: {
         text: "Mišutkenni jsou... no, nejsme úplně lidé. Jsme... jiní.",
         options: {
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_prejudice: {
         text: "Historie. Pověry. Strach z toho, co je jiné. Vyberte si. Zakladatelé města vyhnali mé předky z Kopřivových hor. Teď nás jen... tolerují. V lepším případě.",
         options: {
             thats_unfortunate: "To je smutné.",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_unfortunate: {
         text: "Takhle se to dá taky říct. Ale naučil jsem se s tím žít. Většinou se to dá.",
         options: {
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_purpose: {
         text: "Čekám. Pozoruji. Vyhýbám se přípravám na ten proklatý festival. Řvoucí korek je jedno z mála míst, které nejde naplno do toho nesmyslu s pálením medvědů.",
         options: {
             you_dont_like_the_festival: "Vám se festival nelíbí?",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_background: {
@@ -58,14 +58,14 @@ export default {
             professional_imaginator: "Profesionální imaginátor?",
             why_didnt_they_work_out: "Proč to nevyšlo?",
             what_would_you_like_to_do: "Co byste rád dělal?",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_dream_job: {
         text: "Zkoušel jsem všechno. Údržbář. Úředník. Montážník masa. Imaginátor. Ale nikdy jsem nebyl ničím skutečně svým. Myslím... že chci napsat knihu. Ale ještě nevím, o čem.",
         options: {
             i_can_help_you_write_the_book: "Mohu vám s tou knihou pomoct",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_book: {
@@ -196,13 +196,13 @@ export default {
     edgar_imaginator: {
         text: "Vymýšlel jsem lokace a postavy pro hry Dr. Elphi Quarn. Ukázalo se, že moje představivost byla příliš... divoká. Příliš chaotická, říkali. Moje sny byly prý 'nepoužitelné.' Jejich smůla.",
         options: {
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_jobs: {
         text: "Většinou byl problém se špatným načasováním. Škrabák převzal Rezavý chór a přestal být oficiální součástí města — údržbář už nebyl potřeba. Ty ostatní práce... no, být mišutkennem tu moc s hledáním práce nepomáhá.",
         options: {
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_festival: {
@@ -210,26 +210,26 @@ export default {
         options: {
             that_sounds_disturbing: "To se mi moc nelíbí.",
             its_just_tradition_isnt_it: "Je to přece jen tradice, ne?",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_disturbing: {
         text: "To teda. Představte si, že jste obklopen hořícími figurínami, které vypadají jako vaši předkové. Po městě se rozsvítí ohně různých barev a vůní, zatímco já se schovávám a čekám, až to skončí.",
         options: {
             im_sorry_to_hear_that: "To je mi líto.",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_tradition: {
         text: "Tradice? Tradice mohou být kruté. To, že se něco dělá po generace, neznamená, že je to správné. Ale málokdo v tomhle městě by se mnou souhlasil.",
         options: {
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_sympathy: {
         text: "Váš soucit je... nečekaný. Ale díky za něj. Možná není každý v tomhle městě tak bezohledný, jak jsem si myslel.",
         options: {
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_vestigel: {
@@ -237,21 +237,21 @@ export default {
         options: {
             i_need_it_for_an_important_purpose: "Potřebuji ho na něco důležitého.",
             may_i_have_it: "Mohl byste mi ho dát?",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_vestigel_need: {
         text: "Důležitý účel, říkáte? No, já ho vlastně *nepotřebuji*, ale docela se mi líbí. Možná byste pro mě mohl něco udělat na oplátku?",
         options: {
             what_do_you_need: "Co potřebujete?",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_vestigel_request: {
         text: "Jen tak? Víte, že to má nějakou cenu. Nedal bych to pryč bez dobrého důvodu.",
         options: {
             what_would_convince_you_to_part_with_it: "Co by vás přesvědčilo se ho vzdát?",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_vestigel_convince: {
@@ -260,7 +260,7 @@ export default {
             i_already_helped_you_write_your_book: "Už jsem vám pomohl napsat knihu.",
             i_could_help_with_your_book_as_we_discussed_earlie: "Mohl bych pomoct s vaší knihou, jak jsme se bavili dříve.",
             maybe_i_could_help_you_with_something: "Možná bych vám mohl s něčím pomoct.",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_vestigel_book_help: {
@@ -284,7 +284,7 @@ export default {
     edgar_vestigel_thanks: {
         text: "Nezapomeňte na svůj slib. Těším se na to, co spolu vytvoříme. Kniha, která skutečně zachytí podstatu... no, toho, co musíme ještě vymyslet.",
         options: {
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_cathedral_way: {
@@ -292,14 +292,14 @@ export default {
         options: {
             the_walls_breathe: "Zdi dýchají?",
             then_show_me_the_way_in: "Ukažte mi tu cestu dovnitř.",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_cathedral_breathe: {
         text: "\"Dýchají. Nádech a výdech, pomalu, jako by tam něco spalo. Všichni si myslí, že sklepy katedrály jsou jen mrtvý a prázdný prostor, kde nic není. Myslím ale, že mrtvé nejsou. Něco tam dole je. Upřímně, radši jsem tam přestal pracovat, protože jsem dostal strach. Netuším, jestli se ty chodby od té doby nějak proměnily, na to už se budete muset podívat sám.\"",
         options: {
             so_there_is_a_way_in: "Takže cesta dovnitř existuje.",
-            back_to_other_topics: "Zpět k jiným tématům"
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_cathedral_path: {

@@ -31,22 +31,22 @@ export default {
         }
     },
     captainAbout: {
-        text: "Jsem kapitánka Liris, velitelka tohoto plavidla, jak jsem řekla. Jsem na misi pro Lumenový direktoriát, jako obvykle.",
+        text: "Jsem kapitánka Liris, velitelka tohoto plavidla, jak jsem řekla. Jsem na misi pro Lumen Directorate, jako obvykle.",
         options: {
-            what_is_the_lumen_directorate: "Co je Lumenový direktoriát?",
+            what_is_the_lumen_directorate: "Co je Lumen Directorate?",
             other_topics: "Jiná témata",
         }
     },
     captainAccord: {
-        text: "Lumenový direktoriát je mocná organizace, víte? Usilujeme o splynutí mysli a flóry. Jsme strážci a ochránci všeho, co roste. Jsme gardiáni života.",
+        text: "Lumen Directorate je mocná organizace, víte? Usilujeme o splynutí mysli a flóry. Jsme strážci a ochránci všeho, co roste. Jsme gardiáni života.",
         options: {
             other_topics: "Jiná témata",
             what_is_you_mission: "Jaká je vaše mise?",
-            does_lumen_directorate_have_some_enemies: "Má Lumenový direktoriát nějaké nepřátele?"
+            does_lumen_directorate_have_some_enemies: "Má Lumen Directorate nějaké nepřátele?"
         }
     },
     captainMission: {
-        text: "Jsme na misi hledat a sbírat vzácné exempláře pro Lumenový direktoriát. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
+        text: "Jsme na misi hledat a sbírat vzácné exempláře pro Lumen Directorate. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
         options: {
             other_topics: "Jiná témata"
         }
@@ -85,14 +85,14 @@ export default {
         }
     },
     captainTravel: {
-        text: "Možná jednou, příteli. Ale ne na této cestě. Loď si... vybrala svou posádku. Cítím, že ještě není připravena se s vámi spojit. Vraťte se, až prokážete svou hodnotu. Verdigrace je obzvláště vybíravá ohledně toho, koho přijme. Pokud to myslíte vážně, navštivte ústředí Lumenového direktoriátu ve městě a zeptejte se na vstup do posádky. Mohli by pro vás mít nějaké úkoly, abyste prokázal svou oddanost.",
+        text: "Možná jednou, příteli. Ale ne na této cestě. Loď si... vybrala svou posádku. Cítím, že ještě není připravena se s vámi spojit. Vraťte se, až prokážete svou hodnotu. Verdigrace je obzvláště vybíravá ohledně toho, koho přijme. Pokud to myslíte vážně, navštivte ústředí Lumen Directorate ve městě a zeptejte se na vstup do posádky. Mohli by pro vás mít nějaké úkoly, abyste prokázal svou oddanost.",
         options: {
-            where_can_i_find_the_lumen_directorate_headquarter: "Kde najdu ústředí Lumenového direktoriátu?",
+            where_can_i_find_the_lumen_directorate_headquarter: "Kde najdu ústředí Lumen Directorate?",
             other_topics: "Jiná témata"
         }
     },
     captainDirectorate: {
-        text: "Ústředí Lumenového direktoriátu se nachází v srdci města, poblíž hlavního náměstí. Je to pořádná budova, nemůžete ji minout.",
+        text: "Ústředí Lumen Directorate se nachází v srdci města, poblíž hlavního náměstí. Je to pořádná budova, nemůžete ji minout.",
         options: {
             thank_you_i_have_some_other_questions: "Děkuji! Mám ještě další otázky."
         }
@@ -146,7 +146,7 @@ export default {
         }
     },
     lirisRecords: {
-        text: "Tady — aktuální mapa proti poslednímu průzkumu direktoriátu. Obrys se změnil víc, než by dokázalo vysvětlit počasí. Vzory světla písma se posouvají a pak se ustálí do nových tvarů, pokaždé uspořádanějších než ty minulé. Konstrukční hmota neustále roste, hlídku za hlídkou. Zmapovala jsem bouře, migrace, celé kolonie rozpouštějící se ve spory — vím, jak vypadá věc, která umírá, a vím, jak vypadá věc, která se k něčemu propracovává. Ta katedrála se propracovává. Pomalu, trpělivě, k tvaru, který nám ještě neukázala.",
+        text: "Tady — aktuální mapa proti poslednímu průzkumu Direktorátu. Obrys se změnil víc, než by dokázalo vysvětlit počasí. Vzory světla písma se posouvají a pak se ustálí do nových tvarů, pokaždé uspořádanějších než ty minulé. Konstrukční hmota neustále roste, hlídku za hlídkou. Zmapovala jsem bouře, migrace, celé kolonie rozpouštějící se ve spory — vím, jak vypadá věc, která umírá, a vím, jak vypadá věc, která se k něčemu propracovává. Ta katedrála se propracovává. Pomalu, trpělivě, k tvaru, který nám ještě neukázala.",
         options: {
             what_happens_when_i_come_back_out: "Co se stane, až vyjdu ven?",
             other_topics: "Jiná témata"

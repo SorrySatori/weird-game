@@ -14,7 +14,7 @@ export default {
             ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?",
             perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?",
             brukk_ask_graft: "Dokázal by mi Chór udělat místo pro dalšího symbionta? Zaplatím.",
-            warn_rust_of_lumen: "Lumen Direktoriát mě poslal sabotovat vaše stroje. Radši tě varuju.",
+            warn_rust_of_lumen: "Lumen Direktorát mě poslal sabotovat vaše stroje. Radši tě varuju.",
             brukk_spy_probe: "[Rozmluvit Brukka] Ty stroje — na co doopravdy čekají?",
             brukk_spy_osswine: "[Osswine · Hrobový smysl] (Přečíst mlčenlivé stroje, které Chór opatruje.)",
             brukk_spy_betray: "[Zrada] Poslal mě špehovat vás gang mluvících lamp. Radši budu jednat s vámi.",
@@ -22,15 +22,15 @@ export default {
         }
     },
     brukk_warn_lumen: {
-        text: "Brukk úplně znehybní; cvakání v jeho hrudi ustane. \"Zahradníci. Měřiči. Poslali jednoho z našich, aby otrávil Chór.\" Jeho oči rozžhavené jako výheň vzplanou doběla. \"A tys přišel místo toho za mnou.\" Dlouhá, skřípavá odmlka — pak cosi téměř jako vřelost. \"Stroje si to budou pamatovat. Chór nezapomíná na věrnost, bratře. Ani nezapomíná na Direktoriát.\"\n\nVtiskne ti do dlaně těžkou, olejově černou minci. \"Vezmi si ji. A vezmi si naši důvěru — vzácnější než jakákoli mince. Až přijde zúčtování s Direktoriátem, Chór bude vědět, čí stranu sis vybral.\"",
+        text: "Brukk úplně znehybní; cvakání v jeho hrudi ustane. \"Zahradníci. Měřiči. Poslali jednoho z našich, aby otrávil Chór.\" Jeho oči rozžhavené jako výheň vzplanou doběla. \"A tys přišel místo toho za mnou.\" Dlouhá, skřípavá odmlka — pak cosi téměř jako vřelost. \"Stroje si to budou pamatovat. Chór nezapomíná na věrnost, bratře. Ani nezapomíná na Direktorát.\"\n\nVtiskne ti do dlaně těžkou, olejově černou minci. \"Vezmi si ji. A vezmi si naši důvěru — vzácnější než jakákoli mince. Až přijde zúčtování s Direktorátem, Chór bude vědět, čí stranu sis vybral.\"",
         options: {
             warn_rust_done: "Strojů se ani nedotknou."
         }
     },
     brukk_graft_slot: {
-        text: "Brukkovy oči rozžhavené jako výheň přejedou po tvých žebrech, jako by četl výkres. \"Místo. Ano. Mrtvá patra jsou plná pouzder — schránek, které staří manažeři vypěstovali a nikdy nenaplnili. Můžu jedno strhnout, zakalit a přivařit ti ho do těla. Udrží dalšího jezdce.\" Nízké zaskřípění, možná smích. \"Chór tohle pro cizí nedělá. Pro tebe — čtyřicet zlatých, za železo a oheň. Stůj klidně a je to.\"",
+        text: "Brukkovy oči rozžhavené jako výheň přejedou po tvých žebrech, jako by četl výkres. \"Místo. Ano. Mrtvá patra jsou plná pouzder — schránek, které staří manažeři vypěstovali a nikdy nenaplnili. Můžu jedno strhnout, zakalit a přivařit ti ho do těla. Udrží dalšího jezdce.\" Nízké zaskřípění, možná smích. \"Chór tohle pro cizí nedělá. Pro tebe — čtyřicet dinárů, za železo a oheň. Stůj klidně a je to.\"",
         options: {
-            brukk_graft_pay: "Udělej to. (Zaplatit 40 zlatých.)",
+            brukk_graft_pay: "Udělej to. (Zaplatit 40 dinárů.)",
             brukk_graft_decline: "Teď ne."
         }
     },
@@ -218,7 +218,7 @@ export default {
         }
     },
     brukk_feast_poisoned_aftermath: {
-        text: "Brukk klečí mezi mrtvými stroji a seškrabuje zelený povlak ze zničeného spoje. Rozetře si ho mezi prsty a znehybní. \"Kultivar. Direktoriátský kultivar.\" Pomalu vstane a v očích rozžhavených jako výheň má vraždu. \"Nakrmil jsi mé stroje zahradou. Nechal jsi jim v žilách vyrůst hnilobu.\" Jeho hlas klesne do šepotu. \"Zmiz. ZMIZ Z REZAVÉ DOMÉNY. Jestli tě ještě někdy uvidím, zasadím TEBE.\"",
+        text: "Brukk klečí mezi mrtvými stroji a seškrabuje zelený povlak ze zničeného spoje. Rozetře si ho mezi prsty a znehybní. \"Kultivar. direktorátský kultivar.\" Pomalu vstane a v očích rozžhavených jako výheň má vraždu. \"Nakrmil jsi mé stroje zahradou. Nechal jsi jim v žilách vyrůst hnilobu.\" Jeho hlas klesne do šepotu. \"Zmiz. ZMIZ Z REZAVÉ DOMÉNY. Jestli tě ještě někdy uvidím, zasadím TEBE.\"",
         options: {
             im_sorry_poison: "Omlouvám se—",
             leave_immediately_poison: "Okamžitě odejít."

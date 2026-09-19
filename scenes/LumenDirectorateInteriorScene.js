@@ -738,14 +738,14 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 speaker: 'The Angle Corrector',
                 textKey: canRevealEskola ? 'ac_archive_reveal' : 'ac_archive_empty',
                 text: canRevealEskola
-                    ? `You present your clearance. An aide pulls a slim, cross-referenced file without being asked twice. "The plush toy? Acquisitioned by one Edgar Eskola — collector, upper district, frequents the Screaming Cork. Everything is filed, member. Everything." Nothing Hidden, indeed.`
+                    ? `You present your clearance. An aide pulls a slim, cross-referenced file without being asked twice. "The plush toy? Acquisitioned by one Edgar Eskola — collector, frequents the Screaming Cork. Everything is filed, member. Everything." Nothing Hidden, indeed.`
                     : `You present your clearance. The aide riffles through the stacks, then shrugs. "Nothing in the files speaks to what you're chasing today. Come back when you're actually looking for something — we'll have it. We always do."`,
                 options: [
                     { text: "Thank you.", key: 'thank_you_archive', next: "ac_start" },
                 ],
                 onTrigger: () => {
                     if (canRevealEskola) {
-                        this.questSystem.updateQuest('the_three_vestigels', "The Directorate's files named Edgar Eskola as the buyer of the plush toy containing a Vestigel — upper district, frequents the Screaming Cork.", 'found_eskola_lead');
+                        this.questSystem.updateQuest('the_three_vestigels', "The Directorate's files named Edgar Eskola as the buyer of the plush toy containing a Vestigel — frequents the Screaming Cork.", 'found_eskola_lead');
                         this.showNotification('Directorate files: lead uncovered', 0x556B2F);
                     }
                 }
@@ -872,7 +872,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             seldo_auction_details: {
                 speaker: 'Seldo Thrice-Corrected',
-                text: `"The Voxmarket Auction Hall is a sub-level of the main market. Curated sales — rare items, questionable provenance, eccentric buyers. The pre-auction socializing is as important as the bidding.\n\nThe Chrono-Slurry Toadlet will be listed among the lots. You'll need to win the bid. Budget around 80 gold — but there may be competing bidders. Chrono-Slurry Toadlets are popular with gamblers and anyone who's ever missed a deadline by seconds.\n\nI'd suggest arriving early and... managing the competition. Your particular talents might prove useful there. Persuasion, misdirection, whatever it takes — within reason.\n\nBring me the Chrono-Slurry Toadlet, and the Townhall key is yours."`,
+                text: `"The Voxmarket Auction Hall is a sub-level of the main market. Curated sales — rare items, questionable provenance, eccentric buyers. The pre-auction socializing is as important as the bidding.\n\nThe Chrono-Slurry Toadlet will be listed among the lots. You'll need to win the bid. Budget around 80 dinar — but there may be competing bidders. Chrono-Slurry Toadlets are popular with gamblers and anyone who's ever missed a deadline by seconds.\n\nI'd suggest arriving early and... managing the competition. Your particular talents might prove useful there. Persuasion, misdirection, whatever it takes — within reason.\n\nBring me the Chrono-Slurry Toadlet, and the Townhall key is yours."`,
                 hideCloseOption: true,
                 options: [
                     { text: "I'll head to the Voxmarket Auction Hall.", key: 'ill_head_to_the_voxmarket_auction_hall', next: "seldo_auction_accepted" },
@@ -882,7 +882,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             seldo_auction_accepted: {
                 speaker: 'Seldo Thrice-Corrected',
-                text: `"Good. Here's 80 gold for the bidding — that should cover it, though you may need to be creative if the competition drives the price up.\n\nRemember — the Chrono-Slurry Toadlet. Don't let yourself get distracted by the other lots, though I won't judge if you buy something for yourself.\n\nAnd don't mention my name at the auction. I am precisely as invisible as I need to be."`,
+                text: `"Good. Here's 80 dinar for the bidding — that should cover it, though you may need to be creative if the competition drives the price up.\n\nRemember — the Chrono-Slurry Toadlet. Don't let yourself get distracted by the other lots, though I won't judge if you buy something for yourself.\n\nAnd don't mention my name at the auction. I am precisely as invisible as I need to be."`,
                 options: [],
                 onTrigger: (option) => {
                     if (option) return 'closeDialog';
@@ -921,7 +921,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             seldo_auction_remind: {
                 speaker: 'Seldo Thrice-Corrected',
-                text: `"The Voxmarket Auction Hall. A Chrono-Slurry Toadlet. Don't mention my name. Budget around 80 gold — but be prepared to outmaneuver the competition.\n\nThe Townhall key waits for the Chrono-Slurry Toadlet. That's the arrangement."`,
+                text: `"The Voxmarket Auction Hall. A Chrono-Slurry Toadlet. Don't mention my name. Budget around 80 dinar — but be prepared to outmaneuver the competition.\n\nThe Townhall key waits for the Chrono-Slurry Toadlet. That's the arrangement."`,
                 options: [
                     { text: "I'm on it.", key: 'im_on_it', next: "seldo_start" },
                 ]

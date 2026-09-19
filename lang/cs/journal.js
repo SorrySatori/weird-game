@@ -192,8 +192,8 @@ export default {
             description: 'Dr. Elphi potvrdila, že Mručenky jsou kořeněná odrůda.',
         },
         elphi_lumen_lead: {
-            title: 'Stopa Vyšetřování: Lumen Direktoriát',
-            description: 'Dr. Elphi mě nasměrovala k Lumen Direktoriátu.',
+            title: 'Stopa Vyšetřování: Lumen Direktorát',
+            description: 'Dr. Elphi mě nasměrovala k Lumen Direktorátu.',
         },
         elphi_ready_for_day2: {
             title: 'Den 1 Dokončen: Vyšetřování Začíná',
@@ -253,7 +253,7 @@ export default {
         },
         rust_feast_completed_poisoned: {
             title: 'Rezavá Hostina Připravena (Otrávená)',
-            description: 'Než Ravla zamíchala Rezavou hostinu, rozetřel jsem do oleje žíravý kultivar Lumenova direktoriátu. Ničeho si nevšimla — ale až se stroje nakrmí, sežere je zevnitř.',
+            description: 'Než Ravla zamíchala Rezavou hostinu, rozetřel jsem do oleje žíravý kultivar Lumen Directorate. Ničeho si nevšimla — ale až se stroje nakrmí, sežere je zevnitř.',
         },
         ravla_feast_refused_spared: {
             title: 'Ravla Odmítla — Rudá Hmota Ušetřena',
@@ -293,7 +293,7 @@ export default {
         },
         lumen_directorate_faction: {
             title: 'LUMEN DIREKTORIÁT',
-            description: 'Lumen Direktoriát je mocná frakce.',
+            description: 'Lumen Direktorát je mocná frakce.',
         },
         floor_counter_tool: {
             title: 'Kalibrační Nástroj Výtahu',
@@ -301,23 +301,23 @@ export default {
         },
         met_gardener_verrik: {
             title: 'Setkání se Zahradníkem Verrikem',
-            description: 'Potkal jsem zahradníka jménem Verrik před Lumen Direktoriátem.',
+            description: 'Potkal jsem zahradníka jménem Verrik před Lumen Direktorátem.',
         },
         verrik_gave_cultivar: {
-            title: 'Kultivar direktoriátu',
-            description: 'Verrik mi dal zakázaný kultivar direktoriátu — řízenou hnilobu vyšlechtěnou žrát kov. Rozetřený do oleje a předložený strojům Rezavého chóru je zkoroduje zevnitř.',
+            title: 'Kultivar Direktorátu',
+            description: 'Verrik mi dal zakázaný kultivar Direktorátu — řízenou hnilobu vyšlechtěnou žrát kov. Rozetřený do oleje a předložený strojům Rezavého chóru je zkoroduje zevnitř.',
         },
         gardener_bishop_visits: {
-            title: 'Návštěvy Biskupky u Lumen Direktoriátu',
+            title: 'Návštěvy Biskupky u Lumen Direktorátu',
             description: 'Zahradník Verrik prozradil, že Biskupka pravidelně navštěvovala.',
         },
         grew_mushroom_verrik: {
             title: 'Vyrostla Houba pro Verrika',
-            description: 'Obětoval jsem spory u Lumen Direktoriátu a vyrostl houbu.',
+            description: 'Obětoval jsem spory u Lumen Direktorátu a vyrostl houbu.',
         },
         lumen_directorate_joined: {
-            title: 'Člen Lumenova direktoriátu',
-            description: 'Tím, že jsem ochromil strojovou svatyni Rezavého chóru, jsem dokázal svou oddanost růstu nad stagnací. Korektor úhlů mě uvedl jako plného člena Lumenova direktoriátu: Nic skrytého, nic ztraceného.',
+            title: 'Člen Lumen Directorate',
+            description: 'Tím, že jsem ochromil strojovou svatyni Rezavého chóru, jsem dokázal svou oddanost růstu nad stagnací. Korektor úhlů mě uvedl jako plného člena Lumen Directorate: Nic skrytého, nic ztraceného.',
         },
         met_angle_corrector: {
             title: 'Setkání s Korektorem Úhlu',
@@ -361,7 +361,7 @@ export default {
         },
         met_seldo: {
             title: 'Setkání se Seldem Třikrát-Korigovaným',
-            description: 'Setkal jsem se se Seldem Třikrát-Korigovaným ve druhém patře Lumen Direktoriátu. Řeší byrokratickou stykou linku s městem.',
+            description: 'Setkal jsem se se Seldem Třikrát-Korigovaným ve druhém patře Lumen Direktorátu. Řeší byrokratickou stykou linku s městem.',
         },
         seldo_auction_errand: {
             title: 'Seldův Úkol: Aukce na Voxmarketu',
@@ -658,7 +658,7 @@ export default {
         },
         town_square_place: {
             title: 'Náměstí',
-            description: 'Otevřené srdce Horní Morkezely, odkud vedou cesty k radnici, k přístavu, k Lumenskému direktoriátu a dolů do Božího hřbitova. Pouliční muzikant zpívá písně mrtvého světa každému, kdo chce naslouchat. A cosi, co si říká „průměrný, skutečný občan“, se tu poflakuje a mizerně předstírá, že je člověk.',
+            description: 'Otevřené srdce Horní Morkezely, odkud vedou cesty k radnici, k přístavu, k Lumenskému Direktorátu a dolů do Božího hřbitova. Pouliční muzikant zpívá písně mrtvého světa každému, kdo chce naslouchat. A cosi, co si říká „průměrný, skutečný občan“, se tu poflakuje a mizerně předstírá, že je člověk.',
         },
         harbor_place: {
             title: 'Přístav',
@@ -769,8 +769,8 @@ export default {
             description: 'Skrze Brine Scripture jsem četl sůl hrobu Hvétrdjaany — jediného kamene, který ani Phor nedokáže rozluštit, jehož písmo se obrousilo do ztracena. Brine ochutnala přízračný tvar zmizelých písmen a znovu ji vynesla na světlo: bohyně urbzunidů a krobulovitů, strážkyně milosrdného zapomnění, jež snímala tíhu jmen z mrtvých a zahanbených. Když její národy pohasly, zvolila pohasnout s nimi a nechala své vlastní jméno shnít z kamene — ne ztraceno, ale darováno. Bohyně zapomenutých, která na sebe zapomněla poslední ze všech.',
         },
         perspective_lumen: {
-            title: 'Pohled Direktoriátu — Nechte to dovršit',
-            description: 'Korektor Úhlu nechce, aby byla mysl ve Vaječné katedrále zničena. Pro Luminózní direktoriát je rodící se bůh přirozeným dalším krokem života — překročením hranice, k němuž po generace směřovali. Chtějí, aby DOVRŠILo své vzejití, ne aby bylo zastaveno. Nebezpečí, které jsem vytušil: chtějí pomáhat příliš. Možná urychlí něco, čemu nerozumějí — tentýž chybný výklad, který zabil Biskupku, jen ve větším měřítku.',
+            title: 'Pohled Direktorátu — Nechte to dovršit',
+            description: 'Korektor Úhlu nechce, aby byla mysl ve Vaječné katedrále zničena. Pro Luminózní Direktorát je rodící se bůh přirozeným dalším krokem života — překročením hranice, k němuž po generace směřovali. Chtějí, aby DOVRŠILo své vzejití, ne aby bylo zastaveno. Nebezpečí, které jsem vytušil: chtějí pomáhat příliš. Možná urychlí něco, čemu nerozumějí — tentýž chybný výklad, který zabil Biskupku, jen ve větším měřítku.',
         },
         seldo_townhall_key: {
             title: 'Klíč od Radnice od Selda',
@@ -950,11 +950,11 @@ export default {
         },
         rust_choir_warned_of_lumen: {
             title: 'Varování pro Chór',
-            description: 'Lumen Direktoriát mě pověřil zničením strojů Rezavého chóru. Místo toho jsem varoval Brukka. Chór mě teď považuje za věrného — a Direktoriát si značí k zúčtování. Po tomhle už není návratu k Direktoriátu.',
+            description: 'Lumen Direktorát mě pověřil zničením strojů Rezavého chóru. Místo toho jsem varoval Brukka. Chór mě teď považuje za věrného — a Direktorát si značí k zúčtování. Po tomhle už není návratu k Direktorátu.',
         },
         lumen_surplus_harvested: {
             title: 'Přebytečný květ',
-            description: 'Záhony Direktoriátu byly tak přerostlé, že jeden květ dozrál a neměl už co živit. Sklidil jsem ho — hrst živých spor. Náklon města k růstu zanechal víc života, než dokázali využít i zahradníci.',
+            description: 'Záhony Direktorátu byly tak přerostlé, že jeden květ dozrál a neměl už co živit. Sklidil jsem ho — hrst živých spor. Náklon města k růstu zanechal víc života, než dokázali využít i zahradníci.',
         },
         met_lamp_don: {
             title: 'Don Girandole',
@@ -993,8 +993,8 @@ export default {
             description: 'Místo abych Torchèrovo pašované zboží donesl do jeho tajné schránky, dal jsem Wimlick Rezavému chóru. Brukk to hodlá rozložit a prostudovat. Torchère se nikdy nemusí dozvědět, kam jeho balíček doopravdy zmizel.',
         },
         gang_eavesdrop_betrayed: {
-            title: 'Udal jsem to Direktoriátu',
-            description: 'Místo abych pro Chandelier odposlouchával, řekl jsem Korektorovi úhlů, že mě poslaly lampy. Direktoriát byl chladně vděčný — a nakrmil mě vyrobeným „tajemstvím“, které mám odnést zpět jí. Bude z té lži nadšená.',
+            title: 'Udal jsem to Direktorátu',
+            description: 'Místo abych pro Chandelier odposlouchával, řekl jsem Korektorovi úhlů, že mě poslaly lampy. Direktorát byl chladně vděčný — a nakrmil mě vyrobeným „tajemstvím“, které mám odnést zpět jí. Bude z té lži nadšená.',
         },
         gang_dossier_recovered: {
             title: 'Zahrabaný spis',
@@ -1006,7 +1006,7 @@ export default {
         },
         gang_lamps_destroyed: {
             title: 'Gang je pryč',
-            description: 'Předal jsem Direktoriátu pašované zboží a řekl jim, odkud pochází. Neváhali. Do soumraku byla každá z Gangu lamp — Don Girandole, Chandelier, Torchère, malá Sconce — tiše stažena ze svého stanoviště a zničena, jejich okruh navždy pohasl. Direktoriát je vděčný. Město je o něco tišší. Ať už mi Don cokoli schovával, pohaslo to s ním.',
+            description: 'Předal jsem Direktorátu pašované zboží a řekl jim, odkud pochází. Neváhali. Do soumraku byla každá z Gangu lamp — Don Girandole, Chandelier, Torchère, malá Sconce — tiše stažena ze svého stanoviště a zničena, jejich okruh navždy pohasl. Direktorát je vděčný. Město je o něco tišší. Ať už mi Don cokoli schovával, pohaslo to s ním.',
         },
     }
 };

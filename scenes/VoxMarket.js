@@ -65,7 +65,7 @@ export default class VoxMarket extends GameScene {
                 text: "'The name's Kloor Venn. I'm a... pharmaceutical entrepreneur. I deal in specialized substances that expand the mind.' He taps his temple and grins.",
                 options: [
                     { text: "What kind of substances?", key: 'what_kind_of_substances', next: "kloor_substances" },
-                    { text: "Back", key: 'back', next: "kloor_start" }
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             
@@ -73,7 +73,7 @@ export default class VoxMarket extends GameScene {
                 text: "'I specialize in Oltrac - a rare psychoactive compound derived from certain... biological materials.' He eyes your fungal growths with interest. 'Materials not unlike what you seem to be carrying around.'",
                 options: [
                     { text: "Tell me more about Oltrac", key: 'tell_me_more_about_oltrac', next: "kloor_oltrac" },
-                    { text: "Back", key: 'back', next: "kloor_start" }
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             
@@ -82,7 +82,7 @@ export default class VoxMarket extends GameScene {
                 options: [
                     { text: "I want to buy some", key: 'i_want_to_buy_some', next: "kloor_shop" },
                     { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
-                    { text: "Back", key: 'back', next: "kloor_start" }
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             
@@ -91,7 +91,7 @@ export default class VoxMarket extends GameScene {
                 options: [
                     { text: "Show me what you have", key: 'show_me_what_you_have', next: "kloor_shop" },
                     { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
-                    { text: "Back", key: 'back', next: "kloor_start" }
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             
@@ -168,7 +168,7 @@ export default class VoxMarket extends GameScene {
 
             
             kloor_gray_oltrac_8: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 8 gold coins. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 8 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -178,7 +178,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_gray_oltrac_16: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 16 gold coins. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 16 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -188,7 +188,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_gray_oltrac_24: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 24 gold coins. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 24 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -198,7 +198,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_violet_oltrac_15: {
-                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 15 gold coins with a grin. 'Very good business indeed.'",
+                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 15 dinar with a grin. 'Very good business indeed.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -208,7 +208,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_violet_oltrac_30: {
-                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 30 gold coins with a grin. 'Very good business indeed.'",
+                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 30 dinar with a grin. 'Very good business indeed.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -218,7 +218,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_violet_oltrac_45: {
-                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 45 gold coins with a grin. 'Very good business indeed.'",
+                text: "Kloor's eyes light up as he examines your spores. 'Excellent quality! I can make Violet Oltrac with these.' He hands you 45 dinar with a grin. 'Very good business indeed.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -228,7 +228,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_25: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 25 gold coins. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 25 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -238,7 +238,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_50: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 50 gold coins. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 50 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -248,7 +248,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_75: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 75 gold coins. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 75 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -302,7 +302,7 @@ export default class VoxMarket extends GameScene {
             kloor_sulkberry_sure: {
                 text: `'My reputation IS my livelihood.' Kloor looks almost offended. 'I've been analyzing alkaloid compounds since before the Directorate started growing these premium batches. I know what contamination looks like — in the color shift, in the crystalline structure, in the way the oils separate.\n\nThese berries are pristine. The Bishop didn't die from eating them. Look elsewhere.'`,
                 options: [
-                    { text: "Back", key: 'back', next: "kloor_start" },
+                    { text: "Ask something else", key: 'back', next: "kloor_start" },
                 ]
             },
 
@@ -311,7 +311,7 @@ export default class VoxMarket extends GameScene {
                 options: [
                     { text: "Do you know where she went?", key: 'do_you_know_where_she_went', next: "kloor_bishop_location" },
                     { text: "What was she trading?", key: 'what_was_she_trading', next: "kloor_bishop_trading" },
-                    { text: "Back", key: 'back', next: "kloor_start" }
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             
@@ -458,7 +458,7 @@ export default class VoxMarket extends GameScene {
                 text: "Kloor eyes you thoughtfully. 'Rust Choir headquarters, huh? That's not exactly public knowledge. But... I might be able to help you out. For a price, of course.'",
                 options: [
                     { text: "What do you need?", key: 'what_do_you_need', next: "rustDomain_price" },
-                    ...(this.registry.get('reputationSystem')?.getFactionReputation('rust_choir') >= 50 ? [
+                    ...((this.registry.get('factionSystem')?.getReputation('RustChoir') ?? 0) >= 50 ? [
                         { text: "Come on, I did some favors for the Rust Choir already. We are practically comrades.", key: 'come_on_i_did_some_favors_for_the_rust_choir_alrea', next: "factionAppeal" }
                     ] : []),
                     { text: "Never mind, I have other questions.", key: 'never_mind_i_have_other_questions', next: "kloor_start" }
@@ -756,6 +756,7 @@ export default class VoxMarket extends GameScene {
         // Create shop system
         this.shopSystem = new ShopSystem(this, {
             shopName: "Kloor's Oltrac Emporium",
+            shopKey: 'kloor',
             inventory: shopInventory,
             position: {
                 x: 400,
@@ -830,7 +831,7 @@ export default class VoxMarket extends GameScene {
         
         // Add money to player
         this.moneySystem.add(paymentAmount);
-        this.showNotification(`+${paymentAmount} gold`);
+        this.showNotification(`+${paymentAmount} dinar`);
         
         // Determine which dialog to show based on the result
         let dialogId;

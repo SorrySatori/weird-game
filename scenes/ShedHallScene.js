@@ -20,7 +20,7 @@ export default class ShedHallScene extends GameScene {
             examine: {
                 text: "The Living Core seems delicately connected to its surroundings. With the right tools, like a pair of pliers, you might be able to extract it without causing damage...",
                 options: [
-                    { text: "Back", key: 'back', next: "main" }
+                    { text: "Ask something else", key: 'back', next: "main" }
                 ]
             },
             force_extract: {

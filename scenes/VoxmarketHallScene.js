@@ -103,7 +103,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_lots: {
                 speaker: 'Hesh & Vell',
-                text: `"Today's lots include," Hesh begins, and Vell's delayed echo makes the list sound like a chant:\n\n"A jar of Compressed Nostalgia — memories of a place that never existed. Starting at 30 gold.\n\nOne Chrono-Slurry Toadlet — prophetic amphibian, three-minute foresight window. Starting at 60 gold.\n\nA set of Self-Sharpening Bureaucratic Quills — they fill in the correct answer on any official form. Starting at 45 gold.\n\nA Brine Scripture membrane — dormant symbiont tissue preserved in mineral saline. Starting price pending verification.\n\nAnd the evening's centerpiece: a Fossilized Dream Egg from the Cathedral excavation. Starting at 120 gold."\n\nVell finally catches up and both twins smile simultaneously. That part, at least, is perfectly synchronized.`,
+                text: `"Today's lots include," Hesh begins, and Vell's delayed echo makes the list sound like a chant:\n\n"A jar of Compressed Nostalgia — memories of a place that never existed. Starting at 30 dinar.\n\nOne Chrono-Slurry Toadlet — prophetic amphibian, three-minute foresight window. Starting at 60 dinar.\n\nA set of Self-Sharpening Bureaucratic Quills — they fill in the correct answer on any official form. Starting at 45 dinar.\n\nA Brine Scripture membrane — dormant symbiont tissue preserved in mineral saline. Starting price pending verification.\n\nAnd the evening's centerpiece: a Fossilized Dream Egg from the Cathedral excavation. Starting at 120 dinar."\n\nVell finally catches up and both twins smile simultaneously. That part, at least, is perfectly synchronized.`,
                 options: [
                     ...(hasAuctionErrand ? [{ text: "Tell me more about the Chrono-Slurry Toadlet.", key: 'tell_me_more_about_the_chronoslurry_toadlet', next: "twins_toadlet" }] : []),
                     ...(hasAuctionErrand && !auctionComplete ? [{ text: "I'm ready to begin the auction.", key: 'im_ready_to_begin_the_auction', next: "auction_start" }] : []),
@@ -116,8 +116,8 @@ export default class VoxmarketHallScene extends GameScene {
                 speaker: 'Hesh & Vell',
                 textKey: twinsToadletTextKey,
                 text: confusedTwins
-                    ? `"The Toadlet, yes," Hesh says. Vell's mouth moves but the timing is wrong — too early, then too late, then skipping words entirely. "Starting bid is... forty gold." Hesh frowns briefly, as if the number surprised even them. "It's a... popular lot. Several interested parties."\n\nTheir usual rhythm is broken. The price they quoted is lower than the listed amount — their pacing manipulation isn't working properly.`
-                    : `"Ah, the Toadlet," says Hesh with practiced interest. Vell's lips form the words with theatrical precision. "A fine specimen. Three minutes of perfect foresight upon lingual contact. Very popular with bureaucrats, gamblers, and the chronically indecisive.\n\nStarting bid: 60 gold. But expect competition — we have at least two serious bidders already registered. The final price... well." Both twins smile. "That depends on the room."`,
+                    ? `"The Toadlet, yes," Hesh says. Vell's mouth moves but the timing is wrong — too early, then too late, then skipping words entirely. "Starting bid is... forty dinar." Hesh frowns briefly, as if the number surprised even them. "It's a... popular lot. Several interested parties."\n\nTheir usual rhythm is broken. The price they quoted is lower than the listed amount — their pacing manipulation isn't working properly.`
+                    : `"Ah, the Toadlet," says Hesh with practiced interest. Vell's lips form the words with theatrical precision. "A fine specimen. Three minutes of perfect foresight upon lingual contact. Very popular with bureaucrats, gamblers, and the chronically indecisive.\n\nStarting bid: 60 dinar. But expect competition — we have at least two serious bidders already registered. The final price... well." Both twins smile. "That depends on the room."`,
                 options: [
                     { text: "Who else is bidding on it?", key: 'who_else_is_bidding_on_it', next: "twins_competitors" },
                     { text: "I'll be ready when bidding starts.", key: 'ill_be_ready_when_bidding_starts', next: "closeDialog" },
@@ -230,7 +230,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_bidding: {
                 speaker: 'Sister Calyx',
-                text: `"The Fossilized Dream Egg, primarily. Cathedral artifacts carry concentrated pith — decades of accumulated essence compressed into stone. Our chapter could study it for years.\n\nBut I have secondary interest in the Chrono-Slurry Toadlet as well. Prophetic amphibians produce a unique pith signature when their foresight activates. Very valuable for our temporal extraction research.\n\nI have a budget of 150 gold. I intend to use it strategically."`,
+                text: `"The Fossilized Dream Egg, primarily. Cathedral artifacts carry concentrated pith — decades of accumulated essence compressed into stone. Our chapter could study it for years.\n\nBut I have secondary interest in the Chrono-Slurry Toadlet as well. Prophetic amphibians produce a unique pith signature when their foresight activates. Very valuable for our temporal extraction research.\n\nI have a budget of 150 dinar. I intend to use it strategically."`,
                 options: [
                     ...(hasAuctionErrand ? [{ text: "The Toadlet is mine. I'm bidding on it too.", key: 'the_toadlet_is_mine_im_bidding_on_it_too', next: "calyx_toadlet_rival" }] : []),
                     { text: "That's a serious budget.", key: 'thats_a_serious_budget', next: "calyx_budget" },
@@ -240,7 +240,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_toadlet_rival: {
                 speaker: 'Sister Calyx',
-                text: `She narrows her eyes. "You want the Toadlet? Interesting. It's not exactly a casual purchase — prophetic amphibians require specialized care. Or do you just want to lick it and peer three minutes ahead like everyone else?\n\nI won't pretend I'll step aside. The chapter needs that pith signature. But the Dream Egg is my priority — if the Toadlet drives too high, I may have to choose.\n\nUnless you can convince me the Toadlet isn't worth my gold."`,
+                text: `She narrows her eyes. "You want the Toadlet? Interesting. It's not exactly a casual purchase — prophetic amphibians require specialized care. Or do you just want to lick it and peer three minutes ahead like everyone else?\n\nI won't pretend I'll step aside. The chapter needs that pith signature. But the Dream Egg is my priority — if the Toadlet drives too high, I may have to choose.\n\nUnless you can convince me the Toadlet isn't worth my dinar."`,
                 options: [
                     { text: "What would convince you to drop the Toadlet bid?", key: 'what_would_convince_you_to_drop_the_toadlet_bid', next: "calyx_negotiate" },
                     { text: "May the best bidder win.", key: 'may_the_best_bidder_win', next: "calyx_challenge" },
@@ -293,7 +293,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_budget: {
                 speaker: 'Sister Calyx',
-                text: `"The chapter doesn't fund half-measures. When we identify a pith source worth acquiring, we acquire it. 150 gold is modest by Reclaimer standards — some chapters send delegations with ten times that.\n\nBut Upper Morkezela is a small chapter. We're... cautious with allocations. Which is why I need to bid strategically, not emotionally."`,
+                text: `"The chapter doesn't fund half-measures. When we identify a pith source worth acquiring, we acquire it. 150 dinar is modest by Reclaimer standards — some chapters send delegations with ten times that.\n\nBut Upper Morkezela is a small chapter. We're... cautious with allocations. Which is why I need to bid strategically, not emotionally."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]
@@ -318,7 +318,7 @@ She produces a folded document from her sleeve — brittle, official, stamped in
                 speaker: 'Sister Calyx',
                 text: `"The custodial charter names the guardian at the veil — the Sentinel. His flesh was given to the plants and his mind to the mycelial network so he could hold *one instruction* across centuries without drift. Clerks forget. Guardians do not."
 
-She reads it flatly, the way Reclaimers read everything: as inventory. "'The keeper shall admit the reverent, the curious, and the poor. The keeper shall bar only the *acquisitive* — any who approach the sacred growth intending ownership, patent, or claim.' Not thieves of gold. Thieves of *authorship*."
+She reads it flatly, the way Reclaimers read everything: as inventory. "'The keeper shall admit the reverent, the curious, and the poor. The keeper shall bar only the *acquisitive* — any who approach the sacred growth intending ownership, patent, or claim.' Not thieves of coin. Thieves of *authorship*."
 
 "Everyone remembers the Sentinel as a door. He was written as a filter. That distinction is the whole case."`,
                 options: [
@@ -774,12 +774,12 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                 speaker: 'Hesh & Vell',
                 textKey: brineBidTextKey,
                 text: brineBidTextKey === 'auction_brine_low'
-                    ? `The Brine Scripture membrane glistens under the lamps, but your earlier work has soured the room. The Heir's embryos drift out of rhythm; Lune distrusts the emotional provenance; even the twins' cadence cannot sharpen the appetite.\n\nStill, the Heir raises one translucent hand at 28 gold, and Lune answers with a reluctant nod at 32. Hesh tries to build momentum, but Vell mouths the wrong number and the room laughs under its breath. You lift your hand once more.\n\nThe bidding collapses quickly. Final price: ${brinePrice} gold.`
+                    ? `The Brine Scripture membrane glistens under the lamps, but your earlier work has soured the room. The Heir's embryos drift out of rhythm; Lune distrusts the emotional provenance; even the twins' cadence cannot sharpen the appetite.\n\nStill, the Heir raises one translucent hand at 28 dinar, and Lune answers with a reluctant nod at 32. Hesh tries to build momentum, but Vell mouths the wrong number and the room laughs under its breath. You lift your hand once more.\n\nThe bidding collapses quickly. Final price: ${brinePrice} dinar.`
                     : (brineBidTextKey === 'auction_brine_medium'
-                        ? `The Brine Scripture draws cautious interest. The Heir watches it with tidal recognition, Lune listens for its emotional aftertaste, and a few anonymous paddles rise from the back rows.\n\nThe Heir bids first. Lune counters. Someone behind a veil adds five gold without moving their face. Your manipulations have softened the room, but not silenced it, and you have to keep your hand up through three careful raises.\n\nFinal price: ${brinePrice} gold.`
-                        : `The Brine Scripture wakes the room in a wet whisper. The Heir leans forward. Lune's glass hearts brighten. Somewhere, a bidder you never met raises three fingers from behind a veil.\n\nThe Heir and Lune trade bids until Hesh's voice sharpens into performance. You enter late, then have to outlast a veiled collector who seems to bid by pulse alone. The competition stays fierce.\n\nFinal price: ${brinePrice} gold.`),
+                        ? `The Brine Scripture draws cautious interest. The Heir watches it with tidal recognition, Lune listens for its emotional aftertaste, and a few anonymous paddles rise from the back rows.\n\nThe Heir bids first. Lune counters. Someone behind a veil adds five dinar without moving their face. Your manipulations have softened the room, but not silenced it, and you have to keep your hand up through three careful raises.\n\nFinal price: ${brinePrice} dinar.`
+                        : `The Brine Scripture wakes the room in a wet whisper. The Heir leans forward. Lune's glass hearts brighten. Somewhere, a bidder you never met raises three fingers from behind a veil.\n\nThe Heir and Lune trade bids until Hesh's voice sharpens into performance. You enter late, then have to outlast a veiled collector who seems to bid by pulse alone. The competition stays fierce.\n\nFinal price: ${brinePrice} dinar.`),
                 options: [
-                    { text: `Pay ${brinePrice} gold and host the Brine Scripture.`, key: 'pay_brine_price_and_host_the_brine_scripture', next: "auction_brine_buy" },
+                    { text: `Pay ${brinePrice} dinar and host the Brine Scripture.`, key: 'pay_brine_price_and_host_the_brine_scripture', next: "auction_brine_buy" },
                     { text: "Stop bidding and let it go.", key: 'stop_bidding_and_let_it_go', next: "auction_brine_skip" },
                 ],
                 hideCloseOption: true,
@@ -847,14 +847,14 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                 speaker: 'Hesh & Vell',
                 textKey: toadletBidTextKey,
                 text: toadletBidTextKey === 'auction_toadlet_high'
-                    ? `The Chrono-Slurry Toadlet blinks from its glass bowl, already disappointed by the next three minutes. The room surges. Calyx stays sharp, Lune tastes panic in the air, and the Heir's embryos turn as one.\n\nCalyx opens at 60 before Hesh finishes the sentence. Lune pushes to 70 for the panic-flavor. The Heir answers with a silent hand at 82. Your preparations barely dent the competition, and you have to fight for every raise.\n\nFinal price: ${toadletPrice} gold.`
+                    ? `The Chrono-Slurry Toadlet blinks from its glass bowl, already disappointed by the next three minutes. The room surges. Calyx stays sharp, Lune tastes panic in the air, and the Heir's embryos turn as one.\n\nCalyx opens at 60 before Hesh finishes the sentence. Lune pushes to 70 for the panic-flavor. The Heir answers with a silent hand at 82. Your preparations barely dent the competition, and you have to fight for every raise.\n\nFinal price: ${toadletPrice} dinar.`
                     : (toadletBidTextKey === 'auction_toadlet_average'
-                        ? `The Chrono-Slurry Toadlet's throat pulses once, and half the room imagines being three minutes less foolish. Calyx hesitates. Lune doubts the flavor. The twins' rhythm catches, then slips.\n\nCalyx still tests you with one professional bid at 65. Lune follows at 72, more curious than committed. You answer both, and neither quite wants to spend enough to keep going. Your social work pays off just enough.\n\nFinal price: ${toadletPrice} gold.`
+                        ? `The Chrono-Slurry Toadlet's throat pulses once, and half the room imagines being three minutes less foolish. Calyx hesitates. Lune doubts the flavor. The twins' rhythm catches, then slips.\n\nCalyx still tests you with one professional bid at 65. Lune follows at 72, more curious than committed. You answer both, and neither quite wants to spend enough to keep going. Your social work pays off just enough.\n\nFinal price: ${toadletPrice} dinar.`
                         : (toadletBidTextKey === 'auction_toadlet_soft'
-                            ? `The Toadlet arrives into a weakened room. Calyx's priorities are compromised, Lune's certainty is spoiled, and the Heir's inner school cannot agree which light to follow.\n\nEven so, Calyx cannot resist one clipped bid at 60, and the Heir flickers a reply before losing the rhythm. You counter. Hesh waits for more hands, but none rise with confidence.\n\nBids rise, but slowly. Final price: ${toadletPrice} gold.`
-                            : `The Toadlet should have caused a stampede. Instead, the hall stutters: twins desynchronized, rivals rattled, appetites redirected. Even the silence under the stairwell feels like it is holding its breath.\n\nCalyx makes one damaged, almost reflexive bid. The Heir's hand lifts, trembles, and drops. Lune smiles as if the room has become too loud to taste. You raise your hand, and the remaining competition folds into embarrassed coughs.\n\nThe lot falls almost gently. Final price: ${toadletPrice} gold.`)),
+                            ? `The Toadlet arrives into a weakened room. Calyx's priorities are compromised, Lune's certainty is spoiled, and the Heir's inner school cannot agree which light to follow.\n\nEven so, Calyx cannot resist one clipped bid at 60, and the Heir flickers a reply before losing the rhythm. You counter. Hesh waits for more hands, but none rise with confidence.\n\nBids rise, but slowly. Final price: ${toadletPrice} dinar.`
+                            : `The Toadlet should have caused a stampede. Instead, the hall stutters: twins desynchronized, rivals rattled, appetites redirected. Even the silence under the stairwell feels like it is holding its breath.\n\nCalyx makes one damaged, almost reflexive bid. The Heir's hand lifts, trembles, and drops. Lune smiles as if the room has become too loud to taste. You raise your hand, and the remaining competition folds into embarrassed coughs.\n\nThe lot falls almost gently. Final price: ${toadletPrice} dinar.`)),
                 options: [
-                    { text: `Pay ${toadletPrice} gold and claim the Chrono-Slurry Toadlet.`, key: 'pay_toadlet_price_and_claim_the_chronoslurry_toadlet', next: "auction_toadlet_buy" },
+                    { text: `Pay ${toadletPrice} dinar and claim the Chrono-Slurry Toadlet.`, key: 'pay_toadlet_price_and_claim_the_chronoslurry_toadlet', next: "auction_toadlet_buy" },
                     { text: "Let the Toadlet go.", key: 'let_the_toadlet_go', next: "auction_toadlet_lost" },
                 ],
                 hideCloseOption: true,
@@ -1160,7 +1160,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         const testingGold = 2000;
         this.addMoney(testingGold);
         this.registry.set('voxmarketAuctionTestingFundsGranted', true);
-        this.showNotification(`Testing funds granted: +${testingGold} gold`);
+        this.showNotification(`Testing funds granted: +${testingGold} dinar`);
     }
 
     getAuctionPressure() {
@@ -1257,7 +1257,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.addJournalEntry(
             'auction_brine_scripture_won',
             'Won the Brine Scripture',
-            `Bought the Brine Scripture membrane at the Voxmarket Auction for ${price} gold. It bonded as a symbiont and grants Salt Recall — the ability to read mineral residue and old place-memory.`,
+            `Bought the Brine Scripture membrane at the Voxmarket Auction for ${price} dinar. It bonded as a symbiont and grants Salt Recall — the ability to read mineral residue and old place-memory.`,
             this.journalSystem.categories.EVENTS,
             { location: 'Voxmarket Auction Hall', price }
         );
@@ -1297,13 +1297,13 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.addJournalEntry(
             'seldo_auction_success',
             'Won the Chrono-Slurry Toadlet',
-            `Won Seldo's Chrono-Slurry Toadlet at the Voxmarket Auction for ${price} gold. The final price reflected how much the other guests and auctioneers had been manipulated before bidding began.`,
+            `Won Seldo's Chrono-Slurry Toadlet at the Voxmarket Auction for ${price} dinar. The final price reflected how much the other guests and auctioneers had been manipulated before bidding began.`,
             this.journalSystem.categories.EVENTS,
             { location: 'Voxmarket Auction Hall', price }
         );
         this.questSystem.updateQuest(
             'enter_townhall',
-            `I won the Chrono-Slurry Toadlet at the Voxmarket Auction for ${price} gold. I should return it to Seldo Thrice-Corrected at the Lumen Directorate for the Townhall key.`,
+            `I won the Chrono-Slurry Toadlet at the Voxmarket Auction for ${price} dinar. I should return it to Seldo Thrice-Corrected at the Lumen Directorate for the Townhall key.`,
             'seldo_auction_success'
         );
         return 'auction_toadlet_won';

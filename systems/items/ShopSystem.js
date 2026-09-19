@@ -50,6 +50,19 @@ export default class ShopSystem {
         
         console.log(`Shop system initialized: ${this.options.shopName}`);
     }
+
+    // ---- i18n helpers: everything shown to the player goes through the scene's t(); the English
+    // strings on the items / options stay as fallbacks so a missing key never blanks the UI.
+    t(key, params = {}, fallback = '') {
+        if (typeof this.scene?.t !== 'function') return fallback;
+        const v = this.scene.t(key, params);
+        return (v === key || v === undefined || typeof v !== 'string') ? fallback : v;
+    }
+    title() { return this.options.shopKey ? this.t(`shop.names.${this.options.shopKey}`, {}, this.options.shopName) : this.options.shopName; }
+    itemName(item) { return this.t(`shop.items.${item.id}.name`, {}, item.name); }
+    itemDescription(item) { return this.t(`shop.items.${item.id}.description`, {}, item.description || this.t('shop.noDescription', {}, 'No description available.')); }
+    balanceText() { return this.t('shop.balance', { amount: this.scene.getMoney() }, `Dinar: ${this.scene.getMoney()}`); }
+    priceText(price) { return this.t('shop.price', { price }, `Price: ${price} dinar`); }
     
     /**
      * Create the shop UI
@@ -77,7 +90,7 @@ export default class ShopSystem {
         const title = this.scene.add.text(
             0, 
             -this.options.height/2 + 25, 
-            this.options.shopName, 
+            this.title(), 
             {
                 fontFamily: 'Arial',
                 fontSize: '24px',
@@ -123,7 +136,7 @@ export default class ShopSystem {
         this.moneyText = this.scene.add.text(
             -this.options.width/2 + 20, 
             -this.options.height/2 + 25, 
-            `Gold: ${this.scene.getMoney()}`, 
+            this.balanceText(), 
             {
                 fontFamily: 'Arial',
                 fontSize: '18px',
@@ -152,7 +165,7 @@ export default class ShopSystem {
         buyBg.setStrokeStyle(2, 0xFFD700);
         this.buyTab.add(buyBg);
         
-        const buyText = this.scene.add.text(0, 0, 'Buy', {
+        const buyText = this.scene.add.text(0, 0, this.t('shop.buy', {}, 'Buy'), {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: '#FFFFFF'
@@ -169,7 +182,7 @@ export default class ShopSystem {
         sellBg.setStrokeStyle(2, 0x888888);
         this.sellTab.add(sellBg);
         
-        const sellText = this.scene.add.text(0, 0, 'Sell', {
+        const sellText = this.scene.add.text(0, 0, this.t('shop.sell', {}, 'Sell'), {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: '#FFFFFF'
@@ -237,7 +250,7 @@ export default class ShopSystem {
         const listTitle = this.scene.add.text(
             -this.options.width/4, 
             -this.options.height/2 + 100, 
-            this.currentTab === 'buy' ? 'Items for Sale' : 'Your Items', 
+            this.currentTab === 'buy' ? this.t('shop.forSale', {}, 'Items for Sale') : this.t('shop.yourItems', {}, 'Your Items'), 
             {
                 fontFamily: 'Arial',
                 fontSize: '18px',
@@ -281,7 +294,7 @@ export default class ShopSystem {
             const nameText = this.scene.add.text(
                 -itemWidth/2 + 10, 
                 -10, 
-                item.name, 
+                this.itemName(item), 
                 {
                     fontFamily: 'Arial',
                     fontSize: '16px',
@@ -298,7 +311,7 @@ export default class ShopSystem {
             const priceText = this.scene.add.text(
                 -itemWidth/2 + 10, 
                 10, 
-                `Price: ${price} gold`, 
+                this.priceText(price), 
                 {
                     fontFamily: 'Arial',
                     fontSize: '14px',
@@ -367,7 +380,7 @@ export default class ShopSystem {
         const nameText = this.scene.add.text(
             0, 
             -this.options.height/2 + 140, 
-            item.name, 
+            this.itemName(item), 
             {
                 fontFamily: 'Arial',
                 fontSize: '20px',
@@ -382,7 +395,7 @@ export default class ShopSystem {
         const descText = this.scene.add.text(
             0, 
             -this.options.height/2 + 180, 
-            item.description || 'No description available.', 
+            this.itemDescription(item), 
             {
                 fontFamily: 'Arial',
                 fontSize: '16px',
@@ -398,7 +411,7 @@ export default class ShopSystem {
         const priceText = this.scene.add.text(
             0, 
             -this.options.height/2 + 250, 
-            `Price: ${price} gold`, 
+            this.priceText(price), 
             {
                 fontFamily: 'Arial',
                 fontSize: '18px',
@@ -472,7 +485,7 @@ export default class ShopSystem {
     buyItem(item, price) {
         // Check if player has enough money
         if (!this.scene.hasEnoughMoney(price)) {
-            this.scene.showNotification('Not enough gold!', 'error');
+            this.scene.showNotification(this.t('notifications.notEnoughMoney', {}, 'Not enough dinar!'), 'error');
             return;
         }
         
@@ -483,7 +496,7 @@ export default class ShopSystem {
         this.scene.addItemToInventory({...item});
         
         // Show notification
-        this.scene.showNotification(`Purchased: ${item.name}`);
+        this.scene.showNotification(this.t('notifications.purchased', { item: this.itemName(item) }, `Purchased: ${this.itemName(item)}`));
         
         // Update money display
         this.updateMoneyDisplay();
@@ -506,7 +519,7 @@ export default class ShopSystem {
     sellItem(item, price) {
         // Remove item from inventory
         if (!this.scene.removeItemFromInventory(item.id)) {
-            this.scene.showNotification('Failed to sell item', 'error');
+            this.scene.showNotification(this.t('notifications.failedToSell', {}, 'Failed to sell item'), 'error');
             return;
         }
         
@@ -514,7 +527,7 @@ export default class ShopSystem {
         this.scene.addMoney(price);
         
         // Show notification
-        this.scene.showNotification(`Sold: ${item.name}`, '', `+${price} gold`);
+        this.scene.showNotification(this.t('notifications.sold', { item: this.itemName(item) }, `Sold: ${this.itemName(item)}`), '', this.t('notifications.moneyGain', { amount: price }, `+${price} dinar`));
         
         // Update money display
         this.updateMoneyDisplay();
@@ -532,7 +545,7 @@ export default class ShopSystem {
      */
     updateMoneyDisplay() {
         if (this.moneyText) {
-            this.moneyText.setText(`Gold: ${this.scene.getMoney()}`);
+            this.moneyText.setText(this.balanceText());
         }
     }
     

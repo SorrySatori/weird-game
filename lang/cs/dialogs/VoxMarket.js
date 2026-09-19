@@ -22,14 +22,14 @@ export default {
         text: "'Jmenuji se Kloor Venn. Jsem... farmaceutický podnikatel. Obchoduji se specializovanými látkami, které rozšiřují mysl.' Poklepe si na spánek a ušklíbne se.",
         options: {
             what_kind_of_substances: "Jaké látky?",
-            back: "Zpět"
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_substances: {
         text: "'Specializuji se na Oltrac — vzácnou psychoaktivní sloučeninu získávanou z určitých... biologických materiálů.' Se zájmem si prohlíží tvé houbové výrůstky. 'Materiálů nepodobných tomu, co zjevně nosíš s sebou.'",
         options: {
             tell_me_more_about_oltrac: "Řekněte mi víc o Oltracu",
-            back: "Zpět"
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_oltrac: {
@@ -37,7 +37,7 @@ export default {
         options: {
             i_want_to_buy_some: "Chci něco koupit",
             i_could_sell_you_some_spores: "Mohl bych vám prodat nějaké spory",
-            back: "Zpět"
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_selling: {
@@ -45,7 +45,7 @@ export default {
         options: {
             show_me_what_you_have: "Ukažte, co máte",
             i_could_sell_you_some_spores: "Mohl bych vám prodat nějaké spory",
-            back: "Zpět"
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_shop: {
@@ -91,39 +91,39 @@ export default {
         }
     },
     kloor_gray_oltrac_8: {
-        text: "Kloor pečlivě prozkoumá vaše spory a pak přikývne. 'Tyhle poslouží na Šedý Oltrac — běžné zboží. Ujde to.' Podá vám 8 zlatých mincí. 'Rádo se obchoduje.'",
+        text: "Kloor pečlivě prozkoumá vaše spory a pak přikývne. 'Tyhle poslouží na Šedý Oltrac — běžné zboží. Ujde to.' Podá vám 8 dinárů. 'Rádo se obchoduje.'",
         options: { "Thanks": "Díky" }
     },
     kloor_gray_oltrac_16: {
-        text: "Kloor pečlivě prozkoumá vaše spory a pak přikývne. 'Tyhle poslouží na Šedý Oltrac — běžné zboží. Ujde to.' Podá vám 16 zlatých mincí. 'Rádo se obchoduje.'",
+        text: "Kloor pečlivě prozkoumá vaše spory a pak přikývne. 'Tyhle poslouží na Šedý Oltrac — běžné zboží. Ujde to.' Podá vám 16 dinárů. 'Rádo se obchoduje.'",
         options: { "Thanks": "Díky" }
     },
     kloor_gray_oltrac_24: {
-        text: "Kloor pečlivě prozkoumá vaše spory a pak přikývne. 'Tyhle poslouží na Šedý Oltrac — běžné zboží. Ujde to.' Podá vám 24 zlatých mincí. 'Rádo se obchoduje.'",
+        text: "Kloor pečlivě prozkoumá vaše spory a pak přikývne. 'Tyhle poslouží na Šedý Oltrac — běžné zboží. Ujde to.' Podá vám 24 dinárů. 'Rádo se obchoduje.'",
         options: { "Thanks": "Díky" }
     },
     kloor_violet_oltrac_15: {
-        text: "Kloorovi se rozzáří oči, když prozkoumá vaše spory. 'Vynikající kvalita! Z těchto můžu vyrobit Fialový Oltrac.' S úšklebkem vám podá 15 zlatých mincí. 'Opravdu dobrý obchod.'",
+        text: "Kloorovi se rozzáří oči, když prozkoumá vaše spory. 'Vynikající kvalita! Z těchto můžu vyrobit Fialový Oltrac.' S úšklebkem vám podá 15 dinárů. 'Opravdu dobrý obchod.'",
         options: { "Thanks": "Díky" }
     },
     kloor_violet_oltrac_30: {
-        text: "Kloorovi se rozzáří oči, když prozkoumá vaše spory. 'Vynikající kvalita! Z těchto můžu vyrobit Fialový Oltrac.' S úšklebkem vám podá 30 zlatých mincí. 'Opravdu dobrý obchod.'",
+        text: "Kloorovi se rozzáří oči, když prozkoumá vaše spory. 'Vynikající kvalita! Z těchto můžu vyrobit Fialový Oltrac.' S úšklebkem vám podá 30 dinárů. 'Opravdu dobrý obchod.'",
         options: { "Thanks": "Díky" }
     },
     kloor_violet_oltrac_45: {
-        text: "Kloorovi se rozzáří oči, když prozkoumá vaše spory. 'Vynikající kvalita! Z těchto můžu vyrobit Fialový Oltrac.' S úšklebkem vám podá 45 zlatých mincí. 'Opravdu dobrý obchod.'",
+        text: "Kloorovi se rozzáří oči, když prozkoumá vaše spory. 'Vynikající kvalita! Z těchto můžu vyrobit Fialový Oltrac.' S úšklebkem vám podá 45 dinárů. 'Opravdu dobrý obchod.'",
         options: { "Thanks": "Díky" }
     },
     kloor_amber_oltrac_25: {
-        text: "Kloor při zkoumání vašich spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě vám napočítá 25 zlatých mincí. 'Výjimečný obchod! Přijďte kdykoliv!'",
+        text: "Kloor při zkoumání vašich spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě vám napočítá 25 dinárů. 'Výjimečný obchod! Přijďte kdykoliv!'",
         options: { "Thanks": "Díky" }
     },
     kloor_amber_oltrac_50: {
-        text: "Kloor při zkoumání vašich spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě vám napočítá 50 zlatých mincí. 'Výjimečný obchod! Přijďte kdykoliv!'",
+        text: "Kloor při zkoumání vašich spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě vám napočítá 50 dinárů. 'Výjimečný obchod! Přijďte kdykoliv!'",
         options: { "Thanks": "Díky" }
     },
     kloor_amber_oltrac_75: {
-        text: "Kloor při zkoumání vašich spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě vám napočítá 75 zlatých mincí. 'Výjimečný obchod! Přijďte kdykoliv!'",
+        text: "Kloor při zkoumání vašich spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě vám napočítá 75 dinárů. 'Výjimečný obchod! Přijďte kdykoliv!'",
         options: { "Thanks": "Díky" }
     },
     kloor_bishop: {
@@ -131,11 +131,11 @@ export default {
         options: {
             do_you_know_where_she_went: "Víte, kam šla?",
             what_was_she_trading: "S čím obchodovala?",
-            back: "Zpět"
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_sulkberry_analyze: {
-        text: "Kloor převezme vzorek mručenky cvičenými prsty, otáčí jí mezi palcem a ukazováčkem. Přičichne, pak z kabátu vytáhne malou skleněnou nádobu a rozdrítí do ní úlomek. Kapalina se zbarví do hlubokého, čistého jantaru.\n\n'Kořeněná mručenka. Prémiovâ kvalita — toto je zboží direktoriátu, bez pochyb. Alkaloidní profil je...' Zvedne nádobu proti světlu. '...učebnicový. '\n\nOdloží nádobu. 'S tímhle plodem není nic špatně. Žádné příměsi, žádné toxiny, žádné cizí látky.'",
+        text: "Kloor převezme vzorek mručenky cvičenými prsty, otáčí jí mezi palcem a ukazováčkem. Přičichne, pak z kabátu vytáhne malou skleněnou nádobu a rozdrítí do ní úlomek. Kapalina se zbarví do hlubokého, čistého jantaru.\n\n'Kořeněná mručenka. Prémiovâ kvalita — toto je zboží Direktorátu, bez pochyb. Alkaloidní profil je...' Zvedne nádobu proti světlu. '...učebnicový. '\n\nOdloží nádobu. 'S tímhle plodem není nic špatně. Žádné příměsi, žádné toxiny, žádné cizí látky.'",
         options: {
             photosentience_read_kloors_biosignals_for_deceptio: "[Fotosenzitivita] Číst Kloorovy biosignály kvůli podvodu.",
             youre_sure_your_reputation_is_on_the_line: "Jste si jistý? Je to o vaši reputaci.",
@@ -151,7 +151,7 @@ export default {
     kloor_sulkberry_sure: {
         text: "'Moje reputace JE můj živobytí.' Kloor vypadá téměř uraženě. 'Analyzuji alkaloidní sloučeniny celé roky. Vím, jak vypadá kontaminace — ať už podle barvy nebo krystalické struktury.\n\nTyhle plody jsou nedotčené.'",
         options: {
-            back: "Zpět"
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_bishop_location: {

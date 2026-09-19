@@ -41,7 +41,7 @@ export default class VoxmarketMarketScene extends GameScene {
                 text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket a good two thousand digestions now. You'll find all sorts of interesting trinkets at my stall that you won't see anywhere else.'",
                 options: [
                     { text: "What kind of trinkets?", key: 'what_kind_of_trinkets', next: "zerren_selling" },
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
             
@@ -50,12 +50,15 @@ export default class VoxmarketMarketScene extends GameScene {
                 options: [
                     { text: "Interesting collection", key: 'interesting_collection', next: "zerren_collection" },
                     { text: "Show me what you have for sale", key: 'show_me_what_you_have_for_sale', next: "zerren_shop" },
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_shop: {
-                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.'" + (this.hasElphiBishopInfo() ? " She lowers her voice. 'I recently acquired something special - an old elevator button with unusual markings. Might be of interest if you're exploring the taller structures around here.'" : ""),
+                // Two variants (textKey) so the Czech file can carry both: the hint about the elevator button
+                // is appended only once the player knows about the Bishop's link to Dr. Elphi Quarn.
+                textKey: this.hasElphiBishopInfo() ? 'button' : 'plain',
+                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.'" + (this.hasElphiBishopInfo() ? " She lowers her voice. 'I recently acquired something special — an old elevator button with unusual markings.'" : ""),
                 options: [], // Empty options array is required
                 onShow: () => {
                     // Close the dialog first
@@ -71,19 +74,18 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_collection: {
-        speaker: 'Unknown',
-                text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular - sold it not six digestions ago. Strange little thing, but charming in its own way.'",
+                text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular — sold it not six digestions ago. Strange little thing, but charming in its own way.'",
                 options: [
                     { text: "Tell me more about that toy", key: 'tell_me_more_about_that_toy', next: "zerren_plush_toy" },
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_plush_toy: {
-                text: "'It was an odd little thing - looked like a cross between a stuffed animal and some kind of abstract sculpture. Got it from a traveler passing through.'",
+                text: "'It was an odd little thing — looked like a cross between a stuffed animal and some kind of abstract sculpture. Got it from a traveler passing through.'",
                 options: [
                     { text: "Who bought it?", key: 'who_bought_it', next: "zerren_buyer_inquiry" },
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
             
@@ -92,7 +94,7 @@ export default class VoxmarketMarketScene extends GameScene {
                 options: [
                     { text: "Kloor told me about it.", key: 'kloor_told_me_about_it', next: "zerren_kloor_inquiry" },
                     { text: "I can't tell you, it doesn't matter.", key: 'i_cant_tell_you_it_doesnt_matter', next: "zerren_refuse_inquiry" },
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
             
@@ -100,15 +102,12 @@ export default class VoxmarketMarketScene extends GameScene {
                 text: "I see. That bastard wants it for himself, doesn't he? I don't know what he plans to do with it, but it's not good. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
                 options: [
                     { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ],
                 onTrigger: () => {
-                    const factionSystem = this.registry.get('factionSystem');
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('RustChoir', -10);
-                        factionSystem.modifyReputation('PithReclaimers', +10);
-                        this.showNotification('Rust Choir Reputation -10');
-                        this.showNotification('Pith Reclaimers Reputation +10');
+                    if (this.registry.get('factionSystem')) {
+                        this.modifyFactionReputation('RustChoir', -10);
+                        this.modifyFactionReputation('PithReclaimers', 10);
                         
                         if (!this.hasJournalEntry('rust_choir_faction')) {
                             this.addJournalEntry(
@@ -133,18 +132,15 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_refuse_inquiry: {
-                text: "Hmm... allright, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
+                text: "Hmm... all right, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
                 options: [
                     { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ],
                 onTrigger: () => {
-                    const factionSystem = this.registry.get('factionSystem');
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('RustChoir', +10);
-                        factionSystem.modifyReputation('PithReclaimers', -10);
-                        this.showNotification('Rust Choir Reputation +10');
-                        this.showNotification('Pith Reclaimers Reputation -10');
+                    if (this.registry.get('factionSystem')) {
+                        this.modifyFactionReputation('RustChoir', 10);
+                        this.modifyFactionReputation('PithReclaimers', -10);
                         
                         // Add journal entry for Pith Reclaimers if not already added
                         if (!this.hasJournalEntry('pith_reclaimers_faction')) {
@@ -174,13 +170,14 @@ export default class VoxmarketMarketScene extends GameScene {
                 options: [
                     { text: "Offer 50 dinar as incentive", key: 'offer_50_dinar_as_incentive', next: "zerren_bribe_attempt" },
                     { text: "Try to persuade her", key: 'try_to_persuade_her', next: "zerren_persuade_attempt" },
-                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') && this.registry.get('symbiontSystem')?.brainRot() ? [
+                    ...(this.registry.get('symbiontSystem')?.hasSymbiont('thorne-still') && this.registry.get('symbiontSystem')?.brainRot()
+                        && (this.registry.get('sporeSystem')?.getSporeLevel() ?? 0) >= 10 ? [
                         { text: "Use Thorne-still's Brain Rot power", key: 'use_thornestills_brain_rot_power', next: "zerren_thorne_still_power" }
                     ] : []),
-                    ...(this.registry.get('reputationSystem')?.getFactionReputation('LumenDirectorate') >= 50 ? [
+                    ...((this.registry.get('factionSystem')?.getReputation('LumenDirectorate') ?? 0) >= 50 ? [
                         { text: "Appeal to Lumen Directorate relationship", key: 'appeal_to_lumen_directorate_relationship', next: "zerren_lumen_directorate_appeal" }
                     ] : []),
-                    { text: "Back", key: 'back', next: "zerren_start" }
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
             
@@ -191,10 +188,9 @@ export default class VoxmarketMarketScene extends GameScene {
                     { text: "Back", key: 'back', next: "zerren_buyer_inquiry" }
                 ],
                 onTrigger: (option) => {
-                    if (option && option.text === "Confirm") {
+                    if (option && option.key === 'confirm') {
                         if (this.hasEnoughMoney(50)) {
                             this.subtractMoney(50);
-                            this.showNotification("-50 dinar");
                             return "zerren_bribe_success";
                         } else {
                             return "zerren_not_enough_money";
@@ -211,7 +207,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_bribe_success: {
-                text: "Zerren quickly pockets the gold coins. 'Well, for this kind of compensation, I suppose I can make an exception.' She leans in closer. 'It was Edgar Eskola who bought the toy. Eccentric collector, lives in the upper district. Always looking for strange artifacts.'",
+                text: "Zerren quickly pockets the coins. 'Well, for this kind of compensation, I suppose I can make an exception.' She leans in closer. 'It was Edgar Eskola who bought the toy. Eccentric collector — you'll usually find him around the Screaming Cork tavern.'",
                 options: [
                     { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "zerren_quest_update" }
                 ],
@@ -220,14 +216,13 @@ export default class VoxmarketMarketScene extends GameScene {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
                         questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
-                        this.showNotification("Quest updated: The Three Vestigels");
                     }
                 },
             },
             zerren_persuade_attempt: {
-                text: "'This is really important. The Vestigel inside that toy could be dangerous in the wrong hands. I need to find it for the safety of everyone in Upper Morkezela.' Zerren looks uncertain, weighing your words carefully.",
+                text: "'This is really important. The Vestigel could be dangerous in the wrong hands. I need to find it for the safety of everyone in Upper Morkezela.' Zerren looks uncertain, weighing your words carefully.",
                 options: [
-                    { text: "Continue persuading", key: 'continue_persuading', next: "zerren_persuade_roll" }
+                    { text: "Continue persuading", key: 'continue_persuading', next: "zerren_persuade_fail" } // onTrigger returns success/fail; `next` is only the fallback
                 ],
                 onTrigger: () => {
                     // Base 25% persuasion chance. Neme's Growth Affinity adds +15 when growth-aligned
@@ -245,7 +240,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_persuade_success: {
-                text: "Zerren sighs, relenting. 'I suppose if it's that important... The buyer was Edgar Eskola. He's a collector of oddities with deep pockets. Has a place in the upper district. Very private person, though. Be careful how you approach him.'",
+                text: "Zerren sighs, relenting. 'I suppose if it's that important... The buyer was Edgar Eskola. He's a collector of oddities with deep pockets. You'll find him around the Screaming Cork tavern. Very private person, though. Be careful how you approach him.'",
                 options: [
                     { text: "Thank you for understanding", key: 'thank_you_for_understanding', next: "zerren_quest_update" }
                 ],
@@ -254,7 +249,6 @@ export default class VoxmarketMarketScene extends GameScene {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
                         questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
-                        this.showNotification("Quest updated: The Three Vestigels");
                     }
                 }
             },
@@ -272,40 +266,27 @@ export default class VoxmarketMarketScene extends GameScene {
                 options: [
                     { text: "Who bought the plush toy?", key: 'who_bought_the_plush_toy', next: "zerren_thorne_still_success" }
                 ],
-                onTrigger: () => {
-                    const sporeSystem = this.registry.get('sporeSystem');
-                    const currentSpores = sporeSystem.getSporeLevel();
-                    
-                    if (currentSpores < 10) {
-                        this.showDialog('zerren_not_enough_spores');
-                        return;
-                    }
-                    
-                    sporeSystem.modifySpores(-10);
+                // The option is only offered with >= 10 spores (see zerren_buyer_inquiry), so the
+                // cost is simply taken on show. `option` is set when onTrigger fires for a click —
+                // skip then, or the spores would be charged twice.
+                onTrigger: (option) => {
+                    if (option) return;
+                    this.registry.get('sporeSystem')?.modifySpores(-10);
                 }
             },
             
-            zerren_not_enough_spores: {
-                text: "Zerren shakes her head firmly. 'I'm sorry, but I can't break my customers' trust. Perhaps there's another way you could find this information?'",
-                options: [
-                    { text: "Try something else", key: 'try_something_else', next: "zerren_buyer_inquiry" }
-                ]
-            },
-            
             zerren_thorne_still_success: {
-                text: "Zerren speaks in a distant voice, as if reciting a fact from memory rather than revealing a secret. 'Urggh... Edgar Eskola purchased the plush toy. Grrrr... He lives in the upper district of Voxmarket. Collector of strange artifacts. Grrrr... ' She blinks, momentarily confused about what just happened.",
+                text: "Zerren speaks in a distant voice, as if reciting a fact from memory rather than revealing a secret. 'Urggh... Edgar Eskola purchased the plush toy. Grrrr... You'll find him at the Screaming Cork. Collector of strange artifacts. Grrrr... ' She blinks, momentarily confused about what just happened.",
                 options: [
-                    { text: "Thank you for your help. Maybe take some rest, you dont' look well.", key: 'thank_you_for_your_help_maybe_take_some_rest_you_d', next: "zerren_quest_update" }
+                    { text: "Thank you for your help. Maybe take some rest, you don't look well.", key: 'thank_you_for_your_help_maybe_take_some_rest_you_d', next: "zerren_quest_update" }
                 ],
                 onTrigger: () => {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
                         questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
-                        this.showNotification("Quest updated: The Three Vestigels");
                     }
-                    this.modifyGrowthDecay(0, 5);
-                    this.showNotification("Decay + 10");
+                    this.modifyGrowthDecay(0, 5); // the G/D system announces the change itself
                 }
             },
             
@@ -317,7 +298,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_lumen_directorate_success: {
-                text: "Zerren's eyes widen with recognition. 'Oh! You're with the Directorate? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector in the upper district.'",
+                text: "Zerren's eyes widen with recognition. 'Oh! You're with the Directorate? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector; he haunts the Screaming Cork tavern.'",
                 options: [
                     { text: "The Directorate appreciates your cooperation", key: 'the_directorate_appreciates_your_cooperation', next: "zerren_quest_update" }
                 ]
@@ -333,7 +314,6 @@ export default class VoxmarketMarketScene extends GameScene {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
                         questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
-                        this.showNotification("Quest updated: The Three Vestigels");
                     }
                 }
             }
@@ -474,7 +454,7 @@ export default class VoxmarketMarketScene extends GameScene {
         // Check if player has completed quests to unlock special items
         const hasElphiBishopInfo = this.hasElphiBishopInfo();
         const questSystem = this.registry.get('questSystem');
-        const findBishopActive = questSystem?.getQuest('find_bishop')?.isComplete;
+        const findBishopActive = !!questSystem?.getQuest('find_bishop') && !questSystem.getQuest('find_bishop').isComplete;
         
         // Basic shop inventory
         const shopInventory = [
@@ -515,6 +495,7 @@ export default class VoxmarketMarketScene extends GameScene {
         // Create shop system
         this.shopSystem = new ShopSystem(this, {
             shopName: 'Zerren\'s Curios',
+            shopKey: 'zerren',
             inventory: shopInventory,
             position: {
                 x: 400,
@@ -538,7 +519,7 @@ export default class VoxmarketMarketScene extends GameScene {
             questSystem.updateQuest('find_bishop', 'I found a Forgotten Elevator Button at Zerren\'s shop that might help me access Dr. Elphi\'s floor.', 'found_elevator_button');
             
             // Show a notification
-            this.showNotification('New item available: Forgotten Elevator Button', 0x7fff8e);
+            this.showNotification(this.t('notifications.newItemAvailable', { item: this.t('shop.items.forgotten_elevator_button.name') }), 0x7fff8e);
         }
     }
     
@@ -610,8 +591,4 @@ export default class VoxmarketMarketScene extends GameScene {
         groundGraphics.setDepth(0);
     }
 
-    shutdown() {
-        this.restoreBackgroundMusic();
-        super.shutdown();
-    }
 }

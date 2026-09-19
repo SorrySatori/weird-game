@@ -38,7 +38,7 @@ export default {
             what_do_you_do_here: "Co tady děláš?",
             i_was_told_you_can_get_me_to_rust_choir_base: "Řekli mi, že mě můžeš dostat na základnu Rezavého chóru.",
             i_have_gathered_everything_for_the_rust_feast: "Shromáždil jsem vše pro Rezavou hostinu.",
-            corrosive_cultivar_grind_into_the_oil: "[Žíravý kultivar] (Tiše rozetřít direktoriátskou rostlinu do oleje.)",
+            corrosive_cultivar_grind_into_the_oil: "[Žíravý kultivar] (Tiše rozetřít direktorátskou rostlinu do oleje.)",
             ravla_spy_probe: "Paděláš pro půlku města. Co Rezavý chór ukrývá ve všech těch papírech?",
             ravla_spy_neme: "[Neme · Fotosenzitivita] (Přečíst vinu, kterou skrývá pod tím klidem.)"
         }
@@ -119,7 +119,7 @@ export default {
         text: "Ravla pracuje zkušenýma rukama..."
     },
     ravla_feast_poison: {
-        text: "Zatímco se Ravla otočí, aby přerovnala nářadí, rozetřeš direktoriátský kultivar mezi prsty na prášek a nasypeš ho do olejové láhve. Rozpustí se beze stopy — slabý zelený lesk, který zmizí, jak s ní zakroužíš. Když se ohlédne, je na stole jen olej, kov a rudá hmota. Není co vidět.",
+        text: "Zatímco se Ravla otočí, aby přerovnala nářadí, rozetřeš direktorátský kultivar mezi prsty na prášek a nasypeš ho do olejové láhve. Rozpustí se beze stopy — slabý zelený lesk, který zmizí, jak s ní zakroužíš. Když se ohlédne, je na stole jen olej, kov a rudá hmota. Není co vidět.",
         options: {
             gathered_everything_prepare_the_feast_poison: "\"Shromáždil jsem všechno. Pojďme připravit hostinu.\""
         }
@@ -171,7 +171,7 @@ export default {
         text: "Mám kontakty s obchodníky z celého okolí..."
     },
     heliodor_sulkberry_check: {
-        text: "Několik Heliodorových složkových organismů se postupně nakloní dopředu — nejprve se zúží oči, pak se roztaží nosní dírky, poté prsty, které jako by patřily jiné osobnosti, se natáhnou a převezmou vzorek.\n\nDlouhá pauza. Různé části Heliodorova kompozitního těla se radí v šeptavých cvakáních a hučení.\n\n'Prozkoumali jsme vzorek. Tři naše složky ochutnaly, dvě analyzovaly reziduální spory a Oorarabaz — krátce probuzený — potvrdil alkaloidní strukturu membránovou absorpcí.\n\nPlod je čistý. Žádné toxiny, žádné modifikace, žádné parazitické zásahy. Toto je prémiový produkt Lumenového direktoriátu v dokonalém stavu.'",
+        text: "Několik Heliodorových složkových organismů se postupně nakloní dopředu — nejprve se zúží oči, pak se roztaží nosní dírky, poté prsty, které jako by patřily jiné osobnosti, se natáhnou a převezmou vzorek.\n\nDlouhá pauza. Různé části Heliodorova kompozitního těla se radí v šeptavých cvakáních a hučení.\n\n'Prozkoumali jsme vzorek. Tři naše složky ochutnaly, dvě analyzovaly reziduální spory a Oorarabaz — krátce probuzený — potvrdil alkaloidní strukturu membránovou absorpcí.\n\nPlod je čistý. Žádné toxiny, žádné modifikace, žádné parazitické zásahy. Toto je prémiový produkt Lumen Directorate v dokonalém stavu.'",
         options: {
             photosentience_read_heliodors_biosignals_for_decep: "[Fotosenzitivita] Číst Heliodorovy biosignály kvůli podvodu.",
             photosentience_silenced_heliodor: "[Fotosenzitivita] Zkusit číst Heliodora… (tvůj smysl skomírá)",

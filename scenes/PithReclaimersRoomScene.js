@@ -41,7 +41,7 @@ export default class PithReclaimersRoomScene extends GameScene {
         }
         if (this.moneySystem) this.moneySystem.add(gold);
         if (this.modifySpores) this.modifySpores(spores);
-        this.showNotification(`Reclaimed share: +${gold} gold, +${spores} spores`, 0xffdf7a);
+        this.showNotification(`Reclaimed share: +${gold} dinar, +${spores} spores`, 0xffdf7a);
     }
 
     get dialogContent() {
