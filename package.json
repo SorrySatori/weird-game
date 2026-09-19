@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A 2D point-and-click adventure game made with Phaser.js",
   "main": "electron-main.js",
+  "packageManager": "npm@11.17.0",
   "scripts": {
     "start": "electron-forge start",
     "electron": "electron .",

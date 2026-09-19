@@ -210,3 +210,14 @@ if (typeof window !== 'undefined') {
 
 // Log that the API is ready
 console.log('Game API initialized and ready for use');
+
+// Expose a minimal app-control bridge to the (context-isolated) renderer. Only the Electron
+// preload environment can require('electron'); in a plain browser this block is a no-op.
+try {
+  const { contextBridge, ipcRenderer } = require('electron');
+  contextBridge.exposeInMainWorld('appControl', {
+    quit: () => ipcRenderer.send('app:quit')
+  });
+} catch (_) {
+  // not running as an Electron preload script
+}

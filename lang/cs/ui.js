@@ -10,6 +10,7 @@ export default {
             startGame: 'Nová hra',
             loadGame: 'Načíst hru',
             language: 'Jazyk',
+            exitGame: 'Ukončit hru',
         },
 
         // Herní nabídka (ESC)

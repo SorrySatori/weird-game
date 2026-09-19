@@ -72,12 +72,12 @@ export default class MainScene extends Phaser.Scene {
             subTitle.setOrigin(0.5)
 
             // Create button background
-            const buttonBg = this.add.rectangle(CX, 400, 200, 60, 0x0a2712, 0.4);
+            const buttonBg = this.add.rectangle(CX, 370, 200, 60, 0x0a2712, 0.4);
             buttonBg.setStrokeStyle(2, 0x7fff8e);
             buttonBg.setInteractive({ useHandCursor: true });;
 
             // Add start game text
-            const startText = this.add.text(CX, 400, i18n.t('ui.menu.startGame'), {
+            const startText = this.add.text(CX, 370, i18n.t('ui.menu.startGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -85,11 +85,11 @@ export default class MainScene extends Phaser.Scene {
             startText.setOrigin(0.5);
 
             // Add Load Game button with matching style
-            const loadGameBg = this.add.rectangle(CX, 480, 200, 60, 0x0a2712, 0.4);
+            const loadGameBg = this.add.rectangle(CX, 440, 200, 60, 0x0a2712, 0.4);
             loadGameBg.setStrokeStyle(2, 0x7fff8e);
             loadGameBg.setInteractive({ useHandCursor: true });
 
-            const loadGameText = this.add.text(CX, 480, i18n.t('ui.menu.loadGame'), {
+            const loadGameText = this.add.text(CX, 440, i18n.t('ui.menu.loadGame'), {
                 fontSize: '32px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -119,11 +119,11 @@ export default class MainScene extends Phaser.Scene {
                 l => l.code === this.langSystem.getLanguage()
             );
 
-            const langBg = this.add.rectangle(CX, 540, 200, 50, 0x0a2712, 0.4);
+            const langBg = this.add.rectangle(CX, 505, 200, 50, 0x0a2712, 0.4);
             langBg.setStrokeStyle(2, 0x7fff8e);
             langBg.setInteractive({ useHandCursor: true });
 
-            this.langText = this.add.text(CX, 540, currentLang ? currentLang.name : 'Language', {
+            this.langText = this.add.text(CX, 505, currentLang ? currentLang.name : 'Language', {
                 fontSize: '24px',
                 fill: '#7fff8e',
                 fontFamily: 'Arial'
@@ -136,6 +136,35 @@ export default class MainScene extends Phaser.Scene {
                 this.clickSound.play();
                 this.showLanguageModal(addHoverEffects);
             });
+
+            // Exit Game — only meaningful in the Electron build (a browser tab has nothing to quit).
+            // Quits through the preload's IPC bridge; falls back to closing the window, which the
+            // main process turns into app.quit() on Linux/Windows.
+            if (/Electron/i.test(navigator.userAgent)) {
+                const exitBg = this.add.rectangle(CX, 565, 200, 50, 0x0a2712, 0.4);
+                exitBg.setStrokeStyle(2, 0x7fff8e);
+                exitBg.setInteractive({ useHandCursor: true });
+
+                const exitText = this.add.text(CX, 565, i18n.t('ui.menu.exitGame'), {
+                    fontSize: '24px',
+                    fill: '#7fff8e',
+                    fontFamily: 'Arial'
+                });
+                exitText.setOrigin(0.5);
+                addHoverEffects(exitBg, exitText);
+
+                exitBg.on('pointerdown', () => {
+                    this.clickSound.play();
+                    this.cameras.main.fadeOut(400, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        if (window.appControl && typeof window.appControl.quit === 'function') {
+                            window.appControl.quit();
+                        } else {
+                            window.close();
+                        }
+                    });
+                });
+            }
 
             // Add click handlers
             buttonBg.on('pointerdown', () => {

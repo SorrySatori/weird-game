@@ -48,7 +48,7 @@ main.js                 Phaser config (1067×600, 16:9, FIT scaling, pixelArt) +
 index.html              loads Phaser from node_modules, game-api.js and main.js
 electron-main.js        Electron window, save-file IPC
 preload.js / game-api.js
-                        save/load bridge — Electron files, or localStorage in a browser
+                        save/load API (saves live in localStorage) + the Exit-game IPC bridge
 scenes/                 46 scenes; every location extends scenes/GameScene.js
 systems/                LanguageSystem, SaveSystem, QuestSystem, JournalSystem,
                         GrowthDecaySystem, SporeSystem, SymbiontSystem, FactionReputation,

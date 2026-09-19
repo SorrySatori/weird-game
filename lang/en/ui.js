@@ -10,6 +10,7 @@ export default {
             startGame: 'Start Game',
             loadGame: 'Load Game',
             language: 'Language',
+            exitGame: 'Exit Game',
         },
 
         // Game menu (ESC)

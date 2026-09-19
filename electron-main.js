@@ -64,6 +64,9 @@ const createWindow = () => {
   });
 };
 
+// "Exit Game" from the in-game main menu (see preload.js → window.appControl.quit).
+ipcMain.on('app:quit', () => app.quit());
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.whenReady().then(createWindow);
