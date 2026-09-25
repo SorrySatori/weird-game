@@ -61,7 +61,7 @@ export default {
         }
     },
     dr_elphi_dream_offer: {
-        text: "Zůstaňte tu na noc. Lůžka v ateliéru jsou bezpečnější než cokoliv venku a na tomhle patře je signál tichý.\n\nA dovolte mi nabídnout vám obchod — opravdový, s penězi. Lehněte si do jednoho z mých lůžek a nechte helmu nahrát všechno, co se vám bude zdát. Surový snový materiál je moje živnost a živý sen z bystré, zajímavé hlavy se prodává za pěkné zlato. Ten váš by po takovémhle dni měl být velmi zajímavý.\n\n*Unavený, věcný úsměv.* Až se probudíte, přehraju si ho. Jestli za něco stojí, zaplatím vám. Jestli bude mdlý, aspoň jste spal v nejlepší posteli ve městě zadarmo. Tak jako tak neproděláte.",
+        text: "Zůstaňte tu na noc. Lůžka v ateliéru jsou bezpečnější než cokoliv venku a na tomhle patře je signál tichý.\n\nA dovolte mi nabídnout vám obchod — opravdový, s penězi. Lehněte si do jednoho z mých lůžek a nechte helmu nahrát všechno, co se vám bude zdát. Surový snový materiál je moje živnost a živý sen z bystré, zajímavé hlavy se prodává za pěkné dináry. Ten váš by po takovémhle dni měl být velmi zajímavý.\n\n*Unavený, věcný úsměv.* Až se probudíte, přehraju si ho. Jestli za něco stojí, zaplatím vám. Jestli bude mdlý, aspoň jste spal v nejlepší posteli ve městě zadarmo. Tak jako tak neproděláte.",
         options: {
             accept_the_dream: "Platí. Nahrajte, co se mi bude zdát.",
             decline_the_dream: "Moje sny nejsou na prodej. Jen mě nechte spát."
@@ -237,21 +237,21 @@ export default {
         }
     },
     dr_elphi_clues_berries: {
-        text: "Mručenky? *Zvedne sáček a zkoumá je.* Kořeněné. Jsou čerstvé — kdokoliv je připravil, udělal to nedávno.\n\nMručenky mají mírný uklidňující účinek. Lidé je používají před snovými relacemi ke snížení neurálního odporu. Dělá to imerzi hlubší. Někdy je doporučuji úzkostným nováčkům.\n\nAle tady je ta věc — kořeněné mručenky jako tyto nejsou běžné. Jsou to specialita Lumenového direktoriátu. Direktoriát je pěstuje a prodává přes vlastní kanály.",
+        text: "Mručenky? *Zvedne sáček a zkoumá je.* Kořeněné. Jsou čerstvé — kdokoliv je připravil, udělal to nedávno.\n\nMručenky mají mírný uklidňující účinek. Lidé je používají před snovými relacemi ke snížení neurálního odporu. Dělá to imerzi hlubší. Někdy je doporučuji úzkostným nováčkům.\n\nAle tady je ta věc — kořeněné mručenky jako tyto nejsou běžné. Jsou to specialita Lumen Directorate. Direktorát je pěstuje a prodává přes vlastní kanály.",
         options: {
-            the_lumen_directorate_could_they_be_connected_to_t: "Lumenový direktoriát? Mohli by s tím souviset?",
+            the_lumen_directorate_could_they_be_connected_to_t: "Lumen Directorate? Mohli by s tím souviset?",
             back_to_other_clues: "Zpět k dalším stopám."
         }
     },
     dr_elphi_berries_lumen: {
-        text: "Ne nutně s vraždou. Ale Lumenový direktoriát ví o všem, co se v tomhle městě děje. Tvrdí, že vyhráli Válku deskových her, tvrdí, že zachránili všechny, a chovají se, jako by Horní Morkezela byl jejich osobní projekt.\n\nPokud Biskupka kupovala kořeněné mručenky od nich, věděli by to. Vedou záznamy o všem — kdo co kupuje, kdo koho navštěvuje. Všechno je to o 'transparentnosti,' říkají.\n\nJeště důležitější — direktoriát má zájmy ve Vaječné katedrále. Sledovali ji zblízka, čekali na líhnutí. Pokud Biskupka zapečetila katedrálu, direktoriát by si toho všiml. A měl by na to názor.\n\nPromluvte si s nimi. Mohli by vědět víc o posledních týdnech Biskupky než kdokoliv jiný. A pokud ne — budou vědět, kdo ví.",
+        text: "Ne nutně s vraždou. Ale Lumen Directorate ví o všem, co se v tomhle městě děje. Tvrdí, že vyhráli Válku deskových her, tvrdí, že zachránili všechny, a chovají se, jako by Horní Morkezela byl jejich osobní projekt.\n\nPokud Biskupka kupovala kořeněné mručenky od nich, věděli by to. Vedou záznamy o všem — kdo co kupuje, kdo koho navštěvuje. Všechno je to o 'transparentnosti,' říkají.\n\nJeště důležitější — Direktorát má zájmy ve Vaječné katedrále. Sledovali ji zblízka, čekali na líhnutí. Pokud Biskupka zapečetila katedrálu, Direktorát by si toho všiml. A měl by na to názor.\n\nPromluvte si s nimi. Mohli by vědět víc o posledních týdnech Biskupky než kdokoliv jiný. A pokud ne — budou vědět, kdo ví.",
         options: {
-            where_can_i_find_the_lumen_directorate: "Kde najdu Lumenový direktoriát?",
+            where_can_i_find_the_lumen_directorate: "Kde najdu Lumen Directorate?",
             back_to_other_clues: "Zpět k dalším stopám."
         }
     },
     dr_elphi_lumen_where: {
-        text: "Jejich ústředí je poblíž hlavního náměstí — pořádná budova, nemůžete ji minout. Rádi dělají dojem.\n\nZeptejte se na toho, kdo má na starost 'kultivační dohled' nebo 'katedrální styčnou osobu.' To je ten, kdo by věděl o mručenkách a obchodech Biskupky s nimi.\n\nAle buďte opatrný, jak k nim přistoupíte. Direktoriát nemá rád překvapení. A rozhodně nemají rádi, když je z něčeho obviňují. Jděte tam s otázkami, ne s obviněními.",
+        text: "Jejich ústředí je poblíž hlavního náměstí — pořádná budova, nemůžete ji minout. Rádi dělají dojem.\n\nZeptejte se na toho, kdo má na starost 'kultivační dohled' nebo 'katedrální styčnou osobu.' To je ten, kdo by věděl o mručenkách a obchodech Biskupky s nimi.\n\nAle buďte opatrný, jak k nim přistoupíte. Direktorát nemá rád překvapení. A rozhodně nemají rádi, když je z něčeho obviňují. Jděte tam s otázkami, ne s obviněními.",
         options: {
             back_to_other_clues: "Zpět k dalším stopám."
         }
@@ -260,7 +260,7 @@ export default {
         text: ""
     },
     dr_elphi_end_day1: {
-        text: "Dobře. Dvě věci k prověření.\n\nZa prvé — radnice. Biskupčino hlášení o dvojníkovi bylo úředně orazítkováno. Zjistěte, kdo ho zpracoval, kdo ho četl, a jestli to někdo prověřil. Nebo pohřbil.\n\nZa druhé — Lumenový direktoriát. Dodávali mručenky a sledovali katedrálu jako jestřábi. Pokud Biskupka dělala něco neobvyklého, věděli by.\n\nCartridge budu mít hotovou do zítřka. Přijďte za mnou, až budete připraveni vidět, co Biskupka viděla.\n\nBuďte tam venku opatrný. Kdokoliv to udělal, je stále v tomhle městě.",
+        text: "Dobře. Dvě věci k prověření.\n\nZa prvé — radnice. Biskupčino hlášení o dvojníkovi bylo úředně orazítkováno. Zjistěte, kdo ho zpracoval, kdo ho četl, a jestli to někdo prověřil. Nebo pohřbil.\n\nZa druhé — Lumen Directorate. Dodávali mručenky a sledovali katedrálu jako jestřábi. Pokud Biskupka dělala něco neobvyklého, věděli by.\n\nCartridge budu mít hotovou do zítřka. Přijďte za mnou, až budete připraveni vidět, co Biskupka viděla.\n\nBuďte tam venku opatrný. Kdokoliv to udělal, je stále v tomhle městě.",
         options: {
             until_tomorrow_dr_elphi: "Do zítřka, Dr. Elphi."
         }

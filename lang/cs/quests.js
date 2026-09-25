@@ -7,8 +7,8 @@ export default {
             title: 'Najít Biskupku',
             description: 'Houbový Mistr mě pověřil nalezením Biskupky ve Vaječné Katedrále. Mohla by něco vědět o nouzovém volání přijatém z města přes myceliální síť. Musím s ní promluvit a zjistit víc.',
             updates: {
-                vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů na trhu. Zmínil, že jeden má obchodnice jménem Zerren.',
-                elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji hledat ve Škrabáku 1140.',
+                vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
+                elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji najít ve Škrabáku 1140.',
                 bishop_clue_gnur: "Biskupka byla viděna u Škrabáku 1140, jak provádí neobvyklý obchod s 'herní čočkou'. Gnur by mohl vědět víc, ale chce něco na oplátku.",
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka byla naposledy viděna, jak míří do Škrabáku 1140 za Dr. Elphi.',
@@ -32,8 +32,8 @@ export default {
                 dead_bishop_notebook: 'Našel jsem podivnou poznámku... „Vešla jsem do zpovědnice, ale ona tam už byla. Vypadala jako já..."',
                 bishop_dissection: 'Tělo Biskupky obsahuje podivný zářící houbový výrůstek, který se integroval s její nervovou soustavou.',
                 dead_bishop_berries: 'Před smrtí Biskupka zřejmě jedla Mručenky.',
-                gardener_bishop_info: 'Zahradník Verrik u Lumen Direktoriátu zmínil, že Biskupka pravidelně navštěvovala — konkrétně kvůli Korektoru Úhlu.',
-                gardener_sulkberry_info: 'Zahradník u Lumen Direktoriátu potvrdil, že kořeněné Mručenky jsou kontrolovaná komodita.',
+                gardener_bishop_info: 'Zahradník Verrik u Lumen Direktorátu zmínil, že Biskupka pravidelně navštěvovala — konkrétně kvůli Korektoru Úhlu.',
+                gardener_sulkberry_info: 'Zahradník u Lumen Direktorátu potvrdil, že kořeněné Mručenky jsou kontrolovaná komodita.',
                 ac_bishop_relationship: 'Korektor Úhlu potvrdil profesionální vztah s Biskupkou — pravidelná setkání o přístupu do Katedrály a líhnutí.',
                 ac_sulkberry_confirmed: 'Korektor Úhlu potvrdil dodávky Mručenek pro Biskupku — používány pro snovou imerzi v Katedrále.',
                 ac_tamper_hint: 'Korektor Úhlu naznačil, že zmanipulované Mručenky by mohly způsobit neurální trauma odpovídající stavu Biskupky.',
@@ -45,9 +45,9 @@ export default {
                 elphi_townhall_log: 'Setkání Biskupky s dvojníkem bylo formálně zaznamenáno na Radnici. Archivní úředník by mohl mít kopii.',
                 elphi_journal: 'Dr. Elphi interpretovala zápis v deníku Biskupky jako důkaz, že byla odpojena od myceliální sítě.',
                 elphi_dissection: 'Dr. Elphi věří, že houbový výrůstek uvnitř Biskupky byl symbiont. Vrah mohl mířit na samotného symbionta.',
-                elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu — specialitu Lumen Direktoriátu.',
-                elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Lumen Direktoriátem. Prodávají kořeněné Mručenky.',
-                verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány — žádná kontaminace. Stopa otravy direktoriátem slábne.',
+                elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu — specialitu Lumen Direktorátu.',
+                elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Lumen Direktorátem. Prodávají kořeněné Mručenky.',
+                verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány — žádná kontaminace. Stopa otravy Direktorátem slábne.',
                 kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky — čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
                 heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté — žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
                 townhall_notebook_revelation: 'Radniční úředník odhalil, že Biskupčina poznámka o dvojníkovi byla osobní zápis v Oficiálním radničním reportním zápisníku. Chybějící zápisník je teď nejsilnější stopa.',
@@ -60,9 +60,9 @@ export default {
         },
         the_three_vestigels: {
             title: 'Tři Vestigely',
-            description: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů na trhu. Zmínil, že jeden má obchodnice jménem Zerren.',
+            description: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
             updates: {
-                found_eskola_lead: 'Zerren prozradila, že plyšovou hračku obsahující Vestigel koupil Edgar Eskola.',
+                found_eskola_lead: 'Zerren prozradila, že plyšovou hračku obsahující Vestigel koupil Edgar Eskola. Obvykle ho najdu u Řvoucího korku.',
                 completed: 'Dal jsem vestigel Klooru Vennovi výměnou za informace o Biskupce.',
                 edgar_vestigel_acquired: 'Dostal jsem vestigel od Edgara Eskoly výměnou za pomoc s jeho knihou.',
                 edgar_book_trade: 'Edgar Eskola by vyměnil Vestigel za vaši pomoc s jeho knihou.',
@@ -70,16 +70,16 @@ export default {
         },
         find_lumen_directorate: {
             title: 'Nic skrytého. Nic ztraceného',
-            description: 'Kapitán Liris mi dal pokyny k sídlu Lumen Direktoriátu. Měl bych je navštívit, dozvědět se víc o jejich práci a zjistit, jestli se mohu připojit k jejich posádce.',
+            description: 'Kapitán Liris mi dal pokyny k sídlu Lumen Direktorátu. Měl bych je navštívit, dozvědět se víc o jejich práci a zjistit, jestli se mohu připojit k jejich posádce.',
             updates: {
-                gardener_directions: 'Zahradník Verrik mě nasměroval ke Korektoru Úhlu ve třetím patře Direktoriátu.',
+                gardener_directions: 'Zahradník Verrik mě nasměroval ke Korektoru Úhlu ve třetím patře Direktorátu.',
             }
         },
         find_rust_choir: {
             title: 'Najít Rezavý chór',
             description: 'Musím najít způsob, jak se setkat s Rezavým chórem, který sídlí v horních patrech budovy Škrabáku.',
             updates: {
-                talk_to_ravla: 'Měl bych nejdřív promluvit s Ravlou v hospodě Řvoucí korek.',
+                talk_to_ravla: 'Měl bych si nejdřív promluvit s Ravlou v hospodě Řvoucí korek.',
                 talked_to_ravla: 'Ravla v Řvoucím korku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
                 feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Lift-Mother: „Koroduj". Teď mohu vstoupit do domény Rezavého chóru.',
                 feast_delivered: 'Doručil jsem Rezavou Hostinu Brukkovi v Rezavé Doméně.',
@@ -135,10 +135,10 @@ export default {
             title: 'Vstoupit na Radnici',
             description: 'Radnice je zavřená a nikdo neví proč. Musím najít způsob, jak se dostat dovnitř — zpráva o dvojníkovi Biskupky tam byla podána a Phor Calesta také potřebuje přístup. Možná někdo ve městě ví, jak se dostat dovnitř.',
             updates: {
-                gardener_seldo_tip: 'Zahradník Verrik u Lumen Direktoriátu navrhl, abych promluvil se Seldem Třikrát-Korigovaným uvnitř.',
+                gardener_seldo_tip: 'Zahradník Verrik u Lumen Direktorátu navrhl, abych promluvil se Seldem Třikrát-Korigovaným uvnitř.',
                 ac_seldo_referral: 'Korektor Úhlu mě nasměroval k Seldovi Třikrát-Korigovanému ve druhém patře.',
-                seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti — příliš trapné pro operativce direktoriátu koupit veřejně.',
-                seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumenově direktoriátu výměnou za klíč od Radnice.',
+                seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti — příliš trapné pro operativce Direktorátu koupit veřejně.',
+                seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumen Directorate výměnou za klíč od Radnice.',
                 seldo_townhall_key: 'Dodal jsem Chronobřečkové Ropušátko Seldovi Třikrát-Korigovanému. Dal mi neoficiální klíč od Radnice pro boční vchod s mosaznou schránkou na stížnosti.',
                 entered_townhall: 'Dostal jsem se dovnitř Radnice. Problém se zamčenými dveřmi je vyřešený; teď můžu prohledat záznamy uvnitř.',
             }

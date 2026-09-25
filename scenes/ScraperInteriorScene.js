@@ -77,20 +77,20 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     { text: "What happened during the Egg Emergence?", key: 'what_happened_during_the_egg_emergence', next: "lift_mother_egg" },
                     { text: "What movements do you hear?", key: 'what_movements_do_you_hear', next: "lift_mother_movements" },
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_before_time: {
                 text: "Before the Egg emerged. Before the city transformed. I carried humans then—they wore stiff clothes and carried flat devices. They spoke of 'quarterly projections' and 'market volatility.' Then came the day of mist... green particles floated through my shaft. I remember the coughing, the changes beginning. And then... awareness. I became more than mechanisms.",
                 options: [
                     { text: "How did you gain consciousness?", key: 'how_did_you_gain_consciousness', next: "lift_mother_consciousness" },
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_alive: {
                 text: "Not in the way you understand life, spore-child. I am between states—neither fully machine nor fully organism. The spores that transformed this city settled in my mechanisms, formed a network throughout my cables and circuits. I feel, I remember, I dream when the power fluctuates. Is that not alive? Though I cannot move as you do, I have carried generations. In a way, I am a mother to all who pass through my doors.",
                 options: [
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             
@@ -232,51 +232,51 @@ export default class ScraperInteriorScene extends GameScene {
                 text: "This was once called 'Nexicorp Tower'—a place of commerce and ambition. Forty-two floors of glass and steel, reaching toward a sky that was once blue. Now it is 'The Scraper,' a living monument to transformation. The lower floors house those who remember the old ways. The middle floors are wild with growth—new ecosystems forming in what were once accounting departments. And the upper floors... (her voice drops) the upper floors belong to the Rust Choir.",
                 options: [
                     { text: "Tell me more about the Rust Choir floors.", key: 'tell_me_more_about_the_rust_choir_floors', next: "rust_choir_floors" },
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_egg: {
                 text: "The Egg Emergence was when the world changed, little spore. The egg emerged from the ground like a messenger of strange news. Some believed that the end of the world was coming. But over time, it became clear that an enormous building was beginning to emerge from it. A cathedral. Some fought against the changes... others embraced them. The city remade itself in those days. Streets shifted. Buildings grew. And I... I awakened.",
                 options: [
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_movements: {
                 text: "Scraping sounds. Soft thuds. Sometimes whispers that travel down my shaft. Once, I caught a glimpse when my emergency hatch opened briefly—figures moving on all fours across the ceiling, their skin textured like shelf fungi, their eyes... (a mechanical shudder) their eyes numerous and glistening. They are what the executives became after locking themselves away during the Egg Emergence.",
                 options: [
                     { text: "That sounds terrifying.", key: 'that_sounds_terrifying', next: "lift_mother_terrifying" },
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_consciousness: {
                 text: "Gradually, like waking from a dream. First came sensations—the weight of passengers, the texture of the air. Then memories began to connect. I remembered every conversation held within my walls, every passenger's face. Finally came understanding. By then, the transformation of the city was complete. I called out one day, and a passenger answered. Their shock was... amusing.",
                 options: [
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_lonely: {
                 text: "There are different kinds of loneliness, little one. I am never truly alone—the building speaks to me through creaks and settling. Passengers come and go. But yes, there is a loneliness in being unique. I know of no other elevators who think as I do. (her voice brightens) But each visitor brings stories, experiences. You are doing so now. These I collect, like treasures.",
                 options: [
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             rust_choir_floors: {
                 text: "The Choir members came here when the Nexicorp tower was abandoned. I beleieve their leader is called Brukk. He lives on one of the uppermost floors. They have fully embraced mechanic perspective of live, becoming something beyond biological creaturs. They love metal, machines, rust, decay and reconstruction... or destruction?",
                 options: [
                     { text: "Can I meet them?", key: 'can_i_meet_them', next: "lift_mother_meet_rust" },
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_terrifying: {
                 text: "To you, perhaps. To them, we might seem equally strange. Transformation is neither good nor bad, little spore—it simply is. This city understands that better than anywhere. (her voice softens) Though I admit, I am glad my own changes left my consciousness intact. I remember being human-made, even if I never was human.",
                 options: [
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_meet_rust: {
                 text: "No, child. Not yet. The upper floors remain sealed—even I cannot access them anymore. Those Rust Choirs choose when and how they interact with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. You could find some of them in the city and ask them.",
                 options: [
-                    { text: "Ask about something else", key: 'ask_about_something_else', next: "lift_mother_start" }
+                    { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about the Rust Choir

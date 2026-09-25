@@ -8,7 +8,7 @@ export default {
             title: 'Find the Bishop',
             description: 'The Fungal Master has tasked me with finding the Bishop at the Egg Cathedral. She might know about the distress call received from the city via the myceliar network. I need to speak with her to learn more.',
             updates: {
-                vestigel: 'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.',
+                vestigel: 'Kloor Venn wants me to find one of the three Vestigels. He mentioned that a merchant named Zerren has one.',
                 elphi_contact: "According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often... I should look for Dr. Elphi at the Scraper 1140.",
                 bishop_clue_gnur: "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.",
                 edgar_eskola_clue: 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.',
@@ -61,9 +61,9 @@ export default {
         },
         the_three_vestigels: {
             title: 'The Three Vestigels',
-            description: 'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.',
+            description: 'Kloor Venn wants me to find one of the three Vestigels. He mentioned that a merchant named Zerren has one.',
             updates: {
-                found_eskola_lead: 'Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel.',
+                found_eskola_lead: 'Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can usually be found around the Screaming Cork tavern.',
                 completed: 'I gave the vestigel to Kloor Venn in exchange for information about the Bishop.',
                 edgar_vestigel_acquired: 'Received a vestigel from Edgar Eskola in exchange for helping with his book.',
                 edgar_book_trade: 'Edgar Eskola would trade the Vestigel for your help with his book.',

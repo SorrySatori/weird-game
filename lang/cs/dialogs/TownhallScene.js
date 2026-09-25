@@ -28,7 +28,7 @@ export default {
         options: {
             that_sounds_like_grave_robbery: "To zní jako vykrádání hrobů",
             fascinating_what_have_you_found: "Fascinující. Co jste našel?",
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorGraveRobbery: {
@@ -43,27 +43,27 @@ export default {
         options: {
             thats_disturbing: "To je znepokojující",
             where_do_you_find_these_things: "Kde tyto věci nacházíte?",
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorDisturbing: {
         text: "Znepokojující? Možná. Ale také poučné. Z božské smrti se dozvíme víc než z božského života. Bohové lžou svým následovníkům. Jejich mrtvoly říkají jen pravdu.",
         options: {
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorLocations: {
         text: "Kdekoliv se protíná tlak a paměť. Zatopené chrámy. Zřícené katedrály. Hlubší vrstvy tohoto samotného města. Murkvale, můj domov, je obzvláště bohatý — vodní tlak tam krásně fosilizuje božskou esenci.",
         options: {
             tell_me_about_murkvale: "Řekněte mi o Murkvale",
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorMurkvale: {
         text: "Jsem z Murkvale. Je to zatopené město, kde se můj lid, Craybara, vyvinul. Jsme obojživelní — přizpůsobení drtivým hloubkám i sociálním tlakům. Ruiny města rostou jako korály a samotná paměť fosilizuje v sedimentu. Je to perfektní laboratoř pro studium božské archeologie.",
         options: {
             what_brought_you_here: "Co vás sem přivedlo?",
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorPurpose: {
@@ -72,7 +72,7 @@ export default {
             thats_quite_ambitious: "To je docela ambiciózní",
             can_i_help_you_to_get_the_permission: "Mohu vám pomoct získat povolení?",
             the_townhall_is_closed_i_need_to_get_in_there_too: "Radnice je zavřená? Já tam taky potřebuji.",
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorPurposeHelp: {
@@ -84,7 +84,7 @@ export default {
     phorAmbitious: {
         text: "Ambice jsou vše, co přežije tlak. V Murkvale jsme se to naučili brzy. Slabí jsou rozdrceni. Ambiciózní se přizpůsobí. Hodlám publikovat definitivní text o božské stratigrafii — za předpokladu, že přežiji vykopávky.",
         options: {
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorTownhallClosed: {
@@ -120,7 +120,7 @@ export default {
         text: "Jsou to symbiotické organismy — houbové mycelium, které se živí oxidujícím kovem a zároveň uchovává strukturální paměť toho, čím kov kdysi byl. V jistém smyslu jsou to živé fosilie rozkladu. Docela poetické, vlastně.",
         options: {
             where_can_i_find_one: "Kde mohu nějakou najít?",
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     phorRustClusterExtraction: {
@@ -133,7 +133,7 @@ export default {
     phorRustClusterThanks: {
         text: "Samozřejmě. Pokud budete úspěšný, řekněte mi, k čemu ji používáte. Vždy mě zajímá, jak ostatní využívají tyto božské pozůstatky.",
         options: {
-            ask_something_else: "Zeptejte se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
 

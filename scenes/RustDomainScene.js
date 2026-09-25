@@ -24,7 +24,7 @@ export default class RustDomainScene extends GameScene {
         const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started');
         const cellarPasswordKnown = !!this.hasJournalEntry('cellar_password_learned');
         const cellarFavorUsed = !!this.hasJournalEntry('rust_choir_favor_used');
-        // Choir members can have Brukk graft an extra symbiont vessel for gold.
+        // Choir members can have Brukk graft an extra symbiont vessel for dinar.
         const canGraftSlot = alreadyMember && !machinesDestroyed && !!this.symbiontSystem
             && this.symbiontSystem.unlockedSlots < this.symbiontSystem.maxSlots;
         const hasBrine = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
@@ -200,9 +200,9 @@ export default class RustDomainScene extends GameScene {
             },
             brukk_graft_slot: {
                 speaker: 'Brukk',
-                text: `Brukk's forge-eyes flick over your ribs as though reading a blueprint. "Room. Aye. The dead floors are full of housings — vessels the old managers grew and never filled. I can strip one, temper it, weld it into you. It will hold another rider." A low grind that might be a laugh. "The Choir does not do this for outsiders. For you — forty gold, for the iron and the fire. Hold still and it's done."`,
+                text: `Brukk's forge-eyes flick over your ribs as though reading a blueprint. "Room. Aye. The dead floors are full of housings — vessels the old managers grew and never filled. I can strip one, temper it, weld it into you. It will hold another rider." A low grind that might be a laugh. "The Choir does not do this for outsiders. For you — forty dinar, for the iron and the fire. Hold still and it's done."`,
                 options: [
-                    { text: "Do it. (Pay 40 gold.)", key: 'brukk_graft_pay', next: "brukk_start", onSelect: () => this.buyRustChoirSlot() },
+                    { text: "Do it. (Pay 40 dinar.)", key: 'brukk_graft_pay', next: "brukk_start", onSelect: () => this.buyRustChoirSlot() },
                     { text: "Not now.", key: 'brukk_graft_decline', next: "brukk_start" }
                 ]
             },
@@ -618,7 +618,7 @@ export default class RustDomainScene extends GameScene {
         };
     }
 
-    /** Brukk grafts an extra symbiont vessel for gold (Rust Choir member perk). */
+    /** Brukk grafts an extra symbiont vessel for dinar (Rust Choir member perk). */
     buyRustChoirSlot() {
         const cost = 40;
         const money = this.moneySystem;
@@ -629,7 +629,7 @@ export default class RustDomainScene extends GameScene {
             return;
         }
         if (!money.hasEnough(cost)) {
-            this.showNotification('Not enough gold!');
+            this.showNotification(this.t('notifications.notEnoughMoney'));
             return;
         }
         money.subtract(cost, true);

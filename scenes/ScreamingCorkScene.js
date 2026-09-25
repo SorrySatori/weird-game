@@ -499,14 +499,14 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "Why is that?", key: 'why_is_that', next: "edgar_prejudice" },
                     { text: "What are mišutkenn?", key: 'what_are_miutkenn', next: "edgar_what" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_what: {
         
                 text: "Mišutkenn are... well, we're not exactly human. We're... different.",
                 options: [
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(1, 0); // the G/D system announces the change itself
@@ -516,21 +516,21 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "History. Superstition. Fear of what's different. Take your pick. The founders of this city drove my ancestors from the Remaper Hills. Now we're just... tolerated. At best.",
                 options: [
                     { text: "That's unfortunate.", key: 'thats_unfortunate', next: "edgar_unfortunate" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_unfortunate: {
         
                 text: "That's one way to put it. But I've learned to live with it. Mostly.",
                 options: [
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_purpose: {
                 text: "Waiting. Watching. Avoiding the preparations for that cursed festival. The Screaming Cork is one of the few places that doesn't go all-in on the bear burning nonsense.",
                 options: [
                     { text: "You don't like the festival?", key: 'you_dont_like_the_festival', next: "edgar_festival" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_background: {
@@ -540,7 +540,7 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Professional imaginator?", key: 'professional_imaginator', next: "edgar_imaginator" },
                     { text: "Why didn't they work out?", key: 'why_didnt_they_work_out', next: "edgar_jobs" },
                     { text: "What would you like to do?", key: 'what_would_you_like_to_do', next: "edgar_dream_job" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_dream_job: {
@@ -550,7 +550,7 @@ export default class ScreamingCorkScene extends GameScene {
                     ...(!this.questSystem.getQuest('edgar_book') ? [
                         { text: "I can help you write the book", key: 'i_can_help_you_write_the_book', next: "edgar_book" }
                     ] : []),
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about Edgar's aspiration
@@ -968,14 +968,14 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "I dreamed up locations and characters for Dr. Elphi Quarn's games. Turns out my imagination was too... wild. Too erratic, they said. My dreams were 'unusable.' Their loss.",
                 options: [
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_jobs: {
         
                 text: "Bad timing, mostly. The Scraper took the Rust Choir and stopped being an official part of the city — no need for a janitor then. The other jobs... Well, being a mišutkenn doesn't help with job security in this city.",
                 options: [
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_festival: {
@@ -984,28 +984,28 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "That sounds disturbing.", key: 'that_sounds_disturbing', next: "edgar_disturbing" },
                     { text: "It's just tradition, isn't it?", key: 'its_just_tradition_isnt_it', next: "edgar_tradition" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_disturbing: {
                 text: "It is. Imagine being surrounded by burning effigies that look like your ancestors. The city lights up with fires of different colors and smells, while I hide away, waiting for it to end.",
                 options: [
                     { text: "I'm sorry to hear that.", key: 'im_sorry_to_hear_that', next: "edgar_sympathy" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_tradition: {
         
                 text: "Tradition? Traditions can be cruel. Just because something has been done for generations doesn't make it right. But few in this city would agree with me.",
                 options: [
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_sympathy: {
         
                 text: "Your sympathy is... unexpected. But appreciated. Perhaps not everyone in this city is as thoughtless as I've come to believe.",
                 options: [
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(1, 0); // the G/D system announces the change itself
@@ -1020,7 +1020,7 @@ export default class ScreamingCorkScene extends GameScene {
                     // Use ternary to determine next dialog based on book quest completion status
                     { text: "I need it for an important purpose.", key: 'i_need_it_for_an_important_purpose', next: bookDone ? "edgar_vestigel_give_completed" : "edgar_vestigel_need" },
                     { text: "May I have it?", key: 'may_i_have_it', next: bookDone ? "edgar_vestigel_give_completed" : "edgar_vestigel_request" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_need: {
@@ -1028,7 +1028,7 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Important purpose, you say? Well, I don't really *need* it, but I kinda like it. Maybe you could do something for me in exchange?",
                 options: [
                     { text: "What do you need?", key: 'what_do_you_need', next: "edgar_vestigel_convince" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_request: {
@@ -1036,7 +1036,7 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Just like that? You know that's a valuable trinket. I wouldn't give it away without good reason.",
                 options: [
                     { text: "What would convince you to part with it?", key: 'what_would_convince_you_to_part_with_it', next: "edgar_vestigel_convince" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_convince: {
@@ -1051,7 +1051,7 @@ export default class ScreamingCorkScene extends GameScene {
                     ] : [
                         { text: "Maybe I could help you with something.", key: 'maybe_i_could_help_you_with_something', next: "edgar_vestigel_offer" }
                     ]),
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_vestigel_offer: {
@@ -1136,7 +1136,7 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "Remember your promise. I look forward to seeing what we can create together. A book that truly captures the essence of... well, that's what we need to discover.",
                 options: [
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(1, 0);
@@ -1169,14 +1169,14 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "The walls breathe?", key: 'the_walls_breathe', next: "edgar_cathedral_breathe" },
                     { text: "Then show me the way in.", key: 'then_show_me_the_way_in', next: "edgar_cathedral_path" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_cathedral_breathe: {
                 text: "\"They're breathing. In and out, slowly, as if something were sleeping there. Everyone thinks the cathedral's cellars are just a dead, empty space where nothing exists. But I don't think they're dead. There's something down there. Honestly, I stopped working there because I got scared. I have no idea if those corridors have changed in any way since then — you'll have to see for yourself.\"",
                 options: [
                     { text: "So there is a way in.", key: 'so_there_is_a_way_in', next: "edgar_cathedral_path" },
-                    { text: "Back to other topics", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
             edgar_cathedral_path: {

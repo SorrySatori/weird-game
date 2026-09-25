@@ -58,9 +58,9 @@ export default {
             ulvarex: "Ulvarex se za mýma očima pohne v okamžiku, kdy se podívám na vodu. Tohle je ta louže, na které se sem svezl — a ten odraz pořád není poctivý. Moře mi ukazuje obzor o pár stupňů špatně, jen aby vidělo, jestli si toho všimnu.",
         },
         lumen_architecture: {
-            hint: 'Živý Direktoriát',
+            hint: 'Živý Direktorát',
             default: "Každý jeho kámen je rdousený zelení — břečťan živený a stříhaný do tvaru katedrály, zevnitř nasvícený, jako by spolkl východ slunce. „Nic skrytého, nic ztraceného.“ Budova, která si sama pěstuje stěny, má spoustu míst, kam něco schovat.",
-            overgrown: "Ta zeleň už přestala být ozdobou. Teď tu architekturu požírá — okna slepnou pod listím, oblouky mizí pod květem, který nikdo nesestříhává. Direktoriát chtěl růst. Růst si nenechá poroučet.",
+            overgrown: "Ta zeleň už přestala být ozdobou. Teď tu architekturu požírá — okna slepnou pod listím, oblouky mizí pod květem, který nikdo nesestříhává. Direktorát chtěl růst. Růst si nenechá poroučet.",
             joined: "Teď jsem uvnitř tohohle, víceméně. To světlo, co z cesty vypadá tak teple, je totéž světlo, které zaeviduje všechno, čeho se dotkne. Patřit k místu, které vede dokonalé záznamy, je chladnější pocit, než jsem čekal.",
         },
         screaming_cork: {

@@ -3,12 +3,19 @@
  * Handles currency management, transactions, and UI display
  */
 export default class MoneySystem {
+    /** Localized money notification via the scene's t(); falls back to the plain string. */
+    _msg(key, amount, fallback) {
+        if (typeof this.scene?.t !== 'function') return fallback;
+        const text = this.scene.t(`notifications.${key}`, { amount });
+        return text === `notifications.${key}` ? fallback : text;
+    }
+
     /**
      * Create a new money system
      * @param {Phaser.Scene} scene - The scene this system belongs to
      * @param {Object} options - Configuration options
      * @param {number} options.initialAmount - Starting money amount (default: 0)
-     * @param {string} options.currencyName - Name of the currency (default: 'gold')
+     * @param {string} options.currencyName - Name of the currency (default: 'dinar')
      * @param {boolean} options.showUI - Whether to show the UI (default: true)
      * @param {Object} options.position - Position of the UI
      * @param {number} options.position.x - X position (default: 700)
@@ -20,7 +27,7 @@ export default class MoneySystem {
         // Set default options
         const defaultOptions = {
             initialAmount: 0,
-            currencyName: 'gold',
+            currencyName: 'dinar',
             showUI: true,
             position: {
                 x: 700,
@@ -147,7 +154,7 @@ export default class MoneySystem {
         
         // Show notification if enabled
         if (showNotification && this.scene.showNotification) {
-            this.scene.showNotification(`+${amount} ${this.options.currencyName}`);
+            this.scene.showNotification(this._msg('moneyGain', amount, `+${amount} ${this.options.currencyName}`));
         }
         
         // Save the new amount
@@ -173,7 +180,7 @@ export default class MoneySystem {
         if (this.amount < amount) {
             // Show notification if enabled
             if (showNotification && this.scene.showNotification) {
-                this.scene.showNotification(`Not enough ${this.options.currencyName}!`, 'error');
+                this.scene.showNotification(this._msg('notEnoughMoney', amount, `Not enough ${this.options.currencyName}!`), 'error');
             }
             return false;
         }
@@ -186,7 +193,7 @@ export default class MoneySystem {
         
         // Show notification if enabled
         if (showNotification && this.scene.showNotification) {
-            this.scene.showNotification(`-${amount} ${this.options.currencyName}`);
+            this.scene.showNotification(this._msg('moneyLoss', amount, `-${amount} ${this.options.currencyName}`));
         }
         
         // Save the new amount
@@ -225,9 +232,9 @@ export default class MoneySystem {
         // Show notification if enabled
         if (showNotification && this.scene.showNotification) {
             if (difference > 0) {
-                this.scene.showNotification(`+${difference} ${this.options.currencyName}`);
+                this.scene.showNotification(this._msg('moneyGain', difference, `+${difference} ${this.options.currencyName}`));
             } else if (difference < 0) {
-                this.scene.showNotification(`${difference} ${this.options.currencyName}`);
+                this.scene.showNotification(this._msg('moneyLoss', -difference, `${difference} ${this.options.currencyName}`));
             }
         }
         

@@ -327,15 +327,15 @@ export default {
 
     // ===== L2: Chandelieřina zakázka — „Vybrané sousto" (odposlech) =====
     chandelier_eavesdrop_brief: {
-        text: `Každý ověsek se nakloní, přímo se třpytí. „Tak. Je tu jeden dům, který si své tajnosti *hromadí*, drahoušku, a přivádí mě to k šílenství — Lumenový direktoriát, s tou svou přistřiženou zahrádkou a jejich ‚nic skryto, nic ztraceno'. *Ha.* Skrývají spoustu; jen to hezky zakládají do složek.“ Spiklenecké cinknutí. „Jdi a *poflakuj se* u jejich zahrady. Je tam místo, kde větrací šachty donesou každé slovo zevnitř. Postav se tam, nech to na sebe doléhat, a přines mi něco šťavnatého — jméno, strach, tichou malou zradu. Budu se tím hostit tucet trávení.“`,
+        text: `Každý ověsek se nakloní, přímo se třpytí. „Tak. Je tu jeden dům, který si své tajnosti *hromadí*, drahoušku, a přivádí mě to k šílenství — Lumen Directorate, s tou svou přistřiženou zahrádkou a jejich ‚nic skryto, nic ztraceno'. *Ha.* Skrývají spoustu; jen to hezky zakládají do složek.“ Spiklenecké cinknutí. „Jdi a *poflakuj se* u jejich zahrady. Je tam místo, kde větrací šachty donesou každé slovo zevnitř. Postav se tam, nech to na sebe doléhat, a přines mi něco šťavnatého — jméno, strach, tichou malou zradu. Budu se tím hostit tucet trávení.“`,
         options: {
-            chandelier_eavesdrop_accept: "Odposlouchat Lumenový direktoriát. Lahodné.",
+            chandelier_eavesdrop_accept: "Odposlouchat Lumen Directorate. Lahodné.",
         }
     },
     chandelier_eavesdrop_statusinfo: {
-        text: `„Zahrada Lumenového direktoriátu, drahoušku — to jejich upravené královstvíčko. Najdi průduch, kterým prosakují hlasy, a prostě *poslouchej*. Pak honem zpátky; sousto zvětrá, když se loudáš.“`,
+        text: `„Zahrada Lumen Directorate, drahoušku — to jejich upravené královstvíčko. Najdi průduch, kterým prosakují hlasy, a prostě *poslouchej*. Pak honem zpátky; sousto zvětrá, když se loudáš.“`,
         options: {
-            chandelier_eavesdrop_statusinfo_close: "Zahrada direktoriátu. Už běžím.",
+            chandelier_eavesdrop_statusinfo_close: "Zahrada Direktorátu. Už běžím.",
         }
     },
     chandelier_eavesdrop_report: {

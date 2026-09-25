@@ -108,7 +108,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_who: {
                 text: "Name's Ravla. I'm an... artist of sorts. Been at the Cork a couple thousand digestions now. It's quiet, keeps the authorities at a distance.",
                 options: [
-                    { text: "Back", key: 'back', next: "ravla_start" }
+                    { text: "Ask something else", key: 'back', next: "ravla_start" }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('met_ravla')) {
@@ -126,7 +126,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "I provide services for those who need certain... paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
                 options: [
                     { text: "I need some documents...", key: 'i_need_some_documents', next: "ravla_documents" },
-                    { text: "Back", key: 'back', next: "ravla_start" }
+                    { text: "Ask something else", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_documents: {
@@ -141,14 +141,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_curious: {
                 text: "Curiosity is expensive in this city. Come back when you have real business.",
                 options: [
-                    { text: "Back", key: 'back', next: "ravla_start" }
+                    { text: "Ask something else", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_ortolan: {
                 text: "Artisan's Exemption Form? For Ortolan? That game designer? Interesting. Those forms have special seals that are hard to duplicate. But... I might be able to help.",
                 options: [
                     { text: "What would you need?", key: 'what_would_you_need', next: "ravla_ortolan_need" },
-                    { text: "Back", key: 'back', next: "ravla_start" }
+                    { text: "Ask something else", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_ortolan_need: {
@@ -533,7 +533,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "We are Heliodor. We keep an eye on things here, make sure everyone behaves.",
                 options: [
                     { text: "We?", key: 'we', next: "heliodor_explain" },
-                    { text: "Back", key: 'back', next: "heliodor_start" }
+                    { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ]
             },
             heliodor_explain: {
@@ -556,14 +556,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             heliodor_place: {
                 text: "The Screaming Cork's been here longer than most of the city. Owner claims it was the first building erected after the Collapse. Doubt that's true, but it's certainly old. Good place to disappear for a while.",
                 options: [
-                    { text: "Back", key: 'back', next: "heliodor_start" }
+                    { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ]
             },
             heliodor_rumors: {
                 text: "Hmm. Word is the Rust Choir minions are getting more aggressive with their territory. And there's something strange happening at the Cathedral.",
                 options: [
                     { text: "Anything else?", key: 'anything_else', next: "heliodor_more_rumors" },
-                    { text: "Back", key: 'back', next: "heliodor_start" }
+                    { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ]
             },
             heliodor_more_rumors: {
@@ -875,6 +875,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         // Create shop system
         this.shopSystem = new ShopSystem(this, {
             shopName: 'Screaming Cork Shop',
+            shopKey: 'cork',
             inventory: shopInventory,
             position: {
                 x: 400,

@@ -33,7 +33,7 @@ export default {
     },
 
     twins_auction_rules: {
-        text: `„Pravidla jsou jednoduchá," říká Hesh. Vellovy rty následují. „Položky se představují jedna po druhé. Dražba začíná na uvedené ceně. Zvedněte ruku pro příhoz. Nejvyšší nabízející, když zvoláme ‚Uzavřeno', vyhrává.\n\nPlatba je okamžitá. Pouze zlaté — žádný barter, žádné vestigely, žádné sliby. Pokud nemůžete zaplatit, odejdete. Pokud způsobíte scénu, odejdete rychleji.\n\nPředaukční společenská doba je stejně důležitá. Poznejte konkurenci. Spřátelte se. Nebo je znervózněte."`,
+        text: `„Pravidla jsou jednoduchá," říká Hesh. Vellovy rty následují. „Položky se představují jedna po druhé. Dražba začíná na uvedené ceně. Zvedněte ruku pro příhoz. Nejvyšší nabízející, když zvoláme ‚Uzavřeno', vyhrává.\n\nPlatba je okamžitá. Pouze dináry — žádný barter, žádné vestigely, žádné sliby. Pokud nemůžete zaplatit, odejdete. Pokud způsobíte scénu, odejdete rychleji.\n\nPředaukční společenská doba je stejně důležitá. Poznejte konkurenci. Spřátelte se. Nebo je znervózněte."`,
         options: {
             whats_being_auctioned_today: "Co se dnes draží?",
             i_have_other_questions: "Mám další otázky.",
@@ -41,7 +41,7 @@ export default {
     },
 
     twins_lots: {
-        text: `„Dnešní položky zahrnují," začíná Hesh a Vellova opožděná ozvěna mění seznam v skandování:\n\n„Sklenice komprimované nostalgie — vzpomínky na místo, které nikdy neexistovalo. Vyvolávací cena 30 zlatých.\n\nJedno Chronobřečkové Ropušátko — prorocký obojživelník, tříminutové okno předvídavosti. Vyvolávací cena 60 zlatých.\n\nSada samoostřících byrokratických brků — samy vyplní správnou odpověď na jakýkoli úřední formulář. Vyvolávací cena 45 zlatých.\n\nMembrána Solopisu — spící symbiontní tkáň uchovaná v minerálním solném roztoku. Vyvolávací cena čeká na ověření.\n\nA hlavní kousek večera: Zkamenělé snové vejce z katedrálních vykopávek. Vyvolávací cena 120 zlatých."\n\nVell konečně dožene a oba dvojčata se usmějí současně. Tato část je přinejmenším dokonale synchronizovaná.`,
+        text: `„Dnešní položky zahrnují," začíná Hesh a Vellova opožděná ozvěna mění seznam v skandování:\n\n„Sklenice komprimované nostalgie — vzpomínky na místo, které nikdy neexistovalo. Vyvolávací cena 30 dinárů.\n\nJedno Chronobřečkové Ropušátko — prorocký obojživelník, tříminutové okno předvídavosti. Vyvolávací cena 60 dinárů.\n\nSada samoostřících byrokratických brků — samy vyplní správnou odpověď na jakýkoli úřední formulář. Vyvolávací cena 45 dinárů.\n\nMembrána Solopisu — spící symbiontní tkáň uchovaná v minerálním solném roztoku. Vyvolávací cena čeká na ověření.\n\nA hlavní kousek večera: Zkamenělé snové vejce z katedrálních vykopávek. Vyvolávací cena 120 dinárů."\n\nVell konečně dožene a oba dvojčata se usmějí současně. Tato část je přinejmenším dokonale synchronizovaná.`,
         options: {
             tell_me_more_about_the_chronoslurry_toadlet: "Řekněte mi víc o Chronobřečkovém Ropušátku.",
             im_ready_to_begin_the_auction: "Jsem připraven začít aukci.",
@@ -52,8 +52,8 @@ export default {
 
     twins_toadlet: {
         text: {
-            twins_toadlet_confused: `„Ropušátko, ano," říká Hesh. Vellova ústa se pohybují, ale načasování je špatné — příliš brzy, pak příliš pozdě, pak vynechává celá slova. „Vyvolávací cena je... čtyřicet zlatých." Hesh se krátce zamračí, jako by to číslo překvapilo i je. „Je to... oblíbená položka. Několik zájemců."\n\nJejich obvyklý rytmus je narušený. Cena, kterou uvedli, je nižší než v seznamu — jejich manipulace tempováním nefunguje správně.`,
-            twins_toadlet_normal: `„Ach, Ropušátko," říká Hesh s nacvičeným zájmem. Vellovy rty formují slova s teatrální přesností. „Krásný exemplář. Tři minuty dokonalé předvídavosti po jazykovém kontaktu. Velmi oblíbené u byrokratů, gamblerů a chronicky nerozhodných.\n\nVyvolávací cena: 60 zlatých. Ale čekejte konkurenci — máme minimálně dva vážné zájemce. Konečná cena... no." Oba dvojčata se usmějí. „To závisí na sále."`,
+            twins_toadlet_confused: `„Ropušátko, ano," říká Hesh. Vellova ústa se pohybují, ale načasování je špatné — příliš brzy, pak příliš pozdě, pak vynechává celá slova. „Vyvolávací cena je... čtyřicet dinárů." Hesh se krátce zamračí, jako by to číslo překvapilo i je. „Je to... oblíbená položka. Několik zájemců."\n\nJejich obvyklý rytmus je narušený. Cena, kterou uvedli, je nižší než v seznamu — jejich manipulace tempováním nefunguje správně.`,
+            twins_toadlet_normal: `„Ach, Ropušátko," říká Hesh s nacvičeným zájmem. Vellovy rty formují slova s teatrální přesností. „Krásný exemplář. Tři minuty dokonalé předvídavosti po jazykovém kontaktu. Velmi oblíbené u byrokratů, gamblerů a chronicky nerozhodných.\n\nVyvolávací cena: 60 dinárů. Ale čekejte konkurenci — máme minimálně dva vážné zájemce. Konečná cena... no." Oba dvojčata se usmějí. „To závisí na sále."`,
         },
         options: {
             who_else_is_bidding_on_it: "Kdo další na něj dráží?",
@@ -117,7 +117,7 @@ export default {
     },
 
     calyx_pith: {
-        text: `„Reklamátoři jádra extrahují houbovou esenci — jádro — z živých organismů. Rafinujeme ji, studujeme, obchodujeme s ní. Direktoriát nám říká ‚paraziti,' Rezavý chór nám říká ‚zloději.' My si říkáme praktičtí.\n\nKaždá živá věc v tomto městě nese sklizitelnou esenci. My prostě... sbíráme, co se už stejně plýtvá. Katedrální vejce, sporová pole, dokonce i živé zdi města — to vše jsou zdroje surového jádra.\n\nNaše kapitula zde v Horní Morkezele je malá, ale dobře financovaná. Proto moje přítomnost na této aukci."`,
+        text: `„Reklamátoři jádra extrahují houbovou esenci — jádro — z živých organismů. Rafinujeme ji, studujeme, obchodujeme s ní. Direktorát nám říká ‚paraziti,' Rezavý chór nám říká ‚zloději.' My si říkáme praktičtí.\n\nKaždá živá věc v tomto městě nese sklizitelnou esenci. My prostě... sbíráme, co se už stejně plýtvá. Katedrální vejce, sporová pole, dokonce i živé zdi města — to vše jsou zdroje surového jádra.\n\nNaše kapitula zde v Horní Morkezele je malá, ale dobře financovaná. Proto moje přítomnost na této aukci."`,
         options: {
             what_are_you_bidding_on: "Na co dražíte?",
             essence_extraction_sounds_invasive: "Extrakce esence zní invazivně.",
@@ -126,7 +126,7 @@ export default {
     },
 
     calyx_ethics: {
-        text: `„Invazivní?" Upraví si manžetu protkanou houbovými vlákny. „Je invazivní, když dýcháte? S každým nádechem vdechujete spory. My to prostě děláme se záměrem a přesností.\n\nLumen Direktoriát pěstuje věci a předstírá, že jsou přirozené. Rezavý chór nechává věci rozpadat a nazývá to posvátným. My extrahujeme, co je užitečné, a nazýváme to poctivým.\n\nAle nepřišla jsem sem diskutovat o filozofii. Přišla jsem dražit."`,
+        text: `„Invazivní?" Upraví si manžetu protkanou houbovými vlákny. „Je invazivní, když dýcháte? S každým nádechem vdechujete spory. My to prostě děláme se záměrem a přesností.\n\nLumen Direktorát pěstuje věci a předstírá, že jsou přirozené. Rezavý chór nechává věci rozpadat a nazývá to posvátným. My extrahujeme, co je užitečné, a nazýváme to poctivým.\n\nAle nepřišla jsem sem diskutovat o filozofii. Přišla jsem dražit."`,
         options: {
             what_are_you_bidding_on: "Na co dražíte?",
             i_have_other_questions: "Mám další otázky.",
@@ -134,7 +134,7 @@ export default {
     },
 
     calyx_bidding: {
-        text: `„Zkamenělé snové vejce, primárně. Katedrální artefakty nesou koncentrované jádro — dekády nashromážděné esence stlačené do kamene. Naše kapitula by ho mohla studovat roky.\n\nAle sekundárně mě zajímá i Chronobřečkové Ropušátko. Proročtí obojživelníci produkují jedinečný podpis jádra, když se aktivuje jejich předvídavost. Velmi cenné pro náš výzkum temporální extrakce.\n\nMám rozpočet 150 zlatých. Hodlám ho použít strategicky."`,
+        text: `„Zkamenělé snové vejce, primárně. Katedrální artefakty nesou koncentrované jádro — dekády nashromážděné esence stlačené do kamene. Naše kapitula by ho mohla studovat roky.\n\nAle sekundárně mě zajímá i Chronobřečkové Ropušátko. Proročtí obojživelníci produkují jedinečný podpis jádra, když se aktivuje jejich předvídavost. Velmi cenné pro náš výzkum temporální extrakce.\n\nMám rozpočet 150 dinárů. Hodlám ho použít strategicky."`,
         options: {
             the_toadlet_is_mine_im_bidding_on_it_too: "Ropušátko je moje. Dražím na něj taky.",
             thats_a_serious_budget: "To je vážný rozpočet.",
@@ -143,7 +143,7 @@ export default {
     },
 
     calyx_toadlet_rival: {
-        text: `Přimhouří oči. „Vy chcete Ropušátko? Zajímavé. Není to zrovna neformální nákup — proročtí obojživelníci vyžadují specializovanou péči. Nebo ho jen chcete olíznout a nahlédnout tři minuty dopředu jako všichni ostatní?\n\nNebudu předstírat, že ustoupím. Ale snové vejce je moje priorita — pokud Ropušátko vyletí příliš vysoko, budu si muset vybrat.\n\nLeda byste mě přesvědčili, že Ropušátko nestojí za moje zlaté."`,
+        text: `Přimhouří oči. „Vy chcete Ropušátko? Zajímavé. Není to zrovna neformální nákup — proročtí obojživelníci vyžadují specializovanou péči. Nebo ho jen chcete olíznout a nahlédnout tři minuty dopředu jako všichni ostatní?\n\nNebudu předstírat, že ustoupím. Ale snové vejce je moje priorita — pokud Ropušátko vyletí příliš vysoko, budu si muset vybrat.\n\nLeda byste mě přesvědčili, že Ropušátko nestojí za moje dináry."`,
         options: {
             what_would_convince_you_to_drop_the_toadlet_bid: "Co by vás přesvědčilo vzdát se dražby Ropušátka?",
             may_the_best_bidder_win: "Ať vyhraje lepší dražitel.",
@@ -180,7 +180,7 @@ export default {
     },
 
     calyx_budget: {
-        text: `„Kapitula nefinancuje polovičatosti. Když identifikujeme zdroj jádra hodný akvizice, získáme ho. 150 zlatých je skromné podle reklamátorských standardů — některé kapituly posílají delegace s desetinásobkem.\n\nAle Horní Morkezela je malá kapitula. Jsme... opatrní s alokacemi. Proto musím dražit strategicky, ne emotivně."`,
+        text: `„Kapitula nefinancuje polovičatosti. Když identifikujeme zdroj jádra hodný akvizice, získáme ho. 150 dinárů je skromné podle reklamátorských standardů — některé kapituly posílají delegace s desetinásobkem.\n\nAle Horní Morkezela je malá kapitula. Jsme... opatrní s alokacemi. Proto musím dražit strategicky, ne emotivně."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
@@ -203,7 +203,7 @@ Z rukávu vytáhne složený dokument — křehký, úřední, orazítkovaný mr
     calyx_seal_guardian_orders: {
         text: `„Kustodská charta jmenuje strážce u závoje — Strážce. Jeho tělo bylo dáno rostlinám a jeho mysl myceliální síti, aby mohl udržet *jediný pokyn* napříč staletími bez odchýlení. Úředníci zapomínají. Strážci ne."
 
-Čte to věcně, tak jak Reklamátoři čtou všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* — komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům zlata. Zlodějům *autorství*."
+Čte to věcně, tak jak Reklamátoři čtou všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* — komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům mincí. Zlodějům *autorství*."
 
 „Všichni si Strážce pamatují jako dveře. Byl sepsán jako filtr. Ten rozdíl je celý ten případ."`,
         options: {
@@ -213,7 +213,7 @@ Z rukávu vytáhne složený dokument — křehký, úřední, orazítkovaný mr
     },
 
     calyx_seal_true_purpose: {
-        text: `„Nyní k samotné uzavírací listině." Uhladí křehkou stránku. „Lidé předpokládají, že Biskupka zapečetila katedrálu, aby *chránila katedrálu* — před lupiči, před přístroji Direktoriátu, před tím, co se líhne uvnitř vejce. To je sentimentální čtení. Je mylné."
+        text: `„Nyní k samotné uzavírací listině." Uhladí křehkou stránku. „Lidé předpokládají, že Biskupka zapečetila katedrálu, aby *chránila katedrálu* — před lupiči, před přístroji Direktorátu, před tím, co se líhne uvnitř vejce. To je sentimentální čtení. Je mylné."
 
 „Účelová klauzule čte směrem ven, ne dovnitř. Pečeť nebyla zdvižena, aby udržela svět *mimo* katedrálu. Byla zdvižena, aby to, co je *uvnitř*, nebylo vyneseno do světa nesprávnýma rukama — aby chránila *svět* před vstupem kohokoli, kdo by chtěl *vlastnit* nový život."
 
@@ -459,9 +459,9 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
 
     auction_brine_bidding: {
         text: {
-            auction_brine_low: `Membrána Solopisu se leskne pod lampami, ale vaše předchozí práce zkazila náladu v sále. Dědicova embrya plavou mimo rytmus; Lune nedůvěřuje emoční provenienci; ani dvojčecí kadence nedokáže zostřit apetit.\n\nPřesto Dědic zvedne průsvitnou ruku při 28 zlatých a Lune odpoví neochotným kývnutím při 32. Hesh se pokusí vybudovat tempo, ale Vell artikuluje špatné číslo a sál se potichu zasměje. Zvednete ruku ještě jednou.\n\nDražba se rychle zhroutí. Konečná cena: 36 zlatých.`,
-            auction_brine_medium: `Solopis přitáhne opatrný zájem. Dědic ho pozoruje s přílivovým rozpoznáním, Lune naslouchá jeho emoční pachuti a několik anonymních pádel se zvedne ze zadních řad.\n\nDědic draží první. Lune kontruje. Někdo za závojem přidá pět zlatých, aniž pohne tváří. Vaše manipulace sál změkčily, ale neumlčely, a vy musíte držet ruku nahoře přes tři opatrná navýšení.\n\nKonečná cena: 48 zlatých.`,
-            auction_brine_high: `Solopis probudí sál vlhkým šepotem. Dědic se nakloní dopředu. Lunina skleněná srdce se rozjasní. Někde zvedne dražitel, kterého jste nikdy nepotkali, tři prsty zpoza závoje.\n\nDědic a Lune si vyměňují příhozy, dokud se Heshův hlas nezaostří v představení. Vstoupíte pozdě a pak musíte přetrvat zahaleného sběratele, který jako by dražil samotným pulzem. Konkurence zůstává tvrdá.\n\nKonečná cena: 60 zlatých.`,
+            auction_brine_low: `Membrána Solopisu se leskne pod lampami, ale vaše předchozí práce zkazila náladu v sále. Dědicova embrya plavou mimo rytmus; Lune nedůvěřuje emoční provenienci; ani dvojčecí kadence nedokáže zostřit apetit.\n\nPřesto Dědic zvedne průsvitnou ruku při 28 dinárů a Lune odpoví neochotným kývnutím při 32. Hesh se pokusí vybudovat tempo, ale Vell artikuluje špatné číslo a sál se potichu zasměje. Zvednete ruku ještě jednou.\n\nDražba se rychle zhroutí. Konečná cena: 36 dinárů.`,
+            auction_brine_medium: `Solopis přitáhne opatrný zájem. Dědic ho pozoruje s přílivovým rozpoznáním, Lune naslouchá jeho emoční pachuti a několik anonymních pádel se zvedne ze zadních řad.\n\nDědic draží první. Lune kontruje. Někdo za závojem přidá pět dinárů, aniž pohne tváří. Vaše manipulace sál změkčily, ale neumlčely, a vy musíte držet ruku nahoře přes tři opatrná navýšení.\n\nKonečná cena: 48 dinárů.`,
+            auction_brine_high: `Solopis probudí sál vlhkým šepotem. Dědic se nakloní dopředu. Lunina skleněná srdce se rozjasní. Někde zvedne dražitel, kterého jste nikdy nepotkali, tři prsty zpoza závoje.\n\nDědic a Lune si vyměňují příhozy, dokud se Heshův hlas nezaostří v představení. Vstoupíte pozdě a pak musíte přetrvat zahaleného sběratele, který jako by dražil samotným pulzem. Konkurence zůstává tvrdá.\n\nKonečná cena: 60 dinárů.`,
         },
         options: {
             pay_brine_price_and_host_the_brine_scripture: "Zaplatit konečnou cenu a hostit Solopis.",
@@ -484,7 +484,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     auction_brine_no_money: {
-        text: `Hesh se podívá na váš měšec a pak s chirurgickou zdvořilostí zavře účetní knihu. „Platba je okamžitá. Pouze zlaté."\n\nSolopis je odnesen k jinému dražiteli. Vy zůstáváte v sále, ale volitelná položka je pryč.`,
+        text: `Hesh se podívá na váš měšec a pak s chirurgickou zdvořilostí zavře účetní knihu. „Platba je okamžitá. Pouze dináry."\n\nSolopis je odnesen k jinému dražiteli. Vy zůstáváte v sále, ale volitelná položka je pryč.`,
         options: {
             continue_with_the_auction: "Pokračovat v aukci.",
         }
@@ -513,10 +513,10 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
 
     auction_toadlet_bidding: {
         text: {
-            auction_toadlet_high: `Chronobřečkové Ropušátko zamrká ze své skleněné mísy, už teď zklamané z příštích tří minut. Sál se zvedne. Calyx zůstává ostrá, Lune ochutnává paniku ve vzduchu a Dědicova embrya se otočí jako jedno.\n\nCalyx otevře na 60 dřív, než Hesh dokončí větu. Lune posune cenu na 70 kvůli chuti paniky. Dědic odpoví tichou rukou při 82. Vaše přípravy konkurenci sotva poškrábaly a musíte bojovat o každé navýšení.\n\nKonečná cena: 95 zlatých.`,
-            auction_toadlet_average: `Hrdlo Chronobřečkového Ropušátka jednou zapulzuje a polovina sálu si představí, jaké by to bylo být o tři minuty méně hloupá. Calyx zaváhá. Lune pochybuje o chuti. Rytmus dvojčat se zachytí a pak uklouzne.\n\nCalyx vás přesto otestuje jedním profesionálním příhozem při 65. Lune pokračuje na 72, spíš ze zvědavosti než z odhodlání. Odpovíte oběma a ani jedna nechce utratit dost na to, aby pokračovala. Vaše společenská práce se vyplatila právě dost.\n\nKonečná cena: 80 zlatých.`,
-            auction_toadlet_soft: `Ropušátko dorazí do oslabeného sálu. Calyx má narušené priority, Lunina jistota je otrávená a Dědicovo vnitřní hejno se neshodne, které světlo následovat.\n\nI tak Calyx neodolá jednomu useknutému příhozu při 60 a Dědic zabliká odpověď, než ztratí rytmus. Kontrujete. Hesh čeká na další ruce, ale žádná se nezvedne sebejistě.\n\nPříhozy stoupají, ale pomalu. Konečná cena: 68 zlatých.`,
-            auction_toadlet_crushed: `Ropušátko mělo vyvolat tlačenici. Místo toho sál zadrhává: dvojčata jsou rozladěná, soupeři otřesení, apetity přesměrované. Dokonce i ticho pod schodištěm jako by zadržovalo dech.\n\nCalyx učiní jeden poškozený, téměř reflexivní příhoz. Dědicova ruka se zvedne, zachvěje a klesne. Lune se usměje, jako by sál zhrubl příliš na ochutnání. Zvednete ruku a zbylá konkurence se složí do rozpačitých zakašlání.\n\nPoložka spadne téměř jemně. Konečná cena: 55 zlatých.`,
+            auction_toadlet_high: `Chronobřečkové Ropušátko zamrká ze své skleněné mísy, už teď zklamané z příštích tří minut. Sál se zvedne. Calyx zůstává ostrá, Lune ochutnává paniku ve vzduchu a Dědicova embrya se otočí jako jedno.\n\nCalyx otevře na 60 dřív, než Hesh dokončí větu. Lune posune cenu na 70 kvůli chuti paniky. Dědic odpoví tichou rukou při 82. Vaše přípravy konkurenci sotva poškrábaly a musíte bojovat o každé navýšení.\n\nKonečná cena: 95 dinárů.`,
+            auction_toadlet_average: `Hrdlo Chronobřečkového Ropušátka jednou zapulzuje a polovina sálu si představí, jaké by to bylo být o tři minuty méně hloupá. Calyx zaváhá. Lune pochybuje o chuti. Rytmus dvojčat se zachytí a pak uklouzne.\n\nCalyx vás přesto otestuje jedním profesionálním příhozem při 65. Lune pokračuje na 72, spíš ze zvědavosti než z odhodlání. Odpovíte oběma a ani jedna nechce utratit dost na to, aby pokračovala. Vaše společenská práce se vyplatila právě dost.\n\nKonečná cena: 80 dinárů.`,
+            auction_toadlet_soft: `Ropušátko dorazí do oslabeného sálu. Calyx má narušené priority, Lunina jistota je otrávená a Dědicovo vnitřní hejno se neshodne, které světlo následovat.\n\nI tak Calyx neodolá jednomu useknutému příhozu při 60 a Dědic zabliká odpověď, než ztratí rytmus. Kontrujete. Hesh čeká na další ruce, ale žádná se nezvedne sebejistě.\n\nPříhozy stoupají, ale pomalu. Konečná cena: 68 dinárů.`,
+            auction_toadlet_crushed: `Ropušátko mělo vyvolat tlačenici. Místo toho sál zadrhává: dvojčata jsou rozladěná, soupeři otřesení, apetity přesměrované. Dokonce i ticho pod schodištěm jako by zadržovalo dech.\n\nCalyx učiní jeden poškozený, téměř reflexivní příhoz. Dědicova ruka se zvedne, zachvěje a klesne. Lune se usměje, jako by sál zhrubl příliš na ochutnání. Zvednete ruku a zbylá konkurence se složí do rozpačitých zakašlání.\n\nPoložka spadne téměř jemně. Konečná cena: 55 dinárů.`,
         },
         options: {
             pay_toadlet_price_and_claim_the_chronoslurry_toadlet: "Zaplatit konečnou cenu a převzít Chronobřečkové Ropušátko.",
@@ -532,7 +532,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     auction_toadlet_won: {
-        text: `Ropušátko přitiskne tvář na vnitřní stranu džbánu a nějakým způsobem vypadá předem zahanbeně za Selda.\n\nMáte hlavní položku. Aukce za vámi pokračuje, ale jedinou zbývající otázkou je, jak rychle dokážete prorockého obojživelníka dostat zpět do Lumen Direktoriátu.`,
+        text: `Ropušátko přitiskne tvář na vnitřní stranu džbánu a nějakým způsobem vypadá předem zahanbeně za Selda.\n\nMáte hlavní položku. Aukce za vámi pokračuje, ale jedinou zbývající otázkou je, jak rychle dokážete prorockého obojživelníka dostat zpět do Lumen Direktorátu.`,
         options: {
             leave_the_auction_hall: "Opustit aukční síň.",
         }

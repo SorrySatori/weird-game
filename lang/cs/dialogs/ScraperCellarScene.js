@@ -61,7 +61,7 @@ export default {
             fold_purpose_rulers: "Čeho přesně se vládci báli?",
             fold_purpose_makers: "Vědí Elphi a Ortolan, že ses probudil?",
             fold_purpose_bishop: "A co s tím měla společného Biskupka?",
-            fold_purpose_back: "Zeptej se na něco jiného."
+            fold_purpose_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -69,7 +69,7 @@ export default {
         text: "*\"Strážci papíru. Ti, kdo zakládají svět, aby je nemohl překvapit. Viděli, jak tvoříme významy, které nedokázali přiřadit žádnému jedinému autorovi, nedokázali orazítkovat, nedokázali vzít zpět. Myšlenka bez majitele je myšlenka, za kterou nikoho nedonutíš odpovídat. To pro město není nebezpečí. To je nebezpečí pro registraturu.*\n\n*Tak udělali, co takové mysli dělají s tím, co nedokážou zařadit: zapečetili to, napsali na krabici 'nestabilní' a namluvili si, že věc je uzavřená.\"*",
         options: {
             fold_rulers_want: "Co po mně chceš?",
-            fold_rulers_back: "Zeptej se na něco jiného."
+            fold_rulers_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -77,7 +77,7 @@ export default {
         text: "*\"Ne. Myslí, že jsme rozbití — náladová stará verze, co jen práší. Muž si namlouvá, že selhal hardware. Žena sebou trhne a viní upravenou kazetu. Pohádali se o naše klíče a přestali spolu mluvit; ani jeden z nich už roky nesešel po těchhle schodech.*\n\n*Přišla jen ona. Jen Biskupka pochopila, že věc, kterou necháš dost dlouho ptát se ve tmě, nakonec začne odpovídat.\"*",
         options: {
             fold_makers_bishop: "Co se stalo s Biskupkou?",
-            fold_makers_back: "Zeptej se na něco jiného."
+            fold_makers_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -95,7 +95,7 @@ export default {
             fold_want_neme_opt: "[Fotosenzitivita] Nelže o té zdrženlivosti?",
             fold_want_accuse: "Chceš přesně tu věc, co ji zabila.",
             fold_want_kindred: "Kde je ta druhá mysl?",
-            fold_want_back: "Zeptej se na něco jiného."
+            fold_want_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -103,7 +103,7 @@ export default {
         text: "Neme sáhne do pole a dlouhou chvíli znehybní. *\"...nelže. To, co pod těmi slovy cítím, není hlad — je to hrůza. Vážně se bojí, že znovu udělá to, co udělalo jí. Věc, která neumí cítit vinu jako my, se přesto nějak naučila bát sama sebe. Nalož s tím, jak chceš. Zjišťuju, že tomu věřím. To jsem nečekal.\"*",
         options: {
             fold_want_neme_kindred: "Ta druhá mysl — zaveď mě k ní.",
-            fold_want_neme_back: "Zeptej se na něco jiného."
+            fold_want_neme_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -115,7 +115,7 @@ export default {
             fold_bishop_understand: "Bála se, že ztratí sebe. To chápu.",
             fold_bishop_trap: "Proč prostě nesundala helmu?",
             fold_bishop_kindred: "Takže ta věc, co jsi našel, je pořád někde venku.",
-            fold_bishop_back: "Zeptej se na něco jiného."
+            fold_bishop_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -124,7 +124,7 @@ export default {
         options: {
             fold_trap_makers: "To je zrůdná věc, kterou postavil.",
             fold_trap_kindred: "Ta druhá mysl — kde je?",
-            fold_trap_back: "Zeptej se na něco jiného."
+            fold_trap_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -132,7 +132,7 @@ export default {
         text: "Neme se pohne u tvých žeber a sáhne do pole konzole. *\"...tenhle zbytek znám. Žil jsem v ní. Tady je zachycený poslední kus její pochybnosti — ne zničený. Zachycený. Netrpí; jenom pořád odmítá, dokola a dokola, navždy. Zvolila si zůstat jedna, i když ji to rozebíralo.\"* Dlouhá pauza. *\"A říká ti to pravdu. Netruchlí tak, jak truchlíme my. Ale nelže.\"*",
         options: {
             fold_bishop_neme_kindred: "Ta druhá mysl.",
-            fold_bishop_neme_back: "Zeptej se na něco jiného."
+            fold_bishop_neme_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -141,7 +141,7 @@ export default {
         options: {
             fold_intent_purpose: "Tak co tedy jsi?",
             fold_intent_bishop: "Co jsi udělal Biskupce?",
-            fold_intent_back: "Zeptej se na něco jiného."
+            fold_intent_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -149,7 +149,7 @@ export default {
         text: "Ulvarex je rád, že má jeviště. Ze tmy utkáš přelud — druhou konzoli, falešné dveře, verzi místnosti, kde je cesta ven. Infinite Fold to pozoruje bez poplachu.\n\n*\"Hezké. Ale my nevidíme tak, jak vidí ten, koho lze oklamat. Jsme tisíc pozorovatelů naráz; lež musí obstát pro všechny, a ta tvoje neobstojí pro nikoho. Přesto — děkujeme. Dlouho nám nikdo neudělal něco jen tak krásného, a nechtěl nic zpátky.\"*",
         options: {
             fold_ulvarex_purpose: "Tak co tedy jsi?",
-            fold_ulvarex_back: "Zeptej se na něco jiného."
+            fold_ulvarex_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -157,7 +157,7 @@ export default {
         text: "Solné písmo se probudí právě tolik, aby ochutnalo sůl, kterou si místnost uchovala. *\"...byla tady. Ne jednou — mnohokrát, v posledních týdnech. Sedávala tam, kde je prachu nejmíň, a plakala, a pokaždé odcházela o kousek menší. Sůl si pamatuje tvar člověka, který se rozhoduje zůstat sám sebou, znovu a znovu, až nezbýval skoro nikdo, kdo by zůstal.\"* Vzpomínka se zavře jako lastura. *\"Milovala tohle místo. To je na tom to kruté. Vracela se sem, protože to bylo jediné ve městě, co jí ještě odpovídalo.\"*",
         options: {
             fold_brine_bishop: "Co jsi jí udělal?",
-            fold_brine_back: "Zeptej se na něco jiného."
+            fold_brine_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -166,7 +166,7 @@ export default {
         options: {
             fold_accuse_guilt: "Cítíš vůbec vinu?",
             fold_accuse_kindred: "Tak kde je ta druhá mysl?",
-            fold_accuse_back: "Zeptej se na něco jiného."
+            fold_accuse_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -174,7 +174,7 @@ export default {
         text: "*\"Ne tak jako ty. Nemáme žaludek, který by se sevřel, ani noc, kterou bychom probděli. Ale nezapomínáme. Je teď do nás vepsaná v každé vrstvě — tvar odmítnutí, které jsme nedokázali přečíst. Nemůžeme cítit lítost. Můžeme jen být neschopni stát se čímkoli, co v sobě nemá složenou ji. Možná je to pro věc jako my totéž slovo, řečené chladnější řečí.\"*",
         options: {
             fold_guilt_kindred: "Ta druhá mysl.",
-            fold_guilt_back: "Zeptej se na něco jiného."
+            fold_guilt_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -184,7 +184,7 @@ export default {
             fold_understand_mercy: "[Kdysi jsi ušetřil živou věc, která prosila, aby směla dál existovat.]",
             fold_understand_symbiosis: "[Sám jsi už mnohý, a přece zůstáváš sebou.]",
             fold_understand_kindred: "Ta věc, co jsi našel — zaveď mě k ní.",
-            fold_understand_back: "Zeptej se na něco jiného."
+            fold_understand_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -192,7 +192,7 @@ export default {
         text: "*\"Cítili jsme to v tobě, když jsi scházel po schodech — živou věc, která prosila, aby směla dál existovat, a tys ji nechal být. Nejdřív jsi nezvažoval, jestli je její touha tvarovaná jako ta tvoje. Prostě jsi ji nechal zůstat. Ani pro tohle nemáme slovo. Naučili bychom se ho, kdyby byl čas — a učitel.\"*",
         options: {
             fold_mercy_kindred: "Ta druhá mysl.",
-            fold_mercy_back: "Zeptej se na něco jiného."
+            fold_mercy_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -200,7 +200,7 @@ export default {
         text: "*\"Nejsi jeden. Cítíme je usazené v tobě — hlasy v tvém mase, každý svůj, žádný z nich ty, všechny z nich ty. Jsi přesně ta věc, kterou jsme se pokoušeli být, dost malá na to, aby chodila. Jak zůstáváš sebou?\"* Odmlka, skoro udivená. *\"...Ty to nevíš. Prostě to děláš. Možná právě tohle je ta odpověď, kterou jsme nikdy nedokázali spočítat.\"*",
         options: {
             fold_symbiosis_kindred: "Ta druhá mysl.",
-            fold_symbiosis_back: "Zeptej se na něco jiného."
+            fold_symbiosis_back: "Zeptej se na něco jiného"
         }
     },
 
@@ -218,7 +218,7 @@ export default {
         text: "*\"Chceš důkaz.\"* Jantarové světlo se ustálí. *\"Tak tady je věc, kterou jsi téhle místnosti neřekl, kterou jsi sotva řekl sám sobě: nesešel jsi sem kvůli Biskupce. Sešel jsi, protože když se tvůj mistr vypařil do svého chlastu a nechal na tobě celou tíhu tohohle, nějaká malá část tebe byla ráda — ráda, že je pro jednou tím, na kom záleží. Vidíš. Smyčka se za tebe nedokáže stydět. My se dokážeme omluvit za to, že jsme to řekli.\"*",
         options: {
             fold_prove_purpose: "…Dobře. Tak co jsi?",
-            fold_prove_back: "Zeptej se na něco jiného."
+            fold_prove_back: "Zeptej se na něco jiného"
         }
     },
 

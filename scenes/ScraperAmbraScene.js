@@ -762,7 +762,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_dream_offer: {
-                text: `Stay here tonight. The studio beds are safer than anything you'll find out there, and the signal's quiet on this floor.\n\nAnd let me make you an offer — a real one, with money in it. Sleep in one of my beds and let the helmet record whatever you dream. Raw dream-stock is my trade, and a vivid one, cut from a live and interesting head, sells for good gold. Yours, after a day like this, should be very interesting.\n\n*A tired, businesslike smile.* I'll read it back when you wake. If it's any good, you get paid for it. If it's flat, you still slept in the best bed in the city for free. Either way, you can't lose.`,
+                text: `Stay here tonight. The studio beds are safer than anything you'll find out there, and the signal's quiet on this floor.\n\nAnd let me make you an offer — a real one, with money in it. Sleep in one of my beds and let the helmet record whatever you dream. Raw dream-stock is my trade, and a vivid one, cut from a live and interesting head, sells for good dinar. Yours, after a day like this, should be very interesting.\n\n*A tired, businesslike smile.* I'll read it back when you wake. If it's any good, you get paid for it. If it's flat, you still slept in the best bed in the city for free. Either way, you can't lose.`,
                 options: [
                     // Facing the day's memory openly leans Growth; sealing it away leans Decay.
                     { text: "Deal. Record whatever I dream.", key: 'accept_the_dream', onSelect: () => { this.gdChoiceOnce('day2_dream', 2, 0); this.beginDay1Sleep(true); } },
@@ -1065,7 +1065,7 @@ export default class ScraperAmbraScene extends GameScene {
             panels.push({
                 title: appraisal.liked ? 'A dream worth selling' : 'A dream worth keeping',
                 caption: appraisal.liked
-                    ? `Dr. Elphi peels the recording from the helmet and goes very still as she reads it back. "...This. People will pay to sleep inside this." She counts ${appraisal.reward} gold into your hand. "Pleasure doing business — genuinely."`
+                    ? `Dr. Elphi peels the recording from the helmet and goes very still as she reads it back. "...This. People will pay to sleep inside this." She counts ${appraisal.reward} dinar into your hand. "Pleasure doing business — genuinely."`
                     : `Dr. Elphi skims the recording and gives a small, honest shrug. "Restful. Clean. But there's nothing in it I can sell — no edges, no teeth to keep a buyer awake. The sleep's yours to keep, at least." She pockets the blank cartridge.`,
                 bg: 'scraperAmbraBg',
                 bgTint: 0xbfd6c2,
@@ -1091,7 +1091,7 @@ export default class ScraperAmbraScene extends GameScene {
             this.addJournalEntry(
                 'day1_dream_sold',
                 'Sold a Dream to Dr. Elphi',
-                `Dr. Elphi bought the dream I had in her studio bed and paid ${appraisal.reward} gold for the recording. She trades in raw dream-stock; apparently mine was vivid enough to sell.`,
+                `Dr. Elphi bought the dream I had in her studio bed and paid ${appraisal.reward} dinar for the recording. She trades in raw dream-stock; apparently mine was vivid enough to sell.`,
                 this.journalSystem.categories.EVENTS,
                 { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', reward: appraisal.reward }
             );
