@@ -45,7 +45,7 @@ export default class VoxMarket extends GameScene {
                     ...(knowsSulkberries && !sulkberriesClearedKloor ? [
                         { text: "I need your expertise on some Sulkberries.", key: 'i_need_your_expertise_on_some_sulkberries', next: "kloor_sulkberry_analyze" }] : []),
                     ...(hasFindRustQuest ? [
-                        { text: "Can you help me to get to Rust Choir headquarters?.", key: 'can_you_help_me_to_get_to_rust_choir_headquarters', next: "rustDomain" }] : []),
+                        { text: "Can you help me to get to Rust Choir headquarters?", key: 'can_you_help_me_to_get_to_rust_choir_headquarters', next: "rustDomain" }] : []),
                 ],
                 onTrigger: () => {
                     // Add journal entry for meeting Kloor Venn if not already added
@@ -70,7 +70,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_substances: {
-                text: "'I specialize in Oltrac - a rare psychoactive compound derived from certain... biological materials.' He eyes your fungal growths with interest. 'Materials not unlike what you seem to be carrying around.'",
+                text: "'I specialize in Oltrac — a rare psychoactive compound derived from certain... biological materials.' He eyes your fungal growths with interest. 'Materials not unlike what you seem to be carrying around.'",
                 options: [
                     { text: "Tell me more about Oltrac", key: 'tell_me_more_about_oltrac', next: "kloor_oltrac" },
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
@@ -87,7 +87,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_selling: {
-                text: "'I deal in Oltrac - finest mind-expanding substance in the Voxmarket. Opens your perception to the true nature of reality.' He lowers his voice. 'Interested in buying? Or perhaps... selling me some of those spores you're carrying?'",
+                text: "'I deal in Oltrac — finest mind-expanding substance in the Voxmarket. Opens your perception to the true nature of reality.' He lowers his voice. 'Interested in buying? Or perhaps... selling me some of those spores you're carrying?'",
                 options: [
                     { text: "Show me what you have", key: 'show_me_what_you_have', next: "kloor_shop" },
                     { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
@@ -123,7 +123,7 @@ export default class VoxMarket extends GameScene {
                     { text: "Back", key: 'back', next: "kloor_buy_spores" },
                 ],
                 onTrigger: (option) => {
-                    if (option && option.text === "Confirm") {
+                    if (option && option.key === 'confirm') {
                         const dialogId = this.sellSporesToKloor(10);
                         return dialogId; // Return the dialog ID to override the 'next' value
                     }
@@ -137,7 +137,7 @@ export default class VoxMarket extends GameScene {
                     { text: "Back", key: 'back', next: "kloor_buy_spores" },
                 ],
                 onTrigger: (option) => {
-                    if (option && option.text === "Confirm") {
+                    if (option && option.key === 'confirm') {
                         const dialogId = this.sellSporesToKloor(20);
                         return dialogId; // Return the dialog ID to override the 'next' value
                     }
@@ -151,7 +151,7 @@ export default class VoxMarket extends GameScene {
                     { text: "Back", key: 'back', next: "kloor_buy_spores" },
                 ],
                 onTrigger: (option) => {
-                    if (option && option.text === "Confirm") {
+                    if (option && option.key === 'confirm') {
                         const dialogId = this.sellSporesToKloor(30);
                         return dialogId; // Return the dialog ID to override the 'next' value
                     }
@@ -168,7 +168,7 @@ export default class VoxMarket extends GameScene {
 
             
             kloor_gray_oltrac_8: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 8 dinar. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac — the common stuff. Not bad.' He hands you 8 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -178,7 +178,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_gray_oltrac_16: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 16 dinar. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac — the common stuff. Not bad.' He hands you 16 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -188,7 +188,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_gray_oltrac_24: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac - the common stuff. Not bad.' He hands you 24 dinar. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac — the common stuff. Not bad.' He hands you 24 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -228,7 +228,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_25: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 25 dinar. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac — the rarest kind!' He eagerly counts out 25 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -238,7 +238,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_50: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 50 dinar. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac — the rarest kind!' He eagerly counts out 50 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -248,7 +248,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_75: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac - the rarest kind!' He eagerly counts out 75 dinar. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac — the rarest kind!' He eagerly counts out 75 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -316,7 +316,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_bishop_location: {
-                text: "'Can't say for certain. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But I heard she was heading toward the Hall. She has contacts there.'",
+                text: "'Can't say for certain. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But I heard she visits the market on a regular basis.'",
                 options: [
                     { text: "Thanks for the information", key: 'thanks_for_the_information', next: "kloor_start" },
                     { text: "What was she trading?", key: 'what_was_she_trading', next: "kloor_bishop_trading" }
@@ -324,7 +324,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_bishop_trading: {
-                text: "'Now that's interesting.' Kloor leans in closer. 'She had this strange currency - called Vestigels. Not like regular money. They're rare, experimental. Supposedly they hold... properties. A merchant named Zerren got one from her.'",
+                text: "'Now that's interesting.' Kloor leans in closer. 'She had this strange currency — called Vestigels. Not like regular money. They're rare, experimental. Supposedly they hold... properties. I think that a merchant named Zerren owned one.'",
                 options: [
                     ...(!this.questSystem.getQuest('the_three_vestigels')) ? [{ text: "Tell me more about these Vestigels", key: 'tell_me_more_about_these_vestigels', next: "kloor_vestigels" }] : [],
                     { text: "Thanks for the information", key: 'thanks_for_the_information', next: "kloor_start" }
@@ -350,24 +350,23 @@ export default class VoxMarket extends GameScene {
             kloor_vestigels_quest_start: {
                 text: "Perfect! Let me know when you have one.",
                 options: [
-                    { text: "OK", key: 'ok', next: "kloor_start" }
+                    { text: "OK", key: 'ok', next: "kloor_vestigels_quest_info" }
                 ],
                 onTrigger: () => {
                     // Start the quest if it doesn't exist yet
                     if (!this.registry.get('questSystem')?.getQuest('the_three_vestigels')) {
-                        this.questSystem.updateQuest('find_bishop', 'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.', 'vestigel');
+                        this.questSystem.updateQuest('find_bishop', 'Kloor Venn wants me to find one of the three Vestigels. He mentioned that a merchant named Zerren has one.', 'vestigel');
                         this.questSystem.addQuest(
                             'the_three_vestigels',
                             'The Three Vestigels',
-                            'Kloor Venn wants me to find one of the three Vestigels in the market. He mentioned that a merchant named Zerren has one.'
+                            'Kloor Venn wants me to find one of the three Vestigels. He mentioned that a merchant named Zerren has one.'
                         );
-                        this.showNotification('New Quest: The Three Vestigels');
                     }
                 }
             },
             
             kloor_vestigels_quest_info: {
-                text: "'Here's what I know: Zerren has one Vestigel. He's usually in the Market area. That's the only one I've got a line on — the other two, nobody seems to know where they ended up. Get me Zerren's, and I'll tell you what you need to know about the Bishop.'",
+                text: "'Here's what I know: Zerren has one Vestigel. She's usually in the Market area. That's the only one I've got a line on — the other two, nobody seems to know where they ended up. Get me Zerren's, and I'll tell you what you need to know about the Bishop.'",
                 options: [
                     { text: "I'll find one for you", key: 'ill_find_one_for_you', next: "closeDialog" }
                 ]
@@ -401,7 +400,6 @@ export default class VoxMarket extends GameScene {
                     
                     // Complete the quest
                     this.questSystem.completeQuest('the_three_vestigels');
-                    this.showNotification('Quest Completed: The Three Vestigels');
                     
                     // Add journal entry about giving the vestigel to Kloor
                     this.addJournalEntry(
@@ -415,14 +413,14 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_bishop_reveal: {
-                text: "'From what I know, she shops for rare gaming items. You see, our Bishop became addicted to dream games from Dr. Elphi Quarn. She visited Dr. Elphi quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. The Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. You should look for Dr. Elphi at the Scraper 1140..'",
+                text: "'From what I know, she mostly tried to find various gaming gadgets, controllers, and the like at the market. You see, the Bishop has developed quite an addiction to the dream games by Dr. Elphi Quarn. Apparently, she visited the doctor quite often. Elphi is a well-known local game designer and the owner of a studio where games are created from the dreams of professional imaginators. Besides that, she's probably pretty smart, because she invented a lot of the stuff these games use all by herself. The Bishop has been looking pretty depressed lately, as if she were searching for something or someone. You should visit Elphi Quarn at the Scraper 1140 and ask her directly, that'll be best.'",
                 options: [
                     { text: "The dream games?", key: 'the_dream_games', next: "kloor_dream_games" }
                 ]
             },
             
             kloor_dream_games: {
-                text: "'The dream games? Yes, they could be... addictive. ARB Ambra Studio produces the best... actually the only existing ones. I heard that finding a good imaginator is quite hard. The studio is equipped with specially adapted beds, the imaginators wear silver helmets without visors on their heads, to which is attached a complex system of wires, cables and electrodes. The helmets are the doctor's invention and she is duly proud of them.'",
+                text: "'Dream games? Yeah, they can be addictive. Supposedly more addictive than Oltrac, hehe. ARB Ambra Studio makes the best ones… well, actually, the only ones that exist. I've heard that finding a good imaginator is pretty hard. A friend of mine used to work there. He said the studio is equipped with specially modified beds, and the imaginators wear silver helmets without visors on their heads, connected to a complex system of wires, cables, and electrodes. The helmets are the doctor's invention, and she's really proud of them.'",
                 options: [
                     { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "kloor_quest_update" }
                 ]
@@ -436,16 +434,15 @@ export default class VoxMarket extends GameScene {
                     if (this.questSystem.getQuest('find_bishop')) {
                         this.questSystem.updateQuest(
                             'find_bishop',
-                            'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
+                            'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is a famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
                             'elphi_contact'
                         );
-                        this.showNotification('Quest Updated: Find the Bishop');
                         
                         // Add journal entry about the Bishop's contact with Dr. Elphi
                         this.addJournalEntry(
                             'bishop_elphi_contact',
                             'The Bishop\'s Contact with Dr. Elphi',
-                            'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
+                            'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is a famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
                             this.journalSystem.categories.EVENTS,
                         );
                     }
@@ -474,10 +471,10 @@ export default class VoxMarket extends GameScene {
                 }
             },
             rustDomain_price: {
-                text: "If you can get me some of your spores, I can point you to someone who can get you inside. Or, if the spores are too precious for you, a few coins as a contribution will work as well. Deal?'",
+                text: "'If you can get me some of your spores, I can point you to someone who can get you inside. Or, if the spores are too precious for you, a few coins as a contribution will work as well. Deal?'",
                 options: [
                     { text: "Here's 20 spores", key: 'heres_20_spores', next: "rustDomain_spores" },
-                    ...(this.hasEnoughMoney(50) ? [{ text: "Here's 50 coins", key: 'heres_50_coins', next: "rustDomain_coins" }] : []),
+                    ...(this.hasEnoughMoney(50) ? [{ text: "Here's 50 dinar", key: 'heres_50_coins', next: "rustDomain_coins" }] : []),
                     { text: "You know what, I have other questions.", key: 'you_know_what_i_have_other_questions', next: "kloor_start" }
                 ]
             },
@@ -499,7 +496,6 @@ export default class VoxMarket extends GameScene {
                 ],
                 onTrigger: () => {
                     this.subtractMoney(50);
-                    this.showNotification("-50 dinar");
                     this.questSystem.updateQuest('find_rust_choir', 'Kloor mentioned that to reach the Rust Choir headquarters, I need to speak with Ravla at the Screaming Cork tavern first.', 'talk_to_ravla');
                 }
             }
@@ -619,6 +615,9 @@ export default class VoxMarket extends GameScene {
         // Clean up effects system
         if (this.effectsSystem) {
             this.effectsSystem.cleanup();
+        }
+        if (this.shopSystem) {
+            this.shopSystem.shutdown();
         }
         
         super.shutdown();
@@ -830,8 +829,7 @@ export default class VoxMarket extends GameScene {
         }
         
         // Add money to player
-        this.moneySystem.add(paymentAmount);
-        this.showNotification(`+${paymentAmount} dinar`);
+        this.moneySystem.add(paymentAmount); // MoneySystem announces the gain itself
         
         // Determine which dialog to show based on the result
         let dialogId;
@@ -922,9 +920,5 @@ export default class VoxMarket extends GameScene {
         
         // Set the ground depth
         groundGraphics.setDepth(0);
-    }
-    shutdown() {
-        this.restoreBackgroundMusic();
-        super.shutdown();
     }
 }

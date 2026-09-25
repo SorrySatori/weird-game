@@ -7,8 +7,8 @@ export default {
             title: 'Najít Biskupku',
             description: 'Houbový Mistr mě pověřil nalezením Biskupky ve Vaječné Katedrále. Mohla by něco vědět o nouzovém volání přijatém z města přes myceliální síť. Musím s ní promluvit a zjistit víc.',
             updates: {
-                vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů na trhu. Zmínil, že jeden má obchodnice jménem Zerren.',
-                elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji hledat ve Škrabáku 1140.',
+                vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
+                elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji najít ve Škrabáku 1140.',
                 bishop_clue_gnur: "Biskupka byla viděna u Škrabáku 1140, jak provádí neobvyklý obchod s 'herní čočkou'. Gnur by mohl vědět víc, ale chce něco na oplátku.",
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka byla naposledy viděna, jak míří do Škrabáku 1140 za Dr. Elphi.',
@@ -60,7 +60,7 @@ export default {
         },
         the_three_vestigels: {
             title: 'Tři Vestigely',
-            description: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů na trhu. Zmínil, že jeden má obchodnice jménem Zerren.',
+            description: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
             updates: {
                 found_eskola_lead: 'Zerren prozradila, že plyšovou hračku obsahující Vestigel koupil Edgar Eskola. Obvykle ho najdu u Řvoucího korku.',
                 completed: 'Dal jsem vestigel Klooru Vennovi výměnou za informace o Biskupce.',
@@ -79,7 +79,7 @@ export default {
             title: 'Najít Rezavý chór',
             description: 'Musím najít způsob, jak se setkat s Rezavým chórem, který sídlí v horních patrech budovy Škrabáku.',
             updates: {
-                talk_to_ravla: 'Měl bych nejdřív promluvit s Ravlou v hospodě Řvoucí korek.',
+                talk_to_ravla: 'Měl bych si nejdřív promluvit s Ravlou v hospodě Řvoucí korek.',
                 talked_to_ravla: 'Ravla v Řvoucím korku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
                 feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Lift-Mother: „Koroduj". Teď mohu vstoupit do domény Rezavého chóru.',
                 feast_delivered: 'Doručil jsem Rezavou Hostinu Brukkovi v Rezavé Doméně.',
