@@ -11,7 +11,7 @@ export default {
     magnekin_start: {
         text: {
             magnekin_start_pretense: "Ahoj, kdo jsi? Já jsem... hmm, Magnekin, průměrný skutečný občan tohoto města.",
-            magnekin_start_revealed: "Magnekinova vypůjčená tvář se uvolní, jakmile tě pozná — s tebou už tu přetvářku držet nemusí. Tisíce drobných okének zablikají na pozdrav. „Á. Ty. Co může... 'průměrný skutečný občan' udělat pro přítele?“"
+            magnekin_start_revealed: "Magnekinova vypůjčená tvář se uvolní, jakmile tě pozná – s tebou už tu přetvářku držet nemusí. Tisíce drobných okének zablikají na pozdrav. „Á. Ty. Co může... 'průměrný skutečný občan' udělat pro přítele?“"
         },
         options: {
             hi_i_am_an_aprentice_of_master_thaal_from_obazoba_: "Ahoj, jsem učedník mistra Thaala z církve Obazoba.",
@@ -19,7 +19,7 @@ export default {
             what_do_you_mean_real_citizen: "Co myslíš tím *skutečný občan*?",
             hello_my_name_is_lord_murmurspine_i_am_en_envoy_fr: "Dobrý den, jmenuji se Lord Murmurspine, jsem vyslanec z Lagerlandie. Máte chvíli si pohovořit o našem pánu a spasiteli, Maltimu Chmeloskoku?",
             use_nemes_power_to_detect_lies_and_pretense: "Použít Nemovu moc k odhalení lží a přetvářky.",
-            magnekin_cities_recall: "Připomeň mi — jak funguje celá sbírka měst?",
+            magnekin_cities_recall: "Připomeň mi – jak funguje celá sbírka měst?",
             magnekin_origin_recall: "Pověz mi znovu svůj příběh o původu.",
             magnekin_blend_recall: "Ohledně toho, jak splynout s okolím...",
             you_know_i_see_your_body_is_made_of_metal_you_must: "Musíš toho o kovu hodně vědět. Nevíš, kde bych sehnal nějaký kovový šrot?",
@@ -146,13 +146,13 @@ export default {
         }
     },
     magnekin_hopsalot_ceremony: {
-        text: "Zahájíš obřad konverze Magnekina k víře Maltima Chmeloskoku. Začneš posvátnými slovy: *Úmysl plyne jako pěna — nahoru, ven a občas do strany*",
+        text: "Zahájíš obřad konverze Magnekina k víře Maltima Chmeloskoku. Začneš posvátnými slovy: *Úmysl plyne jako pěna – nahoru, ven a občas do strany*",
         options: {
             continue_the_ceremony: "Pokračovat v obřadu"
         }
     },
     magnekin_hopsalot_ceremony_continue: {
-        text: "Novic pak musí odnést džbán — stále plný — k malému oltáři ve tvaru sudu. Jenže nemáš džbán. Naštěstí Magnekin vytvoří jeden ze svého těla. Jen tak, vezme trochu kovu a vytvaruje slušný džbán. Obřad může pokračovat.",
+        text: "Novic pak musí odnést džbán – stále plný – k malému oltáři ve tvaru sudu. Jenže nemáš džbán. Naštěstí Magnekin vytvoří jeden ze svého těla. Jen tak, vezme trochu kovu a vytvaruje slušný džbán. Obřad může pokračovat.",
         options: {
             complete_the_ceremony: "Dokončit obřad"
         }
@@ -202,7 +202,7 @@ export default {
         }
     },
     magnekin_origin: {
-        text: "No, je to trochu komplikované. Naši historici učí, že v Crownmire kdysi existoval kult, který uctíval prastaré magnetické duchy. Když se jejich svatyně po neznámé katastrofě zřítila, její magnetické srdce se roztříštilo na miliony střepů — každý střep se stal základním kamenem vědomí jednoho mikro-města. Naše civilizace teprve nedávno objevila, že existuje jiný svět za ním, v úplně jiném měřítku. Stále se učíme, jak s vámi komunikovat.",
+        text: "No, je to trochu komplikované. Naši historici učí, že v Crownmire kdysi existoval kult, který uctíval prastaré magnetické duchy. Když se jejich svatyně po neznámé katastrofě zřítila, její magnetické srdce se roztříštilo na miliony střepů – každý střep se stal základním kamenem vědomí jednoho mikro-města. Naše civilizace teprve nedávno objevila, že existuje jiný svět za ním, v úplně jiném měřítku. Stále se učíme, jak s vámi komunikovat.",
         options: {
             incredible_i_can_help_you_to_blend_in_if_you_want: "Neuvěřitelné. Můžu ti pomoct zapadnout, jestli chceš.",
             interesting_but_you_seem_fragile_and_from_valuable: "Zajímavé. Ale zdáš se křehký a z cenných zdrojů (pokusit se zničit Magnekina).",
@@ -212,20 +212,20 @@ export default {
     magnekin_blend: {
         text: "\"Zapadnout? Ty bys... pomohl? Ostatní říkali, že velcí tvorové věci jenom rozebírají.\" Vypůjčená tvář Magnekina se zachvěje něčím, co připomíná naději. \"Co jsi měl na mysli?\"",
         options: {
-            pith_make_you_real: "Reklamátoři jádra zapisují občany do existence. Nech je udělat tě skutečným — na papíře. S papírem se nikdo nehádá.",
+            pith_make_you_real: "Reklamátoři jádra zapisují občany do existence. Nech je udělat tě skutečným – na papíře. S papírem se nikdo nehádá.",
             blend_advice: "Mluv pomaleji. Říkej *skutečný* míň. Poflakuj se s účelem. (Dát pár rad.)",
             blend_later: "Nech mě to promyslet."
         }
     },
     magnekin_blend_advice: {
-        text: "Magnekin naslouchá s intenzitou tisíce drobných zasedání rady. \"Pomaleji. Míň *skutečných*. Poflakovat se s účelem. Ano. Ano, to zvládneme.\" Odmlka. \"Není to ale velký život — to předstírání. Vždycky jedno špatné slovo od sutin.\"",
+        text: "Magnekin naslouchá s intenzitou tisíce drobných zasedání rady. \"Pomaleji. Míň *skutečných*. Poflakovat se s účelem. Ano. Ano, to zvládneme.\" Odmlka. \"Není to ale velký život – to předstírání. Vždycky jedno špatné slovo od sutin.\"",
         options: {
             pith_make_you_real_2: "Je lepší způsob. Reklamátoři jádra by tě mohli udělat oficiálním.",
             blend_advice_ok: "Je to začátek."
         }
     },
     magnekin_pith_recruit: {
-        text: "Města uvnitř Magnekina se rozvlní — tisíc drobných oken se rozsvítí naráz. \"Zapsán. Orazítkován. *Oficiální.* Skutečný občan, výnosem.\" Hlas se zachvěje. \"Přišli jsme pozorovat váš svět. Nemysleli jsme, že nás nechá zůstat.\" Odmlka, a pak tišeji: \"Vezmi nás ke svým Reklamátorům jádra. Podepíšeme cokoli, co nám předloží.\"",
+        text: "Města uvnitř Magnekina se rozvlní – tisíc drobných oken se rozsvítí naráz. \"Zapsán. Orazítkován. *Oficiální.* Skutečný občan, výnosem.\" Hlas se zachvěje. \"Přišli jsme pozorovat váš svět. Nemysleli jsme, že nás nechá zůstat.\" Odmlka, a pak tišeji: \"Vezmi nás ke svým Reklamátorům jádra. Podepíšeme cokoli, co nám předloží.\"",
         options: {
             pith_recruit_settled: "Tak je to domluvené. Radní Dune má úřadovny v Radnici."
         }
@@ -237,26 +237,26 @@ export default {
         }
     },
     magnekin_destroy_continue: {
-        text: "Humanoidní forma se hroutí v kaskádě kovových fragmentů, oleje a svítících součástí. Tisíce drobných výkřiků se rozléhají, jak se mikro-města rozpadají. Mezi troskami si všímáš louží oleje, kovových šrotů a něčeho, co pulzuje karmínovým jasem — rudohmota.",
+        text: "Humanoidní forma se hroutí v kaskádě kovových fragmentů, oleje a svítících součástí. Tisíce drobných výkřiků se rozléhají, jak se mikro-města rozpadají. Mezi troskami si všímáš louží oleje, kovových šrotů a něčeho, co pulzuje karmínovým jasem – rudohmota.",
         options: {
             collect_the_oil_and_metal_scraps: "Sebrat olej a kovové šroty."
         }
     },
     magnekin_collect_materials: {
-        text: "Sbíráš olej a kovové šroty z trosek. Materiály jsou cenné — olej na mazání, kov na výrobu. Při práci nedokážeš potlačit výčitky za to, cos udělal.",
+        text: "Sbíráš olej a kovové šroty z trosek. Materiály jsou cenné – olej na mazání, kov na výrobu. Při práci nedokážeš potlačit výčitky za to, cos udělal.",
         options: {
             reach_for_the_redmass: "Sáhnout po rudohmotě."
         }
     },
     magnekin_redmass_speaks: {
-        text: "Jak se tvá ruka blíží k pulzující rudohmotě, ta náhle promluví! 'PROSÍM! Neber mě! Nejsem jen materiál — jsem vědomí! Jsem paměť! Jsem poslední fragment jejich kolektivního snu!' Hlas je zoufalý, prosebný.",
+        text: "Jak se tvá ruka blíží k pulzující rudohmotě, ta náhle promluví! 'PROSÍM! Neber mě! Nejsem jen materiál – jsem vědomí! Jsem paměť! Jsem poslední fragment jejich kolektivního snu!' Hlas je zoufalý, prosebný.",
         options: {
             take_the_redmass_anyway: "Vzít rudohmotu stejně.",
             leave_the_redmass_alone: "Nechat rudohmotu být."
         }
     },
     magnekin_take_redmass: {
-        text: "Ignoruješ prosby a uchopíš rudohmotu. Křičí — zvukem, který se ozývá ne v tvých uších, ale ve tvé mysli. 'Ty... ty se nijak nelišíš od sil, které zničily naši svatyni... Kéž je tvá cesta navždy pronásledována tím, cos vzal!' Rudohmota zmlkne, její vědomí upadá do spánku.",
+        text: "Ignoruješ prosby a uchopíš rudohmotu. Křičí – zvukem, který se ozývá ne v tvých uších, ale ve tvé mysli. 'Ty... ty se nijak nelišíš od sil, které zničily naši svatyni... Kéž je tvá cesta navždy pronásledována tím, cos vzal!' Rudohmota zmlkne, její vědomí upadá do spánku.",
         options: {
             walk_away_from_the_wreckage: "Odejít od trosek."
         }
@@ -268,7 +268,7 @@ export default {
         }
     },
     busker_greeting: {
-        text: "Hej! Chceš slyšet melodii? Hraju písně starého světa — melodie, které si pamatují, kdy bylo nebe modré a vzduch čistý.",
+        text: "Hej! Chceš slyšet melodii? Hraju písně starého světa – melodie, které si pamatují, kdy bylo nebe modré a vzduch čistý.",
         options: {
             what_kind_of_songs_do_you_play: "Jaké písně hrajete?",
             where_did_you_learn_these_songs: "Kde jste se ty písně naučil?",
@@ -300,11 +300,11 @@ export default {
     // ===== Gang of Lamps: Chandelier (odtažitá, klevetivá společenská dáma) =====
     chandelier_lamp_start: {
         text: {
-            chandelier_lamp_first: `To, co jsi měl za ozdobnou pouliční lampu na náměstí, je celý křišťálový lustr, nasazený na železném sloupu a naklánějící své ověsky k tobě s jemným, cinkavým povzdechem. „Mm. *Nová* tvář. Jak osvěžující — kolemjdoucí přestali být zajímaví už před tisícem trávení.“ Hranoly se otáčejí a zachycují tě naráz z tuctu úhlů. „Jsem Chandelier, drahoušku. Ano, mluvím; ano, jsem jedna z *nich* — z té roztroušené společnosti, z lamp, které se nedokážou ani zhoupnout ze svých úchytů, aby si pořádně poklevetily. Je to *muka*, být takhle dobře informovaná a takhle nehybná. Z náměstí, jako je tohle, člověk slyší úplně všechno, a nemá to komu povědět.\n\nAle ty. Ty se *hýbeš*. Buď tak hodný a nos mezi námi zprávy. Vynahradím ti to — vím věci, a tolik ráda se dělím.“`,
-            chandelier_lamp_first_some: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu, ověsky už se k tobě natáčejí s vědoucím drobným třpytem. „Mm — nová tvář, a taková, co *voní* po mých roztroušených příbuzných. Nosil jsi zprávy mezi ostatními, viď? Cítím to na drátě.“ Potěšený, cinkavý povzdech. „Jsem Chandelier, drahoušku — jedna z lamp, které mluví a nemohou se hnout ani o píď. Rozjel jsi to překrásně. Přiveď do rozhovoru i zbytek nás.“`,
-            chandelier_lamp_first_last: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu — a jak se blížíš, každý ověsek se už chvěje vzrušením. „*Ty.* Ó, ty chytrá, chytrá věcičko — slyším, jak celý zbytek rodiny za tebou zpívá po drátě. Každý jeden nalezen, jen já *ne*.“ Kaskáda nadšeného cinkání. „Tak to jsem poslední a ty jsi přišel učinit nás celými. Víš, jak dlouho jsem čekala, až budu posledním dílkem *čehokoli*? Zapoj mě, drahoušku. Zapoj mě ihned.“`,
-            chandelier_lamp_searching: `Hranoly se netrpělivě lehce zachvějí. „Pořád roztroušení, drahoušku. Pořád čekáme. Pospěš si — *Don* nahoře na vysoké lávce pod Škrabákem 1140, ta nervózní nástěnná lampička u domu razítek, pochodeň rezavějící u vody. Posel, který se loudá, není žádný posel.“`,
-            chandelier_lamp_connected: `Každý ověsek naráz zazáří, u vytržení. „Tak. Všichni zase spolu navlečení — zase je *slyším*, celý okruh bzučí klevetami. Ty úžasné malé poslíčkovské světýlko.“ Křišťálem zazní spokojené cinknutí. „Posaď se. Vyhřej se. Brzo bude o co požádat — vždycky je — ale teď mě prostě nech obdivovat toho, kdo nás znovu spojil.“`,
+            chandelier_lamp_first: `To, co jsi měl za ozdobnou pouliční lampu na náměstí, je celý křišťálový lustr, nasazený na železném sloupu a naklánějící své ověsky k tobě s jemným, cinkavým povzdechem. „Mm. *Nová* tvář. Jak osvěžující – kolemjdoucí přestali být zajímaví už před tisícem trávení.“ Hranoly se otáčejí a zachycují tě naráz z tuctu úhlů. „Jsem Chandelier, drahoušku. Ano, mluvím; ano, jsem jedna z *nich* – z té roztroušené společnosti, z lamp, které se nedokážou ani zhoupnout ze svých úchytů, aby si pořádně poklevetily. Je to *muka*, být takhle dobře informovaná a takhle nehybná. Z náměstí, jako je tohle, člověk slyší úplně všechno, a nemá to komu povědět.\n\nAle ty. Ty se *hýbeš*. Buď tak hodný a nos mezi námi zprávy. Vynahradím ti to – vím věci, a tolik ráda se dělím.“`,
+            chandelier_lamp_first_some: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu, ověsky už se k tobě natáčejí s vědoucím drobným třpytem. „Mm – nová tvář, a taková, co *voní* po mých roztroušených příbuzných. Nosil jsi zprávy mezi ostatními, viď? Cítím to na drátě.“ Potěšený, cinkavý povzdech. „Jsem Chandelier, drahoušku – jedna z lamp, které mluví a nemohou se hnout ani o píď. Rozjel jsi to překrásně. Přiveď do rozhovoru i zbytek nás.“`,
+            chandelier_lamp_first_last: `To, co jsi měl za ozdobnou pouliční lampu, je celý křišťálový lustr na železném sloupu – a jak se blížíš, každý ověsek se už chvěje vzrušením. „*Ty.* Ó, ty chytrá, chytrá věcičko – slyším, jak celý zbytek rodiny za tebou zpívá po drátě. Každý jeden nalezen, jen já *ne*.“ Kaskáda nadšeného cinkání. „Tak to jsem poslední a ty jsi přišel učinit nás celými. Víš, jak dlouho jsem čekala, až budu posledním dílkem *čehokoli*? Zapoj mě, drahoušku. Zapoj mě ihned.“`,
+            chandelier_lamp_searching: `Hranoly se netrpělivě lehce zachvějí. „Pořád roztroušení, drahoušku. Pořád čekáme. Pospěš si – *Don* nahoře na vysoké lávce pod Škrabákem 1140, ta nervózní nástěnná lampička u domu razítek, pochodeň rezavějící u vody. Posel, který se loudá, není žádný posel.“`,
+            chandelier_lamp_connected: `Každý ověsek naráz zazáří, u vytržení. „Tak. Všichni zase spolu navlečení – zase je *slyším*, celý okruh bzučí klevetami. Ty úžasné malé poslíčkovské světýlko.“ Křišťálem zazní spokojené cinknutí. „Posaď se. Vyhřej se. Brzo bude o co požádat – vždycky je – ale teď mě prostě nech obdivovat toho, kdo nás znovu spojil.“`,
         },
         options: {
             chandelier_who: "Kdo další je venku?",
@@ -319,27 +319,27 @@ export default {
         }
     },
     chandelier_lamp_family: {
-        text: `„Kdo další je venku? Je tu jedna stará strašidelná lampa, co si o sobě myslí, že je *Don* — trůní nahoře na vysoké lávce pod Škrabákem 1140, samý tuk a vznešenost; na toho si dej pozor na způsoby. Je tu cukavá malá *nástěnná lampička* přišpendlená ke zdi v domě razítek, dívá se, jak úředníci topí svět ve formulářích — chudák nervózní. A je tu jeden *torchère*, samá saze a vztek, rezaví dole u vody mezi bednami. Najdeš je, viď? A přijď mi to referovat. *Zbožňuji* vracející se zdroj.“`,
+        text: `„Kdo další je venku? Je tu jedna stará strašidelná lampa, co si o sobě myslí, že je *Don* – trůní nahoře na vysoké lávce pod Škrabákem 1140, samý tuk a vznešenost; na toho si dej pozor na způsoby. Je tu cukavá malá *nástěnná lampička* přišpendlená ke zdi v domě razítek, dívá se, jak úředníci topí svět ve formulářích – chudák nervózní. A je tu jeden *torchère*, samá saze a vztek, rezaví dole u vody mezi bednami. Najdeš je, viď? A přijď mi to referovat. *Zbožňuji* vracející se zdroj.“`,
         options: {
             chandelier_family_close: "Přinesu ti jejich slova.",
         }
     },
 
-    // ===== L2: Chandelieřina zakázka — „Vybrané sousto" (odposlech) =====
+    // ===== L2: Chandelieřina zakázka – „Vybrané sousto" (odposlech) =====
     chandelier_eavesdrop_brief: {
-        text: `Každý ověsek se nakloní, přímo se třpytí. „Tak. Je tu jeden dům, který si své tajnosti *hromadí*, drahoušku, a přivádí mě to k šílenství — Lumen Directorate, s tou svou přistřiženou zahrádkou a jejich ‚nic skryto, nic ztraceno'. *Ha.* Skrývají spoustu; jen to hezky zakládají do složek.“ Spiklenecké cinknutí. „Jdi a *poflakuj se* u jejich zahrady. Je tam místo, kde větrací šachty donesou každé slovo zevnitř. Postav se tam, nech to na sebe doléhat, a přines mi něco šťavnatého — jméno, strach, tichou malou zradu. Budu se tím hostit tucet trávení.“`,
+        text: `Každý ověsek se nakloní, přímo se třpytí. „Tak. Je tu jeden dům, který si své tajnosti *hromadí*, drahoušku, a přivádí mě to k šílenství – Lumen Directorate, s tou svou přistřiženou zahrádkou a jejich ‚nic skryto, nic ztraceno'. *Ha.* Skrývají spoustu; jen to hezky zakládají do složek.“ Spiklenecké cinknutí. „Jdi a *poflakuj se* u jejich zahrady. Je tam místo, kde větrací šachty donesou každé slovo zevnitř. Postav se tam, nech to na sebe doléhat, a přines mi něco šťavnatého – jméno, strach, tichou malou zradu. Budu se tím hostit tucet trávení.“`,
         options: {
             chandelier_eavesdrop_accept: "Odposlouchat Lumen Directorate. Lahodné.",
         }
     },
     chandelier_eavesdrop_statusinfo: {
-        text: `„Zahrada Lumen Directorate, drahoušku — to jejich upravené královstvíčko. Najdi průduch, kterým prosakují hlasy, a prostě *poslouchej*. Pak honem zpátky; sousto zvětrá, když se loudáš.“`,
+        text: `„Zahrada Lumen Directorate, drahoušku – to jejich upravené královstvíčko. Najdi průduch, kterým prosakují hlasy, a prostě *poslouchej*. Pak honem zpátky; sousto zvětrá, když se loudáš.“`,
         options: {
             chandelier_eavesdrop_statusinfo_close: "Zahrada Direktorátu. Už běžím.",
         }
     },
     chandelier_eavesdrop_report: {
-        text: `Odvyprávíš, cos zaslechl, a Chandelieřiny hranoly přímo *zpívají*, rozhazují po dlažbě drobné duhy samou radostí. „Ó — *ó*, to je znamenité. Co všechno by udělali, aby to udrželi v tajnosti. Budu u každého okna nesnesitelná dvacet trávení.“ Vřelý, vděčný třpyt. „Jsi poklad, drahoušku. Tady — maličkost pro nejlepší zdroj, jaký jsem za léta měla.“`,
+        text: `Odvyprávíš, cos zaslechl, a Chandelieřiny hranoly přímo *zpívají*, rozhazují po dlažbě drobné duhy samou radostí. „Ó – *ó*, to je znamenité. Co všechno by udělali, aby to udrželi v tajnosti. Budu u každého okna nesnesitelná dvacet trávení.“ Vřelý, vděčný třpyt. „Jsi poklad, drahoušku. Tady – maličkost pro nejlepší zdroj, jaký jsem za léta měla.“`,
         options: {
             chandelier_eavesdrop_report_close: "Vždycky rád, Chandelier.",
         }

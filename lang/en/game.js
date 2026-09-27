@@ -36,6 +36,7 @@ export default {
         newQuest: 'New quest',
         questUpdated: 'Quest updated',
         questCompleted: 'Quest completed!',
+        questFailed: 'Quest failed',
         journalUpdated: 'Journal updated',
         reputationChange: '{faction} Reputation: {sign}{change}',
         moneyGain: '+{amount} dinar',

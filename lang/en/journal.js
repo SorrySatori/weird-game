@@ -54,7 +54,7 @@ export default {
         },
         bishop_helmet: {
             title: 'Dream Interface Helmet',
-            description: 'The Bishop was wearing a portable dream interface helmet when she died.',
+            description: 'The Bishop died wearing a dream helmet she had built herself — market electronics around a pre-war lens, with none of a studio\'s safeguards. The screen shows a runtime-loop error and a "NULL SCENE" failsafe: a catastrophic failure of the dream program, with nothing to stop the neural feedback.',
         },
         bishop_journal: {
             title: "The Bishop's Journal",
@@ -170,7 +170,7 @@ export default {
         },
         elphi_helmet_analysis: {
             title: "Dr. Elphi's Analysis: Dream Helmet",
-            description: 'Dr. Elphi confirmed that the damaged neural interface port shows extreme signal load.',
+            description: 'Dr. Elphi recognised the helmet as the Bishop\'s own build: her design copied from memory, Voxmarket parts, and a pre-war lens only the Rust Choir still trades. It had no limiters at all — the burned-out port means the feedback reached her brain unchecked. She calibrated it here, then used it alone, away from every studio safeguard.',
         },
         elphi_memo_analysis: {
             title: "Dr. Elphi's Analysis: The Doppelgänger",
@@ -202,11 +202,11 @@ export default {
         },
         gnur_meeting: {
             title: 'Gnur of the Rust Choir',
-            description: 'In the guts of Shed 521, I encountered Gnur.',
+            description: 'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him — his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
         },
         rust_choir_faction: {
-            title: 'The Rust Choir - Machines and Memory',
-            description: 'The Rust Choir appears to be a faction with an interest in old technology.',
+            title: 'The Rust Choir — Machines and Memory',
+            description: 'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
         },
         ortolan_meeting: {
             title: 'Ortolan - The Board Game Designer',

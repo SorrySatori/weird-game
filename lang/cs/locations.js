@@ -1,5 +1,5 @@
 /**
- * Czech location names — názvy lokací pro mapu a oznámení scén
+ * Czech location names – názvy lokací pro mapu a oznámení scén
  */
 export default {
     locations: {
@@ -25,19 +25,19 @@ export default {
         RedmassIslandScene: 'Ostrov Rudé Hmoty',
 
         // Oznámení při příchodu do scény
-        LumenDirectorateInteriorScene: 'Lumen Direktorát — Interiér',
-        ScraperInteriorScene: 'Škrabka 1140 — Interiér',
-        ScreamingCorkInteriorScene: 'Řvoucí korek — Interiér',
-        ScreamingCorkClubScene: 'Řvoucí korek — Klub',
-        VoxmarketHallScene: 'Voxmarket — Hala',
-        VoxmarketMarketScene: 'Voxmarket — Tržiště',
-        ShedRegistrationScene: 'Hangár 521 — Registrace',
-        ShedApplicationsScene: 'Hangár 521 — Žádosti',
-        ShedAbandonedOfficeScene: 'Hangár 521 — Opuštěná kancelář',
-        Shed521GateScene: 'Hangár 521 — Brána',
-        Shed521FloorsScene: 'Hangár 521 — Patra',
-        EntryScene: 'Horní Morkezela — Předměstí',
-        CathedralEntrance: 'Vajíčková Katedrála — Vchod',
-        ScraperBackyardScene: 'Škrabka 1140 — Zadní dvůr',
+        LumenDirectorateInteriorScene: 'Lumen Direktorát – Interiér',
+        ScraperInteriorScene: 'Škrabka 1140 – Interiér',
+        ScreamingCorkInteriorScene: 'Řvoucí korek – Interiér',
+        ScreamingCorkClubScene: 'Řvoucí korek – Klub',
+        VoxmarketHallScene: 'Voxmarket – Hala',
+        VoxmarketMarketScene: 'Voxmarket – Tržiště',
+        ShedRegistrationScene: 'Hangár 521 – Registrace',
+        ShedApplicationsScene: 'Hangár 521 – Žádosti',
+        ShedAbandonedOfficeScene: 'Hangár 521 – Opuštěná kancelář',
+        Shed521GateScene: 'Hangár 521 – Brána',
+        Shed521FloorsScene: 'Hangár 521 – Patra',
+        EntryScene: 'Horní Morkezela – Předměstí',
+        CathedralEntrance: 'Vajíčková Katedrála – Vchod',
+        ScraperBackyardScene: 'Škrabka 1140 – Zadní dvůr',
     },
 };

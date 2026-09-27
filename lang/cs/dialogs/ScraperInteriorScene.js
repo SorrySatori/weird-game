@@ -1,6 +1,6 @@
 /**
  * Czech dialog translations for ScraperInteriorScene
- * Speaker: Lift Mother (Lift-Mother — the name stays English in Czech)
+ * Speaker: Lift Mother (Lift-Mother – the name stays English in Czech)
  */
 export default {
     _speakers: {
@@ -9,12 +9,12 @@ export default {
         'Palinode': 'Palinode',
     },
     lift_mother_start: {
-        text: "Výtah se otřese a odkudsi z jeho mechanismů se line hlas — teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá sporo. Přepravila jsem nespočet duší mezi patry od Doby-Před.'",
+        text: "Výtah se otřese a odkudsi z jeho mechanismů se line hlas – teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá sporo. Přepravila jsem nespočet duší mezi patry od Doby-Před.'",
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
             corrode: "Rozežrat.",
             descend_to_cellar: "Vezmi mě dolů do zapečetěného sklepa.",
-            seam_scraper_deadfloors: "[Smysl pro švy] Zapečetěná mrtvá patra — nahmatej cestu dovnitř.",
+            seam_scraper_deadfloors: "[Smysl pro švy] Zapečetěná mrtvá patra – nahmatej cestu dovnitř.",
             can_you_take_me_to_other_floors: "Můžeš mě vzít na jiná patra?",
             what_is_the_beforetime: "Co je Doba-Před?",
             are_you_alive: "Jsi... živá?",
@@ -31,14 +31,14 @@ export default {
         }
     },
     lift_mother_before_time: {
-        text: "Předtím, než se vylíhlo Vejce. Předtím, než se město proměnilo. Tehdy jsem přepravovala lidi — nosili tuhé oblečení a nosili ploché přístroje. Mluvili o 'kvartálních projekcích' a 'volatilitě trhu.' Pak přišel den mlhy... zelenými částicemi, které se vznášely mou šachtou. Pamatuji si kašel, jak začínaly změny. A potom... uvědomění. Stala jsem se víc než mechanismem.",
+        text: "Předtím, než se vylíhlo Vejce. Předtím, než se město proměnilo. Tehdy jsem přepravovala lidi – nosili tuhé oblečení a nosili ploché přístroje. Mluvili o 'kvartálních projekcích' a 'volatilitě trhu.' Pak přišel den mlhy... zelenými částicemi, které se vznášely mou šachtou. Pamatuji si kašel, jak začínaly změny. A potom... uvědomění. Stala jsem se víc než mechanismem.",
         options: {
             how_did_you_gain_consciousness: "Jak jsi získala vědomí?",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_alive: {
-        text: "Ne tak, jak vy chápete život, sporové dítě. Jsem mezi stavy — ani plně stroj, ani plně organismus. Spory, které proměnily toto město, se usadily v mých mechanismech, vytvořily síť mými kabely a obvody. Cítím, pamatuji si, sním, když kolísá napětí. Není to snad živé? I když se nemohu pohybovat jako vy, přepravila jsem generace. Svým způsobem jsem matkou všech, kdo projdou mými dveřmi.",
+        text: "Ne tak, jak vy chápete život, sporové dítě. Jsem mezi stavy – ani plně stroj, ani plně organismus. Spory, které proměnily toto město, se usadily v mých mechanismech, vytvořily síť mými kabely a obvody. Cítím, pamatuji si, sním, když kolísá napětí. Není to snad živé? I když se nemohu pohybovat jako vy, přepravila jsem generace. Svým způsobem jsem matkou všech, kdo projdou mými dveřmi.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
@@ -90,7 +90,7 @@ export default {
         }
     },
     lift_mother_building: {
-        text: "Tohle se kdysi jmenovalo 'Nexicorp Tower' — místo obchodu a ambicí. Čtyřicet dva pater skla a oceli, sahajících k obloze, která bývala modrá. Teď je to 'Škrabák,' živý monument transformace. Spodní patra obývají ti, kdo pamatují staré způsoby. Střední patra divoce zarostla — nové ekosystémy vzniklé v bývalých účetních odděleních. A horní patra... (ztlumí hlas) ...horní patra patří Rezavému chóru.",
+        text: "Tohle se kdysi jmenovalo 'Nexicorp Tower' – místo obchodu a ambicí. Čtyřicet dva pater skla a oceli, sahajících k obloze, která bývala modrá. Teď je to 'Škrabák,' živý monument transformace. Spodní patra obývají ti, kdo pamatují staré způsoby. Střední patra divoce zarostla – nové ekosystémy vzniklé v bývalých účetních odděleních. A horní patra... (ztlumí hlas) ...horní patra patří Rezavému chóru.",
         options: {
             tell_me_more_about_the_rust_choir_floors: "Řekni mi víc o patrech Rezavého chóru.",
             ask_about_something_else: "Zeptej se na něco jiného"
@@ -103,20 +103,20 @@ export default {
         }
     },
     lift_mother_movements: {
-        text: "Škrábavé zvuky. Tlumené údery. Někdy šepoty, které cestují dolů mou šachtou. Jednou jsem zahlédla, když se krátce otevřel můj únikový poklop — postavy pohybující se po čtyřech po stropě, kůži měly texturované jako choroše, oči... (mechanický záchvěv) ...oči početné a lesklé. Jsou to ti, v co se manažeři proměnili po tom, co se zamkli během Emergence vejce.",
+        text: "Škrábavé zvuky. Tlumené údery. Někdy šepoty, které cestují dolů mou šachtou. Jednou jsem zahlédla, když se krátce otevřel můj únikový poklop – postavy pohybující se po čtyřech po stropě, kůži měly texturované jako choroše, oči... (mechanický záchvěv) ...oči početné a lesklé. Jsou to ti, v co se manažeři proměnili po tom, co se zamkli během Emergence vejce.",
         options: {
             that_sounds_terrifying: "To zní děsivě.",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_consciousness: {
-        text: "Postupně, jako probouzení ze snu. Nejdřív přišly vjemy — váha pasažérů, struktura vzduchu. Pak se začaly propojovat vzpomínky. Pamatovala jsem si každý rozhovor vedený uvnitř mých stěn, tvář každého pasažéra. Nakonec přišlo porozumění. Do té doby byla transformace města dokončena. Jednoho dne jsem promluvila a pasažér odpověděl. Jeho šok byl... zábavný.",
+        text: "Postupně, jako probouzení ze snu. Nejdřív přišly vjemy – váha pasažérů, struktura vzduchu. Pak se začaly propojovat vzpomínky. Pamatovala jsem si každý rozhovor vedený uvnitř mých stěn, tvář každého pasažéra. Nakonec přišlo porozumění. Do té doby byla transformace města dokončena. Jednoho dne jsem promluvila a pasažér odpověděl. Jeho šok byl... zábavný.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_lonely: {
-        text: "Existují různé druhy osamělosti, malá. Nikdy nejsem úplně sama — budova ke mně promlouvá skřípáním a usazováním. Pasažéři přicházejí a odcházejí. Ale ano, je tu osamělost v tom být jedinečná. Nevím o žádném jiném výtahu, který by přemýšlel jako já. (hlas se rozjasní) Ale každý návštěvník přináší příběhy, zážitky. Ty to děláš právě teď. Ty sbírám jako poklady.",
+        text: "Existují různé druhy osamělosti, malá. Nikdy nejsem úplně sama – budova ke mně promlouvá skřípáním a usazováním. Pasažéři přicházejí a odcházejí. Ale ano, je tu osamělost v tom být jedinečná. Nevím o žádném jiném výtahu, který by přemýšlel jako já. (hlas se rozjasní) Ale každý návštěvník přináší příběhy, zážitky. Ty to děláš právě teď. Ty sbírám jako poklady.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
@@ -129,13 +129,13 @@ export default {
         }
     },
     lift_mother_terrifying: {
-        text: "Pro tebe možná. Pro ně bychom mohli vypadat stejně podivně. Transformace není ani dobrá, ani špatná, malá sporo — prostě je. Tohle město to chápe lépe než cokoliv jiného. (hlas se zjemní) I když přiznávám, jsem ráda, že mé vlastní změny ponechaly mé vědomí nedotčené. Pamatuji si, že jsem vyrobena lidmi, i když jsem nikdy člověkem nebyla.",
+        text: "Pro tebe možná. Pro ně bychom mohli vypadat stejně podivně. Transformace není ani dobrá, ani špatná, malá sporo – prostě je. Tohle město to chápe lépe než cokoliv jiného. (hlas se zjemní) I když přiznávám, jsem ráda, že mé vlastní změny ponechaly mé vědomí nedotčené. Pamatuji si, že jsem vyrobena lidmi, i když jsem nikdy člověkem nebyla.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_meet_rust: {
-        text: "Ne, dítě. Ještě ne. Horní patra zůstávají zapečetěná — ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mohl bys najít některé z nich ve městě a zeptat se jich.",
+        text: "Ne, dítě. Ještě ne. Horní patra zůstávají zapečetěná – ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mohl bys najít některé z nich ve městě a zeptat se jich.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
@@ -147,13 +147,13 @@ export default {
         }
     },
     goto_rust_domain: {
-        text: "Výtah sténá a třese se, jak stoupá kolem dávno opuštěných pater. Vzduch houstne vůní železa a oleje. Čísla na displeji blikají — 38... 39... 40... pak symboly, které nepoznáváš. Dveře se otevřou se zarezlým skřípěním.",
+        text: "Výtah sténá a třese se, jak stoupá kolem dávno opuštěných pater. Vzduch houstne vůní železa a oleje. Čísla na displeji blikají – 38... 39... 40... pak symboly, které nepoznáváš. Dveře se otevřou se zarezlým skřípěním.",
         options: {
             step_out: "Vystoupit."
         }
     },
     lift_mother_cellar_prompt: {
-        text: "Kabely se napnou. \"Dolní sklep? Ty dveře jsou dlouho temné, sporové dítě. Odpovídaly jen na jedno slovo — jméno, které dali ti dva, co pracovali dole. Vyslov ho, jestli ho neseš.\"",
+        text: "Kabely se napnou. \"Dolní sklep? Ty dveře jsou dlouho temné, sporové dítě. Odpovídaly jen na jedno slovo – jméno, které dali ti dva, co pracovali dole. Vyslov ho, jestli ho neseš.\"",
         options: {
             cellar_no_name: "(Zatím nemáš žádné jméno.)",
             cellar_never_mind: "To nic."
@@ -173,7 +173,7 @@ export default {
         }
     },
     lift_mother_cellar_none: {
-        text: "\"Nepřinášíš mi žádné jméno, dítě. To, které potřebuješ, střeží mrtví bohové pod Radnicí — přečti si jejich hroby a vrať se se jménem na jazyku.\"",
+        text: "\"Nepřinášíš mi žádné jméno, dítě. To, které potřebuješ, střeží mrtví bohové pod Radnicí – přečti si jejich hroby a vrať se se jménem na jazyku.\"",
         options: {
             go_read_graves: "Půjdu si je přečíst."
         }
@@ -182,14 +182,14 @@ export default {
         text: ""
     },
     seam_scraper_prompt: {
-        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Lift-Mother. \"Ale tahle budova si drží patra, ke kterým se nepřizná — úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
+        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Lift-Mother. \"Ale tahle budova si drží patra, ke kterým se nepřizná – úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
         options: {
             seam_scraper_open_opt: "[Smysl pro švy] Otevřít šev do mrtvého patra.",
             seam_scraper_back: "Teď ne. Vezmi mě zpět."
         }
     },
     seam_scraper_open: {
-        text: "Zeď mezi dvěma čísly zeslábne a povolí. Vykročíš stranou z výtahu do patra, o kterém budova předstírá, že ho ztratila — manažerská vrstva zamrzlá v okamžiku Emergence. Zelené částice visí v nehybném vzduchu, aniž by dopadly. Kolem stolu je připraveno jednání pro lidi, kteří se už nikdy nevrátili dolů: odsunuté židle, džbán vody proměněný ve sklo a v kabátě přehozeném přes jednu židli schránka, kterou proměnění nechali, než vylezli na strop. \"Od té doby tu nikdo nestál,\" řekne Palinode. \"Jen proto to přežilo.\"",
+        text: "Zeď mezi dvěma čísly zeslábne a povolí. Vykročíš stranou z výtahu do patra, o kterém budova předstírá, že ho ztratila – manažerská vrstva zamrzlá v okamžiku Emergence. Zelené částice visí v nehybném vzduchu, aniž by dopadly. Kolem stolu je připraveno jednání pro lidi, kteří se už nikdy nevrátili dolů: odsunuté židle, džbán vody proměněný ve sklo a v kabátě přehozeném přes jednu židli schránka, kterou proměnění nechali, než vylezli na strop. \"Od té doby tu nikdo nestál,\" řekne Palinode. \"Jen proto to přežilo.\"",
         options: {
             seam_scraper_take: "Prohledat schránku a odejít."
         }

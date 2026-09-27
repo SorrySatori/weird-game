@@ -324,7 +324,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_bishop_trading: {
-                text: "'Now that's interesting.' Kloor leans in closer. 'She had this strange currency — called Vestigels. Not like regular money. They're rare, experimental. Supposedly they hold... properties. I think that a merchant named Zerren owned one.'",
+                text: "'Now that's interesting.' Kloor leans in closer. 'She was after a lens — the optic out of a dream helmet — and she offered a Vestigel to anyone who could find her one. A Vestigel! Rare, experimental things; supposedly they hold... properties. Nobody here had a lens, so in the end she bought some small electronics for plain dinar and left. But word got around. And a merchant named Zerren happens to own a Vestigel too — not from the Bishop, mind you.'",
                 options: [
                     ...(!this.questSystem.getQuest('the_three_vestigels')) ? [{ text: "Tell me more about these Vestigels", key: 'tell_me_more_about_these_vestigels', next: "kloor_vestigels" }] : [],
                     { text: "Thanks for the information", key: 'thanks_for_the_information', next: "kloor_start" }

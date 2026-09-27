@@ -522,18 +522,18 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_clues_helmet: {
-                text: `The neural interface port was damaged, you say? That's significant. If the port was burned out, it means the signal load exceeded anything the hardware was rated for.\n\nThe helmet was probably the murder weapon — or at least the delivery mechanism. Whoever tampered with the cartridge knew the helmet would channel the feedback directly into her brain.\n\nPortable helmets don't have as many safeguards as my studio beds. She was vulnerable out there alone.`,
+                text: `The neural interface port was damaged, you say? That's significant. If the port was burned out, it means the signal load exceeded anything the hardware was rated for.\n\nThe helmet was probably the murder weapon — or at least the delivery mechanism. Whoever tampered with the cartridge knew the helmet would channel the feedback directly into her brain.\n\nAnd that helmet had no safeguards at all. It wasn't one of mine.`,
                 options: [
                     { text: "She had a portable device? Not your studio equipment?", key: 'she_had_a_portable_device_not_your_studio_equipmen', next: "dr_elphi_helmet_portable" },
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_helmet_analysis')) {
-                        this.questSystem.updateQuest('who_killed_bishop', 'Dr. Elphi says the damaged helmet port confirms the signal load was beyond hardware limits. The portable helmet — with fewer safeguards than studio equipment — was the delivery mechanism for the fatal neural feedback.', 'elphi_helmet');
+                        this.questSystem.updateQuest('who_killed_bishop', 'Dr. Elphi recognised the helmet as the Bishop\'s own build — her design copied from memory, Voxmarket parts, a pre-war lens. No limiters at all: the burned-out port means the feedback hit her brain unchecked.', 'elphi_helmet');
                         this.addJournalEntry(
                             'elphi_helmet_analysis',
                             'Dr. Elphi\'s Analysis: Dream Helmet',
-                            'Dr. Elphi confirmed that the damaged neural interface port means the signal load exceeded hardware limits. The portable dream helmet has fewer safeguards than the studio beds, making it the ideal delivery mechanism. The Bishop was specifically vulnerable because she chose to use the portable device alone in the backyard, away from the studio\'s safety systems.',
+                            'Dr. Elphi recognised the helmet as the Bishop\'s own build: her design copied from memory, Voxmarket parts, and a pre-war lens only the Rust Choir still trades. It had no limiters at all — the burned-out port means the feedback reached her brain unchecked. She calibrated it here, then used it alone, away from every studio safeguard.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn' }
                         );
@@ -542,7 +542,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_helmet_portable: {
-                text: `She had her own. Brought it a hundred-odd digestions ago — said she needed to practice outside the studio. I thought it was odd, but the Bishop was always odd.\n\nI offered her supervised sessions instead. She refused. Said the studio "had too many ears."\n\nWhoever killed her knew she'd be using the portable device. Alone. Outside signal range. This was planned.`,
+                text: `Her own — and not one of mine. She built it. My design, copied from memory, wrapped in Voxmarket electronics, and a lens I couldn't have sold her if I'd wanted to: pre-war glass, the kind only the Rust Choir still digs up. She brought it here a hundred-odd digestions ago to calibrate it against my beds — said she needed to practice outside the studio. I thought it was reckless. The Bishop was always reckless in quiet ways.\n\nI offered her supervised sessions instead. She refused. Said the studio "had too many ears."\n\nWhoever killed her knew she'd be using that thing. Alone. No limiters. Outside signal range. This was planned.`,
                 options: [
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
@@ -1336,7 +1336,7 @@ export default class ScraperAmbraScene extends GameScene {
         // languages so the dream's title reads naturally in either.
         const subtitles = [];
         if (carries('neme-crownmire')) {
-            const line = tr("For a while you can see straight through everyone you pass — skin gone to clouded glass — and you read what each of them keeps folded out of sight. The cruelest things are the ones they hide from themselves.", "Chvíli vidíš skrz každého, koho míjíš — kůže se změnila v zakalené sklo — a čteš, co si každý z nich schovává z dohledu. Ty nejkrutější věci jsou ty, které skrývají sami před sebou.");
+            const line = tr("For a while you can see straight through everyone you pass — skin gone to clouded glass — and you read what each of them keeps folded out of sight. The cruelest things are the ones they hide from themselves.", "Chvíli vidíš skrz každého, koho míjíš – kůže se změnila v zakalené sklo – a čteš, co si každý z nich schovává z dohledu. Ty nejkrutější věci jsou ty, které skrývají sami před sebou.");
             panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_townsquare', bgTint: 0x39528f, myc: true, isDream: true });
             dreamProse.push(line);
             subtitles.push(tr('of Glass People', 'o skleněných lidech'));
@@ -1360,7 +1360,7 @@ export default class ScraperAmbraScene extends GameScene {
             subtitles.push(tr('of Salt and Doors', 'o soli a dveřích'));
         }
         if (carries('osswine')) {
-            const line = tr("Everyone you pass has been dead a long while, and none of them mind. They go about small, patient errands, and when you ask them anything the dead answer plainly — there is nothing left in them that still needs to lie.", "Každý, koho míjíš, je už dlouho mrtvý, a nikomu z nich to nevadí. Vyřizují si drobné trpělivé pochůzky, a když se jich na cokoli zeptáš, mrtví odpovídají přímo — nezbylo v nich nic, co by ještě potřebovalo lhát.");
+            const line = tr("Everyone you pass has been dead a long while, and none of them mind. They go about small, patient errands, and when you ask them anything the dead answer plainly — there is nothing left in them that still needs to lie.", "Každý, koho míjíš, je už dlouho mrtvý, a nikomu z nich to nevadí. Vyřizují si drobné trpělivé pochůzky, a když se jich na cokoli zeptáš, mrtví odpovídají přímo – nezbylo v nich nic, co by ještě potřebovalo lhát.");
             panels.push({ title: PANEL_TITLE, caption: line, bg: 'cs_city', bgTint: 0x5a4a38, myc: true, isDream: true });
             dreamProse.push(line);
             subtitles.push(tr('of the Honest Dead', 'o poctivých mrtvých'));
@@ -1372,7 +1372,7 @@ export default class ScraperAmbraScene extends GameScene {
             subtitles.push(tr('of Unsaid Walls', 'o odvolaných zdech'));
         }
         if (subtitles.length === 0) {
-            const line = tr("Nothing rides along inside you tonight. The dream is only yours, and it is quieter for it — almost lonely, almost a relief.", "Dnes v noci s tebou nejede nic. Sen je jen tvůj, a je proto tišší — skoro osamělý, skoro úleva.");
+            const line = tr("Nothing rides along inside you tonight. The dream is only yours, and it is quieter for it — almost lonely, almost a relief.", "Dnes v noci s tebou nejede nic. Sen je jen tvůj, a je proto tišší – skoro osamělý, skoro úleva.");
             panels.push({ title: PANEL_TITLE, caption: line, bg: null, bgTint: 0x14122a, myc: true, isDream: true });
             dreamProse.push(line);
             subtitles.push(tr('of a Quiet, Empty Self', 'o tichém, prázdném já'), tr('You Were Paid to Have', 'za který ti zaplatili'));
@@ -1381,7 +1381,7 @@ export default class ScraperAmbraScene extends GameScene {
         // Closing beat — sometimes the Bishop is waiting in it.
         const closings = [
             { text: tr("You almost understand what it means. Then morning reaches in and takes it.", "Skoro pochopíš, co to znamená. Pak sáhne dovnitř ráno a vezme ti to."), bishop: false },
-            { text: tr("Somewhere in the middle of it, the dead Bishop turns to look at you — calm, unbreathing, already mid-sentence — and you wake.", "Někde uprostřed toho se po tobě mrtvá Biskupka otočí — klidná, nedýchající, už uprostřed věty — a ty se probudíš."), bishop: true },
+            { text: tr("Somewhere in the middle of it, the dead Bishop turns to look at you — calm, unbreathing, already mid-sentence — and you wake.", "Někde uprostřed toho se po tobě mrtvá Biskupka otočí – klidná, nedýchající, už uprostřed věty – a ty se probudíš."), bishop: true },
             { text: tr("The dream folds itself up neatly, like a clerk closing a ledger, and tucks you back into the dark.", "Sen se úhledně složí, jako když úředník zavírá účetní knihu, a zastrčí tě zpátky do tmy."), bishop: false }
         ];
         const closing = closings[pickIdx(closings.length)];

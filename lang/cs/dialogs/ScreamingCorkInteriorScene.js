@@ -12,7 +12,7 @@ export default {
     },
 
     epilogue_intro: {
-        text: "Později. Město dýchá, jak vždycky dýchalo, lhostejné a živé. Popel po festivalu dávno vychladl. A tady, U Řvoucího korku — jako na úplném začátku — se nad známým pitím usazuje známá postava.",
+        text: "Později. Město dýchá, jak vždycky dýchalo, lhostejné a živé. Popel po festivalu dávno vychladl. A tady, U Řvoucího korku – jako na úplném začátku – se nad známým pitím usazuje známá postava.",
         options: { epilogue_go_in: "Jít za ním." }
     },
     epilogue_thaal_ask: {
@@ -28,7 +28,7 @@ export default {
         options: { epilogue_finish: "…" }
     },
     epilogue_end: {
-        text: "Našel. A nenašel. A město šlo dál nad těmi dvěma zadrženými dechy, aniž vědělo, který z nich si zvolilo — nebo že si vůbec zvolilo.",
+        text: "Našel. A nenašel. A město šlo dál nad těmi dvěma zadrženými dechy, aniž vědělo, který z nich si zvolilo – nebo že si vůbec zvolilo.",
         options: { epilogue_close: "(Konec.)" }
     },
     ravla_start: {
@@ -59,7 +59,7 @@ export default {
         text: "Formulář o řemeslnické výjimce? Pro Ortolana?..."
     },
     ravla_ortolan_need: {
-        text: "Nebude to levné — 50 dinárů..."
+        text: "Nebude to levné – 50 dinárů..."
     },
     ravla_check_money: {
         text: ""
@@ -107,7 +107,7 @@ export default {
         text: "Ravla přimhouří oči nad malým krystalickým úlomkem..."
     },
     ravla_feast_cook_full: {
-        text: "Ravla pracuje rychle — nejdřív olej..."
+        text: "Ravla pracuje rychle – nejdřív olej..."
     },
     ravla_feast_cook_shard: {
         text: "Ravla připravuje hostinu v tichu..."
@@ -119,13 +119,13 @@ export default {
         text: "Ravla pracuje zkušenýma rukama..."
     },
     ravla_feast_poison: {
-        text: "Zatímco se Ravla otočí, aby přerovnala nářadí, rozetřeš direktorátský kultivar mezi prsty na prášek a nasypeš ho do olejové láhve. Rozpustí se beze stopy — slabý zelený lesk, který zmizí, jak s ní zakroužíš. Když se ohlédne, je na stole jen olej, kov a rudá hmota. Není co vidět.",
+        text: "Zatímco se Ravla otočí, aby přerovnala nářadí, rozetřeš direktorátský kultivar mezi prsty na prášek a nasypeš ho do olejové láhve. Rozpustí se beze stopy – slabý zelený lesk, který zmizí, jak s ní zakroužíš. Když se ohlédne, je na stole jen olej, kov a rudá hmota. Není co vidět.",
         options: {
             gathered_everything_prepare_the_feast_poison: "\"Shromáždil jsem všechno. Pojďme připravit hostinu.\""
         }
     },
     ravla_feast_cook_poison: {
-        text: "Ravla pracuje rychle — nejdřív olej, pak kovové piliny, potom nakonec vmíchá rudou hmotu, stále sebou škubající. Nevšimne si ničeho špatného; proč taky? Výsledek zapečetí v tmavé nádobě. \"Tady. Rezavá hostina.\" Přisune ji přes stůl. \"Heslo pro Lift-Matku — řekni panelu 'Koroduj'. S nikým se o něj neděl.\" Změří si tě pohledem.\n\nNádoba chrastí jako každá jiná. Jen ty víš, co spí v tom oleji.",
+        text: "Ravla pracuje rychle – nejdřív olej, pak kovové piliny, potom nakonec vmíchá rudou hmotu, stále sebou škubající. Nevšimne si ničeho špatného; proč taky? Výsledek zapečetí v tmavé nádobě. \"Tady. Rezavá hostina.\" Přisune ji přes stůl. \"Heslo pro Lift-Matku – řekni panelu 'Koroduj'. S nikým se o něj neděl.\" Změří si tě pohledem.\n\nNádoba chrastí jako každá jiná. Jen ty víš, co spí v tom oleji.",
         options: {
             i_wont_thank_you_poison: "Nebudu. Díky, Ravlo."
         }
@@ -171,7 +171,7 @@ export default {
         text: "Mám kontakty s obchodníky z celého okolí..."
     },
     heliodor_sulkberry_check: {
-        text: "Několik Heliodorových složkových organismů se postupně nakloní dopředu — nejprve se zúží oči, pak se roztaží nosní dírky, poté prsty, které jako by patřily jiné osobnosti, se natáhnou a převezmou vzorek.\n\nDlouhá pauza. Různé části Heliodorova kompozitního těla se radí v šeptavých cvakáních a hučení.\n\n'Prozkoumali jsme vzorek. Tři naše složky ochutnaly, dvě analyzovaly reziduální spory a Oorarabaz — krátce probuzený — potvrdil alkaloidní strukturu membránovou absorpcí.\n\nPlod je čistý. Žádné toxiny, žádné modifikace, žádné parazitické zásahy. Toto je prémiový produkt Lumen Directorate v dokonalém stavu.'",
+        text: "Několik Heliodorových složkových organismů se postupně nakloní dopředu – nejprve se zúží oči, pak se roztaží nosní dírky, poté prsty, které jako by patřily jiné osobnosti, se natáhnou a převezmou vzorek.\n\nDlouhá pauza. Různé části Heliodorova kompozitního těla se radí v šeptavých cvakáních a hučení.\n\n'Prozkoumali jsme vzorek. Tři naše složky ochutnaly, dvě analyzovaly reziduální spory a Oorarabaz – krátce probuzený – potvrdil alkaloidní strukturu membránovou absorpcí.\n\nPlod je čistý. Žádné toxiny, žádné modifikace, žádné parazitické zásahy. Toto je prémiový produkt Lumen Directorate v dokonalém stavu.'",
         options: {
             photosentience_read_heliodors_biosignals_for_decep: "[Fotosenzitivita] Číst Heliodorovy biosignály kvůli podvodu.",
             photosentience_silenced_heliodor: "[Fotosenzitivita] Zkusit číst Heliodora… (tvůj smysl skomírá)",
@@ -180,25 +180,25 @@ export default {
     },
 
     heliodor_sulkberry_neme_silenced: {
-        text: "Saháš po Nemině zraku — a on se ti vysmekne jako ruka, která se sevře kolem kouře. *\"Tady ne,\"* zvládne Neme, slabě a odkudsi z dálky. *\"V tomhle vzduchu je příliš mnoho hniloby; skoro spím. Nedokážu ti ho přečíst. Tentokrát věř vlastním uším.\"* Biosignály se rozmažou v nesmyslný šum.",
+        text: "Saháš po Nemině zraku – a on se ti vysmekne jako ruka, která se sevře kolem kouře. *\"Tady ne,\"* zvládne Neme, slabě a odkudsi z dálky. *\"V tomhle vzduchu je příliš mnoho hniloby; skoro spím. Nedokážu ti ho přečíst. Tentokrát věř vlastním uším.\"* Biosignály se rozmažou v nesmyslný šum.",
         options: {
             neme_silenced_ok: "Rozumím."
         }
     },
     heliodor_sulkberry_neme: {
-        text: "Roztažíte Nemovo vědomí směrem k Heliodorovi — a okamžitě obdržíte kaskádu překrývajících se signálů. Ne jedna mysl, ale mnoho, každá vysílá na vlastní emocionální frekvenci. Profesní kompetence od analytických složek. Mírná podrážděnost těch, co byly probuzeny. Hluboké, hibernující uspokojení z něčeho, co musí být Oorarabaz, už klouzající zpět ke spánku.\n\nAle napříč všemi jedna konstanta: žádný podvod. Kolonie nemůže lhát unisono — pravda každé složky posiluje ty ostatní.\n\nNeme poznámek: 'Šŭr uprÍmnosti. Osvěžující, i když poněkud hlučné.'\n\nHeliodorův verdikt je upřímný. Mručenky jsou čisté.",
+        text: "Roztažíte Nemovo vědomí směrem k Heliodorovi – a okamžitě obdržíte kaskádu překrývajících se signálů. Ne jedna mysl, ale mnoho, každá vysílá na vlastní emocionální frekvenci. Profesní kompetence od analytických složek. Mírná podrážděnost těch, co byly probuzeny. Hluboké, hibernující uspokojení z něčeho, co musí být Oorarabaz, už klouzající zpět ke spánku.\n\nAle napříč všemi jedna konstanta: žádný podvod. Kolonie nemůže lhát unisono – pravda každé složky posiluje ty ostatní.\n\nNeme poznámek: 'Šŭr uprÍmnosti. Osvěžující, i když poněkud hlučné.'\n\nHeliodorův verdikt je upřímný. Mručenky jsou čisté.",
         options: {
             thank_you_heliodor: "Děkuji, Heliodore."
         }
     },
     ravla_spy_secret: {
-        text: "Ravla odloží pero a dlouhou chvíli si tě prohlíží. „Ptáš se na špatné otázky správným hlasem. Dobrá — jednu, protože mě to nic nestojí a *je* to možná něco stát bude.“ Očima střelí ke dveřím. „Každá ‚reklamace‘, kterou Chór podá skrze mě, má druhou sadu papírů. Oficiálně sešrotují mrtvé stroje. Neoficiálně se tytéž stroje zapíšou jako *stále v provozu* někde jinde — papírový přízrak, který čerpá energii a povolení, jež si Chór odsává. Půlka toho, co Chór ‚vlastní‘, neexistuje v žádné poctivé účetní knize. Já to musím vědět. Já to nakreslila.“ Zase zvedne pero. „Víc nedostaneš. Zeptej se znovu a zapomenu tvůj obličej.“",
+        text: "Ravla odloží pero a dlouhou chvíli si tě prohlíží. „Ptáš se na špatné otázky správným hlasem. Dobrá – jednu, protože mě to nic nestojí a *je* to možná něco stát bude.“ Očima střelí ke dveřím. „Každá ‚reklamace‘, kterou Chór podá skrze mě, má druhou sadu papírů. Oficiálně sešrotují mrtvé stroje. Neoficiálně se tytéž stroje zapíšou jako *stále v provozu* někde jinde – papírový přízrak, který čerpá energii a povolení, jež si Chór odsává. Půlka toho, co Chór ‚vlastní‘, neexistuje v žádné poctivé účetní knize. Já to musím vědět. Já to nakreslila.“ Zase zvedne pero. „Víc nedostaneš. Zeptej se znovu a zapomenu tvůj obličej.“",
         options: {
             ravla_spy_secret_close: "To bohatě stačí. (Zapamatovat si to.)"
         }
     },
     ravla_spy_neme_read: {
-        text: "Necháš Nemův zrak spočinout na ní a pod plochým klidem padělatelky vina rozkvete jasně a čitelně. Cítí tu pozornost — nejistě vzhlédne. „...Proč se na mě tak díváš.“ Vyklouzne to z ní skoro proti její vůli, tiše: „Každá ‚reklamace‘, kterou pro Chór vyřídím, má druhou sadu papírů. Oficiálně šrotují mrtvé stroje. Neoficiálně se ty stroje zapíšou jako stále běžící někde jinde — papíroví přízraci, kteří čerpají energii a povolení, jež si Chór odsává. Půlka toho, co Chór ‚vlastní‘, neexistuje v žádné poctivé knize. Nakreslila jsem to všechno.“ Vypadá, že se jí z toho přiznání dělá slabo. „...Vypadni mi z hlavy.“",
+        text: "Necháš Nemův zrak spočinout na ní a pod plochým klidem padělatelky vina rozkvete jasně a čitelně. Cítí tu pozornost – nejistě vzhlédne. „...Proč se na mě tak díváš.“ Vyklouzne to z ní skoro proti její vůli, tiše: „Každá ‚reklamace‘, kterou pro Chór vyřídím, má druhou sadu papírů. Oficiálně šrotují mrtvé stroje. Neoficiálně se ty stroje zapíšou jako stále běžící někde jinde – papíroví přízraci, kteří čerpají energii a povolení, jež si Chór odsává. Půlka toho, co Chór ‚vlastní‘, neexistuje v žádné poctivé knize. Nakreslila jsem to všechno.“ Vypadá, že se jí z toho přiznání dělá slabo. „...Vypadni mi z hlavy.“",
         options: {
             ravla_spy_neme_close: "(Povolit. Poděkovat jí mlčky.)"
         }

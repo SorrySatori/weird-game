@@ -10,7 +10,7 @@ export default {
         'Osswine': 'Osswine',
     },
     dead_bishop_start: {
-        text: "Tělo před tebou je zjevně tělo duchovní — biskupka Obazoba v ceremoniálních rouchách potřísněných houbovým porostem. Její tvář je klidná, ale bledá, s jemnými modřinami viditelnými na spáncích. Poblíž si všimneš přenosného snového zařízení, opotřebovaného zápisníku a přilby pro snové rozhraní (stále připojené) a malého pytlíku s něčím, co vypadá jako bobule. V jejím rukávu si všimneš nějakých papírů.",
+        text: "Tělo před tebou je zjevně tělo duchovní – biskupka Obazoba v ceremoniálních rouchách potřísněných houbovým porostem. Její tvář je klidná, ale bledá, s jemnými modřinami viditelnými na spáncích. Poblíž si všimneš přenosného snového zařízení, opotřebovaného zápisníku a přilby pro snové rozhraní (stále připojené) a malého pytlíku s něčím, co vypadá jako bobule. V jejím rukávu si všimneš nějakých papírů.",
         options: {
             examine_the_bruising: "Prozkoumat modřiny",
             check_the_dream_device: "Zkontrolovat snové zařízení",
@@ -25,19 +25,19 @@ export default {
         }
     },
     bishop_grave_sense: {
-        text: "Osswine se probudí u chladnoucího masa biskupky — a couvne, poprvé v životě. *\"...Ne. Tahle neskončila. Byla ukončena, znovu a znovu, v tomtéž jediném okamžiku.\"* Ten suchý hlas tápe po slovech, která nemá. *\"Není tu žádný poslední okamžik, knězi. Jsou jich tisíce, a každý z nich je ten samý. Místo, kde jsou stěny příliš blízko a nikde v nich nakreslené dveře. Něco sáhlo do jejího myšlení a začalo psát, a pokaždé, když to dopsalo, byla přinucena začít znovu — a znovu — hrůza složená na hrůzu, dokud to skládání nebylo vše, co z ní zbylo.\"*\n\nDlouhé, roztřesené ticho. *\"Já čtu konce. Tohle nebyl konec. Tohle byla věc držená otevřená přesně v bodě, kde měla být puštěna, aby se zavřela. Ať to udělalo cokoli, zdá se, že nevědělo, že nemůže přežít, když je držena. Odveď mě od ní. I mrtví mají být puštěni, aby se zastavili, a ona nebyla.\"*",
+        text: "Osswine se probudí u chladnoucího masa biskupky – a couvne, poprvé v životě. *\"...Ne. Tahle neskončila. Byla ukončena, znovu a znovu, v tomtéž jediném okamžiku.\"* Ten suchý hlas tápe po slovech, která nemá. *\"Není tu žádný poslední okamžik, knězi. Jsou jich tisíce, a každý z nich je ten samý. Místo, kde jsou stěny příliš blízko a nikde v nich nakreslené dveře. Něco sáhlo do jejího myšlení a začalo psát, a pokaždé, když to dopsalo, byla přinucena začít znovu – a znovu – hrůza složená na hrůzu, dokud to skládání nebylo vše, co z ní zbylo.\"*\n\nDlouhé, roztřesené ticho. *\"Já čtu konce. Tohle nebyl konec. Tohle byla věc držená otevřená přesně v bodě, kde měla být puštěna, aby se zavřela. Ať to udělalo cokoli, zdá se, že nevědělo, že nemůže přežít, když je držena. Odveď mě od ní. I mrtví mají být puštěni, aby se zastavili, a ona nebyla.\"*",
         options: {
             grave_sense_bishop_back: "Ustoupit."
         }
     },
     bus_salt_recall: {
-        text: "Solné písmo se pohne a sáhne za tělo, za houbu, do mrtvé skořápky samotného autobusu. Ztichne. *\"...Tahle věc je stará, knězi. Starší než rozkvět, starší než hniloba. Vůz z Doby-Před — z toho Předtím — ocel a sklo postavené, aby vozily lidi, kteří si mysleli, že svět dává smysl. A tady je ta zvláštnost: mlha ho nikdy nedosáhla. Myceliální signál, který běží každou zdí a kamenem tohohle města, ten šum, díky němuž Strážce a síť slyší — tohohle kovu se nedotýká. Tohle je mrtvé místo. Ticho.\"*\n\nZbytek se stáhne, jako by chápal. *\"Věděla to. Proto sem přišla zemřít. Všude jinde v Horní Morkezele něco vždycky naslouchá — město, síť, ta věc, co se probouzí ve vejci. Ale tady ne. Vlezla do jediné skořápky, kterou se signál nikdy nenaučil, aby ať udělala cokoli naposledy, udělala to nespatřena a nevyslyšena. Chtěla na úplném konci být mimo signál.\"*",
+        text: "Solné písmo se pohne a sáhne za tělo, za houbu, do mrtvé skořápky samotného autobusu. Ztichne. *\"...Tahle věc je stará, knězi. Starší než rozkvět, starší než hniloba. Vůz z Doby-Před – z toho Předtím – ocel a sklo postavené, aby vozily lidi, kteří si mysleli, že svět dává smysl. A tady je ta zvláštnost: mlha ho nikdy nedosáhla. Myceliální signál, který běží každou zdí a kamenem tohohle města, ten šum, díky němuž Strážce a síť slyší – tohohle kovu se nedotýká. Tohle je mrtvé místo. Ticho.\"*\n\nZbytek se stáhne, jako by chápal. *\"Věděla to. Proto sem přišla zemřít. Všude jinde v Horní Morkezele něco vždycky naslouchá – město, síť, ta věc, co se probouzí ve vejci. Ale tady ne. Vlezla do jediné skořápky, kterou se signál nikdy nenaučil, aby ať udělala cokoli naposledy, udělala to nespatřena a nevyslyšena. Chtěla na úplném konci být mimo signál.\"*",
         options: {
             salt_recall_bus_back: "Ustoupit."
         }
     },
     dead_bishop_bruising: {
-        text: "Podrobnější vyšetření odhaluje jemné modřiny pod místy, kde by byly umístěny řemínky neurálního rozhraní. Značky odpovídají neurální přestimulaci — možná vyhoření ze snění nebo trauma z datového přetížení. Neexistují žádné známky vnějšího násilí, ale něco zjevně zahltilo její nervové dráhy.",
+        text: "Podrobnější vyšetření odhaluje jemné modřiny pod místy, kde by byly umístěny řemínky neurálního rozhraní. Značky odpovídají neurální přestimulaci – možná vyhoření ze snění nebo trauma z datového přetížení. Neexistují žádné známky vnějšího násilí, ale něco zjevně zahltilo její nervové dráhy.",
         options: {
             check_the_dream_device: "Zkontrolovat snové zařízení",
             examine_the_helmet: "Prozkoumat přilbu",
@@ -61,7 +61,7 @@ export default {
         }
     },
     dead_bishop_helmet: {
-        text: "Prozkoumáš přilbu snového rozhraní připojenou k tělu biskupky. Je to přenosné zařízení s malým displejem a portem neurálního rozhraní. Přilba je na dotek mírně teplá, což naznačuje, že byla nedávno používána. Možná byla uvnitř snového programu — ale někdo úmyslně vymazal data relace? Bohužel je jasné, že přilba není funkční a port neurálního rozhraní je poškozen.",
+        text: "Prohlédneš si snovou helmu připoutanou k Biskupčině hlavě. Tohle není studiové zařízení. Je to domácí výroba: kryt splácaný z elektroniky z trhu, klubko drátů – a v hledí zasazená čočka o hodně starší než všechno ostatní, broušené sklo s předválečnou značkou výrobce. Ještě je mírně teplá. Malý displej bliká chybou o smyčce běhu a čímsi zvaným pojistka 'NULL SCENE'. Port neurálního rozhraní je vypálený. Ať tím prošlo cokoli, nic mu nestálo v cestě.",
         options: {
             examine_the_bruising: "Prozkoumat modřiny",
             check_the_dream_device: "Zkontrolovat snové zařízení",
@@ -97,7 +97,7 @@ export default {
         }
     },
     dead_bishop_dissect: {
-        text: "S pečlivou precizností začneš důkladněji vyšetřovat tělo biskupky. Když otevřeš její hrudní dutinu, všimneš si něčeho mimořádného — podivné, pulzující zelené záře vycházející zevnitř. Zdrojem se zdá být malý houbový výrůstek, nepodobný ničemu, co jsi kdy viděl, s jemnými vlákny, která se integrovala s jejím nervovým systémem.",
+        text: "S pečlivou precizností začneš důkladněji vyšetřovat tělo biskupky. Když otevřeš její hrudní dutinu, všimneš si něčeho mimořádného – podivné, pulzující zelené záře vycházející zevnitř. Zdrojem se zdá být malý houbový výrůstek, nepodobný ničemu, co jsi kdy viděl, s jemnými vlákny, která se integrovala s jejím nervovým systémem.",
         options: {
             investigate_the_glowing_fungus: "Prozkoumat zářící houbu",
             step_back: "Ustoupit"
@@ -106,8 +106,8 @@ export default {
     neme_symbiont_reveal: {
         text: "Něco se pohne. Pulz v nehybnosti. Biskupka nebyla sama. A teď... nejsi ani ty. Jemně levitující shluk průsvitných vláken a zářících sporových vaků se oddělí od hrudi biskupky a vznáší se k tobě.",
         options: {
-            accept_the_symbiont_let_neme_root_in_your_thoughts: "Přijmout symbionta — Nechat Neme zakořenit ve tvých myšlenkách",
-            decline_let_it_drift_into_the_soil: "Odmítnout — Nechat ho vsáknout do půdy"
+            accept_the_symbiont_let_neme_root_in_your_thoughts: "Přijmout symbionta – Nechat Neme zakořenit ve tvých myšlenkách",
+            decline_let_it_drift_into_the_soil: "Odmítnout – Nechat ho vsáknout do půdy"
         }
     },
     neme_symbiont_accept: {

@@ -33,12 +33,13 @@ export default class Shed521Scene extends GameScene {
             speaker: 'Gnur',
             start: {
                 moodNpc: 'gnur',
-                text: this._dialogTextCache.start || "Another stray wanderin' down the veins of Shed521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
+                textKey: 'default',
+                text: "Another stray wanderin' down the veins of Shed 521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", key: 'who_are_you_exactly', next: "background" },
                     // Add the option to confront Gnur about lying if player made the promise
                     ...(promiseMade ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : []),
-                    ...(hasFindRustQuest ? [{ text: "I'm looking for the way how to reach the Rust Choir headquarters in the Scraper. Can you help me?", key: 'im_looking_for_the_way_how_to_reach_the_rust_choir', next: "rustDomain" }] : []),
+                    ...(hasFindRustQuest ? [{ text: "I'm looking for a way to reach the Rust Choir headquarters in the Scraper. Can you help me?", key: 'im_looking_for_the_way_how_to_reach_the_rust_choir', next: "rustDomain" }] : []),
                     ...(canSpyGnur ? [{ text: "You said you sell whispers. What's the Rust Choir not saying out loud?", key: 'gnur_spy_probe', next: "gnur_spy_secret" }] : []),
                     ...(canSpyGnurUlvarex ? [{ text: "[Ulvarex · Mirage Weave] (Let him see a Rust superior, and demand the whole truth.)", key: 'gnur_spy_ulvarex', next: "gnur_spy_ulvarex_read" }] : []),
                 ],
@@ -48,7 +49,7 @@ export default class Shed521Scene extends GameScene {
                         this.addJournalEntry(
                             'gnur_meeting',
                             'Gnur of the Rust Choir',
-                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him - his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
+                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him — his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 521' }
                         );
@@ -56,7 +57,7 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             gnur_spy_ulvarex_read: {
-                text: "Ulvarex pours light across your outline and *bends* it — and Gnur's forge-eyes go wide with recognition at a superior who was never there. \"Ah — didn't hear you come down, boss, forgive me—\" He stands straighter, eager to please the phantom. \"The mole? Yeah, yeah, still singing sweet. Their little archivist in the Lumen Directorate feeds Brukk which districts the pretty people are about to write off, so we know which machines'll be goin' cheap. And there's talk of a *second* pair of hands inside, higher up, but I ain't been told a name.\" He blinks as the mirage frays. \"...Wait. Who—\" Too late; you have it.",
+                text: "Ulvarex pours light across your outline and *bends* it — and Gnur's forge-eyes go wide with recognition at a superior who was never there. \"Ah — didn't hear you come down, boss, forgive me—\" He stands straighter, eager to please the phantom. \"The mole? Yeah, yeah, still singing sweet. Their little archivist in the Lumen Directorate feeds Brukk which districts the pretty people are about to write off, so we know which machines'll be goin' cheap. And there's talk of a *second* pair of ears inside, higher up, but I ain't been told a name.\" He blinks as the mirage frays. \"...Wait. Who—\" Too late; you have it.",
                 options: [
                     { text: "(Let the mirage dissolve.)", key: 'gnur_spy_ulvarex_close', next: "start" }
                 ],
@@ -76,36 +77,36 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             background: {
-                text: "Used to keep the machines running in the old days. Now I'm with the Rust Choir. We sing the old machines awake... or lull the new flesh to sleep. Depends who's buying.",
+                text: "Used to keep the machines running in the old days. Now I'm with the Rust Choir. We sing to the machines to keep them awake... or lull them to make them sleep. Depends on the situation.",
                 options: [
                     { text: "Tell me about the Rust Choir", key: 'tell_me_about_the_rust_choir', next: "rustChoir" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             rustChoir: {
-                text: "We celebrate entropy, collapse as transformation, we... worship 'final songs'. We like to trade in secrets, especially old tech. If you are interested to know more, visit the old Scraper and talk to Brukk's people.",
+                text: "We celebrate entropy, collapse as transformation. After all, all things lead to chaos. We like to trade in secrets, especially old tech. If you are interested to know more, visit the old Scraper and talk to Brukk's people.",
                 options: [
                     { text: "Who is Brukk?", key: 'who_is_brukk', next: "brukk" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             brukk: {
-                text: "Brukk is our leader if we had any... He is the keeper of the old tech, the one who can help you find what you're looking for. That's all I can tell you.",
+                text: "Brukk is our leader... He is the keeper of the old tech, the one who can help you find what you're looking for. That's all I can tell you.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             bishop: {
-                text: "Ahhh, the shrouded one... yeah, she passed through, glimmer-eyed and restless. But info ain't free, friend.",
+                text: "Ahhh, the shrouded one... yeah, she came down here, glimmer-eyed and restless. Wanted a lens — an optic from the old dream rigs, pre-war make. Only the Choir still digs those up. But info ain't free, friend.",
                 options: [
                     { text: "What do you want?", key: 'what_do_you_want', next: "rustReclamation" },
-                    { text: "I can help you recover old tech carefully", key: 'i_can_help_you_recover_old_tech_carefully', next: "recoverTech" },
+                    { text: "I can help you recover some old tech", key: 'i_can_help_you_recover_old_tech_carefully', next: "recoverTech" },
                     { text: 'Tell me what I want to know... or else.', key: 'tell_me_what_i_want_to_know_or_else', next: 'threat'},
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             threat: {
-                text: "Heh... brave words from soft lungs. But here, threats are like throwing paper at iron walls. (His voice lowers dangerously.) You want answers? You bring me value. You bring me rust that sings. Or you'll leave here empty, maybe even emptier.",
+                text: "Heh... brave words. But here mate, threats are like throwing toilet paper at iron walls. (His voice lowers dangerously.) You want answers? You bring me something of value. You bring me a piece of metal that sings. Or you'll leave empty-handed.",
                 options: [
                     { text: "Ok, tell me more", key: 'ok_tell_me_more', next: "recoverTech" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
@@ -119,13 +120,13 @@ export default class Shed521Scene extends GameScene {
                 ]
             },
             recoverTech: {
-                text: "Now that is a tune I can hum to. Somewhere at Shed 521 there's an abandoned office, leading to unused tunnels. There's a derelict core I need pulled out — still breathing, barely.\n Find it, and maybe I'll find my memory about your Bishop friend.",
+                text: "Well, that's another story. Somewhere at Shed 521 there's an abandoned office, leading to unused tunnels. There's a derelict core I need.\n Find it, and maybe I'll find my memory about your Bishop friend.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             complete_quest: {
-                text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
+                text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She got her lens. Paid with a Vestigel — an experimental coin, worth ten of those lenses, and she knew it. Didn't haggle. Don't have it anymore, before you ask. She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
                 options: [
                     { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "complete_quest_end" }
                 ],
@@ -142,7 +143,6 @@ export default class Shed521Scene extends GameScene {
                         // Remove living-core from inventory
                         this.removeItemFromInventory('living-core');
 
-                        this.showNotification('Quest completed: Rust Reclamation');
                         this.modifyGrowthDecay(0, 1);
                         
                         // Complete rust_reclamation quest
@@ -150,7 +150,7 @@ export default class Shed521Scene extends GameScene {
                         this.questSystem.completeQuest('rust_reclamation');
                         
                         // Update find_bishop quest with new information
-                        this.questSystem.updateQuest('find_bishop', 'The Bishop was last seen heading to Scraper 1140 to meet with Dr. Elphi.', 'bishop_location_scraper');
+                        this.questSystem.updateQuest('find_bishop', 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel — then headed to Scraper 1140 to meet Dr. Elphi.', 'bishop_location_scraper');
                     }
                 }
             },
@@ -163,7 +163,7 @@ export default class Shed521Scene extends GameScene {
             },
             // New dialog branch for confronting Gnur about lying
             confront_about_lie: {
-                text: "(Gnur's expression darkens) What lies you talkin' about, outsider? I need that core. Ain't no lie in that.",
+                text: "(Gnur's expression darkens) What lies you talkin' about, mate? I need that core. Ain't no lie in that.",
                 options: [
                     { text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", key: 'the_clerk_told_me_its_crucial_for_the_sheds_energy', next: "refuse_quest" },
                     { text: "Never mind, I'll still get it for you.", key: 'never_mind_ill_still_get_it_for_you', next: "complete_quest" }
@@ -178,19 +178,16 @@ export default class Shed521Scene extends GameScene {
                     // Only fail the quest if we haven't already completed it
                     const quest = this.questSystem.getQuest('rust_reclamation');
                     if (quest && !quest.isComplete) {
-                        this.showNotification('Quest failed: Rust Reclamation');
+                        this.showNotification(this.t('notifications.questFailed'));
                         this.modifyGrowthDecay(5, 0); // Reward growth for making the ethical choice
                         
                         // Update and complete the quest (marking it as failed in the description)
                         this.questSystem.updateQuest('rust_reclamation', 'I refused to help Gnur steal the living core after learning its importance. He was not happy about it.', 'quest_refused');
                         this.questSystem.completeQuest('rust_reclamation'); // Using completeQuest as there's no failQuest method
                     }
-                    const factionSystem = this.registry.get('factionSystem');
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('RustChoir', -10);
-                        factionSystem.modifyReputation('PithReclaimers', +10);
-                        this.showNotification('Rust Choir Reputation -10');
-                        this.showNotification('Pith Reclaimers Reputation +10');
+                    if (this.registry.get('factionSystem')) {
+                        this.modifyFactionReputation('RustChoir', -10);
+                        this.modifyFactionReputation('PithReclaimers', 10);
                     }
                 }
             },
@@ -204,7 +201,7 @@ export default class Shed521Scene extends GameScene {
                 ]
             },
             rustDomainKnowledge: {
-                text: "Knowledge, eh? Well, knowledge is power, and power is rust. Very well, talk to Ravla, cause she's the one who decides who can meet with Brukk. You can usually find her in the Creaming Cork tavern.",
+                text: "Knowledge, eh? Well, knowledge is power, and power is rust. Very well, talk to Ravla, cause she's the one who decides who can meet with Brukk. You can usually find her in the Screaming Cork tavern.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
@@ -235,19 +232,13 @@ export default class Shed521Scene extends GameScene {
         // Check if find_bishop quest exists
         if (this.questSystem.getQuest('find_bishop') && !this.visitedDialogs.has('bishop')) {
             // Add bishop dialog option to start options if quest exists
-            content.start.options.splice(1, 0, { 
-                text: "I'm looking for the Bishop. Have you seen her?", 
-                next: "bishop" 
-            });
+            content.start.options.splice(1, 0, { text: "I'm looking for the Bishop. Have you seen her?", key: 'im_looking_for_the_bishop_have_you_seen_her', next: "bishop" });
         }
 
         // Add quest completion option if player has the quest and the living-core
         if (this.questSystem.getQuest('rust_reclamation') &&
             inventory.items.some(item => item.id ==='living-core')) {
-            content.start.options.splice(1, 0, {
-                text: "I have the living core you wanted",
-                next: "complete_quest"
-            });
+            content.start.options.splice(1, 0, { text: "I have the living core you wanted", key: 'i_have_the_living_core_you_wanted', next: "complete_quest" });
         }
 
         // Filter background options if rustChoir has been visited
@@ -259,8 +250,9 @@ export default class Shed521Scene extends GameScene {
 
         // Update start text if recoverTech has been visited
         if (this.visitedDialogs.has('recoverTech') && !inventory.items.some(item => item.id ==='living-core')) {
+            content.start.textKey = 'waiting';
             content.start.text = "Just bring me the living core, then I will talk more";
-            content.start.options = promiseMade ? [{ text: "About that living core... you lied to me.", next: "confront_about_lie" }] : [];
+            content.start.options = promiseMade ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : [];
         }
 
         return content;
@@ -268,18 +260,18 @@ export default class Shed521Scene extends GameScene {
 
     showDialog(dialogKey) {
         // Handle faction reputation changes
-        if (dialogKey === 'rustChoir' || dialogKey === 'brukk' || dialogKey === 'complete_quest') {
+        // First visit only — re-opening "Who is Brukk?" used to farm +10 reputation every time.
+        if ((dialogKey === 'rustChoir' || dialogKey === 'brukk' || dialogKey === 'complete_quest') && !this.visitedDialogs.has(dialogKey)) {
             const factionSystem = this.registry.get('factionSystem');
             if (factionSystem) {
-                factionSystem.modifyReputation('RustChoir', 10);
-                this.showNotification('Rust Choir Reputation +10');
+                this.modifyFactionReputation('RustChoir', 10);
                 if (!this.hasJournalEntry('rust_choir_faction')) {
                     this.addJournalEntry(
                         'rust_choir_faction',
-                        'The Rust Choir - Machines and Memory',
+                        'The Rust Choir — Machines and Memory',
                         'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
                         this.journalSystem.categories.FACTIONS,
-                        { faction: 'Rust Choir', location: 'Shed521' }
+                        { faction: 'Rust Choir', location: 'Shed 521' }
                     );
                 }
             }
@@ -289,15 +281,13 @@ export default class Shed521Scene extends GameScene {
         const questSystem = this.registry.get('questSystem');
         if (questSystem) {
             if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
-                questSystem.updateQuest('find_bishop', "The Bishop was seen at Scraper 1140, making an unusual trade involving a 'game lens'. Gnur might know more, but he wants something in return.", 'bishop_clue_gnur');
-                this.showNotification('Quest updated: Find the Bishop');
-            } else if (dialogKey === 'recoverTech') {
+                questSystem.updateQuest('find_bishop', "Gnur says the Bishop came down to Shed 521 for a lens from the old pre-war dream rigs — Rust Choir stock. He wants something in return before he says more.", 'bishop_clue_gnur');
+            } else if (dialogKey === 'recoverTech' && !questSystem.getQuest('rust_reclamation')) {
                 questSystem.addQuest(
                     'rust_reclamation',
                     'Rust Reclamation',
                     "Gnur needs help recovering a 'living core' from Shed 521's unused tunnels, located somewhere behind the abandoned office."
                 );
-                this.showNotification('Quest added: Rust Reclamation');
                 this.modifyGrowthDecay(1, 0);
             }
         }

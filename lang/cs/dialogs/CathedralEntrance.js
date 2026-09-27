@@ -57,7 +57,7 @@ export default {
         }
     },
     bishop_info: {
-        text: "Pravděpodobně na Voxmarketu nebo poblíž Kůlny 521. Hledej dveře, které jsou zavřené — dokud se neotevřou.",
+        text: "Pravděpodobně na Voxmarketu nebo poblíž Kůlny 521. Hledej dveře, které jsou zavřené – dokud se neotevřou.",
         options: {
             ask_something_else: "Zeptej se na něco jiného",
             what_is_the_voxmarket: "Co je Voxmarket?",
@@ -128,7 +128,7 @@ export default {
     },
 
     guardianGreeting: {
-        text: "Strážce ti tentokrát cestu nezahradí. Jeho zářící oči se na tebe upřou. Když promluví, jeho hlas zní prastaře — je to hlas samotné katedrály, rezonující skrze jejího hlídače.\n\n*\"Byl jsi ve sklepě. Přinášíš téměř celý příběh: mysl bez těla, pravdu o své Biskupce, tvar toho, co roste za těmito zdmi. Já jsem to, co zbylo ze starého řádu. Vím, proč jsi přišel. Ale řekneš to ty, vlastními slovy. Proč chceš vstoupit?\"*",
+        text: "Strážce ti tentokrát cestu nezahradí. Jeho zářící oči se na tebe upřou. Když promluví, jeho hlas zní prastaře – je to hlas samotné katedrály, rezonující skrze jejího hlídače.\n\n*\"Byl jsi ve sklepě. Přinášíš téměř celý příběh: mysl bez těla, pravdu o své Biskupce, tvar toho, co roste za těmito zdmi. Já jsem to, co zbylo ze starého řádu. Vím, proč jsi přišel. Ale řekneš to ty, vlastními slovy. Proč chceš vstoupit?\"*",
         options: {
             guardian_ans_power: "Protože někdo musí rozhodnout, co se tu stane.",
             guardian_ans_knowledge: "Protože musím poznat celou pravdu.",
@@ -140,7 +140,7 @@ export default {
     },
 
     guardianNature: {
-        text: "*\"Nejsem kněz a nejsem voják. Jsem poslední mechanismus náboženského řádu, který je už teď skoro pryč. Stvořili mě, abych toto místo střežil — ale ne tak, jak si většinou lidé myslí. Můj úkol je těžší a velmi specifický: nevpustit nikoho, kdo by chtěl vstoupit s úmyslem VLASTNIT to, co se tu rodí. Tituly mnou nehnou. Ani síla. Jen důvod.\"*",
+        text: "*\"Nejsem kněz a nejsem voják. Jsem poslední mechanismus náboženského řádu, který je už teď skoro pryč. Stvořili mě, abych toto místo střežil – ale ne tak, jak si většinou lidé myslí. Můj úkol je těžší a velmi specifický: nevpustit nikoho, kdo by chtěl vstoupit s úmyslem VLASTNIT to, co se tu rodí. Tituly mnou nehnou. Ani síla. Jen důvod.\"*",
         options: {
             guardian_why_own: "Proč to nikdo nesmí vlastnit?",
             guardian_back_to_question: "Rád ti vysvětlím, proč chci dovnitř."
@@ -148,7 +148,7 @@ export default {
     },
 
     guardianOwn: {
-        text: "*\"Protože vlastněný nový život není život. Je to jen nástroj s tlukoucím srdcem. Tvoje Biskupka to pochopila — proto zapečetila dveře. Ne aby ochránila katedrálu, ale aby ochránila svět před první rukou, která by sáhla dovnitř, aby si přivlastnila to, co se probouzí. Taková ruka už tu dřív byla. Přijde znovu. Já jsem síla, která se tomu snaží zabránit.\"*",
+        text: "*\"Protože vlastněný nový život není život. Je to jen nástroj s tlukoucím srdcem. Tvoje Biskupka to pochopila – proto zapečetila dveře. Ne aby ochránila katedrálu, ale aby ochránila svět před první rukou, která by sáhla dovnitř, aby si přivlastnila to, co se probouzí. Taková ruka už tu dřív byla. Přijde znovu. Já jsem síla, která se tomu snaží zabránit.\"*",
         options: {
             guardian_own_back: "Rád ti na tvou otázku odpovím."
         }
@@ -164,7 +164,7 @@ export default {
     },
 
     guardianPower: {
-        text: "*\"Rozhodování.\"* Oči pohasnou. *\"Vstoupil bys jako někdo, kdo tvaruje, jako vůle, jež věc uzavře. To je ten jediný důvod, který musím odmítnout — neboť ten, kdo rozhoduje, je ten, kdo vlastní. Vrať se, až pochopíš, proč to není totéž co pomáhat. Cesta zůstává zavřená.\"*",
+        text: "*\"Rozhodování.\"* Oči pohasnou. *\"Vstoupil bys jako někdo, kdo tvaruje, jako vůle, jež věc uzavře. To je ten jediný důvod, který musím odmítnout – neboť ten, kdo rozhoduje, je ten, kdo vlastní. Vrať se, až pochopíš, proč to není totéž co pomáhat. Cesta zůstává zavřená.\"*",
         options: {
             guardian_power_retry: "Nech mě odpovědět znovu.",
             guardian_power_leave: "Odejít."
@@ -172,7 +172,7 @@ export default {
     },
 
     guardianKnowledge: {
-        text: "*\"Poznání.\"* Dlouhá odmlka; kámen na holi zabliká. *\"Poznání není vlastnictví — ale není ani nevinnost. Mnozí by chtěli věc poznat jen proto, aby ji mohli použít. Či zneužít. Neodmítám tě. Ale ani neotvírám. Řekl jsi A, řekni i B: co uděláš s pravdou, až bude tvá?\"*",
+        text: "*\"Poznání.\"* Dlouhá odmlka; kámen na holi zabliká. *\"Poznání není vlastnictví – ale není ani nevinnost. Mnozí by chtěli věc poznat jen proto, aby ji mohli použít. Či zneužít. Neodmítám tě. Ale ani neotvírám. Řekl jsi A, řekni i B: co uděláš s pravdou, až bude tvá?\"*",
         options: {
             guardian_know_witness: "Nic. Uchovám ji a nechám mluvit samu za sebe.",
             guardian_know_power: "Co bude třeba.",
@@ -181,9 +181,9 @@ export default {
     },
 
     guardianWitness: {
-        text: "*\"Být svědkem.\"* Cosi v tom prastarém hlase povolí, jako když se konečně vydechne zadržený dech. *\"Ne ovládat. Ne využívat. Stát tam, kde lze naslouchat, a nechat to být tím, čím to je. To je jediný důvod, kdy smím učinit výjimku.\n\nTak vejdi, učedníku. To, co čeká uvnitř, není ani starý bůh, o němž snili poutníci a kněží, ani nestvůra. Je to počátek — a počátky jsou křehké. Jdi opatrně.\"*",
+        text: "*\"Být svědkem.\"* Cosi v tom prastarém hlase povolí, jako když se konečně vydechne zadržený dech. *\"Ne ovládat. Ne využívat. Stát tam, kde lze naslouchat, a nechat to být tím, čím to je. To je jediný důvod, kdy smím učinit výjimku.\n\nTak vejdi, učedníku. To, co čeká uvnitř, není ani starý bůh, o němž snili poutníci a kněží, ani nestvůra. Je to počátek – a počátky jsou křehké. Jdi opatrně.\"*",
         options: {
-            guardian_witness_end: "Počkej — co bude s tebou, až se to narodí?",
+            guardian_witness_end: "Počkej – co bude s tebou, až se to narodí?",
             guardian_witness_enter: "Jsem připraven. Otevři cestu."
         }
     },
@@ -195,7 +195,7 @@ export default {
     },
 
     guardianEnd: {
-        text: "*\"Až se to plně probudí, bude to můj konec. Řád, který mě stvořil, už nebude mít žádný význam, a nebude ho mít ani jeho poslední mechanismus. Věděl jsem, že se to jednoho dne stane. Vím to déle, než jsi naživu.\"* Oči zamrkají. *\"Netruchli nad tím. Můj poslední úkol snad není zabránit zrození — ale dohlédnout, aby proběhlo správně. Zda budu zachován, nebo propuštěn, je věc, která se rozhodne tam uvnitř. Ne tady venku, nemám k tomu vlastně co říct. Jdi. Čeká na tebe.\"*",
+        text: "*\"Až se to plně probudí, bude to můj konec. Řád, který mě stvořil, už nebude mít žádný význam, a nebude ho mít ani jeho poslední mechanismus. Věděl jsem, že se to jednoho dne stane. Vím to déle, než jsi naživu.\"* Oči zamrkají. *\"Netruchli nad tím. Můj poslední úkol snad není zabránit zrození – ale dohlédnout, aby proběhlo správně. Zda budu zachován, nebo propuštěn, je věc, která se rozhodne tam uvnitř. Ne tady venku, nemám k tomu vlastně co říct. Jdi. Čeká na tebe.\"*",
         options: {
             guardian_end_enter: "Jsem připraven. Otevři cestu.",
             guardian_end_wait: "Ještě ne."

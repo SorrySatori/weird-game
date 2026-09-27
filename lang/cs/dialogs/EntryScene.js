@@ -54,10 +54,10 @@ export default {
         }
     },
     farewell: {
-        text: "Výborně! Vaječná katedrála je hned kousek na východ. A kdyby se někdo ptal, řekni, že se věnuji VELMI důležitému duchovnímu obřadu a nikdo mě nesmí rušit.\n\nAle než půjdeš, dej pozor ještě na pár věcí, učedníku. Tvé činy mají následky — některé nechají město růst, jiné hnít a rozpadat se, a obyvatelé města podle toho budou jednat i s tebou. A dávej pozor na spory tady nahoře: dosud jsi dýchal jen hustý, poslušný vzduch Obazobova chrámu, pod širým nebem se tvé spory mohou chovat trochu jinak. A kdyby o tebe někdy projevili zájem symbionti, o kterých jsi zatím nejspíš jen četl — bude lepší, když o nich něco víš. Tak co? Chceš se na něco zeptat, než vyrazíš?",
+        text: "Výborně! Vaječná katedrála je hned kousek na východ. A kdyby se někdo ptal, řekni, že se věnuji VELMI důležitému duchovnímu obřadu a nikdo mě nesmí rušit.\n\nAle než půjdeš, dej pozor ještě na pár věcí, učedníku. Tvé činy mají následky – některé nechají město růst, jiné hnít a rozpadat se, a obyvatelé města podle toho budou jednat i s tebou. A dávej pozor na spory tady nahoře: dosud jsi dýchal jen hustý, poslušný vzduch Obazobova chrámu, pod širým nebem se tvé spory mohou chovat trochu jinak. A kdyby o tebe někdy projevili zájem symbionti, o kterých jsi zatím nejspíš jen četl – bude lepší, když o nich něco víš. Tak co? Chceš se na něco zeptat, než vyrazíš?",
         options: {
             wait_tell_me_more_about_the_growth_and_decay: "Řekněte mi víc o růstu a rozkladu.",
-            the_spores_different_how: "Spory — jak jako se tu chovají jinak?",
+            the_spores_different_how: "Spory – jak jako se tu chovají jinak?",
             the_symbionts_tell_me_more: "Symbionti. Řekněte mi víc.",
             glory_to_the_eternal_mushroom: "Díky, to mi stačí. Sláva Věčné houbě..."
         }
@@ -71,10 +71,10 @@ export default {
         }
     },
     tutorialOffer: {
-        text: "*Už je pomalu na odchodu, když se ještě zastaví a zvedne prst.* Počkej! Měl bys vědět, že mistr mého řádu ovládá ještě jednu superschopnost: meta-narativní uvědomění — nesmírně užitečné pro vysvětlování, jak tenhle svět vlastně funguje. Takže než půjdu: mám ti ukázat, jak zacházet s výbavou? Myslím tím deník, mapu a tak podobně?",
+        text: "*Už je pomalu na odchodu, když se ještě zastaví a zvedne prst.* Počkej! Měl bys vědět, že mistr mého řádu ovládá ještě jednu superschopnost: meta-narativní uvědomění – nesmírně užitečné pro vysvětlování, jak tenhle svět vlastně funguje. Takže než půjdu: mám ti ukázat, jak zacházet s výbavou? Myslím tím deník, mapu a tak podobně?",
         options: {
             tutorial_yes: "Ano prosím, Mistře.",
-            tutorial_no: "Není třeba. Objektivně nejlepší hry vznikly v roce 1997 — a tenkrát jsme se bez tutoriálů taky obešli."
+            tutorial_no: "Není třeba. Objektivně nejlepší hry vznikly v roce 1997 – a tenkrát jsme se bez tutoriálů taky obešli."
         }
     },
     close: {
@@ -90,14 +90,14 @@ export default {
         }
     },
     spores: {
-        text: "Dole v chrámu leží spory nahuštěné, tiché a poslušné — jako božský dech, nashromážděný v temnotách. Nic jiného jsi zatím nepoznal. Ale tady venku, pod širým nebem, řídnou, poletují a dostanou se úplně všude. Možná zjistíš, že v tomhle městě existují bytosti, které se sporami živí nebo které by pro ně našly různé využití. Možná se je někdo pokusí od tebe koupit, možná ti pomohou v různých situacích. Každopádně se sporami, co v sobě nosíš, šetři a hlídej si jejich hladinu. Doplňují se jen pomalu a obtížně, i když možná objevíš způsoby, jak tenhle proces urychlit.",
+        text: "Dole v chrámu leží spory nahuštěné, tiché a poslušné – jako božský dech, nashromážděný v temnotách. Nic jiného jsi zatím nepoznal. Ale tady venku, pod širým nebem, řídnou, poletují a dostanou se úplně všude. Možná zjistíš, že v tomhle městě existují bytosti, které se sporami živí nebo které by pro ně našly různé využití. Možná se je někdo pokusí od tebe koupit, možná ti pomohou v různých situacích. Každopádně se sporami, co v sobě nosíš, šetři a hlídej si jejich hladinu. Doplňují se jen pomalu a obtížně, i když možná objevíš způsoby, jak tenhle proces urychlit.",
         options: {
             things_that_feed_symbionts: "Věci, co se tím živí? Symbionti?",
             return_to_previous_topic: "Zpět k předchozímu tématu"
         }
     },
     symbionts: {
-        text: "O těch jsi jistě četl v klášterní knihovně, ale nikdy jsi asi neviděl žádného, který žije ve spojení s jinou bytostí. Sám žádného nenosíš; to je vidět. Symbiont je živá věc, kterou pozveš do vlastního těla, učedníku. Každý má svůj hlas a svůj dar — jeden čte myšlenky, jiný zná poslední slova mrtvých. Jejich schopnosti mohou být úžasné, ale taky fakt dost divné. Co vím, tak v tomhle městě takové bytosti existují. Kdyby se ti některý nabídl a považoval tě za potenciálně slibného — nebo možná dostatečně hloupého — hostitele, můžeš si ho vzít do sebe. Ale dej pozor na rovnováhu: někteří si libují v Růstu a nedaří se jim v Rozkladu, jiní to mají naopak. Tvé činy mohou město ovlivnit příliš a špatným směrem a tvůj nový symbiont se s tebou prostě přestane bavit. A dost řečí! Čeká mě pivko… teda, životně důležité duchovní bádání.",
+        text: "O těch jsi jistě četl v klášterní knihovně, ale nikdy jsi asi neviděl žádného, který žije ve spojení s jinou bytostí. Sám žádného nenosíš; to je vidět. Symbiont je živá věc, kterou pozveš do vlastního těla, učedníku. Každý má svůj hlas a svůj dar – jeden čte myšlenky, jiný zná poslední slova mrtvých. Jejich schopnosti mohou být úžasné, ale taky fakt dost divné. Co vím, tak v tomhle městě takové bytosti existují. Kdyby se ti některý nabídl a považoval tě za potenciálně slibného – nebo možná dostatečně hloupého – hostitele, můžeš si ho vzít do sebe. Ale dej pozor na rovnováhu: někteří si libují v Růstu a nedaří se jim v Rozkladu, jiní to mají naopak. Tvé činy mohou město ovlivnit příliš a špatným směrem a tvůj nový symbiont se s tebou prostě přestane bavit. A dost řečí! Čeká mě pivko… teda, životně důležité duchovní bádání.",
         options: {
             and_these_spores: "A ty spory, co jste zmínil?",
             tell_me_again_growth_decay: "Řekněte mi znovu o růstu a rozkladu.",

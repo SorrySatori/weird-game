@@ -15,7 +15,7 @@ export default {
         }
     },
     redmassWhatAreYou: {
-        text: "Byl jsem... součástí něčeho většího kdysi... Získal jsem vědomí. Jsem rudohmota — živý kov.",
+        text: "Byl jsem... součástí něčeho většího kdysi... Získal jsem vědomí. Jsem rudohmota – živý kov.",
         options: {
             i_need_you_for_the_rust_feast_im_sorry: "Potřebuji tě pro Rezavou hostinu. Omlouvám se.",
             i_wont_hurt_you: "Neublížím ti.",
@@ -30,7 +30,7 @@ export default {
         }
     },
     redmassSpared: {
-        text: "Děkuji... Jsi jiný než ostatní... Pokud bys ode mě někdy něco potřeboval — něco, co mohu dát dobrovolně — vrať se. Zapamatuji si tvou laskavost.",
+        text: "Děkuji... Jsi jiný než ostatní... Pokud bys ode mě někdy něco potřeboval – něco, co mohu dát dobrovolně – vrať se. Zapamatuji si tvou laskavost.",
         options: {
             continue: "Pokračovat"
         }

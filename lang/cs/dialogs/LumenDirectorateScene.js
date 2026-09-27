@@ -12,37 +12,37 @@ export default {
     gardener_start: {
         text: {
             [`"Back again? The hedges don't trim themselves, but I can spare a moment."`]: `"Zase zpět? Živé ploty se samy nezastřihnou, ale chvilku si udělám."`,
-            [`"Careful where you step — those root-tendrils took me twenty digestions to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`]: `"Pozor, kam šlapete — tyhle kořenové úponky mi trvalo dvacet trávení přemluvit do spirálového tvaru. Jmenuju se Verrik. Starám se o živou architekturu tady v Direktorátu."`,
+            [`"Careful where you step – those root-tendrils took me twenty digestions to coax into spiral formation. Name's Verrik. I tend the living architecture here at the Directorate."`]: `"Pozor, kam šlapete – tyhle kořenové úponky mi trvalo dvacet trávení přemluvit do spirálového tvaru. Jmenuju se Verrik. Starám se o živou architekturu tady v Direktorátu."`,
         },
         options: {
             what_is_this_place: "Co je to za místo?",
-            gardener_overflowing: "Záhony přetékají — celé tohle místo kvete.",
+            gardener_overflowing: "Záhony přetékají – celé tohle místo kvete.",
             gardener_beds_sick: "Vaše záhony vypadají nemocně. Co se to obrací v půdě?",
             i_was_told_to_come_here_about_joining_the_crew: "Jak se člověk přidá k Direktorátu?",
             i_need_to_get_into_the_townhall_any_ideas: "Potřebuji se dostat na radnici...",
             i_need_to_speak_with_someone_about_cathedral_overs: "Potřebuji mluvit s někým o dohledu nad katedrálou...",
-            about_those_sulkberries_the_directorate_supplied_w: "O těch mručenkách, co Direktorát dodával — byly čisté?",
+            about_those_sulkberries_the_directorate_supplied_w: "O těch mručenkách, co Direktorát dodával – byly čisté?",
             im_looking_into_spiced_sulkberries_who_supplies_th: "Zajímají mě kořeněné mručenky...",
             im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky...",
-            the_angle_corrector_said_you_keep_a_cultivar: "Poslal mě Korektor úhlů — prý chováte kultivar pro... obtížné problémy.",
+            the_angle_corrector_said_you_keep_a_cultivar: "Poslal mě Korektor úhlů – prý chováte kultivar pro... obtížné problémy.",
             looking_for_work_anything_i_can_help_with: "Hledám práci. Něco, s čím bych mohl pomoct?"
         }
     },
     gardener_bloom_talk: {
-        text: `Verrik září a rozpřáhne ruce k té bujné spoušti kolem. „Přetékají, přesně tak! Nikdy jsem záhony takhle neviděl — úponky jsou tři formace napřed a zdi přímo předou. Když se město nakloní k růstu, tohle místo odpoví první.“ Kývne k naběhlému trsu u zdi. „Je tu přebytek, který ani nestíhám využít. Jestli venku dozrál květ, vezmi si ho — líp ve sběrači spor než aby praskl na stonku.“`,
+        text: `Verrik září a rozpřáhne ruce k té bujné spoušti kolem. „Přetékají, přesně tak! Nikdy jsem záhony takhle neviděl – úponky jsou tři formace napřed a zdi přímo předou. Když se město nakloní k růstu, tohle místo odpoví první.“ Kývne k naběhlému trsu u zdi. „Je tu přebytek, který ani nestíhám využít. Jestli venku dozrál květ, vezmi si ho – líp ve sběrači spor než aby praskl na stonku.“`,
         options: {
             gardener_bloom_ok: "Poslužím si."
         }
     },
     gardener_blight: {
-        text: `Verrikova obvyklá pohoda je pryč. Přikrčí se k záhonu stočených, šedě olemovaných výhonků. „Nemocné, ano. Živá architektura nedrží vzor — zdi zapomínají tvar, do kterého jsem je přemluvil, kořenové úponky přes noc ochabnou.“ Podívá se na tebe a je v tom cosi ostražitého. „Kopíruje to město. Když se rovnováha nakloní k hnilobě, Direktorát to ucítí první. A ty...“ Rozhodne se nedokončit. „Drž se od mladých záhonů dál, buď tak hodný.“`,
+        text: `Verrikova obvyklá pohoda je pryč. Přikrčí se k záhonu stočených, šedě olemovaných výhonků. „Nemocné, ano. Živá architektura nedrží vzor – zdi zapomínají tvar, do kterého jsem je přemluvil, kořenové úponky přes noc ochabnou.“ Podívá se na tebe a je v tom cosi ostražitého. „Kopíruje to město. Když se rovnováha nakloní k hnilobě, Direktorát to ucítí první. A ty...“ Rozhodne se nedokončit. „Drž se od mladých záhonů dál, buď tak hodný.“`,
         options: {
             gardener_blight_reverse: "Dá se to zvrátit?",
             gardener_blight_ok: "Budu se držet dál."
         }
     },
     gardener_blight_reverse: {
-        text: `„Růst léčí hnilobu — to je celé krédo. Nakloň město zpátky k zeleni a záhony si samy vzpomenou. Do té doby...“ Otře si z dlaně drolící se list. „Kompostuji, co nedokážu zachránit. Poctivá práce, i když je to zármutek.“`,
+        text: `„Růst léčí hnilobu – to je celé krédo. Nakloň město zpátky k zeleni a záhony si samy vzpomenou. Do té doby...“ Otře si z dlaně drolící se list. „Kompostuji, co nedokážu zachránit. Poctivá práce, i když je to zármutek.“`,
         options: {
             gardener_blight_understood: "Rozumím."
         }
@@ -54,13 +54,13 @@ export default {
         }
     },
     gardener_cultivar: {
-        text: "Verrikova nenucenost vychladne. \"...Takže Korektor úhlů teď za mnou posílá lidi kvůli TOMUHLE.\" Mrkne po zapečetěném pařeništi vzadu v záhonu. \"Pěstujeme tu víc než jen hezké zdi. Máme jeden kultivar za sklem — řízenou hnilobu, vyšlechtěnou žrát kov a jen kov. 'Nic skrytého,' říkají. Většinou pravda. Některé věci prostě... odložíme do skříně.\"\n\nOtočí klíčem, vyzvedne zavalitou, černozelenou hlízu ronící slabou měděnku a zabalí ji do naolejovaného plátna. \"Rozetři to do oleje a jakýkoli stroj, co se toho napije, zkoroduje zevnitř. Svatyně Chóru už nezazpívá.\" Vtiskne ti ji do rukou. \"Nerozlij to na nic, co by ti chybělo.\"",
+        text: "Verrikova nenucenost vychladne. \"...Takže Korektor úhlů teď za mnou posílá lidi kvůli TOMUHLE.\" Mrkne po zapečetěném pařeništi vzadu v záhonu. \"Pěstujeme tu víc než jen hezké zdi. Máme jeden kultivar za sklem – řízenou hnilobu, vyšlechtěnou žrát kov a jen kov. 'Nic skrytého,' říkají. Většinou pravda. Některé věci prostě... odložíme do skříně.\"\n\nOtočí klíčem, vyzvedne zavalitou, černozelenou hlízu ronící slabou měděnku a zabalí ji do naolejovaného plátna. \"Rozetři to do oleje a jakýkoli stroj, co se toho napije, zkoroduje zevnitř. Svatyně Chóru už nezazpívá.\" Vtiskne ti ji do rukou. \"Nerozlij to na nic, co by ti chybělo.\"",
         options: {
             take_the_cultivar: "Vzít kultivar."
         }
     },
     gardener_about_lumen: {
-        text: "Lumen Directorate. Strážci a ochránci všeho, co roste. To je motto — no, neoficiální. Oficiální motto je 'Nic skrytého. Nic ztraceného.'\n\nŘídí toto město, víceméně. Vyhráli Válku deskových her, přestavěli půlku čtvrtí, a teď dohlížejí, aby se zeleň šířila. Růst je pro ně všechno — rostliny, houby, myšlenky, vliv. Obzvlášť vliv.",
+        text: "Lumen Directorate. Strážci a ochránci všeho, co roste. To je motto – no, neoficiální. Oficiální motto je 'Nic skrytého. Nic ztraceného.'\n\nŘídí toto město, víceméně. Vyhráli Válku deskových her, přestavěli půlku čtvrtí, a teď dohlížejí, aby se zeleň šířila. Růst je pro ně všechno – rostliny, houby, myšlenky, vliv. Obzvlášť vliv.",
         options: {
             what_do_you_do_for_them: "Co pro ně děláte?",
             whos_in_charge_here: "Kdo tu vede?",
@@ -68,14 +68,14 @@ export default {
         }
     },
     gardener_role: {
-        text: "Pěstuji. Stěny, chodníky, živé ploty — to všechno žije, víte. Direktorát nevěří v mrtvou architekturu. Každý povrch by měl dýchat, měl by růst.\n\nJsem nízko na liáně, abych tak řekl. Ale věci slyším. Rostliny jsou dobří posluchači, a já taky.",
+        text: "Pěstuji. Stěny, chodníky, živé ploty – to všechno žije, víte. Direktorát nevěří v mrtvou architekturu. Každý povrch by měl dýchat, měl by růst.\n\nJsem nízko na liáně, abych tak řekl. Ale věci slyším. Rostliny jsou dobří posluchači, a já taky.",
         options: {
             what_kind_of_things_do_you_hear: "Jaké věci slyšíte?",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_rumors: {
-        text: "Ach, to a ono. Direktorát je v poslední době neklidný. Něco ohledně zapečetění Vaječné katedrály — to je znepokojilo. Sledovali to místo léta, čekali na líhnutí.\n\nA v poslední době je tu víc ruchu než obvykle. Lidé chodí nahoru za Korektorem úhlů. To nikdy není běžná návštěva.",
+        text: "Ach, to a ono. Direktorát je v poslední době neklidný. Něco ohledně zapečetění Vaječné katedrály – to je znepokojilo. Sledovali to místo léta, čekali na líhnutí.\n\nA v poslední době je tu víc ruchu než obvykle. Lidé chodí nahoru za Korektorem úhlů. To nikdy není běžná návštěva.",
         options: {
             who_is_the_angle_corrector: "Kdo je Korektor úhlů?",
             theyre_worried_about_the_cathedral: "Znepokojuje je katedrála?",
@@ -83,7 +83,7 @@ export default {
         }
     },
     gardener_angle_corrector: {
-        text: "Korektor úhlů? To je... no, titul i jméno v jednom. Nikdo nezná jejich skutečné jméno, nebo jestli vůbec nějaké mají. Starají se o delikátnější záležitosti Direktorátu — kultivační dohled, katedrální styčná osoba, takové věci.\n\nPokud potřebujete odpovědi o čemkoliv, čeho se Direktorát dotýká, Korektor úhlů je ten, koho hledáte. Třetí patro, přes atrium. Ale nepřijímají jen tak někoho. Budete potřebovat důvod.",
+        text: "Korektor úhlů? To je... no, titul i jméno v jednom. Nikdo nezná jejich skutečné jméno, nebo jestli vůbec nějaké mají. Starají se o delikátnější záležitosti Direktorátu – kultivační dohled, katedrální styčná osoba, takové věci.\n\nPokud potřebujete odpovědi o čemkoliv, čeho se Direktorát dotýká, Korektor úhlů je ten, koho hledáte. Třetí patro, přes atrium. Ale nepřijímají jen tak někoho. Budete potřebovat důvod.",
         options: {
             captain_liris_sent_me_thats_my_reason: "Poslala mě kapitánka Liris...",
             im_here_about_the_bishops_dealings_with_the_direct: "Jsem tu kvůli záležitostem Biskupky...",
@@ -92,67 +92,67 @@ export default {
         }
     },
     gardener_angle_advice: {
-        text: "Jedna rada — Direktorát si cení transparentnosti, nebo alespoň jejího zdání. Nepokoušejte se být chytrý. Řekněte svůj záměr přímo. Respektují přímočarost.\n\nA nesahejte na kapradiny v atriu. Koušou.",
+        text: "Jedna rada – Direktorát si cení transparentnosti, nebo alespoň jejího zdání. Nepokoušejte se být chytrý. Řekněte svůj záměr přímo. Respektují přímočarost.\n\nA nesahejte na kapradiny v atriu. Koušou.",
         options: {
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_cathedral: {
-        text: "Vaječná katedrála je největší růstová událost, jakou tohle město zažilo za desítky let. Cokoliv roste uvnitř těch vajec — Direktorát tam chce být, až se to vylíhne. Monitorovali to, katalogizovali každou vibraci.\n\nKdyž Biskupka zapečetila katedrálu... řekněme, že nálada tady hodně zhoustla. Direktorát nemá rád zavřené dveře. 'Nic skrytého,' pamatujete?",
+        text: "Vaječná katedrála je největší růstová událost, jakou tohle město zažilo za desítky let. Cokoliv roste uvnitř těch vajec – Direktorát tam chce být, až se to vylíhne. Monitorovali to, katalogizovali každou vibraci.\n\nKdyž Biskupka zapečetila katedrálu... řekněme, že nálada tady hodně zhoustla. Direktorát nemá rád zavřené dveře. 'Nic skrytého,' pamatujete?",
         options: {
             who_is_the_angle_corrector: "Kdo je Korektor úhlů?",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_leadership: {
-        text: "Direktorát nevede jeden člověk — je to rada. Ale ten, o kom uslyšíte nejvíc, je Korektor úhlů. Ten řeší každodenní záležitosti, citlivé věci, to, co potřebuje... zvláštní dotek.\n\nKapitánka Liris řídí operace vzdušné lodi — Verdigrace a její posádku. Je Direktorátu oddaná skrz naskrz, ale obvykle je nahoře v oblacích.",
+        text: "Direktorát nevede jeden člověk – je to rada. Ale ten, o kom uslyšíte nejvíc, je Korektor úhlů. Ten řeší každodenní záležitosti, citlivé věci, to, co potřebuje... zvláštní dotek.\n\nKapitánka Liris řídí operace vzdušné lodi – Verdigrace a její posádku. Je Direktorátu oddaná skrz naskrz, ale obvykle je nahoře v oblacích.",
         options: {
             who_is_the_angle_corrector: "Kdo je Korektor úhlů?",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_join: {
-        text: "Vstoupit, jo? Direktorát pořád roste — a cení si oddanosti růstu ve všech jeho formách. Nezáleží na tom, kdo vás poslal; dveře jsou stejné.\n\nBudete chtít Korektora úhlů uvnitř. Třetí patro, přes atrium. Řekněte, že se chcete přidat a že vás nahoru poslal zahradník. To by vás mělo dostat alespoň za dveře.",
+        text: "Vstoupit, jo? Direktorát pořád roste – a cení si oddanosti růstu ve všech jeho formách. Nezáleží na tom, kdo vás poslal; dveře jsou stejné.\n\nBudete chtít Korektora úhlů uvnitř. Třetí patro, přes atrium. Řekněte, že se chcete přidat a že vás nahoru poslal zahradník. To by vás mělo dostat alespoň za dveře.",
         options: {
             what_should_i_expect: "Co mám očekávat?",
             thanks_ill_head_inside: "Díky. Půjdu dovnitř."
         }
     },
     gardener_join_angle: {
-        text: "Jméno Liris tu má váhu. Zmiňte ji a Korektor úhlů vás přijme. Třetí patro. Neotálejte v atriu — je krásné, ale je to také způsob Direktorátu, jak sledovat, kdo přichází a odchází.",
+        text: "Jméno Liris tu má váhu. Zmiňte ji a Korektor úhlů vás přijme. Třetí patro. Neotálejte v atriu – je krásné, ale je to také způsob Direktorátu, jak sledovat, kdo přichází a odchází.",
         options: {
             thanks_for_the_tip: "Díky za radu."
         }
     },
     gardener_join_expect: {
-        text: "Korektor úhlů vás nějak otestuje — to dělají vždy. Žádný boj ani nic takového. Spíš jako... budou chtít vědět, jak vnímáte růst. Co pro vás znamená.\n\nDirektorát není jen o rostlinách a houbách. Je o potenciálu. Rozšiřování. Stávání se víc, než jste. Pokud dokážete mluvit o tomhle, bude to v pořádku.",
+        text: "Korektor úhlů vás nějak otestuje – to dělají vždy. Žádný boj ani nic takového. Spíš jako... budou chtít vědět, jak vnímáte růst. Co pro vás znamená.\n\nDirektorát není jen o rostlinách a houbách. Je o potenciálu. Rozšiřování. Stávání se víc, než jste. Pokud dokážete mluvit o tomhle, bude to v pořádku.",
         options: {
             ill_keep_that_in_mind: "Budu si to pamatovat."
         }
     },
     gardener_bishop_lead: {
-        text: "Záležitosti Biskupky? To je nad mou výplatní pásku, příteli. Ale můžu vám říct tohle — Biskupka sem pravidelně chodila, než zapečetila katedrálu. Chodila za Korektorem úhlů osobně.\n\nPo zapečetění... návštěvy ustaly. A nálada Korektora úhlů se zhoršila ze špatné na ještě horší. Něco se mezi nimi stalo.\n\nBudete chtít jít dovnitř a zeptat se přímo. Třetí patro. Buďte zdvořilí — a upřímní. Direktorát pozná lež rychleji, než moje kapradiny ucítí déšť.",
+        text: "Záležitosti Biskupky? To je nad mou výplatní pásku, příteli. Ale můžu vám říct tohle – Biskupka sem pravidelně chodila, než zapečetila katedrálu. Chodila za Korektorem úhlů osobně.\n\nPo zapečetění... návštěvy ustaly. A nálada Korektora úhlů se zhoršila ze špatné na ještě horší. Něco se mezi nimi stalo.\n\nBudete chtít jít dovnitř a zeptat se přímo. Třetí patro. Buďte zdvořilí – a upřímní. Direktorát pozná lež rychleji, než moje kapradiny ucítí déšť.",
         options: {
             the_bishop_visited_regularly: "Biskupka chodila pravidelně?",
             thanks_ill_head_inside: "Díky. Půjdu dovnitř."
         }
     },
     gardener_bishop_visits: {
-        text: "Ach ano, každých šest trávení nebo tak. Vždycky velmi formálně — Biskupka a Korektor úhlů za zavřenými dveřmi. Viděl jsem ji odcházet s balíčky někdy. Malými, pečlivě zabalenými.\n\nMručenky, nejspíš. Ty kořeněné. Direktorát je pěstuje ve speciálních podmínkách — jsou velmi vybíraví, kdo dostane tu kvalitní šarži.\n\nAle pak jednoho dne se katedrála zapečetila a Biskupka přestala chodit. Korektor úhlů začal mít delší porady s radou. Něco se změnilo.",
+        text: "Ach ano, každých šest trávení nebo tak. Vždycky velmi formálně – Biskupka a Korektor úhlů za zavřenými dveřmi. Viděl jsem ji odcházet s balíčky někdy. Malými, pečlivě zabalenými.\n\nMručenky, nejspíš. Ty kořeněné. Direktorát je pěstuje ve speciálních podmínkách – jsou velmi vybíraví, kdo dostane tu kvalitní šarži.\n\nAle pak jednoho dne se katedrála zapečetila a Biskupka přestala chodit. Korektor úhlů začal mít delší porady s radou. Něco se změnilo.",
         options: {
             i_need_to_speak_with_the_angle_corrector: "Potřebuji mluvit s Korektorem úhlů.",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_sulkberries: {
-        text: "Kořeněné mručenky? Udělal jste si rešerši. To je specialita Direktorátu — pěstované v kontrolovaných podmínkách, kořeněné sloučeninami, které zná jen kultivační tým.\n\nNeprodávají je jen tak někomu. Museli byste mluvit s Korektorem úhlů o tom, kdo má přístup k prémiovým zásobám. To spadá pod kultivační dohled.\n\nTřetí patro, uvnitř. Ale mějte dobrý důvod — Korektor úhlů neprojednává klientské seznamy lehkovážně.",
+        text: "Kořeněné mručenky? Udělal jste si rešerši. To je specialita Direktorátu – pěstované v kontrolovaných podmínkách, kořeněné sloučeninami, které zná jen kultivační tým.\n\nNeprodávají je jen tak někomu. Museli byste mluvit s Korektorem úhlů o tom, kdo má přístup k prémiovým zásobám. To spadá pod kultivační dohled.\n\nTřetí patro, uvnitř. Ale mějte dobrý důvod – Korektor úhlů neprojednává klientské seznamy lehkovážně.",
         options: {
             thanks_ill_head_inside: "Díky. Půjdu dovnitř.",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_sulkberry_verify: {
-        text: "Mručenky? Pěstuju je osobně — tedy ty nižší třídy. Prémiové kořeněné šarže jdou přes kultivační tým nahoře, ale já připravuji záhony a sleduji raná stádia růstu.\n\nMůžu vám říct tohle: s těmi plody nebylo nic v nepořádku. Všiml bych si kontaminace v chemii půdy, ve sporových vzorcích, v barvě kořínků. Nemocná mručenková rostlina křičí hlasitěji, než zdravá šeptá.\n\nAť se Biskupce stalo cokoliv, nepřišlo to z našich záhonů.",
+        text: "Mručenky? Pěstuju je osobně – tedy ty nižší třídy. Prémiové kořeněné šarže jdou přes kultivační tým nahoře, ale já připravuji záhony a sleduji raná stádia růstu.\n\nMůžu vám říct tohle: s těmi plody nebylo nic v nepořádku. Všiml bych si kontaminace v chemii půdy, ve sporových vzorcích, v barvě kořínků. Nemocná mručenková rostlina křičí hlasitěji, než zdravá šeptá.\n\nAť se Biskupce stalo cokoliv, nepřišlo to z našich záhonů.",
         options: {
             photosentience_sense_whether_verrik_is_telling_the: "[Fotosenzitivita] Vycítit, zda Verrik mluví pravdu.",
             youre_certain_no_contamination_at_all: "Jste si jistý? Žádná kontaminace?",
@@ -160,26 +160,26 @@ export default {
         }
     },
     gardener_sulkberry_neme: {
-        text: "Sáhnete dovnitř a necháte Nemova chapadla rozvinout se skrze vaše vnímání. Zahradníkovy biosignály rozkvetou — zemitý klid, profesní hrdost, lehká úzkost ze samotného vyšetřování. Ale žádný podvod. Žádná skrytá vina. Žádný chemický výkyv lži.\n\nNeme šeptá: \"Živí se prací s půdou. Jeho pravda roste jako jeho rostliny — pomalu, poctivě a se špínou pod nehty.\"\n\nVerrik mluví pravdu. Mručenky, které pěstoval, byly čisté.",
+        text: "Sáhnete dovnitř a necháte Nemova chapadla rozvinout se skrze vaše vnímání. Zahradníkovy biosignály rozkvetou – zemitý klid, profesní hrdost, lehká úzkost ze samotného vyšetřování. Ale žádný podvod. Žádná skrytá vina. Žádný chemický výkyv lži.\n\nNeme šeptá: \"Živí se prací s půdou. Jeho pravda roste jako jeho rostliny – pomalu, poctivě a se špínou pod nehty.\"\n\nVerrik mluví pravdu. Mručenky, které pěstoval, byly čisté.",
         options: {
             thank_you_verrik_thats_helpful: "Děkuji, Verriku. To pomáhá."
         }
     },
     gardener_sulkberry_certain: {
-        text: "Jistý jako že kořeny míří dolů. Pěstuji mručenky pro Direktorát tři tisíce trávení a něco — prakticky od chvíle, kdy vzešlo Vejce. Poznám kontaminovanou šarži stejně, jako poznáte falešný tón v písni, kterou jste slyšeli tisíckrát.\n\nKdyby někdo chtěl otrávit Biskupku přes mručenky, musel by je upravit poté, co opustily naše zahrady. A lidé Korektora úhlů řeší bezpečnost přepravy — to není můj obor.\n\nAle samotné plody? Čisté. Vsadil bych na to svou zahradu.",
+        text: "Jistý jako že kořeny míří dolů. Pěstuji mručenky pro Direktorát tři tisíce trávení a něco – prakticky od chvíle, kdy vzešlo Vejce. Poznám kontaminovanou šarži stejně, jako poznáte falešný tón v písni, kterou jste slyšeli tisíckrát.\n\nKdyby někdo chtěl otrávit Biskupku přes mručenky, musel by je upravit poté, co opustily naše zahrady. A lidé Korektora úhlů řeší bezpečnost přepravy – to není můj obor.\n\nAle samotné plody? Čisté. Vsadil bych na to svou zahradu.",
         options: {
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_bishop_vague: {
-        text: "Smrt Biskupky... ano, to tady věcmi otřáslo. Direktorát to navenek neukazuje, ale od té doby se konají spousty krizových porad.\n\nNeznám podrobnosti — jsem jen zahradník. Ale lidé uvnitř by mohli vědět. Korektor úhlů obzvlášť. Pokud někdo znal obchody Biskupky s Direktorátem, tak oni.\n\nTřetí patro. Jděte dovnitř, řekněte svůj záměr. Jen nečekejte snadné odpovědi.",
+        text: "Smrt Biskupky... ano, to tady věcmi otřáslo. Direktorát to navenek neukazuje, ale od té doby se konají spousty krizových porad.\n\nNeznám podrobnosti – jsem jen zahradník. Ale lidé uvnitř by mohli vědět. Korektor úhlů obzvlášť. Pokud někdo znal obchody Biskupky s Direktorátem, tak oni.\n\nTřetí patro. Jděte dovnitř, řekněte svůj záměr. Jen nečekejte snadné odpovědi.",
         options: {
             who_is_the_angle_corrector: "Kdo je Korektor úhlů?",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_townhall: {
-        text: "Radnice? Ha. Vy a půlka města. To místo je zamčenější než kořenový bal v zimě.\n\nAle poslouchejte — pokud vás někdo dokáže dostat přes ty dveře, je to Seldo Třikrát-Opravený. Pracuje uvnitř, ve druhém patře. Řeší záležitosti Direktorátu, které se překrývají s městskou byrokracií.\n\nSeldo zná každého úředníka, každé razítko, každý zadní vchod městské správy. Pokud se dá radnice otevřít, Seldo ví jak.",
+        text: "Radnice? Ha. Vy a půlka města. To místo je zamčenější než kořenový bal v zimě.\n\nAle poslouchejte – pokud vás někdo dokáže dostat přes ty dveře, je to Seldo Třikrát-Opravený. Pracuje uvnitř, ve druhém patře. Řeší záležitosti Direktorátu, které se překrývají s městskou byrokracií.\n\nSeldo zná každého úředníka, každé razítko, každý zadní vchod městské správy. Pokud se dá radnice otevřít, Seldo ví jak.",
         options: {
             seldo_thricecorrected_unusual_name: "Seldo Třikrát-Opravený? Neobvyklé jméno.",
             where_exactly_can_i_find_him: "Kde přesně ho najdu?",
@@ -187,39 +187,39 @@ export default {
         }
     },
     gardener_seldo_name: {
-        text: "'Třikrát-Opravený' znamená, že Direktorát třikrát přezkoumal jeho loajalitu a pokaždé ho shledal přijatelným. Je to znak důvěry — nebo tvrdohlavosti, záleží, koho se zeptáte.\n\nSeldo je v Direktorátu déle než já. Ví, kam putuje každý dokument, kterého úředníka uplatit mručenkami, a které dveře mají zámky reagující na laskavé slovo. Pokud je radnice váš cíl, on je váš průvodce.",
+        text: "'Třikrát-Opravený' znamená, že Direktorát třikrát přezkoumal jeho loajalitu a pokaždé ho shledal přijatelným. Je to znak důvěry – nebo tvrdohlavosti, záleží, koho se zeptáte.\n\nSeldo je v Direktorátu déle než já. Ví, kam putuje každý dokument, kterého úředníka uplatit mručenkami, a které dveře mají zámky reagující na laskavé slovo. Pokud je radnice váš cíl, on je váš průvodce.",
         options: {
             where_can_i_find_him_inside: "Kde ho najdu uvnitř?",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_seldo_where: {
-        text: "Druhé patro, za čítárnami. Poznáte jeho kancelář podle hromad papírů — ten člověk se topí ve formulářích a povoleních. Řekněte mu, že vás poslal Verrik. A přineste trpělivost. Seldo někdy mluví v kruzích, ale vždycky dojde k jádru věci.",
+        text: "Druhé patro, za čítárnami. Poznáte jeho kancelář podle hromad papírů – ten člověk se topí ve formulářích a povoleních. Řekněte mu, že vás poslal Verrik. A přineste trpělivost. Seldo někdy mluví v kruzích, ale vždycky dojde k jádru věci.",
         options: {
             thanks_ill_head_inside: "Díky. Půjdu dovnitř.",
             i_have_other_questions: "Mám další otázky."
         }
     },
     gardener_work_offer: {
-        text: "Práce, jo? No, vždycky se mi hodí pár rukou navíc — nebo přesněji, další zdroj spor.\n\nVidíte, živá architektura Direktorátu potřebuje neustálé krmení. Čerstvé houby, nový růst. A vy — nesete spory, že? Cítím je. Každý v tomhle městě je nese, ale vaše mají zvláštní... rezonanci.\n\nDohoda je taková: obětujete nějaké spory do mého kultivačního záhonu a já řídím růst. Jakákoliv houba vyroste, koupím ji od vás. Čím víc spor investujete, tím vzácnější výsledek. Máte zájem?"
+        text: "Práce, jo? No, vždycky se mi hodí pár rukou navíc – nebo přesněji, další zdroj spor.\n\nVidíte, živá architektura Direktorátu potřebuje neustálé krmení. Čerstvé houby, nový růst. A vy – nesete spory, že? Cítím je. Každý v tomhle městě je nese, ale vaše mají zvláštní... rezonanci.\n\nDohoda je taková: obětujete nějaké spory do mého kultivačního záhonu a já řídím růst. Jakákoliv houba vyroste, koupím ji od vás. Čím víc spor investujete, tím vzácnější výsledek. Máte zájem?"
     },
     gardener_no_spores: {
-        text: "Žádné spory? Bez suroviny toho moc nevypěstuji, příteli. Vraťte se, až nějaké nasbíráte. Město je plné zdrojů spor — jen mějte oči otevřené a plíce dýchající."
+        text: "Žádné spory? Bez suroviny toho moc nevypěstuji, příteli. Vraťte se, až nějaké nasbíráte. Město je plné zdrojů spor – jen mějte oči otevřené a plíce dýchající."
     },
     gardener_grow_small: {
-        text: "Deset spor — skromný začátek. Podívejme se, co vaše esence vyprodukuje...",
+        text: "Deset spor – skromný začátek. Podívejme se, co vaše esence vyprodukuje...",
         options: {
             watch_the_cultivation_bed: "[Sledovat kultivační záhon]"
         }
     },
     gardener_grow_medium: {
-        text: "Dvacet pět spor — to je oddanost. Mycelium bude mít z čeho pracovat...",
+        text: "Dvacet pět spor – to je oddanost. Mycelium bude mít z čeho pracovat...",
         options: {
             watch_the_cultivation_bed: "[Sledovat kultivační záhon]"
         }
     },
     gardener_grow_large: {
-        text: "Padesát spor! Buďto jste odvážný, nebo zoufalý. Tak či tak — mycelium bude hodovat. Ustupte...",
+        text: "Padesát spor! Buďto jste odvážný, nebo zoufalý. Tak či tak – mycelium bude hodovat. Ustupte...",
         options: {
             watch_the_cultivation_bed: "[Sledovat kultivační záhon]"
         }
@@ -245,7 +245,7 @@ export default {
         }
     },
     eavesdrop_listen: {
-        text: "Zahrada Direktorátu je samý přistřižený živý plot a tichý pořádek, ale nízká průduchová mřížka ve zdi dýchá teplý vzduch — a hlasy — z archivních místností uvnitř. Dva z jejich vlastních spolu mluví, opatrně a tlumeně. Stačilo by prostě naslouchat.",
+        text: "Zahrada Direktorátu je samý přistřižený živý plot a tichý pořádek, ale nízká průduchová mřížka ve zdi dýchá teplý vzduch – a hlasy – z archivních místností uvnitř. Dva z jejich vlastních spolu mluví, opatrně a tlumeně. Stačilo by prostě naslouchat.",
         options: {
             eavesdrop_plain: "Přitisknout se blíž a poslouchat.",
             eavesdrop_neme: "[Neme · Fotosenzitivita] Přečíst vinu pod tím, co říkají.",

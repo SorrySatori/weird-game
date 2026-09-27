@@ -268,7 +268,7 @@ export default class CathedralEntrance extends GameScene {
             reflect = "*\"Sleduji tě déle, než tušíš.\"*";
             if (foldEngaged) reflect += " *\"Setkal ses s myslí bez těla, a nesáhl jsi hned po nápravě. Nechal jsi ji být, ať už je podivná, jak chce.\"*";
             if (symbiontCount >= 1) reflect += " *\"Neseš v sobě jiný život, a nezmizel jsi v něm. Už víš, jaké to je být víc než jeden a přesto zůstat sám sebou.\"*";
-            if (edgarPath) reflect += " *\"A naslouchal jsi hlasu, který město ignoruje — tomu, kdo hledá a nachází místa, jež se rozpadají.\"*";
+            if (edgarPath) reflect += " *\"A naslouchal jsi hlasu, který město ignoruje – tomu, kdo hledá a nachází místa, jež se rozpadají.\"*";
             if (!foldEngaged && symbiontCount < 1 && !edgarPath) reflect += " *\"Přicházíš nalehko, s málem za sebou. To není chyba. Jen je toho míň k zvážení.\"*";
             reflect += " *\"Všechno jsem zvážil. Řekni, co potřebuješ, až budeš připraven.\"*";
         } else {
@@ -284,7 +284,7 @@ export default class CathedralEntrance extends GameScene {
         let farewell;
         if (cs) {
             farewell = "Brána se neotevře jako obyčejné dveře. Kámen se pomalu rozpouští jako stará jizva.\n\n*\"Půjdeš se mnou?\"* zeptáš se.\n\n*\"Ne.\"* Odmlka. *\"Vznikl jsem, abych hlídal dveře. Ne abych prošel.\"*";
-            if (symbiontCount >= 1) farewell += " *\"Neseš něco, co nejsi ty — a přesto jsi zůstal celý. Snad právě proto jsi mohl vstoupit.\"*";
+            if (symbiontCount >= 1) farewell += " *\"Neseš něco, co nejsi ty – a přesto jsi zůstal celý. Snad právě proto jsi mohl vstoupit.\"*";
             if (foldEngaged) farewell += " *\"Setkal ses s myslí bez těla a nepokusil ses ji hned napravit. To si pamatuji.\"*";
             farewell += " Ustoupí stranou. *\"Tak tedy běž zjistit, co se tu zrodilo.\"*";
         } else {

@@ -13,27 +13,27 @@ export default {
         'Auction Hall': 'Aukční síň',
     },
 
-    // ——— Hesh & Vell ———
+    // ––– Hesh & Vell –––
     twins_start: {
         text: {
             twins_start_return: `„Vítejte zpět," říká Hesh. Vell bezhlasně artikuluje tatáž slova o půl sekundy později, rty formují každou slabiku v podivném zpoždění. „Aukce brzy začne. Rozhlédněte se. Společensky se zapojte. Položky jsou vystaveny u zadní stěny."`,
-            twins_start_confused_return: `„Vítejte... zpět," říká Hesh. Vell bezhlasně artikuluje slova o půl sekundy později, ale klopýtá — rytmus nesedí, synchronizace je narušená. „Aukce... brzy začne," pokračuje Hesh a Vellovy rty dohánějí příliš pozdě.\n\nStále fungují, ale jejich proslulé tempování je narušené. Ostří licitátorů — otupené.`,
-            twins_start_first: `„Vítejte v Aukční hale Voxmarketu," říká Hesh — nebo je to Vell? Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy pozadu, čímž vytváří znepokojivý efekt ozvěny bez skutečné ozvěny.\n\n„Já jsem Hesh," říká ten nalevo. „A já jsem Vell," artikuluje ten napravo, o moment pozadu. „Vedeme aukci. Všechny prodeje jsou konečné. Všechny příhozy jsou závazné. Všechna lítost je vaše vlastní."\n\nJejich synchronizace je hypnotická — nacvičená, přesná a hluboce znepokojivá.`,
-            twins_start_no_auction_return: `„Zase tady?" říká Hesh a Vellovy rty se opožďují o půl taktu. „Dnes žádná aukce, bohužel — hala je temná, položky zamčené. Vraťte se, až Voxmarket vyhlásí další prodej. Poznáte to. Všichni to poznají."`,
-            twins_start_no_auction_first: `„Hala je pro dražbu uzavřená," říká Hesh — a Vell formuje slova o půl sekundy pozadu, ozvěna zní v prázdné místnosti znepokojivě. „Jsme Hesh a Vell. Vedeme aukce... když nějaké jsou. Dnes žádná není." Obě dvojčata naklánějí hlavy naráz. „Vraťte se, až Voxmarket vyhlásí prodej."`,
+            twins_start_confused_return: `„Vítejte... zpět," říká Hesh. Vell bezhlasně artikuluje slova o půl sekundy později, ale klopýtá – rytmus nesedí, synchronizace je narušená. „Aukce... brzy začne," pokračuje Hesh a Vellovy rty dohánějí příliš pozdě.\n\nStále fungují, ale jejich proslulé tempování je narušené. Ostří licitátorů – otupené.`,
+            twins_start_first: `„Vítejte v Aukční hale Voxmarketu," říká Hesh – nebo je to Vell? Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy pozadu, čímž vytváří znepokojivý efekt ozvěny bez skutečné ozvěny.\n\n„Já jsem Hesh," říká ten nalevo. „A já jsem Vell," artikuluje ten napravo, o moment pozadu. „Vedeme aukci. Všechny prodeje jsou konečné. Všechny příhozy jsou závazné. Všechna lítost je vaše vlastní."\n\nJejich synchronizace je hypnotická – nacvičená, přesná a hluboce znepokojivá.`,
+            twins_start_no_auction_return: `„Zase tady?" říká Hesh a Vellovy rty se opožďují o půl taktu. „Dnes žádná aukce, bohužel – hala je temná, položky zamčené. Vraťte se, až Voxmarket vyhlásí další prodej. Poznáte to. Všichni to poznají."`,
+            twins_start_no_auction_first: `„Hala je pro dražbu uzavřená," říká Hesh – a Vell formuje slova o půl sekundy pozadu, ozvěna zní v prázdné místnosti znepokojivě. „Jsme Hesh a Vell. Vedeme aukce... když nějaké jsou. Dnes žádná není." Obě dvojčata naklánějí hlavy naráz. „Vraťte se, až Voxmarket vyhlásí prodej."`,
         },
         options: {
             how_does_the_auction_work: "Jak funguje aukce?",
             whats_being_auctioned_today: "Co se dnes draží?",
-            im_here_for_a_specific_lot_a_chronoslurry_toadlet: "Jsem tu kvůli konkrétní položce — Chronobřečkovému Ropušátku.",
+            im_here_for_a_specific_lot_a_chronoslurry_toadlet: "Jsem tu kvůli konkrétní položce – Chronobřečkovému Ropušátku.",
             im_ready_to_begin_the_auction: "Jsem připraven začít aukci.",
-            why_do_you_do_that_the_delayed_mouthing: "Proč to děláte — to opožděné artikulování?",
+            why_do_you_do_that_the_delayed_mouthing: "Proč to děláte – to opožděné artikulování?",
             brain_rot_disrupt_their_synchronization: "[Mozkový rozklad] Narušit jejich synchronizaci.",
         }
     },
 
     twins_auction_rules: {
-        text: `„Pravidla jsou jednoduchá," říká Hesh. Vellovy rty následují. „Položky se představují jedna po druhé. Dražba začíná na uvedené ceně. Zvedněte ruku pro příhoz. Nejvyšší nabízející, když zvoláme ‚Uzavřeno', vyhrává.\n\nPlatba je okamžitá. Pouze dináry — žádný barter, žádné vestigely, žádné sliby. Pokud nemůžete zaplatit, odejdete. Pokud způsobíte scénu, odejdete rychleji.\n\nPředaukční společenská doba je stejně důležitá. Poznejte konkurenci. Spřátelte se. Nebo je znervózněte."`,
+        text: `„Pravidla jsou jednoduchá," říká Hesh. Vellovy rty následují. „Položky se představují jedna po druhé. Dražba začíná na uvedené ceně. Zvedněte ruku pro příhoz. Nejvyšší nabízející, když zvoláme ‚Uzavřeno', vyhrává.\n\nPlatba je okamžitá. Pouze dináry – žádný barter, žádné vestigely, žádné sliby. Pokud nemůžete zaplatit, odejdete. Pokud způsobíte scénu, odejdete rychleji.\n\nPředaukční společenská doba je stejně důležitá. Poznejte konkurenci. Spřátelte se. Nebo je znervózněte."`,
         options: {
             whats_being_auctioned_today: "Co se dnes draží?",
             i_have_other_questions: "Mám další otázky.",
@@ -41,7 +41,7 @@ export default {
     },
 
     twins_lots: {
-        text: `„Dnešní položky zahrnují," začíná Hesh a Vellova opožděná ozvěna mění seznam v skandování:\n\n„Sklenice komprimované nostalgie — vzpomínky na místo, které nikdy neexistovalo. Vyvolávací cena 30 dinárů.\n\nJedno Chronobřečkové Ropušátko — prorocký obojživelník, tříminutové okno předvídavosti. Vyvolávací cena 60 dinárů.\n\nSada samoostřících byrokratických brků — samy vyplní správnou odpověď na jakýkoli úřední formulář. Vyvolávací cena 45 dinárů.\n\nMembrána Solopisu — spící symbiontní tkáň uchovaná v minerálním solném roztoku. Vyvolávací cena čeká na ověření.\n\nA hlavní kousek večera: Zkamenělé snové vejce z katedrálních vykopávek. Vyvolávací cena 120 dinárů."\n\nVell konečně dožene a oba dvojčata se usmějí současně. Tato část je přinejmenším dokonale synchronizovaná.`,
+        text: `„Dnešní položky zahrnují," začíná Hesh a Vellova opožděná ozvěna mění seznam v skandování:\n\n„Sklenice komprimované nostalgie – vzpomínky na místo, které nikdy neexistovalo. Vyvolávací cena 30 dinárů.\n\nJedno Chronobřečkové Ropušátko – prorocký obojživelník, tříminutové okno předvídavosti. Vyvolávací cena 60 dinárů.\n\nSada samoostřících byrokratických brků – samy vyplní správnou odpověď na jakýkoli úřední formulář. Vyvolávací cena 45 dinárů.\n\nMembrána Solopisu – spící symbiontní tkáň uchovaná v minerálním solném roztoku. Vyvolávací cena čeká na ověření.\n\nA hlavní kousek večera: Zkamenělé snové vejce z katedrálních vykopávek. Vyvolávací cena 120 dinárů."\n\nVell konečně dožene a oba dvojčata se usmějí současně. Tato část je přinejmenším dokonale synchronizovaná.`,
         options: {
             tell_me_more_about_the_chronoslurry_toadlet: "Řekněte mi víc o Chronobřečkovém Ropušátku.",
             im_ready_to_begin_the_auction: "Jsem připraven začít aukci.",
@@ -52,8 +52,8 @@ export default {
 
     twins_toadlet: {
         text: {
-            twins_toadlet_confused: `„Ropušátko, ano," říká Hesh. Vellova ústa se pohybují, ale načasování je špatné — příliš brzy, pak příliš pozdě, pak vynechává celá slova. „Vyvolávací cena je... čtyřicet dinárů." Hesh se krátce zamračí, jako by to číslo překvapilo i je. „Je to... oblíbená položka. Několik zájemců."\n\nJejich obvyklý rytmus je narušený. Cena, kterou uvedli, je nižší než v seznamu — jejich manipulace tempováním nefunguje správně.`,
-            twins_toadlet_normal: `„Ach, Ropušátko," říká Hesh s nacvičeným zájmem. Vellovy rty formují slova s teatrální přesností. „Krásný exemplář. Tři minuty dokonalé předvídavosti po jazykovém kontaktu. Velmi oblíbené u byrokratů, gamblerů a chronicky nerozhodných.\n\nVyvolávací cena: 60 dinárů. Ale čekejte konkurenci — máme minimálně dva vážné zájemce. Konečná cena... no." Oba dvojčata se usmějí. „To závisí na sále."`,
+            twins_toadlet_confused: `„Ropušátko, ano," říká Hesh. Vellova ústa se pohybují, ale načasování je špatné – příliš brzy, pak příliš pozdě, pak vynechává celá slova. „Vyvolávací cena je... čtyřicet dinárů." Hesh se krátce zamračí, jako by to číslo překvapilo i je. „Je to... oblíbená položka. Několik zájemců."\n\nJejich obvyklý rytmus je narušený. Cena, kterou uvedli, je nižší než v seznamu – jejich manipulace tempováním nefunguje správně.`,
+            twins_toadlet_normal: `„Ach, Ropušátko," říká Hesh s nacvičeným zájmem. Vellovy rty formují slova s teatrální přesností. „Krásný exemplář. Tři minuty dokonalé předvídavosti po jazykovém kontaktu. Velmi oblíbené u byrokratů, gamblerů a chronicky nerozhodných.\n\nVyvolávací cena: 60 dinárů. Ale čekejte konkurenci – máme minimálně dva vážné zájemce. Konečná cena... no." Oba dvojčata se usmějí. „To závisí na sále."`,
         },
         options: {
             who_else_is_bidding_on_it: "Kdo další na něj dráží?",
@@ -63,7 +63,7 @@ export default {
     },
 
     twins_competitors: {
-        text: `„Nesdělujeme identity dražitelů před aukcí," říká Hesh. Vell artikuluje spolu, ale jedno oko uhne směrem k vzdálenému rohu místnosti — k Sestře Calyx.\n\n„Nicméně," pokračuje Hesh, „předaukční společenská doba existuje z dobrého důvodu. Pozorujte. Představte se. Vyvozujte si vlastní závěry o tom, kdo chce co.\n\nAukce odměňuje přípravu stejně jako bohatství."`,
+        text: `„Nesdělujeme identity dražitelů před aukcí," říká Hesh. Vell artikuluje spolu, ale jedno oko uhne směrem k vzdálenému rohu místnosti – k Sestře Calyx.\n\n„Nicméně," pokračuje Hesh, „předaukční společenská doba existuje z dobrého důvodu. Pozorujte. Představte se. Vyvozujte si vlastní závěry o tom, kdo chce co.\n\nAukce odměňuje přípravu stejně jako bohatství."`,
         options: {
             understood_ill_mingle: "Rozumím. Půjdu se porozhlédnout.",
             i_have_other_questions: "Mám další otázky.",
@@ -71,7 +71,7 @@ export default {
     },
 
     twins_echo: {
-        text: `„Děláme co?" říká Hesh. Vell artikuluje „Děláme co?" přesně na zpoždění. Podívají se na sebe — Hesh s lehkým úšklebkem, Vell s přízrakem téhož úšklebku o půl sekundy později.\n\n„Vždycky jsme byli takoví," říká Hesh. „Narodili jsme se o půl sekundy od sebe. Žijeme o půl sekundy od sebe. Pravděpodobně zemřeme o půl sekundy od sebe. Není to manýra — je to stav.\n\nTaké to dělá naše aukční tempování nemožným k přerušení. Než zpracujete, co jsem řekl, Vell to už posílil. Velmi účinné pro hnání cen nahoru."`,
+        text: `„Děláme co?" říká Hesh. Vell artikuluje „Děláme co?" přesně na zpoždění. Podívají se na sebe – Hesh s lehkým úšklebkem, Vell s přízrakem téhož úšklebku o půl sekundy později.\n\n„Vždycky jsme byli takoví," říká Hesh. „Narodili jsme se o půl sekundy od sebe. Žijeme o půl sekundy od sebe. Pravděpodobně zemřeme o půl sekundy od sebe. Není to manýra – je to stav.\n\nTaké to dělá naše aukční tempování nemožným k přerušení. Než zpracujete, co jsem řekl, Vell to už posílil. Velmi účinné pro hnání cen nahoru."`,
         options: {
             thats_honestly_unsettling: "To je... upřímně znepokojivé.",
             i_have_other_questions: "Mám další otázky.",
@@ -79,32 +79,32 @@ export default {
     },
 
     twins_unsettling: {
-        text: `„Děkujeme," řeknou — a poprvé dokonale unisono. Pak se zpoždění obnoví.\n\n„Znepokojení je dobré pro obchod," dodá Hesh. „Nervózní dražitel je štědrý dražitel."`,
+        text: `„Děkujeme," řeknou – a poprvé dokonale unisono. Pak se zpoždění obnoví.\n\n„Znepokojení je dobré pro obchod," dodá Hesh. „Nervózní dražitel je štědrý dražitel."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
     twins_brain_rot: {
-        text: `Sáhnete dovnitř a necháte Thorne-Stillův rozklad prosáknout ven — jemný pulz kognitivního rozkladu zacílený na proslulou synchronizaci dvojčat-licitátorů.\n\nÚčinek je okamžitý. Vellova opožděná ozvěna zakoktá — artikuluje špatná slova, pak ta správná příliš brzy, pak úplně zamrzne. Hesh mluví dál, ale pohlédne stranou, viditelně zneklidněný. Na okamžik jsou to prostě dva lidé stojící vedle sebe. Hypnotický rytmus je zlomený.\n\n„Já... omluvte nás," říká Hesh. Vell artikuluje něco úplně jiného. Stáhnou se za svůj pult, aby se překalibrovali.\n\nAž aukce začne, jejich tempování — a jejich manipulace cenami — bude narušená.`,
+        text: `Sáhnete dovnitř a necháte Thorne-Stillův rozklad prosáknout ven – jemný pulz kognitivního rozkladu zacílený na proslulou synchronizaci dvojčat-licitátorů.\n\nÚčinek je okamžitý. Vellova opožděná ozvěna zakoktá – artikuluje špatná slova, pak ta správná příliš brzy, pak úplně zamrzne. Hesh mluví dál, ale pohlédne stranou, viditelně zneklidněný. Na okamžik jsou to prostě dva lidé stojící vedle sebe. Hypnotický rytmus je zlomený.\n\n„Já... omluvte nás," říká Hesh. Vell artikuluje něco úplně jiného. Stáhnou se za svůj pult, aby se překalibrovali.\n\nAž aukce začne, jejich tempování – a jejich manipulace cenami – bude narušená.`,
         options: {
             continue: "Pokračovat.",
         }
     },
 
     twins_brain_rot_after: {
-        text: `Hesh se za pultem narovná, ale škoda je napáchána. Vellova artikulace je teď opožděná o celou sekundu — někdy o dvě. Neviditelný rytmus, který pohání jejich aukční tempování, je nalomený.\n\n„Jsme v pořádku," trvá na svém Hesh. Vell artikuluje „Jsme v pořádku" daleko příliš pozdě, čímž to tvrzení zcela vyvrací.`,
+        text: `Hesh se za pultem narovná, ale škoda je napáchána. Vellova artikulace je teď opožděná o celou sekundu – někdy o dvě. Neviditelný rytmus, který pohání jejich aukční tempování, je nalomený.\n\n„Jsme v pořádku," trvá na svém Hesh. Vell artikuluje „Jsme v pořádku" daleko příliš pozdě, čímž to tvrzení zcela vyvrací.`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
-    // ——— Sister Calyx ———
+    // ––– Sister Calyx –––
     calyx_start: {
         text: {
-            calyx_start_return: `„Zase tu," říká Sestra Calyx a upravuje si malou lahvičku u opasku. „Aukce přitahuje všechny druhy. Jsem tu ve věci Reklamátorů jádra — nic víc."`,
+            calyx_start_return: `„Zase tu," říká Sestra Calyx a upravuje si malou lahvičku u opasku. „Aukce přitahuje všechny druhy. Jsem tu ve věci Reklamátorů jádra – nic víc."`,
             calyx_start_rattled_return: `Sestra Calyx stojí ztuhlá, její sebejistota nalomená. Prohlíží si vás se zjevnou ostražitostí. „Zase vy. Doufám, že jste tu na prohlídku, ne abyste... pokračoval v našem dřívějším rozhovoru."`,
-            calyx_start_first: `U aukčních položek stojí vysoká žena ve vrstvených šedozelených hábitech a zkoumá je s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha jako stříbrné nitě a její prsty končí lehce zbarvenými nehty — znamení dlouhodobé práce s extrakcí jádra.\n\n„Sestra Calyx," řekne, když si všimne vašeho přiblížení. „Reklamátoři jádra. Jsem tu ve věci naší kapituly. A vy jste...?"`,
+            calyx_start_first: `U aukčních položek stojí vysoká žena ve vrstvených šedozelených hábitech a zkoumá je s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha jako stříbrné nitě a její prsty končí lehce zbarvenými nehty – znamení dlouhodobé práce s extrakcí jádra.\n\n„Sestra Calyx," řekne, když si všimne vašeho přiblížení. „Reklamátoři jádra. Jsem tu ve věci naší kapituly. A vy jste...?"`,
         },
         options: {
             just_browsing_what_are_the_pith_reclaimers: "Jen se rozhlížím. Co jsou Reklamátoři jádra?",
@@ -117,7 +117,7 @@ export default {
     },
 
     calyx_pith: {
-        text: `„Reklamátoři jádra extrahují houbovou esenci — jádro — z živých organismů. Rafinujeme ji, studujeme, obchodujeme s ní. Direktorát nám říká ‚paraziti,' Rezavý chór nám říká ‚zloději.' My si říkáme praktičtí.\n\nKaždá živá věc v tomto městě nese sklizitelnou esenci. My prostě... sbíráme, co se už stejně plýtvá. Katedrální vejce, sporová pole, dokonce i živé zdi města — to vše jsou zdroje surového jádra.\n\nNaše kapitula zde v Horní Morkezele je malá, ale dobře financovaná. Proto moje přítomnost na této aukci."`,
+        text: `„Reklamátoři jádra extrahují houbovou esenci – jádro – z živých organismů. Rafinujeme ji, studujeme, obchodujeme s ní. Direktorát nám říká ‚paraziti,' Rezavý chór nám říká ‚zloději.' My si říkáme praktičtí.\n\nKaždá živá věc v tomto městě nese sklizitelnou esenci. My prostě... sbíráme, co se už stejně plýtvá. Katedrální vejce, sporová pole, dokonce i živé zdi města – to vše jsou zdroje surového jádra.\n\nNaše kapitula zde v Horní Morkezele je malá, ale dobře financovaná. Proto moje přítomnost na této aukci."`,
         options: {
             what_are_you_bidding_on: "Na co dražíte?",
             essence_extraction_sounds_invasive: "Extrakce esence zní invazivně.",
@@ -134,7 +134,7 @@ export default {
     },
 
     calyx_bidding: {
-        text: `„Zkamenělé snové vejce, primárně. Katedrální artefakty nesou koncentrované jádro — dekády nashromážděné esence stlačené do kamene. Naše kapitula by ho mohla studovat roky.\n\nAle sekundárně mě zajímá i Chronobřečkové Ropušátko. Proročtí obojživelníci produkují jedinečný podpis jádra, když se aktivuje jejich předvídavost. Velmi cenné pro náš výzkum temporální extrakce.\n\nMám rozpočet 150 dinárů. Hodlám ho použít strategicky."`,
+        text: `„Zkamenělé snové vejce, primárně. Katedrální artefakty nesou koncentrované jádro – dekády nashromážděné esence stlačené do kamene. Naše kapitula by ho mohla studovat roky.\n\nAle sekundárně mě zajímá i Chronobřečkové Ropušátko. Proročtí obojživelníci produkují jedinečný podpis jádra, když se aktivuje jejich předvídavost. Velmi cenné pro náš výzkum temporální extrakce.\n\nMám rozpočet 150 dinárů. Hodlám ho použít strategicky."`,
         options: {
             the_toadlet_is_mine_im_bidding_on_it_too: "Ropušátko je moje. Dražím na něj taky.",
             thats_a_serious_budget: "To je vážný rozpočet.",
@@ -143,7 +143,7 @@ export default {
     },
 
     calyx_toadlet_rival: {
-        text: `Přimhouří oči. „Vy chcete Ropušátko? Zajímavé. Není to zrovna neformální nákup — proročtí obojživelníci vyžadují specializovanou péči. Nebo ho jen chcete olíznout a nahlédnout tři minuty dopředu jako všichni ostatní?\n\nNebudu předstírat, že ustoupím. Ale snové vejce je moje priorita — pokud Ropušátko vyletí příliš vysoko, budu si muset vybrat.\n\nLeda byste mě přesvědčili, že Ropušátko nestojí za moje dináry."`,
+        text: `Přimhouří oči. „Vy chcete Ropušátko? Zajímavé. Není to zrovna neformální nákup – proročtí obojživelníci vyžadují specializovanou péči. Nebo ho jen chcete olíznout a nahlédnout tři minuty dopředu jako všichni ostatní?\n\nNebudu předstírat, že ustoupím. Ale snové vejce je moje priorita – pokud Ropušátko vyletí příliš vysoko, budu si muset vybrat.\n\nLeda byste mě přesvědčili, že Ropušátko nestojí za moje dináry."`,
         options: {
             what_would_convince_you_to_drop_the_toadlet_bid: "Co by vás přesvědčilo vzdát se dražby Ropušátka?",
             may_the_best_bidder_win: "Ať vyhraje lepší dražitel.",
@@ -155,14 +155,14 @@ export default {
     calyx_negotiate: {
         text: `„Přesvědčit mě?" Zkříží ruce, houbová vlákna zachytí světlo. „Kapitula mě poslala pro zdroje jádra. Musím se vrátit s něčím, co ospravedlní cestovní náklady.\n\nPokud snové vejce půjde za rozumnou cenu, mohla bych na něj soustředit rozpočet a nechat Ropušátko vám. Ale pokud někdo vyžene vejce příliš vysoko, přeorientuji se na Ropušátko jako sekundární akvizici.\n\nTakže vaše nejlepší strategie je zajistit, abych dostala snové vejce levně. Nedražte na něj. Nenechte nikoho jiného ho zdražovat. A já nechám vašeho obojživelníka na pokoji."`,
         options: {
-            so_we_have_an_understanding_i_avoid_the_egg_you_av: "Takže máme dohodu — vyhneme se vejci, vy Ropušátku.",
+            so_we_have_an_understanding_i_avoid_the_egg_you_av: "Takže máme dohodu – vyhneme se vejci, vy Ropušátku.",
             no_promises_ill_bid_as_i_see_fit: "Nic neslibuju. Budu dražit, jak uznám za vhodné.",
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
     calyx_deal: {
-        text: `„Porozumění. Ne dohoda — Reklamátoři jádra neuzavírají dohody s cizími na aukcích. Ale... porozumění. Ano.\n\nSoustředím se na snové vejce. Vy se soustřeďte na Ropušátko. A nikdo z nás nezdražuje cíl toho druhého. Efektivní. Praktické. Velmi reklamátorské z vaší strany."\n\nLehounce přikývne — uznání, ne vřelost.`,
+        text: `„Porozumění. Ne dohoda – Reklamátoři jádra neuzavírají dohody s cizími na aukcích. Ale... porozumění. Ano.\n\nSoustředím se na snové vejce. Vy se soustřeďte na Ropušátko. A nikdo z nás nezdražuje cíl toho druhého. Efektivní. Praktické. Velmi reklamátorské z vaší strany."\n\nLehounce přikývne – uznání, ne vřelost.`,
     },
 
     calyx_no_deal: {
@@ -173,14 +173,14 @@ export default {
     },
 
     calyx_challenge: {
-        text: `„Ať vyhraje lepší dražitel," zopakuje a její úsměv má ostří. „Hodlám. Reklamátoři jádra nechodí na aukce pro zábavu.\n\nAle společenská doba ještě neskončila. Je stále čas být přesvědčivý — nebo dělat chyby."`,
+        text: `„Ať vyhraje lepší dražitel," zopakuje a její úsměv má ostří. „Hodlám. Reklamátoři jádra nechodí na aukce pro zábavu.\n\nAle společenská doba ještě neskončila. Je stále čas být přesvědčivý – nebo dělat chyby."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
     calyx_budget: {
-        text: `„Kapitula nefinancuje polovičatosti. Když identifikujeme zdroj jádra hodný akvizice, získáme ho. 150 dinárů je skromné podle reklamátorských standardů — některé kapituly posílají delegace s desetinásobkem.\n\nAle Horní Morkezela je malá kapitula. Jsme... opatrní s alokacemi. Proto musím dražit strategicky, ne emotivně."`,
+        text: `„Kapitula nefinancuje polovičatosti. Když identifikujeme zdroj jádra hodný akvizice, získáme ho. 150 dinárů je skromné podle reklamátorských standardů – některé kapituly posílají delegace s desetinásobkem.\n\nAle Horní Morkezela je malá kapitula. Jsme... opatrní s alokacemi. Proto musím dražit strategicky, ne emotivně."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
@@ -188,9 +188,9 @@ export default {
 
     // --- Před katedrálou: čtení pečeti Reklamátory jádra ---
     calyx_seal_law: {
-        text: `Calyx odloží položku, kterou zkoumala. „Vaječná katedrála. Chcete reklamátorské čtení. Ne to, zda byla Biskupčina smrt tragická — žal není kategorie k založení do spisu. Chcete vědět: jaký je *právní status* té pečeti?"
+        text: `Calyx odloží položku, kterou zkoumala. „Vaječná katedrála. Chcete reklamátorské čtení. Ne to, zda byla Biskupčina smrt tragická – žal není kategorie k založení do spisu. Chcete vědět: jaký je *právní status* té pečeti?"
 
-Z rukávu vytáhne složený dokument — křehký, úřední, orazítkovaný mrtvou rukou. „Vytáhla jsem kopie kapituly, než jsem odešla. Reklamátoři jádra si uchovávají všechno; paměť je náš jediný skutečný inventář. Toto je původní uzavírací listina katedrály a její kustodská charta. Obě jsou starší než Biskupka, která je uplatnila."
+Z rukávu vytáhne složený dokument – křehký, úřední, orazítkovaný mrtvou rukou. „Vytáhla jsem kopie kapituly, než jsem odešla. Reklamátoři jádra si uchovávají všechno; paměť je náš jediný skutečný inventář. Toto je původní uzavírací listina katedrály a její kustodská charta. Obě jsou starší než Biskupka, která je uplatnila."
 
 „Nouzová pečeť není rozmar. Je to právní akt s *účelovou klauzulí*. A účel, který je zde zapsán, není ten, který všichni předpokládají."`,
         options: {
@@ -201,9 +201,9 @@ Z rukávu vytáhne složený dokument — křehký, úřední, orazítkovaný mr
     },
 
     calyx_seal_guardian_orders: {
-        text: `„Kustodská charta jmenuje strážce u závoje — Strážce. Jeho tělo bylo dáno rostlinám a jeho mysl myceliální síti, aby mohl udržet *jediný pokyn* napříč staletími bez odchýlení. Úředníci zapomínají. Strážci ne."
+        text: `„Kustodská charta jmenuje strážce u závoje – Strážce. Jeho tělo bylo dáno rostlinám a jeho mysl myceliální síti, aby mohl udržet *jediný pokyn* napříč staletími bez odchýlení. Úředníci zapomínají. Strážci ne."
 
-Čte to věcně, tak jak Reklamátoři čtou všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* — komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům mincí. Zlodějům *autorství*."
+Čte to věcně, tak jak Reklamátoři čtou všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* – komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům mincí. Zlodějům *autorství*."
 
 „Všichni si Strážce pamatují jako dveře. Byl sepsán jako filtr. Ten rozdíl je celý ten případ."`,
         options: {
@@ -213,11 +213,11 @@ Z rukávu vytáhne složený dokument — křehký, úřední, orazítkovaný mr
     },
 
     calyx_seal_true_purpose: {
-        text: `„Nyní k samotné uzavírací listině." Uhladí křehkou stránku. „Lidé předpokládají, že Biskupka zapečetila katedrálu, aby *chránila katedrálu* — před lupiči, před přístroji Direktorátu, před tím, co se líhne uvnitř vejce. To je sentimentální čtení. Je mylné."
+        text: `„Nyní k samotné uzavírací listině." Uhladí křehkou stránku. „Lidé předpokládají, že Biskupka zapečetila katedrálu, aby *chránila katedrálu* – před lupiči, před přístroji Direktorátu, před tím, co se líhne uvnitř vejce. To je sentimentální čtení. Je mylné."
 
-„Účelová klauzule čte směrem ven, ne dovnitř. Pečeť nebyla zdvižena, aby udržela svět *mimo* katedrálu. Byla zdvižena, aby to, co je *uvnitř*, nebylo vyneseno do světa nesprávnýma rukama — aby chránila *svět* před vstupem kohokoli, kdo by chtěl *vlastnit* nový život."
+„Účelová klauzule čte směrem ven, ne dovnitř. Pečeť nebyla zdvižena, aby udržela svět *mimo* katedrálu. Byla zdvižena, aby to, co je *uvnitř*, nebylo vyneseno do světa nesprávnýma rukama – aby chránila *svět* před vstupem kohokoli, kdo by chtěl *vlastnit* nový život."
 
-Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli. Bezautorské. Biskupka chápala — právně, přesně — že nebezpečím nikdy nebyl ten zrod. Bylo jím vlastnictví. Zapečetila dveře, aby zastavila *nárok*. A pak si nějaká mysl chtěla nárokovat *ji*. To, myslím, mi váš obličej celou dobu říká, že už víte."`,
+Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli. Bezautorské. Biskupka chápala – právně, přesně – že nebezpečím nikdy nebyl ten zrod. Bylo jím vlastnictví. Zapečetila dveře, aby zastavila *nárok*. A pak si nějaká mysl chtěla nárokovat *ji*. To, myslím, mi váš obličej celou dobu říká, že už víte."`,
         options: {
             theres_more_i_want_to_ask: "Chci se zeptat na víc.",
             thank_you_sister_thats_what_i_needed: "Děkuji, sestro. To jsem potřeboval.",
@@ -225,7 +225,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_neme: {
-        text: `Necháte Nemino vnímání rozvinout — úponky bio-vědomí dosahující k Sestře Calyx. Její signály rozkvetou do zaostření: disciplína, kalkulace, pečlivě udržovaná fasáda klidu.\n\nAle pod povrchem — úzkost. Je pod tlakem své kapituly. Rozpočet je napjatý, napjatější, než přiznává. A je tu ještě něco: Ropušátko ve skutečnosti nechce pro výzkum jádra. Chce ho pro sebe. Příběh o temporální extrakci je krytí.\n\nNeme šeptá: „Reklamuje od ostatních, co nemůže vypěstovat sama. Ale tentokrát si chce úrodu ponechat."`,
+        text: `Necháte Nemino vnímání rozvinout – úponky bio-vědomí dosahující k Sestře Calyx. Její signály rozkvetou do zaostření: disciplína, kalkulace, pečlivě udržovaná fasáda klidu.\n\nAle pod povrchem – úzkost. Je pod tlakem své kapituly. Rozpočet je napjatý, napjatější, než přiznává. A je tu ještě něco: Ropušátko ve skutečnosti nechce pro výzkum jádra. Chce ho pro sebe. Příběh o temporální extrakci je krytí.\n\nNeme šeptá: „Reklamuje od ostatních, co nemůže vypěstovat sama. Ale tentokrát si chce úrodu ponechat."`,
         options: {
             your_chapter_didnt_send_you_for_the_toadlet_did_th: "Vaše kapitula vás pro Ropušátko neposlala, že?",
             keep_this_to_yourself_for_now: "[Nechat si to zatím pro sebe.]",
@@ -233,7 +233,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_caught: {
-        text: `Její klid praskne — jen na okamžik. Ruka se pohne k lahvičce u opasku, pak klesne.\n\n„Jak jste — " Zastaví se. Zhluboka se nadechne. „Máte čtečku. Nějaký bio-senzorický symbiont. Reklamátoři takové studovali."\n\nZtiší hlas. „Dobře. Ropušátko není pro kapitulu. Mám... temporální vertigo. Ztrácím čas. Tři minuty předvídavosti by mi pomohly zakotvit se. Kapitula neví.\n\nMění to něco mezi námi?"`,
+        text: `Její klid praskne – jen na okamžik. Ruka se pohne k lahvičce u opasku, pak klesne.\n\n„Jak jste – " Zastaví se. Zhluboka se nadechne. „Máte čtečku. Nějaký bio-senzorický symbiont. Reklamátoři takové studovali."\n\nZtiší hlas. „Dobře. Ropušátko není pro kapitulu. Mám... temporální vertigo. Ztrácím čas. Tři minuty předvídavosti by mi pomohly zakotvit se. Kapitula neví.\n\nMění to něco mezi námi?"`,
         options: {
             it_does_drop_the_toadlet_bid_or_i_tell_the_room: "Mění. Vzdejte se dražby Ropušátka, nebo to řeknu celému sálu.",
             your_secret_is_safe_but_stay_away_from_the_toadlet: "Vaše tajemství je v bezpečí. Ale vyhněte se Ropušátku.",
@@ -242,7 +242,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_blackmail: {
-        text: `Její čelist ztuhne. Houbová vlákna v jejím rouchu jako by ztmavla.\n\n„Odhalil byste zdravotní stav, abyste vyhrál aukci? To je... myšlení Rezavého chóru. Rozklad jako páka."\n\nDlouhý moment mlčí. „Dobře. Ropušátko je vaše. Soustředím se na snové vejce. Ale pamatujte si — Reklamátoři jádra mají dlouhou paměť a velmi specifické metody extrakce.\n\nNedělejte si z naší kapituly nepřítele lehkovážně."`,
+        text: `Její čelist ztuhne. Houbová vlákna v jejím rouchu jako by ztmavla.\n\n„Odhalil byste zdravotní stav, abyste vyhrál aukci? To je... myšlení Rezavého chóru. Rozklad jako páka."\n\nDlouhý moment mlčí. „Dobře. Ropušátko je vaše. Soustředím se na snové vejce. Ale pamatujte si – Reklamátoři jádra mají dlouhou paměť a velmi specifické metody extrakce.\n\nNedělejte si z naší kapituly nepřítele lehkovážně."`,
     },
 
     calyx_mercy: {
@@ -257,34 +257,34 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_thorne: {
-        text: `Necháte Thorne-Stillův rozklad šeptat ven — cílený pulz kognitivní zmatenosti namířený na Sestru Calyx.\n\nJejí oči se na moment zamlží. Zamrká, dotkne se spánku. „Já... snové vejce. Ne — Ropušátko. Ne, to..." Odmlčí se, její pečlivě připravená dražební strategie se rozpouští v mlze.\n\n„Omluvte mě. Potřebuji chvilku." Odstoupí od položek, viditelně zmatená, pro které věci sem vlastně přišla.\n\nJejí dražební priority jsou pomotané. Bude méně efektivní jako konkurentka u jakékoli položky.`,
+        text: `Necháte Thorne-Stillův rozklad šeptat ven – cílený pulz kognitivní zmatenosti namířený na Sestru Calyx.\n\nJejí oči se na moment zamlží. Zamrká, dotkne se spánku. „Já... snové vejce. Ne – Ropušátko. Ne, to..." Odmlčí se, její pečlivě připravená dražební strategie se rozpouští v mlze.\n\n„Omluvte mě. Potřebuji chvilku." Odstoupí od položek, viditelně zmatená, pro které věci sem vlastně přišla.\n\nJejí dražební priority jsou pomotané. Bude méně efektivní jako konkurentka u jakékoli položky.`,
         options: {
             continue: "Pokračovat.",
         }
     },
 
     calyx_thorne_after: {
-        text: `Sestra Calyx stojí mírně stranou od ostatních hostů a masíruje si spánky. Houbová vlákna v jejím rouchu pulzují nepravidelně — i ta jako by byla zmatená.\n\n„Jsem v pořádku," říká nikomu konkrétnímu. „Jen se... přizpůsobuju atmosféře."`,
+        text: `Sestra Calyx stojí mírně stranou od ostatních hostů a masíruje si spánky. Houbová vlákna v jejím rouchu pulzují nepravidelně – i ta jako by byla zmatená.\n\n„Jsem v pořádku," říká nikomu konkrétnímu. „Jen se... přizpůsobuju atmosféře."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
     calyx_mirage: {
-        text: `Sáhnete po Ulvarexově moci a utkaete jemnou iluzi — fantomového aukčního úředníka přistupujícího k Sestře Calyx s naléhavou zprávou.\n\n„Sestro Calyx? Zpráva z vaší kapituly. Prioritní odvolání — jste potřebná v extrakční laboratoři okamžitě." Iluzorní úředník podá přesvědčivý dopis zapečetěný jádrem.\n\nCalyxin obličej pohasne. „Teď? Ale aukce—" Natáhne ruku po dopise a projde skrz. Iluze se zatřpytí a rozpustí.\n\nZírá na místo, kde úředník stál. Pak na vás. Ví.\n\n„Iluzionista. Jak... kreativní." Její klid vytrvá, ale je otřesená. Pokud dokážete vyčarovat fantomové úředníky, co dalšího může být falešné? Položky? Ostatní dražitelé? Bude zpochybňovat všechno.`,
+        text: `Sáhnete po Ulvarexově moci a utkaete jemnou iluzi – fantomového aukčního úředníka přistupujícího k Sestře Calyx s naléhavou zprávou.\n\n„Sestro Calyx? Zpráva z vaší kapituly. Prioritní odvolání – jste potřebná v extrakční laboratoři okamžitě." Iluzorní úředník podá přesvědčivý dopis zapečetěný jádrem.\n\nCalyxin obličej pohasne. „Teď? Ale aukce–" Natáhne ruku po dopise a projde skrz. Iluze se zatřpytí a rozpustí.\n\nZírá na místo, kde úředník stál. Pak na vás. Ví.\n\n„Iluzionista. Jak... kreativní." Její klid vytrvá, ale je otřesená. Pokud dokážete vyčarovat fantomové úředníky, co dalšího může být falešné? Položky? Ostatní dražitelé? Bude zpochybňovat všechno.`,
         options: {
             continue: "Pokračovat.",
         }
     },
 
     calyx_mirage_after: {
-        text: `Sestra Calyx stojí u položek, ale už je nezkoumá s klinickou přesností. Její oči neustále skenují místnost — kontrolují, jestli ještě něco dalšího není iluze.\n\n„Šikovný trik," zamumlá, když se přiblížíte. „Ale triky fungují oběma směry. Reklamátoři jádra studují iluze taky, víte. Extrahujeme je."`,
+        text: `Sestra Calyx stojí u položek, ale už je nezkoumá s klinickou přesností. Její oči neustále skenují místnost – kontrolují, jestli ještě něco dalšího není iluze.\n\n„Šikovný trik," zamumlá, když se přiblížíte. „Ale triky fungují oběma směry. Reklamátoři jádra studují iluze taky, víte. Extrahujeme je."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
-    // ——— Heartbroker Lune ———
+    // ––– Heartbroker Lune –––
     lune_start: {
         text: {
             lune_start_exposed: `Srdcokupec Lune drží jednu rukavicí krytou ruku nad nejmenším srdcem ve svém skleněném postroji. Tepe mimo rytmus ostatních, teď už střežené.\n\n„Poslouchal jste příliš pozorně," říká. „Neme, že? Nezdvořilý talent. Velmi cenný. Prosím, nemiřte jím na mě znovu, pokud za to nemíníte zaplatit."`,
@@ -310,7 +310,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     lune_bidding: {
-        text: `„Komprimovanou nostalgii, samozřejmě. Celá sklenice stesku po domově, který nikdy neexistoval? Lahodné. Snové vejce možná, pokud nese dost katedrální hrůzy. Solopis také, i když je to méně artefakt než vlhký archiv čekající na tělo. Dokonce i Ropušátko mě trochu zajímá — předvídavost má chuť paniky, když ji používají zbabělci."\n\nMalé zelené srdce v jejím postroji začne bít rychleji. Náhle cítíte majetnické vzrušení, pak vám zmizí z hrudi a usadí se za jejími žebry.\n\n„Nekoupím všechno. Jen to, co zpívá ve správné emoční tónině."`,
+        text: `„Komprimovanou nostalgii, samozřejmě. Celá sklenice stesku po domově, který nikdy neexistoval? Lahodné. Snové vejce možná, pokud nese dost katedrální hrůzy. Solopis také, i když je to méně artefakt než vlhký archiv čekající na tělo. Dokonce i Ropušátko mě trochu zajímá – předvídavost má chuť paniky, když ji používají zbabělci."\n\nMalé zelené srdce v jejím postroji začne bít rychleji. Náhle cítíte majetnické vzrušení, pak vám zmizí z hrudi a usadí se za jejími žebry.\n\n„Nekoupím všechno. Jen to, co zpívá ve správné emoční tónině."`,
         options: {
             what_makes_an_emotional_key_correct: "Co dělá emoční tóninu správnou?",
             i_have_other_questions: "Mám další otázky.",
@@ -325,7 +325,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     lune_wrong_context: {
-        text: `Nakloníte se blíž a nabídnete sebejistou lež: Snové vejce vůbec není nasáklé hrůzou. Aukční personál ho špatně označil. Jeho dominantním kontextem je byrokratické uspokojení — schválené formuláře, srovnané kartotéky, každé razítko dopadající přesně na místo.\n\nLune lehce ucukne. Tři srdce v jejím postroji zpomalí do zklamaného plazení.\n\n„Administrativní obsah? V katedrálním kameni? Jak vulgární." Znovu se podívá k položkám a přepočítává. „Budu muset ověřit všechno. Pomalu. S podezřením."\n\nJejí jistota je otrávena. Bude méně rozhodná dražitelka.`,
+        text: `Nakloníte se blíž a nabídnete sebejistou lež: Snové vejce vůbec není nasáklé hrůzou. Aukční personál ho špatně označil. Jeho dominantním kontextem je byrokratické uspokojení – schválené formuláře, srovnané kartotéky, každé razítko dopadající přesně na místo.\n\nLune lehce ucukne. Tři srdce v jejím postroji zpomalí do zklamaného plazení.\n\n„Administrativní obsah? V katedrálním kameni? Jak vulgární." Znovu se podívá k položkám a přepočítává. „Budu muset ověřit všechno. Pomalu. S podezřením."\n\nJejí jistota je otrávena. Bude méně rozhodná dražitelka.`,
         options: {
             continue: "Pokračovat.",
         }
@@ -350,7 +350,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
         }
     },
 
-    // ——— Heir to the Yellow Aquarium ———
+    // ––– Heir to the Yellow Aquarium –––
     heir_start: {
         text: {
             heir_start_disrupted: `Dědic Žlutého akvária stojí naprosto nehybně, ale rybí embrya unášená v jeho průsvitném trupu se už nepohybují v ladných hejnech. Jemně do sebe narážejí, vyplašená proudy, které neexistují.\n\nPod jeho kůží pulzuje slabé žluté světlo: otázka, bolest, rekalibrace. Když promluvíte, nedívá se na vaše ústa. Sleduje vibraci, která vám prochází hrdlem.`,
@@ -395,12 +395,12 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
         }
     },
 
-    // ——— The Silence Beneath the Stairwell ———
+    // ––– The Silence Beneath the Stairwell –––
     silence_start: {
         text: {
-            silence_start_after_neme: `Malé temné stvoření se přesunulo ještě blíž ke zdi. Pod kapucovitým stínem není vidět téměř žádná tvář — jen náznak úst, která zapomněla svůj účel.\n\nKdyž se přiblížíte, zvedne dva prsty, jeden sklopí a pak ukáže k podlaze pod vašima nohama. Neme se neklidně zachvěje. Ani teď se gesto odmítá proměnit ve význam.`,
+            silence_start_after_neme: `Malé temné stvoření se přesunulo ještě blíž ke zdi. Pod kapucovitým stínem není vidět téměř žádná tvář – jen náznak úst, která zapomněla svůj účel.\n\nKdyž se přiblížíte, zvedne dva prsty, jeden sklopí a pak ukáže k podlaze pod vašima nohama. Neme se neklidně zachvěje. Ani teď se gesto odmítá proměnit ve význam.`,
             silence_start_return: `Ticho pod schodištěm vás vezme na vědomí, aniž vzhlédne. Z rukávu se vysunou tři prsty, zastaví se a zase zmizí.\n\nNenásleduje žádný zvuk. Ta nepřítomnost působí záměrně, tvarovaně, téměř gramaticky.`,
-            silence_start_first: `Tam, kde stín aukční síně u stěny houstne, dřepí malé temné stvoření. Nemá téměř žádnou viditelnou tvář — jen měkké přerušení tmy tam, kde by měly být rysy.\n\nNa kartičce vedle něj stojí: Ticho pod schodištěm.\n\nNepozdraví vás. Zvedne úzkou ruku a signalizuje dvěma prsty, pak pěti, pak žádným. Kdesi poblíž uprostřed věty umře rozhovor.`,
+            silence_start_first: `Tam, kde stín aukční síně u stěny houstne, dřepí malé temné stvoření. Nemá téměř žádnou viditelnou tvář – jen měkké přerušení tmy tam, kde by měly být rysy.\n\nNa kartičce vedle něj stojí: Ticho pod schodištěm.\n\nNepozdraví vás. Zvedne úzkou ruku a signalizuje dvěma prsty, pak pěti, pak žádným. Kdesi poblíž uprostřed věty umře rozhovor.`,
         },
         options: {
             what_are_you_bidding_on: "Na co dražíte?",
@@ -447,9 +447,9 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
         }
     },
 
-    // ——— Auction Flow ———
+    // ––– Auction Flow –––
     auction_start: {
-        text: `Hesh udeří do malého bronzového zvonku. Vell artikuluje zvuk o půl úderu později, jako by i kov musel poslouchat jejich rytmus. Rozhovory umlknou. Ruce se složí. Aukce začíná.\n\n„První položka," oznámí Hesh. „Membrána Solopisu — spící symbiontní tkáň uchovaná v minerálním solném roztoku. Platí volitelná hostitelská upozornění. Dražba začíná."`,
+        text: `Hesh udeří do malého bronzového zvonku. Vell artikuluje zvuk o půl úderu později, jako by i kov musel poslouchat jejich rytmus. Rozhovory umlknou. Ruce se složí. Aukce začíná.\n\n„První položka," oznámí Hesh. „Membrána Solopisu – spící symbiontní tkáň uchovaná v minerálním solném roztoku. Platí volitelná hostitelská upozornění. Dražba začíná."`,
         options: {
             continue_to_the_toadlet_lot: "Pokračovat k položce s Ropušátkem.",
             bid_on_the_brine_scripture: "Dražit Solopis.",

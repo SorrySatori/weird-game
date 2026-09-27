@@ -1,5 +1,5 @@
 /**
- * Czech dialog translations — aggregator
+ * Czech dialog translations – aggregator
  * Each scene gets its own file for maintainability.
  */
 import entryScene from './EntryScene.js';

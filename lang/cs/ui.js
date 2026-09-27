@@ -1,5 +1,5 @@
 /**
- * Czech UI strings — nabídky, tlačítka, štítky, HUD, ukládání/načítání
+ * Czech UI strings – nabídky, tlačítka, štítky, HUD, ukládání/načítání
  */
 export default {
     ui: {

@@ -26,7 +26,7 @@ export default {
         }
     },
     kloor_substances: {
-        text: "'Specializuji se na Oltrac — vzácnou psychoaktivní sloučeninu získávanou z určitých... biologických materiálů.' Se zájmem si prohlíží tvé houbové výrůstky. 'Materiálů ne nepodobných tomu, co zjevně roste na tobě.'",
+        text: "'Specializuji se na Oltrac – vzácnou psychoaktivní sloučeninu získávanou z určitých... biologických materiálů.' Se zájmem si prohlíží tvé houbové výrůstky. 'Materiálů ne nepodobných tomu, co zjevně roste na tobě.'",
         options: {
             tell_me_more_about_oltrac: "Řekněte mi víc o Oltracu",
             back: "Zeptej se na něco jiného"
@@ -41,7 +41,7 @@ export default {
         }
     },
     kloor_selling: {
-        text: "'Obchoduji s Oltracem — nejlepší látkou na rozšíření mysli na celém Voxmarketu. Otevírá tvé vnímání pravé podstatě reality.' Ztlumí hlas. 'Máš zájem o koupi? Nebo snad... chceš mi prodat něco z vlastních spor?'",
+        text: "'Obchoduji s Oltracem – nejlepší látkou na rozšíření mysli na celém Voxmarketu. Otevírá tvé vnímání pravé podstatě reality.' Ztlumí hlas. 'Máš zájem o koupi? Nebo snad... chceš mi prodat něco z vlastních spor?'",
         options: {
             show_me_what_you_have: "Ukažte, co máte",
             i_could_sell_you_some_spores: "Mohl bych vám prodat nějaké spory",
@@ -80,15 +80,15 @@ export default {
         options: { ok: "OK" }
     },
     kloor_gray_oltrac_8: {
-        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac — běžné zboží. Ujde to.' Podá ti 8 dinárů. 'Bylo mi potěšením.'",
+        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac – běžné zboží. Ujde to.' Podá ti 8 dinárů. 'Bylo mi potěšením.'",
         options: { thanks: "Díky" }
     },
     kloor_gray_oltrac_16: {
-        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac — běžné zboží. Ujde to.' Podá ti 16 dinárů. 'Bylo mi potěšením.'",
+        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac – běžné zboží. Ujde to.' Podá ti 16 dinárů. 'Bylo mi potěšením.'",
         options: { thanks: "Díky" }
     },
     kloor_gray_oltrac_24: {
-        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac — běžné zboží. Ujde to.' Podá ti 24 dinárů. 'Bylo mi potěšením.'",
+        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac – běžné zboží. Ujde to.' Podá ti 24 dinárů. 'Bylo mi potěšením.'",
         options: { thanks: "Díky" }
     },
     kloor_violet_oltrac_15: {
@@ -104,15 +104,15 @@ export default {
         options: { thanks: "Díky" }
     },
     kloor_amber_oltrac_25: {
-        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě ti napočítá 25 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
+        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac – nejkvalitnější druh!' Dychtivě ti napočítá 25 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
         options: { thanks: "Díky" }
     },
     kloor_amber_oltrac_50: {
-        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě ti napočítá 50 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
+        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac – nejkvalitnější druh!' Dychtivě ti napočítá 50 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
         options: { thanks: "Díky" }
     },
     kloor_amber_oltrac_75: {
-        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac — nejkvalitnější druh!' Dychtivě ti napočítá 75 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
+        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac – nejkvalitnější druh!' Dychtivě ti napočítá 75 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
         options: { thanks: "Díky" }
     },
     kloor_bishop: {
@@ -124,7 +124,7 @@ export default {
         }
     },
     kloor_sulkberry_analyze: {
-        text: "Kloor chytne vzorek mručenky obratně mezi prsty, otáčí jí mezi palcem a ukazováčkem. Přičichne, pak z kabátu vytáhne malou skleněnou nádobu a rozdrtí do ní úlomek. Kapalina se zbarví do husté, jantarové barvy.\n\n'Kořeněná mručenka. Prémiová kvalita — toto je zboží Direktorátu, bez pochyb. Alkaloidní profil je...' Zvedne nádobu proti světlu. '...učebnicový.'\n\nOdloží nádobu. 'S tímhle není nic špatně. Žádné příměsi, žádné toxiny, žádné cizí látky.'",
+        text: "Kloor chytne vzorek mručenky obratně mezi prsty, otáčí jí mezi palcem a ukazováčkem. Přičichne, pak z kabátu vytáhne malou skleněnou nádobu a rozdrtí do ní úlomek. Kapalina se zbarví do husté, jantarové barvy.\n\n'Kořeněná mručenka. Prémiová kvalita – toto je zboží Direktorátu, bez pochyb. Alkaloidní profil je...' Zvedne nádobu proti světlu. '...učebnicový.'\n\nOdloží nádobu. 'S tímhle není nic špatně. Žádné příměsi, žádné toxiny, žádné cizí látky.'",
         options: {
             photosentience_read_kloors_biosignals_for_deceptio: "[Fotosenzitivita] Číst Kloorovy biosignály kvůli podvodu.",
             youre_sure_your_reputation_is_on_the_line: "Jste si jistý? Je to o vaši reputaci.",
@@ -132,13 +132,13 @@ export default {
         }
     },
     kloor_sulkberry_neme: {
-        text: "Necháš vědomí Neme prosáknout ven a číst síť biosignálů kolem Kloorovy nervové soustavy. Zájem — upřímný, vědecký zájem. Profesní hrdost z jeho analýzy. Záblesk oportunismu, přemýšlející, jestli by vám nemohl účtovat za konzultaci. Ale žádný podvod. Žádné zatajování.\n\nNeme mrumlá: 'Obchodník s drogami je spousta věcí, ale lhář ohledně chemie není. Bude se to zdát divné, ale jeho profesní čest by mu to nedovolila.'\n\nKloorova analýza je upřímná. Mručenky jsou čisté.",
+        text: "Necháš vědomí Neme prosáknout ven a číst síť biosignálů kolem Kloorovy nervové soustavy. Zájem – upřímný, vědecký zájem. Profesní hrdost z jeho analýzy. Záblesk oportunismu, přemýšlející, jestli by vám nemohl účtovat za konzultaci. Ale žádný podvod. Žádné zatajování.\n\nNeme mrumlá: 'Obchodník s drogami je spousta věcí, ale lhář ohledně chemie není. Bude se to zdát divné, ale jeho profesní čest by mu to nedovolila.'\n\nKloorova analýza je upřímná. Mručenky jsou čisté.",
         options: {
             good_to_know_thanks_kloor: "Dobré vědět. Díky, Kloore."
         }
     },
     kloor_sulkberry_sure: {
-        text: "'Moje reputace JE moje živobytí.' Kloor vypadá téměř uraženě. 'Analyzuji alkaloidní sloučeniny celé roky. Vím, jak vypadá kontaminace — ať už podle barvy nebo krystalické struktury.\n\nTyhle plody jsou nedotčené.'",
+        text: "'Moje reputace JE moje živobytí.' Kloor vypadá téměř uraženě. 'Analyzuji alkaloidní sloučeniny celé roky. Vím, jak vypadá kontaminace – ať už podle barvy nebo krystalické struktury.\n\nTyhle plody jsou nedotčené.'",
         options: {
             back: "Zeptej se na něco jiného"
         }
@@ -151,7 +151,7 @@ export default {
         }
     },
     kloor_bishop_trading: {
-        text: "'To je vlastně dost zajímavý.' Kloor se nakloní blíž. 'Měla podivnou měnu — říká se jim Vestigely. Nejsou jako běžné peníze. Jsou vzácné, experimentální. Prý mají… určité vlastnosti. Mám pocit, že obchodnice jménem Zerren prý jeden takový měla.'",
+        text: "'To je vlastně dost zajímavý.' Kloor se nakloní blíž. 'Sháněla čočku – optiku ze snové helmy – a nabízela Vestigel každému, kdo by jí ji sehnal. Vestigel! Vzácná, experimentální věc; prý mají… určité vlastnosti. Čočku tady nikdo neměl, tak nakonec nakoupila drobnou elektroniku za obyčejné dináry a šla. Ale rozkřiklo se to. A obchodnice jménem Zerren náhodou jeden Vestigel má taky – ne od Biskupky, to ne.'",
         options: {
             tell_me_more_about_these_vestigels: "Řekněte mi víc o těch Vestigelech",
             thanks_for_the_information: "Díky za informaci"
@@ -176,7 +176,7 @@ export default {
         options: { ok: "OK" }
     },
     kloor_vestigels_quest_info: {
-        text: "'Zerren má nebo měla jeden Vestigel. Obvykle bývá na tržnici. To je jediný, o kterém něco vím — kde skončily zbylé dva, to se neví. Sežeň mi ten od Zerren a já ti řeknu, co potřebuješ vědět o Biskupce.'",
+        text: "'Zerren má nebo měla jeden Vestigel. Obvykle bývá na tržnici. To je jediný, o kterém něco vím – kde skončily zbylé dva, to se neví. Sežeň mi ten od Zerren a já ti řeknu, co potřebuješ vědět o Biskupce.'",
         options: {
             ill_find_one_for_you: "Seženu vám ho"
         }

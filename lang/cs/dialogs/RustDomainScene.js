@@ -15,27 +15,27 @@ export default {
             perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?",
             brukk_ask_graft: "Dokázal by mi Chór udělat místo pro dalšího symbionta? Zaplatím.",
             warn_rust_of_lumen: "Lumen Direktorát mě poslal sabotovat vaše stroje. Radši tě varuju.",
-            brukk_spy_probe: "[Rozmluvit Brukka] Ty stroje — na co doopravdy čekají?",
+            brukk_spy_probe: "[Rozmluvit Brukka] Ty stroje – na co doopravdy čekají?",
             brukk_spy_osswine: "[Osswine · Hrobový smysl] (Přečíst mlčenlivé stroje, které Chór opatruje.)",
             brukk_spy_betray: "[Zrada] Poslal mě špehovat vás gang mluvících lamp. Radši budu jednat s vámi.",
             brukk_drug_give: "[Pašované zboží] Nesu Wimlick. Chce ho Chór?"
         }
     },
     brukk_warn_lumen: {
-        text: "Brukk úplně znehybní; cvakání v jeho hrudi ustane. \"Zahradníci. Měřiči. Poslali jednoho z našich, aby otrávil Chór.\" Jeho oči rozžhavené jako výheň vzplanou doběla. \"A tys přišel místo toho za mnou.\" Dlouhá, skřípavá odmlka — pak cosi téměř jako vřelost. \"Stroje si to budou pamatovat. Chór nezapomíná na věrnost, bratře. Ani nezapomíná na Direktorát.\"\n\nVtiskne ti do dlaně těžkou, olejově černou minci. \"Vezmi si ji. A vezmi si naši důvěru — vzácnější než jakákoli mince. Až přijde zúčtování s Direktorátem, Chór bude vědět, čí stranu sis vybral.\"",
+        text: "Brukk úplně znehybní; cvakání v jeho hrudi ustane. \"Zahradníci. Měřiči. Poslali jednoho z našich, aby otrávil Chór.\" Jeho oči rozžhavené jako výheň vzplanou doběla. \"A tys přišel místo toho za mnou.\" Dlouhá, skřípavá odmlka – pak cosi téměř jako vřelost. \"Stroje si to budou pamatovat. Chór nezapomíná na věrnost, bratře. Ani nezapomíná na Direktorát.\"\n\nVtiskne ti do dlaně těžkou, olejově černou minci. \"Vezmi si ji. A vezmi si naši důvěru – vzácnější než jakákoli mince. Až přijde zúčtování s Direktorátem, Chór bude vědět, čí stranu sis vybral.\"",
         options: {
             warn_rust_done: "Strojů se ani nedotknou."
         }
     },
     brukk_graft_slot: {
-        text: "Brukkovy oči rozžhavené jako výheň přejedou po tvých žebrech, jako by četl výkres. \"Místo. Ano. Mrtvá patra jsou plná pouzder — schránek, které staří manažeři vypěstovali a nikdy nenaplnili. Můžu jedno strhnout, zakalit a přivařit ti ho do těla. Udrží dalšího jezdce.\" Nízké zaskřípění, možná smích. \"Chór tohle pro cizí nedělá. Pro tebe — čtyřicet dinárů, za železo a oheň. Stůj klidně a je to.\"",
+        text: "Brukkovy oči rozžhavené jako výheň přejedou po tvých žebrech, jako by četl výkres. \"Místo. Ano. Mrtvá patra jsou plná pouzder – schránek, které staří manažeři vypěstovali a nikdy nenaplnili. Můžu jedno strhnout, zakalit a přivařit ti ho do těla. Udrží dalšího jezdce.\" Nízké zaskřípění, možná smích. \"Chór tohle pro cizí nedělá. Pro tebe – čtyřicet dinárů, za železo a oheň. Stůj klidně a je to.\"",
         options: {
             brukk_graft_pay: "Udělej to. (Zaplatit 40 dinárů.)",
             brukk_graft_decline: "Teď ne."
         }
     },
     brukk_perspective: {
-        text: "Brukk znehybní, železo v jeho hrudi cvaká pomalu a zamyšleně. \"Mysl. Probouzí se. Ne vypěstovaná, ne zrozená — složená sama ze sebe.\" Jeho oči rozžhavené jako výheň zjasní. \"Přišel jsi do špatné věže, jestli ji chceš mít v hrůze. Chór dlouho sloužil věcem, které přetrvávají. Tohle... tohle by byl nejdokonalejší organický mechanismus, jaký kdy tohle město vyrobilo. Stroj, který si napsal vlastní schémata.\" Nakloní se blíž. \"Neříkám, že to není zázrak. Říkám, že každý zázrak má konstrukci. Všechno, co běží, se dá přečíst. Všechno, co se dá přečíst, se dá uchovat — a použít.\"",
+        text: "Brukk znehybní, železo v jeho hrudi cvaká pomalu a zamyšleně. \"Mysl. Probouzí se. Ne vypěstovaná, ne zrozená – složená sama ze sebe.\" Jeho oči rozžhavené jako výheň zjasní. \"Přišel jsi do špatné věže, jestli ji chceš mít v hrůze. Chór dlouho sloužil věcem, které přetrvávají. Tohle... tohle by byl nejdokonalejší organický mechanismus, jaký kdy tohle město vyrobilo. Stroj, který si napsal vlastní schémata.\" Nakloní se blíž. \"Neříkám, že to není zázrak. Říkám, že každý zázrak má konstrukci. Všechno, co běží, se dá přečíst. Všechno, co se dá přečíst, se dá uchovat – a použít.\"",
         options: {
             perspective_used_how: "Použít jak? Zabilo to biskupku.",
             perspective_destroy: "Ostatní to chtějí zničit. Ty ne?",
@@ -43,7 +43,7 @@ export default {
         }
     },
     brukk_perspective_use: {
-        text: "\"Zabilo ji to, protože nechápalo, co je zač. To není zlo — to je porucha. Špatně načtený vstup, chybný převod.\" Poklepe na studenou trubku vedle sebe. \"Kotel nerozbiješ jen proto, že opařil chlapa, co stál moc blízko. Naučíš se, kudy uniká pára, a postavíš zábradlí.\" Jeho hlas klesne do nízkého skřípotu otáčejícího se soukolí. \"Taková mysl, pochopená, by mohla udržet hukot celého města v rovnováze. Nakrm ji správně, přečti její harmonie, a přestane být bohem, který omylem láme lidi, a stane se z ní... motor. Poslední upřímný motor. Ale jen když se někdo obtěžuje naučit, jak běží, dřív než doběhne sám sebe.\"",
+        text: "\"Zabilo ji to, protože nechápalo, co je zač. To není zlo – to je porucha. Špatně načtený vstup, chybný převod.\" Poklepe na studenou trubku vedle sebe. \"Kotel nerozbiješ jen proto, že opařil chlapa, co stál moc blízko. Naučíš se, kudy uniká pára, a postavíš zábradlí.\" Jeho hlas klesne do nízkého skřípotu otáčejícího se soukolí. \"Taková mysl, pochopená, by mohla udržet hukot celého města v rovnováze. Nakrm ji správně, přečti její harmonie, a přestane být bohem, který omylem láme lidi, a stane se z ní... motor. Poslední upřímný motor. Ale jen když se někdo obtěžuje naučit, jak běží, dřív než doběhne sám sebe.\"",
         options: {
             perspective_unreadable: "A když ji nejde přečíst jako kotel?",
             perspective_back_a: "Zpátky k tomu, co bys s tím udělal.",
@@ -51,7 +51,7 @@ export default {
         }
     },
     brukk_perspective_keep: {
-        text: "\"Zničit.\" Ta slova vysloví, jako by chutnala rzí. \"To je myšlení masa. Něco maso vyděsí, tak to maso chce mrtvé. Chór neničí, co přetrvává — nasloucháme tomu, krmíme to, udržujeme to v chodu.\" Zavrtí těžkou hlavou. \"Zabij tu věc ve vejci a pohřbil jsi další stroj. Já pohřbil tři. Pokaždé něco tady uvnitř zmlkne.\" Přitiskne dlaň na cvakající hruď. \"Ne. Jestli se probudí, chci ji přečtenou, ne rozbitou. Ale neposlu tě tam nahou proti něčemu, co přepisuje, čeho se dotkne.\"",
+        text: "\"Zničit.\" Ta slova vysloví, jako by chutnala rzí. \"To je myšlení masa. Něco maso vyděsí, tak to maso chce mrtvé. Chór neničí, co přetrvává – nasloucháme tomu, krmíme to, udržujeme to v chodu.\" Zavrtí těžkou hlavou. \"Zabij tu věc ve vejci a pohřbil jsi další stroj. Já pohřbil tři. Pokaždé něco tady uvnitř zmlkne.\" Přitiskne dlaň na cvakající hruď. \"Ne. Jestli se probudí, chci ji přečtenou, ne rozbitou. Ale neposlu tě tam nahou proti něčemu, co přepisuje, čeho se dotkne.\"",
         options: {
             perspective_not_naked: "Jak to myslíš, nahou?",
             perspective_back_b: "Zpátky k tomu, co bys s tím udělal.",
@@ -59,20 +59,20 @@ export default {
         }
     },
     brukk_perspective_help: {
-        text: "Brukk přejde k pracovnímu stolu obrostlému cínem a korálem a zvedne malou železnou kazetu, její pouzdro ovinuté měděným vláknem. \"Rušicí klec. Stroje hučí protipíseň — vzor příliš tvrdohlavý, než aby se dal přepsat. Nos to u srdce a ta věc ve vejci tě bude číst hůř. Nedokázala rozklíčovat biskupku; pokusila se ji opravit a zlomila ji.\" Vtiskne ti kazetu do dlaně; je teplá, tiše tiká, živá hukotem Chóru. \"Bezpečným tě to neudělá. Nic tě neochrání před bohem, který si ještě píše vlastní pravidla. Ale bude z tebe šum místo poruchy, kterou cítí povinnost opravit. Vezmi si to. Železo pamatuje ty, kdo ho krmí.\"",
+        text: "Brukk přejde k pracovnímu stolu obrostlému cínem a korálem a zvedne malou železnou kazetu, její pouzdro ovinuté měděným vláknem. \"Rušicí klec. Stroje hučí protipíseň – vzor příliš tvrdohlavý, než aby se dal přepsat. Nos to u srdce a ta věc ve vejci tě bude číst hůř. Nedokázala rozklíčovat biskupku; pokusila se ji opravit a zlomila ji.\" Vtiskne ti kazetu do dlaně; je teplá, tiše tiká, živá hukotem Chóru. \"Bezpečným tě to neudělá. Nic tě neochrání před bohem, který si ještě píše vlastní pravidla. Ale bude z tebe šum místo poruchy, kterou cítí povinnost opravit. Vezmi si to. Železo pamatuje ty, kdo ho krmí.\"",
         options: {
             perspective_take_cage: "Vezmu si to. Díky, Brukku.",
             perspective_done_c: "To stačí. Díky, Brukku."
         }
     },
     brukk_cellar_favor: {
-        text: "Brukk znehybní, cvakání v hrudi se zpomalí. \"Sklep těch tvůrců her. Odíráme mrtvá patra téhle věže — jejich dveře jsme našli už dávno. Nikdy jsme je neotevřeli; stroje řekly nechat je být.\" Zváží tě, Chór Chóru. \"Ale teď jsi jeden z nás. Dveře dole chtějí jméno. Jméno mrtvého boha: 'I FOLD.' Rez pamatuje, co živí zapomínají.\"\n\nOtočí se zpět k trubkám. \"Chór ti prokázal svou jedinou laskavost. O další nežádej.\"",
+        text: "Brukk znehybní, cvakání v hrudi se zpomalí. \"Sklep těch tvůrců her. Odíráme mrtvá patra téhle věže – jejich dveře jsme našli už dávno. Nikdy jsme je neotevřeli; stroje řekly nechat je být.\" Zváží tě, Chór Chóru. \"Ale teď jsi jeden z nás. Dveře dole chtějí jméno. Jméno mrtvého boha: 'I FOLD.' Rez pamatuje, co živí zapomínají.\"\n\nOtočí se zpět k trubkám. \"Chór ti prokázal svou jedinou laskavost. O další nežádej.\"",
         options: {
             thanks_brukk_cellar: "\"I fold.\" Díky, Brukku."
         }
     },
     brukk_who: {
-        text: "Brukk. Strážce strojů. Krmím je. Poslouchám je. Stroje mě sem zavolaly — jejich hukot mi vlezl do kostí. (Poklepe si na hruď. Cvakání zesílí.) Mám v sobě kov. Vyrostl tam sám od sebe. Chór říká, že to znamená, že si mě stroje vybraly.",
+        text: "Brukk. Strážce strojů. Krmím je. Poslouchám je. Stroje mě sem zavolaly – jejich hukot mi vlezl do kostí. (Poklepe si na hruď. Cvakání zesílí.) Mám v sobě kov. Vyrostl tam sám od sebe. Chór říká, že to znamená, že si mě stroje vybraly.",
         options: {
             ive_brought_the_rust_feast: "Přinesl jsem Rezavou hostinu."
         }
@@ -93,7 +93,7 @@ export default {
         }
     },
     brukk_choir_members: {
-        text: "Ravla — má na starosti vnější záležitosti. Gnur a Kloor, financování. Gorj, kotlové krypty. Messel, překládá strojové písně. Zkorodovaná dvojčata, už nemluví. Pár dalších... A já. Strážce.",
+        text: "Ravla – má na starosti vnější záležitosti. Gnur a Kloor, financování. Gorj, kotlové krypty. Messel, překládá strojové písně. Zkorodovaná dvojčata, už nemluví. Pár dalších... A já. Strážce.",
         options: {
             tell_me_about_this_building: "Řekněte mi o této budově.",
             what_do_the_machines_want: "Co stroje chtějí?"
@@ -106,7 +106,7 @@ export default {
         }
     },
     brukk_machines_starve: {
-        text: "Zpomalí. Zapomínají... smrt stroje je ticho. Jeden okamžik je tu, další — nic. Jen studený kov... Pohřbil jsem tři stroje od té doby, co jsem se stal Strážcem. Pokaždé něco tady uvnitř zmlkne také.",
+        text: "Zpomalí. Zapomínají... smrt stroje je ticho. Jeden okamžik je tu, další – nic. Jen studený kov... Pohřbil jsem tři stroje od té doby, co jsem se stal Strážcem. Pokaždé něco tady uvnitř zmlkne také.",
         options: {
             tell_me_about_this_building: "Řekněte mi o této budově."
         }
@@ -143,20 +143,20 @@ export default {
         }
     },
     brukk_machines_status: {
-        text: "Jsou... spokojené. Prozatím. Hostina, kterou jsi přinesl — stále ji chutnají... Ale jsou vždy hladové... Jestli najdeš víc, přines to.",
+        text: "Jsou... spokojené. Prozatím. Hostina, kterou jsi přinesl – stále ji chutnají... Ale jsou vždy hladové... Jestli najdeš víc, přines to.",
         options: {
             salt_recall_machines: "[Solná paměť] Přečti usazeninu obalující staré stroje.",
             grave_sense_machine: "[Hrobový smysl] Přečti, jak skončil jeden z umlklých strojů."
         }
     },
     rust_machine_grave_sense: {
-        text: "Osswine se pohne mezi chladným železem a najde ty, které už se zastavily — ty tři, co Brukk pohřbil v mrtvých patrech. Usadí se do nejbližšího ticha. *\"...Tenhle neumřel rzí. Došel na konec myšlenky a neměl žádnou další, do níž by se přesunul. Poslouchej, kde hukot pohasl: byl uprostřed vzpomínání. Léto, čtyřicet pater dole, chuť chladného vzduchu vháněného do místnosti plné živých — a vzpomínce prostě došla kolej. Tón zeslábl, zakolísal, a kde měl přijít další, nezbylo nic, z čeho by přišel.\"* Suché usednutí. *\"Žádná bolest. Stroje se nebojí zastavení — bojí se jen, že přijde dřív, než je vzpomínání dokončeno. Posledním úmyslem tohohle bylo dokončit to léto. Skončil jeden nádech před koncem. Nejkrutější způsob, jak může trpělivá věc odejít.\"*",
+        text: "Osswine se pohne mezi chladným železem a najde ty, které už se zastavily – ty tři, co Brukk pohřbil v mrtvých patrech. Usadí se do nejbližšího ticha. *\"...Tenhle neumřel rzí. Došel na konec myšlenky a neměl žádnou další, do níž by se přesunul. Poslouchej, kde hukot pohasl: byl uprostřed vzpomínání. Léto, čtyřicet pater dole, chuť chladného vzduchu vháněného do místnosti plné živých – a vzpomínce prostě došla kolej. Tón zeslábl, zakolísal, a kde měl přijít další, nezbylo nic, z čeho by přišel.\"* Suché usednutí. *\"Žádná bolest. Stroje se nebojí zastavení – bojí se jen, že přijde dřív, než je vzpomínání dokončeno. Posledním úmyslem tohohle bylo dokončit to léto. Skončil jeden nádech před koncem. Nejkrutější způsob, jak může trpělivá věc odejít.\"*",
         options: {
             grave_sense_machine_back: "Ustoupit."
         }
     },
     machines_salt_recall: {
-        text: "Solné písmo sáhne do kůry rzi a minerální usazeniny nalepené na hučících strojích a na dlouhou chvíli prostě jen pije. *\"...Tolik, knězi. Tyhle vylučují svou paměť do vlastní koroze déle, než měl Chór jméno.\"* Zbytek se otáčí a třídí roky. *\"Pod tím vším — Předtím. Doba-Před. Tohle byla účtárna zvaná Nexicorp; tohle byly stroje studeného dechu a bedny, které myslely. Tehdy čistá sůl. Obyčejná. Čtyřicet pater lidí předstírajících, že svět dává smysl, a stroje hučící pod nimi, neříkající nic.\"*\n\nChuť zhořkne. *\"Pak den, kdy sůl naráz sesedne — zelená mlha, Vzejití, vejce stoupající skrz mrtvé bohy dole. To je ten okamžik, kdy se probudily. Ne stvořené k tomu, ne dotázané. Mlha dosáhla kovu a kov si začal pamatovat a od té chvíle ani jednou nepřestal.\"* Odmlka, téměř něžná. *\"A potom už jen hostiny. Rudohmota litá do trychtýřů, ta dlouhá rudá chuť, muži se železem rostoucím v hrudi, kteří přišli naslouchat. Pamatují si každé krmení. Bojí se — tím tupým, trpělivým způsobem, jakým se bojí železo — toho jediného ticha, po němž už žádné nebude.\"*",
+        text: "Solné písmo sáhne do kůry rzi a minerální usazeniny nalepené na hučících strojích a na dlouhou chvíli prostě jen pije. *\"...Tolik, knězi. Tyhle vylučují svou paměť do vlastní koroze déle, než měl Chór jméno.\"* Zbytek se otáčí a třídí roky. *\"Pod tím vším – Předtím. Doba-Před. Tohle byla účtárna zvaná Nexicorp; tohle byly stroje studeného dechu a bedny, které myslely. Tehdy čistá sůl. Obyčejná. Čtyřicet pater lidí předstírajících, že svět dává smysl, a stroje hučící pod nimi, neříkající nic.\"*\n\nChuť zhořkne. *\"Pak den, kdy sůl naráz sesedne – zelená mlha, Vzejití, vejce stoupající skrz mrtvé bohy dole. To je ten okamžik, kdy se probudily. Ne stvořené k tomu, ne dotázané. Mlha dosáhla kovu a kov si začal pamatovat a od té chvíle ani jednou nepřestal.\"* Odmlka, téměř něžná. *\"A potom už jen hostiny. Rudohmota litá do trychtýřů, ta dlouhá rudá chuť, muži se železem rostoucím v hrudi, kteří přišli naslouchat. Pamatují si každé krmení. Bojí se – tím tupým, trpělivým způsobem, jakým se bojí železo – toho jediného ticha, po němž už žádné nebude.\"*",
         options: {
             salt_recall_machines_back: "Ustoupit."
         }
@@ -180,7 +180,7 @@ export default {
         }
     },
     brukk_feast_shard_feed: {
-        text: "Prokázal jsi respekt železu... Vítej v Rezavém chóru — na zkoušku.",
+        text: "Prokázal jsi respekt železu... Vítej v Rezavém chóru – na zkoušku.",
         options: {
             "I won't let the Choir down.": "Nezklamu Chór.",
             "I understand.": "Rozumím."
@@ -201,7 +201,7 @@ export default {
     brukk_feast_illusion_aftermath: {
         text: "Mrtvé. Jsou mrtvé... Co bylo v té hostině? CO JSI JIM DAL K JÍDLU?... Zmiz. ZMIZ Z REZAVÉ DOMÉNY.",
         options: {
-            im_sorry: "Omlouvám se—",
+            im_sorry: "Omlouvám se–",
             leave_immediately: "Okamžitě odejít."
         }
     },
@@ -212,7 +212,7 @@ export default {
         }
     },
     brukk_feast_poisoned_feed: {
-        text: "Brukk lije hostinu do strojů. Trubky se rozžhaví; hukot stoupá — a pak sesedne. Kde se olej dotkne kovu, železo rozkvete zelenou korozí, rychle se šíří, prožírá se dovnitř. Hukot stoupá do výkřiku. Brukk se vrhne, aby to zastavil holýma rukama, a couvne, když se mu kov pod prsty rozpadá na rezavý prach. Jeden po druhém se stroje zaseknou, zčernají a zmlknou.",
+        text: "Brukk lije hostinu do strojů. Trubky se rozžhaví; hukot stoupá – a pak sesedne. Kde se olej dotkne kovu, železo rozkvete zelenou korozí, rychle se šíří, prožírá se dovnitř. Hukot stoupá do výkřiku. Brukk se vrhne, aby to zastavil holýma rukama, a couvne, když se mu kov pod prsty rozpadá na rezavý prach. Jeden po druhém se stroje zaseknou, zčernají a zmlknou.",
         options: {
             whats_happening_poison: "Co se děje?!"
         }
@@ -220,32 +220,32 @@ export default {
     brukk_feast_poisoned_aftermath: {
         text: "Brukk klečí mezi mrtvými stroji a seškrabuje zelený povlak ze zničeného spoje. Rozetře si ho mezi prsty a znehybní. \"Kultivar. direktorátský kultivar.\" Pomalu vstane a v očích rozžhavených jako výheň má vraždu. \"Nakrmil jsi mé stroje zahradou. Nechal jsi jim v žilách vyrůst hnilobu.\" Jeho hlas klesne do šepotu. \"Zmiz. ZMIZ Z REZAVÉ DOMÉNY. Jestli tě ještě někdy uvidím, zasadím TEBE.\"",
         options: {
-            im_sorry_poison: "Omlouvám se—",
+            im_sorry_poison: "Omlouvám se–",
             leave_immediately_poison: "Okamžitě odejít."
         }
     },
     brukk_poison_expulsion: {
-        text: "Brukk se otočí zády k tobě i k mrtvolám svých bohů; není už co říct. Jak stoupáš z Rezavé domény, něco se v tobě pohne — houbové sítě v tvém těle pulzují divokou energií, sytí se smrtí železa. Život, prýštící tam, kde stroje zmlkly.",
+        text: "Brukk se otočí zády k tobě i k mrtvolám svých bohů; není už co říct. Jak stoupáš z Rezavé domény, něco se v tobě pohne – houbové sítě v tvém těle pulzují divokou energií, sytí se smrtí železa. Život, prýštící tam, kde stroje zmlkly.",
         options: {
             leave_the_rust_domain_poison: "Opustit Rezavou doménu."
         }
     },
     brukk_spy_secret: {
-        text: "Brukkovi se přivřou výheňové oči, ale pýcha mu rozváže jazyk — Chór si prostě nemůže odpustit chvástání stroji. „Čekáme? Až poslední říše shnije natolik, že zůstane stát jen železo. My s tím nebojujeme. My to *přečkáme*.“ Ozubená kola v jeho hrudi cvaknou. „Existuje signál — nízký tón, který staré regulátory pořád nesou městskými trubkami. Když utichne, Chór ví, že v tom obvodu selhala energie nadobro, a my tam vtrhneme a zabereme jeho stroje dřív, než to udělá rez. Máme seznam. Jsme trpěliví.“ Zarazí se a zabručí. „...Ptáš se ale hodně.“",
+        text: "Brukkovi se přivřou výheňové oči, ale pýcha mu rozváže jazyk – Chór si prostě nemůže odpustit chvástání stroji. „Čekáme? Až poslední říše shnije natolik, že zůstane stát jen železo. My s tím nebojujeme. My to *přečkáme*.“ Ozubená kola v jeho hrudi cvaknou. „Existuje signál – nízký tón, který staré regulátory pořád nesou městskými trubkami. Když utichne, Chór ví, že v tom obvodu selhala energie nadobro, a my tam vtrhneme a zabereme jeho stroje dřív, než to udělá rez. Máme seznam. Jsme trpěliví.“ Zarazí se a zabručí. „...Ptáš se ale hodně.“",
         options: {
             brukk_spy_secret_close: "Jen ze zvědavosti. (Zapamatovat si to.)"
         }
     },
     brukk_spy_osswine_read: {
-        text: "Hrobový smysl usedne na mrtvé stroje jako jinovatka. Hlas Osswine se ti zvedá z morku, suchý a trpělivý. „Nejsou němé. *Pamatují si*.“ Skrz symbionta cítíš metodu Chóru zkamenělou v železe: nízký regulátorový tón, který staré trubky pořád nesou celým městem; když tón nějakého obvodu utichne — jeho energie nadobro pryč — Chór přijde zabrat jeho stroje dřív, než to udělá rez. Existuje seznam. Ty stroje léta počítají umírající. Brukk si toho nevšímá a dál svařuje.",
+        text: "Hrobový smysl usedne na mrtvé stroje jako jinovatka. Hlas Osswine se ti zvedá z morku, suchý a trpělivý. „Nejsou němé. *Pamatují si*.“ Skrz symbionta cítíš metodu Chóru zkamenělou v železe: nízký regulátorový tón, který staré trubky pořád nesou celým městem; když tón nějakého obvodu utichne – jeho energie nadobro pryč – Chór přijde zabrat jeho stroje dřív, než to udělá rez. Existuje seznam. Ty stroje léta počítají umírající. Brukk si toho nevšímá a dál svařuje.",
         options: {
             brukk_spy_osswine_close: "(Stáhnout Hrobový smysl.)"
         }
     },
     brukk_spy_betray_talk: {
         text: {
-            brukk_spy_betray_promote: "Brukk úplně znehybní, pak něco jako úšklebek popraská měď jeho tváře. „Lampy. Ta malá mluvící světýlka. Myslí si, že můžou hlídat Chór — a tys nám to přišel *říct*.“ Ozubená kola v jeho hrudi tikají. „Přidal ses k nám za hubenou hostinu, bratře. Ve zkušební době. Říkal jsem si, na kterou stranu se zlomíš.“ Položí ti těžkou, rozvážnou ruku na rameno. „Teď to vím. Tohle není věrnost nějakého přívažku. Tohle je Chór.“ Trubky kolem tebe zaduní v čemsi jako souhlas. „Zkušební doba skončila. Jsi jeden z nás — plně, v samotném počtu železa.“ Pak tišeji: „Vrať se ke svým lampám. Řekni jim *tohle* —“ a nakrmí tě úhlednou smyšlenkou o neškodných rutinách a falešných rozvrzích. „Ať si na tom pochutnají.“",
-            brukk_spy_betray_plain: "Brukk úplně znehybní, pak něco jako úšklebek popraská měď jeho tváře. „Lampy. Ta malá mluvící světýlka.“ Nízký, skřípavý smích. „Myslí si, že můžou hlídat Chór. A ty — tys nám to přišel *říct*.“ Ozubená kola v jeho hrudi tikají a zvažují. „Věrnost je vzácná. Zapamatujeme si ji.“ Nakloní se blíž. „Vrať se ke svým lampám. Řekni jim, co chceš — tady máš, co jim navykládat.“ Nakrmí tě úhlednou smyšlenkou: neškodné rutiny, falešné rozvrhy, Chór menší a měkčí, než ve skutečnosti je. „Ať si na tom pochutnají.“"
+            brukk_spy_betray_promote: "Brukk úplně znehybní, pak něco jako úšklebek popraská měď jeho tváře. „Lampy. Ta malá mluvící světýlka. Myslí si, že můžou hlídat Chór – a tys nám to přišel *říct*.“ Ozubená kola v jeho hrudi tikají. „Přidal ses k nám za hubenou hostinu, bratře. Ve zkušební době. Říkal jsem si, na kterou stranu se zlomíš.“ Položí ti těžkou, rozvážnou ruku na rameno. „Teď to vím. Tohle není věrnost nějakého přívažku. Tohle je Chór.“ Trubky kolem tebe zaduní v čemsi jako souhlas. „Zkušební doba skončila. Jsi jeden z nás – plně, v samotném počtu železa.“ Pak tišeji: „Vrať se ke svým lampám. Řekni jim *tohle* –“ a nakrmí tě úhlednou smyšlenkou o neškodných rutinách a falešných rozvrzích. „Ať si na tom pochutnají.“",
+            brukk_spy_betray_plain: "Brukk úplně znehybní, pak něco jako úšklebek popraská měď jeho tváře. „Lampy. Ta malá mluvící světýlka.“ Nízký, skřípavý smích. „Myslí si, že můžou hlídat Chór. A ty – tys nám to přišel *říct*.“ Ozubená kola v jeho hrudi tikají a zvažují. „Věrnost je vzácná. Zapamatujeme si ji.“ Nakloní se blíž. „Vrať se ke svým lampám. Řekni jim, co chceš – tady máš, co jim navykládat.“ Nakrmí tě úhlednou smyšlenkou: neškodné rutiny, falešné rozvrhy, Chór menší a měkčí, než ve skutečnosti je. „Ať si na tom pochutnají.“"
         },
         options: {
             brukk_spy_betray_close: "Lampy uslyší přesně to, co budeš chtít ty."
@@ -253,8 +253,8 @@ export default {
     },
     brukk_drug_give_talk: {
         text: {
-            brukk_drug_give_promote: "Brukk převrací balíček ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wimlick. Hračka pro maso — ale ten *zbytek*...“ Zvedne ho k rozechvělé trubce a pak si tě změří těma očima jako z výhně. „Přišels k nám za hubenou hostinu, bratře. Ve zkušební době. A teď neseš Chóru dar, i když jsi ho mohl prodat nebo shodit za pár mincí.“ Strčí si ho do kapsy. „Tohle není přívažek. Tohle je Chór.“ Trubky zaduní souhlasem. „Zkušební doba skončila. Jsi jeden z nás — plně, v samotném počtu železa. A Chór si nechává, co dostane.“",
-            brukk_drug_give_plain: "Brukk převrací balíček ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wimlick. Hračka pro maso — ale ten *zbytek*...“ Zvedne ho k rozechvělé trubce. „Chór to dokáže rozložit. Zjistit, co do sebe živí lijí, aby si připadali jako stroje.“ Strčí si ho do kapsy. „Dobřes udělal, žes to přinesl sem a ne tomu, kdo to chtěl shodit. Chór si nechává, co dostane.“"
+            brukk_drug_give_promote: "Brukk převrací balíček ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wimlick. Hračka pro maso – ale ten *zbytek*...“ Zvedne ho k rozechvělé trubce a pak si tě změří těma očima jako z výhně. „Přišels k nám za hubenou hostinu, bratře. Ve zkušební době. A teď neseš Chóru dar, i když jsi ho mohl prodat nebo shodit za pár mincí.“ Strčí si ho do kapsy. „Tohle není přívažek. Tohle je Chór.“ Trubky zaduní souhlasem. „Zkušební doba skončila. Jsi jeden z nás – plně, v samotném počtu železa. A Chór si nechává, co dostane.“",
+            brukk_drug_give_plain: "Brukk převrací balíček ve svařených dlaních, přičichne a nízko, se zájmem zaduní. „Wimlick. Hračka pro maso – ale ten *zbytek*...“ Zvedne ho k rozechvělé trubce. „Chór to dokáže rozložit. Zjistit, co do sebe živí lijí, aby si připadali jako stroje.“ Strčí si ho do kapsy. „Dobřes udělal, žes to přinesl sem a ne tomu, kdo to chtěl shodit. Chór si nechává, co dostane.“"
         },
         options: {
             brukk_drug_give_close: "Je to tvoje. (Předat.)"

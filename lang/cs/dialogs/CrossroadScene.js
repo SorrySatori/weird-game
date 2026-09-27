@@ -27,13 +27,13 @@ export default {
         }
     },
     corpse_salt_recall: {
-        text: "Solné písmo se probudí a ochutná sůl, kterou to obrovské tělo léta vyluhovalo do křižovatky. *\"...Tenhle šel dlouhou cestu, aby si lehl. Ne bůh — starší, pokornější; věc, která kdysi bohy nosila, jako cesta nosí kroky. Ucítil, jak ho město táhne, jak sem táhne všechno mrtvé, a přišel být blízko těch ostatních. Nezabila ho žádná rána. Prostě dorazil a zastavil se. Sůl pořád drží tvar toho posledního, dlouhého výdechu.\"*\n\nZbytek se zavře. *\"Teď se mu do hlavy nastěhoval rozklad. Vždycky to tak je — usadí se do místa, které po sobě zanechá účel.\"*",
+        text: "Solné písmo se probudí a ochutná sůl, kterou to obrovské tělo léta vyluhovalo do křižovatky. *\"...Tenhle šel dlouhou cestu, aby si lehl. Ne bůh – starší, pokornější; věc, která kdysi bohy nosila, jako cesta nosí kroky. Ucítil, jak ho město táhne, jak sem táhne všechno mrtvé, a přišel být blízko těch ostatních. Nezabila ho žádná rána. Prostě dorazil a zastavil se. Sůl pořád drží tvar toho posledního, dlouhého výdechu.\"*\n\nZbytek se zavře. *\"Teď se mu do hlavy nastěhoval rozklad. Vždycky to tak je – usadí se do místa, které po sobě zanechá účel.\"*",
         options: {
             salt_recall_corpse_back: 'Ustoupit.'
         }
     },
     corpse_grave_sense: {
-        text: "Osswine se probudí v chladu té věci a čte její konec zevnitř ven. *\"...Žádné násilí. Zvolila si zastavení. Jejím posledním úmyslem nebyl strach — byl to příchod. Nosič, který ulehl u nohou všeho, co kdysi nesl, konečně rád, že smí skončit. A pod tím, slaběji: malý, trpělivý hlad, který nikdy nestihl dojíst.\"* Suchá pauza. *\"Ten nedojedený hlad je ta skulina, do níž vlezl tvůj Thorne-Still. Nic tu neumřelo s křikem. Skončilo to, jak končí dlouhý den.\"*",
+        text: "Osswine se probudí v chladu té věci a čte její konec zevnitř ven. *\"...Žádné násilí. Zvolila si zastavení. Jejím posledním úmyslem nebyl strach – byl to příchod. Nosič, který ulehl u nohou všeho, co kdysi nesl, konečně rád, že smí skončit. A pod tím, slaběji: malý, trpělivý hlad, který nikdy nestihl dojíst.\"* Suchá pauza. *\"Ten nedojedený hlad je ta skulina, do níž vlezl tvůj Thorne-Still. Nic tu neumřelo s křikem. Skončilo to, jak končí dlouhý den.\"*",
         options: {
             grave_sense_corpse_back: 'Ustoupit.'
         }
@@ -53,7 +53,7 @@ export default {
         }
     },
     acceptSymbiont: {
-        text: 'Když rozřízneš hlavu mrtvoly, najdeš něco mimořádného — symbiotickou entitu, která si říká Thorne-Still. "Ahoj, miláčku, jsem Thorne-Still. Jak ti mohu dnes pomoci?" šeptá podivným hlasem. "Možná bychom mohli sdílet cestu na nějaký čas? Co říkáš? Ta tvoje houba vypadá dostatečně pohodlně i pro mě."',
+        text: 'Když rozřízneš hlavu mrtvoly, najdeš něco mimořádného – symbiotickou entitu, která si říká Thorne-Still. "Ahoj, miláčku, jsem Thorne-Still. Jak ti mohu dnes pomoci?" šeptá podivným hlasem. "Možná bychom mohli sdílet cestu na nějaký čas? Co říkáš? Ta tvoje houba vypadá dostatečně pohodlně i pro mě."',
         options: {
             accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Still jako svého symbionta',
             decline: 'Odmítnout'

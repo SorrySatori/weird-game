@@ -1117,22 +1117,22 @@ export default class LumenDirectorateScene extends GameScene {
                 : csTraits[0];
 
             const csText = rarity === 'Exceptional'
-                ? `"U všech kořenů... podívejte se na to. ${cap(csName)}. Výjimečná kvalita. Houba ${csTraitText}.\n\nPěstuji šest tisíc trávení a takových jsem viděl možná hrstku. Vaše spory nesou něco zvláštního — město si vás poznamenalo a mycelium to ví."`
+                ? `"U všech kořenů... podívejte se na to. ${cap(csName)}. Výjimečná kvalita. Houba ${csTraitText}.\n\nPěstuji šest tisíc trávení a takových jsem viděl možná hrstku. Vaše spory nesou něco zvláštního – město si vás poznamenalo a mycelium to ví."`
                 : rarity === 'Remarkable'
-                    ? `"No tohle. ${cap(csName)}. To je pozoruhodná práce. Houba ${csTraitText}.\n\nTuhle bude Direktorát chtít do horních chodeb. Vaše historie v tomhle městě je na tom růstu vidět — mycelium vás čte jako deník."`
+                    ? `"No tohle. ${cap(csName)}. To je pozoruhodná práce. Houba ${csTraitText}.\n\nTuhle bude Direktorát chtít do horních chodeb. Vaše historie v tomhle městě je na tom růstu vidět – mycelium vás čte jako deník."`
                     : rarity === 'Decent'
-                        ? `"${cap(csName)}. Slušný exemplář. Houba ${csTraitText}.\n\nNic, o čem by se psaly traktáty, ale poctivé. Živé zdi je pořád potřeba krmit. Máte potenciál — vraťte se s víc sporami a víc příběhy a výsledky se zlepší."`
-                        : `"${cap(csName)}. Všední, bohužel. Houba ${csTraitText}.\n\nNeberte si to osobně — mycelium je vybíravé. Reaguje na zkušenost, na váhu toho, co jste v tomhle městě dokázal. Zkoumejte dál, žijte dál, a vaše spory ponesou víc... vyprávění."`;
+                        ? `"${cap(csName)}. Slušný exemplář. Houba ${csTraitText}.\n\nNic, o čem by se psaly traktáty, ale poctivé. Živé zdi je pořád potřeba krmit. Máte potenciál – vraťte se s víc sporami a víc příběhy a výsledky se zlepší."`
+                        : `"${cap(csName)}. Všední, bohužel. Houba ${csTraitText}.\n\nNeberte si to osobně – mycelium je vybíravé. Reaguje na zkušenost, na váhu toho, co jste v tomhle městě dokázal. Zkoumejte dál, žijte dál, a vaše spory ponesou víc... vyprávění."`;
 
             const csLore = symbiontInfluence !== 'none'
-                ? `"Vidíte, jak ${csTraits[0]}? To se do ní propisuje vliv vašeho symbionta. Tvor, který ve vás žije — jeho podstata se mísí s vašimi sporami. Každá houba, kterou vypěstujete, ponese jeho podpis.\n\n${symbiontInfluence === 'decay' ? 'Houby dotčené rozkladem jsou ceněné pro svou odolnost. Krmí zdi, které čelí nejhoršímu počasí.' : symbiontInfluence === 'growth' ? 'Exempláře požehnané růstem jsou miláčky Direktorátu. Čirá vitalita v houbové podobě.' : 'Houby poznamenané iluzí jsou vzácné a hluboce znepokojivé. Badatelé Direktorátu za ně dobře zaplatí.'}"`
+                ? `"Vidíte, jak ${csTraits[0]}? To se do ní propisuje vliv vašeho symbionta. Tvor, který ve vás žije – jeho podstata se mísí s vašimi sporami. Každá houba, kterou vypěstujete, ponese jeho podpis.\n\n${symbiontInfluence === 'decay' ? 'Houby dotčené rozkladem jsou ceněné pro svou odolnost. Krmí zdi, které čelí nejhoršímu počasí.' : symbiontInfluence === 'growth' ? 'Exempláře požehnané růstem jsou miláčky Direktorátu. Čirá vitalita v houbové podobě.' : 'Houby poznamenané iluzí jsou vzácné a hluboce znepokojivé. Badatelé Direktorátu za ně dobře zaplatí.'}"`
                 : growth > 65
-                    ? `"Vaše spory se kloní k růstu — a houba to odráží. Direktorát si cení exemplářů vypěstovaných z esence naladěné na růst. Lépe se začleňují do živé architektury.\n\nDržte se růstu a vaše sklizně se budou už jen lepšit."`
+                    ? `"Vaše spory se kloní k růstu – a houba to odráží. Direktorát si cení exemplářů vypěstovaných z esence naladěné na růst. Lépe se začleňují do živé architektury.\n\nDržte se růstu a vaše sklizně se budou už jen lepšit."`
                     : decay > 65
-                        ? `"Je v ní podpis rozkladu. Nic špatného — rozkladné houby mají svou vlastní krásu. Rozebírají, co je potřeba rozebrat, a dělají místo tomu, co přijde po tom.\n\nRezavý chór by je zbožňoval, ale Direktorát pro ně má využití taky. Kompostování starých zdí, recyklace mrtvé architektury."`
-                        : `"Vyvážený exemplář. Ani výrazně růstový, ani rozkladný. Direktorát jim říká 'neutrální kultivary' — všestranné, byť nevýrazné.\n\nJestli chcete výraznější výsledky, přikloňte se k jedné straně. Růst, nebo rozklad — obojí plodí zajímavější houby."`;
+                        ? `"Je v ní podpis rozkladu. Nic špatného – rozkladné houby mají svou vlastní krásu. Rozebírají, co je potřeba rozebrat, a dělají místo tomu, co přijde po tom.\n\nRezavý chór by je zbožňoval, ale Direktorát pro ně má využití taky. Kompostování starých zdí, recyklace mrtvé architektury."`
+                        : `"Vyvážený exemplář. Ani výrazně růstový, ani rozkladný. Direktorát jim říká 'neutrální kultivary' – všestranné, byť nevýrazné.\n\nJestli chcete výraznější výsledky, přikloňte se k jedné straně. Růst, nebo rozklad – obojí plodí zajímavější houby."`;
 
-            const csPayText = `"Tady je ${payment} dinárů za ${csNameAcc}. ${rarity === 'Exceptional' ? 'A něco navíc za tu kvalitu — Direktorát si pamatuje štědrost.' : rarity === 'Remarkable' ? 'Dobrá práce. Horní patra to ocení.' : 'Poctivá odměna za poctivou práci. Přijďte kdykoliv.'}"`;
+            const csPayText = `"Tady je ${payment} dinárů za ${csNameAcc}. ${rarity === 'Exceptional' ? 'A něco navíc za tu kvalitu – Direktorát si pamatuje štědrost.' : rarity === 'Remarkable' ? 'Dobrá práce. Horní patra to ocení.' : 'Poctivá odměna za poctivou práci. Přijďte kdykoliv.'}"`;
 
             return { text: csText, lore: csLore, payText: csPayText, payment, repBonus, growthEffect, rarity, name };
         }

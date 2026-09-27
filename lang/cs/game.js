@@ -1,5 +1,5 @@
 /**
- * Czech game strings — oznámení, popisy úkolů, kategorie deníku
+ * Czech game strings – oznámení, popisy úkolů, kategorie deníku
  */
 export default {
     cutscene: {
@@ -36,6 +36,7 @@ export default {
         newQuest: 'Nový úkol',
         questUpdated: 'Úkol aktualizován',
         questCompleted: 'Úkol dokončen!',
+        questFailed: 'Úkol selhal',
         journalUpdated: 'Deník aktualizován',
         reputationChange: '{faction} Reputace: {sign}{change}',
         moneyGain: '+{amount} dinárů',
@@ -48,10 +49,10 @@ export default {
         addedToInventory: 'Přidáno do inventáře: {item}',
         inventoryFull: 'Inventář je plný!',
         sporeChange: '{sign}{amount} Spor',
-        nemeSilenced: 'Hniloba sílí — Neme utichá.',
-        nemeRecovered: 'Vzduch se čistí — Neme opět čte.',
-        osswineSilenced: 'Zde je příliš mnoho života — Osswine strne.',
-        osswineRecovered: 'Květ ustupuje — mrtví jsou pro Osswine opět slyšitelní.',
+        nemeSilenced: 'Hniloba sílí – Neme utichá.',
+        nemeRecovered: 'Vzduch se čistí – Neme opět čte.',
+        osswineSilenced: 'Zde je příliš mnoho života – Osswine strne.',
+        osswineRecovered: 'Květ ustupuje – mrtví jsou pro Osswine opět slyšitelní.',
         growthIncreased: 'Růst vzrostl!',
         growthDecreased: 'Růst poklesl!',
         decayIncreased: 'Rozklad vzrostl!',
@@ -66,16 +67,16 @@ export default {
 
     mood: {
         verrik: {
-            growthDominant: "Úponky se k tobě naklánějí dřív, než promluvíš. Dobře — zelené věci poznají svoje.",
+            growthDominant: "Úponky se k tobě naklánějí dřív, než promluvíš. Dobře – zelené věci poznají svoje.",
             decayDominant: "Ustup na chvíli od záhonů. Něco v tvých sporách nutí mladé výhonky se schoulit.",
         },
         angle_corrector: {
             growthDominant: "Tvá kadence se ustálila k růstu. Čistší. Je potěšením ji měřit.",
-            decayDominant: "Stůj klidně. Tvé měření se chýlí ke kolapsu — vada, u níž bych nerad stál tak blízko.",
+            decayDominant: "Stůj klidně. Tvé měření se chýlí ke kolapsu – vada, u níž bych nerad stál tak blízko.",
         },
         liris: {
             growthDominant: "Vstupuješ na palubu a voníš po zeleném počasí. Palubní kapradí se k tobě naklání. Vítej.",
-            decayDominant: "Něco s tebou stoupá nahoru — hniloba ve větru. Drž to po větru dál od mého lanoví, buď tak laskav.",
+            decayDominant: "Něco s tebou stoupá nahoru – hniloba ve větru. Drž to po větru dál od mého lanoví, buď tak laskav.",
         },
         gnur: {
             growthDominant: "Moc květu na tobě, knězi. Kazí mi to zboží. Zelené se tady dole neprodává.",
@@ -87,14 +88,14 @@ export default {
         },
         ravla: {
             growthDominant: "Všechen ten květ na tobě mě znervózňuje. Rostoucí věci chtějí, a chtění je drahé.",
-            decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná — hrabiví to mají vždycky.",
+            decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná – hrabiví to mají vždycky.",
         },
         kloor: {
-            growthDominant: "Váhy sebou cukají — tvé spory jsou zralé, nabité životem. Prvotřídní zboží.",
-            decayDominant: "Pult tě ucítí dřív, než promluvíš — hniloba, a spousta jí. Laciné zboží.",
+            growthDominant: "Váhy sebou cukají – tvé spory jsou zralé, nabité životem. Prvotřídní zboží.",
+            decayDominant: "Pult tě ucítí dřív, než promluvíš – hniloba, a spousta jí. Laciné zboží.",
         },
         townsquare_citizen: {
-            growthDominant: "Ta městečka ve mně hučí — neseš v sobě spoustu růstu. Velmi... občanské. Velmi živé.",
+            growthDominant: "Ta městečka ve mně hučí – neseš v sobě spoustu růstu. Velmi... občanské. Velmi živé.",
             decayDominant: "Má městečka sebou trhnou. Něco v tobě se rozpadá. Jakožto skutečný občan to shledávám... normálním. Naprosto normálním.",
         },
     },

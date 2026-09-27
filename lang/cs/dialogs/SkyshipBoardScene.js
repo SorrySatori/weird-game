@@ -72,7 +72,7 @@ export default {
         }
     },
     captainDanger: {
-        text: "Ha! Život bez rizika není žádný život. Ano, jsou tu nebezpečí — bouřkové spory, které by nás mohly pohltit, dravé létající mycélia, která loví ve výšinách, nemluvě o neustálé rovnováze mezi Růstem a Rozkladem, která nás chrání před rozpuštěním ve spory nebo ztuhnutím v mrtvou hmotu. Ale svoboda oblohy... ta stojí za jakékoliv riziko.",
+        text: "Ha! Život bez rizika není žádný život. Ano, jsou tu nebezpečí – bouřkové spory, které by nás mohly pohltit, dravé létající mycélia, která loví ve výšinách, nemluvě o neustálé rovnováze mezi Růstem a Rozkladem, která nás chrání před rozpuštěním ve spory nebo ztuhnutím v mrtvou hmotu. Ale svoboda oblohy... ta stojí za jakékoliv riziko.",
         options: {
             other_topics: "Jiná témata"
         }
@@ -98,20 +98,20 @@ export default {
         }
     },
     captainCargo: {
-        text: "Především vzácné spory a mycélia, která nelze pěstovat ve městě. Specializované symbiotické kmeny, krystalizované růstové enzymy, rozkladu odolné stavební materiály. Převážíme také zprávy mezi rozptýlenými vzdušnými koloniemi a výzkumnými stanicemi. Informace jsou možná náš nejcennější náklad — znalosti, které by se jinak nikdy nedostaly na zem.",
+        text: "Především vzácné spory a mycélia, která nelze pěstovat ve městě. Specializované symbiotické kmeny, krystalizované růstové enzymy, rozkladu odolné stavební materiály. Převážíme také zprávy mezi rozptýlenými vzdušnými koloniemi a výzkumnými stanicemi. Informace jsou možná náš nejcennější náklad – znalosti, které by se jinak nikdy nedostaly na zem.",
         options: {
             do_you_have_anything_to_trade: "Máte něco na výměnu?",
             ask_something_else: "Zeptat se na něco jiného"
         }
     },
     captainTrade: {
-        text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali naše specializované zboží. Vraťte se, až dokončíme první okruh — možná za pár cyklů — a mohl bych mít něco jedinečného pro tak odvážného průzkumníka jako vy. Sledujte oblohu, až se budeme vracet.",
+        text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali naše specializované zboží. Vraťte se, až dokončíme první okruh – možná za pár cyklů – a mohl bych mít něco jedinečného pro tak odvážného průzkumníka jako vy. Sledujte oblohu, až se budeme vracet.",
         options: {
             other_topics: "Jiná témata"
         }
     },
     captainElevator: {
-        text: "Výtahový systém, říkáte? Ach, to asi myslíte jeden z těch starých vertikálních transportních mechanismů ve městských věžích. Ty staré systémy jsou fascinující — směs mechanického inženýrství a rané symbiotické technologie. O jaký problém se jedná?",
+        text: "Výtahový systém, říkáte? Ach, to asi myslíte jeden z těch starých vertikálních transportních mechanismů ve městských věžích. Ty staré systémy jsou fascinující – směs mechanického inženýrství a rané symbiotické technologie. O jaký problém se jedná?",
         options: {
             the_floor_counter_is_broken: "Počítadlo pater je rozbité.",
             never_mind_ask_something_else: "To nic, zeptám se na něco jiného."
@@ -132,13 +132,13 @@ export default {
         }
     },
     captainGivesTool: {
-        text: "Samozřejmě! Vždycky s sebou nosím zálohy — nikdy nevíte, kdy budete potřebovat něco opravit uprostřed letu. Tady, vezměte si tento kalibrační modul. Je jednoduchý na použití: stačí ho připojit k servisnímu panelu výtahového systému a automaticky překalibruje počítadlo pater. Droni uvnitř udělají veškerou práci.",
+        text: "Samozřejmě! Vždycky s sebou nosím zálohy – nikdy nevíte, kdy budete potřebovat něco opravit uprostřed letu. Tady, vezměte si tento kalibrační modul. Je jednoduchý na použití: stačí ho připojit k servisnímu panelu výtahového systému a automaticky překalibruje počítadlo pater. Droni uvnitř udělají veškerou práci.",
         options: {
             thank_you: "Děkuji!"
         }
     },
     lirisPerspective: {
-        text: "Takže tam jdete. Nebudu se ptát proč — to je vaše věc. Ale kotvím nad tímhle Rozcestím už měsíc a nespouštím z té katedrály lodní oko, protože je to ta nejzajímavější věc na celém kontinentu. Chcete pravdu? Není statická. Nikdy nebyla. Staré měřičské mapy, které jsem zdědila, umisťují skořápku o tři sáhy níž a východní opěrák tam, kde je teď volný vzduch. Verdigrace to zaznamenává každou hlídku. Ta věc roste, zatímco všichni dole postávají a hádají se, čímu bohu vlastně patří.",
+        text: "Takže tam jdete. Nebudu se ptát proč – to je vaše věc. Ale kotvím nad tímhle Rozcestím už měsíc a nespouštím z té katedrály lodní oko, protože je to ta nejzajímavější věc na celém kontinentu. Chcete pravdu? Není statická. Nikdy nebyla. Staré měřičské mapy, které jsem zdědila, umisťují skořápku o tři sáhy níž a východní opěrák tam, kde je teď volný vzduch. Verdigrace to zaznamenává každou hlídku. Ta věc roste, zatímco všichni dole postávají a hádají se, čímu bohu vlastně patří.",
         options: {
             show_me_the_records: "Ukažte mi ty záznamy.",
             what_happens_when_i_come_back_out: "Co se stane, až vyjdu ven?",
@@ -146,14 +146,14 @@ export default {
         }
     },
     lirisRecords: {
-        text: "Tady — aktuální mapa proti poslednímu průzkumu Direktorátu. Obrys se změnil víc, než by dokázalo vysvětlit počasí. Vzory světla písma se posouvají a pak se ustálí do nových tvarů, pokaždé uspořádanějších než ty minulé. Konstrukční hmota neustále roste, hlídku za hlídkou. Zmapovala jsem bouře, migrace, celé kolonie rozpouštějící se ve spory — vím, jak vypadá věc, která umírá, a vím, jak vypadá věc, která se k něčemu propracovává. Ta katedrála se propracovává. Pomalu, trpělivě, k tvaru, který nám ještě neukázala.",
+        text: "Tady – aktuální mapa proti poslednímu průzkumu Direktorátu. Obrys se změnil víc, než by dokázalo vysvětlit počasí. Vzory světla písma se posouvají a pak se ustálí do nových tvarů, pokaždé uspořádanějších než ty minulé. Konstrukční hmota neustále roste, hlídku za hlídkou. Zmapovala jsem bouře, migrace, celé kolonie rozpouštějící se ve spory – vím, jak vypadá věc, která umírá, a vím, jak vypadá věc, která se k něčemu propracovává. Ta katedrála se propracovává. Pomalu, trpělivě, k tvaru, který nám ještě neukázala.",
         options: {
             what_happens_when_i_come_back_out: "Co se stane, až vyjdu ven?",
             other_topics: "Jiná témata"
         }
     },
     lirisReturn: {
-        text: "Ještě jednu věc a pak vás nechám být. Nevím, co jste tam našel. Ale vím, že až vyjdete ven, měl by být venku někdo, kdo vás čeká. Takže tady je má nabídka: až budete hotov za Závojem, dejte signál ze schodů katedrály a Verdigrace shodí lano. Odvoz ven — cestu domů, ať už je teď domov kdekoli. Ať se z toho vejce stane cokoli, nebudete od něj muset odcházet sám.",
+        text: "Ještě jednu věc a pak vás nechám být. Nevím, co jste tam našel. Ale vím, že až vyjdete ven, měl by být venku někdo, kdo vás čeká. Takže tady je má nabídka: až budete hotov za Závojem, dejte signál ze schodů katedrály a Verdigrace shodí lano. Odvoz ven – cestu domů, ať už je teď domov kdekoli. Ať se z toho vejce stane cokoli, nebudete od něj muset odcházet sám.",
         options: {
             thank_you_captain: "Děkuji, kapitánko.",
             other_topics: "Jiná témata"

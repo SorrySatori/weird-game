@@ -456,7 +456,7 @@ export default class AbandonedBusScene extends GameScene {
             },
             dead_bishop_helmet: {
         speaker: 'Dead Bishop',
-                text: "You examine the dream interface helmet attached to the Bishop's body. It's a portable device with a small screen and a neural interface port. The helmet is slightly warm to the touch, suggesting it was recently in use. Maybe she was inside a dream program — but someone intentionally erased the session data? Unfortunately, it's clear that the helmet is not functional and the neural interface port is damaged.",
+                text: "You examine the dream helmet strapped to the Bishop's head. This is no studio device. It is a homemade rig: a housing hammered together from market electronics, a tangle of wiring — and set into the visor a lens far older than the rest, ground glass with a pre-war maker's mark. It is still slightly warm. A small screen flickers with an error about a runtime loop and something called a 'NULL SCENE' failsafe. The neural interface port is burned out. Whatever ran through it, nothing stood in its way.",
                 options: [
                     { text: "Examine the bruising", key: 'examine_the_bruising', next: "dead_bishop_bruising" },
                     { text: "Check the dream device", key: 'check_the_dream_device', next: "dead_bishop_cartridge" },
@@ -471,14 +471,14 @@ export default class AbandonedBusScene extends GameScene {
                         this.addJournalEntry(
                             'bishop_helmet',
                             'Dream Interface Helmet',
-                            'The Bishop was wearing a portable dream interface helmet when she died. The device shows an error about a runtime loop and something called a "NULL SCENE" failsafe. This suggests a catastrophic failure in the dream program that may have caused neural feedback severe enough to be fatal.',
+                            'The Bishop died wearing a dream helmet she had built herself — market electronics around a pre-war lens, with none of a studio\'s safeguards. The screen shows a runtime-loop error and a "NULL SCENE" failsafe: a catastrophic failure of the dream program, with nothing to stop the neural feedback.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Bishop', related: 'Dream Technology' }
                         );
                     }
                     this.questSystem.updateQuest(
                         'who_killed_bishop',
-                        'Before she died, the Bishop was apparently using a portable dream interface helmet.',
+                        'The Bishop died wearing a dream helmet of her own making — market electronics built around an old pre-war lens, with none of the studio safeguards.',
                         'dead_bishop_helmet'
                     )
                 }

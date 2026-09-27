@@ -36,14 +36,14 @@ export default {
         }
     },
     zerren_collection: {
-        text: "'Děkuji! Jsem na svoji sbírku unikátů pyšná. Nedávno jsem měla pěkného plyšáka, o kterého byl velký zájem — prodala jsem ho ani ne před šesti tráveními. Podivná malá věcička, ale svým způsobem okouzlující.'",
+        text: "'Děkuji! Jsem na svoji sbírku unikátů pyšná. Nedávno jsem měla pěkného plyšáka, o kterého byl velký zájem – prodala jsem ho ani ne před šesti tráveními. Podivná malá věcička, ale svým způsobem okouzlující.'",
         options: {
             tell_me_more_about_that_toy: "Řekněte mi víc o tom plyšákovi",
             back: "Zeptej se na něco jiného"
         }
     },
     zerren_plush_toy: {
-        text: "'Byla to zvláštní věcička — vypadala jako kříženec plyšového zvířátka a nějaké abstraktní sochy. Dostala jsem ji od cestovatele, co šel zrovna kolem.'",
+        text: "'Byla to zvláštní věcička – vypadala jako kříženec plyšového zvířátka a nějaké abstraktní sochy. Dostala jsem ji od cestovatele, co šel zrovna kolem.'",
         options: {
             who_bought_it: "Kdo to koupil?",
             back: "Zeptej se na něco jiného"
@@ -95,7 +95,7 @@ export default {
         }
     },
     zerren_bribe_success: {
-        text: "Zerren rychle schovává mince. 'No, za takovou odměnu udělám asi výjimku.' Nakloní se blíž. 'Byl to Edgar Eskola, kdo koupil toho plyšáka. Excentrik, co rád sbírá staré věci — obvykle ho najdete u Řvoucího korku.'",
+        text: "Zerren rychle schovává mince. 'No, za takovou odměnu udělám asi výjimku.' Nakloní se blíž. 'Byl to Edgar Eskola, kdo koupil toho plyšáka. Excentrik, co rád sbírá staré věci – obvykle ho najdete u Řvoucího korku.'",
         options: {
             thank_you_for_the_information: "Děkuji za informaci"
         }

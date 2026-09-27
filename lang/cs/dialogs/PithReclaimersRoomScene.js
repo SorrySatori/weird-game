@@ -10,7 +10,7 @@ export default {
     },
     pith_cache: {
         text: {
-            pith_cache_full: `Skleněná koule na podstavci se při doteku zakalí, pak projasní — a v ní, vznášející se, leží podíl Reklamátorů odložený za každou duši, kterou jsi zapsal do záznamu.`,
+            pith_cache_full: `Skleněná koule na podstavci se při doteku zakalí, pak projasní – a v ní, vznášející se, leží podíl Reklamátorů odložený za každou duši, kterou jsi zapsal do záznamu.`,
             pith_cache_empty: `Koule visí čirá a prázdná. Prochází jí šepot úředníkova přesného hlasu: „Zůstatek vyplacen. Přiveďte nám víc nevyúčtovaných.“`,
         },
         options: {
@@ -19,7 +19,7 @@ export default {
         }
     },
     magnekin_room_start: {
-        text: `Magnekin stojí mezi regály, vypůjčená tvář uvolněná. „Sbírka měst. Teď, oficiálně, jeden občan — zapsaný, orazítkovaný, křížově odkázaný.“ Tisíce drobných okének zazáří teple. „Je to zvláštní. Tak dlouho jsme předstírali, že sem patříme — a jediný formulář to učinil... pravdou. Děkuji, příteli. Jsme vyúčtováni.“`,
+        text: `Magnekin stojí mezi regály, vypůjčená tvář uvolněná. „Sbírka měst. Teď, oficiálně, jeden občan – zapsaný, orazítkovaný, křížově odkázaný.“ Tisíce drobných okének zazáří teple. „Je to zvláštní. Tak dlouho jsme předstírali, že sem patříme – a jediný formulář to učinil... pravdou. Děkuji, příteli. Jsme vyúčtováni.“`,
         options: {
             magnekin_room_home: "Vypadáš tu jako doma.",
             magnekin_room_bye: "Měj se, Magnekine.",
@@ -32,14 +32,14 @@ export default {
         }
     },
     heir_room_start: {
-        text: `Dědic stojí zcela nehybně mezi spisy, embrya krouží pomalu a spokojeně. „Zaznamenán,“ řekne a to slovo se rozběhne podlahou. „Pokračován. Registr nás uchovává tak, jak Žluté akvárium uchovává své živé věci — protože se ještě můžeme měnit.“ Jeho žluté světlo je teď klidné. „Jsme pamatováni dopředu. To stačí.“`,
+        text: `Dědic stojí zcela nehybně mezi spisy, embrya krouží pomalu a spokojeně. „Zaznamenán,“ řekne a to slovo se rozběhne podlahou. „Pokračován. Registr nás uchovává tak, jak Žluté akvárium uchovává své živé věci – protože se ještě můžeme měnit.“ Jeho žluté světlo je teď klidné. „Jsme pamatováni dopředu. To stačí.“`,
         options: {
             heir_room_auctions: "Takže už žádné obcházení aukcí?",
             heir_room_bye: "Odpočívej dobře.",
         }
     },
     heir_room_auctions: {
-        text: `„Položky stále volají. Ale sběratel, který je sám sbírán, nemusí honit příliv.“ Vlnka embryí. „Navštěvujeme. Neunášíme se. V tom je teď rozdíl — když je tu polička s naším jménem.“`,
+        text: `„Položky stále volají. Ale sběratel, který je sám sbírán, nemusí honit příliv.“ Vlnka embryí. „Navštěvujeme. Neunášíme se. V tom je teď rozdíl – když je tu polička s naším jménem.“`,
         options: {
             heir_room_diff: "To je.",
         }

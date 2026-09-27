@@ -12,29 +12,29 @@ export default {
         'Priest': 'Kněz',
     },
     poet_intro: {
-        text: `Dveře Radnice se za vámi zavřou tichým, definitivním zvukem zasouvané zásuvky. Vzduch chutná po starém inkoustu a zadrženém dechu.\n\nNa pódiu pro veřejná čtení stojí hubená postava začerněná inkoustem — v jedné pěsti revolver, v druhé svazek básní s okraji jako krvácející papír. Úředník, radní a Požírač stížností sedí ztuhle pod pečetí Radnice. Když vejdete, čtení nepřeruší.\n\n"Třicet let jsem četl prázdným sálům.\nDnes je sál plný a odejít nesmí.\nHleďte na jediné poctivé publikum —\nzajaté, dýchající, konečně přinucené slyšet mě.\n\nOrazítkovali můj život jako 'nedostatečně občanský',\na tak jsem složil to nejobčanštější dílo:\nbáseň, již žádný úředník nezaloží a žádná duše zdvořile neopustí.\nMěsto je koncept. Já jsem jeho poslední redakce."`,
+        text: `Dveře Radnice se za vámi zavřou tichým, definitivním zvukem zasouvané zásuvky. Vzduch chutná po starém inkoustu a zadrženém dechu.\n\nNa pódiu pro veřejná čtení stojí hubená postava začerněná inkoustem – v jedné pěsti revolver, v druhé svazek básní s okraji jako krvácející papír. Úředník, radní a Požírač stížností sedí ztuhle pod pečetí Radnice. Když vejdete, čtení nepřeruší.\n\n"Třicet let jsem četl prázdným sálům.\nDnes je sál plný a odejít nesmí.\nHleďte na jediné poctivé publikum –\nzajaté, dýchající, konečně přinucené slyšet mě.\n\nOrazítkovali můj život jako 'nedostatečně občanský',\na tak jsem složil to nejobčanštější dílo:\nbáseň, již žádný úředník nezaloží a žádná duše zdvořile neopustí.\nMěsto je koncept. Já jsem jeho poslední redakce."`,
         options: {
             someone_about_to_break: '(Někdo v místnosti se každou chvíli zlomí.)',
         }
     },
     poet_intro_interrupt: {
-        text: `Úředník na podlaze povolí první. Slova vyhrknou dřív, než je strach stačí spolknout:\n\n"Prosím — je to už desetina trávení. Moje dcera čeká dole u přepážky matriky. Je jí šest. Neví, jak má—"\n\nRevolver se otočí k němu, a přesto básníkův hlas ani na okamžik neztratí metrum. To je na tom to děsivé. Ani ho nezvýší.`,
+        text: `Úředník na podlaze povolí první. Slova vyhrknou dřív, než je strach stačí spolknout:\n\n"Prosím – je to už desetina trávení. Moje dcera čeká dole u přepážky matriky. Je jí šest. Neví, jak má–"\n\nRevolver se otočí k němu, a přesto básníkův hlas ani na okamžik neztratí metrum. To je na tom to děsivé. Ani ho nezvýší.`,
         options: {
             the_poet_answers_her: '(Básník jí odpoví.)',
         }
     },
     poet_intro_silence: {
-        text: `"Nepřerušujte čtení.\nPřerušení je jediný hřích.\nBáseň se nezastaví kvůli dcerám;\nbáseň se nezastaví kvůli ničemu živému.\n\nOna počká. Vy všichni počkáte.\nZadržené ucho je jediné ucho, které slyší.\nDveře jsou orazítkované na zámek — a stejně tak i debata."\n\nPomalu otočí hlaveň, dokud nenajde vás.\n\n"Ale vy. Vy jste přišli pozdě, z ulice, neorazítkovaní. Povězte mi — dokážete mi odpovědět stejnou měrou? Nebo jste jen další čtenář, který by raději odešel?"`,
+        text: `"Nepřerušujte čtení.\nPřerušení je jediný hřích.\nBáseň se nezastaví kvůli dcerám;\nbáseň se nezastaví kvůli ničemu živému.\n\nOna počká. Vy všichni počkáte.\nZadržené ucho je jediné ucho, které slyší.\nDveře jsou orazítkované na zámek – a stejně tak i debata."\n\nPomalu otočí hlaveň, dokud nenajde vás.\n\n"Ale vy. Vy jste přišli pozdě, z ulice, neorazítkovaní. Povězte mi – dokážete mi odpovědět stejnou měrou? Nebo jste jen další čtenář, který by raději odešel?"`,
         options: {
             challenge_him_to_a_poetry_battle: 'Vyzvat ho na básnický souboj.',
-            first_what_do_you_want: 'Nejdřív — co vlastně chcete?',
+            first_what_do_you_want: 'Nejdřív – co vlastně chcete?',
             brine_scripture_read_the_salt_memory: '[Solopis] Přečíst solnou paměť místnosti.',
         }
     },
     poet_start: {
         text: {
             poet_start_resolved: `"Básník je pryč. Rukojmí jsou v bezpečí. Radnice se pořád třese, ale aspoň už se třese byrokraticky."`,
-            poet_start_hostage: `Básník drží revolver volně namířený na místnost a čeká. Čtení neskončilo. Neskončí, dokud mu někdo nedá, co chce — nebo dokud mu nedá za pravdu o celém světě.\n\n"Nikdo neodejde, dokud mě město neuslyší správně," řekne. "Ne zdvořile. Ne byrokraticky. Správně."`,
+            poet_start_hostage: `Básník drží revolver volně namířený na místnost a čeká. Čtení neskončilo. Neskončí, dokud mu někdo nedá, co chce – nebo dokud mu nedá za pravdu o celém světě.\n\n"Nikdo neodejde, dokud mě město neuslyší správně," řekne. "Ne zdvořile. Ne byrokraticky. Správně."`,
         },
         options: {
             what_happens_now: 'Co bude teď?',
@@ -44,21 +44,21 @@ export default {
         }
     },
     poet_demands: {
-        text: `"Chce? Chtění je próza. Vyžaduji svědectví.\n\nTřicet let mě tohle město četlo jako lístek za parkování — pokud vůbec. Radnice orazítkovala mou sbírku jako 'nedostatečně občanskou'. Nazvala mé zalomené verše porušením územního plánu. Můj žal založila pod 'různé'.\n\nA tak teď veřejnost dostane čtení. Každou sloku. Každou poznámku pod čarou. Každý rukojmí zadržený nádech. Vyškrtli mé jméno z rejstříku, a tak jsem si vzal pravdivější: Poslední redaktor."`,
+        text: `"Chce? Chtění je próza. Vyžaduji svědectví.\n\nTřicet let mě tohle město četlo jako lístek za parkování – pokud vůbec. Radnice orazítkovala mou sbírku jako 'nedostatečně občanskou'. Nazvala mé zalomené verše porušením územního plánu. Můj žal založila pod 'různé'.\n\nA tak teď veřejnost dostane čtení. Každou sloku. Každou poznámku pod čarou. Každý rukojmí zadržený nádech. Vyškrtli mé jméno z rejstříku, a tak jsem si vzal pravdivější: Poslední redaktor."`,
         options: {
             then_ill_answer_in_verse: 'Pak odpovím veršem.',
             why_hostages_not_publish: 'Proč rukojmí? Proč prostě nevydáte knihu?',
         }
     },
     poet_why: {
-        text: `"Vydat?" Zasměje se, bez jediné kapky radosti.\n\n"Vydaná báseň je báseň, kterou můžete odložit. Báseň, kterou lze odložit, je báseň, jež nic nezměnila.\n\nSvobodný čtenář vždycky odejde\nve chvíli, kdy verš požádá o něco pravdivého.\nA tak jsem odstranil dveře. Odstranil jsem odchod.\nCo zůstane, musí konečně doposlouchat.\n\nZajaté ucho je jediné poctivé ucho. Vy neodejdete — a tak mě konečně uslyšíte."`,
+        text: `"Vydat?" Zasměje se, bez jediné kapky radosti.\n\n"Vydaná báseň je báseň, kterou můžete odložit. Báseň, kterou lze odložit, je báseň, jež nic nezměnila.\n\nSvobodný čtenář vždycky odejde\nve chvíli, kdy verš požádá o něco pravdivého.\nA tak jsem odstranil dveře. Odstranil jsem odchod.\nCo zůstane, musí konečně doposlouchat.\n\nZajaté ucho je jediné poctivé ucho. Vy neodejdete – a tak mě konečně uslyšíte."`,
         options: {
             then_ill_answer_him_in_verse: 'Pak mu odpovím veršem.',
             and_after_the_reading: 'A po tom čtení? Co pak?',
         }
     },
     poet_tabula_rasa: {
-        text: `Na okamžik mu oči zabloudí někam do nedozírné prázdnoty, někam za zdi.\n\n"Pak? Pak přijde čistá zem.\n\nKaždá velká báseň začíná prázdnou stránkou —\na tohle město prázdné není: palimpsest zbabělců,\nstarý inkoust načmáraný přes starý inkoust, nic vymazáno,\njen orazítkováno, založeno a znovu orazítkováno.\n\nAbych napsal nové, musím nejdřív odepsat staré. Tabula rasa. Holá zem. Stránka konečně dost široká pro jediný verš, na kterém záleží. Tohle malé čtení? To je pouhý titul."`,
+        text: `Na okamžik mu oči zabloudí někam do nedozírné prázdnoty, někam za zdi.\n\n"Pak? Pak přijde čistá zem.\n\nKaždá velká báseň začíná prázdnou stránkou –\na tohle město prázdné není: palimpsest zbabělců,\nstarý inkoust načmáraný přes starý inkoust, nic vymazáno,\njen orazítkováno, založeno a znovu orazítkováno.\n\nAbych napsal nové, musím nejdřív odepsat staré. Tabula rasa. Holá zem. Stránka konečně dost široká pro jediný verš, na kterém záleží. Tohle malé čtení? To je pouhý titul."`,
         options: {
             bomb_with_footnotes: 'To není poezie. To je bomba s poznámkami pod čarou.',
             then_ill_answer_him_in_verse_2: 'Pak mu odpovím veršem.',
@@ -71,13 +71,13 @@ export default {
         }
     },
     poet_challenge: {
-        text: `"Vyzývatel?" Tváří mu přeběhne něco bližšího naději než vzteku. "Dobře. Konečně má místnost tep.\n\nTedy tři kola. Obraz. Rána. Rozsudek. Přineste mi město tak, jak jste ho doopravdy prožili — ne tu verzi, kterou si vedou ve spisech.\n\nPokud je vaše báseň živá, nechám je odejít do rána.\nPokud je vaše báseň mrtvá, všichni společně zjistíme, co špatné umění stojí."`,
+        text: `"Vyzývatel?" Tváří mu přeběhne něco bližšího naději než vzteku. "Dobře. Konečně má místnost tep.\n\nTedy tři kola. Obraz. Rána. Rozsudek. Přineste mi město tak, jak jste ho doopravdy prožili – ne tu verzi, kterou si vedou ve spisech.\n\nPokud je vaše báseň živá, nechám je odejít do rána.\nPokud je vaše báseň mrtvá, všichni společně zjistíme, co špatné umění stojí."`,
         options: {
             begin_the_poetry_battle: 'Zahájit básnický souboj.',
         }
     },
     poet_round_one: {
-        text: `První kolo — OBRAZ.\n\nBásník prudce rozevře stránku. "Horní Morkezela je ústa plná dveří. Dejte mi jeden obraz, který dokazuje, že vás kousla."`,
+        text: `První kolo – OBRAZ.\n\nBásník prudce rozevře stránku. "Horní Morkezela je ústa plná dveří. Dejte mi jeden obraz, který dokazuje, že vás kousla."`,
         options: {
             second_shadow_watching_first: 'Druhý stín sledující první, oba předstírají, že se nebojí.',
             bishop_met_herself_breathless: 'Zpovědnice, kde Biskupka potkala sebe samu, bezdechou a už mluvící.',
@@ -93,13 +93,13 @@ export default {
     },
     poet_round_one_result: {
         text: {
-            poet_response_second_shadow_watching_first: `Básník prudce nasaje dech a odpoví vlastním veršem:\n\n"Dva stíny pod špatným sluncem jdou —\njeden prchá, druhý za ním, oba se bojí tmou.\nAno. Město vás kouslo tam, kde já počítá samo sebe."`,
-            poet_response_bishop_met_herself_breathless: `Básníkova zbraň klesne o šířku čárky.\n\n"Já před sebou, než samo přijde —\nzrcadlo se učí, jak se zemře.\nObraz tedy. Ne pouhá ozdoba. Otisk zubu."`,
-            poet_response_egg_cathedral_hatching_scripture: `Přitiskne stránku k čelu.\n\n"Skořápka-písmo, žloutek-chrám —\nvíry bdí kolem hrobu, jenž roste sám.\nDobře. Viděli jste architekturu, která se snaží stát rozsudkem."`,
-            poet_response_skyship_refusing_to_land: `Podívá se ke stropu, jako by vzducholoď mohla poslouchat.\n\n"Myšlenka v lanoví, oblak v řetězu —\nnebe říká ano, město: zůstaň u břehu.\nObraz s výškou. Pokračujte."`,
+            poet_response_second_shadow_watching_first: `Básník prudce nasaje dech a odpoví vlastním veršem:\n\n"Dva stíny pod špatným sluncem jdou –\njeden prchá, druhý za ním, oba se bojí tmou.\nAno. Město vás kouslo tam, kde já počítá samo sebe."`,
+            poet_response_bishop_met_herself_breathless: `Básníkova zbraň klesne o šířku čárky.\n\n"Já před sebou, než samo přijde –\nzrcadlo se učí, jak se zemře.\nObraz tedy. Ne pouhá ozdoba. Otisk zubu."`,
+            poet_response_egg_cathedral_hatching_scripture: `Přitiskne stránku k čelu.\n\n"Skořápka-písmo, žloutek-chrám –\nvíry bdí kolem hrobu, jenž roste sám.\nDobře. Viděli jste architekturu, která se snaží stát rozsudkem."`,
+            poet_response_skyship_refusing_to_land: `Podívá se ke stropu, jako by vzducholoď mohla poslouchat.\n\n"Myšlenka v lanoví, oblak v řetězu –\nnebe říká ano, město: zůstaň u břehu.\nObraz s výškou. Pokračujte."`,
             poet_response_citizen_made_of_tiny_cities: `Na nebezpečnou vteřinu se básník usměje.\n\n"Milion střech v půjčené kůži,\ndav, co říká: jsem občan, snad můžu.\nAno. Rozpaky jsou občanská malta."`,
-            poet_response_punk_chord_dead_god_keeps_time: `Rukojmí sebou trhne, když básník vyklepe rytmus hlavní revolveru.\n\n"Mrtvý bůh, živý zesilovač, nemožný takt —\nbožství pod zemí pořád hýbe nohama fakt.\nTen obraz má zuby i hlasitost."`,
-            poet_response_prophetic_toad_three_minutes_ahead: `Přes všechnu snahu odfrkne.\n\n"Ropucha před dražebním zvonem —\ntři minuty nebe ve smrdutém skleněném trůně.\nKomické, ale živé. Přijímám kousnutí."`,
+            poet_response_punk_chord_dead_god_keeps_time: `Rukojmí sebou trhne, když básník vyklepe rytmus hlavní revolveru.\n\n"Mrtvý bůh, živý zesilovač, nemožný takt –\nbožství pod zemí pořád hýbe nohama fakt.\nTen obraz má zuby i hlasitost."`,
+            poet_response_prophetic_toad_three_minutes_ahead: `Přes všechnu snahu odfrkne.\n\n"Ropucha před dražebním zvonem –\ntři minuty nebe ve smrdutém skleněném trůně.\nKomické, ale živé. Přijímám kousnutí."`,
             poet_response_thorne_refuses_the_garden: `Básník přimhouří oči k prostoru kolem vás.\n\n"Trn mimo zahradníkův plán\nstále píše živý plot krví ran.\nUžitečné. Samo o sobě ne dost, ale užitečné."`,
             poet_response_locked_townhall_digesting_citizens: `Jeho stránky se zachvějí.\n\n"Dveře s úřady místo zubů,\nveřejný žaludek pod dlažbou klubů.\nAno. Tahle budova si to zasloužila."`,
             poet_response_your_poem_is_bad_and_hat_worse: `Básník úplně ztuhne.\n\n"Klobouk? Klobouk?\nHlupák si plete temeno s korunou,\na diví se, že verše padají dolů.\nUrážka není obraz. Je to selhané počasí."`,
@@ -110,7 +110,7 @@ export default {
         }
     },
     poet_round_two: {
-        text: `Druhé kolo — RÁNA.\n\n"Město se nepopisuje památkami," řekne. "Popisuje se tím, co dělá měkkým částem. Pojmenujte ránu, aniž byste ji zmenšili."`,
+        text: `Druhé kolo – RÁNA.\n\n"Město se nepopisuje památkami," řekne. "Popisuje se tím, co dělá měkkým částem. Pojmenujte ránu, aniž byste ji zmenšili."`,
         options: {
             dream_device_bruised_the_dead: 'Snové zařízení proměnilo útěchu ve smyčku ostrou dost na to, aby pohmoždila mrtvou.',
             redmass_begging_not_proof: 'Živá rudohmota prosící, aby se nestala důkazem cizí věrnosti.',
@@ -130,9 +130,9 @@ export default {
             poet_response_redmass_begging_not_proof: `Revolver zaváhá.\n\n"Věrnost krmená cizím křikem\nje rez, co předstírá sen před publikem.\nPojmenovali jste ránu bez leštění."`,
             poet_response_rust_choir_machines_hum: `Odpoví chraplavým polozpěvem.\n\n"Impéria zapomenou. Motory opakují.\nŽelezo drží poslední poctivý rytmus.\nRána hučí. Slyším ji."`,
             poet_response_shed_forms_amputate: `Jeden úředník se jednou zasměje a hned se zděsí sám sebe.\n\n"Formulář sedmnáct, příloha tři: odejmout ruku, co žádá, že smí.\nByrokracie jako čepel. Dobré. Kruté a přesné."`,
-            poet_response_misutkenn_writer_festival_fire: `Básník se zastydí dřív, než to stačí skrýt.\n\n"Medvědí kůže, autorské srdce —\nco spálili, stalo se jeho uměním trpce.\nRána, která žádá knihu místo pomsty."`,
-            poet_response_clean_sulkberries_accused_by_fear: `Zašklebí se, jako by ochutnal lék.\n\n"Čisté ovoce v provinilé míse —\nstrach nasolí vše, co neovládá v tísni.\nMenší rána, ale pravá."`,
-            poet_response_divinographer_waiting_dead_gods: `Na pódium jako by sedal prach.\n\n"Mrtví bohové dole, živá razítka výš —\npovolení popírá fosilní lásku již.\nAno. Město umí zranit i své archeology."`,
+            poet_response_misutkenn_writer_festival_fire: `Básník se zastydí dřív, než to stačí skrýt.\n\n"Medvědí kůže, autorské srdce –\nco spálili, stalo se jeho uměním trpce.\nRána, která žádá knihu místo pomsty."`,
+            poet_response_clean_sulkberries_accused_by_fear: `Zašklebí se, jako by ochutnal lék.\n\n"Čisté ovoce v provinilé míse –\nstrach nasolí vše, co neovládá v tísni.\nMenší rána, ale pravá."`,
+            poet_response_divinographer_waiting_dead_gods: `Na pódium jako by sedal prach.\n\n"Mrtví bohové dole, živá razítka výš –\npovolení popírá fosilní lásku již.\nAno. Město umí zranit i své archeology."`,
             poet_response_neme_hostages_roots_under_stone: `Básník slyší, jak rukojmí dýchají společně.\n\n"Kořeny pod kamenem růst nepřestanou;\nnesou temnotu tam, kde listy neplanou.\nVáš symbiont vidí místnost. Vy jste to přesto museli vyslovit."`,
             poet_response_ulvarex_project_applause: `Místností na okamžik zatřese přízračný potlesk. Básníkovy oči ztvrdnou.\n\n"Půjčené ruce dělají půjčenou slávu;\nzrcadla neukončí rukojmí v davu.\nHezké. Příliš hezké."`,
             poet_response_wound_is_boredom: `Básník se usměje s děsivou úlevou.\n\n"Nuda, praví prázdný pohár,\npak se diví, že jej nikdo nenalévá.\nPojmenovali jste netrpělivost, ne ránu."`,
@@ -143,7 +143,7 @@ export default {
         }
     },
     poet_round_three: {
-        text: `Třetí kolo — ROZSUDEK.\n\nBásník znovu pozvedne revolver, ale do jeho metra vstoupila nejistota.\n\n"Ukončete to," zašeptá. "Řekněte mi, co báseň požaduje."`,
+        text: `Třetí kolo – ROZSUDEK.\n\nBásník znovu pozvedne revolver, ale do jeho metra vstoupila nejistota.\n\n"Ukončete to," zašeptá. "Řekněte mi, co báseň požaduje."`,
         options: {
             city_heard_you_without_gun: 'Město vás slyšelo. Teď ho nechte odpovědět bez vaší zbraně.',
             story_someone_survives_to_revise: 'Ať se z toho stane příběh, který někdo přežije a může přepracovat.',
@@ -165,9 +165,9 @@ export default {
             poet_response_redmass_given_freely_sings: `Zbraň klesne k jeho boku.\n\n"Vyrvaný kov křičí a barví dlaň;\ndarovaný kov se přidá do písně sám.\nRozumíte propuštění."`,
             poet_response_poem_noise_they_leave_humming: `Někde ve zdech zavibrují trubky jako vzdálený zesilovač.\n\n"Píseň dokazují otevřené dveře,\nne těla počítaná na podlaze v šeře.\nNenávidím, jak blízko krásné to je."`,
             poet_response_truth_needs_no_hostage: `Polkne. Rukojmí to slyší.\n\n"Pravda v řetězech stává se lží;\npusť dech ven, nebo uvidíš, jak mží.\nRozsudek s páteří."`,
-            poet_response_brine_ink_dries_into_salt: `Sůl štípne za zuby. Básník slyší něco staršího než lichotku.\n\n"Inkoust v sůl a bolest v břeh —\nnech ránu být, nezamykej dech.\nPaměť vám pomáhá. Nenahrazuje vás."`,
+            poet_response_brine_ink_dries_into_salt: `Sůl štípne za zuby. Básník slyší něco staršího než lichotku.\n\n"Inkoust v sůl a bolest v břeh –\nnech ránu být, nezamykej dech.\nPaměť vám pomáhá. Nenahrazuje vás."`,
             poet_response_neme_living_poem_releases: `Nemeina přítomnost se pod vašimi slovy otevře jako zelené ticho.\n\n"Kořen, jenž svírá, až kořeny prasknou,\nse musí naučit, čeho se živé vzdá s maskou.\nMoudrost symbionta nesená vašimi ústy."`,
-            poet_response_surrender_before_they_see_fear: `Básníkův stud zkysne v pýchu.\n\n"Nazvi mě zbabělcem, říkej tomu umění —\nmíjíš ránu a zasahuješ srdce v domnění.\nMožná pravda. Ne užitečná."`,
+            poet_response_surrender_before_they_see_fear: `Básníkův stud zkysne v pýchu.\n\n"Nazvi mě zbabělcem, říkej tomu umění –\nmíjíš ránu a zasahuješ srdce v domnění.\nMožná pravda. Ne užitečná."`,
             poet_response_demands_blood_yours: `Básníkova tvář se uklidní tím nejhorším způsobem.\n\n"Krev je nejlevnější karmínové slovo;\nkaždý řezník si myslí, že je slyšen znovu.\nSpletli jste si násilí s koncem."`,
             poet_response_round_three_default: `Dlouhou vteřinu je Radnice jen dech.\n\nBásník se podívá na rukojmí, pak na své stránky, pak na vás. Báseň dospěla k poslednímu verši.`,
         },
@@ -182,7 +182,7 @@ export default {
         }
     },
     poet_defeat: {
-        text: `Básník vyslechne váš poslední verš a něco v jeho tváři se usadí do děsivého, vděčného klidu.\n\n"Mrtvé umění," zamumlá. "Konečně — upřímnost. Dokázali jste mou tezi za mě.\n\nVerš, jenž žít nedokáže,\nmusí skončit tak, jak končí všechny mrtvé verše."\n\nRevolver se beze spěchu zvedne. Úředníkův výkřik je poslední věc, kterou Radnice dnes v noci zakládá, a čtení se stane historií v tom nejhorším možném metru.`,
+        text: `Básník vyslechne váš poslední verš a něco v jeho tváři se usadí do děsivého, vděčného klidu.\n\n"Mrtvé umění," zamumlá. "Konečně – upřímnost. Dokázali jste mou tezi za mě.\n\nVerš, jenž žít nedokáže,\nmusí skončit tak, jak končí všechny mrtvé verše."\n\nRevolver se beze spěchu zvedne. Úředníkův výkřik je poslední věc, kterou Radnice dnes v noci zakládá, a čtení se stane historií v tom nejhorším možném metru.`,
         options: {
             game_over: 'KONEC HRY',
         }
@@ -190,7 +190,7 @@ export default {
     clerk_after_poet: {
         text: {
             clerk_after_poet_fresh: `"Děkuji. Oficiální zápis to nazve 'lyrickým narušením s rukojmími charakteristikami.' Zní to méně trapně než pravda.\n\nSpisovna je pořád v nepořádku, ale Radnice může znovu dýchat. Pokud potřebujete záznamy o Biskupce, ptejte se hned, než někdo vymyslí obnovovací komisi."`,
-            clerk_after_poet_records_checked: `"Archivní skříně jsou teď otevřené. Už jsem pro vás vytáhl složku Biskupky — nebo to, co ze složky zbyde, když se Radnice dost dlouho vyhýbá odpovědnosti."`,
+            clerk_after_poet_records_checked: `"Archivní skříně jsou teď otevřené. Už jsem pro vás vytáhl složku Biskupky – nebo to, co ze složky zbyde, když se Radnice dost dlouho vyhýbá odpovědnosti."`,
         },
         options: {
             i_need_the_bishops_townhall_records: 'Potřebuji radniční záznamy o Biskupce.',
@@ -224,7 +224,7 @@ Najděte zápisník. Radnice nemůže špatně založit něco, co se jí nikdy n
     clerk_other_doppelganger_reports: {
         text: `"Žádné veřejné záznamy pod 'dvojník', 'duplikát občana', 'nedýchající já' ani starou kategorií 'zrcadlové občanské znepokojení'. Kontroloval jsem to, protože přesně takové kategorie úředníci vymýšlejí a pak litují.
 
-Je tu jeden zapečetěný křížový odkaz: 'katedrálně přilehlá identitní nepravidelnost — teologická nouze.' Stejný týden. Stejná série razítek. Ten, kdo to podal, chtěl, aby se Radnice dívala jinam, aniž by technicky lhala.
+Je tu jeden zapečetěný křížový odkaz: 'katedrálně přilehlá identitní nepravidelnost – teologická nouze.' Stejný týden. Stejná série razítek. Ten, kdo to podal, chtěl, aby se Radnice dívala jinam, aniž by technicky lhala.
 
 Takže: žádný vzorec, který dokážu. Ale Biskupka nebyla jen vyděšená. Něco dokumentovala."`,
         options: {
@@ -295,7 +295,7 @@ Jestli vám Radnice dluží odměnu, přimějte ho říct to nahlas. Vyslovený 
         }
     },
     councilor_pith_offer: {
-        text: `Seraphel Dune si vás prohlíží jako auditor slibnou nesrovnalost. „Reklamátoři nejsou víra, ani vojsko. Jsme paměť města na řád — zakládáme, co by se jinak ztratilo, a přijímáme, co by jinak propadlo skulinami. Duše, které nemají kam být zaneseny.\n\nJestli se k nám chcete přidat, dokažte, že chápete tu práci: najděte jednu takovou duši — nezakotvenou, nezapsanou, unášenou — a přiveďte ji do stáda. Dejte městu o jednoho občana víc, kterého může vyúčtovat. Udělejte to, a otevřou se dveře.“`,
+        text: `Seraphel Dune si vás prohlíží jako auditor slibnou nesrovnalost. „Reklamátoři nejsou víra, ani vojsko. Jsme paměť města na řád – zakládáme, co by se jinak ztratilo, a přijímáme, co by jinak propadlo skulinami. Duše, které nemají kam být zaneseny.\n\nJestli se k nám chcete přidat, dokažte, že chápete tu práci: najděte jednu takovou duši – nezakotvenou, nezapsanou, unášenou – a přiveďte ji do stáda. Dejte městu o jednoho občana víc, kterého může vyúčtovat. Udělejte to, a otevřou se dveře.“`,
         options: {
             pith_accept: 'Někoho najdu.',
             pith_who: 'Koho jste měl na mysli?',
@@ -303,27 +303,27 @@ Jestli vám Radnice dluží odměnu, přimějte ho říct to nahlas. Vyslovený 
         }
     },
     councilor_pith_who: {
-        text: `„Město je plné nevyúčtovaných. Ten ‚průměrný občan', co se poflakuje na Náměstí a nikoho neošálí. To stvoření, co obchází aukce Voxmarketu bez jediné adresy. Vyberte jednoho. Přesvědčte ho, že být zapsán je druh bezpečí.“ Suchá odmlka. „Většina lidí stráví život snahou zůstat nezapsaná. Ti, co chtějí dovnitř — ti jsou naši.“`,
+        text: `„Město je plné nevyúčtovaných. Ten ‚průměrný občan', co se poflakuje na Náměstí a nikoho neošálí. To stvoření, co obchází aukce Voxmarketu bez jediné adresy. Vyberte jednoho. Přesvědčte ho, že být zapsán je druh bezpečí.“ Suchá odmlka. „Většina lidí stráví život snahou zůstat nezapsaná. Ti, co chtějí dovnitř – ti jsou naši.“`,
         options: {
             pith_accept_2: 'Někoho najdu.',
             pith_think: 'Nechte mě přemýšlet.',
         }
     },
     councilor_pith_accepted: {
-        text: `„Dobře. Vrchní úředník vyřídí papírování, až se vrátíte se svým kandidátem. Zkuste přivést někoho, kdo udrží pero — nebo něco na způsob pera.“`,
+        text: `„Dobře. Vrchní úředník vyřídí papírování, až se vrátíte se svým kandidátem. Zkuste přivést někoho, kdo udrží pero – nebo něco na způsob pera.“`,
         options: {
             pith_accepted_ok: 'Rozumím.',
         }
     },
     councilor_pith_present: {
-        text: `Vysvětlíte, koho jste přivedl do stáda. Přísná tvář Seraphela Duna udělá něco neznámého — souhlas. „Občan tam, kde byla v záznamu mezera. Dobře.“ Dvakrát klepne na skříň; Vrchní úředník se zjeví s už otevřenou účetní knihou. „Papírování se vyřizuje, právě když spolu mluvíme. Podepište zde, zde a — bohužel — zde.\n\nHotovo. Jste Reklamátor. Pod touhle budovou je místnost, na kterou komise předstírají, že si nevzpomínají. Teď je vaše. Přiveďte nám víc nevyúčtovaných a Reklamátoři nezapomenou, kdo dělal to účtování.“`,
+        text: `Vysvětlíte, koho jste přivedl do stáda. Přísná tvář Seraphela Duna udělá něco neznámého – souhlas. „Občan tam, kde byla v záznamu mezera. Dobře.“ Dvakrát klepne na skříň; Vrchní úředník se zjeví s už otevřenou účetní knihou. „Papírování se vyřizuje, právě když spolu mluvíme. Podepište zde, zde a – bohužel – zde.\n\nHotovo. Jste Reklamátor. Pod touhle budovou je místnost, na kterou komise předstírají, že si nevzpomínají. Teď je vaše. Přiveďte nám víc nevyúčtovaných a Reklamátoři nezapomenou, kdo dělal to účtování.“`,
         options: {
             pith_room_ask: 'Místnost pod Radnicí?',
             pith_bring_more: 'Přivedu vám víc.',
         }
     },
     councilor_pith_room: {
-        text: `„Čítárna. Přiléhá k archivu. Mimo záznam, což je v téhle budově jediný druh soukromí, který přežije. Cestu dolů najdete označenou pečetí Reklamátorů, teď když je na ní vaše jméno. Odpočiňte si tam. Uložte, co musíte. Ta místnost si pamatuje své členy — a je tím užitečnější, čím víc města dokážeme vyúčtovat.“`,
+        text: `„Čítárna. Přiléhá k archivu. Mimo záznam, což je v téhle budově jediný druh soukromí, který přežije. Cestu dolů najdete označenou pečetí Reklamátorů, teď když je na ní vaše jméno. Odpočiňte si tam. Uložte, co musíte. Ta místnost si pamatuje své členy – a je tím užitečnější, čím víc města dokážeme vyúčtovat.“`,
         options: {
             pith_room_ok: 'Rozumím.',
         }
@@ -363,7 +363,7 @@ Ale jestli Biskupka používala úřední papír jako soukromý zápisník, scho
 
     // ===== Gang of Lamps (Sconcin úkol): prohledávání spisových zásuvek =====
     dossier_search: {
-        text: `Archivní zásuvky se táhnou po celé délce zdi, tisíce čísel případů v pořádku mrtvého byrokrata. Někde tady je ten jeden spis, založený proto, aby se zapomněl — číslo, které neodpovídá ničemu. Najít ho ručně by mohlo trvat celou noc.`,
+        text: `Archivní zásuvky se táhnou po celé délce zdi, tisíce čísel případů v pořádku mrtvého byrokrata. Někde tady je ten jeden spis, založený proto, aby se zapomněl – číslo, které neodpovídá ničemu. Najít ho ručně by mohlo trvat celou noc.`,
         options: {
             dossier_plain: "Prohledávat zásuvky ručně, dokud se to špatné číslo neobjeví.",
             dossier_palinode: "[Palinode] Odeříct pečeť ze zásuvky, která nikam nepatří.",
@@ -372,7 +372,7 @@ Ale jestli Biskupka používala úřední papír jako soukromý zápisník, scho
         }
     },
     councilor_drug_surrender_talk: {
-        text: `Dune si balíček prohlíží s únavou muže, který jich už příliš mnoho založil. „Wimlick. A vy mi ho nesete, místo abyste ho rozvezl.“ Odkudsi jakoby z ničeho vytáhne účetní knihu. „Reklamátoři vedou účet o tom, co město odhazuje — včetně kšeftu, který odhazuje lidi. Zapíše se to jako zabavené pašované zboží a to, že vám to prošlo rukama, se poctivě zapíše hned vedle. Žádný zisk pro vás. Ale ani díra v záznamu.“ Vezme balíček. „To je nabídka Reklamátorů: nejste tu hrdina ani zločinec. Jste *zaevidován*.“`,
+        text: `Dune si balíček prohlíží s únavou muže, který jich už příliš mnoho založil. „Wimlick. A vy mi ho nesete, místo abyste ho rozvezl.“ Odkudsi jakoby z ničeho vytáhne účetní knihu. „Reklamátoři vedou účet o tom, co město odhazuje – včetně kšeftu, který odhazuje lidi. Zapíše se to jako zabavené pašované zboží a to, že vám to prošlo rukama, se poctivě zapíše hned vedle. Žádný zisk pro vás. Ale ani díra v záznamu.“ Vezme balíček. „To je nabídka Reklamátorů: nejste tu hrdina ani zločinec. Jste *zaevidován*.“`,
         options: {
             councilor_drug_surrender_close: "Zapište to. Všechno.",
         }

@@ -1,5 +1,5 @@
 /**
- * Czech intro scene text — dialogy z úvodní scény
+ * Czech intro scene text – dialogy z úvodní scény
  */
 export default {
     intro: {
@@ -14,7 +14,7 @@ export default {
             { speaker: 'ACHKNĚZ RHULL', text: 'On je... no, je to Thaalův učedník. Moc o něm nevím, ale vím, že není zrovna... nejostřejší houba v lese.' },
             { speaker: 'ACHKNĚZ RHULL', text: 'Alespoň jsme tentokrát schovali obřadní oleje.' },
             { speaker: 'ACHKNĚZ TYNRI', text: 'A zamkli houbový archiv. Dvakrát.' },
-            { speaker: 'ACHKNĚZ VARHUN', text: 'Ať mistr Thaal povstane — pokud možno potichu. Ať najde Biskupku z Horní Morkezely a odhalí zdroj tohoto nouzového volání. Učedník je jeho zodpovědnost.' },
+            { speaker: 'ACHKNĚZ VARHUN', text: 'Ať mistr Thaal povstane – pokud možno potichu. Ať najde Biskupku z Horní Morkezely a odhalí zdroj tohoto nouzového volání. Učedník je jeho zodpovědnost.' },
         ],
     },
 };

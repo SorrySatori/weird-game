@@ -1,5 +1,5 @@
 /**
- * Czech quest translations — keyed by quest ID
+ * Czech quest translations – keyed by quest ID
  */
 export default {
     quests: {
@@ -9,9 +9,9 @@ export default {
             updates: {
                 vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
                 elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji najít ve Škrabáku 1140.',
-                bishop_clue_gnur: "Biskupka byla viděna u Škrabáku 1140, jak provádí neobvyklý obchod s 'herní čočkou'. Gnur by mohl vědět víc, ale chce něco na oplátku.",
+                bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Kůlny 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
-                bishop_location_scraper: 'Biskupka byla naposledy viděna, jak míří do Škrabáku 1140 za Dr. Elphi.',
+                bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
                 got_floor_counter_tool: 'Kapitán Liris mi dal kalibrační nástroj na opravu počítadla pater Lift-Mother, což by mi mělo umožnit přístup do studia Dr. Elphi.',
                 lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Ticho.',
                 reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Ticho. Teď musím najít stopy po Biskupce.',
@@ -27,29 +27,29 @@ export default {
             updates: {
                 dead_bishop_bruising: 'Prohlédl jsem tělo Biskupky a našel modřiny na spáncích, kde se připojují rozhraní snových zařízení.',
                 dead_bishop_cartridge: 'Před smrtí Biskupka zřejmě hrála hru nazvanou „Kardinálská Hostina".',
-                dead_bishop_helmet: 'Před smrtí Biskupka zřejmě používala přenosnou helmu snového rozhraní.',
+                dead_bishop_helmet: 'Biskupka zemřela v snové helmě vlastní výroby – elektronika z trhu poskládaná kolem staré předválečné čočky, bez jakýchkoli studiových pojistek.',
                 dead_bishop_journal: 'Před smrtí Biskupka zřejmě psala do svého deníku... „Město mě už neslyší. Možná to dokážou sny."',
                 dead_bishop_notebook: 'Našel jsem podivnou poznámku... „Vešla jsem do zpovědnice, ale ona tam už byla. Vypadala jako já..."',
                 bishop_dissection: 'Tělo Biskupky obsahuje podivný zářící houbový výrůstek, který se integroval s její nervovou soustavou.',
                 dead_bishop_berries: 'Před smrtí Biskupka zřejmě jedla Mručenky.',
-                gardener_bishop_info: 'Zahradník Verrik u Lumen Direktorátu zmínil, že Biskupka pravidelně navštěvovala — konkrétně kvůli Korektoru Úhlu.',
+                gardener_bishop_info: 'Zahradník Verrik u Lumen Direktorátu zmínil, že Biskupka pravidelně navštěvovala – konkrétně kvůli Korektoru Úhlu.',
                 gardener_sulkberry_info: 'Zahradník u Lumen Direktorátu potvrdil, že kořeněné Mručenky jsou kontrolovaná komodita.',
-                ac_bishop_relationship: 'Korektor Úhlu potvrdil profesionální vztah s Biskupkou — pravidelná setkání o přístupu do Katedrály a líhnutí.',
-                ac_sulkberry_confirmed: 'Korektor Úhlu potvrdil dodávky Mručenek pro Biskupku — používány pro snovou imerzi v Katedrále.',
+                ac_bishop_relationship: 'Korektor Úhlu potvrdil profesionální vztah s Biskupkou – pravidelná setkání o přístupu do Katedrály a líhnutí.',
+                ac_sulkberry_confirmed: 'Korektor Úhlu potvrdil dodávky Mručenek pro Biskupku – používány pro snovou imerzi v Katedrále.',
                 ac_tamper_hint: 'Korektor Úhlu naznačil, že zmanipulované Mručenky by mohly způsobit neurální trauma odpovídající stavu Biskupky.',
-                elphi_dream_kill: 'Dr. Elphi potvrdila, že poškozená snová kazeta může způsobit smrt přetížením neurální soustavy — „smrt rekurzivním zážitkem".',
+                elphi_dream_kill: 'Dr. Elphi potvrdila, že poškozená snová kazeta může způsobit smrt přetížením neurální soustavy – „smrt rekurzivním zážitkem".',
                 elphi_bruising: 'Dr. Elphi potvrdila, že modřiny naznačují zpětnou vlnu ze snové relace bez bezpečnostních omezovačů.',
-                elphi_cartridge: 'Dr. Elphi potvrdila, že Kardinálská Hostina je normální hra — to kanibalistické RPG s ještěry. Ale data relace ukazují katastrofální selhání.',
-                elphi_helmet: 'Dr. Elphi říká, že poškozený port helmy potvrzuje, že signálová zátěž překročila limity hardware.',
+                elphi_cartridge: 'Dr. Elphi potvrdila, že Kardinálská Hostina je normální hra – to kanibalistické RPG s ještěry. Ale data relace ukazují katastrofální selhání.',
+                elphi_helmet: 'Dr. Elphi poznala, že helma je Biskupčina vlastní práce – její návrh okopírovaný z paměti, díly z Voxmarketu, předválečná čočka. Bez jediného omezovače: vypálený port znamená, že zpětná vazba šla do mozku bez zábran.',
                 elphi_memo: 'Dr. Elphi nedokázala vysvětlit dvojníka z poznámky Biskupky. Není to známý vedlejší efekt snové technologie.',
                 elphi_townhall_log: 'Setkání Biskupky s dvojníkem bylo formálně zaznamenáno na Radnici. Archivní úředník by mohl mít kopii.',
                 elphi_journal: 'Dr. Elphi interpretovala zápis v deníku Biskupky jako důkaz, že byla odpojena od myceliální sítě.',
                 elphi_dissection: 'Dr. Elphi věří, že houbový výrůstek uvnitř Biskupky byl symbiont. Vrah mohl mířit na samotného symbionta.',
-                elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu — specialitu Lumen Direktorátu.',
+                elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu – specialitu Lumen Direktorátu.',
                 elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Lumen Direktorátem. Prodávají kořeněné Mručenky.',
-                verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány — žádná kontaminace. Stopa otravy Direktorátem slábne.',
-                kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky — čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
-                heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté — žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
+                verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány – žádná kontaminace. Stopa otravy Direktorátem slábne.',
+                kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky – čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
+                heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté – žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
                 townhall_notebook_revelation: 'Radniční úředník odhalil, že Biskupčina poznámka o dvojníkovi byla osobní zápis v Oficiálním radničním reportním zápisníku. Chybějící zápisník je teď nejsilnější stopa.',
                 elphi_day1_complete: 'Probral jsem všechny stopy s Dr. Elphi. Pracuje na opravě kazety Kardinálské Hostiny.',
             }
@@ -94,14 +94,14 @@ export default {
                 redmass_spared: 'Našel jsem živou rudou hmotu na ostrově v Deltě Ozvěnového Odpadu, ale rozhodl jsem se ji ušetřit.',
                 redmass_collected: 'Sebral jsem živou rudou hmotu z ostrova v Deltě Ozvěnového Odpadu.',
                 magnekin_tip: 'Podivný tvor, který se identifikuje jako Magnekin, mi řekl, že nějaké kovové šroty se dají najít v Deltě Ozvěnového Odpadu.',
-                learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Skladu 521.',
+                learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Kůlny 521.',
             }
         },
         rust_reclamation: {
-            title: 'Rezavá Reklamace',
-            description: 'Gnur potřebuje pomoc s vyzvednutím „živého jádra" z nepoužívaných tunelů Skladu 521, někde za opuštěnou kanceláří.',
+            title: 'Rezavá sklizeň',
+            description: 'Gnur potřebuje pomoc s vyzvednutím „živého jádra" z nepoužívaných tunelů Kůlny 521, někde za opuštěnou kanceláří.',
             updates: {
-                promise_made: 'Slíbil jsem úředníkovi ve Skladu 521, že si nebudu zahrávat s živým jádrem.',
+                promise_made: 'Slíbil jsem úředníkovi ve Kůlny 521, že si nebudu zahrávat s živým jádrem.',
                 core_delivered: 'Dal jsem Gnurovi živé jádro. Zdá se spokojený.',
                 quest_refused: 'Odmítl jsem Gnurovi pomoct ukrást živé jádro poté, co jsem se dozvěděl o jeho důležitosti.',
             }
@@ -133,11 +133,11 @@ export default {
         },
         enter_townhall: {
             title: 'Vstoupit na Radnici',
-            description: 'Radnice je zavřená a nikdo neví proč. Musím najít způsob, jak se dostat dovnitř — zpráva o dvojníkovi Biskupky tam byla podána a Phor Calesta také potřebuje přístup. Možná někdo ve městě ví, jak se dostat dovnitř.',
+            description: 'Radnice je zavřená a nikdo neví proč. Musím najít způsob, jak se dostat dovnitř – zpráva o dvojníkovi Biskupky tam byla podána a Phor Calesta také potřebuje přístup. Možná někdo ve městě ví, jak se dostat dovnitř.',
             updates: {
                 gardener_seldo_tip: 'Zahradník Verrik u Lumen Direktorátu navrhl, abych promluvil se Seldem Třikrát-Korigovaným uvnitř.',
                 ac_seldo_referral: 'Korektor Úhlu mě nasměroval k Seldovi Třikrát-Korigovanému ve druhém patře.',
-                seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti — příliš trapné pro operativce Direktorátu koupit veřejně.',
+                seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti – příliš trapné pro operativce Direktorátu koupit veřejně.',
                 seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumen Directorate výměnou za klíč od Radnice.',
                 seldo_townhall_key: 'Dodal jsem Chronobřečkové Ropušátko Seldovi Třikrát-Korigovanému. Dal mi neoficiální klíč od Radnice pro boční vchod s mosaznou schránkou na stížnosti.',
                 entered_townhall: 'Dostal jsem se dovnitř Radnice. Problém se zamčenými dveřmi je vyřešený; teď můžu prohledat záznamy uvnitř.',
