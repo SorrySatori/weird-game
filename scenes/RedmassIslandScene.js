@@ -340,6 +340,7 @@ export default class RedmassIslandScene extends GameScene {
         const added = this.addItemToInventory({
             id: 'redmass',
             name: 'Living Redmass',
+            variant: 'willing',
             description: 'A shard of living metal, given willingly by a sentient crystalline organism. It hums gently, at peace.',
             image: 'redmass',
             stackable: false

@@ -200,6 +200,22 @@ export default {
             title: 'Day 1 Complete: The Investigation Begins',
             description: "I've shared all my findings with Dr. Elphi Quarn.",
         },
+        dream_queue: {
+            title: 'The Eternal Queue of Shed 521',
+            description: 'I witnessed something unsettling in the Registration Office of Shed 521 — a queue of translucent figures waiting in a line that never seems to move. They look like ghosts of applicants, condemned to wait for eternity. There is no clerk behind the desk. None of them speak unless spoken to, and the air around them feels like a half-remembered dream.',
+        },
+        dream_queue_completed: {
+            title: 'Registration Office Visit',
+            description: 'I completed my first visit to the Registration Office in Shed 521. The strange queue of spectral figures dissolved after I interacted with them, and the Senior Clerk appeared to process my application.',
+        },
+        registration_senior_clerk: {
+            title: 'Senior Clerk',
+            description: 'I met the Senior Clerk at the Registration Office of Shed 521. He was a tall, imposing figure with a stern expression, clad in a dark suit.',
+        },
+        extra_symbiont_slot_purchased: {
+            title: 'Extra Symbiont Slot',
+            description: 'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward — just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
+        },
         gnur_meeting: {
             title: 'Gnur of the Rust Choir',
             description: 'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him — his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',

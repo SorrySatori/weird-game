@@ -83,6 +83,10 @@ export default {
 
         // Inventář
         inventory: {
+            button: 'Inventář',
+            panelTitle: 'INVENTÁŘ',
+            emptyItems: 'Váš inventář je prázdný',
+            use: 'POUŽÍT',
             title: 'SBÍRKA SPOR',
             empty: 'Vaše sbírka spor je prázdná.\nSbírejte spory při průzkumu.',
             full: 'Inventář je plný!',

@@ -87,6 +87,30 @@ export default class LanguageSystem {
         return this._interpolate(value, params);
     }
 
+    /** Resolve a key to a string in the current language (with EN fallback), or undefined. */
+    str(key) {
+        const v = this.t(key);
+        return (typeof v === 'string' && v !== key) ? v : undefined;
+    }
+
+    /**
+     * Localized display name of an inventory item. Looks up `items.<id>.names.<variant>`, then
+     * `items.<id>.name`, then falls back to the English `item.name` stored on the item itself.
+     */
+    itemName(item) {
+        if (!item) return '';
+        const base = `items.${item.id}`;
+        return (item.variant && this.str(`${base}.names.${item.variant}`)) || this.str(`${base}.name`) || item.name || '';
+    }
+
+    /** Localized item description; same lookup order as itemName, then the item's own text. */
+    itemDescription(item) {
+        if (!item) return '';
+        const base = `items.${item.id}`;
+        return (item.variant && this.str(`${base}.descriptions.${item.variant}`)) || this.str(`${base}.description`)
+            || item.description || this.str('shop.noDescription') || '';
+    }
+
     /**
      * Translate dialog content for a scene.
      * Returns translated content object or null if no translation available.

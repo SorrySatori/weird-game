@@ -115,7 +115,7 @@ export default {
             dream_device_bruised_the_dead: 'Snové zařízení proměnilo útěchu ve smyčku ostrou dost na to, aby pohmoždila mrtvou.',
             redmass_begging_not_proof: 'Živá rudohmota prosící, aby se nestala důkazem cizí věrnosti.',
             rust_choir_machines_hum: 'Stroje Rezavého chóru hučí i poté, co každé impérium zapomene vlastní melodii.',
-            shed_forms_amputate: 'Hangár 521 mě naučil, že formuláře amputují čistěji než nože.',
+            shed_forms_amputate: 'Kůlna 521 mě naučila, že formuláře amputují čistěji než nože.',
             misutkenn_writer_festival_fire: 'Mišutkennský spisovatel nese festivalový oheň v žebrech a stále žádá příběh.',
             clean_sulkberries_accused_by_fear: 'Čisté sulkberry, obviněné jen proto, že strach potřeboval pohodlné místo k hnití.',
             divinographer_waiting_dead_gods: 'Divinograf čekající na povolení, zatímco mrtví bohové fosilizují pod razítky.',

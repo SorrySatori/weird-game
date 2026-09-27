@@ -350,6 +350,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         this.addItemToInventory({
                             id: 'rust_feast',
                             name: 'Rust Feast',
+                            variant: 'thin',
                             description: "A ceremonial meal prepared for the Rust Choir machines. Thin, barely adequate — a small shard of redmass mixed with oil and metal dust. It hums softly.",
                             image: 'rust_feast',
                             stackable: false
@@ -386,6 +387,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         this.addItemToInventory({
                             id: 'rust_feast',
                             name: 'Rust Feast',
+                            variant: 'illusory',
                             description: 'A ceremonial meal prepared for the Rust Choir machines. Oil, metal shavings, and what appears to be living redmass — but you know the truth. The container hums faintly, but something feels hollow.',
                             image: 'rust_feast',
                             stackable: false
@@ -423,6 +425,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         this.addItemToInventory({
                             id: 'rust_feast',
                             name: 'Rust Feast',
+                            variant: 'laced',
                             description: 'A ceremonial meal for the Rust Choir machines — oil, metal shavings, and living redmass. Laced, unseen, with a Lumen Directorate cultivar ground into the oil. It rattles like any other feast. It is not.',
                             image: 'rust_feast',
                             stackable: false

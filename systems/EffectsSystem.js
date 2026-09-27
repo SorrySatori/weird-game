@@ -1,3 +1,5 @@
+import LanguageSystem from './LanguageSystem.js';
+
 /**
  * Effects System
  * Manages visual and gameplay effects, including drug effects
@@ -128,7 +130,7 @@ export default class EffectsSystem {
             if (item.id === 'wimlick') {
                 this.scene.showNotification('Wimlick hits — the world speeds up.', '', '', 3000);
             } else {
-                this.scene.showNotification(`Experiencing effects of ${item.name}...`);
+                this.scene.showNotification(LanguageSystem.getInstance().t('notifications.effectsStart', { item: LanguageSystem.getInstance().itemName(item) }));
             }
         }
     }
@@ -174,7 +176,7 @@ export default class EffectsSystem {
         this.effectTimer = this.scene.time.delayedCall(duration, () => {
             this.clearEffects();
             if (this.scene.showNotification && this.currentDrugItem) {
-                this.scene.showNotification(`The effects of ${this.currentDrugItem.name} have worn off.`);
+                this.scene.showNotification(LanguageSystem.getInstance().t('notifications.effectsEnd', { item: LanguageSystem.getInstance().itemName(this.currentDrugItem) }));
             }
             // Clear from registry when effect expires naturally
             this.scene.registry.remove('activeDrugEffect');

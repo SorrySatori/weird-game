@@ -56,7 +56,7 @@ export default {
         text: "Zvědavost je v tomhle městě drahá..."
     },
     ravla_ortolan: {
-        text: "Formulář o řemeslnické výjimce? Pro Ortolana?..."
+        text: "Formulář o výjimce pro umělce? Pro Ortolana?..."
     },
     ravla_ortolan_need: {
         text: "Nebude to levné – 50 dinárů..."

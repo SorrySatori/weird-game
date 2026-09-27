@@ -16,6 +16,11 @@ export default class ShedRegistrationScene extends GameScene {
         this.journalSystem = JournalSystem.getInstance();
     }
     
+    setDreamQueueChoice(figure, choice) {
+        this.dreamQueueChoices[figure] = choice;
+        this.registry.set('dreamQueueChoices', { ...this.dreamQueueChoices });
+    }
+
     // Safe version of modifyGrowthDecay that doesn't rely on the UI indicator
     safeModifyGrowthDecay(growthChange, decayChange) {
         // Get the growth/decay system from registry
@@ -45,6 +50,9 @@ export default class ShedRegistrationScene extends GameScene {
             this.priest.play('idle');
         }
         this.transitionManager = new SceneTransitionManager(this);
+        // Dream-queue choices are kept in the registry (and in the save file) so the clerk's
+        // unlocked options survive scene restarts and loading a game.
+        Object.assign(this.dreamQueueChoices, this.registry.get('dreamQueueChoices') || {});
 
         // Set background
         const bg = this.add.image(400, 300, 'registration-bg');
@@ -80,7 +88,7 @@ export default class ShedRegistrationScene extends GameScene {
         // Create a container for the queue
         this.queueContainer = this.add.container(400, 450);
         
-        // 1. Sleepless Mime (using clerk.png for now) - first in queue
+        // 1. Sleepless Mime (using clerk.png for now) — first in queue
         this.sleeplessMime = this.add.sprite(-150, 0, 'sleeplessMime')
             .setScale(0.4)
             .setVisible(false)
@@ -103,7 +111,7 @@ export default class ShedRegistrationScene extends GameScene {
             }
         });
         
-        // 2. Vowel Seller - second in queue
+        // 2. Vowel Seller — second in queue
         this.vowelSeller = this.add.sprite(0, 0, 'vowelSeller')
             .setScale(0.4)
             .setVisible(false)
@@ -207,12 +215,12 @@ export default class ShedRegistrationScene extends GameScene {
             delay: 2500,
             ease: 'Power2',
             onComplete: () => {
-                this.showNotification('When you enter the office, you are surrounded by weird, dreamy creatures that form a queue...');
+                this.showNotification(this.t('shedRegistration.queueForms'));
                 if (!this.journalSystem.hasEntry('dream_queue')) {
                     this.journalSystem.addEntry(
                         'dream_queue',
                         'The Eternal Queue of Shed 521',
-                        'I witnessed something unsettling in the Registration Office of Shed 521 - a queue of translucent figures, waiting in an endless line that never seems to move. They appear to be ghosts of bureaucrats and applicants, condemned to wait for eternity. When asked about them, the clerk simply replied that they were "only manifestations of the queue itself. Echoes of those who waited too long." as if this was perfectly normal. The most disturbing part is how the living visitors seem to ignore them completely, walking through their spectral forms without acknowledgment.',
+                        'I witnessed something unsettling in the Registration Office of Shed 521 — a queue of translucent figures waiting in a line that never seems to move. They look like ghosts of applicants, condemned to wait for eternity. There is no clerk behind the desk. None of them speak unless spoken to, and the air around them feels like a half-remembered dream.',
                         this.journalSystem.categories.EVENTS,
                         { location: 'Shed 521 Registration Office' }
                     );
@@ -235,7 +243,7 @@ export default class ShedRegistrationScene extends GameScene {
             
             // Show notification
             this.time.delayedCall(500, () => {
-                this.showNotification('The Senior Clerk is ready to assist you');
+                this.showNotification(this.t('shedRegistration.clerkReady'));
             });
     }
     
@@ -243,7 +251,7 @@ export default class ShedRegistrationScene extends GameScene {
         // Check if player has interacted with all three NPCs
         if (this.npcsInteractedWith.size >= 3) {
             // Show notification
-            this.showNotification('All queue inhabitants have faded away');
+            this.showNotification(this.t('shedRegistration.queueFaded'));
             
             // Make sure all NPC sprites are completely hidden
             // Hide Sleepless Mime completely if still visible
@@ -261,7 +269,7 @@ export default class ShedRegistrationScene extends GameScene {
         
             // Create the Senior Clerk after a delay
             this.time.delayedCall(2000, () => {
-                this.showNotification('A Senior Clerk has appeared...');
+                this.showNotification(this.t('shedRegistration.clerkAppeared'));
                 this.createSeniorClerk();
             });
             
@@ -279,20 +287,6 @@ export default class ShedRegistrationScene extends GameScene {
                     { location: 'Shed 521 Registration Office' }
                 );
             }
-            
-            // Update quest if relevant
-            const questSystem = this.registry.get('questSystem');
-            if (questSystem) {
-                // Check for specific quests that might be updated by this interaction
-                if (questSystem && questSystem.getQuest('shed521_investigation')) {
-                    questSystem.updateQuest(
-                        'shed521_investigation', 
-                        'I\'ve made it through the strange queue in the Registration Office. The Senior Clerk is now ready to process my application.',
-                        'registration_queue_complete'
-                    );
-                    this.showNotification('Quest updated: Shed 521 Investigation');
-                }
-            }
         }
     }
     
@@ -302,16 +296,15 @@ export default class ShedRegistrationScene extends GameScene {
         if (questSystem && questSystem.getQuest('ortolan_arms')) {
             questUpdates = questSystem.getQuest('ortolan_arms')?.updates;
         }
-        return {
+        const content = {
             ...super.dialogContent,
             // 1. Sleepless Mime Dialog
-            speaker: 'Sleepless Mime',
             sleeplessMime_start: {
         
-                text: "(The creature watches you intently. You name it the Sleepless Mime for yourself. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands - forming a cube shape, like a die. They pantomime you holding it.)",
+                text: "(The creature watches you intently. You name it the Sleepless Mime for yourself. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands — forming a cube shape, like a die. They pantomime you holding it.)",
                 options: [
                     { text: "Hi, who are you? I used to play like this as well, when I was a kid.", key: 'hi_who_are_you_i_used_to_play_like_this_as_well_wh', next: "sleeplessMime_memory" },
-                    { text: " Err... I am at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }
+                    { text: "Err... Am I at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }
                 ]
             },
             sleeplessMime_memory: {
@@ -328,16 +321,15 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "Thank you for reminding me.", key: 'thank_you_for_reminding_me', next: "sleeplessMime_end" }
                 ],
                 onTrigger: () => {
-                    this.dreamQueueChoices.sleeplessMime = 'memory';
+                    this.setDreamQueueChoice('sleeplessMime', 'memory');
                     this.safeModifyGrowthDecay(2, 0);
-                    this.showNotification('Growth +2: A cherished memory returns');
                     this.npcsInteractedWith.add('sleeplessMime');
                     this.checkAllNPCsInteracted();
                 }
             },
             sleeplessMime_ortolan: {
         
-                text: "(The Mime nods vigorously. They reach into their pocket and produce a tattered fragment of paper. They press it into your hand - it appears to be a page from some rulebook perhaps. Maybe... a boardgame fragment?)",
+                text: "(The Mime nods vigorously. They reach into their pocket and produce a tattered fragment of paper. They press it into your hand — it appears to be a page from some rulebook perhaps. Maybe... a boardgame fragment?)",
                 options: [
                     { text: "Read the fragment", key: 'read_the_fragment', next: "sleeplessMime_rulebook" }
                 ]
@@ -349,7 +341,7 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "Err... Thank you... I guess.", key: 'err_thank_you_i_guess', next: "sleeplessMime_end" }
                 ],
                 onTrigger: () => {
-                    this.dreamQueueChoices.sleeplessMime = 'rulebook';
+                    this.setDreamQueueChoice('sleeplessMime', 'rulebook');
                     // Add rulebook fragment to inventory
                     this.addItemToInventory({
                         id: 'rulebook-fragment',
@@ -357,7 +349,6 @@ export default class ShedRegistrationScene extends GameScene {
                         description: 'A torn page from some unfinished game rulebook. It describes memory exchange mechanics.',
                         stackable: false
                     });
-                    this.showNotification('Received: Rulebook Fragment');
                     this.npcsInteractedWith.add('sleeplessMime');
                     this.checkAllNPCsInteracted();
                 }
@@ -385,23 +376,21 @@ export default class ShedRegistrationScene extends GameScene {
             
             // 2. Vowel Seller Dialog
             vowelSeller_start: {
-                speaker: 'Vowel Seller',
-                text: "(The ash-covered figure turns to you, tiny glass vials clinking in their coat pockets. Each contains a glowing letter, suspended in fluid.)\n\n'I sell vowels. If you want your name to matter, you'll need one.'\n\nThey hold up a vial with a pulsing 'A' inside.",
+                text: "(The ash-covered figure turns to you, tiny glass vials clinking in his coat pockets. Each contains a glowing letter, suspended in fluid.)\n\n'I sell vowels. If you want your name to matter, you'll need one.'\n\nHe holds up a vial with a pulsing 'A' inside.",
                 options: [
                     { text: "I'll buy one.", key: 'ill_buy_one', next: "vowelSeller_buy" },
-                    { text: "Keep your vowels. I speak in spore alphabet.", key: 'keep_your_vowels_i_speak_in_spore_alphabet', next: "vowelSeller_spores" }
+                    { text: "Keep your vowels. I speak in fungus alphabet.", key: 'keep_your_vowels_i_speak_in_spore_alphabet', next: "vowelSeller_spores" }
                 ]
             },
             vowelSeller_buy: {
         
-                text: "'A wise choice. The price is a minor memory. Something small... perhaps the taste of your first meal in this city?'\n\n(They uncork the vial, and the vowel floats up, hovering before entering your mouth. You feel a strange resonance, as the vowel struggle to enter your name. It's like a... a... a.. But your name has been stripped from you the day you have join the Obazoba cult. Also, you have not remember the taste of your first meal in this city, but it's hard to say if it's because of the trade or because you have not eat anything.)",
+                text: "'A wise choice. The price is a minor memory. Something small... perhaps the taste of your first meal in this city?'\n\n(He uncorks the vial, and the vowel floats up, hovering before entering your mouth. You feel a strange resonance as the vowel struggles to enter your name. It's like a... a... a... But your name was stripped from you the day you joined the Obazoba cult. Also, you can't remember the taste of your first meal in this city, though it's hard to say whether that's the trade or because you haven't eaten anything.)",
                 options: [
                     { text: "Thank you. But you know, we have no names. I am just a number. Sorry, should have told you earlier.", key: 'thank_you_but_you_know_we_have_no_names_i_am_just_', next: "vowelSeller_end" }
                 ],
                 onTrigger: () => {
-                    this.dreamQueueChoices.vowelSeller = 'vowel';
+                    this.setDreamQueueChoice('vowelSeller', 'vowel');
                     this.safeModifyGrowthDecay(0, 1);
-                    this.showNotification('Decay +1: A minor memory fades');
                     this.npcsInteractedWith.add('vowelSeller');
                 }
             },
@@ -412,7 +401,7 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "I accept this gift.", key: 'i_accept_this_gift', next: "vowelSeller_end" }
                 ],
                 onTrigger: () => {
-                    this.dreamQueueChoices.vowelSeller = 'silence';
+                    this.setDreamQueueChoice('vowelSeller', 'silence');
                     // Add silent sentence to inventory
                     this.addItemToInventory({
                         id: 'silent-sentence',
@@ -420,7 +409,6 @@ export default class ShedRegistrationScene extends GameScene {
                         description: 'A blank card that somehow contains meaning. It might be useful when words fail.',
                         stackable: false
                     });
-                    this.showNotification('Received: Silent Sentence');
                     this.npcsInteractedWith.add('vowelSeller');
                 }
             },
@@ -447,8 +435,7 @@ export default class ShedRegistrationScene extends GameScene {
             
             // 3. Hollow Woman Dialog
             hollowWoman_start: {
-                speaker: 'Hollow Woman',
-                text: "(The woman with empty eyes and stitched seams leans slightly on your shoulder. Her voice is barely audible.)\n\n'It's always the same. I have waited for the registration as you back in my days. But the clerk never showed up. So I am here forever. Waiting...'\n\n(You notice her left arm ends at the elbow, the edges neatly stitched.)",
+                text: "(The woman with empty eyes and stitched seams leans slightly on your shoulder. Her voice is barely audible.)\n\n'It's always the same. I waited for registration too, back in my day. But the clerk never showed up. So I am here forever. Waiting...'\n\n(You notice her left arm ends at the elbow, the edges neatly stitched.)",
                 options: [
                     { text: "Do you remember what you have waited for?", key: 'do_you_remember_what_you_have_waited_for', next: "hollowWoman_hands" },
                     { text: "Well, I guess you should stop waiting. I am sure you have better things to do.", key: 'well_i_guess_you_should_stop_waiting_i_am_sure_you', next: "hollowWoman_offer" }
@@ -460,7 +447,7 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "I'll remember. Sure. Thank you... ehm, strange, waiting person.", key: 'ill_remember_sure_thank_you_ehm_strange_waiting_pe', next: "hollowWoman_end" }
                 ],
                 onTrigger: () => {
-                    this.dreamQueueChoices.hollowWoman = 'narrative';
+                    this.setDreamQueueChoice('hollowWoman', 'narrative');
                     // Update quest if it exists
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('ortolan_arms')) {
@@ -469,7 +456,6 @@ export default class ShedRegistrationScene extends GameScene {
                             'The Hollow Woman in the registration queue taught me some weird bureaucratic incantation. This might help with Ortolan\'s paperwork. Or completely useless.',
                             'bureaucratic_incantation'
                         );
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                     this.npcsInteractedWith.add('hollowWoman');
                     this.checkAllNPCsInteracted();
@@ -482,9 +468,8 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "Uhm, what are you doing, madame?", key: 'uhm_what_are_you_doing_madame', next: "hollowWoman_end" }
                 ],
                 onTrigger: () => {
-                    this.dreamQueueChoices.hollowWoman = 'empathy';
+                    this.setDreamQueueChoice('hollowWoman', 'empathy');
                     this.safeModifyGrowthDecay(3, 0);
-                    this.showNotification('Growth +3: Symbolic empathy strengthens you');
                     this.npcsInteractedWith.add('hollowWoman');
                     this.checkAllNPCsInteracted();
                 }
@@ -510,9 +495,8 @@ export default class ShedRegistrationScene extends GameScene {
             
             // 4. Senior Clerk Dialog
             seniorClerk_start: {
-                speaker: 'Senior Clerk',
         
-                text: "(The Senior Clerk materializes at the front, adjusting a stack of papers with mechanical precision. Their voice has a metallic quality.)\n\n'Queue segment F-7 has been processed. Your presence has been noted and your interactions catalogued.'\n\n(He consults a clipboard.)\n\n'State your business.'",
+                text: "(The Senior Clerk suddenly appears, adjusting a stack of papers with mechanical precision. His voice has a metallic quality.)\n\n'Queue segment F-7 has been processed. Your presence has been noted and your interactions catalogued.'\n\n(He consults a clipboard.)\n\n'State your business.'",
                 options: [
                     { text: "I need to register for...", key: 'i_need_to_register_for', next: "seniorClerk_register" },
                     { text: "What happened to those people I was talking to?", key: 'what_happened_to_those_people_i_was_talking_to', next: "seniorClerk_people" }
@@ -520,21 +504,21 @@ export default class ShedRegistrationScene extends GameScene {
             },
             seniorClerk_register: {
         
-                text: "'Registration requires Form 27-B/6, submitted in triplicate with appropriate growth/decay balance certification.'\n\n(They look at you expectantly, then sigh.)\n\n'But I see you've been... influenced by the queue inhabitants. Very well. I'll expedite your processing.'",
+                text: "'Registration requires Form 27-B/6, submitted in triplicate with appropriate growth/decay balance certification.'\n\n(He looks at you expectantly, then sighs.)\n\n'But I see you've been... influenced by the queue inhabitants. Very well. I'll expedite your processing.'",
                 options: [
                     { text: "Thank you.", key: 'thank_you', next: "seniorClerk_processing" }
                 ]
             },
             seniorClerk_people: {
         
-                text: "(The Clerk's expression remains unchanged.)\n\n'People? There were no people. Only manifestations of the queue itself. Echoes of those who waited too long. You've absorbed their essence now - their stories are part of your processing.'\n\n(They tap their clipboard.)\n\n'Quite irregular, but we'll proceed.'",
+                text: "(The Clerk's expression remains unchanged.)\n\n'People? There were no people. Only manifestations of the queue itself. Echoes of those who waited too long. You've absorbed their essence now — their stories are part of your processing.'\n\n(He taps his clipboard.)\n\n'Quite irregular, but we'll proceed.'",
                 options: [
                     { text: "I see...", key: 'i_see', next: "seniorClerk_processing" }
                 ]
             },
             seniorClerk_processing: {
         
-                text: "'Based on your queue interactions, your application has been...'\n\n(They stamp a form with a flourish.)\n\n'...approved. You may proceed to the Registration Office proper. Let's begin with the Registration ceremony.'",
+                text: "'Based on your queue interactions, your presence here has been...'\n\n(He stamps a form with a flourish.)\n\n'...approved. You may proceed to the Registration Office proper. Let's begin with the Registration ceremony.'",
                 options: [
                     { text: "Proceed to the Registration Office", key: 'proceed_to_the_registration_office', next: "registration_start" }
                 ],
@@ -547,7 +531,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_start: {
-                text: "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed521 today?'",
+                text: "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed 521 today?'",
                 options: [
                     { text: "I'm here for general registration.", key: 'im_here_for_general_registration', next: "registration_general" },
                     { text: "I'd rather not say.", key: 'id_rather_not_say', next: "registration_evasive" },
@@ -589,7 +573,7 @@ export default class ShedRegistrationScene extends GameScene {
             },
             registration_artisan_ortolan: {
         
-                text: "(The clerk's eyebrows raise slightly.)\n\n'Ortolan? The multi-limbed game designer? Interesting...'\n\n(They shuffle through papers and produce a complex form with intricate patterns.)\n\n'This form requires creative verification. Please demonstrate artistic merit.'",
+                text: "(The clerk's eyebrows raise slightly.)\n\n'Ortolan? That game designer? Interesting...'\n\n(He shuffles through papers and produces a complex form with intricate patterns.)\n\n'This form requires creative verification. Please demonstrate artistic merit.'",
                 options: [
                     { text: "I can demonstrate my creativity.", key: 'i_can_demonstrate_my_creativity', next: "registration_creative_challenge" },
                     { text: "Perhaps another form would be better.", key: 'perhaps_another_form_would_be_better', next: "registration_reconsider" }
@@ -658,18 +642,24 @@ export default class ShedRegistrationScene extends GameScene {
             },
             registration_general: {
         
-                text: "'General registration requires specific purpose. Shed521 doesn't accept visitors without purpose.'",
+                text: "'General registration requires a specific purpose. Shed 521 doesn't accept visitors without purpose.'",
                 options: [
                     { text: "I would like to register for extra symbiont slot.", key: 'i_would_like_to_register_for_extra_symbiont_slot', next: "registration_extra_symbiont" },
                     { text: "I'm here on behalf of someone else.", key: 'im_here_on_behalf_of_someone_else', next: "registration_proxy" },
                     { text: "Perhaps I should be more specific.", key: 'perhaps_i_should_be_more_specific', next: "registration_reconsider" }
                 ]
             },
+            registration_proxy: {
+                text: "'Registration by proxy is not accepted. The applicant must appear in person — or you must hold a form issued in their name.'",
+                options: [
+                    { text: "Understood.", key: 'understood', next: "registration_reconsider" }
+                ]
+            },
             registration_extra_symbiont: {
                 text: "'Extra symbiont slot registration is not actually difficult. Just a form to fill out. And pay a registration fee of 50 dinar, of course.'",
                 options: [
                     { text: "I'll pay the fee and register for an extra slot.", key: 'ill_pay_the_fee_and_register_for_an_extra_slot', next: "registration_extra_symbiont_pay" },
-                    { text: "I change my mind. I would like to register for something else.", key: 'i_change_my_mind_i_would_like_to_register_for_some', next: "registration_reconsider" },
+                    { text: "I changed my mind. I would like to register for something else.", key: 'i_change_my_mind_i_would_like_to_register_for_some', next: "registration_reconsider" },
                     { text: "Sorry, I don't think I can pay the fee.", key: 'sorry_i_dont_think_i_can_pay_the_fee', next: "end" }
                 ],
             },
@@ -697,13 +687,13 @@ export default class ShedRegistrationScene extends GameScene {
                             if (symbiontSystem.unlockedSlots < symbiontSystem.maxSlots) {
                                 // Unlock a new slot
                                 symbiontSystem.unlockSlot();
-                                this.showNotification('Unlocked a new symbiont slot!');
+                                this.showNotification(this.t('shedRegistration.slotUnlocked'));
                                 
                                 // Add journal entry
                                 this.journalSystem.addEntry(
                                     'extra_symbiont_slot_purchased',
                                     'Extra Symbiont Slot',
-                                    'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward - just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
+                                    'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward — just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
                                     this.journalSystem.categories.EVENTS,
                                     { location: 'Shed 521 Registration Office' }
                                 );
@@ -711,7 +701,7 @@ export default class ShedRegistrationScene extends GameScene {
                             } else {
                                 // Already at max slots
                                 moneySystem.add(50, true); // Refund the money
-                                this.showNotification('You already have the maximum number of symbiont slots!');
+                                this.showNotification(this.t('shedRegistration.maxSlots'));
                                 this.registry.set('symbiont_slot_result', 'max_reached');
                             }
                         }
@@ -723,6 +713,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_extra_symbiont_complete: {
+                textKey: this.registry.get('symbiont_slot_result') || 'success',
                 text: (() => {
                     const result = this.registry.get('symbiont_slot_result');
                     if (result === 'max_reached') {
@@ -765,7 +756,6 @@ export default class ShedRegistrationScene extends GameScene {
                         description: "Official form granting exemption from standard limb restrictions for creative purposes. Approved for Ortolan.",
                         stackable: false
                     });
-                    this.showNotification('Received: Artisan\'s Exemption Form');
                     
                     // Update quest
                     const questSystem = this.registry.get('questSystem');
@@ -775,12 +765,10 @@ export default class ShedRegistrationScene extends GameScene {
                             'I successfully obtained the Artisan\'s Exemption Form for Ortolan. This should help with the bureaucratic hurdles for additional arms.',
                             'form_obtained'
                         );
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                     
                     // Increase Growth
                     this.safeModifyGrowthDecay(3, 0);
-                    this.showNotification('Growth +3: Creative bureaucracy mastered');
                 }
             },
             registration_success_deformity: {
@@ -797,7 +785,6 @@ export default class ShedRegistrationScene extends GameScene {
                         description: "Official form classifying multiple limbs as beneficial mutations rather than deformities. Approved for use.",
                         stackable: false
                     });
-                    this.showNotification('Received: Inherited Deformity Form');
                     
                     // Update quest
                     const questSystem = this.registry.get('questSystem');
@@ -807,12 +794,10 @@ export default class ShedRegistrationScene extends GameScene {
                             'I successfully obtained the Inherited Deformity Form. This should help Ortolan with the bureaucratic hurdles for additional arms.',
                             'form_obtained'
                         );
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                     
                     // Increase Growth
                     this.safeModifyGrowthDecay(3, 0);
-                    this.showNotification('Growth +3: Bureaucratic mastery achieved');
                 }
             },
             registration_success_nonverbal: {
@@ -829,7 +814,6 @@ export default class ShedRegistrationScene extends GameScene {
                         description: "A rare document allowing limb modification without standard paperwork. Obtained through nonverbal means.",
                         stackable: false
                     });
-                    this.showNotification('Received: Special Dispensation');
                     
                     // Update quest
                     const questSystem = this.registry.get('questSystem');
@@ -839,12 +823,10 @@ export default class ShedRegistrationScene extends GameScene {
                             'I successfully obtained a Special Dispensation through nonverbal means. This should help Ortolan bypass the bureaucracy for additional arms.',
                             'form_obtained'
                         );
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                     
                     // Increase Growth
                     this.safeModifyGrowthDecay(4, 0);
-                    this.showNotification('Growth +4: Transcended verbal bureaucracy');
                 }
             },
             registration_partial_success: {
@@ -861,7 +843,6 @@ export default class ShedRegistrationScene extends GameScene {
                         description: "A provisional document granting limited access. Not fully approved, but better than nothing.",
                         stackable: false
                     });
-                    this.showNotification('Received: Temporary Permit');
                     
                     // Update quest if relevant
                     const questSystem = this.registry.get('questSystem');
@@ -871,12 +852,10 @@ export default class ShedRegistrationScene extends GameScene {
                             'I obtained a Temporary Permit that might help Ortolan, but it\'s not fully approved. I may need to find another solution.',
                             'partial_progress'
                         );
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                     
                     // Balanced Growth/Decay
                     this.safeModifyGrowthDecay(1, 1);
-                    this.showNotification('Growth +1, Decay +1: Bureaucratic compromise');
                 }
             },
             registration_failure: {
@@ -888,7 +867,6 @@ export default class ShedRegistrationScene extends GameScene {
                 onTrigger: () => {
                     // Increase Decay
                     this.safeModifyGrowthDecay(0, 3);
-                    this.showNotification('Decay +3: Bureaucratic rejection');
                     
                     // Update quest if relevant
                     const questSystem = this.registry.get('questSystem');
@@ -898,7 +876,6 @@ export default class ShedRegistrationScene extends GameScene {
                             'My registration attempt failed. I\'ll need to find another way to help Ortolan with the arm situation.',
                             'failed_attempt'
                         );
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }
             },
@@ -918,21 +895,21 @@ export default class ShedRegistrationScene extends GameScene {
             },
             registration_complete_failure: {
         
-                text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
+                text: "(The Senior Clerk gestures to the door) This matter is closed. Please leave my office.",
                 options: [
                     { text: "Thank you.", key: 'thank_you', next: "seniorClerk_end" }
                 ],
             },
             seniorClerk_end: {
         
-                text: "(The Senior Clerk returns to their paperwork, seemingly forgetting your existence.)",
+                text: "(The Senior Clerk returns to his paperwork, seemingly forgetting your existence.)",
                 options: [],
                 onTrigger: () => {
                     this.hideDialog();
                 }
             },
             seniorClerk_returning: {
-                text: "(The Senior Clerk looks up from their paperwork.) 'Ah, you again. What registration services do you require today?'",
+                text: "(The Senior Clerk looks up from his paperwork.) 'Ah, you again. What registration services do you require today?'",
                 options: [
                     { text: "I'd like to discuss registration options.", key: 'id_like_to_discuss_registration_options', next: "registration_start" }
                 ]
@@ -946,6 +923,18 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             }
         };
+        // Every state names its speaker explicitly: GameScene's group/keyword inference finds no
+        // `sleeplessMime`/`registration` parent state, so without this the clerk was labelled "Sleepless Mime".
+        const speakerByPrefix = [
+            ['sleeplessMime', 'Sleepless Mime'], ['vowelSeller', 'Vowel Seller'],
+            ['hollowWoman', 'Hollow Woman'], ['seniorClerk', 'Senior Clerk'], ['registration', 'Senior Clerk'],
+        ];
+        for (const [key, state] of Object.entries(content)) {
+            if (!state || typeof state !== 'object' || state.speaker) continue;
+            const match = speakerByPrefix.find(([prefix]) => key.startsWith(prefix));
+            if (match) state.speaker = match[1];
+        }
+        return content;
     }
     
     proceedToRegistrationOffice() {
@@ -961,23 +950,5 @@ export default class ShedRegistrationScene extends GameScene {
             this.scene.start('Shed521FloorsScene');
             this.isTransitioning = false;
         });
-    }
-    
-    // Helper method to dynamically set dialog options
-    setDialogOptions(dialogKey, options) {
-        // Find the dialog in the current dialog content
-        const dialogContent = this.dialogContent();
-        
-        if (dialogContent[dialogKey]) {
-            // Update the options for this dialog
-            dialogContent[dialogKey].options = options;
-            
-            // If dialog is currently showing, refresh it
-            if (this.dialogState === dialogKey && this.dialogBox && this.dialogBox.visible) {
-                // Hide current dialog and show it again with updated options
-                this.hideDialog();
-                this.showDialog(dialogKey);
-            }
-        }
     }
 }

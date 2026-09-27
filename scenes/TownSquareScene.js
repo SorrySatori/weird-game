@@ -571,13 +571,13 @@ export default class TownSquareScene extends GameScene {
                     // Add oil and metal scraps to inventory
                     this.addItemToInventory({
                         id: 'oil',
-                        name: 'Magnekin Oil',
+                        name: 'Magnekin Oil', variant: 'magnekin',
                         description: 'Viscous oil extracted from the destroyed Magnekin collective.',
                         image: 'oil'
                     });
                     this.addItemToInventory({
                         id: 'metal_scrap',
-                        name: 'Magnekin Metal Scraps',
+                        name: 'Magnekin Metal Scraps', variant: 'magnekin',
                         description: 'Magnetic metal fragments from destroyed micro-cities.',
                         image: 'metal_scrap'
                     });
@@ -603,7 +603,7 @@ export default class TownSquareScene extends GameScene {
                 onTrigger: () => {
                     this.addItemToInventory({
                         id: 'redmass',
-                        name: 'Magnekin Redmass',
+                        name: 'Magnekin Redmass', variant: 'magnekin',
                         description: 'A pulsing crimson mass that once held the collective consciousness of thousands.',
                         image: 'redmass'
                     });

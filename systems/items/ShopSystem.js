@@ -1,3 +1,4 @@
+import LanguageSystem from '../LanguageSystem.js';
 /**
  * Shop System for the game
  * Handles item purchases, selling, and shop UI
@@ -59,8 +60,8 @@ export default class ShopSystem {
         return (v === key || v === undefined || typeof v !== 'string') ? fallback : v;
     }
     title() { return this.options.shopKey ? this.t(`shop.names.${this.options.shopKey}`, {}, this.options.shopName) : this.options.shopName; }
-    itemName(item) { return this.t(`shop.items.${item.id}.name`, {}, item.name); }
-    itemDescription(item) { return this.t(`shop.items.${item.id}.description`, {}, item.description || this.t('shop.noDescription', {}, 'No description available.')); }
+    itemName(item) { return LanguageSystem.getInstance().itemName(item); }
+    itemDescription(item) { return LanguageSystem.getInstance().itemDescription(item) || 'No description available.'; }
     balanceText() { return this.t('shop.balance', { amount: this.scene.getMoney() }, `Dinar: ${this.scene.getMoney()}`); }
     priceText(price) { return this.t('shop.price', { price }, `Price: ${price} dinar`); }
     

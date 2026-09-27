@@ -45,7 +45,7 @@ export default class ShedHallScene extends GameScene {
                     const questSystem = QuestSystem.getInstance();
                     
                     this.modifyGrowthDecay(2,0);
-                    this.addItemToInventory({ id: 'living-core', name: 'Living Core', description: 'A pulsating core of living metal, carefully extracted from the Shed.', spriteKey: 'living-core', stackable: false });
+                    this.addItemToInventory({ id: 'living-core', name: 'Living Core', description: 'A pulsating core of living metal, carefully extracted from the Shed.', variant: 'careful', spriteKey: 'living-core', stackable: false });
                     questSystem.updateQuest('rust_reclamation', 'Carefully extracted the Living Core using pliers, promoting growth in the process.');
                     if (this._livingCore) {
                         this._livingCore.destroy();

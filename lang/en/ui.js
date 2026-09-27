@@ -83,6 +83,10 @@ export default {
 
         // Inventory
         inventory: {
+            button: 'Inventory',
+            panelTitle: 'INVENTORY',
+            emptyItems: 'Your inventory is empty',
+            use: 'USE',
             title: 'SPORE COLLECTION',
             empty: 'Your spore collection is empty.\nGather spores as you explore.',
             full: 'Inventory is full!',

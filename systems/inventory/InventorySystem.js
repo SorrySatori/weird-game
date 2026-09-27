@@ -1,7 +1,11 @@
+import LanguageSystem from '../LanguageSystem.js';
+
 /**
  * Inventory System
  * Manages the player's inventory, including UI and item interactions
  */
+const L = () => LanguageSystem.getInstance();
+
 export default class InventorySystem {
     constructor(scene) {
         this.scene = scene;
@@ -57,7 +61,7 @@ export default class InventorySystem {
         spots.add([spot1, spot2, spot3]);
         
         // Add "Inventory" text
-        const invText = this.scene.add.text(0, 15, 'Inventory', {
+        const invText = this.scene.add.text(0, 15, L().t('ui.inventory.button'), {
             fontSize: '12px',
             fill: '#7fff8e'
         });
@@ -113,7 +117,7 @@ export default class InventorySystem {
         this.inventoryPanel.add(invBg);
         
         // Inventory title
-        const title = this.scene.add.text(0, -120, 'INVENTORY', {
+        const title = this.scene.add.text(0, -120, L().t('ui.inventory.panelTitle'), {
             fontSize: '28px',
             fill: '#7fff8e',
             fontStyle: 'bold'
@@ -242,7 +246,7 @@ export default class InventorySystem {
         this.itemDescription.add(this.itemDescText);
         
         // Empty inventory message
-        this.emptyText = this.scene.add.text(0, 0, 'Your inventory is empty', {
+        this.emptyText = this.scene.add.text(0, 0, L().t('ui.inventory.emptyItems'), {
             fontSize: '20px',
             fill: '#7fff8e',
             fontStyle: 'italic'
@@ -370,7 +374,7 @@ export default class InventorySystem {
                 // Make item usable if it has a use function
                 if (item.usable) {
                     // Add use indicator
-                    const useIndicator = this.scene.add.text(25, 25, 'USE', {
+                    const useIndicator = this.scene.add.text(25, 25, L().t('ui.inventory.use'), {
                         fontSize: '12px',
                         fill: '#7fff8e',
                         backgroundColor: 'rgba(10, 39, 18, 0.7)',
@@ -397,8 +401,8 @@ export default class InventorySystem {
      */
     showItemDescription(item, x, y) {
         // Update description text
-        this.itemNameText.setText(item.name);
-        this.itemDescText.setText(item.description || 'No description available');
+        this.itemNameText.setText(L().itemName(item));
+        this.itemDescText.setText(L().itemDescription(item));
         
         // Position description box
         this.itemDescription.setPosition(x, y + 100);
@@ -475,7 +479,7 @@ export default class InventorySystem {
                 
                 // Show notification
                 if (this.scene.showNotification) {
-                    this.scene.showNotification(`Added ${item.quantity || 1}x ${item.name}`);
+                    this.scene.showNotification(L().t('notifications.addedToInventoryQty', { qty: item.quantity || 1, item: L().itemName(item) }));
                 }
                 
                 // Play pickup sound
@@ -517,7 +521,7 @@ export default class InventorySystem {
         
         // Show notification if available
         if (this.scene.showNotification) {
-            this.scene.showNotification(`Added to inventory: ${item.name}`);
+            this.scene.showNotification(L().t('notifications.addedToInventory', { item: L().itemName(item) }));
         }
         
         // Play pickup sound if available
@@ -677,7 +681,7 @@ export default class InventorySystem {
         popup.add(bg);
         
         // Add item name at the top
-        const itemName = this.scene.add.text(0, -40, item.name, {
+        const itemName = this.scene.add.text(0, -40, L().itemName(item), {
             fontSize: '20px',
             fill: '#7fff8e',
             fontStyle: 'bold',

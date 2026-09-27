@@ -199,6 +199,22 @@ export default {
             title: 'Den 1 Dokončen: Vyšetřování Začíná',
             description: 'Sdílel jsem všechny své nálezy s Dr. Elphi Quarn.',
         },
+        dream_queue: {
+            title: 'Věčná fronta v Kůlně 521',
+            description: 'Na registračním úřadě Kůlny 521 jsem viděl něco zneklidňujícího – frontu průsvitných postav, která se nikdy nepohne. Vypadají jako duchové žadatelů odsouzených čekat navěky. Za přepážkou nikdo nesedí. Nikdo z nich nepromluví, dokud ho neoslovím, a vzduch kolem nich připomíná napůl zapomenutý sen.',
+        },
+        dream_queue_completed: {
+            title: 'Návštěva registračního úřadu',
+            description: 'Dokončil jsem první návštěvu registračního úřadu v Kůlně 521. Podivná fronta přízračných postav se rozplynula, když jsem s nimi promluvil, a objevil se vrchní úředník, aby vyřídil mou žádost.',
+        },
+        registration_senior_clerk: {
+            title: 'Vrchní úředník',
+            description: 'Na registračním úřadě Kůlny 521 jsem se setkal s vrchním úředníkem. Vysoký, impozantní muž s přísným výrazem, oblečený v tmavém obleku.',
+        },
+        extra_symbiont_slot_purchased: {
+            title: 'Další slot pro symbionta',
+            description: 'Na registračním úřadě Kůlny 521 jsem si zaregistroval další slot pro symbionta. Šlo to překvapivě hladce – jeden formulář a poplatek 50 dinárů. Teď můžu ve svém těle hostit dalšího symbionta.',
+        },
         gnur_meeting: {
             title: 'Gnur z Rezavého chóru',
             description: 'V útrobách Kůlny 521 jsem narazil na Gnura – postavu, jejíž hlas praská „jako rozbitý sbor". Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého: jeho napojení na záhadný Rezavý chór naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.',
@@ -698,7 +714,7 @@ export default {
         },
         ortolan_bb_meeting: {
             title: 'Ortolan na Burning Bear Street',
-            description: 'Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se z Hangáru na Burning Bear Street, zavalený jako vždy papírováním kolem povolení.',
+            description: 'Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se z Kůlny na Burning Bear Street, zavalený jako vždy papírováním kolem povolení.',
         },
         perspective_ortolan: {
             title: 'Ortolanův pohled: Vadný výrobek',

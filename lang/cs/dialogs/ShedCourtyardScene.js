@@ -38,7 +38,7 @@ export default {
         text: "Pořád uvízlý v byrokratickém limbu..."
     },
     give_artisan_form: {
-        text: "Formulář o řemeslnické výjimce?! To je dokonalé! Tvůrčí výjimka ze standardních omezení končetin... přesně to, co potřebuju! Tenhle formulář uznává mou práci jako plnohodnotné umění, které si zaslouží zvláštní posouzení. Ušetřil jste mi sto trávení úředního handrkování!"
+        text: "Formulář o výjimce pro umělce?! To je dokonalé! Tvůrčí výjimka ze standardních omezení končetin... přesně to, co potřebuju! Tenhle formulář uznává mou práci jako plnohodnotné umění, které si zaslouží zvláštní posouzení. Ušetřil jste mi sto trávení úředního handrkování!"
     },
     give_deformity_form: {
         text: "Formulář o zděděné deformitě?..."

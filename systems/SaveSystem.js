@@ -2,6 +2,9 @@
  * SaveSystem.js - Handles saving and loading game state
  */
 export default class SaveSystem {
+    /** Registry keys copied into / restored from a save file (plain JSON values only). */
+    static PERSISTED_REGISTRY_KEYS = ['dreamQueueChoices'];
+
     constructor(scene) {
         this.scene = scene;
         this.saveSlot = 'save1';
@@ -98,6 +101,13 @@ export default class SaveSystem {
         // Save visited scenes for fast travel map
         saveData.visitedScenes = registry.get('visitedScenes') || [];
 
+        // Scene state that lives only in the registry (e.g. which dream-queue figures the player
+        // sided with in Shed 521 — those choices unlock the Senior Clerk's options later).
+        for (const key of SaveSystem.PERSISTED_REGISTRY_KEYS) {
+            const value = registry.get(key);
+            if (value !== undefined) saveData.registry[key] = value;
+        }
+
         return saveData;
     }
 
@@ -169,6 +179,13 @@ export default class SaveSystem {
         const registry = game.registry;
         
         console.log('Applying loaded save data:', saveData);
+
+        // Restore persisted registry keys
+        if (saveData.registry) {
+            for (const key of SaveSystem.PERSISTED_REGISTRY_KEYS) {
+                if (saveData.registry[key] !== undefined) registry.set(key, saveData.registry[key]);
+            }
+        }
 
         // Restore inventory
         if (saveData.inventory) {
