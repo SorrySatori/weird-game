@@ -417,7 +417,7 @@ export default class GameScene extends Phaser.Scene {
             const tooltipBg = this.add.rectangle(x, y - 40, 200, 60, 0x0a2712, 0.9)
                 .setStrokeStyle(1, 0x7fff8e);
             const tooltipText = this.add.text(x, y - 40, 
-                `${data.name}\nPower: ${data.power}\nAbility: ${data.ability}`, {
+                `${LanguageSystem.getInstance().str(`symbionts.${id}.name`) || data.name}\n${LanguageSystem.getInstance().t('symbiontUi.power')}: ${data.power}\n${LanguageSystem.getInstance().t('symbiontUi.ability')}: ${LanguageSystem.getInstance().str(`symbionts.${id}.ability`) || data.ability}`, {
                 fontSize: '12px',
                 color: '#7fff8e',
                 align: 'left'
@@ -444,6 +444,16 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
+     * Growth/Decay "world shift" toast: a localized reason (gd.<reasonKey>) followed by the shared
+     * "The world sours toward Decay." / "...leans toward Growth." line, in the matching colour.
+     */
+    notifyShift(reasonKey, direction) {
+        const L = LanguageSystem.getInstance();
+        const tail = L.t(direction === 'growth' ? 'notifications.worldLeansGrowth' : 'notifications.worldSoursDecay');
+        this.showNotification(`${L.t(`gd.${reasonKey}`)} ${tail}`, direction === 'growth' ? 0x7fff8e : 0x8B0000);
+    }
+
+    /**
      * Show dialog for a specific symbiont
      * @param {string} symbiontId - The ID of the symbiont to show dialog for
      * @param {string} dialogKey - Optional specific dialog section to show (defaults to 'main')
@@ -463,18 +473,24 @@ export default class GameScene extends Phaser.Scene {
             return;
         }
         
+        // Localized copy (lang/*/game.js → symbionts.<id>.dialogs.<key>); the English on the system is the fallback.
+        const L = LanguageSystem.getInstance();
+        const locText = L.str(`symbionts.${symbiontId}.dialogs.${dialogKey}.text`);
+        const locOpts = L.t(`symbionts.${symbiontId}.dialogs.${dialogKey}.options`);
+        const locName = L.str(`symbionts.${symbiontId}.name`);
         // Create a dynamic dialog state
         const dynamicDialogState = {
-            speaker: dialogContent?.speaker || symbiontSystem.getSymbiontName(symbiontId) || 'Person',
-            text: dialogContent.text,
-            options: dialogContent.options.map(option => {
+            speaker: dialogContent?.speaker || locName || symbiontSystem.getSymbiontName(symbiontId) || 'Person',
+            text: locText || dialogContent.text,
+            options: dialogContent.options.map((option, i) => {
+                const text = (Array.isArray(locOpts) && locOpts[i]) || option.text;
                 if (option.next === 'closeDialog') {
                     // Keep closeDialog as is
-                    return option;
+                    return { ...option, text };
                 } else {
                     // For other options, create a custom handler
                     return {
-                        text: option.text,
+                        text,
                         onSelect: () => {
                             // Show the next dialog section for this symbiont
                             this.showSymbiontDialog(symbiontId, option.next);

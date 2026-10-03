@@ -24,6 +24,7 @@ export default {
     },
     scraperAmbra: {
         elphiPresent: 'Dr. Elphi is working at her terminal',
+        arrival: "Floor 177-Quiet: Dr. Elphi's Studio",
     },
     skyship: {
         toolObtained: 'Obtained: Elevator Calibration Tool',
@@ -95,6 +96,52 @@ export default {
     crossroad: {
         plantGrows: 'Some strange plant grows from the corpse. You also notice something above it...',
     },
+    entry: {
+        thaalDeparted: 'The Fungal Master has departed for the tavern...',
+    },
+    symbiontUi: {
+        power: 'Power',
+        ability: 'Ability',
+    },
+    // Symbiont voices (SymbiontSystem has the English originals; these are the localized copies).
+    symbionts: {
+        'thorne-still': {
+            name: 'Thorne-Still',
+            ability: 'Brain Rot',
+            dialogs: {
+                main: {
+                    text: "Thorne-Still whispers in your mind: 'Hey chief, what's up? Maybe I should remind you that my power grows with decay, but too much growth will force me to leave. I'm not a fan of too much growth, captain. Use my Brain Rot ability wisely... It's a powerful tool, but it can seriously fuck up some brains if you're not careful. So, probably don't use it on people you like.'",
+                    options: ['Ask about Brain Rot', 'Ask about Thorne-Still'],
+                },
+                ability: {
+                    text: "The Brain Rot ability makes people gradually become confused, forgetful, or vulnerable to suggestion during dialogue. I simply release faint psycho-sporic emissions that cause short-term cognitive fraying in nearby minds. Well, I said simple, but it's not so simple at all. And I will need some of your spores every time we use it. It won't work on everyone, but don't worry, I'll tell you when we can use it.",
+                    options: ['Back'],
+                },
+                about: {
+                    text: "I am a symbiont that thrives in decay. I was once part of something larger, but now I exist in the spaces between realities. Heh, just joking, I exist in your stomach right now. Our bond allows me to squat here quite comfortably, but too much growth energy will force me to leave your body.",
+                    options: ['Back'],
+                },
+            },
+        },
+    },
+    // Growth/Decay world-shift toasts: reason + shared tail (notifications.worldSoursDecay / worldLeansGrowth)
+    gd: {
+        sided_directorate: 'You sided with the Directorate.',
+        clean_run_lie: 'A clean run, wrapped in a lie.',
+        contraband_dropped: 'Contraband dropped.',
+        parcel_kept: 'The parcel stays in your coat.',
+        truth_not_dirt: 'You drew out the truth, not just the dirt.',
+        fresh_gossip: 'Fresh gossip to spread.',
+        contraband_recorded: 'Contraband entered on the record.',
+        buried_truth: 'A buried truth, back in the light.',
+        lie_like_face: 'You wore a lie like a face.',
+        sided_choir: 'You sided with the Choir.',
+        choir_keeps_contraband: 'The Choir keeps the contraband.',
+        read_the_dead: 'You read the dead.',
+        truth_into_light: 'You drew the truth into the light.',
+        palinode_seam: 'Palinode unsays the seam — a dead floor opens. You gather abandoned spores.',
+        palinode_brick: 'Palinode unsays the brick — a walled tunnel exhales cold air toward the Living Core.',
+    },
     notifications: {
         newQuest: 'New quest',
         questUpdated: 'Quest updated',
@@ -114,6 +161,8 @@ export default {
         effectsStart: 'Experiencing effects of {item}...',
         effectsEnd: 'The effects of {item} have worn off.',
         symbiontGained: 'Gained symbiont: {name}',
+        worldSoursDecay: 'The world sours toward Decay.',
+        worldLeansGrowth: 'The world leans toward Growth.',
         inventoryFull: 'Inventory is full!',
         sporeChange: '{sign}{amount} Spores',
         nemeSilenced: 'The rot rises — Neme falls silent.',

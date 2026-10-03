@@ -603,7 +603,7 @@ export default class EntryScene extends GameScene {
                     
                     // Add a notification that the master has left
                     if (this.showNotification) {
-                        this.showNotification('The Fungal Master has departed for the tavern...');
+                        this.showNotification(this.t('entry.thaalDeparted'));
                     }
                 }
             });

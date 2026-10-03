@@ -302,10 +302,10 @@ export default class BurningBearStreetScene extends GameScene {
         if (mode === 'ulvarex') {
             this.modifyGrowthDecay(0, 6);
             this.addMoney(10);
-            this.showNotification('A clean run, wrapped in a lie. The world sours toward Decay.', 0x8B0000);
+            this.notifyShift('clean_run_lie', 'decay');
         } else {
             this.modifyGrowthDecay(0, 4);
-            this.showNotification('Contraband dropped. The world sours toward Decay.', 0x8B0000);
+            this.notifyShift('contraband_dropped', 'decay');
         }
         if (this._smuggleDropCleanup) this._smuggleDropCleanup();
     }
@@ -321,7 +321,7 @@ export default class BurningBearStreetScene extends GameScene {
             }
         }
         this.modifyGrowthDecay(0, 4);
-        this.showNotification('The parcel stays in your coat. The world sours toward Decay.', 0x8B0000);
+        this.notifyShift('parcel_kept', 'decay');
         if (this._smuggleDropCleanup) this._smuggleDropCleanup();
     }
 

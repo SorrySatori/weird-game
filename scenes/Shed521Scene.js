@@ -63,7 +63,7 @@ export default class Shed521Scene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 5);
-                    this.showNotification('You wore a lie like a face. The world sours toward Decay.', 0x8B0000);
+                    this.notifyShift('lie_like_face', 'decay');
                     recordSpyFragment(this, 'gnur', "Rust Choir Secret: the Directorate Mole", "Wearing Ulvarex's mirage of a Rust superior, I made Gnur spill freely: the Choir has a mole inside the Lumen Directorate — an archivist tipping Brukk which districts the Directorate will write off, so the Choir claims the machines cheap. Gnur hinted at a *second*, higher-placed pair of hands inside too, though he had no name.");
                 }
             },

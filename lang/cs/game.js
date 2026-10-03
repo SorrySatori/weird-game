@@ -24,6 +24,7 @@ export default {
     },
     scraperAmbra: {
         elphiPresent: 'Dr. Elphi pracuje u svého terminálu',
+        arrival: 'Patro 177-Tiché: studio Dr. Elphi',
     },
     skyship: {
         toolObtained: 'Získáno: kalibrační nástroj výtahu',
@@ -95,6 +96,52 @@ export default {
     crossroad: {
         plantGrows: 'Z mrtvoly vyrůstá podivná rostlina. A nad ní si všimneš ještě něčeho...',
     },
+    entry: {
+        thaalDeparted: 'Houbový mistr odešel do hospody...',
+    },
+    symbiontUi: {
+        power: 'Síla',
+        ability: 'Schopnost',
+    },
+    // Hlasy symbiontů (anglické originály jsou v SymbiontSystem; tohle jsou lokalizované kopie).
+    symbionts: {
+        'thorne-still': {
+            name: 'Thorne-Still',
+            ability: 'Mozková hniloba',
+            dialogs: {
+                main: {
+                    text: "Thorne-Still ti šeptá v hlavě: ‚Čau, šéfe, jak je? Měl bych ti asi připomenout, že moje síla roste s rozkladem – ale když bude růstu moc, budu muset odejít. Přemíra růstu mi fakt nesedí, kapitáne. Mozkovou hnilobu používej s rozumem... Je to mocný nástroj, ale když si nedáš pozor, dokáže někomu pořádně zprasit mozek. Takže ji radši nezkoušej na lidech, které máš rád.‘",
+                    options: ['Zeptat se na Mozkovou hnilobu', 'Zeptat se na Thorne-Stilla'],
+                },
+                ability: {
+                    text: "Mozková hniloba působí, že lidé jsou při rozhovoru postupně zmatení, zapomnětliví nebo přístupní sugesci. Prostě vypouštím slabé psychosporové emise, které v okolních myslích krátkodobě roztřepí myšlení. No, říkám prostě, ale tak prosté to zas není. A pokaždé, když ji použijeme, budu potřebovat trochu tvých spor. Nezabere na každého, ale neboj, řeknu ti, kdy ji můžeme použít.",
+                    options: ['Zpět'],
+                },
+                about: {
+                    text: "Jsem symbiont, kterému se daří v rozkladu. Kdysi jsem byl součástí něčeho většího, ale teď existuji v prostorách mezi realitami. Heh, dělám si legraci – zrovna teď existuju v tvém žaludku. Díky našemu poutu se tu dá docela pohodlně bydlet, ale přemíra růstové energie mě z tvého těla vyžene.",
+                    options: ['Zpět'],
+                },
+            },
+        },
+    },
+    // Hlášky posunu Růst/Rozklad: důvod + společný dovětek (notifications.worldSoursDecay / worldLeansGrowth)
+    gd: {
+        sided_directorate: 'Postavil ses na stranu Direktorátu.',
+        clean_run_lie: 'Čistá fuška zabalená do lži.',
+        contraband_dropped: 'Kontraband doručen.',
+        parcel_kept: 'Balíček zůstává v tvém kabátě.',
+        truth_not_dirt: 'Vytáhl jsi pravdu, ne jen špínu.',
+        fresh_gossip: 'Čerstvé drby k šíření.',
+        contraband_recorded: 'Kontraband zanesen do záznamů.',
+        buried_truth: 'Pohřbená pravda je zpátky na světle.',
+        lie_like_face: 'Nosil jsi lež jako vlastní tvář.',
+        sided_choir: 'Postavil ses na stranu Chóru.',
+        choir_keeps_contraband: 'Chór si kontraband nechává.',
+        read_the_dead: 'Četl jsi mrtvé.',
+        truth_into_light: 'Vytáhl jsi pravdu na světlo.',
+        palinode_seam: 'Palinode odvolá šev – otevře se mrtvé patro. Posbíráš opuštěné spory.',
+        palinode_brick: 'Palinode odvolá cihlu – zazděný tunel vydechne studený vzduch směrem k Živému jádru.',
+    },
     notifications: {
         newQuest: 'Nový úkol',
         questUpdated: 'Úkol aktualizován',
@@ -114,6 +161,8 @@ export default {
         effectsStart: '{item} začíná působit...',
         effectsEnd: 'Účinky předmětu {item} odezněly.',
         symbiontGained: 'Získán symbiont: {name}',
+        worldSoursDecay: 'Svět se naklání k Rozkladu.',
+        worldLeansGrowth: 'Svět se naklání k Růstu.',
         inventoryFull: 'Inventář je plný!',
         sporeChange: '{sign}{amount} Spor',
         nemeSilenced: 'Hniloba sílí – Neme utichá.',

@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import { DEMO_BUILD } from '../config/build.js';
 import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus, spyFragmentCount, spyReportable, allGangQuestsComplete, gangRewardClaimed, grantGangVestigel } from '../utils/GangOfLamps.js';
 
 export default class ScraperScene extends GameScene {
@@ -370,7 +371,8 @@ export default class ScraperScene extends GameScene {
         // Gang of Lamps: Don Girandole is bolted to a rooftop fixture on the far-right skyline
         // (the structure the player marked). Above the right-edge exit zone (y370-570), so no
         // click conflict. Depth 6 keeps him behind the walking priest.
-        createStreetLamp(this, 'lamp_don', 750, 210, 0.13, 'don_lamp_start');
+        // Gang of Lamps is Day-2 content — Don stays off the facade in the demo build.
+        if (!DEMO_BUILD) createStreetLamp(this, 'lamp_don', 750, 210, 0.13, 'don_lamp_start');
 
         // Examine: the tower & its "SCRAPER 1140" sign (upper-center, clear of Don at x750 and
         // the entrance below). Comment deepens once you've been inside / learned of the cellar lab.

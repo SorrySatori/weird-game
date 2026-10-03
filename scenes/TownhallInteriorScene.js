@@ -527,7 +527,7 @@ If the Townhall owes you a reward, make him say it out loud. Spoken debt is hard
                         this.addJournalEntry('gang_smuggle_gave_pith', 'Surrendered to the Reclaimers', "Rather than run Torchère's contraband, I surrendered the Wimlick to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
                         this.modifyFactionReputation('PithReclaimers', 15);
                         this.modifyGrowthDecay(5, 0);
-                        this.showNotification('Contraband entered on the record. The world leans toward Growth.', 0x7fff8e);
+                        this.notifyShift('contraband_recorded', 'growth');
                     }
                 }
             },
@@ -870,7 +870,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         }
         const growth = (mode === 'palinode' || mode === 'brine') ? 5 : 3;
         this.modifyGrowthDecay(growth, 0);
-        this.showNotification('A buried truth, back in the light. The world leans toward Growth.', 0x7fff8e);
+        this.notifyShift('buried_truth', 'growth');
         if (this._dossierCleanup) this._dossierCleanup();
     }
 

@@ -94,7 +94,7 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Show a welcome notification
         this.time.delayedCall(1000, () => {
-            this.showNotification('Floor 177-Quiet: Dr. Elphi\'s Studio', 0x7fff8e);
+            this.showNotification(this.t('scraperAmbra.arrival'), 0x7fff8e);
         });
     }
     

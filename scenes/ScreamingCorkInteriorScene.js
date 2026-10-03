@@ -91,7 +91,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(5, 0);
-                    this.showNotification('You drew the truth into the light. The world leans toward Growth.', 0x7fff8e);
+                    this.notifyShift('truth_into_light', 'growth');
                     recordSpyFragment(this, 'ravla', "Rust Choir Secret: the Paper Ghosts", "Reading Ravla with Neme, I drew the truth out without a threat: every Rust Choir 'reclamation' she files has a second set of papers. Officially they scrap dead machines; unofficially those machines are logged as still running elsewhere — paper ghosts drawing power and permits the Choir siphons. Half of what the Choir 'owns' exists only on ledgers she forged.");
                 }
             },

@@ -125,7 +125,7 @@ export default class ShedAbandonedOfficeScene extends GameScene {
             this.modifySpores(12);
         }
 
-        this.showNotification('Palinode unsays the brick — a walled tunnel exhales cold air toward the Living Core.');
+        this.showNotification(this.t('gd.palinode_brick'));
         this.showOpenedTunnel(cx, cy);
     }
 

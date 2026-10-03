@@ -416,7 +416,7 @@ export default class ScraperInteriorScene extends GameScene {
                     if (typeof this.modifySpores === 'function') {
                         this.modifySpores(12);
                     }
-                    this.showNotification('Palinode unsays the seam — a dead floor opens. You gather abandoned spores.');
+                    this.showNotification(this.t('gd.palinode_seam'));
                 }
             },
             closeDialog: {

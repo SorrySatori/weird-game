@@ -258,7 +258,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                         this.addJournalEntry('gang_eavesdrop_betrayed', 'Tipped Off the Directorate', "Instead of eavesdropping for Chandelier, I told the Angle Corrector the lamps had sent me. The Directorate was coldly grateful — and gave me a manufactured 'secret' to carry back to her. She'll be delighted by a lie.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Choice Morsel' });
                         this.modifyFactionReputation('LumenDirectorate', 20);
                         this.modifyGrowthDecay(5, 0);
-                        this.showNotification('You sided with the Directorate. The world leans toward Growth.', 0x7fff8e);
+                        this.notifyShift('sided_directorate', 'growth');
                     }
                 }
             },

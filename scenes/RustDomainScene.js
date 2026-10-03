@@ -111,7 +111,7 @@ export default class RustDomainScene extends GameScene {
                         this.addJournalEntry('gang_spy_betrayed', 'Sold Out the Lamps', "Instead of spying on the Rust Choir for the Gang of Lamps, I told Brukk exactly what they'd sent me to do. The Choir was pleased — and handed me a pack of comfortable lies to carry back to Don Girandole. He'll never know the difference.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'Ears on the Rust Choir' });
                         this.modifyFactionReputation('RustChoir', 20);
                         this.modifyGrowthDecay(0, 5);
-                        this.showNotification('You sided with the Choir. The world sours toward Decay.', 0x8B0000);
+                        this.notifyShift('sided_choir', 'decay');
                         // A probationary member who sells out the lamps has proven loyalty — lift the probation.
                         if (this.hasJournalEntry('rust_choir_probationary') && !this.hasJournalEntry('rust_choir_full_member')) {
                             this.addJournalEntry('rust_choir_full_member', 'Rust Choir: Full Member', 'By warning Brukk that the Gang of Lamps meant to spy on the Choir, I proved my loyalty to the iron. Brukk lifted my probation — I am a full member of the Rust Choir now.', this.journalSystem.categories.FACTIONS);
@@ -137,7 +137,7 @@ export default class RustDomainScene extends GameScene {
                         this.modifyFactionReputation('RustChoir', 15);
                         this.modifyGrowthDecay(0, 5);
                         this.addMoney(20);
-                        this.showNotification('The Choir keeps the contraband. The world sours toward Decay.', 0x8B0000);
+                        this.notifyShift('choir_keeps_contraband', 'decay');
                         // Bringing the Choir a gift (over selling/dropping it) proves a probationary member's loyalty.
                         if (this.hasJournalEntry('rust_choir_probationary') && !this.hasJournalEntry('rust_choir_full_member')) {
                             this.addJournalEntry('rust_choir_full_member', 'Rust Choir: Full Member', 'By handing the smuggled contraband to the Rust Choir instead of selling it or running it, I proved my loyalty to the iron. Brukk lifted my probation — I am a full member of the Rust Choir now.', this.journalSystem.categories.FACTIONS);
@@ -155,7 +155,7 @@ export default class RustDomainScene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.modifyGrowthDecay(0, 5);
-                    this.showNotification('You read the dead. The world sours toward Decay.', 0x8B0000);
+                    this.notifyShift('read_the_dead', 'decay');
                     recordSpyFragment(this, 'brukk', "Rust Choir Secret: the Machines' Count", "Through Osswine's Grave-Sense I read it straight from the Choir's dead machines: they carry a low regulator-tone through the city's old pipes, and when a district's tone falls silent — its power dead for good — the Choir moves in to claim its machines before the rust does. The machines have been counting the dying for years.");
                 }
             },

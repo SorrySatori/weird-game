@@ -202,10 +202,10 @@ export default class LumenDirectorateScene extends GameScene {
         }
         if (mode === 'neme' || mode === 'brine') {
             this.modifyGrowthDecay(5, 0);
-            this.showNotification('You drew out the truth, not just the dirt. The world leans toward Growth.', 0x7fff8e);
+            this.notifyShift('truth_not_dirt', 'growth');
         } else {
             this.modifyGrowthDecay(0, 4);
-            this.showNotification('Fresh gossip to spread. The world sours toward Decay.', 0x8B0000);
+            this.notifyShift('fresh_gossip', 'decay');
         }
         if (this._eavesdropCleanup) this._eavesdropCleanup();
     }

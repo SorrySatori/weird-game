@@ -48,9 +48,9 @@ export default {
         }
     },
     dr_elphi_loop_ortolan: {
-        text: "Protože já postavila jen zdi; Ortolan vymyslel, k čemu mají sloužit. Jestli někdo ví, jestli přežila kopie Infinite Foldu – a jak se doopravdy chová – je to on. Bude to smetat ze stolu jako neškodnou hračku; to dělal vždycky. Tomu nevěřte.\n\nTisíc trávení jsme spolu nemluvili, ale s vámi mluvit bude. Naposledy jsem slyšela, že opustil Kůlnu a usadil se na Burning Bear Street, zavalený formuláři jako obvykle. Řekněte mu, že to zase běží.",
+        text: "Protože já postavila jen zdi; Ortolan vymyslel, k čemu mají sloužit. Jestli někdo ví, jestli přežila kopie Infinite Foldu – a jak se doopravdy chová – je to on. Bude to smetat ze stolu jako neškodnou hračku; to dělal vždycky. Tomu nevěřte.\n\nTisíc trávení jsme spolu nemluvili, ale s vámi mluvit bude. Naposledy jsem slyšela, že opustil Kůlnu a usadil se na Ulici Hořícího Medvěda, zavalený formuláři jako obvykle. Řekněte mu, že to zase běží.",
         options: {
-            ill_find_ortolan_burning_bear: "Najdu Ortolana na Burning Bear Street."
+            ill_find_ortolan_burning_bear: "Najdu Ortolana na Ulici Hořícího Medvěda."
         }
     },
     dr_elphi_report_day1: {

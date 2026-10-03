@@ -713,8 +713,8 @@ export default {
             description: 'Ortolan odhalil pravý cíl Infinite Foldu. Nikdy to nebyla hra s vítězným nebo prohrávajícím tahem. On a Dr. Elphi ji postavili, aby položili jedinou otázku: může vzniknout myšlenka, která nemá jediného autora? Tisíce hráčů do ní vlévaly své volby a sny a tvůrci sledovali, jestli z nich všech naráz vyroste opravdu nový způsob významu – takový, který nikdo z nich nenapsal. Vládci města ji zarazili, protože to začalo fungovat a plodit smysl, který už si neuměli vysvětlit.',
         },
         ortolan_bb_meeting: {
-            title: 'Ortolan na Burning Bear Street',
-            description: 'Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se z Kůlny na Burning Bear Street, zavalený jako vždy papírováním kolem povolení.',
+            title: 'Ortolan na Ulici Hořícího Medvěda',
+            description: 'Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se z Kůlny na Ulici Hořícího Medvěda, zavalený jako vždy papírováním kolem povolení.',
         },
         perspective_ortolan: {
             title: 'Ortolanův pohled: Vadný výrobek',

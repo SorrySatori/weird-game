@@ -2,6 +2,7 @@
 // This assumes you have a scene set up, a dialogue system in place, and backgrounds prepared
 
 import { fitBackground } from '../utils/fitBackground.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 class IntroScene extends Phaser.Scene {
     constructor() {
@@ -32,19 +33,8 @@ class IntroScene extends Phaser.Scene {
   
       // Begin Dialogue Sequence
       this.dialogueIndex = 0;
-      this.dialogues = [
-        { speaker: 'NARRATOR', text: 'In the underground temple of Obazoba, the Spore Council is gathered.' },
-        { speaker: 'ACHPRIEST VARHUN', text: 'A distress call through the myceliar network. Not rot. Not bloom. A cry for help.' },
-        { speaker: 'ACHPRIEST TYNRI', text: 'From the surface. From city of Upper Morkezela.' },
-        { speaker: 'ACHPRIEST VARHUN', text: 'We must respond, though we do not know who speaks.' },
-        { speaker: 'ACHPRIEST RHULL', text: `The Egg Cathedral is the place where we should go. The Bishop would know more. She has been monitoring what's going on in the city.` },
-        { speaker: 'ACHPRIEST VARHUN', text: 'Summon master Thaal to walk the deadroot path. Let the fungal emissary rise.' },
-        { speaker: 'ACHPRIEST TYNRI', text: 'He could be a capable investigator, true. But I have a notion that his apprentice is... rather troublesome person, I must say.' },
-        { speaker: 'ACHPRIEST RHULL', text: 'He is... well, he is Thaal apprentice. I do not know much about him, but I do know that he is not the most... sharpest mushroom in the forest.' },
-        { speaker: 'ACHPRIEST RHULL', text: 'At least this time we have hidden the ceremonial oils.' },
-        { speaker: 'ACHPRIEST TYNRI', text: 'And locked the fungal archive. Twice.' },
-        { speaker: 'ACHPRIEST VARHUN', text: 'Let the master Thaal rise - quietly, if possible. Let him to find the Bishop from Upper Morkezela and discover the source of this distress call. The apprentice is his responsibility.' },
-      ];
+      // Localized in lang/*/intro.js (array of {speaker, text})
+      this.dialogues = LanguageSystem.getInstance().t('intro.dialogues');
   
       // Overlay animation
       this.overlay = this.add.image(this.scale.width / 2, this.scale.height / 2, 'mycelialOverlay')
