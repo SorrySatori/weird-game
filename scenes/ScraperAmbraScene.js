@@ -181,6 +181,8 @@ export default class ScraperAmbraScene extends GameScene {
             
             // Dr. Elphi Quarn dialog tree
             dr_elphi_start: {
+                // textKey lets the CZ file pick the matching variant (the old lookup matched on the EN text itself).
+                textKey: canReportDay1 ? 'report' : canPlayFeast ? 'feast_ready' : feastPlayed ? 'after_feast' : bishopDead ? 'bishop_dead' : 'default',
                 text: canReportDay1
                     ? "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there."
                     : canPlayFeast
@@ -251,11 +253,11 @@ export default class ScraperAmbraScene extends GameScene {
                     { text: "I'll go look for her there.", key: 'ill_go_look_for_her_there', next: "dr_elphi_exit" }
                 ],
                 onTrigger: () => {
-                    // Update the find_bishop quest to direct to Shard backyard
+                    // Update the find_bishop quest to direct to the Scraper backyard
                     const questSystem = this.registry.get('questSystem');
                     const findBishopQuest = questSystem?.getQuest('find_bishop');
                     if (findBishopQuest && !findBishopQuest.isComplete) {
-                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Shard backyard. I should check there next.', 'check_shard_backyard');
+                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Scraper backyard. I should check there next.', 'check_shard_backyard');
                     }
                 }
             },
@@ -268,11 +270,11 @@ export default class ScraperAmbraScene extends GameScene {
                     { text: "I'll investigate the backyard.", key: 'ill_investigate_the_backyard', next: "dr_elphi_exit" }
                 ],
                 onTrigger: () => {
-                    // Update the find_bishop quest to direct to Shard backyard
+                    // Update the find_bishop quest to direct to the Scraper backyard
                     const questSystem = this.registry.get('questSystem');
                     const findBishopQuest = questSystem?.getQuest('find_bishop');
                     if (findBishopQuest && !findBishopQuest.isComplete) {
-                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Shard backyard. I should check there next.', 'check_shard_backyard');
+                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Scraper backyard. I should check there next.', 'check_shard_backyard');
                     }
                 }
             },
@@ -332,16 +334,21 @@ export default class ScraperAmbraScene extends GameScene {
                     { text: "Thanks for the information.", key: 'thanks_for_the_information', next: "closeDialog" }
                 ],
                 onTrigger: () => {
-                    this.addItemToInventory({
-                        id: 'scraper_backyard_key',
-                        name: "Backyard Key",
-                        description: "A key to the Scraper 1140 backyard. It seems to glow faintly with possibility.",
-                        stackable: false
-                    });
-                    // Show a notification about the updated quest
-                    this.time.delayedCall(500, () => {
-                        this.showNotification('Quest Updated: Find the Bishop', 0x7fff8e);
-                    });
+                    // Key only once (re-opening the exit used to push a duplicate), and make sure the quest points
+                    // to the backyard even when the player got here via "Never mind" without the Bishop/anomaly branch.
+                    if (!this.hasItem('scraper_backyard_key')) {
+                        this.addItemToInventory({
+                            id: 'scraper_backyard_key',
+                            name: "Backyard Key",
+                            description: "A key to the Scraper 1140 backyard. It seems to glow faintly with possibility.",
+                            stackable: false
+                        });
+                    }
+                    const questSystem = this.registry.get('questSystem');
+                    const findBishopQuest = questSystem?.getQuest('find_bishop');
+                    if (findBishopQuest && !findBishopQuest.isComplete && !findBishopQuest.updates.some(u => u.key === 'check_shard_backyard')) {
+                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Scraper backyard. I should check there next.', 'check_shard_backyard');
+                    }
                 }
             },
 
@@ -673,7 +680,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_berries_lumen: {
-                text: `Not necessarily connected to the murder. But the Lumen Directorate knows everything that happens in this city. They claim they won the Board Games War, they claim they saved everyone, and they act like Upper Morkezela is their personal project.\n\nIf the Bishop was buying spiced Sulkberries from them, they'd know. They keep records of everything — who buys what, who visits whom. It's all about "transparency," they say.\n\nMore importantly — the Directorate has interests in the Egg Cathedral. They've been watching it closely, waiting for the hatching. If the Bishop sealed the Cathedral, the Directorate would have noticed. And they would have opinions about it.\n\nSpeak to them. They might know more about the Bishop's last weeks than anyone. And if they don't — they'll know who does.`,
+                text: `Not necessarily connected to the murder. But the Lumen Directorate knows everything that happens in this city. They claim they won the Board Game Wars, they claim they saved everyone, and they act like Upper Morkezela is their personal project.\n\nIf the Bishop was buying spiced Sulkberries from them, they'd know. They keep records of everything — who buys what, who visits whom. It's all about "transparency," they say.\n\nMore importantly — the Directorate has interests in the Egg Cathedral. They've been watching it closely, waiting for the hatching. If the Bishop sealed the Cathedral, the Directorate would have noticed. And they would have opinions about it.\n\nSpeak to them. They might know more about the Bishop's last weeks than anyone. And if they don't — they'll know who does.`,
                 options: [
                     { text: "Where can I find the Lumen Directorate?", key: 'where_can_i_find_the_lumen_directorate', next: "dr_elphi_lumen_where" },
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
@@ -994,7 +1001,7 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Add a notification to indicate Dr. Elphi is present
         this.time.delayedCall(1500, () => {
-            this.showNotification('Dr. Elphi is working at her console');
+            this.showNotification(this.t('scraperAmbra.elphiPresent'));
         });
     }
 
@@ -1165,7 +1172,7 @@ export default class ScraperAmbraScene extends GameScene {
         if (has('rust_feast_completed_full')) {
             panels.push({
                 title: 'The Rust Domain — A full feast',
-                caption: "Down in the Rust Domain, Brukk's choir of machines sings full-throated tonight, fed on the redmass you brought whole. The old iron remembers a tune nobody has played since before the Board Games War.",
+                caption: "Down in the Rust Domain, Brukk's choir of machines sings full-throated tonight, fed on the redmass you brought whole. The old iron remembers a tune nobody has played since before the Board Game Wars.",
                 bg: 'cs_rust',
                 bgTint: 0xc89060,
                 sprites: [

@@ -407,7 +407,7 @@ export default class LumenDirectorateScene extends GameScene {
 
             gardener_about_lumen: {
                 speaker: 'Verrik the Gardener',
-                text: `"The Lumen Directorate. Keepers and protectors of everything that grows. That's the motto — well, the unofficial one. The official motto is 'Nothing Hidden. Nothing Lost.'\n\nThey run this city, more or less. Won the Board Games War, rebuilt half the districts, and now they make sure the green keeps spreading. Growth is everything to them — plants, fungi, ideas, influence. Especially influence."`,
+                text: `"The Lumen Directorate. Keepers and protectors of everything that grows. That's the motto — well, the unofficial one. The official motto is 'Nothing Hidden. Nothing Lost.'\n\nThey run this city, more or less. Won the Board Game Wars, rebuilt half the districts, and now they make sure the green keeps spreading. Growth is everything to them — plants, fungi, ideas, influence. Especially influence."`,
                 options: [
                     { text: "What do you do for them?", key: 'what_do_you_do_for_them', next: "gardener_role" },
                     { text: "Who's in charge here?", key: 'whos_in_charge_here', next: "gardener_leadership" },

@@ -13,10 +13,10 @@ export default {
                 bishop_clue_gnur: "Gnur says the Bishop came down to Shed 521 for a lens from the old pre-war dream rigs — Rust Choir stock. He wants something in return before he says more.",
                 edgar_eskola_clue: 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.',
                 bishop_location_scraper: 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel — then headed to Scraper 1140 to meet Dr. Elphi.',
-                got_floor_counter_tool: "Captain Liris gave me a calibration tool to repair the Lift Mother's floor counter, which should allow me to access Dr. Elphi's studio.",
-                lift_mother_permission: "The Lift Mother has granted me access to Dr. Elphi's studio on floor 177-Quiet.",
+                got_floor_counter_tool: "Captain Liris gave me a calibration tool to repair the Lift-Mother's floor counter, which should allow me to access Dr. Elphi's studio.",
+                lift_mother_permission: "The Lift-Mother has granted me access to Dr. Elphi's studio on floor 177-Quiet.",
                 reached_elphi_studio: "I've reached Dr. Elphi's studio on floor 177-Quiet. Now I need to find clues about the Bishop.",
-                check_shard_backyard: 'Dr. Elphi mentioned the Bishop was last seen in the Shard backyard. I should check there next.',
+                check_shard_backyard: 'Dr. Elphi mentioned the Bishop was last seen in the Scraper backyard. I should check there next.',
                 found_elevator_button: "I found a Forgotten Elevator Button at Zerren's shop that might help me access Dr. Elphi's floor.",
                 guard_voxmarket: 'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.',
                 guard_shed521: 'Shed 521, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.',
@@ -82,7 +82,7 @@ export default {
             updates: {
                 talk_to_ravla: 'I should speak with Ravla at the Screaming Cork tavern first.',
                 talked_to_ravla: 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove my commitment.',
-                feast_complete: 'The Rust Feast is complete. Ravla gave me the password for Lift Mother: "Corrode". I can now access the Rust Choir domain.',
+                feast_complete: 'The Rust Feast is complete. Ravla gave me the password for Lift-Mother: "Corrode". I can now access the Rust Choir domain.',
                 feast_delivered: 'I delivered the Rust Feast to Brukk in the Rust Domain.',
             }
         },

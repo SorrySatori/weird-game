@@ -203,7 +203,7 @@ export default class ScreamingCorkScene extends GameScene {
         if (this.hasJournalExperience('board_games_war') && !selectedTopicIds.includes('board_games_war')) {
             topics.push({
                 id: 'board_games_war',
-                text: "The Board Games War",
+                text: "The Board Game Wars",
                 description: "An ancient conflict where Ludarchs — game designers who could rewrite reality — destroyed entire cities as pawns in their games"
             });
         }

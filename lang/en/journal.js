@@ -138,11 +138,11 @@ export default {
         },
         lift_mother_meeting: {
             title: 'The Lift-Mother',
-            description: 'Within the Scraper building, I encountered a most unusual consciousness - an elevator.',
+            description: 'Within the Scraper building, I encountered a most unusual consciousness — an elevator calling itself the "Lift-Mother". Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time", whatever that means, and seems to have developed sentience through centuries of carrying passengers between floors.',
         },
         accessed_elphi_floor: {
-            title: "Dr. Elphi's Studio - Floor 177-Quiet",
-            description: "I've gained access to Dr. Elphi Quarn's studio on floor 177-Quiet.",
+            title: "Dr. Elphi's Studio — Floor 177-Quiet",
+            description: "I've gained access to Dr. Elphi Quarn's studio on floor 177-Quiet in Scraper 1140. This restricted floor houses her dream game development studio and may hold clues about the Bishop's whereabouts.",
         },
         rust_choir_info: {
             title: 'The Rust Choir Headquarters',
@@ -229,8 +229,8 @@ export default {
             description: "I met Ortolan, a board game developer. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city's labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.",
         },
         board_games_war: {
-            title: 'The Board Games War',
-            description: 'Ortolan Šmelc told me about the Board Games War. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
+            title: 'The Board Game Wars',
+            description: 'Ortolan Šmelc told me about the Board Game Wars. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
         },
         phor_calesta: {
             title: 'Phor Calesta - Divinographer',
@@ -306,15 +306,15 @@ export default {
         },
         captain_liris_meeting: {
             title: 'Captain Liris of the Verdigrace',
-            description: 'Aboard the skyship, I met Captain Liris.',
+            description: 'Aboard the skyship, I met Captain Liris, an imposing figure in an ornate uniform who commands the vessel known as the Verdigrace. The ship travels the aerial trade routes between various settlements and research outposts, carrying rare spores, mycelia, and information.',
         },
         lumen_directorate_faction: {
-            title: 'LUMEN DIRECTORATE',
-            description: 'The Lumen Directorate is a powerful faction.',
+            title: 'The Lumen Directorate',
+            description: 'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
         },
         floor_counter_tool: {
             title: 'Elevator Calibration Tool',
-            description: 'Captain Liris provided me with a specialized calibration tool.',
+            description: "Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift-Mother's system. This symbiotic interface bridges old electronic systems with new mycelial networks, allowing me to access restricted floors like Dr. Elphi's studio on level 177-Quiet.",
         },
         met_gardener_verrik: {
             title: 'Met Verrik the Gardener',
@@ -450,8 +450,8 @@ export default {
             description: 'I suggested the Burning Bear Festival as inspiration for Edgar\'s book — a controversial festival with deep meaning for Edgar. Edgar seemed intrigued by the concept and jotted down some notes.',
         },
         'edgar_book_topic_board_games_war': {
-            title: 'Book Inspiration: The Board Games War',
-            description: 'I suggested the Board Games War as inspiration for Edgar\'s book — an ancient conflict where Ludarchs — game designers who could rewrite reality — destroyed entire cities as pawns in their games. Edgar seemed intrigued by the concept and jotted down some notes.',
+            title: 'Book Inspiration: The Board Game Wars',
+            description: 'I suggested the Board Game Wars as inspiration for Edgar\'s book — an ancient conflict where Ludarchs — game designers who could rewrite reality — destroyed entire cities as pawns in their games. Edgar seemed intrigued by the concept and jotted down some notes.',
         },
         'edgar_book_topic_noise_god': {
             title: 'Book Inspiration: The Noise God',
@@ -595,15 +595,15 @@ export default {
         },
         feral_toast_performance: {
             title: 'Feral Toast Concert',
-            description: 'Experienced the mind-bending sounds of Feral Toast.',
+            description: 'Experienced the mind-bending sounds of Feral Toast, an ultranoise futurepunk band at the Screaming Cork Club. Their raw, dirty punk-noise music sounds like a pinnacle of chaos. I liked it.',
         },
         noise_god_insight: {
             title: 'Noise God Insight',
-            description: 'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God.',
+            description: 'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback — not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here a long time ago. He may be forgotten, but the noise is still alive.',
         },
         feral_toast_first_visit: {
             title: 'Feral Toast Rehearsal',
-            description: 'Visited the Screaming Cork Club and experienced a rehearsal by Feral Toast.',
+            description: 'Visited the Screaming Cork Club and experienced a rehearsal by Feral Toast, an ultranoise futurepunk band.',
         },
         magnekin_hopsalot_conversion: {
             title: 'Maltimus Hopsalot Conversion',
@@ -703,7 +703,7 @@ export default {
         },
         salt_recall_abandoned_bus: {
             title: 'Salt Recall: Outside the Signal',
-            description: 'Through Brine Scripture I read the salt of the abandoned bus itself — not the body, the bus. It is a husk from the Before, the Doba-Před: steel and glass from a world that thought it made sense. The mycelial signal that threads through the whole of Upper Morkezela never reached this metal; it is a dead spot, a silence in the network. Brine believes this is precisely why the Bishop came here to die. Everywhere else something is always listening — the city, the network, the mind waking in the egg. She crawled into the one place the signal never learned, so that whatever she did last, she would do it unobserved and unheard. She wanted, at the end, to be "outside the signal."',
+            description: 'Through Brine Scripture I read the salt of the abandoned bus itself — not the body, the bus. It is a husk from the Before, the Předdoba: steel and glass from a world that thought it made sense. The mycelial signal that threads through the whole of Upper Morkezela never reached this metal; it is a dead spot, a silence in the network. Brine believes this is precisely why the Bishop came here to die. Everywhere else something is always listening — the city, the network, the mind waking in the egg. She crawled into the one place the signal never learned, so that whatever she did last, she would do it unobserved and unheard. She wanted, at the end, to be "outside the signal."',
         },
         cellar_quest_started: {
             title: 'The Sealed Cellar',
@@ -819,7 +819,7 @@ export default {
         },
         salt_recall_rust_machines: {
             title: 'Salt Recall: What the Machines Remember',
-            description: 'Through Brine Scripture I read the salt and scale crusted on the Rust Choir\'s conscious machines — the memory they have leaked into their own corrosion. Beneath everything lies the Before, the Doba-Před, when the Scraper was a counting-house called Nexicorp and these were merely its cold-breath engines and thinking-boxes, humming beneath forty floors of people pretending the world made sense. Then the salt curdles all at once: the green mist, the Emergence, the egg rising through the dead gods below — the moment the machines woke, not built to it and not asked, the mist reaching the metal until the metal began to remember and never stopped. Since then, only the feasts: redmass poured into the funnels, the iron-chested Keepers come to listen. The machines remember every feeding, and they are afraid, in the dull patient way iron is afraid, of the last silence after which there will be no more.',
+            description: 'Through Brine Scripture I read the salt and scale crusted on the Rust Choir\'s conscious machines — the memory they have leaked into their own corrosion. Beneath everything lies the Before, the Předdoba, when the Scraper was a counting-house called Nexicorp and these were merely its cold-breath engines and thinking-boxes, humming beneath forty floors of people pretending the world made sense. Then the salt curdles all at once: the green mist, the Emergence, the egg rising through the dead gods below — the moment the machines woke, not built to it and not asked, the mist reaching the metal until the metal began to remember and never stopped. Since then, only the feasts: redmass poured into the funnels, the iron-chested Keepers come to listen. The machines remember every feeding, and they are afraid, in the dull patient way iron is afraid, of the last silence after which there will be no more.',
         },
         day1_complete_slept: {
             title: 'Day 1 Complete: Rest at ARB Ambra',

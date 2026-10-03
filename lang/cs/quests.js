@@ -12,10 +12,10 @@ export default {
                 bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Kůlny 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
-                got_floor_counter_tool: 'Kapitán Liris mi dal kalibrační nástroj na opravu počítadla pater Lift-Mother, což by mi mělo umožnit přístup do studia Dr. Elphi.',
-                lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Ticho.',
-                reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Ticho. Teď musím najít stopy po Biskupce.',
-                check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku Střepu. Měl bych se tam podívat.',
+                got_floor_counter_tool: 'Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Lift-Mother, což by mi mělo umožnit přístup do studia Dr. Elphi.',
+                lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tiché.',
+                reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Tiché. Teď musím najít stopy po Biskupce.',
+                check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku za Škrabákem. Měl bych se tam podívat.',
                 found_elevator_button: 'Našel jsem Zapomenutý Výtahový Knoflík u Zerren, který mi může pomoct dostat se na patro Dr. Elphi.',
                 guard_voxmarket: 'Voxmarket je zvukové tržiště, kde se obchoduje s nahranými hlasy a zvuky. Biskupka by tam mohla být k nalezení.',
                 guard_shed521: 'Kůlna 521, známá také jako Úřad tvarů, je byrokratické bludiště, kde si lidé registrují své tvary. Biskupka prý toto místo navštěvuje.',
@@ -70,7 +70,7 @@ export default {
         },
         find_lumen_directorate: {
             title: 'Nic skrytého. Nic ztraceného',
-            description: 'Kapitán Liris mi dal pokyny k sídlu Lumen Direktorátu. Měl bych je navštívit, dozvědět se víc o jejich práci a zjistit, jestli se mohu připojit k jejich posádce.',
+            description: 'Kapitánka Liris mi poradila, kde najdu sídlo Lumen Directorate. Měl bych je navštívit, dozvědět se víc o jejich práci a zjistit, jestli se mohu připojit k jejich posádce.',
             updates: {
                 gardener_directions: 'Zahradník Verrik mě nasměroval ke Korektoru Úhlu ve třetím patře Direktorátu.',
             }
@@ -154,7 +154,7 @@ export default {
         },
         level_177_access: {
             title: 'Přístup na Úroveň 177',
-            description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Ticho v budově Škrabáku.',
+            description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Tiché v budově Škrabáku.',
         },
         edgar_book: {
             title: 'Pomoct Edgarovi napsat knihu',

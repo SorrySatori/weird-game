@@ -14,17 +14,23 @@ export default {
     },
     dr_elphi_start: {
         text: {
-            "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there.": "Vypadáte, jako by vás město celý den žvýkalo a teprve teď vyplivlo. Sedněte si. Povězte mi, co jste tam venku zjistil.",
-            "Morning. The cartridge held together overnight – barely. I've got the Bishop's last session loaded and waiting. Whenever you're ready to see what she saw.": "Dobré ráno. Kazeta přes noc vydržela – tak tak. Mám nahranou poslední Biskupčinu relaci a čeká. Až budete připravený vidět, co viděla ona.",
-            "You've got the look of someone who just watched a ghost check the time. The Egg Cathedral, then. That's where it sent you.": "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Vaječná katedrála, tedy. Tam vás to poslalo.",
-            "You're back. I can see it on your face. Something happened to her, didn't it?": "Jste zpět. Vidím vám to na obličeji. Něco se jí stalo, že?",
-            "Hm. You're not scheduled. Not tagged either. Let me guess – someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.": "Hm. Nejste objednaný. Ani označený. Hádám – někdo chce neurální ladění, výkonnostní konzultaci, nebo jste přišel mě zase varovat před 'metafyzickým únikem'."
+            report: "Vypadáte, jako by vás město celý den žvýkalo a teprve teď vyplivlo. Sedněte si. Povězte mi, co jste tam venku zjistil.",
+            feast_ready: "Dobré ráno. Kazeta přes noc vydržela – tak tak. Mám nahranou poslední Biskupčinu relaci a čeká. Až budete připravený vidět, co viděla ona.",
+            after_feast: "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Vaječná katedrála, tedy. Tam vás to poslalo.",
+            bishop_dead: "Jste zpět. Vidím vám to na obličeji. Něco se jí stalo, že?",
+            default: "Hm. Nejste objednaný. Ani označený. Hádám – někdo chce neurální ladění, výkonnostní konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
         },
         options: {
             report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil.",
             load_bishops_last_session: "Nahrát Biskupčinu poslední relaci.",
             the_game_told_me_where: "Ta hra mi řekla, kde je deník.",
-            before_cathedral_infinite_fold: "[Než vejdu do katedrály] Našel jsem tu věc v zapečetěném sklepě. Je to ta, co ji zabila."
+            before_cathedral_infinite_fold: "[Než vejdu do katedrály] Našel jsem tu věc v zapečetěném sklepě. Je to ta, co ji zabila.",
+            im_looking_for_someone_the_bishop: "Hledám někoho. Biskupku.",
+            i_was_sent_to_investigate_an_anomaly_might_be_conn: "Poslali mě prošetřit anomálii. Možná souvisí s tímhle místem.",
+            i_heard_you_design_dreambased_games: "Slyšel jsem, že navrhujete hry založené na snech.",
+            ill_explain_if_you_stop_testing_me: "Vysvětlím vám to, jestli mě přestanete zkoušet.",
+            the_bishop_is_dead_i_found_her_body_in_the_backyar: "Biskupka je mrtvá. Našel jsem její tělo na dvorku.",
+            i_need_your_expertise_i_found_some_clues: "Potřebuji vaši odbornost. Našel jsem nějaké stopy."
         }
     },
     dr_elphi_cartridge_ready: {
@@ -68,28 +74,65 @@ export default {
         }
     },
     dr_elphi_bishop_path: {
-        text: "Biskupka? No, jdete pozdě. Chodila sem. Často, vlastně. Vždycky kvůli simulacím. Nikdy kvůli politice.\n\nMěla ráda ty jemnější. Imerzivní fikce, snová prostředí. Kardinálská hostina byla její oblíbená.\n\nNaposledy jsem ji viděla? Před třemi tráveními, možná čtyřmi. Ukončila relaci, řekla, že možná zůstane chvíli venku. Měla klíč od dvorku.\n\nNemyslela jsem si nic zlého. Vypadala... roztržitě. Víc než obvykle.",
+        text: "Biskupka? No, jdete pozdě. Chodila sem. Vlastně často. Vždycky kvůli simulacím, nikdy kvůli politice.\n\nMěla ráda ty jemnější. Imerzivní fikce, snová prostředí. Kardinálská hostina byla její oblíbená.\n\nKdy jsem ji viděla naposled? Před třemi tráveními, možná čtyřmi. Ukončila relaci a řekla, že možná ještě chvíli zůstane venku. Měla klíč od dvorku.\n\nNepřišlo mi na tom nic zvláštního. Působila... roztržitě. Víc než obvykle.",
         options: {
             whats_in_the_backyard: "Co je na dvorku?",
             did_she_say_where_she_was_going: "Řekla, kam jde?",
             ill_go_look_for_her_there: "Půjdu ji tam hledat."
         }
     },
+    dr_elphi_anomaly_path: {
+        text: "Jestli jde o nějakou anomálii, ode mě není. Všechna testovací prostředí jsou oddělená. V nejhorším se zhroutí v soukromí.\n\nLeda byste myslel ji. Biskupka tu v poslední době absolvovala pár relací. Neřekla, čemu se vyhýbá, ale něco ji drželo ve střehu.\n\nPo hraní mívala ve zvyku sedávat vzadu – na starém dopravním dvoře. Už několik dní nepřišla.\n\nTady.",
+        options: {
+            what_was_she_avoiding: "Čemu se vyhýbala?",
+            whats_in_the_backyard: "Co je na dvorku?",
+            ill_investigate_the_backyard: "Prozkoumám dvorek."
+        }
+    },
+    dr_elphi_games_path: {
+        text: "Dělám je. Snová architektura. Neurofikce. Postsenzorická architektura.\n\nStojíte v ARB Ambra – a ne, ty iniciály nic neznamenají. Jen tak líp znějí.\n\nCo přesně jste slyšel?",
+        options: {
+            the_bishop_came_here_to_play: "Biskupka sem chodila hrát.",
+            something_went_wrong_im_following_the_trace: "Něco se pokazilo. Jdu po stopě.",
+            never_mind: "Nic, zapomeňte na to."
+        }
+    },
+    dr_elphi_testing_path: {
+        text: "Zkoušení mě drží naživu. Většina návštěvníků lže. Někteří o tom ani nevědí.\n\nAle dobrá. Mluvte jasně. Tohle patro mě stojí procesorové cykly.",
+        options: {
+            im_looking_for_the_bishop: "Hledám Biskupku.",
+            theres_been_a_signal_anomaly: "Došlo k anomálii v signálu."
+        }
+    },
+    dr_elphi_bishop_destination: {
+        text: "Ne. To nikdy. Biskupka se pohybuje ve vzorcích, kterým rozumí jen ona. Ale nakonec se vždycky vrátí do katedrály.\n\nTentokrát to ale působí jinak. Byla... zaujatá něčím na starém dopravním dvoře. Říkala, že jí tam mech „zpívá“. Typická katedrální mystika.",
+        options: {
+            ill_go_look_for_her_there: "Půjdu ji tam hledat.",
+            whats_in_the_backyard: "Co je na dvorku?"
+        }
+    },
+    dr_elphi_bishop_concerns: {
+        text: "Přímo to neřekla. Něco o „rezonančních vzorcích“ a „harmonických poruchách“. Katedrální záležitosti, předpokládala jsem.\n\nAle trávila v simulacích víc času než obvykle. Skoro jako by se schovávala. Nebo se na něco připravovala.",
+        options: {
+            i_should_check_the_backyard: "Měl bych se podívat na dvorek.",
+            tell_me_about_this_backyard: "Povězte mi o tom dvorku."
+        }
+    },
     dr_elphi_backyard_info: {
-        text: "Je to starý nádražní dvůr. Opuštěný před desítkami let, když byly postaveny nové linky. Teď je většinou zarostlý tím zvláštním mechem.\n\nBiskupka jím byla fascinována. Říkala, že má 'mnemonické vlastnosti.' Cokoliv to znamená. Katedrální lidé a jejich záhadná terminologie...",
+        text: "Je to starý dopravní dvůr. Opuštěný před desítkami let, když se stavěly nové linky. Teď je většinou zarostlý tím zvláštním mechem.\n\nBiskupka jím byla fascinovaná. Říkala, že má „mnemonické vlastnosti“. Ať už to znamená cokoli. Katedrální lidé a jejich záhadná terminologie...",
         options: {
             ill_go_investigate: "Půjdu to prozkoumat.",
             is_it_dangerous: "Je to nebezpečné?"
         }
     },
     dr_elphi_backyard_danger: {
-        text: "Ne konvenčně. Ale nic kolem není skutečně bezpečné, že? Mech si pamatuje věci. Někdy ty vzpomínky... sdílí. Nepředvídatelně.\n\nJen tam neusínejte. Sny mohou být... intenzivní.",
+        text: "Ne v běžném smyslu. Ale nic tady kolem není doopravdy bezpečné, že? Ten mech si pamatuje. A někdy se o své vzpomínky... podělí. Nepředvídatelně.\n\nJen tam neusínejte. Sny tam umějí být... intenzivní.",
         options: {
             ill_be_careful: "Budu opatrný."
         }
     },
     dr_elphi_exit: {
-        text: "Nic neskrývám. Jestli se jí něco stalo, neviděla jsem to.\n\nAle vy možná ano.\n\nVraťte se, pokud něco najdete. Tady, vezměte si můj klíč od dvorku.",
+        text: "Nic neskrývám. Jestli se jí něco stalo, já to neviděla.\n\nAle vy byste mohl.\n\nVraťte se, jestli něco najdete. Tady, vezměte si můj klíč od dvorku.",
         options: {
             ill_check_the_backyard: "Podívám se na dvorek.",
             thanks_for_the_information: "Díky za informace."
@@ -244,7 +287,7 @@ export default {
         }
     },
     dr_elphi_berries_lumen: {
-        text: "Ne nutně s vraždou. Ale Lumen Directorate ví o všem, co se v tomhle městě děje. Tvrdí, že vyhráli Válku deskových her, tvrdí, že zachránili všechny, a chovají se, jako by Horní Morkezela byl jejich osobní projekt.\n\nPokud Biskupka kupovala kořeněné mručenky od nich, věděli by to. Vedou záznamy o všem – kdo co kupuje, kdo koho navštěvuje. Všechno je to o 'transparentnosti,' říkají.\n\nJeště důležitější – Direktorát má zájmy ve Vaječné katedrále. Sledovali ji zblízka, čekali na líhnutí. Pokud Biskupka zapečetila katedrálu, Direktorát by si toho všiml. A měl by na to názor.\n\nPromluvte si s nimi. Mohli by vědět víc o posledních týdnech Biskupky než kdokoliv jiný. A pokud ne – budou vědět, kdo ví.",
+        text: "Ne nutně s vraždou. Ale Lumen Directorate ví o všem, co se v tomhle městě děje. Tvrdí, že vyhráli Deskovkové války, tvrdí, že zachránili všechny, a chovají se, jako by Horní Morkezela byl jejich osobní projekt.\n\nPokud Biskupka kupovala kořeněné mručenky od nich, věděli by to. Vedou záznamy o všem – kdo co kupuje, kdo koho navštěvuje. Všechno je to o 'transparentnosti,' říkají.\n\nJeště důležitější – Direktorát má zájmy ve Vaječné katedrále. Sledovali ji zblízka, čekali na líhnutí. Pokud Biskupka zapečetila katedrálu, Direktorát by si toho všiml. A měl by na to názor.\n\nPromluvte si s nimi. Mohli by vědět víc o posledních týdnech Biskupky než kdokoliv jiný. A pokud ne – budou vědět, kdo ví.",
         options: {
             where_can_i_find_the_lumen_directorate: "Kde najdu Lumen Directorate?",
             back_to_other_clues: "Zpět k dalším stopám."

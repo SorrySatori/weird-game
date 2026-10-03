@@ -5,6 +5,7 @@
 export default {
     _speakers: {
         'Captain Liris': 'Kapitánka Liris',
+        'Narrator': 'Vypravěč',
     },
     main: {
         text: "Ocitáš se na palubě vzdušné lodi. Vzduch je tu nahoře řídký a dole vidíš rozprostřené houbové město.",
@@ -15,7 +16,7 @@ export default {
     lookAround: {
         text: "Vzdušná loď vypadá jako transportní plavidlo. Různé houbové porosty lemují okraje paluby a slouží zjevně jako dekorace i konstrukční podpora. Loď se jemně kolébá ve větru.",
         options: {
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     captainMain: {
@@ -34,13 +35,13 @@ export default {
         text: "Jsem kapitánka Liris, velitelka tohoto plavidla, jak jsem řekla. Jsem na misi pro Lumen Directorate, jako obvykle.",
         options: {
             what_is_the_lumen_directorate: "Co je Lumen Directorate?",
-            other_topics: "Jiná témata",
+            other_topics: "Zeptej se na něco jiného",
         }
     },
     captainAccord: {
         text: "Lumen Directorate je mocná organizace, víte? Usilujeme o splynutí mysli a flóry. Jsme strážci a ochránci všeho, co roste. Jsme gardiáni života.",
         options: {
-            other_topics: "Jiná témata",
+            other_topics: "Zeptej se na něco jiného",
             what_is_you_mission: "Jaká je vaše mise?",
             does_lumen_directorate_have_some_enemies: "Má Lumen Directorate nějaké nepřátele?"
         }
@@ -48,47 +49,40 @@ export default {
     captainMission: {
         text: "Jsme na misi hledat a sbírat vzácné exempláře pro Lumen Directorate. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
         options: {
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     captainEnemies: {
         text: "Jistě, máme nějaké nepřátele, jako každý. Zvláště tu verbež z Rezavého chóru, ale to je sotva překvapení.",
         options: {
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     captainTechnology: {
         text: "Fascinující, že? Trup lodi je prosycen speciálním kmenem vznášivých spor. Vytvářejí mikroskopické plynové kapsy, které nám dávají vztlak. Myceliální plachty zachycují vzdušné proudy a řídicí houby reagují na mé příkazy prostřednictvím symbiotického pouta. Jsem s touto lodí spojená už přes dvacet cyklů.",
         options: {
             that_sounds_dangerous: "To zní nebezpečně.",
-            ask_something_else: "Zeptat se na něco jiného"
-        }
-    },
-    captainAloft: {
-        text: "Fascinující, že? Trup lodi je prosycen speciálním kmenem vznášivých spor. Vytvářejí mikroskopické plynové kapsy, které nám dávají vztlak. Myceliální plachty zachycují vzdušné proudy a řídicí houby reagují na mé příkazy prostřednictvím symbiotického pouta. Jsem s touto lodí spojená už přes dvacet cyklů.",
-        options: {
-            that_sounds_dangerous: "To zní nebezpečně.",
-            ask_something_else: "Zeptat se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     captainDanger: {
         text: "Ha! Život bez rizika není žádný život. Ano, jsou tu nebezpečí – bouřkové spory, které by nás mohly pohltit, dravé létající mycélia, která loví ve výšinách, nemluvě o neustálé rovnováze mezi Růstem a Rozkladem, která nás chrání před rozpuštěním ve spory nebo ztuhnutím v mrtvou hmotu. Ale svoboda oblohy... ta stojí za jakékoliv riziko.",
         options: {
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     captainDestination: {
         text: "Sledujeme velké sporové proudy, které krouží nad kontinentem. Příští zastávka jsou Visuté zahrady Mykory, kde vyměníme městské zboží za vzácné pěstitelské exempláře. Poté možná plovoucí výzkumné stanice Východního baldachýnu. Větry rozhodují o naší konečné trase.",
         options: {
             could_i_travel_with_you: "Mohl bych cestovat s vámi?",
-            ask_something_else: "Zeptat se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     captainTravel: {
         text: "Možná jednou, příteli. Ale ne na této cestě. Loď si... vybrala svou posádku. Cítím, že ještě není připravena se s vámi spojit. Vraťte se, až prokážete svou hodnotu. Verdigrace je obzvláště vybíravá ohledně toho, koho přijme. Pokud to myslíte vážně, navštivte ústředí Lumen Directorate ve městě a zeptejte se na vstup do posádky. Mohli by pro vás mít nějaké úkoly, abyste prokázal svou oddanost.",
         options: {
             where_can_i_find_the_lumen_directorate_headquarter: "Kde najdu ústředí Lumen Directorate?",
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     captainDirectorate: {
@@ -101,13 +95,13 @@ export default {
         text: "Především vzácné spory a mycélia, která nelze pěstovat ve městě. Specializované symbiotické kmeny, krystalizované růstové enzymy, rozkladu odolné stavební materiály. Převážíme také zprávy mezi rozptýlenými vzdušnými koloniemi a výzkumnými stanicemi. Informace jsou možná náš nejcennější náklad – znalosti, které by se jinak nikdy nedostaly na zem.",
         options: {
             do_you_have_anything_to_trade: "Máte něco na výměnu?",
-            ask_something_else: "Zeptat se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     captainTrade: {
         text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali naše specializované zboží. Vraťte se, až dokončíme první okruh – možná za pár cyklů – a mohl bych mít něco jedinečného pro tak odvážného průzkumníka jako vy. Sledujte oblohu, až se budeme vracet.",
         options: {
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     captainElevator: {
@@ -128,7 +122,7 @@ export default {
         text: "Je to symbiotické rozhraní, které propojuje staré elektronické systémy s nově vyvinutou inteligentní myslí výtahu. Nástroj obsahuje specializovaný kmen komunikačních mikro dronů, kteří dokáží překládat mezi digitálními signály a mozkovými impulzy. Jednoduše ho připojíte k servisnímu portu počítadla a obnoví spojení mezi mechanickými součástmi a novým nervovým systémem budovy.",
         options: {
             could_i_borrow_this_tool: "Mohl bych si ten nástroj půjčit?",
-            ask_something_else: "Zeptat se na něco jiného"
+            ask_something_else: "Zeptej se na něco jiného"
         }
     },
     captainGivesTool: {
@@ -142,21 +136,21 @@ export default {
         options: {
             show_me_the_records: "Ukažte mi ty záznamy.",
             what_happens_when_i_come_back_out: "Co se stane, až vyjdu ven?",
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     lirisRecords: {
         text: "Tady – aktuální mapa proti poslednímu průzkumu Direktorátu. Obrys se změnil víc, než by dokázalo vysvětlit počasí. Vzory světla písma se posouvají a pak se ustálí do nových tvarů, pokaždé uspořádanějších než ty minulé. Konstrukční hmota neustále roste, hlídku za hlídkou. Zmapovala jsem bouře, migrace, celé kolonie rozpouštějící se ve spory – vím, jak vypadá věc, která umírá, a vím, jak vypadá věc, která se k něčemu propracovává. Ta katedrála se propracovává. Pomalu, trpělivě, k tvaru, který nám ještě neukázala.",
         options: {
             what_happens_when_i_come_back_out: "Co se stane, až vyjdu ven?",
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     lirisReturn: {
         text: "Ještě jednu věc a pak vás nechám být. Nevím, co jste tam našel. Ale vím, že až vyjdete ven, měl by být venku někdo, kdo vás čeká. Takže tady je má nabídka: až budete hotov za Závojem, dejte signál ze schodů katedrály a Verdigrace shodí lano. Odvoz ven – cestu domů, ať už je teď domov kdekoli. Ať se z toho vejce stane cokoli, nebudete od něj muset odcházet sám.",
         options: {
             thank_you_captain: "Děkuji, kapitánko.",
-            other_topics: "Jiná témata"
+            other_topics: "Zeptej se na něco jiného"
         }
     },
     closeDialog: {

@@ -30,7 +30,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             },
             
             feral_style: {
-                text: "\"We call it 'ultranoise futurepunk' - a blend of psychedelic noise with beats that don't exist... yet.\"",
+                text: "\"We call it 'ultranoise futurepunk' — a blend of psychedelic noise with beats that don't exist... yet.\"",
                 options: [
                     { text: "Sounds interesting. Play something!", key: 'sounds_interesting_play_something', next: "feral_play" },
                     { text: "Tell me about the band members", key: 'tell_me_about_the_band_members', next: "feral_intro" },
@@ -38,15 +38,22 @@ export default class ScreamingCorkClubScene extends GameScene {
             },
             
             feral_intro: {
-                text: "\"I'm Telka on guitar. That's Bass Player Xl on bass, we get him on sale. Fluffy Kārlis on drums, and Mira Dron on synth. Together we're Feral Toast - the most mind-expanding band in the underground. We make the best noise in town.\"",
+                text: "\"I'm Telka on guitar. That's Bass Player XL on bass, we got him on sale. Fluffy Kārlis on drums, and Mira Dron on synth. Together we're Feral Toast — the most mind-expanding band in the underground. We make the best noise in town.\"",
                 options: [
                     { text: "Let's hear some music!", key: 'lets_hear_some_music', next: "feral_play" },
                     { text: "What's your musical style?", key: 'whats_your_musical_style', next: "feral_style" },
                 ]
             },
             
+            feral_during: {
+                text: "Telka shouts over the wall of sound without missing a chord. \"Not now, fungal friend — we're mid-set! Just listen!\"",
+                options: [
+                    { text: "(Listen.)", key: 'listen', next: "closeDialog" }
+                ]
+            },
+
             feral_play: {
-                text: "\"Alright! Let's melt some minds with ultra noise!. Ready everyone? One, two, three, four!\"",
+                text: "\"Alright! Let's melt some minds with ultra noise! Ready everyone? One, two, three, four!\"",
                 options: [],
                 onTrigger: function() {
                     // Store a reference to the scene for use in the callback
@@ -157,7 +164,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             'ScreamingCorkInteriorScene', // target scene
             400, // walk to x
             500, // walk to y
-            'Exit to Tavern' // custom name
+            this.t('ui.hints.exitToTavern') // custom name
         );
         
         // Create the band members
@@ -310,7 +317,7 @@ export default class ScreamingCorkClubScene extends GameScene {
         this.isPlaying = true;
         
         // Show notification
-        this.showNotification('Feral Toast begins playing', 'Ultranoise futurepunk fills the club');
+        this.showNotification(this.t('club.beginsTitle'), this.t('club.beginsSub'));
         
         // Create visual effects for the performance
         this.createVisualEffects();
@@ -349,12 +356,9 @@ export default class ScreamingCorkClubScene extends GameScene {
             this.addJournalEntry(
                 'noise_god_insight', 
                 'Noise God Insight', 
-                'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback — not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here long time ago. He may be forgotten, but the noise is still alive.',
+                'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback — not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here a long time ago. He may be forgotten, but the noise is still alive.',
                 this.journalSystem.categories.LORE,
             );
-            
-            // Show notification
-            this.showNotification('New Journal Entry', 'Noise God Insight');
             
             // Increase Growth slightly
             this.modifyGrowthDecay(5, 0);
@@ -389,18 +393,8 @@ export default class ScreamingCorkClubScene extends GameScene {
         textContainer.setAlpha(0);
         
         // Define the narrative texts to show during performance
-        const narrativeTexts = [
-            "The band is fully immersed in their rehearsal, creating something more than just noise.",
-            "You can feel that there is something beyond that noise that... speaks to you.",
-            "It's hard to articulate precisely, but you feel that once there was an entity which can be called maybe... The Noise God?",
-            "Perhaps it's one of the gods who came to die in the Upper Morkezela... and the noise is a remnant of it.",
-            "As you continue listening, the noise seems to take physical form around you.",
-            "Tendrils of sound weave through the air, creating a sort of cloud of consciousness.",
-            "You feel a strange sense of unity with the Noise God.",
-            "A profound insight washes over you: The Noise God was not born but assembled...",
-            "Now, only hints of its pattern remain — buried in magnetic dust, resonating faintly through broken amplifiers, radio fog, and the bones of speakers.",
-            "You sense that the band's music is a remnant of it, a way to connect with the Noise God."
-        ];
+        // Localized narrative (array in lang/*/game.js → club.performance)
+        const narrativeTexts = this.t('club.performance');
         
         // Show each text with a delay between them
         let delay = 3000; // Start after 3 seconds
@@ -482,7 +476,7 @@ export default class ScreamingCorkClubScene extends GameScene {
         }
         
         // Show notification
-        this.showNotification('Feral Toast finishes playing', 'The rehearsal ends');
+        this.showNotification(this.t('club.endsTitle'), this.t('club.endsSub'));
     }
     
     createVisualEffects() {

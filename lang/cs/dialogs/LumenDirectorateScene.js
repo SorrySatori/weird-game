@@ -60,7 +60,7 @@ export default {
         }
     },
     gardener_about_lumen: {
-        text: "Lumen Directorate. Strážci a ochránci všeho, co roste. To je motto – no, neoficiální. Oficiální motto je 'Nic skrytého. Nic ztraceného.'\n\nŘídí toto město, víceméně. Vyhráli Válku deskových her, přestavěli půlku čtvrtí, a teď dohlížejí, aby se zeleň šířila. Růst je pro ně všechno – rostliny, houby, myšlenky, vliv. Obzvlášť vliv.",
+        text: "Lumen Directorate. Strážci a ochránci všeho, co roste. To je motto – no, neoficiální. Oficiální motto je 'Nic skrytého. Nic ztraceného.'\n\nŘídí toto město, víceméně. Vyhráli Deskovkové války, přestavěli půlku čtvrtí, a teď dohlížejí, aby se zeleň šířila. Růst je pro ně všechno – rostliny, houby, myšlenky, vliv. Obzvlášť vliv.",
         options: {
             what_do_you_do_for_them: "Co pro ně děláte?",
             whos_in_charge_here: "Kdo tu vede?",

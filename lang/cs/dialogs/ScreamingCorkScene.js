@@ -88,7 +88,7 @@ export default {
             skyships: "Vzducholodě nad městem",
             rust_choir: "Záhadný Rezavý chór",
             burning_bear: "Festival hořícího medvěda",
-            board_games_war: "Válka deskových her",
+            board_games_war: "Deskovkové války",
             noise_god: "Bůh hluku",
             magnekin: "Magnekin – civilizace v jednom těle",
             god_graveyard: "Hřbitov bohů pod městem",

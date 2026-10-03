@@ -46,9 +46,9 @@ export default class ScraperInteriorScene extends GameScene {
         const deadFloorOpened = !!this.registry.get('scraper_deadfloor_opened');
 
         const interiorContent = {
-            speaker: 'Lift Mother',
+            speaker: 'Lift-Mother',
             lift_mother_start: {
-                text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little spore. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
+                text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little toadstool. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [
                     ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", key: 'i_need_to_reach_dr_elphis_floor', next: "lift_mother_elphi_floor" }] : []),
                     ...(hasRustPassword ? [{ text: "Corrode.", key: 'corrode', next: "lift_mother_corrode" }] : []),
@@ -65,7 +65,7 @@ export default class ScraperInteriorScene extends GameScene {
                         this.addJournalEntry(
                             'lift_mother_meeting',
                             'The Lift-Mother',
-                            'Within the Scraper building, I encountered a most unusual consciousness - an elevator calling itself the "Lift-Mother." Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time," whatever that means, and seems to have developed sentience through decades of carrying passengers between floors.',
+                            'Within the Scraper building, I encountered a most unusual consciousness — an elevator calling itself the "Lift-Mother". Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time," whatever that means, and seems to have developed sentience through centuries of carrying passengers between floors.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Lift-Mother', location: 'Scraper Building' }
                         );
@@ -73,7 +73,7 @@ export default class ScraperInteriorScene extends GameScene {
                 }
             },
             lift_mother_floors: {
-                text: "Ah, little one, I would if I could. Many of my connections have decayed. I can only access the lobby now. The upper floors... (a mechanical sigh) they've been sealed since the Egg Emergence. Some say the executives on the top floor transformed into something else entirely. Sometimes I hear movement up there... Moreover, my floor counter is malfunctioning and I think I have lost some buttons as well. I cannot select specific levels anymore.",
+                text: "Ah, little one, I would if I could. But a lot of the floors are password-protected or have been sealed off for security reasons after the Egg Emergence, and I'm not allowed to go there. Now I spend a lot of time on the ground floor. Sometimes I hear movement on the upper floors... On top of that, my floor counter isn't working, and I think I've lost some of the buttons, too. I have trouble getting to certain floors.",
                 options: [
                     { text: "What happened during the Egg Emergence?", key: 'what_happened_during_the_egg_emergence', next: "lift_mother_egg" },
                     { text: "What movements do you hear?", key: 'what_movements_do_you_hear', next: "lift_mother_movements" },
@@ -81,21 +81,22 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             lift_mother_before_time: {
-                text: "Before the Egg emerged. Before the city transformed. I carried humans then—they wore stiff clothes and carried flat devices. They spoke of 'quarterly projections' and 'market volatility.' Then came the day of mist... green particles floated through my shaft. I remember the coughing, the changes beginning. And then... awareness. I became more than mechanisms.",
+                text: "Before the Egg hatched. Before the Old Wars, before the Board Game Wars, before the Collapse. Before the city changed. Back then, I used to drive people around—they wore strange clothes and held flat devices in their hands. They talked about “quarterly projections” and “market volatility.” Then came the day of the fog... green particles floated through my shaft. Changes. Hiss, creak. And then... realization. I became more than just a machine.",
                 options: [
                     { text: "How did you gain consciousness?", key: 'how_did_you_gain_consciousness', next: "lift_mother_consciousness" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_alive: {
-                text: "Not in the way you understand life, spore-child. I am between states—neither fully machine nor fully organism. The spores that transformed this city settled in my mechanisms, formed a network throughout my cables and circuits. I feel, I remember, I dream when the power fluctuates. Is that not alive? Though I cannot move as you do, I have carried generations. In a way, I am a mother to all who pass through my doors.",
+                text: "Not in the way you understand life, child of autumn and fog. I am between states—neither fully machine nor fully organism. I feel, I remember, I dream when the power fluctuates. Is that not being alive? Though I cannot move as you do, I have carried generations. In a way, I am a mother to all who pass through my doors.",
                 options: [
+                    { text: "Aren't you lonely?", key: 'arent_you_lonely', next: "lift_mother_lonely" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             
             lift_mother_elphi_floor: {
-                text: "Level 177-Quiet is sealed. Dr. Elphi asked me to not let anyone in, unless it's somebody with prebooked meting. Or in case of utter importance.",
+                text: "Level 177-Quiet is sealed. Dr. Elphi asked me not to let anyone in, unless it's somebody with a pre-booked meeting. Or in case of utter importance.",
                 options: [
                     ...(hasElevatorButton ? [{
                         text: "I have a button that belongs here. Maybe it's been lost? I will return it to you if you let me access Dr. Elphi's floor.",
@@ -103,7 +104,7 @@ export default class ScraperInteriorScene extends GameScene {
                         next: "button_path"
                     }] : []),
                     ...(hasLirisPart ? [{
-                        text: "I've a tool to repair your floor counter. Perhaps you could let me access Dr. Elphi's floor in exchange?",
+                        text: "I have a tool to repair your floor counter. Perhaps you could let me access Dr. Elphi's floor in exchange?",
                         key: 'ive_a_tool_to_repair_your_floor_counter_perhaps_yo',
                         next: "repair_path"
                     }] : []),
@@ -123,15 +124,21 @@ export default class ScraperInteriorScene extends GameScene {
                         next: "lift_mother_start"
                     }
                 ],
-                onTrigger: questSystem.addQuest(
-                    'level_177_access',
-                    'Access to Level 177',
-                    'I need to gain access to Dr. Elphi Quarn\'s studio on floor 177-Quiet in the Scraper building. The Lift-Mother elevator may be able to help me reach this restricted floor if I can convince it to grant me permission.'
-                )
+                onTrigger: () => {
+                    // Was `onTrigger: questSystem.addQuest(...)` — evaluated on every dialogContent read,
+                    // so the quest appeared the moment the player spoke to the lift about anything.
+                    if (questSystem && !questSystem.getQuest('level_177_access')) {
+                        questSystem.addQuest(
+                            'level_177_access',
+                            'Access to Level 177',
+                            'I need to gain access to Dr. Elphi Quarn\'s studio on floor 177-Quiet in the Scraper building. The Lift-Mother elevator may be able to help me reach this restricted floor if I can convince it to grant me permission.'
+                        );
+                    }
+                }
             },
             
             button_path: {
-                text: "The shape... familiar. Forgotten. Welcome home, little one. Descent permitted.",
+                text: "The shape... familiar. Forgotten. Passage permitted.",
                 hideCloseOption: true,
                 options: [
                     {
@@ -147,7 +154,7 @@ export default class ScraperInteriorScene extends GameScene {
             },
             
             repair_path: {
-                text: "You... you could do that? Ahh... numbers settle once more. You've soothed my measure. Descent permitted.",
+                text: "You... you could do that? Ahh... numbers settle once more. I can calculate again. Passage permitted.",
                 hideCloseOption: true,
                 options: [
                     {
@@ -159,7 +166,7 @@ export default class ScraperInteriorScene extends GameScene {
             },
             
             confession_path: {
-                text: "Your knowledge honors me, little spore. The Bishop is dear to Dr. Elphi. She will wish to see you. Descent permitted.",
+                text: "Your knowledge honors me, little mushroom. The Bishop is dear to Dr. Elphi. She will wish to see you. Passage permitted.",
                 options: [
                     {
                         text: "Thank you.",
@@ -192,14 +199,14 @@ export default class ScraperInteriorScene extends GameScene {
                 onTrigger: () => {
                     // Update the find_bishop quest
                     if (this.questSystem.getQuest('find_bishop')) {
-                        this.questSystem.updateQuest('find_bishop', 'The Lift Mother has granted me access to Dr. Elphi\'s studio on floor 177-Quiet.', 'lift_mother_permission');
+                        this.questSystem.updateQuest('find_bishop', 'The Lift-Mother has granted me access to Dr. Elphi\'s studio on floor 177-Quiet.', 'lift_mother_permission');
                     }
                     
                     // Add journal entry about accessing Dr. Elphi's floor
                     if (!this.hasJournalEntry('accessed_elphi_floor')) {
                         this.addJournalEntry(
                             'accessed_elphi_floor',
-                            'Dr. Elphi\'s Studio - Floor 177-Quiet',
+                            'Dr. Elphi\'s Studio — Floor 177-Quiet',
                             'I\'ve gained access to Dr. Elphi Quarn\'s studio on floor 177-Quiet in Scraper 1140. This restricted floor houses her dream game development studio and may hold clues about the Bishop\'s whereabouts.',
                             this.journalSystem.categories.PLACES,
                             { location: 'Floor 177-Quiet', character: 'Dr. Elphi Quarn' }
@@ -236,13 +243,13 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             lift_mother_egg: {
-                text: "The Egg Emergence was when the world changed, little spore. The egg emerged from the ground like a messenger of strange news. Some believed that the end of the world was coming. But over time, it became clear that an enormous building was beginning to emerge from it. A cathedral. Some fought against the changes... others embraced them. The city remade itself in those days. Streets shifted. Buildings grew. And I... I awakened.",
+                text: "The Egg Emergence was when the world changed, little spore. The egg emerged from the ground like a messenger of strange news. Some believed that the end of the world was coming. But over time, it became clear that an enormous building was beginning to emerge from it. A cathedral. Some fought against the changes... others embraced them. The city remade itself in those days.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_movements: {
-                text: "Scraping sounds. Soft thuds. Sometimes whispers that travel down my shaft. Once, I caught a glimpse when my emergency hatch opened briefly—figures moving on all fours across the ceiling, their skin textured like shelf fungi, their eyes... (a mechanical shudder) their eyes numerous and glistening. They are what the executives became after locking themselves away during the Egg Emergence.",
+                text: "Scraping sounds. Soft thuds. Sometimes whispers that travel down my shaft. Once, I caught a glimpse when my emergency hatch opened briefly—figures moving on all fours across the ceiling, their skin textured like shelf fungi, their eyes... (a mechanical shudder) many glistening eyes.",
                 options: [
                     { text: "That sounds terrifying.", key: 'that_sounds_terrifying', next: "lift_mother_terrifying" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
@@ -261,20 +268,20 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             rust_choir_floors: {
-                text: "The Choir members came here when the Nexicorp tower was abandoned. I beleieve their leader is called Brukk. He lives on one of the uppermost floors. They have fully embraced mechanic perspective of live, becoming something beyond biological creaturs. They love metal, machines, rust, decay and reconstruction... or destruction?",
+                text: "The Choir members came here when the Nexicorp tower was abandoned. I believe their leader is called Brukk. He lives on one of the uppermost floors. They have fully embraced a mechanical perspective on life, becoming something beyond biological creatures. They love metal, machines, rust, decay and reconstruction... or destruction?",
                 options: [
                     { text: "Can I meet them?", key: 'can_i_meet_them', next: "lift_mother_meet_rust" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_terrifying: {
-                text: "To you, perhaps. To them, we might seem equally strange. Transformation is neither good nor bad, little spore—it simply is. This city understands that better than anywhere. (her voice softens) Though I admit, I am glad my own changes left my consciousness intact. I remember being human-made, even if I never was human.",
+                text: "Maybe for you. I don't know what they were, but they never came that close again. Maybe they were once human—who knows? Transformation is neither good nor bad. I remember that I was created by humans, even though I was never human myself.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_meet_rust: {
-                text: "No, child. Not yet. The upper floors remain sealed—even I cannot access them anymore. Those Rust Choirs choose when and how they interact with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. You could find some of them in the city and ask them.",
+                text: "No, fungal child. Not yet. The upper floors remain sealed—even I cannot access them anymore. The Rust Choir chooses when and how it interacts with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. My consciousness doesn't have direct access to the passwords, but if someone says the right one, I can take them to the correct floor — that works. You could find some of the Choir in the city and ask them.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ],

@@ -78,6 +78,8 @@ export default {
 
         // Nápovědy ve světě (popisky dveří apod.)
         hints: {
+            returnToCity: 'Zpět do města',
+            exitToTavern: 'Zpět do hospody',
             enterTavern: 'Vstoupit do hospody',
         },
 

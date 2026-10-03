@@ -137,11 +137,11 @@ export default {
         },
         lift_mother_meeting: {
             title: 'Lift-Mother',
-            description: 'Uvnitř budovy Škrabáku jsem narazil na nejneobvyklejší vědomí – výtah.',
+            description: 'Uvnitř Škrabáku jsem narazil na nanejvýš neobvyklé vědomí – výtah, který si říká Lift-Mother. Její hlas se nesl kabely a strojovnou a mluvil s klidnou moudrostí někoho, kdo viděl nespočet životů procházet svými dveřmi. Prý jezdí od „Předdoby“, ať už to znamená cokoli, a vědomí v ní zřejmě vyrostlo za ta staletí, co vozí cestující mezi patry.',
         },
         accessed_elphi_floor: {
-            title: 'Studio Dr. Elphi – Patro 177-Ticho',
-            description: 'Získal jsem přístup do studia Dr. Elphi Quarn v patře 177-Ticho.',
+            title: 'Studio Dr. Elphi – patro 177-Tiché',
+            description: 'Získal jsem přístup do studia Dr. Elphi Quarn v patře 177-Tiché ve Škrabáku 1140. Na tomhle uzavřeném patře vyvíjí své snové hry a možná tu najdu stopy k tomu, kde je Biskupka.',
         },
         rust_choir_info: {
             title: 'Sídlo Rezavého chóru',
@@ -228,8 +228,8 @@ export default {
             description: 'Setkal jsem se s Ortolanem, návrhářem deskových her. Ortolan navrhuje složité deskové hry a snaží se získat povolení na další pár rukou, aby se své vášni mohl věnovat lépe. Zdejší labyrint úředních postupů ho frustruje i unavuje, a přesto tváří v tvář absurdním předpisům vytrvává s jistým šarmem.',
         },
         board_games_war: {
-            title: 'Válka deskových her',
-            description: 'Ortolan Šmelc mi vyprávěl o Válce deskových her. Když Staré války zpustošily všechno, města začala řešit spory hrami. Vládci se stali Ludarchové – návrháři her, kteří dokázali ohýbat skutečnost –, ale opili se mocí. Jako herní desky tvořili živé miniaturní světy a obětovali miliony drobných vnímajících bytostí coby figurky. Nakonec se Ludarchové zničili navzájem, roztříštili skutečnost a zanechali města v troskách. Ortolan byl světotvůrce, který ty desky vyráběl – a vinu nosí dodnes. Říká, že jeden Ludarch možná v Horní Morkezele stále žije.',
+            title: 'Deskovkové války',
+            description: 'Ortolan Šmelc mi vyprávěl o Deskovkových válkách. Když Staré války zpustošily všechno, města začala řešit spory hrami. Vládci se stali Ludarchové – návrháři her, kteří dokázali ohýbat skutečnost –, ale opili se mocí. Jako herní desky tvořili živé miniaturní světy a obětovali miliony drobných vnímajících bytostí coby figurky. Nakonec se Ludarchové zničili navzájem, roztříštili skutečnost a zanechali města v troskách. Ortolan byl světotvůrce, který ty desky vyráběl – a vinu nosí dodnes. Říká, že jeden Ludarch možná v Horní Morkezele stále žije.',
         },
         phor_calesta: {
             title: 'Phor Calesta – Divinograf',
@@ -304,16 +304,16 @@ export default {
             description: 'Iluzorní rudá hmota, kterou jsem použil v Rezavé Hostině, zničila stroje Rezavého chóru.',
         },
         captain_liris_meeting: {
-            title: 'Kapitán Liris z Verdigrace',
-            description: 'Na palubě vzdušné lodi jsem se setkal s Kapitánem Lirisem.',
+            title: 'Kapitánka Liris z Verdigrace',
+            description: 'Na palubě vzducholodi jsem potkal kapitánku Liris, impozantní postavu ve zdobené uniformě, která velí plavidlu jménem Verdigrace. Loď křižuje vzdušné obchodní trasy mezi osadami a výzkumnými stanicemi a vozí vzácné spory, mycelia a zprávy.',
         },
         lumen_directorate_faction: {
-            title: 'LUMEN DIREKTORIÁT',
-            description: 'Lumen Direktorát je mocná frakce.',
+            title: 'Lumen Directorate',
+            description: 'Lumen Directorate je mocná frakce oddaná splynutí mysli a flóry. Jsou strážci a ochránci všeho, co roste – považují se za hlídače života samotného. Jejich členové často vyrážejí na výpravy za vzácnými exempláři a šíří symbiotický růst.',
         },
         floor_counter_tool: {
-            title: 'Kalibrační Nástroj Výtahu',
-            description: 'Kapitán Liris mi poskytl speciální kalibrační nástroj.',
+            title: 'Kalibrační nástroj výtahu',
+            description: 'Kapitánka Liris mi dala speciální kalibrační nástroj na opravu rozbitého počítadla pater v systému Lift-Mother. Tohle symbiotické rozhraní propojuje starou elektroniku s novými myceliálními sítěmi, takže se dostanu i na uzavřená patra, jako je studio Dr. Elphi na patře 177-Tiché.',
         },
         met_gardener_verrik: {
             title: 'Setkání se Zahradníkem Verrikem',
@@ -449,8 +449,8 @@ export default {
             description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Festival hořícího medvěda“ – kontroverzní svátek, který má pro Edgara hluboký význam. Edgar vypadal zaujatě a něco si poznamenal.',
         },
         'edgar_book_topic_board_games_war': {
-            title: 'Inspirace pro knihu: Válka deskových her',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Válka deskových her“ – dávný konflikt, v němž Ludarchové – návrháři her schopní přepisovat skutečnost – ničili celá města jako figurky ve svých hrách. Edgar vypadal zaujatě a něco si poznamenal.',
+            title: 'Inspirace pro knihu: Deskovkové války',
+            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Deskovkové války“ – dávný konflikt, v němž Ludarchové – návrháři her schopní přepisovat skutečnost – ničili celá města jako figurky ve svých hrách. Edgar vypadal zaujatě a něco si poznamenal.',
         },
         'edgar_book_topic_noise_god': {
             title: 'Inspirace pro knihu: Bůh hluku',
@@ -594,15 +594,15 @@ export default {
         },
         feral_toast_performance: {
             title: 'Koncert Feral Toast',
-            description: 'Zažil jsem mysl ohýbající zvuky Feral Toast.',
+            description: 'Zažil jsem mysl ohýbající zvuky Feral Toast, ultranoise-futurepunkové kapely z klubu U Řvoucího korku. Jejich syrový, špinavý noise-punk zní jako vrchol chaosu. Líbilo se mi to.',
         },
         noise_god_insight: {
-            title: 'Vhled do Boha Hluku',
-            description: 'Během zkoušky Feral Toast jsem zažil hluboký vhled do Boha Hluku.',
+            title: 'Vhled do Boha hluku',
+            description: 'Během zkoušky Feral Toast mě zasáhlo hluboké poznání o Bohu hluku. Uprostřed setu začaly zesilovače hučet v jednom tónu. Žádná zpětná vazba, nic mechanického. Bylo to strukturované, záměrné, živé. Nízká harmonie pohřbená pod mixem, pulzující v nemožných intervalech. Myslím, že to byl Bůh hluku, který sem kdysi dávno přišel zemřít. Je možná zapomenutý, ale hluk žije dál.',
         },
         feral_toast_first_visit: {
             title: 'Zkouška Feral Toast',
-            description: 'Navštívil jsem Klub Řvoucí korek a zažil zkoušku Feral Toast.',
+            description: 'Navštívil jsem klub U Řvoucího korku a zažil zkoušku Feral Toast, ultranoise-futurepunkové kapely.',
         },
         magnekin_hopsalot_conversion: {
             title: 'Konverze Maltimus Hopsalot',
@@ -666,7 +666,7 @@ export default {
         },
         met_ravla: {
             title: 'Ravla',
-            description: 'Ravla má svůj kout ve Řvoucím korku, padělá dokumenty pro každého, kdo zaplatí, a úřady si drží od těla. Je také strážkyní brány Rezavého chóru – nic se nedostane k Brukkovi ani ke strojům, aniž by to prošlo napřed přes ni. Bystrý zrak, žádné sentimenty a šarm na ni neplatí.',
+            description: 'Ravla má svůj kout ve Řvoucím korku, padělá dokumenty pro každého, kdo zaplatí, a úřady si drží od těla. Je také strážkyní brány Rezavého chóru – nic se nedostane k Brukkovi ani ke strojům, aniž by to prošlo napřed přes ni. Bystrý zrak, cynická, charisma na ni neplatí.',
         },
         met_mad_poet: {
             title: 'Šílený básník',
@@ -702,7 +702,7 @@ export default {
         },
         salt_recall_abandoned_bus: {
             title: 'Solné vzpomínání: Mimo signál',
-            description: 'Skrze Brine Scripture jsem četl sůl samotného opuštěného autobusu – ne těla, autobusu. Je to schránka z Doby-Před: ocel a sklo ze světa, který si myslel, že dává smysl. Myceliární signál, jenž se proplétá celou Horní Morkezelou, nikdy tenhle kov nedosáhl; je to mrtvé místo, ticho v síti. Brine věří, že právě proto sem Biskupka přišla zemřít. Všude jinde vždycky něco naslouchá – město, síť, mysl probouzející se ve vejci. Vplazila se na jediné místo, které se signál nikdy nenaučil, aby ať udělala cokoli naposled, udělala to nepozorovaně a neslyšena. Chtěla být na konci „mimo signál“.',
+            description: 'Skrze Brine Scripture jsem četl sůl samotného opuštěného autobusu – ne těla, autobusu. Je to schránka z Předdoby: ocel a sklo ze světa, který si myslel, že dává smysl. Myceliární signál, jenž se proplétá celou Horní Morkezelou, nikdy tenhle kov nedosáhl; je to mrtvé místo, ticho v síti. Brine věří, že právě proto sem Biskupka přišla zemřít. Všude jinde vždycky něco naslouchá – město, síť, mysl probouzející se ve vejci. Vplazila se na jediné místo, které se signál nikdy nenaučil, aby ať udělala cokoli naposled, udělala to nepozorovaně a neslyšena. Chtěla být na konci „mimo signál“.',
         },
         cellar_quest_started: {
             title: 'Zapečetěný sklep',
@@ -818,7 +818,7 @@ export default {
         },
         salt_recall_rust_machines: {
             title: 'Solná vzpomínka: Co si stroje pamatují',
-            description: 'Skrze Solné Písmo jsem přečetl sůl a strupy usazené na vědomých strojích Rezavého sboru – paměť, kterou prosákly do vlastní koroze. Pod vším leží Předtím, Doba-Před, kdy byl Škrabák účtárnou zvanou Nexicorp a tyto stroje byly pouhé jeho studenodeché motory a myslící skříně, hučící pod čtyřiceti patry lidí, kteří předstírali, že svět dává smysl. Pak se sůl naráz srazí: zelená mlha, Vzejití, vejce stoupající skrze mrtvé bohy dole – okamžik, kdy se stroje probudily, ne stavěné k tomu a ne tázané, když mlha dosáhla kovu a kov si začal pamatovat a už nepřestal. Od té doby jen hostiny: rudohmota lita do trychtýřů, Strážci s železnými hruděmi přišlí naslouchat. Stroje si pamatují každé krmení a bojí se, tím tupým trpělivým způsobem, jakým se bojí železo, posledního ticha, po němž už nebude žádné další.',
+            description: 'Skrze Solné Písmo jsem přečetl sůl a strupy usazené na vědomých strojích Rezavého sboru – paměť, kterou prosákly do vlastní koroze. Pod vším leží Předtím, Předdoba, kdy byl Škrabák účtárnou zvanou Nexicorp a tyto stroje byly pouhé jeho studenodeché motory a myslící skříně, hučící pod čtyřiceti patry lidí, kteří předstírali, že svět dává smysl. Pak se sůl naráz srazí: zelená mlha, Vzejití, vejce stoupající skrze mrtvé bohy dole – okamžik, kdy se stroje probudily, ne stavěné k tomu a ne tázané, když mlha dosáhla kovu a kov si začal pamatovat a už nepřestal. Od té doby jen hostiny: rudohmota lita do trychtýřů, Strážci s železnými hruděmi přišlí naslouchat. Stroje si pamatují každé krmení a bojí se, tím tupým trpělivým způsobem, jakým se bojí železo, posledního ticha, po němž už nebude žádné další.',
         },
         day1_complete_slept: {
             title: 'Den 1 dokončen: Odpočinek v ARB Ambra',

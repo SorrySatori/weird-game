@@ -79,7 +79,7 @@ export default {
         }
     },
     ac_test_survival: {
-        text: "Přežití. Odpověď houby – rozptyl spory dostatečně daleko a někde se něco uchytí. Je v tom pragmatismus.\n\nDirektorát byl postaven na přežití. Po Válce deskových her, když se Ludarchové strávili sami, jsme vyrostli z trosek. Nejdřív přežití, pak expanze, pak účel.\n\nVaše upřímnost je zaznamenána. Direktorát přijímá vaši odpověď.",
+        text: "Přežití. Odpověď houby – rozptyl spory dostatečně daleko a někde se něco uchytí. Je v tom pragmatismus.\n\nDirektorát byl postaven na přežití. Po Deskovkových válkách, když se Ludarchové strávili sami, jsme vyrostli z trosek. Nejdřív přežití, pak expanze, pak účel.\n\nVaše upřímnost je zaznamenána. Direktorát přijímá vaši odpověď.",
         options: {
             what_happens_now: "Co bude teď?"
         }
@@ -115,7 +115,7 @@ export default {
         }
     },
     ac_about_directorate: {
-        text: "Lumen Directorate existuje, aby zajistil, že růst zvítězí. Poté, co Válka deskových her zredukovala toto město na popel a protimluvy, jsme přestavěli. Ludarchové hráli své hry, dokud realita neunesla váhu jejich pravidel – a když se herní desky zhroutily, byli jsme to my, kdo zasadil první nové kořeny.\n\n'Nic skrytého. Nic ztraceného.' To je náš závazek. Transparentnost a zachování. Vše, co roste, si zaslouží být viděno, katalogizováno a chráněno.",
+        text: "Lumen Directorate existuje, aby zajistil, že růst zvítězí. Poté, co Deskovkové války zredukovaly toto město na popel a protimluvy, jsme přestavěli. Ludarchové hráli své hry, dokud realita neunesla váhu jejich pravidel – a když se herní desky zhroutily, byli jsme to my, kdo zasadil první nové kořeny.\n\n'Nic skrytého. Nic ztraceného.' To je náš závazek. Transparentnost a zachování. Vše, co roste, si zaslouží být viděno, katalogizováno a chráněno.",
         options: {
             what_about_the_rust_choir_and_the_pith_reclaimers: "A co Rezavý chór a Pith Reclaimers?",
             what_is_your_role_here: "Jaká je vaše role tady?",
@@ -148,7 +148,7 @@ export default {
         }
     },
     ac_bishop_relationship: {
-        text: "Profesionální. Zdvořilý. Občas napjatý.\n\nBiskupka zastupovala zájmy Vaječné katedrály. Direktorát katedrálu vždy monitoroval – líhnutí je nejvýznamnější růstová událost za deset tisíc trávení a zamýšleli jsme být přítomni, až k němu dojde.\n\nNaše schůzky se týkaly přístupu do katedrály, kultivačních vzorků a teologických důsledků bio-růstu v posvátné architektuře. Biskupka tolerovala náš zájem. Někdy ho dokonce vítala.",
+        text: "Profesionální. Zdvořilý. Občas napjatý.\n\nBiskupka zastupovala zájmy Vaječné katedrály. Direktorát odjakživa bdí nad městem; katedrálu sledujeme ode dne, kdy se zvedla ze země – zhruba tři tisíce trávení. Líhnutí je nejvýznamnější růstová událost, jakou kdo pamatuje, a chtěli jsme u ní být.\n\nNaše schůzky se týkaly přístupu do katedrály, kultivačních vzorků a teologických důsledků bio-růstu v posvátné architektuře. Biskupka tolerovala náš zájem. Někdy ho dokonce vítala.",
         options: {
             what_changed: "Co se změnilo?",
             i_have_other_questions: "Mám další otázky."

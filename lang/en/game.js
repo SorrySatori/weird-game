@@ -22,6 +22,30 @@ export default {
             cork: 'Screaming Cork Shop',
         },
     },
+    scraperAmbra: {
+        elphiPresent: 'Dr. Elphi is working at her console',
+    },
+    skyship: {
+        toolObtained: 'Obtained: Elevator Calibration Tool',
+    },
+    club: {
+        beginsTitle: 'Feral Toast begins playing',
+        beginsSub: 'Ultranoise futurepunk fills the club',
+        endsTitle: 'Feral Toast finishes playing',
+        endsSub: 'The rehearsal ends',
+        performance: [
+            "The band is fully immersed in their rehearsal, creating something more than just noise.",
+            "You can feel that there is something beyond that noise that... speaks to you.",
+            "It's hard to articulate precisely, but you feel that once there was an entity which can be called maybe... The Noise God?",
+            "Perhaps it's one of the gods who came to die in Upper Morkezela... and the noise is a remnant of it.",
+            "As you continue listening, the noise seems to take physical form around you.",
+            "Tendrils of sound weave through the air, creating a sort of cloud of consciousness.",
+            "You feel a strange sense of unity with the Noise God.",
+            "A profound insight washes over you: The Noise God was not born but assembled...",
+            "Now, only hints of its pattern remain — buried in magnetic dust, resonating faintly through broken amplifiers, radio fog, and the bones of speakers.",
+            "You sense that the band's music is a remnant of it, a way to connect with the Noise God.",
+        ],
+    },
     shedRegistration: {
         queueForms: 'When you enter the office, you are surrounded by weird, dreamy creatures forming a queue...',
         queueFaded: 'All queue inhabitants have faded away',

@@ -122,7 +122,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_job: {
-                text: "I provide services for those who need certain... paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
+                text: "I provide services for those who need their paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
                 options: [
                     { text: "I need some documents...", key: 'i_need_some_documents', next: "ravla_documents" },
                     { text: "Ask something else", key: 'back', next: "ravla_start" }
@@ -190,7 +190,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_forge_success: {
-                text: "Here you go. Perfect forgery, if I do say so myself. The official seals, the watermarks, even the special ink — all perfect. No one will question this. Just don't tell anyone where you got it.",
+                text: "Here you go. Perfect forgery, trust me. The official seals, the watermarks, even the special ink — all perfect. No one will question this. Just don't tell anyone where you got it.",
                 options: [
                     { text: "Thank you", key: 'thank_you', next: "closeDialog" }
                 ]
@@ -470,7 +470,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     {
                       text: "Do you have anything for sale?",
                       key: 'do_you_have_anything_for_sale',
-                      next: 'openShop'
+                      next: 'heliodorMerchandise'
                     },
                 ]
             },
@@ -552,7 +552,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 },
             },
             heliodor_place: {
-                text: "The Screaming Cork's been here longer than most of the city. Owner claims it was the first building erected after the Collapse. Doubt that's true, but it's certainly old. Good place to disappear for a while.",
+                text: "The Screaming Cork's been here longer than most of the city. Owner claims it was the first building erected after the Collapse. We doubt that's true, but it's certainly old. Good place to disappear for a while.",
                 options: [
                     { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ]
@@ -565,7 +565,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             heliodor_more_rumors: {
-                text: "Well, if you're interested in less savory information... that woman in the corner, Ravla? She's the best document forger in the district. Just don't tell her I told you.",
+                text: "Well, if you're interested in less savory information... that woman in the corner, Ravla? She's the best document forger in the district. Just don't tell her we told you.",
                 options: [
                     { text: "Thanks for the tip", key: 'thanks_for_the_tip', next: "heliodor_start" }
                 ],
@@ -606,12 +606,17 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             heliodorMerchandise: {
-                text: "I have connections with traders from all over. Some items come from distant lands, others from local craftsmen. I pride myself on offering only the finest goods.",
+                text: "We have connections with traders from all over. Some items come from distant lands, others from local craftsmen. We pride ourselves on offering only the finest goods.",
                 options: [
                     {
                         text: "Show me what you have for sale.",
                         key: 'show_me_what_you_have_for_sale',
                         next: 'openShop'
+                    },
+                    {
+                        text: "I'll come back later.",
+                        key: 'ill_come_back_later',
+                        next: 'closeDialog'
                     },
                     {
                         text: "I'll come back later.",

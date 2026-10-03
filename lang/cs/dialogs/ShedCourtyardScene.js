@@ -32,10 +32,10 @@ export default {
         }
     },
     who_are_you: {
-        text: "Jsem Ortolan Šmelc, návrhář deskových her. Za časů Války deskových her jsem sloužil jako „světotvůrce“. Moje výtvory jsou doslova hry-mikrokosmy – dřevěné desky, na nichž se pohybují drobné vnímající figurky a odehrávají svá dramata i politické intriky. Možná jste slyšel, že mě někdo označuje za konzervativce, jen protože odmítám iluzorní techniku a hrátky s myslí; jejich tvůrci bývají morálně nestálí. Hráči jsou bohové, ale pravidla jsou posvátná.",
+        text: "Jsem Ortolan Šmelc, návrhář deskových her. Za časů Deskovkových válek jsem sloužil jako „světotvůrce“. Moje výtvory jsou doslova hry-mikrokosmy – dřevěné desky, na nichž se pohybují drobné vnímající figurky a odehrávají svá dramata i politické intriky. Možná jste slyšel, že mě někdo označuje za konzervativce, jen protože odmítám iluzorní techniku a hrátky s myslí; jejich tvůrci bývají morálně nestálí. Hráči jsou bohové, ale pravidla jsou posvátná.",
         options: {
             why_do_you_need_extra_arms: "Proč potřebujete ruce navíc?",
-            table_top_divination_wars_what_do_you_mean: "Válka deskových her? Co tím myslíte?",
+            table_top_divination_wars_what_do_you_mean: "Deskovkové války? Co tím myslíte?",
             sounds_complicated_good_luck: "Zní to složitě. Hodně štěstí!"
         }
     },
@@ -121,7 +121,7 @@ export default {
         options: {
             ill_look_forward_to_it: "Budu se těšit.",
             tell_me_more_about_your_games: "Řekněte mi víc o svých hrách.",
-            you_mentioned_being_a_worldwright_what_were_the_bo: "Říkal jste, že jste byl světotvůrce. Co byla Válka deskových her?"
+            you_mentioned_being_a_worldwright_what_were_the_bo: "Říkal jste, že jste byl světotvůrce. Co byly Deskovkové války?"
         }
     },
     games_discussion: {

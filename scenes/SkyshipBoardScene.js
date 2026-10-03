@@ -50,7 +50,7 @@ export default class SkyshipBoardScene extends GameScene {
         });
 
         // Add a text hint for the exit
-        const exitText = this.add.text(100, 550, "Return to city", {
+        const exitText = this.add.text(100, 550, this.t('ui.hints.returnToCity'), {
             fontSize: '16px',
             fill: '#7fff8e',
             align: 'center'
@@ -147,6 +147,14 @@ export default class SkyshipBoardScene extends GameScene {
         });
     }
 
+    /** Run a side effect only the first time its key is seen in this scene instance. */
+    once(key, fn) {
+        this._rewarded = this._rewarded || new Set();
+        if (this._rewarded.has(key)) return;
+        this._rewarded.add(key);
+        fn();
+    }
+
     get dialogContent() {
         // Combine parent dialog content with this scene's content
         const parentContent = super.dialogContent || {};
@@ -155,6 +163,7 @@ export default class SkyshipBoardScene extends GameScene {
         const skyshipContent = {
             speaker: 'Captain Liris',
             main: {
+                speaker: 'Narrator',
                 text: 'You find yourself on the deck of a skyship. The air is thin up here, and you can see the fungal city sprawled below.',
                 options: [
                     {
@@ -165,10 +174,11 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             lookAround: {
+                speaker: 'Narrator',
                 text: 'The skyship appears to be a transport vessel. Various fungal growths line the edges of the deck, seemingly serving as both decoration and structural support. The ship sways gently in the wind.',
                 options: [
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'main'
                     }
@@ -236,7 +246,7 @@ export default class SkyshipBoardScene extends GameScene {
                         next: 'captainAccord'
                     },
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
@@ -246,34 +256,28 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "The Lumen Directorate is a powerful organization, you know? We strive for the fusion of mind and flora. We are keepers and protectors of everything that grows. We are the guardians of life.",
                 options: [
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     },
                     {
-                        text: "What is you mission?",
+                        text: "What is your mission?",
                         key: 'what_is_you_mission',
                         next: "captainMission"
                     },
                     {
-                        text: "Does Lumen Directorate have some enemies?",
+                        text: "Does the Lumen Directorate have enemies?",
                         key: 'does_lumen_directorate_have_some_enemies',
                         next: "captainEnemies"
                     }
                 ],
-                onTrigger: () => {
-                    const factionSystem = this.registry.get('factionSystem');
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('LumenDirectorate', +10);
-                        this.showNotification('Lumen Directorate Reputation +10');
-                    }
-                }
+                onTrigger: () => this.once('captainAccord', () => this.modifyFactionReputation('LumenDirectorate', 10))
             },
             captainMission: {
                 text: "We are on a mission to search and gather rare specimens for the Lumen Directorate. But we are still waiting for more specs, so we don't mind that little ladder of yours.",
                 options: [
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
@@ -283,25 +287,21 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Sure, we have some enemies, as everybody. Especially that Rust Choir scum, but that's hardly surprising.", 
                 options: [
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
                 ],
                 onTrigger: () => {
-                    const factionSystem = this.registry.get('factionSystem');
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('LumenDirectorate', +10);
-                        this.showNotification('Lumen Directorate Reputation +10');
-                        if (!this.hasJournalEntry('lumen_directorate_faction')) {
-                            this.addJournalEntry(
-                                'lumen_directorate_faction',
-                                'LUMEN DIRECTORATE',
-                                'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
-                                this.journalSystem.categories.FACTIONS,
-                                { faction: 'Lumen Directorate', location: 'Voxmarket' }
-                            );
-                        }
+                    this.once('captainEnemies', () => this.modifyFactionReputation('LumenDirectorate', 10));
+                    if (!this.hasJournalEntry('lumen_directorate_faction')) {
+                        this.addJournalEntry(
+                            'lumen_directorate_faction',
+                            'The Lumen Directorate',
+                            'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
+                            this.journalSystem.categories.FACTIONS,
+                            { faction: 'Lumen Directorate', location: 'Skyship' }
+                        );
                     }
                 }
             },
@@ -321,26 +321,11 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             
-            captainAloft: {
-                text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant spores. They create microscopic gas pockets that give us lift. The mycelial sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
-                options: [
-                    {
-                        text: 'That sounds dangerous.',
-                        key: 'that_sounds_dangerous',
-                        next: 'captainDanger'
-                    },
-                    {
-                        text: 'Ask something else',
-                        key: 'ask_something_else',
-                        next: 'captainMain'
-                    }
-                ]
-            },
             captainDanger: {
                 text: "Ha! Life without risk is no life at all. Yes, there are dangers—storm spores that could envelop us, predatory flying mycelia that hunt in the upper reaches, not to mention the constant balance between Growth and Decay that keeps us from either dissolving into spores or becoming a rigid, dead mass. But the freedom of the skies... that's worth any risk.",
                 options: [
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
@@ -362,20 +347,20 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainTravel: {
-                text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've proven your worth. The Verdigrace is particularly picky about who it accepts. If you really mean it, visit Lumen Directorate headqurarters in the city and ask about joining the crew. They might have some tasks for you to prove your dedication.",
+                text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've proven your worth. The Verdigrace is particularly picky about who it accepts. If you really mean it, visit the Lumen Directorate headquarters in the city and ask about joining the crew. They might have some tasks for you to prove your dedication.",
                 options: [
                     {   text: 'Where can I find the Lumen Directorate headquarters?',
                         key: 'where_can_i_find_the_lumen_directorate_headquarter',
                         next: 'captainDirectorate'
                     },
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
                 ]
             },
-                captainDirectorate: {
+            captainDirectorate: {
                 text: "The Lumen Directorate headquarters is located in the heart of the city, near the main square. It's quite a building, you can't miss it.",
                 options: [
                     {
@@ -385,12 +370,8 @@ export default class SkyshipBoardScene extends GameScene {
                     }
                 ],
                 onTrigger: () => {
-                    const factionSystem = this.registry.get('factionSystem');
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('LumenDirectorate', +5);
-                        this.showNotification('Lumen Directorate Reputation +5');
-                    }
-                     if (!this.questSystem.getQuest('find_lumen_directorate')) {
+                    this.once('captainDirectorate', () => this.modifyFactionReputation('LumenDirectorate', 5));
+                    if (!this.questSystem.getQuest('find_lumen_directorate')) {
                         this.questSystem.addQuest('find_lumen_directorate', 'Nothing Hidden. Nothing Lost', 'Captain Liris gave me directions to the Lumen Directorate headquarters. I should visit them to learn more about their work and see if I can join their crew.')
                     }
                 }
@@ -414,7 +395,7 @@ export default class SkyshipBoardScene extends GameScene {
                 text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected our specialized goods yet. Return after we've made our first circuit—perhaps in a few cycles—and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
                 options: [
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
@@ -438,7 +419,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainFloorCounter: {
-                text: "A floor counter malfunction? That's a common issue with the lift systems. The numeric displays were designed to handle the simple tasks as going up and down, but the engineers did not count with sentient elevators. I happen to have developed a specialized calibration tool for just such problems during my time maintaining the aerial dock lifts.",
+                text: "A floor counter malfunction? That's a common issue with the lift systems. The numeric displays were designed to handle simple tasks like going up and down, but the engineers didn't reckon with sentient elevators. I happen to have developed a specialized calibration tool for just such problems during my time maintaining the aerial dock lifts.",
                 options: [
                     {
                         text: 'Could I borrow this tool?',
@@ -487,7 +468,7 @@ export default class SkyshipBoardScene extends GameScene {
                         this.addJournalEntry(
                             'floor_counter_tool',
                             'Elevator Calibration Tool',
-                            'Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift Mother\'s system. This symbiotic interface bridges old electronic systems with new mycelial networks, allowing me to access restricted floors like Dr. Elphi\'s studio on level 177-Quiet.',
+                            'Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift-Mother\'s system. This symbiotic interface bridges old electronic systems with new mycelial networks, allowing me to access restricted floors like Dr. Elphi\'s studio on level 177-Quiet.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Captain Liris', location: 'Skyship' }
                         );
@@ -495,11 +476,11 @@ export default class SkyshipBoardScene extends GameScene {
                     
                     // Update the find_bishop quest if active
                     if (this.questSystem.getQuest('find_bishop')) {
-                        this.questSystem.updateQuest('find_bishop', 'Captain Liris gave me a calibration tool to repair the Lift Mother\'s floor counter, which should allow me to access Dr. Elphi\'s studio.', 'got_floor_counter_tool');
+                        this.questSystem.updateQuest('find_bishop', 'Captain Liris gave me a calibration tool to repair the Lift-Mother\'s floor counter, which should allow me to access Dr. Elphi\'s studio.', 'got_floor_counter_tool');
                     }
                     
                     // Show notification
-                    this.showNotification('Obtained: Elevator Calibration Tool', '', '', 5000);
+                    this.showNotification(this.t('skyship.toolObtained'), '', '', 5000);
                 }
             },
             lirisPerspective: {
@@ -516,7 +497,7 @@ export default class SkyshipBoardScene extends GameScene {
                         next: 'lirisReturn'
                     },
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
@@ -531,7 +512,7 @@ export default class SkyshipBoardScene extends GameScene {
                         next: 'lirisReturn'
                     },
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }
@@ -546,7 +527,7 @@ export default class SkyshipBoardScene extends GameScene {
                         next: 'closeDialog'
                     },
                     {
-                        text: 'Other topics',
+                        text: 'Ask something else',
                         key: 'other_topics',
                         next: 'captainMain'
                     }

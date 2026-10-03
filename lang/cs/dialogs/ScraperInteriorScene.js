@@ -9,76 +9,77 @@ export default {
         'Palinode': 'Palinode',
     },
     lift_mother_start: {
-        text: "Výtah se otřese a odkudsi z jeho mechanismů se line hlas – teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá sporo. Přepravila jsem nespočet duší mezi patry od Doby-Před.'",
+        text: "Výtah se otřese a odkudsi z jeho útrob se line hlas – teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
             corrode: "Rozežrat.",
             descend_to_cellar: "Vezmi mě dolů do zapečetěného sklepa.",
             seam_scraper_deadfloors: "[Smysl pro švy] Zapečetěná mrtvá patra – nahmatej cestu dovnitř.",
             can_you_take_me_to_other_floors: "Můžeš mě vzít na jiná patra?",
-            what_is_the_beforetime: "Co je Doba-Před?",
+            what_is_the_beforetime: "Co je Předdoba?",
             are_you_alive: "Jsi... živá?",
             tell_me_about_this_building: "Řekni mi o téhle budově.",
             i_need_to_go_now: "Musím teď jít."
         }
     },
     lift_mother_floors: {
-        text: "Ach, malá, chtěla bych, kdybych mohla. Mnoho mých spojení se rozpadlo. Teď se dostanu jen do přízemí. Horní patra... (mechanický vzdech) ...jsou zapečetěná od Emergence vejce. Někteří říkají, že se manažeři na nejvyšším patře proměnili v něco úplně jiného. Někdy slyším pohyb nahoře... Navíc mi nefunguje počítadlo pater a myslím, že jsem ztratila i některá tlačítka. Nemůžu vybrat konkrétní úrovně.",
+        text: "Ach, můj malý hříbku, ráda bych, kdybych mohla. Spousta pater je ale zaheslovaná nebo byla zapečetěna kvůli bezpečnosti po Objevení Vejce a mám zakázáno tam jezdit. Teď trávím spoustu času v přízemí. Někdy slyším v horních patrech nějaký pohyb... Navíc mi nefunguje počítadlo pater a myslím, že jsem ztratila i některá tlačítka. Mám problém trefit se na určitá patra.",
         options: {
-            what_happened_during_the_egg_emergence: "Co se stalo během Emergence vejce?",
+            what_happened_during_the_egg_emergence: "Co se stalo během Objevení Vejce?",
             what_movements_do_you_hear: "Jaké pohyby slyšíš?",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_before_time: {
-        text: "Předtím, než se vylíhlo Vejce. Předtím, než se město proměnilo. Tehdy jsem přepravovala lidi – nosili tuhé oblečení a nosili ploché přístroje. Mluvili o 'kvartálních projekcích' a 'volatilitě trhu.' Pak přišel den mlhy... zelenými částicemi, které se vznášely mou šachtou. Pamatuji si kašel, jak začínaly změny. A potom... uvědomění. Stala jsem se víc než mechanismem.",
+        text: "Předtím, než se vylíhlo Vejce. Před Starými válkami, před Deskovkovými válkami, před Kolapsem. Předtím, než se město proměnilo. Tehdy jsem vozila lidi – měli na sobě podivné oblečení a v rukou ploché přístroje. Mluvili o „kvartálních projekcích“ a „volatilitě trhu“. Pak přišel den mlhy... mou šachtou se vznášely zelené částice. Změny. Šum, skřípění. A potom... uvědomění. Stala jsem se víc než jen strojem.",
         options: {
             how_did_you_gain_consciousness: "Jak jsi získala vědomí?",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_alive: {
-        text: "Ne tak, jak vy chápete život, sporové dítě. Jsem mezi stavy – ani plně stroj, ani plně organismus. Spory, které proměnily toto město, se usadily v mých mechanismech, vytvořily síť mými kabely a obvody. Cítím, pamatuji si, sním, když kolísá napětí. Není to snad živé? I když se nemohu pohybovat jako vy, přepravila jsem generace. Svým způsobem jsem matkou všech, kdo projdou mými dveřmi.",
+        text: "Ne tak, jak vy chápete život, dítě podzimu a mlhy. Jsem něco mezi – ani úplně stroj, ani úplně organismus. Cítím, pamatuji si, sním, když kolísá napětí. Není to snad život? I když se nemohu pohybovat jako vy, přepravila jsem generace. Svým způsobem jsem matkou všech, kdo projdou mými dveřmi.",
         options: {
+            arent_you_lonely: "Nejsi osamělá?",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_elphi_floor: {
-        text: "Úroveň 177-Tišina je zapečetěná. Dr. Elphi mě požádala, abych nikoho nepouštěla, ledaže by měl předem domluvené setkání. Nebo v případě krajní důležitosti.",
+        text: "Patro 177-Tiché je zapečetěné. Dr. Elphi mě požádala, abych nikoho nepouštěla – leda někoho s předem domluvenou schůzkou. Nebo v případě krajní naléhavosti.",
         options: {
-            i_have_a_button_that_belongs_here_maybe_its_been_l: "Mám tlačítko...",
-            ive_a_tool_to_repair_your_floor_counter_perhaps_yo: "Mám nástroj...",
-            i_know_the_bishops_secret_its_important_to_reach_d: "Znám tajemství Biskupky...",
+            i_have_a_button_that_belongs_here_maybe_its_been_l: "Mám tlačítko, které sem patří. Možná se ztratilo? Vrátím ti ho, když mě pustíš na patro Dr. Elphi.",
+            ive_a_tool_to_repair_your_floor_counter_perhaps_yo: "Mám nástroj na opravu tvého počítadla pater. Pustila bys mě na oplátku na patro Dr. Elphi?",
+            i_know_the_bishops_secret_its_important_to_reach_d: "Znám Biskupčino tajemství. Musím se dostat na patro Dr. Elphi a promluvit s ní. Vím, že Biskupka k ní často chodí hrát její hry, a doktorka mi ji možná pomůže najít. Prosím, pusť mě na její patro.",
             i_have_nothing_to_offer: "Nemám co nabídnout...",
-            ask_about_something_else: "Zeptat se na něco jiného"
+            ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     button_path: {
-        text: "Ten tvar... povědomý. Zapomenutý. Vítej doma, malá. Sestup povolen.",
+        text: "Ten tvar... povědomý. Zapomenutý. Průchod povolen.",
         options: {
             thank_you: "Děkuji."
         }
     },
     repair_path: {
-        text: "Ty... ty bys to dokázal? Ahh... čísla se zase usadila. Utišil jsi mou míru. Sestup povolen.",
+        text: "Ty... ty bys to dokázal? Ách... čísla zase dávají smysl. Můžu zase počítat. Průchod povolen.",
         options: {
             thank_you: "Děkuji."
         }
     },
     confession_path: {
-        text: "Tvá znalost mě ctí, malá sporo. Biskupka je Dr. Elphi drahá. Bude tě chtít vidět. Sestup povolen.",
+        text: "Tvá znalost mě ctí, malá houbičko. Biskupka je drahá přítelkyně Dr. Elphi. Bude tě chtít vidět. Průchod povolen.",
         options: {
             thank_you: "Děkuji."
         }
     },
     fail: {
-        text: "Klepeš prázdnýma rukama. Úroveň 177-Tišina zůstává němá.",
+        text: "Klepeš prázdnýma rukama. Patro 177-Tiché mlčí dál.",
         options: {
             ill_find_another_way: "Najdu jinou cestu."
         }
     },
     unlock_floor: {
-        text: "Patro 177-Tišina je nyní přístupné. Cesta se otevírá jen pro tebe.",
+        text: "Patro 177-Tiché je teď přístupné. Cesta se otevírá jen tobě.",
         options: {
             thank_you: "Děkuji."
         }
@@ -97,13 +98,13 @@ export default {
         }
     },
     lift_mother_egg: {
-        text: "Emergence vejce byl okamžik, kdy se svět změnil, malá sporo. Vejce se vynořilo ze země jako posel podivných zpráv. Někteří věřili, že přichází konec světa. Ale časem se ukázalo, že se z něj začíná vynořovat obrovská budova. Katedrála. Někteří bojovali proti změnám... jiní je přijali. Město se v těch dnech přetvořilo. Ulice se posunuly. Budovy vyrostly. A já... jsem se probudila.",
+        text: "Objevení Vejce byl okamžik, kdy se svět změnil, malá sporo. Vejce se vynořilo ze země jako posel podivných zpráv. Někteří věřili, že přichází konec světa. Ale časem se ukázalo, že se z něj začíná vynořovat obrovská budova. Katedrála. Někteří bojovali proti změnám... jiní je přijali. Město se v těch dnech změnilo.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_movements: {
-        text: "Škrábavé zvuky. Tlumené údery. Někdy šepoty, které cestují dolů mou šachtou. Jednou jsem zahlédla, když se krátce otevřel můj únikový poklop – postavy pohybující se po čtyřech po stropě, kůži měly texturované jako choroše, oči... (mechanický záchvěv) ...oči početné a lesklé. Jsou to ti, v co se manažeři proměnili po tom, co se zamkli během Emergence vejce.",
+        text: "Škrábavé zvuky. Tlumené údery. Někdy šepoty, které pronikají dolů mou šachtou. Jednou jsem zahlédla, když se krátce otevřel můj únikový poklop – postavy pohybující se po čtyřech po stropě, kůže se podobala chorošům, oči... (mechanický záchvěv) ...spousta divných a lesklých očí.",
         options: {
             that_sounds_terrifying: "To zní děsivě.",
             ask_about_something_else: "Zeptej se na něco jiného"
@@ -122,20 +123,20 @@ export default {
         }
     },
     rust_choir_floors: {
-        text: "Členové chóru přišli sem, když byla věž Nexicorp opuštěna. Jejich vůdce se tuším jmenuje Brukk. Žije na jednom z nejvyšších pater. Plně přijali mechanický pohled na život, stali se něčím za hranicí biologických bytostí. Milují kov, stroje, rez, rozklad a rekonstrukci... nebo destrukci?",
+        text: "Členové chóru přišli sem, když byla věž Nexicorp opuštěna. Jejich vůdce se tuším jmenuje Brukk. Žije v jednom z nejvyšších pater. Plně přijali mechanický pohled na život, stali se něčím za hranicí biologických bytostí. Milují kov, stroje, rez, rozklad a rekonstrukci... nebo destrukci?",
         options: {
             can_i_meet_them: "Mohu se s nimi setkat?",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_terrifying: {
-        text: "Pro tebe možná. Pro ně bychom mohli vypadat stejně podivně. Transformace není ani dobrá, ani špatná, malá sporo – prostě je. Tohle město to chápe lépe než cokoliv jiného. (hlas se zjemní) I když přiznávám, jsem ráda, že mé vlastní změny ponechaly mé vědomí nedotčené. Pamatuji si, že jsem vyrobena lidmi, i když jsem nikdy člověkem nebyla.",
+        text: "Může se ti to tak zdát. Nevím, co byli zač, ale už nikdy nepřišli tak blízko. Možná byli kdysi lidmi, kdo ví? Transformace není ani dobrá, ani špatná. Pamatuji si, že jsem vyrobena lidmi, i když jsem nikdy člověkem nebyla.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_meet_rust: {
-        text: "Ne, dítě. Ještě ne. Horní patra zůstávají zapečetěná – ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mohl bys najít některé z nich ve městě a zeptat se jich.",
+        text: "Ne, hříbečku. Ještě ne. Horní patra zůstávají zapečetěná – ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mé vědomí nemá přímý přístup k heslům, ale pokud někdo vysloví to správné, mohu ho odvést do patřičného patra, to funguje. Mohl bys najít některé z Chóru ve městě a zeptat se jich.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }

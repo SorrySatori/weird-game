@@ -328,7 +328,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_test_survival: {
                 speaker: 'The Angle Corrector',
-                text: `"Survival. The mushroom's answer — spread spores far enough and something will take root somewhere. There's pragmatism in that.\n\nThe Directorate was built on survival. After the Board Games War, when the Ludarchs consumed themselves, we grew from the wreckage. Survival first, then expansion, then purpose.\n\nYour honesty is noted. The Directorate accepts your answer."`,
+                text: `"Survival. The mushroom's answer — spread spores far enough and something will take root somewhere. There's pragmatism in that.\n\nThe Directorate was built on survival. After the Board Game Wars, when the Ludarchs consumed themselves, we grew from the wreckage. Survival first, then expansion, then purpose.\n\nYour honesty is noted. The Directorate accepts your answer."`,
                 options: [
                     { text: "What happens now?", key: 'what_happens_now', next: "ac_test_passed" },
                 ],
@@ -394,7 +394,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
             // --- About the Directorate ---
             ac_about_directorate: {
                 speaker: 'The Angle Corrector',
-                text: `"The Lumen Directorate exists to ensure that growth prevails. After the Board Games War reduced this city to ash and contradiction, we rebuilt. The Ludarchs played their games until reality couldn't hold the weight of their rules — and when the boards collapsed, it was we who planted the first new roots.\n\n'Nothing Hidden. Nothing Lost.' That is our covenant. Transparency and preservation. Everything that grows deserves to be seen, catalogued, and protected."`,
+                text: `"The Lumen Directorate exists to ensure that growth prevails. After the Board Game Wars reduced this city to ash and contradiction, we rebuilt. The Ludarchs played their games until reality couldn't hold the weight of their rules — and when the boards collapsed, it was we who planted the first new roots.\n\n'Nothing Hidden. Nothing Lost.' That is our covenant. Transparency and preservation. Everything that grows deserves to be seen, catalogued, and protected."`,
                 options: [
                     { text: "What about the Rust Choir and the Pith Reclaimers?", key: 'what_about_the_rust_choir_and_the_pith_reclaimers', next: "ac_other_factions" },
                     { text: "What is your role here?", key: 'what_is_your_role_here', next: "ac_role" },
@@ -436,7 +436,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_bishop_relationship: {
                 speaker: 'The Angle Corrector',
-                text: `"Professional. Cordial. Occasionally tense.\n\nThe Bishop represented the Egg Cathedral's interests. The Directorate has always monitored the Cathedral — the hatching is the most significant growth event in ten thousand digestions, and we intended to be present when it happened.\n\nOur meetings covered Cathedral access, cultivation samples, and the theological implications of bio-growth within sacred architecture. The Bishop tolerated our interest. Sometimes she even welcomed it."`,
+                text: `"Professional. Cordial. Occasionally tense.\n\nThe Bishop represented the Egg Cathedral's interests. The Directorate has always watched over the city; we have watched the Cathedral since the day it rose — three thousand digestions, near enough. The hatching is the most significant growth event in living memory, and we intended to be present when it happened.\n\nOur meetings covered Cathedral access, cultivation samples, and the theological implications of bio-growth within sacred architecture. The Bishop tolerated our interest. Sometimes she even welcomed it."`,
                 options: [
                     { text: "What changed?", key: 'what_changed', next: "ac_bishop_stopped" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },

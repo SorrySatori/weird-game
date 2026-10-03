@@ -41,10 +41,10 @@ export default class ShedCourtyardScene extends GameScene {
             },
             who_are_you: {
         
-                text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of the Board Games War. My creations are literally microcosmic games — wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might have heard some call me conservative, merely because I reject illusion-tech and mindplay; their makers are usually morally unstable. Players are gods, but rules are sacred.",
+                text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of the Board Game Wars. My creations are literally microcosmic games — wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might have heard some call me conservative, merely because I reject illusion-tech and mindplay; their makers are usually morally unstable. Players are gods, but rules are sacred.",
                 options: [
                     { text: "Why do you need extra arms?", key: 'why_do_you_need_extra_arms', next: "explain_need" },
-                    { text: "The Board Games War? What do you mean?", key: 'table_top_divination_wars_what_do_you_mean', next: "divination_wars" },
+                    { text: "The Board Game Wars? What do you mean?", key: 'table_top_divination_wars_what_do_you_mean', next: "divination_wars" },
                     { text: "Sounds complicated. Good luck!", key: 'sounds_complicated_good_luck', next: "goodbye" }
                 ]
             },
@@ -250,7 +250,7 @@ export default class ShedCourtyardScene extends GameScene {
                 options: [
                     { text: "I'll look forward to it.", key: 'ill_look_forward_to_it', next: "goodbye" },
                     { text: "Tell me more about your games.", key: 'tell_me_more_about_your_games', next: "games_discussion" },
-                    { text: "You mentioned being a worldwright. What was the Board Games War?", key: 'you_mentioned_being_a_worldwright_what_were_the_bo', next: "ortolan_board_wars" }
+                    { text: "You mentioned being a worldwright. What were the Board Game Wars?", key: 'you_mentioned_being_a_worldwright_what_were_the_bo', next: "ortolan_board_wars" }
                 ]
             },
             games_discussion: {
@@ -290,8 +290,8 @@ export default class ShedCourtyardScene extends GameScene {
                     if (!this.journalSystem.getEntry('board_games_war')) {
                         this.addJournalEntry(
                             'board_games_war',
-                            'The Board Games War',
-                            'Ortolan Šmelc told me about the Board Games War. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
+                            'The Board Game Wars',
+                            'Ortolan Šmelc told me about the Board Game Wars. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
                             this.journalSystem.categories.LORE
                         );
                     }

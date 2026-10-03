@@ -50,7 +50,7 @@ export default {
         }
     },
     ravla_job: {
-        text: "Poskytuju služby lidem, kteří potřebují určité... papíry trochu upravit. Nic nezákonného, samozřejmě. Jen tvořivý výklad úředních nezbytností.",
+        text: "Poskytuju služby lidem, kteří potřebují svoje papíry trochu upravit. Nic nezákonného, samozřejmě. Jen tvořivý výklad úředních nezbytností.",
         options: {
             i_need_some_documents: "Potřebuju nějaké dokumenty...",
             back: "Zeptej se na něco jiného"
@@ -89,7 +89,7 @@ export default {
         text: ""
     },
     ravla_forge_success: {
-        text: "Tady máš. Dokonalý padělek, když to tak sama říkám. Úřední pečeti, vodoznaky, dokonce i ten zvláštní inkoust – všechno dokonalé. Nikdo to nebude zpochybňovat. Jen nikomu neříkej, kde jsi to vzal.",
+        text: "Tady máš. Dokonalý padělek, věř mi. Úřední pečeti, vodoznaky, dokonce i ten zvláštní inkoust – všechno dokonalé. Nikdo to nebude zpochybňovat. Jen nikomu neříkej, kde jsi to vzal.",
         options: {
             thank_you: "Děkuju"
         }
@@ -187,13 +187,13 @@ export default {
         }
     },
     heliodor_explain: {
-        text: "Ano, jsme. Jsme kolonie mnoha tvorů. Pro jednoduchost ale vystupujeme jako Heliodor *Donjon* Vaalstran – při představování je to snazší. Naše tělo tvoří celé společenství bytostí žijících v dokonalé symbióze, což se za barem hodí hned z několika důvodů. Každý symbiont má své nadání: jedni se věnují hostům, druzí vaří nebo míchají pití a další se starají o chod podniku. Další výhodou je, že pracujeme na směny – zatímco jedni pracují, druzí spí, takže nikdo není přetažený ani o rušných víkendech. Krajní případ je Oorarabaz Zelenolící, vzácný organismus původem z Kopřivových hor, podobný hustému zelenému mechu, který prospí prakticky celý rok a budíme ho většinou jen na účetní uzávěrku.",
+        text: "Ano, jsme. Jsme kolonie mnoha tvorů. Pro jednoduchost ale vystupujeme jako Heliodor *Donjon* Vaalstran – při představování je to snazší. Naše tělo tvoří celé společenství bytostí žijících v dokonalé symbióze, což se za barem hodí hned z několika důvodů. Každý symbiont má své nadání: jedni se věnují hostům, druzí vaří nebo míchají pití a další se starají o chod podniku. Další výhodou je, že pracujeme na směny – zatímco jedni pracují, druzí spí, takže nikdo není přetažený ani o rušných víkendech. Extrémní případ je Oorarabaz Zelenolící, vzácný organismus původem z Kopřivových hor, podobný hustému zelenému mechu, který prospí prakticky celý rok a budíme ho většinou jen na účetní uzávěrku.",
         options: {
             fascinating_but_i_have_other_questions: "Fascinující. Ale mám i jiné otázky."
         }
     },
     heliodor_place: {
-        text: "Řvoucí korek tu stojí déle než většina města. Majitel tvrdí, že to byla první budova postavená po Kolapsu. Pochybuju, že je to pravda, ale stará je určitě. Dobré místo, kde se na chvíli ztratit.",
+        text: "Řvoucí korek tu stojí déle než většina města. Majitel tvrdí, že to byla první budova postavená po Kolapsu. Pochybujeme, že je to pravda, ale stará je určitě. Dobré místo, pokud se chcete na chvíli ztratit.",
         options: {
             back: "Zeptej se na něco jiného"
         }
@@ -206,7 +206,7 @@ export default {
         }
     },
     heliodor_more_rumors: {
-        text: "No, jestli vás zajímají méně počestné informace... ta žena v rohu, Ravla? Nejlepší padělatelka dokumentů v okrsku. Jen jí neříkejte, že jsem vám to řekl.",
+        text: "No, jestli vás zajímají nějaké ne tak úplně počestné věci... ta žena v rohu, Ravla? Nejlepší padělatelka dokumentů široko daleko. Jen jí neříkejte, že jsme vám to řekli.",
         options: {
             thanks_for_the_tip: "Díky za tip"
         }
@@ -224,7 +224,8 @@ export default {
     heliodorMerchandise: {
         text: "Máme kontakty na obchodníky odevšad. Něco pochází z dalekých krajů, něco od místních řemeslníků. Zakládáme si na tom, že nabízíme jen to nejlepší.",
         options: {
-            show_me_what_you_have_for_sale: "Ukažte mi, co máte na prodej."
+            show_me_what_you_have_for_sale: "Ukažte mi, co máte na prodej.",
+            ill_come_back_later: "Přijdu později."
         }
     },
     heliodor_sulkberry_check: {

@@ -25,13 +25,32 @@
 
 Upper Morkezela is a city that was "never fully alive" — it grew like a "misunderstanding made permanent by concrete, ritual, and time." It is a graveyard of forgotten gods from many spheres and realities. Dying gods from other planes bring their streets, buildings, and forgotten cultures with them when they come to die here, because gods don't want to be alone after death. The city breathes with ancient spores; buildings grow like mushrooms in the dark.
 
-The world was once recognizably modern — the sky was blue, the air was clean, people wore stiff clothes and carried flat devices. A catastrophic sequence of events — the Old Wars, the Board Games War, the Collapse, and the Egg Emergence — transformed it into a place where flesh merges with fungus, machines develop consciousness, and the boundaries between life and death, biology and technology, have dissolved.
+The world was once recognizably modern — the sky was blue, the air was clean, people wore stiff clothes and carried flat devices. A catastrophic sequence of events — the Old Wars, the Board Game Wars, the Collapse, and the Egg Emergence — transformed it into a place where flesh merges with fungus, machines develop consciousness, and the boundaries between life and death, biology and technology, have dissolved.
 
 Two fundamental forces govern everything: **Growth** (vitality, renewal, blooming) and **Decay** (entropy, rot, transformation). Both are equally necessary. The Obazoba, the Ur-mushroom and source of all life and rot, embodies mastery over both.
 
 ---
 
 ## Historical Timeline
+
+### At a glance (canon, settled 2026-10-03)
+
+No absolute dates exist — the city stopped counting years when Vhorn the Tally-Keeper died and now counts in **digestions** of the Stomach Clock (1 digestion ≈ 29 h; 6 = a week; 300 = a year). Relative order, oldest first:
+
+| # | Era / event | When (relative) | Anchors in the game |
+|---|---|---|---|
+| 1 | **The machines** — a machine civilisation stands on this ground before the first god comes to die | deep past | Rust Choir: "the machines were here before the first gods came to die" |
+| 2 | **Gods come to die** — Upper Morkezela is where disbelieved deities fossilise, dragging their streets and cultures down with them; layer upon layer forms the Godgraveyard | millennia, ongoing to this day | Phor Calesta's divinography; Hvétrdjaana's epitaph wore away "centuries before Phor was born" |
+| 3 | Named dead gods: Laimig Cel, Sisyla, Vhorn, Liln, Lietus Kika, Hvétrdjaana; Lietus Kika's demigod bastard rules the city as a tyrant and is lynched — his unrotting corpse becomes the Crossroads landmark; the Noise God (assembled, not born) comes to die; the Crownmire shrine shatters and its lodestones become the Magnekin | various, pre-modern | Godgraveyard, Crossroad corpse readings, Feral Toast, Town Square |
+| 4 | **The Before-Time** — a recognisably modern world: blue sky, offices, "quarterly projections", Nexicorp Tower (42 floors). The Lift-Mother exists as an ordinary elevator (total age unknown) and gains consciousness late in this era | ~40–50 years before the game | Lift-Mother, buskers' ballads |
+| 5 | **The Old Wars** — near-total destruction; the surviving cities swear off weapons and armies and settle disputes through games | | |
+| 6 | **The Board Game Wars (Age of the Ludarchs)** — rule-bending designers rule, build living miniature worlds, sacrifice their inhabitants, and finally destroy one another; one Ludarch is rumoured to survive. Ortolan Šmelc is a young worldwright | | Ortolan, Brukk |
+| 7 | **The Collapse** — reality fractures, rules stop working; the Scraper's machines keep humming. The three factions are born: Lumen Directorate (self-declared victors, growth), Pith Reclaimers (order through paperwork, the Townhall), Rust Choir ("from the silence after", first Keeper). The Screaming Cork claims to be the first building raised after the Collapse | | |
+| 8 | **The interregnum** — the Directorate watches over the city and cultivates "for generations"; the transit yard behind the Scraper is abandoned "decades ago"; Dr. Elphi Quarn and Ortolan build Infinite Fold in the Scraper cellar with mišutkenn dream-imaginators (Edgar among them), the city's rulers shut it down and the two part bitterly; Vhorn dies and the city stops counting years | decades | Elphi, Ortolan, Edgar, Sentinel |
+| 9 | **The Green Mist / Egg Emergence** — mist, then the Egg rises through the god-strata; streets shift, the Lift-Mother's upper floors seal, the Nexicorp executives transform, the Rust Choir takes the top floors; the Sentinel takes his post; Verrik starts the Sulkberry beds; the multi-faith Council forms, the Obazoba cult sends the Bishop. The Directorate begins watching the Cathedral | **~3000 digestions ≈ 10 years before the game** | Sentinel "three thousand digestions", Verrik "since the Egg came up" |
+| 10 | **The last years** — Ravla and Zerren settle in ("a couple thousand digestions"); the Bishop builds her own dream rig to speak with Infinite Fold; the myceliar network carries a cry for help to the Spore Council — the game begins | | |
+
+**The Obazoba** (the Ur-mushroom) has no place on this line on purpose: it is a mystery, not one of the gods that come to Upper Morkezela to die. Its priests naturally claim it is older than all the others.
 
 ### The Before-Time
 
@@ -41,7 +60,7 @@ A recognizable world of technology and commerce. Humans lived with rigid devices
 
 Wars of devastating scale that nearly wiped out all life. The specifics are lost to time, but the destruction was so complete that surviving cities agreed to a truce: **no more weapons, no more armies**. Disputes would instead be settled through games — board games, card games, dice games. This agreement birthed a new ruling class.
 
-### The Age of the Ludarchs (The Board Games War)
+### The Age of the Ludarchs (The Board Game Wars)
 
 The game designers who became the best players were called **Ludarchs**. They could manipulate the rules of reality itself to win, create new life, conjure entire miniaturized worlds, and rewrite the laws of physics in their favor. They became the new rulers.
 
@@ -110,7 +129,7 @@ Once Nexicorp Tower, 42 floors of corporate glass and steel, now a vertical slum
 - **Floor 177-Quiet**: Dr. Elphi Quarn's dream development studio (ARB Ambra), accessible only through the Lift-Mother with special permission.
 - **The Scraper Backyard**: An old transit yard behind the building, abandoned decades ago. Overgrown with peculiar moss that has "mnemonic properties." Contains the abandoned bus where the Bishop was found dead.
 
-**The Lift-Mother** — A sentient elevator that developed consciousness through exposure to spores. She served since the Before-Time, gradually awakening from simple sensations to full understanding as the city transformed. Warm and maternal, she remembers the old corporate world of "quarterly projections" and "market volatility." Her connections have decayed; she can now only reach the lobby, Floor 177-Quiet (with permission), and the Rust Domain (with the password "Corrode").
+**The Lift-Mother** — A sentient elevator that developed consciousness through exposure to spores late in the Before-Time; she existed as an ordinary elevator long before that and her total age is unknown. She served since the Before-Time, gradually awakening from simple sensations to full understanding as the city transformed. Warm and maternal, she remembers the old corporate world of "quarterly projections" and "market volatility." Her connections have decayed; she can now only reach the lobby, Floor 177-Quiet (with permission), and the Rust Domain (with the password "Corrode").
 
 ---
 
@@ -233,7 +252,7 @@ The official seat of the Lumen Directorate, located near the Town Square. An imp
 
 **Alignment:** Decay
 **Color:** Copper (#b87333)
-**Philosophy:** The machines were here before the first gods came to die. Iron is honest — "it doesn't lie. It doesn't play." The Rust Choir celebrates entropy and collapse as transformation, and they worship the final songs. Born from "the silence after" the Board Games War, founded by the first Keeper, old Fennback, who understood that when everything else went mad, the machines kept humming.
+**Philosophy:** The machines were here before the first gods came to die. Iron is honest — "it doesn't lie. It doesn't play." The Rust Choir celebrates entropy and collapse as transformation, and they worship the final songs. Born from "the silence after" the Board Game Wars, founded by the first Keeper, old Fennback, who understood that when everything else went mad, the machines kept humming.
 
 **Members:**
 - **Brukk** — The Keeper. Massive figure with skin like tarnished copper and eyes like forge-lit coals. The machines chose him, growing metal in his body on its own.
@@ -254,13 +273,13 @@ The official seat of the Lumen Directorate, located near the Town Square. An imp
 **Alignment:** Growth
 **Color:** Dark olive green (#556B2F)
 **Motto:** "Nothing Hidden. Nothing Lost."
-**Philosophy:** Strive for "fusion of mind and flora." Keepers and protectors of everything that grows. Claim victory in the Board Games War and credit themselves with saving the city. They promote aggressive growth — new plants, new life, symbiosis with the natural world. They view the Rust Choir as enemies. Transparency and preservation are their covenant: "Everything that grows deserves to be seen, catalogued, and protected."
+**Philosophy:** Strive for "fusion of mind and flora." Keepers and protectors of everything that grows. Claim victory in the Board Game Wars and credit themselves with saving the city. They promote aggressive growth — new plants, new life, symbiosis with the natural world. They view the Rust Choir as enemies. Transparency and preservation are their covenant: "Everything that grows deserves to be seen, catalogued, and protected."
 
 **Structure:** Run by a council, not a single leader. The **Angle Corrector** handles day-to-day operations and sensitive matters. **Captain Liris** runs skyship operations (the Verdigrace). **Seldo Thrice-Corrected** manages bureaucratic liaison.
 
 **Headquarters:** Living architecture near the Town Square. Walls, walkways, and hedges are all alive. The exterior gardens are tended by **Verrik the Gardener**. The Angle Corrector operates from the third floor; Seldo works on the second floor among stacks of forms and permits.
 
-**The Egg Cathedral Connection:** The Directorate monitored the Cathedral for decades — "the hatching is the most significant growth event in decades." The Bishop's emergency sealing of the Cathedral cut off all Directorate monitoring access, severely damaging relations. The Angle Corrector had a professional relationship with the Bishop involving regular meetings about Cathedral access and the hatching. The Directorate supplied premium **spiced Sulkberries** to the Bishop for dream immersion rituals in the Cathedral.
+**The Egg Cathedral Connection:** The Directorate has always watched over the city; it has watched the Cathedral only since the Egg rose, roughly ten years (three thousand digestions) ago — "the hatching is the most significant growth event in living memory." The Bishop's emergency sealing of the Cathedral cut off all Directorate monitoring access, severely damaging relations. The Angle Corrector had a professional relationship with the Bishop involving regular meetings about Cathedral access and the hatching. The Directorate supplied premium **spiced Sulkberries** to the Bishop for dream immersion rituals in the Cathedral.
 
 **Cultivation & Trade:** The Directorate cultivates spiced Sulkberries under precise conditions with specific alkaloid profiles. Fewer than a dozen regular clients receive the premium stock. They also maintain living architecture throughout their headquarters and trade in rare cultivation specimens via the Verdigrace.
 
