@@ -103,6 +103,8 @@ export default {
             description: "Gnur needs help recovering a 'living core' from Shed 521's unused tunnels, located somewhere behind the abandoned office.",
             updates: {
                 promise_made: 'I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter more to the building than Gnur let on.',
+                core_taken_force: 'I have retrieved the Living Core, with a bit of good old violence.',
+                core_taken_careful: 'Carefully extracted the Living Core using pliers; it probably didn\'t damage the building in any way.',
                 core_delivered: 'I have given Gnur the living core. He seems satisfied.',
                 quest_refused: 'I refused to help Gnur steal the living core after learning its importance.',
             }

@@ -62,11 +62,14 @@ export default {
         'silent-sentence': { name: 'Tichá věta', description: 'Prázdná kartička, která přesto nese význam. Může se hodit, až dojdou slova.' },
         'artisan-exemption-form': { name: 'Formulář o výjimce pro umělce', description: 'Úřední formulář udělující z tvůrčích důvodů výjimku ze standardních omezení počtu končetin. Schváleno pro Ortolana.' },
         'deformity-form': { name: 'Formulář o zděděné deformitě', description: 'Úřední formulář, který klasifikuje více končetin jako prospěšnou mutaci, nikoli deformitu. Schváleno k použití.' },
-        'special-dispensation': { name: 'Zvláštní dispens', description: 'Vzácný dokument, který dovoluje úpravu končetin bez standardního papírování. Získán neverbální cestou.' },
+        'special-dispensation': { name: 'Zvláštní dispens', description: 'Vzácný dokument, který dovoluje úpravu končetin bez standardního papírování. Získán nonverbální cestou.' },
         'temporary-permit': { name: 'Dočasné povolení', description: 'Prozatímní dokument udělující omezený přístup. Není plně schválený, ale lepší než nic.' },
         filed_dossier: { name: 'Zašantročený spis', description: 'Zapečetěný spis, který radnice pohřbila pod číslem případu, jež neexistuje. Sconce chce, aby se dostal ven, kde se nedá potichu odestát.' },
         'godgraveyard-access-permit': { name: 'Povolení ke vstupu na Hřbitov bohů', description: 'Zapečetěný příkaz radní Seraphel Dune udělující přístup na Hřbitov bohů pod radnicí.' },
         'chrono-slurry-toadlet': { name: 'Chronobřečkové Ropušátko', description: 'Vlhký prorocký obojživelník v mosazné přenosné nádobě. Seldo Třikrát-Korigovaný ho chce kvůli tříminutové byrokratické předvídavosti.' },
+    },
+    crossroad: {
+        plantGrows: 'Z mrtvoly vyrůstá podivná rostlina. A nad ní si všimneš ještě něčeho...',
     },
     notifications: {
         newQuest: 'Nový úkol',
@@ -86,6 +89,7 @@ export default {
         addedToInventoryQty: 'Přidáno {qty}× {item}',
         effectsStart: '{item} začíná působit...',
         effectsEnd: 'Účinky předmětu {item} odezněly.',
+        symbiontGained: 'Získán symbiont: {name}',
         inventoryFull: 'Inventář je plný!',
         sporeChange: '{sign}{amount} Spor',
         nemeSilenced: 'Hniloba sílí – Neme utichá.',
@@ -100,7 +104,7 @@ export default {
 
     factions: {
         RustChoir: 'Rezavý chór',
-        PithReclaimers: 'Dřeňoví reklamátoři',
+        PithReclaimers: 'Pith Reclaimers',
         LumenDirectorate: 'Lumen Direktorát',
     },
 

@@ -102,6 +102,8 @@ export default {
             description: 'Gnur potřebuje pomoc s vyzvednutím „živého jádra" z nepoužívaných tunelů Kůlny 521, někde za opuštěnou kanceláří.',
             updates: {
                 promise_made: 'Slíbil jsem úředníkovi v Kůlně 521, že na živé jádro nesáhnu. Pro budovu je zřejmě důležitější, než mi Gnur přiznal.',
+                core_taken_force: 'Živé jádro mám – šlo to, s trochou staré dobré hrubé síly.',
+                core_taken_careful: 'Živé jádro jsem opatrně vyjmul kleštěmi; nezdá se, že by to budovu nějak poškodilo.',
                 core_delivered: 'Dal jsem Gnurovi živé jádro. Zdá se spokojený.',
                 quest_refused: 'Odmítl jsem Gnurovi pomoct ukrást živé jádro poté, co jsem se dozvěděl o jeho důležitosti.',
             }
@@ -113,7 +115,7 @@ export default {
                 deformity_form_clue: 'Úředník mi řekl, abych šel na Registrační úřad pro Formulář o zděděné deformitě.',
                 forge_documents_suggestion: 'Když jsem úředníkovi navrhl, že dokumenty pro Ortolana zfalšuju, podíval se na mě napůl překvapeně, napůl otráveně. Ale šlo by to? Kde bych našel padělatele?',
                 artisan_form_clue: 'Úředník mi řekl, abych šel na Registrační úřad pro Formulář o výjimce pro umělce.',
-                nonverbal_gesture_clue: 'Úředník mi řekl, abych šel na Registrační úřad a předvedl co nejlepší neverbální gesto. Nejsem si jistý, jestli tomu úplně rozumím...',
+                nonverbal_gesture_clue: 'Úředník mi řekl, abych šel na Registrační úřad a předvedl co nejlepší nonverbální gesto. Nejsem si jistý, jestli tomu úplně rozumím...',
                 ravla_forger_hint: 'Heliodor ve Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
                 ravla_forger_agreement: 'Ravla ve Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
                 document_obtained: 'Získal jsi padělaný Formulář o výjimce pro umělce od Ravly. Doruč ho Ortolanovi na nádvoří Kůlny.',

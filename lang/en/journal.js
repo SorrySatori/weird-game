@@ -86,19 +86,19 @@ export default {
         },
         symbiont_thorne_still_offered: {
             title: 'Encountered Thorne-Still',
-            description: 'In the strange corpse at the crossroads, I found a symbiotic entity calling itself Thorne-Still.',
+            description: 'In the strange corpse at the crossroads, I found a symbiotic entity calling itself Thorne-Still. It offered to merge with me.',
         },
         crossroad_corpse_spores_planted: {
-            title: 'Planted Spores in Crossroad Corpse',
-            description: 'I planted spores in the strange corpse at the crossroads.',
+            title: 'Planted Spores in the Crossroad Corpse',
+            description: 'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth. This has opened up a new path to what appears to be a skyship above.',
         },
         symbiont_thorne_still_declined: {
             title: 'Declined Thorne-Still',
-            description: 'I declined the offer from the symbiotic entity Thorne-Still.',
+            description: 'I declined the offer from the symbiotic entity Thorne-Still. It seemed disappointed but said it would wait for me if I changed my mind.',
         },
         symbiont_thorne_still_accepted: {
             title: 'Accepted Thorne-Still',
-            description: 'I accepted the symbiotic entity Thorne-Still. It merged with me.',
+            description: 'I accepted the symbiotic entity Thorne-Still. It merged with me, crawling into my stomach. I can now use its Brain Rot ability to confuse and manipulate others.',
         },
         skyship_sighting: {
             title: 'Strange Vessel in the Emerald Sky',
@@ -278,7 +278,7 @@ export default {
         },
         heliodor_lore: {
             title: 'Heliodor Donjon Vaalstran',
-            description: 'Heliodor is a unique individual composed of multiple symbiotic creatures.',
+            description: 'Heliodor is a unique individual composed of multiple symbiotic creatures living in harmony. They manage the Screaming Cork with a blend of talents from their various components, making them an efficient and intriguing bartender.',
         },
         rust_domain_arrival: {
             title: 'The Rust Domain',
@@ -727,11 +727,11 @@ export default {
         },
         grave_sense_crossroad_corpse: {
             title: 'Grave-Sense: How the Corpse Died',
-            description: 'Through Osswine I read the giant corpse\'s ending: no wound, no violence — it chose to stop. Its last intent was arrival, not fear: a bearer lying down at the feet of what it once carried, glad to be allowed to end. Beneath that lingered a small unfinished hunger — the crack Thorne-Still moved into. It did not die screaming; it ended like a long day ending.',
+            description: "Through Osswine I read the giant corpse's ending: a lot of violence. He was the illegitimate son of the god Lietus Kika, left to the world when his father came here to die. He made himself tyrant and supreme ruler of the city, until an enraged mob ended him and left the body at the crossroads as a warning to any divine being who would try to rule Upper Morkezela. A demigod's body does not rot — so the warning stands forever.",
         },
         salt_recall_crossroad_corpse: {
             title: 'Salt Recall: The Crossroad Corpse',
-            description: 'Through Brine Scripture I read the salt-memory of the giant corpse at the crossroad. It was not a god but something that once carried gods — a bearer, drawn here to die near its betters as all dead things are drawn to Upper Morkezela. No wound felled it; it simply arrived and stopped. Decay (and Thorne-Still) has since nested in the space its purpose left behind.',
+            description: 'Through Brine Scripture I read the salt-memory of the giant corpse at the crossroad. Not a god but a demigod: the bastard son of Lietus Kika, god of temporal confusion, who brought him here to die and, in his usual confusion, never secured his future. The son tried to rule the city, became a tyrant and was lynched; his demigod body refused to rot, and the locals grew proud of their landmark.',
         },
         delta_seam_crossing: {
             title: 'A Seam Across the Delta',

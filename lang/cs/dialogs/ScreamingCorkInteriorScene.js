@@ -32,7 +32,7 @@ export default {
         options: { epilogue_close: "(Konec.)" }
     },
     ravla_start: {
-        text: "Ravla vzhlédne od své práce...",
+        text: "Ravla vzhlédne od práce, oči ostré a vypočítavé. „Potřebuješ něco? Mám práci, tak ať je to rychle.“",
         options: {
             who_are_you: "Kdo jsi?",
             what_do_you_do_here: "Co tady děláš?",
@@ -44,34 +44,67 @@ export default {
         }
     },
     ravla_who: {
-        text: "Jmenuju se Ravla. Jsem... tak trochu umělkyně. V Korku jsem už pár tisíc trávení. Je tu klid a úřady si drží odstup."
+        text: "Jmenuju se Ravla. Jsem... tak trochu umělkyně. V Korku jsem už pár tisíc trávení. Je tu klid a úřady si drží odstup.",
+        options: {
+            back: "Zeptej se na něco jiného"
+        }
     },
     ravla_job: {
-        text: "Poskytuji služby těm, kdo potřebují určité... úpravy dokumentů..."
+        text: "Poskytuju služby lidem, kteří potřebují určité... papíry trochu upravit. Nic nezákonného, samozřejmě. Jen tvořivý výklad úředních nezbytností.",
+        options: {
+            i_need_some_documents: "Potřebuju nějaké dokumenty...",
+            back: "Zeptej se na něco jiného"
+        }
     },
     ravla_documents: {
-        text: "Hmm. O jaké dokumenty se jedná?..."
+        text: "Hm. O jaké dokumenty jde? Nedělám zadarmo a nedělám pro každého.",
+        options: {
+            just_curious: "Jen ze zvědavosti",
+            i_need_help_with_ortolans_paperwork: "Potřebuju pomoct s Ortolanovými papíry",
+            back: "Zeptej se na něco jiného"
+        }
     },
     ravla_curious: {
-        text: "Zvědavost je v tomhle městě drahá..."
+        text: "Zvědavost je v tomhle městě drahá. Přijď, až budeš mít skutečný kšeft.",
+        options: {
+            back: "Zeptej se na něco jiného"
+        }
     },
     ravla_ortolan: {
-        text: "Formulář o výjimce pro umělce? Pro Ortolana?..."
+        text: "Formulář o výjimce pro umělce? Pro Ortolana? Toho návrháře her? Zajímavé. Ty formuláře mají zvláštní pečeti, které se špatně napodobují. Ale... možná bych mohla pomoct.",
+        options: {
+            what_would_you_need: "Co bys potřebovala?",
+            back: "Zeptej se na něco jiného"
+        }
     },
     ravla_ortolan_need: {
-        text: "Nebude to levné – 50 dinárů..."
+        text: "Nebude to levné – 50 dinárů. Ale udělám to dokonale. Nikdo nepozná rozdíl.",
+        options: {
+            heres_the_money: "Tady jsou peníze",
+            ill_think_about_it: "Rozmyslím si to",
+            thats_too_expensive: "To je moc drahé"
+        }
     },
     ravla_check_money: {
         text: ""
     },
     ravla_forge_success: {
-        text: "Tady máš. Dokonalý padělek..."
+        text: "Tady máš. Dokonalý padělek, když to tak sama říkám. Úřední pečeti, vodoznaky, dokonce i ten zvláštní inkoust – všechno dokonalé. Nikdo to nebude zpochybňovat. Jen nikomu neříkej, kde jsi to vzal.",
+        options: {
+            thank_you: "Děkuju"
+        }
     },
     ravla_not_enough_money: {
-        text: "Co se to snažíš provést?..."
+        text: "Co to na mě zkoušíš? Nemáš 50 dinárů. Vrať se, až je mít budeš. Zadarmo nedělám.",
+        options: {
+            sorry_ill_be_back: "Promiň, přijdu znovu"
+        }
     },
     ravla_ortolan_agree: {
-        text: "Dobře. Přines peníze..."
+        text: "Dobře. Přines peníze a já to budu mít hned hotové. Jen nikomu neříkej, kde jsi to vzal.",
+        options: {
+            deal: "Platí"
+        }
     },
     ravla_rust_domain: {
         text: "Ach, takže se chceš dostat na území Rezavého chóru?..."
@@ -137,38 +170,62 @@ export default {
         text: "Ravla vzhlédne. 'Hostina je hotova...'"
     },
     heliodor_start: {
-        text: "Heliodor zdvořile přikývne. 'Vítejte ve Řvoucím korku...'",
+        text: "Heliodor zdvořile přikývne. „Vítejte ve Řvoucím korku. Poprvé? Ten název trochu klame – většinu večerů je tu docela klid.“",
         options: {
             who_are_you: "Kdo jste?",
-            tell_me_about_this_place: "Řekněte mi o tomhle místě",
-            heard_any_rumors_lately: "Slyšel jste v poslední době nějaké zvěsti?",
+            tell_me_about_this_place: "Povězte mi o tomhle místě",
+            heard_any_rumors_lately: "Slyšel jste poslední dobou nějaké zvěsti?",
             i_need_a_biological_opinion_on_some_sulkberries: "Potřebuji biologický posudek na nějaké mručenky.",
             do_you_have_anything_for_sale: "Máte něco na prodej?"
         }
     },
     heliodor_who: {
-        text: "Jsme Heliodor. Dohlížíme tady na věci..."
+        text: "Jsme Heliodor. Dohlížíme tu na pořádek, aby se všichni chovali slušně.",
+        options: {
+            we: "Jsme?",
+            back: "Zeptej se na něco jiného"
+        }
     },
     heliodor_explain: {
-        text: "Ano, jsme. Jsme kolonie více tvorů..."
+        text: "Ano, jsme. Jsme kolonie mnoha tvorů. Pro jednoduchost ale vystupujeme jako Heliodor *Donjon* Vaalstran – při představování je to snazší. Naše tělo tvoří celé společenství bytostí žijících v dokonalé symbióze, což se za barem hodí hned z několika důvodů. Každý symbiont má své nadání: jedni se věnují hostům, druzí vaří nebo míchají pití a další se starají o chod podniku. Další výhodou je, že pracujeme na směny – zatímco jedni pracují, druzí spí, takže nikdo není přetažený ani o rušných víkendech. Krajní případ je Oorarabaz Zelenolící, vzácný organismus původem z Kopřivových hor, podobný hustému zelenému mechu, který prospí prakticky celý rok a budíme ho většinou jen na účetní uzávěrku.",
+        options: {
+            fascinating_but_i_have_other_questions: "Fascinující. Ale mám i jiné otázky."
+        }
     },
     heliodor_place: {
-        text: "Řvoucí korek tu stojí déle než většina..."
+        text: "Řvoucí korek tu stojí déle než většina města. Majitel tvrdí, že to byla první budova postavená po Kolapsu. Pochybuju, že je to pravda, ale stará je určitě. Dobré místo, kde se na chvíli ztratit.",
+        options: {
+            back: "Zeptej se na něco jiného"
+        }
     },
     heliodor_rumors: {
-        text: "Hmm. Proslýchá se, že přisluhovači Rezavého chóru jsou čím dál agresivnější..."
+        text: "Hm. Říká se, že poskoci Rezavého chóru si čím dál agresivněji hlídají území. A u katedrály se děje něco divného.",
+        options: {
+            anything_else: "Ještě něco?",
+            back: "Zeptej se na něco jiného"
+        }
     },
     heliodor_more_rumors: {
-        text: "No, pokud vás zajímají méně chutné informace..."
+        text: "No, jestli vás zajímají méně počestné informace... ta žena v rohu, Ravla? Nejlepší padělatelka dokumentů v okrsku. Jen jí neříkejte, že jsem vám to řekl.",
+        options: {
+            thanks_for_the_tip: "Díky za tip"
+        }
     },
     openShop: {
-        text: "Prohlížejte si v klidu..."
+        text: "Jen se v klidu porozhlédněte. Kvalitní zboží za slušné ceny!",
+        options: {
+            open_shop_interface: "[Otevřít obchod]",
+            actually_nevermind: "Vlastně ne, nechte být."
+        }
     },
     shopInterface: {
         text: ""
     },
     heliodorMerchandise: {
-        text: "Mám kontakty s obchodníky z celého okolí..."
+        text: "Máme kontakty na obchodníky odevšad. Něco pochází z dalekých krajů, něco od místních řemeslníků. Zakládáme si na tom, že nabízíme jen to nejlepší.",
+        options: {
+            show_me_what_you_have_for_sale: "Ukažte mi, co máte na prodej."
+        }
     },
     heliodor_sulkberry_check: {
         text: "Několik Heliodorových složkových organismů se postupně nakloní dopředu – nejprve se zúží oči, pak se roztaží nosní dírky, poté prsty, které jako by patřily jiné osobnosti, se natáhnou a převezmou vzorek.\n\nDlouhá pauza. Různé části Heliodorova kompozitního těla se radí v šeptavých cvakáních a hučení.\n\n'Prozkoumali jsme vzorek. Tři naše složky ochutnaly, dvě analyzovaly reziduální spory a Oorarabaz – krátce probuzený – potvrdil alkaloidní strukturu membránovou absorpcí.\n\nPlod je čistý. Žádné toxiny, žádné modifikace, žádné parazitické zásahy. Toto je prémiový produkt Lumen Directorate v dokonalém stavu.'",

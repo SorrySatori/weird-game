@@ -229,7 +229,7 @@ export default class HarborScene extends GameScene {
                             'At the harbor, I encountered a symbiont trapped in the water\'s reflection — Ulvarex, the Borrowed Horizon. It bonded with me, settling behind my eyes. It feeds on spores and grants me Mirage Weave: the ability to create convincing illusions. The world already looks different — richer, more layered, as if I can see the potential for deception in every surface.',
                             this.journalSystem.categories.EVENTS
                         );
-                        this.showNotification('Gained Symbiont: Ulvarex the Borrowed Horizon');
+                        this.showNotification(this.t('notifications.symbiontGained', { name: 'Ulvarex the Borrowed Horizon' }));
                         this.addSymbiontIcon('ulvarex-borrowed-horizon', symbiontData);
                     } else {
                         this.showNotification('No free symbiont slot. Unlock more slots at the Shed 521 Registration Office.');

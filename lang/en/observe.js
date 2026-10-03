@@ -14,9 +14,9 @@ export default {
         },
         crossroads: {
             hint: 'The Crossroads',
-            default: "Four roads, and every one of them leads somewhere that wants something from me — the Shed, the Voxmarket, the Scraper. A dead giant makes a poor signpost, but an honest one: all directions end the same way here.",
-            overgrown: "The junction's greening over. Roots have found the seams between the cobbles and decided the roads belong to them now. Give it a season and there won't be a crossroads left to stand at.",
-            planted: "I put spores in the giant that fell here, and the crossroads took the hint. Whatever's pushing up through the stones now, I started it. I try not to think about what it'll be when it's finished.",
+            default: "Four roads, and every one of them leads somewhere that wants something from me — the Shed, the Voxmarket, the Scraper. A dead giant makes a poor signpost, but definitely memorable.",
+            overgrown: "The junction's greening over. Roots have found the seams between the cobbles and decided the roads belong to them now. Give it a season and there won't be a visible piece of the road.",
+            planted: "I put spores in the dead giant, and the crossroads have changed. Whatever's pushing up through the stones now, I started it. I try not to think about what it'll be when it's finished.",
         },
         godgraveyard: {
             hint: 'The Fallen God',

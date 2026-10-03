@@ -239,9 +239,10 @@ export default class CrossroadScene extends GameScene {
             speaker: 'Giant Corpse',
             corpseMain: {
                 text: `You find a strange, gigantic corpse. Its flesh seems to pulse with an otherworldly energy. It is clear that it's been here for a while, but surprisingly, it doesn't smell at all. What do you do?`,
+                onTrigger: (option) => this.sporeGate(option),
                 options: [
                     {
-                        text: 'Plant spores in it',
+                        text: 'Plant spores in it (10 spores)',
                         key: 'plant_spores_in_it',
                         next: 'plantSpores'
                     },
@@ -273,13 +274,13 @@ export default class CrossroadScene extends GameScene {
             },
             corpse_grave_sense: {
                 speaker: 'Osswine',
-                text: `Osswine wakes in the cold of the thing and reads its ending from the inside out. *"...No violence. It chose the stop. Its last intent was not fear — it was arrival. A bearer, laid down at the feet of everything it once carried, glad to finally be let end. And beneath that, fainter: a small, patient hunger that never got to finish."* A dry pause. *"That unfinished hunger is the crack your Thorne-Still crawled into. Nothing here died screaming. It ended the way a long day ends."*`,
+                text: `Osswine wakes up and reads the final moments of the immense creature before you. *"...A lot of violence. He was the illegitimate son of the god Lietus Kika, who came to the city to die and left his son at the mercy of the world. It seems the demigod had quite a successful career as a tyrant and the city's supreme ruler, hmm. But one day, an enraged mob put an end to his career — tough luck. They left the bastard's body to rot at the crossroads so that no divine being would ever again dare to try to rule Upper Morkezela. But they didn't know that a demigod's body would withstand the ravages of time and remain here forever. Then again, they said that was even better — at least the memento would be permanent."*`,
                 onTrigger: () => {
                     if (!this.hasJournalEntry('grave_sense_crossroad_corpse')) {
                         this.addJournalEntry(
                             'grave_sense_crossroad_corpse',
                             'Grave-Sense: How the Corpse Died',
-                            'Through Osswine I read the giant corpse\'s ending: no wound, no violence — it chose to stop. Its last intent was arrival, not fear: a bearer lying down at the feet of what it once carried, glad to be allowed to end. Beneath that lingered a small unfinished hunger — the crack Thorne-Still moved into. It did not die screaming; it ended like a long day ending.',
+                            'Through Osswine I read the giant corpse\'s ending: a lot of violence. He was the illegitimate son of the god Lietus Kika, left to the world when his father came here to die. He made himself tyrant and supreme ruler of the city, until an enraged mob ended him and left the body at the crossroads as a warning to any divine being who would try to rule Upper Morkezela. A demigod\'s body does not rot — so the warning stands forever.',
                             this.journalSystem.categories.LORE,
                             { location: 'Crossroad', via: 'osswine' }
                         );
@@ -291,13 +292,13 @@ export default class CrossroadScene extends GameScene {
             },
             corpse_salt_recall: {
                 speaker: 'Brine Scripture',
-                text: `Brine Scripture stirs and tastes the salt the great body has been leaking into the crossroad for years. *"...This one walked a long way to lie down. Not a god — older, humbler; a thing that carried gods once, the way a road carries feet. It felt the city pull, the way all dead things are pulled here, and it came to be near the others. No wound killed it. It simply arrived, and stopped. The salt still holds the shape of that last, long exhale."*\n\nThe residue closes over. *"Decay has moved into its head now. It always does — settling into the space a purpose leaves behind."*`,
+                text: `Brine Scripture stirs and tastes the salt the great body has been leaking into the crossroad for years. *"This one has come a long way. The illegitimate child of the god Lietus Kika. Not a god — a demigod, a divine bastard. Lietus, the god of temporal confusion, came to the city to die, bringing his bastard son with him. But in his typical state of confusion, he didn't have time to secure a future for his son."*\n\n*"The bastard son attempted to take control of the city. He became a tyrant, until finally an enraged mob lynched him, murdered him, and left his body to rot at the crossroads. However, his demigod-like body resisted decay, and so this place gained a new landmark. Today, the locals are proud of it and can no longer imagine the crossroads without the demigod's corpse."*`,
                 onTrigger: () => {
                     if (!this.hasJournalEntry('salt_recall_crossroad_corpse')) {
                         this.addJournalEntry(
                             'salt_recall_crossroad_corpse',
                             'Salt Recall: The Crossroad Corpse',
-                            'Through Brine Scripture I read the salt-memory of the giant corpse at the crossroad. It was not a god but something that once carried gods — a bearer, drawn here to die near its betters as all dead things are drawn to Upper Morkezela. No wound felled it; it simply arrived and stopped. Decay (and Thorne-Still) has since nested in the space its purpose left behind.',
+                            'Through Brine Scripture I read the salt-memory of the giant corpse at the crossroad. Not a god but a demigod: the bastard son of Lietus Kika, god of temporal confusion, who brought him here to die and, in his usual confusion, never secured his future. The son tried to rule the city, became a tyrant and was lynched; his demigod body refused to rot, and the locals grew proud of their landmark.',
                             this.journalSystem.categories.LORE,
                             { location: 'Crossroad', via: 'brine-scripture' }
                         );
@@ -309,6 +310,7 @@ export default class CrossroadScene extends GameScene {
             },
             corpseReconsider: {
                 text: `You approach the strange corpse again. From within, you hear a familiar voice: "Changed your mind, baby? I'm still here waiting for you."`,
+                onTrigger: (option) => this.sporeGate(option),
                 options: [
                     {
                         text: 'Accept Thorne-Still as your symbiont',
@@ -316,7 +318,7 @@ export default class CrossroadScene extends GameScene {
                         next: 'acceptSymbiontConfirm'
                     },
                     {
-                        text: 'Plant spores in it instead',
+                        text: 'Plant spores in it instead (10 spores)',
                         key: 'plant_spores_in_it_instead',
                         next: 'plantSpores'
                     },
@@ -325,6 +327,12 @@ export default class CrossroadScene extends GameScene {
                         key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
+                ]
+            },
+            notEnoughSpores: {
+                text: `You reach for your spores, but there aren't enough of them to seed something this large. You'd need at least ten.`,
+                options: [
+                    { text: 'Step back.', key: 'not_enough_spores_back', next: 'closeDialog' }
                 ]
             },
             plantSpores: {
@@ -338,7 +346,8 @@ export default class CrossroadScene extends GameScene {
                 ]
             },
             acceptSymbiont: {
-                text: `As you cut into the corpse's head, you find something extraordinary - a symbiotic entity that calls itself Thorne-Still. "Hey there, baby, I'm Thorne-Still. How can I help you today?" whispers in strange voice. "Maybe we can share a road for some time? What do you say? That fungus of yours looks comfortably enough for me."`,
+                speaker: 'Thorne-Still',
+                text: `As you cut into the corpse's head, you find something extraordinary — a symbiotic entity that calls itself Thorne-Still. "Hey there, baby, I'm Thorne-Still. How can I help you today?" it whispers in a strange voice. "Maybe we can share a road for some time? What do you say? That fungus of yours looks comfortable enough for me."`,
                 options: [
                     {
                         text: 'Accept Thorne-Still as your symbiont',
@@ -362,7 +371,7 @@ export default class CrossroadScene extends GameScene {
                 }
             },
             acceptSymbiontConfirm: {
-                text: 'Thorne-Still merges with your being. It literally crawls into your stomach. You feel its calm presence in your mind, and with it comes the ability to perceive the threads of reality itself. You can now use Brain Rot ability to make others confused, forgetful, or vulnerable to suggestion.',
+                text: 'Thorne-Still merges with your being. It literally crawls into your stomach. You feel its calm presence in your mind, and with it comes the ability to perceive the threads of reality itself. You can now use the Brain Rot ability to make others confused, forgetful, or vulnerable to suggestion.',
                 options: [
                     {
                         text: 'Continue',
@@ -372,7 +381,8 @@ export default class CrossroadScene extends GameScene {
                 ]
             },
             declineSymbiont: {
-                text:  `"Your lost, baby", whispers the symbiont. "But don't worry, I'll be here if you need me. "`,
+                speaker: 'Thorne-Still',
+                text: `"Your loss, baby," whispers the symbiont. "But don't worry, I'll be here if you need me."`,
                 options: [
                     {
                         text: 'Continue',
@@ -401,7 +411,7 @@ export default class CrossroadScene extends GameScene {
                     // Add journal entry for planting spores
                     this.addJournalEntry(
                         'crossroad_corpse_spores_planted',
-                        'Planted Spores in Crossroad Corpse',
+                        'Planted Spores in the Crossroad Corpse',
                         'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth. This has opened up a new path to what appears to be a skyship above.',
                         this.journalSystem.categories.EVENTS
                     );
@@ -445,7 +455,7 @@ export default class CrossroadScene extends GameScene {
                         this.setupSkyshipTransition();
                         
                         // Show a notification about the new area
-                        this.showNotification("Some strange plant grows from the corpse. You also notice something above it...");
+                        this.showNotification(this.t('crossroad.plantGrows'));
                     }
                     
                     this.hideDialog();
@@ -488,7 +498,7 @@ export default class CrossroadScene extends GameScene {
 
                     if (success) {
                         // Show notification about gaining the symbiont
-                        this.showNotification('Gained Symbiont: Thorne-Still');
+                        this.showNotification(this.t('notifications.symbiontGained', { name: 'Thorne-Still' }));
                         
                         // Add symbiont icon
                         this.addSymbiontIcon('thorne-still', {
@@ -503,16 +513,20 @@ export default class CrossroadScene extends GameScene {
         }
     }
     
+    /** Planting spores costs 10; with fewer, the option explains instead of going negative. */
+    sporeGate(option) {
+        if (!option || !['plant_spores_in_it', 'plant_spores_in_it_instead'].includes(option.key)) return;
+        const spores = this.sporeSystem?.currentSpores ?? this.registry.get('sporeSystem')?.currentSpores ?? 0;
+        if (spores < 10) return 'notEnoughSpores';
+    }
+
     showCorpseDialog() {
         // Determine which dialog to show based on journal entries
-        if (this.hasJournalEntry('symbiont_thorne_still_accepted') || this.hasJournalEntry('symbiont_thorne_still_offered')) {
-            // If symbiont was accepted or offered without explicit decline
+        if (this.hasJournalEntry('symbiont_thorne_still_accepted') || this.hasGrowth) {
+            // Symbiont taken or spores planted — nothing left to do with the corpse
             this.showDialog('corpseExhausted');
-        } else if (this.hasGrowth) {
-            // If growth was chosen
-            this.showDialog('corpseExhausted');
-        } else if (this.hasJournalEntry('symbiont_thorne_still_declined')) {
-            // If symbiont was declined but not accepted yet
+        } else if (this.hasJournalEntry('symbiont_thorne_still_declined') || this.hasJournalEntry('symbiont_thorne_still_offered')) {
+            // Offered (even if the player just closed the dialog) or declined — Thorne-Still is still waiting
             this.showDialog('corpseReconsider');
         } else {
             // First interaction

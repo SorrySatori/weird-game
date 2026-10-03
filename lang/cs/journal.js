@@ -84,20 +84,20 @@ export default {
             description: 'Biskupka krátce před smrtí jedla Mručenky.',
         },
         symbiont_thorne_still_offered: {
-            title: 'Setkání s Trnem-Klidem',
-            description: 'V podivné mrtvole na křižovatce jsem našel symbiotickou entitu, která si říká Trn-Klid.',
+            title: 'Setkání s Thorne-Still',
+            description: 'V podivné mrtvole na křižovatce jsem našel symbiotickou bytost, která si říká Thorne-Still. Nabídla mi, že se se mnou spojí.',
         },
         crossroad_corpse_spores_planted: {
-            title: 'Zasazeny Spory v Mrtvole na Křižovatce',
-            description: 'Zasadil jsem spory do podivné mrtvoly na křižovatce.',
+            title: 'Spory v mrtvole na křižovatce',
+            description: 'Zasadil jsem spory do podivné mrtvoly na křižovatce. Mycelium se mrtvým masem rychle rozrostlo a celé místo prozářilo světélkujícím porostem. Otevřela se tím cesta nahoru, k něčemu, co vypadá jako vzducholoď.',
         },
         symbiont_thorne_still_declined: {
-            title: 'Odmítnutí Trnu-Klidu',
-            description: 'Odmítl jsem nabídku od symbiotické entity Trn-Klid.',
+            title: 'Odmítnutí Thorne-Stilla',
+            description: 'Nabídku symbiotické bytosti Thorne-Stilla jsem odmítl. Vypadala zklamaně, ale prý na mě počká, kdybych si to rozmyslel.',
         },
         symbiont_thorne_still_accepted: {
-            title: 'Přijetí Trnu-Klidu',
-            description: 'Přijal jsem symbiotickou entitu Trn-Klid. Splynula se mnou.',
+            title: 'Přijetí Thorne-Stilla',
+            description: 'Přijal jsem symbiotickou bytost Thorne-Still. Splynula se mnou – doslova mi vlezla do žaludku. Teď můžu používat její schopnost Mozková hniloba a mást či ovlivňovat druhé.',
         },
         skyship_sighting: {
             title: 'Podivné Plavidlo na Smaragdové Obloze',
@@ -248,8 +248,8 @@ export default {
             description: 'Podle Kloora Venna Biskupka poměrně často navštěvovala Dr. Elphi Quarn.',
         },
         pith_reclaimers_faction: {
-            title: 'Dřeňoví reklamátoři – strážci rovnováhy',
-            description: 'Dřeňoví reklamátoři jsou zřejmě frakce, které jde o udržení rovnováhy a o to, aby technika nepřerostla lidem přes hlavu. Stojí proti Rezavému chóru – věří, že některé prastaré technologie mají zůstat spát. Z radnice řídí správní aparát města.',
+            title: 'Pith Reclaimers – strážci rovnováhy',
+            description: 'Pith Reclaimers jsou zřejmě frakce, které jde o udržení rovnováhy a o to, aby technika nepřerostla lidem přes hlavu. Stojí proti Rezavému chóru – věří, že některé prastaré technologie mají zůstat spát. Z radnice řídí správní aparát města.',
         },
         forgotten_elevator_button_available: {
             title: 'Záhadný Knoflík u Zerren',
@@ -277,7 +277,7 @@ export default {
         },
         heliodor_lore: {
             title: 'Heliodor Donjon Vaalstran',
-            description: 'Heliodor je jedinečný jedinec složený z více symbiotických tvorů.',
+            description: 'Heliodor je jedinečná bytost složená z mnoha symbiotických tvorů žijících v souladu. Řvoucí korek vedou díky spojení nadání svých jednotlivých složek – výkonný a pozoruhodný barman.',
         },
         rust_domain_arrival: {
             title: 'Rezavá Doména',
@@ -666,7 +666,7 @@ export default {
         },
         met_ravla: {
             title: 'Ravla',
-            description: 'Ravla drží svůj kout ve Ječícím Špuntu, padělá dokumenty pro každého, kdo zaplatí, a drží úřady od těla. Je také strážkyní brány Rezavého sboru – nic se nedostane k Brukkovi ani ke strojům, aniž by to prošlo napřed přes ni. Bystrý zrak, žádné sentimenty a šarm na ni neplatí.',
+            description: 'Ravla má svůj kout ve Řvoucím korku, padělá dokumenty pro každého, kdo zaplatí, a úřady si drží od těla. Je také strážkyní brány Rezavého chóru – nic se nedostane k Brukkovi ani ke strojům, aniž by to prošlo napřed přes ni. Bystrý zrak, žádné sentimenty a šarm na ni neplatí.',
         },
         met_mad_poet: {
             title: 'Šílený básník',
@@ -726,11 +726,11 @@ export default {
         },
         grave_sense_crossroad_corpse: {
             title: 'Hrobový smysl: Jak mrtvola zemřela',
-            description: 'Skrze Osswine jsem přečetl konec obří mrtvoly: žádná rána, žádné násilí – rozhodla se zastavit. Jejím posledním záměrem byl příchod, ne strach: nosič uléhající k nohám toho, co kdysi nesl, rád, že smí skončit. Pod tím doznívalo malé nedokončené hladovění – trhlina, do které se nastěhoval Thorne-Still. Nezemřela s křikem; skončila, jako končí dlouhý den.',
+            description: 'Skrze Osswine jsem přečetl konec obří mrtvoly: spousta násilí. Byl to levoboček boha Lietuse Kiky, kterého otec nechal světu napospas, když sem přišel umřít. Udělal ze sebe tyrana a svrchovaného vládce města, dokud ho neukončil rozzuřený dav a nenechal jeho tělo na křižovatce jako varování každé božské bytosti, která by chtěla vládnout Horní Morkezele. Polobožské tělo nehnije – varování tak zůstává navěky.',
         },
         salt_recall_crossroad_corpse: {
-            title: 'Solné vzpomínání: Mrtvola na křižovatce',
-            description: 'Skrze Brine Scripture jsem přečetl solnou paměť obří mrtvoly na křižovatce. Nebyl to bůh, ale něco, co kdysi nosilo bohy – nosič, přitažený sem zemřít poblíž svých lepších, jako jsou do Horní Morkezely přitahovány všechny mrtvé věci. Nezabila ho žádná rána; prostě přišel a zastavil se. Rozklad (a Thorne-Still) se od té doby usadil v prostoru, který po sobě zanechal jeho účel.',
+            title: 'Solná paměť: Mrtvola na křižovatce',
+            description: 'Skrze Brine Scripture jsem přečetl solnou paměť obří mrtvoly na křižovatce. Ne bůh, ale polobůh: levoboček Lietuse Kiky, boha temporální zmatenosti, který ho sem přivedl umřít a ve své obvyklé zmatenosti mu nestihl zajistit budoucnost. Syn se pokusil městu vládnout, stal se tyranem a dav ho zlynčoval; jeho polobožské tělo odmítlo shnít a místní jsou na svou dominantu dnes hrdí.',
         },
         delta_seam_crossing: {
             title: 'Šev přes deltu',

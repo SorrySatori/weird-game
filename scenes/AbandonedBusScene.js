@@ -617,7 +617,7 @@ export default class AbandonedBusScene extends GameScene {
 
                         if (success) {
                             // Show notification about gaining the symbiont
-                            this.showNotification('Gained Symbiont: Neme of the Crownmire');
+                            this.showNotification(this.t('notifications.symbiontGained', { name: 'Neme of the Crownmire' }));
 
                             // Add symbiont icon using parent class method
                             // This will now use the dynamic dialog system

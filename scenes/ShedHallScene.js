@@ -9,7 +9,7 @@ export default class ShedHallScene extends GameScene {
         this._livingCore = null;
         this._livingCoreDialogContent = {
             main: {
-        speaker: 'Observation',
+                speaker: 'Narrator',
                 text: "A Living Core pulses with an otherworldly energy. It seems to be fused with the wall, but it might be possible to extract it...",
                 options: [
                     { text: "Examine it more carefully", key: 'examine_it_more_carefully', next: "examine" },
@@ -18,20 +18,22 @@ export default class ShedHallScene extends GameScene {
                 ]
             },
             examine: {
-                text: "The Living Core seems delicately connected to its surroundings. With the right tools, like a pair of pliers, you might be able to extract it without causing damage...",
+                text: "The Living Core seems connected to the wall only at a few points. With the right tools, like a pair of pliers, you might be able to extract it without causing damage...",
                 options: [
-                    { text: "Ask something else", key: 'back', next: "main" }
+                    { text: "Back", key: 'back', next: "main" }
                 ]
             },
             force_extract: {
-                text: "You wrench the Living Core free with brute force. The surrounding area seems to decay rapidly in response...",
-                options: [],
+                text: "You wrench the Living Core free with brute force. The surrounding area seems to be getting cold...",
+                options: [
+                    { text: "Continue", key: 'continue', next: "goodbye_taken" }
+                ],
                 onTrigger: () => {
                     const questSystem = QuestSystem.getInstance();
                     
                     this.modifyGrowthDecay(0,5);
                     this.addItemToInventory({ id: 'living-core', name: 'Living Core', description: 'A pulsating core of living metal, forcefully extracted from the Shed.', spriteKey: 'living-core', stackable: false });
-                    questSystem.updateQuest('rust_reclamation', 'I have retrieved the Living Core, with a bit of good old violence.');
+                    questSystem.updateQuest('rust_reclamation', 'I have retrieved the Living Core, with a bit of good old violence.', 'core_taken_force');
                     if (this._livingCore) {
                         this._livingCore.destroy();
                         this._livingCore = null;
@@ -39,14 +41,16 @@ export default class ShedHallScene extends GameScene {
                 }
             },
             careful_extract: {
-                text: "Using the pliers, you carefully extract the Living Core. The surrounding area seems to flourish in response to your gentle approach...",
-                options: [],
+                text: "Using the pliers, you carefully extract the Living Core. Nothing else happens... Or at least you don't see any visible changes.",
+                options: [
+                    { text: "Continue", key: 'continue', next: "careful_extract_complete" }
+                ],
                 onTrigger: () => {
                     const questSystem = QuestSystem.getInstance();
                     
                     this.modifyGrowthDecay(2,0);
                     this.addItemToInventory({ id: 'living-core', name: 'Living Core', description: 'A pulsating core of living metal, carefully extracted from the Shed.', variant: 'careful', spriteKey: 'living-core', stackable: false });
-                    questSystem.updateQuest('rust_reclamation', 'Carefully extracted the Living Core using pliers, promoting growth in the process.');
+                    questSystem.updateQuest('rust_reclamation', 'Carefully extracted the Living Core using pliers; it probably didn\'t damage the building in any way.', 'core_taken_careful');
                     if (this._livingCore) {
                         this._livingCore.destroy();
                         this._livingCore = null;
@@ -56,10 +60,14 @@ export default class ShedHallScene extends GameScene {
             careful_extract_complete: {
                 text: "The Living Core pulses contentedly in your hands, its energy seemingly preserved by your careful extraction.",
                 options: [
-                    { text: "Continue", key: 'continue', next: "goodbye" }
+                    { text: "Continue", key: 'continue', next: "goodbye_taken" }
                 ]
             },
             goodbye: {
+                text: "You step back from the Living Core.",
+                options: []
+            },
+            goodbye_taken: {
                 text: "You step back from where the Living Core was.",
                 options: []
             }
@@ -140,15 +148,15 @@ export default class ShedHallScene extends GameScene {
         // Update main dialog options based on pliers
         if (hasPliers) {
             this._livingCoreDialogContent.main.options = [
-                { text: "Use pliers to carefully extract it", next: "careful_extract" },
-                { text: "Extract it forcefully", next: "force_extract" },
-                { text: "Leave it alone", next: "goodbye" }
+                { text: "Use pliers to carefully extract it", key: 'use_pliers_to_carefully_extract_it', next: "careful_extract" },
+                { text: "Extract it forcefully", key: 'extract_it_forcefully', next: "force_extract" },
+                { text: "Leave it alone", key: 'leave_it_alone', next: "goodbye" }
             ];
         } else {
             this._livingCoreDialogContent.main.options = [
-                { text: "Examine it more carefully", next: "examine" },
-                { text: "Extract it forcefully", next: "force_extract" },
-                { text: "Leave it alone", next: "goodbye" }
+                { text: "Examine it more carefully", key: 'examine_it_more_carefully', next: "examine" },
+                { text: "Extract it forcefully", key: 'extract_it_forcefully', next: "force_extract" },
+                { text: "Leave it alone", key: 'leave_it_alone', next: "goodbye" }
             ];
         }
 

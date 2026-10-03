@@ -68,6 +68,9 @@ export default {
         'godgraveyard-access-permit': { name: 'Godgraveyard Access Permit', description: "Councilor Seraphel Dune's sealed order granting access to the Godgraveyard beneath the Townhall." },
         'chrono-slurry-toadlet': { name: 'Chrono-Slurry Toadlet', description: 'A damp prophetic amphibian in a brass carrier jar. Seldo Thrice-Corrected wants it for three-minute bureaucratic foresight.' },
     },
+    crossroad: {
+        plantGrows: 'Some strange plant grows from the corpse. You also notice something above it...',
+    },
     notifications: {
         newQuest: 'New quest',
         questUpdated: 'Quest updated',
@@ -86,6 +89,7 @@ export default {
         addedToInventoryQty: 'Added {qty}x {item}',
         effectsStart: 'Experiencing effects of {item}...',
         effectsEnd: 'The effects of {item} have worn off.',
+        symbiontGained: 'Gained symbiont: {name}',
         inventoryFull: 'Inventory is full!',
         sporeChange: '{sign}{amount} Spores',
         nemeSilenced: 'The rot rises — Neme falls silent.',

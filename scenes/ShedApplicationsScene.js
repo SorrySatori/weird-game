@@ -23,7 +23,7 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             about_shed: {
-                text: "Shed 521? (adjusts glasses) One of our most... productive facilities. It used to be just an ordinary warehouse, a storage, you know. But now... it's much more. It's a place where... things happen. (smiles) Bureaucracy is really alive here, it flows like a river. It gives purpose to things, to every action, every decision. (puts away papers) We can be so productive and happy here.",
+                text: "Shed 521? (adjusts glasses) One of our most productive facilities. It used to be just an ordinary warehouse, a storage, you know. But now... it's much more. It's a place where... things happen. (smiles) Bureaucracy is really alive here, it flows like a river. It gives purpose to things, to every action, every decision. (puts away papers) We can be productive and happy here.",
                 options: [
                     { text: "That sounds like a lot of paperwork", key: 'that_sounds_like_a_lot_of_paperwork', next: "paperwork" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
@@ -42,7 +42,7 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             living_core_inquiry: {
-                text: "(The clerk's eyes narrow) The living core? (lowers voice) Listen carefully. That technology is classified under Protocol 7B, subsection 13. (glances around) Why do you ask?",
+                text: "(The clerk's eyes narrow) The living core? (lowers voice) Listen carefully. That technology is classified under Protocol 12-D, subsection 3. (glances around) Why do you ask?",
                 options: [
                     { text: "Gnur asked me to retrieve it", key: 'gnur_asked_me_to_retrieve_it', next: "expose_gnur" },
                     { text: "I am just interested in such technology.", key: 'i_am_just_interested_in_such_technology', next: "lie_living_core" },
@@ -105,7 +105,7 @@ export default class ShedApplicationsScene extends GameScene {
                 ],
             },
             pith_reclaimers: {
-                text: "The Pith Reclaimers are... guardians of neutrality. We preserve peace and order in the city. Some of us collect... unique items, but we don't sell them.",
+                text: "The Pith Reclaimers are guardians of neutrality. We preserve peace and order in the city. Some of us collect... unique items, but we don't sell them.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
@@ -115,7 +115,7 @@ export default class ShedApplicationsScene extends GameScene {
                 }
             },
             edgar: {
-                text: "Edgar Eskola? (raises eyebrow) He is one of the mišutkenn. Heard about them? They are semi-ursine, sentient humanoids with patchy fur, deep-set amber eyes, and dream-reactive physiology. Usually gentle souls, but they can be... unpredictable.",
+                text: "Edgar Eskola? (raises eyebrow) He is one of the mišutkenn. Heard about them? They are ursine, sentient humanoids with patchy fur and deep-set amber eyes. Usually gentle souls, but they can be... unpredictable.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
@@ -141,7 +141,7 @@ export default class ShedApplicationsScene extends GameScene {
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" },
                     { text: "Fine. I’ll lie. Or forge the documents?", key: 'fine_ill_lie_or_forge_the_documents', next: "ortolan_lie" },
                     { text: "Uhh... sorry I mean he needs them. He’s an artisan.", key: 'uhh_sorry_i_mean_he_needs_them_hes_an_artisan', next: "ortolan_artisan" },
-                    { text: "Well, I was just joking. Of course they are his. But he didn’t choose this. The arms were... a gift.", key: 'well_i_was_just_joking_of_course_they_are_his_but_', next: "ortolan_gift" }
+                    { text: "Well, I was just joking. Of course they are his. But he didn’t choose this. The arms were a gift.", key: 'well_i_was_just_joking_of_course_they_are_his_but_', next: "ortolan_gift" }
                 ]
             },
             ortolan_gift: {
@@ -176,16 +176,16 @@ export default class ShedApplicationsScene extends GameScene {
                 }
             },
             ortolan_artisan: {
-                text: "Art is no defense against anatomy. But we do have the Artisan’s Exemption Form. Of course, it expired last cycle.",
+                text: "Art is no defense against anatomy. But we do have the Artisan’s Exemption Form. Of course, it expired six digestions ago.",
                 options: [
-                    { text: "Can it be renewed?", key: 'can_it_be_renewed', next: "ortolan_renew" },
-                    { text: "What if I find another copy?", key: 'what_if_i_find_another_copy', next: "ortolan_copy" },
+                    { text: "Can it be renewed somehow?", key: 'can_it_be_renewed', next: "ortolan_renew" },
+                    { text: "What if I find a non-expired version?", key: 'what_if_i_find_another_copy', next: "ortolan_copy" },
                     { text: "Forget the form. What else can I offer?", key: 'forget_the_form_what_else_can_i_offer', next: "ortolan_offer" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
             },
             ortolan_renew: {
-                text: "Only with a performance. Go ask at the Registration office.",
+                text: "I am not sure, but perhaps it is possible. Go ask at the Registration office.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
@@ -197,10 +197,10 @@ export default class ShedApplicationsScene extends GameScene {
                 }
             },
             ortolan_copy: {
-                text: "Are you deaf? I said, are you deaf? It expired last cycle.",
+                text: "Are you deaf? I said, are you deaf? It expired six digestions ago.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" },
-                    { text: "Can it be renewed?", key: 'can_it_be_renewed', next: "ortolan_renew" },
+                    { text: "Can it be renewed somehow?", key: 'can_it_be_renewed', next: "ortolan_renew" },
                     { text: "Forget the form. What else can I offer?", key: 'forget_the_form_what_else_can_i_offer', next: "ortolan_offer" },
                 ]
             },
@@ -214,13 +214,6 @@ export default class ShedApplicationsScene extends GameScene {
                     if (questSystem) {
                         questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...', 'nonverbal_gesture_clue');
                     }
-                }
-            },
-            end: {
-                text: "Please file your exit form in triplicate before leaving.",
-                options: [],
-                onShow: () => {
-                    this.hideDialog();
                 }
             }
         };

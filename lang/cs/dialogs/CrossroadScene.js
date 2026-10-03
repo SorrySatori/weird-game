@@ -9,9 +9,9 @@ export default {
         'Osswine': 'Osswine',
     },
     corpseMain: {
-        text: "Nacházíš podivnou, gigantickou mrtvolu. Její maso jako by pulzovalo nadpozemskou energií. Je zřejmé, že tu leží už nějakou dobu, ale překvapivě vůbec nezapáchá. Co uděláš?",
+        text: "Nacházíš podivnou, gigantickou mrtvolu. Její maso jako by pulzovalo nadpozemskou energií. Je zřejmé, že tu je už nějakou dobu, ale překvapivě vůbec nezapáchá. Co uděláš?",
         options: {
-            plant_spores_in_it: 'Zasadit do ní spory',
+            plant_spores_in_it: 'Zasadit do ní spory (10 spor)',
             cut_it_open: 'Rozříznout ji',
             salt_recall_corpse: '[Solná paměť] Přečti, co v ní zůstalo.',
             grave_sense_corpse: '[Hrobový smysl] Přečti, jak zemřela.',
@@ -19,7 +19,7 @@ export default {
         }
     },
     corpseExhausted: {
-        text: "S mrtvoji už nemůžeš udělat nic víc. Její účel byl naplněn.",
+        text: "S tou starou mrtvolou už nic víc nesvedeš. Její účel byl naplněn.",
         options: {
             salt_recall_corpse: '[Solná paměť] Přečti, co v ní zůstalo.',
             grave_sense_corpse: '[Hrobový smysl] Přečti, jak zemřela.',
@@ -27,35 +27,39 @@ export default {
         }
     },
     corpse_salt_recall: {
-        text: "Solné písmo se probudí a ochutná sůl, kterou to obrovské tělo léta vyluhovalo do křižovatky. *\"...Tenhle šel dlouhou cestu, aby si lehl. Ne bůh – starší, pokornější; věc, která kdysi bohy nosila, jako cesta nosí kroky. Ucítil, jak ho město táhne, jak sem táhne všechno mrtvé, a přišel být blízko těch ostatních. Nezabila ho žádná rána. Prostě dorazil a zastavil se. Sůl pořád drží tvar toho posledního, dlouhého výdechu.\"*\n\nZbytek se zavře. *\"Teď se mu do hlavy nastěhoval rozklad. Vždycky to tak je – usadí se do místa, které po sobě zanechá účel.\"*",
+        text: "Solné písmo se probudí a ochutná sůl, která se kolem mrtvoly vsákla do země. *\"...Tenhle ušel dlouhou cestu. Nemanželské dítě boha Lietuse Kiky. Ne bůh – polobůh, božský levoboček. Lietus, bůh temporální zmatenosti, přišel do města zemřít a svého bastarda si vzal s sebou. Ale ve své typické zmatenosti už nestačil zařídit synovi budoucnost.\"*\n\n*\"Levoboček se pokusil město ovládnout. Stal se tyranem, až ho nakonec rozzuřený dav zlynčoval, zavraždil a nechal shnít na křižovatce. Jeho polobožské tělo ale rozkladu odolalo, a tak získalo tohle místo novou dominantu. Místní jsou na ni dnes hrdí a křižovatku bez mrtvoly poloboha si už nedokážou představit.\"*",
         options: {
             salt_recall_corpse_back: 'Ustoupit.'
         }
     },
     corpse_grave_sense: {
-        text: "Osswine se probudí v chladu té věci a čte její konec zevnitř ven. *\"...Žádné násilí. Zvolila si zastavení. Jejím posledním úmyslem nebyl strach – byl to příchod. Nosič, který ulehl u nohou všeho, co kdysi nesl, konečně rád, že smí skončit. A pod tím, slaběji: malý, trpělivý hlad, který nikdy nestihl dojíst.\"* Suchá pauza. *\"Ten nedojedený hlad je ta skulina, do níž vlezl tvůj Thorne-Still. Nic tu neumřelo s křikem. Skončilo to, jak končí dlouhý den.\"*",
+        text: "Osswine se probudí a přečte poslední okamžiky ohromné bytosti před tebou. *\"...Spousta násilí. Byl to levoboček boha Lietuse Kiky, který přišel do města umřít a svého syna nechal světu napospas. Zdá se, že polobůh udělal celkem slušnou kariéru jako tyran a svrchovaný vládce města, hmm. Ovšem jednoho dne tuhle jeho kariéru ukončil rozzuřený dav – smůla. Nechali tělo bastarda shnít na křižovatce, aby už žádnou božskou bytost v budoucnu nenapadlo pokusit se ovládnout Horní Morkezelu. Nevěděli ovšem, že polobožské tělo odolá zubu času a zůstane tu navěky. Pak si ale řekli, že je to ještě lepší – memento aspoň bude trvalé.\"*",
         options: {
             grave_sense_corpse_back: 'Ustoupit.'
         }
     },
     corpseReconsider: {
-        text: 'Znovu se přiblížíš k podivné mrtvole. Zevnitř slyšíš povědomý hlas: "Změnil jsi názor, miláčku? Pořád tu na tebe čekám."',
+        text: 'Znovu se přiblížíš k podivné mrtvole. Zevnitř slyšíš povědomý hlas: "Změnil jsi názor, kámo? Pořád tu na tebe čekám."',
         options: {
-            accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Still jako svého symbionta',
-            plant_spores_in_it_instead: 'Místo toho do ní zasadit spory',
+            accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Stilla jako svého symbionta',
+            plant_spores_in_it_instead: 'Místo toho do ní zasadit spory (10 spor)',
             leave_it_alone: 'Nechat ji být'
         }
     },
+    notEnoughSpores: {
+        text: 'Sáhneš po svých sporách, ale na něco tak velkého jich není dost. Potřeboval bys aspoň deset.',
+        options: { not_enough_spores_back: 'Ustoupit.' }
+    },
     plantSpores: {
-        text: 'Opatrně zasadíš spory do mrtvoly. Okamžitě se uchytí a rozšíří síť luminiscenčního mycelia skrz mrtvé maso. Toto místo už nikdy nebude stejné.',
+        text: 'Opatrně zasadíš spory do mrtvoly. Okamžitě se uchytí a rozšíří síť světélkujícího mycelia skrz mrtvé maso. Toto místo už nikdy nebude stejné.',
         options: {
             continue: 'Pokračovat'
         }
     },
     acceptSymbiont: {
-        text: 'Když rozřízneš hlavu mrtvoly, najdeš něco mimořádného – symbiotickou entitu, která si říká Thorne-Still. "Ahoj, miláčku, jsem Thorne-Still. Jak ti mohu dnes pomoci?" šeptá podivným hlasem. "Možná bychom mohli sdílet cestu na nějaký čas? Co říkáš? Ta tvoje houba vypadá dostatečně pohodlně i pro mě."',
+        text: 'Když rozřízneš hlavu mrtvoly, najdeš něco mimořádného – symbiotickou entitu, která si říká Thorne-Still. "Ahoj kámo, jsem Thorne-Still. Jak ti mohu dnes pomoci?" šeptá to podivným hlasem. "Možná bychom mohli sdílet cestu na nějaký čas? Co říkáš? Ta tvoje houba vypadá dost pohodlně."',
         options: {
-            accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Still jako svého symbionta',
+            accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Stilla jako svého symbionta',
             decline: 'Odmítnout'
         }
     },
@@ -66,7 +70,7 @@ export default {
         }
     },
     declineSymbiont: {
-        text: '"Tvoje ztráta, miláčku," šeptá symbiont. "Ale neboj, budu tady, kdybys mě potřeboval."',
+        text: '"Tvoje ztráta, kámo," šeptá symbiont. "Ale neboj, budu tady, kdybys mě potřeboval."',
         options: {
             continue: 'Pokračovat'
         }

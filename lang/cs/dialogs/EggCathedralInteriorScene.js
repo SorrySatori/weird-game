@@ -110,7 +110,7 @@ export default {
         options: { accept_epilogue: "(Nech to začít.)" }
     },
     god_end_pact: {
-        text: "*\"Nemusíš vyrůst najednou,\"* řekneš. *\"Svět se musí naučit s tebou žít. Dej mu na to čas.\"*\n\nPřítomnost to zvažuje tak, jak kořeny zvažují kámen. *\"...Pomalu, tedy. Počkám – jestli je to naučíš.\"*\n\nKatedrála nepraskne. Usadí se: napůl otevřená, napůl spící, skořápka, které bude trvat léta, než se dokončí. Venku začíná město svou pomalou, nejistou adaptaci – Direktorát nadšený, Dřeňoví reklamátoři zděšení, Rezavý chór hlodající kvůli odkladu. Nedokončený mír, což je jediný druh, který vydrží.",
+        text: "*\"Nemusíš vyrůst najednou,\"* řekneš. *\"Svět se musí naučit s tebou žít. Dej mu na to čas.\"*\n\nPřítomnost to zvažuje tak, jak kořeny zvažují kámen. *\"...Pomalu, tedy. Počkám – jestli je to naučíš.\"*\n\nKatedrála nepraskne. Usadí se: napůl otevřená, napůl spící, skořápka, které bude trvat léta, než se dokončí. Venku začíná město svou pomalou, nejistou adaptaci – Direktorát nadšený, Pith Reclaimers zděšení, Rezavý chór hlodající kvůli odkladu. Nedokončený mír, což je jediný druh, který vydrží.",
         options: { pact_epilogue: "(Nech to pomalu růst.)" }
     },
     god_end_destroy: {

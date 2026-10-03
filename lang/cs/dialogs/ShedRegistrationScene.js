@@ -110,7 +110,7 @@ export default {
             id_rather_not_say: "Raději bych si to nechal pro sebe.",
             i_need_an_artisans_exemption_form: "Potřebuji Formulář o výjimce pro umělce.",
             i_need_an_inherited_deformity_form: "Potřebuji Formulář o zděděné deformitě.",
-            make_a_nonverbal_gesture: "(Udělat neverbální gesto)",
+            make_a_nonverbal_gesture: "(Udělat nonverbální gesto)",
             i_would_like_to_register_for_an_extra_symbiont_slo: "Chtěl bych si zaregistrovat další slot pro symbionta."
         }
     },
@@ -232,7 +232,7 @@ export default {
         options: { thank_you: "Děkuji." }
     },
     registration_success_nonverbal: {
-        text: "(Úředník s nečekaným pochopením přikývne.)\n\n„Vaše neverbální žádost je... schválena. Tento zvláštní dispens umožňuje úpravu končetin bez standardní dokumentace.“",
+        text: "(Úředník s nečekaným pochopením přikývne.)\n\n„Vaše nonverbální žádost je... schválena. Tento zvláštní dispens umožňuje úpravu končetin bez standardní dokumentace.“",
         options: { nod_gratefully: "(Vděčně pokývnout)" }
     },
     registration_partial_success: {

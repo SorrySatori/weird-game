@@ -203,7 +203,7 @@ export default class GodgraveyardScene extends GameScene {
                 { location: 'Godgraveyard', symbiont: 'osswine' }
             );
         }
-        this.showNotification('Gained Symbiont: Osswine');
+        this.showNotification(this.t('notifications.symbiontGained', { name: 'Osswine' }));
     }
 
     /** The ossuary niche where Osswine waits — only until it has bonded. */

@@ -1261,7 +1261,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
             this.journalSystem.categories.EVENTS,
             { location: 'Voxmarket Auction Hall', price }
         );
-        this.showNotification('Gained Symbiont: Brine Scripture');
+        this.showNotification(this.t('notifications.symbiontGained', { name: 'Brine Scripture' }));
         return 'auction_brine_won';
     }
 

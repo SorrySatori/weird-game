@@ -377,6 +377,7 @@ Upper Morkezela is fundamentally a place where gods come to die. When deities ce
 - **The Noise God** — An ancient entity assembled (not born) that came to die in Upper Morkezela. Now exists as pure noise/vibration in magnetic dust, radio fog, broken amplifiers, and speaker bones. The band Feral Toast unknowingly channels its essence.
 - **The Magnetic Spirits of the Crownmire** — Ancient entities worshiped by a cult. Their shrine collapsed, shattering into the lodestones that became Magnekin's civilization.
 - **Numerous Unnamed Gods** — Layer upon layer beneath the city, forming the Godgraveyard.
+- **The Crossroad Demigod** (canon 2026-10-03) — the giant corpse at the Crossroads is the illegitimate son of **Lietus Kika**, god of temporal confusion, who brought the boy along when he came to the city to die and, confused as ever, never secured his future. The bastard made himself tyrant and supreme ruler of Upper Morkezela until an enraged mob lynched him and left the body at the crossroads as a warning to any divine being who would try to rule the city. A demigod's body does not rot, so the warning became a landmark the locals are now proud of. Thorne-Still nests in its head; the player can also seed it with spores (opens the skyship path).
 - **The Egg Cathedral** — Possibly a nascent god or divine structure still being born/hatching.
 - **The Obazoba** — The Ur-mushroom, source of all life and rot, worshiped by the Obazoba cult. Whether alive, dead, or something else is unclear.
 

@@ -30,7 +30,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         // needs no coercion and leans the balance toward growth. Silenced at high decay.
         const canSpyRavlaNeme = canSpyRavla && !!this.symbiontSystem?.nemeCanRead();
 
-        return {
+        const content = {
             ...super.dialogContent,
 
             // ---- Finale epilogue (only reached via epilogue_mode; Thaal at the bar) ----
@@ -64,7 +64,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "You had. And you had not. And the city went on above the two held breaths, not knowing which of them it had chosen — or that it had chosen at all.",
                 options: [{ text: "(End.)", key: 'epilogue_close', next: "closeDialog", onSelect: () => this.rollCredits() }]
             },
-            speaker: 'Ravla',
 
             // Ravla dialog - the forger
             ravla_start: {
@@ -133,9 +132,10 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "Hmm. What kind of documents are we talking about? I don't work for free, and I don't work for just anyone.",
                 options: [
                     { text: "Just curious", key: 'just_curious', next: "ravla_curious" },
-                    ...(this.registry.get('questSystem')?.getQuest('ortolan_arms')?.updates.some(update => update.key === 'forge_documents_suggestion') ? [
+                    ...(this.registry.get('questSystem')?.getQuest('ortolan_arms')?.updates.some(update => ['forge_documents_suggestion', 'ravla_forger_hint'].includes(update.key)) ? [
                         { text: "I need help with Ortolan's paperwork", key: 'i_need_help_with_ortolans_paperwork', next: "ravla_ortolan" }
-                    ] : [])
+                    ] : []),
+                    { text: "Ask something else", key: 'back', next: "ravla_start" }
                 ]
             },
             ravla_curious: {
@@ -152,7 +152,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             ravla_ortolan_need: {
-                text: "It won't be cheap - 50 dinars. But I can make it perfect. No one would know the difference.",
+                text: "It won't be cheap — 50 dinars. But I can make it perfect. No one would know the difference.",
                 options: [
                     { text: "Here's the money", key: 'heres_the_money', next: "ravla_check_money" },
                     { text: "I'll think about it", key: 'ill_think_about_it', next: "ravla_ortolan_agree" },
@@ -166,7 +166,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     // Check if player has enough money
                     if (this.hasEnoughMoney(50)) {
                         this.subtractMoney(50);
-                        this.showNotification("-50 dinar");
                         
                         // Add forged document to inventory
                         this.addItemToInventory({
@@ -175,13 +174,11 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                             description: "A convincing forgery of an Artisan's Exemption Form that would allow the bearer to legally possess multiple arms for specialized work.",
                             stackable: false
                         });
-                        this.showNotification('Received: Forged Multiple Arms Permission');
                         
                         // Update quest
                         const questSystem = this.registry.get('questSystem');
                         if (questSystem) {
                             questSystem.updateQuest('ortolan_arms', 'You obtained a forged Artisan\'s Exemption Form from Ravla. Deliver it to Ortolan at the Shed Courtyard.', 'document_obtained');
-                            this.showNotification('Quest updated: Ortolan Arms Investigation');
                         }
                         
                         // Show success dialog
@@ -193,7 +190,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_forge_success: {
-                text: "Here you go. Perfect forgery, if I do say so myself. The official seals, the watermarks, even the special ink - all perfect. No one will question this. Just don't tell anyone where you got it.",
+                text: "Here you go. Perfect forgery, if I do say so myself. The official seals, the watermarks, even the special ink — all perfect. No one will question this. Just don't tell anyone where you got it.",
                 options: [
                     { text: "Thank you", key: 'thank_you', next: "closeDialog" }
                 ]
@@ -213,7 +210,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
                         questSystem.updateQuest('ortolan_arms', 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.', 'ravla_forger_agreement');
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
                     }
                 }
             },
@@ -256,7 +252,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove your commitment. I have to gather oil, metal, and a redmass, and bring them to her.', 'talked_to_ravla');
-                    this.showNotification('Quest updated: Finding the Rust Choir');
                     this.questSystem.addQuest('rust_feast', 'Rust Feast', 'Prepare a feast for the Rust Choir machines by gathering oil, metal, and a living redmass, and bring them to Ravla at the Screaming Cork.');
                 },
             },
@@ -466,7 +461,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             // Heliodor dialog
             heliodor_start: {
                 speaker: 'Heliodor',
-                text: "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading - it's actually quite peaceful most nights.\"",
+                text: "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading — it's actually quite peaceful most nights.\"",
                 options: [
                     { text: "Who are you?", key: 'who_are_you', next: "heliodor_who" },
                     { text: "Tell me about this place", key: 'tell_me_about_this_place', next: "heliodor_place" },
@@ -581,7 +576,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         const quest = questSystem.getQuest('ortolan_arms');
                         if (quest && !quest.updates.some(update => update.key === 'ravla_forger_hint')) {
                             questSystem.updateQuest('ortolan_arms', 'Heliodor at the Screaming Cork mentioned that Ravla is a skilled document forger. She might be able to help with the Ortolan situation.', 'ravla_forger_hint');
-                            this.showNotification('Quest updated: Ortolan Arms Investigation');
                         }
                     }
                 }
@@ -595,7 +589,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         next: 'shopInterface'
                     },
                     {
-                        text: "Actually, nevermind.",
+                        text: "Actually, never mind.",
                         key: 'actually_nevermind',
                         next: 'closeDialog'
                     }
@@ -627,6 +621,13 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
         };
+        // Explicit speaker per state: GameScene's fallback would label every Heliodor sub-state "Ravla".
+        for (const [key, state] of Object.entries(content)) {
+            if (!state || typeof state !== 'object' || state.speaker) continue;
+            if (key.startsWith('ravla')) state.speaker = 'Ravla';
+            else if (key.startsWith('heliodor') || key === 'openShop' || key === 'shopInterface') state.speaker = 'Heliodor';
+        }
+        return content;
     }
 
     preload() {

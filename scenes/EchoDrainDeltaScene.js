@@ -292,7 +292,7 @@ export default class EchoDrainDeltaScene extends GameScene {
                 { location: 'Echo Drain Delta', symbiont: 'palinode' }
             );
         }
-        this.showNotification('Gained Symbiont: Palinode');
+        this.showNotification(this.t('notifications.symbiontGained', { name: 'Palinode' }));
     }
 
     createMetalScrapCollectible() {

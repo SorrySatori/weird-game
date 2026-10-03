@@ -12,9 +12,9 @@ export default {
         },
         crossroads: {
             hint: 'Křižovatka',
-            default: "Čtyři cesty a každá vede někam, kde po mně něco chtějí – Kůlna, Voxmarket, Škrabák. Mrtvý obr je mizerný rozcestník, ale poctivý: všechny směry tady končí stejně.",
-            overgrown: "Křižovatka zelená. Kořeny našly spáry mezi dlažebními kostkami a rozhodly, že cesty teď patří jim. Ještě sezónu a nezbude křižovatka, na které by se dalo stát.",
-            planted: "Zasel jsem spory do obra, co tu padl, a křižovatka pochopila. Ať už se teď mezi kameny dere cokoli nahoru, začal jsem to já. Snažím se nemyslet na to, co z toho bude, až to dokončí.",
+            default: "Čtyři cesty a každá vede někam, kde po mně něco chtějí – Kůlna, Voxmarket, Škrabák. Mrtvý obr je mizerný rozcestník, ale rozhodně zapamatovatelný.",
+            overgrown: "Křižovatka se zazelenala. Kořeny našly spáry mezi dlažebními kostkami a rozhodly se, že cesty teď patří jim. Ještě chvíli a chodník nebude ani vidět.",
+            planted: "Zasel jsem spory do mrtvoly obra a křižovatka se proměnila. Ať už se teď mezi kameny dere cokoli nahoru, začal jsem to já. Snažím se nemyslet na to, co z toho bude, až to vyroste ještě víc.",
         },
         godgraveyard: {
             hint: 'Padlý bůh',
