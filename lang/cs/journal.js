@@ -224,12 +224,12 @@ export default {
             description: 'Rezavý chór je zřejmě frakce se zájmem o starou techniku a stroje. Podle zvěstí „zpívají staré stroje k probuzení" a záleží jim na uchování a ovládnutí dávné technologie. Jejich metody jsou sporné – technické artefakty si podle všeho opatří jakýmkoli způsobem.',
         },
         ortolan_meeting: {
-            title: 'Ortolan – Návrhář Deskových Her',
-            description: 'Setkal jsem se s Ortolanem, vývojářem deskových her.',
+            title: 'Ortolan – návrhář deskových her',
+            description: 'Setkal jsem se s Ortolanem, návrhářem deskových her. Ortolan navrhuje složité deskové hry a snaží se získat povolení na další pár rukou, aby se své vášni mohl věnovat lépe. Zdejší labyrint úředních postupů ho frustruje i unavuje, a přesto tváří v tvář absurdním předpisům vytrvává s jistým šarmem.',
         },
         board_games_war: {
-            title: 'Válka Deskových Her',
-            description: 'Po Starých Válkách města řešila spory prostřednictvím her.',
+            title: 'Válka deskových her',
+            description: 'Ortolan Šmelc mi vyprávěl o Válce deskových her. Když Staré války zpustošily všechno, města začala řešit spory hrami. Vládci se stali Ludarchové – návrháři her, kteří dokázali ohýbat skutečnost –, ale opili se mocí. Jako herní desky tvořili živé miniaturní světy a obětovali miliony drobných vnímajících bytostí coby figurky. Nakonec se Ludarchové zničili navzájem, roztříštili skutečnost a zanechali města v troskách. Ortolan byl světotvůrce, který ty desky vyráběl – a vinu nosí dodnes. Říká, že jeden Ludarch možná v Horní Morkezele stále žije.',
         },
         phor_calesta: {
             title: 'Phor Calesta – Divinograf',
@@ -248,8 +248,8 @@ export default {
             description: 'Podle Kloora Venna Biskupka poměrně často navštěvovala Dr. Elphi Quarn.',
         },
         pith_reclaimers_faction: {
-            title: 'Dřeňoví Reklamátoři – Strážci Rovnováhy',
-            description: 'Dřeňoví Reklamátoři se zdají být frakcí oddanou udržování rovnováhy.',
+            title: 'Dřeňoví reklamátoři – strážci rovnováhy',
+            description: 'Dřeňoví reklamátoři jsou zřejmě frakce, které jde o udržení rovnováhy a o to, aby technika nepřerostla lidem přes hlavu. Stojí proti Rezavému chóru – věří, že některé prastaré technologie mají zůstat spát. Z radnice řídí správní aparát města.',
         },
         forgotten_elevator_button_available: {
             title: 'Záhadný Knoflík u Zerren',
@@ -874,7 +874,7 @@ export default {
         },
         edgar_vestigel_received_after_book: {
             title: 'Spisovatelův odznak',
-            description: 'Dnes jsem od Edgara Eskoly v Řvoucím korku získal jeden ze tří vestigelů. Dal mi ho jako poděkování za pomoc s napsáním jeho knihy. Vestigel byl ukrytý uvnitř plyšové hračky, kterou Edgar koupil od pouličního prodavače. Zmínil, že prodavač ho odmítl vzít zpátky, když mu ji nabídl, s odkazem na „profesní čest". Samotný vestigel je malý, ale spletitě vyřezávaný, zjevně cenný pro někoho, kdo zná jeho účel.',
+            description: 'Dnes jsem od Edgara Eskoly ve Řvoucím korku získal jeden ze tří vestigelů. Dal mi ho jako poděkování za pomoc s napsáním jeho knihy. Vestigel byl ukrytý uvnitř plyšové hračky, kterou Edgar koupil od pouličního prodavače. Zmínil, že prodavač ho odmítl vzít zpátky, když mu ji nabídl, s odkazem na „profesní čest". Samotný vestigel je malý, ale spletitě vyřezávaný, zjevně cenný pro někoho, kdo zná jeho účel.',
         },
         perspective_liris: {
             title: 'Liris – hlídka shůry',

@@ -80,7 +80,7 @@ export default {
             description: 'Musím najít způsob, jak se setkat s Rezavým chórem, který sídlí v horních patrech budovy Škrabáku.',
             updates: {
                 talk_to_ravla: 'Měl bych si nejdřív promluvit s Ravlou v hospodě Řvoucí korek.',
-                talked_to_ravla: 'Ravla v Řvoucím korku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
+                talked_to_ravla: 'Ravla ve Řvoucím korku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
                 feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Lift-Mother: „Koroduj". Teď mohu vstoupit do domény Rezavého chóru.',
                 feast_delivered: 'Doručil jsem Rezavou Hostinu Brukkovi v Rezavé Doméně.',
             }
@@ -101,7 +101,7 @@ export default {
             title: 'Rezavá sklizeň',
             description: 'Gnur potřebuje pomoc s vyzvednutím „živého jádra" z nepoužívaných tunelů Kůlny 521, někde za opuštěnou kanceláří.',
             updates: {
-                promise_made: 'Slíbil jsem úředníkovi ve Kůlny 521, že si nebudu zahrávat s živým jádrem.',
+                promise_made: 'Slíbil jsem úředníkovi v Kůlně 521, že na živé jádro nesáhnu. Pro budovu je zřejmě důležitější, než mi Gnur přiznal.',
                 core_delivered: 'Dal jsem Gnurovi živé jádro. Zdá se spokojený.',
                 quest_refused: 'Odmítl jsem Gnurovi pomoct ukrást živé jádro poté, co jsem se dozvěděl o jeho důležitosti.',
             }
@@ -110,13 +110,13 @@ export default {
             title: 'Ruce navíc pro Ortolana',
             description: 'Pomozte Ortolanovi, návrháři deskových her, projít byrokracií Kůlny a získat povolení pro další pár rukou.',
             updates: {
-                deformity_form_clue: 'Úředník mi řekl jít na Registrační úřad pro Formulář o zděděné deformitě.',
-                forge_documents_suggestion: 'Když jsem úředníkovi navrhl padělat dokumenty pro Ortolana, podíval se na mě směsí překvapení a podráždění.',
-                artisan_form_clue: 'Úředník mi řekl jít na Registrační úřad pro Formulář o výjimce pro umělce.',
-                nonverbal_gesture_clue: 'Úředník mi řekl jít na Registrační úřad a udělat co nejlepší neverbální gesto.',
-                ravla_forger_hint: 'Heliodor v Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
-                ravla_forger_agreement: 'Ravla v Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
-                document_obtained: 'Získali jste padělaný Formulář o výjimce pro umělce od Ravly. Doručte ho Ortolanovi na nádvoří Kůlny.',
+                deformity_form_clue: 'Úředník mi řekl, abych šel na Registrační úřad pro Formulář o zděděné deformitě.',
+                forge_documents_suggestion: 'Když jsem úředníkovi navrhl, že dokumenty pro Ortolana zfalšuju, podíval se na mě napůl překvapeně, napůl otráveně. Ale šlo by to? Kde bych našel padělatele?',
+                artisan_form_clue: 'Úředník mi řekl, abych šel na Registrační úřad pro Formulář o výjimce pro umělce.',
+                nonverbal_gesture_clue: 'Úředník mi řekl, abych šel na Registrační úřad a předvedl co nejlepší neverbální gesto. Nejsem si jistý, jestli tomu úplně rozumím...',
+                ravla_forger_hint: 'Heliodor ve Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
+                ravla_forger_agreement: 'Ravla ve Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
+                document_obtained: 'Získal jsi padělaný Formulář o výjimce pro umělce od Ravly. Doruč ho Ortolanovi na nádvoří Kůlny.',
                 bureaucratic_incantation: 'Dutá žena z fronty na registračním úřadě mě naučila podivné byrokratické zaklínadlo.',
                 form_obtained: 'Úspěšně jsem získal formulář pro Ortolana.',
                 partial_progress: 'Získal jsem Dočasné povolení, které by mohlo Ortolanovi pomoct, ale není plně schválené.',

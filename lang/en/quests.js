@@ -102,7 +102,7 @@ export default {
             title: 'Rust Reclamation',
             description: "Gnur needs help recovering a 'living core' from Shed 521's unused tunnels, located somewhere behind the abandoned office.",
             updates: {
-                promise_made: 'I promised the clerk in Shed 521 I will not mess with the living core.',
+                promise_made: 'I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter more to the building than Gnur let on.',
                 core_delivered: 'I have given Gnur the living core. He seems satisfied.',
                 quest_refused: 'I refused to help Gnur steal the living core after learning its importance.',
             }
@@ -111,10 +111,10 @@ export default {
             title: 'Extra Arms for Ortolan',
             description: "Help Ortolan, the board game designer, navigate the Shed's bureaucracy to get approval for an extra pair of arms.",
             updates: {
-                deformity_form_clue: 'The clerk told me to go to the Registration office to retrieve Inherited Deformity Form.',
-                forge_documents_suggestion: 'When I suggest to the clerk to forge the documents for Ortolan, he looked at me with a mix of surprise and annoyance.',
-                artisan_form_clue: "The clerk told me to go to the Registration office to retrieve Artisan's Exemption Form.",
-                nonverbal_gesture_clue: 'The clerk told me to go to the Registration office and do my best with nonverbal gesture.',
+                deformity_form_clue: 'The clerk told me to go to the Registration office to retrieve the Inherited Deformity Form.',
+                forge_documents_suggestion: 'When I suggested forging the documents for Ortolan, the clerk looked at me with a mix of surprise and annoyance. But can it be done? Where could I find a forger?',
+                artisan_form_clue: "The clerk told me to go to the Registration office to retrieve the Artisan's Exemption Form.",
+                nonverbal_gesture_clue: 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...',
                 ravla_forger_hint: 'Heliodor at the Screaming Cork mentioned that Ravla is a skilled document forger.',
                 ravla_forger_agreement: 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.',
                 document_obtained: 'You obtained a forged Artisan\'s Exemption Form from Ravla. Deliver it to Ortolan at the Shed Courtyard.',

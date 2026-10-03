@@ -137,7 +137,7 @@ export default {
         text: "Ravla vzhlédne. 'Hostina je hotova...'"
     },
     heliodor_start: {
-        text: "Heliodor zdvořile přikývne. 'Vítejte v Řvoucím korku...'",
+        text: "Heliodor zdvořile přikývne. 'Vítejte ve Řvoucím korku...'",
         options: {
             who_are_you: "Kdo jste?",
             tell_me_about_this_place: "Řekněte mi o tomhle místě",

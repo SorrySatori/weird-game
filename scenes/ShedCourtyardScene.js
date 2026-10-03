@@ -32,7 +32,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             board_games: {
         
-                text: "You did heard about a thing called a board game, didn't you? Well, I'm a best damn board game designer in this forsaken place. My games are not like the simple things for children you probably know, they provide a unique gameplay experience. With four arms, I can handle complex interactions and manage multiple player states more effectively. But the bureaucracy... it's a nightmare!",
+                text: "You have heard of a thing called a board game, haven't you? Well, I'm the best damn board game designer in this forsaken place. My games are nothing like the simple things for children you probably know; they provide a unique gameplay experience. With four arms, I could handle complex interactions and make more games more efficiently. But the bureaucracy... it's a nightmare!",
                 options: [
                     { text: "I could help you with the application process.", key: 'i_could_help_you_with_the_application_process', next: "start_quest" },
                     { text: "Who are you?", key: 'who_are_you', next: "who_are_you" },
@@ -41,10 +41,10 @@ export default class ShedCourtyardScene extends GameScene {
             },
             who_are_you: {
         
-                text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of table-top divination wars. My creations are literally microcosmic games—wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might heard from some calling me conservative, merely because I reject illusion-tech and mindplay, they are usualy morally unstable. Players are gods, but rules are sacred. ",
+                text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of the Board Games War. My creations are literally microcosmic games — wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might have heard some call me conservative, merely because I reject illusion-tech and mindplay; their makers are usually morally unstable. Players are gods, but rules are sacred.",
                 options: [
                     { text: "Why do you need extra arms?", key: 'why_do_you_need_extra_arms', next: "explain_need" },
-                    { text: "Table top divination wars? What do you mean?", key: 'table_top_divination_wars_what_do_you_mean', next: "divination_wars" },
+                    { text: "The Board Games War? What do you mean?", key: 'table_top_divination_wars_what_do_you_mean', next: "divination_wars" },
                     { text: "Sounds complicated. Good luck!", key: 'sounds_complicated_good_luck', next: "goodbye" }
                 ]
             },
@@ -69,7 +69,6 @@ export default class ShedCourtyardScene extends GameScene {
                             'Extra Arms for Ortolan',
                             'Help Ortolan, the board game designer, navigate the Shed\'s bureaucracy to get approval for an extra pair of arms.'
                         );
-                        this.showNotification('Quest added: Extra Arms for Ortolan');
                     }
                 }
             },
@@ -99,7 +98,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             give_deformity_form: {
-                text: "An Inherited Deformity Form? Hmm, not exactly how I'd describe my need for extra arms, but... it's approved! 'Beneficial mutation status' - I suppose that works. The classification is a bit insulting, but the result is what matters. Thank you for your help!",
+                text: "An Inherited Deformity Form? Hmm, not exactly how I'd describe my need for extra arms, but... it's approved! 'Beneficial mutation status' — I suppose that works. The classification is a bit insulting, but the result is what matters. Thank you for your help!",
                 options: [
                     { text: "It's what I could get.", key: 'its_what_i_could_get', next: "complete_quest_deformity" }
                 ],
@@ -129,31 +128,9 @@ export default class ShedCourtyardScene extends GameScene {
                     this.removeItemFromInventory('temporary-permit');
                 }
             },
-            give_proxy_authorization: {
-        
-                text: "A Proxy Authorization? Interesting approach... This allows you to act on my behalf in bureaucratic matters. Not exactly what I was looking for, but potentially very useful. I could send you to handle future paperwork for me! Clever solution.",
-                options: [
-                    { text: "I can continue to help if needed.", key: 'i_can_continue_to_help_if_needed', next: "complete_quest_proxy" }
-                ],
-                onTrigger: () => {
-                    // Remove the form from inventory
-                    this.removeItemFromInventory('proxy-authorization');
-                }
-            },
-            give_fungal_clearance: {
-        
-                text: "Fungal Research Clearance? I'm not sure how this helps with my extra arms situation... but wait, this might actually work! The mycologists have been experimenting with limb grafting. With this clearance, I could approach them directly about a fungal-based solution. Unconventional, but promising!",
-                options: [
-                    { text: "Sometimes you need to think outside the box.", key: 'sometimes_you_need_to_think_outside_the_box', next: "complete_quest_fungal" }
-                ],
-                onTrigger: () => {
-                    // Remove the form from inventory
-                    this.removeItemFromInventory('fungal-clearance');
-                }
-            },
             // Quest completion dialogs with rewards
             complete_quest_artisan: {
-                text: "You've done me an incredible service! This form is exactly what I needed. As a token of my gratitude, please accept this prototype of my latest game. It's still in development, but the core mechanics are solid. The pieces respond to your thoughts - just be careful what you wish for!",
+                text: "You've done me an incredible service! This form is exactly what I needed. As a token of my gratitude, please accept this prototype of my latest game. It's still in development, but the core mechanics are solid. The pieces respond to your thoughts — just be careful what you wish for!",
                 options: [
                     { text: "Thank you, I'll treasure it.", key: 'thank_you_ill_treasure_it', next: "quest_completed" }
                 ],
@@ -166,10 +143,8 @@ export default class ShedCourtyardScene extends GameScene {
                         description: "A prototype board game with semi-sentient pieces that respond to your thoughts. The rules seem to shift when you're not looking.",
                         stackable: false
                     });
-                    this.showNotification('Received: Ortolan\'s Game Prototype');
                     // Growth reward
                     this.safeModifyGrowthDecay(5, 0);
-                    this.showNotification('Growth +5: Mastered bureaucratic creativity');
                 }
             },
             complete_quest_deformity: {
@@ -187,10 +162,8 @@ export default class ShedCourtyardScene extends GameScene {
                         description: "A strange die crafted by Ortolan that occasionally shows impossible numbers and seems to predict future rolls.",
                         stackable: false
                     });
-                    this.showNotification('Received: Probability-Bending Die');
                     // Growth reward
                     this.safeModifyGrowthDecay(4, 0);
-                    this.showNotification('Growth +4: Embraced beneficial mutation');
                 }
             },
             complete_quest_dispensation: {
@@ -207,15 +180,13 @@ export default class ShedCourtyardScene extends GameScene {
                         description: "A special game piece crafted by Ortolan that can alter the rules of any game it's placed in. It seems to glow faintly with possibility.",
                         stackable: false
                     });
-                    this.showNotification('Received: Worldwright Game Piece');
                     // Growth reward
                     this.safeModifyGrowthDecay(6, 0);
-                    this.showNotification('Growth +6: Transcended bureaucratic limitations');
                 }
             },
             complete_quest_temporary: {
         
-                text: "It's not ideal, but it's a start! I appreciate your efforts. Here, take this token - it's not much, but it might bring you a bit of luck. It's made from a special wood that seems to influence probability slightly in games of chance.",
+                text: "It's not ideal, but it's a start! I appreciate your efforts. Here, take this token — it's not much, but it might bring you a bit of luck. It's made from a special wood that seems to influence probability slightly in games of chance.",
                 options: [
                     { text: "Thank you for the token.", key: 'thank_you_for_the_token', next: "quest_completed" }
                 ],
@@ -227,32 +198,10 @@ export default class ShedCourtyardScene extends GameScene {
                         name: "Minor Luck Token",
                         description: "A simple wooden token crafted by Ortolan that seems to slightly influence probability in games of chance.",
                         stackable: true,
-                        count: 3
+                        quantity: 3
                     });
-                    this.showNotification('Received: 3 Minor Luck Tokens');
                     // Growth reward
                     this.safeModifyGrowthDecay(3, 0);
-                    this.showNotification('Growth +3: Found temporary solutions');
-                }
-            },
-            complete_quest_proxy: {
-                text: "What an interesting solution! This could be very useful for future bureaucratic matters. As thanks, please take this strategy guide I wrote. It contains insights into game design that few understand, and might help you navigate complex systems - bureaucratic or otherwise.",
-                options: [
-                    { text: "I'll study it carefully.", key: 'ill_study_it_carefully', next: "quest_completed" }
-                ],
-                onTrigger: () => {
-                    this.completeQuest('ortolan_arms', 'proxy');
-                    // Add strategy guide to inventory
-                    this.addItemToInventory({
-                        id: 'strategy-guide',
-                        name: "Ortolan's Strategy Guide",
-                        description: "A comprehensive guide to game design and strategy written by Ortolan. It contains insights that seem applicable to many complex systems.",
-                        stackable: false
-                    });
-                    this.showNotification('Received: Ortolan\'s Strategy Guide');
-                    // Growth reward
-                    this.safeModifyGrowthDecay(4, 0);
-                    this.showNotification('Growth +4: Mastered proxy representation');
                 }
             },
             give_forged_permission: {
@@ -268,7 +217,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             forged_reaction: {
-                text: "Well, I suppose I shouldn't look a gift horse in the mouth. This will certainly do the trick - the bureaucrats barely look at these forms anyway. They just check for the right seals and stamps. Though using a forgery does feel... morally questionable.",
+                text: "Well, I suppose I shouldn't look a gift horse in the mouth. This will certainly do the trick — the bureaucrats barely look at these forms anyway. They just check for the right seals and stamps. Though using a forgery does feel... morally questionable.",
                 options: [
                     { text: "It's for a good cause.", key: 'its_for_a_good_cause', next: "complete_quest_forged" },
                     { text: "Sorry about that.", key: 'sorry_about_that', next: "complete_quest_forged" }
@@ -285,8 +234,7 @@ export default class ShedCourtyardScene extends GameScene {
                     this.completeQuest('ortolan_arms', 'forged');
                     
                     // Increase Decay due to using forged documents
-                    this.safeModifyGrowthDecay(0, 15);
-                    this.showNotification('Decay +15: Used forged documents');
+                    this.safeModifyGrowthDecay(0, 10);
                     
                     // Add special game piece to inventory
                     this.addItemToInventory({
@@ -295,37 +243,14 @@ export default class ShedCourtyardScene extends GameScene {
                         description: "A special game piece crafted by Ortolan that seems to subtly influence probability and fate when carried. It glows with a faint, unsettling light.",
                         stackable: false
                     });
-                    this.showNotification('Received: Fate-Altering Game Piece');
-                }
-            },
-            complete_quest_fungal: {
-        
-                text: "What an unexpected solution! The mycologists might be able to help me grow additional arms through fungal grafting. It's not what I had in mind, but I'm intrigued by the possibility. Here, take this special spore sample. It responds to creative thought - plant it somewhere and see what grows!",
-                options: [
-                    { text: "Thank you for this unusual gift.", key: 'thank_you_for_this_unusual_gift', next: "quest_completed" }
-                ],
-                onTrigger: () => {
-                    this.completeQuest('ortolan_arms', 'fungal');
-                    // Add creative spores to inventory
-                    this.addItemToInventory({
-                        id: 'creative-spores',
-                        name: "Creative Thought Spores",
-                        description: "A sample of unusual spores that respond to creative thought. When planted, they grow into structures that reflect the planter's imagination.",
-                        stackable: true,
-                        count: 5
-                    });
-                    this.showNotification('Received: Creative Thought Spores');
-                    // Growth reward
-                    this.safeModifyGrowthDecay(5, 0);
-                    this.showNotification('Growth +5: Embraced fungal innovation');
                 }
             },
             quest_completed: {
-                text: "Thanks to you, I can finally pursue my vision for more complex game design! With these extra arms, my games will reach new heights of complexity and engagement. If you ever want to playtest something, come find me. I'll make sure you get a copy of my next creation!",
+                text: "Thanks to you, I can finally pursue my vision for more complex game design! With these extra arms, my games will reach new heights of complexity and engagement. And of course, when I release my new board game, you'll get it as a gift!",
                 options: [
                     { text: "I'll look forward to it.", key: 'ill_look_forward_to_it', next: "goodbye" },
                     { text: "Tell me more about your games.", key: 'tell_me_more_about_your_games', next: "games_discussion" },
-                    { text: "You mentioned being a worldwright. What were the Board Games Wars?", key: 'you_mentioned_being_a_worldwright_what_were_the_bo', next: "ortolan_board_wars" }
+                    { text: "You mentioned being a worldwright. What was the Board Games War?", key: 'you_mentioned_being_a_worldwright_what_were_the_bo', next: "ortolan_board_wars" }
                 ]
             },
             games_discussion: {
@@ -425,7 +350,7 @@ export default class ShedCourtyardScene extends GameScene {
             if (!this.hasJournalEntry('ortolan_meeting')) {
                 this.addJournalEntry(
                     'ortolan_meeting',
-                    'Ortolan - The Board Game Designer',
+                    'Ortolan — The Board Game Designer',
                     'I met Ortolan, a board game developer. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city\'s labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.',
                     this.journalSystem.categories.PEOPLE,
                     { character: 'Ortolan', location: 'Shed 521 Courtyard' }
@@ -480,44 +405,6 @@ export default class ShedCourtyardScene extends GameScene {
         // Exit area cursor handling is now managed by SceneTransitionManager
     }
     
-    // Helper method to remove an item from inventory
-    removeItemFromInventory(itemId) {
-        const inventory = this.registry.get('inventory');
-        if (!inventory || !inventory.items) return;
-        
-        const itemIndex = inventory.items.findIndex(item => item.id === itemId);
-        if (itemIndex !== -1) {
-            // Remove the item
-            inventory.items.splice(itemIndex, 1);
-            // Update the registry
-            this.registry.set('inventory', inventory);
-        }
-    }
-    
-    // Helper method to add an item to inventory
-    addItemToInventory(item) {
-        const inventory = this.registry.get('inventory');
-        if (!inventory) return;
-        
-        // Check if item is stackable and already exists
-        if (item.stackable) {
-            const existingItem = inventory.items.find(i => i.id === item.id);
-            if (existingItem) {
-                existingItem.count = (existingItem.count || 1) + (item.count || 1);
-                this.registry.set('inventory', inventory);
-                return;
-            }
-        }
-        
-        // Add new item if there's space
-        if (inventory.items.length < inventory.maxItems) {
-            inventory.items.push(item);
-            this.registry.set('inventory', inventory);
-        } else {
-            this.showNotification('Inventory is full!');
-        }
-    }
-    
     // Safe version of modifyGrowthDecay that doesn't rely on the UI indicator
     safeModifyGrowthDecay(growthChange, decayChange) {
         // Get the growth/decay system from registry
@@ -544,7 +431,6 @@ export default class ShedCourtyardScene extends GameScene {
         );
         questSystem.completeQuest(questId);
         // Show notification
-        this.showNotification('Quest completed: Extra Arms for Ortolan');
         
         // Visual celebration effect
         this.createCompletionEffect();
@@ -595,38 +481,30 @@ export default class ShedCourtyardScene extends GameScene {
         const hasDeformityForm = inventory?.items.some(item => item.id === 'deformity-form');
         const hasSpecialDispensation = inventory?.items.some(item => item.id === 'special-dispensation');
         const hasTemporaryPermit = inventory?.items.some(item => item.id === 'temporary-permit');
-        const hasProxyAuthorization = inventory?.items.some(item => item.id === 'proxy-authorization');
-        const hasFungalClearance = inventory?.items.some(item => item.id === 'fungal-clearance');
 
         // Update dialog options based on forms in inventory
         const dialogOptions = [
-            { text: "I'll keep working on it.", next: "goodbye" },
-            { text: "See you later.", next: "goodbye" }
+            { text: "I'll keep working on it.", key: 'ill_keep_working_on_it', next: "goodbye" },
+            { text: "See you later.", key: 'see_you_later', next: "goodbye" }
         ];
 
         // Check for forged document from Ravla
         const hasForgedPermission = inventory?.items.some(item => item.id === 'forged-arms-permission');
         
         if (hasForgedPermission) {
-            dialogOptions.unshift({ text: "I have a forged Multiple Arms Permission for you.", next: "give_forged_permission" });
+            dialogOptions.unshift({ text: "I have a forged Multiple Arms Permission for you.", key: 'i_have_a_forged_multiple_arms_permission_for_you', next: "give_forged_permission" });
         }
         if (hasArtisanForm) {
-            dialogOptions.unshift({ text: "I have an Artisan's Exemption Form for you.", next: "give_artisan_form" });
+            dialogOptions.unshift({ text: "I have an Artisan's Exemption Form for you.", key: 'i_have_an_artisans_exemption_form_for_you', next: "give_artisan_form" });
         }
         if (hasDeformityForm) {
-            dialogOptions.unshift({ text: "I have an Inherited Deformity Form for you.", next: "give_deformity_form" });
+            dialogOptions.unshift({ text: "I have an Inherited Deformity Form for you.", key: 'i_have_an_inherited_deformity_form_for_you', next: "give_deformity_form" });
         }
         if (hasSpecialDispensation) {
-            dialogOptions.unshift({ text: "I have a Special Dispensation for you.", next: "give_special_dispensation" });
+            dialogOptions.unshift({ text: "I have a Special Dispensation for you.", key: 'i_have_a_special_dispensation_for_you', next: "give_special_dispensation" });
         }
         if (hasTemporaryPermit) {
-            dialogOptions.unshift({ text: "I have a Temporary Permit for you.", next: "give_temporary_permit" });
-        }
-        if (hasProxyAuthorization) {
-            dialogOptions.unshift({ text: "I have a Proxy Authorization for you.", next: "give_proxy_authorization" });
-        }
-        if (hasFungalClearance) {
-            dialogOptions.unshift({ text: "I have a Fungal Research Clearance for you.", next: "give_fungal_clearance" });
+            dialogOptions.unshift({ text: "I have a Temporary Permit for you.", key: 'i_have_a_temporary_permit_for_you', next: "give_temporary_permit" });
         }
 
         // Set the dialog options

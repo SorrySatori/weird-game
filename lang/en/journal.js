@@ -225,12 +225,12 @@ export default {
             description: 'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
         },
         ortolan_meeting: {
-            title: 'Ortolan - The Board Game Designer',
-            description: 'I met Ortolan, a board game developer.',
+            title: 'Ortolan — The Board Game Designer',
+            description: "I met Ortolan, a board game developer. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city's labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.",
         },
         board_games_war: {
             title: 'The Board Games War',
-            description: 'After the Old Wars, cities settled disputes through games.',
+            description: 'Ortolan Šmelc told me about the Board Games War. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
         },
         phor_calesta: {
             title: 'Phor Calesta - Divinographer',
@@ -249,8 +249,8 @@ export default {
             description: 'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often.',
         },
         pith_reclaimers_faction: {
-            title: 'The Pith Reclaimers - Keepers of Balance',
-            description: 'The Pith Reclaimers appear to be a faction dedicated to maintaining balance.',
+            title: 'The Pith Reclaimers — Keepers of Balance',
+            description: "The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant. They run the city's administrative apparatus from the Townhall.",
         },
         forgotten_elevator_button_available: {
             title: "Mysterious Button at Zerren's Shop",

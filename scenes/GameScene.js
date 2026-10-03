@@ -1432,7 +1432,7 @@ export default class GameScene extends Phaser.Scene {
         if (!this.hasJournalEntry || this.hasJournalEntry('pith_reclaimers_faction')) return;
         this.addJournalEntry(
             'pith_reclaimers_faction',
-            'The Pith Reclaimers - Keepers of Balance',
+            'The Pith Reclaimers — Keepers of Balance',
             'The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant. They run the city\'s administrative apparatus from the Townhall.',
             this.journalSystem.categories.FACTIONS,
             { faction: 'Pith Reclaimers' }

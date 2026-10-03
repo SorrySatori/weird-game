@@ -6,6 +6,7 @@ export default class ShedApplicationsScene extends GameScene {
         super({ key: 'ShedApplicationsScene' });
         this.isTransitioning = false;
         this.visitedDialogs = new Set();
+        this._rewarded = new Set();
         this._dialogTextCache = {}; // Cache for dynamic dialog text
     }
 
@@ -15,14 +16,14 @@ export default class ShedApplicationsScene extends GameScene {
             ...super.dialogContent,
             speaker: 'Clerk',
             start: {
-                text: "(The clerk shuffles through a stack of papers, barely looking up)\nWelcome to Shed521 Applications. Forms in triplicate, please. No exceptions.",
+                text: "(The clerk shuffles through a stack of papers, barely looking up)\nWelcome to Shed 521 Applications. Forms in triplicate, please. No exceptions.",
                 options: [
-                    { text: "Tell me about Shed521", key: 'tell_me_about_shed521', next: "about_shed" },
+                    { text: "Tell me about Shed 521", key: 'tell_me_about_shed521', next: "about_shed" },
                     { text: "What's your role here?", key: 'whats_your_role_here', next: "clerk_role" },
                 ]
             },
             about_shed: {
-                text: "Shed521? (adjusts glasses) One of our most... productive facilities. It used to be just an ordinary warehouse, a storage, you kno. But now... it's much more. It's a place where... things happen. (smiles) Bureaucracy is really alive here, it flows like a river. It gives purpose to things, to every action, every decision. (puts away papers) We can be so productive and happy here.",
+                text: "Shed 521? (adjusts glasses) One of our most... productive facilities. It used to be just an ordinary warehouse, a storage, you know. But now... it's much more. It's a place where... things happen. (smiles) Bureaucracy is really alive here, it flows like a river. It gives purpose to things, to every action, every decision. (puts away papers) We can be so productive and happy here.",
                 options: [
                     { text: "That sounds like a lot of paperwork", key: 'that_sounds_like_a_lot_of_paperwork', next: "paperwork" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
@@ -49,49 +50,38 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             lie_living_core: {
-                text: "(Straightens papers disapprovingly) Very well. But remember - proper protocols exist for a reason. Don't you even think about messing with the living core. People usually think it's just a relict, but it is crucial for the Shed's energy maintenance.",
+                text: "(Straightens papers disapprovingly) Very well. But remember — proper protocols exist for a reason. Don't you even think about messing with the living core. People usually think it's just a relict, but it is crucial for the Shed's energy maintenance.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
-                onShow: () => {
-                    this.modifyGrowthDecay(0, 2);
-                    this.showNotification('Decay +2');
-                }
+                onShow: () => this.once('lie_living_core', () => this.modifyGrowthDecay(0, 2))
             },
             expose_gnur: {
-                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right for such technology. (puts away papers) Please promise to not mess with the living core.",
+                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. (puts away papers) Please promise to not mess with the living core.",
                 options: [
                     { text: "I promise to leave it alone", key: 'i_promise_to_leave_it_alone', next: "promise_made" },
                     { text: "I'll think about it", key: 'ill_think_about_it', next: "no_promise" }
                 ],
             },
             promise_made: {
-                text: "(Visibly relieved) Good... good. The Pith Reclaimers will remember this. What Gnur promised you for the living core?",
+                text: "(Visibly relieved) Good... good. The Pith Reclaimers will remember this. What did Gnur promise you for the living core?",
                 options: [
-                    { text: "He promised me a to tell where to find the Bishop", key: 'he_promised_me_a_to_tell_where_to_find_the_bishop', next: "bishop_location" },
+                    { text: "He promised to tell me where to find the Bishop", key: 'he_promised_me_a_to_tell_where_to_find_the_bishop', next: "bishop_location" },
                     { text: "Sorry, but that's private information", key: 'sorry_but_thats_private_information', next: "private"},
                     { text: "Who are the Pith Reclaimers?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                 ],
-                onShow: () => {
-                    const factionSystem = this.registry.get('factionSystem');
-                
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('PithReclaimers', 20);
-                        this.showNotification('Pith Reclaimers Reputation +20');
-                    }
+                onShow: () => this.once('promise_made', () => {
+                    this.modifyFactionReputation('PithReclaimers', 20);
                     this.modifyGrowthDecay(2, 0);
-                    this.showNotification('Growth +2');
-
                     const questSystem = this.registry.get('questSystem');
-                    if (questSystem) {
+                    if (questSystem?.getQuest('rust_reclamation')) {
                         questSystem.updateQuest(
-                            'rust_reclamation', 
-                            'I promised the clerk in Shed 521 I will not mess with the living core. It seems it is more important for the building than Gnur told me.',
-                            'promise_made' // Adding a key to identify this specific update
+                            'rust_reclamation',
+                            'I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter more to the building than Gnur let on.',
+                            'promise_made'
                         );
-                        this.showNotification('Quest updated: Rust Reclamation');
                     }
-                }
+                })
             },
             bishop_location: {
                 text: "The Bishop? Hmm... I can't tell you where she is. But look for Edgar Eskola at the Screaming Cork tavern. I think he might know something.",
@@ -104,7 +94,6 @@ export default class ShedApplicationsScene extends GameScene {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('find_bishop')) {
                         questSystem.updateQuest('find_bishop', 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.', 'edgar_eskola_clue');
-                        this.showNotification('Quest updated: Find the Bishop');
                     }
                 }
             },
@@ -121,23 +110,18 @@ export default class ShedApplicationsScene extends GameScene {
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
                 onShow: () => {
-                    const factionSystem = this.registry.get('factionSystem');
-
-                    if (factionSystem) {
-                        factionSystem.modifyReputation('PithReclaimers', 20);
-                        this.showNotification('Pith Reclaimers Reputation +20');
-                    }
+                    this.once('pith_reclaimers', () => this.modifyFactionReputation('PithReclaimers', 20));
                     this.learnPithReclaimers();
                 }
             },
             edgar: {
-                text: "Edgar Eskola? (raises eyebrow). He is one of the mišutkenn. Heard about them? They are semi-ursine, sentient humanoids with patchy fur, deep-set amber eyes, and dream-reactive physiology. Usually gentle souls, but they can be... unpredictable.",
+                text: "Edgar Eskola? (raises eyebrow) He is one of the mišutkenn. Heard about them? They are semi-ursine, sentient humanoids with patchy fur, deep-set amber eyes, and dream-reactive physiology. Usually gentle souls, but they can be... unpredictable.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             no_promise: {
-                text: "(Straightens papers disapprovingly) Very well. But remember - proper protocols exist for a reason.",
+                text: "(Straightens papers disapprovingly) Very well. But remember — proper protocols exist for a reason.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
@@ -175,8 +159,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Inherited Deformity Form.', 'deformity_form_clue');
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve the Inherited Deformity Form.', 'deformity_form_clue');
                     }
                 }
             },
@@ -188,8 +171,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'When I suggest to the clerk to forge the documents for Ortolan, he looked at me with a mix of surprise and annoyance. But can it be done? Where can I find some forger?', 'forge_documents_suggestion');
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                        questSystem.updateQuest('ortolan_arms', 'When I suggested forging the documents for Ortolan, the clerk looked at me with a mix of surprise and annoyance. But can it be done? Where could I find a forger?', 'forge_documents_suggestion');
                     }
                 }
             },
@@ -203,15 +185,14 @@ export default class ShedApplicationsScene extends GameScene {
                 ],
             },
             ortolan_renew: {
-                text: "Only with a performance. Go ask to the Registration office.",
+                text: "Only with a performance. Go ask at the Registration office.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve Artisan\'s Exemption Form.', 'artisan_form_clue');
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve the Artisan\'s Exemption Form.', 'artisan_form_clue');
                     }
                 }
             },
@@ -231,8 +212,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onShow: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
-                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office and do my best with nonverbal gesture. I am not sure if I understand completely... ', 'nonverbal_gesture_clue');
-                        this.showNotification('Quest updated: Ortolan Arms Investigation');
+                        questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...', 'nonverbal_gesture_clue');
                     }
                 }
             },
@@ -249,21 +229,35 @@ export default class ShedApplicationsScene extends GameScene {
         const questSystem = this.registry.get('questSystem');
 
         if (questSystem) {
-            if (questSystem.getQuest('rust_reclamation') && !this.visitedDialogs.has('living_core_inquiry')) {
+            // The topics stay available until the player actually reached an outcome (a promise, a
+            // refusal, a lie / one of the three form clues) — not merely opened the topic once.
+            const livingCoreSettled = ['lie_living_core', 'promise_made', 'no_promise'].some(k => this.visitedDialogs.has(k));
+            if (questSystem.getQuest('rust_reclamation') && !livingCoreSettled) {
                 content.start.options.splice(1, 0, {
                     text: "What do you know about the living core?",
+                    key: 'what_do_you_know_about_the_living_core',
                     next: "living_core_inquiry"
                 });
             }
-            if (questSystem.getQuest('ortolan_arms') && !this.visitedDialogs.has('ortolan_inquiry')) {
+            const ortolanClueGiven = (questSystem.getQuest('ortolan_arms')?.updates || [])
+                .some(u => ['deformity_form_clue', 'artisan_form_clue', 'nonverbal_gesture_clue'].includes(u.key));
+            if (questSystem.getQuest('ortolan_arms') && !ortolanClueGiven) {
                 content.start.options.splice(1, 0, {
-                    text: "How can I register for extra pair of arms?",
+                    text: "How can I register for an extra pair of arms?",
+                    key: 'how_can_i_register_for_extra_pair_of_arms',
                     next: "ortolan_inquiry"
                 });
             }
         }
         return content;
 
+    }
+
+    /** Run a side effect only the first time its key is seen in this scene instance. */
+    once(key, fn) {
+        if (this._rewarded.has(key)) return;
+        this._rewarded.add(key);
+        fn();
     }
 
     showDialog(dialogKey) {

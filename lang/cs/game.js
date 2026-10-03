@@ -56,9 +56,7 @@ export default {
         'probability-die': { name: 'Kostka ohýbající pravděpodobnost', description: 'Podivná kostka z Ortolanovy dílny, na které občas padnou nemožná čísla a která jakoby předvídala příští hody.' },
         'worldwright-piece': { name: 'Figurka Světotvůrce', description: 'Zvláštní herní figurka z Ortolanovy dílny, která dokáže změnit pravidla jakékoli hry, do níž ji postavíš. Slabě září možnostmi.' },
         'luck-token': { name: 'Drobný žeton štěstí', description: 'Prostý dřevěný žeton z Ortolanovy dílny, který jakoby lehce nakláněl pravděpodobnost v hazardních hrách.' },
-        'strategy-guide': { name: 'Ortolanova příručka strategie', description: 'Obsáhlá příručka herního designu a strategie z Ortolanova pera. Její postřehy se dají uplatnit na kdejaký složitý systém.' },
         'fate-altering-piece': { name: 'Figurka měnící osud', description: 'Zvláštní herní figurka z Ortolanovy dílny, která podle všeho nenápadně ovlivňuje pravděpodobnost i osud toho, kdo ji nosí. Vydává slabé, znepokojivé světlo.' },
-        'creative-spores': { name: 'Spory tvůrčí myšlenky', description: 'Vzorek neobvyklých spor, které reagují na tvůrčí myšlení. Když se zasadí, vyrostou z nich stavby odrážející představivost toho, kdo je zasadil.' },
         'living-core': { name: 'Živé jádro', description: 'Pulzující jádro z živého kovu, násilím vyrvané z Kůlny.', descriptions: { careful: 'Pulzující jádro z živého kovu, opatrně vyjmuté z Kůlny.' } },
         'rulebook-fragment': { name: 'Útržek pravidel', description: 'Vytržená stránka z nedokončených pravidel nějaké hry. Popisuje mechaniku výměny vzpomínek.' },
         'silent-sentence': { name: 'Tichá věta', description: 'Prázdná kartička, která přesto nese význam. Může se hodit, až dojdou slova.' },
@@ -101,8 +99,8 @@ export default {
     },
 
     factions: {
-        RustChoir: 'Chór Rzi',
-        PithReclaimers: 'Dřeňoví Reklamátoři',
+        RustChoir: 'Rezavý chór',
+        PithReclaimers: 'Dřeňoví reklamátoři',
         LumenDirectorate: 'Lumen Direktorát',
     },
 
