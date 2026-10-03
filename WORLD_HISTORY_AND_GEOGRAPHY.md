@@ -129,6 +129,8 @@ Once Nexicorp Tower, 42 floors of corporate glass and steel, now a vertical slum
 - **Floor 177-Quiet**: Dr. Elphi Quarn's dream development studio (ARB Ambra), accessible only through the Lift-Mother with special permission.
 - **The Scraper Backyard**: An old transit yard behind the building, abandoned decades ago. Overgrown with peculiar moss that has "mnemonic properties." Contains the abandoned bus where the Bishop was found dead.
 
+**Floor 177-Loud** — exists, is not sealed, and nobody has asked for it in all this time; the Lift-Mother lost its button first and "nobody misses it" (canon 2026-10-03, a joke counterpart to 177-Quiet; CZ „177-Hlasité").
+
 **The Lift-Mother** — A sentient elevator that developed consciousness through exposure to spores late in the Before-Time; she existed as an ordinary elevator long before that and her total age is unknown. She served since the Before-Time, gradually awakening from simple sensations to full understanding as the city transformed. Warm and maternal, she remembers the old corporate world of "quarterly projections" and "market volatility." Her connections have decayed; she can now only reach the lobby, Floor 177-Quiet (with permission), and the Rust Domain (with the password "Corrode").
 
 ---

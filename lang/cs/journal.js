@@ -48,8 +48,8 @@ export default {
             description: 'Tělo Biskupky vykazuje známky neurálního traumatu – modřiny na spáncích, kde se připojují zařízení snového rozhraní.',
         },
         bishop_cartridge: {
-            title: 'Kardinálská Hostina',
-            description: 'Biskupka používala snovou kazetu nazvanou „Kardinálská Hostina", když zemřela.',
+            title: 'Kardinálova hostina',
+            description: 'Biskupka používala snovou kazetu nazvanou „Kardinálova hostina", když zemřela.',
         },
         bishop_helmet: {
             title: 'Helma Snového Rozhraní',
@@ -141,7 +141,7 @@ export default {
         },
         accessed_elphi_floor: {
             title: 'Studio Dr. Elphi – patro 177-Tiché',
-            description: 'Získal jsem přístup do studia Dr. Elphi Quarn v patře 177-Tiché ve Škrabáku 1140. Na tomhle uzavřeném patře vyvíjí své snové hry a možná tu najdu stopy k tomu, kde je Biskupka.',
+            description: 'Získal jsem přístup do studia Dr. Elphi Quarn v patře 177-Tichém ve Škrabáku 1140. Na tomhle uzavřeném patře vyvíjí své snové hry a možná tu najdu stopy k tomu, kde je Biskupka.',
         },
         rust_choir_info: {
             title: 'Sídlo Rezavého chóru',
@@ -164,8 +164,8 @@ export default {
             description: 'Dr. Elphi potvrdila, že modřiny odpovídají neurálnímu zpětnému rázu.',
         },
         elphi_cartridge_analysis: {
-            title: 'Analýza Dr. Elphi: Kardinálská Hostina',
-            description: 'Dr. Elphi prozkoumala kazetu Kardinálské Hostiny.',
+            title: 'Analýza Dr. Elphi: Kardinálova hostina',
+            description: 'Dr. Elphi prozkoumala kazetu Kardinálovy hostiny.',
         },
         elphi_helmet_analysis: {
             title: 'Analýza Dr. Elphi: Snová Helma',
@@ -313,7 +313,7 @@ export default {
         },
         floor_counter_tool: {
             title: 'Kalibrační nástroj výtahu',
-            description: 'Kapitánka Liris mi dala speciální kalibrační nástroj na opravu rozbitého počítadla pater v systému Lift-Mother. Tohle symbiotické rozhraní propojuje starou elektroniku s novými myceliálními sítěmi, takže se dostanu i na uzavřená patra, jako je studio Dr. Elphi na patře 177-Tiché.',
+            description: 'Kapitánka Liris mi dala speciální kalibrační nástroj na opravu rozbitého počítadla pater v systému Lift-Mother. Tohle symbiotické rozhraní propojuje starou elektroniku s novými myceliálními sítěmi, takže se dostanu i na uzavřená patra, jako je studio Dr. Elphi na patře 177-Tichém.',
         },
         met_gardener_verrik: {
             title: 'Setkání se Zahradníkem Verrikem',
@@ -662,7 +662,7 @@ export default {
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
-            description: 'Dr. Elphi Quarn pracuje sama v patře 177-Tiché ve Škrabáku, ve studiu zvaném ARB Ambra. Navrhuje sny – neurofikce, snová prostředí, hry, které se nosí na hlavě. Ostrá, obezřetná a věčně zkouší každého, kdo vejde. Biskupka za ní chodila často, vždy jen hrát, nikdy kvůli politice.',
+            description: 'Dr. Elphi Quarn pracuje sama v patře 177-Tichém ve Škrabáku, ve studiu zvaném ARB Ambra. Navrhuje sny – neurofikce, snová prostředí, hry, které se vyvíjejí ze snů profesionálních sníčů. Inteligentní, obezřetná, nebere si servítky. Biskupka za ní chodila často, vždy jen hrát, nikdy kvůli politice.',
         },
         met_ravla: {
             title: 'Ravla',
@@ -694,7 +694,7 @@ export default {
         },
         found_dead_bishop: {
             title: 'Osud Biskupky',
-            description: 'Našel jsem Biskupku v opuštěném autobusu za budovou Scraperu. Její tělo nenese žádné zjevné známky násilí, ale na spáncích má modřiny poblíž bodů neurálního rozhraní. Poblíž leželo snové zařízení s kazetou označenou „Kardinálská hostina“, spolu s jejím deníkem a dalšími osobními věcmi. Tohle nevypadá jako přirozená smrt.',
+            description: 'Našel jsem Biskupku v opuštěném autobusu za budovou Scraperu. Její tělo nenese žádné zjevné známky násilí, ale na spáncích má modřiny poblíž bodů neurálního rozhraní. Poblíž leželo snové zařízení s kazetou označenou „Kardinálova hostina“, spolu s jejím deníkem a dalšími osobními věcmi. Tohle nevypadá jako přirozená smrt.',
         },
         grave_sense_bishop_body: {
             title: 'Hrobový smysl: Poslední okamžik Biskupky',
@@ -822,15 +822,15 @@ export default {
         },
         day1_complete_slept: {
             title: 'Den 1 dokončen: Odpočinek v ARB Ambra',
-            description: 'První den jsem zakončil v ateliéru Dr. Elphi v ARB Ambra. Poté, co jsem podal hlášení o všem z Radnice – o šíleném básníkovi, propuštěném úředníkovi a Biskupčině ztraceném zápisníku – jsem usnul v její péči. Zítra bude mít připravenou zrekonstruovanou kazetu Kardinálské hostiny a pátrání po Biskupčině zápisníku začne doopravdy.',
+            description: 'První den jsem zakončil v ateliéru Dr. Elphi v ARB Ambra. Poté, co jsem podal hlášení o všem z Radnice – o šíleném básníkovi, propuštěném úředníkovi a Biskupčině ztraceném zápisníku – jsem usnul v její péči. Zítra bude mít připravenou zrekonstruovanou kazetu Kardinálovy hostiny a pátrání po Biskupčině zápisníku začne doopravdy.',
         },
         elphi_day1_report: {
             title: 'Hlášení Dr. Elphi',
-            description: 'Vrátil jsem se k Dr. Elphi a podal hlášení o všem z Radnice: o čtení šíleného básníka, o propuštěném úředníkovi a o odhalení, že Biskupčino memo o dvojníkovi byla vytržená stránka deníku z chybějícího úředního zápisníku. Elphi potvrdila, že do rána bude mít kazetu Kardinálské hostiny zrekonstruovanou. Trvala na tom, abych přenocoval v ARB Ambra.',
+            description: 'Vrátil jsem se k Dr. Elphi a podal hlášení o všem z Radnice: o čtení šíleného básníka, o propuštěném úředníkovi a o odhalení, že Biskupčino memo o dvojníkovi byla vytržená stránka deníku z chybějícího úředního zápisníku. Elphi potvrdila, že do rána bude mít kazetu Kardinálovy hostiny zrekonstruovanou. Trvala na tom, abych přenocoval v ARB Ambra.',
         },
         infinite_loop_ortolan_lead: {
             title: 'Nekonečné Skládání',
-            description: 'Když jsem Dr. Elphi popsal chybný konec Kardinálské hostiny, zbledla. "Nekonečné Skládání" byla stará experimentální hra, kterou před lety vytvořila s Ortolanem – vládci města ji zavřeli jako příliš nebezpečnou a nepředvídatelnou. Ona a Ortolan se pak rozešli ve sporu o vládu nad hrami a od té doby spolu nemluví. Přísahá, že ji na kazetu nedala, a říká, že mám vyhledat Ortolana – přestěhoval se na Ulici hořícího medvěda – protože ten by věděl, jestli nějaká kopie přežila.',
+            description: 'Když jsem Dr. Elphi popsal chybný konec Kardinálovy hostiny, zbledla. "Nekonečné Skládání" byla stará experimentální hra, kterou před lety vytvořila s Ortolanem – vládci města ji zavřeli jako příliš nebezpečnou a nepředvídatelnou. Ona a Ortolan se pak rozešli ve sporu o vládu nad hrami a od té doby spolu nemluví. Přísahá, že ji na kazetu nedala, a říká, že mám vyhledat Ortolana – přestěhoval se na Ulici hořícího medvěda – protože ten by věděl, jestli nějaká kopie přežila.',
         },
         perspective_elphi: {
             title: 'Pohled Dr. Elphi: Věc, kterou stvořila',

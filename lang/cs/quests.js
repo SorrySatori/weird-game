@@ -13,8 +13,8 @@ export default {
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
                 got_floor_counter_tool: 'Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Lift-Mother, což by mi mělo umožnit přístup do studia Dr. Elphi.',
-                lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tiché.',
-                reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Tiché. Teď musím najít stopy po Biskupce.',
+                lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tichém.',
+                reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Tichém. Teď musím najít stopy po Biskupce.',
                 check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku za Škrabákem. Měl bych se tam podívat.',
                 found_elevator_button: 'Našel jsem Zapomenutý Výtahový Knoflík u Zerren, který mi může pomoct dostat se na patro Dr. Elphi.',
                 guard_voxmarket: 'Voxmarket je zvukové tržiště, kde se obchoduje s nahranými hlasy a zvuky. Biskupka by tam mohla být k nalezení.',
@@ -26,7 +26,7 @@ export default {
             description: 'Našel jsem Biskupku mrtvou v opuštěném autobusu za budovou Škrabáku. Její tělo nevykazuje téměř žádné známky násilí. Měl bych vyšetřit, kdo by mohl být zodpovědný za její smrt.',
             updates: {
                 dead_bishop_bruising: 'Prohlédl jsem tělo Biskupky a našel modřiny na spáncích, kde se připojují rozhraní snových zařízení.',
-                dead_bishop_cartridge: 'Před smrtí Biskupka zřejmě hrála hru nazvanou „Kardinálská Hostina".',
+                dead_bishop_cartridge: 'Před smrtí Biskupka zřejmě hrála hru nazvanou „Kardinálova hostina".',
                 dead_bishop_helmet: 'Biskupka zemřela v snové helmě vlastní výroby – elektronika z trhu poskládaná kolem staré předválečné čočky, bez jakýchkoli studiových pojistek.',
                 dead_bishop_journal: 'Před smrtí Biskupka zřejmě psala do svého deníku... „Město mě už neslyší. Možná to dokážou sny."',
                 dead_bishop_notebook: 'Našel jsem podivnou poznámku... „Vešla jsem do zpovědnice, ale ona tam už byla. Vypadala jako já..."',
@@ -39,7 +39,7 @@ export default {
                 ac_tamper_hint: 'Korektor Úhlu naznačil, že zmanipulované Mručenky by mohly způsobit neurální trauma odpovídající stavu Biskupky.',
                 elphi_dream_kill: 'Dr. Elphi potvrdila, že poškozená snová kazeta může způsobit smrt přetížením neurální soustavy – „smrt rekurzivním zážitkem".',
                 elphi_bruising: 'Dr. Elphi potvrdila, že modřiny naznačují zpětnou vlnu ze snové relace bez bezpečnostních omezovačů.',
-                elphi_cartridge: 'Dr. Elphi potvrdila, že Kardinálská Hostina je normální hra – to kanibalistické RPG s ještěry. Ale data relace ukazují katastrofální selhání.',
+                elphi_cartridge: 'Dr. Elphi potvrdila, že Kardinálova hostina je normální hra – to kanibalistické RPG s ještěry. Ale data relace ukazují katastrofální selhání.',
                 elphi_helmet: 'Dr. Elphi poznala, že helma je Biskupčina vlastní práce – její návrh okopírovaný z paměti, díly z Voxmarketu, předválečná čočka. Bez jediného omezovače: vypálený port znamená, že zpětná vazba šla do mozku bez zábran.',
                 elphi_memo: 'Dr. Elphi nedokázala vysvětlit dvojníka z poznámky Biskupky. Není to známý vedlejší efekt snové technologie.',
                 elphi_townhall_log: 'Setkání Biskupky s dvojníkem bylo formálně zaznamenáno na Radnici. Archivní úředník by mohl mít kopii.',
@@ -51,7 +51,7 @@ export default {
                 kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky – čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
                 heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté – žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
                 townhall_notebook_revelation: 'Radniční úředník odhalil, že Biskupčina poznámka o dvojníkovi byla osobní zápis v Oficiálním radničním reportním zápisníku. Chybějící zápisník je teď nejsilnější stopa.',
-                elphi_day1_complete: 'Probral jsem všechny stopy s Dr. Elphi. Pracuje na opravě kazety Kardinálské Hostiny.',
+                elphi_day1_complete: 'Probral jsem všechny stopy s Dr. Elphi. Pracuje na opravě kazety Kardinálovy hostiny.',
             }
         },
         find_bishop_notebook: {
@@ -154,7 +154,7 @@ export default {
         },
         level_177_access: {
             title: 'Přístup na Úroveň 177',
-            description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Tiché v budově Škrabáku.',
+            description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Tichém v budově Škrabáku.',
         },
         edgar_book: {
             title: 'Pomoct Edgarovi napsat knihu',

@@ -23,7 +23,7 @@ export default {
         },
     },
     scraperAmbra: {
-        elphiPresent: 'Dr. Elphi is working at her console',
+        elphiPresent: 'Dr. Elphi is working at her terminal',
     },
     skyship: {
         toolObtained: 'Obtained: Elevator Calibration Tool',
@@ -72,7 +72,7 @@ export default {
         'townhall-key': { name: 'Townhall Key', description: 'An unofficial spare key from Seldo Thrice-Corrected. It opens a side entrance to the Townhall.' },
         corrosive_cultivar: { name: 'Corrosive Cultivar', description: 'A restricted Lumen Directorate plant — a controlled rot bred to devour metal. Ground into oil and fed to a machine, it corrodes it from the inside. Handle with care.' },
         redmass: { name: 'Living Redmass', description: 'A piece of living metal, torn from a sentient crystalline organism. It still vibrates faintly, as if screaming.', names: { magnekin: 'Magnekin Redmass' }, descriptions: { willing: 'A shard of living metal, given willingly by a sentient crystalline organism. It hums gently, at peace.', magnekin: 'A pulsing crimson mass that once held the collective consciousness of thousands.' } },
-        scraper_backyard_key: { name: 'Backyard Key', description: 'A key to the Scraper 1140 backyard. It seems to glow faintly with possibility.' },
+        scraper_backyard_key: { name: 'Backyard Key', description: 'A key to the Scraper 1140 backyard. It seems to glow faintly.' },
         'forged-arms-permission': { name: 'Forged Multiple Arms Permission', description: "A convincing forgery of an Artisan's Exemption Form that would allow the bearer to legally possess multiple arms for specialized work." },
         rust_feast: { name: 'Rust Feast', description: 'A ceremonial meal prepared for the Rust Choir machines. A foul-smelling concoction of oil, metal shavings, and living redmass. The container rattles faintly, as if something inside is still alive.', descriptions: { thin: 'A ceremonial meal prepared for the Rust Choir machines. Thin, barely adequate — a small shard of redmass mixed with oil and metal dust. It hums softly.', illusory: 'A ceremonial meal prepared for the Rust Choir machines. Oil, metal shavings, and what appears to be living redmass — but you know the truth. The container hums faintly, but something feels hollow.', laced: 'A ceremonial meal for the Rust Choir machines — oil, metal shavings, and living redmass. Laced, unseen, with a Lumen Directorate cultivar ground into the oil. It rattles like any other feast. It is not.' } },
         vestigel: { name: "Writer's Vestigel", description: 'A small, intricately carved token that Edgar found hidden inside a plush toy. It seems to have some mysterious significance.' },

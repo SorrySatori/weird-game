@@ -73,7 +73,7 @@ export default class ScraperInteriorScene extends GameScene {
                 }
             },
             lift_mother_floors: {
-                text: "Ah, little one, I would if I could. But a lot of the floors are password-protected or have been sealed off for security reasons after the Egg Emergence, and I'm not allowed to go there. Now I spend a lot of time on the ground floor. Sometimes I hear movement on the upper floors... On top of that, my floor counter isn't working, and I think I've lost some of the buttons, too. I have trouble getting to certain floors.",
+                text: "Ah, little one, I would if I could. But a lot of the floors are password-protected or have been sealed off for security reasons after the Egg Emergence, and I'm not allowed to go there. Now I spend a lot of time on the ground floor. Sometimes I hear movement on the upper floors... On top of that, my floor counter isn't working, and I think I've lost some of the buttons, too. The 177-Loud button was the first to go. Nobody misses it. I have trouble getting to certain floors.",
                 options: [
                     { text: "What happened during the Egg Emergence?", key: 'what_happened_during_the_egg_emergence', next: "lift_mother_egg" },
                     { text: "What movements do you hear?", key: 'what_movements_do_you_hear', next: "lift_mother_movements" },
@@ -96,7 +96,7 @@ export default class ScraperInteriorScene extends GameScene {
             },
             
             lift_mother_elphi_floor: {
-                text: "Level 177-Quiet is sealed. Dr. Elphi asked me not to let anyone in, unless it's somebody with a pre-booked meeting. Or in case of utter importance.",
+                text: "Level 177-Quiet is sealed. Dr. Elphi asked me not to let anyone in, unless it's somebody with a pre-booked meeting. Or in case of utter importance. 177-Loud isn't sealed, mind you — but nobody has asked for it in all this time.",
                 options: [
                     ...(hasElevatorButton ? [{
                         text: "I have a button that belongs here. Maybe it's been lost? I will return it to you if you let me access Dr. Elphi's floor.",

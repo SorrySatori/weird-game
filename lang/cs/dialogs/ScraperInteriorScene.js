@@ -23,7 +23,7 @@ export default {
         }
     },
     lift_mother_floors: {
-        text: "Ach, můj malý hříbku, ráda bych, kdybych mohla. Spousta pater je ale zaheslovaná nebo byla zapečetěna kvůli bezpečnosti po Objevení Vejce a mám zakázáno tam jezdit. Teď trávím spoustu času v přízemí. Někdy slyším v horních patrech nějaký pohyb... Navíc mi nefunguje počítadlo pater a myslím, že jsem ztratila i některá tlačítka. Mám problém trefit se na určitá patra.",
+        text: "Ach, můj malý hříbku, ráda bych, kdybych mohla. Spousta pater je ale zaheslovaná nebo byla zapečetěna kvůli bezpečnosti po Objevení Vejce a mám zakázáno tam jezdit. Teď trávím spoustu času v přízemí. Někdy slyším v horních patrech nějaký pohyb... Navíc mi nefunguje počítadlo pater a myslím, že jsem ztratila i některá tlačítka. Tlačítko 177-Hlasité jsem ztratila jako první. Nikomu nechybí. Mám problém trefit se na určitá patra.",
         options: {
             what_happened_during_the_egg_emergence: "Co se stalo během Objevení Vejce?",
             what_movements_do_you_hear: "Jaké pohyby slyšíš?",
@@ -45,7 +45,7 @@ export default {
         }
     },
     lift_mother_elphi_floor: {
-        text: "Patro 177-Tiché je zapečetěné. Dr. Elphi mě požádala, abych nikoho nepouštěla – leda někoho s předem domluvenou schůzkou. Nebo v případě krajní naléhavosti.",
+        text: "Patro 177-Tiché je zapečetěné. Dr. Elphi mě požádala, abych nikoho nepouštěla – leda někoho s předem domluvenou schůzkou. Nebo v případě krajní naléhavosti. 177-Hlasité zapečetěné není – ale o to za celou tu dobu nikdo nepožádal.",
         options: {
             i_have_a_button_that_belongs_here_maybe_its_been_l: "Mám tlačítko, které sem patří. Možná se ztratilo? Vrátím ti ho, když mě pustíš na patro Dr. Elphi.",
             ive_a_tool_to_repair_your_floor_counter_perhaps_yo: "Mám nástroj na opravu tvého počítadla pater. Pustila bys mě na oplátku na patro Dr. Elphi?",

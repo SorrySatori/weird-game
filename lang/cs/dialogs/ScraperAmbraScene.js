@@ -6,35 +6,29 @@ export default {
     _speakers: {
         'Dr. Elphi': 'Dr. Elphi',
     },
-    elphi_studio_intro: {
-        text: "Ateliér Dr. Elphi je děsivě tichý. Pracovní stanice se zářícími obrazovkami lemují stěny, každá zobrazuje fragmenty kódu a podivné návrhy. Vzduch je nabitý tvůrčí energií, ale po samotné Dr. Elphi ani stopa.",
-        options: {
-            continue_exploring: "Pokračovat v průzkumu"
-        }
-    },
     dr_elphi_start: {
         text: {
             report: "Vypadáte, jako by vás město celý den žvýkalo a teprve teď vyplivlo. Sedněte si. Povězte mi, co jste tam venku zjistil.",
             feast_ready: "Dobré ráno. Kazeta přes noc vydržela – tak tak. Mám nahranou poslední Biskupčinu relaci a čeká. Až budete připravený vidět, co viděla ona.",
             after_feast: "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Vaječná katedrála, tedy. Tam vás to poslalo.",
             bishop_dead: "Jste zpět. Vidím vám to na obličeji. Něco se jí stalo, že?",
-            default: "Hm. Nejste objednaný. Ani označený. Hádám – někdo chce neurální ladění, výkonnostní konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
+            default: "Hm. Nejste objednaný. Ani označený. Budu hádat – někdo chce neurální ladění, konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
         },
         options: {
             report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil.",
             load_bishops_last_session: "Nahrát Biskupčinu poslední relaci.",
             the_game_told_me_where: "Ta hra mi řekla, kde je deník.",
             before_cathedral_infinite_fold: "[Než vejdu do katedrály] Našel jsem tu věc v zapečetěném sklepě. Je to ta, co ji zabila.",
-            im_looking_for_someone_the_bishop: "Hledám někoho. Biskupku.",
+            im_looking_for_someone_the_bishop: "Někoho hledám. Biskupku.",
             i_was_sent_to_investigate_an_anomaly_might_be_conn: "Poslali mě prošetřit anomálii. Možná souvisí s tímhle místem.",
             i_heard_you_design_dreambased_games: "Slyšel jsem, že navrhujete hry založené na snech.",
-            ill_explain_if_you_stop_testing_me: "Vysvětlím vám to, jestli mě přestanete zkoušet.",
+            ill_explain_if_you_stop_testing_me: "Vysvětlím vám to, když přestanete hádat.",
             the_bishop_is_dead_i_found_her_body_in_the_backyar: "Biskupka je mrtvá. Našel jsem její tělo na dvorku.",
             i_need_your_expertise_i_found_some_clues: "Potřebuji vaši odbornost. Našel jsem nějaké stopy."
         }
     },
     dr_elphi_cartridge_ready: {
-        text: "Přes noc jsem zrekonstruovala poškozené snímky relace. Samotná Kardinálská hostina je v pořádku – pitomá malá RPG o kardinálovi kanibalovi, jeden z našich lepších kšeftů. Ale její uložená hra je... špatně. Nechce se vrátit do menu.\n\nTohle musíte pochopit, než si nasadíte helmu: tyhle neurofikce si pamatují své hráče. Hluboce. Biskupka tohle prošla desetkrát. Postavy uvnitř ji znaly. A helma nepozná rozdíl mezi vámi a poslední hlavou, která ji nosila.\n\nTakže jestli s vámi začnou mluvit, jako by vás znaly – nechte je. Vyptávejte se jich. Zjistěte, co ta hra ví, ačkoliv by neměla.",
+        text: "Přes noc jsem zrekonstruovala poškozené snímky relace. Samotná Kardinálova hostina je v pořádku – pitomá malá RPG o kardinálovi kanibalovi, jeden z našich lepších kšeftů. Ale její uložená hra je... špatně. Nechce se vrátit do menu.\n\nTohle musíte pochopit, než si nasadíte helmu: tyhle neurofikce si pamatují své hráče. Hluboce. Biskupka tohle prošla desetkrát. Postavy uvnitř ji znaly. A helma nepozná rozdíl mezi vámi a poslední hlavou, která ji nosila.\n\nTakže jestli s vámi začnou mluvit, jako by vás znaly – nechte je. Vyptávejte se jich. Zjistěte, co ta hra ví, ačkoliv by neměla.",
         options: {
             put_on_the_helmet: "Nasadit si helmu.",
             give_me_a_moment_first: "Napřed mi dejte chvilku."
@@ -74,7 +68,7 @@ export default {
         }
     },
     dr_elphi_bishop_path: {
-        text: "Biskupka? No, jdete pozdě. Chodila sem. Vlastně často. Vždycky kvůli simulacím, nikdy kvůli politice.\n\nMěla ráda ty jemnější. Imerzivní fikce, snová prostředí. Kardinálská hostina byla její oblíbená.\n\nKdy jsem ji viděla naposled? Před třemi tráveními, možná čtyřmi. Ukončila relaci a řekla, že možná ještě chvíli zůstane venku. Měla klíč od dvorku.\n\nNepřišlo mi na tom nic zvláštního. Působila... roztržitě. Víc než obvykle.",
+        text: "Biskupka? No, jdete pozdě. Chodila sem. Vlastně docela často. Vždycky kvůli simulacím, nikdy kvůli politice.\\n\\nMěla ráda hry založené spíš na příběhu. Imerzivní fikce, snová prostředí. Kardinálova hostina byla její oblíbená.\\n\\nKdy jsem ji viděla naposled? Před třemi tráveními, možná čtyřmi. Skončila sešnu a řekla, že možná ještě chvíli zůstane venku. Měla klíč od dvorku.\\n\\nNepřišlo mi na tom nic zvláštního. Působila... roztržitě. Víc než obvykle.",
         options: {
             whats_in_the_backyard: "Co je na dvorku?",
             did_she_say_where_she_was_going: "Řekla, kam jde?",
@@ -82,15 +76,14 @@ export default {
         }
     },
     dr_elphi_anomaly_path: {
-        text: "Jestli jde o nějakou anomálii, ode mě není. Všechna testovací prostředí jsou oddělená. V nejhorším se zhroutí v soukromí.\n\nLeda byste myslel ji. Biskupka tu v poslední době absolvovala pár relací. Neřekla, čemu se vyhýbá, ale něco ji drželo ve střehu.\n\nPo hraní mívala ve zvyku sedávat vzadu – na starém dopravním dvoře. Už několik dní nepřišla.\n\nTady.",
+        text: "Jestli jde o nějakou anomálii, nemám s tím nic společného. Všechna testovací prostředí jsou dobře zabezpečená. V nejhorším případě nenaruší nic okolo.",
         options: {
-            what_was_she_avoiding: "Čemu se vyhýbala?",
-            whats_in_the_backyard: "Co je na dvorku?",
-            ill_investigate_the_backyard: "Prozkoumám dvorek."
+            im_looking_for_the_bishop: "Hledám Biskupku.",
+            the_bishop_came_here_to_play: "Biskupka sem chodila hrát."
         }
     },
     dr_elphi_games_path: {
-        text: "Dělám je. Snová architektura. Neurofikce. Postsenzorická architektura.\n\nStojíte v ARB Ambra – a ne, ty iniciály nic neznamenají. Jen tak líp znějí.\n\nCo přesně jste slyšel?",
+        text: "Dělám je. Snová architektura. Neurofikce. Postsenzorická architektura.\n\nStojíte v ARB Ambra – a ne, ty iniciály nic neznamenají. Jen to líp zní.\n\nCo přesně jste slyšel?",
         options: {
             the_bishop_came_here_to_play: "Biskupka sem chodila hrát.",
             something_went_wrong_im_following_the_trace: "Něco se pokazilo. Jdu po stopě.",
@@ -98,35 +91,36 @@ export default {
         }
     },
     dr_elphi_testing_path: {
-        text: "Zkoušení mě drží naživu. Většina návštěvníků lže. Někteří o tom ani nevědí.\n\nAle dobrá. Mluvte jasně. Tohle patro mě stojí procesorové cykly.",
+        text: "Hádání a experimentování mě drží naživu. Většina návštěvníků lže. Někteří o tom ani nevědí.\\n\\nAle dobrá. Mluvte jasně. Co potřebujete?",
         options: {
             im_looking_for_the_bishop: "Hledám Biskupku.",
-            theres_been_a_signal_anomaly: "Došlo k anomálii v signálu."
+            theres_been_a_signal_anomaly: "Došlo k anomálii v signálu. Někdo vyslal nouzové volání."
         }
     },
     dr_elphi_bishop_destination: {
-        text: "Ne. To nikdy. Biskupka se pohybuje ve vzorcích, kterým rozumí jen ona. Ale nakonec se vždycky vrátí do katedrály.\n\nTentokrát to ale působí jinak. Byla... zaujatá něčím na starém dopravním dvoře. Říkala, že jí tam mech „zpívá“. Typická katedrální mystika.",
+        text: "Ne. To nikdy. Biskupka dělá věci, kterým rozumí jen ona. Ale nakonec se vždycky vrátí do katedrály.\\n\\nTentokrát ale mám pocit, že se něco změnilo. Byla... chodila často na dvůr, jako by ji tam něco zaujalo. Když jsem se zeptala, zněla vyhýbavě.",
         options: {
+            what_was_she_avoiding: "Čemu se vyhýbala?",
             ill_go_look_for_her_there: "Půjdu ji tam hledat.",
             whats_in_the_backyard: "Co je na dvorku?"
         }
     },
     dr_elphi_bishop_concerns: {
-        text: "Přímo to neřekla. Něco o „rezonančních vzorcích“ a „harmonických poruchách“. Katedrální záležitosti, předpokládala jsem.\n\nAle trávila v simulacích víc času než obvykle. Skoro jako by se schovávala. Nebo se na něco připravovala.",
+        text: "Přímo to neřekla. Něco o „rezonančních vzorcích“ a „harmonických poruchách“. Předpokládala jsem, že jde o záležitosti katedrály a nic mi do toho není.\n\nNicméně trávila v simulacích víc času než obvykle. Skoro jako by se schovávala. Nebo se na něco připravovala.",
         options: {
             i_should_check_the_backyard: "Měl bych se podívat na dvorek.",
             tell_me_about_this_backyard: "Povězte mi o tom dvorku."
         }
     },
     dr_elphi_backyard_info: {
-        text: "Je to starý dopravní dvůr. Opuštěný před desítkami let, když se stavěly nové linky. Teď je většinou zarostlý tím zvláštním mechem.\n\nBiskupka jím byla fascinovaná. Říkala, že má „mnemonické vlastnosti“. Ať už to znamená cokoli. Katedrální lidé a jejich záhadná terminologie...",
+        text: "Je to starý nákladní dvůr. Opuštěný před desítkami let, když se stavěly nové linky. Teď je většinou zarostlý zvláštním mechem.\n\nBiskupka jím byla fascinovaná. Říkala, že má „mnemonické vlastnosti“. Ať už to znamená cokoli. Ti vaši lidé a jejich záhadná terminologie...",
         options: {
             ill_go_investigate: "Půjdu to prozkoumat.",
             is_it_dangerous: "Je to nebezpečné?"
         }
     },
     dr_elphi_backyard_danger: {
-        text: "Ne v běžném smyslu. Ale nic tady kolem není doopravdy bezpečné, že? Ten mech si pamatuje. A někdy se o své vzpomínky... podělí. Nepředvídatelně.\n\nJen tam neusínejte. Sny tam umějí být... intenzivní.",
+        text: "Ne v běžném smyslu. Ale nic tady kolem není doopravdy bezpečné, že?\n\nJen tam radši neusínejte. Prý se tam lidem zdají až moc intenzivní sny.",
         options: {
             ill_be_careful: "Budu opatrný."
         }
@@ -154,21 +148,21 @@ export default {
         }
     },
     dr_elphi_dead_unnatural: {
-        text: "Ne přirozené. *Pomalu vydechne.* Ne. To bych nečekala. Byla paranoidní dobrých dvacet trávení. Pořád pouštěla tu samou hru znovu a znovu – Kardinálskou hostinu. RPG o kardinálovi-ještěrovi. Neškodné, vlastně. Populární titul.\n\nAle hrála ji posedlé. Říkala, že potřebuje 'najít někoho uvnitř.' Řekla jsem jí, že je to jen hra – nikdo tam uvnitř k nalezení není.\n\nOna nesouhlasila.",
+        text: "Ne přirozené. *Pomalu vydechne.* Ne. To bych nečekala. Byla paranoidní dobrých dvacet trávení. Pořád pouštěla tu samou hru znovu a znovu – Kardinálovu hostinu. RPG o kardinálovi-ještěrovi. Neškodné, vlastně. Populární titul.\n\nAle hrála ji posedlé. Říkala, že potřebuje 'najít někoho uvnitř.' Řekla jsem jí, že je to jen hra – nikdo tam uvnitř k nalezení není.\n\nOna nesouhlasila.",
         options: {
-            what_is_the_cardinal_feast_exactly: "Co přesně je Kardinálská hostina?",
+            what_is_the_cardinal_feast_exactly: "Co přesně je Kardinálova hostina?",
             i_found_some_clues_at_the_scene: "Našel jsem na místě nějaké stopy."
         }
     },
     dr_elphi_dead_observed: {
-        text: "Nikdy to neřekla přímo. Ale po relacích někdy šeptala o 'odrazu' – něčem, co zahlédla uvnitř Kardinálské hostiny a co ji poznalo zpět.\n\nMyslela jsem si, že je to snové prosakování. Neurální reziduum. Běžný vedlejší efekt hluboké imerze.\n\nAle ona trvala na tom, že to bylo skutečné.",
+        text: "Nikdy to neřekla přímo. Ale po relacích někdy šeptala o 'odrazu' – něčem, co zahlédla uvnitř Kardinálovy hostiny a co ji poznalo zpět.\n\nMyslela jsem si, že je to snové prosakování. Neurální reziduum. Běžný vedlejší efekt hluboké imerze.\n\nAle ona trvala na tom, že to bylo skutečné.",
         options: {
             that_matches_something_i_found: "To odpovídá něčemu, co jsem našel.",
-            what_is_the_cardinal_feast: "Co je Kardinálská hostina?"
+            what_is_the_cardinal_feast: "Co je Kardinálova hostina?"
         }
     },
     dr_elphi_cardinal_feast_explained: {
-        text: "Kardinálská hostina? Je to RPG – fantasy hra. Hrajete za ještěřího kardinála, který je kanibal. Musí nalákat víc ještěřího lidu na své hostiny, aby je mohl sežrat. Je to černý humor, ale je to jen hra. Jeden z našich populárnějších titulů, vlastně.\n\nNení na ní nic nebezpečného. Žádné skryté vrstvy, žádný experimentální kód. Jen standardní neurofikce renderovaná přes snovou helmu.\n\nAle Biskupka ji hrála znovu a znovu. Desítky relací. Pořád říkala, že vidí něco mezi scénami – někoho, kdo ji pozoruje zevnitř hry. Zkontrolovala jsem kód sama. Nic tam není.",
+        text: "Kardinálova hostina? Je to RPG – fantasy hra. Hrajete za ještěřího kardinála, který je kanibal. Musí nalákat víc ještěřího lidu na své hostiny, aby je mohl sežrat. Je to černý humor, ale je to jen hra. Jeden z našich populárnějších titulů, vlastně.\n\nNení na ní nic nebezpečného. Žádné skryté vrstvy, žádný experimentální kód. Jen standardní neurofikce renderovaná přes snovou helmu.\n\nAle Biskupka ji hrála znovu a znovu. Desítky relací. Pořád říkala, že vidí něco mezi scénami – někoho, kdo ji pozoruje zevnitř hry. Zkontrolovala jsem kód sama. Nic tam není.",
         options: {
             i_found_the_dream_cartridge_it_showed_some_kind_of: "Našel jsem snovou cartridge. Ukazovala nějakou chybu.",
             could_the_dream_program_have_killed_her: "Mohl ji ten snový program zabít?",
@@ -206,7 +200,7 @@ export default {
         }
     },
     dr_elphi_clues_cartridge: {
-        text: "*Rozšíří se jí oči.* Máte skutečnou cartridge? Ukažte mi.\n\n*Pečlivě ji zkoumá.* Kardinálská hostina – to RPG o kanibalistickém ještěrovi. Se samotnou hrou nic není.\n\n*Zapojí ji do diagnostického portu.* Ale data relace... \"Zjištěna smyčka za běhu. NULL SCENE.\" To je poslední pojistka. Znamená to, že něco katastrofálně selhalo během její poslední relace. Hra samotná je v pořádku, ale cokoliv se stalo, zatímco ji hrála, nebylo.\n\nMožná bych dokázala opravit cartridge a přehrát její poslední scénu. Vidět přesně, kde ve hře byla, když se vše pokazilo. Ale zabralo by to čas – datové jádro je poškozené.",
+        text: "*Rozšíří se jí oči.* Máte skutečnou cartridge? Ukažte mi.\n\n*Pečlivě ji zkoumá.* Kardinálova hostina – to RPG o kanibalistickém ještěrovi. Se samotnou hrou nic není.\n\n*Zapojí ji do diagnostického portu.* Ale data relace... \"Zjištěna smyčka za běhu. NULL SCENE.\" To je poslední pojistka. Znamená to, že něco katastrofálně selhalo během její poslední relace. Hra samotná je v pořádku, ale cokoliv se stalo, zatímco ji hrála, nebylo.\n\nMožná bych dokázala opravit cartridge a přehrát její poslední scénu. Vidět přesně, kde ve hře byla, když se vše pokazilo. Ale zabralo by to čas – datové jádro je poškozené.",
         options: {
             how_long_would_it_take_to_fix: "Jak dlouho by oprava trvala?",
             who_had_access_to_modify_this: "Kdo měl přístup to modifikovat?",

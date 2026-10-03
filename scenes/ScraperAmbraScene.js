@@ -172,12 +172,6 @@ export default class ScraperAmbraScene extends GameScene {
             ...super.dialogContent,
             speaker: 'Dr. Elphi',
 
-            elphi_studio_intro: {
-                text: "Dr. Elphi's studio is eerily quiet. Workstations with glowing screens line the walls, each displaying fragments of code and strange designs. The air feels charged with creative energy, but there's no sign of Dr. Elphi herself.",
-                options: [
-                    { text: "Continue exploring", key: 'continue_exploring', next: "closeDialog" }
-                ]
-            },
             
             // Dr. Elphi Quarn dialog tree
             dr_elphi_start: {
@@ -209,7 +203,7 @@ export default class ScraperAmbraScene extends GameScene {
                         { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
                         { text: "I was sent to investigate an anomaly. Might be connected to this place.", key: 'i_was_sent_to_investigate_an_anomaly_might_be_conn', next: "dr_elphi_anomaly_path" },
                         { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" },
-                        { text: "I'll explain if you stop testing me.", key: 'ill_explain_if_you_stop_testing_me', next: "dr_elphi_testing_path" }
+                        { text: "I'll explain if you stop guessing.", key: 'ill_explain_if_you_stop_testing_me', next: "dr_elphi_testing_path" }
                     ] : []),
                     ...(bishopDead ? [
                         { text: "The Bishop is dead. I found her body in the backyard.", key: 'the_bishop_is_dead_i_found_her_body_in_the_backyar', next: "dr_elphi_bishop_dead" }
@@ -227,7 +221,7 @@ export default class ScraperAmbraScene extends GameScene {
                         this.addJournalEntry(
                             'met_dr_elphi',
                             'Dr. Elphi Quarn',
-                            "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games worn on the head. Sharp, guarded, and forever testing whoever walks in. The Bishop came to her often, always to play, never for politics.",
+                            "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games that are developed from dreams by professional dreamers. Smart, cautious, and outspoken. The Bishop came to her often, always to play, never for politics.",
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Dr. Elphi Quarn', location: 'ARB Ambra' }
                         );
@@ -246,7 +240,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_bishop_path: {
-                text: "The Bishop? Well, you're late. She came here. Often, actually. Always for simulations. Never politics.\n\nShe liked the softer ones. Immersive fictions, drift environments. The Cardinal Feast was a favorite.\n\nLast I saw her? Three digestions ago, maybe four. She ended her session, said she might stay outside awhile. She had a key to the backyard.\n\nI didn't think much of it. She seemed… distracted. More than usual.",
+                text: "The Bishop? Well, you're late. She came here. Often, actually. Always for simulations. Never politics.\n\nShe preferred narrative-based games. Immersive fictions, drift environments. The Cardinal Feast was a favorite.\n\nLast I saw her? Three digestions ago, maybe four. She ended her session, said she might stay outside awhile. She had a key to the backyard.\n\nI didn't think much of it. She seemed… distracted. More than usual.",
                 options: [
                     { text: "What's in the backyard?", key: 'whats_in_the_backyard', next: "dr_elphi_backyard_info" },
                     { text: "Did she say where she was going?", key: 'did_she_say_where_she_was_going', next: "dr_elphi_bishop_destination" },
@@ -263,20 +257,11 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_anomaly_path: {
-                text: "If there's an anomaly, it isn't from me. All test environments are sandboxed. At worst, they collapse privately.\n\nUnless you mean her. The Bishop ran a few sessions recently. She didn't say what she was avoiding, but something had her on edge.\n\nShe had a habit of sitting out back after play — the old transit yard. She hasn't come in days.\n\nHere.",
+                text: "If this is some kind of anomaly, I have nothing to do with it. All test environments are well secured. In the worst-case scenario, it won't disrupt anything around it.",
                 options: [
-                    { text: "What was she avoiding?", key: 'what_was_she_avoiding', next: "dr_elphi_bishop_concerns" },
-                    { text: "What's in the backyard?", key: 'whats_in_the_backyard', next: "dr_elphi_backyard_info" },
-                    { text: "I'll investigate the backyard.", key: 'ill_investigate_the_backyard', next: "dr_elphi_exit" }
-                ],
-                onTrigger: () => {
-                    // Update the find_bishop quest to direct to the Scraper backyard
-                    const questSystem = this.registry.get('questSystem');
-                    const findBishopQuest = questSystem?.getQuest('find_bishop');
-                    if (findBishopQuest && !findBishopQuest.isComplete) {
-                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Scraper backyard. I should check there next.', 'check_shard_backyard');
-                    }
-                }
+                    { text: "I'm looking for the Bishop.", key: 'im_looking_for_the_bishop', next: "dr_elphi_bishop_path" },
+                    { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" }
+                ]
             },
             
             dr_elphi_games_path: {
@@ -289,16 +274,17 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_testing_path: {
-                text: "Testing is how I stay alive. Most visitors lie. Some of them don't even know it.\n\nBut fine. Speak clearly. This floor costs me processing cycles.",
+                text: "Guessing and experimenting is how I stay alive. Most visitors lie. Some of them don't even know it.\\n\\nBut fine. Speak clearly. What do you want?",
                 options: [
                     { text: "I'm looking for the Bishop.", key: 'im_looking_for_the_bishop', next: "dr_elphi_bishop_path" },
-                    { text: "There's been a signal anomaly.", key: 'theres_been_a_signal_anomaly', next: "dr_elphi_anomaly_path" }
+                    { text: "There's been a signal anomaly. A distress call.", key: 'theres_been_a_signal_anomaly', next: "dr_elphi_anomaly_path" }
                 ]
             },
             
             dr_elphi_bishop_destination: {
-                text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\n\nThis time feels different though. She was... preoccupied with something in the old transit yard. Said the moss there was 'singing' to her. Typical Cathedral mysticism.",
+                text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\\n\\nThis time, though, I have a feeling that something has changed. She was... going out to the yard often, as if something there had caught her attention. When I asked her about it, she sounded evasive.",
                 options: [
+                    { text: "What was she avoiding?", key: 'what_was_she_avoiding', next: "dr_elphi_bishop_concerns" },
                     { text: "I'll go look for her there.", key: 'ill_go_look_for_her_there', next: "dr_elphi_exit" },
                     { text: "What's in the backyard?", key: 'whats_in_the_backyard', next: "dr_elphi_backyard_info" }
                 ]
@@ -313,7 +299,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_backyard_info: {
-                text: "It's an old transit yard. Abandoned decades ago when the new lines were built. Now it's mostly overgrown with that peculiar moss.\n\nThe Bishop seemed fascinated by it. Said it had 'mnemonic properties.' Whatever that means. Cathedral folk and their cryptic terminology...",
+                text: "It's an old transit yard. Abandoned decades ago when the new lines were built. Now it's mostly overgrown with that peculiar moss.\n\nThe Bishop seemed fascinated by it. Said it had 'mnemonic properties.' Whatever that means. You know, your folk and their cryptic terminology...",
                 options: [
                     { text: "I'll go investigate.", key: 'ill_go_investigate', next: "dr_elphi_exit" },
                     { text: "Is it dangerous?", key: 'is_it_dangerous', next: "dr_elphi_backyard_danger" }
@@ -321,7 +307,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_backyard_danger: {
-                text: "Not conventionally. But nothing around is truly safe, is it? The moss remembers things. Sometimes it... shares those memories. Unpredictably.\n\nJust don't fall asleep out there. The dreams can be... intense.",
+                text: "Not conventionally. But nothing around is truly safe, is it?\n\nJust don't fall asleep there. Apparently, people have dreams that are way too intense there.",
                 options: [
                     { text: "I'll be careful.", key: 'ill_be_careful', next: "dr_elphi_exit" }
                 ]
@@ -340,7 +326,7 @@ export default class ScraperAmbraScene extends GameScene {
                         this.addItemToInventory({
                             id: 'scraper_backyard_key',
                             name: "Backyard Key",
-                            description: "A key to the Scraper 1140 backyard. It seems to glow faintly with possibility.",
+                            description: "A key to the Scraper 1140 backyard. It seems to glow faintly.",
                             stackable: false
                         });
                     }

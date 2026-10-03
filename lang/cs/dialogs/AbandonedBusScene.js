@@ -49,7 +49,7 @@ export default {
         }
     },
     dead_bishop_cartridge: {
-        text: "Prohlédneš si přenosné snové zařízení sevřené v ruce biskupky. Je v něm vložena kazeta označená 'Kardinálská hostina', ale zdá se být poškozená. Malý displej zařízení zobrazuje chybovou hlášku: \"Zjištěna smyčka běhu. Aktivována pojistka: NULOVÁ SCÉNA.\" Ať už kazeta obsahovala jakýkoliv zážitek, zdá se, že katastrofálně selhala během použití.",
+        text: "Prohlédneš si přenosné snové zařízení sevřené v ruce biskupky. Je v něm vložena kazeta označená 'Kardinálova hostina', ale zdá se být poškozená. Malý displej zařízení zobrazuje chybovou hlášku: \"Zjištěna smyčka běhu. Aktivována pojistka: NULOVÁ SCÉNA.\" Ať už kazeta obsahovala jakýkoliv zážitek, zdá se, že katastrofálně selhala během použití.",
         options: {
             examine_the_bruising: "Prozkoumat modřiny",
             examine_the_helmet: "Prozkoumat přilbu",

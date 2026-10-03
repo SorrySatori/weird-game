@@ -663,7 +663,7 @@ export default {
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
-            description: "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games worn on the head. Sharp, guarded, and forever testing whoever walks in. The Bishop came to her often, always to play, never for politics.",
+            description: "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games that are developed from dreams by professional dreamers. Smart, cautious, and outspoken. The Bishop came to her often, always to play, never for politics.",
         },
         met_ravla: {
             title: 'Ravla',

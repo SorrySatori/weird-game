@@ -169,7 +169,7 @@ export default {
         }
     },
     ac_sulkberry_tamper: {
-        text: "Nemyslím si nic. Koriguju úhly – nespekuluji.\n\nAle Biskupka byla nalezena s neurálním traumatem. Snová imerze, nesprávně podaná nebo chemicky pozměněná, by mohla způsobit přesně takové poškození. Snová cartridge Kardinálské hostiny byla nalezena poškozená.\n\nVyvoďte si vlastní závěry. Dal jsem vám, co mohu, aniž bych ohrozil pozici Direktorátu.",
+        text: "Nemyslím si nic. Koriguju úhly – nespekuluji.\n\nAle Biskupka byla nalezena s neurálním traumatem. Snová imerze, nesprávně podaná nebo chemicky pozměněná, by mohla způsobit přesně takové poškození. Snová cartridge Kardinálovy hostiny byla nalezena poškozená.\n\nVyvoďte si vlastní závěry. Dal jsem vám, co mohu, aniž bych ohrozil pozici Direktorátu.",
         options: {
             i_have_other_questions: "Mám další otázky."
         }
