@@ -8,19 +8,19 @@ export default {
         'Narrator': 'Vypravěč',
     },
     main: {
-        text: "Ocitáš se na palubě vzdušné lodi. Vzduch je tu nahoře řídký a dole vidíš rozprostřené houbové město.",
+        text: "Ocitáš se na palubě vzdušné lodi. Vzduch je tu nahoře řídký a dole vidíš rozprostřené město.",
         options: {
             look_around: "Rozhlédnout se"
         }
     },
     lookAround: {
-        text: "Vzdušná loď vypadá jako transportní plavidlo. Různé houbové porosty lemují okraje paluby a slouží zjevně jako dekorace i konstrukční podpora. Loď se jemně kolébá ve větru.",
+        text: "Vzdušná loď vypadá jako transportní plavidlo. Podivné rostliny lemují okraje paluby a slouží zjevně jako dekorace i konstrukční podpora. Loď se jemně kolébá ve větru.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
     },
     captainMain: {
-        text: "Ach, návštěvník! Vítejte na palubě Verdigrace. Jsem kapitánka Liris, navigátorka vzdušných proudů a správkyně tohoto krásného plavidla. Co vás přivádí na mou loď?",
+        text: "Ach, návštěvník! Vítejte na palubě Verdigrace. Jsem kapitánka Liris, navigátorka vzdušnými proudy a majitelka tohoto krásného plavidla. Co vás přivádí na mou loď?",
         options: {
             how_does_this_ship_fly: "Jak tahle loď létá?",
             where_are_you_headed: "Kam míříte?",
@@ -39,7 +39,7 @@ export default {
         }
     },
     captainAccord: {
-        text: "Lumen Directorate je mocná organizace, víte? Usilujeme o splynutí mysli a flóry. Jsme strážci a ochránci všeho, co roste. Jsme gardiáni života.",
+        text: "Lumen Directorate je mocná organizace, víte? Usilujeme o splynutí mysli a flóry. Jsme strážci a ochránci všeho, co roste. Jsme ochránci života.",
         options: {
             other_topics: "Zeptej se na něco jiného",
             what_is_you_mission: "Jaká je vaše mise?",
@@ -47,32 +47,32 @@ export default {
         }
     },
     captainMission: {
-        text: "Jsme na misi hledat a sbírat vzácné exempláře pro Lumen Directorate. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
+        text: "Naše mise má za cíl hledat a sbírat vzácné exempláře pro Lumen Directorate. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
     },
     captainEnemies: {
-        text: "Jistě, máme nějaké nepřátele, jako každý. Zvláště tu verbež z Rezavého chóru, ale to je sotva překvapení.",
+        text: "Jistě, máme nějaké nepřátele, jako každý. Zvláště tu verbež z Rezavého chóru, ale to vás asi nepřekvapí.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
     },
     captainTechnology: {
-        text: "Fascinující, že? Trup lodi je prosycen speciálním kmenem vznášivých spor. Vytvářejí mikroskopické plynové kapsy, které nám dávají vztlak. Myceliální plachty zachycují vzdušné proudy a řídicí houby reagují na mé příkazy prostřednictvím symbiotického pouta. Jsem s touto lodí spojená už přes dvacet cyklů.",
+        text: "Fascinující, že? Trup lodi je prosycen speciálním kmenem levitačních rostlin. Vytvářejí mikroskopické plynové kapsy, které nám dávají vztlak. Organické plachty zachycují vzdušné proudy a řídicí houby reagují na mé příkazy prostřednictvím symbiotického pouta. Jsem s touto lodí spojená už přes dvacet cyklů.",
         options: {
             that_sounds_dangerous: "To zní nebezpečně.",
             ask_something_else: "Zeptej se na něco jiného"
         }
     },
     captainDanger: {
-        text: "Ha! Život bez rizika není žádný život. Ano, jsou tu nebezpečí – bouřkové spory, které by nás mohly pohltit, dravé létající mycélia, která loví ve výšinách, nemluvě o neustálé rovnováze mezi Růstem a Rozkladem, která nás chrání před rozpuštěním ve spory nebo ztuhnutím v mrtvou hmotu. Ale svoboda oblohy... ta stojí za jakékoliv riziko.",
+        text: "Ha! Život bez rizika není žádný život. Ano, jsou tu nebezpečí – bouřkové stromy, které by nás mohly pohltit, dravé létající ostružiny, které loví ve výšinách, a další hrůzy. Ale svoboda oblohy... ta stojí za jakékoliv riziko.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
     },
     captainDestination: {
-        text: "Sledujeme velké sporové proudy, které krouží nad kontinentem. Příští zastávka jsou Visuté zahrady Mykory, kde vyměníme městské zboží za vzácné pěstitelské exempláře. Poté možná plovoucí výzkumné stanice Východního baldachýnu. Větry rozhodují o naší konečné trase.",
+        text: "Sledujeme pravidelné pampeliškové proudy, které krouží nad kontinentem. Příští zastávka jsou Visuté zahrady Mycory, kde vyměníme zboží za vzácné exempláře rostlin. Poté možná plovoucí výzkumné stanice Východního baldachýnu. Větry rozhodují o naší konečné trase.",
         options: {
             could_i_travel_with_you: "Mohl bych cestovat s vámi?",
             ask_something_else: "Zeptej se na něco jiného"
@@ -99,13 +99,13 @@ export default {
         }
     },
     captainTrade: {
-        text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali naše specializované zboží. Vraťte se, až dokončíme první okruh – možná za pár cyklů – a mohl bych mít něco jedinečného pro tak odvážného průzkumníka jako vy. Sledujte oblohu, až se budeme vracet.",
+        text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali žádné zboží. Vraťte se, až dokončíme první okruh – možná za pár cyklů – a mohla bych mít něco jedinečného pro tak odvážného průzkumníka, jako jste vy. Sledujte oblohu, až se budeme vracet.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
     },
     captainElevator: {
-        text: "Výtahový systém, říkáte? Ach, to asi myslíte jeden z těch starých vertikálních transportních mechanismů ve městských věžích. Ty staré systémy jsou fascinující – směs mechanického inženýrství a rané symbiotické technologie. O jaký problém se jedná?",
+        text: "Výtahový systém, říkáte? Ach, to asi myslíte jeden z těch starých vertikálních transportních mechanismů ve městských věžích. Tyhle staré systémy jsou fascinující – směs mechanického inženýrství a rané symbiotické technologie. O jaký problém se jedná?",
         options: {
             the_floor_counter_is_broken: "Počítadlo pater je rozbité.",
             never_mind_ask_something_else: "To nic, zeptám se na něco jiného."

@@ -164,7 +164,7 @@ export default class SkyshipBoardScene extends GameScene {
             speaker: 'Captain Liris',
             main: {
                 speaker: 'Narrator',
-                text: 'You find yourself on the deck of a skyship. The air is thin up here, and you can see the fungal city sprawled below.',
+                text: 'You find yourself on the deck of a skyship. The air is thin up here, and you can see the city sprawled below.',
                 options: [
                     {
                         text: 'Look around',
@@ -175,7 +175,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             lookAround: {
                 speaker: 'Narrator',
-                text: 'The skyship appears to be a transport vessel. Various fungal growths line the edges of the deck, seemingly serving as both decoration and structural support. The ship sways gently in the wind.',
+                text: 'The skyship appears to be a transport vessel. Various strange plants line the edges of the deck, seemingly serving as both decoration and structural support. The ship sways gently in the wind.',
                 options: [
                     {
                         text: 'Ask something else',
@@ -306,7 +306,7 @@ export default class SkyshipBoardScene extends GameScene {
                 }
             },
             captainTechnology: {
-                text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant spores. They create microscopic gas pockets that give us lift. The mycelial sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
+                text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant plants. They create microscopic gas pockets that give us lift. The organic sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
                 options: [
                     {
                         text: 'That sounds dangerous.',
@@ -322,7 +322,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainDanger: {
-                text: "Ha! Life without risk is no life at all. Yes, there are dangers—storm spores that could envelop us, predatory flying mycelia that hunt in the upper reaches, not to mention the constant balance between Growth and Decay that keeps us from either dissolving into spores or becoming a rigid, dead mass. But the freedom of the skies... that's worth any risk.",
+                text: "Ha! Life without risk is no life at all. Yes, there are dangers here—storm trees that could swallow us whole, predatory flying blackberries that hunt in the heights, and other horrors. But the freedom of the skies... that's worth any risk.",
                 options: [
                     {
                         text: 'Ask something else',
@@ -332,7 +332,7 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainDestination: {
-                text: "We follow the great spore currents that circle above the continent. Next stop is the Hanging Gardens of Mycora, where we'll trade city goods for rare cultivation specimens. After that, perhaps the floating research outposts of the Eastern Canopy. The winds decide our ultimate path.",
+                text: "We are monitoring the regular dandelion clouds circling over the continent. Next stop is the Hanging Gardens of Mycora, where we'll trade goods for rare cultivation specimens. After that, perhaps the floating research outposts of the Eastern Canopy. The winds decide our ultimate path.",
                 options: [
                     {
                         text: 'Could I travel with you?',
@@ -392,7 +392,7 @@ export default class SkyshipBoardScene extends GameScene {
                 ]
             },
             captainTrade: {
-                text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected our specialized goods yet. Return after we've made our first circuit—perhaps in a few cycles—and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
+                text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected any goods yet. Return after we've made our first circuit—perhaps in a few cycles—and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
                 options: [
                     {
                         text: 'Ask something else',

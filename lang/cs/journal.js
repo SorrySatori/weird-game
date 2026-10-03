@@ -305,7 +305,7 @@ export default {
         },
         captain_liris_meeting: {
             title: 'Kapitánka Liris z Verdigrace',
-            description: 'Na palubě vzducholodi jsem potkal kapitánku Liris, impozantní postavu ve zdobené uniformě, která velí plavidlu jménem Verdigrace. Loď křižuje vzdušné obchodní trasy mezi osadami a výzkumnými stanicemi a vozí vzácné spory, mycelia a zprávy.',
+            description: 'Na palubě vzducholodi jsem potkal kapitánku Liris, impozantní postavu ve zdobené uniformě, která velí plavidlu jménem Verdigrace. Loď křižuje vzdušné obchodní trasy mezi osadami a výzkumnými stanicemi a vozí vzácné rostliny, mycelia a zprávy.',
         },
         lumen_directorate_faction: {
             title: 'Lumen Directorate',
