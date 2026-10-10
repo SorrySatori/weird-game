@@ -11,10 +11,10 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
             },
             PithReclaimers: {
                 reputation: 0,
-                name: "Pith Reclaimers",
-                color: 0x8B4513, // Brown color for Pith Reclaimers
+                name: "Ink Tribunal",
+                color: 0x8B4513, // Brown color for Ink Tribunal
                 discovered: false,
-                description: "A group focused on maintaining and reclaiming balance and bureaucratic order."
+                description: "The city's bureaucracy: balance and order kept by ink, seal and ledger."
             },
             LumenDirectorate: {
                 reputation: 0,

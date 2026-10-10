@@ -1443,15 +1443,15 @@ export default class GameScene extends Phaser.Scene {
         return !!this.hasJournalEntry('lumen_directorate_joined');
     }
 
-    /** Idempotently record the Pith Reclaimers as a discovered faction — the gate for joining them. */
+    /** Idempotently record the Ink Tribunal as a discovered faction — the gate for joining them. */
     learnPithReclaimers() {
         if (!this.hasJournalEntry || this.hasJournalEntry('pith_reclaimers_faction')) return;
         this.addJournalEntry(
             'pith_reclaimers_faction',
-            'The Pith Reclaimers — Keepers of Balance',
-            'The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant. They run the city\'s administrative apparatus from the Townhall.',
+            'The Ink Tribunal — Keepers of Balance',
+            'The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant. It runs the city\'s administrative apparatus from the Townhall.',
             this.journalSystem.categories.FACTIONS,
-            { faction: 'Pith Reclaimers' }
+            { faction: 'Ink Tribunal' }
         );
     }
 

@@ -117,13 +117,13 @@ export default {
     ac_about_directorate: {
         text: "Lumen Directorate existuje, aby zajistil, že růst zvítězí. Poté, co Deskovkové války zredukovaly toto město na popel a protimluvy, jsme přestavěli. Ludarchové hráli své hry, dokud realita neunesla váhu jejich pravidel – a když se herní desky zhroutily, byli jsme to my, kdo zasadil první nové kořeny.\n\n'Nic skrytého. Nic ztraceného.' To je náš závazek. Transparentnost a zachování. Vše, co roste, si zaslouží být viděno, katalogizováno a chráněno.",
         options: {
-            what_about_the_rust_choir_and_the_pith_reclaimers: "A co Rezavý chór a Pith Reclaimers?",
+            what_about_the_rust_choir_and_the_pith_reclaimers: "A co Rezavý chór a Inkoustový tribunál?",
             what_is_your_role_here: "Jaká je vaše role tady?",
             i_have_other_questions: "Mám další otázky."
         }
     },
     ac_other_factions: {
-        text: "Rezavý chór uctívá entropii. Oblékají korozi do posvátných rouch a nazývají ji 'ticho mezi.' Romantický nesmysl – rozklad bez účelu je jen smrt.\n\nPith Reclaimers jsou byrokrati, kteří věří, že dokážou zvládnout chaos s dostatkem formulářů a procedur. Vzešli z trosek administrativního aparátu Ludarchů a nikdy nepřestali archivovat.\n\nSpolupracujeme s oběma, když je to nutné. Direktorát je především pragmatický.",
+        text: "Rezavý chór uctívá entropii. Oblékají korozi do posvátných rouch a nazývají ji 'ticho mezi.' Romantický nesmysl – rozklad bez účelu je jen smrt.\n\nInkoustový tribunál jsou byrokrati, kteří věří, že dokážou zvládnout chaos s dostatkem formulářů a procedur. Vzešel z trosek administrativního aparátu Ludarchů a nikdy nepřestali archivovat.\n\nSpolupracujeme s oběma, když je to nutné. Direktorát je především pragmatický.",
         options: {
             i_have_other_questions: "Mám další otázky."
         }
@@ -230,7 +230,7 @@ export default {
         }
     },
     ac_cathedral_access: {
-        text: "Biskupčina pečeť je teologická, ne fyzická. Naši botanici by mohli prolomit stěny za odpoledne. Ale tím bychom sjednotili každou víru ve městě proti nám – a Pith Reclaimers by nás pohřbili v žalobách na desítky let.\n\nNe. Pečeť musí být odstraněna řádně. Nástupnictvím, vyjednáváním, nebo někým, kdo může vejít, aniž by cokoliv rozbil.\n\nNěkým... jako je nezávislý vyšetřovatel, třeba.",
+        text: "Biskupčina pečeť je teologická, ne fyzická. Naši botanici by mohli prolomit stěny za odpoledne. Ale tím bychom sjednotili každou víru ve městě proti nám – a Inkoustový tribunál by nás pohřbil v žalobách na desítky let.\n\nNe. Pečeť musí být odstraněna řádně. Nástupnictvím, vyjednáváním, nebo někým, kdo může vejít, aniž by cokoliv rozbil.\n\nNěkým... jako je nezávislý vyšetřovatel, třeba.",
         options: {
             are_you_asking_me_to_break_into_the_cathedral: "Žádáte mě, abych se vloupal do katedrály?",
             i_have_other_questions: "Mám další otázky."
@@ -303,7 +303,7 @@ export default {
         }
     },
     ac_townhall: {
-        text: "Radnice. Ano, ten konkrétní zámek trápí každého v poslední době.\n\nNemohu vám pomoct přímo – radnice spadá pod jurisdikci Pith Reclaimers a vliv Direktorátu tam je... omezený. Ale máme operativce, který se specializuje na navigaci byrokratickými překážkami.\n\nSeldo Třikrát-Opravený. Druhé patro téhle budovy. Udržuje naší styčnou linku s administrativním aparátem města. Pokud někdo zná cestu přes dveře radnice, je to Seldo.",
+        text: "Radnice. Ano, ten konkrétní zámek trápí každého v poslední době.\n\nNemohu vám pomoct přímo – radnice spadá pod jurisdikci Inkoustového tribunálu a vliv Direktorátu tam je... omezený. Ale máme operativce, který se specializuje na navigaci byrokratickými překážkami.\n\nSeldo Třikrát-Opravený. Druhé patro téhle budovy. Udržuje naší styčnou linku s administrativním aparátem města. Pokud někdo zná cestu přes dveře radnice, je to Seldo.",
         options: {
             why_is_he_called_thricecorrected: "Proč se mu říká 'Třikrát-Opravený'?",
             thanks_ill_find_him: "Díky. Najdu ho."
@@ -357,7 +357,7 @@ export default {
         }
     },
     seldo_role: {
-        text: "Jsem spojení Direktorátu s městskou byrokracií. Každé povolení, každé podání, každý mezifrakční dokument, který potřebuje razítko nebo podpis nebo pečlivě zinscenovanou nehodu – to je moje kompetence.\n\nPith Reclaimers řídí administrativní aparát. Rezavý chór ho ignoruje. Direktorát... se jím naviguje. A já jsem navigátor.\n\nZnám každého úředníka v tomhle městě jménem, každý formulář číslem a každý zadní vchod podle zvuku, který vydá, když správně zaklepete.",
+        text: "Jsem spojení Direktorátu s městskou byrokracií. Každé povolení, každé podání, každý mezifrakční dokument, který potřebuje razítko nebo podpis nebo pečlivě zinscenovanou nehodu – to je moje kompetence.\n\nInkoustový tribunál řídí administrativní aparát. Rezavý chór ho ignoruje. Direktorát... se jím naviguje. A já jsem navigátor.\n\nZnám každého úředníka v tomhle městě jménem, každý formulář číslem a každý zadní vchod podle zvuku, který vydá, když správně zaklepete.",
         options: {
             speaking_of_back_doors_i_need_into_the_townhall: "Když mluvíte o zadních vchodech – potřebuji se dostat na Radnici.",
             i_have_other_questions: "Mám další otázky.",
@@ -377,7 +377,7 @@ export default {
         }
     },
     seldo_bluff: {
-        text: "Můžete zkusit. Pith Reclaimers ji zapečetili Formulářem 77-B – jurisdikční uzamčení. Ani Direktorát to nemůže zrušit bez vyvolání mezifrakčního vyšetřování.\n\nNebo mi prokážete jednu malou laskavost a projdete hlavními dveřmi s úsměvem. Vaše volba.",
+        text: "Můžete zkusit. Inkoustový tribunál ji zapečetil Formulářem 77-B – jurisdikční uzamčení. Ani Direktorát to nemůže zrušit bez vyvolání mezifrakčního vyšetřování.\n\nNebo mi prokážete jednu malou laskavost a projdete hlavními dveřmi s úsměvem. Vaše volba.",
         options: {
             fine_whats_the_favor: "Dobrá. Jaká laskavost?",
         }

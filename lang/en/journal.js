@@ -249,8 +249,8 @@ export default {
             description: 'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often.',
         },
         pith_reclaimers_faction: {
-            title: 'The Pith Reclaimers — Keepers of Balance',
-            description: "The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant. They run the city's administrative apparatus from the Townhall.",
+            title: 'The Ink Tribunal — Keepers of Balance',
+            description: "The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant. It runs the city's administrative apparatus from the Townhall.",
         },
         forgotten_elevator_button_available: {
             title: "Mysterious Button at Zerren's Shop",
@@ -634,12 +634,12 @@ export default {
             description: 'Used Thorne-Still\'s Brain Rot to break the synchronization between Hesh and Vell. Their coordinated pacing — which they use to subtly inflate bid prices — is now compromised. This should lower the final auction prices.',
         },
         met_sister_calyx: {
-            title: 'Sister Calyx — Pith Reclaimers',
-            description: 'Met Sister Calyx of the Pith Reclaimers at the Voxmarket Auction Hall. She\'s here on chapter business, examining the lots with clinical precision. Fungal filaments are woven into her vestments.',
+            title: 'Sister Calyx — Ink Tribunal',
+            description: 'Met Sister Calyx of the Ink Tribunal at the Voxmarket Auction Hall. She\'s here on chapter business, examining the lots with clinical precision. Fungal filaments are woven into her vestments.',
         },
         calyx_lie_detected: {
             title: 'Neme: Calyx\'s Real Motive',
-            description: 'Used Neme\'s Photosentience on Sister Calyx. The temporal extraction research story is cover — she wants the Chrono-Slurry Toadlet for personal use. Her chapter\'s budget is also tighter than she claims. This leverage could be useful.',
+            description: 'Used Neme\'s Photosentience on Sister Calyx. The temporal research story is cover — she wants the Chrono-Slurry Toadlet for personal use. Her chapter\'s budget is also tighter than she claims. This leverage could be useful.',
         },
         calyx_rattled: {
             title: 'Calyx Confessed: Temporal Vertigo',
@@ -647,15 +647,15 @@ export default {
         },
         calyx_blackmailed: {
             title: 'Forced Calyx to Drop the Toadlet',
-            description: 'Used the knowledge of Calyx\'s temporal vertigo as leverage to force her out of the Toadlet bidding. She won\'t forget this — the Pith Reclaimers hold grudges.',
+            description: 'Used the knowledge of Calyx\'s temporal vertigo as leverage to force her out of the Toadlet bidding. She won\'t forget this — the Ink Tribunal holds grudges.',
         },
         calyx_shown_mercy: {
             title: 'Calyx Withdrew — Shown Mercy',
-            description: 'Kept Calyx\'s temporal vertigo secret and she agreed to drop the Toadlet bid in gratitude. A more compassionate approach — and one the Pith Reclaimers might remember favorably.',
+            description: 'Kept Calyx\'s temporal vertigo secret and she agreed to drop the Toadlet bid in gratitude. A more compassionate approach — and one the Ink Tribunal might remember favorably.',
         },
         calyx_truce: {
             title: 'Arrangement with Sister Calyx',
-            description: 'Reached an understanding with Sister Calyx of the Pith Reclaimers — she\'ll focus on the Dream Egg and leave the Chrono-Slurry Toadlet to me, as long as I don\'t drive up the Egg\'s price. Not a binding deal, but a practical arrangement.',
+            description: 'Reached an understanding with Sister Calyx of the Ink Tribunal — she\'ll focus on the Dream Egg and leave the Chrono-Slurry Toadlet to me, as long as I don\'t drive up the Egg\'s price. Not a binding deal, but a practical arrangement.',
         },
         calyx_miraged: {
             title: 'Mirage Weave: Rattled Sister Calyx',
@@ -911,7 +911,7 @@ export default {
         },
         bishop_seal_true_purpose: {
             title: 'The Seal\'s True Purpose',
-            description: 'Sister Calyx of the Pith Reclaimers read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
+            description: 'Sister Calyx of the Ink Tribunal read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
         },
         heir_embryos_disrupted: {
             title: 'Disrupted the Heir\'s Embryo Synchronization',
@@ -942,28 +942,28 @@ export default {
             description: 'Asked Neme to interpret The Silence Beneath the Stairwell. Even Neme could only sense concealment, hunger, and loneliness — not clear intent. The creature is difficult to read even through bio-signals.',
         },
         pith_recruit_magnekin: {
-            title: 'A Soul for the Pith: Magnekin',
-            description: 'Magnekin — the collective of micro-cities pretending to be a citizen — agreed to be filed as a real, protected citizen by the Pith Reclaimers. It is exactly the belonging they crossed scales to find. I should tell Councilor Seraphel Dune I have a soul for the faction.',
+            title: 'A Soul for the Tribunal: Magnekin',
+            description: 'Magnekin — the collective of micro-cities pretending to be a citizen — agreed to be filed as a real, protected citizen by the Ink Tribunal. It is exactly the belonging they crossed scales to find. I should tell Councilor Seraphel Dune I have a soul for the faction.',
         },
         pith_recruit_heir: {
-            title: 'A Soul for the Pith: the Heir',
-            description: 'The Heir to the Yellow Aquarium agreed to be filed as a citizen by the Pith Reclaimers. To a creature that collects "continuations," being written into the record is a kind of being kept — remembered forward. I should tell Councilor Seraphel Dune I have a soul for the faction.',
+            title: 'A Soul for the Tribunal: the Heir',
+            description: 'The Heir to the Yellow Aquarium agreed to be filed as a citizen by the Ink Tribunal. To a creature that collects "continuations," being written into the record is a kind of being kept — remembered forward. I should tell Councilor Seraphel Dune I have a soul for the faction.',
         },
         pith_reclaimers_joined: {
-            title: 'Member of the Pith Reclaimers',
-            description: 'I brought the Pith Reclaimers a soul to file, and Councilor Seraphel Dune admitted me to the faction. The Reclaimers preserve the city\'s order by accounting for what would otherwise be lost — and they have opened a hidden room beneath the Townhall to me. The more souls I bring them, the more the Reclaimers owe me.',
+            title: 'Member of the Ink Tribunal',
+            description: 'I brought the Ink Tribunal a soul to file, and Councilor Seraphel Dune admitted me to the faction. The Tribunal preserves the city\'s order by accounting for what would otherwise be lost — and it has opened a hidden room beneath the Townhall to me. The more souls I bring it, the more the Tribunal owes me.',
         },
         pith_room_entered: {
-            title: "The Reclaimers' Room",
-            description: 'A hidden reading room beneath the Townhall, off every official record — which, for the Pith Reclaimers, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Reclaimers\' share for every soul I bring into the fold.',
+            title: "The Tribunal's Room",
+            description: 'A hidden reading room beneath the Townhall, off every official record — which, for the Ink Tribunal, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Tribunal\'s share for every soul I bring into the fold.',
         },
         pith_cache_magnekin: {
-            title: 'Reclaimed Share',
-            description: 'The Pith Reclaimers set aside a share for filing Magnekin into the record.',
+            title: "Tribunal's Share",
+            description: 'The Ink Tribunal set aside a share for filing Magnekin into the record.',
         },
         pith_cache_heir: {
-            title: 'Reclaimed Share',
-            description: 'The Pith Reclaimers set aside a share for filing the Heir into the record.',
+            title: "Tribunal's Share",
+            description: 'The Ink Tribunal set aside a share for filing the Heir into the record.',
         },
         rust_choir_warned_of_lumen: {
             title: 'A Warning for the Choir',
@@ -1018,8 +1018,8 @@ export default {
             description: "Under a case-number that matches nothing, I found a sealed dossier that plainly didn't belong, and pulled it. Time to get it out to Sconce by the steps.",
         },
         gang_smuggle_gave_pith: {
-            title: 'Surrendered to the Reclaimers',
-            description: "Rather than run Torchère's contraband, I surrendered the Wimlick to Councilor Dune. The Pith Reclaimers logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.",
+            title: 'Surrendered to the Tribunal',
+            description: "Rather than run Torchère's contraband, I surrendered the Wimlick to Councilor Dune. The Ink Tribunal logged it as recovered contraband — and logged my part in it honestly. Torchère will assume the drop was made.",
         },
         gang_lamps_destroyed: {
             title: 'The Gang Is Gone',

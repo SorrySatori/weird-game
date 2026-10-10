@@ -50,18 +50,18 @@ export default {
         }
     },
     promise_made: {
-        text: "(Viditelně se mu uleví) Dobře... dobře. Pith Reclaimers si to budou pamatovat. Co vám Gnur za to živé jádro slíbil?",
+        text: "(Viditelně se mu uleví) Dobře... dobře. Inkoustový tribunál si to bude pamatovat. Co vám Gnur za to živé jádro slíbil?",
         options: {
             he_promised_me_a_to_tell_where_to_find_the_bishop: "Slíbil, že mi řekne, kde najdu Biskupku",
             sorry_but_thats_private_information: "Promiňte, to je soukromá věc",
-            who_are_the_pith_reclaimers: "Kdo jsou Pith Reclaimers?"
+            who_are_the_pith_reclaimers: "Co je Inkoustový tribunál?"
         }
     },
     bishop_location: {
         text: "Biskupka? Hm... Nevím, kde je. Ale poptejte se po Edgaru Eskolovi v hospodě Řvoucí korek. Myslím, že by mohl něco vědět.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného",
-            who_are_the_pith_reclaimers: "Kdo jsou Pith Reclaimers?",
+            who_are_the_pith_reclaimers: "Co je Inkoustový tribunál?",
             who_is_edgar_eskola: "Kdo je Edgar Eskola?"
         }
     },
@@ -69,11 +69,11 @@ export default {
         text: "Rozumím, v pořádku. Mohu vám pomoct s něčím dalším?",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného",
-            who_are_the_pith_reclaimers: "Kdo jsou Pith Reclaimers?"
+            who_are_the_pith_reclaimers: "Co je Inkoustový tribunál?"
         }
     },
     pith_reclaimers: {
-        text: "Pith Reclaimers jsou strážci neutrality. Udržujeme ve městě mír a pořádek. Někteří z nás sbírají... jedinečné předměty, ale neprodáváme je.",
+        text: "Inkoustový tribunál je strážcem neutrality. Udržujeme ve městě mír a pořádek. Někteří z nás sbírají... jedinečné předměty, ale neprodáváme je.",
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     edgar: {

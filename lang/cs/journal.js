@@ -248,8 +248,8 @@ export default {
             description: 'Podle Kloora Venna Biskupka poměrně často navštěvovala Dr. Elphi Quarn.',
         },
         pith_reclaimers_faction: {
-            title: 'Pith Reclaimers – strážci rovnováhy',
-            description: 'Pith Reclaimers jsou zřejmě frakce, které jde o udržení rovnováhy a o to, aby technika nepřerostla lidem přes hlavu. Stojí proti Rezavému chóru – věří, že některé prastaré technologie mají zůstat spát. Z radnice řídí správní aparát města.',
+            title: 'Inkoustový tribunál – strážce rovnováhy',
+            description: 'Inkoustový tribunál je zřejmě frakce, které jde o udržení rovnováhy a o to, aby technika nepřerostla lidem přes hlavu. Stojí proti Rezavému chóru – věří, že některé prastaré technologie mají zůstat spát. Z radnice řídí správní aparát města.',
         },
         forgotten_elevator_button_available: {
             title: 'Záhadný Knoflík u Zerren',
@@ -633,12 +633,12 @@ export default {
             description: 'Použil jsem Thorne-Stillův Mozkový rozklad k narušení synchronizace Heshe a Vella. Jejich koordinované tempování – které používají k jemnému nafukování cen – je nyní narušené.',
         },
         met_sister_calyx: {
-            title: 'Sestra Calyx – Reklamátoři jádra',
-            description: 'Setkal jsem se se Sestrou Calyx z Reklamátorů jádra v Aukční hale Voxmarketu. Je tu ve věci kapituly, zkoumá položky s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha.',
+            title: 'Sestra Calyx – Inkoustový tribunál',
+            description: 'Setkal jsem se se Sestrou Calyx z Inkoustového tribunálu v Aukční hale Voxmarketu. Je tu ve věci kapituly, zkoumá položky s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha.',
         },
         calyx_lie_detected: {
             title: 'Neme: Skutečný motiv Calyx',
-            description: 'Použil jsem Neminu Fotosentenci na Sestru Calyx. Příběh o výzkumu temporální extrakce je krytí – Chronobřečkové Ropušátko chce pro sebe. Rozpočet kapituly je také napjatější, než tvrdí.',
+            description: 'Použil jsem Neminu Fotosentenci na Sestru Calyx. Příběh o temporálním výzkumu je krytí – Chronobřečkové Ropušátko chce pro sebe. Rozpočet kapituly je také napjatější, než tvrdí.',
         },
         calyx_rattled: {
             title: 'Calyx přiznala: Temporální vertigo',
@@ -646,15 +646,15 @@ export default {
         },
         calyx_blackmailed: {
             title: 'Přinucení Calyx vzdát se Ropušátka',
-            description: 'Použil jsem znalost temporálního vertiga Calyx jako páku, abych ji donutil vzdát se dražby Ropušátka. Na tohle nezapomene – Reklamátoři jádra drží zášť.',
+            description: 'Použil jsem znalost temporálního vertiga Calyx jako páku, abych ji donutil vzdát se dražby Ropušátka. Na tohle nezapomene – Inkoustový tribunál si zášť pamatuje.',
         },
         calyx_shown_mercy: {
             title: 'Calyx ustoupila – projevena milost',
-            description: 'Uchoval jsem tajemství temporálního vertiga Calyx a ona souhlasila, že se vzdá dražby Ropušátka z vděčnosti. Soucitnejsi pristup – a Reklamátoři jádra si to mohou zapamatovat příznivě.',
+            description: 'Uchoval jsem tajemství temporálního vertiga Calyx a ona souhlasila, že se vzdá dražby Ropušátka z vděčnosti. Soucitnější přístup – a Inkoustový tribunál si to může zapamatovat v dobrém.',
         },
         calyx_truce: {
             title: 'Dohoda se Sestrou Calyx',
-            description: 'Dosáhl jsem porozumění se Sestrou Calyx z Reklamátorů jádra – soustředí se na Snové vejce a nechá Chronobřečkové Ropušátko mně, pokud nebudu zvyšovat cenu vejce.',
+            description: 'Dosáhl jsem porozumění se Sestrou Calyx z Inkoustového tribunálu – soustředí se na Snové vejce a nechá Chronobřečkové Ropušátko mně, pokud nebudu zvyšovat cenu vejce.',
         },
         calyx_miraged: {
             title: 'Tkaní přeludů: Otřesení Calyx',
@@ -910,7 +910,7 @@ export default {
         },
         bishop_seal_true_purpose: {
             title: 'Pravý účel pečeti',
-            description: 'Sestra Calyx z Reklamátorů jádra přečetla z archivů své kapituly původní uzavírací listinu Vaječné katedrály a její strážcovský statut. Strážce závoje nikdy nebyl pouhými dveřmi – jeho stálý příkaz zněl zadržet jen ty chtivé: kohokoli, kdo se blíží k posvátnému růstu s úmyslem vlastnit, patentovat nebo si nárokovat. A Biskupčina nouzová pečeť čte směrem ven, ne dovnitř. Nebyla vztyčena, aby chránila katedrálu před světem, ale aby chránila svět před vstupem kohokoli, kdo by chtěl VLASTNIT nový život. Biskupka zapečetila dveře, aby zastavila nárok na mysl bez autora – a pak si nárok na ni vznesla jedna mysl.',
+            description: 'Sestra Calyx z Inkoustového tribunálu přečetla z archivů své kapituly původní uzavírací listinu Vaječné katedrály a její strážcovský statut. Strážce závoje nikdy nebyl pouhými dveřmi – jeho stálý příkaz zněl zadržet jen ty chtivé: kohokoli, kdo se blíží k posvátnému růstu s úmyslem vlastnit, patentovat nebo si nárokovat. A Biskupčina nouzová pečeť čte směrem ven, ne dovnitř. Nebyla vztyčena, aby chránila katedrálu před světem, ale aby chránila svět před vstupem kohokoli, kdo by chtěl VLASTNIT nový život. Biskupka zapečetila dveře, aby zastavila nárok na mysl bez autora – a pak si nárok na ni vznesla jedna mysl.',
         },
         heir_embryos_disrupted: {
             title: 'Narušil jsem synchronizaci Dědicových embryí',
@@ -941,28 +941,28 @@ export default {
             description: 'Požádal jsem Neme, aby vyložilo Ticho pod schodištěm. I Neme dokázalo vycítit jen zatajování, hlad a osamělost – nikoli jasný úmysl. To stvoření je těžké číst i skrze bio-signály.',
         },
         pith_recruit_magnekin: {
-            title: 'Duše pro jádro: Magnekin',
-            description: 'Magnekin – kolektiv mikro-měst předstírající, že je občan – souhlasil, že ho Reklamátoři jádra zapíšou jako skutečného, chráněného občana. Je to přesně ta sounáležitost, kvůli které překročil měřítka. Měl bych říct radnímu Seraphelu Dunovi, že mám pro frakci duši.',
+            title: 'Duše pro Tribunál: Magnekin',
+            description: 'Magnekin – kolektiv mikro-měst předstírající, že je občan – souhlasil, že ho Inkoustový tribunál zapíše jako skutečného, chráněného občana. Je to přesně ta sounáležitost, kvůli které překročil měřítka. Měl bych říct radnímu Seraphelu Dunovi, že mám pro frakci duši.',
         },
         pith_recruit_heir: {
-            title: 'Duše pro jádro: Dědic',
-            description: 'Dědic Žlutého akvária souhlasil, že ho Reklamátoři jádra zapíšou jako občana. Pro tvora, který sbírá „pokračování“, je být zanesen do záznamu druhem uchování – pamatování dopředu. Měl bych říct radnímu Seraphelu Dunovi, že mám pro frakci duši.',
+            title: 'Duše pro Tribunál: Dědic',
+            description: 'Dědic Žlutého akvária souhlasil, že ho Inkoustový tribunál zapíše jako občana. Pro tvora, který sbírá „pokračování“, je být zanesen do záznamu druhem uchování – pamatování dopředu. Měl bych říct radnímu Seraphelu Dunovi, že mám pro frakci duši.',
         },
         pith_reclaimers_joined: {
-            title: 'Člen Reklamátorů jádra',
-            description: 'Přinesl jsem Reklamátorům jádra duši k zapsání a radní Seraphel Dune mě přijal do frakce. Reklamátoři uchovávají řád města tím, že vyúčtují, co by se jinak ztratilo – a otevřeli mi skrytou místnost pod Radnicí. Čím víc duší jim přivedu, tím víc mi Reklamátoři dluží.',
+            title: 'Člen Inkoustového tribunálu',
+            description: 'Přinesl jsem Inkoustovému tribunálu duši k zapsání a radní Seraphel Dune mě přijal do frakce. Tribunál uchovává řád města tím, že vyúčtuje, co by se jinak ztratilo – a otevřel mi skrytou místnost pod Radnicí. Čím víc duší mu přivedu, tím víc mi Tribunál dluží.',
         },
         pith_room_entered: {
-            title: 'Místnost Reklamátorů',
-            description: 'Skrytá čítárna pod Radnicí, mimo každý oficiální záznam – což je pro Reklamátory jádra jediné soukromí, které přežije. Po stěnách šplhají police se spisy; zakalená skleněná koule na podstavci drží podíl Reklamátorů za každou duši, kterou přivedu do stáda.',
+            title: 'Místnost Tribunálu',
+            description: 'Skrytá čítárna pod Radnicí, mimo každý oficiální záznam – což je pro Inkoustový tribunál jediné soukromí, které přežije. Po stěnách šplhají police se spisy; zakalená skleněná koule na podstavci drží podíl Tribunálu za každou duši, kterou přivedu do stáda.',
         },
         pith_cache_magnekin: {
             title: 'Získaný podíl',
-            description: 'Reklamátoři jádra odložili podíl za zapsání Magnekina do záznamu.',
+            description: 'Inkoustový tribunál odložil podíl za zapsání Magnekina do záznamu.',
         },
         pith_cache_heir: {
             title: 'Získaný podíl',
-            description: 'Reklamátoři jádra odložili podíl za zapsání Dědice do záznamu.',
+            description: 'Inkoustový tribunál odložil podíl za zapsání Dědice do záznamu.',
         },
         rust_choir_warned_of_lumen: {
             title: 'Varování pro Chór',
@@ -1017,8 +1017,8 @@ export default {
             description: 'Pod číslem případu, které neodpovídá ničemu, jsem našel zapečetěný spis, který tam zjevně nepatřil, a vytáhl ho. Je čas dostat ho ven ke Sconce u schodů.',
         },
         gang_smuggle_gave_pith: {
-            title: 'Vydáno Reklamátorům',
-            description: 'Místo abych rozvážel Torchèrovo pašované zboží, vydal jsem Wimlick radnímu Dunovi. Reklamátoři jádra to zaevidovali jako zabavené pašované zboží – a poctivě zaevidovali i můj podíl na tom. Torchère bude předpokládat, že zásilka byla doručena.',
+            title: 'Vydáno Tribunálu',
+            description: 'Místo abych rozvážel Torchèrovo pašované zboží, vydal jsem Wimlick radnímu Dunovi. Inkoustový tribunál to zaevidoval jako zabavené pašované zboží – a poctivě zaevidoval i můj podíl na tom. Torchère bude předpokládat, že zásilka byla doručena.',
         },
         gang_lamps_destroyed: {
             title: 'Gang je pryč',

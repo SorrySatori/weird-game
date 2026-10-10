@@ -177,7 +177,7 @@ export default {
 
     factions: {
         RustChoir: 'Rezavý chór',
-        PithReclaimers: 'Pith Reclaimers',
+        PithReclaimers: 'Inkoustový tribunál',
         LumenDirectorate: 'Lumen Direktorát',
     },
 

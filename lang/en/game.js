@@ -177,7 +177,7 @@ export default {
 
     factions: {
         RustChoir: 'Rust Choir',
-        PithReclaimers: 'Pith Reclaimers',
+        PithReclaimers: 'Ink Tribunal',
         LumenDirectorate: 'Lumen Directorate',
     },
 

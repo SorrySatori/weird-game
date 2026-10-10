@@ -131,7 +131,7 @@ export default {
         }
     },
     brukk_board_war_detail: {
-        text: "Frakce se formovaly... Lumen Direktorát si přivlastnil vítězství... Pith Reclaimers tlačili pravidla... Ale my známe pravdu. Stroje přetrvaly.",
+        text: "Frakce se formovaly... Lumen Direktorát si přivlastnil vítězství... Inkoustový tribunál tlačil pravidla... Ale my známe pravdu. Stroje přetrvaly.",
         options: {
             so_the_choir_was_born_from_the_war: "Takže Chór se zrodil z války?"
         }

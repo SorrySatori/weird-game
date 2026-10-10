@@ -179,19 +179,19 @@ export default class VoxmarketHallScene extends GameScene {
                 ]
             },
 
-            // ——— Sister Calyx of the Pith Reclaimers ———
+            // ——— Sister Calyx of the Ink Tribunal ———
             calyx_start: {
                 speaker: 'Sister Calyx',
                 textKey: calyxStartTextKey,
                 text: metCalyx
                     ? (calyxRattled
                         ? `Sister Calyx stands rigidly, her composure cracked. She eyes you with visible wariness. "You again. I hope you're here to browse, not to... continue our earlier conversation."`
-                        : `"Back again," Sister Calyx says, adjusting a small vial at her belt. "The auction draws all sorts. I'm here for Pith Reclaimer business — nothing more."`)
-                    : `A tall woman in layered grey-green robes stands near the auction lots, examining them with clinical precision. Fungal filaments are woven into her vestments like silver thread, and her fingers end in faintly discolored nails — the mark of prolonged pith extraction work.\n\n"Sister Calyx," she says, noticing your approach. "Pith Reclaimers. I'm here on chapter business. And you are...?"`,
+                        : `"Back again," Sister Calyx says, adjusting a small vial at her belt. "The auction draws all sorts. I'm here for Ink Tribunal business — nothing more."`)
+                    : `A tall woman in layered grey-green robes stands near the auction lots, examining them with clinical precision. Fungal filaments are woven into her vestments like silver thread, and her fingers end in ink-stained nails — the mark of long years over the Tribunal's ledgers.\n\n"Sister Calyx," she says, noticing your approach. "Ink Tribunal. I'm here on chapter business. And you are...?"`,
                 options: [
-                    { text: "Just browsing. What are the Pith Reclaimers?", key: 'just_browsing_what_are_the_pith_reclaimers', next: "calyx_pith" },
+                    { text: "Just browsing. What is the Ink Tribunal?", key: 'just_browsing_what_are_the_pith_reclaimers', next: "calyx_pith" },
                     { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "calyx_bidding" },
-                    ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] What does Reclaimer law say about the Bishop's seal on the Egg Cathedral?", key: 'before_cathedral_seal_law', next: "calyx_seal_law" }] : []),
+                    ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] What does Tribunal law say about the Bishop's seal on the Egg Cathedral?", key: 'before_cathedral_seal_law', next: "calyx_seal_law" }] : []),
                     ...(hasAuctionErrand ? [{ text: "I'm here for the Chrono-Slurry Toadlet.", key: 'im_here_for_the_chronoslurry_toadlet', next: "calyx_toadlet_rival" }] : []),
                     ...(hasNeme && !calyxLieDetected ? [{ text: "[Photosentience] Read her bio-signals.", key: 'photosentience_read_her_biosignals', next: "calyx_neme" }] : []),
                     ...(hasUlvarex && !calyxMiraged ? [{ text: "[Mirage Weave] Create a distraction.", key: 'mirage_weave_create_a_distraction', next: "calyx_mirage" }] : []),
@@ -200,8 +200,8 @@ export default class VoxmarketHallScene extends GameScene {
                     if (!this.hasJournalEntry('met_sister_calyx')) {
                         this.addJournalEntry(
                             'met_sister_calyx',
-                            'Sister Calyx — Pith Reclaimers',
-                            'Met Sister Calyx of the Pith Reclaimers at the Voxmarket Auction Hall. She\'s here on chapter business, examining the lots with clinical precision. Fungal filaments are woven into her vestments.',
+                            'Sister Calyx — Ink Tribunal',
+                            'Met Sister Calyx of the Ink Tribunal at the Voxmarket Auction Hall. She\'s here on chapter business, examining the lots with clinical precision. Fungal filaments are woven into her vestments.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Sister Calyx' }
                         );
@@ -211,17 +211,17 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_pith: {
                 speaker: 'Sister Calyx',
-                text: `"The Pith Reclaimers extract fungal essence — pith — from living organisms. We refine it, study it, trade it. The Directorate calls us 'parasites,' the Rust Choir calls us 'thieves.' We call ourselves practical.\n\nEvery living thing in this city carries harvestable essence. We simply... collect what's already being wasted. The cathedral's eggs, the spore fields, even the city's living walls — all sources of raw pith.\n\nOur chapter here in Upper Morkezela is small but well-funded. Hence my presence at this auction."`,
+                text: `"The Ink Tribunal keeps the record of this city — every title, every claim, every living thing that can be entered in a ledger. We file it, study it, and where the record has gaps, we acquire what fills them. The Directorate calls us 'clerks,' the Rust Choir calls us 'thieves.' We call ourselves thorough.\n\nEverything in this city is evidence of something. We simply... take custody of what would otherwise go unrecorded. The cathedral's eggs, the spore fields, even the city's living walls — all entries waiting to be written.\n\nOur chapter here in Upper Morkezela is small but well-funded. Hence my presence at this auction."`,
                 options: [
                     { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "calyx_bidding" },
-                    { text: "Essence extraction sounds invasive.", key: 'essence_extraction_sounds_invasive', next: "calyx_ethics" },
+                    { text: "Taking living things into custody sounds invasive.", key: 'essence_extraction_sounds_invasive', next: "calyx_ethics" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]
             },
 
             calyx_ethics: {
                 speaker: 'Sister Calyx',
-                text: `"Invasive?" She adjusts her fungal-threaded cuff. "Is it invasive when you breathe? You inhale spores with every breath. We simply do it with intention and precision.\n\nThe Lumen Directorate grows things and pretends they're natural. The Rust Choir lets things decay and calls it sacred. We extract what's useful and call it honest.\n\nBut I didn't come here to debate philosophy. I came here to bid."`,
+                text: `"Invasive?" She adjusts her fungal-threaded cuff. "Is it invasive when the city counts you in a census? You are already on a dozen lists. We simply keep ours with intention and precision.\n\nThe Lumen Directorate grows things and pretends they're natural. The Rust Choir lets things decay and calls it sacred. We write down what is there and call it honest.\n\nBut I didn't come here to debate philosophy. I came here to bid."`,
                 options: [
                     { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "calyx_bidding" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
@@ -230,7 +230,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_bidding: {
                 speaker: 'Sister Calyx',
-                text: `"The Fossilized Dream Egg, primarily. Cathedral artifacts carry concentrated pith — decades of accumulated essence compressed into stone. Our chapter could study it for years.\n\nBut I have secondary interest in the Chrono-Slurry Toadlet as well. Prophetic amphibians produce a unique pith signature when their foresight activates. Very valuable for our temporal extraction research.\n\nI have a budget of 150 dinar. I intend to use it strategically."`,
+                text: `"The Fossilized Dream Egg, primarily. Cathedral artifacts are concentrated record — decades of testimony compressed into stone. Our chapter could read it for years.\n\nBut I have secondary interest in the Chrono-Slurry Toadlet as well. Prophetic amphibians leave a unique trace in the record when their foresight activates. Very valuable for our temporal research.\n\nI have a budget of 150 dinar. I intend to use it strategically."`,
                 options: [
                     ...(hasAuctionErrand ? [{ text: "The Toadlet is mine. I'm bidding on it too.", key: 'the_toadlet_is_mine_im_bidding_on_it_too', next: "calyx_toadlet_rival" }] : []),
                     { text: "That's a serious budget.", key: 'thats_a_serious_budget', next: "calyx_budget" },
@@ -240,7 +240,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_toadlet_rival: {
                 speaker: 'Sister Calyx',
-                text: `She narrows her eyes. "You want the Toadlet? Interesting. It's not exactly a casual purchase — prophetic amphibians require specialized care. Or do you just want to lick it and peer three minutes ahead like everyone else?\n\nI won't pretend I'll step aside. The chapter needs that pith signature. But the Dream Egg is my priority — if the Toadlet drives too high, I may have to choose.\n\nUnless you can convince me the Toadlet isn't worth my dinar."`,
+                text: `She narrows her eyes. "You want the Toadlet? Interesting. It's not exactly a casual purchase — prophetic amphibians require specialized care. Or do you just want to lick it and peer three minutes ahead like everyone else?\n\nI won't pretend I'll step aside. The chapter needs that trace on file. But the Dream Egg is my priority — if the Toadlet drives too high, I may have to choose.\n\nUnless you can convince me the Toadlet isn't worth my dinar."`,
                 options: [
                     { text: "What would convince you to drop the Toadlet bid?", key: 'what_would_convince_you_to_drop_the_toadlet_bid', next: "calyx_negotiate" },
                     { text: "May the best bidder win.", key: 'may_the_best_bidder_win', next: "calyx_challenge" },
@@ -251,7 +251,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_negotiate: {
                 speaker: 'Sister Calyx',
-                text: `"Convince me?" She crosses her arms, fungal threads catching the light. "The chapter sent me for pith sources. I need to return with something that justifies the travel costs.\n\nIf the Dream Egg goes for a reasonable price, I could focus my budget there and leave the Toadlet to you. But if someone drives the Egg too high, I'll pivot to the Toadlet as a secondary acquisition.\n\nSo your best strategy is to make sure I get the Dream Egg cheaply. Don't bid on it. Don't let anyone else drive it up. And I'll stay away from your amphibian."`,
+                text: `"Convince me?" She crosses her arms, fungal threads catching the light. "The chapter sent me to fill gaps in the record. I need to return with something that justifies the travel costs.\n\nIf the Dream Egg goes for a reasonable price, I could focus my budget there and leave the Toadlet to you. But if someone drives the Egg too high, I'll pivot to the Toadlet as a secondary acquisition.\n\nSo your best strategy is to make sure I get the Dream Egg cheaply. Don't bid on it. Don't let anyone else drive it up. And I'll stay away from your amphibian."`,
                 options: [
                     { text: "So we have an understanding — I avoid the Egg, you avoid the Toadlet.", key: 'so_we_have_an_understanding_i_avoid_the_egg_you_av', next: "calyx_deal" },
                     { text: "No promises. I'll bid as I see fit.", key: 'no_promises_ill_bid_as_i_see_fit', next: "calyx_no_deal" },
@@ -261,13 +261,13 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_deal: {
                 speaker: 'Sister Calyx',
-                text: `"An understanding. Not a deal — the Pith Reclaimers don't make deals with strangers at auctions. But... an understanding. Yes.\n\nI'll focus on the Dream Egg. You focus on the Toadlet. And neither of us drives up the other's target. Efficient. Practical. Very Reclaimer of you."\n\nShe offers the faintest nod — acknowledgment, not warmth.`,
+                text: `"An understanding. Not a deal — the Ink Tribunal doesn't make deals with strangers at auctions. But... an understanding. Yes.\n\nI'll focus on the Dream Egg. You focus on the Toadlet. And neither of us drives up the other's target. Efficient. Practical. Very Tribunal of you."\n\nShe offers the faintest nod — acknowledgment, not warmth.`,
                 options: [],
                 onTrigger: () => {
                     this.addJournalEntry(
                         'calyx_truce',
                         'Arrangement with Sister Calyx',
-                        'Reached an understanding with Sister Calyx of the Pith Reclaimers — she\'ll focus on the Dream Egg and leave the Chrono-Slurry Toadlet to me, as long as I don\'t drive up the Egg\'s price. Not a binding deal, but a practical arrangement.',
+                        'Reached an understanding with Sister Calyx of the Ink Tribunal — she\'ll focus on the Dream Egg and leave the Chrono-Slurry Toadlet to me, as long as I don\'t drive up the Egg\'s price. Not a binding deal, but a practical arrangement.',
                         this.journalSystem.categories.EVENTS,
                         { character: 'Sister Calyx' }
                     );
@@ -277,7 +277,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_no_deal: {
                 speaker: 'Sister Calyx',
-                text: `"Suit yourself. But don't be surprised when the bidding gets... energetic. The Pith Reclaimers don't lose auctions we've budgeted for.\n\nMay your pockets be deeper than your stubbornness."`,
+                text: `"Suit yourself. But don't be surprised when the bidding gets... energetic. The Ink Tribunal doesn't lose auctions we've budgeted for.\n\nMay your pockets be deeper than your stubbornness."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]
@@ -285,7 +285,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_challenge: {
                 speaker: 'Sister Calyx',
-                text: `"May the best bidder win," she repeats, and her smile has edges. "I intend to. The Pith Reclaimers don't attend auctions for sport.\n\nBut the social period isn't over yet. There's still time to be persuasive — or to make mistakes."`,
+                text: `"May the best bidder win," she repeats, and her smile has edges. "I intend to. The Ink Tribunal doesn't attend auctions for sport.\n\nBut the social period isn't over yet. There's still time to be persuasive — or to make mistakes."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]
@@ -293,18 +293,18 @@ export default class VoxmarketHallScene extends GameScene {
 
             calyx_budget: {
                 speaker: 'Sister Calyx',
-                text: `"The chapter doesn't fund half-measures. When we identify a pith source worth acquiring, we acquire it. 150 dinar is modest by Reclaimer standards — some chapters send delegations with ten times that.\n\nBut Upper Morkezela is a small chapter. We're... cautious with allocations. Which is why I need to bid strategically, not emotionally."`,
+                text: `"The chapter doesn't fund half-measures. When we identify an entry worth acquiring, we acquire it. 150 dinar is modest by Tribunal standards — some chapters send delegations with ten times that.\n\nBut Upper Morkezela is a small chapter. We're... cautious with allocations. Which is why I need to bid strategically, not emotionally."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]
             },
 
-            // --- Before the Cathedral: the Pith Reclaimer reading of the seal ---
+            // --- Before the Cathedral: the Ink Tribunal's reading of the seal ---
             calyx_seal_law: {
                 speaker: 'Sister Calyx',
-                text: `Calyx sets down the lot she was examining. "The Egg Cathedral. You want a Reclaimer's reading of it. Not whether the Bishop's death was tragic — grief is not a filing category. You want to know: what is the *legal status* of that seal?"
+                text: `Calyx sets down the lot she was examining. "The Egg Cathedral. You want the Tribunal's reading of it. Not whether the Bishop's death was tragic — grief is not a filing category. You want to know: what is the *legal status* of that seal?"
 
-She produces a folded document from her sleeve — brittle, official, stamped in a dead hand. "I pulled the chapter's copies before I left. The Pith Reclaimers keep everything; memory is our only real inventory. This is the cathedral's original closure instrument and its custodial charter. Both are older than the Bishop who invoked them."
+She produces a folded document from her sleeve — brittle, official, stamped in a dead hand. "I pulled the chapter's copies before I left. The Ink Tribunal keeps everything; memory is our only real inventory. This is the cathedral's original closure instrument and its custodial charter. Both are older than the Bishop who invoked them."
 
 "An emergency seal is not a whim. It is a legal act with a *purpose clause*. And the purpose written here is not the one everyone assumes."`,
                 options: [
@@ -318,7 +318,7 @@ She produces a folded document from her sleeve — brittle, official, stamped in
                 speaker: 'Sister Calyx',
                 text: `"The custodial charter names the guardian at the veil — the Sentinel. His flesh was given to the plants and his mind to the mycelial network so he could hold *one instruction* across centuries without drift. Clerks forget. Guardians do not."
 
-She reads it flatly, the way Reclaimers read everything: as inventory. "'The keeper shall admit the reverent, the curious, and the poor. The keeper shall bar only the *acquisitive* — any who approach the sacred growth intending ownership, patent, or claim.' Not thieves of coin. Thieves of *authorship*."
+She reads it flatly, the way the Tribunal reads everything: as inventory. "'The keeper shall admit the reverent, the curious, and the poor. The keeper shall bar only the *acquisitive* — any who approach the sacred growth intending ownership, patent, or claim.' Not thieves of coin. Thieves of *authorship*."
 
 "Everyone remembers the Sentinel as a door. He was written as a filter. That distinction is the whole case."`,
                 options: [
@@ -343,7 +343,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                         this.addJournalEntry(
                             'bishop_seal_true_purpose',
                             'The Seal\'s True Purpose',
-                            'Sister Calyx of the Pith Reclaimers read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
+                            'Sister Calyx of the Ink Tribunal read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
                             this.journalSystem.categories.LORE,
                             { location: 'Egg Cathedral', character: 'Sister Calyx', related: 'Bishop' }
                         );
@@ -354,7 +354,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
             // --- Symbiont interactions with Calyx ---
             calyx_neme: {
                 speaker: 'Sister Calyx',
-                text: `You let Neme's perception unfurl — tendrils of bio-awareness reaching toward Sister Calyx. Her signals bloom into focus: discipline, calculation, a carefully maintained facade of calm.\n\nBut underneath — anxiety. She's under pressure from her chapter. The budget is tight, tighter than she's letting on. And there's something else: she doesn't actually want the Toadlet for pith research. She wants it for herself. The temporal extraction story is cover.\n\nNeme whispers: "She reclaims from others what she cannot grow herself. But this time she wants to keep the harvest."`,
+                text: `You let Neme's perception unfurl — tendrils of bio-awareness reaching toward Sister Calyx. Her signals bloom into focus: discipline, calculation, a carefully maintained facade of calm.\n\nBut underneath — anxiety. She's under pressure from her chapter. The budget is tight, tighter than she's letting on. And there's something else: she doesn't actually want the Toadlet for the chapter's research. She wants it for herself. The temporal research story is cover.\n\nNeme whispers: "She files away what others cannot keep. But this time she wants to keep the entry for herself."`,
                 options: [
                     { text: "Your chapter didn't send you for the Toadlet, did they?", key: 'your_chapter_didnt_send_you_for_the_toadlet_did_th', next: "calyx_caught" },
                     { text: "[Keep this to yourself for now.]", key: 'keep_this_to_yourself_for_now', next: "calyx_start" },
@@ -363,7 +363,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                     this.addJournalEntry(
                         'calyx_lie_detected',
                         'Neme: Calyx\'s Real Motive',
-                        'Used Neme\'s Photosentience on Sister Calyx. The temporal extraction research story is cover — she wants the Chrono-Slurry Toadlet for personal use. Her chapter\'s budget is also tighter than she claims. This leverage could be useful.',
+                        'Used Neme\'s Photosentience on Sister Calyx. The temporal research story is cover — she wants the Chrono-Slurry Toadlet for personal use. Her chapter\'s budget is also tighter than she claims. This leverage could be useful.',
                         this.journalSystem.categories.EVENTS,
                         { character: 'Sister Calyx' }
                     );
@@ -372,7 +372,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
             calyx_caught: {
                 speaker: 'Sister Calyx',
-                text: `Her composure cracks — just for a moment. Her hand moves to the vial at her belt, then drops.\n\n"How did you — " She stops. Takes a breath. "You have a reader. Some kind of bio-sense symbiont. The Reclaimers have studied those."\n\nShe lowers her voice. "Fine. The Toadlet isn't for the chapter. I've been having... temporal vertigo. Losing time. Three minutes of foresight would help me anchor. The chapter doesn't know.\n\nDoes this change things between us?"`,
+                text: `Her composure cracks — just for a moment. Her hand moves to the vial at her belt, then drops.\n\n"How did you — " She stops. Takes a breath. "You have a reader. Some kind of bio-sense symbiont. The Tribunal has files on those."\n\nShe lowers her voice. "Fine. The Toadlet isn't for the chapter. I've been having... temporal vertigo. Losing time. Three minutes of foresight would help me anchor. The chapter doesn't know.\n\nDoes this change things between us?"`,
                 options: [
                     { text: "It does. Drop the Toadlet bid, or I tell the room.", key: 'it_does_drop_the_toadlet_bid_or_i_tell_the_room', next: "calyx_blackmail" },
                     { text: "Your secret is safe. But stay away from the Toadlet.", key: 'your_secret_is_safe_but_stay_away_from_the_toadlet', next: "calyx_mercy" },
@@ -391,13 +391,13 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
             calyx_blackmail: {
                 speaker: 'Sister Calyx',
-                text: `Her jaw tightens. The fungal threads in her vestments seem to darken.\n\n"You'd expose a medical condition to win an auction? That's... Rust Choir thinking. Decay as leverage."\n\nShe's silent for a long moment. "Fine. The Toadlet is yours. I'll focus on the Dream Egg. But remember — the Pith Reclaimers have long memories and very specific methods of extraction.\n\nDon't make an enemy of my chapter lightly."`,
+                text: `Her jaw tightens. The fungal threads in her vestments seem to darken.\n\n"You'd expose a medical condition to win an auction? That's... Rust Choir thinking. Decay as leverage."\n\nShe's silent for a long moment. "Fine. The Toadlet is yours. I'll focus on the Dream Egg. But remember — the Ink Tribunal has a long memory and very specific methods of collection.\n\nDon't make an enemy of my chapter lightly."`,
                 options: [],
                 onTrigger: () => {
                     this.addJournalEntry(
                         'calyx_blackmailed',
                         'Forced Calyx to Drop the Toadlet',
-                        'Used the knowledge of Calyx\'s temporal vertigo as leverage to force her out of the Toadlet bidding. She won\'t forget this — the Pith Reclaimers hold grudges.',
+                        'Used the knowledge of Calyx\'s temporal vertigo as leverage to force her out of the Toadlet bidding. She won\'t forget this — the Ink Tribunal holds grudges.',
                         this.journalSystem.categories.EVENTS,
                         { character: 'Sister Calyx' }
                     );
@@ -414,7 +414,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                     this.addJournalEntry(
                         'calyx_shown_mercy',
                         'Calyx Withdrew — Shown Mercy',
-                        'Kept Calyx\'s temporal vertigo secret and she agreed to drop the Toadlet bid in gratitude. A more compassionate approach — and one the Pith Reclaimers might remember favorably.',
+                        'Kept Calyx\'s temporal vertigo secret and she agreed to drop the Toadlet bid in gratitude. A more compassionate approach — and one the Ink Tribunal might remember favorably.',
                         this.journalSystem.categories.EVENTS,
                         { character: 'Sister Calyx' }
                     );
@@ -425,7 +425,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
             calyx_respect: {
                 speaker: 'Sister Calyx',
-                text: `She studies you for a moment, reassessing. "That's... unexpected. Most people in this city use every advantage they find.\n\nVery well. I'll bid as I see fit, and you'll do the same. But know that I noticed your restraint. The Pith Reclaimers value those who understand the difference between extraction and exploitation."`,
+                text: `She studies you for a moment, reassessing. "That's... unexpected. Most people in this city use every advantage they find.\n\nVery well. I'll bid as I see fit, and you'll do the same. But know that I noticed your restraint. The Ink Tribunal values those who understand the difference between keeping a record and exploiting one."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ],
@@ -464,7 +464,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
             calyx_mirage: {
                 speaker: 'Sister Calyx',
-                text: `You reach for Ulvarex's power and weave a subtle illusion — a phantom auction official approaching Sister Calyx with urgent news.\n\n"Sister Calyx? Message from your chapter. Priority recall — you're needed at the extraction lab immediately." The illusory official holds out a convincing pith-sealed letter.\n\nCalyx's face falls. "Now? But the auction—" She reaches for the letter and her hand passes through it. The illusion shimmers and dissolves.\n\nShe stares at where the official was. Then at you. She knows.\n\n"An illusionist. How... creative." Her composure remains, but she's rattled. If you can conjure phantom officials, what else might be fake? The lots? The other bidders? She'll second-guess everything now.`,
+                text: `You reach for Ulvarex's power and weave a subtle illusion — a phantom auction official approaching Sister Calyx with urgent news.\n\n"Sister Calyx? Message from your chapter. Priority recall — you're needed at the chapter archive immediately." The illusory official holds out a convincing ink-sealed letter.\n\nCalyx's face falls. "Now? But the auction—" She reaches for the letter and her hand passes through it. The illusion shimmers and dissolves.\n\nShe stares at where the official was. Then at you. She knows.\n\n"An illusionist. How... creative." Her composure remains, but she's rattled. If you can conjure phantom officials, what else might be fake? The lots? The other bidders? She'll second-guess everything now.`,
                 options: [
                     { text: "Continue.", key: 'continue', next: "calyx_mirage_after" },
                 ],
@@ -484,7 +484,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
             calyx_mirage_after: {
                 speaker: 'Sister Calyx',
-                text: `Sister Calyx stands near the lots, but she's no longer examining them with clinical precision. Her eyes keep scanning the room — checking if anything else is an illusion.\n\n"Clever trick," she mutters when you approach. "But tricks work both ways. The Pith Reclaimers study illusions too, you know. We extract them."`,
+                text: `Sister Calyx stands near the lots, but she's no longer examining them with clinical precision. Her eyes keep scanning the room — checking if anything else is an illusion.\n\n"Clever trick," she mutters when you approach. "But tricks work both ways. The Ink Tribunal studies illusions too, you know. We file them."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
                 ]

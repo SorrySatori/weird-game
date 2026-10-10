@@ -10,11 +10,11 @@ export default {
     },
     pith_cache: {
         text: {
-            pith_cache_full: `Skleněná koule na podstavci se při doteku zakalí, pak projasní – a v ní, vznášející se, leží podíl Reklamátorů odložený za každou duši, kterou jsi zapsal do záznamu.`,
+            pith_cache_full: `Skleněná koule na podstavci se při doteku zakalí, pak projasní – a v ní, vznášející se, leží podíl Tribunálu odložený za každou duši, kterou jsi zapsal do záznamu.`,
             pith_cache_empty: `Koule visí čirá a prázdná. Prochází jí šepot úředníkova přesného hlasu: „Zůstatek vyplacen. Přiveďte nám víc nevyúčtovaných.“`,
         },
         options: {
-            take_pith_cache: "Vzít podíl Reklamátorů.",
+            take_pith_cache: "Vzít podíl Tribunálu.",
             close_pith_cache: "Odstoupit od koule.",
         }
     },

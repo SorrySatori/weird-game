@@ -208,7 +208,7 @@ export default class TownSquareScene extends GameScene {
     }
 
     createMagnekin() {
-        // Pith recruitment: once the player knows the Pith exist, they can offer Magnekin citizenship.
+        // Tribunal recruitment: once the player knows the Tribunal exists, they can offer Magnekin citizenship.
         const pithKnown = !!this.hasJournalEntry('pith_reclaimers_faction');
         const magnekinRecruited = !!this.hasJournalEntry('pith_recruit_magnekin');
         // Once the collective's secret is out, drop the "average real citizen" act on return visits.
@@ -502,7 +502,7 @@ export default class TownSquareScene extends GameScene {
             magnekin_blend: {
                 text: `"Blend in? You'd... help? The others said the big creatures only take things apart." Magnekin's borrowed face flickers with something like hope. "What did you have in mind?"`,
                 options: [
-                    ...(pithKnown && !magnekinRecruited ? [{ text: "The Pith Reclaimers file citizens into existence. Let them make you real — on paper. Nobody argues with paper.", key: 'pith_make_you_real', next: "magnekin_pith_recruit" }] : []),
+                    ...(pithKnown && !magnekinRecruited ? [{ text: "The Ink Tribunal files citizens into existence. Let it make you real — on paper. Nobody argues with paper.", key: 'pith_make_you_real', next: "magnekin_pith_recruit" }] : []),
                     { text: "Talk slower. Say 'real' less. Loiter with purpose. (Give some advice.)", key: 'blend_advice', next: "magnekin_blend_advice" },
                     { text: "Let me think about it.", key: 'blend_later', next: "magnekin_main" },
                 ]
@@ -510,12 +510,12 @@ export default class TownSquareScene extends GameScene {
             magnekin_blend_advice: {
                 text: `Magnekin listens with the intensity of a thousand tiny council meetings. "Slower. Fewer 'reals.' Loiter with purpose. Yes. Yes, we can do that." A pause. "It is not much of a life, though — pretending. Always one wrong word from the debris."`,
                 options: [
-                    ...(pithKnown && !magnekinRecruited ? [{ text: "There's a better way. The Pith Reclaimers could make you official.", key: 'pith_make_you_real_2', next: "magnekin_pith_recruit" }] : []),
+                    ...(pithKnown && !magnekinRecruited ? [{ text: "There's a better way. The Ink Tribunal could make you official.", key: 'pith_make_you_real_2', next: "magnekin_pith_recruit" }] : []),
                     { text: "It's a start.", key: 'blend_advice_ok', next: "magnekin_main" },
                 ]
             },
             magnekin_pith_recruit: {
-                text: `The cities inside Magnekin ripple — a thousand tiny windows lighting at once. "Filed. Stamped. *Official.* A real citizen, by decree." The voice wavers. "We came to watch your world. We did not think it would let us stay." A pause, and then, quieter: "Take us to your Pith Reclaimers. We will sign whatever they put in front of us."`,
+                text: `The cities inside Magnekin ripple — a thousand tiny windows lighting at once. "Filed. Stamped. *Official.* A real citizen, by decree." The voice wavers. "We came to watch your world. We did not think it would let us stay." A pause, and then, quieter: "Take us to your Ink Tribunal. We will sign whatever it puts in front of us."`,
                 options: [
                     { text: "Then it's settled. Councilor Dune keeps offices in the Townhall.", key: 'pith_recruit_settled', next: "magnekin_main" }
                 ],
@@ -523,12 +523,12 @@ export default class TownSquareScene extends GameScene {
                     if (!this.hasJournalEntry('pith_recruit_magnekin')) {
                         this.addJournalEntry(
                             'pith_recruit_magnekin',
-                            'A Soul for the Pith: Magnekin',
-                            'Magnekin — the collective of micro-cities pretending to be a citizen — agreed to be filed as a real, protected citizen by the Pith Reclaimers. It is exactly the belonging they crossed scales to find. I should tell Councilor Seraphel Dune I have a soul for the faction.',
+                            'A Soul for the Tribunal: Magnekin',
+                            'Magnekin — the collective of micro-cities pretending to be a citizen — agreed to be filed as a real, protected citizen by the Ink Tribunal. It is exactly the belonging they crossed scales to find. I should tell Councilor Seraphel Dune I have a soul for the faction.',
                             this.journalSystem.categories.FACTIONS,
-                            { character: 'Magnekin', group: 'Pith Reclaimers' }
+                            { character: 'Magnekin', group: 'Ink Tribunal' }
                         );
-                        this.showNotification('Recruited for the Pith Reclaimers: Magnekin', 0xffdf7a);
+                        this.showNotification('Recruited for the Ink Tribunal: Magnekin', 0xffdf7a);
                     }
                 }
             },
@@ -642,7 +642,7 @@ export default class TownSquareScene extends GameScene {
 
         };
 
-        // Once filed into the Pith Reclaimers, Magnekin has left the Town Square for the Reclaimers' Room.
+        // Once filed into the Ink Tribunal, Magnekin has left the Town Square for the Tribunal's Room.
         if (magnekinRecruited) return;
 
         this.magnekin = this.add.container(250, 300);

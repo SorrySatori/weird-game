@@ -1,6 +1,6 @@
 /**
  * Czech dialog translations for VoxmarketHallScene
- * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Pith Reclaimers), Heartbroker Lune, Heir to the Yellow Aquarium, The Silence Beneath the Stairwell
+ * Speakers: Hesh & Vell (twin auctioneers), Sister Calyx (Ink Tribunal), Heartbroker Lune, Heir to the Yellow Aquarium, The Silence Beneath the Stairwell
  */
 export default {
     _speakers: {
@@ -102,14 +102,14 @@ export default {
     // ––– Sister Calyx –––
     calyx_start: {
         text: {
-            calyx_start_return: `„Zase tu," říká Sestra Calyx a upravuje si malou lahvičku u opasku. „Aukce přitahuje všechny druhy. Jsem tu ve věci Reklamátorů jádra – nic víc."`,
+            calyx_start_return: `„Zase tu," říká Sestra Calyx a upravuje si malou lahvičku u opasku. „Aukce přitahuje všechny druhy. Jsem tu ve věci Inkoustového tribunálu – nic víc."`,
             calyx_start_rattled_return: `Sestra Calyx stojí ztuhlá, její sebejistota nalomená. Prohlíží si vás se zjevnou ostražitostí. „Zase vy. Doufám, že jste tu na prohlídku, ne abyste... pokračoval v našem dřívějším rozhovoru."`,
-            calyx_start_first: `U aukčních položek stojí vysoká žena ve vrstvených šedozelených hábitech a zkoumá je s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha jako stříbrné nitě a její prsty končí lehce zbarvenými nehty – znamení dlouhodobé práce s extrakcí jádra.\n\n„Sestra Calyx," řekne, když si všimne vašeho přiblížení. „Reklamátoři jádra. Jsem tu ve věci naší kapituly. A vy jste...?"`,
+            calyx_start_first: `U aukčních položek stojí vysoká žena ve vrstvených šedozelených hábitech a zkoumá je s klinickou přesností. Houbová vlákna jsou vetkána do jejího roucha jako stříbrné nitě a její prsty končí nehty potřísněnými inkoustem – znamení dlouhých let nad knihami Tribunálu.\n\n„Sestra Calyx," řekne, když si všimne vašeho přiblížení. „Inkoustový tribunál. Jsem tu ve věci naší kapituly. A vy jste...?"`,
         },
         options: {
-            just_browsing_what_are_the_pith_reclaimers: "Jen se rozhlížím. Co jsou Reklamátoři jádra?",
+            just_browsing_what_are_the_pith_reclaimers: "Jen se rozhlížím. Co je Inkoustový tribunál?",
             what_are_you_bidding_on: "Na co dražíte?",
-            before_cathedral_seal_law: "[Před vstupem do katedrály] Co říká právo Reklamátorů o Biskupčině pečeti na Vaječné katedrále?",
+            before_cathedral_seal_law: "[Před vstupem do katedrály] Co říká právo Tribunálu o Biskupčině pečeti na Vaječné katedrále?",
             im_here_for_the_chronoslurry_toadlet: "Jsem tu kvůli Chronobřečkovému Ropušátku.",
             photosentience_read_her_biosignals: "[Fotosentience] Přečíst její bio-signály.",
             mirage_weave_create_a_distraction: "[Tkaní přeludů] Vytvořit rozptýlení.",
@@ -117,16 +117,16 @@ export default {
     },
 
     calyx_pith: {
-        text: `„Reklamátoři jádra extrahují houbovou esenci – jádro – z živých organismů. Rafinujeme ji, studujeme, obchodujeme s ní. Direktorát nám říká ‚paraziti,' Rezavý chór nám říká ‚zloději.' My si říkáme praktičtí.\n\nKaždá živá věc v tomto městě nese sklizitelnou esenci. My prostě... sbíráme, co se už stejně plýtvá. Katedrální vejce, sporová pole, dokonce i živé zdi města – to vše jsou zdroje surového jádra.\n\nNaše kapitula zde v Horní Morkezele je malá, ale dobře financovaná. Proto moje přítomnost na této aukci."`,
+        text: `„Inkoustový tribunál vede záznam tohoto města – každý titul, každý nárok, každou živou věc, kterou lze zanést do knihy. Zakládáme, studujeme, a kde má záznam mezery, získáváme, co je zaplní. Direktorát nám říká ‚písaři', Rezavý chór nám říká ‚zloději'. My si říkáme důslední.\n\nVšechno v tomto městě je o něčem důkaz. My prostě... bereme do úschovy, co by jinak zůstalo nezaznamenané. Katedrální vejce, sporová pole, dokonce i živé zdi města – to vše jsou záznamy, které čekají na zapsání.\n\nNaše kapitula zde v Horní Morkezele je malá, ale dobře financovaná. Proto moje přítomnost na této aukci."`,
         options: {
             what_are_you_bidding_on: "Na co dražíte?",
-            essence_extraction_sounds_invasive: "Extrakce esence zní invazivně.",
+            essence_extraction_sounds_invasive: "Brát živé věci do úschovy zní invazivně.",
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
     calyx_ethics: {
-        text: `„Invazivní?" Upraví si manžetu protkanou houbovými vlákny. „Je invazivní, když dýcháte? S každým nádechem vdechujete spory. My to prostě děláme se záměrem a přesností.\n\nLumen Direktorát pěstuje věci a předstírá, že jsou přirozené. Rezavý chór nechává věci rozpadat a nazývá to posvátným. My extrahujeme, co je užitečné, a nazýváme to poctivým.\n\nAle nepřišla jsem sem diskutovat o filozofii. Přišla jsem dražit."`,
+        text: `„Invazivní?" Upraví si manžetu protkanou houbovými vlákny. „Je invazivní, když vás město sečte při sčítání lidu? Už teď jste na tuctu seznamů. My ten svůj prostě vedeme se záměrem a přesností.\n\nLumen Direktorát pěstuje věci a předstírá, že jsou přirozené. Rezavý chór nechává věci rozpadat a nazývá to posvátným. My zapisujeme, co tu je, a říkáme tomu poctivost.\n\nAle nepřišla jsem sem diskutovat o filozofii. Přišla jsem dražit."`,
         options: {
             what_are_you_bidding_on: "Na co dražíte?",
             i_have_other_questions: "Mám další otázky.",
@@ -134,7 +134,7 @@ export default {
     },
 
     calyx_bidding: {
-        text: `„Zkamenělé snové vejce, primárně. Katedrální artefakty nesou koncentrované jádro – dekády nashromážděné esence stlačené do kamene. Naše kapitula by ho mohla studovat roky.\n\nAle sekundárně mě zajímá i Chronobřečkové Ropušátko. Proročtí obojživelníci produkují jedinečný podpis jádra, když se aktivuje jejich předvídavost. Velmi cenné pro náš výzkum temporální extrakce.\n\nMám rozpočet 150 dinárů. Hodlám ho použít strategicky."`,
+        text: `„Zkamenělé snové vejce, primárně. Katedrální artefakty jsou koncentrovaný záznam – dekády svědectví stlačené do kamene. Naše kapitula by ho mohla číst roky.\n\nAle sekundárně mě zajímá i Chronobřečkové Ropušátko. Proročtí obojživelníci zanechávají v záznamu jedinečnou stopu, když se aktivuje jejich předvídavost. Velmi cenné pro náš temporální výzkum.\n\nMám rozpočet 150 dinárů. Hodlám ho použít strategicky."`,
         options: {
             the_toadlet_is_mine_im_bidding_on_it_too: "Ropušátko je moje. Dražím na něj taky.",
             thats_a_serious_budget: "To je vážný rozpočet.",
@@ -153,7 +153,7 @@ export default {
     },
 
     calyx_negotiate: {
-        text: `„Přesvědčit mě?" Zkříží ruce, houbová vlákna zachytí světlo. „Kapitula mě poslala pro zdroje jádra. Musím se vrátit s něčím, co ospravedlní cestovní náklady.\n\nPokud snové vejce půjde za rozumnou cenu, mohla bych na něj soustředit rozpočet a nechat Ropušátko vám. Ale pokud někdo vyžene vejce příliš vysoko, přeorientuji se na Ropušátko jako sekundární akvizici.\n\nTakže vaše nejlepší strategie je zajistit, abych dostala snové vejce levně. Nedražte na něj. Nenechte nikoho jiného ho zdražovat. A já nechám vašeho obojživelníka na pokoji."`,
+        text: `„Přesvědčit mě?" Zkříží ruce, houbová vlákna zachytí světlo. „Kapitula mě poslala zaplnit mezery v záznamu. Musím se vrátit s něčím, co ospravedlní cestovní náklady.\n\nPokud snové vejce půjde za rozumnou cenu, mohla bych na něj soustředit rozpočet a nechat Ropušátko vám. Ale pokud někdo vyžene vejce příliš vysoko, přeorientuji se na Ropušátko jako sekundární akvizici.\n\nTakže vaše nejlepší strategie je zajistit, abych dostala snové vejce levně. Nedražte na něj. Nenechte nikoho jiného ho zdražovat. A já nechám vašeho obojživelníka na pokoji."`,
         options: {
             so_we_have_an_understanding_i_avoid_the_egg_you_av: "Takže máme dohodu – vyhneme se vejci, vy Ropušátku.",
             no_promises_ill_bid_as_i_see_fit: "Nic neslibuju. Budu dražit, jak uznám za vhodné.",
@@ -162,35 +162,35 @@ export default {
     },
 
     calyx_deal: {
-        text: `„Porozumění. Ne dohoda – Reklamátoři jádra neuzavírají dohody s cizími na aukcích. Ale... porozumění. Ano.\n\nSoustředím se na snové vejce. Vy se soustřeďte na Ropušátko. A nikdo z nás nezdražuje cíl toho druhého. Efektivní. Praktické. Velmi reklamátorské z vaší strany."\n\nLehounce přikývne – uznání, ne vřelost.`,
+        text: `„Porozumění. Ne dohoda – Inkoustový tribunál neuzavírá dohody s cizími na aukcích. Ale... porozumění. Ano.\n\nSoustředím se na snové vejce. Vy se soustřeďte na Ropušátko. A nikdo z nás nezdražuje cíl toho druhého. Efektivní. Praktické. Velmi v duchu Tribunálu."\n\nLehounce přikývne – uznání, ne vřelost.`,
     },
 
     calyx_no_deal: {
-        text: `„Jak chcete. Ale nedivte se, když dražba bude... energická. Reklamátoři jádra neprohrávají aukce, na které mají rozpočet.\n\nKéž jsou vaše kapsy hlubší než vaše tvrdohlavost."`,
+        text: `„Jak chcete. Ale nedivte se, když dražba bude... energická. Inkoustový tribunál neprohrává aukce, na které má rozpočet.\n\nKéž jsou vaše kapsy hlubší než vaše tvrdohlavost."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
     calyx_challenge: {
-        text: `„Ať vyhraje lepší dražitel," zopakuje a její úsměv má ostří. „Hodlám. Reklamátoři jádra nechodí na aukce pro zábavu.\n\nAle společenská doba ještě neskončila. Je stále čas být přesvědčivý – nebo dělat chyby."`,
+        text: `„Ať vyhraje lepší dražitel," zopakuje a její úsměv má ostří. „Hodlám. Inkoustový tribunál nechodí na aukce pro zábavu.\n\nAle společenská doba ještě neskončila. Je stále čas být přesvědčivý – nebo dělat chyby."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
     calyx_budget: {
-        text: `„Kapitula nefinancuje polovičatosti. Když identifikujeme zdroj jádra hodný akvizice, získáme ho. 150 dinárů je skromné podle reklamátorských standardů – některé kapituly posílají delegace s desetinásobkem.\n\nAle Horní Morkezela je malá kapitula. Jsme... opatrní s alokacemi. Proto musím dražit strategicky, ne emotivně."`,
+        text: `„Kapitula nefinancuje polovičatosti. Když identifikujeme záznam hodný akvizice, získáme ho. 150 dinárů je skromné podle měřítek Tribunálu – některé kapituly posílají delegace s desetinásobkem.\n\nAle Horní Morkezela je malá kapitula. Jsme... opatrní s alokacemi. Proto musím dražit strategicky, ne emotivně."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
     },
 
-    // --- Před katedrálou: čtení pečeti Reklamátory jádra ---
+    // --- Před katedrálou: čtení pečeti Inkoustovým tribunálem ---
     calyx_seal_law: {
-        text: `Calyx odloží položku, kterou zkoumala. „Vaječná katedrála. Chcete reklamátorské čtení. Ne to, zda byla Biskupčina smrt tragická – žal není kategorie k založení do spisu. Chcete vědět: jaký je *právní status* té pečeti?"
+        text: `Calyx odloží položku, kterou zkoumala. „Vaječná katedrála. Chcete čtení Tribunálu. Ne to, zda byla Biskupčina smrt tragická – žal není kategorie k založení do spisu. Chcete vědět: jaký je *právní status* té pečeti?"
 
-Z rukávu vytáhne složený dokument – křehký, úřední, orazítkovaný mrtvou rukou. „Vytáhla jsem kopie kapituly, než jsem odešla. Reklamátoři jádra si uchovávají všechno; paměť je náš jediný skutečný inventář. Toto je původní uzavírací listina katedrály a její kustodská charta. Obě jsou starší než Biskupka, která je uplatnila."
+Z rukávu vytáhne složený dokument – křehký, úřední, orazítkovaný mrtvou rukou. „Vytáhla jsem kopie kapituly, než jsem odešla. Inkoustový tribunál si uchovává všechno; paměť je náš jediný skutečný inventář. Toto je původní uzavírací listina katedrály a její kustodská charta. Obě jsou starší než Biskupka, která je uplatnila."
 
 „Nouzová pečeť není rozmar. Je to právní akt s *účelovou klauzulí*. A účel, který je zde zapsán, není ten, který všichni předpokládají."`,
         options: {
@@ -203,7 +203,7 @@ Z rukávu vytáhne složený dokument – křehký, úřední, orazítkovaný mr
     calyx_seal_guardian_orders: {
         text: `„Kustodská charta jmenuje strážce u závoje – Strážce. Jeho tělo bylo dáno rostlinám a jeho mysl myceliální síti, aby mohl udržet *jediný pokyn* napříč staletími bez odchýlení. Úředníci zapomínají. Strážci ne."
 
-Čte to věcně, tak jak Reklamátoři čtou všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* – komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům mincí. Zlodějům *autorství*."
+Čte to věcně, tak jak Tribunál čte všechno: jako inventář. „‚Strážce vpustí zbožné, zvědavé a chudé. Strážce zamezí vstup pouze *chtivým* – komukoli, kdo se přibližuje k posvátnému růstu se záměrem vlastnictví, patentu nebo nároku.' Ne zlodějům mincí. Zlodějům *autorství*."
 
 „Všichni si Strážce pamatují jako dveře. Byl sepsán jako filtr. Ten rozdíl je celý ten případ."`,
         options: {
@@ -225,7 +225,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_neme: {
-        text: `Necháte Nemino vnímání rozvinout – úponky bio-vědomí dosahující k Sestře Calyx. Její signály rozkvetou do zaostření: disciplína, kalkulace, pečlivě udržovaná fasáda klidu.\n\nAle pod povrchem – úzkost. Je pod tlakem své kapituly. Rozpočet je napjatý, napjatější, než přiznává. A je tu ještě něco: Ropušátko ve skutečnosti nechce pro výzkum jádra. Chce ho pro sebe. Příběh o temporální extrakci je krytí.\n\nNeme šeptá: „Reklamuje od ostatních, co nemůže vypěstovat sama. Ale tentokrát si chce úrodu ponechat."`,
+        text: `Necháte Nemino vnímání rozvinout – úponky bio-vědomí dosahující k Sestře Calyx. Její signály rozkvetou do zaostření: disciplína, kalkulace, pečlivě udržovaná fasáda klidu.\n\nAle pod povrchem – úzkost. Je pod tlakem své kapituly. Rozpočet je napjatý, napjatější, než přiznává. A je tu ještě něco: Ropušátko ve skutečnosti nechce pro výzkum kapituly. Chce ho pro sebe. Příběh o temporálním výzkumu je krytí.\n\nNeme šeptá: „Zakládá do spisů, co si jiní neudrží. Ale tentokrát si chce ten záznam nechat pro sebe."`,
         options: {
             your_chapter_didnt_send_you_for_the_toadlet_did_th: "Vaše kapitula vás pro Ropušátko neposlala, že?",
             keep_this_to_yourself_for_now: "[Nechat si to zatím pro sebe.]",
@@ -233,7 +233,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_caught: {
-        text: `Její klid praskne – jen na okamžik. Ruka se pohne k lahvičce u opasku, pak klesne.\n\n„Jak jste – " Zastaví se. Zhluboka se nadechne. „Máte čtečku. Nějaký bio-senzorický symbiont. Reklamátoři takové studovali."\n\nZtiší hlas. „Dobře. Ropušátko není pro kapitulu. Mám... temporální vertigo. Ztrácím čas. Tři minuty předvídavosti by mi pomohly zakotvit se. Kapitula neví.\n\nMění to něco mezi námi?"`,
+        text: `Její klid praskne – jen na okamžik. Ruka se pohne k lahvičce u opasku, pak klesne.\n\n„Jak jste – " Zastaví se. Zhluboka se nadechne. „Máte čtečku. Nějaký bio-senzorický symbiont. Tribunál o takových vede spisy."\n\nZtiší hlas. „Dobře. Ropušátko není pro kapitulu. Mám... temporální vertigo. Ztrácím čas. Tři minuty předvídavosti by mi pomohly zakotvit se. Kapitula neví.\n\nMění to něco mezi námi?"`,
         options: {
             it_does_drop_the_toadlet_bid_or_i_tell_the_room: "Mění. Vzdejte se dražby Ropušátka, nebo to řeknu celému sálu.",
             your_secret_is_safe_but_stay_away_from_the_toadlet: "Vaše tajemství je v bezpečí. Ale vyhněte se Ropušátku.",
@@ -242,7 +242,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_blackmail: {
-        text: `Její čelist ztuhne. Houbová vlákna v jejím rouchu jako by ztmavla.\n\n„Odhalil byste zdravotní stav, abyste vyhrál aukci? To je... myšlení Rezavého chóru. Rozklad jako páka."\n\nDlouhý moment mlčí. „Dobře. Ropušátko je vaše. Soustředím se na snové vejce. Ale pamatujte si – Reklamátoři jádra mají dlouhou paměť a velmi specifické metody extrakce.\n\nNedělejte si z naší kapituly nepřítele lehkovážně."`,
+        text: `Její čelist ztuhne. Houbová vlákna v jejím rouchu jako by ztmavla.\n\n„Odhalil byste zdravotní stav, abyste vyhrál aukci? To je... myšlení Rezavého chóru. Rozklad jako páka."\n\nDlouhý moment mlčí. „Dobře. Ropušátko je vaše. Soustředím se na snové vejce. Ale pamatujte si – Inkoustový tribunál má dlouhou paměť a velmi specifické metody sběru.\n\nNedělejte si z naší kapituly nepřítele lehkovážně."`,
     },
 
     calyx_mercy: {
@@ -250,7 +250,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_respect: {
-        text: `Chvíli vás studuje, přehodnocuje. „To je... nečekané. Většina lidí v tomto městě využije každou výhodu, kterou najde.\n\nDobrá. Budu dražit, jak uznám za vhodné, a vy také. Ale vězte, že jsem si všimla vaší zdrženlivosti. Reklamátoři jádra si cení těch, kdo rozumí rozdílu mezi extrakcí a vykořisťováním."`,
+        text: `Chvíli vás studuje, přehodnocuje. „To je... nečekané. Většina lidí v tomto městě využije každou výhodu, kterou najde.\n\nDobrá. Budu dražit, jak uznám za vhodné, a vy také. Ale vězte, že jsem si všimla vaší zdrženlivosti. Inkoustový tribunál si cení těch, kdo rozumí rozdílu mezi vedením záznamu a jeho zneužitím."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }
@@ -271,14 +271,14 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     calyx_mirage: {
-        text: `Sáhnete po Ulvarexově moci a utkaete jemnou iluzi – fantomového aukčního úředníka přistupujícího k Sestře Calyx s naléhavou zprávou.\n\n„Sestro Calyx? Zpráva z vaší kapituly. Prioritní odvolání – jste potřebná v extrakční laboratoři okamžitě." Iluzorní úředník podá přesvědčivý dopis zapečetěný jádrem.\n\nCalyxin obličej pohasne. „Teď? Ale aukce–" Natáhne ruku po dopise a projde skrz. Iluze se zatřpytí a rozpustí.\n\nZírá na místo, kde úředník stál. Pak na vás. Ví.\n\n„Iluzionista. Jak... kreativní." Její klid vytrvá, ale je otřesená. Pokud dokážete vyčarovat fantomové úředníky, co dalšího může být falešné? Položky? Ostatní dražitelé? Bude zpochybňovat všechno.`,
+        text: `Sáhnete po Ulvarexově moci a utkaete jemnou iluzi – fantomového aukčního úředníka přistupujícího k Sestře Calyx s naléhavou zprávou.\n\n„Sestro Calyx? Zpráva z vaší kapituly. Prioritní odvolání – jste okamžitě potřebná v archivu kapituly." Iluzorní úředník podá přesvědčivý dopis zapečetěný inkoustem.\n\nCalyxin obličej pohasne. „Teď? Ale aukce–" Natáhne ruku po dopise a projde skrz. Iluze se zatřpytí a rozpustí.\n\nZírá na místo, kde úředník stál. Pak na vás. Ví.\n\n„Iluzionista. Jak... kreativní." Její klid vytrvá, ale je otřesená. Pokud dokážete vyčarovat fantomové úředníky, co dalšího může být falešné? Položky? Ostatní dražitelé? Bude zpochybňovat všechno.`,
         options: {
             continue: "Pokračovat.",
         }
     },
 
     calyx_mirage_after: {
-        text: `Sestra Calyx stojí u položek, ale už je nezkoumá s klinickou přesností. Její oči neustále skenují místnost – kontrolují, jestli ještě něco dalšího není iluze.\n\n„Šikovný trik," zamumlá, když se přiblížíte. „Ale triky fungují oběma směry. Reklamátoři jádra studují iluze taky, víte. Extrahujeme je."`,
+        text: `Sestra Calyx stojí u položek, ale už je nezkoumá s klinickou přesností. Její oči neustále skenují místnost – kontrolují, jestli ještě něco dalšího není iluze.\n\n„Šikovný trik," zamumlá, když se přiblížíte. „Ale triky fungují oběma směry. Inkoustový tribunál studuje iluze taky, víte. Zakládáme je do spisů."`,
         options: {
             i_have_other_questions: "Mám další otázky.",
         }

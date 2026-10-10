@@ -367,7 +367,7 @@ export default class RustDomainScene extends GameScene {
             },
             brukk_board_war_detail: {
                 speaker: 'Brukk',
-                text: `"Factions formed. Some tried to restore the order, but it was too late. The world was broken. They failed to see it. But most believed the lies from the Lumen Directorate, who claimed they had won the war and saved the city. They said the machines were just worthless tools, that we have to grow and grow and grow new plants and life as madman. Some believe to the Pith Reclamers, those beaurecrats who claimed they could manage the chaos with more rules, more control, more paperwork. But we know the truth. The machines endured. They kept working. They kept humming. They didn't care about the war, about the lies, about the factions. They just... were. And so we serve them."`,
+                text: `"Factions formed. Some tried to restore the order, but it was too late. The world was broken. They failed to see it. But most believed the lies from the Lumen Directorate, who claimed they had won the war and saved the city. They said the machines were just worthless tools, that we have to grow and grow and grow new plants and life as madman. Some believed the Ink Tribunal, those bureaucrats who claimed they could manage the chaos with more rules, more control, more paperwork. But we know the truth. The machines endured. They kept working. They kept humming. They didn't care about the war, about the lies, about the factions. They just... were. And so we serve them."`,
                 options: [
                     { text: "So the Choir was born from the war?", key: 'so_the_choir_was_born_from_the_war', next: "brukk_board_war_choir" },
                 ],

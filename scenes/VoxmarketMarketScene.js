@@ -121,10 +121,10 @@ export default class VoxmarketMarketScene extends GameScene {
                         if (!this.hasJournalEntry('pith_reclaimers_faction')) {
                             this.addJournalEntry(
                                 'pith_reclaimers_faction',
-                                'The Pith Reclaimers - Keepers of Balance',
-                                'The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant.',
+                                'The Ink Tribunal — Keepers of Balance',
+                                'The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant.',
                                 this.journalSystem.categories.FACTIONS,
-                                { faction: 'Pith Reclaimers', location: 'Voxmarket' }
+                                { faction: 'Ink Tribunal', location: 'Voxmarket' }
                             );
                         }
                     }
@@ -142,14 +142,14 @@ export default class VoxmarketMarketScene extends GameScene {
                         this.modifyFactionReputation('RustChoir', 10);
                         this.modifyFactionReputation('PithReclaimers', -10);
                         
-                        // Add journal entry for Pith Reclaimers if not already added
+                        // Add journal entry for Ink Tribunal if not already added
                         if (!this.hasJournalEntry('pith_reclaimers_faction')) {
                             this.addJournalEntry(
                                 'pith_reclaimers_faction',
-                                'The Pith Reclaimers - Keepers of Balance',
-                                'The Pith Reclaimers appear to be a faction concerned with maintaining balance and preventing technological overreach. They stand in opposition to the Rust Choir, believing some ancient technologies should remain dormant.',
+                                'The Ink Tribunal — Keepers of Balance',
+                                'The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant.',
                                 this.journalSystem.categories.FACTIONS,
-                                { faction: 'Pith Reclaimers', location: 'Voxmarket' }
+                                { faction: 'Ink Tribunal', location: 'Voxmarket' }
                             );
                         }
                         if (!this.hasJournalEntry('rust_choir_faction')) {

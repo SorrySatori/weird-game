@@ -212,7 +212,7 @@ export default {
     magnekin_blend: {
         text: "\"Zapadnout? Ty bys... pomohl? Ostatní říkali, že velcí tvorové věci jenom rozebírají.\" Vypůjčená tvář Magnekina se zachvěje něčím, co připomíná naději. \"Co jsi měl na mysli?\"",
         options: {
-            pith_make_you_real: "Reklamátoři jádra zapisují občany do existence. Nech je udělat tě skutečným – na papíře. S papírem se nikdo nehádá.",
+            pith_make_you_real: "Inkoustový tribunál zapisuje občany do existence. Nech ho udělat tě skutečným – na papíře. S papírem se nikdo nehádá.",
             blend_advice: "Mluv pomaleji. Říkej *skutečný* míň. Poflakuj se s účelem. (Dát pár rad.)",
             blend_later: "Nech mě to promyslet."
         }
@@ -220,12 +220,12 @@ export default {
     magnekin_blend_advice: {
         text: "Magnekin naslouchá s intenzitou tisíce drobných zasedání rady. \"Pomaleji. Míň *skutečných*. Poflakovat se s účelem. Ano. Ano, to zvládneme.\" Odmlka. \"Není to ale velký život – to předstírání. Vždycky jedno špatné slovo od sutin.\"",
         options: {
-            pith_make_you_real_2: "Je lepší způsob. Reklamátoři jádra by tě mohli udělat oficiálním.",
+            pith_make_you_real_2: "Je lepší způsob. Inkoustový tribunál by tě mohl udělat oficiálním.",
             blend_advice_ok: "Je to začátek."
         }
     },
     magnekin_pith_recruit: {
-        text: "Města uvnitř Magnekina se rozvlní – tisíc drobných oken se rozsvítí naráz. \"Zapsán. Orazítkován. *Oficiální.* Skutečný občan, výnosem.\" Hlas se zachvěje. \"Přišli jsme pozorovat váš svět. Nemysleli jsme, že nás nechá zůstat.\" Odmlka, a pak tišeji: \"Vezmi nás ke svým Reklamátorům jádra. Podepíšeme cokoli, co nám předloží.\"",
+        text: "Města uvnitř Magnekina se rozvlní – tisíc drobných oken se rozsvítí naráz. \"Zapsán. Orazítkován. *Oficiální.* Skutečný občan, výnosem.\" Hlas se zachvěje. \"Přišli jsme pozorovat váš svět. Nemysleli jsme, že nás nechá zůstat.\" Odmlka, a pak tišeji: \"Vezmi nás ke svému Inkoustovému tribunálu. Podepíšeme cokoli, co nám předloží.\"",
         options: {
             pith_recruit_settled: "Tak je to domluvené. Radní Dune má úřadovny v Radnici."
         }

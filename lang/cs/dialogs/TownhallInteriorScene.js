@@ -289,8 +289,8 @@ Jestli vám Radnice dluží odměnu, přimějte ho říct to nahlas. Vyslovený 
             what_happens_to_the_poet: 'Co bude s básníkem?',
             what_is_wrong_with_this_townhall: 'Co je s touhle Radnicí špatně?',
             bishops_records_were_tampered_with: 'Se záznamy o Biskupce někdo manipuloval.',
-            ask_join_pith: 'Reklamátoři přijímají městské zbloudilce. Mohl bych být toho součástí?',
-            present_pith_recruit: 'Našel jsem pro Reklamátory duši.',
+            ask_join_pith: 'Tribunál přijímá městské zbloudilce. Mohl bych být toho součástí?',
+            present_pith_recruit: 'Našel jsem pro Tribunál duši.',
             councilor_drug_surrender: '[Pašované zboží] Nesu pašovaná narkotika. Chci je z ulice pryč, do záznamu.',
         }
     },
@@ -316,14 +316,14 @@ Jestli vám Radnice dluží odměnu, přimějte ho říct to nahlas. Vyslovený 
         }
     },
     councilor_pith_present: {
-        text: `Vysvětlíte, koho jste přivedl do stáda. Přísná tvář Seraphela Duna udělá něco neznámého – souhlas. „Občan tam, kde byla v záznamu mezera. Dobře.“ Dvakrát klepne na skříň; Vrchní úředník se zjeví s už otevřenou účetní knihou. „Papírování se vyřizuje, právě když spolu mluvíme. Podepište zde, zde a – bohužel – zde.\n\nHotovo. Jste Reklamátor. Pod touhle budovou je místnost, na kterou komise předstírají, že si nevzpomínají. Teď je vaše. Přiveďte nám víc nevyúčtovaných a Reklamátoři nezapomenou, kdo dělal to účtování.“`,
+        text: `Vysvětlíte, koho jste přivedl do stáda. Přísná tvář Seraphela Duna udělá něco neznámého – souhlas. „Občan tam, kde byla v záznamu mezera. Dobře.“ Dvakrát klepne na skříň; Vrchní úředník se zjeví s už otevřenou účetní knihou. „Papírování se vyřizuje, právě když spolu mluvíme. Podepište zde, zde a – bohužel – zde.\n\nHotovo. Jste teď členem Tribunálu. Pod touhle budovou je místnost, na kterou komise předstírají, že si nevzpomínají. Teď je vaše. Přiveďte nám víc nevyúčtovaných a Tribunál nezapomene, kdo dělal to účtování.“`,
         options: {
             pith_room_ask: 'Místnost pod Radnicí?',
             pith_bring_more: 'Přivedu vám víc.',
         }
     },
     councilor_pith_room: {
-        text: `„Čítárna. Přiléhá k archivu. Mimo záznam, což je v téhle budově jediný druh soukromí, který přežije. Cestu dolů najdete označenou pečetí Reklamátorů, teď když je na ní vaše jméno. Odpočiňte si tam. Uložte, co musíte. Ta místnost si pamatuje své členy – a je tím užitečnější, čím víc města dokážeme vyúčtovat.“`,
+        text: `„Čítárna. Přiléhá k archivu. Mimo záznam, což je v téhle budově jediný druh soukromí, který přežije. Cestu dolů najdete označenou pečetí Tribunálu, teď když je na ní vaše jméno. Odpočiňte si tam. Uložte, co musíte. Ta místnost si pamatuje své členy – a je tím užitečnější, čím víc města dokážeme vyúčtovat.“`,
         options: {
             pith_room_ok: 'Rozumím.',
         }
@@ -372,7 +372,7 @@ Ale jestli Biskupka používala úřední papír jako soukromý zápisník, scho
         }
     },
     councilor_drug_surrender_talk: {
-        text: `Dune si balíček prohlíží s únavou muže, který jich už příliš mnoho založil. „Wimlick. A vy mi ho nesete, místo abyste ho rozvezl.“ Odkudsi jakoby z ničeho vytáhne účetní knihu. „Reklamátoři vedou účet o tom, co město odhazuje – včetně kšeftu, který odhazuje lidi. Zapíše se to jako zabavené pašované zboží a to, že vám to prošlo rukama, se poctivě zapíše hned vedle. Žádný zisk pro vás. Ale ani díra v záznamu.“ Vezme balíček. „To je nabídka Reklamátorů: nejste tu hrdina ani zločinec. Jste *zaevidován*.“`,
+        text: `Dune si balíček prohlíží s únavou muže, který jich už příliš mnoho založil. „Wimlick. A vy mi ho nesete, místo abyste ho rozvezl.“ Odkudsi jakoby z ničeho vytáhne účetní knihu. „Tribunál vede účet o tom, co město odhazuje – včetně kšeftu, který odhazuje lidi. Zapíše se to jako zabavené pašované zboží a to, že vám to prošlo rukama, se poctivě zapíše hned vedle. Žádný zisk pro vás. Ale ani díra v záznamu.“ Vezme balíček. „To je nabídka Tribunálu: nejste tu hrdina ani zločinec. Jste *zaevidován*.“`,
         options: {
             councilor_drug_surrender_close: "Zapište to. Všechno.",
         }

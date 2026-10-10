@@ -45,7 +45,7 @@ No absolute dates exist — the city stopped counting years when Vhorn the Tally
 | 4 | **The Before-Time** — a recognisably modern world: blue sky, offices, "quarterly projections", Nexicorp Tower (42 floors). The Lift-Mother exists as an ordinary elevator (total age unknown) and gains consciousness late in this era | ~40–50 years before the game | Lift-Mother, buskers' ballads |
 | 5 | **The Old Wars** — near-total destruction; the surviving cities swear off weapons and armies and settle disputes through games | | |
 | 6 | **The Board Game Wars (Age of the Ludarchs)** — rule-bending designers rule, build living miniature worlds, sacrifice their inhabitants, and finally destroy one another; one Ludarch is rumoured to survive. Ortolan Šmelc is a young worldwright | | Ortolan, Brukk |
-| 7 | **The Collapse** — reality fractures, rules stop working; the Scraper's machines keep humming. The three factions are born: Lumen Directorate (self-declared victors, growth), Pith Reclaimers (order through paperwork, the Townhall), Rust Choir ("from the silence after", first Keeper). The Screaming Cork claims to be the first building raised after the Collapse | | |
+| 7 | **The Collapse** — reality fractures, rules stop working; the Scraper's machines keep humming. The three factions are born: Lumen Directorate (self-declared victors, growth), Ink Tribunal (order through paperwork, the Townhall), Rust Choir ("from the silence after", first Keeper). The Screaming Cork claims to be the first building raised after the Collapse | | |
 | 8 | **The interregnum** — the Directorate watches over the city and cultivates "for generations"; the transit yard behind the Scraper is abandoned "decades ago"; Dr. Elphi Quarn and Ortolan build Infinite Fold in the Scraper cellar with mišutkenn dream-imaginators (Edgar among them), the city's rulers shut it down and the two part bitterly; Vhorn dies and the city stops counting years | decades | Elphi, Ortolan, Edgar, Sentinel |
 | 9 | **The Green Mist / Egg Emergence** — mist, then the Egg rises through the god-strata; streets shift, the Lift-Mother's upper floors seal, the Nexicorp executives transform, the Rust Choir takes the top floors; the Sentinel takes his post; Verrik starts the Sulkberry beds; the multi-faith Council forms, the Obazoba cult sends the Bishop. The Directorate begins watching the Cathedral | **~3000 digestions ≈ 10 years before the game** | Sentinel "three thousand digestions", Verrik "since the Egg came up" |
 | 10 | **The last years** — Ravla and Zerren settle in ("a couple thousand digestions"); the Bishop builds her own dream rig to speak with Infinite Fold; the myceliar network carries a cry for help to the Spore Council — the game begins | | |
@@ -76,7 +76,7 @@ When the Ludarchs finally destroyed each other — or were swallowed by their ow
 The aftermath birthed the three great factions:
 
 - The **Lumen Directorate** claimed they won the war and saved the city. They turned to growth — "grow and grow and grow new plants and life."
-- The **Pith Reclaimers** (bureaucrats) claimed they could manage the chaos with "more rules, more control, more paperwork."
+- The **Ink Tribunal** (bureaucrats) claimed it could manage the chaos with "more rules, more control, more paperwork."
 - The **Rust Choir** was born from the silence after the war, devoted to the machines that endured when everything else went mad.
 
 ### The Green Mist / The Egg Emergence
@@ -295,11 +295,12 @@ The official seat of the Lumen Directorate, located near the Town Square. An imp
 
 ---
 
-### The Pith Reclaimers
+### The Ink Tribunal
 
+**Name:** "The Ink Tribunal" (EN) / „Inkoustový tribunál" (CZ, declined; short form „Tribunál"). Renamed 2026-10-10 from the earlier "Pith Reclaimers" — internal keys (`PithReclaimers`, `pith_*`, `PithReclaimersRoomScene`) keep the old name.
 **Alignment:** Order / Balance
 **Color:** Brown (#8B4513)
-**Philosophy:** Maintain balance and bureaucratic order. "Guardians of neutrality" who "preserve peace and order." Believed they could manage post-war chaos through rules, control, and paperwork. They view the Rust Choir as threatening scum and consider proper documentation "what separates us from the ferals in the wastes."
+**Philosophy:** Maintain balance and bureaucratic order through ink, seal and ledger. "Guardian of neutrality" that "preserves peace and order." Believed it could manage post-war chaos through rules, control, and paperwork; seated at the Townhall (Councilor Seraphel Dune, the Senior Clerk) with the Bureau of Shapes at Shed 521 as its paperwork arm. Its creed: what is written down is kept — it files citizens into existence ("to be written down is to be remembered forward"). It views the Rust Choir as threatening scum and considers proper documentation "what separates us from the ferals in the wastes." Sister Calyx's chapter collects "entries" for the record (Cathedral artifacts, living curiosities) at auctions.
 
 ---
 

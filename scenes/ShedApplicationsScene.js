@@ -64,11 +64,11 @@ export default class ShedApplicationsScene extends GameScene {
                 ],
             },
             promise_made: {
-                text: "(Visibly relieved) Good... good. The Pith Reclaimers will remember this. What did Gnur promise you for the living core?",
+                text: "(Visibly relieved) Good... good. The Ink Tribunal will remember this. What did Gnur promise you for the living core?",
                 options: [
                     { text: "He promised to tell me where to find the Bishop", key: 'he_promised_me_a_to_tell_where_to_find_the_bishop', next: "bishop_location" },
                     { text: "Sorry, but that's private information", key: 'sorry_but_thats_private_information', next: "private"},
-                    { text: "Who are the Pith Reclaimers?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
+                    { text: "What is the Ink Tribunal?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                 ],
                 onShow: () => this.once('promise_made', () => {
                     this.modifyFactionReputation('PithReclaimers', 20);
@@ -87,7 +87,7 @@ export default class ShedApplicationsScene extends GameScene {
                 text: "The Bishop? Hmm... I can't tell you where she is. But look for Edgar Eskola at the Screaming Cork tavern. I think he might know something.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" },
-                    { text: "Who are the Pith Reclaimers?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
+                    { text: "What is the Ink Tribunal?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                     { text: "Who is Edgar Eskola?", key: 'who_is_edgar_eskola', next: "edgar"}
                 ],
                 onShow: () => {
@@ -101,11 +101,11 @@ export default class ShedApplicationsScene extends GameScene {
                 text: "I see, no problem. Is there anything else I can help you with?",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" },
-                    { text: "Who are the Pith Reclaimers?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
+                    { text: "What is the Ink Tribunal?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                 ],
             },
             pith_reclaimers: {
-                text: "The Pith Reclaimers are guardians of neutrality. We preserve peace and order in the city. Some of us collect... unique items, but we don't sell them.",
+                text: "The Ink Tribunal is the guardian of neutrality. We preserve peace and order in the city. Some of us collect... unique items, but we don't sell them.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],

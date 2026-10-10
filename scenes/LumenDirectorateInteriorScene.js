@@ -396,7 +396,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 speaker: 'The Angle Corrector',
                 text: `"The Lumen Directorate exists to ensure that growth prevails. After the Board Game Wars reduced this city to ash and contradiction, we rebuilt. The Ludarchs played their games until reality couldn't hold the weight of their rules — and when the boards collapsed, it was we who planted the first new roots.\n\n'Nothing Hidden. Nothing Lost.' That is our covenant. Transparency and preservation. Everything that grows deserves to be seen, catalogued, and protected."`,
                 options: [
-                    { text: "What about the Rust Choir and the Pith Reclaimers?", key: 'what_about_the_rust_choir_and_the_pith_reclaimers', next: "ac_other_factions" },
+                    { text: "What about the Rust Choir and the Ink Tribunal?", key: 'what_about_the_rust_choir_and_the_pith_reclaimers', next: "ac_other_factions" },
                     { text: "What is your role here?", key: 'what_is_your_role_here', next: "ac_role" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
                 ]
@@ -404,7 +404,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_other_factions: {
                 speaker: 'The Angle Corrector',
-                text: `"The Rust Choir worships entropy. They dress corrosion in sacred robes and call it 'the silence between.' Romantic nonsense — decay without purpose is just death.\n\nThe Pith Reclaimers are bureaucrats who believe they can manage chaos with enough forms and procedures. They emerged from the wreckage of the Ludarchs' administrative apparatus and never stopped filing.\n\nWe work with both when necessary. The Directorate is pragmatic above all."`,
+                text: `"The Rust Choir worships entropy. They dress corrosion in sacred robes and call it 'the silence between.' Romantic nonsense — decay without purpose is just death.\n\nThe Ink Tribunal is a bureaucracy that believes it can manage chaos with enough forms and procedures. It emerged from the wreckage of the Ludarchs' administrative apparatus and never stopped filing.\n\nWe work with both when necessary. The Directorate is pragmatic above all."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
                 ],
@@ -583,7 +583,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_cathedral_access: {
                 speaker: 'The Angle Corrector',
-                text: `"The Bishop's seal is theological, not physical. Our botanists could breach the walls in an afternoon. But doing so would unite every faith in the city against us — and the Pith Reclaimers would bury us in litigation for decades.\n\nNo. The seal must be undone properly. Through succession, through negotiation, or through someone who can walk in without breaking anything.\n\nSomeone... like an unaffiliated investigator, perhaps."`,
+                text: `"The Bishop's seal is theological, not physical. Our botanists could breach the walls in an afternoon. But doing so would unite every faith in the city against us — and the Ink Tribunal would bury us in litigation for decades.\n\nNo. The seal must be undone properly. Through succession, through negotiation, or through someone who can walk in without breaking anything.\n\nSomeone... like an unaffiliated investigator, perhaps."`,
                 options: [
                     { text: "Are you asking me to break into the Cathedral?", key: 'are_you_asking_me_to_break_into_the_cathedral', next: "ac_cathedral_hint" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
@@ -641,7 +641,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
             // --- Townhall ---
             ac_townhall: {
                 speaker: 'The Angle Corrector',
-                text: `"The Townhall. Yes, that particular lock has been vexing everyone lately.\n\nI cannot help you directly — the Townhall falls under Pith Reclaimer jurisdiction, and the Directorate's influence there is... limited. But we have an operative who specializes in navigating bureaucratic obstacles.\n\nSeldo Thrice-Corrected. Second floor of this building. He maintains our liaison with the city's administrative apparatus. If anyone knows a way through the Townhall's doors, it's Seldo."`,
+                text: `"The Townhall. Yes, that particular lock has been vexing everyone lately.\n\nI cannot help you directly — the Townhall falls under Ink Tribunal jurisdiction, and the Directorate's influence there is... limited. But we have an operative who specializes in navigating bureaucratic obstacles.\n\nSeldo Thrice-Corrected. Second floor of this building. He maintains our liaison with the city's administrative apparatus. If anyone knows a way through the Townhall's doors, it's Seldo."`,
                 options: [
                     { text: "Why is he called 'Thrice-Corrected'?", key: 'why_is_he_called_thricecorrected', next: "ac_seldo_name" },
                     { text: "Thanks. I'll find him.", key: 'thanks_ill_find_him', next: "ac_start" },
@@ -812,7 +812,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             seldo_role: {
                 speaker: 'Seldo Thrice-Corrected',
-                text: `"I am the Directorate's interface with the city's bureaucracy. Every permit, every filing, every inter-faction document that needs a stamp or a signature or a carefully orchestrated accident — that's my department.\n\nThe Pith Reclaimers run the administrative apparatus. The Rust Choir ignores it. The Directorate... navigates it. And I am the navigator.\n\nI know every clerk in this city by name, every form by number, and every back door by the sound it makes when you knock correctly."`,
+                text: `"I am the Directorate's interface with the city's bureaucracy. Every permit, every filing, every inter-faction document that needs a stamp or a signature or a carefully orchestrated accident — that's my department.\n\nThe Ink Tribunal runs the administrative apparatus. The Rust Choir ignores it. The Directorate... navigates it. And I am the navigator.\n\nI know every clerk in this city by name, every form by number, and every back door by the sound it makes when you knock correctly."`,
                 options: [
                     ...(hasEnterTownhallQuest && !acceptedAuctionErrand && !hasTownhallKey ? [{ text: "Speaking of back doors — I need into the Townhall.", key: 'speaking_of_back_doors_i_need_into_the_townhall', next: "seldo_townhall" }] : []),
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "seldo_start" },
@@ -838,7 +838,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             seldo_bluff: {
                 speaker: 'Seldo Thrice-Corrected',
-                text: `"You could try. The Pith Reclaimers sealed it with Form 77-B — a jurisdictional lockdown. Even the Directorate can't override that without triggering an inter-faction investigation.\n\nOr you could do me one small favor and walk through the front door with a smile. Your choice."`,
+                text: `"You could try. The Ink Tribunal sealed it with Form 77-B — a jurisdictional lockdown. Even the Directorate can't override that without triggering an inter-faction investigation.\n\nOr you could do me one small favor and walk through the front door with a smile. Your choice."`,
                 options: [
                     { text: "Fine. What's the favor?", key: 'fine_whats_the_favor', next: "seldo_errand" },
                 ]

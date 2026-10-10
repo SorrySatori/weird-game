@@ -122,7 +122,7 @@ export default class HarborScene extends GameScene {
                     : `A tall translucent figure stands at the very edge of the dock, facing the Yolk Sea, their body filled with slowly floating fish embryos suspended in yellow fluid, turning in schools with the tide. A plaque on their collar reads: Heir to the Yellow Aquarium. They do not turn when you greet them — but when your voice shakes the boards, every embryo inside them turns your way.`,
                 options: [
                     { text: "What are you doing out here?", key: 'what_are_you_doing_out_here', next: "heir_harbor_wants" },
-                    ...(pithKnown && !heirRecruited ? [{ text: "The Pith Reclaimers could file you into the record — give you a place that stays.", key: 'heir_pith_offer', next: "heir_harbor_pith" }] : []),
+                    ...(pithKnown && !heirRecruited ? [{ text: "The Ink Tribunal could file you into the record — give you a place that stays.", key: 'heir_pith_offer', next: "heir_harbor_pith" }] : []),
                     { text: "I'll leave you to the tide.", key: 'leave_heir_harbor', next: "closeDialog" },
                 ],
                 onTrigger: () => {
@@ -141,13 +141,13 @@ export default class HarborScene extends GameScene {
                 speaker: 'Heir to the Yellow Aquarium',
                 text: `The embryos gather toward the seaward side of their body, all facing the horizon. "The auction ends. The lamps go dark. The lots are carried off to dry houses." A ripple passes through the yellow fluid. "We have no dry house. No shelf. No plaque but this one." They touch their collar. "So we come to the water, where things that are not finished are allowed to keep moving. It is not belonging. It is the next-best current."`,
                 options: [
-                    ...(pithKnown && !heirRecruited ? [{ text: "The Pith Reclaimers give the unaccounted a place in the record. That could be your shelf.", key: 'heir_pith_offer_2', next: "heir_harbor_pith" }] : []),
+                    ...(pithKnown && !heirRecruited ? [{ text: "The Ink Tribunal gives the unaccounted a place in the record. That could be your shelf.", key: 'heir_pith_offer_2', next: "heir_harbor_pith" }] : []),
                     { text: "I have other questions.", key: 'i_have_other_questions_heir', next: "heir_harbor_start" },
                 ]
             },
             heir_harbor_pith: {
                 speaker: 'Heir to the Yellow Aquarium',
-                text: `The Heir goes very still. The embryos stop spiraling and hang, listening. "Filed. Recorded. Inherited by the register itself." Their yellow light brightens, slow and certain. "A living thing kept because it can still change — that is what the Yellow Aquarium collects. And your Reclaimers would collect... us. Keep us. Continue us." A long, tidal pause. "Yes. Take us to be written down. To be written down is to be remembered forward."`,
+                text: `The Heir goes very still. The embryos stop spiraling and hang, listening. "Filed. Recorded. Inherited by the register itself." Their yellow light brightens, slow and certain. "A living thing kept because it can still change — that is what the Yellow Aquarium collects. And your Tribunal would collect... us. Keep us. Continue us." A long, tidal pause. "Yes. Take us to be written down. To be written down is to be remembered forward."`,
                 options: [
                     { text: "Then come to the Townhall when you're ready. Councilor Dune will file you.", key: 'heir_pith_agree', next: "heir_harbor_start" }
                 ],
@@ -155,12 +155,12 @@ export default class HarborScene extends GameScene {
                     if (!this.hasJournalEntry('pith_recruit_heir')) {
                         this.addJournalEntry(
                             'pith_recruit_heir',
-                            'A Soul for the Pith: the Heir',
-                            'The Heir to the Yellow Aquarium agreed to be filed as a citizen by the Pith Reclaimers. To a creature that collects "continuations," being written into the record is a kind of being kept — remembered forward. I should tell Councilor Seraphel Dune I have a soul for the faction.',
+                            'A Soul for the Tribunal: the Heir',
+                            'The Heir to the Yellow Aquarium agreed to be filed as a citizen by the Ink Tribunal. To a creature that collects "continuations," being written into the record is a kind of being kept — remembered forward. I should tell Councilor Seraphel Dune I have a soul for the faction.',
                             this.journalSystem.categories.FACTIONS,
-                            { character: 'Heir to the Yellow Aquarium', group: 'Pith Reclaimers' }
+                            { character: 'Heir to the Yellow Aquarium', group: 'Ink Tribunal' }
                         );
-                        this.showNotification('Recruited for the Pith Reclaimers: the Heir', 0xffdf7a);
+                        this.showNotification('Recruited for the Ink Tribunal: the Heir', 0xffdf7a);
                     }
                 }
             },
@@ -381,7 +381,7 @@ export default class HarborScene extends GameScene {
     }
 
     createHeirResident() {
-        // Once filed into the Pith Reclaimers, the Heir has left the Harbor for the Reclaimers' Room.
+        // Once filed into the Ink Tribunal, the Heir has left the Harbor for the Tribunal's Room.
         if (this.hasJournalEntry('pith_recruit_heir')) return;
         this.heir = this.add.image(640, 450, 'heirToAquarium');
         this.heir.setScale(0.11);

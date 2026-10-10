@@ -127,7 +127,7 @@ and a generative Web-Audio organ score.
 - **Pre-finale optional perspectives (in progress):** after `met_infinite_fold`, key NPCs gain a
   conditional `[Before entering the cathedral] …` option in their hub state for differing takes —
   these are OPTIONAL flavor, NOT a gate before the Egg Cathedral finale. Done: **Sister Calyx /
-  Pith Reclaimers** at `VoxmarketHallScene` (`calyx_start` → `calyx_seal_law` → guardian orders /
+  Ink Tribunal** at `VoxmarketHallScene` (`calyx_start` → `calyx_seal_law` → guardian orders /
   true purpose). Adds journal `bishop_seal_true_purpose` (LORE): the Bishop's seal reads *outward* —
   it protects the world from anyone who would seek to OWN new life, and the Sentinel of the Veil's
   standing order was to bar only the *acquisitive*. Also done: **Angle Corrector / Lumen Directorate**

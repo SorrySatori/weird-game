@@ -3,8 +3,8 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 
 /**
- * The Reclaimers' Room — a hidden reading room beneath the Townhall, unlocked by joining the
- * Pith Reclaimers. Home base: a "Reclaimed Cache" that pays out a share for every soul the
+ * The Tribunal's Room — a hidden reading room beneath the Townhall, unlocked by joining the
+ * Ink Tribunal. Home base: a "Tribunal's Cache" that pays out a share for every soul the
  * player has filed into the record (the recruit-scaling perk). Reachable only via a
  * membership-gated transition from TownhallInteriorScene.
  */
@@ -33,9 +33,9 @@ export default class PithReclaimersRoomScene extends GameScene {
             this.addJournalEntry(
                 e.got,
                 'Reclaimed Share',
-                `The Pith Reclaimers set aside a share for filing ${e.name} into the record.`,
+                `The Ink Tribunal set aside a share for filing ${e.name} into the record.`,
                 this.journalSystem.categories.EVENTS,
-                { group: 'Pith Reclaimers' }
+                { group: 'Ink Tribunal' }
             );
             gold += 40; spores += 15;
         }
@@ -52,10 +52,10 @@ export default class PithReclaimersRoomScene extends GameScene {
                 speaker: 'Narrator',
                 textKey: pending.length ? 'pith_cache_full' : 'pith_cache_empty',
                 text: pending.length
-                    ? `The glass orb on its pedestal clouds at your touch, then clears — and there, suspended within it, is the Reclaimers' share set aside for every soul you have filed into the record.`
+                    ? `The glass orb on its pedestal clouds at your touch, then clears — and there, suspended within it, is the Tribunal's share set aside for every soul you have filed into the record.`
                     : `The orb hangs clear and empty. A whisper moves through it in a clerk's precise voice: "Balance disbursed. Bring us more of the unaccounted."`,
                 options: pending.length
-                    ? [{ text: "Take the Reclaimers' share.", key: 'take_pith_cache', next: "closeDialog", onSelect: () => this._collectCache() }]
+                    ? [{ text: "Take the Tribunal's share.", key: 'take_pith_cache', next: "closeDialog", onSelect: () => this._collectCache() }]
                     : [{ text: "Step away from the orb.", key: 'close_pith_cache', next: "closeDialog" }]
             },
 
@@ -70,7 +70,7 @@ export default class PithReclaimersRoomScene extends GameScene {
             },
             magnekin_room_home: {
                 speaker: 'Magnekin',
-                text: `"The Reclaimers do not ask us to be less strange. Only to be written down. We can live with being written down." A pause. "The cities inside me have started a small archive of their own. We are learning the local custom: keep everything, throw away nothing."`,
+                text: `"The Tribunal does not ask us to be less strange. Only to be written down. We can live with being written down." A pause. "The cities inside me have started a small archive of their own. We are learning the local custom: keep everything, throw away nothing."`,
                 options: [{ text: "Fitting.", key: 'magnekin_room_fitting', next: "magnekin_room_start" }]
             },
             heir_room_start: {
@@ -152,17 +152,17 @@ export default class PithReclaimersRoomScene extends GameScene {
             this.showDialog('pith_cache');
         });
 
-        // Souls the player has filed into the Pith now reside here — standing further back in the room.
+        // Souls the player has filed into the Tribunal now reside here — standing further back in the room.
         this.createRecruitNpc('pith_recruit_magnekin', 'magnekin', 300, 395, 0.15, 0xc0c0c0, 'magnekin_room_start');
         this.createRecruitNpc('pith_recruit_heir', 'heirToAquarium', 500, 400, 0.095, null, 'heir_room_start');
 
         if (!this.hasJournalEntry('pith_room_entered')) {
             this.addJournalEntry(
                 'pith_room_entered',
-                "The Reclaimers' Room",
-                'A hidden reading room beneath the Townhall, off every official record — which, for the Pith Reclaimers, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Reclaimers\' share for every soul I bring into the fold.',
+                "The Tribunal's Room",
+                'A hidden reading room beneath the Townhall, off every official record — which, for the Ink Tribunal, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Tribunal\'s share for every soul I bring into the fold.',
                 this.journalSystem.categories.PLACES,
-                { location: "The Reclaimers' Room" }
+                { location: "The Tribunal's Room" }
             );
         }
 
