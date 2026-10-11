@@ -192,7 +192,7 @@ export default {
         },
         liris: {
             growthDominant: "You come aboard smelling of green weather. The deck ferns fair lean into you. Welcome.",
-            decayDominant: "Something rides up with you — a rot on the wind. Keep it downwind of my rigging, if you please.",
+            decayDominant: "Something rides up with you — a rot on the wind. Keep it downwind of my skyship, if you please.",
         },
         gnur: {
             growthDominant: "Too much bloom on you, priest. Puts my wares off. Green don't sell down here.",
@@ -208,7 +208,7 @@ export default {
         },
         kloor: {
             growthDominant: "My scales twitch — your spores are ripe, swollen with life. Prime stock, that.",
-            decayDominant: "The counter smells you before you speak — rot, and plenty of it. Cheap goods.",
+            decayDominant: "The mechanic counter smells you before you speak — rot, and plenty of it. Cheap goods.",
         },
         townsquare_citizen: {
             growthDominant: "The little cities in me hum — you carry a great deal of growing. Very... citizen-like. Very alive.",

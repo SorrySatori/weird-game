@@ -48,7 +48,7 @@ No absolute dates exist — the city stopped counting years when Vhorn the Tally
 | 7 | **The Collapse** — reality fractures, rules stop working; the Scraper's machines keep humming. The three factions are born: Lumen Directorate (self-declared victors, growth), Ink Tribunal (order through paperwork, the Townhall), Rust Choir ("from the silence after", first Keeper). The Screaming Cork claims to be the first building raised after the Collapse | | |
 | 8 | **The interregnum** — the Directorate watches over the city and cultivates "for generations"; the transit yard behind the Scraper is abandoned "decades ago"; Dr. Elphi Quarn and Ortolan build Infinite Fold in the Scraper cellar with mišutkenn dream-imaginators (Edgar among them), the city's rulers shut it down and the two part bitterly; Vhorn dies and the city stops counting years | decades | Elphi, Ortolan, Edgar, Sentinel |
 | 9 | **The Green Mist / Egg Emergence** — mist, then the Egg rises through the god-strata; streets shift, the Lift-Mother's upper floors seal, the Nexicorp executives transform, the Rust Choir takes the top floors; the Sentinel takes his post; Verrik starts the Sulkberry beds; the multi-faith Council forms, the Obazoba cult sends the Bishop. The Directorate begins watching the Cathedral | **~3000 digestions ≈ 10 years before the game** | Sentinel "three thousand digestions", Verrik "since the Egg came up" |
-| 10 | **The last years** — Ravla and Zerren settle in ("a couple thousand digestions"); the Bishop builds her own dream rig to speak with Infinite Fold; the myceliar network carries a cry for help to the Spore Council — the game begins | | |
+| 10 | **The last years** — Ravla and Zerren settle in ("a couple thousand digestions"); the Bishop builds her own dream rig to speak with Infinite Fold; the myceliar network carries a cry for help to the Highest Humenium Council — the game begins | | |
 
 **The Obazoba** (the Ur-mushroom) has no place on this line on purpose: it is a mystery, not one of the gods that come to Upper Morkezela to die. Its priests naturally claim it is older than all the others.
 
@@ -87,7 +87,7 @@ Streets shifted. Buildings grew. The city remade itself. Humanity divided: some 
 
 ### The Present Day
 
-The Spore Council of the Obazoba cult receives a distress call through the **myceliar network** — a fungal communication system. The call comes from Upper Morkezela, and it is neither "rot" nor "bloom" — a unique cry for help. Master Thaal and his troublesome apprentice (the player) are dispatched as fungal emissaries to investigate, beginning at the Egg Cathedral and its Bishop.
+The Highest Humenium Council of the Obazoba cult receives a distress call through the **myceliar network** — a fungal communication system. The call comes from Upper Morkezela, and it is neither "rot" nor "bloom" — a unique cry for help. Master Thaal and his troublesome apprentice (the player) are dispatched as fungal emissaries to investigate, beginning at the Egg Cathedral and its Bishop.
 
 ---
 
@@ -241,7 +241,7 @@ The official seat of the Lumen Directorate, located near the Town Square. An imp
 | **Remaper Hills** | Historic homeland of the mišutkenn (bear-folk), driven from there by Upper Morkezela's founders. |
 | **The Nettle Mountains** | Origin of Oorarabaz the Green-faced, a rare organism that forms part of Heliodor's composite body. |
 | **The Yolk Sea** | A glowing, sentient ocean of living yolk with boats floating like seeds and whispers rising from its depths. |
-| **The Obazoba Underground Temple** | Located outside Upper Morkezela, home of the Spore Council and the Obazoba cult's seat of power. Contains the Spore Council Chamber. |
+| **The Obazoba Underground Temple** | Located outside Upper Morkezela, home of the Highest Humenium Council and the Obazoba cult's seat of power. Contains the Council Chamber. |
 | **Lagerlandia** | A mythical land sacred to followers of Maltimus Hopsalot — an entirely fabricated beer god whose "religion" the player may invent. |
 
 ---
@@ -308,7 +308,7 @@ The official seat of the Lumen Directorate, located near the Town Square. An imp
 
 **Philosophy:** Worship of the Obazoba (the Ur-mushroom), the source of all life and rot. Cultists modify their bodies to grow fungal spores, becoming partially human and partially mushroom. They master both Growth and Decay as equally important principles. Their communication system is the **myceliar network** — a fungal network enabling long-distance messages.
 
-**Structure:** Governed by the **Spore Council** from an underground temple. Led by Archpriests (Varhun, Tynri, Rhull, among others). Field agents include Fungal Masters (like Master Thaal) who take apprentices.
+**Structure:** Governed by the **Highest Humenium Council** (CZ „Rada Nejvyššího Humenia“; renamed from "Spore Council" 2026-10-11) from an underground temple. Led by Archpriests (Varhun, Tynri, Rhull, among others). Field agents include Fungal Masters (like Master Thaal) who take apprentices.
 
 **The Bishop** was the Obazoba's representative on the Egg Cathedral Council, responsible for the emergency closure of the cathedral.
 

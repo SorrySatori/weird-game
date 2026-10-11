@@ -91,7 +91,7 @@ export default class EntryScene extends GameScene {
                 hideCloseOption: true,
                 text: "You must find the Bishop at the Egg Cathedral. She might know about the distress call we have received from this city via myceliar network. The Bishop should be probably present at the Egg Cathedral.",
                 options: [
-                    { text: "Wait, do you mean the task you have been given by the Spore Council? The only reason we are here? Why can't we go see the Bishop together?", key: 'wait_do_you_mean_the_task_you_have_been_given_by_t', next: 'whyNot' },
+                    { text: "Wait, do you mean the task you have been given by the Highest Humenium Council? The only reason we are here? Why can't we go see the Bishop together?", key: 'wait_do_you_mean_the_task_you_have_been_given_by_t', next: 'whyNot' },
                     { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
                 ]
             },

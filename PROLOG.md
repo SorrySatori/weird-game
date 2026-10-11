@@ -192,7 +192,7 @@ Byl téměř za půlnoc. Město hořelo různobarevnými ohni a vonělo kouřem 
 
 Hluboko pod městem, v síti podzemních vláken — v myceliární síti, jež spojovala zemi, kamení, kořeny, houby a vše, co rostlo a tlelo — se rozléhal signál. Nebyl to hlas, nebyl to zvuk. Bylo to něco jako cit, jako varovné mravenčení na pokožce, které nevíte kam zařadit. Tísňový signál, jaký se vysílal jednou za generaci, možná za dvě. Vyšel z Horní Morkezely a rozléhal se myceliární sítí jako vlnka v rybníce.
 
-Ve vzdáleném podzemním chrámu Obazoba, daleko za hranicemi města, jej zachytila Sporová rada. Starší kněží a kněžky seděli v kruhu kolem bazénu plného tekutého mycelia a naslouchali.
+Ve vzdáleném podzemním chrámu Obazoba, daleko za hranicemi města, jej zachytila Rada Nejvyššího Humenia. Starší kněží a kněžky seděli v kruhu kolem bazénu plného tekutého mycelia a naslouchali.
 
 — To není plíseň, řekl jeden z archikněží, Varhun, muž jehož levá polovina obličeje už dávno přešla v houbovitý organismus.
 
@@ -204,7 +204,7 @@ Ve vzdáleném podzemním chrámu Obazoba, daleko za hranicemi města, jej zachy
 
 Volba padla na Mistra Thaala. Byl to zkušený fungální učenec, trochu líný, trochu roztržitý, trochu svérázný — ale spolehlivý, když na to přišlo. Měl učedníka, respektive učednici, respektive někoho, jehož výcvik byl v raném stadiu a jehož kompetence byly tudíž poněkud diskutabilní, ale Rada trvala na tom, že Thaal nemůže jet sám. Diplomatické mise vyžadovaly alespoň dvě osoby. Nebo jednu osobu a jednoho učedníka, což bylo z hlediska protokolu přijatelné.
 
-A tak se stalo, že dva fungální emisaři vyrazili na cestu do Horní Morkezely. Měli pokyn najít biskupku, zjistit, co se děje s katedrálou, a podstat zprávu, že Sporová rada signál přijala a žádá vysvětlení.
+A tak se stalo, že dva fungální emisaři vyrazili na cestu do Horní Morkezely. Měli pokyn najít biskupku, zjistit, co se děje s katedrálou, a podstat zprávu, že Rada Nejvyššího Humenia signál přijala a žádá vysvětlení.
 
 Co nevěděli — co nemohl vědět nikdo, kdo právě nebyl v Horní Morkezele — bylo to, že biskupku už nikdo živou nenajde.
 

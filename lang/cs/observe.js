@@ -5,10 +5,10 @@ export default {
     observe: {
         stomach_clock: {
             hint: 'Žaludeční hodiny',
-            default: "Hodiny velké jako dům – a ony... dýchají. Ciferník je z kosti, ručičky jsou cosi mokrého. Ať už v tomhle městě měří čas cokoli, nejsou to vteřiny.",
-            heard: "Tak tohle jsou ty Žaludeční hodiny, o kterých mi vyprávěl Thaal. Skutečný žaludek prvního boha, který sem přišel umřít – nebo jen mizerná kopie hodin odjinud, podle toho, kdo to vypráví. Když teď stojím pod nimi a dívám se, jak tráví, vím, které verzi věřím. A vůbec nespěchám zjišťovat, jestli je ta žluč fakt tak léčivá, jak se říká.",
-            digestions: "Trávení, říkal strážce. Teď, když tu stojím a dívám se, jak se ta věc prokousává dalším, konečně vím, co počítal – a že tohle město celou dobu měří čas vlastním žaludkem.",
-            been_inside: "Stál jsem uvnitř jejich útrob. Vědomí toho, co ta věc nahoře doopravdy tráví, se na to nedívá o nic líp – spíš hůř.",
+            default: "Hodiny velké jako dům – které... dýchají. Ciferník je z kostí, ručičky z čehosi vlhkého, organického. Ať už v tomhle městě měří čas čímkoliv, nejsou to vteřiny.",
+            heard: "Tak tohle jsou ty proslulé Žaludeční hodiny, o kterých mi vyprávěl Thaal. Skutečný žaludek prvního boha, který sem přišel umřít – nebo jen mizerná kopie hodin odjinud, záleží na tom, kdo to vypráví. Když teď stojím pod nimi a dívám se, jak tráví, už vím, které verzi věřím. A vůbec nespěchám zjišťovat, jestli je ta žluč fakt tak léčivá, jak se říká.",
+            digestions: "Trávení, říkal strážce. Teď, když tu stojím a dívám se, jak tahle věc skutečně tráví, konečně chápu, co tím myslel – a že tohle město celou dobu měří čas vlastním žaludkem.",
+            been_inside: "Stál jsem uvnitř jejich útrob. Znalost toho, co ta věc nahoře doopravdy tráví, vůbec nepomáhá – spíš se na to kouká ještě hůř.",
         },
         crossroads: {
             hint: 'Křižovatka',
@@ -24,21 +24,21 @@ export default {
         },
         egg_cathedral: {
             hint: 'Vejce',
-            default: "Celý oblouk je postavený tak, aby rámoval tu záři – a ta záře je vejce velké jako dveře. I odsud sálá teplem. Větším, než na jaké má cokoli takhle hluboko v houbě právo. Něco uvnitř čeká, až přestane čekat.",
-            knows: "Byl jsem ve sklepě a potkal mysl, kterou tohle vejce udržuje v teple. Vědomí toho, co je uvnitř složené, nedělá to světlo o nic míň krásným – jen ve mně budí touhu být někde jinde, až se to vylíhne.",
-            ortolan: "Ortolan to řekl jasně: věc může být krásná a přitom špatně udělaná, ta vada je zapečená přímo do té krásy. Teď to nedokážu přehlédnout – to nádherné světlo a konstrukční chyba táhnoucí se přímo jeho středem.",
+            default: "Celý oblouk je postavený tak, aby za ním byla dobře vidět zářící skořápka vejce. I odsud je cítit, jak sálá teplem. Něco uvnitř čeká.",
+            knows: "Byl jsem ve sklepě a potkal mysl, kterou tohle vejce udržuje v teple. Znalost toho, co je uvnitř složené, nic nemění na dojmu, kterým na mě záře působí – jen bych byl rád někde jinde, až se to vylíhne.",
+            ortolan: "Ortolan to řekl jasně: věc může být krásná a přitom špatně udělaná, vada je pak zapečená přímo do té krásy. Teď už to nedokážu přehlédnout – to nádherné světlo a konstrukční chyba táhnoucí se přímo středem.",
         },
         egg_cathedral_approach: {
             hint: 'Vaječná katedrála',
-            default: "Katedrála topící se ve vlastních vejcích – kupole ze skořápky tam, kde má být střecha, a celé pole kolem ní nabobtnalé dalšími, bledými a trpělivými v bahně. Něco tady je velmi blízko zrození, a ta architektura je jen hnízdo, se kterým se to spokojilo.",
-            knows: "Byl jsem dole v jejím sklepě; znám mysl, kterou celá tahle snůška udržuje v teple. Odsud zvenčí ta vejce vypadají míň jako shromáždění a víc jako odpočet, kterému nikdo nenastavil délku.",
-            ortolan: "Ortolan tomu říkal špatně udělaná věc – krásná a rozbitá týmž tahem. Když stojím před celou tou snůškou, vidím rozsah té vady: ne jedno vejce, ale celé pole, každé opakující tutéž nádhernou chybu.",
+            default: "Katedrála rostoucí z obřího vejce – kupole ze skořápky tam, kde má být střecha. Rodí se tu něco, čemu katedrála slouží doslova jako skořápka.",
+            knows: "Byl jsem dole ve sklepě; znám mysl, která tam roste.",
+            ortolan: "Ortolan říkal, že špatně udělaná věc může být krásná a rozbitá týmž tahem.",
         },
         scraper: {
             hint: 'Škrabák 1140',
-            default: "Kdysi mu říkali Nexicorp Tower. Teď se jen sám počítá – patra, která tam včera nebyla, křídla v jazycích, kterými nikdo nemluví. Takovou budovu neměříš. Jen doufáš, že ona neměří tebe.",
-            been_inside: "Byl jsem nahoře v něm, a „nahoře“ se ukázalo být návrhem, který Škrabák nebere vážně – chodby, co jsou hrdla, roky, které jsem ještě neprožil, naskládané jako patra. Odsud to skoro vypadá jako architektura.",
-            knows_cellar: "Všichni na Škrabák civí nahoru. To, na čem záleží, je dole: zapečetěný sklep, kde Ortolan a Elphi postavili svou nedodělanou hru, a pořád tam dole ve tmě hučí. Tolik pater – a odpověď je ve sklepě.",
+            default: "Kdysi tomu říkali Nexicorp Tower. Teď mu všichni říkají Škrabák a nikdo nezná všechna patra.",
+            been_inside: "Byl jsem nahoře a vlastně pořád nevím, co si o Škrabáku myslet. Odsud to skoro vypadá jako architektura.",
+            knows_cellar: "Všichni na Škrabák civí a zvedají hlavy nahoru. To, na čem záleží, je ale dole: zapečetěný sklep, kde Ortolan a Elphi postavili svou nedodělanou hru, která tam dole pořád hučí ve tmě. Tolik pater – a odpověď je ve sklepě.",
         },
         rust_machines: {
             hint: 'Stroje Chóru',
@@ -65,18 +65,18 @@ export default {
         },
         screaming_cork: {
             hint: 'Řvoucí korek',
-            default: "Nálevna se jménem vykřičeným v odloupané barvě – a pod tím hlukem, pod podlahou, něco drží rytmus, který nikdo nehraje. Cítíš to v prknech dřív, než to uslyšíš. Lidé sem chodí být takhle nahlas schválně.",
-            knows_noise: "To bušení pod podlahou Korku není kapela. Je to to, co kapela krmí – hlukový bůh ve sklepě, vykrmovaný hlasitostí. Když tohle vím, ten veselý rámus tady nahoře zní mnohem víc jako někdo přikládající do pece.",
+            default: "Nálevna se jménem vykřičeným do staré odloupané barvy na zdi. Lidé sem chodí možná zapomenout, možná si jenom zařvat. Každopádně to vypadá jako populární podnik.",
+            knows_noise: "Potom, co jsem byl svědkem zkoušky kapely Feral Toast, jsem zde objevil něco nečekaného. Řvoucí korek nenabízí jen omamné prostředky všeho druhu a kvalitní konverzaci, je zde možné zažít i manifestaci entity, pro kterou jsem si vytvořil pracovní název Bůh hluku.",
         },
         voxmarket: {
             hint: 'Voxmarket',
-            default: "Každý stánek tady prodává něco, co kdysi žilo, a kupci smlouvají tuctem nářečí zoufalství. Jestli něco v Horní Morkezele existuje, někdo na Voxmarketu na to má cenu – a horší cenu na jeho tajemství.",
-            knows_vestigels: "Někde v tomhle mumraji přecházejí z ruky do ruky živoucí mince – Vestigely, cennější než zlato a podivnější než obojí. Kloor by dal svoje zuby, aby jeden mohl studovat. Když tu stojím, cítím, kolik rukou by se sevřelo kolem toho mého, kdyby věděly, že po nich pátrám.",
+            default: "Každý stánek tady prodává něco, co kdysi žilo, a kupci smlouvají tuctem nářečí. Jestli něco v Horní Morkezele vydávalo zvuk, někdo na Voxmarketu ví, kolik to stojí.",
+            knows_vestigels: "Někde v tomhle mumraji přecházejí z ruky do ruky živoucí mince – Vestigely, cennější než zlato a podivnější než ekonomika samotná. Kloor by prodal svoje zuby, aby si nějaký mohl prostudovat.",
         },
         shed_pipes: {
             hint: 'Kůlna 521',
-            default: "Potrubí na potrubí, většina roní rez, a všechna vedou někam, kam nikdo nemá jít. Byrokrati celé tohle patro odepsali jako „konstrukční problém“. Tady dole to zní jako pozvání.",
-            member: "Chór pracuje v těchhle útrobách jako v těle, které se teprv učí milovat. Teď, když s nimi zpívám, vypadá rez míň jako rozklad a víc jako pomalé, trpělivé hojení – což je přesně ta myšlenka, kterou by mi Thorne-Still rád podsunul.",
+            default: "Architektura téhle budovy se dá popsat jako výsledek večírku, po kterém mělo potrubí dítě se skládkou starého dřeva. Byrokrati celé tohle veledílo odepsali jako „konstrukční problém“, následně to (velice levně) koupili a nastěhovali se sem.",
+            member: "Chór se snaží Kůlnu infiltrovat. Teď, když s nimi zpívám, se mi zdá rez míň jako problém a víc jako pomalé, trpělivé hojení.",
         },
         redmass_island: {
             hint: 'Rudohmota',
@@ -99,9 +99,9 @@ export default {
             default: "Autobus, který přestal jezdit na trase, co přestala existovat. Někdo v něm žil – nebo něco – sedadla jsou prosezená do tvarů špatného počtu těl. Pořád slabě páchne cestou, která nikdy nedojela.",
         },
         skyship_board: {
-            hint: 'Tabule vzducholodi',
-            default: "Velká tabule číselníků a počítadel, odtikávající patra a výšky pro plavidlo, které jako by neposlouchalo ani jedno. Čísla se mění, když se nedívám. Mám pocit, že ta tabule neměří oblohu, spíš se s ní hádá.",
-            knows: "Vzal jsem si z téhle tabule počítadlo pater – jediný přístroj dost poctivý na to, aby přiznal, že Škrabák má patra, která by existovat neměla. Když se teď dívám na zbytek číselníků, říkám si, kolik z nich vůbec kdy říkalo pravdu.",
+            hint: 'Paluba vzducholodi',
+            default: "Na palubě vzducholodi Verdigrace fičí studený vítr, ale rozhled je dechberoucí. Kolem odtikávají podivné přístroje, které však zřejmě nejsou mechanického původu – vypadají jako vypěstované.",
+            knows: "Tady jsem získal počítadlo pater – jediný přístroj dost poctivý na to, aby přiznal, že Škrabák má patra, která by existovat neměla.",
         },
     },
 };

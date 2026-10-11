@@ -4,8 +4,8 @@
 export default {
     intro: {
         dialogues: [
-            { speaker: 'NARRATOR', text: 'In the underground temple of Obazoba, the Spore Council is gathered.' },
-            { speaker: 'ARCHPRIEST VARHUN', text: 'A distress call through the myceliar network. Not rot. Not bloom. A cry for help.' },
+            { speaker: 'NARRATOR', text: 'In the underground temple of Obazoba, the Highest Humenium Council is gathered.' },
+            { speaker: 'ARCHPRIEST VARHUN', text: 'A distress call through the myceliar network. A cry for help.' },
             { speaker: 'ARCHPRIEST TYNRI', text: 'From the surface. From the city of Upper Morkezela.' },
             { speaker: 'ARCHPRIEST VARHUN', text: 'We must respond, though we do not know who speaks.' },
             { speaker: 'ARCHPRIEST RHULL', text: "The Egg Cathedral is the place where we should go. The Bishop would know more. She has been monitoring what's going on in the city." },
@@ -14,7 +14,7 @@ export default {
             { speaker: 'ARCHPRIEST RHULL', text: "He is... well, he is Thaal's apprentice. I do not know much about him, but I do know that he is not the... sharpest mushroom in the forest." },
             { speaker: 'ARCHPRIEST RHULL', text: 'At least this time we have hidden the ceremonial oils.' },
             { speaker: 'ARCHPRIEST TYNRI', text: 'And locked the fungal archive. Twice.' },
-            { speaker: 'ARCHPRIEST VARHUN', text: 'Let Master Thaal rise — quietly, if possible. Let him find the Bishop of Upper Morkezela and discover the source of this distress call. The apprentice is his responsibility.' },
+            { speaker: 'ARCHPRIEST VARHUN', text: 'Summon Master Thaal. Let him find the Bishop of Upper Morkezela and discover the source of this distress call. The apprentice is his responsibility. And if the apprentice won\'t return, no problem. We can always find a new one for Master Thaal.' },
         ],
     },
 };

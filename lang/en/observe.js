@@ -7,8 +7,8 @@ export default {
     observe: {
         stomach_clock: {
             hint: 'Stomach Clock',
-            default: "A clock the size of a house, and it's... breathing. The face is bone; the hands are something wet. Whatever keeps time in this city, it isn't seconds.",
-            heard: "So this is the Stomach Clock Thaal told me about. The real stomach of the first god who came here to die — or a poor copy of some other town's clock, depending on who's telling it. Standing under it, watching it digest, I know which story I believe. And I'm in no hurry to test whether the bile is as healthy as they say.",
+            default: "A clock the size of a house, and it's... breathing. The face is bone; the hands are something wet and organic. Whatever keeps time in this city, it isn't seconds.",
+            heard: "So this is the famous Stomach Clock Thaal told me about. The real stomach of the first god who came here to die — or a poor copy of some other town's clock, depending on who's telling it. Standing under it, watching it digest, I know which story I believe. And I'm in no hurry to test whether the bile is as healthy as they say.",
             digestions: "Digestions, the Sentinel called them. Standing here, watching the thing chew its way through another one, I finally know what he was counting — and that this city has been keeping time by its own stomach the whole while.",
             been_inside: "I've stood inside its gut. Knowing what the thing up there is actually digesting doesn't make it easier to look at — it makes it worse.",
         },
@@ -26,20 +26,20 @@ export default {
         },
         egg_cathedral: {
             hint: 'The Egg',
-            default: "The whole arch is built to frame that glow, and the glow is an egg the size of a door. Warm, even from here — warmer than anything this deep in the fungus has a right to be. Something inside it is waiting to stop waiting.",
+            default: "The whole arch is built to frame that glow, and the glow is an egg the size of a door. Warm, even from here. Something inside it is waiting.",
             knows: "I've been in the cellar and met the mind this egg is keeping warm. Knowing what's folded up inside doesn't make the light any less beautiful — it just makes me want to be somewhere else when it hatches.",
             ortolan: "Ortolan said it plainly: a thing can be beautiful and still be badly made, the flaw baked right into the beauty. Now I can't unsee it — that gorgeous light, and a design error running clean through the middle of it.",
         },
         egg_cathedral_approach: {
             hint: 'Egg Cathedral',
-            default: "A cathedral drowning in its own eggs — a dome of shell where the roof should be, and the whole field around it swollen with more, pale and patient in the muck. Something here is very close to being born, and the architecture is just the nest it settled for.",
-            knows: "I've been down in its cellar; I know the mind this whole clutch is keeping warm. From out here the eggs look less like a congregation and more like a countdown nobody set the length of.",
-            ortolan: "Ortolan called it a flawed make — beautiful and broken in the same stroke. Standing before the whole clutch of it, I can see the scale of the flaw: not one egg but a field of them, each repeating the same gorgeous mistake.",
+            default: "A cathedral growing from a giant egg — a dome of shell where the roof should be. Something here is very close to being born, and the architecture is just the nest it settled for.",
+            knows: "I've been down in its cellar; I know the mind that is growing there.",
+            ortolan: "Ortolan called it a flawed make — beautiful and broken in the same stroke.",
         },
         scraper: {
             hint: 'Scraper 1140',
-            default: "Nexicorp Tower, they used to call it. Now it just counts itself — floors that weren't there yesterday, wings in languages nobody speaks. You don't measure a building like this. You hope it isn't measuring you back.",
-            been_inside: "I've been up in it, and 'up' turned out to be a suggestion the Scraper doesn't take seriously — corridors that are throats, years I haven't lived yet stacked like floors. From out here it almost passes for architecture.",
+            default: "Nexicorp Tower, they used to call it. Now they call it Scraper and nobody knows all its floors.",
+            been_inside: "I've been up in it and I still don't know what to think about the Scraper. From out here it almost passes for architecture.",
             knows_cellar: "Everyone cranes up at the Scraper. The thing that matters is at the bottom: the sealed cellar where Ortolan and Elphi built their unfinished game, still humming down there in the dark. All these floors, and the answer's in the basement.",
         },
         rust_machines: {
@@ -67,18 +67,18 @@ export default {
         },
         screaming_cork: {
             hint: 'The Screaming Cork',
-            default: "A drinking-house with its name shouted in peeling paint, and under the noise of it — under the floor — something keeps a beat nobody's playing. You feel it in the boards before you hear it. People come here to be that loud on purpose.",
-            knows_noise: "The thumping under the Cork's floor isn't the band. It's the thing the band feeds — the noise-god in the cellar, kept fat on volume. Knowing that, the cheerful racket up here sounds a lot more like someone shovelling a furnace.",
+            default: "A drinking-house with its name shouted in old, peeling paint. People come here, maybe to forget, maybe just to let off some steam. In any case, it looks like a popular spot.",
+            knows_noise: "After witnessing Feral Toast's rehearsal, I discovered something unexpected here. The Screaming Cork doesn't just offer intoxicants of all kinds and good conversation; here, you can also experience a manifestation of an entity for which I've coined the working title 'Noise God.'",
         },
         voxmarket: {
             hint: 'The Voxmarket',
-            default: "Every stall here sells something that used to be alive, and the vendors haggle in a dozen dialects of desperation. If a thing exists in Upper Morkezela, someone at the Voxmarket has a price for it — and a worse price for its secret.",
-            knows_vestigels: "Somewhere in this racket the alive-coins change hands — Vestigels, worth more than gold and stranger than either. Kloor would give his teeth to study one. Standing here, I can feel how many hands would close around mine if they knew I was hunting them.",
+            default: "Every stall here sells something that used to be alive, and the vendors haggle in a dozen dialects. If a thing makes some sound in Upper Morkezela, someone at the Voxmarket has a price for it.",
+            knows_vestigels: "Somewhere in this racket the alive-coins change hands — Vestigels, worth more than gold and stranger than economics itself. Kloor would give his teeth to study one.",
         },
         shed_pipes: {
             hint: 'Shed 521',
-            default: "Pipes upon pipes, most of them weeping rust, all of them going somewhere nobody's meant to follow. The bureaucrats wrote this whole level off as a 'structural concern.' Down here, that reads as an invitation.",
-            member: "The Choir works these guts like a body it's still learning to love. Now that I sing with them, the rust looks less like decay and more like a slow, patient healing — which is exactly the thought Thorne-Still would want me to have.",
+            default: "The architecture of this building can be described as the result of a party after which a pipe and a pile of scrap wood had a child. Bureaucrats wrote off this entire masterpiece as a 'structural problem,' then bought it (very cheaply) and moved in.",
+            member: "The choir is trying to infiltrate the Shed. Now that I'm singing with them, rust seems less like a problem and more like a slow, patient healing process.",
         },
         redmass_island: {
             hint: 'The Redmass',
@@ -102,8 +102,8 @@ export default {
         },
         skyship_board: {
             hint: 'The Skyship Board',
-            default: "A great board of dials and counters, ticking off floors and altitudes for a vessel that doesn't seem to obey either. The numbers change when I'm not looking at them. I get the feeling the board isn't measuring the sky so much as arguing with it.",
-            knows: "I took the floor-counter from this board — the one instrument honest enough to admit the Scraper has floors that shouldn't exist. Looking at the rest of the dials now, I wonder how many of them were ever telling the truth.",
+            default: "A cold wind is blowing aboard the airship Verdigrace, but the view is breathtaking. All around, strange devices are ticking away — though they don't seem to be mechanical in origin; they look as if they've been grown.",
+            knows: "I took the floor-counter from here — the one instrument honest enough to admit the Scraper has floors that shouldn't exist.",
         },
     },
 };

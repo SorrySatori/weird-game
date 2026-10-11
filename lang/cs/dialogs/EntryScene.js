@@ -25,7 +25,7 @@ export default {
     task: {
         text: "Musíš najít Biskupku ve Vaječné katedrále. Možná ví něco o nouzovém signálu z města, který jsme zachytili skrz myceliální síť. Biskupka by měla být nejspíš ve Vaječné katedrále.",
         options: {
-            wait_do_you_mean_the_task_you_have_been_given_by_t: "Moment, myslíte ten úkol, který jste dostal od Sporové rady? Jediný důvod, proč tady jsme? Proč nemůžeme jít za Biskupkou spolu?",
+            wait_do_you_mean_the_task_you_have_been_given_by_t: "Moment, myslíte ten úkol, který jste dostal od Rady Nejvyššího Humenia? Jediný důvod, proč tady jsme? Proč nemůžeme jít za Biskupkou spolu?",
             tell_me_more_about_the_city_first: "Nejdřív mi řekněte víc o městě"
         }
     },

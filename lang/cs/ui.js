@@ -90,7 +90,7 @@ export default {
             emptyItems: 'Váš inventář je prázdný',
             use: 'POUŽÍT',
             title: 'SBÍRKA SPOR',
-            empty: 'Vaše sbírka spor je prázdná.\nSbírejte spory při průzkumu.',
+            empty: 'Tvoje sbírka spor je prázdná.\nSbírej spory při průzkumu.',
             full: 'Inventář je plný!',
             added: 'Přidáno do inventáře: {item}',
         },

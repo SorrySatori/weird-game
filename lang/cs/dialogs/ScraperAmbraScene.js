@@ -255,7 +255,7 @@ export default {
         }
     },
     dr_elphi_journal_network: {
-        text: "Rušení, poškození, nebo záměrné přerušení. Myceliární síť není jen mystická – má fyzické uzly po celé Horní Morkezele. Pokud někdo narušil její osobní uzel, byla by odříznuta.\n\nKatedrála by věděla o poruchách sítě. A Sporová rada – ta monitoruje zdraví sítě. Pokud bylo její spojení záměrně přerušeno, někdo velmi mocný ji chtěl umlčet.",
+        text: "Rušení, poškození, nebo záměrné přerušení. Myceliární síť není jen mystická – má fyzické uzly po celé Horní Morkezele. Pokud někdo narušil její osobní uzel, byla by odříznuta.\n\nKatedrála by věděla o poruchách sítě. A Rada Nejvyššího Humenia – ta monitoruje zdraví sítě. Pokud bylo její spojení záměrně přerušeno, někdo velmi mocný ji chtěl umlčet.",
         options: {
             back_to_other_clues: "Zpět k dalším stopám."
         }
@@ -268,7 +268,7 @@ export default {
         }
     },
     dr_elphi_dissection_neme: {
-        text: "Neme z Korunního bahna. *Šeptá to jméno jako modlitbu.* Slyšela jsem o něm. Staré příběhy od starších Obazoba – fotosenzitvní symbiont, který propůjčuje schopnost vycítit lež.\n\nPokud někdo věděl, že Biskupka nese Nemeho... ten symbiont je neocenitelný. Pro určité frakce stojí za zabití.\n\nSporová rada by ho chtěla zachovat. Jiní by ho mohli chtít zničit – nebo zbraňově využít.",
+        text: "Neme z Korunního bahna. *Šeptá to jméno jako modlitbu.* Slyšela jsem o něm. Staré příběhy od starších Obazoba – fotosenzitvní symbiont, který propůjčuje schopnost vycítit lež.\n\nPokud někdo věděl, že Biskupka nese Nemeho... ten symbiont je neocenitelný. Pro určité frakce stojí za zabití.\n\nRada Nejvyššího Humenia by ho chtěla zachovat. Jiní by ho mohli chtít zničit – nebo zbraňově využít.",
         options: {
             back_to_other_clues: "Zpět k dalším stopám."
         }

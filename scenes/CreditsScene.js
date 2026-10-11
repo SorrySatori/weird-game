@@ -66,7 +66,7 @@ export default class CreditsScene extends Phaser.Scene {
             '', '',
             '', '',
             cs ? 'Zvláštní poděkování' : 'Special Thanks',
-            cs ? 'Sporová rada' : 'The Spore Council',
+            cs ? 'Rada Nejvyššího Humenia' : 'The Highest Humenium Council',
             cs ? 'Všem, kdo čekali v Přízračné frontě' : 'Everyone who waited in the Phantom Queue',
             cs ? 'Biskupce' : 'The Bishop',
             '', '',

@@ -612,7 +612,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_journal_network: {
-                text: `Interference, damage, or deliberate severance. The myceliar network isn't just mystical — it has physical nodes throughout Upper Morkezela. If someone disrupted her personal node, she'd be cut off.\n\nThe Cathedral would know about network disruptions. And the Spore Council — they monitor the network's health. If her connection was deliberately severed, someone very powerful wanted her silenced.`,
+                text: `Interference, damage, or deliberate severance. The myceliar network isn't just mystical — it has physical nodes throughout Upper Morkezela. If someone disrupted her personal node, she'd be cut off.\n\nThe Cathedral would know about network disruptions. And the Highest Humenium Council — they monitor the network's health. If her connection was deliberately severed, someone very powerful wanted her silenced.`,
                 options: [
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]
@@ -639,7 +639,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_dissection_neme: {
-                text: `Neme of the Crownmire. *She whispers the name like a prayer.* I've heard of it. Old stories from the Obazoba elders — a photosensitive symbiont that grants the ability to sense deception.\n\nIf someone knew the Bishop carried Neme... that symbiont is invaluable. Worth killing for, to certain factions.\n\nThe Spore Council would want it preserved. Others might want it destroyed — or weaponized.`,
+                text: `Neme of the Crownmire. *She whispers the name like a prayer.* I've heard of it. Old stories from the Obazoba elders — a photosensitive symbiont that grants the ability to sense deception.\n\nIf someone knew the Bishop carried Neme... that symbiont is invaluable. Worth killing for, to certain factions.\n\nThe Highest Humenium Council would want it preserved. Others might want it destroyed — or weaponized.`,
                 options: [
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
                 ]

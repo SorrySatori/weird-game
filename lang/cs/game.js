@@ -42,7 +42,7 @@ export default {
             "Jak posloucháš dál, hluk kolem tebe jako by nabýval tělesné podoby.",
             "Vzduchem se splétají vlákna zvuku a tvoří jakýsi oblak vědomí.",
             "Cítíš zvláštní sounáležitost s Bohem hluku.",
-            "Zaplaví tě hluboké poznání: Bůh hluku se nenarodil, byl sestaven...",
+            "Zaplaví tě hluboké poznání: Bůh hluku se nenarodil, byl stvořen...",
             "Dnes z jeho vzoru zbývají jen náznaky – pohřbené v magnetickém prachu, slabě rezonující v rozbitých zesilovačích, v rádiové mlze a v kostech reproduktorů.",
             "Cítíš, že hudba kapely je jeho pozůstatek – způsob, jak se s Bohem hluku spojit.",
         ],
@@ -51,7 +51,7 @@ export default {
         queueForms: 'Sotva vejdeš do kanceláře, obklopí tě podivné snové bytosti a seřadí se do fronty...',
         queueFaded: 'Obyvatelé fronty se rozplynuli',
         clerkAppeared: 'Objevil se vrchní úředník...',
-        clerkReady: 'Vrchní úředník je připraven vás obsloužit',
+        clerkReady: 'Vrchní úředník je připraven tě obsloužit',
         slotUnlocked: 'Odemčen nový slot pro symbionta!',
         maxSlots: 'Už máte nejvyšší povolený počet slotů pro symbionty!',
     },
@@ -110,15 +110,15 @@ export default {
             ability: 'Mozková hniloba',
             dialogs: {
                 main: {
-                    text: "Thorne-Still ti šeptá v hlavě: ‚Čau, šéfe, jak je? Měl bych ti asi připomenout, že moje síla roste s rozkladem – ale když bude růstu moc, budu muset odejít. Přemíra růstu mi fakt nesedí, kapitáne. Mozkovou hnilobu používej s rozumem... Je to mocný nástroj, ale když si nedáš pozor, dokáže někomu pořádně zprasit mozek. Takže ji radši nezkoušej na lidech, které máš rád.‘",
+                    text: "Thorne-Still ti šeptá v hlavě: ‚Čau, šéfe, jak je? Měl bych ti asi připomenout, že moje síla roste s rozkladem – a naopak, když bude růstu moc, budu muset odejít. Přemíra růstu mi fakt nesedí, kapitáne. Mozkovou hnilobu používej s rozumem... Je to mocný nástroj, ale když si nedáš pozor, dokáže někomu pořádně zprasit mozek. Takže ji radši nezkoušej na lidech, které máš rád.‘",
                     options: ['Zeptat se na Mozkovou hnilobu', 'Zeptat se na Thorne-Stilla'],
                 },
                 ability: {
-                    text: "Mozková hniloba působí, že lidé jsou při rozhovoru postupně zmatení, zapomnětliví nebo přístupní sugesci. Prostě vypouštím slabé psychosporové emise, které v okolních myslích krátkodobě roztřepí myšlení. No, říkám prostě, ale tak prosté to zas není. A pokaždé, když ji použijeme, budu potřebovat trochu tvých spor. Nezabere na každého, ale neboj, řeknu ti, kdy ji můžeme použít.",
+                    text: "Mozková hniloba působí lidem zmatenost, zapomnětlivost nebo stav, kdy jsou náchylnější k sugesci. Prostě vypouštím slabé psychosporové emise, které v okolních myslích krátkodobě roztřepí myšlení. Říkám sice prostě, ale tak jednoduché to zas není. Navíc pokaždé, když ji použijeme, budu potřebovat trochu tvých spor. Nezabere to na každého, ale neboj, řeknu ti, kdy ji můžeme použít.",
                     options: ['Zpět'],
                 },
                 about: {
-                    text: "Jsem symbiont, kterému se daří v rozkladu. Kdysi jsem byl součástí něčeho většího, ale teď existuji v prostorách mezi realitami. Heh, dělám si legraci – zrovna teď existuju v tvém žaludku. Díky našemu poutu se tu dá docela pohodlně bydlet, ale přemíra růstové energie mě z tvého těla vyžene.",
+                    text: "Jsem symbiont, kterému se daří v rozkladu. Kdysi jsem byl součástí něčeho většího, ale teď existuji v prostorách mezi realitami. Heh, dělám si prdel – zrovna teď existuju ve tvém žaludku. Díky našemu poutu se tu dá docela pohodlně bydlet, ale přemíra růstové energie mě z tvého těla vyžene.",
                     options: ['Zpět'],
                 },
             },
@@ -129,7 +129,7 @@ export default {
         sided_directorate: 'Postavil ses na stranu Direktorátu.',
         clean_run_lie: 'Čistá fuška zabalená do lži.',
         contraband_dropped: 'Kontraband doručen.',
-        parcel_kept: 'Balíček zůstává v tvém kabátě.',
+        parcel_kept: 'Balíček zůstává ve tvém kabátě.',
         truth_not_dirt: 'Vytáhl jsi pravdu, ne jen špínu.',
         fresh_gossip: 'Čerstvé drby k šíření.',
         contraband_recorded: 'Kontraband zanesen do záznamů.',
@@ -183,32 +183,32 @@ export default {
 
     mood: {
         verrik: {
-            growthDominant: "Úponky se k tobě naklánějí dřív, než promluvíš. Dobře – zelené věci poznají svoje.",
-            decayDominant: "Ustup na chvíli od záhonů. Něco v tvých sporách nutí mladé výhonky se schoulit.",
+            growthDominant: "Úponky se k tobě naklánějí dřív, než promluvíš. Dobře – zelené věci poznají svoje lidi.",
+            decayDominant: "Ustup na chvíli od záhonů. Něco ve tvých sporách nutí mladé výhonky se schoulit.",
         },
         angle_corrector: {
             growthDominant: "Tvá kadence se ustálila k růstu. Čistší. Je potěšením ji měřit.",
             decayDominant: "Stůj klidně. Tvé měření se chýlí ke kolapsu – vada, u níž bych nerad stál tak blízko.",
         },
         liris: {
-            growthDominant: "Vstupuješ na palubu a voníš po zeleném počasí. Palubní kapradí se k tobě naklání. Vítej.",
-            decayDominant: "Něco s tebou stoupá nahoru – hniloba ve větru. Drž to po větru dál od mého lanoví, buď tak laskav.",
+            growthDominant: "Vstupuješ na palubu a voníš po zeleném počasí. Kapradí rostoucí na palubě se k tobě naklání. Vítej.",
+            decayDominant: "Něco s tebou stoupá nahoru – hniloba ve větru. Drž to po větru dál od mé vzducholodě, buď tak laskav.",
         },
         gnur: {
-            growthDominant: "Moc květu na tobě, knězi. Kazí mi to zboží. Zelené se tady dole neprodává.",
+            growthDominant: "Cítím kolem tebe moc růstu. Kazí mi to zboží. Zelené věci se tady dole moc neprodávají.",
             decayDominant: "Heh. Teď v sobě máš tu správnou hnilobu, cizinče. Vyjdeme spolu dobře.",
         },
         brukk: {
             growthDominant: "Páchneš mízou a jarem. Stroje nevěří rostoucím věcem. Ani já ne.",
-            decayDominant: "Koroze v tobě zpívá, bratře. Chór slyší svoje.",
+            decayDominant: "Koroze v tobě zpívá, bratře. Chór slyší jednoho z nás.",
         },
         ravla: {
-            growthDominant: "Všechen ten květ na tobě mě znervózňuje. Rostoucí věci chtějí, a chtění je drahé.",
-            decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná – hrabiví to mají vždycky.",
+            growthDominant: "Všechen ten růst na tobě mě znervózňuje. Rostoucí věci pořád něco chtějí, a chtění je drahé.",
+            decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná – lakomí to mají vždycky snazší.",
         },
         kloor: {
             growthDominant: "Váhy sebou cukají – tvé spory jsou zralé, nabité životem. Prvotřídní zboží.",
-            decayDominant: "Pult tě ucítí dřív, než promluvíš – hniloba, a spousta jí. Laciné zboží.",
+            decayDominant: "Mechanický pult tě ucítí dřív, než promluvíš – hniloba, a je jí spousta. Laciné zboží.",
         },
         townsquare_citizen: {
             growthDominant: "Ta městečka ve mně hučí – neseš v sobě spoustu růstu. Velmi... občanské. Velmi živé.",
