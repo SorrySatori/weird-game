@@ -99,7 +99,7 @@ export default {
         }
     },
     magenekin_metal_scraps: {
-        text: "Ach, kovové šroty! Ano, vím o místě, kde je můžeš najít. Jdi do oblasti delty Echo Drain, tam kolem leží spousta kovových šrotů.",
+        text: "Ach, kovové šroty! Ano, vím o místě, kde je můžeš najít. Jdi do oblasti Delty ozvěn, tam kolem leží spousta kovových šrotů.",
         options: {
             thanks_for_the_info_can_i_ask_for_something_else: "Díky za info. Můžu se zeptat na něco jiného?"
         }

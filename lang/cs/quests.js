@@ -90,10 +90,10 @@ export default {
             description: 'Připravit hostinu pro stroje Rezavého chóru sesbíráním oleje, kovu a živé rudé hmoty, a přinést vše Ravle do Řvoucího korku.',
             updates: {
                 talked_to_archeologist_hint: 'Ravla navrhla, abych promluvil s archeologem u radnice a dozvěděl se víc o rudé hmotě.',
-                gathered_rust_materials_hint: 'Ravla mi poradila hledat šrot kolem Škrabáku... a zkontrolovat doky u Žloutkového Moře nebo Deltu Ozvěnového Odpadu kvůli oleji.',
-                redmass_spared: 'Našel jsem živou rudou hmotu na ostrově v Deltě Ozvěnového Odpadu, ale rozhodl jsem se ji ušetřit.',
-                redmass_collected: 'Sebral jsem živou rudou hmotu z ostrova v Deltě Ozvěnového Odpadu.',
-                magnekin_tip: 'Podivný tvor, který se identifikuje jako Magnekin, mi řekl, že nějaké kovové šroty se dají najít v Deltě Ozvěnového Odpadu.',
+                gathered_rust_materials_hint: 'Ravla mi poradila hledat šrot kolem Škrabáku... a zkontrolovat doky u Žloutkového Moře nebo Deltu ozvěn kvůli oleji.',
+                redmass_spared: 'Našel jsem živou rudou hmotu na ostrově v Deltě ozvěn, ale rozhodl jsem se ji ušetřit.',
+                redmass_collected: 'Sebral jsem živou rudou hmotu z ostrova v Deltě ozvěn.',
+                magnekin_tip: 'Podivný tvor, který se identifikuje jako Magnekin, mi řekl, že nějaké kovové šroty se dají najít v Deltě ozvěn.',
                 learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Kůlny 521.',
             }
         },

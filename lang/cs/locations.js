@@ -21,7 +21,7 @@ export default {
         BurningBearStreetScene: 'Ulice Hořícího Medvěda',
         ScreamingCorkScene: 'Řvoucí korek',
         HarborScene: 'Přístav',
-        EchoDrainDeltaScene: 'Delta Ozvěnového odtoku',
+        EchoDrainDeltaScene: 'Delta ozvěn',
         RedmassIslandScene: 'Ostrov rudohmoty',
 
         // Oznámení při příchodu do scény

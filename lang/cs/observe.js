@@ -85,7 +85,7 @@ export default {
             collected: "Vzal jsem si z rudohmoty, co jsem potřeboval. Tam, kde jsem řezal, je teď ticho, rudá po okrajích zešedla. Vždycky měla být na něco utracena. Snažím se věřit, že to něco za to stálo.",
         },
         echo_drain: {
-            hint: 'Delta Echo Drain',
+            hint: 'Delta ozvěn',
             default: "Kde se splašky města rozlévají do delty šrotu a bahna. Všechno, co Horní Morkezela spláchne, nakonec končí tady, roztříděné podle váhy a zapomenuté. Skoro klidné – klidem místa, které si nikdo nevybral.",
             knows: "Magnekin měl pravdu – delta je plná kovového šrotu, když víš, jak ho prosít. Vtipné, že zrovna ta věc, co se nejvíc snaží vypadat jako člověk, ví přesně, kde město schovává svoje kosti.",
         },

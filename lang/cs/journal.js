@@ -104,12 +104,12 @@ export default {
             description: 'Nad Horní Morkezelou se vznáší obrovská vzducholoď, trup se jí leskne nepřirozeným světlem. Místní říkají, že se objevila „před nějakými dvaceti tráveními" – ať už tu počítají cokoli – a od té doby se nehnula. Někteří věří, že je to plavidlo houbových bohů, jiní šeptají o pozemštějším původu. Její účel zůstává neznámý, ale její přítomnost změnila ovzduší města, doslova i obrazně – když fouká správný vítr, zdá se, že od ní přilétají spory.',
         },
         delta_fungal_bridge: {
-            title: 'Houbový Most v Deltě Ozvěnového Odpadu',
+            title: 'Houbový Most v Deltě ozvěn',
             description: 'Zasadil jsem spory do sedimentu mezi ostrovy delty.',
         },
         redmass_encountered: {
             title: 'Živá Rudá Hmota',
-            description: 'Na ostrově v Deltě Ozvěnového Odpadu jsem našel živou rudou hmotu – krystalický kovový organismus, který umí mluvit.',
+            description: 'Na ostrově v Deltě ozvěn jsem našel živou rudou hmotu – krystalický kovový organismus, který umí mluvit.',
         },
         redmass_spared: {
             title: 'Ušetřena Rudá Hmota',
@@ -678,7 +678,7 @@ export default {
         },
         harbor_place: {
             title: 'Přístav',
-            description: 'Kde se město setkává se Žloutkovým mořem. Na vodě se v pomalých duhách rozlévá olej a pod hladinou se cosi hýbe – odraz, který ne vždy odpovídá tomu, co jej vrhá. Móla vedou na východ k Deltě Ozvěnového odtoku. Klidné místo, dokud se příliš dlouho nedíváte na svůj vlastní odraz.',
+            description: 'Kde se město setkává se Žloutkovým mořem. Na vodě se v pomalých duhách rozlévá olej a pod hladinou se cosi hýbe – odraz, který ne vždy odpovídá tomu, co jej vrhá. Móla vedou na východ k Deltě ozvěn. Klidné místo, dokud se příliš dlouho nedíváte na svůj vlastní odraz.',
         },
         screaming_cork_place: {
             title: 'Ječící Špunt',
@@ -738,7 +738,7 @@ export default {
         },
         palinode_bonded: {
             title: 'Spojen: Palinode',
-            description: 'Ve švech Delty Ozvěnového odtoku jsem na sebe vzal Palinode, „odříkání“ – neutrálního symbionta, jehož Smysl pro švy nachází a otevírá skryté cesty: zapečetěné dveře, zazděné chodby, poctivý průvan pod falešnou zdí. Pohání ho spory a Růst ani Rozklad ho nezajímají.',
+            description: 'Ve švech Delty ozvěn jsem na sebe vzal Palinode, „odříkání“ – neutrálního symbionta, jehož Smysl pro švy nachází a otevírá skryté cesty: zapečetěné dveře, zazděné chodby, poctivý průvan pod falešnou zdí. Pohání ho spory a Růst ani Rozklad ho nezajímají.',
         },
         seam_sense_cathedral_gap: {
             title: 'Smysl pro švy: Odpečetěná katedrála',
