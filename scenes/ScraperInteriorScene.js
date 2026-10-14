@@ -436,11 +436,20 @@ export default class ScraperInteriorScene extends GameScene {
         super.preload();
         this.load.image('scraperInteriorBg', 'assets/images/backgrounds/Scraper_interior.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
+        this.load.audio('liftMotherTheme', 'assets/sounds/make-the-suns-evaporate.mp3');
     }
 
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        this.playSceneMusic('liftMotherTheme');
+        this.events.once('shutdown', () => {
+            if (this.sceneMusic) {
+                this.sceneMusic.stop();
+                this.sceneMusic.destroy();
+                this.sceneMusic = null;
+            }
+        });
         
         // Set background
         const bg = this.add.image(400, 300, 'scraperInteriorBg');
