@@ -21,6 +21,12 @@ export default class EggCatedralScene extends GameScene {
         const bg = this.add.image(400, 300, 'eggCatedralBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+
+        // The redrawn background (1067×600) paints its own meadow and path, so drop the generic floor strip.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -30,16 +36,17 @@ export default class EggCatedralScene extends GameScene {
         
         // Create transition zones using SceneTransitionManager
         
-        // Cathedral entrance door transition
+        // Cathedral entrance door transition — the small glowing door at the top of the steps,
+        // far away in the middle of the picture. The priest walks up the path on the ground line.
         this.transitionManager.createTransitionZone(
-            450, // x position
-            300, // y position
-            100, // width
-            120, // height
+            400, // x position (800-space; remapped to the canvas centre)
+            390, // y position
+            26,  // width
+            50,  // height
             'up', // direction
             'CathedralEntrance', // target scene
-            450, // walk to x
-            340, // walk to y (slightly below door center)
+            400, // walk to x
+            470, // walk to y (stay on the ground line in front of the steps)
             'Cathedral Interior' // destination name
         );
         
@@ -56,9 +63,9 @@ export default class EggCatedralScene extends GameScene {
             'Crossroads' // destination name
         );
 
-        // Examine: the whole Egg Cathedral, anchored to the great egg-dome. The bubble auto-flips
-        // below it (tail up) so it clears the top HUD. Clear of the entrance-door transition (450,300).
-        this.createObservable(410, 175, 300, 140, () => {
+        // Examine: the whole Egg Cathedral, anchored to its towers and spires. The bubble auto-flips
+        // below it (tail up) so it clears the top HUD. Clear of the entrance-door transition (y≈365-415).
+        this.createObservable(400, 145, 150, 210, () => {
             if (this.hasJournalEntry('perspective_ortolan')) return this.t('observe.egg_cathedral_approach.ortolan');
             if (this.hasJournalEntry('met_infinite_fold')) return this.t('observe.egg_cathedral_approach.knows');
             return this.t('observe.egg_cathedral_approach.default');
@@ -74,11 +81,14 @@ export default class EggCatedralScene extends GameScene {
         const hasEdgarPath = !!this.hasJournalEntry('edgar_cathedral_path');
         const hasPalinode = !!this.symbiontSystem?.hasSymbiont('palinode');
         if (hasEdgarPath || hasPalinode) {
-            const gx = 90, gy = 330;
-            const gap = this.add.ellipse(gx, gy, 46, 90, 0x0a1410, 0.85).setDepth(0);
+            // At the foot of the left shell half. gx is 800-space like every hotspot here; the
+            // drawn gap uses the remapped canvas x so it sits exactly on its transition zone.
+            const gx = 176, gy = 400;
+            const gxC = Math.round(gx * this.scale.width / 800);
+            const gap = this.add.ellipse(gxC, gy, 46, 90, 0x0a1410, 0.85).setDepth(0);
             // Palinode's shimmer runs a cooler seam-green; Edgar's stays the familiar spore-green.
             const glowColor = (hasPalinode && !hasEdgarPath) ? 0xbfe6c8 : 0x7fff8e;
-            const glow = this.add.circle(gx, gy, 7, glowColor, 0.8).setDepth(1);
+            const glow = this.add.circle(gxC, gy, 7, glowColor, 0.8).setDepth(1);
             this.tweens.add({ targets: glow, alpha: { from: 0.25, to: 0.8 }, duration: 1600, yoyo: true, repeat: -1 });
 
             // When it is Palinode — not Edgar — who finds the gap, record the Seam-Sense discovery.
@@ -97,7 +107,7 @@ export default class EggCatedralScene extends GameScene {
                 gx, gy, 70, 120,
                 'left',
                 'EggCathedralStudyScene',
-                gx + 10, gy,
+                gx, 470,
                 label
             );
         }
