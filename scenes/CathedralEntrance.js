@@ -162,6 +162,12 @@ export default class CathedralEntrance extends GameScene {
         const bg = this.add.image(400, 300, 'cathedralEntranceBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+
+        // The redrawn background (1067×600) paints its own paving, so drop the generic floor strip.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -220,16 +226,16 @@ export default class CathedralEntrance extends GameScene {
             this.dialogMurmur = this.sound.add('dialogMurmur');
         }
 
-        // Examine: the glowing Egg in the arch (upper glow, clear of the Sentinel at the door).
+        // Examine: the glow through the glass above the cathedral door (the egg lies behind it).
         // What the protagonist says shifts once they've met the mind in the cellar / heard
         // Ortolan's "flawed make" read of it.
-        // On the UPPER glow of the egg — the Sentinel (guard container at 380,450, hit area
-        // ~y350-510) sits over the lower egg and would otherwise eat the click.
-        this.createObservable(385, 250, 200, 130, () => {
+        // Sits on the glowing transom (y≈241-313), above the Sentinel's hit area (~y332-508) so
+        // the guard doesn't eat the click. 800-space coords; createObservable remaps x/width.
+        this.createObservable(400, 277, 124, 72, () => {
             if (this.hasJournalEntry('perspective_ortolan')) return this.t('observe.egg_cathedral.ortolan');
             if (this.hasJournalEntry('met_infinite_fold')) return this.t('observe.egg_cathedral.knows');
             return this.t('observe.egg_cathedral.default');
-        }, { hint: this.t('observe.egg_cathedral.hint'), overObject: true }); // priest spawns far left; anchor the bubble to the egg
+        }, { hint: this.t('observe.egg_cathedral.hint'), overObject: true }); // priest spawns far left; anchor the bubble to the glow
     }
     
     // Override the dialogContent getter from GameScene
@@ -408,10 +414,12 @@ export default class CathedralEntrance extends GameScene {
     }
     
     createTempleGuard() {
-        // Container for the temple guard, standing just below the cathedral door.
-        this.templeGuard = this.add.container(380, 450);
+        // Container for the temple guard, standing on the steps in front of the cathedral door
+        // (the door is centred on the canvas in the redrawn background).
+        const guardX = this.scale.width / 2;
+        this.templeGuard = this.add.container(guardX, 450);
         this.templeGuard.setDepth(5);
-        this.addGroundShadow(380, 508, 72, 18);
+        this.addGroundShadow(guardX, 508, 72, 18);
 
         // Hand-drawn pixel-art guard (guardian1.png): a 6-frame idle animation laid out as a
         // 3×2 grid of 128×176 frames, shown at native size (scale 1). Origin is bottom-centre so
@@ -431,7 +439,7 @@ export default class CathedralEntrance extends GameScene {
         // Subtle green sentinel aura behind him (fungal-cathedral theme).
         this.guardGlow = this.add.graphics();
         this.guardGlow.fillStyle(0x7fff8e, 0.2);
-        this.guardGlow.fillCircle(380, 450, 50);
+        this.guardGlow.fillCircle(guardX, 450, 50);
         this.guardGlow.setDepth(4);
         this.tweens.add({
             targets: this.guardGlow,

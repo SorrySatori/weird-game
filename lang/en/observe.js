@@ -25,8 +25,8 @@ export default {
             osswine: "Osswine stirs the moment I look at it. *The big dead are not as dead as the small dead*, it says — and reads the god's ending straight off the bone: not killed, just outvoted. Believed out of existence. The grave-sense clings to it like breath on cold glass.",
         },
         egg_cathedral: {
-            hint: 'The Egg',
-            default: "The whole arch is built to frame that glow, and the glow is an egg the size of a door. Warm, even from here. Something inside it is waiting.",
+            hint: 'The Glow',
+            default: "Light seeps through the glass above the door. Warm, even from here.",
             knows: "I've been in the cellar and met the mind this egg is keeping warm. Knowing what's folded up inside doesn't make the light any less beautiful — it just makes me want to be somewhere else when it hatches.",
             ortolan: "Ortolan said it plainly: a thing can be beautiful and still be badly made, the flaw baked right into the beauty. Now I can't unsee it — that gorgeous light, and a design error running clean through the middle of it.",
         },

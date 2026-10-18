@@ -23,8 +23,8 @@ export default {
             osswine: "Osswine se probudí v okamžiku, kdy se na to podívám. *Velcí mrtví nejsou tak mrtví jako malí mrtví*, říká – a čte boží konec rovnou z kosti: nebyl zabit, jen přehlasován. Odvěřen z existence. Hrobový smysl na tom ulpívá jako dech na studeném skle.",
         },
         egg_cathedral: {
-            hint: 'Vejce',
-            default: "Celý oblouk je postavený tak, aby za ním byla dobře vidět zářící skořápka vejce. I odsud je cítit, jak sálá teplem. Něco uvnitř čeká.",
+            hint: 'Záře',
+            default: "Sklem nad dveřmi prosvítá teplá záře. I odsud je cítit, jak sálá teplem.",
             knows: "Byl jsem ve sklepě a potkal mysl, kterou tohle vejce udržuje v teple. Znalost toho, co je uvnitř složené, nic nemění na dojmu, kterým na mě záře působí – jen bych byl rád někde jinde, až se to vylíhne.",
             ortolan: "Ortolan to řekl jasně: věc může být krásná a přitom špatně udělaná, vada je pak zapečená přímo do té krásy. Teď už to nedokážu přehlédnout – to nádherné světlo a konstrukční chyba táhnoucí se přímo středem.",
         },
