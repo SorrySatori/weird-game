@@ -7,16 +7,16 @@ export default {
         'Clerk': 'Úředník',
     },
     start: {
-        text: "(Úředník se probírá hromadou papírů a sotva zvedne oči)\nVítejte v kanceláři Žádostí Kůlny 521. Formuláře ve třech vyhotoveních, prosím. Bez výjimek.",
+        text: "(Úředník se probírá hromadou papírů a sotva zvedne oči)\nVítejte v kanceláři Žádostí Boudy 521. Formuláře ve třech vyhotoveních, prosím. Bez výjimek.",
         options: {
-            tell_me_about_shed521: "Povězte mi o Kůlně 521",
+            tell_me_about_shed521: "Povězte mi o Boudě 521",
             whats_your_role_here: "Co tady máte na starosti?",
             what_do_you_know_about_the_living_core: "Co víte o živém jádru?",
             how_can_i_register_for_extra_pair_of_arms: "Jak si můžu zaregistrovat další pár rukou?"
         }
     },
     about_shed: {
-        text: "Kůlna 521? (upraví si brýle) Jedno z našich nejproduktivnějších zařízení. Bývalo to obyčejné skladiště, víte. Ale dnes... je to mnohem víc. Místo, kde se... dějí věci. (usměje se) Byrokracie tu opravdu žije, plyne jako řeka. Dává věcem smysl – každému kroku, každému rozhodnutí. (odloží papíry) Dokážeme tu být produktivní a šťastní.",
+        text: "Bouda 521? (upraví si brýle) Jedno z našich nejproduktivnějších zařízení. Bývalo to obyčejné skladiště, víte. Ale dnes... je to mnohem víc. Místo, kde se... dějí věci. (usměje se) Byrokracie tu opravdu žije, plyne jako řeka. Dává věcem smysl – každému kroku, každému rozhodnutí. (odloží papíry) Dokážeme tu být produktivní a šťastní.",
         options: {
             that_sounds_like_a_lot_of_paperwork: "To zní jako spousta papírování",
             back_to_other_topics: "Zeptej se na něco jiného"
@@ -39,7 +39,7 @@ export default {
         }
     },
     lie_living_core: {
-        text: "(Nesouhlasně urovná papíry) Dobrá. Ale pamatujte – předpisy existují z dobrého důvodu. Ať vás ani nenapadne na živé jádro sahat. Lidé si většinou myslí, že je to jen relikt, ale pro energetický chod Kůlny je zásadní.",
+        text: "(Nesouhlasně urovná papíry) Dobrá. Ale pamatujte – předpisy existují z dobrého důvodu. Ať vás ani nenapadne na živé jádro sahat. Lidé si většinou myslí, že je to jen relikt, ale pro energetický chod Boudy je zásadní.",
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     expose_gnur: {

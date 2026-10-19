@@ -57,18 +57,18 @@ export default {
         }
     },
     bishop_info: {
-        text: "Pravděpodobně na Voxmarketu nebo poblíž Kůlny 521. Hledej dveře, které jsou zavřené – dokud se neotevřou.",
+        text: "Pravděpodobně na Voxmarketu nebo poblíž Boudy 521. Hledej dveře, které jsou zavřené – dokud se neotevřou.",
         options: {
             ask_something_else: "Zeptej se na něco jiného",
             what_is_the_voxmarket: "Co je Voxmarket?",
-            what_is_the_shed_521: "Co je Kůlna 521?"
+            what_is_the_shed_521: "Co je Bouda 521?"
         }
     },
     templeGuardVoxmarket: {
-        text: "Je to zvukové tržiště poblíž Kůlny 521, kde se prodávají nahrané hlasy, zvuky, šumy, výkřiky a zrnění. Slyšel jsem, že každý zvuk, který ve městě kdy zazněl, tam má nějaký obchodník někde založený a dá se koupit. To ale nedává smysl.",
+        text: "Je to zvukové tržiště poblíž Boudy 521, kde se prodávají nahrané hlasy, zvuky, šumy, výkřiky a zrnění. Slyšel jsem, že každý zvuk, který ve městě kdy zazněl, tam má nějaký obchodník někde založený a dá se koupit. To ale nedává smysl.",
         options: {
             ask_something_else: "Zeptej se na něco jiného",
-            what_is_the_shed_521: "Co je Kůlna 521?"
+            what_is_the_shed_521: "Co je Bouda 521?"
         }
     },
     templeGuardShed521: {

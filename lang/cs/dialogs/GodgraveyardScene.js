@@ -88,7 +88,7 @@ export default {
         }
     },
     osswine_no_slot: {
-        text: "Ten bledý výrůstek znehybní. \"Jsi už plný – jiný jezdec ti tísní morek. Udělej místo a vrať se. Tvaroví úředníci v Kůlně ti zaregistrují schránku, nebo ti ji rezaví ukovají. Mrtví jsou trpěliví. To je naše jediná ctnost.\"",
+        text: "Ten bledý výrůstek znehybní. \"Jsi už plný – jiný jezdec ti tísní morek. Udělej místo a vrať se. Tvaroví úředníci v Boudě ti zaregistrují schránku, nebo ti ji rezaví ukovají. Mrtví jsou trpěliví. To je naše jediná ctnost.\"",
         options: {
             osswine_no_slot_back: "Vrátím se."
         }

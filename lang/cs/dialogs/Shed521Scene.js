@@ -8,7 +8,7 @@ export default {
     },
     start: {
         text: {
-            default: "Další zbloudilá duše se zatoulala ke Kůlně 521... Co hledáš, cizinče? Vylepšení těla? Nové plíce? Nebo jen špatné nápady? Zasmál se, hlas praská jako rozladěný sbor. Řekni, co potřebuješ. Možná má starý Gnur šuškandu na prodej.",
+            default: "Další zbloudilá duše se zatoulala k Boudě 521... Co hledáš, cizinče? Vylepšení těla? Nové plíce? Nebo jen špatné nápady? Zasmál se, hlas praská jako rozladěný sbor. Řekni, co potřebuješ. Možná má starý Gnur šuškandu na prodej.",
             waiting: "Prostě mi přines to živé jádro, pak si pokecáme."
         },
         options: {
@@ -65,7 +65,7 @@ export default {
         }
     },
     recoverTech: {
-        text: "Tak to je jiná písnička. Někde v Kůlně 521 je opuštěná kancelář vedoucí do nepoužívaných tunelů. Je tam zchátralé živoucí jádro, které potřebuju. Najdi ho a možná si vzpomenu na tvou přítelkyni biskupku.",
+        text: "Tak to je jiná písnička. Někde v Boudě 521 je opuštěná kancelář vedoucí do nepoužívaných tunelů. Je tam zchátralé živoucí jádro, které potřebuju. Najdi ho a možná si vzpomenu na tvou přítelkyni biskupku.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného"
         }
@@ -88,7 +88,7 @@ export default {
     confront_about_lie: {
         text: "(Gnurův výraz potemní) O jakých lžích to mluvíš, kámo? Potřebuju to jádro. V tom žádná lež není.",
         options: {
-            the_clerk_told_me_its_crucial_for_the_sheds_energy: "Úředník mi řekl, že je klíčové pro energetický chod Kůlny. Nepomůžu vám ho sabotovat.",
+            the_clerk_told_me_its_crucial_for_the_sheds_energy: "Úředník mi řekl, že je klíčové pro energetický chod Boudy. Nepomůžu vám ho sabotovat.",
             never_mind_ill_still_get_it_for_you: "Nechte to, stejně vám ho přinesu."
         }
     },

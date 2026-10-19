@@ -110,7 +110,7 @@ export default {
         }
     },
     phorRustClusterLocation: {
-        text: "Nejpřístupnější kolonie, kterou jsem našel, je v nižších úrovních Kůlny 521 – konkrétně v údržbářských halách. Byrokrati se té oblasti vyhýbají kvůli 'konstrukčním problémům', což ji činí perfektní pro růst rudohmoty. Hledejte zkorodované potrubí s oranžovo-rudými krystalickými výrůstky.",
+        text: "Nejpřístupnější kolonie, kterou jsem našel, je v nižších úrovních Boudy 521 – konkrétně v údržbářských halách. Byrokrati se té oblasti vyhýbají kvůli 'konstrukčním problémům', což ji činí perfektní pro růst rudohmoty. Hledejte zkorodované potrubí s oranžovo-rudými krystalickými výrůstky.",
         options: {
             how_do_i_extract_one_safely: "Jak ji bezpečně získám?",
             thank_you_for_the_information: "Děkuji za informaci"

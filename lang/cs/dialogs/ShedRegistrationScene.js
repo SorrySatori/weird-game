@@ -104,7 +104,7 @@ export default {
         options: { proceed_to_the_registration_office: "Přejít k registraci" }
     },
     registration_start: {
-        text: "„Než budeme pokračovat, potřebuji znát účel vaší registrace. Co vás dnes přivádí do Kůlny 521?“",
+        text: "„Než budeme pokračovat, potřebuji znát účel vaší registrace. Co vás dnes přivádí do Boudy 521?“",
         options: {
             im_here_for_general_registration: "Přišel jsem na obecnou registraci.",
             id_rather_not_say: "Raději bych si to nechal pro sebe.",
@@ -184,7 +184,7 @@ export default {
         }
     },
     registration_general: {
-        text: "„Obecná registrace vyžaduje konkrétní účel. Kůlna 521 nepřijímá návštěvníky bez účelu.“",
+        text: "„Obecná registrace vyžaduje konkrétní účel. Bouda 521 nepřijímá návštěvníky bez účelu.“",
         options: {
             i_would_like_to_register_for_extra_symbiont_slot: "Chtěl bych se zaregistrovat na další slot pro symbionta.",
             im_here_on_behalf_of_someone_else: "Jsem tu za někoho jiného.",

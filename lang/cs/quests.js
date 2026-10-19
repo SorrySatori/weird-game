@@ -9,7 +9,7 @@ export default {
             updates: {
                 vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
                 elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji najít ve Škrabáku 1140.',
-                bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Kůlny 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
+                bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Boudy 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
                 got_floor_counter_tool: 'Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Lift-Mother, což by mi mělo umožnit přístup do studia Dr. Elphi.',
@@ -18,7 +18,7 @@ export default {
                 check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku za Škrabákem. Měl bych se tam podívat.',
                 found_elevator_button: 'Našel jsem Zapomenutý Výtahový Knoflík u Zerren, který mi může pomoct dostat se na patro Dr. Elphi.',
                 guard_voxmarket: 'Voxmarket je zvukové tržiště, kde se obchoduje s nahranými hlasy a zvuky. Biskupka by tam mohla být k nalezení.',
-                guard_shed521: 'Kůlna 521, známá také jako Úřad tvarů, je byrokratické bludiště, kde si lidé registrují své tvary. Biskupka prý toto místo navštěvuje.',
+                guard_shed521: 'Bouda 521, známá také jako Úřad tvarů, je byrokratické bludiště, kde si lidé registrují své tvary. Biskupka prý toto místo navštěvuje.',
             }
         },
         who_killed_bishop: {
@@ -94,14 +94,14 @@ export default {
                 redmass_spared: 'Našel jsem živou rudou hmotu na ostrově v Deltě ozvěn, ale rozhodl jsem se ji ušetřit.',
                 redmass_collected: 'Sebral jsem živou rudou hmotu z ostrova v Deltě ozvěn.',
                 magnekin_tip: 'Podivný tvor, který se identifikuje jako Magnekin, mi řekl, že nějaké kovové šroty se dají najít v Deltě ozvěn.',
-                learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Kůlny 521.',
+                learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Boudy 521.',
             }
         },
         rust_reclamation: {
             title: 'Rezavá sklizeň',
-            description: 'Gnur potřebuje pomoc s vyzvednutím „živého jádra" z nepoužívaných tunelů Kůlny 521, někde za opuštěnou kanceláří.',
+            description: 'Gnur potřebuje pomoc s vyzvednutím „živého jádra" z nepoužívaných tunelů Boudy 521, někde za opuštěnou kanceláří.',
             updates: {
-                promise_made: 'Slíbil jsem úředníkovi v Kůlně 521, že na živé jádro nesáhnu. Pro budovu je zřejmě důležitější, než mi Gnur přiznal.',
+                promise_made: 'Slíbil jsem úředníkovi v Boudě 521, že na živé jádro nesáhnu. Pro budovu je zřejmě důležitější, než mi Gnur přiznal.',
                 core_taken_force: 'Živé jádro mám – šlo to, s trochou staré dobré hrubé síly.',
                 core_taken_careful: 'Živé jádro jsem opatrně vyjmul kleštěmi; nezdá se, že by to budovu nějak poškodilo.',
                 core_delivered: 'Dal jsem Gnurovi živé jádro. Zdá se spokojený.',
@@ -110,7 +110,7 @@ export default {
         },
         ortolan_arms: {
             title: 'Ruce navíc pro Ortolana',
-            description: 'Pomozte Ortolanovi, návrháři deskových her, projít byrokracií Kůlny a získat povolení pro další pár rukou.',
+            description: 'Pomozte Ortolanovi, návrháři deskových her, projít byrokracií Boudy a získat povolení pro další pár rukou.',
             updates: {
                 deformity_form_clue: 'Úředník mi řekl, abych šel na Registrační úřad pro Formulář o zděděné deformitě.',
                 forge_documents_suggestion: 'Když jsem úředníkovi navrhl, že dokumenty pro Ortolana zfalšuju, podíval se na mě napůl překvapeně, napůl otráveně. Ale šlo by to? Kde bych našel padělatele?',
@@ -118,7 +118,7 @@ export default {
                 nonverbal_gesture_clue: 'Úředník mi řekl, abych šel na Registrační úřad a předvedl co nejlepší nonverbální gesto. Nejsem si jistý, jestli tomu úplně rozumím...',
                 ravla_forger_hint: 'Heliodor ve Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
                 ravla_forger_agreement: 'Ravla ve Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
-                document_obtained: 'Získal jsi padělaný Formulář o výjimce pro umělce od Ravly. Doruč ho Ortolanovi na nádvoří Kůlny.',
+                document_obtained: 'Získal jsi padělaný Formulář o výjimce pro umělce od Ravly. Doruč ho Ortolanovi na nádvoří Boudy.',
                 bureaucratic_incantation: 'Dutá žena z fronty na registračním úřadě mě naučila podivné byrokratické zaklínadlo.',
                 form_obtained: 'Úspěšně jsem získal formulář pro Ortolana.',
                 partial_progress: 'Získal jsem Dočasné povolení, které by mohlo Ortolanovi pomoct, ale není plně schválené.',

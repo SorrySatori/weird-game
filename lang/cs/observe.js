@@ -12,7 +12,7 @@ export default {
         },
         crossroads: {
             hint: 'Křižovatka',
-            default: "Čtyři cesty a každá vede někam, kde po mně něco chtějí – Kůlna, Voxmarket, Škrabák. Mrtvý obr je mizerný rozcestník, ale rozhodně zapamatovatelný.",
+            default: "Čtyři cesty a každá vede někam, kde po mně něco chtějí – Bouda, Voxmarket, Škrabák. Mrtvý obr je mizerný rozcestník, ale rozhodně zapamatovatelný.",
             overgrown: "Křižovatka se zazelenala. Kořeny našly spáry mezi dlažebními kostkami a rozhodly se, že cesty teď patří jim. Ještě chvíli a chodník nebude ani vidět.",
             planted: "Zasel jsem spory do mrtvoly obra a křižovatka se proměnila. Ať už se teď mezi kameny dere cokoli nahoru, začal jsem to já. Snažím se nemyslet na to, co z toho bude, až to vyroste ještě víc.",
         },
@@ -74,9 +74,9 @@ export default {
             knows_vestigels: "Někde v tomhle mumraji přecházejí z ruky do ruky živoucí mince – Vestigely, cennější než zlato a podivnější než ekonomika samotná. Kloor by prodal svoje zuby, aby si nějaký mohl prostudovat.",
         },
         shed_pipes: {
-            hint: 'Kůlna 521',
+            hint: 'Bouda 521',
             default: "Architektura téhle budovy se dá popsat jako výsledek večírku, po kterém mělo potrubí dítě se skládkou starého dřeva. Byrokrati celé tohle veledílo odepsali jako „konstrukční problém“, následně to (velice levně) koupili a nastěhovali se sem.",
-            member: "Chór se snaží Kůlnu infiltrovat. Teď, když s nimi zpívám, se mi zdá rez míň jako problém a víc jako pomalé, trpělivé hojení.",
+            member: "Chór se snaží Boudu infiltrovat. Teď, když s nimi zpívám, se mi zdá rez míň jako problém a víc jako pomalé, trpělivé hojení.",
         },
         redmass_island: {
             hint: 'Rudohmota',

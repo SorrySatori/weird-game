@@ -36,13 +36,13 @@ export default {
         }
     },
     don_spy_brief: {
-        text: `Donův plamen klesne do spikleneckého mumlání. „Tady je ta práce, příteli. Ten Rezavý sbor – ti, co milují své stroje víc než sousedy – poslední dobou bzučí hlasitěji, a otec rád ví, co jeho ulice zpívá. Já tam dolů zrovna nemůžu sejít a zeptat se.“ Suchý praskavý smích. „Ty ale můžeš. Vetři se mezi jejich lidi – Brukk drží doménu, Gnur handluje se šeptandou dole v Kůlně 521, Ravla padělá papíry za Řvoucím korkem. Přitlač na ně, zjisti, o co Sboru doopravdy jde, a přines mi to. Poznám, až toho budeš mít dost. A jestli přitom narazíš na to, kde jejich doména doopravdy leží – no, to je dárek navíc.“`,
+        text: `Donův plamen klesne do spikleneckého mumlání. „Tady je ta práce, příteli. Ten Rezavý sbor – ti, co milují své stroje víc než sousedy – poslední dobou bzučí hlasitěji, a otec rád ví, co jeho ulice zpívá. Já tam dolů zrovna nemůžu sejít a zeptat se.“ Suchý praskavý smích. „Ty ale můžeš. Vetři se mezi jejich lidi – Brukk drží doménu, Gnur handluje se šeptandou dole v Boudě 521, Ravla padělá papíry za Řvoucím korkem. Přitlač na ně, zjisti, o co Sboru doopravdy jde, a přines mi to. Poznám, až toho budeš mít dost. A jestli přitom narazíš na to, kde jejich doména doopravdy leží – no, to je dárek navíc.“`,
         options: {
             don_spy_accept: "Zjistím, co Sbor skrývá.",
         }
     },
     don_spy_statusinfo: {
-        text: `„Pořád na tom děláš? Dobře. Přitlač na lidi Rezavého sboru – Brukk dole v jejich doméně, Gnur ve střevech Kůlny 521, Ravla padělá za Řvoucím korkem. Rozmluv je, zjisti, co se dá, a přijď mi říct, na co jsi přišel. Poznám, jestli to stačí.“`,
+        text: `„Pořád na tom děláš? Dobře. Přitlač na lidi Rezavého sboru – Brukk dole v jejich doméně, Gnur ve střevech Boudy 521, Ravla padělá za Řvoucím korkem. Rozmluv je, zjisti, co se dá, a přijď mi říct, na co jsi přišel. Poznám, jestli to stačí.“`,
         options: {
             don_spy_statusinfo_close: "Jdu na to.",
         }

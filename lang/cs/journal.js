@@ -200,24 +200,24 @@ export default {
             description: 'Sdílel jsem všechny své nálezy s Dr. Elphi Quarn.',
         },
         dream_queue: {
-            title: 'Věčná fronta v Kůlně 521',
-            description: 'Na registračním úřadě Kůlny 521 jsem viděl něco zneklidňujícího – frontu průsvitných postav, která se nikdy nepohne. Vypadají jako duchové žadatelů odsouzených čekat navěky. Za přepážkou nikdo nesedí. Nikdo z nich nepromluví, dokud ho neoslovím, a vzduch kolem nich připomíná napůl zapomenutý sen.',
+            title: 'Věčná fronta v Boudě 521',
+            description: 'Na registračním úřadě Boudy 521 jsem viděl něco zneklidňujícího – frontu průsvitných postav, která se nikdy nepohne. Vypadají jako duchové žadatelů odsouzených čekat navěky. Za přepážkou nikdo nesedí. Nikdo z nich nepromluví, dokud ho neoslovím, a vzduch kolem nich připomíná napůl zapomenutý sen.',
         },
         dream_queue_completed: {
             title: 'Návštěva registračního úřadu',
-            description: 'Dokončil jsem první návštěvu registračního úřadu v Kůlně 521. Podivná fronta přízračných postav se rozplynula, když jsem s nimi promluvil, a objevil se vrchní úředník, aby vyřídil mou žádost.',
+            description: 'Dokončil jsem první návštěvu registračního úřadu v Boudě 521. Podivná fronta přízračných postav se rozplynula, když jsem s nimi promluvil, a objevil se vrchní úředník, aby vyřídil mou žádost.',
         },
         registration_senior_clerk: {
             title: 'Vrchní úředník',
-            description: 'Na registračním úřadě Kůlny 521 jsem se setkal s vrchním úředníkem. Vysoký, impozantní muž s přísným výrazem, oblečený v tmavém obleku.',
+            description: 'Na registračním úřadě Boudy 521 jsem se setkal s vrchním úředníkem. Vysoký, impozantní muž s přísným výrazem, oblečený v tmavém obleku.',
         },
         extra_symbiont_slot_purchased: {
             title: 'Další slot pro symbionta',
-            description: 'Na registračním úřadě Kůlny 521 jsem si zaregistroval další slot pro symbionta. Šlo to překvapivě hladce – jeden formulář a poplatek 50 dinárů. Teď můžu ve svém těle hostit dalšího symbionta.',
+            description: 'Na registračním úřadě Boudy 521 jsem si zaregistroval další slot pro symbionta. Šlo to překvapivě hladce – jeden formulář a poplatek 50 dinárů. Teď můžu ve svém těle hostit dalšího symbionta.',
         },
         gnur_meeting: {
             title: 'Gnur z Rezavého chóru',
-            description: 'V útrobách Kůlny 521 jsem narazil na Gnura – postavu, jejíž hlas praská „jako rozbitý sbor". Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého: jeho napojení na záhadný Rezavý chór naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.',
+            description: 'V útrobách Boudy 521 jsem narazil na Gnura – postavu, jejíž hlas praská „jako rozbitý sbor". Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého: jeho napojení na záhadný Rezavý chór naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.',
         },
         rust_choir_faction: {
             title: 'Rezavý chór – Stroje a Paměť',
@@ -714,7 +714,7 @@ export default {
         },
         ortolan_bb_meeting: {
             title: 'Ortolan na Ulici Hořícího Medvěda',
-            description: 'Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se z Kůlny na Ulici Hořícího Medvěda, zavalený jako vždy papírováním kolem povolení.',
+            description: 'Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se z Boudy na Ulici Hořícího Medvěda, zavalený jako vždy papírováním kolem povolení.',
         },
         perspective_ortolan: {
             title: 'Ortolanův pohled: Vadný výrobek',
@@ -862,7 +862,7 @@ export default {
         },
         seam_sense_shed_tunnel: {
             title: 'Smysl pro švy: Zazděný tunel',
-            description: 'Za opuštěnou kanceláří Tvaroví-Písaři kdysi dávno zazdili úsek starých chodeb a nechali na něj všechny zapomenout. Palinoda ucítila poctivý průvan za falešnou zdí a odřekla cihlu. Tunel vydechuje studený vzduch a pomalý, vlhký tep – vede dolů k Živému jádru, artefaktu z živého kovu vrostlému do zdí Kůlny 521, který napájí celý Úřad. Stále dýchá, sotva, a čím hlouběji tunel vede, tím víc se zdá, že zdi dýchají s ním. V sutinách, kde cihly povolily, jsem našel zásobu sušených spor, kterou tam zedníci nechali zapečetěnou. Žádná zeď není poslední slovo.',
+            description: 'Za opuštěnou kanceláří Tvaroví-Písaři kdysi dávno zazdili úsek starých chodeb a nechali na něj všechny zapomenout. Palinoda ucítila poctivý průvan za falešnou zdí a odřekla cihlu. Tunel vydechuje studený vzduch a pomalý, vlhký tep – vede dolů k Živému jádru, artefaktu z živého kovu vrostlému do zdí Boudy 521, který napájí celý Úřad. Stále dýchá, sotva, a čím hlouběji tunel vede, tím víc se zdá, že zdi dýchají s ním. V sutinách, kde cihly povolily, jsem našel zásobu sušených spor, kterou tam zedníci nechali zapečetěnou. Žádná zeď není poslední slovo.',
         },
         edgar_book_vestigel_path: {
             title: 'Literární výměna',

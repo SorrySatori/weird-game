@@ -37,7 +37,7 @@ export default {
         }
     },
     palinode_no_slot: {
-        text: "Třpyt zeslábne, skoro pobaveně. \"Už plný? Škoda – právě ty by sis měl nechávat místo pro východ. Udělej ho: tvaroví úředníci v Kůlně registrují schránky a rezaví je kovají. Pak se vrať. Jsem šev. Nikam, kam dosáhne voda, nezmizím.\"",
+        text: "Třpyt zeslábne, skoro pobaveně. \"Už plný? Škoda – právě ty by sis měl nechávat místo pro východ. Udělej ho: tvaroví úředníci v Boudě registrují schránky a rezaví je kovají. Pak se vrať. Jsem šev. Nikam, kam dosáhne voda, nezmizím.\"",
         options: {
             palinode_no_slot_back: "Vrátím se."
         }

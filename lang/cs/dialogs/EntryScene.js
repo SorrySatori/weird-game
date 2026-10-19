@@ -134,9 +134,9 @@ export default {
         }
     },
     locations: {
-        text: "Ve městě je spousta zajímavých míst, k těm nejznámějším patří Žloutkové moře, Kůlna 521, Škrabák 1140, Voxmarket a Žaludeční hodiny. Která tě zajímá?",
+        text: "Ve městě je spousta zajímavých míst, k těm nejznámějším patří Žloutkové moře, Bouda 521, Škrabák 1140, Voxmarket a Žaludeční hodiny. Která tě zajímá?",
         options: {
-            shed_512: "Kůlna 521",
+            shed_512: "Bouda 521",
             yolk_sea: "Žloutkové moře",
             scraper_1140: "Škrabák 1140",
             voxmarket: "Voxmarket",
@@ -145,7 +145,7 @@ export default {
         }
     },
     shed512: {
-        text: "Kůlna 521, také známá jako Úřad tvarů. Zkroucená byrokracie ve starém překladišti přeměněná v neustále se rozrůstající labyrint kancelářských boxů. Lidé sem chodí registrovat svou současnou podobu nebo žádat o tělesné úpravy. Najdeš ji hned vedle Voxmarketu.",
+        text: "Bouda 521, také známá jako Úřad tvarů. Zkroucená byrokracie ve starém překladišti přeměněná v neustále se rozrůstající labyrint kancelářských boxů. Lidé sem chodí registrovat svou současnou podobu nebo žádat o tělesné úpravy. Najdeš ji hned vedle Voxmarketu.",
         options: {
             what_is_the_egg_cathedral: "Co je Vaječná katedrála?",
             what_is_the_yolk_sea: "Co je Žloutkové moře?",
@@ -158,7 +158,7 @@ export default {
     yolkSea: {
         text: "Žloutkové moře je zářící, vnímající oceán živého žloutku. Říká se, že hodnota cholesterolu tohoto moře je natolik vysoká, aby vyhladila celou planetu.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 521?",
+            what_is_the_shed_512: "Co je Bouda 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_voxmarket: "Co je Voxmarket?",
             what_is_the_stomach_clock: "Co jsou Žaludeční hodiny?",
@@ -168,7 +168,7 @@ export default {
     scraper1140: {
         text: "Je to křivý mrakodrap přestavěný na vertikální slum. Každé patro prý obývá jiná kasta, věk nebo druh. Bohužel o tom moc nevím, ale na tohle místo bych si dával pozor.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 521?",
+            what_is_the_shed_512: "Co je Bouda 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_stomach_clock: "Co jsou Žaludeční hodiny?",
             return_to_previous_topic: "Zpět k předchozímu tématu"
@@ -177,7 +177,7 @@ export default {
     voxmarket: {
         text: "Voxmarket je rušné tržiště... audio bazar, kde se prodávají nahrané hlasy, zvuky a myšlenky. U stánků prý seženeš smyčky konverzací a jakýchkoliv dalších zvuků, které si jen dovedeš představit. Můžeš si koupit zvuk něčího prvního zlomeného srdce nebo výkřik z doby před existencí ohně. Slyšel jsem, že tu taky kvete černý trh.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 521?",
+            what_is_the_shed_512: "Co je Bouda 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_stomach_clock: "Co jsou Žaludeční hodiny?",
             return_to_previous_topic: "Zpět k předchozímu tématu"
@@ -186,7 +186,7 @@ export default {
     stomachClock: {
         text: "Žaludeční hodiny jsou biomechanická komora ve tvaru trávicích hodin. Říká se, že je to skutečný žaludek prvního boha, který přišel do města umřít. Jiní říkají, že je to prostě jen kopie hodin, kterou jejich stavitel viděl jinde. Buď jak buď, jejich žluč je posvátná a prý dokonce léčivá. Můžeš je vidět na radnici.",
         options: {
-            what_is_the_shed_512: "Co je Kůlna 521?",
+            what_is_the_shed_512: "Co je Bouda 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",
             what_is_the_voxmarket: "Co je Voxmarket?",
             return_to_previous_topic: "Zpět k předchozímu tématu"

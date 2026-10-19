@@ -82,7 +82,7 @@ export default {
         'worldwright-piece': { name: 'Figurka Světotvůrce', description: 'Zvláštní herní figurka z Ortolanovy dílny, která dokáže změnit pravidla jakékoli hry, do níž ji postavíš. Slabě září možnostmi.' },
         'luck-token': { name: 'Drobný žeton štěstí', description: 'Prostý dřevěný žeton z Ortolanovy dílny, který jakoby lehce nakláněl pravděpodobnost v hazardních hrách.' },
         'fate-altering-piece': { name: 'Figurka měnící osud', description: 'Zvláštní herní figurka z Ortolanovy dílny, která podle všeho nenápadně ovlivňuje pravděpodobnost i osud toho, kdo ji nosí. Vydává slabé, znepokojivé světlo.' },
-        'living-core': { name: 'Živé jádro', description: 'Pulzující jádro z živého kovu, násilím vyrvané z Kůlny.', descriptions: { careful: 'Pulzující jádro z živého kovu, opatrně vyjmuté z Kůlny.' } },
+        'living-core': { name: 'Živé jádro', description: 'Pulzující jádro z živého kovu, násilím vyrvané z Boudy.', descriptions: { careful: 'Pulzující jádro z živého kovu, opatrně vyjmuté z Boudy.' } },
         'rulebook-fragment': { name: 'Útržek pravidel', description: 'Vytržená stránka z nedokončených pravidel nějaké hry. Popisuje mechaniku výměny vzpomínek.' },
         'silent-sentence': { name: 'Tichá věta', description: 'Prázdná kartička, která přesto nese význam. Může se hodit, až dojdou slova.' },
         'artisan-exemption-form': { name: 'Formulář o výjimce pro umělce', description: 'Úřední formulář udělující z tvůrčích důvodů výjimku ze standardních omezení počtu končetin. Schváleno pro Ortolana.' },
