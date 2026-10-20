@@ -1,0 +1,17 @@
+// SteamPipe build script. Upload with:
+//   steamcmd +login <steam_login> +run_app_build /home/mateja/CascadeProjects/weird-game/steam/app_build.vdf +quit
+// Paths are relative to this file. Build the depots first: npx electron-forge package --platform=win32|linux --arch=x64
+"AppBuild"
+{
+	"AppID"       "4118600"                 // Steamworks → App Admin → the number in the URL / page header
+	"Desc"        "dev 2026-10-20 5c9ad19"  // shows in SteamPipe → Builds; put the git short hash here
+	"SetLive"     ""                        // branch to set live automatically; "default" is NOT allowed here (web UI only)
+	"Preview"     "0"                       // "1" = dry run: only writes logs/manifests, uploads nothing
+	"BuildOutput" "./output/"               // logs + chunk cache, git-ignored
+
+	"Depots"
+	{
+		"4118601" "depot_windows.vdf"
+		// "REPLACE_LINUX_DEPOT_ID" "depot_linux.vdf"   // Linux depot not created yet (SteamPipe → Depots → Add New Depot)
+	}
+}

@@ -304,9 +304,14 @@ export default class Shed521Scene extends GameScene {
 
 
         // Set up scene background and elements
-        const bg = this.add.image(400, 300, 'Shed521Bg');
+        const bg = this.add.image(400, 300, 'Shed521Bg'); // native 1067×600 (redrawn: the tower, fence, yard)
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own rutted track; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         this.playSceneMusic('genericMusic');
 
         // Add fade-in effect
@@ -340,13 +345,13 @@ export default class Shed521Scene extends GameScene {
         this.transitionManager = new SceneTransitionManager(this);
         
         this.transitionManager.createTransitionZone(
-            200, // x position
+            291, // x position (800-space; remapped onto the tower's gate in the redrawn background)
             400, // y position
-            120, // width
+            100, // width
             200, // height
             'right', // direction
             'Shed521FloorsScene', // target scene
-            100, // walk to x
+            291, // walk to x
             470  // walk to y
         );
         

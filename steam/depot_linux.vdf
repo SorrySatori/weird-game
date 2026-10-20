@@ -1,0 +1,14 @@
+"DepotBuild"
+{
+	"DepotID"     "REPLACE_LINUX_DEPOT_ID"   // Steamworks → App Admin → SteamPipe → Depots (OS: Linux, 64-bit)
+	"ContentRoot" "../out/weird-game-linux-x64/"
+
+	"FileMapping"
+	{
+		"LocalPath" "*"
+		"DepotPath" "."
+		"recursive" "1"
+	}
+
+	"FileExclusion" "*.log"
+}

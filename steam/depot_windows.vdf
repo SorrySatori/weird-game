@@ -1,0 +1,15 @@
+"DepotBuild"
+{
+	"DepotID"     "4118601"   // Steamworks → App Admin → SteamPipe → Depots (OS: Windows, 64-bit)
+	"ContentRoot" "../out/weird-game-win32-x64/"
+
+	"FileMapping"
+	{
+		"LocalPath" "*"
+		"DepotPath" "."
+		"recursive" "1"
+	}
+
+	"FileExclusion" "*.pdb"
+	"FileExclusion" "*.log"
+}

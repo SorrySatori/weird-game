@@ -82,6 +82,10 @@ Reserve a **separate scene** only for (a) special content launched directly via
   `if (typeof window !== 'undefined') window.FooScene = FooScene;`.
 - Register in **`main.js`**: add the `import` and add the class to the `scene: [ … ]` array.
 - `SceneTransitionManager.createTransitionZone(x, y, w, h, direction, targetSceneKey, walkToX, walkToY, label?)`.
+- **State-dependent scenery is a sprite with frames, not alternate backgrounds.** Example: `CrossroadScene`
+  loads `crossroad_corpse.png` as a 3-frame spritesheet (`CORPSE_FRAME` intact/cut/growth) and swaps
+  `setFrame()` on the decision; the background never changes. Aseprite sources for redrawn art live in
+  `assets/aseprite/`.
 
 ## NPCs in side-view scenes
 Add a sprite, `setInteractive({ useHandCursor: true })`, and

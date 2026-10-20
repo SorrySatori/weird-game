@@ -1,0 +1,85 @@
+GIMP Palette
+Name: Crossroad Overcast
+Columns: 10
+#
+ 20  31  30	Sky 1
+ 26  40  39	Sky 2
+ 33  49  47	Sky 3
+ 40  59  56	Sky 4
+ 48  70  63	Sky 5
+ 58  82  73	Sky 6
+ 69  94  85	Sky 7
+ 82 107  98	Sky 8
+ 28  40  37	Haze 1
+ 36  51  48	Haze 2
+ 44  62  58	Haze 3
+ 53  73  69	Haze 4
+ 63  85  80	Haze 5
+ 74  98  92	Haze 6
+ 86 110 103	Haze 7
+ 15  20  18	Stone 1
+ 22  28  25	Stone 2
+ 30  38  34	Stone 3
+ 39  48  43	Stone 4
+ 49  59  53	Stone 5
+ 60  71  64	Stone 6
+ 72  84  76	Stone 7
+ 86  99  90	Stone 8
+102 116 104	Stone 9
+119 133 119	Stone 10
+ 18  15  11	Wood 1
+ 28  23  17	Wood 2
+ 40  32  23	Wood 3
+ 53  43  31	Wood 4
+ 68  56  39	Wood 5
+ 84  70  52	Wood 6
+102  87  67	Wood 7
+ 42  29  20	Warm 1
+ 66  41  26	Warm 2
+ 92  58  36	Warm 3
+122  80  51	Warm 4
+148 106  69	Warm 5
+173 133  96	Warm 6
+110  84  36	Glow 1
+149 113  48	Glow 2
+187 143  62	Glow 3
+217 173  82	Glow 4
+239 203 115	Glow 5
+ 43  15  13	Red 1
+ 63  22  18	Red 2
+ 88  32  26	Red 3
+115  44  34	Red 4
+140  58  44	Red 5
+162  74  55	Red 6
+ 74  68  48	Cap 1
+103  96  63	Cap 2
+133 124  82	Cap 3
+163 153 104	Cap 4
+192 182 127	Cap 5
+217 208 150	Cap 6
+ 63  74  68	Bone 1
+ 86  99  89	Bone 2
+111 124 112	Bone 3
+138 151 137	Bone 4
+167 178 163	Bone 5
+ 20  58  34	Myc 1
+ 31  90  50	Myc 2
+ 63 143  90	Myc 3
+127 255 142	Myc 4
+200 255 208	Myc 5
+240 255 242	Myc 6
+ 62  63  49	Stucco 1
+ 81  82  63	Stucco 2
+101 102  78	Stucco 3
+122 124  95	Stucco 4
+144 146 111	Stucco 5
+166 168 131	Stucco 6
+ 42  58  60	Metal 1
+ 53  73  75	Metal 2
+ 65  88  90	Metal 3
+ 78 103 105	Metal 4
+ 92 118 119	Metal 5
+111 139 137	Metal 6
+134 161 158	Metal 7
+  7  10   9	Ink
+ 58  82  78	Fog

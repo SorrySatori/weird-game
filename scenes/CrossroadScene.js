@@ -2,6 +2,9 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 
+/** Frames of the `crossroad_corpse` sheet — the demigod's fate is shown by swapping one frame. */
+const CORPSE_FRAME = { intact: 0, cut: 1, growth: 2 };
+
 export default class CrossroadScene extends GameScene {
     constructor() {
         super({ key: 'CrossroadScene' });
@@ -14,7 +17,9 @@ export default class CrossroadScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('crossroadBg', 'assets/images/backgrounds/crossroad.png');
-        this.load.image('crossroadBg_growth', 'assets/images/backgrounds/crossroad_growth.png');
+        // The dead demigod is a separate sprite so its fate (cut open / spores planted) swaps one
+        // frame instead of the whole background. Frames: 0 intact, 1 skull opened, 2 mycelium tree.
+        this.load.spritesheet('crossroad_corpse', 'assets/images/backgrounds/crossroad_corpse.png', { frameWidth: 240, frameHeight: 440 });
         this.load.image('door', 'assets/images/ui/door.png');
         this.load.image('skyship', 'assets/images/backgrounds/skyship.png');
     }
@@ -28,52 +33,28 @@ export default class CrossroadScene extends GameScene {
         // Initialize the journal system
         this.journalSystem = JournalSystem.getInstance();
         
-        const bgKey = this.hasGrowth ? 'crossroadBg_growth' : 'crossroadBg';
-        this.background = this.add.image(400, 300, bgKey);
+        this.background = this.add.image(400, 300, 'crossroadBg'); // native 1067×600 — one picture for every corpse state
         this.fitBackground(this.background);
         this.background.setDepth(-1);
+        // The background paints its own cobbled street; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         this.playSceneMusic('genericMusic');
 
         // Create symbiont UI
         this.createSymbiontUI();
-        
+
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
 
-        if (!this.hasGrowth) {
-            this.corpse = this.add.image(this.scale.width / 2, 300, 'door'); // the corpse sits at the (widened) background's centre
-            this.corpse.setDisplaySize(120, 200);
-            this.corpse.setAlpha(0.01);
-            this.corpse.setInteractive({ useHandCursor: true });
-            this.corpse.on('pointerdown', () => this.showCorpseDialog());
-        } else {
-            // Add skyship transition area when growth is present
-            this.skyshipTransition = this.add.image(this.scale.width / 2, 200, 'door') // centred on the widened background
-                .setDisplaySize(100, 150)
-                .setAlpha(0.01)
-                .setInteractive({ useHandCursor: true });
-            this.skyshipTransition.setDepth(10);
-
-            // Add a subtle glow effect to hint at the interactive area
-            const skyshipGlow = this.add.graphics();
-            skyshipGlow.fillStyle(0x7fff8e, 0.2);
-            skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
-            skyshipGlow.setDepth(9);
-            
-            // Add pulsating animation to the glow
-            this.tweens.add({
-                targets: skyshipGlow,
-                alpha: { from: 0.2, to: 0.4 },
-                duration: 1500,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-        }
+        this.createCorpse();
+        if (this.hasGrowth) this.applyGrowth();
 
         // Examine: the signpost/junction (placed on the upper post, clear of the corpse's own
         // interactive zone at center). Comment reflects the corpse's fate + how the world leans.
-        this.createObservable(400, 150, 230, 90, () => { // 800-space coords; createObservable remaps X itself
+        this.createObservable(400, 196, 230, 110, () => { // 800-space coords; createObservable remaps X itself (the four boards, y 141–251)
             if (this.hasJournalEntry('crossroad_corpse_spores_planted')) return this.t('observe.crossroads.planted');
             if (this.getGDTendency && this.getGDTendency() === 'growthDominant') return this.t('observe.crossroads.overgrown');
             return this.t('observe.crossroads.default');
@@ -84,21 +65,13 @@ export default class CrossroadScene extends GameScene {
 
         // Setup scene transitions using the transition manager
         this.setupSceneTransitions();
-        
-        // Setup skyship transition separately
-        this.setupSkyshipTransition();
 
         // Load persisted symbiont system
         this.symbiontSystem = this.registry.get('symbiontSystem');
-        
+
         // Add registry change listener to update the scene when growth state changes
         this.registry.events.on('changedata', this.handleRegistryChange, this);
-        
-        // For testing: manually trigger the registry change handler if growth is already true
-        if (this.hasGrowth) {
-            this.handleRegistryChange(this.registry, 'crossroadGrowth', true);
-        }
-        
+
         // Clean up event listener when scene is shut down
         this.events.on('shutdown', () => {
             this.registry.events.off('changedata', this.handleRegistryChange, this);
@@ -118,16 +91,16 @@ export default class CrossroadScene extends GameScene {
             400 // walk to y
         );
         
-        // Create transition zone for Cathedral entrance
+        // Egg Cathedral: the road that comes TOWARD the viewer (bottom centre of the junction)
         this.transitionManager.createTransitionZone(
-            200, // x position
-            500, // y position
-            100, // width
-            200, // height
-            'left', // direction
+            400, // x position (800-space; remapped to the canvas centre)
+            572, // y position
+            150, // width
+            56,  // height
+            'down', // direction
             'EggCatedralScene', // target scene
-            200, // walk to x
-            500 // walk to y
+            400, // walk to x
+            470 // walk to y
         );
         
         // Create transition zone for VoxMarket entrance
@@ -142,44 +115,82 @@ export default class CrossroadScene extends GameScene {
             470 // walk to y
         );
         
-        // Create transition zone for ScraperScene entrance
+        // Scraper: the road that runs AWAY from the viewer, past the signpost toward the hazy skyline
         this.transitionManager.createTransitionZone(
-            750, // x position
-            470, // y position
-            40, // width
-            200, // height
-            'right', // direction
+            409, // x position (800-space ≈ canvas 545, the road's centre line right of the corpse)
+            400, // y position
+            52,  // width
+            120, // height
+            'up', // direction
             'ScraperScene', // target scene
-            750, // walk to x
+            409, // walk to x
             470 // walk to y
         );
-        
-        // Setup the transition for the skyship area if it exists
-        if (this.hasGrowth && this.skyshipTransition) {
-            this.setupSkyshipTransition();
-        }
     }
 
-    setupSkyshipTransition() {
-        // Create transition zone for Skyship using the transition manager
-        this.transitionManager.createTransitionZone(
-            400, // x position
-            200, // y position
-            100, // width
-            150, // height
-            'up', // direction
-            'SkyshipScene', // target scene
-            400, // walk to x
-            200 // walk to y
-        );
-        
-        // Add a subtle glow effect to hint at the interactive area
+    /** Which corpse frame the persisted state calls for (growth wins; a cut skull stays cut). */
+    corpseFrame() {
+        if (this.hasGrowth) return CORPSE_FRAME.growth;
+        if (this.hasJournalEntry('symbiont_thorne_still_offered')) return CORPSE_FRAME.cut;
+        return CORPSE_FRAME.intact;
+    }
+
+    createCorpse() {
+        // Stands impaled at the junction beside the signpost, just LEFT of the road that runs away to the Scraper
+        // (so that road stays visible and clickable); the walk line (y≈534) passes in front of it.
+        this.corpseX = Math.round(this.scale.width / 2) - 125; // clear of the CATHEDRAL board too
+        this.corpse = this.add.sprite(this.corpseX, 496, 'crossroad_corpse', this.corpseFrame())
+            .setOrigin(0.5, 1)
+            .setDepth(6);
+        // Only the figure is clickable (frame-local rect): the mycelium tree above it must leave the skyship zone free.
+        this.corpse.setInteractive({
+            hitArea: new Phaser.Geom.Rectangle(56, 136, 128, 300),
+            hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+            useHandCursor: true
+        });
+        this.corpse.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            this.showCorpseDialog();
+        });
+    }
+
+    /** Spores took: swap the corpse to its overgrown frame, light it, open the way to the skyship. Idempotent. */
+    applyGrowth() {
+        if (this.growthApplied) return;
+        this.growthApplied = true;
+        this.hasGrowth = true;
+        if (this.corpse) this.corpse.setFrame(CORPSE_FRAME.growth);
+        this.createGrowthGlow();
+        this.createSkyshipZone();
+    }
+
+    /** Soft bioluminescent light the tree throws on the junction (sits between background and corpse). */
+    createGrowthGlow() {
+        const cx = this.corpseX ?? this.scale.width / 2;
+        const glow = this.add.graphics().setDepth(5).setBlendMode(Phaser.BlendModes.ADD);
+        for (let i = 4; i >= 1; i--) {
+            glow.fillStyle(0x3f8f5a, 0.05);
+            glow.fillEllipse(cx, 130, 130 * i, 130 * i);       // the caps
+            glow.fillEllipse(cx, 470, 120 * i, 36 * i);        // spill on the flagstones around the figure
+        }
+        this.tweens.add({ targets: glow, alpha: { from: 0.7, to: 1 }, duration: 2200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    }
+
+    /** Clickable zone over the mycelium tree that triggers the look-up at the skyship. */
+    createSkyshipZone() {
+        if (this.skyshipTransition) return;
+        const cx = this.corpseX ?? this.scale.width / 2, cy = 140; // the tree rises out of the corpse's crown (game y ≈ 76–206)
+        this.skyshipTransition = this.add.image(cx, cy, 'door')
+            .setDisplaySize(130, 150)
+            .setAlpha(0.01)
+            .setInteractive({ useHandCursor: true })
+            .setDepth(10);
+
+        // Pulsing hint that the tree can be examined
         const skyshipGlow = this.add.graphics();
         skyshipGlow.fillStyle(0x7fff8e, 0.2);
-        skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
+        skyshipGlow.fillCircle(cx, cy, 50);
         skyshipGlow.setDepth(9);
-        
-        // Add pulsating animation to the glow
         this.tweens.add({
             targets: skyshipGlow,
             alpha: { from: 0.2, to: 0.4 },
@@ -188,6 +199,8 @@ export default class CrossroadScene extends GameScene {
             repeat: -1,
             ease: 'Sine.easeInOut'
         });
+
+        this.setupSkyshipTransition();
     }
 
     createSymbiontUI() {
@@ -361,6 +374,8 @@ export default class CrossroadScene extends GameScene {
                     }
                 ],
                 onTrigger: () => {
+                    // The skull is open from now on, whatever the player decides about Thorne-Still
+                    if (this.corpse && !this.hasGrowth) this.corpse.setFrame(CORPSE_FRAME.cut);
                     // Mark that the symbiont has been offered
                     this.addJournalEntry(
                         'symbiont_thorne_still_offered',
@@ -416,48 +431,12 @@ export default class CrossroadScene extends GameScene {
                         this.journalSystem.categories.EVENTS
                     );
                     
-                    // Set the growth state and update background
+                    // Persist the growth state (the registry listener keeps other scenes in step) and show it
+                    const firstTime = !this.growthApplied;
                     this.registry.set('crossroadGrowth', true);
-                    this.background.setTexture('crossroadBg_growth');
-                    
-                    // Remove the corpse
-                    if (this.corpse) {
-                        this.corpse.destroy();
-                        this.corpse = null;
-                    }
-                    
-                    // Directly create the skyship transition area
-                    if (!this.skyshipTransition) {
-                        // Add skyship transition area (centred on the widened background)
-                        this.skyshipTransition = this.add.image(this.scale.width / 2, 200, 'door')
-                            .setDisplaySize(100, 150)
-                            .setAlpha(0.01)
-                            .setInteractive({ useHandCursor: true });
-                        this.skyshipTransition.setDepth(10);
+                    this.applyGrowth();
+                    if (firstTime) this.showNotification(this.t('crossroad.plantGrows'));
 
-                        // Add a subtle glow effect to hint at the interactive area
-                        const skyshipGlow = this.add.graphics();
-                        skyshipGlow.fillStyle(0x7fff8e, 0.2);
-                        skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
-                        skyshipGlow.setDepth(9);
-                        
-                        // Add pulsating animation to the glow
-                        this.tweens.add({
-                            targets: skyshipGlow,
-                            alpha: { from: 0.2, to: 0.4 },
-                            duration: 1500,
-                            yoyo: true,
-                            repeat: -1,
-                            ease: 'Sine.easeInOut'
-                        });
-                        
-                        // Setup the transition for the skyship area
-                        this.setupSkyshipTransition();
-                        
-                        // Show a notification about the new area
-                        this.showNotification(this.t('crossroad.plantGrows'));
-                    }
-                    
                     this.hideDialog();
                 }
             },
@@ -634,49 +613,7 @@ export default class CrossroadScene extends GameScene {
     // Handle registry changes, particularly for crossroadGrowth
     handleRegistryChange(parent, key, data) {
         // If the crossroadGrowth registry key changes, update the scene
-        if (key === 'crossroadGrowth' && data === true && !this.hasGrowth) {
-            // Update our local tracking variable
-            this.hasGrowth = true;
-            
-            // Update the background
-            if (this.background) {
-                this.background.setTexture('crossroadBg_growth');
-            }
-            // Remove corpse if it exists
-            if (this.corpse) {
-                this.corpse.destroy();
-                this.corpse = null;
-            }
-            
-            // Add skyship transition area if it doesn't exist yet
-            if (!this.skyshipTransition) {
-                // Add skyship transition area (centred on the widened background)
-                this.skyshipTransition = this.add.image(this.scale.width / 2, 200, 'door')
-                    .setDisplaySize(100, 150)
-                    .setAlpha(0.01)
-                    .setInteractive({ useHandCursor: true });
-                this.skyshipTransition.setDepth(10);
-
-                // Add a subtle glow effect to hint at the interactive area
-                const skyshipGlow = this.add.graphics();
-                skyshipGlow.fillStyle(0x7fff8e, 0.2);
-                skyshipGlow.fillCircle(this.scale.width / 2, 200, 50);
-                skyshipGlow.setDepth(9);
-                
-                // Add pulsating animation to the glow
-                this.tweens.add({
-                    targets: skyshipGlow,
-                    alpha: { from: 0.2, to: 0.4 },
-                    duration: 1500,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'Sine.easeInOut'
-                });
-                
-                // Setup the transition for the skyship area
-                this.setupSkyshipTransition();
-            }
-        }
+        if (key === 'crossroadGrowth' && data === true) this.applyGrowth();
     }
     
     // Setup the transition for the skyship area
@@ -752,7 +689,7 @@ export default class CrossroadScene extends GameScene {
             this.priest.play('idle');
             this.cameras.main.fadeOut(800, 0, 0, 0);
             this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('VoxMarket');
+                this.scene.start('ScraperScene'); // the signpost points SCRAPER to the right; Voxmarket has its own zone at the hangar doors
                 this.isTransitioning = false; // Reset transition flag
             });
         }
