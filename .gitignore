@@ -96,3 +96,7 @@ coverage/
 
 # SteamPipe upload logs / chunk cache
 steam/output/
+
+# Python bytecode (tools/artgen)
+__pycache__/
+*.pyc

@@ -82,6 +82,12 @@ Reserve a **separate scene** only for (a) special content launched directly via
   `if (typeof window !== 'undefined') window.FooScene = FooScene;`.
 - Register in **`main.js`**: add the `import` and add the class to the `scene: [ … ]` array.
 - `SceneTransitionManager.createTransitionZone(x, y, w, h, direction, targetSceneKey, walkToX, walkToY, label?)`.
+- **Growth/Decay scenery:** `utils/GDProps.js` — `preloadGDProps(this)` in preload, then in create
+  `applyGDBackground(this, bg, 'FooBg')` (swaps to `FooBg_growth`/`_decay` if that art exists) and
+  `placeGDProps(this, { growth: [{prop,x,y}], decay: [...] })` (canvas coords, feet ≤ 520). Props: bush, vine (top anchor),
+  mushrooms / trash, crate, rubble, fire (animated + glow). Tendency = `getGDTendency()` (≥65). Examples: Shed521Scene, CrossroadScene.
+  Test keys (GameScene, `DEBUG_GD_KEYS`): F7 full Growth / F8 full Decay / F9 balanced → restarts the scene.
+  **Scene instances are re-used:** reset per-run guards/cached objects at the top of `create()`.
 - **State-dependent scenery is a sprite with frames, not alternate backgrounds.** Example: `CrossroadScene`
   loads `crossroad_corpse.png` as a 3-frame spritesheet (`CORPSE_FRAME` intact/cut/growth) and swaps
   `setFrame()` on the decision; the background never changes. Aseprite sources for redrawn art live in

@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { GANG_QUEST_IDS, gangQuestStatus, recordSpyFragment } from '../utils/GangOfLamps.js';
 
@@ -307,6 +308,7 @@ export default class Shed521Scene extends GameScene {
         const bg = this.add.image(400, 300, 'Shed521Bg'); // native 1067×600 (redrawn: the tower, fence, yard)
         this.fitBackground(bg);
         bg.setDepth(-1);
+        this.applyShedGDState(bg);
         // The background paints its own rutted track; the generic ground strip would cover it.
         if (this.ground) {
             this.ground.destroy();
@@ -415,9 +417,37 @@ export default class Shed521Scene extends GameScene {
         );
     }
 
+    /**
+     * Growth/Decay state of the yard. Growth: the tower greens over (alt art) + a flowering bush, mushrooms and a
+     * vine on the gate. Decay: more rust, missing planks, a sagging fence (alt art) + litter, a broken crate and a
+     * burning barrel. Balanced: nothing beyond the global ambience wash. The Rust Choir wants this building, so
+     * decay is "their" look here.
+     */
+    applyShedGDState(bg) {
+        applyGDBackground(this, bg, 'Shed521Bg');
+        placeGDProps(this, {
+            growth: [
+                { prop: 'bush', x: 236, y: 496 },
+                { prop: 'bush', x: 884, y: 490, flipX: true, scale: 0.8 },
+                { prop: 'mushrooms', x: 690, y: 502 },
+                { prop: 'vine', x: 404, y: 332 }          // hangs off the gate lintel
+            ],
+            decay: [
+                { prop: 'fire', x: 704, y: 500 },
+                { prop: 'trash', x: 252, y: 498 },
+                { prop: 'crate', x: 868, y: 494 },
+                { prop: 'rubble', x: 470, y: 506 }
+            ]
+        });
+    }
+
     preload() {
         super.preload();
         this.load.image('Shed521Bg', 'assets/images/backgrounds/Shed521.png');
+        // Growth/Decay variants of the yard (same generator, other parameters) + the shared G/D props.
+        this.load.image('Shed521Bg_growth', 'assets/images/backgrounds/Shed521_growth.png');
+        this.load.image('Shed521Bg_decay', 'assets/images/backgrounds/Shed521_decay.png');
+        preloadGDProps(this);
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('mysteriousSpore', 'assets/images/items/spore.png');
         // Load Gnur sprite

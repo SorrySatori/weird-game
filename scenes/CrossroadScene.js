@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { preloadGDProps, placeGDProps } from '../utils/GDProps.js';
 import JournalSystem from '../systems/JournalSystem.js';
 
 /** Frames of the `crossroad_corpse` sheet — the demigod's fate is shown by swapping one frame. */
@@ -22,10 +23,17 @@ export default class CrossroadScene extends GameScene {
         this.load.spritesheet('crossroad_corpse', 'assets/images/backgrounds/crossroad_corpse.png', { frameWidth: 240, frameHeight: 440 });
         this.load.image('door', 'assets/images/ui/door.png');
         this.load.image('skyship', 'assets/images/backgrounds/skyship.png');
+        preloadGDProps(this); // shared Growth/Decay scenery props (see applyCrossroadGDState)
     }
 
     create() {
         super.create();
+
+        // Phaser re-uses the scene instance on every start/restart: forget the previous run's objects and
+        // the "already applied" guard, otherwise re-entering with growth would skip the glow + skyship zone.
+        this.growthApplied = false;
+        this.skyshipTransition = null;
+        this.corpse = null;
 
         // Check if growth has happened
         this.hasGrowth = this.registry.get('crossroadGrowth') || false;
@@ -51,6 +59,7 @@ export default class CrossroadScene extends GameScene {
 
         this.createCorpse();
         if (this.hasGrowth) this.applyGrowth();
+        this.applyCrossroadGDState();
 
         // Examine: the signpost/junction (placed on the upper post, clear of the corpse's own
         // interactive zone at center). Comment reflects the corpse's fate + how the world leans.
@@ -126,6 +135,23 @@ export default class CrossroadScene extends GameScene {
             409, // walk to x
             470 // walk to y
         );
+    }
+
+    /** Growth/Decay scenery: props only (the background has no variants yet); feet stay behind the walk line. */
+    applyCrossroadGDState() {
+        placeGDProps(this, {
+            growth: [
+                { prop: 'bush', x: 214, y: 514, scale: 0.9 },
+                { prop: 'mushrooms', x: 788, y: 500 },
+                { prop: 'vine', x: 759, y: 302 }          // off the hangar's impost cornice, down the left pilaster
+            ],
+            decay: [
+                { prop: 'fire', x: 724, y: 506 },
+                { prop: 'trash', x: 326, y: 506 },
+                { prop: 'crate', x: 992, y: 474, scale: 0.9 },
+                { prop: 'rubble', x: 176, y: 500 }
+            ]
+        });
     }
 
     /** Which corpse frame the persisted state calls for (growth wins; a cut skull stays cut). */

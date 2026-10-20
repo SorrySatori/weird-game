@@ -8,7 +8,8 @@ kept here; install it with `cp crossroad-overcast.gpl ~/.config/aseprite/palette
 ```
 python3 crossroad_bg.py <outdir>       # -> <outdir>/bg.png
 python3 crossroad_corpse.py <outdir>   # -> corpse_0..2.png + crossroad_corpse.png (3-frame sheet 240×440)
-python3 shed521_bg.py <outdir>
+python3 shed521_bg.py <outdir> [base|growth|decay]   # -> bg.png / bg_growth.png / bg_decay.png (Growth/Decay variants)
+python3 props.py <outdir>              # -> prop_*.png Growth/Decay scenery props (assets/images/props/, placed by utils/GDProps.js)
 python3 <scene>_guides.py <outdir>     # hotspot guide layer for the Aseprite template
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
         --script-param pal=~/.config/aseprite/palettes/crossroad-overcast.gpl --script <scene>_aseprite.lua

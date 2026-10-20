@@ -13,10 +13,12 @@ CAP   = ramp('#4a4430 #67603f #857c52 #a39968 #c0b67f #d9d096')                 
 BONE  = ramp('#3f4a44 #566359 #6f7c70 #8a9789 #a7b2a3')                             # the face, hands (green-grey bone)
 MYC   = ramp('#143a22 #1f5a32 #3f8f5a #7fff8e #c8ffd0 #f0fff2')                     # mycelium / bioluminescence
 STUCCO = ramp('#3e3f31 #51523f #65664e #7a7c5f #90926f #a6a883')                    # hangar plaster (Riga market)
+LEAF  = ramp('#1b3320 #28482a #3a6336 #4f7f44 #6a9a55 #8db36c')                     # living plants (growth props)
+FLOWER = ramp('#c75a55 #e08a4a #f0d070 #e8c3d0 #f6f0e0')                            # blossoms
 METAL = ramp('#2a3a3c #35494b #41585a #4e6769 #5c7677 #6f8b89 #86a19e')                             # blue-grey sheet-metal roofs
 INK   = hx('#070a09')
 FOG   = (58, 82, 78)
-RAMPS = {'K': SKY, 'H': HAZE, 'T': STONE, 'D': WOOD, 'W': WARM, 'G': GLOW, 'R': RED, 'C': CAP, 'B': BONE, 'M': MYC, 'P': STUCCO, 'E': METAL}
+RAMPS = {'K': SKY, 'H': HAZE, 'T': STONE, 'D': WOOD, 'W': WARM, 'G': GLOW, 'R': RED, 'C': CAP, 'B': BONE, 'M': MYC, 'P': STUCCO, 'E': METAL, 'L': LEAF, 'X': FLOWER}
 ALL = sorted({c for r in RAMPS.values() for c in r} | {INK, FOG})
 
 def nearest(c):
@@ -32,7 +34,7 @@ def fogged(c, f, x, y):
 
 def write_gpl(path):
     out = ['GIMP Palette', 'Name: Crossroad Overcast', 'Columns: 10', '#']
-    for n, r in (('Sky', SKY), ('Haze', HAZE), ('Stone', STONE), ('Wood', WOOD), ('Warm', WARM), ('Glow', GLOW), ('Red', RED), ('Cap', CAP), ('Bone', BONE), ('Myc', MYC), ('Stucco', STUCCO), ('Metal', METAL)):
+    for n, r in (('Sky', SKY), ('Haze', HAZE), ('Stone', STONE), ('Wood', WOOD), ('Warm', WARM), ('Glow', GLOW), ('Red', RED), ('Cap', CAP), ('Bone', BONE), ('Myc', MYC), ('Stucco', STUCCO), ('Metal', METAL), ('Leaf', LEAF), ('Flower', FLOWER)):
         for i, c in enumerate(r): out.append('%3d %3d %3d\t%s %d' % (c[0], c[1], c[2], n, i + 1))
     out.append('%3d %3d %3d\tInk' % INK); out.append('%3d %3d %3d\tFog' % FOG)
     open(path, 'w').write('\n'.join(out) + '\n')

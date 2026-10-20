@@ -20,6 +20,9 @@ import { renderDialogLayout } from '../utils/dialogLayouts.js';
 import { runEquipmentTutorial } from '../utils/equipmentTutorial.js';
 import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.js';
 
+/** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
+const DEBUG_GD_KEYS = true;
+
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
         super(config);
@@ -148,6 +151,22 @@ export default class GameScene extends Phaser.Scene {
 
         // Create the game menu (ESC key menu)
         this.gameMenu = new GameMenu(this);
+
+        // TEST ONLY — Growth/Decay switches: F7 = full Growth, F8 = full Decay, F9 = balanced. Sets the balance
+        // and restarts the current scene so every G/D-reactive bit (ambience wash, alt backgrounds, props) re-applies.
+        if (DEBUG_GD_KEYS) {
+            const forceGD = (growth, label) => {
+                if (this.dialogVisible) return;
+                const gd = this.registry.get('growthDecaySystem');
+                if (!gd) return;
+                gd.setGrowth(growth);
+                this.showNotification(`G/D test: ${label} (growth ${growth})`, '', '', 2500);
+                this.time.delayedCall(250, () => this.scene.restart());
+            };
+            this.input.keyboard.on('keydown-F7', () => forceGD(100, 'full Growth'));
+            this.input.keyboard.on('keydown-F8', () => forceGD(0, 'full Decay'));
+            this.input.keyboard.on('keydown-F9', () => forceGD(50, 'balanced'));
+        }
 
         // Growth/Decay world ambience (colour cast + motes; balanced = nothing).
         this.applyGDAmbience();

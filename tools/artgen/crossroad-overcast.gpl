@@ -81,5 +81,16 @@ Columns: 10
  92 118 119	Metal 5
 111 139 137	Metal 6
 134 161 158	Metal 7
+ 27  51  32	Leaf 1
+ 40  72  42	Leaf 2
+ 58  99  54	Leaf 3
+ 79 127  68	Leaf 4
+106 154  85	Leaf 5
+141 179 108	Leaf 6
+199  90  85	Flower 1
+224 138  74	Flower 2
+240 208 112	Flower 3
+232 195 208	Flower 4
+246 240 224	Flower 5
   7  10   9	Ink
  58  82  78	Fog

@@ -5,6 +5,9 @@ import sys, math, random
 from PIL import Image, ImageDraw
 from pal_day import *
 OUT = sys.argv[1]
+VARIANT = sys.argv[2] if len(sys.argv) > 2 else 'base'      # base | growth | decay
+GROWTH, DECAY = VARIANT == 'growth', VARIANT == 'decay'
+RUST_T = 0.70 if GROWTH else 0.40 if DECAY else 0.56
 W, H = 1067, 600
 CX, HY = 533, 296
 F, CAMH = 300.0, 12.0
@@ -90,6 +93,8 @@ shed.rect(SU1 - 7, 3, SU1 - 3.5, 6.5, 'win')                                    
 shed.rect(SU0 + 1.6, 3.2, SU0 + 2.6, 5.2, 'bracket')                                             # flange where the left pipe enters
 shed.rect(SU0 + 3.5, 12.5, SU0 + 6.5, 16, 'shutter'); shed.rect(SU1 - 6.5, 12.5, SU1 - 3.5, 16, 'shutter'); shed.rect(SU0 + 13, 21.5, SU0 + 16, 24.5, 'shutter')
 shed.rect(SU0 + 19, 12, SU0 + 27, 16, 'glyph')
+if GROWTH:
+    shed.rect(SU0 + 19, 14.6, SU0 + 22.5, 16, 'moss'); shed.rect(SU0 + 25.5, 12, SU0 + 27, 13.6, 'moss'); shed.rect(SU0 + 18.6, 12, SU0 + 20, 13, 'moss')
 shed.rect(SU0 + 4.5, 21.0, SU1 - 4.5, 26.5, 'plate'); shed.rect(SU0 + 4.0, 20.7, SU1 - 4.0, 21.3, 'frame'); shed.rect(SU0 + 4.0, 26.3, SU1 - 4.0, 26.9, 'frame')
 shed.rect(SU0 + 13, 30, SU0 + 19, 33.5, 'win')
 for u in [SU0 - 3 + i * 1.6 for i in range(int((SU1 + 1.5 - (SU0 - 3)) / 1.6) + 1)]:
@@ -105,7 +110,7 @@ for (v, a, b) in ((10, SU0 - 1.5, SU1 + 0.5), (19, SU0 - 3, SU1 + 1.5), (28, SU0
     u = a + 1
     while u < b - 1:
         over_plate = (v == 28 and SU0 + 3.5 < u < SU1 - 3.5)
-        if rnd.random() < 0.55 and not over_plate: shed.rect(u, v - 1.6 - rnd.uniform(0.6, 2.4), u + rnd.uniform(0.5, 1.4), v - 0.4, 'moss')
+        if rnd.random() < (0.92 if GROWTH else 0.3 if DECAY else 0.55) and not over_plate: shed.rect(u, v - 1.6 - rnd.uniform(0.6, 2.4) * (1.8 if GROWTH else 1.0), u + rnd.uniform(0.5, 1.4), v - 0.4, 'moss')
         u += rnd.uniform(1.0, 2.6)
 SIGN_SHED = ('SHED 521', *[int(c) for c in proj((SU0 + SU1) / 2 - 0.1, 25.6, SZ)], 4)
 # right flank (visible: the tower stands left of the vanishing point); the annex in front hides its lower far part
@@ -282,8 +287,8 @@ for j in range(0, 60):
 random.seed(4)
 for j in range(70):
     t = j / 70; x = int(sx_ + 18 * t + 6 * math.sin(t * 9)); y = int(sy_ - t * 120)
-    for dx in range(-int(2 + 7 * t), int(2 + 7 * t) + 1):
-        if 0 <= x + dx < W and 0 <= y < H and M[y][x + dx][0] == 'sky' and h32(x + dx, y, 2) % (2 + int(t * 4)) == 0: M[y][x + dx] = ('smoke', int(t * 10)); Z[y][x + dx] = SZ
+    for dx in range(-int(2 + (11 if DECAY else 7) * t), int(2 + (11 if DECAY else 7) * t) + 1):
+        if 0 <= x + dx < W and 0 <= y < H and M[y][x + dx][0] == 'sky' and h32(x + dx, y, 2) % ((1 if DECAY else 2) + int(t * 4)) == 0: M[y][x + dx] = ('smoke', int(t * 10)); Z[y][x + dx] = SZ
 def branch(x, y, ang, ln, wdt, depth):
     if depth > 4 or ln < 3: return
     x2, y2 = x + ln * math.cos(ang), y - ln * math.sin(ang); n = int(ln) + 1
@@ -291,11 +296,31 @@ def branch(x, y, ang, ln, wdt, depth):
         px_, py_ = int(x + (x2 - x) * j / n), int(y + (y2 - y) * j / n)
         for k in range(max(1, int(wdt))):
             if 0 <= px_ + k < W and 0 <= py_ < H: M[py_][px_ + k] = ('weed', 0); Z[py_][px_ + k] = 12
+    if GROWTH and depth >= 2:
+        r = 3 + depth
+        for dy in range(-r, r + 1):
+            for dx in range(-r, r + 1):
+                if dx * dx + dy * dy <= r * r and 0 <= int(x2) + dx < W and 0 <= int(y2) + dy < H and M[int(y2) + dy][int(x2) + dx][0] in ('dirt', 'track', 'path', 'weed', 'puddle', 'sky', 'skyline'):
+                    M[int(y2) + dy][int(x2) + dx] = ('leaf', dy); Z[int(y2) + dy][int(x2) + dx] = 12
     branch(x2, y2, ang + random.uniform(0.3, 0.8), ln * 0.68, wdt * 0.7, depth + 1)
     branch(x2, y2, ang - random.uniform(0.3, 0.8), ln * 0.66, wdt * 0.7, depth + 1)
 random.seed(77)
 for (wx_, wy_, ln) in ((40, 600, 40), (120, 604, 26), (1010, 602, 44), (950, 606, 26), (700, 606, 18), (300, 604, 16)):
     branch(wx_, wy_, math.radians(90 + random.uniform(-12, 12)), ln, 3, 0)
+if GROWTH:
+    random.seed(23)
+    WOODY = ('plank', 'frame', 'brace', 'under', 'gate', 'shutter', 'door', 'annexroof')
+    for _ in range(14):
+        x = random.uniform(300, 650); y = 436.0; ang = math.radians(90 + random.uniform(-25, 25)); n = random.randint(70, 230)
+        for i in range(n):
+            ang += random.uniform(-0.35, 0.35); ang = max(math.radians(35), min(math.radians(145), ang))
+            x += math.cos(ang); y -= math.sin(ang); xi, yi = int(x), int(y)
+            if not (0 <= xi < W and 0 <= yi < H) or M[yi][xi][0] not in WOODY + ('ivy', 'ivyleaf'): break
+            M[yi][xi] = ('ivy', 0)
+            if i % 9 == 4:
+                for dy in range(-2, 3):
+                    for dx in range(-2, 3):
+                        if dx * dx + dy * dy <= 4 and 0 <= xi + dx < W and 0 <= yi + dy < H and M[yi + dy][xi + dx][0] in WOODY: M[yi + dy][xi + dx] = ('ivyleaf', dy)
 TEXT = set()
 for (txt, cx_, ty, sc) in [SIGN_SHED]:
     w = text_width(txt, sc); draw_text(lambda x, y: TEXT.add((x, y)), txt, cx_ - w // 2, ty, sc)
@@ -314,14 +339,20 @@ for y in range(H):
             v = 1.0 + 4.6 * t ** 1.4 + (nA(x * 0.55, y * 2.6) - 0.5) * 1.8 + (nB(x * 0.5, y * 2.4) - 0.5) * 0.6
             v += 0.9 * math.exp(-(((x - 760) / 260) ** 2 + ((y - 80) / 90) ** 2))
             setc(x, y, ramp_i('K', band(v, x, y))); continue
-        if k == 'smoke': setc(x, y, HAZE[5] if obj < 5 else HAZE[4]); continue
+        if k == 'smoke': setc(x, y, (HAZE[2] if obj < 5 else HAZE[3]) if DECAY else (HAZE[5] if obj < 5 else HAZE[4])); continue
         if k == 'skyline':
             c = HAZE[1] if h32(obj, 3) % 3 else HAZE[2]
             if h32(x // 2, y // 3, 4) % 37 == 0 and y < HY - 3 and x % 2 and y % 3 == 1: c = GLOW[1]
             setc(x, y, fogged(c, fog_of(z) * 0.6, x, y)); continue
         if k == 'cable': setc(x, y, fogged(STONE[0], fog_of(z), x, y)); continue
-        if k == 'weed': setc(x, y, STONE[0] if (x + y) % 5 else STONE[1]); continue
+        if k == 'weed': setc(x, y, (LEAF[1] if (x + y) % 5 else LEAF[0]) if GROWTH else (STONE[0] if (x + y) % 5 else STONE[1])); continue
+        if k == 'leaf':
+            c = LEAF[3 if obj < -1 else 2 if obj < 1 else 1]
+            if h32(x, y, 51) % 23 == 0: c = FLOWER[h32(x, y, 52) % 4]
+            setc(x, y, c); continue
         if k == 'pole': setc(x, y, fogged(ramp_i('D', 2 if (x + y) % 7 else 1), fog_of(z), x, y)); continue
+        if k == 'ivy': setc(x, y, LEAF[0] if (x + y) % 3 else LEAF[1]); continue
+        if k == 'ivyleaf': setc(x, y, LEAF[3 if obj < -1 else 2 if obj < 1 else 1] if h32(x, y, 61) % 29 else FLOWER[3]); continue
         if k == 'scrap':
             i = 1.6 + (nB(x * 2, y * 2) - 0.5) * 2.2 + (0.8 if (x // 3 + y // 2) % 5 == 0 else 0)
             c = ramp_i('D', band(i, x, y)) if h32(x // 4, y // 3, 6) % 4 else ramp_i('W', 1 + h32(x // 4, y // 3, 7) % 3)
@@ -344,7 +375,7 @@ for y in range(H):
             seam = along % 1.5
             if seam < 0.11: i -= 2.2                                                                  # segment joints of the cladding
             elif seam < 0.2: i += 0.6
-            rust = nA(x * 1.7 + 11, y * 1.7) > 0.56 or (seam < 0.5 and dv < 0 and h32(int(along * 4), 3) % 3 == 0)
+            rust = nA(x * 1.7 + 11, y * 1.7) > RUST_T or (seam < 0.5 and dv < 0 and h32(int(along * 4), 3) % (2 if DECAY else 3) == 0)
             if rust and seam >= 0.11: c = WARM[max(0, min(5, int(1.6 + lam * 1.4 - dn * 1.2)))]
             else: c = ramp_i('E', band(i, x, y))
             setc(x, y, fogged(c, fog_of(fz), x, y)); continue
@@ -356,10 +387,11 @@ for y in range(H):
                 if h32(x, y, 5) % 23 == 0: c = SKY[4]
             elif k == 'track':
                 v = 2.4 + (nB(x, y) - 0.5) * 1.4 + (nC(x, y) - 0.5) * 0.6 - 0.5 * max(0.0, (y - 500) / 100)
+                if GROWTH and nA(x * 1.4 + 7, y * 1.4) > 0.6 and (x + y) % 2: v += 0.0; c = LEAF[1]
                 for rz in (13.6, 16.2):                                                              # cart ruts
                     if abs(wz - rz) < 0.25: v -= 1.2
                     elif abs(wz - rz) < 0.5: v += 0.4
-                c = ramp_i('T', band(v, x, y))
+                c = ramp_i('T', band(v, x, y)) if not (GROWTH and nA(x * 1.4 + 7, y * 1.4) > 0.6 and (x + y) % 2) else LEAF[1]
                 if h32(x, y, 9) % 120 == 0: c = STONE[5]
             elif k == 'path':
                 v = 3.0 + (nB(x, y) - 0.5) * 1.2 + (nC(x, y) - 0.5) * 0.5
@@ -369,7 +401,8 @@ for y in range(H):
                 c = ramp_i('T', band(v, x, y))
                 if h32(x, y, 9) % 97 == 0 and wz < 60: c = STONE[5]
                 if h32(x // 2, y // 2, 10) % 53 == 0 and wz < 40: c = STONE[1]
-                if nA(x * 1.4, y * 1.4) > 0.64 and wz < 70 and (x + y) % 2: c = ramp_i('K', 3)        # moss / weeds patches
+                if nA(x * 1.4, y * 1.4) > (0.5 if GROWTH else 0.64) and wz < 70 and (x + y) % 2: c = LEAF[1] if GROWTH else ramp_i('K', 3)        # moss / weeds patches
+                if GROWTH and h32(x, y, 41) % 150 == 0 and wz < 45: c = FLOWER[h32(x, y, 42) % 4]
             setc(x, y, fogged(c, fog_of(wz), x, y)); continue
         u, v, face = UV[y][x]; f = fog_of(z); fl = face_light(face, v)
         if k == 'plaster':
@@ -377,7 +410,9 @@ for y in range(H):
             if (v % 5) < 0.12 * z / 30: i -= 1
             c = ramp_i('T', band(i, x, y))
         elif k == 'cornice': c = ramp_i('T', 6 if (v * 20) % 7 > 1 else 4)
-        elif k == 'win': c = ramp_i('T', 0 if ((u * 10) % 11 > 1 and (v * 10) % 13 > 1) else 1)
+        elif k == 'win':
+            c = ramp_i('T', 0 if ((u * 10) % 11 > 1 and (v * 10) % 13 > 1) else 1)
+            if DECAY and abs(((u * 3.3) % 1) - ((v * 2.1) % 1)) < 0.07: c = ramp_i('T', 5)              # cracked pane
         elif k == 'winlit':
             c = GLOW[0] if ((u * 10) % 11 > 1 and (v * 10) % 13 > 1) else STONE[1]
             if h32(x // 2, y // 2, 2) % 7 == 0: c = GLOW[1]
@@ -389,6 +424,9 @@ for y in range(H):
             if h32(pl, int(v * 2.3), 2) % 19 == 0: i -= 0.9
             i -= 0.9 * max(0.0, 1 - v / 3.5)
             c = ramp_i('D', band(i, x, y))
+            if DECAY and h32(pl, obj, 77) % 8 == 0 and v < 19 and (v % 9) > 1.2:
+                c = ramp_i('D', 0) if fu > 0.2 else ramp_i('D', 3)                       # a plank gone: the dark inside shows
+            if DECAY and h32(pl, obj, 78) % 6 == 0 and (v % 9) < 3 and fu > 0.3: c = WARM[1 + h32(x, y, 79) % 2]   # rust runs from the nails
         elif k == 'frame': c = ramp_i('D', 1 if ((x + y) % 9) else 0)
         elif k == 'brace': c = ramp_i('D', 1.5 if (x % 7) else 0.5)
         elif k == 'under': c = ramp_i('D', 0)
@@ -399,11 +437,13 @@ for y in range(H):
             if abs(u - GATE_MID) < 0.12: i = 0
             if abs(v - 3) < 0.25 or abs(v - 6.2) < 0.25: i = 0.3
             c = ramp_i('D', band(i, x, y))
-        elif k == 'shutter': c = ramp_i('D', 2 if (v * 4) % 2 < 1 else 1)
+        elif k == 'shutter':
+            c = ramp_i('D', 2 if (v * 4) % 2 < 1 else 1)
+            if DECAY and (abs(((u * 1.2) % 1) - ((v * 0.9) % 1)) < 0.12): c = ramp_i('D', 4)             # nailed-over boards
         elif k == 'glyph':
             c = ramp_i('T', 4 if ((x + y) % 5) else 3)
             gu, gv = (u - (SU0 + 19)) * 3, (v - 12) * 3
-            if (int(gu) % 4 in (1, 2)) and (int(gv) % 4 in (1, 2)) and h32(int(gu) // 4, int(gv) // 4, 5) % 3: c = GLOW[1]
+            if (int(gu) % 4 in (1, 2)) and (int(gv) % 4 in (1, 2)) and h32(int(gu) // 4, int(gv) // 4, 5) % (5 if DECAY else 3): c = GLOW[2] if DECAY else GLOW[1]
         elif k == 'plate': c = ramp_i('T', 5 if ((x + y) % 7) else 4)
         elif k == 'moss': c = ramp_i('K', 3) if ((x + y) % 3) else ramp_i('T', 4)
         elif k == 'lamp2': c = GLOW[2] if (x + y) % 2 else STONE[1]
@@ -415,31 +455,46 @@ for y in range(H):
             seam = v % 1.5
             if seam < 0.11: i -= 2.2
             elif seam < 0.2: i += 0.6
-            if nA(x * 1.7 + 11, y * 1.7) > 0.56 and seam >= 0.11: c = WARM[max(0, min(5, int(1.8 - dn * 1.2)))]
+            if nA(x * 1.7 + 11, y * 1.7) > RUST_T and seam >= 0.11: c = WARM[max(0, min(5, int(1.8 - dn * 1.2)))]
             else: c = ramp_i('E', band(i, x, y))
         else: c = STONE[3]
         setc(x, y, fogged(c, f, x, y))
 for (x, y) in TEXT:
     if 0 <= x < W and 0 <= y < H and M[y][x][0] == 'plate': setc(x, y, GLOW[1] if (x + y) % 9 else GLOW[0])
+if DECAY:
+    random.seed(13)
+    for _ in range(26):                                                                      # litter blown against the fence and over the yard
+        cx_, cy_ = random.randint(10, W - 10), random.randint(448, 526)
+        if M[cy_][cx_][0] not in ('dirt', 'track', 'path'): continue
+        for _k in range(random.randint(5, 14)):
+            x, y = cx_ + random.randint(-7, 7), cy_ + random.randint(-3, 2)
+            if 0 <= x < W and 0 <= y < H and M[y][x][0] in ('dirt', 'track', 'path', 'puddle'):
+                setc(x, y, [STONE[1], STONE[7], WARM[1], RED[2], STONE[8], GLOW[0]][random.randint(0, 5)])
 # chain-link fence overlay with barbed wire + the open leaf standing into the yard
-def fence_span(u0, u1, z, kind='front'):
+def fence_span(u0, u1, z, kind='front', sag=0):
     if kind == 'front':
         (x0, yb) = proj(u0, 0, z); (x1, yt) = proj(u1, 3.6, z)
-    x0, x1, yb, yt = int(x0), int(x1), int(yb), int(yt)
-    for y in range(yt, yb + 1):
-        for x in range(x0, x1 + 1):
+    x0, x1, yb, yt0 = int(x0), int(x1), int(yb), int(yt)
+    def top_at(x): return yt0 + int(sag * math.sin(math.pi * max(0.0, min(1.0, (x - x0) / max(1, x1 - x0)))) ** 0.6)
+    for x in range(x0, x1 + 1):
+        yt = top_at(x)
+        for y in range(yt, yb + 1):
             if not (0 <= x < W and 0 <= y < H): continue
+            if DECAY and h32(x // 7, y // 7, 5) % 6 == 0: continue                                     # torn mesh
             if (x + y) % 9 == 0 or (x - y) % 9 == 0: setc(x, y, fogged(STONE[1], fog_of(z), x, y))
+    yt = yt0
     for u in [u0 + i * 2.6 for i in range(int((u1 - u0) / 2.6) + 1)] + [u1]:
-        (xp, _) = proj(u, 0, z)
-        for y in range(yt - 4, yb + 1):
+        (xp, _) = proj(u, 0, z); ytp = top_at(int(xp)); lean = (1 if sag and 0.3 < (xp - x0) / max(1, x1 - x0) < 0.7 else 0)
+        for y in range(ytp - 4, yb + 1):
             for dx in (-1, 0, 1):
-                if 0 <= int(xp) + dx < W and 0 <= y < H: setc(int(xp) + dx, y, STONE[1 if dx else 2])
+                xx = int(xp) + dx + (lean * (yb - y) // 12)
+                if 0 <= xx < W and 0 <= y < H: setc(xx, y, STONE[1 if dx else 2])
     for x in range(x0, x1 + 1):
         if 0 <= x < W:
+            yt = top_at(x)
             setc(x, yt, STONE[2]); setc(x, yt - 3 + (1 if (x // 3) % 2 else 0), STONE[1])
             if x % 6 == 0: setc(x, yt - 4, STONE[2])
-for (u0, u1, z) in FENCE: fence_span(u0, u1, z)
+for i, (u0, u1, z) in enumerate(FENCE): fence_span(u0, u1, z, sag=(16 if (DECAY and i == 1) else 0))
 # the open leaf: a 'side'-oriented panel at wx=OPEN_LEAF[0] from z0 to z1 (swung open into the yard)
 (lx, z0, z1) = OPEN_LEAF
 pts = [proj(lx, 0, z0), proj(lx, 3.6, z0), proj(lx, 3.6, z1), proj(lx, 0, z1)]
@@ -454,12 +509,12 @@ for (a, b) in ((pts[0], pts[1]), (pts[1], pts[2]), (pts[2], pts[3]), (pts[3], pt
         if 0 <= x < W and 0 <= y < H: setc(x, y, STONE[2])
 
 # ================================================================== outlines
-RANK = {'sky': 0, 'skyline': 0, 'cable': 0, 'smoke': 0, 'dirt': 1, 'track': 1, 'path': 1, 'puddle': 1, 'weed': 4, 'pole': 3, 'pipe': 2, 'scrap': 2, 'plankout': 3, 'barrel': 2, 'hpipe': 3, 'trestle': 2}
+RANK = {'sky': 0, 'skyline': 0, 'cable': 0, 'smoke': 0, 'dirt': 1, 'track': 1, 'path': 1, 'puddle': 1, 'weed': 4, 'leaf': 4, 'pole': 3, 'pipe': 2, 'scrap': 2, 'plankout': 3, 'barrel': 2, 'hpipe': 3, 'trestle': 2, 'ivy': 2, 'ivyleaf': 2}
 SOFT_PAIRS = [('sky', 'skyline'), ('dirt', 'track'), ('dirt', 'path'), ('track', 'path'), ('dirt', 'puddle'), ('track', 'puddle'), ('path', 'puddle'), ('sky', 'cable'), ('skyline', 'cable'), ('sky', 'smoke'), ('smoke', 'cable'),
               ('plaster', 'cable'), ('plaster', 'cornice'), ('win', 'plaster'), ('winlit', 'plaster'), ('win', 'cable'), ('winlit', 'cable'), ('moss', 'cable'),
               ('plank', 'frame'), ('plank', 'brace'), ('plank', 'under'), ('frame', 'under'), ('frame', 'brace'), ('plank', 'moss'), ('frame', 'moss'), ('under', 'moss'),
               ('plank', 'shutter'), ('plank', 'glyph'), ('plate', 'frame'), ('plank', 'lamp2'), ('plank', 'annexroof'), ('frame', 'annexroof'), ('plank', 'door'), ('plank', 'win'), ('plank', 'winlit'),
-              ('plank', 'bracket'), ('pipewall', 'bracket'), ('frame', 'bracket'), ('scrap', 'plankout'), ('gate', 'frame'), ('hpipe', 'pipewall'), ('trestle', 'hpipe')]
+              ('plank', 'bracket'), ('pipewall', 'bracket'), ('frame', 'bracket'), ('scrap', 'plankout'), ('gate', 'frame'), ('hpipe', 'pipewall'), ('trestle', 'hpipe'), ('weed', 'leaf'), ('leaf', 'dirt'), ('leaf', 'track'), ('ivy', 'ivyleaf'), ('ivy', 'plank'), ('ivy', 'frame'), ('ivy', 'brace'), ('ivy', 'under'), ('ivy', 'gate'), ('ivyleaf', 'plank'), ('ivyleaf', 'frame'), ('ivyleaf', 'brace'), ('ivyleaf', 'under'), ('ivyleaf', 'gate'), ('ivy', 'shutter'), ('ivyleaf', 'shutter'), ('ivy', 'door'), ('ivyleaf', 'door'), ('moss', 'glyph')]
 SOFT = {frozenset(p) for p in SOFT_PAIRS}
 def rank(k): return RANK.get(k, 2)
 for y in range(H):
@@ -470,7 +525,7 @@ for y in range(H):
             b = M[ny_][nx_]
             if a == b: continue
             ka, kb = a[0], b[0]
-            if frozenset((ka, kb)) in SOFT or (ka == kb and ka in ('dirt', 'track', 'skyline', 'weed', 'cable', 'smoke', 'scrap', 'pipe', 'hpipe')): continue
+            if frozenset((ka, kb)) in SOFT or (ka == kb and ka in ('dirt', 'track', 'skyline', 'weed', 'cable', 'smoke', 'scrap', 'pipe', 'hpipe', 'leaf', 'ivyleaf')): continue
             ra, rb = rank(ka), rank(kb)
             if ra != rb: tx, ty = (x, y) if ra < rb else (nx_, ny_)
             else: tx, ty = (x, y) if str(a) > str(b) else (nx_, ny_)
@@ -481,5 +536,5 @@ for y in range(H):
 img = Image.new('RGB', (W, H)); ip = img.load()
 for y in range(H):
     for x in range(W): ip[x, y] = px[y][x]
-img.save(f'{OUT}/bg.png')
+img.save(f'{OUT}/bg.png' if VARIANT == 'base' else f'{OUT}/bg_{VARIANT}.png')
 print('done')
