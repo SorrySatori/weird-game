@@ -4,6 +4,28 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    // Only ship what the game needs at runtime. Everything below is dev tooling,
+    // docs, old packaging experiments or build output (dist/ alone is ~2 GB).
+    ignore: [
+      /^\/\.git(\/|$)/,
+      /^\/\.github(\/|$)/,
+      /^\/\.claude(\/|$)/,
+      /^\/\.vscode(\/|$)/,
+      /^\/dist(\/|$)/,
+      /^\/out(\/|$)/,
+      /^\/build(\/|$)/,
+      /^\/scripts(\/|$)/,
+      /^\/dialog-review(\/|$)/,
+      /^\/steam-build-[^/]+(\/|$)/,
+      /^\/weird-game-neutralino(\/|$)/,
+      /^\/node_modules\/canvas(\/|$)/,   // native module used only by the asset scripts below
+      /^\/node_modules\/\./,              // npm leftovers (.ignored, .package-lock.json, …)
+      // phaser: index.html loads only dist/phaser.min.js; drop src/types/plugins/docs (~140 MB)
+      /^\/node_modules\/phaser\/(?!dist$|dist\/phaser\.min\.js$|package\.json$)/,
+      /^\/(extract-sprite|generate-market-ground|make-transparent)\.js$/,
+      /^\/[^/]+\.(md|zip|log|tar\.gz|AppImage|deb|rpm|exe)$/,
+      /^\/package-lock\.json$/,
+    ],
   },
   rebuildConfig: {},
   makers: [
