@@ -1,10 +1,29 @@
 import LanguageSystem from '../LanguageSystem.js';
+import { isRecording, isRecordingPlaying, toggleRecording } from '../../utils/Recordings.js';
 
 /**
  * Inventory System
  * Manages the player's inventory, including UI and item interactions
  */
 const L = () => LanguageSystem.getInstance();
+
+// Grid layout: 6×3 slots per page, pages flip with the arrows or the mouse wheel.
+const SLOT_SIZE = 80;
+const SLOT_PAD = 20;
+const GRID_COLS = 6;
+const GRID_ROWS = 3;
+const PAGE_SIZE = GRID_COLS * GRID_ROWS;
+const GRID_W = GRID_COLS * SLOT_SIZE + (GRID_COLS - 1) * SLOT_PAD;
+const GRID_H = GRID_ROWS * SLOT_SIZE + (GRID_ROWS - 1) * SLOT_PAD;
+const GRID_CENTER_Y = -70;
+const PANEL_W = 700;
+const PANEL_H = 560;
+const DESC_H = 110;
+
+// Display order: lower group sorts first. Untyped items keep their pickup order in the middle,
+// so the inventory is unlimited but quest-critical things stay on the first page.
+const TYPE_ORDER = { key_item: 0, tool: 1, drug: 2, consumable: 2, recording: 4, decoration: 5 };
+const DEFAULT_TYPE_ORDER = 3;
 
 export default class InventorySystem {
     constructor(scene) {
@@ -16,6 +35,9 @@ export default class InventorySystem {
         this.inventorySlots = [];
         this.itemDescription = null;
         this.emptyText = null;
+        this.pager = null;
+        this.currentPage = 0;
+        this._onWheel = null;
     }
 
     /**
@@ -24,10 +46,7 @@ export default class InventorySystem {
     init() {
         // Initialize inventory data if not already present
         if (!this.scene.registry.get('inventory')) {
-            this.scene.registry.set('inventory', {
-                items: [],
-                maxItems: 12 // Maximum number of items in inventory
-            });
+            this.scene.registry.set('inventory', { items: [] });
         }
 
         // Create inventory button (mushroom shape)
@@ -111,13 +130,13 @@ export default class InventorySystem {
         this.inventoryPanel.setDepth(1000); // Above most elements
         this.inventoryPanel.setVisible(false);
         
-        // Inventory background - make it significantly larger to accommodate money indicator
-        const invBg = this.scene.add.rectangle(0, 0, 500, 520, 0x0a2712, 0.9);
+        // Inventory background
+        const invBg = this.scene.add.rectangle(0, 0, PANEL_W, PANEL_H, 0x0a2712, 0.9);
         invBg.setStrokeStyle(2, 0x7fff8e);
         this.inventoryPanel.add(invBg);
         
         // Inventory title
-        const title = this.scene.add.text(0, -120, L().t('ui.inventory.panelTitle'), {
+        const title = this.scene.add.text(0, -PANEL_H / 2 + 30, L().t('ui.inventory.panelTitle'), {
             fontSize: '28px',
             fill: '#7fff8e',
             fontStyle: 'bold'
@@ -129,7 +148,7 @@ export default class InventorySystem {
         this.addMoneyIndicator();
         
         // Close button
-        const closeBtn = this.scene.add.container(230, -240);
+        const closeBtn = this.scene.add.container(PANEL_W / 2 - 30, -PANEL_H / 2 + 30);
         const closeBg = this.scene.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
         closeBg.setStrokeStyle(1, 0x7fff8e);
         closeBg.setInteractive({ useHandCursor: true });
@@ -158,49 +177,38 @@ export default class InventorySystem {
         });
         
         // Create inventory slots container - centered in the panel
-        this.slotsContainer = this.scene.add.container(0, 0);
+        this.slotsContainer = this.scene.add.container(0, GRID_CENTER_Y);
         this.inventoryPanel.add(this.slotsContainer);
         
-        // Create inventory slots (4x3 grid)
+        // Create one page of slots. Each slot is reused across pages: updateInventoryDisplay()
+        // sets slot.item / slot.itemIndex (the REAL index into inventory.items) for the current page.
         this.inventorySlots = [];
-        const slotSize = 80;
-        const padding = 20;
-        const gridWidth = 4;
-        const gridHeight = 3;
+        const startX = -GRID_W / 2 + SLOT_SIZE / 2;
+        const startY = -GRID_H / 2 + SLOT_SIZE / 2;
         
-        // Calculate total grid width and height
-        const totalGridWidth = gridWidth * slotSize + (gridWidth - 1) * padding;
-        const totalGridHeight = gridHeight * slotSize + (gridHeight - 1) * padding;
-        
-        // Calculate starting position to center the grid
-        const startX = -totalGridWidth / 2 + slotSize / 2;
-        const startY = -totalGridHeight / 2 + slotSize / 2;
-        
-        for (let row = 0; row < gridHeight; row++) {
-            for (let col = 0; col < gridWidth; col++) {
-                const x = startX + col * (slotSize + padding);
-                const y = startY + row * (slotSize + padding);
+        for (let row = 0; row < GRID_ROWS; row++) {
+            for (let col = 0; col < GRID_COLS; col++) {
+                const x = startX + col * (SLOT_SIZE + SLOT_PAD);
+                const y = startY + row * (SLOT_SIZE + SLOT_PAD);
                 
                 // Create slot background
-                const slotBg = this.scene.add.rectangle(0, 0, slotSize, slotSize, 0x0f2315, 1);
+                const slotBg = this.scene.add.rectangle(0, 0, SLOT_SIZE, SLOT_SIZE, 0x0f2315, 1);
                 slotBg.setStrokeStyle(2, 0x7fff8e, 0.5);
                 
                 // Create slot container
                 const slot = this.scene.add.container(x, y);
                 slot.add(slotBg);
-                
-                // Add slot index
-                const slotIndex = row * 4 + col;
-                slot.slotIndex = slotIndex;
+                slot.slotIndex = row * GRID_COLS + col;
+                slot.item = null;
+                slot.itemIndex = -1;
                 
                 // Make slot interactive
                 slotBg.setInteractive({ useHandCursor: true });
                 
                 // Show item description on hover
                 slotBg.on('pointerover', () => {
-                    const inventory = this.scene.registry.get('inventory');
-                    if (inventory.items[slotIndex]) {
-                        this.showItemDescription(inventory.items[slotIndex], x, y);
+                    if (slot.item) {
+                        this.showItemDescription(slot.item);
                     }
                 });
                 
@@ -215,18 +223,17 @@ export default class InventorySystem {
             }
         }
         
-        // Create item description container
-        this.itemDescription = this.scene.add.container(0, 0);
-        this.itemDescription.setVisible(false);
+        // Item description strip below the grid (fixed place, so it never leaves the panel)
+        const descY = GRID_CENTER_Y + GRID_H / 2 + 65;
+        this.itemDescription = this.scene.add.container(0, descY);
         this.inventoryPanel.add(this.itemDescription);
         
-        // Item description background
-        const descBg = this.scene.add.rectangle(0, 0, 200, 100, 0x0a2712, 0.8);
-        descBg.setStrokeStyle(1, 0x7fff8e);
+        const descBg = this.scene.add.rectangle(0, 0, GRID_W + 40, DESC_H, 0x0a2712, 0.8);
+        descBg.setStrokeStyle(1, 0x7fff8e, 0.5);
         this.itemDescription.add(descBg);
         
         // Item name text
-        this.itemNameText = this.scene.add.text(0, -30, '', {
+        this.itemNameText = this.scene.add.text(0, -DESC_H / 2 + 16, '', {
             fontSize: '18px',
             fill: '#7fff8e',
             fontStyle: 'bold',
@@ -236,23 +243,119 @@ export default class InventorySystem {
         this.itemDescription.add(this.itemNameText);
         
         // Item description text
-        this.itemDescText = this.scene.add.text(0, 5, '', {
+        this.itemDescText = this.scene.add.text(0, -DESC_H / 2 + 32, '', {
             fontSize: '14px',
             fill: '#7fff8e',
-            wordWrap: { width: 180 },
+            wordWrap: { width: GRID_W },
             align: 'center'
         });
         this.itemDescText.setOrigin(0.5, 0);
         this.itemDescription.add(this.itemDescText);
         
+        // Pager (hidden while everything fits on one page)
+        this.createPager(descY + DESC_H / 2 + 22);
+        
         // Empty inventory message
-        this.emptyText = this.scene.add.text(0, 0, L().t('ui.inventory.emptyItems'), {
+        this.emptyText = this.scene.add.text(0, GRID_CENTER_Y, L().t('ui.inventory.emptyItems'), {
             fontSize: '20px',
             fill: '#7fff8e',
             fontStyle: 'italic'
         });
         this.emptyText.setOrigin(0.5);
         this.inventoryPanel.add(this.emptyText);
+        
+        // Mouse wheel flips pages while the panel is open
+        this._onWheel = (pointer, over, dx, dy) => {
+            if (!this.inventoryVisible || this._activeUsePopup) return;
+            if (dy > 0) this.changePage(1);
+            else if (dy < 0) this.changePage(-1);
+        };
+        this.scene.input.on('wheel', this._onWheel);
+        
+        // Flip a PLAY/STOP label back when an ampule finishes on its own
+        this._onRecordingEnded = () => { if (this.inventoryVisible) this.updateInventoryDisplay(); };
+        this.scene.events.on('recordingEnded', this._onRecordingEnded);
+    }
+
+    /**
+     * Create the page navigation row: [<]  1 / 3  [>]
+     * @param {number} y - Panel-local y position
+     */
+    createPager(y) {
+        this.pager = this.scene.add.container(0, y);
+        this.pager.setVisible(false);
+        this.inventoryPanel.add(this.pager);
+        
+        const makeArrow = (x, label, delta) => {
+            const btn = this.scene.add.text(x, 0, label, {
+                fontSize: '22px',
+                fill: '#7fff8e',
+                backgroundColor: 'rgba(15, 35, 21, 0.9)',
+                padding: { x: 12, y: 4 }
+            });
+            btn.setOrigin(0.5);
+            btn.setInteractive({ useHandCursor: true });
+            btn.on('pointerover', () => { if (btn.alpha === 1) btn.setStyle({ fill: '#b3ffcc' }); });
+            btn.on('pointerout', () => btn.setStyle({ fill: '#7fff8e' }));
+            btn.on('pointerdown', () => this.changePage(delta));
+            this.pager.add(btn);
+            return btn;
+        };
+        
+        this.pagerPrev = makeArrow(-70, '<', -1);
+        this.pagerNext = makeArrow(70, '>', 1);
+        this.pagerLabel = this.scene.add.text(0, 0, '', {
+            fontSize: '16px',
+            fill: '#7fff8e'
+        });
+        this.pagerLabel.setOrigin(0.5);
+        this.pager.add(this.pagerLabel);
+    }
+
+    /**
+     * Number of pages needed for the current inventory (always ≥ 1)
+     */
+    pageCount() {
+        const items = this.scene.registry.get('inventory')?.items || [];
+        return Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+    }
+
+    /**
+     * Flip pages by delta (clamped); redraws the grid
+     * @param {number} delta - +1 / -1
+     */
+    changePage(delta) {
+        const next = Phaser.Math.Clamp(this.currentPage + delta, 0, this.pageCount() - 1);
+        if (next === this.currentPage) return;
+        this.currentPage = next;
+        if (this.scene.clickSound) {
+            this.scene.clickSound.play();
+        }
+        this.updateInventoryDisplay();
+    }
+
+    /**
+     * Refresh the pager row for the given page count
+     * @param {number} totalPages
+     */
+    updatePager(totalPages) {
+        if (!this.pager) return;
+        this.pager.setVisible(totalPages > 1);
+        this.pagerLabel.setText(`${this.currentPage + 1} / ${totalPages}`);
+        this.pagerPrev.setAlpha(this.currentPage > 0 ? 1 : 0.35);
+        this.pagerNext.setAlpha(this.currentPage < totalPages - 1 ? 1 : 0.35);
+    }
+
+    /**
+     * Items in display order, each paired with its REAL index into inventory.items
+     * (stable: same-group items keep pickup order).
+     * @param {object[]} items
+     * @returns {{item: object, index: number}[]}
+     */
+    getDisplayOrder(items) {
+        return items
+            .map((item, index) => ({ item, index, group: TYPE_ORDER[item.type] ?? DEFAULT_TYPE_ORDER }))
+            .sort((a, b) => a.group - b.group || a.index - b.index);
     }
 
     /**
@@ -266,8 +369,8 @@ export default class InventorySystem {
         const moneyContainer = this.scene.moneySystem.getUIContainer();
         if (!moneyContainer) return;
         
-        // Position money indicator at the bottom of inventory panel - with plenty of space
-        moneyContainer.setPosition(0, 240);
+        // Position money indicator at the bottom of inventory panel
+        moneyContainer.setPosition(0, PANEL_H / 2 - 28);
         
         // Add to inventory panel
         this.inventoryPanel.add(moneyContainer);
@@ -306,9 +409,12 @@ export default class InventorySystem {
     updateInventoryDisplay() {
         // Get current inventory
         const inventory = this.scene.registry.get('inventory');
+        const items = inventory?.items || [];
         
         // Clear all slots
         this.inventorySlots.forEach(slot => {
+            slot.item = null;
+            slot.itemIndex = -1;
             // Remove all item sprites from the slot
             slot.each(child => {
                 if (child.type !== 'Rectangle') { // Don't remove the background
@@ -316,20 +422,31 @@ export default class InventorySystem {
                 }
             }, this);
         });
+        this.hideItemDescription();
         
         // Check if inventory is empty
-        if (!inventory.items || inventory.items.length === 0) {
+        if (items.length === 0) {
+            this.currentPage = 0;
             this.emptyText.setVisible(true);
+            this.updatePager(1);
             return;
         }
         
         // Hide empty message
         this.emptyText.setVisible(false);
         
+        // Pick the current page of the (type-sorted) view
+        const view = this.getDisplayOrder(items);
+        const totalPages = Math.max(1, Math.ceil(view.length / PAGE_SIZE));
+        this.currentPage = Phaser.Math.Clamp(this.currentPage, 0, totalPages - 1);
+        const pageItems = view.slice(this.currentPage * PAGE_SIZE, (this.currentPage + 1) * PAGE_SIZE);
+        
         // Add items to slots
-        inventory.items.forEach((item, index) => {
-            if (index < this.inventorySlots.length) {
-                const slot = this.inventorySlots[index];
+        pageItems.forEach(({ item, index }, slotIdx) => {
+            {
+                const slot = this.inventorySlots[slotIdx];
+                slot.item = item;
+                slot.itemIndex = index;
                 
                 // Create item sprite or placeholder
                 let itemSprite;
@@ -351,6 +468,7 @@ export default class InventorySystem {
                     // Use the found texture
                     itemSprite = this.scene.add.image(0, 0, textureKey);
                     itemSprite.setDisplaySize(60, 60);
+                    if (item.tint) itemSprite.setTint(item.tint);
                 } else {
                     // Create a colored circle as placeholder if no texture found
                     itemSprite = this.scene.add.circle(0, 0, 25, 0x7fff8e, 0.8);
@@ -373,8 +491,11 @@ export default class InventorySystem {
                 
                 // Make item usable if it has a use function
                 if (item.usable) {
-                    // Add use indicator
-                    const useIndicator = this.scene.add.text(25, 25, L().t('ui.inventory.use'), {
+                    // Add use indicator (recordings: PLAY / STOP)
+                    const labelKey = isRecording(item)
+                        ? (isRecordingPlaying(item.id) ? 'ui.inventory.stop' : 'ui.inventory.play')
+                        : 'ui.inventory.use';
+                    const useIndicator = this.scene.add.text(25, 25, L().t(labelKey), {
                         fontSize: '12px',
                         fill: '#7fff8e',
                         backgroundColor: 'rgba(10, 39, 18, 0.7)',
@@ -383,37 +504,44 @@ export default class InventorySystem {
                     useIndicator.setOrigin(1, 1);
                     slot.add(useIndicator);
                     
-                    // Make item sprite interactive for usable items
+                    // Make item sprite interactive for usable items. It sits on top of the slot
+                    // background and takes the pointer, so it must show the tooltip itself.
                     itemSprite.setInteractive({ useHandCursor: true });
+                    itemSprite.on('pointerover', () => this.showItemDescription(item));
+                    itemSprite.on('pointerout', () => this.hideItemDescription());
                     itemSprite.on('pointerdown', () => {
-                        this.showUseItemPopup(index, item, slot);
+                        if (isRecording(item)) {
+                            this.useItem(index); // ampules toggle playback directly, no confirm popup
+                        } else {
+                            this.showUseItemPopup(index, item, slot);
+                        }
                     });
                 }
             }
         }, this);
+        
+        this.updatePager(totalPages);
     }
     
     /**
-     * Show item description
+     * Show item description in the strip below the grid
      * @param {object} item - The item to show description for
-     * @param {number} x - X position of the slot
-     * @param {number} y - Y position of the slot
      */
-    showItemDescription(item, x, y) {
-        // Update description text
+    showItemDescription(item) {
+        if (!this.itemNameText) return;
         this.itemNameText.setText(L().itemName(item));
-        this.itemDescText.setText(L().itemDescription(item));
-        
-        // Position description box
-        this.itemDescription.setPosition(x, y + 100);
-        this.itemDescription.setVisible(true);
+        this.itemDescText.setFontSize(14).setText(L().itemDescription(item));
+        // Long lore texts step down a size so they stay inside the strip
+        if (this.itemDescText.height > DESC_H - 36) this.itemDescText.setFontSize(12);
     }
 
     /**
-     * Hide item description
+     * Clear the description strip
      */
     hideItemDescription() {
-        this.itemDescription.setVisible(false);
+        if (!this.itemNameText) return;
+        this.itemNameText.setText('');
+        this.itemDescText.setText('');
     }
 
     /**
@@ -436,6 +564,16 @@ export default class InventorySystem {
                 item.id === 'violetOltrac' ||
                 item.id === 'amberOltrac'
             ));
+            
+            // Sound ampules: toggle playback, keep the panel open
+            if (isRecording(item)) {
+                const result = toggleRecording(this.scene, item);
+                if (result === 'missing' && this.scene.showNotification) {
+                    this.scene.showNotification(L().t('notifications.ampuleSilent'));
+                }
+                this.updateInventoryDisplay();
+                return;
+            }
             
             // Apply drug effects if applicable
             if (isDrug && this.scene.effectsSystem) {
@@ -499,14 +637,7 @@ export default class InventorySystem {
             }
         }
         
-        // Check if inventory is full
-        if (inventory.items.length >= inventory.maxItems) {
-            // Show notification if available
-            if (this.scene.showNotification) {
-                this.scene.showNotification('Inventory is full!', 0xff0000);
-            }
-            return false;
-        }
+        // No capacity limit: the panel pages through everything the player carries.
         
         // Initialize quantity for new items
         if (!item.quantity) {
@@ -581,6 +712,14 @@ export default class InventorySystem {
     }
 
     /**
+     * All carried items (used by the shop's Sell tab)
+     * @returns {object[]}
+     */
+    getItems() {
+        return this.scene.registry.get('inventory')?.items || [];
+    }
+
+    /**
      * Get an item from inventory by ID
      * @param {string} itemId - The item ID to get
      * @returns {object|null} - The item or null if not found
@@ -606,6 +745,17 @@ export default class InventorySystem {
         
         this.inventorySlots = [];
         this.slotsContainer = null;
+        this.pager = null;
+        this.itemNameText = null;
+        this.itemDescText = null;
+        if (this._onWheel && this.scene.input) {
+            this.scene.input.off('wheel', this._onWheel);
+            this._onWheel = null;
+        }
+        if (this._onRecordingEnded && this.scene.events) {
+            this.scene.events.off('recordingEnded', this._onRecordingEnded);
+            this._onRecordingEnded = null;
+        }
         if (this._activeUsePopup) {
             this._activeUsePopup.destroy(true);
             this._activeUsePopup = null;
@@ -617,10 +767,7 @@ export default class InventorySystem {
      * @returns {Object} Inventory data for saving
      */
     getInventoryData() {
-        return this.scene.registry.get('inventory') || {
-            items: [],
-            maxItems: 12
-        };
+        return this.scene.registry.get('inventory') || { items: [] };
     }
     
     /**

@@ -36,8 +36,11 @@ export default class ShopSystem {
         // Merge default options with provided options
         this.options = { ...defaultOptions, ...options };
         
-        // Initialize shop inventory
-        this.inventory = this.options.inventory;
+        this.listPage = 0;
+        
+        // Initialize shop inventory. One-off items the player already bought from this shop are
+        // gone for good (registry `shopSoldOut`, persisted in saves); stackable goods restock.
+        this.inventory = this.options.inventory.filter(item => !this.isSoldOut(item.id));
         
         // Create UI elements
         this.container = null;
@@ -60,6 +63,24 @@ export default class ShopSystem {
         return (v === key || v === undefined || typeof v !== 'string') ? fallback : v;
     }
     title() { return this.options.shopKey ? this.t(`shop.names.${this.options.shopKey}`, {}, this.options.shopName) : this.options.shopName; }
+
+    // ---- one-off stock -------------------------------------------------------------------------
+    // Shops sell unique pieces: a bought item leaves the stall and stays gone across scene visits and
+    // save/load. Opt out per item with `stackable: true` (consumables like Oltrac) or `restock: true`.
+    stockKey() { return this.options.shopKey || this.options.shopName; }
+    isOneOff(item) { return !item.stackable && item.restock !== true; }
+    soldOutIds() {
+        const all = this.scene.registry.get('shopSoldOut') || {};
+        return all[this.stockKey()] || [];
+    }
+    isSoldOut(itemId) { return this.soldOutIds().includes(itemId); }
+    setSoldOut(itemId, soldOut) {
+        const all = { ...(this.scene.registry.get('shopSoldOut') || {}) };
+        const ids = new Set(all[this.stockKey()] || []);
+        if (soldOut) ids.add(itemId); else ids.delete(itemId);
+        all[this.stockKey()] = Array.from(ids);
+        this.scene.registry.set('shopSoldOut', all);
+    }
     itemName(item) { return LanguageSystem.getInstance().itemName(item); }
     itemDescription(item) { return LanguageSystem.getInstance().itemDescription(item) || 'No description available.'; }
     balanceText() { return this.t('shop.balance', { amount: this.scene.getMoney() }, `Dinar: ${this.scene.getMoney()}`); }
@@ -132,6 +153,9 @@ export default class ShopSystem {
             0
         );
         this.container.add(this.itemDetailsContainer);
+        // Tabs are created earlier; keep them above the list/detail backgrounds
+        if (this.buyTab) this.container.bringToTop(this.buyTab);
+        if (this.sellTab) this.container.bringToTop(this.sellTab);
         
         // Add player money display
         this.moneyText = this.scene.add.text(
@@ -205,6 +229,7 @@ export default class ShopSystem {
         if (tab === this.currentTab) return;
         
         this.currentTab = tab;
+        this.listPage = 0;
         
         // Update tab appearance
         if (tab === 'buy') {
@@ -220,6 +245,36 @@ export default class ShopSystem {
         
         // Clear item details
         this.clearItemDetails();
+    }
+    
+    /**
+     * Page arrows under the item list: [<]  2 / 3  [>]
+     * @param {number} totalPages
+     * @private
+     */
+    createListPager(totalPages) {
+        const x = -this.options.width/4;
+        const y = this.options.height/2 - 30;
+        const label = this.scene.add.text(x, y, `${this.listPage + 1} / ${totalPages}`, {
+            fontFamily: 'Arial', fontSize: '16px', color: '#FFFFFF'
+        }).setOrigin(0.5);
+        this.itemListContainer.add(label);
+        [[-60, '<', -1], [60, '>', 1]].forEach(([dx, glyph, delta]) => {
+            const enabled = delta < 0 ? this.listPage > 0 : this.listPage < totalPages - 1;
+            const btn = this.scene.add.text(x + dx, y, glyph, {
+                fontFamily: 'Arial', fontSize: '20px', color: '#FFD700',
+                backgroundColor: '#333333', padding: { x: 10, y: 2 }
+            }).setOrigin(0.5).setAlpha(enabled ? 1 : 0.35);
+            if (enabled) {
+                btn.setInteractive({ useHandCursor: true });
+                btn.on('pointerdown', () => {
+                    this.listPage += delta;
+                    this.clearItemDetails();
+                    this.showItemList();
+                });
+            }
+            this.itemListContainer.add(btn);
+        });
     }
     
     /**
@@ -242,9 +297,9 @@ export default class ShopSystem {
         );
         this.itemListContainer.add(listBg);
         
-        // Get items based on current tab
-        const items = this.currentTab === 'buy' 
-            ? this.inventory 
+        // Get items based on current tab (buy mode lists only priced items)
+        const allItems = this.currentTab === 'buy' 
+            ? this.inventory.filter(item => item.price)
             : this.scene.inventorySystem.getItems();
         
         // Create item list title
@@ -267,14 +322,15 @@ export default class ShopSystem {
         const itemHeight = 50;
         const itemWidth = this.options.width/2 - 40;
         
+        // Page the list instead of silently dropping whatever doesn't fit
+        const perPage = Math.max(1, Math.floor((this.options.height/2 - 80 - startY) / (itemHeight + 10)) + 1);
+        const totalPages = Math.max(1, Math.ceil(allItems.length / perPage));
+        this.listPage = Phaser.Math.Clamp(this.listPage || 0, 0, totalPages - 1);
+        const items = allItems.slice(this.listPage * perPage, (this.listPage + 1) * perPage);
+        if (totalPages > 1) this.createListPager(totalPages);
+        
         items.forEach((item, index) => {
-            // Skip items without a price in buy mode
-            if (this.currentTab === 'buy' && !item.price) return;
-            
             const y = startY + index * (itemHeight + 10);
-            
-            // Skip if item would be outside the visible area
-            if (y > this.options.height/2 - 20) return;
             
             // Create item button
             const itemButton = this.scene.add.container(-this.options.width/4, y);
@@ -302,6 +358,11 @@ export default class ShopSystem {
                     color: '#FFFFFF'
                 }
             );
+            // Long names wrap onto two lines (slightly smaller) above the price
+            const maxNameWidth = itemWidth - 20;
+            if (nameText.width > maxNameWidth) {
+                nameText.setFontSize(14).setWordWrapWidth(maxNameWidth).setY(-itemHeight/2 + 1);
+            }
             itemButton.add(nameText);
             
             // Item price
@@ -380,7 +441,7 @@ export default class ShopSystem {
         // Item name
         const nameText = this.scene.add.text(
             0, 
-            -this.options.height/2 + 140, 
+            -this.options.height/2 + 90, 
             this.itemName(item), 
             {
                 fontFamily: 'Arial',
@@ -390,28 +451,45 @@ export default class ShopSystem {
             }
         );
         nameText.setOrigin(0.5);
+        // Long names: shrink a little, then wrap, so they stay inside the detail panel
+        const maxNameWidth = this.options.width/2 - 40;
+        for (let size = 19; nameText.width > maxNameWidth && size >= 16; size--) {
+            nameText.setFontSize(size);
+        }
+        if (nameText.width > maxNameWidth) {
+            nameText.setWordWrapWidth(maxNameWidth).setAlign('center');
+        }
         this.itemDetailsContainer.add(nameText);
         
         // Item description
         const descText = this.scene.add.text(
             0, 
-            -this.options.height/2 + 180, 
+            -this.options.height/2 + 120, 
             this.itemDescription(item), 
             {
                 fontFamily: 'Arial',
-                fontSize: '16px',
+                fontSize: '15px',
                 color: '#CCCCCC',
-                wordWrap: { width: this.options.width/2 - 60 },
+                wordWrap: { width: this.options.width/2 - 50 },
                 align: 'center'
             }
         );
         descText.setOrigin(0.5, 0);
         this.itemDetailsContainer.add(descText);
         
+        // Price sits under the description (measured), the action button stays pinned at the bottom.
+        // A long description is shrunk one step so the price never runs into the button.
+        const buttonY = this.options.height/2 - 85;
+        const buttonTop = buttonY - 25;
+        if (descText.y + descText.height > buttonTop - 44) {
+            descText.setFontSize(13);
+        }
+        const priceY = Math.min(descText.y + descText.height + 20, buttonTop - 16);
+        
         // Item price
         const priceText = this.scene.add.text(
             0, 
-            -this.options.height/2 + 250, 
+            priceY, 
             this.priceText(price), 
             {
                 fontFamily: 'Arial',
@@ -423,8 +501,10 @@ export default class ShopSystem {
         this.itemDetailsContainer.add(priceText);
         
         // Action button (buy or sell)
-        const actionText = this.currentTab === 'buy' ? 'Buy Item' : 'Sell Item';
-        const actionButton = this.scene.add.container(0, this.options.height/2 - 80);
+        const actionText = this.currentTab === 'buy'
+            ? this.t('shop.buyItem', {}, 'Buy Item')
+            : this.t('shop.sellItem', {}, 'Sell Item');
+        const actionButton = this.scene.add.container(0, buttonY);
         
         const buttonBg = this.scene.add.rectangle(
             0, 
@@ -490,11 +570,23 @@ export default class ShopSystem {
             return;
         }
         
+        // A non-stackable item can only be carried once — don't take the money for a duplicate
+        if (!item.stackable && typeof this.scene.hasItem === 'function' && this.scene.hasItem(item.id)) {
+            this.scene.showNotification(this.t('notifications.alreadyOwned', {}, 'You already have one of those.'), 'error');
+            return;
+        }
+        
         // Subtract money
         this.scene.subtractMoney(price);
         
         // Add item to inventory
         this.scene.addItemToInventory({...item});
+        
+        // A unique piece leaves the stall for good
+        if (this.isOneOff(item)) {
+            this.setSoldOut(item.id, true);
+            this.removeItem(item.id);
+        }
         
         // Show notification
         this.scene.showNotification(this.t('notifications.purchased', { item: this.itemName(item) }, `Purchased: ${this.itemName(item)}`));
@@ -526,6 +618,13 @@ export default class ShopSystem {
         
         // Add money
         this.scene.addMoney(price);
+        
+        // Selling a one-off piece back to the shop that stocked it puts it back on the stall
+        const template = this.options.inventory.find(i => i.id === item.id);
+        if (template && this.isOneOff(template) && this.isSoldOut(item.id)) {
+            this.setSoldOut(item.id, false);
+            if (!this.inventory.some(i => i.id === item.id)) this.addItem(template);
+        }
         
         // Show notification
         this.scene.showNotification(this.t('notifications.sold', { item: this.itemName(item) }, `Sold: ${this.itemName(item)}`), '', this.t('notifications.moneyGain', { amount: price }, `+${price} dinar`));

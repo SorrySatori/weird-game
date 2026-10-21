@@ -7,7 +7,7 @@ export default {
         'Zerren': 'Zerren',
     },
     zerren_start: {
-        text: "Žena v pestrém oblečení s malým stánkem plným cetek si všimne tvého příchodu. 'Vítejte v mém krámku na Voxmarketu. Jsem Zerren. Hledáte něco zvláštního?'",
+        text: "Žena v pestrém oblečení s malým stánkem plným skleněných ampulí a všelijakých drobností si všimne tvého příchodu. 'Vítejte v mém krámku na Voxmarketu. Jsem Zerren. Hledáte něco zvláštního?'",
         options: {
             who_are_you: "Kdo jste?",
             what_do_you_sell: "Co prodáváte?",
@@ -15,16 +15,24 @@ export default {
         }
     },
     zerren_who: {
-        text: "'Jsem Zerren, sběratelka a prodejkyně kuriozit z různých míst světa. Obchoduji tady na Voxmarketu už dobrých dva tisíce trávení. Najdete u mě nejrůznější kuriozity a speciality, které jinde neuvidíte.'",
+        text: "'Jsem Zerren, sběratelka a prodejkyně kuriozit z různých míst světa. Obchoduji tady na Voxmarketu už dobrých dva tisíce trávení. Hlavně zvuky, zatavené ve skle, aby vydržely, a k tomu všelijaké drobnosti, co se ke mně s nimi připlaví. Věci, které jinde neuslyšíte.'",
         options: {
-            what_kind_of_trinkets: "Jaké kuriozity?",
+            what_kind_of_trinkets: "Jaké zvuky?",
             back: "Zeptej se na něco jiného"
         }
     },
     zerren_selling: {
-        text: "'Specializuji se na vzácné podivnůstky a sběratelské kousky. Většinou dekorativní předměty, ale občas se mi do rukou dostanou věci s... neobvyklými vlastnostmi.' Ukáže na svou sbírku podivných figurek, krystalů a malých mechanických zařízení.",
+        text: "'Hlavně zvuky. Zatavené ve skle, aby vydržely.' Poklepe na řádku malých ampulí, každá je zalitá voskem. 'Staré, vzácné, i takové, které nikomu jinému nestálo za to nahrát. Přiložíte ji k uchu a hraje. Kromě toho nějaká ta mapa a občas něco s... neobvyklými vlastnostmi.'",
         options: {
+            how_do_the_ampules_work: "Jak ty ampule fungují?",
             interesting_collection: "Zajímavá sbírka",
+            show_me_what_you_have_for_sale: "Ukažte mi, co máte na prodej",
+            back: "Zeptej se na něco jiného"
+        }
+    },
+    zerren_ampules: {
+        text: "'Sklo si pamatuje, když se ho správně zeptáte.' Zvedne jednu proti světlu; uvnitř se cosi pohne jako lapená můra. 'Zvuk se do skla vtiskne, dokud je ještě měkké. Rozlomíte pečeť a je navždy pryč, tak to nedělejte. Stačí ji přiložit k uchu.' Opatrně ji položí zpátky. 'Většina mých je z dob před Vynořením. Hlavně zvířata. Lidé rádi poslouchají, jak zněl svět, když ještě neposlouchal zpátky.'",
+        options: {
             show_me_what_you_have_for_sale: "Ukažte mi, co máte na prodej",
             back: "Zeptej se na něco jiného"
         }

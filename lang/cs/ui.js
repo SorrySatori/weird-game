@@ -89,6 +89,8 @@ export default {
             panelTitle: 'INVENTÁŘ',
             emptyItems: 'Váš inventář je prázdný',
             use: 'POUŽÍT',
+            play: 'PŘEHRÁT',
+            stop: 'STOP',
             title: 'SBÍRKA SPOR',
             empty: 'Tvoje sbírka spor je prázdná.\nSbírej spory při průzkumu.',
             full: 'Inventář je plný!',

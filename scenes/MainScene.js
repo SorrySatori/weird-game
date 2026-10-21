@@ -680,6 +680,10 @@ export default class MainScene extends Phaser.Scene {
                 if (saveData.growthDecay) this.registry.set('growthDecayBalance', saveData.growthDecay);
                 if (saveData.visitedScenes) this.registry.set('visitedScenes', saveData.visitedScenes);
                 if (saveData.usedDialogOptions) this.registry.set('usedDialogOptions', new Map(saveData.usedDialogOptions));
+                // Plain registry state (SaveSystem.PERSISTED_REGISTRY_KEYS: dream-queue choices, sold-out shop stock)
+                if (saveData.registry) {
+                    for (const [key, value] of Object.entries(saveData.registry)) this.registry.set(key, value);
+                }
                 
                 // Start the saved scene
                 const targetScene = saveData.currentScene || 'GameScene';

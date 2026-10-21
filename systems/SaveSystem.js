@@ -3,7 +3,7 @@
  */
 export default class SaveSystem {
     /** Registry keys copied into / restored from a save file (plain JSON values only). */
-    static PERSISTED_REGISTRY_KEYS = ['dreamQueueChoices'];
+    static PERSISTED_REGISTRY_KEYS = ['dreamQueueChoices', 'shopSoldOut'];
 
     constructor(scene) {
         this.scene = scene;
@@ -42,7 +42,7 @@ export default class SaveSystem {
         if (this.scene.inventorySystem) {
             saveData.inventory = this.scene.inventorySystem.getInventoryData();
         } else {
-            saveData.inventory = registry.get('inventory') || { items: [], maxItems: 12 };
+            saveData.inventory = registry.get('inventory') || { items: [] };
         }
 
         // Save growth/decay data

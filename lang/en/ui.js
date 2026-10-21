@@ -89,6 +89,8 @@ export default {
             panelTitle: 'INVENTORY',
             emptyItems: 'Your inventory is empty',
             use: 'USE',
+            play: 'PLAY',
+            stop: 'STOP',
             title: 'SPORE COLLECTION',
             empty: 'Your spore collection is empty.\nGather spores as you explore.',
             full: 'Inventory is full!',

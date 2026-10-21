@@ -1,4 +1,5 @@
 import { ITEM_ICONS } from '../utils/itemIcons.js';
+import { preloadRecordings } from '../utils/Recordings.js';
 
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
@@ -21,6 +22,9 @@ export default class LoadingScene extends Phaser.Scene {
         const iconKeys = new Set(ITEM_ICONS.map(i => i.key));
         this.load.on('loaderror', (file) => { if (file && iconKeys.has(file.key)) { /* optional icon missing — placeholder is used */ } });
         ITEM_ICONS.forEach(({ key, path }) => this.load.image(key, path));
+
+        // Voxmarket sound ampules — playable from the inventory in any scene.
+        preloadRecordings(this);
         
         // Create loading text
         const loadingText = this.add.text(this.scale.width / 2, 400, 'Loading...', {

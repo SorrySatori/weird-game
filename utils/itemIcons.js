@@ -29,6 +29,7 @@ export const ITEM_ICONS = [
     { key: 'violetOltrac',            path: 'assets/images/items/violetOltrac.png' },   // Oltrac drug — violet
     { key: 'amberOltrac',             path: 'assets/images/items/amberOltrac.png' },    // Oltrac drug — amber (rarest)
     { key: 'dream_cartridge',         path: 'assets/images/items/dream_cartridge.png' },// "The Cardinal Feast" cartridge (the Bishop's last game)
+    { key: 'ampule',                  path: 'assets/images/items/ampule.png' },         // sealed glass ampule — Zerren's sound recordings (shared icon, tinted per item)
 
     // --- Remaining inventory placeholders — uncomment each as you draw it ---
     // Story / quest items:

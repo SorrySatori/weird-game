@@ -2,6 +2,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
+import { recordingShopStock } from '../utils/Recordings.js';
 
 export default class VoxmarketMarketScene extends GameScene {
     constructor() {
@@ -27,7 +28,7 @@ export default class VoxmarketMarketScene extends GameScene {
             speaker: 'Zerren',
             // Zerren dialog
             zerren_start: {
-                text: "A woman with vibrant clothing and a small stall of trinkets notices your approach. 'Welcome to my little corner of Voxmarket. I'm Zerren. Looking for anything special today?'",
+                text: "A woman with vibrant clothing and a small stall of glass ampules and oddments notices your approach. 'Welcome to my little corner of Voxmarket. I'm Zerren. Looking for anything special today?'",
                 options: [
                     { text: "Who are you?", key: 'who_are_you', next: "zerren_who" },
                     { text: "What do you sell?", key: 'what_do_you_sell', next: "zerren_selling" },
@@ -38,17 +39,26 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_who: {
-                text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket a good two thousand digestions now. You'll find all sorts of interesting trinkets at my stall that you won't see anywhere else.'",
+                text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket a good two thousand digestions now. Sounds, mostly — sealed in glass so they keep — and whatever oddments wash up alongside them. Things you won't hear anywhere else.'",
                 options: [
-                    { text: "What kind of trinkets?", key: 'what_kind_of_trinkets', next: "zerren_selling" },
+                    { text: "What kind of sounds?", key: 'what_kind_of_trinkets', next: "zerren_selling" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
             
             zerren_selling: {
-                text: "'I specialize in rare oddities and collectibles. Decorative items mostly, but sometimes I get my hands on things with... unusual properties.' She gestures to her collection of strange figurines, crystals, and small mechanical devices.",
+                text: "'Sounds, mostly. Sealed in glass so they keep.' She taps a row of small ampules, each stoppered with wax. 'Old ones, rare ones, ones nobody else thought worth recording. Hold one to your ear and it plays. Beyond that, the odd map, and now and then something with... unusual properties.'",
                 options: [
+                    { text: "How do the ampules work?", key: 'how_do_the_ampules_work', next: "zerren_ampules" },
                     { text: "Interesting collection", key: 'interesting_collection', next: "zerren_collection" },
+                    { text: "Show me what you have for sale", key: 'show_me_what_you_have_for_sale', next: "zerren_shop" },
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
+                ]
+            },
+            
+            zerren_ampules: {
+                text: "'Glass remembers, if you ask it right.' She holds one up to the light; something inside it stirs like a trapped moth. 'The sound is fixed into the glass while it's still soft. Break the seal and it's gone for good — so don't. Just hold it to your ear.' She sets it down with care. 'Most of mine are from before the Emergence. Animals, mostly. People like to hear what the world sounded like back when it wasn't listening back.'",
+                options: [
                     { text: "Show me what you have for sale", key: 'show_me_what_you_have_for_sale', next: "zerren_shop" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
@@ -456,22 +466,9 @@ export default class VoxmarketMarketScene extends GameScene {
         const questSystem = this.registry.get('questSystem');
         const findBishopActive = !!questSystem?.getQuest('find_bishop') && !questSystem.getQuest('find_bishop').isComplete;
         
-        // Basic shop inventory
+        // Basic shop inventory: sound ampules (utils/Recordings.js) + the map
         const shopInventory = [
-            {
-                id: 'trinket_box',
-                name: 'Ornate Trinket Box',
-                description: 'A small decorative box with intricate fungal patterns.',
-                price: 30,
-                type: 'decoration',
-            },
-            {
-                id: 'crystal_vial',
-                name: 'Luminescent Crystal Vial',
-                description: 'A vial containing glowing crystal fragments. Makes for pleasant ambient lighting.',
-                price: 45,
-                type: 'decoration',
-            },
+            ...recordingShopStock(),
             {
                 id: 'market_map',
                 name: 'Voxmarket Map',

@@ -98,6 +98,19 @@ Add a sprite, `setInteractive({ useHandCursor: true })`, and
 `sprite.on('pointerdown', () => { if (this.dialogVisible) return; this.showDialog('foo_start'); })`.
 Add a name label above it. First-meeting journal entry is a nice touch.
 
+## Inventory items (`systems/inventory/InventorySystem.js`)
+- **No capacity limit.** The panel is a paged 6×3 grid (arrows + mouse wheel); `addItemToInventory` never
+  fails for being "full", so quest items can always be handed out without checking the return value.
+- Display order is a stable group sort on `item.type`: `key_item` → `tool` → `drug`/`consumable` →
+  untyped (pickup order) → `recording` → `decoration`. Give purchasable sounds `type: 'recording'`.
+- `useItem(index)` / `removeItemFromInventory(index)` take the REAL index into `inventory.items`; slots carry
+  it as `slot.itemIndex`, so never use a slot position as an item index.
+- **Sound ampules (Voxmarket):** `utils/Recordings.js` is the catalogue — one entry = one playable item sold by
+  Zerren (`VoxmarketMarketScene.initShopSystem` spreads `recordingShopStock()`). Add a recording: normalized mp3
+  into `assets/sounds/recordings/`, entry in `RECORDINGS` (id, file, price, tint), `items.<id>` in
+  `lang/en/game.js` + `lang/cs/game.js`. LoadingScene preloads them; the inventory plays/stops on click
+  (`toggleRecording`, music ducked to 0.25 meanwhile). Shared icon `ampule` tinted per item.
+
 ## i18n / Czech translations
 - English text lives in each scene's `dialogContent`. Czech lives in
   `lang/cs/dialogs/<SceneKey>.js`, **registered in `lang/cs/dialogs/index.js`** (add both the

@@ -874,8 +874,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /** Convenience: translate a key via the shared LanguageSystem (current language). */
-    t(key) {
-        return LanguageSystem.getInstance().t(key);
+    t(key, params = {}) {
+        return LanguageSystem.getInstance().t(key, params);
     }
 
     /**

@@ -84,10 +84,7 @@ const game = new Phaser.Game(config);
 // Initialize game state in registry
 game.registry.set('inventoryVisible', false);
 game.registry.set('questLogVisible', false);
-game.registry.set('inventory', {
-    items: [],
-    maxItems: 12
-});
+game.registry.set('inventory', { items: [] });
 
 // Initialize Growth/Decay balance
 game.registry.set('growthDecayBalance', {
