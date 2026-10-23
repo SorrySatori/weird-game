@@ -18,3 +18,21 @@ aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
 ```
 `chars.png` is the character-scale overlay layer used in the templates. Regenerate from here rather than
 hand-editing the PNGs; hand touch-ups go into the "UPRAVY" layer of the `.aseprite` files.
+
+## Intro (the Hymnar + the Council chamber)
+Underground palette `pal_under.py` (Aseprite: `intro-underground.gpl`, copy to `~/.config/aseprite/palettes/`).
+`intro_layout.py` is the shared seat/table geometry (the back-row sprites are cut exactly at the table's far edge).
+```
+python3 intro_hymnar.py <outdir>         # -> hymnar.png 1067x1000 (+ _gills / _glow ADD layers, hymnar.json signal path + lanterns)
+python3 intro_council_bg.py <outdir>     # -> council_bg.png, council_table.png, council_glow.png, council.json (seats, candles)
+python3 intro_council_chars.py <outdir>  # -> council_<id>.png sheets + <id>/<n>.png frames, council_preview.png
+# build the Aseprite sources (OVERWRITES assets/aseprite/Intro_*.aseprite, incl. their UPRAVY layers):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/intro-underground.gpl --script tools/artgen/intro_aseprite.lua
+# export into the game (merges the UPRAVY layers) -- run this after hand edits in Aseprite:
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/intro --script tools/artgen/intro_export.lua >/dev/null
+cp <outdir>/hymnar.json <outdir>/council.json assets/images/intro/
+```
+Sheets: Varhun / Tynri / Rhull 8 frames of 128x176 (idle 0 rest / 1 inhale / 2 blink / 3 eye-glow, talk 4-7 = mouth only);
+elder_l / elder_r 4 frames of 200x350 (0 rest / 1 inhale / 2 head sinks or bulb glows / 3 blink; elder_r is flipped in the scene).
+The scene keeps the figures still and only now and then shows an idle frame (IntroScene.idleLife) -- no fidgeting.

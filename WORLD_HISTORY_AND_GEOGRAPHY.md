@@ -241,7 +241,7 @@ The official seat of the Lumen Directorate, located near the Town Square. An imp
 | **Remaper Hills** | Historic homeland of the mišutkenn (bear-folk), driven from there by Upper Morkezela's founders. |
 | **The Nettle Mountains** | Origin of Oorarabaz the Green-faced, a rare organism that forms part of Heliodor's composite body. |
 | **The Yolk Sea** | A glowing, sentient ocean of living yolk with boats floating like seeds and whispers rising from its depths. |
-| **The Obazoba Underground Temple** | Located outside Upper Morkezela, home of the Highest Humenium Council and the Obazoba cult's seat of power. Contains the Council Chamber. |
+| **The Obazoba Underground Temple** | Located outside Upper Morkezela, home of the Highest Humenium Council and the Obazoba cult's seat of power. Contains the Council Chamber. Built in a vast cavern at the foot of the **Hymnar** — the cult's sacred giant mushroom (its shrine, NOT the god himself); pilgrims climb a spiral walkway round its stalk. The faithful say the whole world can be heard through the Hymnar's mycelium; the distress call came through it. |
 | **Lagerlandia** | A mythical land sacred to followers of Maltimus Hopsalot — an entirely fabricated beer god whose "religion" the player may invent. |
 
 ---
@@ -401,7 +401,7 @@ Upper Morkezela is fundamentally a place where gods come to die. When deities ce
 - **Numerous Unnamed Gods** — Layer upon layer beneath the city, forming the Godgraveyard.
 - **The Crossroad Demigod** (canon 2026-10-03) — the giant corpse at the Crossroads is the illegitimate son of **Lietus Kika**, god of temporal confusion, who brought the boy along when he came to the city to die and, confused as ever, never secured his future. The bastard made himself tyrant and supreme ruler of Upper Morkezela until an enraged mob lynched him and left the body at the crossroads as a warning to any divine being who would try to rule the city. A demigod's body does not rot, so the warning became a landmark the locals are now proud of. Thorne-Still nests in its head; the player can also seed it with spores (opens the skyship path).
 - **The Egg Cathedral** — Possibly a nascent god or divine structure still being born/hatching.
-- **The Obazoba** — The Ur-mushroom, source of all life and rot, worshiped by the Obazoba cult. Whether alive, dead, or something else is unclear.
+- **The Obazoba** — The Ur-mushroom, source of all life and rot, worshiped by the Obazoba cult. He has no body and is never physically present: an ideal, not a creature (user decision, 2026-10-23). His sacred giant mushroom, the **Hymnar**, is a shrine, not the god.
 
 ---
 

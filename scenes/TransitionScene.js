@@ -1,4 +1,6 @@
 // Transition scene between Intro and Entry
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 class TransitionScene extends Phaser.Scene {
     constructor() {
         super({ key: 'TransitionScene' });
@@ -13,7 +15,7 @@ class TransitionScene extends Phaser.Scene {
         const transitionText = this.add.text(
             this.scale.width / 2, 
             this.scale.height / 2,
-            'After days of travel, you finally arrive to the city of Upper Morkezela...',
+            LanguageSystem.getInstance().t('intro.transition'),
             {
                 fontSize: '24px',
                 fill: '#ffffff',
