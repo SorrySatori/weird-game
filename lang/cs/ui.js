@@ -49,6 +49,8 @@ export default {
             quests: 'Úkoly',
             journal: 'DENÍK',
             map: 'MAPA',
+            journalButton: 'Deník',
+            mapButton: 'Mapa',
             activeQuests: 'AKTIVNÍ ÚKOLY',
             completedQuests: 'DOKONČENÉ ÚKOLY',
             progress: 'Průběh:',

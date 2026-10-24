@@ -19,6 +19,7 @@ import LanguageSystem from '../systems/LanguageSystem.js';
 import { renderDialogLayout } from '../utils/dialogLayouts.js';
 import { runEquipmentTutorial } from '../utils/equipmentTutorial.js';
 import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.js';
+import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
 
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
@@ -105,7 +106,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('ground', 'assets/images/ui/ground.png');
         this.load.image('cursor', 'assets/images/ui/cursor.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        this.load.image('journalIcon', 'assets/images/ui/journal.png'); // Journal icon
+        preloadHudButtons(this); // inventory / map / journal / quests buttons
         this.load.spritesheet('priest', 'assets/images/characters/priest.png', {
             frameWidth: 64,
             frameHeight: 64
@@ -662,130 +663,25 @@ export default class GameScene extends Phaser.Scene {
                 this.playerMovementSystem.setDialogVisible(this.dialogVisible);
             }
             
-            // Create journal button container at top right corner (aligned with Quest button)
-            const journalBtnContainer = this.add.container(this.scale.width - 110, 50);
-            journalBtnContainer.setDepth(100);
-            
-            // Create mushroom-shaped button background for journal
-            const journalBtnBg = this.add.graphics();
-            journalBtnBg.fillStyle(0x2a623d); // Dark green cap
-            journalBtnBg.fillCircle(0, -10, 20);
-            journalBtnBg.fillStyle(0x1a3b23); // Darker green stem
-            journalBtnBg.fillRect(-10, -10, 20, 25);
-            
-            // Add glowing spots to journal button
-            const journalSpot1 = this.add.circle(-5, -15, 3, 0x7fff8e);
-            const journalSpot2 = this.add.circle(5, -20, 2, 0x7fff8e);
-            journalSpot1.setAlpha(0.7);
-            journalSpot2.setAlpha(0.7);
-            
-            // Add a small book/scroll icon to the center of the mushroom
-            const journalIcon = this.add.graphics();
-            journalIcon.fillStyle(0x7fff8e, 0.9); // Glowing green
-            journalIcon.fillRect(-8, -15, 16, 12); // Book/scroll shape
-            journalIcon.lineStyle(1, 0x1a3b23); // Dark green lines
-            journalIcon.lineBetween(-8, -15, 8, -15); // Top line
-            journalIcon.lineBetween(-8, -11, 8, -11); // Middle line
-            journalIcon.lineBetween(-8, -7, 8, -7); // Bottom line
-            
-            // Add all elements to container
-            journalBtnContainer.add([journalBtnBg, journalSpot1, journalSpot2, journalIcon]);
-
-            // Create map button container (left of journal)
-            const mapBtnContainer = this.add.container(this.scale.width - 170, 50);
-            mapBtnContainer.setDepth(100);
-
-            const mapBtnBg = this.add.graphics();
-            mapBtnBg.fillStyle(0x2a623d);
-            mapBtnBg.fillCircle(0, -10, 20);
-            mapBtnBg.fillStyle(0x1a3b23);
-            mapBtnBg.fillRect(-10, -10, 20, 25);
-
-            const mapSpot1 = this.add.circle(-5, -15, 3, 0x7fff8e);
-            const mapSpot2 = this.add.circle(5, -20, 2, 0x7fff8e);
-            mapSpot1.setAlpha(0.7);
-            mapSpot2.setAlpha(0.7);
-
-            // Compass-like icon for map
-            const mapIcon = this.add.graphics();
-            mapIcon.lineStyle(1.5, 0x7fff8e, 0.9);
-            mapIcon.strokeCircle(0, -10, 8);
-            mapIcon.fillStyle(0x7fff8e, 0.9);
-            mapIcon.fillTriangle(0, -18, -3, -8, 3, -8); // North arrow
-
-            const mapLabel = this.add.text(0, 25, 'MAP', {
-                fontSize: '12px',
-                fontFamily: 'Georgia',
-                color: '#7fff8e',
-                align: 'center'
-            }).setOrigin(0.5);
-
-            mapBtnContainer.add([mapBtnBg, mapSpot1, mapSpot2, mapIcon, mapLabel]);
-            mapBtnContainer.setSize(40, 60);
-            mapBtnContainer.setInteractive({ useHandCursor: true });
-            mapBtnContainer.on('pointerover', () => {
-                mapBtnContainer.setScale(1.1);
-            });
-            mapBtnContainer.on('pointerout', () => {
-                mapBtnContainer.setScale(1);
-            });
-            mapBtnContainer.on('pointerdown', () => {
+            // HUD buttons top right: map and journal (the quest button belongs to QuestLog)
+            const L = LanguageSystem.getInstance();
+            createHudButton(this, 'map', L.t('ui.hud.mapButton'), () => {
                 if (this.clickSound) this.clickSound.play();
                 if (this.mapUI && !this.dialogVisible) {
                     this.mapUI.toggle();
                 }
             });
-            
-            // Create notification indicator (red exclamation mark)
-            this.journalNotificationIndicator = this.add.container(18, -22);
-            this.journalNotificationIndicator.setDepth(101);
-            
-            const indicatorBg = this.add.circle(0, 0, 8, 0xff0000);
-            const indicatorText = this.add.text(0, 0, '!', {
-                fontSize: '14px',
-                fontFamily: 'Arial',
-                color: '#ffffff',
-                fontStyle: 'bold'
-            }).setOrigin(0.5);
-            
-            this.journalNotificationIndicator.add([indicatorBg, indicatorText]);
-            journalBtnContainer.add(this.journalNotificationIndicator);
-            
-            // Hide indicator initially
-            this.journalNotificationIndicator.setVisible(false);
-            
-            // Check if there are unread journal entries
-            if (this.registry.get('hasUnreadJournalEntries')) {
-                this.journalNotificationIndicator.setVisible(true);
-            }
-            
-            // Add journal label under button
-            const journalLabel = this.add.text(0, 25, 'JOURNAL', {
-                fontSize: '12px',
-                fontFamily: 'Georgia',
-                color: '#7fff8e',
-                align: 'left'
-            }).setOrigin(0.5);
-            journalBtnContainer.add(journalLabel);
-            
-            // Make button interactive
-            journalBtnContainer.setSize(40, 60);
-            journalBtnContainer.setInteractive({ useHandCursor: true });
-            
-            journalBtnContainer.on('pointerover', () => {
-                journalBtnContainer.setScale(1.1);
-            });
-            journalBtnContainer.on('pointerout', () => {
-                journalBtnContainer.setScale(1);
-            });
-            
-            journalBtnContainer.on('pointerdown', () => {
+            const journalButton = createHudButton(this, 'journal', L.t('ui.hud.journalButton'), () => {
                 if (this.clickSound) this.clickSound.play();
                 this.journalUI.toggle();
                 // Hide notification indicator when journal is opened
                 this.journalNotificationIndicator.setVisible(false);
                 this.registry.set('hasUnreadJournalEntries', false);
             });
+            this.journalNotificationIndicator = journalButton.badge;
+            if (this.registry.get('hasUnreadJournalEntries')) {
+                this.journalNotificationIndicator.setVisible(true);
+            }
         } catch (error) {
             console.error('Error in initSceneMechanics():', error);
         }

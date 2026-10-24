@@ -1,5 +1,6 @@
 import LanguageSystem from '../LanguageSystem.js';
 import { isRecording, isRecordingPlaying, toggleRecording } from '../../utils/Recordings.js';
+import { createHudButton } from '../../utils/hudButton.js';
 
 /**
  * Inventory System
@@ -63,50 +64,13 @@ export default class InventorySystem {
      * Create the inventory button
      */
     createInventoryButton() {
-        this.inventoryButton = this.scene.add.container(60, 540);
-        this.inventoryButton.setDepth(100);
-        
-        // Create mushroom cap (circle)
-        const mushroomCap = this.scene.add.circle(0, -5, 20, 0x7fff8e);
-        
-        // Create mushroom stem (rectangle)
-        const mushroomStem = this.scene.add.rectangle(0, 10, 10, 15, 0x7fff8e);
-        
-        // Add spots to mushroom cap
-        const spots = this.scene.add.container(0, -5);
-        const spot1 = this.scene.add.circle(-8, -5, 3, 0x0a2712);
-        const spot2 = this.scene.add.circle(5, 0, 4, 0x0a2712);
-        const spot3 = this.scene.add.circle(0, 8, 2, 0x0a2712);
-        spots.add([spot1, spot2, spot3]);
-        
-        // Add "Inventory" text
-        const invText = this.scene.add.text(0, 15, L().t('ui.inventory.button'), {
-            fontSize: '12px',
-            fill: '#7fff8e'
-        });
-        invText.setOrigin(0.5);
-        
-        this.inventoryButton.add([mushroomCap, mushroomStem, spots, invText]);
-        
-        // Make button interactive
-        this.inventoryButton.setInteractive(new Phaser.Geom.Rectangle(-25, -20, 50, 50), Phaser.Geom.Rectangle.Contains);
-        
-        // Add hover effects
-        this.inventoryButton.on('pointerover', () => {
-            this.inventoryButton.setScale(1.1);
-        });
-        
-        this.inventoryButton.on('pointerout', () => {
-            this.inventoryButton.setScale(1);
-        });
-        
-        // Open inventory on click
-        this.inventoryButton.on('pointerdown', () => {
+        const { container } = createHudButton(this.scene, 'inventory', L().t('ui.inventory.button'), () => {
             if (this.scene.clickSound) {
                 this.scene.clickSound.play();
             }
             this.toggleInventory();
         });
+        this.inventoryButton = container;
     }
 
     /**

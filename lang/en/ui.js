@@ -49,6 +49,8 @@ export default {
             quests: 'Quests',
             journal: 'JOURNAL',
             map: 'MAP',
+            journalButton: 'Journal',
+            mapButton: 'Map',
             activeQuests: 'ACTIVE QUESTS',
             completedQuests: 'COMPLETED QUESTS',
             progress: 'Progress:',

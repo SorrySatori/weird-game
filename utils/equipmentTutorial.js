@@ -13,6 +13,7 @@
  */
 
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { hudIconCentre } from './hudButton.js';
 
 /** Run the equipment tutorial on `scene` (a GameScene / subclass). */
 export function runEquipmentTutorial(scene) {
@@ -27,25 +28,25 @@ export function runEquipmentTutorial(scene) {
     const T = (en, cz) => (cs ? cz : en);
 
     const steps = [
-        { anchor: { x: 690, y: 50 },
+        { anchor: hudIconCentre(scene, 'journal'),
           isOpen: () => !!scene.journalUI?.visible,
           close: () => { if (scene.journalUI && scene.journalUI.visible) scene.journalUI.toggle(); },
           show: T("This is your diary. (In meta-narrative terms: a menu of notes.) Open it with the icon top-right, or press J.",
                   "Tohle je tvůj deník. (Meta-narativně řečeno: menu s poznámkami.) Otevřeš ho ikonou vpravo nahoře, nebo klávesou J."),
           tabs: T("It gathers everything that matters — tabs for People, Places, Events, Lore, Dreams and Factions. Wherever the story takes you, the clues end up here.",
                   "Sbírá vše důležité — záložky Lidé, Místa, Události, Vědění, Sny a Frakce. Kamkoli tě příběh zavede, stopy skončí tady.") },
-        { anchor: { x: 750, y: 50 },
+        { anchor: hudIconCentre(scene, 'quests'),
           isOpen: () => !!scene.questLog?.questPanel?.visible,
           close: () => scene.questLog?.hideQuestLog(),
           show: T("Your quest log sits beside the diary — it tracks what you're supposed to be doing.",
                   "Deník úkolů je hned vedle deníku — drží, co máš dělat."),
           tabs: T("Active quests and their progress. Click a quest to expand its individual steps.",
                   "Aktivní úkoly a jejich postup. Rozklikni úkol pro jednotlivé kroky.") },
-        { anchor: { x: 630, y: 50 },
+        { anchor: hudIconCentre(scene, 'map'),
           isOpen: () => !!scene.mapUI?.visible,
           close: () => { if (scene.mapUI && scene.mapUI.visible) scene.mapUI.toggle(); },
-          show: T("The fast-travel map — the MAP icon, or press M.",
-                  "Mapa rychlého cestování — ikona MAP, nebo klávesa M."),
+          show: T("The fast-travel map — the map icon, or press M.",
+                  "Mapa rychlého cestování — ikona mapy, nebo klávesa M."),
           tabs: T("Click any place you've already visited to travel there. New places unlock as you discover them.",
                   "Klikni na místo, které jsi už navštívil, a přesuneš se tam. Nová místa se odemykají, jak je objevíš.") },
         { anchor: { x: 430, y: 22 },
@@ -54,12 +55,12 @@ export function runEquipmentTutorial(scene) {
         { anchor: { x: 50, y: 50 },
           show: T("Growth and Decay. Meta-narratively: the world's moral-ecological slider. Your choices tip it — and the city, and its people, react in kind.",
                   "Růst a Rozklad. Meta-narativně: morálně-ekologický posuvník světa. Tvé volby ho naklánějí — a město i jeho obyvatelé podle toho reagují.") },
-        { anchor: { x: 60, y: 540 },
+        { anchor: hudIconCentre(scene, 'inventory'),
           // The inventory lives in InventorySystem (scene.inventorySystem) — read its state.
           isOpen: () => !!scene.inventorySystem?.inventoryVisible || !!scene.inventorySystem?.inventoryPanel?.visible,
           close: () => scene.inventorySystem?.toggleInventory(false),
-          show: T("Your inventory — that little mushroom bottom-left, or press I.",
-                  "Tvůj inventář — ta houbička vlevo dole, nebo klávesa I."),
+          show: T("Your inventory — that satchel bottom-left, or press I.",
+                  "Tvůj inventář — ta brašna vlevo dole, nebo klávesa I."),
           tabs: T("Whatever you find or are given lives here. Some items can be used, worn, or sold.",
                   "Co najdeš nebo dostaneš, je tady. Některé předměty jdou použít, nosit nebo prodat.") },
     ];

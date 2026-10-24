@@ -52,3 +52,17 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 symbiont = a new tag before `generic` + its id in `SYMBIONT_ROWS`). `UI_SymbiontPods_48x58.aseprite`: frames open pod /
 sealed pod / cord end / glow (white, ADD, tinted per symbiont in the game); the hidden layer `maska retu` marks the pixels
 of the open pod drawn IN FRONT of the symbiont (its lower lip). Pods stack every 58 px, the cord is continuous across them.
+
+## HUD buttons (inventory satchel, map, journal, quest note + the unread badge)
+Palette `pal_hud.py` (Aseprite: `hud.gpl`, copy to `~/.config/aseprite/palettes/`); shares the wax / vein / bone ramps
+with the symbiont HUD.
+```
+python3 hud_buttons.py <outdir>      # -> hud_buttons.png (9 frames of 48x48) + hud/<n>.png
+# build the Aseprite source (OVERWRITES assets/aseprite/UI_HudButtons_48x48.aseprite, incl. its UPRAVY layer):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/hud.gpl --script tools/artgen/hud_aseprite.lua
+# export into the game -- run this after hand edits in Aseprite:
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui --script tools/artgen/hud_export.lua
+```
+Tags `inventar` / `mapa` / `denik` / `ukoly`: frame 1 closed, frame 2 the "open" hover state; `odznak` = the badge.
+The game side is `utils/hudButton.js` (positions, hover frame swap, labels, badge).

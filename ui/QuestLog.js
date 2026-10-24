@@ -1,4 +1,5 @@
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { createHudButton } from '../utils/hudButton.js';
 
 export default class QuestLog {
     constructor(scene, x = 750, y = 50) {
@@ -45,71 +46,12 @@ export default class QuestLog {
     }
 
     createQuestButton(x, y) {
-        // Create container for the button
-        this.buttonContainer = this.scene.add.container(x, y);
-        this.buttonContainer.setDepth(100);
-        this.buttonContainer.setScrollFactor(0);
-        
-        // Create mushroom-shaped button background
-        const buttonBg = this.scene.add.graphics();
-        buttonBg.fillStyle(0x2a623d); // Dark green cap
-        buttonBg.fillCircle(0, -10, 20);
-        buttonBg.fillStyle(0x1a3b23); // Darker green stem
-        buttonBg.fillRect(-10, -10, 20, 25);
-        
-        // Add glowing spots
-        const spot1 = this.scene.add.circle(-5, -15, 3, 0x7fff8e);
-        const spot2 = this.scene.add.circle(5, -20, 2, 0x7fff8e);
-        spot1.setAlpha(0.7);
-        spot2.setAlpha(0.7);
-        
-        // Add text label
-        const label = this.scene.add.text(0, 20, this.lang.t('ui.hud.quests'), {
-            font: '12px Arial',
-            fill: '#7fff8e',
-            align: 'center'
-        });
-        label.setOrigin(0.5);
-        
-        // Add all button elements to container first
-        this.buttonContainer.add([buttonBg, spot1, spot2, label]);
-        
-        // Create notification indicator (red exclamation mark) - add LAST so it appears on top
-        this.questNotificationIndicator = this.scene.add.container(18, -22);
-        this.questNotificationIndicator.setDepth(101);
-        
-        const indicatorBg = this.scene.add.circle(0, 0, 8, 0xff0000);
-        const indicatorText = this.scene.add.text(0, 0, '!', {
-            fontSize: '14px',
-            fontFamily: 'Arial',
-            color: '#ffffff',
-            fontStyle: 'bold'
-        }).setOrigin(0.5);
-        
-        this.questNotificationIndicator.add([indicatorBg, indicatorText]);
-        // Add indicator AFTER all other elements so it renders on top
-        this.buttonContainer.add(this.questNotificationIndicator);
-        
-        // Hide indicator initially
-        this.questNotificationIndicator.setVisible(false);
-        
-        // Check if there are unread quest updates
+        const { container, badge } = createHudButton(this.scene, 'quests', this.lang.t('ui.hud.quests'), () => this.toggleQuestLog(), { x, y });
+        this.buttonContainer = container;
+        this.questNotificationIndicator = badge;
         if (this.scene.registry.get('hasUnreadQuestUpdates')) {
             this.questNotificationIndicator.setVisible(true);
         }
-        
-        // Make button interactive
-        this.buttonContainer.setSize(40, 60);
-        this.buttonContainer.setInteractive({ useHandCursor: true });
-        this.buttonContainer.on('pointerover', () => {
-            this.buttonContainer.setScale(1.1);
-        });
-        this.buttonContainer.on('pointerout', () => {
-            this.buttonContainer.setScale(1);
-        });
-        this.buttonContainer.on('pointerdown', () => {
-            this.toggleQuestLog();
-        });
     }
 
     createQuestPanel() {
