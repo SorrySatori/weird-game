@@ -3,6 +3,7 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
 import { recordingShopStock } from '../utils/Recordings.js';
+import { applyGDBackground } from '../utils/GDProps.js';
 
 export default class VoxmarketMarketScene extends GameScene {
     constructor() {
@@ -334,8 +335,10 @@ export default class VoxmarketMarketScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('voxmarketMarketBg', 'assets/images/backgrounds/VoxmarketMarket.png');
+        this.load.image('voxmarketMarketBg_growth', 'assets/images/backgrounds/VoxmarketMarket_growth.png');
+        this.load.image('voxmarketMarketBg_decay', 'assets/images/backgrounds/VoxmarketMarket_decay.png');
         this.load.image('arrow', 'assets/images/ui/door.png'); // Arrow for transition zones
-        this.load.image('zerren', 'assets/images/characters/Zerren.png'); // Zerren NPC image
+        this.load.spritesheet('zerren', 'assets/images/characters/voxmarket/zerren.png', { frameWidth: 176, frameHeight: 160 }); // Zerren behind the counter, 4 idle frames
         // Audio is already loaded in GameScene's preload
     }
 
@@ -351,8 +354,7 @@ export default class VoxmarketMarketScene extends GameScene {
         this.fitBackground(bg);
         bg.setDepth(-1);
         
-        // Create a custom ground for the market scene
-        this.createMarketGround();
+        applyGDBackground(this, bg, 'voxmarketMarketBg'); // the hangar lane paints its own floor
         
         // Completely hide the original ground
         if (this.ground) {
@@ -388,7 +390,7 @@ export default class VoxmarketMarketScene extends GameScene {
         );
         
         // Add a hint about the exit
-        const exitHint = this.add.text(400, 520, 'Back to Main Market', {
+        const exitHint = this.add.text(this.scale.width / 2, 520, 'Back to Main Market', {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -401,7 +403,7 @@ export default class VoxmarketMarketScene extends GameScene {
         // Show hint when hovering near the exit
         this.input.on('pointermove', (pointer) => {
             // Check if pointer is near the exit area
-            if (Math.abs(pointer.x - 400) < 100 && Math.abs(pointer.y - 550) < 50) {
+            if (Math.abs(pointer.x - this.scale.width / 2) < 130 && Math.abs(pointer.y - 550) < 50) {
                 exitHint.setAlpha(1);
             } else {
                 exitHint.setAlpha(0);
@@ -414,10 +416,13 @@ export default class VoxmarketMarketScene extends GameScene {
         }
         
         // Create Zerren NPC
-        this.zerren = this.add.sprite(200, 440, 'zerren');
-        this.zerren.setScale(0.15);
+        if (!this.anims.exists('zerren_idle')) {
+            this.anims.create({ key: 'zerren_idle', frames: [0, 0, 0, 1, 1, 0, 2, 2, 2, 0, 3, 0].map(f => ({ key: 'zerren', frame: f })), frameRate: 3, repeat: -1 });
+        }
+        this.zerren = this.add.sprite(200, 517, 'zerren', 0).setOrigin(0.5, 1); // the counter's feet on the niche's rug
         this.zerren.setDepth(5);
-        this.addGroundShadow(200, 440 + this.zerren.displayHeight * 0.42, this.zerren.displayWidth * 0.55, this.zerren.displayHeight * 0.12);
+        this.zerren.play('zerren_idle');
+        this.addGroundShadow(200, 514, 150, 12);
         this.zerren.setInteractive({ useHandCursor: true });
         
         // Add dialog interaction
@@ -520,72 +525,5 @@ export default class VoxmarketMarketScene extends GameScene {
         }
     }
     
-    // Create a custom ground for the market scene that matches the aesthetic
-    createMarketGround() {
-        // Remove the original ground if it exists
-        if (this.ground) {
-            this.ground.destroy();
-        }
-        
-        // Create a graphics object for the ground
-        const groundGraphics = this.add.graphics();
-        
-        // Set the ground dimensions
-        const groundWidth = this.scale.width; // full canvas width (1067)
-        const groundHeight = 160;
-        const groundY = 500;
-        
-        // Fill with dark greenish-gray base color to match market floor
-        groundGraphics.fillStyle(0x1a2420, 1);
-        groundGraphics.fillRect(0, groundY, groundWidth, groundHeight);
-        
-        // Add some texture with lines
-        groundGraphics.lineStyle(1, 0x283c32, 0.3);
-        
-        // Horizontal lines for floor boards
-        for (let i = 0; i < 10; i++) {
-            const y = groundY + Math.random() * groundHeight;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(0, y);
-            groundGraphics.lineTo(groundWidth, y);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Vertical lines for texture
-        for (let i = 0; i < 20; i++) {
-            const x = Math.random() * groundWidth;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(x, groundY);
-            groundGraphics.lineTo(x, groundY + groundHeight);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Add green glowing particles to match the market atmosphere
-        for (let i = 0; i < 50; i++) {
-            const x = Math.random() * groundWidth;
-            const y = groundY + Math.random() * (groundHeight - 10);
-            const size = Math.random() * 3 + 1;
-            
-            const particle = this.add.circle(x, y, size, 0x32ff64, 0.3);
-            particle.setDepth(1);
-            
-            // Add pulsating effect to some particles
-            if (Math.random() > 0.7) {
-                this.tweens.add({
-                    targets: particle,
-                    alpha: 0.1,
-                    duration: 1500 + Math.random() * 1000,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'Sine.easeInOut'
-                });
-            }
-        }
-        
-        // Set the ground depth
-        groundGraphics.setDepth(0);
-    }
 
 }

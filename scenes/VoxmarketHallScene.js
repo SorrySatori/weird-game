@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { applyGDBackground } from '../utils/GDProps.js';
 
 export default class VoxmarketHallScene extends GameScene {
     constructor() {
@@ -913,8 +914,10 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
     preload() {
         super.preload();
         this.load.image('voxmarketHallBg', 'assets/images/backgrounds/VoxmarketHall.png');
+        this.load.image('voxmarketHallBg_growth', 'assets/images/backgrounds/VoxmarketHall_growth.png');
+        this.load.image('voxmarketHallBg_decay', 'assets/images/backgrounds/VoxmarketHall_decay.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        this.load.image('heshAndVell', 'assets/images/characters/heshAndVell.png');
+        this.load.spritesheet('heshAndVell', 'assets/images/characters/voxmarket/hesh_vell.png', { frameWidth: 208, frameHeight: 176 }); // 8 idle frames, Vell two behind Hesh
         this.load.image('sisterCalyx', 'assets/images/characters/sisterCalyx.png');
         this.load.image('heartbrokerLune', 'assets/images/characters/HeartbrokerLune.png');
         this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
@@ -929,8 +932,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         const bg = this.add.image(400, 300, 'voxmarketHallBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
-        
-        this.createHallGround();
+        applyGDBackground(this, bg, 'voxmarketHallBg'); // the auction bay paints its own floor
         
         if (this.ground) {
             this.ground.destroy();
@@ -996,31 +998,15 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
     }
 
     createTwinAuctioneers() {
-        this.twins = this.add.image(440, 345, 'heshAndVell');
-        this.twins.setScale(0.16);
+        if (!this.anims.exists('twins_idle')) {
+            this.anims.create({ key: 'twins_idle', frames: this.anims.generateFrameNumbers('heshAndVell', { start: 0, end: 7 }), frameRate: 4, repeat: -1 });
+        }
+        // On the stage (its top is at y≈431); the idle loop is the desynchronization: Vell's gavel two frames late
+        this.twins = this.add.sprite(440, 429, 'heshAndVell', 0).setOrigin(0.5, 1);
         this.twins.setDepth(5);
-        this.addGroundShadow(440, 345 + this.twins.displayHeight * 0.42, this.twins.displayWidth * 0.55, this.twins.displayHeight * 0.12);
+        this.twins.play('twins_idle');
+        this.addGroundShadow(440, 427, 170, 10);
         this.twins.setInteractive({ useHandCursor: true });
-
-        // Subtle idle sway — slightly offset to suggest desynchronization
-        this.tweens.add({
-            targets: this.twins,
-            angle: { from: -0.5, to: 0.5 },
-            duration: 3000,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.twins.on('pointerover', () => {
-            this.twins.setScale(0.17);
-            document.body.style.cursor = 'pointer';
-        });
-
-        this.twins.on('pointerout', () => {
-            this.twins.setScale(0.16);
-            document.body.style.cursor = 'default';
-        });
 
         this.twins.on('pointerdown', () => {
             if (this.dialogVisible) return;
@@ -1335,73 +1321,5 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
     update() {
         // Call parent update for all standard mechanics
         super.update();
-    }
-    
-    // Create a custom ground for the hall scene that matches the aesthetic
-    createHallGround() {
-        // Remove the original ground if it exists
-        if (this.ground) {
-            this.ground.destroy();
-        }
-        
-        // Create a graphics object for the ground
-        const groundGraphics = this.add.graphics();
-        
-        // Set the ground dimensions
-        const groundWidth = this.scale.width; // full canvas width (1067)
-        const groundHeight = 160;
-        const groundY = 500;
-        
-        // Fill with dark reddish-brown base color to match hall floor
-        groundGraphics.fillStyle(0x2a1a18, 1);
-        groundGraphics.fillRect(0, groundY, groundWidth, groundHeight);
-        
-        // Add some texture with lines
-        groundGraphics.lineStyle(1, 0x3c2824, 0.3);
-        
-        // Horizontal lines for floor boards
-        for (let i = 0; i < 10; i++) {
-            const y = groundY + Math.random() * groundHeight;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(0, y);
-            groundGraphics.lineTo(groundWidth, y);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Vertical lines for texture
-        for (let i = 0; i < 20; i++) {
-            const x = Math.random() * groundWidth;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(x, groundY);
-            groundGraphics.lineTo(x, groundY + groundHeight);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Add subtle glowing particles to match the hall atmosphere
-        for (let i = 0; i < 30; i++) {
-            const x = Math.random() * groundWidth;
-            const y = groundY + Math.random() * (groundHeight - 10);
-            const size = Math.random() * 2 + 1;
-            
-            const particle = this.add.circle(x, y, size, 0xcc6644, 0.2);
-            particle.setDepth(1);
-            
-            // Add pulsating effect to some particles
-            if (Math.random() > 0.7) {
-                this.tweens.add({
-                    targets: particle,
-                    alpha: 0.1,
-                    duration: 1500 + Math.random() * 1000,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'Sine.easeInOut'
-                });
-            }
-        }
-        
-        // Set the ground depth
-        groundGraphics.setDepth(0);
     }
 }

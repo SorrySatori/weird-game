@@ -3,6 +3,7 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import EffectsSystem from '../systems/EffectsSystem.js';
+import { applyGDBackground } from '../utils/GDProps.js';
 
 export default class VoxMarket extends GameScene {
     constructor() {
@@ -10,10 +11,10 @@ export default class VoxMarket extends GameScene {
         this.isTransitioning = false; // Add flag to track transition state
         this.shopSystem = null;
         this.kloorPath = [
-            { x: 200, y: 440, duration: 5000 },
-            { x: 400, y: 440, duration: 3000 },
-            { x: 600, y: 440, duration: 4000 },
-            { x: 400, y: 440, duration: 3000 }
+            { x: 200, y: 532, duration: 5000 },   // y = his feet (the sprite's origin is bottom-centre)
+            { x: 400, y: 532, duration: 3000 },
+            { x: 600, y: 532, duration: 4000 },
+            { x: 400, y: 532, duration: 3000 }
         ];
         this.kloorPathIndex = 0;
         this.journalSystem = JournalSystem.getInstance();
@@ -39,7 +40,8 @@ export default class VoxMarket extends GameScene {
                     ...(this.registry.get('questSystem')?.getQuest('find_bishop') ? [
                         { text: "Do you know anything about the Bishop?", key: 'do_you_know_anything_about_the_bishop', next: "kloor_bishop" }
                     ] : []),
-                    ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
+                    // only while the deal is open — once he has the Vestigel there is nothing more to ask
+                    ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') && !this.registry.get('questSystem').getQuest('the_three_vestigels').isComplete ? [
                         { text: "About those Vestigels...", key: 'about_those_vestigels', next: "kloor_vestigels_progress" }
                     ] : []),
                     ...(knowsSulkberries && !sulkberriesClearedKloor ? [
@@ -505,11 +507,13 @@ export default class VoxMarket extends GameScene {
     preload() {
         super.preload();
         this.load.image('voxMarketBg', 'assets/images/backgrounds/Voxmarket.png');
+        this.load.image('voxMarketBg_growth', 'assets/images/backgrounds/Voxmarket_growth.png');
+        this.load.image('voxMarketBg_decay', 'assets/images/backgrounds/Voxmarket_decay.png');
         this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         
         // Load Kloor Venn drug dealer assets
-        this.load.image('kloor', 'assets/images/characters/rat.png');
+        this.load.spritesheet('kloor', 'assets/images/characters/voxmarket/kloor.png', { frameWidth: 128, frameHeight: 160 }); // 0-3 idle, 4-11 walk
         
         // Load Oltrac drug images
         this.load.image('grayOltrac', 'assets/images/effects/grayOltrac.png'); 
@@ -530,11 +534,9 @@ export default class VoxMarket extends GameScene {
         const bg = this.add.image(400, 200, 'voxMarketBg');
         this.fitBackground(bg); // whole image fitted to the 1067×600 canvas
         bg.setDepth(-1);
-        
-        // Create a custom ground for the market scene
-        this.createMarketGround();
-        
-        // Completely hide the original ground
+        applyGDBackground(this, bg, 'voxMarketBg'); // growth / decay version of the hangar when the world leans
+
+        // The background paints the hangar floor; drop the generic ground strip
         if (this.ground) {
             this.ground.destroy(); // Destroy instead of just hiding
         }
@@ -585,15 +587,15 @@ export default class VoxMarket extends GameScene {
             470 // walk to y
         );
         
-        // Create entrance to VoxmarketHallScene at the right
+        // Create entrance to VoxmarketHallScene: the curtained arch in the hangar's right wall
         this.transitionManager.createTransitionZone(
-            550, // x position
+            686, // x position (800-space; canvas ≈ 915, the auction portal)
             470, // y position
             50, // width
             200, // height
             'right', // direction
             'VoxmarketHallScene', // target scene
-            550, // walk to x
+            686, // walk to x
             470 // walk to y
         );
         
@@ -637,52 +639,43 @@ export default class VoxMarket extends GameScene {
      * Create Kloor Venn NPC with walking animation
      */
     createKloorVenn() {
-        // Create Kloor Venn NPC
-        this.kloor = this.add.sprite(300, 440, 'kloor');
-        this.kloor.setScale(0.15); // Adjust scale as needed
+        if (!this.anims.exists('kloor_idle')) {
+            this.anims.create({ key: 'kloor_idle', frames: [0, 0, 1, 1, 0, 2, 0, 0, 3].map(f => ({ key: 'kloor', frame: f })), frameRate: 4, repeat: -1 });
+            this.anims.create({ key: 'kloor_walk', frames: this.anims.generateFrameNumbers('kloor', { start: 4, end: 11 }), frameRate: 9, repeat: -1 });
+        }
+        this.kloorPathIndex = 0;
+        this.kloor = this.add.sprite(this.kloorPath[0].x, this.kloorPath[0].y, 'kloor', 0).setOrigin(0.5, 1);
         this.kloor.setDepth(5);
         this.kloor.setInteractive({ useHandCursor: true });
-        
+
         // Add dialog interaction
         this.kloor.on('pointerdown', () => {
             if (this.dialogVisible) return;
             this.showDialog('kloor_start');
         });
-        
-        // Create walking animation for Kloor
-        this.startKloorWalking();
-        
-        // Add a name tag above Kloor
-        const kloorTag = this.add.text(300, 420, 'Kloor Venn', {
+
+        // A name tag above Kloor's head, following him
+        this.kloorTag = this.add.text(this.kloor.x, this.kloor.y - 172, 'Kloor Venn', {
             fontSize: '14px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             padding: { x: 5, y: 2 }
-        });
-        kloorTag.setOrigin(0.5);
-        kloorTag.setDepth(6);
-        
-        // Make the name tag follow Kloor
-        this.kloorTag = kloorTag;
+        }).setOrigin(0.5).setDepth(6);
+
+        this.startKloorWalking();
     }
-    
+
     /**
-     * Start Kloor's walking animation along a path
+     * Kloor walks his round between the stalls (walk cycle), pausing a moment at each stop (idle loop).
      */
     startKloorWalking() {
-        if (!this.kloor) return;
-        
+        if (!this.kloor || !this.kloor.scene) return;
+
         const nextIndex = (this.kloorPathIndex + 1) % this.kloorPath.length;
         const nextPoint = this.kloorPath[nextIndex];
-        
-        // Determine direction for sprite flipping
-        if (nextPoint.x > this.kloor.x) {
-            this.kloor.setFlipX(false); // Face right
-        } else if (nextPoint.x < this.kloor.x) {
-            this.kloor.setFlipX(true); // Face left
-        }
-        
-        // Create walking tween
+        this.kloor.setFlipX(nextPoint.x < this.kloor.x); // the sheet faces right
+        this.kloor.play('kloor_walk', true);
+
         this.tweens.add({
             targets: this.kloor,
             x: nextPoint.x,
@@ -690,27 +683,13 @@ export default class VoxMarket extends GameScene {
             duration: nextPoint.duration,
             ease: 'Linear',
             onUpdate: () => {
-                // Update name tag position
-                if (this.kloorTag) {
-                    this.kloorTag.x = this.kloor.x;
-                    this.kloorTag.y = this.kloor.y - 50;
-                }
+                if (this.kloorTag) this.kloorTag.setPosition(this.kloor.x, this.kloor.y - 172);
             },
             onComplete: () => {
-                // Move to next point in path
                 this.kloorPathIndex = nextIndex;
-                this.startKloorWalking();
+                this.kloor.play('kloor_idle', true);
+                this.time.delayedCall(1400, () => this.startKloorWalking());
             }
-        });
-        
-        // Add subtle bobbing motion for walking effect
-        this.tweens.add({
-            targets: this.kloor,
-            y: nextPoint.y - 5,
-            duration: 300,
-            yoyo: true,
-            repeat: Math.floor(nextPoint.duration / 600),
-            ease: 'Sine.easeInOut'
         });
     }
     
@@ -852,73 +831,5 @@ export default class VoxMarket extends GameScene {
         this.showDialog(dialogId);
         console.log('dialogId', dialogId);
         return dialogId;
-    }
-    
-    // Create a custom ground for the market scene that matches the aesthetic
-    createMarketGround() {
-        // Remove the original ground if it exists
-        if (this.ground) {
-            this.ground.destroy();
-        }
-        
-        // Create a graphics object for the ground
-        const groundGraphics = this.add.graphics();
-        
-        // Set the ground dimensions (full canvas width — the game is 1067 wide now)
-        const groundWidth = this.scale.width;
-        const groundHeight = 160;
-        const groundY = 500;
-        
-        // Fill with dark greenish-gray base color to match market floor
-        groundGraphics.fillStyle(0x1a2420, 1);
-        groundGraphics.fillRect(0, groundY, groundWidth, groundHeight);
-        
-        // Add some texture with lines
-        groundGraphics.lineStyle(1, 0x283c32, 0.3);
-        
-        // Horizontal lines for floor boards
-        for (let i = 0; i < 10; i++) {
-            const y = groundY + Math.random() * groundHeight;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(0, y);
-            groundGraphics.lineTo(groundWidth, y);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Vertical lines for texture
-        for (let i = 0; i < 20; i++) {
-            const x = Math.random() * groundWidth;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(x, groundY);
-            groundGraphics.lineTo(x, groundY + groundHeight);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Add green glowing particles to match the market atmosphere
-        for (let i = 0; i < 50; i++) {
-            const x = Math.random() * groundWidth;
-            const y = groundY + Math.random() * (groundHeight - 10);
-            const size = Math.random() * 3 + 1;
-            
-            const particle = this.add.circle(x, y, size, 0x32ff64, 0.3);
-            particle.setDepth(1);
-            
-            // Add pulsating effect to some particles
-            if (Math.random() > 0.7) {
-                this.tweens.add({
-                    targets: particle,
-                    alpha: 0.1,
-                    duration: 1500 + Math.random() * 1000,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'Sine.easeInOut'
-                });
-            }
-        }
-        
-        // Set the ground depth
-        groundGraphics.setDepth(0);
     }
 }

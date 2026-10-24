@@ -80,3 +80,27 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 `FeralToast_<id>.aseprite`: tag `ceka` = idle (frames 1-4), `hraje` = playing (5-12, two frames per beat of
 feral-toast.mp3 ≈ 177 BPM). Sizes: telka 128×176, bass_xl 144×192, karlis 176×176 (with the kit), mira 144×176 (with the synth).
 The old AI images `feral_*.png` stay — ScraperAmbraScene's cutscene still uses them.
+
+## Voxmarket (the market inside the zeppelin hangar: main hall, Zerren's lane, the auction bay)
+Same camera as the Crossroad, but the shell is RAY-CAST (a barrel vault with lattice trusses, side walls with steel
+windows, a skylight band, the radial-glazed gable; or a flat gallery deck for the lane) and everything else is planar
+quads with per-pixel depth (`quad()`, `box()`, `disc()`, `line3()`), shaded by small per-object shader functions.
+```
+python3 voxmarket_bg.py <outdir> hall|alley|auction [base|growth|decay]   # -> hall.png, hall_growth.png, ...
+```
+Game files: hall → `Voxmarket*.png` (VoxMarket), alley → `VoxmarketMarket*.png` (VoxmarketMarketScene),
+auction → `VoxmarketHall*.png` (VoxmarketHallScene); the scenes swap variants with `applyGDBackground`.
+Fixed points the art respects: the auction portal (arch in the right hangar wall at z 25, canvas x ≈ 915, exit zone 686 in 800-space),
+Zerren's niche (his counter sprite at canvas 200, feet 517), the auction stage top at y ≈ 431 (the twins stand on it).
+Rule: nothing low nearer than z ≈ 16 (the walk line y 534 must stay in front of all counters).
+
+## Voxmarket NPCs (Kloor Venn, Zerren, Hesh & Vell)
+Same renderer as Feral Toast (`rig.py`). `python3 voxmarket_chars.py <outdir>` → `kloor.png` (128×160: 0-3 idle,
+4-11 walk, faces right), `zerren.png` (176×160, 4 idle, the counter is part of the sprite), `hesh_vell.png` (208×176,
+8 idle frames; Vell repeats Hesh's gavel two frames late). Then
+```
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/vox_chars.gpl --script tools/artgen/voxchars_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/voxmarket --script tools/artgen/voxchars_export.lua
+```
+Sources `assets/aseprite/Vox_<id>.aseprite` (tags ceka / chuze, UPRAVY layer). In the scenes all three keep their old
+texture keys (`kloor`, `zerren`, `heshAndVell`), shown at scale 1 with a bottom-centre origin on their feet.
