@@ -145,13 +145,31 @@ exit to the elevator is the bottom edge (behind the camera); the walk line is y 
 `shedkit.py` = the shared kit on `raster3d`: the overcast sky, world-space materials in the Crossroad palette
 (`planks`, `corrugated`, `steel`, `concrete`, `setts`, `windows_sh`), queue stanchions, and people drawn with the
 character renderer (`applicant_img` / `applicant`: hooded applicants, some with a mushroom cap, coral knobs or a gas
-mask; standing or seated; front, back or profile), `mushroom_img` / `mushroom` (giant mushrooms) and `statue` (mossy
-stone applicants on plinths). Drawn figures go into the scene as depth-sized sprites (`Raster.sprite`).
+mask; standing or seated; front, back or profile), `mushroom_img` / `mushroom` (giant mushrooms -- not used: no
+mushrooms without a reason in the world) and `statue` (mossy stone applicants on plinths). Drawn figures go into the scene as depth-sized sprites (`Raster.sprite`).
 ```
 python3 gate_bg.py <outdir>          # -> gate.png         = assets/images/backgrounds/Shed521_gate.png (Shed521GateScene)
 python3 courtyard_bg.py <outdir>     # -> courtyard.png    = ShedMutationCourtyard.png (ShedCourtyardScene)
 python3 registration_bg.py <outdir>  # -> registration.png = ShedRegistrationZone.png (ShedRegistrationScene)
+python3 floors_bg.py <outdir>        # -> floors.png       = Shed521_floors.png (Shed521FloorsScene): a cut-away of the bureau's
+                                     #    three floors through a long lens (raster3d.F patched to 3000), floor lines y 520/340/180
 ```
-Sources `assets/aseprite/{Shed521_gate,ShedMutationCourtyard,ShedRegistrationZone}_1067x600.aseprite` (UPRAVY layer).
+Kit extras: `facade()` (tenement walls: glass with the sky in it, lit / shuttered / boarded / broken / curtained windows,
+sills, grime runs, drainpipes) + `balconies()`; `mutant_img` / `bizarre_statue` (approved mutations in stone: six arms,
+three heads, tentacles, antlers, a snail shell with a claw, a head of eyes, stilts); `Raster.render(mirror=...)` makes
+wet ground reflect the scene (a screen-space march up the column from the eye mirrored under the floor). The burning
+barrel at the gate is the animated GD prop placed unconditionally with `placeProps()` (utils/GDProps.js).
+Sources `assets/aseprite/{Shed521_gate,ShedMutationCourtyard,ShedRegistrationZone,Shed521_floors}_1067x600.aseprite` (UPRAVY layer).
 Fixed points: the Floors door on the gate's near right (exit right); Ortolan at canvas (600, 526) in the courtyard;
 the dream queue around canvas x 363..703 (feet y 522) and the Senior Clerk at (533, 522) in the registration yard.
+
+## The dream queue (Sleepless Mime, Vowel Seller, Hollow Woman — ShedRegistrationScene)
+Same renderer as the protagonist (`rig.py`). `python3 dreamqueue.py <outdir>` → `mime.png`, `vowel_seller.png`,
+`hollow_woman.png` (6 idle frames of 128×160 each, facing the viewer, feet on y 156) + `dreamqueue.gpl`. Then
+```
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/dreamqueue.gpl --script tools/artgen/dreamqueue_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/dreamqueue --script tools/artgen/dreamqueue_export.lua
+```
+Sources `assets/aseprite/DreamQueue_<id>.aseprite` (tag ceka, UPRAVY layer). The scene keeps the texture keys
+`sleeplessMime` / `vowelSeller` / `hollowWoman`, shows them at scale 1 (anims dq_mime / dq_vowel / dq_hollow) and uses
+2× busts from the sheets as dialog portraits (`dialogPortraits` `{ key, frame, zoom, top }`, EN + CZ speaker names).

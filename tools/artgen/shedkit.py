@@ -323,3 +323,184 @@ def statue(rs, X, Z, seed, h=8.0, plinth=2.4, kind=None):
     rs.box(X - 2.2, X + 2.2, plinth, plinth + 0.35, Z - 1.6, Z + 1.6, concrete(3.8, STONE), concrete(2.8, STONE), top=concrete(4.4, STONE), cls='prop')
     img = applicant_img(seed, F * h / Z, kind=kind, view='front', robe=MOSSTONE, skin=MOSSTONE, stone=True)
     rs.sprite(img, X, plinth + 0.35, Z - 0.2, tint=lambda c, z: fogged(c, z))
+
+# ---------------------------------------------------------------------------------------------------- bizarre statues
+STONEM = ramp('#121612 #1c221c #283027 #353f33 #454f41 #576250 #6c7762 #848e77 #9ea78f')
+def mutant_img(seed, hpx, kind):
+    """an approved mutation carved in stone: a robed figure on its plinth with the mutation growing out of it --
+    'arms' (three pairs of arms out of the robe), 'heads' (a forked neck, three heads), 'tentacles' (the hem splits
+    into tentacles over the plinth), 'antlers' (antlers through the hood, arms down to the knees), 'shell' (hunched under
+    a spiral shell, one huge claw), 'eyes' (a cluster of eyes in the hood), 'stilts' (stretched, stick-thin, on stilt legs)"""
+    k = hpx / 100.0
+    Wd, Hd = int(150 * k) + 8, int(120 * k) + 8
+    r = Rig(Wd, Hd)
+    P = lambda x, y: ((x + 75) * k + 4, (y + 20) * k + 4)                  # x: -75..75 around the axis, y: -20..100
+    R_ = lambda v: v * k
+    def mossy(x, y, u, w):                                                   # moss settles on what faces up
+        return -0.35 if w < -0.45 and h32(int(x / max(1, k * 2)), int(y / max(1, k * 2)), seed) % 3 else 0
+    st = Mat(STONEM, 'plain', 0.2)
+    MO = Mat(MOSSTONE, 'fur', 0.2)
+    def limb(pts, r0, r1, g, lift=0.0):
+        n = len(pts) - 1
+        for i in range(n):
+            r.tube(P(*pts[i]), P(*pts[i + 1]), R_(r0 + (r1 - r0) * i / n), R_(r0 + (r1 - r0) * (i + 1) / n), st, lift=lift, group=g,
+                   folds=lambda t, sd: -0.25 if sd > 0.6 else 0)
+    def hand(x, y, g, s_=2.8):
+        r.ellipsoid(*P(x, y), R_(s_), R_(s_ * 1.1), st, group=g)
+    def robe(top_y, w0, w1, bottom=98, lean=0.0, g='robe'):
+        pts = [P(-w0 + lean, top_y), P(w0 + lean, top_y), P(w0 + 2, top_y + 18), P(w1, bottom), P(-w1, bottom), P(-w0 - 2, top_y + 18)]
+        r.poly(pts, st, group=g, vfun=lambda x, y: -0.3 if int((x / k) * 0.5 + (y / k) * 0.08) % 3 == 0 and y / k > top_y + 30 else 0)
+    def hood(hx, hy, rx=9.0, ry=10.5, opening=True, drape=True):
+        if drape: r.poly([P(hx - 12, hy + 7), P(hx + 12, hy + 7), P(hx + 14, hy + 16), P(hx - 14, hy + 16)], st, lift=0.05, group='drape')
+        r.ellipsoid(*P(hx, hy), R_(rx), R_(ry), st, lift=0.06, group='hood', vfun=mossy)
+        if opening: r.ellipsoid(*P(hx + 0.5, hy + 2), R_(rx * 0.62), R_(ry * 0.7), st, lift=-0.7, group='opening')
+    stilts = kind == 'stilts'
+    if kind == 'tentacles':
+        for i in range(8):                                                   # the hem splits into tentacles
+            a = -1.35 + i * 0.385
+            pts = [(math.sin(a) * 10, 70)]
+            for j in range(1, 8):
+                t = j / 7
+                pts.append((math.sin(a) * (10 + 34 * t) + math.sin(t * 6 + i) * 3.5, 70 + 30 * t - 6 * t * t * (abs(a) < 0.6)))
+            limb(pts, 5.6, 1.2, 't%d' % i, lift=-0.12 if abs(a) > 0.9 else 0.0)
+        robe(30, 12, 15, bottom=76)
+    elif kind == 'shell':
+        robe(44, 12, 18, lean=6)
+    elif stilts:
+        for sx in (-1, 1):
+            limb([(sx * 4, 62), (sx * 6, 80), (sx * 7, 99)], 2.0, 1.6, 'leg%d' % sx)
+        robe(4, 6, 8, bottom=64)
+    else:
+        robe(30, 12, 17)
+    # the head end of each mutation
+    if kind == 'heads':
+        for (hx, hy, rr) in ((-15, 4, 6.4), (0, -6, 7.4), (15, 5, 6.2)):
+            limb([(0, 30), (hx * 0.5, (30 + hy) / 2 + 4), (hx, hy + 6)], 4.8, 3.8, 'neck%d' % hx)
+            hood(hx, hy, rr * 1.25, rr * 1.4, drape=False)
+    elif kind == 'eyes':
+        hood(0, 18, 11, 12.5, opening=True)
+        for i in range(9):
+            a = i * 2.39996; d = 1 + (i ** 0.5) * 2.4
+            ex, ey = math.cos(a) * d, 20 + math.sin(a) * d
+            rr = 2.2 - i * 0.1
+            r.ellipsoid(*P(ex, ey), R_(rr), R_(rr), Mat(STONEM, 'plain', 0.34, 0.7), group='eye%d' % i)
+            r.fixed(*P(ex + 0.3, ey + 0.3), STONEM[0])
+    elif kind == 'shell':
+        r.ellipsoid(*P(-12, 46), R_(23), R_(25), Mat(STONEM, 'plain', 0.22, 0.25), group='shell',
+                    vfun=lambda x, y, u, w: (-0.4 if abs(math.hypot(u, w) * 6 - math.atan2(w, u) * 0.95) % 1.6 < 0.25 else 0) + mossy(x, y, u, w))
+        hood(14, 30, 8, 9)
+        limb([(10, 50), (26, 44), (36, 30)], 5.0, 4.4, 'clawarm')
+        r.ellipsoid(*P(42, 22), R_(11), R_(7), st, rot=-0.5, group='claw', vfun=mossy)
+        r.ellipsoid(*P(47, 33), R_(9), R_(3.8), st, rot=0.45, group='pincer')
+    elif stilts:
+        hood(0, -8, 4.6, 5.4, drape=False)
+    else:
+        hood(0, 18)
+        if kind == 'antlers':
+            def antler(x, y, a, ln, d):
+                if d > 3 or ln < 3: return
+                x2, y2 = x + math.cos(a) * ln, y - math.sin(a) * ln
+                r.tube(P(x, y), P(x2, y2), R_(2.4 - d * 0.5), R_(2.0 - d * 0.45), st, group='antler')
+                antler(x2, y2, a + 0.5, ln * 0.7, d + 1); antler(x2, y2, a - 0.45, ln * 0.62, d + 1)
+            antler(-4, 10, math.radians(118), 16, 0); antler(4, 10, math.radians(62), 16, 0)
+    # arms out of the robe
+    if kind == 'arms':
+        for (yy, a_up) in ((34, 1.0), (44, 0.15), (54, -0.7)):
+            for sx in (-1, 1):
+                el = (sx * (22 + 4 * a_up), yy - 6 * a_up + 6)
+                hd = (sx * (33 + 8 * (1 - abs(a_up))), yy - 24 * a_up + 4)
+                limb([(sx * 11, yy), el, hd], 4.0, 3.0, 'arm%d%d' % (sx, yy))
+                hand(hd[0], hd[1], 'h%d%d' % (sx, yy))
+    elif kind == 'antlers':
+        for sx in (-1, 1):
+            limb([(sx * 12, 34), (sx * 17, 58), (sx * 18, 84)], 4.0, 2.8, 'arm%d' % sx)
+            hand(sx * 18.5, 87, 'h%d' % sx)
+    elif stilts:
+        for sx in (-1, 1):
+            limb([(sx * 5, 8), (sx * 13, 34), (sx * 11, 62)], 2.0, 1.5, 'arm%d' % sx)
+            hand(sx * 11, 64, 'h%d' % sx, 1.8)
+    elif kind in ('heads', 'eyes', 'tentacles'):
+        for sx in (-1, 1):
+            limb([(sx * 12, 34), (sx * 16, 50), (sx * 9, 60)], 4.2, 3.2, 'arm%d' % sx)
+            hand(sx * 8, 61, 'h%d' % sx)
+    return r.render()
+
+def bizarre_statue(rs, X, Z, seed, kind, h=10.0, plinth=2.8):
+    rs.box(X - 2.4, X + 2.4, 0, plinth, Z - 1.6, Z + 1.6, concrete(3.2, MOSSTONE), concrete(2.4, MOSSTONE), top=concrete(4.0, MOSSTONE), cls='prop')
+    rs.box(X - 2.7, X + 2.7, plinth, plinth + 0.35, Z - 1.8, Z + 1.8, concrete(3.8, STONE), concrete(2.8, STONE), top=concrete(4.4, STONE), cls='prop')
+    img = mutant_img(seed, F * h / Z, kind)
+    rs.sprite(img, X, plinth + 0.35, Z - 0.2, tint=lambda c, z: fogged(c, z))
+
+# ---------------------------------------------------------------------------------------------------- tenement facades
+SHUT = [ramp('#122016 #1a2e20 #24402c #305439'), ramp('#24170e #352215 #4a301e #603f28'), ramp('#1a1e26 #252b36 #323a48 #414b5c')]
+CURT = [(118, 62, 52), (150, 128, 82), (90, 104, 120), (122, 92, 120), (168, 160, 140)]
+def facade(base, along_z=False, bay=5.0, floors=3.6, y0=0.0, seed=0, wf=0.38, pipe_every=3):
+    """a tenement wall: rows of windows -- dark glass with the sky in it, lit, shuttered, boarded, broken, curtained --
+    with sills, lintels, grime runs under them, and drainpipes every few bays"""
+    def sh(x, y, s, t, z, wp):
+        X, Y, Z = wp
+        u = Z if along_z else X
+        if Y < y0: return base(x, y, s, t, z, wp)
+        fu = (u / bay) % 1; fv = ((Y - y0) / floors) % 1
+        bi, fi = math.floor(u / bay), math.floor((Y - y0) / floors)
+        px = z / F                                                                  # metres per pixel
+        if bi % pipe_every == 0 and abs(fu - 0.06) < max(0.025, px / bay * 0.7):      # a drainpipe
+            return fogged(tone(METAL, 1.6 + (1.2 if (Y % 2.6) < 0.25 else 0) + (0.6 if fu < 0.06 else 0), x, y), z)
+        lo, hi = 0.5 - wf / 2, 0.5 + wf / 2
+        k = h32(bi, fi, seed)
+        inw = lo < fu < hi and 0.24 < fv < 0.8
+        if lo - 0.03 < fu < hi + 0.03 and 0.18 < fv < 0.24: return fogged(tone(STUCCO, 4.4 - (fv - 0.18) * 20, x, y), z)   # the sill
+        if lo - 0.01 < fu < hi + 0.01 and 0.8 < fv < 0.85: return fogged(tone(STUCCO, 2.0, x, y), z)                      # the lintel
+        if not inw:
+            c = base(x, y, s, t, z, wp)
+            if lo < fu < hi and fv < 0.18 and wn(2, u * 3 + bi, 1.0) > 0.45:                                             # grime run under the sill
+                c = mix(c, (20, 24, 20), (0.18 - fv) / 0.18 * 0.35)
+            return c
+        wu, wv = (fu - lo) / wf, (fv - 0.24) / 0.56
+        state = k % 100
+        if state < 4: c = GLOW[1] if (x + y) % 3 else GLOW[2]                                                           # lit
+        elif state < 16:                                                                                                  # shutters
+            r_ = SHUT[k % 3]
+            c = tone(r_, 2.4 - (1.2 if (wv * 9) % 1 < 0.25 else 0) - (1.0 if abs(wu - 0.5) < 0.03 else 0), x, y)
+            if k % 7 == 0 and wu > 0.5: c = STONE[0]                                                                     # one leaf open
+        elif state < 22:                                                                                                  # boarded up
+            c = tone(WOOD, 3.0 - (1.4 if (wv * 4) % 1 < 0.12 else 0), x, y)
+            if abs(wu - wv) < 0.08 or abs(1 - wu - wv) < 0.08: c = tone(WOOD, 4.2, x, y)
+        elif state < 27:                                                                                                  # broken
+            jag = abs(math.sin(wu * 23 + k) * 0.3 + 0.35 - wv)
+            c = STONE[0] if jag > 0.12 else tone(SKY, 4.4, x, y)
+        else:                                                                                                             # glass
+            c = tone(SKY, 2.2 + wv * 2.6 + (0.8 if (wu + wv * 0.4) % 0.7 < 0.08 else 0), x, y)
+            if abs(wu - 0.5) < max(0.04, px / (bay * wf) * 0.6) or abs(wv - 0.36) < max(0.04, px / (floors * 0.56) * 0.6): c = tone(STUCCO, 2.0, x, y)
+            if state < 45 and wv > 0.5 - (k % 3) * 0.1:                                                                  # a curtain
+                c = mix(CURT[k % len(CURT)], (0, 0, 0), 0.25 + 0.2 * ((wu * 7) % 1 < 0.3))
+        return fogged(c, z, 0.85)
+    return sh
+
+def balconies(rs, wall, z0, z1, along_z, bay, floors, y0, seed, top, side=1, every=4):
+    """little iron balconies stuck to a facade: a concrete slab, a railing, sometimes laundry or a plant pot"""
+    u = z0 + bay * 0.5
+    while u < z1:
+        bi = math.floor(u / bay)
+        for fi in range(1, int((top - y0) / floors)):
+            if h32(bi, fi, seed + 77) % every: continue
+            Y = y0 + fi * floors + 0.2 * floors
+            w0, w1 = u - bay * 0.32, u + bay * 0.32
+            d = 1.3 * side
+            slab = lambda x, y, s, t, z, wp: fogged(tone(STONE, 3.6 if t > 0.5 else 2.2, x, y), z)
+            if along_z:
+                xa, xb = sorted((wall, wall + d))
+                rs.box(xa, xb, Y - 0.3, Y, w0, w1, slab, slab, top=slab, bottom=slab, cls='prop')
+                for zz in (w0, w1): rs.line3((wall + d, Y, zz), (wall + d, Y + 1.6, zz), lambda x, y, s, t, z, wp: fogged(METAL[1], z), w=0.12)
+                rs.line3((wall + d, Y + 1.6, w0), (wall + d, Y + 1.6, w1), lambda x, y, s, t, z, wp: fogged(METAL[1], z), w=0.12)
+                rs.quad((wall + d, Y, w0), (wall + d, Y, w1), (wall + d, Y + 1.5, w0),
+                        lambda x, y, s, t, z, wp: fogged(METAL[1], z) if (s * 14) % 1 < 0.25 or t < 0.08 else None, cls='prop', cut=True)
+                if h32(bi, fi, seed) % 3 == 0:                                                  # laundry over the railing
+                    c = CURT[h32(bi, fi, 5) % len(CURT)]
+                    rs.quad((wall + d - 0.05, Y + 0.4, w0 + 0.4), (wall + d - 0.05, Y + 0.4, w0 + 1.6), (wall + d - 0.05, Y + 1.7, w0 + 0.4),
+                            lambda x, y, s, t, z, wp, c=c: fogged(mix(c, (0, 0, 0), 0.15 * (int(s * 5) % 2)), z), cls='prop')
+            else:
+                rs.box(w0, w1, Y - 0.3, Y, wall - d, wall, slab, slab, top=slab, bottom=slab, cls='prop')
+                rs.quad((w0, Y, wall - d), (w1, Y, wall - d), (w0, Y + 1.5, wall - d),
+                        lambda x, y, s, t, z, wp: fogged(METAL[1], z) if (s * 14) % 1 < 0.25 or t > 0.92 else None, cls='prop', cut=True)
+        u += bay

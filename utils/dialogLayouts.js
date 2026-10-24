@@ -121,7 +121,8 @@ function newBox(scene) {
 /**
  * Best-effort portrait texture for a speaker, using assets ALREADY loaded in the scene — no
  * per-NPC wiring needed. A scene may override precisely via `scene.dialogPortraits = { 'Gnur': 'gnur' }`,
- * or point at one frame of a sheet with `{ key, frame }` (shown whole, integer-scaled — e.g. the symbionts).
+ * or point at one frame of a sheet with `{ key, frame }` (shown whole, integer-scaled — e.g. the symbionts), or
+ * `{ key, frame, zoom, top }` for a bust of a full-figure sheet (integer zoom, frame row `top` at the plate's top).
  * Matching: exact normalized key first (e.g. "Gnur" → 'gnur'), then a substring match on the
  * speaker's words (e.g. "Fungal Master Thaal" → 'fungal_master'); obvious non-character keys skipped.
  */
@@ -158,7 +159,18 @@ function resolvePortraitTexture(scene, speaker) {
 function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
     parent.add(scene.add.rectangle(cx, cy, w, h, 0x0a1a12, 0.9).setStrokeStyle(1, 0x2f5a44));
     const innerW = w - 12, innerH = h - 12;
-    if (key && key.key && scene.textures.exists(key.key)) {
+    if (key && key.key && key.zoom && scene.textures.exists(key.key)) {
+        // A bust from one frame of a full-figure pixel-art sheet: integer zoom, the frame's row `top` (the top of the
+        // head) at the plate's top edge, the rest masked off
+        const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, key.key, key.frame ?? 0)
+            .setOrigin(0.5, 0).setScale(key.zoom);
+        parent.add(spr);
+        const g = scene.add.graphics();
+        g.fillStyle(0xffffff);
+        g.fillRect(cx - innerW / 2, cy - innerH / 2, innerW, innerH);
+        spr.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));
+        (scene._dialogMasks = scene._dialogMasks || []).push(g);
+    } else if (key && key.key && scene.textures.exists(key.key)) {
         // One frame of a sheet (a small pixel-art sprite): whole, integer-scaled, centred above the name strip.
         const spr = scene.add.sprite(cx, cy - 16, key.key, key.frame);
         spr.setScale(Math.max(1, Math.floor(Math.min(innerW, innerH - 32) / Math.max(spr.width, spr.height))));

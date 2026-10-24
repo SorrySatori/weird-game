@@ -1,5 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { preloadGDProps, placeProps } from '../utils/GDProps.js';
 
 export default class Shed521GateScene extends GameScene {
     constructor() {
@@ -11,6 +12,7 @@ export default class Shed521GateScene extends GameScene {
         super.preload();
         this.load.image('Shed521GateBg', 'assets/images/backgrounds/Shed521_gate.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        preloadGDProps(this); // the burning barrel by the lamp
         // Audio is already loaded in GameScene's preload
     }
 
@@ -34,6 +36,9 @@ export default class Shed521GateScene extends GameScene {
             this.ground.destroy();
             this.ground = null;
         }
+        
+        // A barrel fire by the lamp post (animated, with its warm glow)
+        placeProps(this, [{ prop: 'fire', x: 716, y: 500 }]);
         
         // Position the priest at the right side when entering this scene
         this.priest.x = 750;

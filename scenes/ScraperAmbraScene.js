@@ -886,6 +886,7 @@ export default class ScraperAmbraScene extends GameScene {
     createDrElphi() {
         // She stands on the floor in front of her desk (world (12, 0, 17) in ambra_bg.py), feet anchored
         const ELPHI_SCALE = 0.08;
+        this._elphiHoverFx = null; // the scene instance is reused
         this.drElphi = this.add.sprite(745, 510, 'drElphi');
         this.drElphi.setOrigin(0.5, 1);
         this.drElphi.setScale(ELPHI_SCALE); // ~123 px tall, a little taller than the apprentice
@@ -965,13 +966,14 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Hover effect
         drElphiContainer.on('pointerover', () => {
-            this.drElphi.setScale(ELPHI_SCALE * 1.08); // Slightly larger on hover
+            // a soft green outline glow instead of scaling (scaling smears the pixel art); WebGL only, harmless otherwise
+            if (!this._elphiHoverFx) this._elphiHoverFx = this.drElphi.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
             nameTag.setFontSize('16px');
             document.body.style.cursor = 'pointer';
         });
         
         drElphiContainer.on('pointerout', () => {
-            this.drElphi.setScale(ELPHI_SCALE); // Back to normal size
+            if (this._elphiHoverFx) { this.drElphi.preFX?.remove(this._elphiHoverFx); this._elphiHoverFx = null; }
             nameTag.setFontSize('14px');
             document.body.style.cursor = 'default';
         });

@@ -20,11 +20,13 @@ def yard(x, y, s, t, z, wp):
 rs.quad((-90, 0, 3), (90, 0, 3), (-90, 0, 260), yard, cls='ground')
 
 # ---------------------------------------------------------------------------------------------------- tenements around
-rs.quad((-70, 0, 44), (70, 0, 44), (-70, 38, 44), windows_sh(concrete(3.0, STUCCO), cols=3.2, rows=4.0, lit=0.06, seed=21), cls='wall')
-rs.box(-80, -27, 0, 32, 20, 44, windows_sh(concrete(2.4, STONE), cols=3.0, rows=4.0, lit=0.05, seed=22),
-       windows_sh(concrete(2.8, STONE), cols=3.0, rows=4.0, lit=0.08, seed=23, along_z=True), cls='wall')
-rs.box(27, 80, 0, 28, 22, 44, windows_sh(concrete(2.2, STUCCO), cols=3.0, rows=4.0, lit=0.05, seed=24),
-       windows_sh(concrete(3.0, STUCCO), cols=3.0, rows=4.0, lit=0.08, seed=25, along_z=True), cls='wall')
+rs.quad((-70, 0, 44), (70, 0, 44), (-70, 38, 44), facade(concrete(3.0, STUCCO), bay=4.6, floors=3.8, y0=1.0, seed=21), cls='wall')
+rs.box(-80, -27, 0, 32, 20, 44, facade(concrete(2.4, STONE), bay=4.4, floors=3.8, y0=1.0, seed=22),
+       facade(concrete(2.8, STONE), along_z=True, bay=4.8, floors=3.8, y0=1.0, seed=23), cls='wall')
+rs.box(27, 80, 0, 28, 22, 44, facade(concrete(2.2, STUCCO), bay=4.4, floors=3.8, y0=1.0, seed=24),
+       facade(concrete(3.0, STUCCO), along_z=True, bay=4.8, floors=3.8, y0=1.0, seed=25), cls='wall')
+balconies(rs, -27.0, 20.0, 44.0, True, 4.8, 3.8, 1.0, 23, 32.0, side=1, every=3)
+balconies(rs, 27.0, 22.0, 44.0, True, 4.8, 3.8, 1.0, 25, 28.0, side=-1, every=3)
 for (x0, x1, y0, z0, z1) in ((-28.0, -27.0, 32.0, 20, 44), (27.0, 28.0, 28.0, 22, 44)):
     rs.box(x0, x1, y0, y0 + 1.0, z0, z1, lambda x, y, s, t, z, wp: fogged(tone(RUSTY, 2.4, x, y), z),
            lambda x, y, s, t, z, wp: fogged(tone(RUSTY, 2.0, x, y), z), cls='prop')

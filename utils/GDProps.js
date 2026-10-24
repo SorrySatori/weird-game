@@ -58,7 +58,11 @@ export function applyGDBackground(scene, bg, baseKey) {
 export function placeGDProps(scene, placements) {
     const tendency = scene.getGDTendency ? scene.getGDTendency() : 'balanced';
     if (tendency === 'balanced') return [];
-    const list = (tendency === 'growthDominant' ? placements.growth : placements.decay) || [];
+    return placeProps(scene, (tendency === 'growthDominant' ? placements.growth : placements.decay) || []);
+}
+
+/** Place props regardless of the tendency (scenery that is always there, e.g. a burning barrel). Same entry shape. */
+export function placeProps(scene, list) {
     const made = [];
     for (const p of list) {
         const def = GD_PROPS[p.prop];

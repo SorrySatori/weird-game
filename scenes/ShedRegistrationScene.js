@@ -32,9 +32,10 @@ export default class ShedRegistrationScene extends GameScene {
         this.load.image('registration-bg', 'assets/images/backgrounds/ShedRegistrationZone.png');
         this.load.image('door', 'assets/images/ui/door.png');
         this.load.image('clerk2', 'assets/images/characters/clerk2.png');
-        this.load.image('vowelSeller', 'assets/images/characters/vowelSeller.png');
-        this.load.image('hollowWoman', 'assets/images/characters/hollowWoman.png');
-        this.load.image('sleeplessMime', 'assets/images/characters/mime.png');
+        // the dream queue: 6-frame idle sheets, 128×160 (tools/artgen/dreamqueue.py, Aseprite DreamQueue_<id>)
+        this.load.spritesheet('vowelSeller', 'assets/images/characters/dreamqueue/vowel_seller.png', { frameWidth: 128, frameHeight: 160 });
+        this.load.spritesheet('hollowWoman', 'assets/images/characters/dreamqueue/hollow_woman.png', { frameWidth: 128, frameHeight: 160 });
+        this.load.spritesheet('sleeplessMime', 'assets/images/characters/dreamqueue/mime.png', { frameWidth: 128, frameHeight: 160 });
 
     }
 
@@ -98,16 +99,19 @@ export default class ShedRegistrationScene extends GameScene {
         this.queueContainer = this.add.container(this.scale.width / 2, 522).setDepth(6);
         
         // 1. Sleepless Mime (using clerk.png for now) — first in queue
-        this.sleeplessMime = this.add.sprite(-170, 0, 'sleeplessMime')
+        // feet sit 4 px above the frame's bottom edge
+        this.sleeplessMime = this.add.sprite(-170, 4, 'sleeplessMime')
             .setOrigin(0.5, 1)
-            .setScale(0.15)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
             
         // Add a subtle glow effect
         this.sleeplessMimeGlow = this.add.graphics();
-        this.sleeplessMimeGlow.fillStyle(0x7fff8e, 0.2);
-        this.sleeplessMimeGlow.fillCircle(-170, -75, 50);
+        for (let i = 5; i >= 1; i--) {                       // a soft glow, layered (no hard disc edge)
+            this.sleeplessMimeGlow.fillStyle(0x7fff8e, 0.045);
+            this.sleeplessMimeGlow.fillEllipse(-170, -66, 26 * i, 36 * i);
+        }
+        this.sleeplessMimeGlow.setBlendMode(Phaser.BlendModes.ADD);
         this.sleeplessMimeGlow.setVisible(false);
         
         // Add to queue container
@@ -122,16 +126,17 @@ export default class ShedRegistrationScene extends GameScene {
         });
         
         // 2. Vowel Seller — second in queue
-        this.vowelSeller = this.add.sprite(0, 0, 'vowelSeller')
+        this.vowelSeller = this.add.sprite(0, 4, 'vowelSeller')
             .setOrigin(0.5, 1)
-            .setScale(0.15)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
             
         // Add ash particle effect (static version to avoid errors)
         this.vowelSellerAsh = this.add.graphics();
-        this.vowelSellerAsh.fillStyle(0xcccccc, 0.3);
-        this.vowelSellerAsh.fillCircle(0, -75, 40);
+        for (let i = 5; i >= 1; i--) {                       // a soft haze of ash around them
+            this.vowelSellerAsh.fillStyle(0xcccccc, 0.05);
+            this.vowelSellerAsh.fillEllipse(0, -70, 22 * i, 32 * i);
+        }
         this.vowelSellerAsh.setVisible(false);
         
         // Add to queue container
@@ -145,9 +150,8 @@ export default class ShedRegistrationScene extends GameScene {
             }
         });
         
-        this.hollowWoman = this.add.sprite(170, 0, 'hollowWoman')
+        this.hollowWoman = this.add.sprite(170, 4, 'hollowWoman')
             .setOrigin(0.5, 1)
-            .setScale(0.15)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
         
@@ -161,6 +165,23 @@ export default class ShedRegistrationScene extends GameScene {
             }
         });
         
+        // idle loops: the Mime pantomimes its box, the Vowel Seller's vial pulses, the Hollow Woman sways (anims are global)
+        [['sleeplessMime', 'dq_mime', 4], ['vowelSeller', 'dq_vowel', 6], ['hollowWoman', 'dq_hollow', 3]].forEach(([key, anim, fps]) => {
+            if (!this.anims.exists(anim)) {
+                this.anims.create({ key: anim, frames: this.anims.generateFrameNumbers(key, { start: 0, end: 5 }), frameRate: fps, repeat: -1 });
+            }
+            this[key].play(anim);
+        });
+        this.hollowWoman.setAlpha(0.9); // she has been waiting so long she is fading
+        // dialog portraits: busts at 2× from the sheets
+        // (keyed by the English names and the Czech ones too: the dialog shows the translated speaker)
+        const busts = {
+            'Sleepless Mime': { key: 'sleeplessMime', frame: 0, zoom: 2, top: 20 }, 'Nevyspalý mim': { key: 'sleeplessMime', frame: 0, zoom: 2, top: 20 },
+            'Vowel Seller': { key: 'vowelSeller', frame: 2, zoom: 2, top: 8 }, 'Prodavač samohlásek': { key: 'vowelSeller', frame: 2, zoom: 2, top: 8 },
+            'Hollow Woman': { key: 'hollowWoman', frame: 0, zoom: 2, top: 16 }, 'Dutá žena': { key: 'hollowWoman', frame: 0, zoom: 2, top: 16 }
+        };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), ...busts };
+
         // 4. Senior Clerk (will appear after all others are interacted with)
         this.seniorClerk = this.add.sprite(this.scale.width / 2, 522, 'clerk2')
             .setOrigin(0.5, 1)
@@ -223,7 +244,7 @@ export default class ShedRegistrationScene extends GameScene {
         
         this.tweens.add({
             targets: this.hollowWoman,
-            alpha: 1,
+            alpha: 0.9, // she stays a little see-through
             duration: 1500,
             delay: 2500,
             ease: 'Power2',

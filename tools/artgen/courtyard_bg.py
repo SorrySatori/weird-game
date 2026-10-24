@@ -1,6 +1,7 @@
 """The Mutation Approval Courtyard of Shed 521 (ShedCourtyardScene), 1067x600, overcast day, the shared camera.
-A paved court closed by arcaded tenements: approved mutants stand as mossy stone statues on plinths, giant mushrooms
-have grown through the flagstones, a street lamp, the courtyard's sign on a post at the right. The court opens to the
+A paved court closed by arcaded tenements: the approved mutations stand as mossy stone statues on plinths (six arms,
+three heads, tentacles, antlers, a snail shell and a claw, a head of eyes, stilts), a street lamp, the courtyard's sign
+on a post at the right. The court opens to the
 left (back to the gate). Ortolan stands at canvas (600, 520) -- the middle front is kept clear for him and the player.
 
     python3 courtyard_bg.py <outdir>   ->  courtyard.png
@@ -32,7 +33,8 @@ rs.quad((-90, 0, 3), (90, 0, 3), (-90, 0, 260), flags, cls='ground')
 
 # ---------------------------------------------------------------------------------------------------- the tenements around
 def arcade(base, along_z=False, bay=6.0, arch_h=8.0, seed=0, floors=3.4):
-    """a wall with a ground-floor arcade (dark arches) and rows of windows above"""
+    """a wall with a ground-floor arcade (dark arches) and the tenement's windows above"""
+    upper = facade(base, along_z=along_z, bay=bay, floors=floors, y0=arch_h + 0.8, seed=seed)
     def sh(x, y, s, t, z, wp):
         X, Y, Z = wp
         u = Z if along_z else X
@@ -45,20 +47,15 @@ def arcade(base, along_z=False, bay=6.0, arch_h=8.0, seed=0, floors=3.4):
                 return fogged(tone(STONE, 0.6 + 0.8 * (1 - d) * (1 if abs(fu - 0.5) < 0.2 else 0.5), x, y), z)
             if abs(fu - 0.5) < half + 0.05 and Y < arch_h + 0.3: return fogged(tone(STUCCO, 1.6, x, y), z)       # the arch's rim
         if abs(Y - arch_h - 0.4) < 0.4: return fogged(tone(STUCCO, 4.2, x, y), z)                     # a cornice band
-        fv = ((Y - arch_h) / floors) % 1
-        if Y > arch_h + 1 and 0.3 < fu < 0.42 or Y > arch_h + 1 and 0.58 < fu < 0.7:
-            if 0.25 < fv < 0.78:
-                k = h32(int(u / bay), int((Y - arch_h) / floors), seed + (1 if fu > 0.5 else 0))
-                c = GLOW[0] if k % 13 == 0 else (STONE[1] if k % 3 else STONE[0])
-                if abs(fv - 0.25) < 0.05: c = STUCCO[4]                                                # the sill
-                return fogged(c, z, 0.85)
-        return base(x, y, s, t, z, wp)
+        return upper(x, y, s, t, z, wp)
     return sh
 ZB_ = 50.0
 rs.quad((-60, 0, ZB_), (60, 0, ZB_), (-60, 34, ZB_), arcade(concrete(3.0, STUCCO), bay=6.5, seed=1), cls='wall')
 rs.box(-60, 60, 34, 35.2, ZB_ - 1, ZB_ + 1, lambda x, y, s, t, z, wp: fogged(tone(STUCCO, 3.6, x, y), z), lambda x, y, s, t, z, wp: STUCCO[1], cls='prop')
 rs.box(-70, -24, 0, 30, 18, ZB_, arcade(concrete(2.4, STUCCO), bay=5.0, seed=4), arcade(concrete(2.8, STUCCO), along_z=True, bay=5.5, seed=2), cls='wall')
 rs.box(24, 70, 0, 26, 22, ZB_, arcade(concrete(2.2, STONE), bay=5.0, seed=5), arcade(concrete(3.0, STONE), along_z=True, bay=5.5, seed=3), cls='wall')
+balconies(rs, -24.0, 18.0, ZB_, True, 5.5, 3.4, 8.8, 2, 30.0, side=1)
+balconies(rs, 24.0, 22.0, ZB_, True, 5.5, 3.4, 8.8, 3, 26.0, side=-1)
 for (x0, x1, y0, z0, z1) in ((-25.0, -24.0, 30.0, 18, ZB_), (24.0, 25.0, 26.0, 22, ZB_)):                    # eaves
     rs.box(x0, x1, y0, y0 + 1.0, z0, z1, lambda x, y, s, t, z, wp: fogged(tone(RUSTY, 2.4, x, y), z),
            lambda x, y, s, t, z, wp: fogged(tone(RUSTY, 2.0, x, y), z), cls='prop')
@@ -67,15 +64,11 @@ rs.quad((-30, 35, 52), (-12, 35, 52), (-30, 42, 52), lambda x, y, s, t, z, wp: f
 rs.box(30, 33, 26, 34, 36, 39, concrete(2.6, STONE), concrete(1.8, STONE), cls='prop')
 
 # ---------------------------------------------------------------------------------------------------- statues, mushrooms
-for (sx, sz, sd, kind) in ((-16.0, 25.0, 31, 'cap'), (-15.0, 34.0, 32, 'coral'), (-11.5, 43.0, 33, 'hood'),
-                           (14.0, 29.0, 34, 'mask'), (11.5, 38.5, 35, 'coral'), (-1.0, 45.5, 36, 'cap')):
-    statue(rs, sx, sz, sd, h=9.4, plinth=2.8, kind=kind)
-for (mx, mz, ms, mh) in ((-6.0, 40.0, 2, 12.0), (5.5, 46.5, 3, 15.0), (18.5, 35.0, 4, 17.0), (-20.0, 22.0, 1, 23.0)):
-    mushroom(rs, mx, mz, ms, h=mh)
-for k in range(14):                                                                  # small ones at the plinths and walls
-    a = (h32(k, 1) % 100) / 100.0
-    mx, mz = [(-18.5, 23.5), (-12.5, 33.0), (16.0, 27.5), (13.5, 37.0), (-21.5, 30.0), (21.5, 25.0), (-9.0, 44.0)][k % 7]
-    mushroom(rs, mx + (a - 0.5) * 2.4, mz + (h32(k, 2) % 10) / 10.0, 40 + k, h=2.2 + (h32(k, 3) % 4) * 0.8)
+# the approved mutations, in stone: the six-armed founder on a tall plinth at the front left, the others around
+bizarre_statue(rs, -19.0, 23.0, 30, 'arms', h=14.5, plinth=4.2)
+for (sx, sz, sd, kind, hh) in ((-15.0, 33.0, 31, 'tentacles', 9.5), (-11.5, 42.0, 32, 'stilts', 12.0), (14.5, 29.0, 34, 'shell', 9.0),
+                               (12.0, 38.5, 35, 'heads', 10.5), (-1.0, 45.5, 36, 'antlers', 11.0), (5.5, 44.0, 37, 'eyes', 9.5)):
+    bizarre_statue(rs, sx, sz, sd, kind, h=hh, plinth=2.8)
 
 # ---------------------------------------------------------------------------------------------------- the lamp, the sign
 rs.line3((-8.0, 0.0, 22.0), (-8.0, 15.0, 22.0), lambda x, y, s, t, z, wp: fogged(METAL[1] if x % 3 else METAL[2], z), w=0.42)

@@ -122,7 +122,32 @@ class Raster:
                     s.put(x, y, P[2] - 0.01, shader, obj, t, 0, P, None, cls)
         return obj
 
-    def render(s, ink, fog=lambda z: 0.0, post=None, overlay=None, **paint_kw):
+    def reflect(s, col, mirror):
+        """wet ground mirrors the scene: for each ground pixel with mirror(x, y, wp) > 0 march the reflected ray (from
+        the eye mirrored under the floor) up its screen column until it meets something in the depth buffer"""
+        out = {}
+        for y in range(HY + 1, H):
+            for x in range(W):
+                g = s.G[y][x]
+                if g is None or g[5] != 'ground' or g[4] is None: continue
+                k = mirror(x, y, g[4])
+                if k <= 0: continue
+                Zg = g[4][2]; hit = None
+                t = 1.02
+                while True:
+                    Z = Zg * t; Yw = CAMH * (t - 1)
+                    yy = int(HY + F * (CAMH - Yw) / Z)
+                    if yy < 0: break
+                    if yy < y and s.ZB[yy][x] <= Z + 0.6: hit = col[yy][x]; break
+                    t += max(0.01, 0.6 / Zg)
+                    if t > 40: break
+                if hit is None: hit = col[max(0, int(HY * 0.55))][x]                         # the overcast sky above
+                out[(x, y)] = (hit, k)
+        for (x, y), (c, k) in out.items():
+            b = col[y][x]
+            col[y][x] = tuple(int(b[i] * (1 - k) + c[i] * k * 0.8) for i in range(3))
+
+    def render(s, ink, fog=lambda z: 0.0, post=None, overlay=None, mirror=None, **paint_kw):
         """shade every pixel, run paintpass, then darken the farther pixel wherever two objects meet at different
         depths. post(col, cls) draws 2D additions before the painterly pass (they get its light and grime),
         overlay(col) after it (crisp signs and lettering)."""
@@ -137,6 +162,7 @@ class Raster:
                 cc = shader(x, y, a, b, s.ZB[y][x], wp)
                 col[y][x] = ink if cc is None else cc
                 cls[y][x] = c; wpb[y][x] = wp; sid[y][x] = obj; zp[y][x] = s.ZB[y][x]
+        if mirror: s.reflect(col, mirror)
         if post: post(col, cls)
         col = paint(col, cls, zp, wpb, s.NB, sid, fog=fog, **paint_kw)
         if overlay: overlay(col)

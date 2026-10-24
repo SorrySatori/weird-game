@@ -17,7 +17,16 @@ ZW = 34.0                                                                       
 
 # ---------------------------------------------------------------------------------------------------- sky, ground
 rs.quad((-1400, 800, 600), (1400, 800, 600), (-1400, -300, 600), sky, cls='sky')
-rs.quad((-90, 0, 3), (90, 0, 3), (-90, 0, 260), lambda x, y, s, t, z, wp: setts(x, y, s, t, z, wp), cls='ground')
+def puddle(X, Z):
+    """how deep the rain water stands here (0 = dry): a few big puddles in the trodden yard before the gate"""
+    if Z > 40: return 0.0
+    m = wn(2, X * 0.22 + 3.0, Z * 0.3) + (wn(3, X * 1.4, Z * 1.4) - 0.5) * 0.1
+    return max(0.0, min(1.0, (m - 0.7) * 12))
+def yard(x, y, s, t, z, wp):
+    c = setts(x, y, s, t, z, wp)
+    p_ = puddle(wp[0], wp[2])
+    return mix(c, (20, 28, 26), p_ * 0.35) if p_ else c
+rs.quad((-90, 0, 3), (90, 0, 3), (-90, 0, 260), yard, cls='ground')
 
 # ---------------------------------------------------------------------------------------------------- the street beyond
 for side in (-1, 1):
@@ -26,7 +35,7 @@ for side in (-1, 1):
         ln = 14 + h32(side, k, 1) % 12; ht = 16 + h32(side, k, 2) % 26
         x0, x1 = (-60, -14) if side < 0 else (14, 60)
         base = [concrete(3.2, STUCCO if k % 2 else STONE), planks_z(2.8, WOOD, seed=k), corrugated(3.0, METAL, 0.7, along_z=True)][h32(side, k, 3) % 3]
-        rs.box(x0, x1, 0, ht, zz, zz + ln, concrete(2.6), windows_sh(base, cols=2.6, rows=3.4, lit=0.12, seed=k * side, along_z=True), cls='wall')
+        rs.box(x0, x1, 0, ht, zz, zz + ln, concrete(2.6), facade(base, along_z=True, bay=3.2, floors=3.6, y0=1.2, seed=k * side + 50), cls='wall')
         zz += ln + (2 if k % 3 else 6); k += 1
 rs.quad((-60, 0, 210), (60, 0, 210), (-60, 46, 210), windows_sh(concrete(3.0, STONE), cols=3.0, rows=3.6, lit=0.08, seed=99), cls='wall')
 for k, (X, hh) in enumerate(((-26, 70), (8, 58), (30, 84))):                     # far towers in the haze
@@ -119,14 +128,18 @@ for k in range(6):
     rs.line3((X0, SIGN[2], 31.5), (X0 + 0.1, SIGN[2] - 1.0 - (h32(k, 9) % 4) * 0.5, 31.5), lambda x, y, s, t, z, wp: fogged(LEAF[2], z), w=0.2)
 rs.line3((-GX1, 24.0, 33.0), (-28.0, 19.0, 34.5), lambda x, y, s, t, z, wp: STONE[0], w=0.12, sag=1.6)
 rs.line3((GX1, 23.0, 33.0), (32.0, 18.0, 34.5), lambda x, y, s, t, z, wp: STONE[0], w=0.12, sag=2.0)
+NOTES = [((h32(i, 1) % 80) / 100 + 0.05, (h32(i, 2) % 70) / 100 + 0.08, 0.12 + (h32(i, 3) % 6) / 100, 0.2 + (h32(i, 4) % 10) / 100, i) for i in range(14)]
 def notices(x, y, s, t, z, wp):
-    """a notice board crowded with pinned forms"""
-    if s < 0.05 or s > 0.95 or t < 0.07 or t > 0.93: return fogged(tone(WOOD, 1.6, x, y), z)
-    k = h32(int(s * 7), int(t * 4), 3)
-    if k % 5 and ((s * 7) % 1) < 0.82 and ((t * 4) % 1) < 0.8:
-        c = BONE[4] if k % 3 else (BONE[3] if k % 2 else GLOW[3])
-        if int(((t * 4) % 1) * 9) % 2 == 0 and 0.15 < (s * 7) % 1 < 0.7: c = STONE[3]
-        return fogged(c, z)
+    """a notice board crowded with forms pinned over each other, a few with red stamps"""
+    if s < 0.04 or s > 0.96 or t < 0.06 or t > 0.94: return fogged(tone(WOOD, 1.6, x, y), z)
+    for (nx, ny, nw, nh, i) in reversed(NOTES):
+        if nx < s < nx + nw and ny < t < ny + nh:
+            fu, fv = (s - nx) / nw, (t - ny) / nh
+            c = BONE[4] if i % 4 else BONE[3]
+            if 0.12 < fu < 0.85 and fv > 0.3 and int(fv * 7) % 2 == 0 and h32(i, int(fv * 7)) % 4: c = STONE[4]   # typed lines
+            if i % 3 == 0 and math.hypot((fu - 0.7) * nw, (fv - 0.25) * nh) < 0.035: c = RED[4]               # a stamp
+            if fu < 0.08 and fv < 0.12: c = RED[2]                                                              # the pin
+            return fogged(c, z)
     return fogged(tone(WARM, 2.0, x, y), z)
 rs.quad((-25.0, 3.0, 33.9), (-17.0, 3.0, 33.9), (-25.0 , 8.2, 33.9), notices, cls='prop')
 # a street lamp right of the gate, a pipe along the wall top
@@ -197,6 +210,10 @@ def letters(col):
         put_text(txt, x0, x1, y0, y1, 32.0, 6, (112, 206, 184))
     put_text('MUTATION\nFORMS', SIGN[0], SIGN[1], SIGN[2], SIGN[3], SIGN[4], 2, (112, 206, 184))
 
-img = rs.render(INK, fog=fog_of, overlay=letters, light_gain=1.0, grime_gain=1.0, bloom=0.4, stain_gain=1.0)
+# a dropped sack, an overturned crate (the burning barrel on the right is an animated prop, placed by the scene)
+rs.disc(-15.5, 0.8, 18.4, 1.0, lambda x, y, s, t, z, wp: fogged(tone(OCHRE, 3.4 - t * 2 - s, x, y), z) if t < 0.55 else None)
+rs.box(-24.0, -21.6, 0, 1.6, 19.0, 21.0, planks(2.6, WARM, w=0.5, seed=31), planks(2.0, WARM, w=0.5, seed=32), top=planks(3.4, WARM, w=0.5, vertical=False), cls='prop')
+img = rs.render(INK, fog=fog_of, overlay=letters, mirror=lambda x, y, wp: 0.75 * puddle(wp[0], wp[2]),
+                light_gain=1.0, grime_gain=1.0, bloom=0.4, stain_gain=1.0)
 img.save(f'{OUT}/gate.png')
 print('done gate')

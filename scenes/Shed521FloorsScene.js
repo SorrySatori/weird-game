@@ -30,10 +30,15 @@ export default class Shed521FloorsScene extends GameScene {
             this.priest.play('idle');
         }
 
-        // Set crossroad background
-        const bg = this.add.image(400, 300, 'floors');
+        // The bureau's three floors as a cut-away (native 1067×600: tools/artgen/floors_bg.py); the floor lines are
+        // y 520 / 340 / 180 (the priest's feet), the doors and stairs sit where the zones below are
+        const bg = this.add.image(this.scale.width / 2, 300, 'floors');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         // Create transition zones for each area using SceneTransitionManager
         
@@ -205,6 +210,7 @@ export default class Shed521FloorsScene extends GameScene {
         this.secondFloorPlatform.fillStyle(0x1a2420, 0.7); // Match dark greenish-gray, slightly transparent
         this.secondFloorPlatform.fillRect(0, 340, this.scale.width, 8); // x, y, width, height
         this.secondFloorPlatform.setDepth(2);
+        this.secondFloorPlatform.setVisible(false); // the background draws the slab now; keep it only as the collider
 
         // Optionally, add physics body for collision (if priest uses arcade physics)
         if (this.physics && this.priest && this.physics.add) {
@@ -605,15 +611,8 @@ export default class Shed521FloorsScene extends GameScene {
             });
             return 250;
         } 
-        else if (x < 350) {
-            return 185;
-        } 
-        // Step up: vertical
-        else if (x < 400) {
-            return 180 - ((x - 540) / 20) * 24;
-        }
-        // Right segment: flat
-        return 156;
+        // the redrawn top floor is level: its walkway edge is y 180 across the whole width
+        return 180;
     }
 
     update() {
