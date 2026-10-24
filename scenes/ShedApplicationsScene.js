@@ -266,7 +266,8 @@ export default class ShedApplicationsScene extends GameScene {
         super.preload();
         this.load.image('applications-bg', 'assets/images/backgrounds/ShedApplications.png');
         this.load.image('door', 'assets/images/ui/door.png');
-        this.load.image('clerk', './assets/images/characters/clerk.png');
+        // the clerk: an 8-frame idle sheet, 128×176 (tools/artgen/clerk.py, Aseprite Shed_clerk_applications)
+        this.load.spritesheet('clerkApplications', 'assets/images/characters/clerk_applications.png', { frameWidth: 128, frameHeight: 176 });
     }
 
     create() {
@@ -275,23 +276,38 @@ export default class ShedApplicationsScene extends GameScene {
         
         // Set initial priest position
         if (this.priest) {
-            this.priest.x = 650;  // Match entrance position from Shed521FloorsScene
-            this.priest.y = 520;  // Ground level
+            this.priest.x = Math.round(650 * this.scale.width / 800);  // by the door to the Floors (right wall)
+            this.priest.y = 534;  // feet on the walk line
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
         }
 
-        // Set background
-        const bg = this.add.image(400, 300, 'applications-bg');
+        // The Applications office (native 1067×600: tools/artgen/applications_bg.py)
+        const bg = this.add.image(this.scale.width / 2, 300, 'applications-bg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the office floor; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
-        // Add Clerk NPC with proper size
-        this.clerk = this.add.sprite(100, 400, 'clerk');
-        this.clerk.setFlipX(true);
-        this.clerk.setDisplaySize(80, 180); // Set a fixed size
-        this.clerk.setDepth(1); // Ensure it's above background
-        this.addGroundShadow(100, 400 + this.clerk.displayHeight * 0.42, this.clerk.displayWidth * 0.55, this.clerk.displayHeight * 0.12);
+        // The clerk stands in front of his desk (front left), turned towards the door; feet sit 4 px above the frame's bottom
+        this.clerk = this.add.sprite(250, 526, 'clerkApplications', 0);
+        this.clerk.setOrigin(0.5, 1);
+        this.clerk.setDepth(6);
+        this.addGroundShadow(250, 520, 64, 14);
+        if (!this.anims.exists('clerk_applications_idle')) {
+            this.anims.create({
+                key: 'clerk_applications_idle',
+                frames: this.anims.generateFrameNumbers('clerkApplications', { frames: [0, 1, 0, 1, 2, 3, 3, 2, 0, 1, 4, 5, 4, 0, 1, 0, 6, 7, 6, 7, 0] }),
+                frameRate: 4,
+                repeat: -1
+            });
+        }
+        this.clerk.play('clerk_applications_idle');
+        this.dialogPortraits = { ...(this.dialogPortraits || {}),
+            'Clerk': { key: 'clerkApplications', frame: 0, zoom: 2, top: 10 }, 'Úředník': { key: 'clerkApplications', frame: 0, zoom: 2, top: 10 } };
         this.clerk.setInteractive({ useHandCursor: true });
         
         // Initialize the transition manager
@@ -303,7 +319,7 @@ export default class ShedApplicationsScene extends GameScene {
             100, 100,  // width, height
             'right',   // direction
             'Shed521FloorsScene', // target scene
-            650, 520   // walk to coordinates
+            650, 534   // walk to coordinates (the feet: this scene anchors the priest at the feet)
         );
         
         // Add left exit area using transition manager
@@ -312,41 +328,14 @@ export default class ShedApplicationsScene extends GameScene {
             50, 200,   // width, height
             'left',    // direction
             'Shed521FloorsScene', // target scene
-            50, 465    // walk to coordinates
+            50, 534    // walk to coordinates
         );
-                
-                // Add subtle bobbing animation for walking
-                this.tweens.add({
-                    targets: this.clerk,
-                    y: this.clerk.y - 3, // Small up and down movement
-                    duration: 500,
-                    ease: 'Sine.easeInOut',
-                    yoyo: true,
-                    repeat: -1
-                });
-                
-                this.time.addEvent({
-                    delay: 5000,
-                    callback: () => {
-                        if (Math.random() > 0.5) {
-                            this.tweens.add({
-                                targets: this.clerk,
-                                angle: Phaser.Math.Between(-5, 5),
-                                duration: 1000,
-                                ease: 'Sine.easeInOut',
-                                yoyo: true
-                            });
-                        }
-                    },
-                    loop: true
-                });
-                this.clerk.setInteractive({ useHandCursor: true });
-                
-                // Add interaction with Clerk
-                this.clerk.on('pointerdown', () => {
-                    this.dialogState = 'start';  // Set initial dialog state
-                    this.showDialog(this.dialogState);
-                });
+
+        // Add interaction with Clerk
+        this.clerk.on('pointerdown', () => {
+            this.dialogState = 'start';  // Set initial dialog state
+            this.showDialog(this.dialogState);
+        });
     }
     
 

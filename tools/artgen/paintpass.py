@@ -148,7 +148,7 @@ def paint(col, cls, z, wp, nrm, sid, fog=lambda z: 0.0, variant='base', lights=(
             for k_, (cx_, cy_) in enumerate(RING):
                 rr = R if k_ % 2 else R * 0.5
                 sx, sy = int(x + cx_ * rr), int(y + cy_ * rr)
-                if 0 <= sx < W and 0 <= sy < H:
+                if 0 <= sx < W and 0 <= sy < H and sid[sy][sx] != sid[y][x]:          # a surface never occludes itself
                     zs = z[sy][sx]
                     if zs is not None and zs < INF:
                         dz = zz - zs

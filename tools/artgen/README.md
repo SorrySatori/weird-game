@@ -173,3 +173,15 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 Sources `assets/aseprite/DreamQueue_<id>.aseprite` (tag ceka, UPRAVY layer). The scene keeps the texture keys
 `sleeplessMime` / `vowelSeller` / `hollowWoman`, shows them at scale 1 (anims dq_mime / dq_vowel / dq_hollow) and uses
 2× busts from the sheets as dialog portraits (`dialogPortraits` `{ key, frame, zoom, top }`, EN + CZ speaker names).
+
+## Applications office + its clerk (ShedApplicationsScene)
+```
+python3 applications_bg.py <outdir>  # -> applications.png = ShedApplications.png (the Bureau's paperwork office: drop ceiling,
+                                     #    cubicles with green-screen terminals, filing cabinets, pneumatic-tube post, the clerk's desk)
+python3 clerk.py <outdir>            # -> clerk.png (8 idle frames of 128×176: breath, glasses pushed up, a page leafed, pen taps) + clerk.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/clerk.gpl --script tools/artgen/clerk_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/clerk_export.lua
+```
+Sources `assets/aseprite/ShedApplications_1067x600.aseprite`, `assets/aseprite/Shed_clerk_applications.aseprite` (UPRAVY layers).
+The clerk stands at canvas (250, 526) (origin bottom) in front of his desk; the doors to the Floors are on the left wall
+and the right wall near the front (exits at x ≈ 67 and 867). Portrait = a 2× bust (`dialogPortraits`, EN + CZ name).
