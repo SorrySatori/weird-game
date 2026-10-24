@@ -1,12 +1,15 @@
-"""The dead demigod v3 — full figure: red hooded robe to mid-shin, bony shins and feet, hands at the hips, impaled on a
-stake (splintered tip out of the chest). Instead of a mushroom-cloud cap the head continues upward into an elongated,
-surreal-but-anatomical cranium: a stretched brain-like form with sulci, a suture, a cleft crown. 3 frames 240x440."""
+"""The dead demigod v4 — impaled and displayed: a tall stake planted in a cairn at the junction runs up through the body
+and out of the chest; the corpse hangs on it 60 px above the flagstones, bony shins and feet dangling toes-down, the
+elongated head lolled to one side. A board nailed to the stake carries a painted crown, crossed out — the mob's warning
+to any god who would rule the city. Red hooded robe, hands at the hips. Instead of a mushroom-cloud cap the head
+continues upward into an elongated, surreal-but-anatomical cranium (sulci, suture, cleft crown). 3 frames 240x500."""
 import sys, math, random
 from PIL import Image, ImageDraw
 from pal_day import *
 OUT = sys.argv[1]
-FW, FH = 240, 440
+FW, FH = 240, 500
 MX, FEET = 120, 436
+GROUND = FH - 4                                 # the stake's foot; the body hangs above it
 nA, nB, nC = make_noise(14, 4, FW, FH), make_noise(6, 5, FW, FH), make_noise(3, 6, FW, FH)
 HEM, SHOULDER, HOOD_TOP = 398, 262, 232          # robe hem / shoulder line / top of the hood
 HEAD_CY, HEAD_RX, HEAD_RY = 190, 27, 46          # the elongated cranium (ellipse-ish, leaning a little)
@@ -19,24 +22,28 @@ def fill_poly(PIX, PART, pts, name, shade):
             if tp[x, y]: PIX[(x, y)] = shade(x, y); PART[(x, y)] = name
 
 def legs(PIX, PART):
-    # bony shins + feet showing under the hem (the robe is torn short)
-    for sgn in (-1, 1):
-        cx = MX + sgn * 13
-        for y in range(HEM - 6, FEET - 6):
-            for x in range(cx - 6, cx + 7):
-                nx = (x - cx) / 6.0
-                v = 2.2 - 1.6 * nx * nx - 1.0 * max(0.0, (y - 420) / 16) + (nB(x, y) - 0.5) * 0.5
+    # bony shins hanging limp under the torn hem, feet pointing down — he hangs, he does not stand
+    for cx, ankle, tilt in ((MX - 11, 418, 0.20), (MX + 13, 411, -0.14)):
+        for y in range(HEM - 8, ankle + 1):
+            c = cx + (y - HEM) * tilt
+            for x in range(int(c - 5), int(c + 6)):
+                nx = (x + 0.5 - c) / 4.2
+                if abs(nx) > 1: continue
+                v = 2.3 - 1.7 * nx * nx + (nB(x, y) - 0.5) * 0.5
                 PIX[(x, y)] = ['B', band(v, x, y)]; PART[(x, y)] = 'leg'
-        for y in range(FEET - 7, FEET + 1):                                                # foot: a wedge pointing outward
-            ln = 9 + (y - (FEET - 7)) * 2
-            for x in range(cx - 6, cx + 6 + sgn * 0 + 1):
-                PIX[(x, y)] = ['B', 1 if y > FEET - 2 else 2]; PART[(x, y)] = 'leg'
-            for i in range(ln):
-                x = cx + sgn * (6 + i)
-                PIX[(x, y)] = ['B', 1 if y > FEET - 2 or i > ln - 3 else 2]; PART[(x, y)] = 'leg'
-        for i in range(3):                                                                 # toes
-            x = cx + sgn * (6 + 9 + 2 * 2 + 4 + i * 3)
-            PIX[(x, FEET)] = ['B', 0]; PART[(x, FEET)] = 'leg'
+        c0 = cx + (ankle - HEM) * tilt
+        for x in range(int(c0) - 4, int(c0) + 5): PIX[(x, ankle)] = ['B', 0]; PART[(x, ankle)] = 'leg'   # ankle crease
+        for i in range(15):                                                                # the foot, toes down
+            y = ankle + 1 + i
+            hw = 5.4 - i * 0.18
+            c = c0 + i * tilt * 1.2
+            for x in range(int(c - hw) - 1, int(c + hw) + 2):
+                nx = (x + 0.5 - c) / hw
+                if abs(nx) > 1: continue
+                v = 2.1 - 1.4 * nx * nx - 0.6 * (i / 16) + (nB(x, y) - 0.5) * 0.4
+                if i > 10 and (x - int(c - hw)) % 3 == 0: v -= 1.6                         # the toes
+                PIX[(x, y)] = ['B', band(v, x, y)]; PART[(x, y)] = 'leg'
+        PIX[(int(c0) - 4, ankle)] = ['B', 4]                                               # ankle knob
 
 def robe(PIX, PART):
     L = [(MX - 30, HOOD_TOP + 16), (MX - 44, SHOULDER), (MX - 52, SHOULDER + 40), (MX - 56, SHOULDER + 90), (MX - 58, HEM - 10)]
@@ -154,45 +161,107 @@ def head(PIX, PART, cut=False):
                         if h32(x, y, 3) % 17 == 0: PIX[(x, y)] = ['B', 3]
                         if d < 0.35 and h32(x, y, 4) % 11 == 0: PIX[(x, y)] = ['R', 5]
         # the severed crown lying at the feet
-        for y in range(FEET - 22, FEET + 1):
-            for x in range(MX + 64, MX + 118):
-                d = ((x - MX - 90) / 26.0) ** 2 + ((y - FEET + 8) / 12.0) ** 2
+        for y in range(GROUND - 22, GROUND + 1):
+            for x in range(MX + 40, MX + 96):
+                d = ((x - MX - 66) / 26.0) ** 2 + ((y - GROUND + 8) / 12.0) ** 2
                 if d <= 1 and 0 <= x < FW:
-                    v = 1.0 + 3.0 * max(0.0, math.sqrt(1 - d)) - (1.5 if y > FEET - 6 else 0)
+                    v = 1.0 + 3.0 * max(0.0, math.sqrt(1 - d)) - (1.5 if y > GROUND - 6 else 0)
                     g = nA(x * 2.4, y * 1.5)
                     if abs((g * 4) % 1 - 0.5) < 0.055: v -= 2.6
                     PIX[(x, y)] = ['C', band(v, x, y)]; PART[(x, y)] = 'lid'
 
+def line(x0, y0, x1, y1):
+    n = max(abs(x1 - x0), abs(y1 - y0), 1)
+    return [(round(x0 + (x1 - x0) * i / n), round(y0 + (y1 - y0) * i / n)) for i in range(n + 1)]
+
+def pole_x(y): return MX - 2 + (GROUND - y) * 0.03
+
+def pole(PIX, PART):
+    # the stake's shaft below the body: weathered timber, grain cracks, rope lashings, old blood run down from him
+    for y in range(HEM - 30, GROUND + 1):
+        hw = 5.5 + 1.6 * (y - (HEM - 30)) / (GROUND - HEM + 30)
+        c = pole_x(y)
+        for x in range(int(c - hw) - 1, int(c + hw) + 2):
+            u = (x + 0.5 - c) / hw
+            if abs(u) > 1: continue
+            v = 3.5 - 1.7 * u - 1.0 * u * u + (nA(x * 3.1, y * 0.25) - 0.5) * 1.6
+            if h32(x, 7) % 9 == 0: v -= 1.3
+            PIX[(x, y)] = ['D', band(v, x, y)]; PART[(x, y)] = 'pole'
+    for dx, ln in ((-3, 30), (1, 18), (-1, 44)):
+        for y in range(HEM - 4, HEM + ln):
+            k = (int(pole_x(y) + dx), y)
+            if PART.get(k) == 'pole' and h32(k[0], y, 2) % 5: PIX[k] = ['R', 1 if y < HEM + ln - 6 else 0]
+    for yb in (GROUND - 52, GROUND - 48):
+        for x in range(int(pole_x(yb) - 8), int(pole_x(yb) + 9)):
+            for dy in (0, 1):
+                if PART.get((x, yb + dy)) == 'pole': PIX[(x, yb + dy)] = ['W', 4 if (x + dy) % 3 else 2]
+
+def cairn(PIX, PART):
+    # the stones the mob piled round the stake's foot
+    rnd = random.Random(21); stones = []
+    for i in range(15):
+        sx = MX - 2 + rnd.uniform(-30, 30)
+        sy = GROUND - 1 - rnd.uniform(0, 13) * (1 - abs(sx - MX + 2) / 34)
+        stones.append((sx, sy, rnd.uniform(4.5, 7.5), rnd.uniform(3, 4.8)))
+    for sx, sy, rx, ry in sorted(stones, key=lambda t: t[1]):
+        for y in range(int(sy - ry) - 1, int(sy + ry) + 2):
+            for x in range(int(sx - rx) - 1, int(sx + rx) + 2):
+                u, w = (x + 0.5 - sx) / rx, (y + 0.5 - sy) / ry
+                d = u * u + w * w
+                if d > 1 or y > GROUND: continue
+                lam = max(0.0, -0.6 * u - 0.7 * w + 0.5 * math.sqrt(1 - d))
+                v = 1.6 + 5.5 * lam + (nB(x * 1.5, y * 1.5) - 0.5) * 1.0 - (1.6 if d > 0.78 else 0)
+                PIX[(x, y)] = ['T', band(v, x, y)]; PART[(x, y)] = 'cairn'
+
+def board(PIX, PART):
+    # a plank nailed to the stake: a crown painted in pale lime, crossed out in red
+    bx, by = MX - 2, GROUND - 32
+    def put(lx, ly, val, part='board'):
+        k = (bx + lx, by + ly + round(lx * 0.09))
+        PIX[k] = val; PART[k] = part
+    for ly in range(-8, 9):
+        for lx in range(-16, 17):
+            v = 3.3 - 0.03 * lx + (nA((bx + lx) * 2.2, (by + ly) * 1.2) - 0.5) * 1.0
+            if ly in (0, 1): v -= 1.4 if ly == 0 else -0.4
+            put(lx, ly, ['D', band(v, bx + lx, by + ly)])
+    crown = [(-8, 5), (-8, -2), (-4, 1), (0, -5), (4, 1), (8, -2), (8, 5), (-8, 5)]
+    for (x0, y0), (x1, y1) in zip(crown, crown[1:]):
+        for (lx, ly) in line(x0, y0, x1, y1): put(lx, ly, ['C', 4])
+    for (x0, y0, x1, y1) in ((-12, -6, 12, 6), (-12, 6, 12, -6)):
+        for (lx, ly) in line(x0, y0, x1, y1): put(lx, ly, ['R', 5]); put(lx, ly + 1, ['R', 3])
+    for lx, ly in ((-14, -6), (14, -6), (-14, 6), (14, 6)): put(lx, ly, ['T', 8])
+
 def stake(PIX, PART):
-    cy = SHOULDER + 44
-    pts = [(MX - 30, cy + 18), (MX - 8, cy - 16), (MX + 2, cy - 12), (MX - 16, cy + 22)]
-    def shade(x, y):
-        v = 3 if (x - y) % 7 else 1
-        if y < cy - 10: v = 4
-        return ['W', v]
-    fill_poly(PIX, PART, pts, 'stake', shade)
-    for (x, y) in ((MX - 8, cy - 18), (MX - 7, cy - 17), (MX - 9, cy - 16), (MX - 4, cy - 16)): PIX[(x, y)] = ['W', 4]; PART[(x, y)] = 'stake'
-    for y in range(cy - 4, cy + 30):
-        for x in range(MX - 40, MX + 10):
-            d = ((x - (MX - 16)) / 24.0) ** 2 + ((y - cy - 10) / 15.0) ** 2
-            if d <= 1 and PART.get((x, y)) == 'robe' and h32(x, y, 8) % 3: PIX[(x, y)] = ['R', 0 if d < 0.55 else 1]
-    for (x0, y0, x1, y1) in ((MX - 36, cy + 14, MX - 30, cy + 30), (MX - 2, cy + 14, MX + 4, cy + 24), (MX - 20, cy + 16, MX - 18, cy + 32)):
-        for y in range(y0, y1):
-            for x in range(x0, x1):
-                if PART.get((x, y)) == 'robe': PIX[(x, y)] = ['R', 1 if (x + y) % 2 else 2]
-    # the stake's foot behind the figure, planted in the flagstones between the feet
-    for y in range(FEET - 4, FEET + 2):
-        for x in range(MX - 5, MX + 6):
-            if (x, y) not in PIX: PIX[(x, y)] = ['D', 1 if x < MX else 0]; PART[(x, y)] = 'stakefoot'
+    # the splintered point, out through the chest — driven up from below, a little off-centre
+    tx, ty, base = MX - 10, SHOULDER + 16, SHOULDER + 50
+    for y in range(ty, base + 1):
+        t = (y - ty) / (base - ty)
+        hw, c = 0.6 + t * 6.2, tx + t * 3
+        for x in range(int(c - hw) - 1, int(c + hw) + 2):
+            u = (x + 0.5 - c) / max(hw, 0.8)
+            if abs(u) > 1: continue
+            v = 4.6 - 1.8 * u + (nA(x * 3, y * 0.4) - 0.5) * 1.2 - (4.0 * (t - 0.7) if t > 0.7 else 0)
+            PIX[(x, y)] = ['D', band(v, x, y)]; PART[(x, y)] = 'stake'
+    for (x, y) in ((tx - 3, ty + 6), (tx - 4, ty + 5), (tx + 3, ty + 9), (tx + 4, ty + 8), (tx - 5, ty + 12), (tx + 6, ty + 15)):
+        PIX[(x, y)] = ['D', 5]; PART[(x, y)] = 'stake'
+    for (x, y) in ((tx - 1, ty + 2), (tx, ty + 4), (tx + 1, ty + 7)): PIX[(x, y)] = ['R', 2]               # blood on the point
+    for y in range(base - 10, base + 26):                                                                  # the wound
+        for x in range(tx - 18, tx + 26):
+            d = ((x - tx - 3) / 17.0) ** 2 + ((y - base - 4) / 12.0) ** 2
+            if d <= 1 and PART.get((x, y)) == 'robe' and h32(x, y, 8) % 3: PIX[(x, y)] = ['R', 0 if d < 0.5 else 1]
+    for dx, ln in ((-6, 46), (2, 70), (7, 34)):                                                            # runs down the robe
+        for y in range(base + 8, base + ln):
+            k = (tx + 3 + dx + (y - base) // 23, y)
+            if PART.get(k) == 'robe' and h32(k[0], y, 5) % 6: PIX[k] = ['R', 0]
 
 def shadow(p, PIX):
-    for y in range(FEET - 6, FH):
+    for y in range(GROUND - 6, FH):
         for x in range(FW):
-            d = ((x - MX) / 70.0) ** 2 + ((y - FEET + 1) / 6.0) ** 2
+            d = ((x - MX) / 64.0) ** 2 + ((y - GROUND - 1) / 5.0) ** 2
             if d < 1 and (x, y) not in PIX and (x + y) % 2 == 0: p[x, y] = (7, 10, 9, 140 if d < 0.6 else 80)
 
-SOFT = {frozenset(('robe', 'hoodin')), frozenset(('hoodin', 'face')), frozenset(('head', 'cavity')), frozenset(('robe', 'stake')), frozenset(('hood', 'hoodin')), frozenset(('robe', 'hood'))}
-ORDER = ['stakefoot', 'leg', 'robe', 'hood', 'hoodin', 'face', 'hand', 'stake', 'head', 'cavity', 'lid', 'myc', 'tree', 'tcap']
+SOFT = {frozenset(('pole', 'board')), frozenset(('robe', 'hoodin')), frozenset(('hoodin', 'face')), frozenset(('head', 'cavity')), frozenset(('robe', 'stake')), frozenset(('hood', 'hoodin')), frozenset(('robe', 'hood'))}
+ORDER = ['pole', 'cairn', 'board', 'stakefoot', 'leg', 'robe', 'hood', 'hoodin', 'face', 'hand', 'stake', 'head', 'cavity', 'lid', 'myc', 'tree', 'tcap']
 def finish(PIX, PART, extra=None):
     img = Image.new('RGBA', (FW, FH), (0, 0, 0, 0)); p = img.load()
     shadow(p, PIX)
@@ -214,8 +283,17 @@ def finish(PIX, PART, extra=None):
         if PIX[(x, y)][0] != 'M': p[x, y] = INK + (255,)
     return img
 
+LOLL_PIVOT, LOLL = SHOULDER + 2, 0.16                  # the head hangs to the right: rows above the neck slide over
+def loll(y): return int(round((LOLL_PIVOT - y) * LOLL)) if y < LOLL_PIVOT else 0
+
 def build(cut=False):
-    PIX, PART = new(); legs(PIX, PART); robe(PIX, PART); hood_face(PIX, PART); stake(PIX, PART); head(PIX, PART, cut=cut)
+    PIX, PART = new(); pole(PIX, PART); cairn(PIX, PART); board(PIX, PART); legs(PIX, PART); robe(PIX, PART)
+    HP, HA = new(); hood_face(HP, HA); head(HP, HA, cut=cut)
+    for (x, y), v in HP.items():
+        k = (x + loll(y), y)
+        if HA[(x, y)] == 'lid': k = (x, y)
+        PIX[k] = v; PART[k] = HA[(x, y)]
+    stake(PIX, PART)
     return PIX, PART
 def frame_intact(): return finish(*build())
 def frame_cut(): return finish(*build(cut=True))
@@ -239,10 +317,11 @@ def frame_growth():
     for (k, v) in list(PIX.items()):
         if PART.get(k) == 'head' and nA(k[0] * 1.3, k[1] * 1.3) > 0.6: v[0] = 'M'; v[1] = 1 if v[1] < 3 else 2
     TOP = HEAD_CY - HEAD_RY + 2
+    TREE_TOP, SH = 80, loll(HEAD_CY - HEAD_RY + 2)
     TR = []
     for i in range(101):
         t = i / 100
-        TR.append((MX + 4 + 14 * math.sin(t * 3.4 + 0.4) + 5 * math.sin(t * 9) * t, TOP - t * (TOP - 22), 8 - 5.5 * t))
+        TR.append((MX + 4 + SH + 14 * math.sin(t * 3.4 + 0.4) + 5 * math.sin(t * 9) * t, TOP - t * (TOP - TREE_TOP), 8 - 5.5 * t))
     def disc(cx, cy, r, i, name='tree'):
         for y in range(int(cy - r), int(cy + r) + 1):
             for x in range(int(cx - r), int(cx + r) + 1):
@@ -261,9 +340,9 @@ def frame_growth():
         if depth < 1 and ln > 32: branch(ex, ey, a + (0.7 if math.cos(ang) > 0 else -0.7), ln * 0.5, w * 0.6, depth + 1)
         CAPS.append((ex, ey, max(7, int(ln * 0.4)), max(4, int(ln * 0.16))))
     random.seed(5)
-    for (t, side, ln) in ((0.3, -1, 38), (0.45, 1, 44), (0.6, -1, 34), (0.72, 1, 36), (0.84, -1, 26), (0.92, 1, 24)):
+    for (t, side, ln) in ((0.3, -1, 30), (0.45, 1, 34), (0.6, -1, 27), (0.72, 1, 28), (0.84, -1, 21), (0.92, 1, 19)):
         x, y, w = TR[int(t * 100)]; branch(x, y, math.radians(90 - side * random.randint(44, 64)), ln, w * 0.8, 0)
-    top = TR[-1]; CAPS.append((top[0], top[1] - 5, 30, 12))
+    top = TR[-1]; CAPS.append((top[0], top[1] - 5, 26, 11))
     glow = {}
     for (cx, cy, rx, ry) in CAPS:
         for y in range(int(cy - ry * 1.3), int(cy + ry) + 1):

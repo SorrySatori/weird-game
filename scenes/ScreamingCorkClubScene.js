@@ -1,6 +1,20 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
+/**
+ * Feral Toast as pixel-art sheets (tools/artgen/feral_toast.py → assets/aseprite/FeralToast_*.aseprite →
+ * feral_export.lua): frames 0-3 idle, 4-11 playing. Shown at scale 1, feet on the sprite's bottom edge.
+ * The playing loop runs two frames per beat of feral-toast.mp3 (≈177 BPM).
+ */
+const BAND = [
+    { key: 'ft_telka', file: 'telka', w: 128, h: 176, fx: 0.24, y: 470, name: 'Telka' },
+    { key: 'ft_karlis', file: 'karlis', w: 176, h: 176, fx: 0.39, y: 452, name: 'Fluffy Kārlis' },
+    { key: 'ft_bass_xl', file: 'bass_xl', w: 144, h: 192, fx: 0.55, y: 470, name: 'Bass Player XL' },
+    { key: 'ft_mira', file: 'mira', w: 144, h: 176, fx: 0.71, y: 452, name: 'Mira Dron' }
+];
+const BAND_IDLE = [0, 0, 0, 1, 1, 2, 2, 2, 1, 3];   // calm: breathe, look about, blink
+const BAND_BPM = 177;
+
 export default class ScreamingCorkClubScene extends GameScene {
     constructor() {
         super({ key: 'ScreamingCorkClubScene' });
@@ -101,11 +115,8 @@ export default class ScreamingCorkClubScene extends GameScene {
         // Load scene-specific assets
         this.load.image('screamingCorkClubBg', 'assets/images/backgrounds/ScreamingCorkClub.png');
         
-        // Load band member images
-        this.load.image('feral_guitarist', 'assets/images/characters/feral_guitarist.png');
-        this.load.image('feral_bassplayer', 'assets/images/characters/feral_bassplayer.png');
-        this.load.image('feral_drummer', 'assets/images/characters/feral_drummer.png');
-        this.load.image('feral_synth', 'assets/images/characters/feral_synth.png');
+        // Band member sheets (see BAND)
+        BAND.forEach(m => this.load.spritesheet(m.key, `assets/images/characters/feral_toast/${m.file}.png`, { frameWidth: m.w, frameHeight: m.h }));
         
         // Load music
         this.load.audio('feral-toast', 'assets/sounds/feral-toast.mp3');
@@ -181,34 +192,26 @@ export default class ScreamingCorkClubScene extends GameScene {
         const darkOverlay = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x000000, 0.4);
         darkOverlay.setDepth(0);
         
-        // Add stage lights using triangles instead of cones
-        const stageLightLeft = this.add.graphics();
-        stageLightLeft.fillStyle(0x7fff8e, 0.2);
-        // Create a triangle for the left light beam
-        stageLightLeft.beginPath();
-        stageLightLeft.moveTo(200, 100);
-        stageLightLeft.lineTo(100, 300);
-        stageLightLeft.lineTo(300, 300);
-        stageLightLeft.closePath();
-        stageLightLeft.fillPath();
-        stageLightLeft.setDepth(1);
-        
-        const stageLightRight = this.add.graphics();
-        stageLightRight.fillStyle(0x7fff8e, 0.2);
-        // Create a triangle for the right light beam
-        stageLightRight.beginPath();
-        stageLightRight.moveTo(600, 100);
-        stageLightRight.lineTo(500, 300);
-        stageLightRight.lineTo(700, 300);
-        stageLightRight.closePath();
-        stageLightRight.fillPath();
-        stageLightRight.setDepth(1);
-        
-        // Add pulsating animation to the stage lights
+        // Stage lights: a soft cone from each of the three lamps hanging over the stage down onto the boards
+        // (lamp positions as shares of the canvas width, read off the background; beams layered narrow → wide).
+        this.stageLights = [0.255, 0.483, 0.738].map(fx => {
+            const x = Math.round(this.scale.width * fx);
+            const beam = this.add.graphics().setDepth(1).setBlendMode(Phaser.BlendModes.ADD);
+            for (const [top, bottom, alpha] of [[10, 80, 0.035], [7, 60, 0.045], [4, 38, 0.055]]) {
+                beam.fillStyle(0x7fff8e, alpha);
+                beam.fillPoints([
+                    { x: x - top, y: 118 }, { x: x + top, y: 118 },
+                    { x: x + bottom, y: 468 }, { x: x - bottom, y: 468 }
+                ], true);
+            }
+            beam.fillStyle(0x7fff8e, 0.06);
+            beam.fillEllipse(x, 466, 170, 26);                  // where the beam lands on the boards
+            return beam;
+        });
         this.tweens.add({
-            targets: [stageLightLeft, stageLightRight],
-            alpha: { from: 0.2, to: 0.4 },
-            duration: 2000,
+            targets: this.stageLights,
+            alpha: { from: 0.75, to: 1 },
+            duration: 2400,
             yoyo: true,
             repeat: -1,
             ease: 'Sine.easeInOut'
@@ -242,66 +245,45 @@ export default class ScreamingCorkClubScene extends GameScene {
     }
 
     createBandMembers() {
-        // Create band members with their positions on stage
-        const bandConfig = [
-            { key: 'feral_guitarist', x: 250, y: 350, scale: 0.18, name: 'Telka' },
-            { key: 'feral_bassplayer', x: 520, y: 350, scale: 0.18, name: 'Bass Player XL' },
-            { key: 'feral_drummer', x: 400, y: 330, scale: 0.18, name: 'Fluffy Kārlis' },
-            { key: 'feral_synth', x: 650, y: 330, scale: 0.18, name: 'Mira Dron' }
-        ];
-        
-        // Create each band member
-        bandConfig.forEach(config => {
-            const member = this.add.image(config.x, config.y, config.key);
-            member.setScale(config.scale);
-            member.setDepth(3);
-            this.addGroundShadow(config.x, config.y + member.displayHeight * 0.42, member.displayWidth * 0.55, member.displayHeight * 0.12);
-            member.originalY = config.y; // Store original Y for animations
-            member.originalScale = config.scale; // Store original scale for animations
-            
-            // Add name tag below the character
-            const nameTag = this.add.text(config.x, config.y + 50, config.name, {
-                fontSize: '14px',
+        this.bandMembers = []; // the scene instance is re-used between visits
+        BAND.forEach(cfg => {
+            if (!this.anims.exists(`${cfg.key}_idle`)) {
+                this.anims.create({ key: `${cfg.key}_idle`, frames: BAND_IDLE.map(f => ({ key: cfg.key, frame: f })), frameRate: 4, repeat: -1 });
+                this.anims.create({ key: `${cfg.key}_play`, frames: this.anims.generateFrameNumbers(cfg.key, { start: 4, end: 11 }), frameRate: BAND_BPM * 2 / 60, repeat: -1 });
+            }
+            const x = Math.round(this.scale.width * cfg.fx);
+            const member = this.add.sprite(x, cfg.y, cfg.key, 0).setOrigin(0.5, 1).setDepth(cfg.y > 460 ? 4 : 3);
+            member.play({ key: `${cfg.key}_idle`, startFrame: Phaser.Math.Between(0, BAND_IDLE.length - 1) });
+            this.addGroundShadow(x, cfg.y - 3, cfg.w * 0.6, 10);
+
+            // A pool of stage light on the boards at their feet (brightens while they play)
+            const glow = this.add.ellipse(x, cfg.y - 3, cfg.w * 0.95, 26, 0x7fff8e, 0.12)
+                .setBlendMode(Phaser.BlendModes.ADD)
+                .setDepth(2);
+            this.tweens.add({ targets: glow, alpha: { from: 0.1, to: 0.18 }, duration: 2400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+
+            const nameTag = this.add.text(x, cfg.y + 8, cfg.name, {
+                fontSize: '13px',
                 fill: '#7fff8e',
                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                padding: { x: 5, y: 3 }
-            });
-            nameTag.setOrigin(0.5);
-            nameTag.setDepth(3);
-            
-            // Add subtle glow effect
-            const glow = this.add.graphics();
-            glow.fillStyle(0x7fff8e, 0.3);
-            glow.fillCircle(config.x, config.y, 40);
-            glow.setDepth(2);
-            
-            // Add pulsating animation to the glow
-            this.tweens.add({
-                targets: glow,
-                alpha: { from: 0.3, to: 0.5 },
-                scale: { from: 0.9, to: 1.1 },
-                duration: 1500,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-            
-            // Store references
+                padding: { x: 5, y: 2 }
+            }).setOrigin(0.5, 0).setDepth(5);
+
+            member.bandKey = cfg.key;
             member.nameTag = nameTag;
             member.glow = glow;
-            
-            // Add to band members array
             this.bandMembers.push(member);
         });
-        
-        // Make the whole band interactive as a group
-        const bandZone = this.add.zone(Math.round(400 * this.scale.width / 800), 320, Math.round(400 * this.scale.width / 800), 200)
+
+        // The whole band is clickable as one group (the stage, from Telka to Mira)
+        const left = Math.round(this.scale.width * BAND[0].fx) - 80, right = Math.round(this.scale.width * BAND[3].fx) + 90;
+        const bandZone = this.add.zone((left + right) / 2, 370, right - left, 200)
             .setInteractive({ useHandCursor: true })
             .setOrigin(0.5);
-            
+
         bandZone.on('pointerdown', () => {
             if (this.dialogVisible) return;
-            
+
             if (this.isPlaying) {
                 this.showDialog('feral_during');
             } else {
@@ -309,7 +291,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             }
         });
     }
-    
+
     startPerformance() {
         if (this.isPlaying) return; // Already playing
         this.sound.stopAll();
@@ -367,7 +349,7 @@ export default class ScreamingCorkClubScene extends GameScene {
     
     showPerformanceText() {
         // Create a text container for the performance narrative
-        const textContainer = this.add.container(400, 150);
+        const textContainer = this.add.container(this.scale.width / 2, 150);
         textContainer.setDepth(100);
         
         // Add semi-transparent background
@@ -453,11 +435,13 @@ export default class ScreamingCorkClubScene extends GameScene {
         
         this.isPlaying = false;
         
-        // Stop all band animations
+        // Back to their idle loops, the stage light calms down
         this.bandMembers.forEach(member => {
-            this.tweens.killTweensOf(member);
+            if (!member.scene) return;
+            member.play({ key: `${member.bandKey}_idle`, startFrame: Phaser.Math.Between(0, BAND_IDLE.length - 1) });
             if (member.glow) {
                 this.tweens.killTweensOf(member.glow);
+                member.glow.setAlpha(0.12);
             }
         });
         
@@ -483,7 +467,7 @@ export default class ScreamingCorkClubScene extends GameScene {
         // Create a spotlight effect
         const spotlight = this.add.graphics();
         spotlight.fillStyle(0xffffff, 0.2);
-        spotlight.fillCircle(400, 320, 200);
+        spotlight.fillCircle(this.scale.width / 2, 340, 260);
         spotlight.setDepth(1);
         
         // Add pulsating animation to the spotlight
@@ -511,7 +495,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             rotate: { min: 0, max: 360 },
             emitZone: {
                 type: 'random',
-                source: new Phaser.Geom.Rectangle(200, 200, 400, 200)
+                source: new Phaser.Geom.Rectangle(this.scale.width * 0.2, 220, this.scale.width * 0.6, 220)
             }
         });
         this.sporeEmitter.setDepth(4);
@@ -552,133 +536,21 @@ export default class ScreamingCorkClubScene extends GameScene {
     }
     
     addPlayingAnimation(bandMember) {
-        // Different animation for each band member based on their instrument
-        if (bandMember.texture.key === 'feral_guitarist') {
-            // Guitarist animation - side to side movement with more energy
-            this.tweens.add({
-                targets: bandMember,
-                x: { from: bandMember.x - 15, to: bandMember.x + 15 },
-                angle: { from: -8, to: 8 },
-                duration: 600,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-            
-            // Add jumping effect occasionally
-            this.time.addEvent({
-                delay: 4000,
-                callback: () => {
-                    if (!this.isPlaying) return;
-                    
-                    this.tweens.add({
-                        targets: bandMember,
-                        y: { from: bandMember.originalY, to: bandMember.originalY - 30 },
-                        duration: 200,
-                        yoyo: true,
-                        ease: 'Cubic.easeOut'
-                    });
-                },
-                loop: true
-            });
-        } 
-        else if (bandMember.texture.key === 'feral_bassplayer') {
-            // Bass player animation - bobbing up and down with head movement
-            this.tweens.add({
-                targets: bandMember,
-                y: { from: bandMember.originalY - 8, to: bandMember.originalY + 8 },
-                duration: 600,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-            
-            // Add head bobbing
-            this.tweens.add({
-                targets: bandMember,
-                angle: { from: -4, to: 4 },
-                duration: 300,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-        }
-        else if (bandMember.texture.key === 'feral_drummer') {
-            // Drummer animation - very subtle movement
-            this.tweens.add({
-                targets: bandMember,
-                y: { from: bandMember.originalY - 2, to: bandMember.originalY + 2 },
-                angle: { from: -1, to: 1 },
-                duration: 400,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-            
-            // Add occasional very subtle head movement
-            this.time.addEvent({
-                delay: 5000,
-                callback: () => {
-                    if (!this.isPlaying) return;
-                    
-                    this.tweens.add({
-                        targets: bandMember,
-                        angle: { from: 0, to: -2 },
-                        duration: 300,
-                        yoyo: true,
-                        ease: 'Sine.easeInOut'
-                    });
-                },
-                loop: true
-            });
-        }
-        else if (bandMember.texture.key === 'feral_synth') {
-            // Synth player animation - extremely subtle swaying
-            this.tweens.add({
-                targets: bandMember,
-                angle: { from: -1, to: 1 },
-                duration: 2000,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-            
-            // Almost imperceptible head bobbing
-            this.tweens.add({
-                targets: bandMember,
-                y: { from: bandMember.originalY - 1, to: bandMember.originalY + 1 },
-                duration: 3000,
-                yoyo: true,
-                repeat: -1,
-                ease: 'Sine.easeInOut'
-            });
-        }
-        
-        // Enhance the glow effect during performance
+        // Frame animation on the beat (no tween rotations — they smear pixel art); the light pool brightens
+        bandMember.play(`${bandMember.bandKey}_play`);
         if (bandMember.glow) {
+            this.tweens.killTweensOf(bandMember.glow);
             this.tweens.add({
                 targets: bandMember.glow,
-                alpha: { from: 0.3, to: 0.7 },
-                scale: { from: 0.8, to: 1.3 },
-                duration: 800,
+                alpha: { from: 0.18, to: 0.34 },
+                duration: 60000 / BAND_BPM,
                 yoyo: true,
                 repeat: -1,
                 ease: 'Sine.easeInOut'
-            });
-        }
-        
-        // Also animate the name tag to follow its character
-        if (bandMember.nameTag) {
-            this.tweens.add({
-                targets: bandMember.nameTag,
-                x: bandMember.x,
-                y: bandMember.y + 50,
-                duration: 100,
-                repeat: -1
             });
         }
     }
-    
+
     updateBandAnimations() {
         // This method can be used for any frame-by-frame animation updates
         // Currently using tweens for animations, so this is empty

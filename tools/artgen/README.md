@@ -7,7 +7,7 @@ kept here; install it with `cp crossroad-overcast.gpl ~/.config/aseprite/palette
 
 ```
 python3 crossroad_bg.py <outdir>       # -> <outdir>/bg.png
-python3 crossroad_corpse.py <outdir>   # -> corpse_0..2.png + crossroad_corpse.png (3-frame sheet 240×440)
+python3 crossroad_corpse.py <outdir>   # -> corpse_0..2.png + crossroad_corpse.png (3-frame sheet 240×500)
 python3 shed521_bg.py <outdir> [base|growth|decay]   # -> bg.png / bg_growth.png / bg_decay.png (Growth/Decay variants)
 python3 burningbear_bg.py <outdir> [base|growth|decay]   # -> bg*.png + bears.json + fire_<variant>.png/.json (animated fire atlas,
                                                        #    frames trimmed to the 1067x600 canvas -> assets/images/props/bbs_fire_*)
@@ -66,3 +66,17 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 ```
 Tags `inventar` / `mapa` / `denik` / `ukoly`: frame 1 closed, frame 2 the "open" hover state; `odznak` = the badge.
 The game side is `utils/hudButton.js` (positions, hover frame swap, labels, badge).
+
+## Feral Toast (the band in the Screaming Cork Club)
+Palette + materials `pal_club.py` (Aseprite: `club.gpl`), renderer `rig.py`: volumes go into a tone buffer, then get cast
+shadows, contact lines, material texture (denim, leather, fur, wool, metal), a 4×4 dither and a warm outline. Each member
+is a small rig (two-bone IK onto the instrument; fretting hands sit UNDER the neck), so every frame is re-posed, not tweened.
+```
+python3 feral_toast.py <outdir>      # -> telka.png bass_xl.png karlis.png mira.png (12 frames each) + <id>/<n>.png
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/club.gpl --script tools/artgen/feral_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/feral_toast --script tools/artgen/feral_export.lua
+```
+`FeralToast_<id>.aseprite`: tag `ceka` = idle (frames 1-4), `hraje` = playing (5-12, two frames per beat of
+feral-toast.mp3 ≈ 177 BPM). Sizes: telka 128×176, bass_xl 144×192, karlis 176×176 (with the kit), mira 144×176 (with the synth).
+The old AI images `feral_*.png` stay — ScraperAmbraScene's cutscene still uses them.

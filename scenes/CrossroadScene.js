@@ -20,7 +20,7 @@ export default class CrossroadScene extends GameScene {
         this.load.image('crossroadBg', 'assets/images/backgrounds/crossroad.png');
         // The dead demigod is a separate sprite so its fate (cut open / spores planted) swaps one
         // frame instead of the whole background. Frames: 0 intact, 1 skull opened, 2 mycelium tree.
-        this.load.spritesheet('crossroad_corpse', 'assets/images/backgrounds/crossroad_corpse.png', { frameWidth: 240, frameHeight: 440 });
+        this.load.spritesheet('crossroad_corpse', 'assets/images/backgrounds/crossroad_corpse.png', { frameWidth: 240, frameHeight: 500 });
         this.load.image('door', 'assets/images/ui/door.png');
         this.load.image('skyship', 'assets/images/backgrounds/skyship.png');
         preloadGDProps(this); // shared Growth/Decay scenery props (see applyCrossroadGDState)
@@ -159,15 +159,16 @@ export default class CrossroadScene extends GameScene {
     }
 
     createCorpse() {
-        // Stands impaled at the junction beside the signpost, just LEFT of the road that runs away to the Scraper
-        // (so that road stays visible and clickable); the walk line (y≈534) passes in front of it.
+        // Hangs impaled on a stake planted in a cairn at the junction, beside the signpost, just LEFT of the road that
+        // runs away to the Scraper (so that road stays visible and clickable); the walk line (y≈534) passes in front.
+        // The sprite's foot (y 496) is the cairn; the body hangs 60 px above it, the lolled head leans right.
         this.corpseX = Math.round(this.scale.width / 2) - 125; // clear of the CATHEDRAL board too
         this.corpse = this.add.sprite(this.corpseX, 496, 'crossroad_corpse', this.corpseFrame())
             .setOrigin(0.5, 1)
             .setDepth(6);
-        // Only the figure is clickable (frame-local rect): the mycelium tree above it must leave the skyship zone free.
+        // Only the figure + its stake are clickable (frame-local rect): the tree above must leave the skyship zone free.
         this.corpse.setInteractive({
-            hitArea: new Phaser.Geom.Rectangle(56, 136, 128, 300),
+            hitArea: new Phaser.Geom.Rectangle(56, 136, 128, 360),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
             useHandCursor: true
         });
@@ -193,7 +194,7 @@ export default class CrossroadScene extends GameScene {
         const glow = this.add.graphics().setDepth(5).setBlendMode(Phaser.BlendModes.ADD);
         for (let i = 4; i >= 1; i--) {
             glow.fillStyle(0x3f8f5a, 0.05);
-            glow.fillEllipse(cx, 130, 130 * i, 130 * i);       // the caps
+            glow.fillEllipse(cx + 28, 98, 110 * i, 110 * i);   // the caps (the tree rises from the lolled crown, right of centre)
             glow.fillEllipse(cx, 470, 120 * i, 36 * i);        // spill on the flagstones around the figure
         }
         this.tweens.add({ targets: glow, alpha: { from: 0.7, to: 1 }, duration: 2200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
@@ -202,9 +203,9 @@ export default class CrossroadScene extends GameScene {
     /** Clickable zone over the mycelium tree that triggers the look-up at the skyship. */
     createSkyshipZone() {
         if (this.skyshipTransition) return;
-        const cx = this.corpseX ?? this.scale.width / 2, cy = 140; // the tree rises out of the corpse's crown (game y ≈ 76–206)
+        const cx = (this.corpseX ?? this.scale.width / 2) + 28, cy = 100; // the tree out of the lolled crown (game y ≈ 44–146)
         this.skyshipTransition = this.add.image(cx, cy, 'door')
-            .setDisplaySize(130, 150)
+            .setDisplaySize(110, 120)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true })
             .setDepth(10);
