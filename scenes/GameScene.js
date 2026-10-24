@@ -107,9 +107,10 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('cursor', 'assets/images/ui/cursor.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         preloadHudButtons(this); // inventory / map / journal / quests buttons
+        // native-resolution sheet (tools/artgen/hero.py, Aseprite source Hero_priest_128): 0-3 idle, 4-11 walk; shown at scale 1
         this.load.spritesheet('priest', 'assets/images/characters/priest.png', {
-            frameWidth: 64,
-            frameHeight: 64
+            frameWidth: 128,
+            frameHeight: 128
         });
         this.load.spritesheet('stranger', 'assets/images/characters/mysterious-stranger.png', {
             frameWidth: 64,
@@ -603,8 +604,7 @@ export default class GameScene extends Phaser.Scene {
             this.dialogMurmur = this.sound.add('dialogMurmur');
 
             // Create the Fungal Apprentice character (using the same priest sprite)
-            this.priest = this.add.sprite(100, 470, 'priest');
-            this.priest.setScale(2);
+            this.priest = this.add.sprite(100, 470, 'priest'); // 128x128 at scale 1 (feet on y 534 with the centre origin)
             this.priest.setDepth(20); // the player renders in front of the ground, NPCs, and props
             // Also create an apprentice reference for clarity
             this.apprentice = this.priest;
@@ -615,7 +615,7 @@ export default class GameScene extends Phaser.Scene {
             
             // Add a green glow effect for the fungal appearance
             const glowFX = this.add.sprite(100, 470, 'priest');
-            glowFX.setScale(2.1);  // Slightly larger than the character
+            glowFX.setScale(1.05);  // Slightly larger than the character
             glowFX.setTint(0x00FF00);  // Green glow
             glowFX.setAlpha(0.2);  // Transparent glow
             glowFX.setBlendMode(Phaser.BlendModes.ADD);  // Additive blending for glow effect
@@ -640,17 +640,17 @@ export default class GameScene extends Phaser.Scene {
             // Create walking animation
             this.anims.create({
                 key: 'walk',
-                frames: this.anims.generateFrameNumbers('priest', { start: 0, end: 3 }),
-                frameRate: 8,
+                frames: this.anims.generateFrameNumbers('priest', { start: 4, end: 11 }),
+                frameRate: 14,
                 repeat: -1
             });
 
-            // Create idle animation
+            // Create idle animation: a slow breath with the amulet's pulse, and a blink now and then
             this.anims.create({
                 key: 'idle',
-                frames: this.anims.generateFrameNumbers('priest', { start: 0, end: 0 }),
-                frameRate: 1,
-                repeat: 0
+                frames: this.anims.generateFrameNumbers('priest', { frames: [0, 0, 1, 2, 2, 1, 0, 0, 0, 3, 0, 0] }),
+                frameRate: 4,
+                repeat: -1
             });
 
             // Set initial animation

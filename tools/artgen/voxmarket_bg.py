@@ -53,13 +53,14 @@ def ray(x, y): return ((x + 0.5 - CX) / F, -(y + 0.5 - HY) / F)
 G = [[None] * W for _ in range(H)]
 ZB = [[INF] * W for _ in range(H)]
 SHAFT = [[0] * W for _ in range(H)]
+NB = [[None] * W for _ in range(H)]                                                       # surface normals (paintpass)
 OBJ = [0]
 def new_obj():
     OBJ[0] += 1; return OBJ[0]
 
-def put(x, y, z, shader, obj, a=0.0, b=0.0, wp=None):
+def put(x, y, z, shader, obj, a=0.0, b=0.0, wp=None, nrm=None):
     if 0 <= x < W and 0 <= y < H and z < ZB[y][x]:
-        ZB[y][x] = z; G[y][x] = (shader, obj, a, b, wp)
+        ZB[y][x] = z; G[y][x] = (shader, obj, a, b, wp); NB[y][x] = nrm
 
 def pip(pts, u, v):
     inside = False; n = len(pts)
@@ -82,6 +83,9 @@ def quad(P0, P1, P3, shader, obj=None, clip=None):
     y0, y1 = max(0, int(min(p[1] for p in sp))), min(H - 1, int(max(p[1] for p in sp)) + 1)
     # solve for s, t with the two largest-magnitude axes of the plane
     ax = sorted(range(3), key=lambda i: abs(n[i]))[:2]
+    nl = math.sqrt(n[0] ** 2 + n[1] ** 2 + n[2] ** 2) or 1.0
+    nu = (n[0] / nl, n[1] / nl, n[2] / nl)
+    if nu[0] * P0[0] + nu[1] * (P0[1] - CAMH) + nu[2] * P0[2] > 0: nu = (-nu[0], -nu[1], -nu[2])    # face the camera
     det = e1[ax[0]] * e2[ax[1]] - e1[ax[1]] * e2[ax[0]] or 1e-9
     for y in range(y0, y1 + 1):
         for x in range(x0, x1 + 1):
@@ -97,7 +101,7 @@ def quad(P0, P1, P3, shader, obj=None, clip=None):
             s = (q[ax[0]] * e2[ax[1]] - q[ax[1]] * e2[ax[0]]) / det
             t = (e1[ax[0]] * q[ax[1]] - e1[ax[1]] * q[ax[0]]) / det
             if clip and not clip(s, t): continue
-            put(x, y, t_, shader, obj, s, t, wp)
+            put(x, y, t_, shader, obj, s, t, wp, nu)
     return obj
 
 def box(x0, x1, y0, y1, z0, z1, sh_front, sh_side, sh_top=None, obj=None):
@@ -183,7 +187,10 @@ class Shell:
                         best = (zr, 'column', (X, Y, zr)); break
                 if best[1]:
                     t, k, wp = best
-                    put(x, y, t, SHELL_SHADERS[k], s.obj.get(k, 1), 0, 0, wp)
+                    X, Y, _ = wp
+                    nrm = {'floor': (0.0, 1.0, 0.0), 'wall': (-math.copysign(1.0, X), 0.0, 0.0), 'deck': (0.0, -1.0, 0.0),
+                           'vault': (-X / s.R, -(Y - s.sp) / s.R, 0.0)}.get(k, (0.0, 0.0, -1.0))
+                    put(x, y, t, SHELL_SHADERS[k], s.obj.get(k, 1), 0, 0, wp, nrm)
 
     @staticmethod
     def lattice(arc, depth_in, depth=1.7):
@@ -809,10 +816,11 @@ def chair(X, Z, seed):
 {'hall': scene_hall, 'alley': scene_alley, 'auction': scene_auction}[SCENE]()
 SHELL.cast()
 img = Image.new('RGB', (W, H)); ip = img.load()
+COL = [[INK] * W for _ in range(H)]
 for y in range(H):
     for x in range(W):
         g = G[y][x]
-        if g is None: ip[x, y] = INK; continue
+        if g is None: continue
         shader, obj, s, t, wp = g
         c = shader(x, y, s, t, ZB[y][x], wp)
         if c is None: c = INK
@@ -820,7 +828,22 @@ for y in range(H):
             c = nearest(tuple(int(ch * 0.78 + 58 * 0.22) for ch in c))
         if SHAFT[y][x] and shader is not shell_floor:                                          # dusty beams over everything
             if (x + y) % 2 == 0 or SHAFT[y][x] > 1: c = nearest(tuple(min(255, int(ch * 1.12 + 10)) for ch in c))
-        ip[x, y] = c
+        COL[y][x] = c
+# painterly finish: grime, wear, light (paintpass.py) -- before the outlines
+from paintpass import paint
+GLOWS = set(GLOW) | {FLOWER[0], FLOWER[2]}
+SHELL_CLS = {shell_floor: 'ground', shell_wall: 'wall', shell_end: 'wall', shell_vault: 'ceil', shell_deck: 'ceil', shell_rib: 'prop', shell_column: 'prop'}
+CLS = [[None] * W for _ in range(H)]; WPB = [[None] * W for _ in range(H)]; SID = [[None] * W for _ in range(H)]; ZP = [[None] * W for _ in range(H)]
+for y in range(H):
+    for x in range(W):
+        g = G[y][x]
+        if g is None: continue
+        shader, obj, s, t, wp = g
+        CLS[y][x] = 'emit' if COL[y][x] in GLOWS else SHELL_CLS.get(shader, 'prop')
+        WPB[y][x] = wp; SID[y][x] = obj; ZP[y][x] = ZB[y][x]
+COL = paint(COL, CLS, ZP, WPB, NB, SID, fog=fog_of, variant=VARIANT, light_gain=0.9)
+for y in range(H):
+    for x in range(W): ip[x, y] = COL[y][x]
 # outlines: where two objects meet at different depths, darken the farther pixel
 px2 = img.copy(); p2 = px2.load()
 for y in range(H - 1):

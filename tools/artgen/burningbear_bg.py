@@ -587,6 +587,11 @@ if DECAY:
             if 0 <= x < W and 0 <= y < H and M[y][x][0] in ('sett', 'pave', 'gutter', 'kerb'):
                 px[y][x] = [STONE[1], STONE[7], WARM[1], RED[2], WOOD[0], INK, CAP[2]][random.randint(0, 6)]
 
+# ================================================================== painterly finish: grime, wear, light (paintpass.py)
+from paintpass import face_engine
+BRICK = ([(96, 64, 52), (110, 74, 58), (122, 86, 66), (88, 64, 54)], (84, 80, 72))
+px = face_engine(px, M, Z, UV, fog_of, set(GLOW), skip=('smoke',), variant=VARIANT,
+                 peel={'plaster': BRICK, 'stucco': BRICK}, crack=('plaster', 'stucco', 'plinth'))
 # ================================================================== outlines
 RANK = {'sky': 0, 'skyline': 0, 'cable': 0, 'smoke': 0, 'rope': 1, 'sett': 1, 'gutter': 1, 'kerb': 1, 'pave': 1, 'puddle': 1, 'ash': 1, 'pitstone': 2,
         'pennant': 3, 'bear': 4, 'flame': 5, 'log': 3, 'crown': 3, 'trunk': 3, 'grate': 2, 'bed': 1, 'leaf': 3, 'ivy': 2, 'ivyleaf': 2}

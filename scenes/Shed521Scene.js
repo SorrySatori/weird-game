@@ -328,8 +328,8 @@ export default class Shed521Scene extends GameScene {
         // Add Gnur NPC with proper size
         this.gnur = this.add.sprite(400, 470, 'gnur');
         this.gnur.setDisplaySize(80, 80); // Set a fixed size
-        this.gnur.setDepth(1); // Ensure it's above background
-        this.addGroundShadow(400, 470 + this.gnur.displayHeight * 0.42, this.gnur.displayWidth * 0.55, this.gnur.displayHeight * 0.12);
+        this.gnur.setDepth(6); // standing-NPC layer: in front of the G/D props (4) and the ground, behind the player (20)
+        this.gnurShadow = this.addGroundShadow(400, 470 + this.gnur.displayHeight * 0.42, this.gnur.displayWidth * 0.55, this.gnur.displayHeight * 0.12);
         this.gnur.setInteractive({ useHandCursor: true });
 
         // Looping walk-cycle animation (anims are global — create once).
@@ -457,6 +457,7 @@ export default class Shed521Scene extends GameScene {
 
     update() {
         super.update();
+        if (this.gnurShadow && this.gnur) this.gnurShadow.x = this.gnur.x; // the shadow walks with him (the bob stays off the ground)
     }
 }
 

@@ -104,3 +104,27 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 ```
 Sources `assets/aseprite/Vox_<id>.aseprite` (tags ceka / chuze, UPRAVY layer). In the scenes all three keep their old
 texture keys (`kloor`, `zerren`, `heshAndVell`), shown at scale 1 with a bottom-centre origin on their feet.
+
+## The protagonist (the Obazoba apprentice, texture key `priest`)
+Same renderer (`rig.py`). `python3 hero.py <outdir>` → `priest.png` (12 frames of 128×128, faces right, soles on y 125:
+0-3 idle, 4-11 an 8-frame walk) + `hero.gpl`. Then
+```
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/hero.gpl --script tools/artgen/hero_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/hero_export.lua
+```
+Source `assets/aseprite/Hero_priest_128.aseprite` (tags ceka / chuze, UPRAVY layer). The game shows it at scale 1
+(`GameScene`: anims `idle` = frames 0,0,1,2,2,1,0,0,0,3,0,0 at 4 fps, `walk` = 4-11 at 14 fps; `PlayerMovementSystem`
+flips with `setScale(±1, 1)`); the green additive `priestGlow` copy follows the priest's frame and origin.
+
+## Painterly finish (`paintpass.py`) — grime, wear, light
+Shared by `crossroad_bg.py`, `shed521_bg.py`, `burningbear_bg.py` (via the `face_engine()` adapter) and
+`voxmarket_bg.py` (its own buffers + a normal buffer `NB`); every generator calls it on the shaded colours right before
+its outline pass, so re-running a generator re-applies it. Everything is computed in world/surface coordinates: ground
+contact shadow around wall/prop bases, a depth-based AO in recesses, shadows under anything that overhangs, rain-wash
+streaks under ledges/sills, a damp foot of each wall (moss in Growth, soot in Decay), plaster falling off to brick
+(`peel=`), cracks (`crack=`), chipped edges, warm light spilling from emissive pixels (lit windows, lamps, doorways)
+plus bloom, cool-tinted shadows and a faint colour drift / brush grain. Strength knobs: `light_gain`, `grime_gain`, `bloom`.
+To push a new render into an existing Aseprite source without touching its UPRAVY layer:
+```
+aseprite -b --script-param f=assets/aseprite/<file>.aseprite --script-param "layer=<base layer name>" --script-param img=<png> --script tools/artgen/bg_update.lua
+```

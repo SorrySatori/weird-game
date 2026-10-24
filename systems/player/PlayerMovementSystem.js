@@ -117,9 +117,9 @@ export default class PlayerMovementSystem {
             this.scene.clickSound.play();
         }
         
-        this.priest.setScale(2 * direction, 2);
+        this.priest.setScale(direction, 1);
         if (this.priestGlow) {
-            this.priestGlow.setScale(2.1 * direction, 2.1);
+            this.priestGlow.setScale(1.05 * direction, 1.05);
             this.priestGlow.x = this.priest.x;
         }
         
@@ -178,14 +178,14 @@ export default class PlayerMovementSystem {
         const step = this.speed * (this.speedMultiplier || 1);
         if (this.movementState.left) {
             this.priest.x -= step;
-            this.priest.setScale(-2, 2);
-            this.priestGlow.setScale(-2.1, 2.1);
+            this.priest.setScale(-1, 1);
+            this.priestGlow.setScale(-1.05, 1.05);
             moved = true;
         }
         else if (this.movementState.right) {
             this.priest.x += step;
-            this.priest.setScale(2, 2);
-            this.priestGlow.setScale(2.1, 2.1);
+            this.priest.setScale(1, 1);
+            this.priestGlow.setScale(1.05, 1.05);
             moved = true;
         }
 
@@ -208,6 +208,8 @@ export default class PlayerMovementSystem {
             if (this.priestGlow.originX !== this.priest.originX || this.priestGlow.originY !== this.priest.originY) {
                 this.priestGlow.setOrigin(this.priest.originX, this.priest.originY);
             }
+            // ...and the same pose, or a still idle silhouette ghosts behind the walking legs
+            if (this.priestGlow.frame.name !== this.priest.frame.name) this.priestGlow.setFrame(this.priest.frame.name);
         }
     }
 

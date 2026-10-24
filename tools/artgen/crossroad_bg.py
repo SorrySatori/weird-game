@@ -497,6 +497,11 @@ for (z, wx0, wx1) in RAILS:
     for x in range(int(x0), int(x1) + 1):
         if 0 <= x < W and 0 <= int(yr) < H and M[int(yr)][x][0] in ('dirt', 'road', 'kerb', 'puddle'):
             setc(x, int(yr), fogged(STONE[1], fog_of(z), x, int(yr))); setc(x, int(yr) - 1, fogged(STONE[4], fog_of(z), x, int(yr) - 1))
+# ================================================================== painterly finish: grime, wear, light (paintpass.py)
+from paintpass import face_engine
+BRICK = ([(96, 64, 52), (110, 74, 58), (122, 86, 66), (88, 64, 54)], (84, 80, 72))
+px = face_engine(px, M, Z, UV, fog_of, set(GLOW), skip_px=TEXT,
+                 peel={'plaster': BRICK, 'stucco': BRICK}, crack=('plaster', 'stucco', 'plinth'))
 # ================================================================== outlines
 RANK = {'sky': 0, 'skyline': 0, 'cable': 0, 'road': 1, 'dirt': 1, 'puddle': 1, 'kerb': 1, 'weed': 4, 'post': 3, 'arm': 3, 'bolt': 3, 'postbase': 3, 'lamp': 3}
 SOFT_PAIRS = [('sky', 'skyline'), ('road', 'dirt'), ('dirt', 'puddle'), ('road', 'puddle'), ('road', 'kerb'), ('dirt', 'kerb'), ('sky', 'cable'), ('skyline', 'cable'),

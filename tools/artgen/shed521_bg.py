@@ -508,6 +508,11 @@ for (a, b) in ((pts[0], pts[1]), (pts[1], pts[2]), (pts[2], pts[3]), (pts[3], pt
         x, y = int(a[0] + (b[0] - a[0]) * j / n), int(a[1] + (b[1] - a[1]) * j / n)
         if 0 <= x < W and 0 <= y < H: setc(x, y, STONE[2])
 
+# ================================================================== painterly finish: grime, wear, light (paintpass.py)
+from paintpass import face_engine
+BRICK = ([(96, 64, 52), (110, 74, 58), (122, 86, 66), (88, 64, 54)], (84, 80, 72))
+px = face_engine(px, M, Z, UV, fog_of, set(GLOW), skip_px=TEXT, variant=VARIANT,
+                 peel={'plaster': BRICK, 'stucco': BRICK}, crack=('plaster', 'stucco', 'plinth'))
 # ================================================================== outlines
 RANK = {'sky': 0, 'skyline': 0, 'cable': 0, 'smoke': 0, 'dirt': 1, 'track': 1, 'path': 1, 'puddle': 1, 'weed': 4, 'leaf': 4, 'pole': 3, 'pipe': 2, 'scrap': 2, 'plankout': 3, 'barrel': 2, 'hpipe': 3, 'trestle': 2, 'ivy': 2, 'ivyleaf': 2}
 SOFT_PAIRS = [('sky', 'skyline'), ('dirt', 'track'), ('dirt', 'path'), ('track', 'path'), ('dirt', 'puddle'), ('track', 'puddle'), ('path', 'puddle'), ('sky', 'cable'), ('skyline', 'cable'), ('sky', 'smoke'), ('smoke', 'cable'),
