@@ -93,6 +93,12 @@ export default class LanguageSystem {
         return (typeof v === 'string' && v !== key) ? v : undefined;
     }
 
+    /** A symbiont's ambient remark in the current language (lang/<code>/symbiontLines.js, keyed by the English line). */
+    symbiontLine(text) {
+        if (this.currentLanguage === 'en') return text;
+        return this.languages[this.currentLanguage]?.symbiontLines?.[text] || text;
+    }
+
     /**
      * Localized display name of an inventory item. Looks up `items.<id>.names.<variant>`, then
      * `items.<id>.name`, then falls back to the English `item.name` stored on the item itself.

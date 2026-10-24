@@ -113,8 +113,10 @@ export default {
         thaalDeparted: 'The Fungal Master has departed for the tavern...',
     },
     symbiontUi: {
-        power: 'Power',
         ability: 'Ability',
+        empty: 'A cosy little spot on your body where a symbiont can settle.',
+        sealed: 'This slot is closed for now. You need a permit for it.',
+        dormant: 'Silent for now.',
     },
     // Symbiont voices (SymbiontSystem has the English originals; these are the localized copies).
     symbionts: {

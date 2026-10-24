@@ -6,7 +6,7 @@ export default {
     _speakers: {
         'Phor Calesta': 'Phor Calesta',
         'Godgraveyard Gate': 'Brána Vaječné katedrály',
-        'Brine Scripture': 'Solné písmo',
+        'Brine Scripture': 'Solopis',
         'Osswine': 'Osswine',
     },
     gate_sealed: {
@@ -66,7 +66,7 @@ export default {
         }
     },
     hvetrdjaana_salt_recall: {
-        text: "Solné písmo se pohne proti nečitelnému kameni a ochutná minerální přízrak písmen, která se obrousila celá staletí předtím, než se Phor narodila. *\"...Sůl pořád drží jejich tvar, jako suché řečiště drží řeku, která ho opustila. Hvétrdjaana. Urbzunidové a krobulovité se k ní modlili, když si přáli být zapomenuti – byla strážkyní milosrdného zapomnění, která snímala tíhu jmen z mrtvých, zahanbených a prostě unavených. Milovali ji pro tu milost.\"*\n\nZbytek se neochotně pohne. *\"A to ji zahubilo. Bohyně zapomnění nemůže žádat, aby byla vzpomínána – zradilo by to celou její podstatu. Když tedy její národy vybledly, rozhodla se vyblednout s nimi a nechala vlastní jméno shnít z vlastního kamene. Ne ztraceno, knězi. Darováno. Poslední věc, kterou kdy zapomněla, byla ona sama.\"*",
+        text: "Solopis se pohne proti nečitelnému kameni a ochutná minerální přízrak písmen, která se obrousila celá staletí předtím, než se Phor narodila. *\"...Sůl pořád drží jejich tvar, jako suché řečiště drží řeku, která ho opustila. Hvétrdjaana. Urbzunidové a krobulovité se k ní modlili, když si přáli být zapomenuti – byla strážkyní milosrdného zapomnění, která snímala tíhu jmen z mrtvých, zahanbených a prostě unavených. Milovali ji pro tu milost.\"*\n\nZbytek se neochotně pohne. *\"A to ji zahubilo. Bohyně zapomnění nemůže žádat, aby byla vzpomínána – zradilo by to celou její podstatu. Když tedy její národy vybledly, rozhodla se vyblednout s nimi a nechala vlastní jméno shnít z vlastního kamene. Ne ztraceno, knězi. Darováno. Poslední věc, kterou kdy zapomněla, byla ona sama.\"*",
         options: {
             salt_recall_hvetrdjaana_back: "Ustoupit."
         }

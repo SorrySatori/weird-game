@@ -23,6 +23,29 @@ import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.j
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
 
+/**
+ * Symbiont HUD — a mycelial "rosary" hanging from the G/D medallion, one pod per slot (sealed / open / occupied).
+ * Art: tools/artgen/symbionts.py → assets/aseprite/UI_Symbiont*.aseprite → symbionts_export.lua → assets/images/ui/.
+ */
+const SYMBIONT_ROWS = ['thorne-still', 'neme-crownmire', 'ulvarex-borrowed-horizon', 'brine-scripture', 'osswine', 'palinode']; // last row = generic
+const SYMBIONT_GLOW = {
+    'thorne-still': 0xc8be5a, 'neme-crownmire': 0x7fff8e, 'ulvarex-borrowed-horizon': 0xffaa5a,
+    'brine-scripture': 0x78dcc8, 'osswine': 0x6eaae6, 'palinode': 0xaa96ff
+};
+const POD = { x: 50, top: 96, h: 58, back: 0, lip: 1, sealed: 2, end: 3, glow: 4 };
+// Idle loop at 6 fps: long rests, one slow breath, a blink, an accent — calm, never fidgety.
+const SYMBIONT_IDLE = [...Array(10).fill(0), 1, 1, 1, 1, 1, 1, ...Array(8).fill(0), 2, ...Array(9).fill(0), 3, 3, 3, 3];
+// Symbionts speaking in scene dialogs, by the speaker names those dialogs use (EN + CZ) → dialog portrait.
+const SYMBIONT_SPEAKERS = {
+    'Thorne-Still': 'thorne-still', 'Neme': 'neme-crownmire', 'Neme of the Crownmire': 'neme-crownmire',
+    'Neme z Korunního bahna': 'neme-crownmire',
+    'Ulvarex': 'ulvarex-borrowed-horizon', 'Ulvarex the Borrowed Horizon': 'ulvarex-borrowed-horizon', 'Ulvarex, Vypůjčený obzor': 'ulvarex-borrowed-horizon',
+    'Brine Scripture': 'brine-scripture', 'Solopis': 'brine-scripture',
+    'Osswine': 'osswine', 'Palinode': 'palinode'
+};
+const symbiontRow = id => (SYMBIONT_ROWS.includes(id) ? SYMBIONT_ROWS.indexOf(id) : SYMBIONT_ROWS.length);
+const symbiontPortrait = id => ({ key: 'symbionts', frame: symbiontRow(id) * 4 });
+
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
         super(config);
@@ -108,6 +131,10 @@ export default class GameScene extends Phaser.Scene {
         // Load Growth/Decay indicator image
         this.load.image('growthDecay', 'assets/images/ui/growthDecay.jpg');
 
+        // Symbiont HUD: 4 idle frames per symbiont (one row each) + the pods of the rosary
+        this.load.spritesheet('symbionts', 'assets/images/ui/symbionts.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('symbiontPods', 'assets/images/ui/symbiont_pods.png', { frameWidth: 48, frameHeight: 58 });
+
         // Fast-travel map background
         this.load.image('mapBg', 'assets/images/ui/map.png');
 
@@ -137,7 +164,9 @@ export default class GameScene extends Phaser.Scene {
         
         // Create symbiont UI
         this.createSymbiontUI();
-        
+        this.dialogPortraits = { ...this.dialogPortraits };
+        for (const [name, id] of Object.entries(SYMBIONT_SPEAKERS)) this.dialogPortraits[name] ??= symbiontPortrait(id);
+
         // Initialize scene mechanics
         this.initSceneMechanics();
         
@@ -199,6 +228,11 @@ export default class GameScene extends Phaser.Scene {
         // Update game menu if it exists
         if (this.gameMenu) {
             this.gameMenu.update();
+        }
+
+        // Rebuild the symbiont HUD when a symbiont arrives or leaves, a slot opens, or one falls silent
+        if (this.symbiontContainer && this.symbiontSystem && this.symbiontUiKey() !== this._symbiontUiKey) {
+            this.createSymbiontUI();
         }
 
         // Symbiont ambient messages
@@ -357,109 +391,129 @@ export default class GameScene extends Phaser.Scene {
         this.loadSavedData();
     }
 
+    /**
+     * The symbiont HUD: a mycelial cord hangs from the G/D medallion with one pod per slot — sealed (locked slot),
+     * open and empty, or open with the symbiont sitting inside (glow behind it, the pod's lower lip in front).
+     * Rebuilt from SymbiontSystem whenever its state changes (see update()), so bonding, losing a symbiont,
+     * buying a slot and a symbiont falling silent all show up without extra calls. Safe to call repeatedly.
+     */
     createSymbiontUI() {
-        const startX = 60;
-        const startY = 480;
-        const spacing = 40;
-        const slotSize = 30;
-
-        // Create container for slots
-        this.symbiontContainer = this.add.container(0, 0);
-        this.symbiontContainer.setDepth(100);
-        this.symbiontContainer.setScrollFactor(0); // Make it persist across scenes
-
+        this.symbiontContainer?.destroy();
+        this.hideSymbiontTooltip();
+        this.symbiontContainer = this.add.container(0, 0).setDepth(100).setScrollFactor(0);
         this.symbiontSlots = [];
         this.symbiontIcons = new Map();
 
-        for (let i = 0; i < this.symbiontSystem.maxSlots; i++) {
-            // Create slot background
-            const slot = this.add.rectangle(startX + (i * spacing), startY, slotSize, slotSize, 0x1a3b23)
-                .setStrokeStyle(1, 0x7fff8e)
-                .setDepth(100)
-                .setAlpha(i < this.symbiontSystem.unlockedSlots ? 1 : 0.3);
+        const sys = this.symbiontSystem;
+        if (!sys) return;
+        this.ensureSymbiontAnims();
+        const L = LanguageSystem.getInstance();
+        const ids = [...sys.symbionts.keys()];
 
-            this.symbiontSlots.push(slot);
-            this.symbiontContainer.add(slot);
-
-            if (i >= this.symbiontSystem.unlockedSlots) {
-                const lockText = this.add.text(slot.x, slot.y, '', {
-                    fontSize: '16px',
-                    color: '#7fff8e'
-                }).setOrigin(0.5).setDepth(101);
-                this.symbiontContainer.add(lockText);
+        for (let i = 0; i < sys.maxSlots; i++) {
+            const y = POD.top + i * POD.h;
+            const id = ids[i];
+            const sealed = !id && i >= sys.unlockedSlots;
+            const pod = this.add.image(POD.x, y, 'symbiontPods', sealed ? POD.sealed : POD.back).setOrigin(0.5, 0);
+            pod.setInteractive(new Phaser.Geom.Ellipse(24, 30, 38, 46), Phaser.Geom.Ellipse.Contains);
+            this.symbiontContainer.add(pod);
+            this.symbiontSlots.push(pod);
+            if (sealed) {
+                this.bindSymbiontTooltip(pod, y, () => L.t('symbiontUi.sealed'));
+                continue;
             }
-        }
 
-        // Restore any existing symbionts
-        if (this.symbiontSystem) {
-            this.symbiontSystem.symbionts.forEach((data, id) => {
-                this.addSymbiontIcon(id, data);
+            const dormant = !!id && sys.isDormant(id);
+            const glow = this.add.image(POD.x, y, 'symbiontPods', POD.glow).setOrigin(0.5, 0)
+                .setBlendMode(Phaser.BlendModes.ADD)
+                .setTint(SYMBIONT_GLOW[id] ?? 0x7fff8e)
+                .setAlpha(!id ? 0.2 : dormant ? 0.12 : 0.45);
+            this.symbiontContainer.add(glow);
+
+            if (id) {
+                const row = symbiontRow(id);
+                const icon = this.add.sprite(POD.x, y + 15, 'symbionts', row * 4).setOrigin(0.5, 0);
+                if (dormant) {
+                    icon.setTint(0x777777);
+                } else {
+                    icon.play({ key: `symbiont-idle-${row}`, startFrame: Phaser.Math.Between(0, SYMBIONT_IDLE.length - 1) });
+                    this.tweens.add({ targets: glow, alpha: 0.75, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                }
+                this.symbiontContainer.add(icon);
+                this.symbiontIcons.set(id, icon);
+                pod.input.cursor = 'pointer';
+                pod.on('pointerdown', (pointer, localX, localY, event) => {
+                    event.stopPropagation(); // don't also walk the priest to the HUD
+                    if (this.dialogVisible) return;
+                    this.hideSymbiontTooltip();
+                    this.showSymbiontDialog(id);
+                });
+            }
+            this.symbiontContainer.add(this.add.image(POD.x, y, 'symbiontPods', POD.lip).setOrigin(0.5, 0));
+            this.bindSymbiontTooltip(pod, y, () => id ? this.symbiontTooltipText(id) : L.t('symbiontUi.empty'));
+        }
+        this.symbiontContainer.add(this.add.image(POD.x, POD.top + sys.maxSlots * POD.h, 'symbiontPods', POD.end).setOrigin(0.5, 0));
+        this._symbiontUiKey = this.symbiontUiKey();
+    }
+
+    /** Kept for the scenes that call it right after bonding; the HUD simply rebuilds from SymbiontSystem. */
+    addSymbiontIcon() {
+        this.createSymbiontUI();
+    }
+
+    /** What the symbiont HUD shows: slots, who sits where, who is silent. A change means rebuild. */
+    symbiontUiKey() {
+        const sys = this.symbiontSystem;
+        return `${sys.unlockedSlots}/${sys.maxSlots}:` + [...sys.symbionts.keys()].map(id => id + (sys.isDormant(id) ? '~' : '')).join(',');
+    }
+
+    ensureSymbiontAnims() {
+        for (let row = 0; row <= SYMBIONT_ROWS.length; row++) {
+            const key = `symbiont-idle-${row}`;
+            if (this.anims.exists(key)) continue;
+            this.anims.create({
+                key,
+                frames: SYMBIONT_IDLE.map(f => ({ key: 'symbionts', frame: row * 4 + f })),
+                frameRate: 6,
+                repeat: -1
             });
         }
     }
 
-    addSymbiontIcon(id, data) {
-        // Get symbiont system from registry
-        const symbiontSystem = this.registry.get('symbiontSystem');
-        if (!symbiontSystem) {
-            console.error('SymbiontSystem not found in registry');
-            return;
-        }
-        
-        // Find the correct slot index for this symbiont
-        let slot = 0;
-        for (const [symId] of symbiontSystem.symbionts) {
-            if (symId === id) break;
-            slot++;
-        }
-        const x = 60 + (slot * 40);
-        const y = 480;
-        
-        // Create glowing circle for symbiont
-        const symbiontIcon = this.add.circle(x, y, 12, 0x7fff8e)
-            .setDepth(102)
-            .setInteractive({ useHandCursor: true });
-        
-        // Add pulsing animation
-        this.tweens.add({
-            targets: symbiontIcon,
-            scale: 1.2,
-            alpha: 0.8,
-            duration: 1000,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
+    symbiontTooltipText(id) {
+        const L = LanguageSystem.getInstance();
+        const data = this.symbiontSystem.symbionts.get(id) || {};
+        const lines = [
+            L.str(`symbionts.${id}.name`) || data.name,
+            `${L.t('symbiontUi.ability')}: ${L.str(`symbionts.${id}.ability`) || data.ability}`
+        ];
+        if (this.symbiontSystem.isDormant(id)) lines.push(L.t('symbiontUi.dormant'));
+        return lines.join('\n');
+    }
 
-        // Add hover tooltip
-        symbiontIcon.on('pointerover', () => {
-            const tooltipBg = this.add.rectangle(x, y - 40, 200, 60, 0x0a2712, 0.9)
-                .setStrokeStyle(1, 0x7fff8e);
-            const tooltipText = this.add.text(x, y - 40, 
-                `${LanguageSystem.getInstance().str(`symbionts.${id}.name`) || data.name}\n${LanguageSystem.getInstance().t('symbiontUi.power')}: ${data.power}\n${LanguageSystem.getInstance().t('symbiontUi.ability')}: ${LanguageSystem.getInstance().str(`symbionts.${id}.ability`) || data.ability}`, {
+    /** Hover tooltip to the right of a pod; text() is read on hover so it is always current. */
+    bindSymbiontTooltip(pod, y, text) {
+        pod.on('pointerover', () => {
+            this.hideSymbiontTooltip();
+            this.hideSymbiontMessage(); // the bubble sits where the tooltip goes
+            const label = this.add.text(POD.x + 36, y + 30, text(), {
                 fontSize: '12px',
                 color: '#7fff8e',
-                align: 'left'
-            }).setOrigin(0.5);
-            
-            this.activeTooltip = this.add.container(0, 0, [tooltipBg, tooltipText])
-                .setDepth(103);
+                align: 'left',
+                lineSpacing: 2,
+                wordWrap: { width: 220 }
+            }).setOrigin(0, 0.5);
+            const bg = this.add.rectangle(label.x - 8, label.y, label.width + 16, label.height + 12, 0x0a2712, 0.9)
+                .setOrigin(0, 0.5)
+                .setStrokeStyle(1, 0x7fff8e);
+            this.activeTooltip = this.add.container(0, 0, [bg, label]).setDepth(103).setScrollFactor(0);
         });
+        pod.on('pointerout', () => this.hideSymbiontTooltip());
+    }
 
-        symbiontIcon.on('pointerout', () => {
-            if (this.activeTooltip) {
-                this.activeTooltip.destroy();
-                this.activeTooltip = null;
-            }
-        });
-
-        symbiontIcon.on('pointerdown', () => {
-            // Get the symbiont-specific dialog from SymbiontSystem
-            this.showSymbiontDialog(id);
-        });
-
-        this.symbiontContainer.add(symbiontIcon);
-        this.symbiontIcons.set(id, symbiontIcon);
+    hideSymbiontTooltip() {
+        this.activeTooltip?.destroy();
+        this.activeTooltip = null;
     }
 
     /**
@@ -499,7 +553,7 @@ export default class GameScene extends Phaser.Scene {
         const locName = L.str(`symbionts.${symbiontId}.name`);
         // Create a dynamic dialog state
         const dynamicDialogState = {
-            speaker: dialogContent?.speaker || locName || symbiontSystem.getSymbiontName(symbiontId) || 'Person',
+            speaker: (dialogContent?.speaker === symbiontSystem.symbionts.get(symbiontId)?.name && locName) || dialogContent?.speaker || locName || 'Person',
             text: locText || dialogContent.text,
             options: dialogContent.options.map((option, i) => {
                 const text = (Array.isArray(locOpts) && locOpts[i]) || option.text;
@@ -519,7 +573,8 @@ export default class GameScene extends Phaser.Scene {
             })
         };
         
-        // Show the dynamic dialog
+        // Show the dynamic dialog, with the symbiont's own sprite as the portrait
+        this.dialogPortraits = { ...this.dialogPortraits, [dynamicDialogState.speaker]: symbiontPortrait(symbiontId) };
         this.showDialog(dynamicDialogState);
     }
     
@@ -999,11 +1054,33 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
-     * Display symbiont ambient message at the very bottom of the screen
+     * "Osswine: The dead do not lie." → { id: 'osswine', text: 'The dead do not lie.' } when the speaker is a
+     * symbiont the player carries; null for anything else.
+     */
+    symbiontLine(message) {
+        const m = /^([^:\n]{2,40}):\s*([\s\S]+)$/.exec(message);
+        if (!m) return null;
+        const who = m[1].trim();
+        const id = SYMBIONT_SPEAKERS[who] || (SYMBIONT_ROWS.includes(who.toLowerCase()) ? who.toLowerCase() : null);
+        return id && this.symbiontSystem?.hasSymbiont(id) ? { id, text: m[2] } : null;
+    }
+
+    /**
+     * Display a symbiont ambient message: a speech bubble beside the speaker's pod when it sits in the HUD,
+     * otherwise (system notices, unknown speakers) the strip at the very bottom of the screen.
      */
     showSymbiontMessage(message) {
         // Guard: if this scene's camera isn't active, skip
         if (!this.cameras || !this.cameras.main) return;
+
+        const L = LanguageSystem.getInstance();
+        const line = this.symbiontLine(message);
+        if (line && this.symbiontIcons?.has(line.id)) {
+            this.showSymbiontBubble(line.id, L.symbiontLine(line.text));
+            return;
+        }
+        const said = /^([^:\n]{2,40}):\s*([\s\S]+)$/.exec(message);
+        if (said) message = `${said[1]}: ${L.symbiontLine(said[2])}`;
 
         // Destroy previous symbiont message if still visible
         if (this._symbiontMsg) {
@@ -1067,7 +1144,64 @@ export default class GameScene extends Phaser.Scene {
             }
         });
     }
-    
+
+    /** A symbiont's remark in a bubble to the right of its pod, the tail pointing at it, framed in its glow colour. */
+    showSymbiontBubble(id, text) {
+        this.hideSymbiontMessage();
+        const L = LanguageSystem.getInstance();
+        const slot = [...this.symbiontSystem.symbionts.keys()].indexOf(id);
+        const colour = SYMBIONT_GLOW[id] ?? 0x7fff8e;
+        const podY = POD.top + slot * POD.h + 30; // level with the pod's opening
+
+        const name = this.add.text(12, 8, L.str(`symbionts.${id}.name`) || this.symbiontSystem.symbionts.get(id)?.name || id, {
+            fontSize: '11px',
+            color: '#' + colour.toString(16).padStart(6, '0'),
+            fontStyle: 'bold'
+        });
+        const body = this.add.text(12, 8 + name.height + 3, text, {
+            fontSize: '13px',
+            color: '#c8e6d0',
+            lineSpacing: 2,
+            wordWrap: { width: 300 }
+        });
+        const w = Math.max(name.width, body.width) + 24;
+        const h = name.height + body.height + 19;
+        const top = Phaser.Math.Clamp(podY - h / 2, 8, this.scale.height - h - 8);
+        const tailY = podY - top;
+
+        const g = this.add.graphics();
+        g.fillStyle(0x0a2712, 0.92);
+        g.fillRoundedRect(0, 0, w, h, 5);
+        g.lineStyle(1, colour, 0.8);
+        g.strokeRoundedRect(0, 0, w, h, 5);
+        g.fillStyle(0x0a2712, 0.92);
+        g.fillTriangle(1, tailY - 6, 1, tailY + 6, -9, tailY);
+        g.lineBetween(0, tailY - 6, -9, tailY);
+        g.lineBetween(-9, tailY, 0, tailY + 6);
+
+        const bubble = this.add.container(POD.x + 34, top, [g, name, body]).setDepth(1999).setScrollFactor(0).setAlpha(0);
+        this._symbiontMsg = bubble;
+        this.tweens.add({ targets: bubble, alpha: 1, duration: 400, ease: 'Power1' });
+        this.time.delayedCall(400 + Math.max(4000, text.length * 70), () => {
+            if (!bubble.scene) return;
+            this.tweens.add({
+                targets: bubble,
+                alpha: 0,
+                duration: 600,
+                ease: 'Power1',
+                onComplete: () => {
+                    bubble.destroy();
+                    if (this._symbiontMsg === bubble) this._symbiontMsg = null;
+                }
+            });
+        });
+    }
+
+    hideSymbiontMessage() {
+        this._symbiontMsg?.destroy();
+        this._symbiontMsg = null;
+    }
+
     /**
      * Determine notification configuration based on content
      * @private
@@ -1078,8 +1212,9 @@ export default class GameScene extends Phaser.Scene {
     getNotificationConfig(title, subtitle) {
         const lowerTitle = title.toLowerCase();
         
-        // Symbiont ambient messages — routed to bottom display
-        if (lowerTitle.includes('thorne-still:') ||
+        // Symbiont ambient messages — a bubble by the speaker's pod (or the bottom display)
+        if (this.symbiontLine(title) ||
+            lowerTitle.includes('thorne-still:') ||
             lowerTitle.includes('ulvarex:') ||
             lowerTitle.includes('neme') ||
             lowerTitle.includes('symbiont')) {

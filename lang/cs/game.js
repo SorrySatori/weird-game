@@ -113,11 +113,18 @@ export default {
         thaalDeparted: 'Houbový mistr odešel do hospody...',
     },
     symbiontUi: {
-        power: 'Síla',
         ability: 'Schopnost',
+        empty: 'Pohodlné místečko na tvém těle, kde se může usídlit symbiont.',
+        sealed: 'Tenhle slot je zatím zavřený. Potřebuješ na něj povolení.',
+        dormant: 'Teď mlčí.',
     },
     // Hlasy symbiontů (anglické originály jsou v SymbiontSystem; tohle jsou lokalizované kopie).
     symbionts: {
+        'neme-crownmire': { name: 'Neme z Korunního bahna', ability: 'Fotosenzitivita' },
+        'ulvarex-borrowed-horizon': { name: 'Ulvarex, Vypůjčený obzor', ability: 'Tkaní přeludů' },
+        'brine-scripture': { name: 'Solopis', ability: 'Solná paměť' },
+        'osswine': { name: 'Osswine', ability: 'Hrobový smysl' },
+        'palinode': { name: 'Palinode', ability: 'Smysl pro švy' },
         'thorne-still': {
             name: 'Thorne-Still',
             ability: 'Mozková hniloba',

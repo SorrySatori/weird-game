@@ -36,3 +36,19 @@ cp <outdir>/hymnar.json <outdir>/council.json assets/images/intro/
 Sheets: Varhun / Tynri / Rhull 8 frames of 128x176 (idle 0 rest / 1 inhale / 2 blink / 3 eye-glow, talk 4-7 = mouth only);
 elder_l / elder_r 4 frames of 200x350 (0 rest / 1 inhale / 2 head sinks or bulb glows / 3 blink; elder_r is flipped in the scene).
 The scene keeps the figures still and only now and then shows an idle frame (IntroScene.idleLife) -- no fidgeting.
+
+## Symbiont HUD (the "rosary" under the G/D medallion + the symbionts in it)
+Palette `pal_symb.py` (Aseprite: `symbionts.gpl`, copy to `~/.config/aseprite/palettes/`).
+```
+python3 symbionts.py <outdir>        # -> symbionts.png (4 idle frames x 1 row per symbiont, 32x32) + symbiont_pods.png (5 x 48x58)
+# build the Aseprite sources (OVERWRITES assets/aseprite/UI_Symbiont*.aseprite, incl. their UPRAVY layers):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/symbionts.gpl --script tools/artgen/symbionts_aseprite.lua
+# export into the game (merges the UPRAVY layers) -- run this after hand edits in Aseprite:
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui --script tools/artgen/symbionts_export.lua
+```
+`UI_Symbionts_32x32.aseprite`: one tag per symbiont, frames 0 rest / 1 breath / 2 blink-or-glint / 3 accent; row order =
+`SYMBIONT_ROWS` in `scenes/GameScene.js` (the last row, `generic`, is the fallback for a symbiont without art -- a new
+symbiont = a new tag before `generic` + its id in `SYMBIONT_ROWS`). `UI_SymbiontPods_48x58.aseprite`: frames open pod /
+sealed pod / cord end / glow (white, ADD, tinted per symbiont in the game); the hidden layer `maska retu` marks the pixels
+of the open pod drawn IN FRONT of the symbiont (its lower lip). Pods stack every 58 px, the cord is continuous across them.

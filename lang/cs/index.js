@@ -6,6 +6,7 @@ import dialogs from './dialogs/index.js';
 import quests from './quests.js';
 import journal from './journal.js';
 import observe from './observe.js';
+import symbiontLines from './symbiontLines.js';
 
 export default {
     ...ui,
@@ -16,4 +17,5 @@ export default {
     ...quests,
     ...journal,
     ...observe,
+    ...symbiontLines,
 };

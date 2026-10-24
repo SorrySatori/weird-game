@@ -6,7 +6,7 @@ export default {
     _speakers: {
         'Brukk': 'Brukk',
         'Narrator': 'Vypravěč',
-        'Brine Scripture': 'Solné písmo',
+        'Brine Scripture': 'Solopis',
         'Osswine': 'Osswine',
     },
     brukk_start: {
@@ -156,7 +156,7 @@ export default {
         }
     },
     machines_salt_recall: {
-        text: "Solné písmo sáhne do kůry rzi a minerální usazeniny nalepené na hučících strojích a na dlouhou chvíli prostě jen pije. *\"...Tolik, knězi. Tyhle vylučují svou paměť do vlastní koroze déle, než měl Chór jméno.\"* Zbytek se otáčí a třídí roky. *\"Pod tím vším – Předtím. Předdoba. Tohle byla účtárna zvaná Nexicorp; tohle byly stroje studeného dechu a bedny, které myslely. Tehdy čistá sůl. Obyčejná. Čtyřicet pater lidí předstírajících, že svět dává smysl, a stroje hučící pod nimi, neříkající nic.\"*\n\nChuť zhořkne. *\"Pak den, kdy sůl naráz sesedne – zelená mlha, Vzejití, vejce stoupající skrz mrtvé bohy dole. To je ten okamžik, kdy se probudily. Ne stvořené k tomu, ne dotázané. Mlha dosáhla kovu a kov si začal pamatovat a od té chvíle ani jednou nepřestal.\"* Odmlka, téměř něžná. *\"A potom už jen hostiny. Rudohmota litá do trychtýřů, ta dlouhá rudá chuť, muži se železem rostoucím v hrudi, kteří přišli naslouchat. Pamatují si každé krmení. Bojí se – tím tupým, trpělivým způsobem, jakým se bojí železo – toho jediného ticha, po němž už žádné nebude.\"*",
+        text: "Solopis sáhne do kůry rzi a minerální usazeniny nalepené na hučících strojích a na dlouhou chvíli prostě jen pije. *\"...Tolik, knězi. Tyhle vylučují svou paměť do vlastní koroze déle, než měl Chór jméno.\"* Zbytek se otáčí a třídí roky. *\"Pod tím vším – Předtím. Předdoba. Tohle byla účtárna zvaná Nexicorp; tohle byly stroje studeného dechu a bedny, které myslely. Tehdy čistá sůl. Obyčejná. Čtyřicet pater lidí předstírajících, že svět dává smysl, a stroje hučící pod nimi, neříkající nic.\"*\n\nChuť zhořkne. *\"Pak den, kdy sůl naráz sesedne – zelená mlha, Vzejití, vejce stoupající skrz mrtvé bohy dole. To je ten okamžik, kdy se probudily. Ne stvořené k tomu, ne dotázané. Mlha dosáhla kovu a kov si začal pamatovat a od té chvíle ani jednou nepřestal.\"* Odmlka, téměř něžná. *\"A potom už jen hostiny. Rudohmota litá do trychtýřů, ta dlouhá rudá chuť, muži se železem rostoucím v hrudi, kteří přišli naslouchat. Pamatují si každé krmení. Bojí se – tím tupým, trpělivým způsobem, jakým se bojí železo – toho jediného ticha, po němž už žádné nebude.\"*",
         options: {
             salt_recall_machines_back: "Ustoupit."
         }

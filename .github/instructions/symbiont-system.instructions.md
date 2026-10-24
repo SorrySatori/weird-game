@@ -99,10 +99,18 @@ To add a new symbiont, update these locations:
 | `brine-scripture` | Brine Scripture | Salt Recall (read environmental residue) | Planned: Voxmarket Auction Hall | Growth |
 
 ## UI Integration
-- Symbiont icons appear bottom-left in GameScene (60px spacing)
-- Click icon → shows symbiont dialog (from `symbiontDialogs`)
-- Tooltip on hover: name, power, ability
-- Pulsing glow animation on icon
+- The HUD is a mycelial "rosary" hanging from the G/D medallion (top-left): one pod per slot — sealed (locked),
+  open + empty, or open with the symbiont's animated sprite inside (`GameScene.createSymbiontUI`).
+- It rebuilds itself whenever SymbiontSystem changes (bond, loss, slot unlock, `isDormant` flips) — `addSymbiontIcon()`
+  is kept for old call sites and just triggers the rebuild.
+- Click a pod → symbiont dialog (from `symbiontDialogs`), with the symbiont's sprite as the portrait.
+- Hover tooltip (right of the pod): name, ability, "silent for now" when dormant (Neme in Decay > 70,
+  Osswine in Growth > 70 — the sprite turns grey and stops moving). Power is not shown (no gameplay use).
+- Ambient remarks ("Osswine: …" passed to `showNotification`) appear as a speech bubble beside the speaker's pod
+  (`showSymbiontBubble`, framed in its glow colour); lines from a symbiont not in the HUD fall back to the bottom strip.
+- Art: one row per symbiont in `assets/images/ui/symbionts.png` (see `tools/artgen/README.md`); a new symbiont needs a
+  row (or falls back to the generic spore blob) + its id in `SYMBIONT_ROWS` / glow colour in `SYMBIONT_GLOW`, and its
+  speaker name in `SYMBIONT_SPEAKERS` for scene-dialog portraits.
 
 ## Persistence
 - `getSerializableData()` — returns data for SaveSystem

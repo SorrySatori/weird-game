@@ -7,7 +7,7 @@ export default {
         'The Fold Console': 'Konzole Foldu',
         'Infinite Fold': 'Infinite Fold',
         'Neme': 'Neme',
-        'Brine Scripture': 'Solné písmo',
+        'Brine Scripture': 'Solopis',
     },
 
     loop_console: {
@@ -154,7 +154,7 @@ export default {
     },
 
     fold_brine: {
-        text: "Solné písmo se probudí právě tolik, aby ochutnalo sůl, kterou si místnost uchovala. *\"...byla tady. Ne jednou – mnohokrát, v posledních týdnech. Sedávala tam, kde je prachu nejmíň, a plakala, a pokaždé odcházela o kousek menší. Sůl si pamatuje tvar člověka, který se rozhoduje zůstat sám sebou, znovu a znovu, až nezbýval skoro nikdo, kdo by zůstal.\"* Vzpomínka se zavře jako lastura. *\"Milovala tohle místo. To je na tom to kruté. Vracela se sem, protože to bylo jediné ve městě, co jí ještě odpovídalo.\"*",
+        text: "Solopis se probudí právě tolik, aby ochutnal sůl, kterou si místnost uchovala. *\"...byla tady. Ne jednou – mnohokrát, v posledních týdnech. Sedávala tam, kde je prachu nejmíň, a plakala, a pokaždé odcházela o kousek menší. Sůl si pamatuje tvar člověka, který se rozhoduje zůstat sám sebou, znovu a znovu, až nezbýval skoro nikdo, kdo by zůstal.\"* Vzpomínka se zavře jako lastura. *\"Milovala tohle místo. To je na tom to kruté. Vracela se sem, protože to bylo jediné ve městě, co jí ještě odpovídalo.\"*",
         options: {
             fold_brine_bishop: "Co jsi jí udělal?",
             fold_brine_back: "Zeptej se na něco jiného"

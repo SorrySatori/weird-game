@@ -6,8 +6,8 @@ export default {
     intro: {
         opening: [
             'Hluboko pod zemí, daleko za hranicemi Horní Morkezely, roste Hymnar – posvátná houba boha Obazoby.',
-            'Obazoba sám žádné tělo nemá. Je zdrojem veškerého života i veškeré hniloby, ideálem, kterého se nikdo nikdy nedotkl. Hymnar je jen jeho svatyně. Věřící ale tvrdí, že jeho podhoubím je slyšet celý svět.',
-            'Té noci Hymnarovým podhoubím projelo zachvění. Volání o pomoc, jaké se ozve jednou za generaci. Možná za dvě.',
+            'Někteří věří, že Hymnar je poslem samotného Obazoby v našem světě. Jiní tvrdí, že je to jen fakt velká houba. Jakože fakt velká.',
+            'Náhle Hymnarovým podhoubím projel impulz, který se už dlouho neobjevil. Volání o pomoc, jaké se ozve jednou za generaci.',
         ],
         dialogues: [
             { who: 'narrator', speaker: 'VYPRAVĚČ', text: 'V podzemním chrámu boha Obazoby zasedá Rada Nejvyššího Humenia.' },

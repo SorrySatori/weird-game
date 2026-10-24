@@ -249,7 +249,7 @@ export default {
         options: {
             eavesdrop_plain: "Přitisknout se blíž a poslouchat.",
             eavesdrop_neme: "[Neme · Fotosenzitivita] Přečíst vinu pod tím, co říkají.",
-            eavesdrop_brine: "[Brine · Solná paměť] Ochutnat, co pila půda téhle zahrady.",
+            eavesdrop_brine: "[Solopis · Solná paměť] Ochutnat, co pila půda téhle zahrady.",
             eavesdrop_cancel: "Odstoupit."
         }
     },

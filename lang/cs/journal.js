@@ -702,7 +702,7 @@ export default {
         },
         salt_recall_abandoned_bus: {
             title: 'Solné vzpomínání: Mimo signál',
-            description: 'Skrze Brine Scripture jsem četl sůl samotného opuštěného autobusu – ne těla, autobusu. Je to schránka z Předdoby: ocel a sklo ze světa, který si myslel, že dává smysl. Myceliární signál, jenž se proplétá celou Horní Morkezelou, nikdy tenhle kov nedosáhl; je to mrtvé místo, ticho v síti. Brine věří, že právě proto sem Biskupka přišla zemřít. Všude jinde vždycky něco naslouchá – město, síť, mysl probouzející se ve vejci. Vplazila se na jediné místo, které se signál nikdy nenaučil, aby ať udělala cokoli naposled, udělala to nepozorovaně a neslyšena. Chtěla být na konci „mimo signál“.',
+            description: 'Skrze Solopis jsem četl sůl samotného opuštěného autobusu – ne těla, autobusu. Je to schránka z Předdoby: ocel a sklo ze světa, který si myslel, že dává smysl. Myceliární signál, jenž se proplétá celou Horní Morkezelou, nikdy tenhle kov nedosáhl; je to mrtvé místo, ticho v síti. Solopis věří, že právě proto sem Biskupka přišla zemřít. Všude jinde vždycky něco naslouchá – město, síť, mysl probouzející se ve vejci. Vplazila se na jediné místo, které se signál nikdy nenaučil, aby ať udělala cokoli naposled, udělala to nepozorovaně a neslyšena. Chtěla být na konci „mimo signál“.',
         },
         cellar_quest_started: {
             title: 'Zapečetěný sklep',
@@ -730,7 +730,7 @@ export default {
         },
         salt_recall_crossroad_corpse: {
             title: 'Solná paměť: Mrtvola na křižovatce',
-            description: 'Skrze Brine Scripture jsem přečetl solnou paměť obří mrtvoly na křižovatce. Ne bůh, ale polobůh: levoboček Lietuse Kiky, boha temporální zmatenosti, který ho sem přivedl umřít a ve své obvyklé zmatenosti mu nestihl zajistit budoucnost. Syn se pokusil městu vládnout, stal se tyranem a dav ho zlynčoval; jeho polobožské tělo odmítlo shnít a místní jsou na svou dominantu dnes hrdí.',
+            description: 'Skrze Solopis jsem přečetl solnou paměť obří mrtvoly na křižovatce. Ne bůh, ale polobůh: levoboček Lietuse Kiky, boha temporální zmatenosti, který ho sem přivedl umřít a ve své obvyklé zmatenosti mu nestihl zajistit budoucnost. Syn se pokusil městu vládnout, stal se tyranem a dav ho zlynčoval; jeho polobožské tělo odmítlo shnít a místní jsou na svou dominantu dnes hrdí.',
         },
         delta_seam_crossing: {
             title: 'Šev přes deltu',
@@ -782,7 +782,7 @@ export default {
         },
         salt_recall_hvetrdjaana: {
             title: 'Solné vzpomínání: Nečitelný hrob',
-            description: 'Skrze Brine Scripture jsem četl sůl hrobu Hvétrdjaany – jediného kamene, který ani Phor nedokáže rozluštit, jehož písmo se obrousilo do ztracena. Brine ochutnala přízračný tvar zmizelých písmen a znovu ji vynesla na světlo: bohyně urbzunidů a krobulovitů, strážkyně milosrdného zapomnění, jež snímala tíhu jmen z mrtvých a zahanbených. Když její národy pohasly, zvolila pohasnout s nimi a nechala své vlastní jméno shnít z kamene – ne ztraceno, ale darováno. Bohyně zapomenutých, která na sebe zapomněla poslední ze všech.',
+            description: 'Skrze Solopis jsem četl sůl hrobu Hvétrdjaany – jediného kamene, který ani Phor nedokáže rozluštit, jehož písmo se obrousilo do ztracena. Solopis ochutnal přízračný tvar zmizelých písmen a znovu ji vynesl na světlo: bohyně urbzunidů a krobulovitů, strážkyně milosrdného zapomnění, jež snímala tíhu jmen z mrtvých a zahanbených. Když její národy pohasly, zvolila pohasnout s nimi a nechala své vlastní jméno shnít z kamene – ne ztraceno, ale darováno. Bohyně zapomenutých, která na sebe zapomněla poslední ze všech.',
         },
         perspective_lumen: {
             title: 'Pohled Direktorátu – Nechte to dovršit',
@@ -818,7 +818,7 @@ export default {
         },
         salt_recall_rust_machines: {
             title: 'Solná vzpomínka: Co si stroje pamatují',
-            description: 'Skrze Solné Písmo jsem přečetl sůl a strupy usazené na vědomých strojích Rezavého sboru – paměť, kterou prosákly do vlastní koroze. Pod vším leží Předtím, Předdoba, kdy byl Škrabák účtárnou zvanou Nexicorp a tyto stroje byly pouhé jeho studenodeché motory a myslící skříně, hučící pod čtyřiceti patry lidí, kteří předstírali, že svět dává smysl. Pak se sůl naráz srazí: zelená mlha, Vzejití, vejce stoupající skrze mrtvé bohy dole – okamžik, kdy se stroje probudily, ne stavěné k tomu a ne tázané, když mlha dosáhla kovu a kov si začal pamatovat a už nepřestal. Od té doby jen hostiny: rudohmota lita do trychtýřů, Strážci s železnými hruděmi přišlí naslouchat. Stroje si pamatují každé krmení a bojí se, tím tupým trpělivým způsobem, jakým se bojí železo, posledního ticha, po němž už nebude žádné další.',
+            description: 'Skrze Solopis jsem přečetl sůl a strupy usazené na vědomých strojích Rezavého sboru – paměť, kterou prosákly do vlastní koroze. Pod vším leží Předtím, Předdoba, kdy byl Škrabák účtárnou zvanou Nexicorp a tyto stroje byly pouhé jeho studenodeché motory a myslící skříně, hučící pod čtyřiceti patry lidí, kteří předstírali, že svět dává smysl. Pak se sůl naráz srazí: zelená mlha, Vzejití, vejce stoupající skrze mrtvé bohy dole – okamžik, kdy se stroje probudily, ne stavěné k tomu a ne tázané, když mlha dosáhla kovu a kov si začal pamatovat a už nepřestal. Od té doby jen hostiny: rudohmota lita do trychtýřů, Strážci s železnými hruděmi přišlí naslouchat. Stroje si pamatují každé krmení a bojí se, tím tupým trpělivým způsobem, jakým se bojí železo, posledního ticha, po němž už nebude žádné další.',
         },
         day1_complete_slept: {
             title: 'Den 1 dokončen: Odpočinek v ARB Ambra',

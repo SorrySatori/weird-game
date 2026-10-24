@@ -27,7 +27,7 @@ export default {
         }
     },
     corpse_salt_recall: {
-        text: "Solné písmo se probudí a ochutná sůl, která se kolem mrtvoly vsákla do země. *\"...Tenhle ušel dlouhou cestu. Nemanželské dítě boha Lietuse Kiky. Ne bůh – polobůh, božský levoboček. Lietus, bůh temporální zmatenosti, přišel do města zemřít a svého bastarda si vzal s sebou. Ale ve své typické zmatenosti už nestačil zařídit synovi budoucnost.\"*\n\n*\"Levoboček se pokusil město ovládnout. Stal se tyranem, až ho nakonec rozzuřený dav zlynčoval, zavraždil a nechal shnít na křižovatce. Jeho polobožské tělo ale rozkladu odolalo, a tak získalo tohle místo novou dominantu. Místní jsou na ni dnes hrdí a křižovatku bez mrtvoly poloboha si už nedokážou představit.\"*",
+        text: "Solopis se probudí a ochutná sůl, která se kolem mrtvoly vsákla do země. *\"...Tenhle ušel dlouhou cestu. Nemanželské dítě boha Lietuse Kiky. Ne bůh – polobůh, božský levoboček. Lietus, bůh temporální zmatenosti, přišel do města zemřít a svého bastarda si vzal s sebou. Ale ve své typické zmatenosti už nestačil zařídit synovi budoucnost.\"*\n\n*\"Levoboček se pokusil město ovládnout. Stal se tyranem, až ho nakonec rozzuřený dav zlynčoval, zavraždil a nechal shnít na křižovatce. Jeho polobožské tělo ale rozkladu odolalo, a tak získalo tohle místo novou dominantu. Místní jsou na ni dnes hrdí a křižovatku bez mrtvoly poloboha si už nedokážou představit.\"*",
         options: {
             salt_recall_corpse_back: 'Ustoupit.'
         }

@@ -51,9 +51,6 @@ export default class CrossroadScene extends GameScene {
         }
         this.playSceneMusic('genericMusic');
 
-        // Create symbiont UI
-        this.createSymbiontUI();
-
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
 
@@ -227,47 +224,6 @@ export default class CrossroadScene extends GameScene {
         });
 
         this.setupSkyshipTransition();
-    }
-
-    createSymbiontUI() {
-        const startX = 60;
-        const startY = 480;
-        const spacing = 40;
-        const slotSize = 30;
-
-        // Create container for slots
-        this.symbiontContainer = this.add.container(0, 0);
-        this.symbiontContainer.setDepth(100);
-        this.symbiontContainer.setScrollFactor(0);
-
-        this.symbiontSlots = [];
-        this.symbiontIcons = new Map();
-
-        for (let i = 0; i < this.symbiontSystem.maxSlots; i++) {
-            // Create slot background
-            const slot = this.add.rectangle(startX + (i * spacing), startY, slotSize, slotSize, 0x1a3b23)
-                .setStrokeStyle(1, 0x7fff8e)
-                .setDepth(100)
-                .setAlpha(i < this.symbiontSystem.unlockedSlots ? 1 : 0.3);
-
-            this.symbiontSlots.push(slot);
-            this.symbiontContainer.add(slot);
-
-            if (i >= this.symbiontSystem.unlockedSlots) {
-                const lockText = this.add.text(slot.x, slot.y, '', {
-                    fontSize: '16px',
-                    color: '#7fff8e'
-                }).setOrigin(0.5).setDepth(101);
-                this.symbiontContainer.add(lockText);
-            }
-        }
-
-        // Restore any existing symbionts
-        if (this.symbiontSystem) {
-            this.symbiontSystem.symbionts.forEach((data, id) => {
-                this.addSymbiontIcon(id, data);
-            });
-        }
     }
 
     get dialogContent() {

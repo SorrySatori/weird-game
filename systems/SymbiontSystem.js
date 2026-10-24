@@ -305,9 +305,9 @@ export default class SymbiontSystem {
                     message: 'The overwhelming growth forces Thorne-Still to leave your body...'
                 };
             }
-            // Strengthen with decay
+            // Strengthen with decay (unless it just left)
             const symbiont = this.symbionts.get('thorne-still');
-            symbiont.power = Math.min(100, decay);
+            if (symbiont) symbiont.power = Math.min(100, decay);
         }
         
         // Neme of the Crownmire effects
@@ -412,12 +412,13 @@ export default class SymbiontSystem {
             this.lastMessageTime = now;
             return `${symbiontId}: ${message}`;
         } else if (symbiontId === 'neme-crownmire' && Math.random() < 0.1) {
-            // Use phrases from the symbiont data if available
-            if (symbiont.phrases && symbiont.phrases.length > 0) {
-                const message = symbiont.phrases[Math.floor(Math.random() * symbiont.phrases.length)];
+            // Phrases from the symbiont data if any were given, else the shared catalogue
+            const messages = symbiont.phrases?.length ? symbiont.phrases : (this.symbiontPhrases['neme-crownmire'] || []);
+            if (messages.length > 0) {
+                const message = messages[Math.floor(Math.random() * messages.length)];
                 symbiont.lastSpoke = now;
                 this.lastMessageTime = now;
-                return `${symbiont.name}: ${message}`;
+                return `Neme: ${message}`;
             }
         } else if (symbiontId === 'ulvarex-borrowed-horizon' && Math.random() < 0.1) {
             const messages = this.symbiontPhrases['ulvarex-borrowed-horizon'] || [];
@@ -615,6 +616,20 @@ export default class SymbiontSystem {
         // not just the two that call checkDecayGrowthEffects(). Keeps s.silenced fresh too.
         s.silenced = GrowthDecaySystem.getInstance().getDecay() > 70;
         return !s.silenced;
+    }
+
+    /**
+     * True while a carried symbiont is silenced by the world's balance: Neme where Decay > 70, Osswine where
+     * Growth > 70. Read-only (unlike nemeCanRead/osswineCanRead) — the HUD polls it every frame.
+     * @param {string} id
+     * @returns {boolean}
+     */
+    isDormant(id) {
+        if (!this.symbionts.has(id)) return false;
+        const gd = GrowthDecaySystem.getInstance();
+        if (id === 'neme-crownmire') return gd.getDecay() > 70;
+        if (id === 'osswine') return gd.getGrowth() > 70;
+        return false;
     }
 
     /** True if Osswine is present AND not dormant. Grave-Sense fails where Growth > 70. */

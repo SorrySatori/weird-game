@@ -23,9 +23,6 @@ export default class SkyshipBoardScene extends GameScene {
         this.fitBackground(this.background);
         this.background.setDepth(-1);
 
-        // Create symbiont UI
-        this.createSymbiontUI();
-
         // Add exit area to go back to CrossroadScene
         this.exitArea = this.add.image(100, 500, 'exitArea')
             .setDisplaySize(120, 200)

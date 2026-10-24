@@ -120,14 +120,15 @@ function newBox(scene) {
 
 /**
  * Best-effort portrait texture for a speaker, using assets ALREADY loaded in the scene — no
- * per-NPC wiring needed. A scene may override precisely via `scene.dialogPortraits = { 'Gnur': 'gnur' }`.
+ * per-NPC wiring needed. A scene may override precisely via `scene.dialogPortraits = { 'Gnur': 'gnur' }`,
+ * or point at one frame of a sheet with `{ key, frame }` (shown whole, integer-scaled — e.g. the symbionts).
  * Matching: exact normalized key first (e.g. "Gnur" → 'gnur'), then a substring match on the
  * speaker's words (e.g. "Fungal Master Thaal" → 'fungal_master'); obvious non-character keys skipped.
  */
 function resolvePortraitTexture(scene, speaker) {
     if (!speaker) return null;
     const override = scene.dialogPortraits && scene.dialogPortraits[speaker];
-    if (override && scene.textures.exists(override)) return override;
+    if (override && scene.textures.exists(override.key ?? override)) return override;
 
     // Normalize: strip accents (Torchère → torchere), lowercase, drop non-alphanumerics.
     const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -157,7 +158,12 @@ function resolvePortraitTexture(scene, speaker) {
 function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
     parent.add(scene.add.rectangle(cx, cy, w, h, 0x0a1a12, 0.9).setStrokeStyle(1, 0x2f5a44));
     const innerW = w - 12, innerH = h - 12;
-    if (key && scene.textures.exists(key)) {
+    if (key && key.key && scene.textures.exists(key.key)) {
+        // One frame of a sheet (a small pixel-art sprite): whole, integer-scaled, centred above the name strip.
+        const spr = scene.add.sprite(cx, cy - 16, key.key, key.frame);
+        spr.setScale(Math.max(1, Math.floor(Math.min(innerW, innerH - 32) / Math.max(spr.width, spr.height))));
+        parent.add(spr);
+    } else if (key && scene.textures.exists(key)) {
         const spr = scene.add.sprite(cx, cy, key);            // add.sprite → frame 0 for spritesheets
         spr.setScale(innerW / spr.width);
         spr.y = cy - h / 2 + 6 + spr.displayHeight / 2;        // top-align so the head shows
