@@ -128,3 +128,30 @@ To push a new render into an existing Aseprite source without touching its UPRAV
 ```
 aseprite -b --script-param f=assets/aseprite/<file>.aseprite --script-param "layer=<base layer name>" --script-param img=<png> --script tools/artgen/bg_update.lua
 ```
+
+## Interiors on the shared rasteriser (`raster3d.py`)
+`raster3d.Raster` = quads / boxes / discs / 3D lines with per-pixel depth, world position, normal and a paintpass class
+per object (`cls='ground'|'wall'|'ceil'|'prop'|'emit'`); `quad(..., cut=True)` and discs treat a shader's `None` as
+transparent; `render(ink, fog, post=, overlay=, **paintpass knobs)` shades, runs `paintpass`, draws depth outlines
+(`overlay` draws crisp lettering after the painterly pass). Same camera as every background.
+```
+python3 ambra_bg.py <outdir>     # -> ambra.png = assets/images/backgrounds/ScraperAmbra.png (Dr. Elphi's studio, ScraperAmbraScene)
+aseprite -b --script-param img=<png> --script-param out=assets/aseprite/<Name>_1067x600.aseprite --script-param "layer=<NAME> pozadi (Claude)" --script tools/artgen/bg_source.lua   # first build of a source
+```
+ARB Ambra fixed points: Elphi stands at canvas (745, 510) (feet, origin bottom, scale 0.08) in front of her desk; the
+exit to the elevator is the bottom edge (behind the camera); the walk line is y 534.
+
+## Shed 521 grounds (gate, mutation courtyard, registration yard)
+`shedkit.py` = the shared kit on `raster3d`: the overcast sky, world-space materials in the Crossroad palette
+(`planks`, `corrugated`, `steel`, `concrete`, `setts`, `windows_sh`), queue stanchions, and people drawn with the
+character renderer (`applicant_img` / `applicant`: hooded applicants, some with a mushroom cap, coral knobs or a gas
+mask; standing or seated; front, back or profile), `mushroom_img` / `mushroom` (giant mushrooms) and `statue` (mossy
+stone applicants on plinths). Drawn figures go into the scene as depth-sized sprites (`Raster.sprite`).
+```
+python3 gate_bg.py <outdir>          # -> gate.png         = assets/images/backgrounds/Shed521_gate.png (Shed521GateScene)
+python3 courtyard_bg.py <outdir>     # -> courtyard.png    = ShedMutationCourtyard.png (ShedCourtyardScene)
+python3 registration_bg.py <outdir>  # -> registration.png = ShedRegistrationZone.png (ShedRegistrationScene)
+```
+Sources `assets/aseprite/{Shed521_gate,ShedMutationCourtyard,ShedRegistrationZone}_1067x600.aseprite` (UPRAVY layer).
+Fixed points: the Floors door on the gate's near right (exit right); Ortolan at canvas (600, 526) in the courtyard;
+the dream queue around canvas x 363..703 (feet y 522) and the Senior Clerk at (533, 522) in the registration yard.

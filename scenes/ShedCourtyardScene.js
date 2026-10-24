@@ -326,13 +326,19 @@ export default class ShedCourtyardScene extends GameScene {
     create() {
         super.create();
         
-        const bg = this.add.image(400, 300, 'courtyard-bg');
+        // The Mutation Approval Courtyard (native 1067×600: tools/artgen/courtyard_bg.py)
+        const bg = this.add.image(this.scale.width / 2, 300, 'courtyard-bg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the court's flagstones; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         if (this.priest) {
-            this.priest.x = 50;
-            this.priest.y = 470;
+            this.priest.x = 60;
+            this.priest.y = 534; // feet on the walk line
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
         }
@@ -340,10 +346,11 @@ export default class ShedCourtyardScene extends GameScene {
         // Add Ortolan — Day 1 only. On Day 2 he has relocated to Burning Bear Street,
         // so he must not also be standing here.
         if (!this.isDay2()) {
-        this._ortolan = this.add.sprite(600, 520, 'ortolan');
+        this._ortolan = this.add.sprite(600, 526, 'ortolan');
         this._ortolan.setOrigin(0.5, 1);
-        this._ortolan.setScale(0.15);
-        this.addGroundShadow(600, 520, this._ortolan.displayWidth * 0.55, this._ortolan.displayHeight * 0.10);
+        this._ortolan.setScale(0.108); // ~130 px: a head taller than the apprentice, standing just behind the walk line
+        this._ortolan.setDepth(6);
+        this.addGroundShadow(600, 524, this._ortolan.displayWidth * 0.6, 14);
         this._ortolan.setInteractive({ useHandCursor: true });
         this._ortolan.on('pointerdown', () => {
             // Add journal entry when first meeting Ortolan
@@ -399,7 +406,7 @@ export default class ShedCourtyardScene extends GameScene {
             'left', // direction
             'Shed521GateScene', // target scene
             20, // walk to x
-            470 // walk to y
+            534 // walk to y (the feet: this scene anchors the priest at the feet)
         );
 
         // Exit area cursor handling is now managed by SceneTransitionManager

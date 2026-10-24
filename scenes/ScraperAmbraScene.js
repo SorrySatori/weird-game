@@ -25,10 +25,15 @@ export default class ScraperAmbraScene extends GameScene {
         super.create();
         this.playSceneMusic('dr_elphi_theme');
 
-        // Set background
-        const bg = this.add.image(400, 300, 'scraperAmbraBg');
+        // Set background (native 1067×600: tools/artgen/ambra_bg.py — the loft studio on floor 177-Quiet)
+        const bg = this.add.image(this.scale.width / 2, 300, 'scraperAmbraBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the studio floor; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -36,9 +41,9 @@ export default class ScraperAmbraScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(1200, 0, 0, 0);
 
-        // Position the priest at the center when entering this scene
-        this.priest.x = 400;
-        this.priest.y = 450; // Position on the ground
+        // Position the priest on the walk line (feet on y 534), just left of the rug
+        this.priest.x = 430;
+        this.priest.y = 470;
         
         // Update priest's glow position
         if (this.priestGlow) {
@@ -59,7 +64,8 @@ export default class ScraperAmbraScene extends GameScene {
         );
         
         // Add a hint about the exit
-        const exitHint = this.add.text(400, 520, 'Back to Elevator', {
+        const cx = this.scale.width / 2;
+        const exitHint = this.add.text(cx, 520, 'Back to Elevator', {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -72,7 +78,7 @@ export default class ScraperAmbraScene extends GameScene {
         // Show hint when hovering near the exit
         this.input.on('pointermove', (pointer) => {
             // Check if pointer is near the exit area
-            if (Math.abs(pointer.x - 400) < 100 && Math.abs(pointer.y - 550) < 50) {
+            if (Math.abs(pointer.x - cx) < 130 && Math.abs(pointer.y - 550) < 50) {
                 exitHint.setAlpha(1);
             } else {
                 exitHint.setAlpha(0);
@@ -104,7 +110,7 @@ export default class ScraperAmbraScene extends GameScene {
     createAmbientElements() {
         // Add some floating spores/particles
         for (let i = 0; i < 30; i++) {
-            const x = Math.random() * 800;
+            const x = Math.random() * this.scale.width;
             const y = Math.random() * 400 + 100;
             const size = Math.random() * 3 + 1;
             
@@ -878,19 +884,17 @@ export default class ScraperAmbraScene extends GameScene {
      * Creates the Dr. Elphi Quarn NPC with animations and interactions
      */
     createDrElphi() {
-        // Create Dr. Elphi sprite at a more visible position
-        this.drElphi = this.add.sprite(600, 350, 'drElphi');
-        
-        // Set scale to match the priest character (priest is at scale 2.0)
-        this.drElphi.setScale(0.1); // Reduced scale to match priest proportions
-        this.drElphi.setDepth(5);
-        this.addGroundShadow(this.drElphi.x, this.drElphi.y + this.drElphi.displayHeight * 0.42, this.drElphi.displayWidth * 0.55, this.drElphi.displayHeight * 0.12);
-        
-        // Log to console for debugging
-        console.log('Creating Dr. Elphi at position:', this.drElphi.x, this.drElphi.y);
-        
-        // Add name tag
-        const nameTag = this.add.text(this.drElphi.x, this.drElphi.y + 30, 'Dr. Elphi Quarn', {
+        // She stands on the floor in front of her desk (world (12, 0, 17) in ambra_bg.py), feet anchored
+        const ELPHI_SCALE = 0.08;
+        this.drElphi = this.add.sprite(745, 510, 'drElphi');
+        this.drElphi.setOrigin(0.5, 1);
+        this.drElphi.setScale(ELPHI_SCALE); // ~123 px tall, a little taller than the apprentice
+        this.drElphi.setDepth(6);
+        this.addGroundShadow(this.drElphi.x, this.drElphi.y - 3, this.drElphi.displayWidth * 0.55, 14);
+        const midY = this.drElphi.y - this.drElphi.displayHeight / 2;
+
+        // Add name tag above her head
+        const nameTag = this.add.text(this.drElphi.x, this.drElphi.y - this.drElphi.displayHeight - 14, 'Dr. Elphi Quarn', {
             fontSize: '14px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -902,7 +906,7 @@ export default class ScraperAmbraScene extends GameScene {
         // Add a subtle glow effect
         const glow = this.add.graphics();
         glow.fillStyle(0x7fff8e, 0.15);
-        glow.fillCircle(this.drElphi.x, this.drElphi.y, 40);
+        glow.fillCircle(this.drElphi.x, midY, 40);
         glow.setDepth(4);
         
         // Add pulsating effect to the glow
@@ -918,7 +922,7 @@ export default class ScraperAmbraScene extends GameScene {
         // Add subtle movement animations
         this.tweens.add({
             targets: this.drElphi,
-            y: this.drElphi.y - 5,
+            y: this.drElphi.y - 1, // a breath, the feet stay on the floor
             duration: 2500,
             yoyo: true,
             repeat: -1,
@@ -930,7 +934,7 @@ export default class ScraperAmbraScene extends GameScene {
             delay: 3000,
             callback: () => {
                 // Random slight rotation
-                const randomAngle = (Math.random() * 6) - 3;
+                const randomAngle = (Math.random() * 3) - 1.5; // pivots at the feet: a small shift of weight
                 this.tweens.add({
                     targets: this.drElphi,
                     angle: randomAngle,
@@ -945,7 +949,7 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Create a much larger hit area for better clickability
         // Using a container to expand the interactive area
-        const drElphiContainer = this.add.container(this.drElphi.x, this.drElphi.y);
+        const drElphiContainer = this.add.container(this.drElphi.x, midY);
         
         // Create a transparent rectangle for the hit area
         const hitAreaGraphic = this.add.graphics();
@@ -961,13 +965,13 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Hover effect
         drElphiContainer.on('pointerover', () => {
-            this.drElphi.setScale(0.11); // Slightly larger on hover
+            this.drElphi.setScale(ELPHI_SCALE * 1.08); // Slightly larger on hover
             nameTag.setFontSize('16px');
             document.body.style.cursor = 'pointer';
         });
         
         drElphiContainer.on('pointerout', () => {
-            this.drElphi.setScale(0.1); // Back to normal size
+            this.drElphi.setScale(ELPHI_SCALE); // Back to normal size
             nameTag.setFontSize('14px');
             document.body.style.cursor = 'default';
         });

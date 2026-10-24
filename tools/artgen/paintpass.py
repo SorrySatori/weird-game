@@ -62,7 +62,7 @@ def _peel(u, Y, Z, bricks, mortar):
     return c
 
 def paint(col, cls, z, wp, nrm, sid, fog=lambda z: 0.0, variant='base', lights=(), light_gain=1.0, grime_gain=1.0, bloom=0.35,
-          key=None, peel=None, crack=()):
+          key=None, peel=None, crack=(), stain_gain=1.0, damp_gain=1.0):
     """key: material keys per pixel (optional); peel: {key: ([brick colours], mortar)} -- plaster that falls off to brick;
     crack: keys that crack"""
     H, W = len(col), len(col[0])
@@ -218,7 +218,7 @@ def paint(col, cls, z, wp, nrm, sid, fog=lambda z: 0.0, variant='base', lights=(
                     ln = 0.5 + 2.8 * nL(u * 0.8, 5.0)
                     dv = run_v0 - Y
                     if dv >= 0 and prof > 0: grime += min(1.0, prof) * math.exp(-dv / ln)
-                    grime += 0.4 * max(0.0, nD(u * 0.5, Y * 0.5) - 0.5)    # large faded stains
+                    grime += 0.4 * stain_gain * max(0.0, nD(u * 0.5, Y * 0.5) - 0.5)    # large faded stains
             elif k == 'ceil':
                 o += 0.12
             # chipped edges between surfaces (paint gone, lighter underneath), hashed on the surface
@@ -229,7 +229,7 @@ def paint(col, cls, z, wp, nrm, sid, fog=lambda z: 0.0, variant='base', lights=(
                         if h32(int(hu * 14 + 9999), int(Y * 14 + 9999), 31) % 6 == 0: chip = 1.0
                         break
             o += 0.75 * ssao[y][x]
-            o = max(-0.12, min(0.7, o)) * st; grime = min(1.0, grime * grime_gain) * st * 0.8; damp = min(1.0, damp) * st * 0.4
+            o = max(-0.12, min(0.7, o)) * st; grime = min(1.0, grime * grime_gain) * st * 0.8; damp = min(1.0, damp * damp_gain) * st * 0.4
             # colour drift + brush grain in surface coordinates
             if vertical: su, sv = _horiz(p, n), Y
             else: su, sv = X, Z

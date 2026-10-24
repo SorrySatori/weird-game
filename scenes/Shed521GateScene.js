@@ -24,17 +24,15 @@ export default class Shed521GateScene extends GameScene {
         // Play market theme
         this.playSceneMusic('marketTheme');
         
-        // Set vox market background
-        const bg = this.add.image(400, 200, 'Shed521GateBg');
-        this.fitBackground(bg); // whole image fitted to the 1067×600 canvas
+        // The gate yard (native 1067×600: tools/artgen/gate_bg.py — the queue for mutation forms, the Floors door on the right)
+        const bg = this.add.image(this.scale.width / 2, 300, 'Shed521GateBg');
+        this.fitBackground(bg);
         bg.setDepth(-1);
         
-        // Create a custom ground for the market scene
-        this.createMarketGround();
-        
-        // Completely hide the original ground
+        // The background paints the yard's setts; drop the generic ground strip
         if (this.ground) {
-            this.ground.destroy(); // Destroy instead of just hiding
+            this.ground.destroy();
+            this.ground = null;
         }
         
         // Position the priest at the right side when entering this scene
@@ -90,73 +88,6 @@ export default class Shed521GateScene extends GameScene {
         super.update();
     }
     
-    // Create a custom ground for the market scene that matches the aesthetic
-    createMarketGround() {
-        // Remove the original ground if it exists
-        if (this.ground) {
-            this.ground.destroy();
-        }
-        
-        // Create a graphics object for the ground
-        const groundGraphics = this.add.graphics();
-        
-        // Set the ground dimensions
-        const groundWidth = this.scale.width; // full canvas width (1067)
-        const groundHeight = 160;
-        const groundY = 500;
-        
-        // Fill with dark greenish-gray base color to match market floor
-        groundGraphics.fillStyle(0x1a2420, 1);
-        groundGraphics.fillRect(0, groundY, groundWidth, groundHeight);
-        
-        // Add some texture with lines
-        groundGraphics.lineStyle(1, 0x283c32, 0.3);
-        
-        // Horizontal lines for floor boards
-        for (let i = 0; i < 10; i++) {
-            const y = groundY + Math.random() * groundHeight;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(0, y);
-            groundGraphics.lineTo(groundWidth, y);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Vertical lines for texture
-        for (let i = 0; i < 20; i++) {
-            const x = Math.random() * groundWidth;
-            groundGraphics.beginPath();
-            groundGraphics.moveTo(x, groundY);
-            groundGraphics.lineTo(x, groundY + groundHeight);
-            groundGraphics.closePath();
-            groundGraphics.strokePath();
-        }
-        
-        // Add green glowing particles to match the market atmosphere
-        for (let i = 0; i < 50; i++) {
-            const x = Math.random() * groundWidth;
-            const y = groundY + Math.random() * (groundHeight - 10);
-            const size = Math.random() * 3 + 1;
-            
-            const particle = this.add.circle(x, y, size, 0x32ff64, 0.3);
-            particle.setDepth(1);
-            
-            // Add pulsating effect to some particles
-            if (Math.random() > 0.7) {
-                this.tweens.add({
-                    targets: particle,
-                    alpha: 0.1,
-                    duration: 1500 + Math.random() * 1000,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'Sine.easeInOut'
-                });
-            }
-        }
-        
-        // Set the ground depth
-        groundGraphics.setDepth(0);
-    }
     shutdown() {
         this.restoreBackgroundMusic();
         super.shutdown();

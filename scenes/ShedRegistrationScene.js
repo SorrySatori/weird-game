@@ -41,11 +41,14 @@ export default class ShedRegistrationScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        // The scene instance is reused: without this a return visit before the queue was finished never shows it again
+        this.dreamQueueStarted = false;
+        this.isTransitioning = false;
         
         // Set initial priest position
         if (this.priest) {
             this.priest.x = 110;  // Match entrance position from Shed521FloorsScene
-            this.priest.y = 520;  // Ground level
+            this.priest.y = 534;  // feet on the walk line
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
         }
@@ -54,20 +57,25 @@ export default class ShedRegistrationScene extends GameScene {
         // unlocked options survive scene restarts and loading a game.
         Object.assign(this.dreamQueueChoices, this.registry.get('dreamQueueChoices') || {});
 
-        // Set background
-        const bg = this.add.image(400, 300, 'registration-bg');
+        // The registration yard (native 1067×600: tools/artgen/registration_bg.py)
+        const bg = this.add.image(this.scale.width / 2, 300, 'registration-bg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the yard; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         this.transitionManager.createTransitionZone(
             80, // x position
-            450, // y position
+            500, // y position
             200, // width
-            40,  // height
+            80,  // height
             'left', // direction
             'Shed521FloorsScene', // target scene
             110, // walk to x
-            520, // walk to y
+            534, // walk to y (the feet: this scene anchors the priest at the feet)
             'Shed521FloorsScene' // destination name
         );
         
@@ -86,23 +94,25 @@ export default class ShedRegistrationScene extends GameScene {
     
     createDreamQueueNPCs() {
         // Create a container for the queue
-        this.queueContainer = this.add.container(400, 450);
+        // The queue stands on the yard in front of the desks, feet just behind the walk line (~150 px tall figures)
+        this.queueContainer = this.add.container(this.scale.width / 2, 522).setDepth(6);
         
         // 1. Sleepless Mime (using clerk.png for now) — first in queue
-        this.sleeplessMime = this.add.sprite(-150, 0, 'sleeplessMime')
-            .setScale(0.4)
+        this.sleeplessMime = this.add.sprite(-170, 0, 'sleeplessMime')
+            .setOrigin(0.5, 1)
+            .setScale(0.15)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
             
         // Add a subtle glow effect
         this.sleeplessMimeGlow = this.add.graphics();
         this.sleeplessMimeGlow.fillStyle(0x7fff8e, 0.2);
-        this.sleeplessMimeGlow.fillCircle(-150, 0, 50);
+        this.sleeplessMimeGlow.fillCircle(-170, -75, 50);
         this.sleeplessMimeGlow.setVisible(false);
         
         // Add to queue container
+        this.queueContainer.add(this.sleeplessMimeGlow); // the glow behind the figure, not over it
         this.queueContainer.add(this.sleeplessMime);
-        this.queueContainer.add(this.sleeplessMimeGlow);
         
         // Set up interaction
         this.sleeplessMime.on('pointerdown', () => {
@@ -113,19 +123,20 @@ export default class ShedRegistrationScene extends GameScene {
         
         // 2. Vowel Seller — second in queue
         this.vowelSeller = this.add.sprite(0, 0, 'vowelSeller')
-            .setScale(0.4)
+            .setOrigin(0.5, 1)
+            .setScale(0.15)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
             
         // Add ash particle effect (static version to avoid errors)
         this.vowelSellerAsh = this.add.graphics();
         this.vowelSellerAsh.fillStyle(0xcccccc, 0.3);
-        this.vowelSellerAsh.fillCircle(0, 0, 40);
+        this.vowelSellerAsh.fillCircle(0, -75, 40);
         this.vowelSellerAsh.setVisible(false);
         
         // Add to queue container
-        this.queueContainer.add(this.vowelSeller);
         this.queueContainer.add(this.vowelSellerAsh);
+        this.queueContainer.add(this.vowelSeller);
         
         // Set up interaction
         this.vowelSeller.on('pointerdown', () => {
@@ -134,8 +145,9 @@ export default class ShedRegistrationScene extends GameScene {
             }
         });
         
-        this.hollowWoman = this.add.sprite(150, 0, 'hollowWoman')
-            .setScale(0.4)
+        this.hollowWoman = this.add.sprite(170, 0, 'hollowWoman')
+            .setOrigin(0.5, 1)
+            .setScale(0.15)
             .setVisible(false)
             .setInteractive({ useHandCursor: true });
         
@@ -150,8 +162,9 @@ export default class ShedRegistrationScene extends GameScene {
         });
         
         // 4. Senior Clerk (will appear after all others are interacted with)
-        this.seniorClerk = this.add.sprite(300, 350, 'clerk2')
-            .setScale(0.2)
+        this.seniorClerk = this.add.sprite(this.scale.width / 2, 522, 'clerk2')
+            .setOrigin(0.5, 1)
+            .setScale(0.14)
             .setAlpha(0)
             .setInteractive({ useHandCursor: true });
             
@@ -232,9 +245,11 @@ export default class ShedRegistrationScene extends GameScene {
     // Helper method to create just the Senior Clerk for returning players
     createSeniorClerk() {
             const alreadyMet = this.journalSystem.hasEntry('registration_senior_clerk')
-            this.seniorClerk = this.add.image(400, 300, 'clerk2');
-            this.seniorClerk.setScale(0.7);
-            this.addGroundShadow(400, 300 + this.seniorClerk.displayHeight * 0.42, this.seniorClerk.displayWidth * 0.55, this.seniorClerk.displayHeight * 0.12);
+            // he steps up where the queue stood, feet on the yard (~145 px tall)
+            if (this.seniorClerk) this.seniorClerk.destroy();
+            this.seniorClerk = this.add.image(this.scale.width / 2, 522, 'clerk2');
+            this.seniorClerk.setOrigin(0.5, 1).setScale(0.14).setDepth(6);
+            this.addGroundShadow(this.seniorClerk.x, 520, this.seniorClerk.displayWidth * 0.6, 14);
             this.seniorClerk.setInteractive({ useHandCursor: true });
             this.seniorClerk.setVisible(true)
             this.seniorClerk.on('pointerdown', () => {
