@@ -318,7 +318,7 @@ export default class ShedCourtyardScene extends GameScene {
         this.load.image('courtyard-bg', 'assets/images/backgrounds/ShedMutationCourtyard.png');
         this.load.image('door', 'assets/images/ui/door.png');
         this.load.image('exitArea', 'assets/images/ui/exitArea.png');
-        this.load.image('ortolan', 'assets/images/characters/Ortolan.png');
+        this.load.spritesheet('ortolanIdle', 'assets/images/characters/ortolan_idle.png', { frameWidth: 128, frameHeight: 160 });
         this.load.image('particle', 'assets/images/effects/particle.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
     }
@@ -346,11 +346,16 @@ export default class ShedCourtyardScene extends GameScene {
         // Add Ortolan — Day 1 only. On Day 2 he has relocated to Burning Bear Street,
         // so he must not also be standing here.
         if (!this.isDay2()) {
-        this._ortolan = this.add.sprite(600, 526, 'ortolan');
+        // tools/artgen/ortolan_elphi.py: his old art on its own grid, 8 idle frames of 128×160 at scale 1 (soles on y 526)
+        if (!this.anims.exists('ortolan_idle')) {
+            // breath, a blink behind the glasses, a glint on them, "hm" in the beard, a hand twitches, a small nod
+            this.anims.create({ key: 'ortolan_idle', frames: this.anims.generateFrameNumbers('ortolanIdle', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 3, 0, 0, 4, 4, 0, 1, 1, 7, 0, 0, 5, 5, 0, 0, 6, 6, 0, 0, 0] }), frameRate: 4, repeat: -1 });
+        }
+        this._ortolan = this.add.sprite(600, 530, 'ortolanIdle', 0);
         this._ortolan.setOrigin(0.5, 1);
-        this._ortolan.setScale(0.108); // ~130 px: a head taller than the apprentice, standing just behind the walk line
         this._ortolan.setDepth(6);
-        this.addGroundShadow(600, 524, this._ortolan.displayWidth * 0.6, 14);
+        this._ortolan.play('ortolan_idle');
+        this.addGroundShadow(600, 524, 46, 14);
         this._ortolan.setInteractive({ useHandCursor: true });
         this._ortolan.on('pointerdown', () => {
             // Add journal entry when first meeting Ortolan
@@ -366,32 +371,7 @@ export default class ShedCourtyardScene extends GameScene {
             this.showOrtholanDialog();
         });
 
-        // Add idle animation for Ortolan
-        this.tweens.add({
-            targets: this._ortolan,
-            y: this._ortolan.y - 3,
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
-
-        // Random head movements
-        this.time.addEvent({
-            delay: 5000,
-            callback: () => {
-                if (Math.random() > 0.5) {
-                    this.tweens.add({
-                        targets: this._ortolan,
-                        angle: Phaser.Math.Between(-5, 5),
-                        duration: 1000,
-                        ease: 'Sine.easeInOut',
-                        yoyo: true
-                    });
-                }
-            },
-            loop: true
-        });
+        // (his idle is the frame animation above -- no bobbing / tilting tweens: they smear the pixel art)
         }
 
         // Initialize the scene transition manager

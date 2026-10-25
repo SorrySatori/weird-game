@@ -1,13 +1,12 @@
--- Builds the Aseprite sources of the Feral Toast band from the generator output (feral_toast.py).
+-- Builds the Aseprite sources of the Feral Toast band from the generator output (feral_px.py; earlier feral_toast.py).
+-- The frame size is taken from the frames themselves.
 -- aseprite -b --script-param dir=<gen out> --script-param out=assets/aseprite --script-param pal=<gpl> --script feral_aseprite.lua
 -- One file per member; tags "ceka" (idle, 4 frames) and "hraje" (playing, 8 frames = 4 beats at 177 BPM).
 -- Draw touch-ups into the "UPRAVY" layer; feral_export.lua merges it in.
 local d, o, pal = app.params["dir"], app.params["out"], app.params["pal"]
-local CAST = { { "telka", 128, 176 }, { "bass_xl", 144, 192 }, { "karlis", 176, 176 }, { "mira", 144, 176 } }
-
-for _, m in ipairs(CAST) do
-  local id, w, h = m[1], m[2], m[3]
-  local s = Sprite(w, h, ColorMode.RGB)
+for _, id in ipairs({ "telka", "bass_xl", "karlis", "mira" }) do
+  local first = Image{ fromFile = d .. "/" .. id .. "/0.png" }
+  local s = Sprite(first.width, first.height, ColorMode.RGB)
   local base = s.layers[1]; base.name = id
   for i = 1, 12 do
     if i > 1 then s:newEmptyFrame() end

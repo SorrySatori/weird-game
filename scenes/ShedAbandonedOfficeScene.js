@@ -17,16 +17,20 @@ export default class ShedAbandonedOfficeScene extends GameScene {
         // Call parent create first to initialize mechanics
         super.create();
         
-        // Set background
+        // Native 1067×600 (tools/artgen/office_bg.py): the old picture re-pixelled, the graffito kept 1:1
         const bg = this.add.image(400, 300, 'office-bg');
         this.fitBackground(bg);
         bg.setDepth(-1);
-        
-        // Set initial priest position
+        // The background paints its own floor; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
+
+        // Set initial priest position (on the walk line, feet at y 534 like every scene)
         if (this.priest) {
             this.priest.x = 250;  // Match entrance position from Shed521FloorsScene
-            this.priest.y = 520;  // Ground level
-            this.priest.setOrigin(0.5, 1);
+            this.priest.y = 470;
             this.priest.play('idle');
         }
         this.transitionManager = new SceneTransitionManager(this);
@@ -38,19 +42,20 @@ export default class ShedAbandonedOfficeScene extends GameScene {
             200, // height
             'left', // direction
             'Shed521FloorsScene',
-            700, // walk to x
+            50, // walk to x
             470, // walk to y
             'Back to the stairs' 
         )
 
+        // The doorway in the back wall leads on to the Hall
         this.transitionManager.createTransitionZone(
-            750, // x position
-            470, // y position
-            50, // width
-            200, // height
-            'right', // direction
+            352, // x position
+            205, // y position
+            78, // width
+            156, // height
+            'up', // direction
             'ShedHallScene',
-            100, // walk to x
+            352, // walk to x
             470, // walk to y
             'To the Hall'
         )
@@ -68,7 +73,7 @@ export default class ShedAbandonedOfficeScene extends GameScene {
     createSeamSenseTunnel() {
         if (!this.symbiontSystem?.hasSymbiont('palinode')) return;
 
-        const cx = 430, cy = 320;
+        const cx = 662, cy = 212;   // the patch of bare brick by the corner of the graffito wall (canvas coords)
 
         if (this.registry.get('shed_tunnel_opened')) {
             // Already unsaid — show the opened tunnel mouth exhaling cold air.

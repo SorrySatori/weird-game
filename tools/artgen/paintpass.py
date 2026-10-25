@@ -62,7 +62,7 @@ def _peel(u, Y, Z, bricks, mortar):
     return c
 
 def paint(col, cls, z, wp, nrm, sid, fog=lambda z: 0.0, variant='base', lights=(), light_gain=1.0, grime_gain=1.0, bloom=0.35,
-          key=None, peel=None, crack=(), stain_gain=1.0, damp_gain=1.0):
+          key=None, peel=None, crack=(), stain_gain=1.0, damp_gain=1.0, sheen_gain=1.0):
     """key: material keys per pixel (optional); peel: {key: ([brick colours], mortar)} -- plaster that falls off to brick;
     crack: keys that crack"""
     H, W = len(col), len(col[0])
@@ -200,7 +200,7 @@ def paint(col, cls, z, wp, nrm, sid, fog=lambda z: 0.0, variant='base', lights=(
                 wet = nD(X * 0.35, Z * 0.35)                           # damp patches on the ground
                 if wet > 0.64:
                     damp += min(1.0, (wet - 0.64) * 6) * 0.6
-                    if (0.3 * r + 0.59 * g + 0.11 * b) > 62 and st > 0.3: sheen = min(1.0, (wet - 0.64) * 5) * 0.22
+                    if (0.3 * r + 0.59 * g + 0.11 * b) > 62 and st > 0.3: sheen = min(1.0, (wet - 0.64) * 5) * 0.22 * sheen_gain
                 damp += max(0.0, nS(X * 1.3, Z * 1.3) - 0.68) * 1.2
                 damp += max(0.0, nD(X * 0.12 + 70, Z * 0.12) - 0.55) * 1.3       # big trodden-in dirt patches
             if vertical and k != 'emit':

@@ -452,9 +452,15 @@ export default class ScraperInteriorScene extends GameScene {
         });
         
         // Set background
+        // Native 1067×600 (tools/artgen/lobby_bg.py): the old Nexicorp lobby -- the Lift-Mother's portal in the middle
         const bg = this.add.image(400, 300, 'scraperInteriorBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own marble floor; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -463,7 +469,6 @@ export default class ScraperInteriorScene extends GameScene {
         if (this.priest) {
             this.priest.x = 200;
             this.priest.y = 470;
-            this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
             
             // Update priest's glow position
@@ -473,7 +478,7 @@ export default class ScraperInteriorScene extends GameScene {
             }
         }
 
-        // Add exit back to ScraperScene
+        // Add exit back to ScraperScene: the street doors in the left wall
         this.exitArea = this.add.image(100, 470, 'exitArea')
             .setDisplaySize(120, 200)
             .setAlpha(0.01)
@@ -507,37 +512,42 @@ export default class ScraperInteriorScene extends GameScene {
             this.transitionManager.handleSceneTransition('ScraperScene', 50, 470);
         });
 
-        // Add elevator
-        this.elevator = this.add.image(Math.round(450 * this.scale.width / 800), 370, 'door');
-        this.elevator.setScale(0.9);
+        // Add elevator: an invisible hit area over the Lift-Mother's portal painted in the background (canvas coords)
+        const liftX = 510;
+        this.elevator = this.add.image(liftX, 350, 'exitArea')
+            .setDisplaySize(104, 172)
+            .setAlpha(0.01);
         this.elevator.setOrigin(0.5, 0.5);
         this.elevator.setDepth(5);
         this.elevator.setInteractive({ useHandCursor: true });
         
         // Add subtle glow effect around the elevator
         const elevatorGlow = this.add.graphics();
-        elevatorGlow.fillStyle(0x7fff8e, 0.15);
-        elevatorGlow.fillCircle(450, 370, 70);
+        elevatorGlow.fillStyle(0xffc468, 0.15);
+        elevatorGlow.fillCircle(liftX, 300, 70);
         elevatorGlow.setDepth(4);
         
         // Add pulsating animation to the glow
         this.tweens.add({
             targets: elevatorGlow,
-            alpha: { from: 0.15, to: 0.3 },
+            alpha: { from: 0.35, to: 0.8 },
             duration: 2000,
             yoyo: true,
             repeat: -1,
             ease: 'Sine.easeInOut'
         });
         
-        // Add elevator label
-        const elevatorText = this.add.text(450, 370, "Lift-Mother", {
+        // Add elevator label (the portal already reads LIFT-MOTHER, so the label only shows on hover)
+        const elevatorText = this.add.text(liftX, 235, "Lift-Mother", {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center'
         });
         elevatorText.setOrigin(0.5);
         elevatorText.setDepth(6);
+        elevatorText.setAlpha(0);
+        this.elevator.on('pointerover', () => elevatorText.setAlpha(1));
+        this.elevator.on('pointerout', () => elevatorText.setAlpha(0));
         
         // Add elevator interaction
         this.elevator.on('pointerdown', () => {
@@ -550,14 +560,14 @@ export default class ScraperInteriorScene extends GameScene {
         const inventory = this.registry.get('inventory');
         if(inventory.items.some(item => item.id === 'scraper_backyard_key')) {
             this.transitionManager.createTransitionZone(
-            550, // x position
-            400, // y position
-            100, // width
-            120, // height
+            507, // x position (the panelled door under the SCRAPER 1140 plaque)
+            390, // y position
+            50, // width
+            100, // height
             'up', // direction
             'ScraperBackyardScene', // target scene
-            550, // walk to x
-            400  // walk to y
+            507, // walk to x
+            470  // walk to y
         );
     }
     }

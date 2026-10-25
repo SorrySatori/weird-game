@@ -12,18 +12,24 @@ export default class SkyshipBoardScene extends GameScene {
         super.preload();
         this.load.image('skyshipBoardBg', 'assets/images/backgrounds/skyship_board.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
-        this.load.image('captainLiris', 'assets/images/characters/captain_liris.png');
+        this.load.spritesheet('captainLiris', 'assets/images/characters/liris_idle.png', { frameWidth: 128, frameHeight: 160 });
     }
 
     create() {
         super.create();
 
         // Set skyship board background
+        // Native 1067×600 (tools/artgen/board_bg.py): the gondola deck under the moss-netted bladder
         this.background = this.add.image(400, 300, 'skyshipBoardBg');
         this.fitBackground(this.background);
         this.background.setDepth(-1);
+        // The background paints its own deck; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
-        // Add exit area to go back to CrossroadScene
+        // Add exit area to go back to CrossroadScene: the rope ladder hooked over the rail by the bow
         this.exitArea = this.add.image(100, 500, 'exitArea')
             .setDisplaySize(120, 200)
             .setAlpha(0.01)
@@ -55,8 +61,9 @@ export default class SkyshipBoardScene extends GameScene {
         exitText.setOrigin(0.5);
         exitText.setDepth(10);
 
-        // Examine: the dial-board itself (upper area). Knows-tier once the floor-counter's taken.
-        this.createObservable(400, 170, 260, 120, () => {
+        // Examine: the dial-board itself (the grown instrument with the green lens, centre back). Knows-tier once
+        // the floor-counter's taken.
+        this.createObservable(400, 420, 80, 110, () => {
             if (this.hasJournalEntry('floor_counter_tool')) return this.t('observe.skyship_board.knows');
             return this.t('observe.skyship_board.default');
         }, { hint: this.t('observe.skyship_board.hint') });
@@ -72,48 +79,32 @@ export default class SkyshipBoardScene extends GameScene {
     }
 
     createCaptainLiris() {
-        // Create Captain Liris NPC
-        this.captainLiris = this.add.image(600, 300, 'captainLiris');
-        this.captainLiris.setScale(0.2);
-        this.captainLiris.setDepth(5);
-        this.addGroundShadow(600, 300 + this.captainLiris.displayHeight * 0.42, this.captainLiris.displayWidth * 0.55, this.captainLiris.displayHeight * 0.12);
+        // Captain Liris (tools/artgen/liris.py): 8 idle frames of 128×160 at scale 1, soles on the deck walk line
+        this._lirisHoverFx = null;  // the scene instance is reused: drop a glow left on the previous run's sprite
+        const lx = 700, feet = 533;
+        if (!this.anims.exists('liris_idle')) {
+            // breath, a blink, the monocle's lens clicking round, a gust through the scarf and coat, a touch to the monocle
+            this.anims.create({
+                key: 'liris_idle',
+                frames: this.anims.generateFrameNumbers('captainLiris', { frames: [0, 0, 1, 1, 0, 0, 2, 0, 0, 1, 1, 0, 3, 3, 0, 0, 4, 5, 5, 4, 0, 1, 1, 0, 0, 6, 6, 6, 7, 0, 0, 0] }),
+                frameRate: 4,
+                repeat: -1
+            });
+        }
+        this.captainLiris = this.add.sprite(lx, feet, 'captainLiris', 0).setOrigin(0.5, 1).setDepth(6);
+        this.captainLiris.play('liris_idle');
+        this.addGroundShadow(lx, feet - 4, 40, 10);
         this.captainLiris.setInteractive({ useHandCursor: true });
-        
-        // Add a subtle glow effect around the captain
-        const captainGlow = this.add.graphics();
-        captainGlow.fillStyle(0x7fff8e, 0.15);
-        captainGlow.fillCircle(600, 300, 40);
-        captainGlow.setDepth(4);
-        
-        // Add pulsating animation to the glow
-        this.tweens.add({
-            targets: captainGlow,
-            alpha: { from: 0.15, to: 0.3 },
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
-        
-        // Add hover effect
+        // bust portrait for her dialogs (EN + CZ speaker names)
+        const bust = { key: 'captainLiris', frame: 0, zoom: 2, top: 10 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Captain Liris': bust, 'Kapitánka Liris': bust };
+
+        // Hover: a soft glow round her (pixel art isn't scaled)
         this.captainLiris.on('pointerover', () => {
-            this.tweens.add({
-                targets: this.captainLiris,
-                scaleX: 0.22,
-                scaleY: 0.22,
-                duration: 300,
-                ease: 'Sine.easeOut'
-            });
+            if (!this._lirisHoverFx) this._lirisHoverFx = this.captainLiris.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-        
         this.captainLiris.on('pointerout', () => {
-            this.tweens.add({
-                targets: this.captainLiris,
-                scaleX: 0.2,
-                scaleY: 0.2,
-                duration: 300,
-                ease: 'Sine.easeOut'
-            });
+            if (this._lirisHoverFx) { this.captainLiris.preFX?.remove(this._lirisHoverFx); this._lirisHoverFx = null; }
         });
         
         // Add click interaction to show dialog
@@ -122,7 +113,7 @@ export default class SkyshipBoardScene extends GameScene {
         });
         
         // Add a name tag below the captain
-        const captainText = this.add.text(600, 360, "Captain Liris", {
+        const captainText = this.add.text(lx, 548, "Captain Liris", {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center'

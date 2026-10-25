@@ -68,6 +68,19 @@ Tags `inventar` / `mapa` / `denik` / `ukoly`: frame 1 closed, frame 2 the "open"
 The game side is `utils/hudButton.js` (positions, hover frame swap, labels, badge).
 
 ## Feral Toast (the band in the Screaming Cork Club)
+**Current sheets come from `feral_px.py`** (2026-10-25): like `edgar.py`, the original `feral_guitarist / bassplayer /
+drummer / synth.png` box-filtered to their native grid (8×; Kārlis 7× — seated behind the kit he read small) and
+animated by moving / relighting their own pixels: idle 0-3 (rest, breath, eyes, a small move), playing 4-11 = 4 beats,
+2 frames per beat (knees give, headbangs on 1 and 3, strums; Kārlis' stick drops onto the crash which wobbles, the kick
+thumps on 1 and 3, hi-hat on 2 and 4; Mira's hands alternate, runes shimmer, the skull's eyes flash, tendrils sway).
+Frames 128×192 (Kārlis 144×192), soles on y 189; the scene's BAND `y` is the feet line (sprite at y + 2).
+```
+python3 feral_px.py <outdir>         # -> telka.png bass_xl.png karlis.png mira.png + <id>/<n>.png + feral_px.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/feral_px.gpl --script tools/artgen/feral_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/feral_toast --script tools/artgen/feral_export.lua
+```
+The rig-drawn version below (`feral_toast.py`) is superseded but kept.
+
 Palette + materials `pal_club.py` (Aseprite: `club.gpl`), renderer `rig.py`: volumes go into a tone buffer, then get cast
 shadows, contact lines, material texture (denim, leather, fur, wool, metal), a 4×4 dither and a warm outline. Each member
 is a small rig (two-bone IK onto the instrument; fretting hands sit UNDER the neck), so every frame is re-posed, not tweened.
@@ -302,3 +315,90 @@ back-bar cabinets, Ravla at (960, 524), both origin bottom.
 `corkfolk.py` treats the people like `edgar.py`: the old `heliodor.png` / `ravla.png` box-filtered 8× to their native
 grid and animated by moving / relighting their own pixels (the old PNGs stay as the sources). Sources
 `assets/aseprite/Cork_heliodor.aseprite`, `Cork_ravla.aseprite`, `ScreamingCorkInterior_1067x600.aseprite` (UPRAVY layers).
+
+## The club under the Screaming Cork (ScreamingCorkClubScene)
+```
+python3 club_bg.py <outdir>          # -> club.png = assets/images/backgrounds/ScreamingCorkClub.png
+```
+A brick cellar under a shallow barrel vault (`vault_y()`, strips on `raster3d`), brick ribs at z 21 / 25, the plank
+stage wall to wall (front edge z 16.6, 1.8 high) for the Feral Toast sprites (feet y 470 / 452, x shares in the scene's
+BAND), the painted cloth banner (TTF mask, DejaVu Sans Condensed Bold), a ring of salvaged speaker cones over it (the
+Noise God's altar, a few breathing green), three industrial lamps whose shades end at y 118 over x 272 / 515 / 787
+(the scene's light cones start there), amp stacks, a backstage door in the left wall, a gig bill.
+Source `assets/aseprite/ScreamingCorkClub_1067x600.aseprite` (UPRAVY layer).
+
+## Re-pixelled AI backgrounds kept as they are (`repix.py`): the abandoned office, the first view of the city
+For old pictures the user wants kept (like Scraper 1140) but whose block grid is irregular (~4.5-6 px): `repix.py`
+resamples the whole source width onto **356 logical columns** (square cells), each cell taking the MOST COMMON colour of
+its middle (crisp letters and edges, no blended seams) on a palette built per colour family (`family_palette`: small but
+important families keep their own ramps), then the frame is a 200-row cut shown 3x like Scraper 1140.
+```
+python3 office_bg.py <outdir>   # ShedAbandonedOffice: office_ref.png kept 1:1 (the graffito BETTER DECAY THAN CHANGE has its
+                                #   own maroon paint ramp), rows 13..213 so the graffito clears the HUD buttons -> office_356.png
+python3 entry_bg.py <outdir>    # EntryScene: city_ref.jpg (rows 0..200: storm sky, the egg, the Scraper's needle) + a new
+                                #   overlook in front (wet flagstones, a stone balustrade with a broken stretch, ivy, a signpost
+                                #   with a painted egg pointing right to the Cathedral) -> plate.png + fg.png
+# generic logical-size sources (356x200, UPRAVY + hidden figures/guides) and their 3x export:
+aseprite -b --script-param dir=<outdir> --script-param "layers=a.png|LAYER A;b.png|LAYER B" --script-param out=assets/aseprite/<Name>_356x200.aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/<pal>.gpl --script tools/artgen/logical_aseprite.lua
+aseprite -b --script-param f=assets/aseprite/<Name>_356x200.aseprite --script-param out=assets/images/backgrounds/<Name>.png --script tools/artgen/logical_export.lua
+```
+Sources: `ShedAbandonedOffice_356x200.aseprite` (layer `ORIGINAL precisteny`), `EntryCity_356x200.aseprite` (`ORIGINAL precisteny`
++ `POPREDI`). The city is now `assets/images/backgrounds/EntryCity.png` (GameScene's `cityBackground`, ScraperAmbra's
+dream panels `cs_city`); `city.jpg` is no longer loaded. Palettes `office.gpl`, `entry.gpl` (copies here).
+Fixed points: office -- the back doorway (canvas x 417..521, y 127..281) = "To the Hall", the left edge = back to the
+stairs, the bare-brick patch by the graffito wall (662, 212) = Palinode's bricked tunnel; city -- Master Thaal at
+(600, 530), the overlook's walk line y 534, the exit at the right edge (the signpost at x ~911 points to it).
+
+## The Hall under Shed 521 (ShedHallScene) and the Scraper's lobby (ScraperInteriorScene) — raster3d interiors
+```
+python3 hall_bg.py <outdir>    # -> hall.png  = ShedHall.png: a low service hall, the old corridor now the tunnel off into the
+                               #    dark (stencilled 521 over it), the Living Core's iron socket fused into the back wall with
+                               #    roots of living metal over the wall and floor (veins glowing), the steel door back (exit sign)
+python3 lobby_bg.py <outdir>   # -> lobby.png = Scraper_interior.png: the Nexicorp art-deco lobby -- the Lift-Mother's arched
+                               #    bronze portal (a mask with closed eyes, an arc of amber lamps, LIFT-MOTHER), the SCRAPER 1140
+                               #    plaque + the backyard door, the stair up, the street doors (daylight), a concierge desk
+aseprite -b --script-param img=<png> --script-param out=assets/aseprite/<Name>_1067x600.aseprite --script-param "layer=<NAME> pozadi (Claude)" --script tools/artgen/bg_source.lua
+```
+Sources `ShedHall_1067x600.aseprite`, `Scraper_interior_1067x600.aseprite` (UPRAVY layer). Fixed points: hall -- the Core
+sprite at (683, 376) in its socket, the door back to the office x 71..162; lobby -- the lift portal x 459..561, y 263..434
+(hit area centred (510, 350)), the backyard door x 648..706 (zone 800-space (507, 390)), the street doors x 33..169.
+
+## The skyship Verdigrace: the look-up cut (skyship.png) and its deck (SkyshipBoardScene)
+```
+python3 skyship_bg.py <outdir>   # -> skyship_356.png + skyship.png: skyship_ref.png (portrait) re-pixelled onto 190 columns,
+                                 #    rows 22..222, centred in a 356x200 frame whose sides are new sky carrying on the source's
+                                 #    own sky row by row (colour smoothed down the rows, cloud banks lower down); stars removed
+python3 board_bg.py <outdir>     # -> board.png = skyship_board.png (raster3d): the gondola deck under the bladder's netted,
+                                 #    spore-lit underside; the bulwark with living-wood balusters curving to the fiddlehead stem
+                                 #    (lantern), the rope ladder by the bow, the grown dial-board, the cabin, stanchions with pods;
+                                 #    beyond the rail the emerald overcast, a cloud sea, the city far below (the Scraper, the Egg)
+aseprite -b --script-param dir=<outdir> --script-param "layers=skyship_356.png|LOD + OBLOHA (Claude)" --script-param out=assets/aseprite/Skyship_356x200.aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/skyship.gpl --script tools/artgen/logical_aseprite.lua
+aseprite -b --script-param f=assets/aseprite/Skyship_356x200.aseprite --script-param out=assets/images/backgrounds/skyship.png --script tools/artgen/logical_export.lua
+aseprite -b --script-param img=<outdir>/board.png --script-param out=assets/aseprite/SkyshipBoard_1067x600.aseprite --script-param "layer=PALUBA pozadi (Claude)" --script tools/artgen/bg_source.lua
+```
+The cut (CrossroadScene.startSkyshipAnimation) pins the picture to the screen (scrollFactor 0) and scales it by
+1/camera.zoom when it fades in, so it lands pixel-exact on the zoomed camera; the message box sits under the ship.
+`paintpass.paint(sheen_gain=...)` (default 1.0) was added for the deck: its damp-patch sheen read as spilt paint on the
+planks. Deck fixed points: the rope ladder x ~118 (exit zone 40..160), the dial-board's lens (533, 403) (observable
+800-space (400, 420, 80, 110)), Captain Liris at (700, 466) scale 0.1 (feet on the walk line), the cabin from x 826.
+
+## Captain Liris (SkyshipBoardScene) — redrawn; Ortolan + Dr. Elphi — their old art animated
+```
+python3 liris.py <outdir>          # -> liris.png (8 idle frames of 128x160, soles on y 156) + liris.gpl -- rig.py: a teal hood, a brass
+                                   #    monocle with an amber lens, a brick-red scarf, a long brown coat, olive tunic, spyglass, boots;
+                                   #    0 rest 1 inhale 2 blink 3 the lens clicks 4-5 a gust (scarf + hem) 6 a hand to the monocle 7 settle
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/liris.gpl --script tools/artgen/liris_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/liris_export.lua   # -> liris_idle.png
+python3 ortolan_elphi.py <outdir>  # like corkfolk.py (box filter onto the source's own grid, the old pixels moved/relit):
+                                   #    ortolan 128x160 (Ortolan.png /8), ortolan4 144x160 (ortolan4.png /6, same height), elphi 128x160
+                                   #    (DrElphi.png /11, the soft white halo dropped, the hologram kept and animated); 8 frames each
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/ortolan_elphi.gpl --script tools/artgen/ortolan_elphi_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/ortolan_elphi_export.lua   # -> ortolan_idle.png ortolan4_idle.png elphi_idle.png
+```
+Sources `Sky_liris.aseprite`, `Ortolan_idle.aseprite`, `Ortolan4_idle.aseprite`, `Elphi_idle.aseprite` (tag ceka, UPRAVY layer).
+In the scenes: new texture keys `captainLiris` (sheet), `ortolanIdle` / `ortolan4Idle`, `drElphiIdle` (the old `drElphi` image
+stays loaded for ScraperAmbra's cutscene panels); all at scale 1, origin bottom, anims `liris_idle`, `ortolan_idle`,
+`ortolan4_idle`, `elphi_idle` (4 fps, frames repeated for timing); hover = a preFX glow, never scaling; the old bobbing /
+tilting tweens and green glow discs are gone. Liris has a 2x bust portrait (EN "Captain Liris" + CZ "Kapitánka Liris").

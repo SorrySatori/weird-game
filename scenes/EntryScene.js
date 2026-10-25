@@ -378,6 +378,11 @@ export default class EntryScene extends GameScene {
         const bg = this.add.image(400, 300, 'cityBackground');
         this.fitBackground(bg);
         bg.setDepth(-2); // Set lower depth for background
+        // The background paints its own overlook (flagstones + balustrade); the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
     }
 
     // createParallaxLayers() {

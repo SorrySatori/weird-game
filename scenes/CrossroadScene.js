@@ -500,30 +500,26 @@ export default class CrossroadScene extends GameScene {
         // Create a camera zoom effect to simulate looking up
         const originalZoom = this.cameras.main.zoom;
         
-        // Create the skyship image above the scene - make it cover the full screen
-        const skyship = this.add.image(400, -100, 'skyship');
-        // // Calculate scale to ensure full screen coverage
-        // const scaleX = this.cameras.main.width / skyship.width * 1.2; // 20% larger than needed
-        // const scaleY = this.cameras.main.height / skyship.height * 1.2;
-        // const scale = Math.max(scaleX, scaleY); // Use the larger scale to ensure full coverage
-        // skyship.setScale(scale);
-        skyship.setScale(0.8);
+        // The skyship picture (native 1067×600, tools/artgen/skyship_bg.py) fills the screen once the camera has
+        // tilted up: pinned to the screen and scaled by 1/zoom so it lands pixel-exact on the zoomed camera.
+        const W = this.scale.width, H = this.scale.height;
+        const skyship = this.add.image(W / 2, H / 2, 'skyship').setScrollFactor(0);
         skyship.setAlpha(0);
         skyship.setDepth(10000);
         
-        // Create a text message
-        const messageBox = this.add.rectangle(400, 300, 600, 100, 0x0a2712, 0.9);
+        // Create a text message (under the ship, pinned to the screen like the picture)
+        const messageBox = this.add.rectangle(W / 2, H - 80, 600, 100, 0x0a2712, 0.9).setScrollFactor(0);
         messageBox.setStrokeStyle(2, 0x7fff8e);
-        messageBox.setDepth(101);
+        messageBox.setDepth(10100);
         messageBox.setAlpha(0);
         
-        const messageText = this.add.text(400, 300, "Looks like there is a skyship above the city...", {
+        const messageText = this.add.text(W / 2, H - 80, "Looks like there is a skyship above the city...", {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center',
             wordWrap: { width: 580 }
         });
-        messageText.setOrigin(0.5);
+        messageText.setOrigin(0.5).setScrollFactor(0);
         messageText.setDepth(10200);
         messageText.setAlpha(0);
         
@@ -553,10 +549,12 @@ export default class CrossroadScene extends GameScene {
                     duration: 2000,
                     ease: 'Sine.easeInOut',
                     onComplete: () => {
-                        // Step 3: Fade in the skyship
+                        // Step 3: Fade in the skyship (scaled against the zoom the camera ended on)
+                        const inv = 1 / this.cameras.main.zoom;
+                        [skyship, messageBox, messageText].forEach(o => o.setScale(inv));
+                        messageBox.y = messageText.y = H / 2 + (H / 2 - 80) * inv;
                         this.tweens.add({
                             targets: skyship,
-                            y: 100,
                             alpha: 1,
                             duration: 2000,
                             ease: 'Sine.easeOut',

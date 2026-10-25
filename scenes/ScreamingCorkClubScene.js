@@ -2,15 +2,16 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 /**
- * Feral Toast as pixel-art sheets (tools/artgen/feral_toast.py → assets/aseprite/FeralToast_*.aseprite →
- * feral_export.lua): frames 0-3 idle, 4-11 playing. Shown at scale 1, feet on the sprite's bottom edge.
- * The playing loop runs two frames per beat of feral-toast.mp3 (≈177 BPM).
+ * Feral Toast as pixel-art sheets taken from their original art (tools/artgen/feral_px.py → assets/aseprite/
+ * FeralToast_*.aseprite → feral_export.lua): 128×192, frames 0-3 idle, 4-11 playing. Shown at scale 1; `y` is the
+ * feet line (the soles sit 2 px above the frame's bottom). The playing loop runs two frames per beat of
+ * feral-toast.mp3 (≈177 BPM).
  */
 const BAND = [
-    { key: 'ft_telka', file: 'telka', w: 128, h: 176, fx: 0.24, y: 470, name: 'Telka' },
-    { key: 'ft_karlis', file: 'karlis', w: 176, h: 176, fx: 0.39, y: 452, name: 'Fluffy Kārlis' },
-    { key: 'ft_bass_xl', file: 'bass_xl', w: 144, h: 192, fx: 0.55, y: 470, name: 'Bass Player XL' },
-    { key: 'ft_mira', file: 'mira', w: 144, h: 176, fx: 0.71, y: 452, name: 'Mira Dron' }
+    { key: 'ft_telka', file: 'telka', w: 128, h: 192, fx: 0.24, y: 470, name: 'Telka' },
+    { key: 'ft_karlis', file: 'karlis', w: 144, h: 192, fx: 0.39, y: 452, name: 'Fluffy Kārlis' },
+    { key: 'ft_bass_xl', file: 'bass_xl', w: 128, h: 192, fx: 0.55, y: 470, name: 'Bass Player XL' },
+    { key: 'ft_mira', file: 'mira', w: 128, h: 192, fx: 0.71, y: 452, name: 'Mira Dron' }
 ];
 const BAND_IDLE = [0, 0, 0, 1, 1, 2, 2, 2, 1, 3];   // calm: breathe, look about, blink
 const BAND_BPM = 177;
@@ -145,6 +146,11 @@ export default class ScreamingCorkClubScene extends GameScene {
         const bg = this.add.image(400, 300, 'screamingCorkClubBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own floor and stage (tools/artgen/club_bg.py); drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         // Add ambient lighting effects
         this.createAmbientLighting();
@@ -188,12 +194,13 @@ export default class ScreamingCorkClubScene extends GameScene {
     }
     
     createAmbientLighting() {
-        // Add a dark overlay to dim the scene
-        const darkOverlay = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x000000, 0.4);
+        // A light dim over the cellar (the background is dark already)
+        const darkOverlay = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, this.scale.width, this.scale.height, 0x000000, 0.15);
         darkOverlay.setDepth(0);
         
         // Stage lights: a soft cone from each of the three lamps hanging over the stage down onto the boards
-        // (lamp positions as shares of the canvas width, read off the background; beams layered narrow → wide).
+        // (lamp positions as shares of the canvas width; club_bg.py hangs the lamps there, shades ending at y 118;
+        // beams layered narrow → wide).
         this.stageLights = [0.255, 0.483, 0.738].map(fx => {
             const x = Math.round(this.scale.width * fx);
             const beam = this.add.graphics().setDepth(1).setBlendMode(Phaser.BlendModes.ADD);
@@ -252,7 +259,7 @@ export default class ScreamingCorkClubScene extends GameScene {
                 this.anims.create({ key: `${cfg.key}_play`, frames: this.anims.generateFrameNumbers(cfg.key, { start: 4, end: 11 }), frameRate: BAND_BPM * 2 / 60, repeat: -1 });
             }
             const x = Math.round(this.scale.width * cfg.fx);
-            const member = this.add.sprite(x, cfg.y, cfg.key, 0).setOrigin(0.5, 1).setDepth(cfg.y > 460 ? 4 : 3);
+            const member = this.add.sprite(x, cfg.y + 2, cfg.key, 0).setOrigin(0.5, 1).setDepth(cfg.y > 460 ? 4 : 3);
             member.play({ key: `${cfg.key}_idle`, startFrame: Phaser.Math.Between(0, BAND_IDLE.length - 1) });
             this.addGroundShadow(x, cfg.y - 3, cfg.w * 0.6, 10);
 

@@ -88,19 +88,24 @@ export default class ShedHallScene extends GameScene {
     create() {
         super.create();
         
+        // Native 1067×600 (tools/artgen/hall_bg.py): the service hall, the tunnel off into the dark, the Core's socket
         const bg = this.add.image(400, 300, 'hall-bg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own floor; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         
         if (this.priest) {
             this.priest.x = 400;
             this.priest.y = 470;
-            this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
         }
 
-        // Add Living Core
-        this._livingCore = this.add.sprite(600, 300, 'living-core');
+        // Add Living Core: in the iron socket fused into the back wall, right of the tunnel (canvas coords)
+        this._livingCore = this.add.sprite(683, 376, 'living-core');
         this._livingCore.setScale(0.5);
         this._livingCore.setInteractive({ useHandCursor: true });
         this._livingCore.on('pointerdown', () => this.showLivingCoreDialog());
@@ -118,14 +123,15 @@ export default class ShedHallScene extends GameScene {
         // Initialize SceneTransitionManager
         this.transitionManager = new SceneTransitionManager(this);
 
+        // The steel door in the left wall: back up to the abandoned office
         this.transitionManager.createTransitionZone(
-            90, // x position
-            370, // y position
-            50, // width
+            87, // x position
+            450, // y position
+            70, // width
             200, // height
             'left', // direction
-            'Shed521FloorsScene',
-            100, // walk to x
+            'ShedAbandonedOfficeScene',
+            87, // walk to x
             470, // walk to y
             'Back'
         );

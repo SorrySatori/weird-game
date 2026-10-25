@@ -11,7 +11,8 @@ export default class ScraperAmbraScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('scraperAmbraBg', 'assets/images/backgrounds/ScraperAmbra.png');
-        this.load.image('drElphi', 'assets/images/characters/DrElphi.png');
+        this.load.image('drElphi', 'assets/images/characters/DrElphi.png');            // the big art: the cutscene panels
+        this.load.spritesheet('drElphiIdle', 'assets/images/characters/elphi_idle.png', { frameWidth: 128, frameHeight: 160 });
         this.load.audio('divinorium', 'assets/sounds/sorrysatori-divinorium.mp3');
 
         // Make sure sounds are loaded
@@ -885,17 +886,22 @@ export default class ScraperAmbraScene extends GameScene {
      */
     createDrElphi() {
         // She stands on the floor in front of her desk (world (12, 0, 17) in ambra_bg.py), feet anchored
-        const ELPHI_SCALE = 0.08;
+        // tools/artgen/ortolan_elphi.py: her old art on its own grid, 8 idle frames of 128×160 at scale 1 (soles on y 510)
+        if (!this.anims.exists('elphi_idle')) {
+            // breath (the hologram bobs), the goggles glint, the hologram pulses and drifts, the coat's specks twinkle,
+            // a tap on the device in her hand, a lock of hair stirs
+            this.anims.create({ key: 'elphi_idle', frames: this.anims.generateFrameNumbers('drElphiIdle', { frames: [0, 0, 1, 1, 0, 0, 3, 3, 4, 4, 0, 0, 2, 0, 0, 1, 1, 0, 5, 5, 0, 0, 6, 0, 6, 0, 0, 3, 4, 4, 0, 7, 7, 0, 0, 0] }), frameRate: 4, repeat: -1 });
+        }
         this._elphiHoverFx = null; // the scene instance is reused
-        this.drElphi = this.add.sprite(745, 510, 'drElphi');
+        this.drElphi = this.add.sprite(745, 514, 'drElphiIdle', 0);
         this.drElphi.setOrigin(0.5, 1);
-        this.drElphi.setScale(ELPHI_SCALE); // ~123 px tall, a little taller than the apprentice
         this.drElphi.setDepth(6);
-        this.addGroundShadow(this.drElphi.x, this.drElphi.y - 3, this.drElphi.displayWidth * 0.55, 14);
+        this.drElphi.play('elphi_idle');
+        this.addGroundShadow(this.drElphi.x, this.drElphi.y - 7, 52, 14);
         const midY = this.drElphi.y - this.drElphi.displayHeight / 2;
 
         // Add name tag above her head
-        const nameTag = this.add.text(this.drElphi.x, this.drElphi.y - this.drElphi.displayHeight - 14, 'Dr. Elphi Quarn', {
+        const nameTag = this.add.text(this.drElphi.x, this.drElphi.y - 4 - 140 - 12, 'Dr. Elphi Quarn', {   // over her head (the figure is 140 px)
             fontSize: '14px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -904,49 +910,7 @@ export default class ScraperAmbraScene extends GameScene {
         nameTag.setOrigin(0.5);
         nameTag.setDepth(5);
         
-        // Add a subtle glow effect
-        const glow = this.add.graphics();
-        glow.fillStyle(0x7fff8e, 0.15);
-        glow.fillCircle(this.drElphi.x, midY, 40);
-        glow.setDepth(4);
-        
-        // Add pulsating effect to the glow
-        this.tweens.add({
-            targets: glow,
-            alpha: { from: 0.15, to: 0.25 },
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
-        
-        // Add subtle movement animations
-        this.tweens.add({
-            targets: this.drElphi,
-            y: this.drElphi.y - 1, // a breath, the feet stay on the floor
-            duration: 2500,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
-        
-        // Random head movements
-        this.time.addEvent({
-            delay: 3000,
-            callback: () => {
-                // Random slight rotation
-                const randomAngle = (Math.random() * 3) - 1.5; // pivots at the feet: a small shift of weight
-                this.tweens.add({
-                    targets: this.drElphi,
-                    angle: randomAngle,
-                    duration: 1000,
-                    ease: 'Sine.easeInOut',
-                    yoyo: true
-                });
-            },
-            callbackScope: this,
-            loop: true
-        });
+        // (her idle is the frame animation above -- no glow disc, bobbing or tilting tweens on the pixel art)
         
         // Create a much larger hit area for better clickability
         // Using a container to expand the interactive area
@@ -1482,7 +1446,7 @@ export default class ScraperAmbraScene extends GameScene {
             cs_egg: B + 'egg-catedral.png',
             cs_bus: B + 'AbandonedBus.png',
             cs_scraper: B + 'Scraper1140.png',
-            cs_city: B + 'city.jpg',
+            cs_city: B + 'EntryCity.png',
             cs_fungal: B + 'fungal_council_1.png',
             cs_myc: B + 'mycelial_overlay.png',
             // Characters (Edgar & Ortolan use their dedicated cutscene art)

@@ -204,8 +204,8 @@ export default class BurningBearStreetScene extends GameScene {
         this.load.atlas('bbs_fire_decay', 'assets/images/props/bbs_fire_decay.png', 'assets/images/props/bbs_fire_decay.json');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        this.load.image('ortolan', 'assets/images/characters/Ortolan.png');
-        this.load.image('ortolan4', 'assets/images/characters/ortolan4.png');
+        this.load.spritesheet('ortolanIdle', 'assets/images/characters/ortolan_idle.png', { frameWidth: 128, frameHeight: 160 });
+        this.load.spritesheet('ortolan4Idle', 'assets/images/characters/ortolan4_idle.png', { frameWidth: 144, frameHeight: 160 });
     }
 
     create() {
@@ -423,18 +423,28 @@ export default class BurningBearStreetScene extends GameScene {
         const x = 250, groundY = 525;
         // If the player won him his extra pair of arms on Day 1, he now sports all four.
         const armsHelped = !!this.questSystem?.getQuest('ortolan_arms')?.isComplete;
-        this.ortolan = this.add.sprite(x, groundY, armsHelped ? 'ortolan4' : 'ortolan').setOrigin(0.5, 1).setScale(0.15).setDepth(6);
-        // The Ortolan.png art has transparent padding below the feet, so the shadow is
-        // tucked up under the visible soles rather than at the sprite's padded origin.
-        this.addGroundShadow(x, groundY - 14, this.ortolan.displayWidth * 0.55, this.ortolan.displayHeight * 0.10);
+        // tools/artgen/ortolan_elphi.py: 8 idle frames at scale 1, soles on y 156 of the 160 px frame
+        const SEQ = [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 3, 0, 0, 4, 4, 0, 1, 1, 7, 0, 0, 5, 5, 0, 0, 6, 6, 0, 0, 0];
+        if (!this.anims.exists('ortolan_idle')) this.anims.create({ key: 'ortolan_idle', frames: this.anims.generateFrameNumbers('ortolanIdle', { frames: SEQ }), frameRate: 4, repeat: -1 });
+        if (!this.anims.exists('ortolan4_idle')) this.anims.create({ key: 'ortolan4_idle', frames: this.anims.generateFrameNumbers('ortolan4Idle', { frames: SEQ }), frameRate: 4, repeat: -1 });
+        this.ortolan = this.add.sprite(x, groundY + 4, armsHelped ? 'ortolan4Idle' : 'ortolanIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        this.ortolan.play(armsHelped ? 'ortolan4_idle' : 'ortolan_idle');
+        this._ortolanHoverFx = null;  // the scene instance is reused
+        this.addGroundShadow(x, groundY - 1, armsHelped ? 70 : 46, 12);
         this.ortolan.setInteractive({ useHandCursor: true });
 
-        const label = this.add.text(x, groundY - this.ortolan.displayHeight - 6, 'ORTOLAN', {
+        const label = this.add.text(x, groundY - 151 - 10, 'ORTOLAN', {
             fontSize: '14px', fill: '#ffdf7a', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
         }).setOrigin(0.5).setDepth(6);
 
-        this.ortolan.on('pointerover', () => { this.ortolan.setScale(0.158); document.body.style.cursor = 'pointer'; });
-        this.ortolan.on('pointerout', () => { this.ortolan.setScale(0.15); document.body.style.cursor = 'default'; });
+        this.ortolan.on('pointerover', () => {   // a soft glow, not scaling (scaling smears the pixel art)
+            if (!this._ortolanHoverFx) this._ortolanHoverFx = this.ortolan.preFX?.addGlow(0xffdf7a, 2, 0, false, 0.1, 8);
+            document.body.style.cursor = 'pointer';
+        });
+        this.ortolan.on('pointerout', () => {
+            if (this._ortolanHoverFx) { this.ortolan.preFX?.remove(this._ortolanHoverFx); this._ortolanHoverFx = null; }
+            document.body.style.cursor = 'default';
+        });
         this.ortolan.on('pointerdown', () => {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();

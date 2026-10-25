@@ -102,7 +102,7 @@ export default class GameScene extends Phaser.Scene {
 
     preload() {
         // Load the game assets
-        this.load.image('cityBackground', 'assets/images/backgrounds/city.jpg');
+        this.load.image('cityBackground', 'assets/images/backgrounds/EntryCity.png'); // native 1067×600 (tools/artgen/entry_bg.py)
         this.load.image('ground', 'assets/images/ui/ground.png');
         this.load.image('cursor', 'assets/images/ui/cursor.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
