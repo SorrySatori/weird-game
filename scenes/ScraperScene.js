@@ -181,16 +181,21 @@ export default class ScraperScene extends GameScene {
         // Call parent create first to initialize mechanics
         super.create();
         
-        // Set scraper background
+        // Native 1067×600 (tools/artgen/scraper_bg.py): the old picture re-pixelled, plus a wet rooftop to walk on
         const bg = this.add.image(400, 300, 'scraperBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own roof and duckboards; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
         this.playSceneMusic('genericMusic');
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Add invisible clickable exit area at the left side
+        // Add invisible clickable exit area at the left side: the stair-house door (down to the Crossroad)
         this.exitArea = this.add.image(50, 470, 'exitArea')
             .setDisplaySize(40, 200)
             .setAlpha(0.01)
@@ -210,15 +215,16 @@ export default class ScraperScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
-        // Add entrance to the Scraper building interior
-        const scraperEntrance = this.add.image(400, 470, 'exitArea')
+        // Add entrance to the Scraper building interior: the "1140" gate of the footbridge, centre of the background
+        const gateX = this.scale.width / 2;
+        const scraperEntrance = this.add.image(gateX, 470, 'exitArea')
             .setDisplaySize(100, 200)
             .setAlpha(0.01)
             .setInteractive({ useHandCursor: true });
         scraperEntrance.setDepth(5);
         
         // Add a hint about the scraper entrance
-        const scraperHint = this.add.text(400, 380, 'Enter Scraper', {
+        const scraperHint = this.add.text(gateX, 355, 'Enter Scraper', {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -231,7 +237,7 @@ export default class ScraperScene extends GameScene {
         // Show hint when hovering near the entrance
         this.input.on('pointermove', (pointer) => {
             // Check if pointer is near the scraper entrance
-            if (Math.abs(pointer.x - 400) < 50 && Math.abs(pointer.y - 470) < 100) {
+            if (Math.abs(pointer.x - gateX) < 50 && Math.abs(pointer.y - 470) < 100) {
                 scraperHint.setAlpha(1);
             } else {
                 scraperHint.setAlpha(0);
@@ -277,7 +283,7 @@ export default class ScraperScene extends GameScene {
             
             this.tweens.add({
                 targets: priest,
-                x: 400,
+                x: gateX,
                 y: 470,
                 duration: 1000,
                 onComplete: () => {
@@ -368,15 +374,15 @@ export default class ScraperScene extends GameScene {
             470 // walk to y
         );
 
-        // Gang of Lamps: Don Girandole is bolted to a rooftop fixture on the far-right skyline
-        // (the structure the player marked). Above the right-edge exit zone (y370-570), so no
-        // click conflict. Depth 6 keeps him behind the walking priest.
+        // Gang of Lamps: Don Girandole stands on the platform of the pipe tower at the right edge
+        // (the structure the player marked; its deck is at canvas y≈378). Above the right-edge exit
+        // zone (y370-570), so no click conflict. Depth 6 keeps him behind the walking priest.
         // Gang of Lamps is Day-2 content — Don stays off the facade in the demo build.
-        if (!DEMO_BUILD) createStreetLamp(this, 'lamp_don', 750, 210, 0.13, 'don_lamp_start');
+        if (!DEMO_BUILD) createStreetLamp(this, 'lamp_don', 1018, 301, 0.13, 'don_lamp_start');
 
-        // Examine: the tower & its "SCRAPER 1140" sign (upper-center, clear of Don at x750 and
-        // the entrance below). Comment deepens once you've been inside / learned of the cellar lab.
-        this.createObservable(430, 170, 240, 150, () => {
+        // Examine: the tower & its "SCRAPER 1140" sign (upper-center, clear of Don on the right and
+        // the gate below). Comment deepens once you've been inside / learned of the cellar lab.
+        this.createObservable(447, 160, 200, 170, () => {
             if (this.hasJournalEntry('met_infinite_fold')) return this.t('observe.scraper.knows_cellar');
             if (this.hasJournalEntry('scraper_building')) return this.t('observe.scraper.been_inside');
             return this.t('observe.scraper.default');

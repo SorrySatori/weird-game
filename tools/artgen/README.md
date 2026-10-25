@@ -141,6 +141,19 @@ aseprite -b --script-param img=<png> --script-param out=assets/aseprite/<Name>_1
 ARB Ambra fixed points: Elphi stands at canvas (745, 510) (feet, origin bottom, scale 0.08) in front of her desk; the
 exit to the elevator is the bottom edge (behind the camera); the walk line is y 534.
 
+## Egg Cathedral entrance (CathedralEntrance)
+The user's composition (`cathedral_ref.png`, painted 2026-10-18) rebuilt on `raster3d` through a long lens (`raster3d.F`
+patched to 1200, the facade at ~70 units) so it stays frontal like the drawing: coursed ashlar (`masonry()`: merged
+block lengths, sunk joints, lit arrises, dirty / replaced blocks), the portal's stepped orders + hood mould as one arch
+family (`arch_w()` = a radial coordinate across the orders), round sandstone towers with slate spires (`cylinder()` /
+`cone()` built from facets), rubble aisles, grey buttresses, the eggshell halves. The stained glass, the tympanum's glow
+pattern and the shell's silhouette and holes are read from `cathedral_ref.png`, so the user's art stays as drawn.
+```
+python3 cathedral_bg.py <outdir>     # -> cathedral.png = assets/images/backgrounds/CathedralEntrance.png
+```
+Source `assets/aseprite/CathedralEntrance_1067x600.aseprite` (UPRAVY layer). Fixed points: the guard on the second
+step (feet y 508, centred), the walk line y 534, the glowing tympanum y ~240-312 (the examine hotspot).
+
 ## Shed 521 grounds (gate, mutation courtyard, registration yard)
 `shedkit.py` = the shared kit on `raster3d`: the overcast sky, world-space materials in the Crossroad palette
 (`planks`, `corrugated`, `steel`, `concrete`, `setts`, `windows_sh`), queue stanchions, and people drawn with the
@@ -162,6 +175,22 @@ barrel at the gate is the animated GD prop placed unconditionally with `placePro
 Sources `assets/aseprite/{Shed521_gate,ShedMutationCourtyard,ShedRegistrationZone,Shed521_floors}_1067x600.aseprite` (UPRAVY layer).
 Fixed points: the Floors door on the gate's near right (exit right); Ortolan at canvas (600, 526) in the courtyard;
 the dream queue around canvas x 363..703 (feet y 522) and the Senior Clerk at (533, 522) in the registration yard.
+
+## The people on the Floors (Shed521FloorsScene)
+The Floors background has no people baked in (only empty benches); the WELCOME clerk, a dozer on the ground-floor bench
+and the four-strong queue at APPLICATIONS are animated sprites: `applicant_img` with its pose knobs (`bob`, `lean`,
+`nod`, `face='front'`, `hands`, `papers`/`page`, `stamp`; all zero = the still figure the other backgrounds use).
+`floorsfolk.py` imports `floors_bg.py`'s geometry (that one renders only when run as a script) and cuts out of every
+frame whatever is nearer in its depth buffer -- the counter, the bench seat, the top floor's slab edge and railing.
+```
+python3 floorsfolk.py <outdir>       # -> <id>.png sheets (128 wide; welcome_clerk 8 frames, dozer 7 × 128×80, queue0..3 6 each)
+                                     #    + <id>/<n>.png + <id>/durations.txt + floorsfolk.gpl; prints anchors, heights, holds
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/floorsfolk.gpl --script tools/artgen/floorsfolk_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/shedfloors --script tools/artgen/floorsfolk_export.lua
+```
+Sources `assets/aseprite/ShedFloors_<id>.aseprite` (tag idle, frame hold times, UPRAVY layer). The scene's
+`FLOORS_FOLK` table holds the printed anchors / heights / holds; `utils/AmbientNpc.js` plays them (frames repeated in
+100 ms ticks: Phaser 3.88 ignores per-frame durations) and a click shows a line from `lang/<code>/ambient.js`.
 
 ## The dream queue (Sleepless Mime, Vowel Seller, Hollow Woman — ShedRegistrationScene)
 Same renderer as the protagonist (`rig.py`). `python3 dreamqueue.py <outdir>` → `mime.png`, `vowel_seller.png`,
@@ -185,3 +214,91 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 Sources `assets/aseprite/ShedApplications_1067x600.aseprite`, `assets/aseprite/Shed_clerk_applications.aseprite` (UPRAVY layers).
 The clerk stands at canvas (250, 526) (origin bottom) in front of his desk; the doors to the Floors are on the left wall
 and the right wall near the front (exits at x ≈ 67 and 867). Portrait = a 2× bust (`dialogPortraits`, EN + CZ name).
+
+## The Senior Clerk (ShedRegistrationScene)
+Same renderer (`rig.py`), redrawn after the old `clerk2.png`: a reptilian bureaucrat (scaly skull, a comb of spines webbed
+with a rust membrane, slit-pupilled amber eyes, flat snout, clawed fingers — deliberately *not* a frog, no crown) in a
+charcoal suit, a rubber stamp at his chest and a ledger at his side.
+```
+python3 senior_clerk.py <outdir>     # -> senior_clerk.png (8 idle frames of 128×192, facing the viewer, soles on y 189) + senior_clerk.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/senior_clerk.gpl --script tools/artgen/senior_clerk_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/senior_clerk_export.lua
+```
+Source `assets/aseprite/Shed_senior_clerk.aseprite` (tag ceka, UPRAVY layer). Frames: 0 rest / 1 inhale + crest lifts /
+2 blink / 3 a disdainful sniff / 4 tongue flick / 5 a glance left at the newcomer / 6-7 the ledger lifted and knocked square.
+The scene loads it as `seniorClerk` (anim `senior_clerk_idle`, 4 fps), origin bottom at (533, 524); portrait = a 2× bust.
+The old `clerk2.png` is unused.
+
+## Edgar Eskola (ScreamingCorkScene)
+Not redrawn from scratch — the bear must stay as he was. `edgar.py` box-filters the old `EdgarEskola.png` (1024×1536,
+painted at ~16 px per "pixel", shown at 0.125) down to its native 128×192 grid and animates it by moving parts of
+those pixels (the source's transparent eye glints are filled in as glints).
+```
+python3 edgar.py <outdir>            # -> edgar.png (8 idle frames of 128×192, soles on y 189) + edgar.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/edgar.gpl --script tools/artgen/edgar_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/edgar_export.lua
+```
+Source `assets/aseprite/Edgar_eskola.aseprite` (tag ceka, UPRAVY layer). Frames: 0 rest / 1 breath / 2 blink /
+3 ear twitch / 4-5 the bag sways / 6 head lowered / 7 head lowered, eyes shut. The scene keeps the key `edgarEskola`
+(anim `edgar_idle`, 4 fps) at (300, 525), origin bottom; portrait = a 2× bust. `EdgarEskola.png` stays as the source.
+
+## The Screaming Cork from the street (ScreamingCorkScene)
+```
+python3 cork_bg.py <outdir>          # -> cork.png = assets/images/backgrounds/ScreamingCork.png
+```
+On `raster3d` + `shedkit`, after the old art: the timber tavern seen close across the pavement — the main block
+(name board painted with a TTF mask, DejaVu Serif Condensed Bold, peeling; falls back to the 3×5 font), the older
+clapboard tower on the left with a dark archway through it (the exit left), the forward-stepping wing on the right with
+the arched side door, U-bent vent pipes, red-lit cellar windows (the club), and the pub sign: a carved screaming cork
+with a corkscrew in it. Source `assets/aseprite/ScreamingCork_1067x600.aseprite` (UPRAVY layer).
+Fixed points: door centred on x 533 (sill y ~485); name board x 362..704, y 183..299 (the observable); archway
+x 15..103; Edgar at (300, 525); the walk line y 534 runs along the pavement.
+
+## Scraper 1140 (ScraperScene) — the old picture, re-pixelled, plus a rooftop
+Not redrawn from scratch — the user loves the old AI picture. `scraper_bg.py` reads it from `scraper1140_ref.png`
+(the original 1536×1024, kept here as the source): it is a 384×256 picture blown up 4×, so every 4×4 block is sampled
+back to one logical pixel (block centres, x blocks start at 4g+1), the frame is cut to **356×200** (grid x 14..370,
+y 0..200) and locked to one palette (k-means: 40 greens + 8 warm window tones + 4 sign creams + 3 foreground extras);
+the two figures on the old walkway are painted out by exemplar inpainting from the haze around them. The foreground is
+new and drawn at the same logical size: a wet tar roof with a duckboard walk and puddles that mirror the scene (the
+centre one holds the tower's lit window; the mirrored ray sees the parapet / railing first, then the far plate), a
+parapet with the railing and its sagging chain, the stair-house on the left with a caged lamp over its door, roof
+clutter and an antenna mast cabled into the tower, a turbine vent and two drums, a clad heating pipe across the near
+left, and a gate with a suspension footbridge whose hung lamps fade into the fog (no number plate on the gate —
+the user had it removed: the tower already says 1140). Own eye level (the old
+walkway's): horizon row 150 = canvas 450, the player's feet at row 178 = canvas 534 stand at depth 15; units: the
+player is 6.4 tall, the eye 4.2. The game shows it 3× (356 × 3 = 1068, cropped to 1067×600).
+```
+python3 scraper_bg.py <outdir> [reuse]   # -> plate.png bridge.png fg.png (356x200 layers), scraper.png (1067x600),
+                                         #    chars.png + guides.png overlays, scraper.gpl; reuse = keep <outdir>/plate_raw.png
+cp <outdir>/scraper.gpl ~/.config/aseprite/palettes/scraper.gpl
+# build the Aseprite source (OVERWRITES assets/aseprite/Scraper1140_356x200.aseprite, incl. its UPRAVY layer):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/scraper.gpl --script tools/artgen/scraper_aseprite.lua
+# export into the game (merges UPRAVY, 3x hard pixels) -- run this after hand edits in Aseprite:
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/backgrounds --script tools/artgen/scraper_export.lua
+```
+Source `assets/aseprite/Scraper1140_356x200.aseprite` — edit it at the logical size, one Aseprite pixel = 3×3 in the
+game. Layers: `ORIGINAL precisteny`, `LAVKA + BRANA` (gate, footbridge, its lamps), `POPREDI`, `UPRAVY - kresli sem`,
+hidden `POSTAVY meritko` + `VODITKA` (hit zones, walk line) — the export skips the two `neexportovat` layers.
+Fixed points (canvas): the gate centred on x 533 (pylons 497..568, top y ~378) = "Enter Scraper"; the stair-house
+door x 21..77 (sill y ~525) = the exit left to the Crossroad; the sign x ~510..690, y ~90..205 (the observable);
+Don Girandole on the pipe-tower platform at the right edge (deck y ~378, sprite centre (1018, 301)).
+
+## Inside the Screaming Cork (ScreamingCorkInteriorScene): the taproom, Heliodor, Ravla
+```
+python3 corkin_bg.py <outdir>        # -> corkin.png = ScreamingCorkInterior.png, counter.png = ScreamingCorkInterior_counter.png
+python3 corkfolk.py <outdir>         # -> heliodor.png (8 × 128×192), ravla.png (8 × 128×128) + corkfolk.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/corkfolk.gpl --script tools/artgen/corkfolk_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/corkfolk_export.lua   # -> <id>_idle.png
+```
+The taproom on `raster3d`: a tall timber hall, a stuffed cephalopod over the back bar (drawn with `rig.py`, pasted with
+`Raster.sprite`), the name in red neon (TTF mask, DejaVu Sans Condensed Bold), bottle shelves before a clouded mirror,
+the counter in front, the street door in the left wall (exit left, x ~28..122), the club doorway at the back right
+(stairs down in red light, x ~817..882, y ~321..425) with a Feral Toast bill, lanterns, round tables, Ravla's desk and
+candle in the right corner. `counter.png` = every pixel nearer than Heliodor (z 17.3) inside his sprite's box; the
+scene draws it at depth 5.5 over him (depth 5). Heliodor at (533, 492) before the curtained doorway between the
+back-bar cabinets, Ravla at (960, 524), both origin bottom.
+`corkfolk.py` treats the people like `edgar.py`: the old `heliodor.png` / `ravla.png` box-filtered 8× to their native
+grid and animated by moving / relighting their own pixels (the old PNGs stay as the sources). Sources
+`assets/aseprite/Cork_heliodor.aseprite`, `Cork_ravla.aseprite`, `ScreamingCorkInterior_1067x600.aseprite` (UPRAVY layers).

@@ -5,8 +5,9 @@ The floor lines are fixed by the scene: the priest's feet stand at y 520 (ground
            the left; the big EXIT doors to the yard in the middle; the foot of the stairs on the right
   first    ASSESSMENTS on the left; a ladder hatch down in the middle; the stairs up on the right
   second   REGISTRATION on the left, APPLICATIONS in the middle with its queue; the stairs down on the right
-Benches with waiting applicants, filing cabinets, a water cooler, notices, pipes and cables under the slabs, warm
-lamps hanging from them.
+Empty benches, filing cabinets, a water cooler, notices, pipes and cables under the slabs, warm lamps hanging from
+them. The people (the WELCOME clerk, a dozer on the ground-floor bench, the queue at APPLICATIONS) are animated sprites
+the scene places over this (floorsfolk.py).
 
     python3 floors_bg.py <outdir>   ->  floors.png
 """
@@ -133,22 +134,18 @@ for k in range(1, 12):
 W0 = cx(147)
 rs.box(W0 - 4.2, W0 - 3.2, 0, 4.4, ZW - 1.6, ZW - 0.8, lambda x, y, s, t, z, wp: (RED[4] if 0.6 < t < 0.75 else tone(RED, 2.4, x, y)), lambda x, y, s, t, z, wp: RED[1], cls='prop')
 rs.quad((W0 + 4.0, 7.0, ZW - 0.1), (W0 + 7.4, 7.0, ZW - 0.1), (W0 + 4.0, 8.4, ZW - 0.1), lambda x, y, s, t, z, wp: (8, 10, 9) if 0.06 < s < 0.94 and 0.1 < t < 0.9 else STONE[1], cls='prop')
-applicant(rs, W0 + 5.6, ZW - 1.0, 590, h=6.4, view='front', kind='mask')                                 # the clerk behind the counter
 def counter(x, y, s, t, z, wp):
     if t > 0.86: return tone(WOOD, 4.4, x, y)                                                       # the worn top
     if (s * 6) % 1 < 0.05: return WOOD[0]
     return planks(3.0, WARM, w=0.6, seed=41)(x, y, s, t, z, wp)
 rs.box(W0 + 2.4, W0 + 9.0, 0, 3.4, ZW - 2.4, ZW - 1.6, counter, planks(2.4, WARM, seed=42), top=planks(4.0, WARM, vertical=False), cls='prop')
-def bench(X, fi, w=6.0, sitters=2, seed=0):
+def bench(X, fi, w=6.0):
     Y = FLOORS[fi]
     seat = lambda x, y, s, t, z, wp: tone(WOOD, 3.2 + (0.6 if t > 0.6 else 0), x, y)
-    for k in range(sitters):
-        applicant(rs, X - w / 2 + (k + 0.5) * w / sitters, ZW - 1.0, seed + k, h=6.4, seated=True, Y0=Y + 0.9,
-                  view=['front', 'right', 'left'][h32(seed, k) % 3])
     rs.box(X - w / 2, X + w / 2, Y + 1.6, Y + 2.0, ZW - 1.6, ZW - 0.2, seat, seat, top=seat, cls='prop')
     for lx in (X - w / 2 + 0.3, X + w / 2 - 0.3):
         rs.line3((lx, Y, ZW - 1.2), (lx, Y + 1.6, ZW - 1.2), lambda x, y, s, t, z, wp: METAL[1], w=0.2)
-bench(cx(370), 0, w=6.5, sitters=3, seed=500)
+bench(cx(370), 0, w=6.5)
 # first floor: filing cabinets, a water cooler, a bench, a notice board
 for k in range(4):
     X0 = cx(360) + k * 2.2
@@ -159,7 +156,7 @@ for k in range(4):
     rs.box(X0, X0 + 2.0, FLOORS[1], FLOORS[1] + 5.0 - (k % 2) * 0.6, ZW - 1.8, ZW - 0.2, cab, lambda x, y, s, t, z, wp: METAL[1], cls='prop')
 rs.box(cx(720), cx(720) + 1.6, FLOORS[1], FLOORS[1] + 3.4, ZW - 1.4, ZW - 0.3, lambda x, y, s, t, z, wp: tone(STUCCO, 3.6, x, y), lambda x, y, s, t, z, wp: STUCCO[1], cls='prop')
 rs.disc(cx(720) + 0.8, FLOORS[1] + 4.3, ZW - 0.9, 0.9, lambda x, y, s, t, z, wp: SKY[5] if s - t < 0.3 else SKY[3])                    # the bottle
-bench(cx(160), 1, w=4.8, sitters=2, seed=520)
+bench(cx(160), 1, w=4.8)
 def notices(x, y, s, t, z, wp):
     k = h32(int(s * 5), int(t * 3), 9)
     if s < 0.04 or s > 0.96 or t < 0.06 or t > 0.94: return tone(WOOD, 1.6, x, y)
@@ -169,10 +166,8 @@ def notices(x, y, s, t, z, wp):
         return c
     return tone(WARM, 2.0, x, y)
 rs.quad((cx(450), FLOORS[1] + 3.0, ZW - 0.1), (cx(450) + 4.0, FLOORS[1] + 3.0, ZW - 0.1), (cx(450), FLOORS[1] + 6.0, ZW - 0.1), notices, cls='prop')
-# second floor: the queue at APPLICATIONS, a bench at REGISTRATION
-for i, X in enumerate((cx(533) + 2.2, cx(533) + 3.9, cx(533) + 5.5, cx(533) + 7.2)):
-    applicant(rs, X, ZW - 1.2 - (i % 2) * 0.5, 540 + i, h=6.2, Y0=FLOORS[2], view='left')
-bench(cx(330), 2, w=4.4, sitters=2, seed=560)
+# second floor: a bench at REGISTRATION
+bench(cx(330), 2, w=4.4)
 rs.quad((cx(700), FLOORS[2] + 2.6, ZW - 0.1), (cx(700) + 3.6, FLOORS[2] + 2.6, ZW - 0.1), (cx(700), FLOORS[2] + 5.4, ZW - 0.1), notices, cls='prop')
 
 def letters(col):
@@ -185,6 +180,7 @@ def letters(col):
     (ax, ay) = proj(W0 + 4.0, 8.4, ZW); (bx, by) = proj(W0 + 7.4, 7.0, ZW)                          # NOW SERVING: 17
     draw_text(lambda x, y: (0 <= x < W and 0 <= y < H) and col[y].__setitem__(x, (220, 70, 50)), '17', int((ax + bx) / 2 - 7), int((ay + by) / 2 - 5), 2)
 
-img = rs.render(INK, fog=lambda z: 0.0, overlay=letters, light_gain=1.2, grime_gain=0.8, bloom=0.45, stain_gain=0.4, damp_gain=0.4)
-img.save(f'{OUT}/floors.png')
-print('done floors')
+if __name__ == '__main__':                            # floorsfolk.py imports the geometry (its depth buffer) only
+    img = rs.render(INK, fog=lambda z: 0.0, overlay=letters, light_gain=1.2, grime_gain=0.8, bloom=0.45, stain_gain=0.4, damp_gain=0.4)
+    img.save(f'{OUT}/floors.png')
+    print('done floors')

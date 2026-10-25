@@ -6,6 +6,7 @@ import dialogs from './dialogs/index.js';
 import quests from './quests.js';
 import journal from './journal.js';
 import observe from './observe.js';
+import ambient from './ambient.js';
 import symbiontLines from './symbiontLines.js';
 
 export default {
@@ -17,5 +18,6 @@ export default {
     ...quests,
     ...journal,
     ...observe,
+    ...ambient,
     ...symbiontLines,
 };

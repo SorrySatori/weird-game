@@ -195,9 +195,14 @@ BOOTS = ramp('#0e0c0a #1a1612 #26201a #342c24')
 CORALR = ramp('#3a1414 #5e2020 #84302c #a8463a #c8644e #e08a6e')
 PAPER = ramp('#6e6a5c #8e8a78 #b0ac98 #d0ccb6')
 
-def applicant_img(seed, hpx, kind=None, view=None, seated=False, robe=None, skin=None, stone=False):
+def applicant_img(seed, hpx, kind=None, view=None, seated=False, robe=None, skin=None, stone=False,
+                  bob=0.0, lean=0.0, nod=0.0, face=None, hands=None, papers=None, page=(0.0, 0.0, 0.0), stamp=False):
     """an applicant drawn with the character renderer (rig.py) at its on-screen height: a hooded robe, sometimes a
-    mushroom cap or coral knobs growing out of the hood, or a gas mask; view 'front' | 'back' | 'right' | 'left'"""
+    mushroom cap or coral knobs growing out of the hood, or a gas mask; view 'front' | 'back' | 'right' | 'left'.
+    Pose knobs for idle frames (rig units, 100 = the figure's height; all 0 = the still figure): bob (shoulders and
+    head sink, a breath), lean (shoulders and head shift sideways), nod (the head alone drops), face='front' (a profile
+    figure glances at the viewer), hands ((x, y), (x, y)) for a front figure, papers (force on/off) with page (dx, dy,
+    lift of the page's free edge), stamp (a rubber stamp in the right hand)"""
     kind = kind or ['hood', 'hood', 'cap', 'coral', 'mask', 'hood', 'coral', 'hood', 'hood'][h32(seed, 11) % 9]
     view = view or ['front', 'right', 'right', 'back', 'front', 'right'][h32(seed, 13) % 6]
     robe = robe or ROBES[h32(seed, 12) % len(ROBES)]
@@ -212,18 +217,19 @@ def applicant_img(seed, hpx, kind=None, view=None, seated=False, robe=None, skin
     M_robe = Mat(robe, 'wool', 0.2); M_skin = Mat(skin or SKINP, 'skin', 0.24); M_boot = Mat(BOOTS, 'leather', 0.18, 0.3)
     hunch = (h32(seed, 17) % 3) * 2.0 + (6.0 if seated else 0.0)
     fwd = 1.0 if view == 'right' else 0.0
-    papers = h32(seed, 18) % 3 == 0 and not seated
-    hx, hy = 40 + hunch * fwd * 0.8, 19 + hunch * 0.5 + (8 if seated else 0)
+    if papers is None: papers = h32(seed, 18) % 3 == 0 and not seated
+    hx, hy = 40 + hunch * fwd * 0.8 + lean, 19 + hunch * 0.5 + (8 if seated else 0) + bob + nod
+    sh_x, sh_y = lean, bob                                                                          # the shoulders follow
     if not seated:
         for fx in ((34, 46) if view != 'right' else (36, 47)):
             r.ellipsoid(*P(fx, 98.5), R_(4.6), R_(2.2), M_boot, lift=-0.1, group='feet')
-        body = [(29, 30), (51, 30), (53, 62), (56, 97), (24, 97), (27, 62)]
+        body = [(29 + sh_x, 30 + sh_y), (51 + sh_x, 30 + sh_y), (53, 62), (56, 97), (24, 97), (27, 62)]
     else:
-        body = [(29 + hunch, 36), (51 + hunch, 36), (53, 60), (55, 104), (25, 104), (27, 60)]
+        body = [(29 + hunch + sh_x, 36 + sh_y), (51 + hunch + sh_x, 36 + sh_y), (53, 60), (55, 104), (25, 104), (27, 60)]
     if view == 'right': body = [(x - 2 if i in (0, 5, 4) else x, y) for i, (x, y) in enumerate(body)]
     # the far arm (behind the body in profile)
     if view == 'right':
-        r.tube(P(36, 34 + hunch * 0.4), P(44 + hunch, 58 if not seated else 52), R_(4.4), R_(5.2), M_robe, lift=-0.25, group='armF')
+        r.tube(P(36 + sh_x, 34 + hunch * 0.4 + sh_y), P(44 + hunch, 58 if not seated else 52), R_(4.4), R_(5.2), M_robe, lift=-0.25, group='armF')
     r.poly([P(*q) for q in body], M_robe, group='body',
            vfun=lambda x, y: -0.22 if int((x / k) * 0.55 + (y / k) * 0.12) % 3 == 0 and y / k > 40 - top else 0)
     # the hood: a drape over the shoulders and the hood itself
@@ -236,7 +242,7 @@ def applicant_img(seed, hpx, kind=None, view=None, seated=False, robe=None, skin
         for i in range(5):
             cx = hx - 6 + (h32(seed, 30 + i) % 13); cy = hy - 10 - (h32(seed, 40 + i) % 7)
             r.ellipsoid(*P(cx, cy), R_(2.4 + (h32(seed, 50 + i) % 3)), R_(2.8 + (h32(seed, 60 + i) % 3)), Mat(MOSSTONE if stone else CORALR, 'skin', 0.3), group='coral')
-    if view == 'front':
+    if (face or view) == 'front':
         r.ellipsoid(*P(hx + 0.5, hy + 2), R_(6.8), R_(8.6), M_robe, lift=-0.7, group='opening')
         if kind == 'mask':
             r.ellipsoid(*P(hx + 0.5, hy + 3), R_(4.8), R_(5.8), Mat(STONE, 'metal', 0.2, 0.4), lift=-0.1, group='face')
@@ -260,19 +266,27 @@ def applicant_img(seed, hpx, kind=None, view=None, seated=False, robe=None, skin
     # the near arm, hands, papers
     if view == 'right':
         hand = P(47 + hunch, 58 if not seated else 54)
-        r.tube(P(42, 34 + hunch * 0.4), hand, R_(4.8), R_(5.6), M_robe, group='armN')
+        r.tube(P(42 + sh_x, 34 + hunch * 0.4 + sh_y), hand, R_(4.8), R_(5.6), M_robe, group='armN')
         r.ellipsoid(hand[0] + R_(1.5), hand[1] + R_(2.5), R_(2.4), R_(2.4), M_skin, group='hand')
     elif view == 'front':
-        for (sx, ex_) in ((30, 27), (50, 52)):
-            hand = P(ex_ + (6 if (papers and sx > 40) else 0) - (4 if seated else 0), 60 if not seated else 56)
-            r.tube(P(sx, 34 + hunch * 0.3), hand, R_(4.6), R_(5.6), M_robe, group='arm%d' % sx)
+        for i, (sx, ex_) in enumerate(((30, 27), (50, 52))):
+            hand = P(*hands[i]) if hands else P(ex_ + (6 if (papers and sx > 40) else 0) - (4 if seated else 0), 60 if not seated else 56)
+            r.tube(P(sx + sh_x, 34 + hunch * 0.3 + sh_y), hand, R_(4.6), R_(5.6), M_robe, group='arm%d' % sx)
+            if stamp and sx > 40:                                                                   # the rubber stamp: knob, handle, pad
+                WOODS = Mat(WOOD, 'plain', 0.2)
+                r.tube((hand[0], hand[1] + R_(1)), (hand[0], hand[1] + R_(7)), R_(1.2), R_(1.2), WOODS, group='stamp')
+                r.poly([(hand[0] - R_(3.2), hand[1] + R_(6.6)), (hand[0] + R_(3.2), hand[1] + R_(6.6)),
+                        (hand[0] + R_(3.2), hand[1] + R_(8.6)), (hand[0] - R_(3.2), hand[1] + R_(8.6))], WOODS, group='stamp')
+                r.poly([(hand[0] - R_(3.0), hand[1] + R_(8.6)), (hand[0] + R_(3.0), hand[1] + R_(8.6)),
+                        (hand[0] + R_(3.0), hand[1] + R_(9.6)), (hand[0] - R_(3.0), hand[1] + R_(9.6))], Mat(RED, 'plain', 0.3), group='pad')
             r.ellipsoid(hand[0], hand[1] + R_(3), R_(2.3), R_(2.4), M_skin, group='hand%d' % sx)
     else:
         for (sx, ex_) in ((30, 28), (50, 52)):
-            r.tube(P(sx, 34), P(ex_, 60), R_(4.6), R_(5.4), M_robe, lift=-0.05, group='armb%d' % sx)
+            r.tube(P(sx + sh_x, 34 + sh_y), P(ex_, 60), R_(4.6), R_(5.4), M_robe, lift=-0.05, group='armb%d' % sx)
     if papers and view != 'back':
-        px_, py_ = (P(50 + hunch, 52) if view == 'right' else P(53, 50))
-        r.poly([(px_, py_), (px_ + R_(7), py_ - R_(1)), (px_ + R_(7.5), py_ + R_(8)), (px_ + R_(0.5), py_ + R_(9))], Mat(PAPER, 'plain', 0.4), group='papers')
+        pdx, pdy, lift_ = page
+        px_, py_ = (P(50 + hunch + pdx, 52 + pdy) if view == 'right' else P(53 + pdx, 50 + pdy))
+        r.poly([(px_, py_), (px_ + R_(7), py_ - R_(1) - R_(lift_)), (px_ + R_(7.5), py_ + R_(8) - R_(lift_)), (px_ + R_(0.5), py_ + R_(9))], Mat(PAPER, 'plain', 0.4), group='papers')
     im = r.render()
     if flip:
         from PIL import ImageOps

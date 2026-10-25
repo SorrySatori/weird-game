@@ -98,6 +98,11 @@ Add a sprite, `setInteractive({ useHandCursor: true })`, and
 `sprite.on('pointerdown', () => { if (this.dialogVisible) return; this.showDialog('foo_start'); })`.
 Add a name label above it. First-meeting journal entry is a nice touch.
 
+**Ambient people** (figures you can't talk to — queues, clerks, passers-by): don't bake them into the background, use
+`createAmbientNpc(scene, { id, key, x, y, holds, top })` from `utils/AmbientNpc.js` — an animated feet-anchored sprite
+(depth 6) whose click shows one line in a speech bubble (cycling `ambient.<id>.lines`, hover label `ambient.<id>.name`,
+both in `lang/en/ambient.js` + `lang/cs/ambient.js`). Example: Shed521FloorsScene (`FLOORS_FOLK`).
+
 ## Inventory items (`systems/inventory/InventorySystem.js`)
 - **No capacity limit.** The panel is a paged 6×3 grid (arrows + mouse wheel); `addItemToInventory` never
   fails for being "full", so quest items can always be handed out without checking the return value.

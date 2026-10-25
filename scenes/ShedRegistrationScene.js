@@ -31,7 +31,8 @@ export default class ShedRegistrationScene extends GameScene {
         super.preload();
         this.load.image('registration-bg', 'assets/images/backgrounds/ShedRegistrationZone.png');
         this.load.image('door', 'assets/images/ui/door.png');
-        this.load.image('clerk2', 'assets/images/characters/clerk2.png');
+        // the Senior Clerk: an 8-frame idle sheet, 128×192 (tools/artgen/senior_clerk.py, Aseprite Shed_senior_clerk)
+        this.load.spritesheet('seniorClerk', 'assets/images/characters/senior_clerk.png', { frameWidth: 128, frameHeight: 192 });
         // the dream queue: 6-frame idle sheets, 128×160 (tools/artgen/dreamqueue.py, Aseprite DreamQueue_<id>)
         this.load.spritesheet('vowelSeller', 'assets/images/characters/dreamqueue/vowel_seller.png', { frameWidth: 128, frameHeight: 160 });
         this.load.spritesheet('hollowWoman', 'assets/images/characters/dreamqueue/hollow_woman.png', { frameWidth: 128, frameHeight: 160 });
@@ -180,12 +181,21 @@ export default class ShedRegistrationScene extends GameScene {
             'Vowel Seller': { key: 'vowelSeller', frame: 2, zoom: 2, top: 8 }, 'Prodavač samohlásek': { key: 'vowelSeller', frame: 2, zoom: 2, top: 8 },
             'Hollow Woman': { key: 'hollowWoman', frame: 0, zoom: 2, top: 16 }, 'Dutá žena': { key: 'hollowWoman', frame: 0, zoom: 2, top: 16 }
         };
-        this.dialogPortraits = { ...(this.dialogPortraits || {}), ...busts };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), ...busts,
+            'Senior Clerk': { key: 'seniorClerk', frame: 0, zoom: 2, top: 4 }, 'Vrchní úředník': { key: 'seniorClerk', frame: 0, zoom: 2, top: 4 } };
+        // his idle: breath, a blink, the throat sac swells, a glance at the newcomer, the ledger knocked square
+        if (!this.anims.exists('senior_clerk_idle')) {
+            this.anims.create({
+                key: 'senior_clerk_idle',
+                frames: this.anims.generateFrameNumbers('seniorClerk', { frames: [0, 1, 1, 0, 0, 2, 0, 1, 1, 0, 3, 3, 4, 3, 3, 0, 1, 0, 5, 5, 5, 0, 0, 1, 1, 0, 6, 7, 6, 7, 0, 0] }),
+                frameRate: 4,
+                repeat: -1
+            });
+        }
 
         // 4. Senior Clerk (will appear after all others are interacted with)
-        this.seniorClerk = this.add.sprite(this.scale.width / 2, 522, 'clerk2')
+        this.seniorClerk = this.add.sprite(this.scale.width / 2, 524, 'seniorClerk', 0)
             .setOrigin(0.5, 1)
-            .setScale(0.14)
             .setAlpha(0)
             .setInteractive({ useHandCursor: true });
             
@@ -266,11 +276,12 @@ export default class ShedRegistrationScene extends GameScene {
     // Helper method to create just the Senior Clerk for returning players
     createSeniorClerk() {
             const alreadyMet = this.journalSystem.hasEntry('registration_senior_clerk')
-            // he steps up where the queue stood, feet on the yard (~145 px tall)
+            // he steps up where the queue stood, feet on the yard (soles 2 px above the frame's bottom)
             if (this.seniorClerk) this.seniorClerk.destroy();
-            this.seniorClerk = this.add.image(this.scale.width / 2, 522, 'clerk2');
-            this.seniorClerk.setOrigin(0.5, 1).setScale(0.14).setDepth(6);
-            this.addGroundShadow(this.seniorClerk.x, 520, this.seniorClerk.displayWidth * 0.6, 14);
+            this.seniorClerk = this.add.sprite(this.scale.width / 2, 524, 'seniorClerk', 0);
+            this.seniorClerk.setOrigin(0.5, 1).setDepth(6);
+            this.seniorClerk.play('senior_clerk_idle');
+            this.addGroundShadow(this.seniorClerk.x, 520, 64, 14);
             this.seniorClerk.setInteractive({ useHandCursor: true });
             this.seniorClerk.setVisible(true)
             this.seniorClerk.on('pointerdown', () => {

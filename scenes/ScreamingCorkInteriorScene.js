@@ -642,9 +642,11 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.load.image('redmass', 'assets/images/items/redmass.png');
         this.load.image('rust_feast', 'assets/images/items/rust_feast.png');
         
-        // Load NPC sprites as static images first to ensure they exist
-        this.load.image('ravla_static', 'assets/images/characters/ravla.png');
-        this.load.image('heliodor_static', 'assets/images/characters/heliodor.png');
+        // what stands nearer than Heliodor (the counter, its stools) -- drawn over him (tools/artgen/corkin_bg.py)
+        this.load.image('screamingCorkCounter', 'assets/images/backgrounds/ScreamingCorkInterior_counter.png');
+        // the people: 8-frame idle sheets (tools/artgen/corkfolk.py from the old heliodor.png / ravla.png, Aseprite Cork_<id>)
+        this.load.spritesheet('heliodor', 'assets/images/characters/heliodor_idle.png', { frameWidth: 128, frameHeight: 192 });
+        this.load.spritesheet('ravla', 'assets/images/characters/ravla_idle.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('thaal', 'assets/images/characters/master_thaal.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('thaal_walk', 'assets/images/characters/master_thaal_walk.png', { frameWidth: 128, frameHeight: 128 });
     }
@@ -657,6 +659,13 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const bg = this.add.image(400, 300, 'screamingCorkInteriorBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own floor; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
+        // The counter in front of Heliodor (between him at depth 5 and anyone walking along it)
+        this.add.image(0, 0, 'screamingCorkCounter').setOrigin(0, 0).setDepth(5.5);
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -769,19 +778,38 @@ export default class ScreamingCorkInteriorScene extends GameScene {
     }
 
     createNPCs() {
-        // Create Ravla NPC (the forger) using static image
-        this.ravla = this.add.image(700, 470, 'ravla_static');
-        this.ravla.setScale(0.125); // Further reduced scale to make sprite more proportional
-        this.ravla.setDepth(5);
-        this.addGroundShadow(700, 470 + this.ravla.displayHeight * 0.42, this.ravla.displayWidth * 0.55, this.ravla.displayHeight * 0.12);
+        // Ravla (the forger) crouches in the right corner by her desk; soles 3 px above the frame's bottom
+        this.ravla = this.add.sprite(960, 524, 'ravla', 0).setOrigin(0.5, 1).setDepth(6);
+        this.addGroundShadow(960, 520, 90, 14);
         this.ravla.setInteractive({ useHandCursor: true });
 
-        // Create Heliodor NPC using static image
-        this.heliodor = this.add.image(300, 470, 'heliodor_static');
-        this.heliodor.setScale(0.125); // Further reduced scale to make sprite more proportional
-        this.heliodor.setDepth(5);
-        this.addGroundShadow(300, 470 + this.heliodor.displayHeight * 0.42, this.heliodor.displayWidth * 0.55, this.heliodor.displayHeight * 0.12);
+        // Heliodor stands on the raised boards behind the counter, before the curtained doorway
+        // (the counter overlay covers him from the waist down)
+        this.heliodor = this.add.sprite(this.scale.width / 2, 492, 'heliodor', 0).setOrigin(0.5, 1).setDepth(5);
         this.heliodor.setInteractive({ useHandCursor: true });
+
+        // idle loops, slow: Heliodor's colony glows, blinks and drips; Ravla's goggles flash, her tentacle sways
+        if (!this.anims.exists('heliodor_idle')) {
+            this.anims.create({
+                key: 'heliodor_idle',
+                frames: this.anims.generateFrameNumbers('heliodor', { frames: [0, 0, 1, 1, 0, 2, 2, 0, 0, 3, 0, 0, 1, 1, 0, 6, 6, 7, 0, 0, 4, 4, 0, 5, 0, 0, 1, 1, 0, 2, 0, 0] }),
+                frameRate: 4,
+                repeat: -1
+            });
+        }
+        if (!this.anims.exists('ravla_idle')) {
+            this.anims.create({
+                key: 'ravla_idle',
+                frames: this.anims.generateFrameNumbers('ravla', { frames: [0, 0, 1, 1, 0, 3, 3, 3, 4, 5, 4, 5, 3, 0, 0, 6, 6, 0, 7, 0, 0, 1, 1, 0, 2, 0, 0, 3, 4, 5, 3, 0] }),
+                frameRate: 4,
+                repeat: -1
+            });
+        }
+        this.heliodor.play('heliodor_idle');
+        this.ravla.play('ravla_idle');
+        this.dialogPortraits = { ...(this.dialogPortraits || {}),
+            'Heliodor': { key: 'heliodor', frame: 0, zoom: 2, top: 24 },
+            'Ravla': { key: 'ravla', frame: 0, zoom: 2, top: 6 } };
         
         // Initialize shop system
         this.initShopSystem();
@@ -795,45 +823,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.heliodor.on('pointerdown', () => {
             if (this.dialogVisible) return;
             this.showDialog('heliodor_start');
-        });
-        
-        // Add simple movement for NPCs
-        this.addNPCMovement();
-    }
-    
-    // We're using static images instead of animations for now
-    createNPCAnimations() {
-        // No animations needed as we're using static images
-    }
-    
-    addNPCMovement() {
-        // Ravla subtle wobble animation
-        this.addWobbleEffect(this.ravla, 600, 450);
-        
-        // Heliodor subtle wobble animation
-        this.addWobbleEffect(this.heliodor, 400, 430);
-    }
-    
-    addWobbleEffect(sprite, baseX, baseY) {
-        // Create a very subtle wobble effect
-        this.tweens.add({
-            targets: sprite,
-            y: { from: baseY - 1, to: baseY + 1 },
-            ease: 'Sine.easeInOut',
-            duration: 1500,
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add a very slight rotation wobble
-        this.tweens.add({
-            targets: sprite,
-            angle: { from: -1, to: 1 },
-            ease: 'Sine.easeInOut',
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            delay: 5000 // Offset from the y-wobble for more natural movement
         });
     }
 

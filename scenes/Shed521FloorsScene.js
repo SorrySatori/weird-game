@@ -1,5 +1,18 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { createAmbientNpc } from '../utils/AmbientNpc.js';
+
+// The people on the floors: animated sheets (tools/artgen/floorsfolk.py, Aseprite ShedFloors_<id>) at their canvas
+// anchors (feet, origin bottom-centre); the id is also the texture key; holds = each frame's hold time in ms,
+// top = the figure's height in px, h = the frame height
+const FLOORS_FOLK = [
+    { id: 'floors_welcome_clerk', sheet: 'welcome_clerk', x: 260, y: 514, top: 111, h: 128, holds: [1100, 900, 200, 300, 160, 700, 600, 900] },
+    { id: 'floors_dozer', sheet: 'dozer', x: 353, y: 498, top: 66, h: 80, holds: [1200, 1000, 1000, 1200, 1800, 300, 1500] },
+    { id: 'floors_queue0', sheet: 'queue0', x: 595, y: 184, top: 114, h: 128, holds: [900, 700, 1100, 700, 800, 1000] },
+    { id: 'floors_queue1', sheet: 'queue1', x: 626, y: 184, top: 108, h: 128, holds: [1000, 200, 240, 240, 1000, 1200] },
+    { id: 'floors_queue2', sheet: 'queue2', x: 654, y: 184, top: 106, h: 128, holds: [1000, 1000, 1000, 1000, 1000, 1000] },
+    { id: 'floors_queue3', sheet: 'queue3', x: 686, y: 184, top: 106, h: 128, holds: [1000, 1000, 1000, 1000, 1700, 800] },
+];
 
 export default class Shed521FloorsScene extends GameScene {
     constructor() {
@@ -13,6 +26,9 @@ export default class Shed521FloorsScene extends GameScene {
         this.load.image('floors', 'assets/images/backgrounds/Shed521_floors.png');
         this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
         this.load.image('arrow', 'assets/images/ui/arrow.png'); // Arrow for transition hover effects
+        FLOORS_FOLK.forEach(({ id, sheet, h }) => {
+            this.load.spritesheet(id, `assets/images/characters/shedfloors/${sheet}.png`, { frameWidth: 128, frameHeight: h });
+        });
     }
 
     create() {
@@ -39,7 +55,11 @@ export default class Shed521FloorsScene extends GameScene {
             this.ground.destroy();
             this.ground = null;
         }
-        
+
+        // the WELCOME clerk, a dozer on the bench, the queue at APPLICATIONS: a click gets a line, not a dialog
+        // (whatever stands in front of them -- the counter, the bench, the railing -- is cut out of their frames)
+        this.floorsFolk = FLOORS_FOLK.map(cfg => createAmbientNpc(this, cfg));
+
         // Create transition zones for each area using SceneTransitionManager
         
         // First Floor Transitions
@@ -140,7 +160,7 @@ export default class Shed521FloorsScene extends GameScene {
         this.applicationsZone = this.transitionManager.createTransitionZone(
             400, // x position
             120, // y position
-            80, // width
+            64, // width (just the door: the queue stands right of it)
             80, // height
             'up', // direction
             'ShedApplicationsScene', // target scene

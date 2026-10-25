@@ -1204,7 +1204,8 @@ export default class ScreamingCorkScene extends GameScene {
         super.preload();
         this.load.image('screamingCorkBg', 'assets/images/backgrounds/ScreamingCork.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        this.load.image('edgarEskola', 'assets/images/characters/EdgarEskola.png');
+        // Edgar: an 8-frame idle sheet, 128×192 (tools/artgen/edgar.py from the old EdgarEskola.png, Aseprite Edgar_eskola)
+        this.load.spritesheet('edgarEskola', 'assets/images/characters/edgar_eskola.png', { frameWidth: 128, frameHeight: 192 });
         this.load.image('vestigel', 'assets/images/items/vestigel.png');
     }
 
@@ -1216,6 +1217,11 @@ export default class ScreamingCorkScene extends GameScene {
         const bg = this.add.image(400, 300, 'screamingCorkBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own pavement; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -1258,7 +1264,8 @@ export default class ScreamingCorkScene extends GameScene {
         );
 
         // Add a hint about the tavern entrance
-        const doorHint = this.add.text(400, 380, this.t('ui.hints.enterTavern'), {
+        const doorX = this.scale.width / 2;
+        const doorHint = this.add.text(doorX, 380, this.t('ui.hints.enterTavern'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -1271,7 +1278,7 @@ export default class ScreamingCorkScene extends GameScene {
         // Show hint when hovering near the door
         this.input.on('pointermove', (pointer) => {
             // Check if pointer is near the door area
-            if (Math.abs(pointer.x - 400) < 50 && Math.abs(pointer.y - 470) < 100) {
+            if (Math.abs(pointer.x - doorX) < 50 && Math.abs(pointer.y - 470) < 100) {
                 doorHint.setAlpha(1);
             } else {
                 doorHint.setAlpha(0);
@@ -1293,44 +1300,29 @@ export default class ScreamingCorkScene extends GameScene {
     }
 
     createEdgarEskola() {
-        // Create Edgar Eskola NPC
-        this.edgar = this.add.image(200, 510, 'edgarEskola'); // Further increased Y to lower position more
-        this.edgar.setScale(0.125); // Set appropriate scale
-        this.edgar.setOrigin(0.5, 1.0); // Set origin to bottom center to align with ground
-        this.edgar.setDepth(5);
-        this.addGroundShadow(200, 510, this.edgar.displayWidth * 0.55, this.edgar.displayHeight * 0.10);
+        // Edgar stands on the pavement left of the door, in front of the bench; soles 3 px above the frame's bottom
+        this.edgar = this.add.sprite(300, 525, 'edgarEskola', 0);
+        this.edgar.setOrigin(0.5, 1);
+        this.edgar.setDepth(6);
+        this.addGroundShadow(300, 520, 70, 14);
+        if (!this.anims.exists('edgar_idle')) {
+            // breath, a blink, an ear twitch, the bag swaying, a grumble with the head down -- slow
+            this.anims.create({
+                key: 'edgar_idle',
+                frames: this.anims.generateFrameNumbers('edgarEskola', { frames: [0, 0, 1, 1, 0, 0, 2, 0, 0, 1, 1, 0, 3, 0, 0, 4, 0, 5, 0, 0, 1, 1, 0, 0, 6, 7, 7, 6, 0, 0, 1, 1, 0, 2, 0, 0] }),
+                frameRate: 4,
+                repeat: -1
+            });
+        }
+        this.edgar.play('edgar_idle');
+        this.dialogPortraits = { ...(this.dialogPortraits || {}),
+            'Edgar Eskola': { key: 'edgarEskola', frame: 0, zoom: 2, top: 24 } };
         this.edgar.setInteractive({ useHandCursor: true });
 
         // Add dialog interaction
         this.edgar.on('pointerdown', () => {
             if (this.dialogVisible) return;
             this.showDialog('edgar_start');
-        });
-
-        // Add subtle wobble effect
-        this.addWobbleEffect(this.edgar, 200, 510); // Update wobble position to match new Y
-    }
-
-    addWobbleEffect(sprite, baseX, baseY) {
-        // Create a very subtle wobble effect
-        this.tweens.add({
-            targets: sprite,
-            y: { from: baseY - 1, to: baseY + 1 },
-            ease: 'Sine.easeInOut',
-            duration: 1500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Add a very slight rotation wobble
-        this.tweens.add({
-            targets: sprite,
-            angle: { from: -1, to: 1 },
-            ease: 'Sine.easeInOut',
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            delay: 5000 // Offset from the y-wobble for more natural movement
         });
     }
 }

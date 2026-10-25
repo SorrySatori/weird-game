@@ -220,7 +220,6 @@ for i, bz in enumerate((25.4, 27.2, 29.0)):
     applicant(rs, -21.2, bz, 700 + i, h=6.3, seated=True, view='right')
 bench = lambda x, y, s, t, z, wp: fg(tone(WOOD, 3.2, x, y), z)
 rs.box(-23.6, -20.4, 1.6, 2.0, 24.4, 30.4, bench, bench, top=bench, cls='prop')
-applicant(rs, 6.5, 23.6, 720, h=6.3, view='front')                                                       # a clerk at a cubicle
 applicant(rs, -5.0, 30.2, 721, h=6.3, seated=True, view='back')
 for k in range(24):                                                                                 # forms on the floor
     fx, fz = -18 + (h32(k, 21) % 360) / 10.0, 16.0 + (h32(k, 22) % 200) / 10.0
