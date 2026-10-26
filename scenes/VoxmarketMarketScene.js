@@ -143,7 +143,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_refuse_inquiry: {
-                text: "Hmm... all right, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
+                text: "Hmm... all right, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, a peculiar stuffed toy came into my hands, and there was a Vestigel hidden inside it — but I didn't know that. The buyer found out later, by chance, all on his own.",
                 options: [
                     { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
