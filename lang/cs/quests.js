@@ -17,6 +17,8 @@ export default {
                 reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Tichém. Teď musím najít stopy po Biskupce.',
                 check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku za Škrabákem. Měl bych se tam podívat.',
                 found_elevator_button: 'Našel jsem Zapomenutý Výtahový Knoflík u Zerren, který mi může pomoct dostat se na patro Dr. Elphi.',
+                guard_cathedral_closed: 'Vaječná katedrála je zavřená a strážce u brány nikoho nepouští dovnitř. Možná ví, kde Biskupku najdu.',
+                guard_bishop_not_inside: 'Podle strážce Biskupka v katedrále není. Budu ji muset hledat po městě – nejspíš na Voxmarketu nebo u Boudy 521.',
                 guard_voxmarket: 'Voxmarket je zvukové tržiště, kde se obchoduje s nahranými hlasy a zvuky. Biskupka by tam mohla být k nalezení.',
                 guard_shed521: 'Bouda 521, známá také jako Úřad tvarů, je byrokratické bludiště, kde si lidé registrují své tvary. Biskupka prý toto místo navštěvuje.',
             }

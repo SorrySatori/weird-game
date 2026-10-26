@@ -66,14 +66,14 @@ export default {
         }
     },
     zerren_kloor_inquiry: {
-        text: "Rozumím. Ten parchant ho chce pro sebe, že? Nevím, co s ním plánuje, ale nic dobrého. Poslouchejte, nevěděla jsem, že obsahuje skrytý vestigel, myslela jsem, že je to jen podivný plyšák. Kupec to později zjistil, ale bylo už pozdě.",
+        text: "Rozumím. Ten parchant ho chce pro sebe, že? Nevím, co s ním plánuje, ale nic dobrého. Poslouchejte, dostal se ke mně podivný plyšák, který obsahoval skrytý vestigel, ale o tom jsem nevěděla. Kupec na to později přišel náhodou sám.",
         options: {
             who_did_you_sell_it_to: "Komu jste ho prodala?",
             back: "Zeptej se na něco jiného"
         }
     },
     zerren_refuse_inquiry: {
-        text: "Hmm... dobře, nechte si svoje tajemství. Vsadím se, že je to jeden z mých konkurentů, takže si to stejně zjistím. Poslouchejte, nevěděla jsem, že je v něm zašitý vestigel, myslela jsem, že je to jen prostě plyšák. Kupec to později zjistil, ale bylo už pozdě.",
+        text: "Hmm... dobře, nechte si svoje tajemství. Vsadím se, že je to jeden z mých konkurentů, takže si to stejně zjistím. Poslouchejte, nevěděla jsem, že je v něm zašitý vestigel, myslela jsem, že je ",
         options: {
             who_did_you_sell_it_to: "Komu jste ho prodala?",
             back: "Zeptej se na něco jiného"

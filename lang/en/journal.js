@@ -4,6 +4,10 @@
  */
 export default {
     journal: {
+        temple_guard_meeting: {
+            title: 'The Temple Guard',
+            description: 'At the gate of the Egg Cathedral stands a guard who lets no one in. The cathedral is closed until further notice — the yolk, he says, sleeps uneasily.',
+        },
         learned_digestions: {
             title: 'Counting in Digestions',
             description: 'The Sentinel at the Egg Cathedral counts time in digestions of the Stomach Clock — he has stood at his post for three thousand of them. The city stopped counting years when the Tally-Keeper died. A digestion runs a little longer than a day and drifts against the sun; six make a week, three hundred make a year.',

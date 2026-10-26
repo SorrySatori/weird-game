@@ -110,7 +110,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_kloor_inquiry: {
-                text: "I see. That bastard wants it for himself, doesn't he? I don't know what he plans to do with it, but it's not good. Listen, I didn't know that it contained hidden Vestigel, I thought it was just a peculiar stuffed toy. The buyer discovered the secret later, but it was too late.",
+                text: "I see. That bastard wants it for himself, doesn't he? I don't know what he plans to do with it, but it's not good. Listen, a peculiar stuffed toy came into my hands, and there was a Vestigel hidden inside it — but I didn't know that. The buyer found out later, by chance, all on his own.",
                 options: [
                     { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }

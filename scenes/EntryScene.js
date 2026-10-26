@@ -89,7 +89,7 @@ export default class EntryScene extends GameScene {
             },
             task: {
                 hideCloseOption: true,
-                text: "You must find the Bishop at the Egg Cathedral. She might know about the distress call we have received from this city via myceliar network. The Bishop should be probably present at the Egg Cathedral.",
+                text: "You must find our Bishop, who represents the holy church of the Ur-mushroom in this city. She might know about the distress call we have received from this city via myceliar network. The Bishop should be probably present at the Egg Cathedral.",
                 options: [
                     { text: "Wait, do you mean the task you have been given by the Highest Humenium Council? The only reason we are here? Why can't we go see the Bishop together?", key: 'wait_do_you_mean_the_task_you_have_been_given_by_t', next: 'whyNot' },
                     { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
@@ -97,7 +97,7 @@ export default class EntryScene extends GameScene {
             },
             whyNot: {
                 hideCloseOption: true,
-                text: "*adjusts robe importantly* I am far too busy with... important research. Yes! Research into advanced mycological phenomena that your novice mind couldn't possibly comprehend. Besides, I have a... prior engagement at the Fermented Cap tavern. The Bishop specifically requested someone of your... particular level of experience.",
+                text: "*adjusts robe importantly* I am far too busy with... important research. Yes! Research into advanced mycological phenomena that would be far too complex for a novice. Besides, I have a... prior engagement at the Fermented Cap tavern. The Council specifically requested someone of your... particular level of experience.",
                 options: [
                     { text: "You're just avoiding work, aren't you?", key: 'youre_just_avoiding_work_arent_you', next: 'avoiding' },
                     { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' },
@@ -123,7 +123,7 @@ export default class EntryScene extends GameScene {
             },
             farewell: {
                 hideCloseOption: true,
-                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences — some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's symbionts that you've probably only read about ever take an interest in you — best you know a little first. Well? Anything to ask before you go?",
+                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences — some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's symbionts that you've probably only read about ever take an interest in you — why not; they can open up possibilities you never imagined. But be careful. Well? Anything to ask before you go?",
                 options: [
                     { text: "Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
                     { text: "The spores — a different beast how?", key: 'the_spores_different_how', next: 'spores' },
@@ -269,7 +269,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             scraper1140: {
-                text: "It's a crooked skyscraper retrofitted into a vertical slum. Each floor houses a different caste, age, or species. I'm afraid I don't know much about it, but I would be careful around this place",
+                text: "It's a crooked skyscraper that has turned into a vertical slum. Each floor is said to house a different caste, all sorts of strange characters drift in there, and so on. I'm afraid I don't know much about it, but I would be careful around this place.",
                 options: [
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
                     { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },

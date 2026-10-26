@@ -23,14 +23,14 @@ export default {
         }
     },
     task: {
-        text: "Musíš najít Biskupku ve Vaječné katedrále. Možná ví něco o nouzovém signálu z města, který jsme zachytili skrz myceliální síť. Biskupka by měla být nejspíš ve Vaječné katedrále.",
+        text: "Musíš najít naši Biskupku, která zastupuje svatou církev Ur-houby ve městě. Možná ví něco o nouzovém signálu z města, který jsme zachytili skrz myceliální síť. Biskupka by měla být nejspíš ve Vaječné katedrále.",
         options: {
             wait_do_you_mean_the_task_you_have_been_given_by_t: "Moment, myslíte ten úkol, který jste dostal od Rady Nejvyššího Humenia? Jediný důvod, proč tady jsme? Proč nemůžeme jít za Biskupkou spolu?",
             tell_me_more_about_the_city_first: "Nejdřív mi řekněte víc o městě"
         }
     },
     whyNot: {
-        text: "*důležitě si upravuje hábit* Jsem příliš zaneprázdněn... důležitým výzkumem. Ano! Výzkumem pokročilých mykologických jevů, které by tvoje študácká hlava nepochopila. Kromě toho musím vyřešit... ještě jednu záležitost v hospodě U Kvašeného klobouku. Biskupka si výslovně vyžádala někoho na tvé... úrovni zkušeností.",
+        text: "*důležitě si upravuje hábit* Jsem příliš zaneprázdněn... důležitým výzkumem. Ano! Výzkumem pokročilých mykologických jevů, které by byly na adepta příliš složité. Kromě toho musím vyřešit... ještě jednu záležitost v hospodě U Kvašeného klobouku. Rada si výslovně vyžádala někoho na tvé... úrovni zkušeností.",
         options: {
             youre_just_avoiding_work_arent_you: "Vy se prostě jen vyhýbáte práci, co?",
             what_should_i_tell_the_bishop_when_i_find_her: "Co mám teda říct Biskupce, až ji najdu?",
@@ -54,7 +54,7 @@ export default {
         }
     },
     farewell: {
-        text: "Výborně! Vaječná katedrála je hned kousek na východ. A kdyby se někdo ptal, řekni, že se věnuji VELMI důležitému duchovnímu obřadu a nikdo mě nesmí rušit.\n\nAle než půjdeš, dej pozor ještě na pár věcí, učedníku. Tvé činy mají následky – některé nechají město růst, jiné hnít a rozpadat se, a obyvatelé města podle toho budou jednat i s tebou. A dávej pozor na spory tady nahoře: dosud jsi dýchal jen hustý, poslušný vzduch Obazobova chrámu, pod širým nebem se tvé spory mohou chovat trochu jinak. A kdyby o tebe někdy projevili zájem symbionti, o kterých jsi zatím nejspíš jen četl – bude lepší, když o nich něco víš. Tak co? Chceš se na něco zeptat, než vyrazíš?",
+        text: "Výborně! Vaječná katedrála je hned kousek na východ. A kdyby se někdo ptal, řekni, že se věnuji VELMI důležitému duchovnímu obřadu a nikdo mě nesmí rušit.\n\nAle než půjdeš, dej pozor ještě na pár věcí, učedníku. Tvé činy mají následky – některé nechají město růst, jiné hnít a rozpadat se, a obyvatelé města podle toho budou jednat i s tebou. A dávej pozor na spory tady nahoře: dosud jsi dýchal jen hustý, poslušný vzduch Obazobova chrámu, pod širým nebem se tvé spory mohou chovat trochu jinak. A kdyby o tebe někdy projevili zájem symbionti, o kterých jsi zatím nejspíš jen četl – proč ne, mohou ti poskytnout netušené možnosti, ale buď opatrný. Tak co? Chceš se na něco zeptat, než vyrazíš?",
         options: {
             wait_tell_me_more_about_the_growth_and_decay: "Řekněte mi víc o růstu a rozkladu.",
             the_spores_different_how: "Spory – jak jako se tu chovají jinak?",
@@ -166,7 +166,7 @@ export default {
         }
     },
     scraper1140: {
-        text: "Je to křivý mrakodrap přestavěný na vertikální slum. Každé patro prý obývá jiná kasta, věk nebo druh. Bohužel o tom moc nevím, ale na tohle místo bych si dával pozor.",
+        text: "Je to křivý mrakodrap, ze kterého se stal vertikální slum. Každé patro prý obývá jiná kasta, stahují se tam různé podivné existence a tak. Bohužel o tom moc nevím, ale na tohle místo bych si dával pozor.",
         options: {
             what_is_the_shed_512: "Co je Bouda 521?",
             what_is_the_scraper_1140: "Co je Škrabák 1140?",

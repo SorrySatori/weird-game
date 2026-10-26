@@ -56,7 +56,7 @@ export default class QuestLog {
 
     createQuestPanel() {
         this.questPanel = this.scene.add.container(this.scene.scale.width / 2, 280);
-        this.questPanel.setDepth(1000); // Increased to display over Spore bar
+        this.questPanel.setDepth(1001); // over the Spore bar (also 1000, but created after the quest log)
         this.questPanel.setScrollFactor(0);
         this.questPanel.visible = false;
         
@@ -146,10 +146,10 @@ export default class QuestLog {
         divider.lineBetween(-290, -200, 290, -200);
         
         // Create mask for scrollable content to prevent text leaking
-        // Position mask in world coordinates (questPanel is at 400, 280)
+        // Position mask in world coordinates (a geometry mask doesn't follow the container)
         const maskGraphics = this.scene.add.graphics();
         maskGraphics.fillStyle(0xffffff);
-        maskGraphics.fillRect(120, 90, 560, 430); // World coordinates: 400-280=120, 280-190=90
+        maskGraphics.fillRect(this.questPanel.x - 280, this.questPanel.y - 190, 560, 430);
         maskGraphics.setVisible(false); // Hide the mask graphics
         
         // Create quest content container with mask

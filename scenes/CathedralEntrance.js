@@ -13,6 +13,7 @@ export default class CathedralEntrance extends GameScene {
             templeGuardGreeting: {
         text: "Halt. The yolk sleeps uneasily today. Entry to the Egg Cathedral is… temporarily restricted.",
                 options: [
+                    { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
                     { text: "When will it open?", key: 'when_will_it_open', next: "templeGuardWhen" },
                     { text: "Why is it closed?", key: 'why_is_it_closed', next: "templeGuardWhy" },
                     { text: "Who are you?", key: 'who_are_you', next: "templeGuardWho" },
@@ -23,6 +24,7 @@ export default class CathedralEntrance extends GameScene {
             templeGuardAskSomethingElse: {
         text: "Is there anything else I can help you with?",
                 options: [
+                    { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
                     { text: "When will it open?", key: 'when_will_it_open', next: "templeGuardWhen" },
                     { text: "Why is it closed?", key: 'why_is_it_closed', next: "templeGuardWhy" },
                     { text: "Who are you?", key: 'who_are_you', next: "templeGuardWho" },
@@ -33,6 +35,7 @@ export default class CathedralEntrance extends GameScene {
             iAmFungalApprentice: {
         text: "(Tilts head) Even fungus-born clergy must heed the pulses. The Cathedral breathes its own rhythm. You must attune.",
                 options: [
+                    { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ]
             },
@@ -62,7 +65,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             bishop_info: {
-        text: "Probably at the Voxmarket, or around Shed 521. Look for the door that doesn’t open — until it does.",
+        text: "She's not inside, if that's what you're hoping. She hasn't passed through this gate in many digestions. Probably at the Voxmarket, or around Shed 521. Look for the door that doesn’t open — until it does.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: "templeGuardVoxmarket"},
@@ -517,12 +520,36 @@ export default class CathedralEntrance extends GameScene {
             }
         }
 
+        // First meeting: the guard goes into the People tab
+        if (dialogKey === 'templeGuardGreeting' && !this.hasJournalEntry('temple_guard_meeting')) {
+            this.addJournalEntry(
+                'temple_guard_meeting',
+                'The Temple Guard',
+                "At the gate of the Egg Cathedral stands a guard who lets no one in. The cathedral is closed until further notice — the yolk, he says, sleeps uneasily.",
+                this.journalSystem.categories.PEOPLE,
+                { character: 'Temple Guard', location: 'Egg Cathedral' }
+            );
+        }
+
         // Handle quest updates
-        if (dialogKey === 'bishop_info' && !this.questSystem.getQuest('find_bishop')) {
-            this.questSystem.addQuest(
+        if (dialogKey === 'templeGuardGreeting' && this.questSystem.getQuest('find_bishop')) {
+            this.questSystem.updateQuest(
                 'find_bishop',
-                'Find the Bishop',
-                'The temple guard mentioned that the Bishop might help me gain access to the cathedral. I should seek her out.'
+                'The Egg Cathedral is closed and the guard at the gate lets no one in. He might know where to find the Bishop.',
+                'guard_cathedral_closed'
+            );
+        } else if (dialogKey === 'bishop_info') {
+            if (!this.questSystem.getQuest('find_bishop')) {
+                this.questSystem.addQuest(
+                    'find_bishop',
+                    'Find the Bishop',
+                    'The temple guard mentioned that the Bishop might help me gain access to the cathedral. I should seek her out.'
+                );
+            }
+            this.questSystem.updateQuest(
+                'find_bishop',
+                "According to the guard, the Bishop isn't in the cathedral. I'll have to look for her around the city — most likely at the Voxmarket or around Shed 521.",
+                'guard_bishop_not_inside'
             );
         } else if (dialogKey === 'templeGuardVoxmarket' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(

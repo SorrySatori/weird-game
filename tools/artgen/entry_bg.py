@@ -137,28 +137,42 @@ def greenery(L, R):
                 L.put(x, yy, R.moss[2] if k % 3 else R.moss[1])
 
 
+CATHEDRAL = ['    ###    ',                                                         # 11 wide, centred on cx: the egg
+             '   #####   ',                                                         # seated in its spired base
+             '   #####   ',
+             '  #######  ',
+             '  #######  ',
+             '# ####### #',
+             '# ####### #',
+             '## ##### ##',
+             '##  ###  ##',
+             '###########',
+             '###########']
+
+
 def signpost(L, R):
-    """a crooked wooden post by the balustrade, a board painted with an egg and an arrow toward the Cathedral"""
+    """a crooked wooden post by the balustrade, a board painted with the Cathedral (the egg seated in its spired
+    base, as on the skyline) and an arrow toward it"""
     sx, sz = 25.0, 19.5
     base, top = proj(sx, 0, sz), proj(sx, 7.0, sz)
     for y in range(int(top[1]), int(base[1]) + 1):
         lean = int((base[1] - y) * 0.05)
         L.put(base[0] + lean - 1, y, R.wood[3]); L.put(base[0] + lean, y, R.wood[2]); L.put(base[0] + lean + 1, y, R.wood[0])
     bx0, by0 = int(base[0]) - 9, int(proj(sx, 6.6, sz)[1])
-    BW, BH = 24, 11
+    BW, BH = 24, 13
     for y in range(by0, by0 + BH):
         for x in range(bx0, bx0 + BW):
             edge = y in (by0, by0 + BH - 1) or x in (bx0, bx0 + BW - 1)
             L.put(x, y, R.wood[0] if edge else R.wood[3 if (y - by0) % 4 else 2])
     for k in range(1, 6):                                                           # the pointed end
         for y in range(by0 + k, by0 + BH - k): L.put(bx0 + BW - 1 + k, y, R.wood[2 if k < 5 else 0])
-    ex, ey = bx0 + 6, by0 + 5                                                       # the egg, painted
-    for dy in range(-4, 5):
-        for dx in range(-3, 4):
-            if (dx / 3.1) ** 2 + ((dy + (0.6 if dy < 0 else 0)) / 4.4) ** 2 <= 1.0: L.put(ex + dx, ey + dy, R.paint)
-    for dy in range(-1, 4): L.put(ex - 2, ey + dy, R.wood[3])                      # a painted shadow on its side
-    for k in range(7): L.put(ex + 6 + k, ey, R.paint)                               # the arrow
-    for k in (1, 2): L.put(ex + 12 - k, ey - k, R.paint); L.put(ex + 12 - k, ey + k, R.paint)
+    cx = bx0 + 7                                                                    # the Cathedral, painted
+    for r, row in enumerate(CATHEDRAL):
+        for k, ch in enumerate(row):
+            if ch == '#': L.put(cx - 5 + k, by0 + 1 + r, R.paint)
+    ey = by0 + 6
+    for k in range(6): L.put(cx + 7 + k, ey, R.paint)                               # the arrow
+    for k in (1, 2): L.put(cx + 12 - k, ey - k, R.paint); L.put(cx + 12 - k, ey + k, R.paint)
     for k in range(5):
         L.put(base[0] - 2 + k, base[1], R.moss[2]); L.put(base[0] - 1 + k % 3, base[1] - 1, R.moss[3])
 

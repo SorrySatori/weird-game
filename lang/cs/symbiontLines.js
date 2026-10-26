@@ -145,8 +145,8 @@ export default {
         // Thorne-Still's own remarks (getRandomMessage)
         "In the spaces between reality, truth flows like mercury...":
             "V mezerách mezi realitami teče pravda jako rtuť...",
-        "Flesh is just wet soil for the next thing":
-            "Maso je jen vlhká hlína pro to, co přijde potom.",
+        "Flesh is just wet soil, ready for burial.":
+            "Maso je jen vlhká hlína nachystaná na pohřeb.",
         "I see the threads that bind this world together...":
             "Vidím nitky, které tenhle svět drží pohromadě...",
         "The void whispers secrets to those who listen...":

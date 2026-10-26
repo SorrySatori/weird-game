@@ -397,7 +397,7 @@ export default class SymbiontSystem {
         if (symbiontId === 'thorne-still' && Math.random() < 0.1) {
             const messages = [
                 "In the spaces between reality, truth flows like mercury...",
-                "Flesh is just wet soil for the next thing",
+                "Flesh is just wet soil, ready for burial.",
                 "I see the threads that bind this world together...",
                 "The void whispers secrets to those who listen...",
                 "Hold still. I'm aligning your inner moss...",

@@ -3,6 +3,10 @@
  */
 export default {
     journal: {
+        temple_guard_meeting: {
+            title: 'Chrámový strážce',
+            description: 'U brány Vaječné katedrály stojí strážce, který nikoho nepustí dovnitř. Katedrála je až do odvolání zavřená – žloutek prý spí neklidně.',
+        },
         learned_digestions: {
             title: 'Počítání v tráveních',
             description: 'Strážce u Vaječné katedrály počítá čas v tráveních Žaludečních hodin – na svém postu jich odstál tři tisíce. Město přestalo počítat roky, když zemřel Počtář. Jedno trávení trvá o něco déle než den a proti slunci se pomalu posouvá; šest jich dá týden, tři sta rok.',

@@ -10,6 +10,7 @@ export default {
     templeGuardGreeting: {
         text: "Stůj. Žloutek dnes spí neklidně. Vstup do Vaječné katedrály je… dočasně omezen.",
         options: {
+            where_can_i_find_the_bishop: "Kde najdu Biskupku?",
             when_will_it_open: "Kdy bude otevřeno?",
             why_is_it_closed: "Proč je zavřeno?",
             who_are_you: "Kdo jste?",
@@ -20,6 +21,7 @@ export default {
     templeGuardAskSomethingElse: {
         text: "Mohu ti ještě s něčím pomoci?",
         options: {
+            where_can_i_find_the_bishop: "Kde najdu Biskupku?",
             when_will_it_open: "Kdy se otevře?",
             why_is_it_closed: "Proč je zavřeno?",
             who_are_you: "Kdo jste?",
@@ -30,6 +32,7 @@ export default {
     iAmFungalApprentice: {
         text: "(Nakloní hlavu) I duchovenstvo zrozené z podhoubí musí respektovat pulzy. Katedrála dýchá svým vlastním rytmem. Musíš se naladit.",
         options: {
+            where_can_i_find_the_bishop: "Kde najdu Biskupku?",
             ask_something_else: "Zeptej se na něco jiného"
         }
     },
@@ -57,7 +60,7 @@ export default {
         }
     },
     bishop_info: {
-        text: "Pravděpodobně na Voxmarketu nebo poblíž Boudy 521. Hledej dveře, které jsou zavřené – dokud se neotevřou.",
+        text: "Uvnitř není, jestli v to doufáš. Touhle branou neprošla už spoustu trávení. Pravděpodobně na Voxmarketu nebo poblíž Boudy 521. Hledej dveře, které jsou zavřené – dokud se neotevřou.",
         options: {
             ask_something_else: "Zeptej se na něco jiného",
             what_is_the_voxmarket: "Co je Voxmarket?",
