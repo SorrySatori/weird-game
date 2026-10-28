@@ -1310,7 +1310,7 @@ export default class GameScene extends Phaser.Scene {
 
         // Show notification if entry was added successfully
         if (result) {
-            this.showNotification('Journal updated');
+            this.showNotification(this.t('notifications.journalUpdated'));
         }
 
         return result;
@@ -1335,7 +1335,7 @@ export default class GameScene extends Phaser.Scene {
         if (!this.journalSystem) return false;
         const result = this.journalSystem.addFact(id, factId, text);
         if (result && this.journalSystem.hasEntry(id)) {
-            this.showNotification('Journal updated');
+            this.showNotification(this.t('notifications.journalUpdated'));
         }
         return result;
     }

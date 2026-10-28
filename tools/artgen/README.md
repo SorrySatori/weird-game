@@ -402,3 +402,25 @@ In the scenes: new texture keys `captainLiris` (sheet), `ortolanIdle` / `ortolan
 stays loaded for ScraperAmbra's cutscene panels); all at scale 1, origin bottom, anims `liris_idle`, `ortolan_idle`,
 `ortolan4_idle`, `elphi_idle` (4 fps, frames repeated for timing); hover = a preFX glow, never scaling; the old bobbing /
 tilting tweens and green glow discs are gone. Liris has a 2x bust portrait (EN "Captain Liris" + CZ "Kapitánka Liris").
+
+## Fast-travel map (ui/MapUI.js, texture `mapBg`)
+`map_bg.py` draws the map at a native 400×300 (MapUI shows it 2× with hard pixels — the game runs with `pixelArt: true`).
+Node `x,y` in MapUI (800×600 panel, centre 0,0) is pixel `((x + 400) / 2, (y + 300) / 2)` here: each landmark stands
+`LIFT[k]` px above its node so MapUI's circle marks its doorstep, the label zone under every node stays free of filler,
+and the roads (`ROADS`) mirror `MapUI.connections` — MapUI draws no straight lines over the art. One node per place:
+rooms and floors inside it (Dr. Elphi's studio + the Rust Domain in the Scraper, the whole Shed 521 compound, …) are in
+the location's `inside` list in MapUI, have no landmark of their own and show "you are here" on the building. Places
+the player hasn't visited get no marker and no label (the building is still drawn). **Moving a node = change it in both
+`N` here and `locations` in MapUI.js.** Palette `map.gpl` (a copy is kept here; install with
+`cp map.gpl ~/.config/aseprite/palettes/`).
+```
+python3 map_bg.py <outdir>       # -> map.png, map.gpl, layers/<name>.png, map_preview.png (4x)
+# build the Aseprite source (OVERWRITES assets/aseprite/UI_Map_400x300.aseprite, incl. its UPRAVY layer):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/map.gpl --script tools/artgen/map_aseprite.lua
+# export into the game (merges UPRAVY, skips the hidden guides) -- run this after hand edits in Aseprite:
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui --script tools/artgen/map_export.lua
+```
+Layers: ground, water, roads, shadows, forests + town, landmarks, lights, **UPRAVY - kresli sem** (under the vignette, so
+hand edits get the same edge shading), vignette (translucent black), frame; `VODITKA … (neexportovat)` is hidden: red
+rings = MapUI node circles, cyan boxes = their labels, yellow lines = title band / legend band.

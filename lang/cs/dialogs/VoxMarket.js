@@ -14,6 +14,7 @@ export default {
             i_want_to_sell_you_some_spores: "Chci vám prodat nějaké spory.",
             do_you_know_anything_about_the_bishop: "Víte něco o Biskupce?",
             about_those_vestigels: "O Vestigelech...",
+            i_have_a_vestigel_for_you: "Mám pro vás vestigel.",
             can_you_help_me_to_get_to_rust_choir_headquarters: "Můžete mi pomoct dostat se do centrály Rezavého chóru?",
             i_need_your_expertise_on_some_sulkberries: "Potřebuji vaši expertízu ohledně mručenek."
         }

@@ -12,6 +12,7 @@ export default {
         text: "Výtah se otřese a odkudsi z jeho útrob se line hlas – teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
+            take_me_to_177_quiet: "Vezmi mě na 177-Tiché.",
             corrode: "Koroduj.",
             descend_to_cellar: "Vezmi mě dolů do zapečetěného sklepa.",
             seam_scraper_deadfloors: "[Smysl pro švy] Zapečetěná mrtvá patra – nahmatej cestu dovnitř.",
@@ -73,7 +74,7 @@ export default {
         }
     },
     fail: {
-        text: "Klepeš prázdnýma rukama. Patro 177-Tiché mlčí dál.",
+        // text: composed in ScraperInteriorScene (Lift-Mother's hints at the ways up)
         options: {
             ill_find_another_way: "Najdu jinou cestu."
         }

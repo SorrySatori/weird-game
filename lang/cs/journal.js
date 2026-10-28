@@ -547,6 +547,7 @@ export default {
                 dreams: "Navrhuje sny: neurofikci, snovou architekturu.",
                 bishop_visits: "Biskupka za ní chodila často, vždycky jen hrát, nikdy kvůli politice.",
                 dream_stock: "Surový snový materiál je její živnost: nahrává sny spících lidí a za ty barvité dobře platí.",
+                skyship_game: "Staví ohromnou vzducholoď do nové hry, jenže jejím imaginátorům se do snění pořád cpe obří slepice, konspirující zelí a čokoládové kočky.",
             },
         },
         met_ravla: {

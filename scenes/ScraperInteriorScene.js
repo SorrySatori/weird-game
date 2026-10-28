@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import LanguageSystem from '../systems/LanguageSystem.js';
 
 export default class ScraperInteriorScene extends GameScene {
     constructor() {
@@ -14,13 +15,38 @@ export default class ScraperInteriorScene extends GameScene {
         
         // Check quest completion status for dialog conditions
         const questSystem = this.registry.get('questSystem');
-        const rustQuestCompleted = questSystem?.getQuest('rust_reclamation')?.isComplete;
-        const vestigelQuestCompleted = questSystem?.getQuest('the_three_vestigels')?.isComplete;
+        // What Gnur and Kloor told about the Bishop going to Dr. Elphi. Gnur's quest also "completes" when you
+        // refuse him -- then he told you nothing, so only the delivery counts.
+        const rustQuest = questSystem?.getQuest('rust_reclamation');
+        const vestigelQuest = questSystem?.getQuest('the_three_vestigels');
+        const rustQuestCompleted = !!rustQuest?.updates?.some(u => u.key === 'core_delivered');
+        const vestigelQuestCompleted = !!vestigelQuest?.isComplete;
         const hasElphiBishopInfo = rustQuestCompleted || vestigelQuestCompleted;
+        // Once let up, the lift just takes you there (the map has no node of its own for floor 177-Quiet any more)
+        const elphiFloorOpen = !!this.hasJournalEntry('accessed_elphi_floor');
         
         // Check inventory for special items
         const hasElevatorButton = this.hasItem('forgotten_elevator_button');
         const hasLirisPart = this.registry.get('fixed_floor_counter') === true;
+
+        // Turned away at 177-Quiet: the Lift-Mother hints at every way up the player doesn't have yet, and each hint
+        // goes into the level_177_access quest log. Localized here (the cs file can't compose the parts).
+        const cs = LanguageSystem.getInstance?.().getLanguage?.() === 'cs';
+        const elphiHints = [
+            !hasLirisPart && 'counter',
+            !hasElevatorButton && 'button',
+            !(rustQuestCompleted && vestigelQuestCompleted) && 'importance'
+        ].filter(Boolean);
+        const HINT_TEXT = {
+            intro: cs ? "Pravidla jsou pravidla, malá muchomůrko. Jenže já nejsem jen z pravidel."
+                      : "Rules are rules, little toadstool. But I am not made of rules alone.",
+            counter: cs ? "Počítadlo pater mi nefunguje od nepaměti. Kdo by mi ho spravil, tomu bych byla zavázaná. Lidé z oblohy se v takových strojích vyznají."
+                        : "My floor counter has been broken since time out of mind. Whoever mended it, I would owe them a favour. Sky folk understand such machines.",
+            button: cs ? "A léta mi chybí jeden knoflík. Takové věci končí na Voxmarketu – tam prodávají všechno."
+                       : "And I have been missing a button for years. Things like that end up at the Voxmarket. They sell everything there.",
+            importance: cs ? "Nebo mě přesvědč, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují – to už je něco jiného."
+                           : "Or convince me it truly is a matter of importance. One story about the Bishop is gossip. Two that agree are another matter."
+        };
         const hasRustPassword = !!(questSystem?.getQuest('rust_feast')?.isComplete);
 
         // Sealed cellar (Ortolan & Elphi's old lab). The lift wants a passphrase = a dead
@@ -50,7 +76,9 @@ export default class ScraperInteriorScene extends GameScene {
             lift_mother_start: {
                 text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little toadstool. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [
-                    ...(hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", key: 'i_need_to_reach_dr_elphis_floor', next: "lift_mother_elphi_floor" }] : []),
+                    ...(elphiFloorOpen
+                        ? [{ text: "Take me to 177-Quiet.", key: 'take_me_to_177_quiet', next: "goto_elphi_floor" }]
+                        : hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", key: 'i_need_to_reach_dr_elphis_floor', next: "lift_mother_elphi_floor" }] : []),
                     ...(hasRustPassword ? [{ text: "Corrode.", key: 'corrode', next: "lift_mother_corrode" }] : []),
                     ...(cellarQuestStarted ? [{ text: cellarPasswordKnown ? "Take me down to the old cellar." : "Take me down to the sealed cellar.", key: 'descend_to_cellar', next: cellarPasswordKnown ? "goto_scraper_cellar" : "lift_mother_cellar_prompt" }] : []),
                     ...(hasPalinode && !deadFloorOpened ? [{ text: "[Seam-Sense] The sealed dead floors — feel for a way in.", key: 'seam_scraper_deadfloors', next: "seam_scraper_prompt" }] : []),
@@ -187,14 +215,31 @@ export default class ScraperInteriorScene extends GameScene {
             },
             
             fail: {
-                text: "You knock with empty hands. Level 177-Quiet remains silent.",
+                text: elphiHints.length
+                    ? HINT_TEXT.intro + ' ' + elphiHints.map(h => HINT_TEXT[h]).join('\n\n')
+                    : (cs ? "Klepeš prázdnýma rukama. Patro 177-Tiché mlčí dál." : "You knock with empty hands. Level 177-Quiet remains silent."),
                 options: [
                     {
                         text: "I'll find another way.",
                         key: 'ill_find_another_way',
                         next: "lift_mother_start"
                     }
-                ]
+                ],
+                onTrigger: () => {
+                    if (!questSystem?.getQuest('level_177_access') || this.hasJournalEntry('accessed_elphi_floor')) return;
+                    const IMPORTANCE = "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter.";
+                    const HINTS = {
+                        counter: ['hint_floor_counter', "The Lift-Mother's floor counter is broken. If I got it mended, she'd owe me a favour. She says sky folk understand such machines."],
+                        button: ['hint_lost_button', "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says."],
+                        // name the source the player can still hear the story from, if they know of one
+                        importance: vestigelQuestCompleted && rustQuest && !rustQuest.isComplete
+                            ? ['hint_importance_gnur', IMPORTANCE + " Gnur promised to remember something about the Bishop once I bring him that core."]
+                            : rustQuestCompleted && vestigelQuest && !vestigelQuest.isComplete
+                                ? ['hint_importance_kloor', IMPORTANCE + " Kloor Venn will tell me what he knows about the Bishop in exchange for a vestigel."]
+                                : ['hint_importance', IMPORTANCE + " Someone else in the city might know where the Bishop went."]
+                    };
+                    for (const h of elphiHints) questSystem.updateQuest('level_177_access', HINTS[h][1], HINTS[h][0]);
+                }
             },
             
             unlock_floor: {
@@ -460,6 +505,11 @@ export default class ScraperInteriorScene extends GameScene {
         const bg = this.add.image(400, 300, 'scraperInteriorBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // Lift-Mother's dialog portrait: her doors (arch, lights, the face) cut straight out of the background — a
+        // 126x126 frame of the same texture, shown 1:1 in the 150x170 portrait plate
+        const bgTex = this.textures.get('scraperInteriorBg');
+        if (!bgTex.has('liftMotherFace')) bgTex.add('liftMotherFace', 0, 447, 268, 126, 126);
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Lift-Mother': { key: 'scraperInteriorBg', frame: 'liftMotherFace' } };
         // The background paints its own marble floor; the generic ground strip would cover it.
         if (this.ground) {
             this.ground.destroy();

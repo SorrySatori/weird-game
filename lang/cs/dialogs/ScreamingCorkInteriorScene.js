@@ -269,7 +269,7 @@ export default {
         }
     },
     heliodor_noise: {
-        text: "*Několik Heliodorových tváří sebou naráz cukne.* „To je Feral Toast. Zkoušejí vzadu v klubu na večerní koncert. Sami tomu říkají ultranoise futurepunk, my tomu říkáme důvod, proč nám sklenice pořád utíkají z polic. Klidně se běžte podívat, dveře jsou vzadu.“",
+        text: "*Několik Heliodorových tváří sebou naráz cukne.* „To je Feral Toast. Zkoušejí vzadu v klubu na večerní koncert. Sami tomu říkají ultranoise futurepunk, my tomu říkáme důvod, proč nám sklenice pořád padají z polic. Klidně se běžte podívat, dveře jsou vzadu.“",
         options: {
             back: "Zeptej se na něco jiného"
         }

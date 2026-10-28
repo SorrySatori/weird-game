@@ -19,31 +19,38 @@ export default class MapUI {
         this.markVisited(this.scene.scene.key);
 
         // Map location definitions — x,y are relative to container center (0,0)
-        // Container is at (400,300) so these map onto an 800x600 canvas
+        // Container is at (400,300) so these map onto an 800x600 canvas.
+        // One node per place on the map: `inside` lists the scenes within it (floors, rooms, the yard), which count as
+        // a visit and show "you are here" there; fast travel always goes to `key`, the way in.
+        // The pixel art (tools/artgen/map_bg.py, N) draws every landmark just above these coordinates — keep them in sync.
         this.locations = [
             // --- Upper cluster ---
-            { key: 'SkyshipBoardScene',        name: 'Skyship Verdigrace', x: 0,    y: -230 },
+            { key: 'SkyshipBoardScene',        name: 'Skyship Verdigrace', x: 0,    y: -195 },
             { key: 'CrossroadScene',           name: 'Crossroads',        x: 0,    y: -120 },
-            { key: 'EggCatedralScene',         name: 'Egg Cathedral',     x: 120,  y: -50 },
-            { key: 'VoxMarket',                name: 'Voxmarket',         x: 230,  y: -120 },
+            { key: 'EggCatedralScene',         name: 'Egg Cathedral',     x: 120,  y: -50,
+              inside: ['CathedralEntrance', 'EggCathedralInteriorScene', 'EggCathedralStudyScene'] },
+            { key: 'VoxMarket',                name: 'Voxmarket',         x: 230,  y: -120,
+              inside: ['VoxmarketMarketScene', 'VoxmarketHallScene'] },
 
-            // --- Scraper cluster ---
-            { key: 'ScraperScene',             name: 'Scraper 1140',      x: 0,    y: -10 },
-            { key: 'ScraperAmbraScene',        name: 'Dr. Elphi\'s Studio', x: -100, y: 50 },
-            { key: 'RustDomainScene',          name: 'Rust Domain',       x: 100,  y: 50 },
+            // --- Scraper cluster --- (Dr. Elphi's studio and the Rust Domain are floors of the tower)
+            { key: 'ScraperScene',             name: 'Scraper 1140',      x: 0,    y: 20,
+              inside: ['ScraperInteriorScene', 'ScraperAmbraScene', 'RustDomainScene', 'ScraperCellarScene', 'ScraperBackyardScene'] },
             { key: 'AbandonedBusScene',        name: 'Abandoned Bus',     x: 190,  y: 10 },
 
-            // --- Shed 521 cluster ---
-            { key: 'Shed521Scene',             name: 'Shed 521',          x: -230, y: -120 },
-            { key: 'ShedCourtyard',             name: 'Shed Courtyard',    x: -280, y: 0 },
-            { key: 'ShedHallScene',            name: 'Shed Hall',         x: -310, y: 80 },
+            // --- Shed 521: one walled compound ---
+            { key: 'Shed521Scene',             name: 'Shed 521',          x: -240, y: -70,
+              inside: ['Shed521GateScene', 'ShedCourtyard', 'ShedHallScene', 'ShedRegistrationScene', 'ShedApplicationsScene',
+                       'Shed521FloorsScene', 'ShedAbandonedOfficeScene'] },
 
             // --- Town cluster ---
             { key: 'TownSquareScene',          name: 'Town Square',       x: -100, y: 140 },
-            { key: 'TownhallScene',            name: 'Townhall',          x: -100, y: 210 },
-            { key: 'LumenDirectorateScene',    name: 'Lumen Directorate', x: -220, y: 160 },
+            { key: 'TownhallScene',            name: 'Townhall',          x: -100, y: 210,
+              inside: ['TownhallInteriorScene', 'PithReclaimersRoomScene'] },
+            { key: 'LumenDirectorateScene',    name: 'Lumen Directorate', x: -220, y: 160,
+              inside: ['LumenDirectorateInteriorScene'] },
             { key: 'BurningBearStreetScene',   name: 'Burning Bear St.',  x: 20,   y: 210 },
-            { key: 'ScreamingCorkScene',       name: 'Screaming Cork',    x: 160,  y: 210 },
+            { key: 'ScreamingCorkScene',       name: 'Screaming Cork',    x: 160,  y: 210,
+              inside: ['ScreamingCorkInteriorScene', 'ScreamingCorkClubScene'] },
 
             // --- Harbor cluster ---
             { key: 'HarborScene',              name: 'Harbor',            x: 80,   y: 140 },
@@ -58,11 +65,7 @@ export default class MapUI {
             ['CrossroadScene', 'Shed521Scene'],
             ['CrossroadScene', 'EggCatedralScene'],
             ['CrossroadScene', 'ScraperScene'],
-            ['ScraperScene', 'ScraperAmbraScene'],
-            ['ScraperScene', 'RustDomainScene'],
             ['ScraperScene', 'AbandonedBusScene'],
-            ['Shed521Scene', 'ShedCourtyard'],
-            ['ShedCourtyard', 'ShedHallScene'],
             ['TownSquareScene', 'TownhallScene'],
             ['TownSquareScene', 'HarborScene'],
             ['TownSquareScene', 'LumenDirectorateScene'],
@@ -87,7 +90,12 @@ export default class MapUI {
 
     isVisited(sceneKey) {
         const visited = this.scene.registry.get('visitedScenes') || [];
-        return visited.includes(sceneKey);
+        const loc = this.locations.find(l => l.key === sceneKey);
+        return [sceneKey, ...(loc?.inside || [])].some(k => visited.includes(k));
+    }
+
+    isHere(loc, sceneKey) {
+        return loc.key === sceneKey || !!loc.inside?.includes(sceneKey);
     }
 
     createUI() {
@@ -103,7 +111,10 @@ export default class MapUI {
         this.container.add(bg);
 
         // Map artwork — aligns with the node coordinates below. Sits behind lines/nodes/labels.
-        if (this.scene.textures.exists('mapBg')) {
+        // Pixel art (tools/artgen/map_bg.py): its roads already follow this.connections and each
+        // landmark stands just above its node, so the straight lines and corner fungi are skipped.
+        this.hasMapArt = this.scene.textures.exists('mapBg');
+        if (this.hasMapArt) {
             const mapImage = this.scene.add.image(0, 0, 'mapBg');
             mapImage.setDisplaySize(800, 600);
             this.container.add(mapImage);
@@ -120,6 +131,8 @@ export default class MapUI {
             fontSize: '28px',
             fontFamily: 'Georgia',
             color: '#7fff8e',
+            stroke: '#0a0d08',
+            strokeThickness: 4,
             align: 'center'
         }).setOrigin(0.5);
         this.container.add(title);
@@ -128,6 +141,8 @@ export default class MapUI {
             fontSize: '14px',
             fontFamily: 'Georgia',
             color: '#4a9e5c',
+            stroke: '#0a0d08',
+            strokeThickness: 3,
             align: 'center'
         }).setOrigin(0.5);
         this.container.add(subtitle);
@@ -143,11 +158,13 @@ export default class MapUI {
         closeBtn.on('pointerdown', () => this.toggle());
         this.container.add(closeBtn);
 
-        // Fungal corner decorations
-        this.addCornerDecoration(-380, -280);
-        this.addCornerDecoration(360, -280);
-        this.addCornerDecoration(-380, 270);
-        this.addCornerDecoration(360, 270);
+        // Fungal corner decorations (the pixel map has its own riveted frame)
+        if (!this.hasMapArt) {
+            this.addCornerDecoration(-380, -280);
+            this.addCornerDecoration(360, -280);
+            this.addCornerDecoration(-380, 270);
+            this.addCornerDecoration(360, 270);
+        }
 
         // Draw connection lines
         this.linesGraphics = this.scene.add.graphics();
@@ -157,25 +174,21 @@ export default class MapUI {
         this.nodeObjects = [];
         this.drawMap();
 
-        // Legend
+        // Legend (undiscovered places get no marker at all, so they need no legend entry)
         const legendY = 260;
-        const visitedDot = this.scene.add.circle(-100, legendY, 5, 0x7fff8e);
-        const visitedLabel = this.scene.add.text(-90, legendY, this.lang.t('ui.mapVisited'), {
-            fontSize: '12px', fontFamily: 'Georgia', color: '#7fff8e'
+        const visitedDot = this.scene.add.circle(-80, legendY, 5, 0x7fff8e).setStrokeStyle(2, 0x0a0d08);
+        const visitedLabel = this.scene.add.text(-70, legendY, this.lang.t('ui.mapVisited'), {
+            fontSize: '12px', fontFamily: 'Georgia', color: '#7fff8e', stroke: '#0a0d08', strokeThickness: 3
         }).setOrigin(0, 0.5);
-        const unvisitedDot = this.scene.add.circle(0, legendY, 5, 0x333333);
-        const unvisitedLabel = this.scene.add.text(10, legendY, this.lang.t('ui.mapUndiscovered'), {
-            fontSize: '12px', fontFamily: 'Georgia', color: '#555555'
+        const currentDot = this.scene.add.circle(30, legendY, 5, 0xffd700).setStrokeStyle(2, 0x0a0d08);
+        const currentLabel = this.scene.add.text(40, legendY, this.lang.t('ui.mapYouAreHere'), {
+            fontSize: '12px', fontFamily: 'Georgia', color: '#ffd700', stroke: '#0a0d08', strokeThickness: 3
         }).setOrigin(0, 0.5);
-        const currentDot = this.scene.add.circle(120, legendY, 5, 0xffd700);
-        const currentLabel = this.scene.add.text(130, legendY, this.lang.t('ui.mapYouAreHere'), {
-            fontSize: '12px', fontFamily: 'Georgia', color: '#ffd700'
-        }).setOrigin(0, 0.5);
-        this.container.add([visitedDot, visitedLabel, unvisitedDot, unvisitedLabel, currentDot, currentLabel]);
+        this.container.add([visitedDot, visitedLabel, currentDot, currentLabel]);
 
         // Hint text
         const hint = this.scene.add.text(0, 280, this.lang.t('ui.mapHint'), {
-            fontSize: '11px', fontFamily: 'Georgia', color: '#4a9e5c', align: 'center'
+            fontSize: '11px', fontFamily: 'Georgia', color: '#4a9e5c', stroke: '#0a0d08', strokeThickness: 3, align: 'center'
         }).setOrigin(0.5);
         this.container.add(hint);
     }
@@ -201,44 +214,33 @@ export default class MapUI {
         const currentScene = this.scene.scene.key;
         const locMap = new Map(this.locations.map(l => [l.key, l]));
 
-        // Draw connection lines
-        for (const [a, b] of this.connections) {
+        // Draw connection lines (only over the plain backdrop; the map art draws the roads)
+        for (const [a, b] of this.hasMapArt ? [] : this.connections) {
             const la = locMap.get(a);
             const lb = locMap.get(b);
             if (!la || !lb) continue;
 
-            const aVisited = this.isVisited(a);
-            const bVisited = this.isVisited(b);
-
-            if (aVisited && bVisited) {
-                this.linesGraphics.lineStyle(1.5, 0x2a623d, 0.7);
-            } else {
-                this.linesGraphics.lineStyle(1, 0x1a1a1a, 0.4);
-            }
+            // a road to an undiscovered place would give it away
+            if (!this.isVisited(a) || !this.isVisited(b)) continue;
+            this.linesGraphics.lineStyle(1.5, 0x2a623d, 0.7);
             this.linesGraphics.beginPath();
             this.linesGraphics.moveTo(la.x, la.y);
             this.linesGraphics.lineTo(lb.x, lb.y);
             this.linesGraphics.strokePath();
         }
 
-        // Draw location nodes
+        // Draw location nodes — only where the player has been: an undiscovered place is just part of the drawing
         for (const loc of this.locations) {
             const visited = this.isVisited(loc.key);
-            const isCurrent = loc.key === currentScene;
+            const isCurrent = this.isHere(loc, currentScene);
+            if (!visited && !isCurrent) continue;
 
             // Node circle
             const radius = isCurrent ? 10 : 7;
-            let color;
-            if (isCurrent) {
-                color = 0xffd700;
-            } else if (visited) {
-                color = 0x7fff8e;
-            } else {
-                color = 0x333333;
-            }
+            const color = isCurrent ? 0xffd700 : 0x7fff8e;
 
             const circle = this.scene.add.circle(loc.x, loc.y, radius, color);
-            circle.setAlpha(visited || isCurrent ? 1 : 0.4);
+            circle.setStrokeStyle(2, 0x0a0d08);
             this.container.add(circle);
             this.nodeObjects.push(circle);
 
@@ -259,11 +261,13 @@ export default class MapUI {
             }
 
             // Label
-            const labelColor = isCurrent ? '#ffd700' : visited ? '#7fff8e' : '#555555';
+            const labelColor = isCurrent ? '#ffd700' : '#7fff8e';
             const label = this.scene.add.text(loc.x, loc.y + (radius + 8), this.lang.t(`locations.${loc.key}`) || loc.name, {
                 fontSize: '10px',
                 fontFamily: 'Georgia',
                 color: labelColor,
+                stroke: '#0a0d08',
+                strokeThickness: 3,
                 align: 'center'
             }).setOrigin(0.5, 0);
             this.container.add(label);

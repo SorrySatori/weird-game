@@ -13,10 +13,11 @@ export default {
             after_feast: "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Vaječná katedrála, tedy. Tam vás to poslalo.",
             after_feast_no_lead: "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Tak povídejte. Kde vás to nechalo?",
             bishop_dead: "Jste zpět. Vidím vám to na obličeji. Něco se jí stalo, že?",
+            lead_given: "Už zpátky? Dvorek nikam neutekl. Nebo jste se přišel podívat na moje helmy?",
             default: "Hm. Nejste objednaný. Ani označený. Budu hádat – někdo chce neurální ladění, konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
         },
         options: {
-            report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil.",
+            report_day1_investigation: "Povím vám všechno, co jsem dnes zjistil.",
             load_bishops_last_session: "Nahrát Biskupčinu poslední relaci.",
             the_game_told_me_where: "Ta hra mi řekla, kde je deník.",
             it_ended_in_a_loop: "Skončilo to smyčkou. A titulkem: „Infinite Fold.“",
@@ -26,7 +27,26 @@ export default {
             i_heard_you_design_dreambased_games: "Slyšel jsem, že navrhujete hry založené na snech.",
             ill_explain_if_you_stop_testing_me: "Vysvětlím vám to, když přestanete hádat.",
             the_bishop_is_dead_i_found_her_body_in_the_backyar: "Biskupka je mrtvá. Našel jsem její tělo na dvorku.",
-            i_need_your_expertise_i_found_some_clues: "Potřebuji vaši odbornost. Našel jsem nějaké stopy."
+            i_need_your_expertise_i_found_some_clues: "Potřebuji vaši odbornost. Našel jsem nějaké stopy.",
+            what_are_you_working_on_now: "Na čem teď pracujete?"
+        }
+    },
+    dr_elphi_work_skyship: {
+        text: "*Promne si spánky.* Na vzducholodi. Ohromné, do nové hry. Rozdělila jsem imaginátory do týmů – jedni mají interiéry, další celkový model lodi a jak se chová, další postavy na palubě, jejich dialogy a questy. Jednoduché. Nic nejde podle zadání.\n\nDolores Políčková má na starosti hlavní design koncept. Retrofuturistická vzducholoď, mosaz, sklo, elegance. A pokaždé, když ji sní, cpe se do ní obří slepice. Nedokáže se jí zbavit. Je v každém návrhu.",
+        options: {
+            a_giant_hen: "Obří slepice?"
+        }
+    },
+    dr_elphi_work_captain: {
+        text: "To je ještě to nejmenší. Zachariáš Cvak měl skoro hotového kapitána – kapitána Mervyna, i s dialogy. Pak se mu Mervyn zacyklil a začal nesouvisle mluvit o jakési konspiraci hlávek zelí. Cvak mu dialogy pořád čistí a vrací ho na původní trasu. Jenže zelí se pořád vrací. A konspiruje.",
+        options: {
+            and_the_interiors: "A co interiéry?"
+        }
+    },
+    dr_elphi_work_mox: {
+        text: "Část z nich má na starosti Mox Igrixee. Mox v téhle dimenzi plně existuje jen v liché týdny – přesně ta psychedelická energie, kterou jsem slíbila novinářům. Bohužel Mox nedávno objevilo čokoládu. A ta se mu teď prolamuje do snění: přepážky, vybavení, nábytek. Některé kusy na sebe dokonce berou podobu živých tvorů.\n\nDneska po palubě začala běhat smečka čokoládových koček a hrát si s hlávkami zelí, načež kapitán naboural do obří slepice. *Povzdechne si.* Tak jsem to pro dnešek zabalila.",
+        options: {
+            good_luck_with_the_hen: "Hodně štěstí se slepicí."
         }
     },
     dr_elphi_cartridge_ready: {
@@ -92,7 +112,8 @@ export default {
         options: {
             the_bishop_came_here_to_play: "Biskupka sem chodila hrát.",
             something_went_wrong_im_following_the_trace: "Něco se pokazilo. Jdu po stopě.",
-            never_mind: "Nic, zapomeňte na to."
+            never_mind: "Nic, zapomeňte na to.",
+            ask_something_else_games: "Zeptám se na něco jiného."
         }
     },
     dr_elphi_testing_path: {

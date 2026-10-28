@@ -548,6 +548,7 @@ export default {
                 dreams: "She designs dreams — neurofiction, dream architecture.",
                 bishop_visits: "The Bishop came to her often, always to play, never for politics.",
                 dream_stock: "Raw dream-stock is her trade: she records the dreams of living sleepers and pays well for the vivid ones.",
+                skyship_game: "She's building a colossal skyship for a new game, but her imaginators keep dreaming in a giant hen, conspiring cabbages and chocolate cats.",
             },
         },
         met_ravla: {

@@ -41,8 +41,11 @@ export default class VoxMarket extends GameScene {
                         { text: "Do you know anything about the Bishop?", key: 'do_you_know_anything_about_the_bishop', next: "kloor_bishop" }
                     ] : []),
                     // only while the deal is open — once he has the Vestigel there is nothing more to ask
+                    // with one in the pack, hand it over straight away instead of the "any luck?" detour
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') && !this.registry.get('questSystem').getQuest('the_three_vestigels').isComplete ? [
-                        { text: "About those Vestigels...", key: 'about_those_vestigels', next: "kloor_vestigels_progress" }
+                        this.hasItem('vestigel')
+                            ? { text: "I have a Vestigel for you.", key: 'i_have_a_vestigel_for_you', next: "kloor_vestigels_complete" }
+                            : { text: "About those Vestigels...", key: 'about_those_vestigels', next: "kloor_vestigels_progress" }
                     ] : []),
                     ...(knowsSulkberries && !sulkberriesClearedKloor ? [
                         { text: "I need your expertise on some Sulkberries.", key: 'i_need_your_expertise_on_some_sulkberries', next: "kloor_sulkberry_analyze" }] : []),

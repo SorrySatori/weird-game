@@ -99,6 +99,12 @@ export default class ScraperAmbraScene extends GameScene {
         if (findBishopQuest && !findBishopQuest.isComplete) {
             questSystem.updateQuest('find_bishop', 'I\'ve reached Dr. Elphi\'s studio on floor 177-Quiet. Now I need to find clues about the Bishop.', 'reached_elphi_studio');
         }
+        // Getting up here is what level_177_access was about -- done on arrival, not when Elphi is spoken to
+        const accessQuest = questSystem?.getQuest('level_177_access');
+        if (accessQuest && !accessQuest.isComplete) {
+            questSystem.updateQuest('level_177_access', "The Lift-Mother took me up. I'm on floor 177-Quiet.", 'arrived');
+            questSystem.completeQuest('level_177_access');
+        }
         
         // Show a welcome notification
         this.time.delayedCall(1000, () => {
@@ -195,6 +201,10 @@ export default class ScraperAmbraScene extends GameScene {
         const feastPlayed = !!this.hasJournalEntry('cardinal_feast_played');
         const feastNamedCathedral = !!this.questSystem?.getQuest('who_killed_bishop')?.updates?.some(u => u.key === 'feast_journal_egg_cathedral');
         const canPlayFeast = day1Slept && !feastPlayed;
+        // She has already told about the Bishop and handed over the backyard key: the first-visit openers
+        // ("I'm looking for the Bishop", the anomaly, "stop guessing") would only loop back to that talk.
+        const backyardLead = !!this.questSystem?.getQuest('find_bishop')?.updates?.some(u => u.key === 'check_shard_backyard')
+            || !!this.hasItem('scraper_backyard_key');
 
         return {
             ...super.dialogContent,
@@ -204,7 +214,7 @@ export default class ScraperAmbraScene extends GameScene {
             // Dr. Elphi Quarn dialog tree
             dr_elphi_start: {
                 // textKey lets the CZ file pick the matching variant (the old lookup matched on the EN text itself).
-                textKey: canReportDay1 ? 'report' : canPlayFeast ? 'feast_ready' : feastPlayed ? (feastNamedCathedral ? 'after_feast' : 'after_feast_no_lead') : bishopDead ? 'bishop_dead' : 'default',
+                textKey: canReportDay1 ? 'report' : canPlayFeast ? 'feast_ready' : feastPlayed ? (feastNamedCathedral ? 'after_feast' : 'after_feast_no_lead') : bishopDead ? 'bishop_dead' : backyardLead ? 'lead_given' : 'default',
                 text: canReportDay1
                     ? "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there."
                     : canPlayFeast
@@ -215,6 +225,8 @@ export default class ScraperAmbraScene extends GameScene {
                     ? "You've got the look of someone who just watched a ghost check the time. Go on, then. Where did it leave you?"
                     : bishopDead
                     ? "You're back. I can see it on your face. Something happened to her, didn't it?"
+                    : backyardLead
+                    ? "Back already? The backyard hasn't gone anywhere. Or did you come to stare at my helmets?"
                     : "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
                 options: [
                     ...(canReportDay1 ? [
@@ -230,12 +242,17 @@ export default class ScraperAmbraScene extends GameScene {
                     ...(this.journalSystem?.hasFact('met_infinite_fold', 'bishop_truth') ? [
                         { text: "[Before entering the cathedral] I found the thing in the sealed cellar. It's the one that killed her.", key: 'before_cathedral_infinite_fold', next: "dr_elphi_perspective" }
                     ] : []),
-                    ...(!bishopDead ? [
+                    ...(!bishopDead && !backyardLead ? [
                         { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
                         { text: "I was sent to investigate an anomaly. Might be connected to this place.", key: 'i_was_sent_to_investigate_an_anomaly_might_be_conn', next: "dr_elphi_anomaly_path" },
                         { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" },
                         { text: "I'll explain if you stop guessing.", key: 'ill_explain_if_you_stop_testing_me', next: "dr_elphi_testing_path" }
                     ] : []),
+                    ...(!bishopDead && backyardLead ? [
+                        { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" }
+                    ] : []),
+                    // small talk, any time
+                    { text: "What are you working on now?", key: 'what_are_you_working_on_now', next: "dr_elphi_work_skyship" },
                     ...(bishopDead ? [
                         { text: "The Bishop is dead. I found her body in the backyard.", key: 'the_bishop_is_dead_i_found_her_body_in_the_backyar', next: "dr_elphi_bishop_dead" }
                     ] : []),
@@ -244,10 +261,6 @@ export default class ScraperAmbraScene extends GameScene {
                     ] : []),
                 ],
                 onTrigger: () => {
-                    const questSystem = this.registry.get('questSystem');
-                    if (questSystem && questSystem.getQuest('level_177_access') && !questSystem.getQuest('level_177_access').isComplete) {
-                        questSystem.completeQuest('level_177_access');
-                    }
                     if (!this.hasJournalEntry('met_dr_elphi')) {
                         this.addJournalEntry(
                             'met_dr_elphi',
@@ -299,11 +312,13 @@ export default class ScraperAmbraScene extends GameScene {
             
             dr_elphi_games_path: {
                 text: "I make them. Dream architecture. Neurofiction. Post-sensory architecture.\n\nYou're standing in ARB Ambra — and no, the initials don't stand for anything. They just sound better that way.\n\nWhat did you hear exactly?",
-                options: [
-                    { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" },
-                    { text: "Something went wrong. I'm following the trace.", key: 'something_went_wrong_im_following_the_trace', next: "dr_elphi_anomaly_path" },
-                    { text: "Never mind.", key: 'never_mind', next: "dr_elphi_exit_brief" }
-                ],
+                options: backyardLead
+                    ? [{ text: "Ask something else.", key: 'ask_something_else_games', next: "dr_elphi_start" }]
+                    : [
+                        { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" },
+                        { text: "Something went wrong. I'm following the trace.", key: 'something_went_wrong_im_following_the_trace', next: "dr_elphi_anomaly_path" },
+                        { text: "Never mind.", key: 'never_mind', next: "dr_elphi_exit_brief" }
+                    ],
                 onTrigger: () => {
                     this.addJournalFact('met_dr_elphi', 'dreams', "She designs dreams — neurofiction, dream architecture.");
                 }
@@ -317,6 +332,28 @@ export default class ScraperAmbraScene extends GameScene {
                 ]
             },
             
+            dr_elphi_work_skyship: {
+                text: "*She rubs her temples.* A skyship. A colossal one, for a new game. I split my imaginators into teams — some do the interiors, some the ship itself and how it flies, some the people on board, their dialogs and quests. Simple. Nothing goes according to the brief.\n\nDolores Políčková has the main design concept. A retro-futurist airship: brass, glass, elegance. And every time she dreams it, there's a giant hen in it. She can't get rid of it. It's in every draft.",
+                options: [
+                    { text: "A giant hen?", key: 'a_giant_hen', next: "dr_elphi_work_captain" }
+                ]
+            },
+            dr_elphi_work_captain: {
+                text: "That's the least of it. Zachariáš Cvak had the captain almost finished — Captain Mervyn, dialogs and all. Then Mervyn got stuck in a loop and started rambling about some conspiracy of cabbages. Cvak keeps cleaning up his dialogs and steering him back on course. The cabbages keep coming back. And conspiring.",
+                options: [
+                    { text: "And the interiors?", key: 'and_the_interiors', next: "dr_elphi_work_mox" }
+                ]
+            },
+            dr_elphi_work_mox: {
+                text: "Some of them are Mox Igrixee's. Mox only fully exists in this dimension in odd weeks — exactly the psychedelic energy I promised the journalists. Unfortunately, Mox recently discovered chocolate. Now it keeps breaking through into the dream: bulkheads, fittings, furniture. Some of it even takes the shape of living creatures.\n\nToday a pack of chocolate cats ran across the deck and started playing with the cabbages, and the captain crashed into the hen. *She sighs.* So I called it a day.",
+                options: [
+                    { text: "Good luck with the hen.", key: 'good_luck_with_the_hen', next: "dr_elphi_start" }
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_dr_elphi', 'skyship_game', "She's building a colossal skyship for a new game, but her imaginators keep dreaming in a giant hen, conspiring cabbages and chocolate cats.");
+                }
+            },
+
             dr_elphi_bishop_destination: {
                 text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\\n\\nThis time, though, I have a feeling that something has changed. She was... going out to the yard often, as if something there had caught her attention. When I asked her about it, she sounded evasive.",
                 options: [

@@ -15,10 +15,11 @@ export default class VoxmarketMarketScene extends GameScene {
     /**
      * Check if the player has learned about Bishop's connection to Dr. Elphi
      * through completing either the rust_reclamation or the_three_vestigels quests
+     * (Gnur's quest also "completes" when you refuse him -- then he told you nothing, so only the delivery counts)
      */
     hasElphiBishopInfo() {
         const questSystem = this.registry.get('questSystem');
-        const rustQuestCompleted = questSystem?.getQuest('rust_reclamation')?.isComplete;
+        const rustQuestCompleted = !!questSystem?.getQuest('rust_reclamation')?.updates?.some(u => u.key === 'core_delivered');
         const vestigelQuestCompleted = questSystem?.getQuest('the_three_vestigels')?.isComplete;
         return rustQuestCompleted || vestigelQuestCompleted;
     }

@@ -186,6 +186,12 @@ export default {
             description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Tichém v budově Škrabáku.',
             updates: {
                 liris_tool_hint: "Kalibrační nástroj od kapitánky Liris by mohl být tím, co Lift-Mother přiměje otevřít mi patro 177-Tiché.",
+                arrived: "Lift-Mother mě vyvezla nahoru. Jsem v patře 177-Tichém.",
+                hint_floor_counter: "Lift-Mother má rozbité počítadlo pater. Kdybych jí ho nechal spravit, byla by mi zavázaná. Prý se v takových strojích vyznají lidé z oblohy.",
+                hint_lost_button: "Lift-Mother prý už léta postrádá jeden knoflík. Takové věci podle ní končí na Voxmarketu.",
+                hint_importance: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Kam Biskupka šla, by mohl vědět ještě někdo další ve městě.",
+                hint_importance_gnur: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Gnur slíbil, že si na Biskupku vzpomene, až mu přinesu to jádro.",
+                hint_importance_kloor: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Kloor Venn mi za vestigel řekne, co o Biskupce ví.",
             }
         },
         edgar_book: {

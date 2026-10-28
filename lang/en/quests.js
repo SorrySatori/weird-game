@@ -187,6 +187,12 @@ export default {
             description: "I need to gain access to Dr. Elphi Quarn's studio on floor 177-Quiet in the Scraper building.",
             updates: {
                 liris_tool_hint: "Captain Liris's calibration tool might be what gets the Lift-Mother to open floor 177-Quiet for me.",
+                arrived: "The Lift-Mother took me up. I'm on floor 177-Quiet.",
+                hint_floor_counter: "The Lift-Mother's floor counter is broken. If I got it mended, she'd owe me a favour. She says sky folk understand such machines.",
+                hint_lost_button: "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says.",
+                hint_importance: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Someone else in the city might know where the Bishop went.",
+                hint_importance_gnur: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Gnur promised to remember something about the Bishop once I bring him that core.",
+                hint_importance_kloor: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Kloor Venn will tell me what he knows about the Bishop in exchange for a vestigel.",
             }
         },
         edgar_book: {
