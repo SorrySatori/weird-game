@@ -3,7 +3,7 @@
  */
 export default class SaveSystem {
     /** Registry keys copied into / restored from a save file (plain JSON values only). */
-    static PERSISTED_REGISTRY_KEYS = ['dreamQueueChoices', 'shopSoldOut'];
+    static PERSISTED_REGISTRY_KEYS = ['dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft'];
 
     constructor(scene) {
         this.scene = scene;

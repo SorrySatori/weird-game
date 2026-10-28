@@ -15,6 +15,7 @@ export default {
             what_do_you_know_about_the_burning_bear_festival: "Co víte o Festivalu hořícího medvěda?",
             im_looking_for_a_vestigel_i_heard_you_might_have_o: "Hledám vestigel, slyšel jsem, že byste mohl jeden mít.",
             lets_start_with_some_inspirational_topics: "Pojďme vymyslet nějaká inspirativní témata.",
+            read_me_from_your_book: "Přečtěte mi něco z vaší knihy.",
             edgar_cathedral_ask: "[Než vejdu do katedrály] Pracoval jste v tomhle městě všude možně. Existuje nějaká jiná cesta do Vaječné katedrály, o které třeba nikdo moc neví?"
         }
     },
@@ -97,7 +98,7 @@ export default {
         }
     },
     edgar_book_topic_selected: {
-        text: "To je fascinující téma! Hned mě napadá pár zajímavých věcí, se kterými se dá dál pracovat.",
+        // text: Edgarova reakce se skládá ve scéně (utils/EdgarBook.js)
         options: {
             i_think_we_have_enough_topics: "Myslím, že máme dost témat",
             lets_continue: "Pokračujeme dál"
@@ -115,7 +116,7 @@ export default {
         }
     },
     edgar_book_tone_selected: {
-        text: "To je skvělá volba! Dodá knize výrazný emocionální náboj, který by měl čtenáře oslovit hned od začátku.",
+        // text: Edgarova reakce se skládá ve scéně (utils/EdgarBook.js)
         options: {
             now_lets_choose_a_genre_for_the_book: "Teď pojďme zvolit žánr knihy"
         }
@@ -134,7 +135,7 @@ export default {
         }
     },
     edgar_book_genre_selected: {
-        text: "Perfektní žánr! V tomhle divném městě by něco takového fungovat výborně.",
+        // text: Edgarova reakce se skládá ve scéně (utils/EdgarBook.js)
         options: {
             lets_decide_on_the_main_protagonist: "Pojďme vymyslet hlavní postavu"
         }
@@ -153,7 +154,7 @@ export default {
         }
     },
     edgar_book_protagonist_selected: {
-        text: "To je fascinující volba! Úplně vidím, jak takový hrdina prochází příběhem.",
+        // text: Edgarova reakce se skládá ve scéně (utils/EdgarBook.js)
         options: {
             finally_lets_choose_a_setting: "Nakonec vybereme nějaké prostředí"
         }
@@ -172,16 +173,51 @@ export default {
         }
     },
     edgar_book_setting_selected: {
-        text: "Výborné prostředí! Vytvoří dokonalou atmosféru a nabízí spoustu narativních možností.",
+        // text: Edgarova reakce se skládá ve scéně (utils/EdgarBook.js)
         options: {
             lets_see_what_book_weve_created: "Podívejme se, jakou knihu jsme vytvořili"
         }
     },
     edgar_book_completion: {
-        // text se skládá za běhu a je lokalizovaný přímo ve scéně (viz BOOK_LABELS)
+        // text: název, anotace a ukázky se skládají ve scéně (utils/EdgarBook.js)
+        options: {
+            read_the_opening: "Přečtěte mi začátek.",
+            make_sure_to_credit_me_as_coauthor: "Nezapomeňte mě uvést jako spoluautora"
+        }
+    },
+    edgar_book_coauthor: {
+        options: {
+            read_the_opening: "Přečtěte mi začátek."
+        }
+    },
+    edgar_book_excerpt_opening: {
+        options: {
+            and_then: "A dál?"
+        }
+    },
+    edgar_book_excerpt_middle: {
+        options: {
+            how_does_it_end: "Jak to skončí?"
+        }
+    },
+    edgar_book_excerpt_ending: {
+        options: {
+            what_will_the_critics_say: "Co na to řeknou kritici?"
+        }
+    },
+    edgar_book_critics: {
         options: {
             i_look_forward_to_reading_it: "Těším se, až si to přečtu",
-            make_sure_to_credit_me_as_coauthor: "Nezapomeňte mě uvést jako spoluautora"
+            thanks_edgar_book: "Díky, Edgare."
+        }
+    },
+    edgar_book_reread: {
+        options: {
+            read_opening_again: "Začátek.",
+            read_middle_again: "Prostředek.",
+            read_ending_again: "Konec.",
+            read_reviews_again: "Recenze.",
+            back_to_other_topics: "Zeptej se na něco jiného"
         }
     },
     edgar_book_farewell: {
@@ -284,6 +320,7 @@ export default {
     edgar_vestigel_thanks: {
         text: "Nezapomeňte na svůj slib. Těším se na to, co spolu vytvoříme. Kniha, která skutečně zachytí podstatu... no, toho, co musíme ještě vymyslet.",
         options: {
+            lets_start_right_away: "Pojďme začít hned – s nějakými inspirativními tématy.",
             back_to_other_topics: "Zeptej se na něco jiného"
         }
     },

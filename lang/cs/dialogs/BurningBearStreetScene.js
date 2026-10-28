@@ -7,6 +7,12 @@ export default {
         'Ortolan': 'Ortolan',
         'Priest': 'Kněz',
     },
+    ortolan_bb_arms: {
+        text: "*Podívá se na papíry, pak na své čtyři ruce, pak na vás.* „Papíry kvůli rukám? Nakonec jsem je dostal – v Boudě mi ztratili spis a omylem ho schválili. Klasika.“\n\nPapíry si stejně vezme a s nesmírnou něhou je zastrčí do kabátu. „Teď je to zpětně legální. Netušíte, o kolik líp se mi hned dýchá. Tady – tohle bylo pro vás, ještě v Boudě.“",
+        options: {
+            ortolan_bb_arms_thanks: "Děkuju, Ortolane."
+        }
+    },
     ortolan_bb_start: {
         text: {
             asked: "Nezvedne oči od účetní knihy, kterou balancuje na dvou rukou. \"Zase vy. Sklep pod Scraperem – tam ta stará verze bude, jestli je vůbec někde. A teď mě nechte vrátit se k formulářům.\"",
@@ -14,6 +20,7 @@ export default {
             cold: "Sotva vzhlédne od formulářů. \"Vy. Díval jste se, jak se topím v povoleních, a šel jste dál. A teď se tu objevíte a oháníte se Elphiným jménem jako odznakem. Roky spolu nemluvíme, ona a já. Řekněte, co chcete, a nechte mě pracovat.\""
         },
         options: {
+            ortolan_bb_arms_offer: "Pořád mám ty papíry kvůli vašim rukám.",
             perspective_ortolan_open: "[Než vejdu do katedrály] Ty jsi ty staré systémy stavěl. Do čeho to jdu?",
             right_scraper_cellar: "Jasně. Sklep pod Scraperem.",
             the_infinite_loop_running: "Infinite Fold. Elphi říká, že zase běží.",

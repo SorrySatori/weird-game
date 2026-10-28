@@ -1315,7 +1315,9 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.questSystem.updateQuest(
             'enter_townhall',
             `I won the Chrono-Slurry Toadlet at the Voxmarket Auction for ${price} dinar. I should return it to Seldo Thrice-Corrected at the Lumen Directorate for the Townhall key.`,
-            'seldo_auction_success'
+            'seldo_auction_success',
+            // Old saves keep the price-less `seldo_auction_success` translation; new ones show the price.
+            { textKey: 'seldo_auction_success_price', price }
         );
         return 'auction_toadlet_won';
     }

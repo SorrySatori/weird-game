@@ -134,8 +134,11 @@ export default class VoxmarketMarketScene extends GameScene {
                 onTrigger: () => {
                     this.noteVestigelInToy();
                     if (this.registry.get('factionSystem')) {
-                        this.modifyFactionReputation('RustChoir', -10);
-                        this.modifyFactionReputation('PithReclaimers', 10);
+                        // once: onTrigger re-runs on show and on every option click (it was farmable)
+                        this.onceEver('zerren_vestigel_reaction', () => {
+                            this.modifyFactionReputation('RustChoir', -10);
+                            this.modifyFactionReputation('PithReclaimers', 10);
+                        });
 
                         if (!this.hasJournalEntry('rust_choir_faction')) {
                             this.addJournalEntry(
@@ -168,8 +171,10 @@ export default class VoxmarketMarketScene extends GameScene {
                 onTrigger: () => {
                     this.noteVestigelInToy();
                     if (this.registry.get('factionSystem')) {
-                        this.modifyFactionReputation('RustChoir', 10);
-                        this.modifyFactionReputation('PithReclaimers', -10);
+                        this.onceEver('zerren_vestigel_reaction', () => {
+                            this.modifyFactionReputation('RustChoir', 10);
+                            this.modifyFactionReputation('PithReclaimers', -10);
+                        });
                         
                         // Add journal entry for Ink Tribunal if not already added
                         if (!this.hasJournalEntry('pith_reclaimers_faction')) {

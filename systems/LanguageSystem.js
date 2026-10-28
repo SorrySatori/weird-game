@@ -12,6 +12,14 @@ import cs from '../lang/cs/index.js';
 
 let instance = null;
 
+/**
+ * Count form for picking pre-written text in code: 'one' (1), 'few' (2–4), 'many' (0, 5+).
+ * Covers Czech (1 lampa / 2–4 lampy / 5+ lamp); English uses the same text for 'few' and 'many'.
+ */
+export function countForm(n) {
+    return n === 1 ? 'one' : (n >= 2 && n <= 4 ? 'few' : 'many');
+}
+
 export default class LanguageSystem {
     constructor() {
         if (instance) return instance;

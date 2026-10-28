@@ -737,7 +737,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
             this.addJournalFact('entered_townhall', 'bishop_report', "Now I can search the records for the Bishop's doppelgänger report.");
         }
         if (this.questSystem?.getQuest('excavation_permit')) {
-            this.addJournalFact('entered_townhall', 'phor_permits', "And I can try to get Phor Calesta her excavation permits.");
+            this.addJournalFact('entered_townhall', 'phor_permits', "And I can try to get Phor Calesta his excavation permits.");
         }
 
         this.questSystem.updateQuest(
@@ -750,7 +750,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
             this.questSystem.updateQuest('enter_townhall', "Now I can search the records for the Bishop's doppelgänger report.", 'entered_townhall_records');
         }
         if (this.questSystem?.getQuest('excavation_permit')) {
-            this.questSystem.updateQuest('enter_townhall', 'Now I can try to get Phor Calesta her excavation permits.', 'entered_townhall_permits');
+            this.questSystem.updateQuest('enter_townhall', 'Now I can try to get Phor Calesta his excavation permits.', 'entered_townhall_permits');
         }
         this.questSystem.completeQuest('enter_townhall');
     }
@@ -1156,7 +1156,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         );
         // Dune names Phor's petition only if the player took it on (also added when telling Phor).
         if (this.questSystem?.getQuest('excavation_permit')) {
-            this.addJournalFact('godgraveyard_access_granted', 'phor', "Phor Calesta can now begin her divinography expedition there.");
+            this.addJournalFact('godgraveyard_access_granted', 'phor', "Phor Calesta can now begin his divinography expedition there.");
         }
 
         if (!this.hasItem('godgraveyard-access-permit')) {

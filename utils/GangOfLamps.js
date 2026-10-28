@@ -1,6 +1,8 @@
 // The Gang of Lamps — shared helpers for the disguised talking street-lamp questline.
 // These live outside GameScene to keep the base class lean; each takes the scene explicitly.
 
+import { countForm } from '../systems/LanguageSystem.js';
+
 export const LAMP_IDS = ['don', 'torchere', 'chandelier', 'sconce'];
 
 /** True once the Lumen Directorate has hunted down and destroyed the Gang (terminal). */
@@ -53,9 +55,11 @@ export function meetLamp(scene, id, name) {
             scene.questSystem.updateQuest('gang_of_lamps', 'All four lamps are found and back in contact through me.', 'all_lamps_found');
         } else {
             const familyKnown = quest.updates.some(u => u.key === 'lamp_family_known');
+            // The flag stays per-lamp; textKey + n let the quest log translate the count line.
+            const textKey = familyKnown ? 'lamps_found_of_four' : 'lamps_found_' + countForm(n);
             scene.questSystem.updateQuest('gang_of_lamps',
                 familyKnown ? `I've found ${n} of the 4 lamps.` : (n === 1 ? 'One lamp found so far.' : `${n} lamps found so far.`),
-                flag);
+                flag, { textKey, n });
         }
     }
     scene.showNotification(`Found a lamp: ${name}`, 0xffcc66);
@@ -132,7 +136,8 @@ export function recordSpyFragment(scene, memberKey, title, secret) {
     );
     const n = spyFragmentCount(scene);
     if (scene.questSystem?.getQuest(GANG_QUEST_IDS.don)) {
-        scene.questSystem.updateQuest(GANG_QUEST_IDS.don, `I've prised ${n === 1 ? 'a secret' : n + ' secrets'} out of the Rust Choir. I should take what I have to Don and see if it's enough.`, flag);
+        scene.questSystem.updateQuest(GANG_QUEST_IDS.don, `I've prised ${n === 1 ? 'a secret' : n + ' secrets'} out of the Rust Choir. I should take what I have to Don and see if it's enough.`, flag,
+            { textKey: 'spy_secrets_' + countForm(n), n });
     }
     scene.showNotification('Rust Choir secret learned', 0xb87333);
 }

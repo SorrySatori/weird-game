@@ -182,7 +182,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         // Update quest
                         const questSystem = this.registry.get('questSystem');
                         if (questSystem) {
-                            questSystem.updateQuest('ortolan_arms', 'You obtained a forged Artisan\'s Exemption Form from Ravla. Deliver it to Ortolan at the Shed Courtyard.', 'document_obtained');
+                            questSystem.updateQuest('ortolan_arms', "I got a forged permit for Ortolan's extra arms from Ravla. Now I just need to get it to him.", 'document_obtained');
                         }
                         
                         // Show success dialog

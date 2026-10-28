@@ -10,7 +10,7 @@ export default {
         'Osswine': 'Osswine',
     },
     gate_sealed: {
-        text: "Obrovská železná brána, zapečetěná radničním voskem a staršími, zelenějšími zámky. Tobě se neotevře – zatím ne. Někde dole zkamenělí bohové drží své ticho.\n\n(Potřebuješ svolení Radnice, aby ses sem dostal – a Phor Calestu, aby tě provedla.)",
+        text: "Obrovská železná brána, zapečetěná radničním voskem a staršími, zelenějšími zámky. Tobě se neotevře – zatím ne. Někde dole zkamenělí bohové drží své ticho.\n\n(Potřebuješ svolení Radnice, aby ses sem dostal – a Phora Calestu, aby tě provedl.)",
         options: {
             head_back_up: "Vrátit se nahoru."
         }
@@ -53,7 +53,7 @@ export default {
         }
     },
     grave_lietus: {
-        text: "Setřeš z kamene mech. Phor čte přes rameno:\n\n\"Lietus Kika – bůh temporální zmatenosti, modlí se k němu ti, kdo jsou věčně přesvědčení, že něco udělali teprve nedávno, i když už tiše uběhly roky. Ani tenhle kámen se neshodne, jak dlouho tu stojí.\" Phor se mračí na vlastní poznámky. \"Přísahala bych, že jsem ho katalogizovala minulý týden. Můj rukopis říká před jedenácti lety. Epitaf, bez špetky ironie: 'IT WAS ONLY YESTERDAY.'\"",
+        text: "Setřeš z kamene mech. Phor čte přes rameno:\n\n\"Lietus Kika – bůh temporální zmatenosti, modlí se k němu ti, kdo jsou věčně přesvědčení, že něco udělali teprve nedávno, i když už tiše uběhly roky. Ani tenhle kámen se neshodne, jak dlouho tu stojí.\" Phor se mračí na vlastní poznámky. \"Přísahal bych, že jsem ho katalogizoval minulý týden. Můj rukopis říká před jedenácti lety. Epitaf, bez špetky ironie: 'IT WAS ONLY YESTERDAY.'\"",
         options: {
             note_it_down_lietus: "Zapsat si to."
         }
@@ -66,7 +66,7 @@ export default {
         }
     },
     hvetrdjaana_salt_recall: {
-        text: "Solopis se pohne proti nečitelnému kameni a ochutná minerální přízrak písmen, která se obrousila celá staletí předtím, než se Phor narodila. *\"...Sůl pořád drží jejich tvar, jako suché řečiště drží řeku, která ho opustila. Hvétrdjaana. Urbzunidové a krobulovité se k ní modlili, když si přáli být zapomenuti – byla strážkyní milosrdného zapomnění, která snímala tíhu jmen z mrtvých, zahanbených a prostě unavených. Milovali ji pro tu milost.\"*\n\nZbytek se neochotně pohne. *\"A to ji zahubilo. Bohyně zapomnění nemůže žádat, aby byla vzpomínána – zradilo by to celou její podstatu. Když tedy její národy vybledly, rozhodla se vyblednout s nimi a nechala vlastní jméno shnít z vlastního kamene. Ne ztraceno, knězi. Darováno. Poslední věc, kterou kdy zapomněla, byla ona sama.\"*",
+        text: "Solopis se pohne proti nečitelnému kameni a ochutná minerální přízrak písmen, která se obrousila celá staletí předtím, než se Phor narodil. *\"...Sůl pořád drží jejich tvar, jako suché řečiště drží řeku, která ho opustila. Hvétrdjaana. Urbzunidové a krobulovité se k ní modlili, když si přáli být zapomenuti – byla strážkyní milosrdného zapomnění, která snímala tíhu jmen z mrtvých, zahanbených a prostě unavených. Milovali ji pro tu milost.\"*\n\nZbytek se neochotně pohne. *\"A to ji zahubilo. Bohyně zapomnění nemůže žádat, aby byla vzpomínána – zradilo by to celou její podstatu. Když tedy její národy vybledly, rozhodla se vyblednout s nimi a nechala vlastní jméno shnít z vlastního kamene. Ne ztraceno, knězi. Darováno. Poslední věc, kterou kdy zapomněla, byla ona sama.\"*",
         options: {
             salt_recall_hvetrdjaana_back: "Ustoupit."
         }

@@ -160,7 +160,7 @@ export default {
         }
     },
     gardener_sulkberry_neme: {
-        text: "Sáhnete dovnitř a necháte Nemova chapadla rozvinout se skrze vaše vnímání. Zahradníkovy biosignály rozkvetou – zemitý klid, profesní hrdost, lehká úzkost ze samotného vyšetřování. Ale žádný podvod. Žádná skrytá vina. Žádný chemický výkyv lži.\n\nNeme šeptá: \"Živí se prací s půdou. Jeho pravda roste jako jeho rostliny – pomalu, poctivě a se špínou pod nehty.\"\n\nVerrik mluví pravdu. Mručenky, které pěstoval, byly čisté.",
+        text: "Sáhnete dovnitř a necháte Nemina chapadla rozvinout se skrze vaše vnímání. Zahradníkovy biosignály rozkvetou – zemitý klid, profesní hrdost, lehká úzkost ze samotného vyšetřování. Ale žádný podvod. Žádná skrytá vina. Žádný chemický výkyv lži.\n\nNeme šeptá: \"Živí se prací s půdou. Jeho pravda roste jako jeho rostliny – pomalu, poctivě a se špínou pod nehty.\"\n\nVerrik mluví pravdu. Mručenky, které pěstoval, byly čisté.",
         options: {
             thank_you_verrik_thats_helpful: "Děkuji, Verriku. To pomáhá."
         }

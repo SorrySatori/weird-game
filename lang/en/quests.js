@@ -139,7 +139,7 @@ export default {
                 nonverbal_gesture_clue: 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...',
                 ravla_forger_hint: 'Heliodor at the Screaming Cork mentioned that Ravla is a skilled document forger.',
                 ravla_forger_agreement: 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.',
-                document_obtained: 'You obtained a forged Artisan\'s Exemption Form from Ravla. Deliver it to Ortolan at the Shed Courtyard.',
+                document_obtained: "I got a forged permit for Ortolan's extra arms from Ravla. Now I just need to get it to him.",
                 bureaucratic_incantation: 'The Hollow Woman in the registration queue taught me some weird bureaucratic incantation.',
                 form_obtained: "I successfully obtained the form for Ortolan.",
                 partial_progress: "I obtained a Temporary Permit that might help Ortolan, but it's not fully approved.",
@@ -163,13 +163,14 @@ export default {
                 ac_seldo_referral: 'The Angle Corrector directed me to Seldo Thrice-Corrected on the second floor.',
                 seldo_auction_errand: 'Seldo Thrice-Corrected has a spare Townhall key but wants a favor: buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf. A prophetic toad that lets you see three minutes into the future — too embarrassing for a Directorate operative to purchase publicly.',
                 seldo_auction_success: 'I won the Chrono-Slurry Toadlet at the Voxmarket Auction. I should return it to Seldo Thrice-Corrected at the Lumen Directorate for the Townhall key.',
+                seldo_auction_success_price: 'I won the Chrono-Slurry Toadlet at the Voxmarket Auction for {price} dinar. I should return it to Seldo Thrice-Corrected at the Lumen Directorate for the Townhall key.',
                 seldo_townhall_key: 'I delivered the Chrono-Slurry Toadlet to Seldo Thrice-Corrected. He gave me an unofficial Townhall key for the side entrance with the brass complaint-slot.',
                 entered_townhall: "I made it inside the Townhall.",
-                phor_needs_access: "Phor Calesta needs to get in too — without Townhall permits she can't excavate the Godgraveyard, and the Townhall is closed.",
-                phor_townhall_closed: "Phor Calesta says nobody knows why the Townhall closed — the clerks simply stopped coming one day. She has been waiting outside for nine digestions. Maybe someone in the city knows how to get in.",
+                phor_needs_access: "Phor Calesta needs to get in too — without Townhall permits he can't excavate the Godgraveyard, and the Townhall is closed.",
+                phor_townhall_closed: "Phor Calesta says nobody knows why the Townhall closed — the clerks simply stopped coming one day. He has been waiting outside for nine digestions. Maybe someone in the city knows how to get in.",
                 townhall_door_locked: "The Townhall door is locked. I'll need another way in — maybe someone in the city knows how.",
                 entered_townhall_records: "Now I can search the records for the Bishop's doppelgänger report.",
-                entered_townhall_permits: "Now I can try to get Phor Calesta her excavation permits.",
+                entered_townhall_permits: "Now I can try to get Phor Calesta his excavation permits.",
                 elphi_townhall_lead: "Dr. Elphi thinks the Townhall stamp on the Bishop's doppelgänger note means it went through official channels. I should find out who there handled it.",
                 seldo_auction_failed: "I failed to acquire the Chrono-Slurry Toadlet at the Voxmarket Auction. Seldo will not be pleased, and I may need another route into the Townhall.",
             }
@@ -192,7 +193,7 @@ export default {
             title: 'Help Edgar to write a book',
             description: 'Edgar Eskola mentioned he wants to write a book. I should help him.',
             updates: {
-                completed: 'You have helped Edgar Eskola develop his book concept. He is very grateful to you.',
+                completed: "I helped Edgar Eskola come up with his book. He's already writing.",
             }
         },
         find_loop_copy: {
@@ -200,7 +201,7 @@ export default {
             description: "Get into the sealed cellar under the Scraper, where Ortolan says an old build of Infinite Fold is kept. The lift down (Lift-Mother) wants a passphrase — something to do with the Godgraveyard beneath the Townhall.",
             updates: {
                 passphrase_dead_god: "Ortolan told me the passphrase is a dead god's true name, remembered only on its gravestone in the Godgraveyard. I should read the graves there — a divinographer could guide me.",
-                phor_can_read_graves: "Phor Calesta is a divinographer — she could read the graves with me.",
+                phor_can_read_graves: "Phor Calesta is a divinographer — he could read the graves with me.",
                 password_from_choir: "The Rust Choir gave me the cellar passphrase — \"I FOLD.\" I can take the Lift-Mother down to the sealed cellar now.",
                 cellar_reached: "I reached the sealed cellar under the Scraper — Ortolan and Dr. Elphi's old lab. Something on the far side still breathes a slow amber light. I should examine the console.",
                 master_build_found: "Under a dusty tarp sits Infinite Fold's master build — Ortolan's rules, Elphi's walls — still powered. Something in it is already awake.",
@@ -220,6 +221,47 @@ export default {
                 lamp_family_known: "There are four lamps in all: the Don, up on the high walkway under Scraper 1140; Chandelier, on a post in the town square; Sconce, by the house of stamps; and Torchère, down by the water where the cargo comes in.",
                 all_lamps_found: "All four lamps are found and back in contact through me.",
                 lamps_have_work: "The lamps say they'll have work for me soon. I should check back with them.",
+                gang_lamps_destroyed: "The Gang of Lamps was destroyed by the Lumen Directorate. There is no one left to reconnect, and no reward to collect.",
+                // Per-lamp `met_lamp_<id>` lines — picked in code (params.textKey) by count, {n} = lamps found.
+                lamps_found_one: "One lamp found so far.",
+                lamps_found_few: "{n} lamps found so far.",
+                lamps_found_many: "{n} lamps found so far.",
+                lamps_found_of_four: "I've found {n} of the 4 lamps.",
+            }
+        },
+        gang_don_spy: {
+            title: "Ears on the Rust Choir",
+            description: "Don Girandole wants me to spy on the Rust Choir — get in among their people (Brukk in their domain, Gnur in Shed 521, Ravla behind the Screaming Cork), learn what they're really up to, and bring it back to him. He'll tell me if I've dug up enough. If I find where their domain actually is, I can pass that along too.",
+            updates: {
+                // `gang_spy_<member>` lines — picked in code (params.textKey) by count, {n} = secrets gathered.
+                spy_secrets_one: "I've prised a secret out of the Rust Choir. I should take what I have to Don and see if it's enough.",
+                spy_secrets_few: "I've prised {n} secrets out of the Rust Choir. I should take what I have to Don and see if it's enough.",
+                spy_secrets_many: "I've prised {n} secrets out of the Rust Choir. I should take what I have to Don and see if it's enough.",
+            }
+        },
+        gang_torchere_smuggle: {
+            title: "A Run Past the Customs",
+            description: "Torchère gave me a parcel of contraband — Wimlick — to smuggle to his dead-drop: a loose grate on Burning Bear Street. Tuck it in the grate, then report back. (I don't have to — I could keep it, sell it to a trader, or even try it myself.)",
+            updates: {
+                gang_smuggle_delivered: "The Wimlick is in the grate. Report back to Torchère at the Harbor.",
+                gang_smuggle_kept: "I kept Torchère's Wimlick for myself instead of dropping it. I can still report a 'clean drop' to him at the Harbor — and the parcel is mine to sell or use.",
+            }
+        },
+        gang_chandelier_eavesdrop: {
+            title: "A Choice Morsel",
+            description: "Chandelier wants gossip. She sent me to eavesdrop at the Lumen Directorate garden — there's a vent that carries voices from inside. Listen there, then bring her what I overhear.",
+            updates: {
+                // `gang_eavesdrop_heard` — one per route, picked in code (params.textKey).
+                gang_eavesdrop_heard_vent: "I overheard a Directorate secret at the garden vent — an Angle Corrector quietly gutted the archive to bury a superior's mistake. Take it back to Chandelier.",
+                gang_eavesdrop_heard_neme: "Neme's sight drew the whole guilty truth out of the Directorate vent — a purged archive, and a Corrector who suspects a Rust mole among them. Take it to Chandelier.",
+                gang_eavesdrop_heard_brine: "Brine's residue-reading revealed the Directorate garden is literally fed on shredded records — they've been gutting their own archive and composting the evidence. Take it to Chandelier.",
+            }
+        },
+        gang_sconce_recover: {
+            title: "Recover What Was Filed",
+            description: "Sconce says the Townhall clerks deliberately misfiled a sealed dossier in the interior records room, buried under a fake case-number. I need to go inside, find the dossier that doesn't belong, and bring it out to him.",
+            updates: {
+                gang_dossier_recovered: "I found the misfiled dossier in the records drawers. Take it out to Sconce by the townhall steps.",
             }
         },
     }

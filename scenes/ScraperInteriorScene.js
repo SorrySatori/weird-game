@@ -228,22 +228,9 @@ export default class ScraperInteriorScene extends GameScene {
             goto_elphi_floor: {
                 text: "The elevator shudders and begins to move. Numbers flicker by at impossible speeds as you ascend to a floor that shouldn't exist. The doors open to reveal a corridor bathed in soft green light...",
                 options: [
-                    {
-                        text: "Step out",
-                        key: 'step_out',
-                        next: "closeDialog"
-                    }
-                ],
-                onShow: () => {
-                    // Prepare for transition to Dr. Elphi's floor scene
-                    this.time.delayedCall(2000, () => {
-                        this.cameras.main.fadeOut(800, 0, 0, 0);
-                        this.cameras.main.once('camerafadeoutcomplete', () => {
-                            // Transition to Dr. Elphi's studio scene (ScraperAmbraScene)
-                            this.scene.start('ScraperAmbraScene');
-                        });
-                    });
-                }
+                    // the ride is shown first; stepping out of the cabin takes you there
+                    { text: "Step out", key: 'step_out', next: "closeDialog", onSelect: () => this.rideLiftTo('ScraperAmbraScene') }
+                ]
             },
             lift_mother_building: {
                 text: "This was once called 'Nexicorp Tower'—a place of commerce and ambition. Forty-two floors of glass and steel, reaching toward a sky that was once blue. Now it is 'The Scraper,' a living monument to transformation. The lower floors house those who remember the old ways. The middle floors are wild with growth—new ecosystems forming in what were once accounting departments. And the upper floors... (her voice drops) the upper floors belong to the Rust Choir.",
@@ -325,16 +312,8 @@ export default class ScraperInteriorScene extends GameScene {
             goto_rust_domain: {
                 text: "The elevator groans and shudders as it climbs past floors long abandoned. The air grows heavy with the scent of iron and oil. Numbers on the display flicker — 38... 39... 40... then symbols you don't recognize. The doors open with a rusted shriek.",
                 options: [
-                    { text: "Step out.", key: 'step_out', next: "closeDialog" }
-                ],
-                onShow: () => {
-                    this.time.delayedCall(2000, () => {
-                        this.cameras.main.fadeOut(800, 0, 0, 0);
-                        this.cameras.main.once('camerafadeoutcomplete', () => {
-                            this.scene.start('RustDomainScene');
-                        });
-                    });
-                }
+                    { text: "Step out.", key: 'step_out', next: "closeDialog", onSelect: () => this.rideLiftTo('RustDomainScene') }
+                ]
             },
             lift_mother_cellar_prompt: {
                 text: `The cables draw taut. "The lower cellar? That door has been dark a long time, spore-child. It answered only one word — a name, given by the two who worked below. Speak it, if you carry it."`,
@@ -445,6 +424,17 @@ export default class ScraperInteriorScene extends GameScene {
         return { ...parentContent, ...interiorContent };
     }
 
+    /**
+     * Leave the lift cabin for another floor. These ride states used `onShow`, which GameScene never
+     * renders, so the ride text was skipped and the scene jumped after 2 s on its own.
+     */
+    rideLiftTo(sceneKey) {
+        if (this._liftRiding) return;
+        this._liftRiding = true;
+        this.cameras.main.fadeOut(800, 0, 0, 0);
+        this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start(sceneKey));
+    }
+
     preload() {
         super.preload();
         this.load.image('scraperInteriorBg', 'assets/images/backgrounds/Scraper_interior.png');
@@ -453,6 +443,7 @@ export default class ScraperInteriorScene extends GameScene {
     }
 
     create() {
+        this._liftRiding = false; // scene instances are re-used
         // Call parent create first to initialize mechanics
         super.create();
         this.playSceneMusic('liftMotherTheme');

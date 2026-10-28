@@ -92,7 +92,7 @@ export default {
         godgraveyard_gate: {
             hint: 'Brána Godgraveyardu',
             default: "Brána a za ní mlha, která polyká zvuk. Ať je pohřbené za ní cokoli, nestojí o návštěvy, a Radnice s tím souhlasí – cesta skrz je papírování, ne odvaha. Cítím velikost těch věcí na druhé straně, aniž bych jedinou viděl.",
-            knows: "Celý život Phor Calesty je na druhé straně téhle brány: číst mrtvé bohy z jejich fosilií. Ty zamčené dveře nazývá urážkou. Začínám si myslet, že je to jediná věc, která brání tomu hřbitovu číst *nás*.",
+            knows: "Celý Phorův život je na druhé straně téhle brány: číst mrtvé bohy z jejich fosilií. Ty zamčené dveře nazývá urážkou. Začínám si myslet, že je to jediná věc, která brání tomu hřbitovu číst *nás*.",
         },
         abandoned_bus: {
             hint: 'Opuštěný autobus',

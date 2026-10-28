@@ -11,6 +11,7 @@ export default {
             report: "Vypadáte, jako by vás město celý den žvýkalo a teprve teď vyplivlo. Sedněte si. Povězte mi, co jste tam venku zjistil.",
             feast_ready: "Dobré ráno. Kazeta přes noc vydržela – tak tak. Mám nahranou poslední Biskupčinu relaci a čeká. Až budete připravený vidět, co viděla ona.",
             after_feast: "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Vaječná katedrála, tedy. Tam vás to poslalo.",
+            after_feast_no_lead: "Tváříte se jako někdo, kdo právě viděl ducha podívat se na hodinky. Tak povídejte. Kde vás to nechalo?",
             bishop_dead: "Jste zpět. Vidím vám to na obličeji. Něco se jí stalo, že?",
             default: "Hm. Nejste objednaný. Ani označený. Budu hádat – někdo chce neurální ladění, konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
         },
@@ -18,6 +19,7 @@ export default {
             report_day1_investigation: "Nech mě nahlásit všechno, co jsem dnes zjistil.",
             load_bishops_last_session: "Nahrát Biskupčinu poslední relaci.",
             the_game_told_me_where: "Ta hra mi řekla, kde je deník.",
+            it_ended_in_a_loop: "Skončilo to smyčkou. A titulkem: „Infinite Fold.“",
             before_cathedral_infinite_fold: "[Než vejdu do katedrály] Našel jsem tu věc v zapečetěném sklepě. Je to ta, co ji zabila.",
             im_looking_for_someone_the_bishop: "Někoho hledám. Biskupku.",
             i_was_sent_to_investigate_an_anomaly_might_be_conn: "Poslali mě prošetřit anomálii. Možná souvisí s tímhle místem.",
@@ -35,7 +37,10 @@ export default {
         }
     },
     dr_elphi_after_feast: {
-        text: "Vaječná katedrála – to je vaše stopa k deníku, a dobrá. Ale nejdřív–\n\n*Strnula.* Říkáte, že to skončilo smyčkou. Prázdná síň. Postava v čele stolu, která se neotočí. A titulek: \"Infinite Fold.\"\n\n*Ztiší hlas.* Potřebuju, abyste pochopil, že tohle jsem na kazetu nedala já. Ten název jsem neslyšela roky a doufala jsem, že už ho nikdy neuslyším.",
+        text: {
+            lead: "Vaječná katedrála – to je vaše stopa k deníku, a dobrá. Ale nejdřív–\n\n*Strnula.* Říkáte, že to skončilo smyčkou. Prázdná síň. Postava v čele stolu, která se neotočí. A titulek: \"Infinite Fold.\"\n\n*Ztiší hlas.* Potřebuju, abyste pochopil, že tohle jsem na kazetu nedala já. Ten název jsem neslyšela roky a doufala jsem, že už ho nikdy neuslyším.",
+            no_lead: "*Strnula.* Smyčka. Prázdná síň. Postava v čele stolu, která se neotočí. A titulek: „Infinite Fold.“\n\n*Ztiší hlas.* Potřebuju, abyste pochopil, že tohle jsem na kazetu nedala já. Ten název jsem neslyšela roky a doufala jsem, že už ho nikdy neuslyším.\n\n*Přinutí se pokračovat.* A ten deník – jestli Biskupka někam schovala jeho zbytek, pak do Vaječné katedrály. Sama ji zapečetila. Nikdo jiný se dovnitř nedostal."
+        },
         options: {
             what_is_the_infinite_loop: "Vy ten název znáte. Co je Infinite Fold?"
         }
@@ -123,6 +128,13 @@ export default {
         text: "Ne v běžném smyslu. Ale nic tady kolem není doopravdy bezpečné, že?\n\nJen tam radši neusínejte. Prý se tam lidem zdají až moc intenzivní sny.",
         options: {
             ill_be_careful: "Budu opatrný."
+        }
+    },
+    dr_elphi_exit_brief: {
+        text: "Jak chcete. Když už se tu chcete hrabat, hrabejte se někde, kde to k něčemu bude – na dvorku. Tady, vezměte si můj klíč.\n\nVraťte se, jestli něco najdete.",
+        options: {
+            ill_check_the_backyard: "Podívám se na dvorek.",
+            thanks_brief: "Díky."
         }
     },
     dr_elphi_exit: {

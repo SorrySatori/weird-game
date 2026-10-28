@@ -177,7 +177,7 @@ A long-standing establishment that claims to be "the first building erected afte
 
 **Town Square** — An urban center and marketplace. Home to **Magnekin**, a being who appears human but is actually a collective of tiny cities held together by magnetic forces. His civilization was built on shattered lodestones from a collapsed shrine of an ancient magnetic spirit cult in the **Crownmire**. A **busker** plays "songs of the old world" — melodies from when the sky was blue — preserving memories through music.
 
-**Townhall** — The administrative center of Upper Morkezela. Home to **Phor Calesta**, a Craybara divinographer (archaeologist specializing in dead gods). She seeks excavation permits for the **Godgraveyard** beneath the Townhall, where fossilized divine remains lie — prayers turned to strata, halos crystallized into mineral deposits, godmetal that hums with residual faith. At extreme levels of Growth or Decay, visible gates manifest here: a Growth Gate (Growth ≥ 80) and a Rust Gate (Decay ≥ 80).
+**Townhall** — The administrative center of Upper Morkezela. Home to **Phor Calesta**, a Craybara divinographer (archaeologist specializing in dead gods). He seeks excavation permits for the **Godgraveyard** beneath the Townhall, where fossilized divine remains lie — prayers turned to strata, halos crystallized into mineral deposits, godmetal that hums with residual faith. At extreme levels of Growth or Decay, visible gates manifest here: a Growth Gate (Growth ≥ 80) and a Rust Gate (Decay ≥ 80).
 
 ---
 

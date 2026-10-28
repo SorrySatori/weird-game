@@ -304,12 +304,17 @@ export default class QuestLog {
                 
                 // Add each update
                 quest.updates.forEach(update => {
-                    // Resolve translated update text via the update key
+                    // Resolve translated update text via the update key (or params.textKey for
+                    // runtime-built text), filling {placeholders} from the saved params. Keep the
+                    // stored text if there's no translation or a placeholder has no value (old saves).
                     let displayUpdate = update.text;
-                    if (update.key) {
-                        const uKey = `${tKey}.updates.${update.key}`;
-                        const tUpdate = this.lang.t(uKey);
-                        if (tUpdate !== uKey) displayUpdate = tUpdate;
+                    const textKey = update.params?.textKey || update.key;
+                    if (textKey) {
+                        const uKey = `${tKey}.updates.${textKey}`;
+                        const tUpdate = this.lang.t(uKey, update.params || {});
+                        if (typeof tUpdate === 'string' && tUpdate !== uKey && !/\{\w+\}/.test(tUpdate)) {
+                            displayUpdate = tUpdate;
+                        }
                     }
 
                     // Add bullet

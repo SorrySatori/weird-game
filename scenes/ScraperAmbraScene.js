@@ -1,3 +1,4 @@
+import { composeBook } from '../utils/EdgarBook.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
@@ -148,6 +149,25 @@ export default class ScraperAmbraScene extends GameScene {
         });
     }
     
+    /** Elphi's backyard key + the quest pointer (both exit lines; idempotent). */
+    giveBackyardLead() {
+        // Key only once (re-opening the exit used to push a duplicate), and make sure the quest points
+        // to the backyard even when the player got here via "Never mind" without the Bishop/anomaly branch.
+        if (!this.hasItem('scraper_backyard_key')) {
+            this.addItemToInventory({
+                id: 'scraper_backyard_key',
+                name: "Backyard Key",
+                description: "A key to the Scraper 1140 backyard. It seems to glow faintly.",
+                stackable: false
+            });
+        }
+        const questSystem = this.registry.get('questSystem');
+        const findBishopQuest = questSystem?.getQuest('find_bishop');
+        if (findBishopQuest && !findBishopQuest.isComplete && !findBishopQuest.updates.some(u => u.key === 'check_shard_backyard')) {
+            questSystem.updateQuest('find_bishop', 'Dr. Elphi pointed me to the Scraper backyard. I should look for the Bishop there.', 'check_shard_backyard');
+        }
+    }
+
     get dialogContent() {
         const bishopDead = !!this.questSystem?.getQuest('who_killed_bishop');
         const hasBruising = !!this.hasJournalEntry('bishop_bruising');
@@ -173,6 +193,7 @@ export default class ScraperAmbraScene extends GameScene {
         const canReportDay1 = townhallRevealed && !day1Slept;
         // Day 2: the repaired cartridge is ready to play once the player has slept.
         const feastPlayed = !!this.hasJournalEntry('cardinal_feast_played');
+        const feastNamedCathedral = !!this.questSystem?.getQuest('who_killed_bishop')?.updates?.some(u => u.key === 'feast_journal_egg_cathedral');
         const canPlayFeast = day1Slept && !feastPlayed;
 
         return {
@@ -183,13 +204,15 @@ export default class ScraperAmbraScene extends GameScene {
             // Dr. Elphi Quarn dialog tree
             dr_elphi_start: {
                 // textKey lets the CZ file pick the matching variant (the old lookup matched on the EN text itself).
-                textKey: canReportDay1 ? 'report' : canPlayFeast ? 'feast_ready' : feastPlayed ? 'after_feast' : bishopDead ? 'bishop_dead' : 'default',
+                textKey: canReportDay1 ? 'report' : canPlayFeast ? 'feast_ready' : feastPlayed ? (feastNamedCathedral ? 'after_feast' : 'after_feast_no_lead') : bishopDead ? 'bishop_dead' : 'default',
                 text: canReportDay1
                     ? "You look like the city has been chewing on you all day and only just spat you out. Sit. Tell me what you found out there."
                     : canPlayFeast
                     ? "Morning. The cartridge held together overnight — barely. I've got the Bishop's last session loaded and waiting. Whenever you're ready to see what she saw."
-                    : feastPlayed
+                    : feastPlayed && feastNamedCathedral
                     ? "You've got the look of someone who just watched a ghost check the time. The Egg Cathedral, then. That's where it sent you."
+                    : feastPlayed
+                    ? "You've got the look of someone who just watched a ghost check the time. Go on, then. Where did it leave you?"
                     : bishopDead
                     ? "You're back. I can see it on your face. Something happened to her, didn't it?"
                     : "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
@@ -200,8 +223,9 @@ export default class ScraperAmbraScene extends GameScene {
                     ...(canPlayFeast ? [
                         { text: "Load the Bishop's last session.", key: 'load_bishops_last_session', next: "dr_elphi_cartridge_ready" }
                     ] : []),
-                    ...(feastPlayed ? [
-                        { text: "The game told me where the journal is.", key: 'the_game_told_me_where', next: "dr_elphi_after_feast" }
+                    ...(feastPlayed ? [feastNamedCathedral
+                        ? { text: "The game told me where the journal is.", key: 'the_game_told_me_where', next: "dr_elphi_after_feast" }
+                        : { text: "It ended in a loop. And a title card: \"Infinite Fold.\"", key: 'it_ended_in_a_loop', next: "dr_elphi_after_feast" }
                     ] : []),
                     ...(this.journalSystem?.hasFact('met_infinite_fold', 'bishop_truth') ? [
                         { text: "[Before entering the cathedral] I found the thing in the sealed cellar. It's the one that killed her.", key: 'before_cathedral_infinite_fold', next: "dr_elphi_perspective" }
@@ -278,7 +302,7 @@ export default class ScraperAmbraScene extends GameScene {
                 options: [
                     { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" },
                     { text: "Something went wrong. I'm following the trace.", key: 'something_went_wrong_im_following_the_trace', next: "dr_elphi_anomaly_path" },
-                    { text: "Never mind.", key: 'never_mind', next: "dr_elphi_exit" }
+                    { text: "Never mind.", key: 'never_mind', next: "dr_elphi_exit_brief" }
                 ],
                 onTrigger: () => {
                     this.addJournalFact('met_dr_elphi', 'dreams', "She designs dreams — neurofiction, dream architecture.");
@@ -331,23 +355,16 @@ export default class ScraperAmbraScene extends GameScene {
                     { text: "I'll check the backyard.", key: 'ill_check_the_backyard', next: "closeDialog" },
                     { text: "Thanks for the information.", key: 'thanks_for_the_information', next: "closeDialog" }
                 ],
-                onTrigger: () => {
-                    // Key only once (re-opening the exit used to push a duplicate), and make sure the quest points
-                    // to the backyard even when the player got here via "Never mind" without the Bishop/anomaly branch.
-                    if (!this.hasItem('scraper_backyard_key')) {
-                        this.addItemToInventory({
-                            id: 'scraper_backyard_key',
-                            name: "Backyard Key",
-                            description: "A key to the Scraper 1140 backyard. It seems to glow faintly.",
-                            stackable: false
-                        });
-                    }
-                    const questSystem = this.registry.get('questSystem');
-                    const findBishopQuest = questSystem?.getQuest('find_bishop');
-                    if (findBishopQuest && !findBishopQuest.isComplete && !findBishopQuest.updates.some(u => u.key === 'check_shard_backyard')) {
-                        questSystem.updateQuest('find_bishop', 'Dr. Elphi pointed me to the Scraper backyard. I should look for the Bishop there.', 'check_shard_backyard');
-                    }
-                }
+                onTrigger: () => this.giveBackyardLead()
+            },
+            // "Never mind" before she ever talked about the Bishop: no "if something happened to her"
+            dr_elphi_exit_brief: {
+                text: "Suit yourself. If you're going to poke around anyway, poke around somewhere useful — the backyard. Here, take my key.\n\nCome back if you find something.",
+                options: [
+                    { text: "I'll check the backyard.", key: 'ill_check_the_backyard', next: "closeDialog" },
+                    { text: "Thanks.", key: 'thanks_brief', next: "closeDialog" }
+                ],
+                onTrigger: () => this.giveBackyardLead()
             },
 
             // === Post-Bishop-death dialog tree ===
@@ -814,7 +831,11 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_after_feast: {
-                text: `The Egg Cathedral — that's your journal lead, and a good one. But first—\n\n*She has gone very still.* You said it ended in a loop. An empty hall. A figure at the head of the table that doesn't turn around. And a title card: "Infinite Fold."\n\n*Her voice drops.* I need you to understand that I did not put that on the cartridge. I haven't heard that name in years, and I was hoping never to hear it again.`,
+                // Without the Feast naming it, she is the one who points to the Egg Cathedral.
+                textKey: feastNamedCathedral ? 'lead' : 'no_lead',
+                text: !feastNamedCathedral
+                    ? `*She has gone very still.* A loop. An empty hall. A figure at the head of the table that doesn't turn around. And a title card: "Infinite Fold."\n\n*Her voice drops.* I need you to understand that I did not put that on the cartridge. I haven't heard that name in years, and I was hoping never to hear it again.\n\n*She makes herself go on.* As for her journal — if the Bishop hid the rest of it anywhere, it's the Egg Cathedral. She sealed it herself. Nobody else could get in.`
+                    : `The Egg Cathedral — that's your journal lead, and a good one. But first—\n\n*She has gone very still.* You said it ended in a loop. An empty hall. A figure at the head of the table that doesn't turn around. And a title card: "Infinite Fold."\n\n*Her voice drops.* I need you to understand that I did not put that on the cartridge. I haven't heard that name in years, and I was hoping never to hear it again.`,
                 options: [
                     { text: "You recognize it. What is Infinite Fold?", key: 'what_is_the_infinite_loop', next: "dr_elphi_loop_reveal" },
                 ],
@@ -1121,6 +1142,7 @@ export default class ScraperAmbraScene extends GameScene {
         const edgarEntry = this.getJournalEntry('edgar_book_completed');
         if (edgarEntry) {
             const m = edgarEntry.metadata || {};
+            const book = m.book_draft ? composeBook(m.book_draft, 'en', id => !!this.hasJournalEntry(id)) : null;
             const title = (m.book_title
                 || (edgarEntry.title || '').replace(/^Edgar's Book:\s*/, '').replace(/"/g, '')
                 || 'his new book').trim();
@@ -1130,7 +1152,9 @@ export default class ScraperAmbraScene extends GameScene {
             const setting = (m.book_setting || 'the city').replace(/_/g, ' ');
             panels.push({
                 title: 'The Screaming Cork — Edgar reads',
-                caption: `Up on an upturned crate, Edgar Eskola opens "${title}" and reads the first chapter aloud: ${tone ? tone + ' ' : ''}${genre}, about ${this.aOrAn(protagonist)} in ${setting}. ${this.edgarCrowdReaction(m.book_tone, m.book_genre)}`,
+                caption: book
+                    ? `Up on an upturned crate, Edgar Eskola opens "${book.title}" and reads the opening aloud: ${book.excerpts.opening} ${this.edgarCrowdReaction(m.book_tone, m.book_genre)}`
+                    : `Up on an upturned crate, Edgar Eskola opens "${title}" and reads the first chapter aloud: ${tone ? tone + ' ' : ''}${genre}, about ${this.aOrAn(protagonist)} in ${setting}. ${this.edgarCrowdReaction(m.book_tone, m.book_genre)}`,
                 bg: 'cs_corkint',
                 bgTint: 0xe0c79a,
                 sprites: [

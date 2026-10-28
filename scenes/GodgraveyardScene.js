@@ -27,7 +27,7 @@ export default class GodgraveyardScene extends GameScene {
         return [
             {
                 slug: 'laimig', x: 100, name: 'Laimig Cel, Who Lost the Game', epitaph: 'I FOLD', correct: true,
-                lore: "\"Laimig Cel — a god of wagers and games, who bet against a rival deity and lost everything, even Their own name. The epitaph is Their last move: 'I FOLD.'\"\n\nPhor lowers her voice. \"Odd thing — a divinographer before me swore two game-makers used to leave offerings at this stone. A dreamwright and her partner. They were... taken with the god who knew when to lose.\""
+                lore: "\"Laimig Cel — a god of wagers and games, who bet against a rival deity and lost everything, even Their own name. The epitaph is Their last move: 'I FOLD.'\"\n\nPhor lowers his voice. \"Odd thing — a divinographer before me swore two game-makers used to leave offerings at this stone. A dreamwright and her partner. They were... taken with the god who knew when to lose.\""
             },
             {
                 slug: 'sisyla', x: 225, name: 'Sisyla, the Unwaking', epitaph: 'SLEEP HAS NO DOOR',
@@ -43,7 +43,7 @@ export default class GodgraveyardScene extends GameScene {
             },
             {
                 slug: 'lietus', x: 600, name: 'Lietus Kika, of Temporal Confusion', epitaph: 'IT WAS ONLY YESTERDAY',
-                lore: "\"Lietus Kika — god of temporal confusion, prayed to by those forever certain they did a thing only recently, when years have quietly slid by. This stone can't even agree how long it's stood here.\" Phor frowns at her own notes. \"I could swear I catalogued it last week. My handwriting says eleven years ago. The epitaph, without a shred of irony: 'IT WAS ONLY YESTERDAY.'\""
+                lore: "\"Lietus Kika — god of temporal confusion, prayed to by those forever certain they did a thing only recently, when years have quietly slid by. This stone can't even agree how long it's stood here.\" Phor frowns at his own notes. \"I could swear I catalogued it last week. My handwriting says eleven years ago. The epitaph, without a shred of irony: 'IT WAS ONLY YESTERDAY.'\""
             },
             {
                 slug: 'hvetrdjaana', x: 725, name: 'Hvétrdjaana', epitaph: '(unreadable)',
@@ -294,7 +294,7 @@ export default class GodgraveyardScene extends GameScene {
             this.addJournalEntry(
                 'godgraveyard_entered',
                 'Into the Godgraveyard',
-                'Phor Calesta took me down into the Godgraveyard beneath the Townhall — layer upon layer of fossilized dead gods. She says their gravestones tell only the truth. I can read individual graves for their names and epitaphs.',
+                'Phor Calesta took me down into the Godgraveyard beneath the Townhall — layer upon layer of fossilized dead gods. He says their gravestones tell only the truth. I can read individual graves for their names and epitaphs.',
                 this.journalSystem.categories.PLACES,
                 { location: 'Godgraveyard', character: 'Phor Calesta' }
             );

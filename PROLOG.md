@@ -114,15 +114,15 @@ Don Girandole stál na ulici v temné a větrné noci. Nedbaje na déšť, stál
 
 ---
 
-Phor Calesta, archeoložka ztracených teologií, neměla dobrý den. Dostat se do Horní Morkezely až z Murkvale ji stálo spoustu času a prostředků a teď, těsně před cílem, ji nechtěli pustit na hřbitov. Nebyl to ovšem ledajaký hřbitov, ale Pohřebiště bohů, ohromný prostor plný mrtvých božstev, která zde našla svůj poslední odpočinek. K divinografickým výzkumům by ovšem potřebovala nějaké povolení a radnice, která jej mohla vydat, byla zavřená, i když by podle slov místních měla být otevřená.
+Phor Calesta, archeolog ztracených teologií, neměl dobrý den. Dostat se do Horní Morkezely až z Murkvale ho stálo spoustu času a prostředků a teď, těsně před cílem, ho nechtěli pustit na hřbitov. Nebyl to ovšem ledajaký hřbitov, ale Pohřebiště bohů, ohromný prostor plný mrtvých božstev, která zde našla svůj poslední odpočinek. K divinografickým výzkumům by ovšem potřeboval nějaké povolení a radnice, která jej mohla vydat, byla zavřená, i když by podle slov místních měla být otevřená.
 
-Jako craybarská rodačka z Murkvale byla zvyklá na potápění se do hlubin — jak fyzických, tak metafyzických. V jejím rodném městě se ruiny stavěly jako korály, vzpomínky fosilizovaly v sedimentu a archeologie se dělala potápěčskou výbavou. Tady, na suchu, se cítila zranitelná a trochu podrážděná. Zvlášť když jí úředník za okénkem poprvé řekl, že radnice je zavřená. Pak že je otevřená, ale oddělení povolení ne. Pak že oddělení povolení je otevřené, ale referent je na obědě. Pak že referent není na obědě, ale na dovolené. Pak že není na dovolené, ale nikdy neexistoval.
+Jako craybarský rodák z Murkvale byl zvyklý na potápění se do hlubin — jak fyzických, tak metafyzických. V jeho rodném městě se ruiny stavěly jako korály, vzpomínky fosilizovaly v sedimentu a archeologie se dělala potápěčskou výbavou. Tady, na suchu, se cítil zranitelný a trochu podrážděný. Zvlášť když mu úředník za okénkem poprvé řekl, že radnice je zavřená. Pak že je otevřená, ale oddělení povolení ne. Pak že oddělení povolení je otevřené, ale referent je na obědě. Pak že referent není na obědě, ale na dovolené. Pak že není na dovolené, ale nikdy neexistoval.
 
-— To je přece absurdní, řekla trpělivě.
+— To je přece absurdní, řekl trpělivě.
 
-— Samozřejmě že je, odvětil úředník s upřímným údivem, jako by nechápala něco zcela očividného. Proto jsme tu. Kdyby to bylo rozumné, nepotřebovali bychom úřad.
+— Samozřejmě že je, odvětil úředník s upřímným údivem, jako by nechápal něco zcela očividného. Proto jsme tu. Kdyby to bylo rozumné, nepotřebovali bychom úřad.
 
-Phor si nakonec zjistila, že povolení k vykopávkám může získat jedině prostřednictvím formuláře PB-17/C3-delta, který musí být opatřen razítkem z oddělení Zemských a Podzemních Záležitostí, potvrzením z Referátu Fosilizovaných Entit, nezávislým posudkem od alespoň jednoho mrtvého boha (v zastoupení nebo čestným prohlášením pozůstalého kněze) a požehnáním alespoň dvou ze tří hlavních frakcí. Phor si rezignovaně sedla na lavičku a pozorovala náměstí, kde pouliční muzikant hrál na rozladěné podivné strunné cosi staré melodie — prý z časů, kdy bylo nebe modré. Muzikant tvrdil, že si je pamatuje. Většina pochybovala, ale nikdo si netroufal odporovat člověku, který hrál tak krásně smutně.
+Phor si nakonec zjistil, že povolení k vykopávkám může získat jedině prostřednictvím formuláře PB-17/C3-delta, který musí být opatřen razítkem z oddělení Zemských a Podzemních Záležitostí, potvrzením z Referátu Fosilizovaných Entit, nezávislým posudkem od alespoň jednoho mrtvého boha (v zastoupení nebo čestným prohlášením pozůstalého kněze) a požehnáním alespoň dvou ze tří hlavních frakcí. Phor si rezignovaně sedl na lavičku a pozoroval náměstí, kde pouliční muzikant hrál na rozladěné podivné strunné cosi staré melodie — prý z časů, kdy bylo nebe modré. Muzikant tvrdil, že si je pamatuje. Většina pochybovala, ale nikdo si netroufal odporovat člověku, který hrál tak krásně smutně.
 
 ---
 

@@ -56,18 +56,28 @@ class QuestSystem extends Phaser.Events.EventEmitter {
         }
     }
 
-    updateQuest(id, newInfo, key = null) {
+    /**
+     * Add a progress line to a quest. `key` is the update's flag (one write per key).
+     * `params` (optional, saved with the update) lets the quest log translate text built at runtime:
+     * its values fill `{name}` placeholders in `quests.<id>.updates.<…>`, and the reserved
+     * `params.textKey` picks which translation to use instead of `key` — for one flag key whose
+     * wording varies (count forms via `countForm(n)`, route variants). `newInfo` stays the English
+     * fallback and must equal the English translation with the params filled in.
+     */
+    updateQuest(id, newInfo, key = null, params = null) {
         const quest = this.quests.get(id);
         if (quest) {
             // Skip duplicate updates — if a key is provided and already exists, do nothing
             if (key && quest.updates.some(u => u.key === key)) {
                 return;
             }
-            quest.updates.push({
+            const update = {
                 text: newInfo,
-                key: key, 
+                key: key,
                 date: new Date()
-            });
+            };
+            if (params) update.params = { ...params };
+            quest.updates.push(update);
             this.syncRegistryQuests();
             this.notifySubscribers();
             // Emit event directly from this instance

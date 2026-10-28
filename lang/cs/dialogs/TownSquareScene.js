@@ -18,7 +18,7 @@ export default {
             hello_there_im_an_obazoba_cult_adept: "Nazdar, jsem adept kultu Obazoba.",
             what_do_you_mean_real_citizen: "Co myslíš tím *skutečný občan*?",
             hello_my_name_is_lord_murmurspine_i_am_en_envoy_fr: "Dobrý den, jmenuji se Lord Murmurspine, jsem vyslanec z Lagerlandie. Máte chvíli si pohovořit o našem pánu a spasiteli, Maltimu Chmeloskoku?",
-            use_nemes_power_to_detect_lies_and_pretense: "Použít Nemovu moc k odhalení lží a přetvářky.",
+            use_nemes_power_to_detect_lies_and_pretense: "Použít Neminu moc k odhalení lží a přetvářky.",
             magnekin_cities_recall: "Připomeň mi – jak funguje celá sbírka měst?",
             magnekin_origin_recall: "Pověz mi znovu svůj příběh o původu.",
             magnekin_blend_recall: "Ohledně toho, jak splynout s okolím...",
@@ -72,7 +72,7 @@ export default {
         }
     },
     magnekin_neme_power: {
-        text: "Když zaměříš Nemovu moc na Magnekina, ucítíš kolem něj podivnou auru. Je to směs klamu a skrytých úmyslů. Máš pocit, že Magnekin není úplně upřímný. Za prvé, je to lhář. Za druhé, není to jedna bytost, je to obrovský kolektiv drobných tvorů.",
+        text: "Když zaměříš Neminu moc na Magnekina, ucítíš kolem něj podivnou auru. Je to směs klamu a skrytých úmyslů. Máš pocit, že Magnekin není úplně upřímný. Za prvé, je to lhář. Za druhé, není to jedna bytost, je to obrovský kolektiv drobných tvorů.",
         options: {
             confront_magnekin_about_your_discovery: "Konfrontovat Magnekina s tvým objevem."
         }

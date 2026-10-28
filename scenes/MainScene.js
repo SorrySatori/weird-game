@@ -684,6 +684,8 @@ export default class MainScene extends Phaser.Scene {
                 if (saveData.registry) {
                     for (const [key, value] of Object.entries(saveData.registry)) this.registry.set(key, value);
                 }
+                // one-time effects belong to the loaded playthrough, not to whatever was played before it
+                this.registry.set('onceFlags', saveData.registry?.onceFlags || []);
                 
                 // Start the saved scene
                 const targetScene = saveData.currentScene || 'GameScene';

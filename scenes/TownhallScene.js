@@ -177,7 +177,7 @@ export default class TownhallScene extends GameScene {
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('dead_gods_cosmology', 'godmetal', "She has dug up godmetal that still hums with the last of its faith, and prayer beads whispering devotions in dead languages.");
+                    this.addJournalFact('dead_gods_cosmology', 'godmetal', "He has dug up godmetal that still hums with the last of its faith, and prayer beads whispering devotions in dead languages.");
                 }
             },
             phorDisturbing: {
@@ -217,7 +217,7 @@ export default class TownhallScene extends GameScene {
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('phor_calesta', 'permits', "She needs Townhall permits before she may excavate the Godgraveyard beneath it.");
+                    this.addJournalFact('phor_calesta', 'permits', "He needs Townhall permits before he may excavate the Godgraveyard beneath it.");
                     this.addJournalFact('dead_gods_cosmology', 'city_on_gods', "Upper Morkezela sits on layer upon layer of dead faiths — the bones of the many gods who came here to die. The Egg Cathedral is only the latest layer.");
                 }
             },
@@ -234,7 +234,7 @@ export default class TownhallScene extends GameScene {
                             this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'I need to get inside the Townhall.');
                         }
                         if (!this.questSystem.getQuest('enter_townhall')?.isComplete) {
-                            this.questSystem.updateQuest('enter_townhall', "Phor Calesta needs to get in too — without Townhall permits she can't excavate the Godgraveyard, and the Townhall is closed.", 'phor_needs_access');
+                            this.questSystem.updateQuest('enter_townhall', "Phor Calesta needs to get in too — without Townhall permits he can't excavate the Godgraveyard, and the Townhall is closed.", 'phor_needs_access');
                         }
                     }
             },
@@ -246,17 +246,17 @@ export default class TownhallScene extends GameScene {
             },
 
             phorAccessGranted: {
-                text: "Phor Calesta nearly drops her notebook. \"They — they *approved* it? After all this waiting?\" She composes herself, eyes shining. \"Then there's no time to lose. The way down opens off the Town Square — an old stair into the Godgraveyard. Go there and take it down; I'll meet you at the gate. Finally — someone to read the corpses with me.\"",
+                text: "Phor Calesta nearly drops his notebook. \"They — they *approved* it? After all this waiting?\" He composes himself, eyes shining. \"Then there's no time to lose. The way down opens off the Town Square — an old stair into the Godgraveyard. Go there and take it down; I'll meet you at the gate. Finally — someone to read the corpses with me.\"",
                 options: [
                     { text: "I'll meet you at the lower doors.", key: 'meet_at_lower_doors', next: "phorAskSomethingElse" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('godgraveyard_access_granted', 'phor', "Phor Calesta can now begin her divinography expedition there.");
+                    this.addJournalFact('godgraveyard_access_granted', 'phor', "Phor Calesta can now begin his divinography expedition there.");
                     if (!this.hasJournalEntry('phor_graveyard_ready')) {
                         this.addJournalEntry(
                             'phor_graveyard_ready',
                             'Phor Will Meet Me at the Godgraveyard',
-                            'I told Phor Calesta the Townhall granted the excavation permit. She\'ll meet me at the gate to the Godgraveyard. The way down opens off the Town Square — an old stair down into the graves.',
+                            'I told Phor Calesta the Townhall granted the excavation permit. He\'ll meet me at the gate to the Godgraveyard. The way down opens off the Town Square — an old stair down into the graves.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Phor Calesta', location: 'Godgraveyard' }
                         );
@@ -278,7 +278,7 @@ export default class TownhallScene extends GameScene {
                         this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'I need to get inside the Townhall.');
                     }
                     if (!this.questSystem.getQuest('enter_townhall')?.isComplete) {
-                        this.questSystem.updateQuest('enter_townhall', 'Phor Calesta says nobody knows why the Townhall closed — the clerks simply stopped coming one day. She has been waiting outside for nine digestions. Maybe someone in the city knows how to get in.', 'phor_townhall_closed');
+                        this.questSystem.updateQuest('enter_townhall', 'Phor Calesta says nobody knows why the Townhall closed — the clerks simply stopped coming one day. He has been waiting outside for nine digestions. Maybe someone in the city knows how to get in.', 'phor_townhall_closed');
                     }
                 }
             },

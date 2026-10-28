@@ -53,6 +53,12 @@ State shape:
 - Same no-spoiler rule as the journal: a quest description/update says only what the player knows when it
   is written; later reveals are NEW updates (new key) at the revealing state. Keys are often flags — never rename
   them or move when they're written. Translations: `quests.<id>.{title,description,updates.<key>}` in `lang/{en,cs}/quests.js`.
+- **Runtime-built update text** (numbers, names, route variants): never bake it untranslatable — pass a 4th arg
+  `updateQuest(id, englishText, key, { textKey, ...values })` (saved with the update). The quest log looks up
+  `quests.<id>.updates.<textKey || key>` and fills `{name}` placeholders from the values. Pick the wording in code:
+  counts via `countForm(n)` from `systems/LanguageSystem.js` → `'one'|'few'|'many'` (1 / 2–4 / 0,5+ — Czech forms;
+  EN gives few+many the same text), e.g. `textKey: 'lamps_found_' + countForm(n)`. The English in code must equal the
+  EN lang text with values filled. Old saves (no params) keep showing their stored text. Examples: `utils/GangOfLamps.js`.
 - A dialog state with `onShow` is NOT rendered (GameScene runs it and returns) — use `onTrigger` for side effects
   of a state that has text/options; `onShow` is only for close/launch states.
 
@@ -136,6 +142,18 @@ both in `lang/en/ambient.js` + `lang/cs/ambient.js`). Example: Shed521FloorsScen
   **object keyed by `textKey`** (preferred for conditional text) or by the exact English string.
 - **Limitation:** procedurally-generated text (Cardinal Feast beats, the Day-1 dream/nightlife
   cutscene) bypasses `translateDialog` and is **English only**. Launch/frame dialogs ARE translated.
+
+## Edgar's book (`utils/EdgarBook.js`, quest `edgar_book` in ScreamingCorkScene)
+The player's picks (≤3 topics, tone, genre, protagonist, setting) generate a whole book: title + "aneb …"/"or, …"
+subtitle, blurb, three excerpts, reviews (only from NPCs the player has met — journal ids), a thank-you to the 3rd topic.
+- Every pick is a POOL drawn with a seed fixed at quest start (`registry.edgarBookDraft`, persisted in saves; the
+  finished draft is copied to journal `edgar_book_completed.metadata.book_draft`) → `composeBook(draft, lang, knows)`.
+- Picks bend each other: genre `funny animals` swaps hero + villain pools for animals (political → the Fascist Stag),
+  `SPECIAL_TITLES` for genre|tone pairs, genre picks the MacGuffin, topics become cameo characters (`CAMEOS`).
+- Czech is native and declined: entities carry cases `n g d a i l` (+ places `in to from`) and a gender class;
+  templates use `{P.a}`, agreement `{P:m|f|n|pl}` / `{P:sg|pl}`, `{^…}` capitalises; relative-clause tails get their
+  closing comma automatically. Validate new content by rendering all combinations (no `{`/`undefined` left).
+- Dynamic texts are localized in the scene (`cs ? … : …`); the cs dialog file only translates option keys there.
 
 ## The Cardinal Feast mini-game (`scenes/CardinalFeastScene.js`)
 Standalone `Phaser.Scene` (NOT GameScene) — a **top-down, walkable** RPG launched via

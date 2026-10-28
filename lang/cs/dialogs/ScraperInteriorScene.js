@@ -12,7 +12,7 @@ export default {
         text: "Výtah se otřese a odkudsi z jeho útrob se line hlas – teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
-            corrode: "Rozežrat.",
+            corrode: "Koroduj.",
             descend_to_cellar: "Vezmi mě dolů do zapečetěného sklepa.",
             seam_scraper_deadfloors: "[Smysl pro švy] Zapečetěná mrtvá patra – nahmatej cestu dovnitř.",
             can_you_take_me_to_other_floors: "Můžeš mě vzít na jiná patra?",
@@ -142,7 +142,7 @@ export default {
         }
     },
     lift_mother_corrode: {
-        text: "Dlouhé ticho. Pak kabely zavibrují. \"...Rozežrat.\" Slovo se rozezní šachtou. \"To je to staré slovo. Rezavé slovo. Vydobyl sis průchod, sporové dítě.\" Skrytý panel se otevře a odhalí tlačítko označené zrezivělým symbolem ozubeného kola. Výtah se trhne nahoru.",
+        text: "Dlouhé ticho. Pak kabely zavibrují. \"...Koroduj.\" Slovo se rozezní šachtou. \"To je to staré slovo. Rezavé slovo. Vydobyl sis průchod, sporové dítě.\" Skrytý panel se otevře a odhalí tlačítko označené zrezivělým symbolem ozubeného kola. Výtah se trhne nahoru.",
         options: {
             ascend_to_the_rust_domain: "Vystoupat do Rezavé domény."
         }
@@ -183,7 +183,7 @@ export default {
         text: ""
     },
     seam_scraper_prompt: {
-        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Lift-Mother. \"Ale tahle budova si drží patra, ke kterým se nepřizná – úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
+        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Matce-Výtahu. \"Ale tahle budova si drží patra, ke kterým se nepřizná – úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
         options: {
             seam_scraper_open_opt: "[Smysl pro švy] Otevřít šev do mrtvého patra.",
             seam_scraper_back: "Teď ne. Vezmi mě zpět."

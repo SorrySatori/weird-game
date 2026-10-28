@@ -195,7 +195,9 @@ export default class LumenDirectorateScene extends GameScene {
         if (!this.hasJournalEntry('gang_eavesdrop_heard')) {
             this.addJournalEntry('gang_eavesdrop_heard', title, secret, this.journalSystem.categories.LORE, { group: 'Gang of Lamps', related: 'A Choice Morsel' });
             if (this.questSystem?.getQuest(GANG_QUEST_IDS.chandelier)) {
-                this.questSystem.updateQuest(GANG_QUEST_IDS.chandelier, questNote, 'gang_eavesdrop_heard');
+                // Same flag on every route; textKey picks the matching translation of questNote.
+                const questTextKey = 'gang_eavesdrop_heard_' + (mode === 'neme' || mode === 'brine' ? mode : 'vent');
+                this.questSystem.updateQuest(GANG_QUEST_IDS.chandelier, questNote, 'gang_eavesdrop_heard', { textKey: questTextKey });
             }
         }
         if (mode === 'neme' || mode === 'brine') {

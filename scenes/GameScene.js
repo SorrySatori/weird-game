@@ -1317,6 +1317,17 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
+     * Run a side effect once per playthrough (e.g. a reputation shift in a dialog state whose
+     * onTrigger re-runs on every show/click). Persisted through saves via the `onceFlags` registry key.
+     */
+    onceEver(key, fn) {
+        const done = this.registry.get('onceFlags') || [];
+        if (done.includes(key)) return;
+        this.registry.set('onceFlags', [...done, key]);
+        fn();
+    }
+
+    /**
      * Add something the player has just found out to an existing (or future) journal entry, e.g. a
      * person's entry that grows as you learn more. Translations: `journal.<id>.facts.<factId>`.
      */

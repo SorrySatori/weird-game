@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import { armsReward } from '../utils/OrtolanArms.js';
 import QuestSystem from '../systems/QuestSystem.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
@@ -137,12 +138,7 @@ export default class ShedCourtyardScene extends GameScene {
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'artisan');
                     // Add game prototype to inventory
-                    this.addItemToInventory({
-                        id: 'game-prototype',
-                        name: "Ortolan's Game Prototype",
-                        description: "A prototype board game with semi-sentient pieces that respond to your thoughts. The rules seem to shift when you're not looking.",
-                        stackable: false
-                    });
+                    this.addItemToInventory(armsReward('artisan-exemption-form'));
                     // Growth reward
                     this.safeModifyGrowthDecay(5, 0);
                 }
@@ -156,12 +152,7 @@ export default class ShedCourtyardScene extends GameScene {
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'deformity');
                     // Add special die to inventory
-                    this.addItemToInventory({
-                        id: 'probability-die',
-                        name: "Probability-Bending Die",
-                        description: "A strange die crafted by Ortolan that occasionally shows impossible numbers and seems to predict future rolls.",
-                        stackable: false
-                    });
+                    this.addItemToInventory(armsReward('deformity-form'));
                     // Growth reward
                     this.safeModifyGrowthDecay(4, 0);
                 }
@@ -174,12 +165,7 @@ export default class ShedCourtyardScene extends GameScene {
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'dispensation');
                     // Add worldwright piece to inventory
-                    this.addItemToInventory({
-                        id: 'worldwright-piece',
-                        name: "Worldwright Game Piece",
-                        description: "A special game piece crafted by Ortolan that can alter the rules of any game it's placed in. It seems to glow faintly with possibility.",
-                        stackable: false
-                    });
+                    this.addItemToInventory(armsReward('special-dispensation'));
                     // Growth reward
                     this.safeModifyGrowthDecay(6, 0);
                 }
@@ -193,13 +179,7 @@ export default class ShedCourtyardScene extends GameScene {
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'temporary');
                     // Add luck token to inventory
-                    this.addItemToInventory({
-                        id: 'luck-token',
-                        name: "Minor Luck Token",
-                        description: "A simple wooden token crafted by Ortolan that seems to slightly influence probability in games of chance.",
-                        stackable: true,
-                        quantity: 3
-                    });
+                    this.addItemToInventory(armsReward('temporary-permit'));
                     // Growth reward
                     this.safeModifyGrowthDecay(3, 0);
                 }
@@ -237,12 +217,7 @@ export default class ShedCourtyardScene extends GameScene {
                     this.safeModifyGrowthDecay(0, 10);
                     
                     // Add special game piece to inventory
-                    this.addItemToInventory({
-                        id: 'fate-altering-piece',
-                        name: "Fate-Altering Game Piece",
-                        description: "A special game piece crafted by Ortolan that seems to subtly influence probability and fate when carried. It glows with a faint, unsettling light.",
-                        stackable: false
-                    });
+                    this.addItemToInventory(armsReward('forged-arms-permission'));
                 }
             },
             quest_completed: {

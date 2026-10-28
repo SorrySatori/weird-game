@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js';
+import { heldArmsPaperwork, handOverArmsPaperwork } from '../utils/OrtolanArms.js';
 import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
 
 // Animated fire (tools/artgen/burningbear_bg.py): 6-frame loops packed in an atlas whose frames are trimmed against the
@@ -43,6 +44,10 @@ export default class BurningBearStreetScene extends GameScene {
         // Ortolan relocates here on Day 2. How much he helps depends on whether the
         // player helped him win his extra pair of arms on Day 1 (the ortolan_arms quest).
         const helped = !!this.questSystem?.getQuest('ortolan_arms')?.isComplete;
+        // Day-1 paperwork still in the pack: he's here now, not at the Shed, so he takes it here.
+        const armsOffer = heldArmsPaperwork(this)
+            ? [{ text: "I still have the paperwork for your extra arms.", key: 'ortolan_bb_arms_offer', next: "ortolan_bb_arms" }]
+            : [];
         const asked = !!this.hasJournalEntry('ortolan_infinite_loop');
 
         return {
@@ -59,13 +64,24 @@ export default class BurningBearStreetScene extends GameScene {
                 options: asked
                     ? [
                         ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] You built the old systems. What am I walking into?", key: 'perspective_ortolan_open', next: "ortolan_bb_perspective" }] : []),
+                        ...armsOffer,
                         { text: "Right. The Scraper cellar.", key: 'right_scraper_cellar', next: "closeDialog" }
                     ]
                     : [
                         ...(this.hasJournalEntry('met_infinite_fold') ? [{ text: "[Before entering the cathedral] You built the old systems. What am I walking into?", key: 'perspective_ortolan_open', next: "ortolan_bb_perspective" }] : []),
                         { text: "Infinite Fold. Elphi says it's running again.", key: 'the_infinite_loop_running', next: "ortolan_bb_loop" },
+                        ...armsOffer,
                         { text: "Never mind.", key: 'never_mind_bb', next: "closeDialog" }
                     ]
+            },
+
+            ortolan_bb_arms: {
+                speaker: 'Ortolan',
+                text: `*He looks at the papers, then at his four hands, then at you.* "The paperwork for the arms? I got them in the end — the Shed lost my file and approved it by accident. Classic."\n\nHe takes the papers anyway and tucks them into his coat with great tenderness. "Now it's retroactively legal. You've no idea how much better that feels. Here — this was meant for you back at the Shed."`,
+                options: [
+                    { text: "Thank you, Ortolan.", key: 'ortolan_bb_arms_thanks', next: "ortolan_bb_start" }
+                ],
+                onTrigger: () => { handOverArmsPaperwork(this); }
             },
 
             // === Perspective branch (only after meeting Infinite Fold in the cellar) ===
@@ -204,7 +220,7 @@ export default class BurningBearStreetScene extends GameScene {
                         if (helped) {
                             this.addJournalFact('cellar_quest_started', 'passphrase', "Ortolan no longer has the key, but the passphrase is a dead god's true name, remembered only on its gravestone in the Godgraveyard. I should read the graves there and find the right name — a divinographer could guide me.");
                             if (this.hasJournalEntry('phor_calesta')) {
-                                this.addJournalFact('cellar_quest_started', 'phor', "Phor Calesta is a divinographer — she could read the graves with me.");
+                                this.addJournalFact('cellar_quest_started', 'phor', "Phor Calesta is a divinographer — he could read the graves with me.");
                             }
                         }
                         if (this.questSystem && !this.questSystem.getQuest('find_loop_copy')) {
@@ -218,7 +234,7 @@ export default class BurningBearStreetScene extends GameScene {
                             if (helped) {
                                 this.questSystem.updateQuest('find_loop_copy', "Ortolan told me the passphrase is a dead god's true name, remembered only on its gravestone in the Godgraveyard. I should read the graves there — a divinographer could guide me.", 'passphrase_dead_god');
                                 if (this.hasJournalEntry('phor_calesta')) {
-                                    this.questSystem.updateQuest('find_loop_copy', 'Phor Calesta is a divinographer — she could read the graves with me.', 'phor_can_read_graves');
+                                    this.questSystem.updateQuest('find_loop_copy', 'Phor Calesta is a divinographer — he could read the graves with me.', 'phor_can_read_graves');
                                 }
                             }
                         }

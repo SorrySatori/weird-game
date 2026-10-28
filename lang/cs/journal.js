@@ -262,8 +262,8 @@ export default {
             },
         },
         phor_calesta: {
-            title: 'Phor Calesta – Divinografka',
-            description: 'Setkal jsem se s další podivnou osobou. Archeoložkou specializující se na studium mrtvých bohů.',
+            title: 'Phor Calesta – Divinograf',
+            description: 'Setkal jsem se s další podivnou osobou. Archeologem specializujícím se na studium mrtvých bohů.',
             facts: {
                 craybara: "Phor je Craybara – z obojživelného národa, který se vyvinul v Murkvale, zatopeném městě.",
                 permits: "Než bude smět kopat na Bohohřbitově pod Radnicí, potřebuje od Radnice povolení.",
@@ -413,7 +413,7 @@ export default {
         },
         sulkberries_neme_verrik: {
             title: 'Neme Potvrzuje: Verrik Mluví Pravdu',
-            description: 'Použil jsem Nemovu Fotosenzitivitu k ověření Verrikova tvrzení. Žádný podvod nezjištěn.',
+            description: 'Použil jsem Neminu Fotosenzitivitu k ověření Verrikova tvrzení. Žádný podvod nezjištěn.',
         },
         sulkberries_cleared_kloor: {
             title: 'Kloor Venn: Mručenky Jsou Čisté',
@@ -421,7 +421,7 @@ export default {
         },
         sulkberries_neme_kloor: {
             title: 'Neme Potvrzuje: Kloor Mluví Pravdu',
-            description: 'Použil jsem Nemovu Fotosenzitivitu k ověření Kloorovy analýzy. Žádný podvod nezjištěn.',
+            description: 'Použil jsem Neminu Fotosenzitivitu k ověření Kloorovy analýzy. Žádný podvod nezjištěn.',
         },
         sulkberries_cleared_heliodor: {
             title: 'Heliodor: Mručenky Jsou Čisté',
@@ -429,7 +429,7 @@ export default {
         },
         sulkberries_neme_heliodor: {
             title: 'Neme Potvrzuje: Heliodor Mluví Pravdu',
-            description: 'Použil jsem Nemovu Fotosenzitivitu na Heliodorovu kolonii. Vícenásobné poctivé signály potvrzeny.',
+            description: 'Použil jsem Neminu Fotosenzitivitu na Heliodorovu kolonii. Vícenásobné poctivé signály potvrzeny.',
         },
         ac_cathedral_tension: {
             title: 'Zapečetění Katedrály – Pohled Korektora Úhlu',
@@ -472,190 +472,6 @@ export default {
             description: 'Edgar souhlasil, že mi dá svůj vestigel, jakmile mu pomůžu napsat jeho knihu.',
         },
         // --- Edgarova knižní questlina: jeden zápis na každou možnou volbu (id skládá ScreamingCorkScene za běhu) ---
-        'edgar_book_topic_scraper_building': {
-            title: 'Inspirace pro knihu: Záhadná budova Škrabáku',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Záhadná budova Škrabáku“ – budova, která se zdá posouvat a měnit, s patry, která se sama přeskupují. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_lift_mother': {
-            title: 'Inspirace pro knihu: Inteligentní výtah Lift-Mother',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Inteligentní výtah Lift-Mother“ – prastarý vědomý výtah, který si pamatuje dějiny města. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_ortolan': {
-            title: 'Inspirace pro knihu: Ortolan, návrhář deskových her',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Ortolan, návrhář deskových her“ – postava, která tvoří složité hry a shání další ruce na testování. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_dream_queue': {
-            title: 'Inspirace pro knihu: Snová fronta',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Snová fronta“ – záhadné místo, kde se zpracovávají a ukládají lidské sny. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_spore_infection': {
-            title: 'Inspirace pro knihu: Sporová infekce',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Sporová infekce“ – podivné spory, které lidi nakazí a promění. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_vestigels': {
-            title: 'Inspirace pro knihu: Záhadné vestigely',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Záhadné vestigely“ – prastaré artefakty neznámé moci, které sbírám. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_kloor_venn': {
-            title: 'Inspirace pro knihu: Tajemný Kloor Venn',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Tajemný Kloor Venn“ – postava, která mluví v hádankách a zdá se být na více místech zároveň. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_skyships': {
-            title: 'Inspirace pro knihu: Vzducholodě nad městem',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Vzducholodě nad městem“ – obrovská plavidla, která z neznámých důvodů plují oblaky. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_rust_choir': {
-            title: 'Inspirace pro knihu: Záhadný Rezavý chór',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Záhadný Rezavý chór“ – frakce, která se dorozumívá vibracemi rezavějícího kovu. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_burning_bear': {
-            title: 'Inspirace pro knihu: Festival hořícího medvěda',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Festival hořícího medvěda“ – kontroverzní svátek, který má pro Edgara hluboký význam. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_board_games_war': {
-            title: 'Inspirace pro knihu: Deskovkové války',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Deskovkové války“ – dávný konflikt, v němž Ludarchové – návrháři her schopní přepisovat skutečnost – ničili celá města jako figurky ve svých hrách. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_noise_god': {
-            title: 'Inspirace pro knihu: Bůh hluku',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Bůh hluku“ – zapomenuté božstvo, které přišlo do Horní Morkezely zemřít a jehož přítomnost dosud tepe v rozbitých zesilovačích a magnetickém prachu. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_magnekin': {
-            title: 'Inspirace pro knihu: Magnekin – civilizace v jednom těle',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Magnekin – civilizace v jednom těle“ – společenství drobných měst držených pohromadě magnetickými silami, přestrojené za jediného lidského občana. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_god_graveyard': {
-            title: 'Inspirace pro knihu: Hřbitov bohů pod městem',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Hřbitov bohů pod městem“ – vrstvy zkamenělých mrtvých bohů pod Horní Morkezelou, jejichž modlitby se změnily v souvrství a svatozáře vykrystalizovaly v nerostné žíly. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_city_mystery': {
-            title: 'Inspirace pro knihu: Záhady Horní Morkezely',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Záhady Horní Morkezely“ – podivné město s houbovým porostem a nezvyklými obyvateli. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_topic_misutken_life': {
-            title: 'Inspirace pro knihu: Život mišutkenna ve městě',
-            description: 'Jako inspiraci pro Edgarovu knihu jsem navrhl téma „Život mišutkenna ve městě“ – výzvy a pohledy toho, kdo je v Horní Morkezele jiný. Edgar vypadal zaujatě a něco si poznamenal.',
-        },
-        'edgar_book_tone_tragic': {
-            title: 'Tón knihy: tragický',
-            description: 'Navrhl jsem, aby Edgarova kniha měla tragický tón – ponuré zkoumání ztráty a smutku. Zdálo se, že se té myšlenky chopil, a přemýšlel, jak zapadne do inspirací, o kterých jsme mluvili.',
-        },
-        'edgar_book_tone_metaphysical': {
-            title: 'Tón knihy: metafyzický',
-            description: 'Navrhl jsem, aby Edgarova kniha měla metafyzický tón – hluboký ponor do otázek vědomí a skutečnosti. Zdálo se, že se té myšlenky chopil, a přemýšlel, jak zapadne do inspirací, o kterých jsme mluvili.',
-        },
-        'edgar_book_tone_romantic': {
-            title: 'Tón knihy: romantický',
-            description: 'Navrhl jsem, aby Edgarova kniha měla romantický tón – příběh soustředěný na blízkost a lásku. Zdálo se, že se té myšlenky chopil, a přemýšlel, jak zapadne do inspirací, o kterých jsme mluvili.',
-        },
-        'edgar_book_tone_existential': {
-            title: 'Tón knihy: existenciální',
-            description: 'Navrhl jsem, aby Edgarova kniha měla existenciální tón – meditace o smyslu a smrtelnosti. Zdálo se, že se té myšlenky chopil, a přemýšlel, jak zapadne do inspirací, o kterých jsme mluvili.',
-        },
-        'edgar_book_tone_political': {
-            title: 'Tón knihy: politický',
-            description: 'Navrhl jsem, aby Edgarova kniha měla politický tón – rozbor mocenských struktur a jejich dopadů. Zdálo se, že se té myšlenky chopil, a přemýšlel, jak zapadne do inspirací, o kterých jsme mluvili.',
-        },
-        'edgar_book_tone_comical': {
-            title: 'Tón knihy: komický',
-            description: 'Navrhl jsem, aby Edgarova kniha měla komický tón – humorný pohled na absurdity života. Zdálo se, že se té myšlenky chopil, a přemýšlel, jak zapadne do inspirací, o kterých jsme mluvili.',
-        },
-        'edgar_book_genre_fungal techno': {
-            title: 'Žánr knihy: houbový techno-thriller',
-            description: 'Navrhl jsem Edgarovi, aby napsal houbový techno-thriller – spojení biotechnologie s hororovými prvky. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_genre_postmodern': {
-            title: 'Žánr knihy: postmoderní román',
-            description: 'Navrhl jsem Edgarovi, aby napsal postmoderní román – porušování zavedených pravidel vyprávění. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_genre_urban fantasy': {
-            title: 'Žánr knihy: městská fantasy',
-            description: 'Navrhl jsem Edgarovi, aby napsal městskou fantasy – vnesení magických prvků do městského prostředí. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_genre_funny animals': {
-            title: 'Žánr knihy: vtipná zvířata s depresí',
-            description: 'Navrhl jsem Edgarovi, aby napsal knihu o vtipných zvířatech s depresí – antropomorfní postavy jako cesta k hlubším emocím. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_genre_detective': {
-            title: 'Žánr knihy: detektivní román',
-            description: 'Navrhl jsem Edgarovi, aby napsal detektivní román – sledování stop až k rozluštění záhad. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_genre_weird fiction': {
-            title: 'Žánr knihy: snová weird fiction',
-            description: 'Navrhl jsem Edgarovi, aby napsal snovou weird fiction – rozmazávání hranice mezi skutečností a sny. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_genre_mythic war epic': {
-            title: 'Žánr knihy: mýtický válečný epos',
-            description: 'Navrhl jsem Edgarovi, aby napsal mýtický válečný epos – epické vyprávění o dávných válkách, v nichž hry přepisovaly skutečnost. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_genre_cosmic horror': {
-            title: 'Žánr knihy: kosmický horor',
-            description: 'Navrhl jsem Edgarovi, aby napsal kosmický horor – střet s děsivými pozůstatky mrtvých bohů a zapomenutých bytostí. Zdálo se, že v tom žánru vidí možnost, jak vyjádřit své zážitky z Horní Morkezely.',
-        },
-        'edgar_book_protagonist_disoriented tourist': {
-            title: 'Hlavní postava knihy: dezorientovaný turista',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byl dezorientovaný turista – někdo, kdo vidí podivné město čerstvýma, zmatenýma očima. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_protagonist_bad scientist': {
-            title: 'Hlavní postava knihy: houbový vědec renegát',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byl houbový vědec renegát – někdo, kdo se noří do tajů houbové biologie města. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_protagonist_mišutkenn': {
-            title: 'Hlavní postava knihy: mišutkenn hledající identitu',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byl mišutkenn hledající identitu – někdo, kdo mezi dvěma světy hledá, kým je a kam patří. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_protagonist_strange amnesiac': {
-            title: 'Hlavní postava knihy: člověk trpící ztrátou paměti s podivnými schopnostmi',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byl člověk trpící ztrátou paměti s podivnými schopnostmi – někdo, kdo odkrývá vlastní minulost a přitom vládne nezvyklými schopnostmi. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_protagonist_fungal colony': {
-            title: 'Hlavní postava knihy: inteligentní kolonie hub',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byla inteligentní kolonie hub – kolektivní vědomí, které poprvé zakouší, jaké je to být jedincem. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_protagonist_dream detective': {
-            title: 'Hlavní postava knihy: snový detektiv',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byl snový detektiv – někdo, kdo řeší záhady tím, že vstupuje do snů druhých. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_protagonist_rogue Ludarch': {
-            title: 'Hlavní postava knihy: odpadlický Ludarch',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byl odpadlický Ludarch – poslední návrhář her schopný ohýbat skutečnost, pronásledovaný válkami, jež pomohl rozpoutat. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_protagonist_living collective': {
-            title: 'Hlavní postava knihy: kolektiv bytostí předstírající jednu osobu',
-            description: 'Navrhl jsem, aby hlavní postavou Edgarovy knihy byl kolektiv bytostí předstírající jednu osobu – miliony drobných bytostí, které se vydávají za jediného člověka a poprvé poznávají velký svět. Edgar se na rozvíjení té postavy zjevně těšil.',
-        },
-        'edgar_book_setting_scraper': {
-            title: 'Prostředí knihy: proměnlivá patra Škrabáku',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „proměnlivá patra Škrabáku“ – záhadná budova s patry, která se sama přeskupují. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
-        'edgar_book_setting_magical school': {
-            title: 'Prostředí knihy: vražedná magická škola',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „vražedná magická škola“ – magická škola, kde každý rok za podezřelých okolností umírají děti – kromě hlavního hrdiny, samozřejmě. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
-        'edgar_book_setting_immortal mammal': {
-            title: 'Prostředí knihy: obří nesmrtelný savec plovoucí v oceánu',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „obří nesmrtelný savec plovoucí v oceánu“ – obrovský tvor beze jména, věčně plující v hlubinách. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
-        'edgar_book_setting_fungal wilds': {
-            title: 'Prostředí knihy: houbová divočina',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „houbová divočina“ – nezkrocené kraje, kde houbové porosty nabývají svých nejprvotnějších tvarů. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
-        'edgar_book_setting_skyship': {
-            title: 'Prostředí knihy: vzducholoď mezi oblaky',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „vzducholoď mezi oblaky“ – plavidlo plující nad oblaky, odloučené, a přece spojené s městem pod sebou. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
-        'edgar_book_setting_markets': {
-            title: 'Prostředí knihy: podzemní trhy',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „podzemní trhy“ – podzemní tržiště, kde se dá obchodovat s čímkoli. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
-        'edgar_book_setting_living board game': {
-            title: 'Prostředí knihy: válkou zničená desková hra, která se stala skutečností',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „válkou zničená desková hra, která se stala skutečností“ – válkou zničená desková hra, která se stala skutečností – její zmenšený svět teď obývají vnímající figurky. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
-        'edgar_book_setting_god graveyard': {
-            title: 'Prostředí knihy: hřbitov mrtvých bohů',
-            description: 'Navrhl jsem, aby se Edgarova kniha odehrávala v prostředí „hřbitov mrtvých bohů“ – zkamenělé vrstvy mrtvých bohů pod městem, kde modlitby zkameněly a svatozáře se změnily v krystal. Edgara to místo zjevně inspirovalo a přemýšlel, jak bude souznít s ostatními prvky příběhu.',
-        },
         feral_toast_performance: {
             title: 'Koncert Feral Toast',
             description: 'Zažil jsem mysl ohýbající zvuky Feral Toast, ultranoise-futurepunkové kapely z klubu U Řvoucího korku. Jejich syrový, špinavý noise-punk zní jako vrchol chaosu. Líbilo se mi to.',
@@ -769,9 +585,9 @@ export default {
         },
         dead_gods_cosmology: {
             title: 'Kam bohové chodí umírat',
-            description: "Phor Calesta mi vysvětlila divinografii – studium mrtvých bohů jako geologických jevů. Když božstvo zemře, jeho podstata jen tak nezmizí: zkamení. Modlitby ztvrdnou ve vrstvy, svatozáře krystalizují v nerostná ložiska.",
+            description: "Phor Calesta mi vysvětlil divinografii – studium mrtvých bohů jako geologických jevů. Když božstvo zemře, jeho podstata jen tak nezmizí: zkamení. Modlitby ztvrdnou ve vrstvy, svatozáře krystalizují v nerostná ložiska.",
             facts: {
-                godmetal: "Vykopala bohokov, který dosud hučí posledními zbytky víry, i růžence, které pořád šeptají modlitby v mrtvých jazycích.",
+                godmetal: "Vykopal bohokov, který dosud hučí posledními zbytky víry, i růžence, které pořád šeptají modlitby v mrtvých jazycích.",
                 city_on_gods: "Horní Morkezela stojí na vrstvách mrtvých věr – na kostech mnoha bohů, kteří sem přišli zemřít. Vaječná katedrála je jen ta nejnovější vrstva.",
                 corpses_truth: "Jak říká Phor: bohové svým věřícím lžou, ale jejich mrtvoly mluví jen pravdu.",
             },
@@ -800,7 +616,7 @@ export default {
             description: "Ve sklepě pod Scraperem, ve staré laboratoři Ortolana a Dr. Elphi, je pod zámkem stará verze Infinite Foldu. Výtah dolů chce heslo – a to nějak souvisí s Bohohřbitovem pod Radnicí.",
             facts: {
                 passphrase: "Ortolan už klíč nemá, ale heslem je pravé jméno mrtvého boha, které si pamatuje jen jeho náhrobek na Bohohřbitově. Měl bych si tam přečíst hroby a najít to správné jméno – pomoct mi může nějaký divinograf.",
-                phor: "Phor Calesta je divinografka – mohla by hroby číst se mnou.",
+                phor: "Phor Calesta je divinograf – mohl by hroby číst se mnou.",
             },
         },
         infinite_fold_purpose: {
@@ -886,11 +702,11 @@ export default {
         },
         godgraveyard_entered: {
             title: 'Dolů do Bohohřbitova',
-            description: 'Phor Calesta mě vzala dolů do Bohohřbitova pod Radnicí – vrstva na vrstvě zkamenělých mrtvých bohů. Říká, že jejich náhrobky říkají jen pravdu. Jednotlivé hroby mohu číst kvůli jejich jménům a epitafům.',
+            description: 'Phor Calesta mě vzal dolů do Bohohřbitova pod Radnicí – vrstva na vrstvě zkamenělých mrtvých bohů. Říká, že jejich náhrobky říkají jen pravdu. Jednotlivé hroby mohu číst kvůli jejich jménům a epitafům.',
         },
         godgraveyard_gate_seen: {
             title: 'Zapečetěný Bohohřbitov',
-            description: "Našel jsem bránu do Bohohřbitova, zapečetěnou radničním voskem. Abych se dostal dovnitř, potřebuji svolení Radnice – a Phor Calestu, aby mě provedla.",
+            description: "Našel jsem bránu do Bohohřbitova, zapečetěnou radničním voskem. Abych se dostal dovnitř, potřebuji svolení Radnice – a Phora Calestu, aby mě provedl.",
         },
         grave_sense_vhorn: {
             title: 'Hrobový smysl: Jak zemřel Vhorn',
@@ -924,7 +740,7 @@ export default {
         },
         cellar_password_learned: {
             title: 'Heslo do sklepení',
-            description: 'Heslo do zapečetěného sklepení pod Škrabákem zní "SKLÁDÁM SE" – je to jméno mrtvého boha. Matka-Výtah na něj otevře cestu dolů.',
+            description: 'Heslo do zapečetěného sklepení pod Škrabákem zní "SKLÁDÁM SE" – je to jméno mrtvého boha. Lift-Mother na něj otevře cestu dolů.',
             facts: {
                 laimig: "Je to epitaf Laimiga Cela, boha, který prohrál hru.",
             },
@@ -1004,7 +820,7 @@ export default {
         },
         seam_sense_scraper_floors: {
             title: 'Smysl pro švy: Zapečetěná patra',
-            description: 'Matka-Výtah teď dosáhne jen do vstupní haly – horní patra se zapečetila v den, kdy vzešlo Vejce, a budova odmítá počítat ty, které ztratila. S Palinodou jsem odřekl šev mezi dvěma úrovněmi, které se nikdy neměly dotknout, a vstoupil na mrtvé patro zachované přesně tak, jak je Vzejití zanechalo: manažerskou vrstvu zmrzlou uprostřed porady, zelené spory stále visící nespadlé ve vzduchu. Ti proměnění vyšplhali pryč a už se nevrátili dolů. V kabátě přehozeném přes židli jsem našel malou zásobu sušených spor, kterou opustili. Žádná zeď není poslední slovo – dokonce ani patro, na které budova zapomněla.',
+            description: 'Lift-Mother teď dosáhne jen do vstupní haly – horní patra se zapečetila v den, kdy vzešlo Vejce, a budova odmítá počítat ty, které ztratila. S Palinodou jsem odřekl šev mezi dvěma úrovněmi, které se nikdy neměly dotknout, a vstoupil na mrtvé patro zachované přesně tak, jak je Vzejití zanechalo: manažerskou vrstvu zmrzlou uprostřed porady, zelené spory stále visící nespadlé ve vzduchu. Ti proměnění vyšplhali pryč a už se nevrátili dolů. V kabátě přehozeném přes židli jsem našel malou zásobu sušených spor, kterou opustili. Žádná zeď není poslední slovo – dokonce ani patro, na které budova zapomněla.',
         },
         seam_sense_shed_tunnel: {
             title: 'Smysl pro švy: Zazděný tunel',
@@ -1037,7 +853,7 @@ export default {
             description: "Dostal jsem se dovnitř na Radnici.",
             facts: {
                 bishop_report: "Teď můžu v archivech pátrat po Biskupčině hlášení o dvojníkovi.",
-                phor_permits: "A můžu zkusit Phor Calestě vyřídit povolení k vykopávkám.",
+                phor_permits: "A můžu zkusit Phoru Calestovi vyřídit povolení k vykopávkám.",
             },
         },
         godgraveyard_access_granted: {
@@ -1069,7 +885,7 @@ export default {
         },
         phor_graveyard_ready: {
             title: 'Phor mě potká na Božím hřbitově',
-            description: 'Řekl jsem Phor Calestě, že Radnice udělila povolení k vykopávkám. Potká mě u brány na Boží hřbitov. Cesta dolů se otevírá z Náměstí – staré schodiště sestupující mezi hroby.',
+            description: 'Řekl jsem Phoru Calestovi, že Radnice udělila povolení k vykopávkám. Potká mě u brány na Boží hřbitov. Cesta dolů se otevírá z Náměstí – staré schodiště sestupující mezi hroby.',
         },
         bishop_seal_true_purpose: {
             title: 'Pravý účel pečeti',

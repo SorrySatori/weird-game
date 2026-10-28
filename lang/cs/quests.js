@@ -12,7 +12,7 @@ export default {
                 bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Boudy 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
-                got_floor_counter_tool: "Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Matky-Výtahu. S opraveným počítadlem by se výtah mohl dostat do pater, kam teď nedojede.",
+                got_floor_counter_tool: "Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Lift-Mother. S opraveným počítadlem by se výtah mohl dostat do pater, kam teď nedojede.",
                 lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tichém.',
                 reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Tichém. Teď musím najít stopy po Biskupce.',
                 check_shard_backyard: "Dr. Elphi mě nasměrovala na dvorek za Škrabákem. Měl bych tam Biskupku hledat.",
@@ -100,7 +100,7 @@ export default {
             updates: {
                 talk_to_ravla: 'Měl bych si nejdřív promluvit s Ravlou v hospodě Řvoucí korek.',
                 talked_to_ravla: 'Ravla ve Řvoucím korku chce, abych připravil hostinu pro stroje Rezavého chóru jako důkaz mého odhodlání.',
-                feast_complete: 'Rezavá Hostina je hotová. Ravla mi dala heslo pro Lift-Mother: „Koroduj". Teď mohu vstoupit do domény Rezavého chóru.',
+                feast_complete: 'Rezavá hostina je hotová. Ravla mi dala heslo pro Lift-Mother: „Koroduj“. Teď se dostanu do domény Rezavého chóru.',
                 feast_delivered: 'Doručil jsem Rezavou Hostinu Brukkovi v Rezavé Doméně.',
             }
         },
@@ -108,12 +108,12 @@ export default {
             title: 'Rezavá Hostina',
             description: 'Připravit hostinu pro stroje Rezavého chóru sesbíráním oleje, kovu a živé rudé hmoty, a přinést vše Ravle do Řvoucího korku.',
             updates: {
-                talked_to_archeologist_hint: 'Ravla navrhla, abych promluvil s archeoložkou u radnice a dozvěděl se víc o rudé hmotě.',
+                talked_to_archeologist_hint: 'Ravla navrhla, abych promluvil s archeologem u radnice a dozvěděl se víc o rudé hmotě.',
                 gathered_rust_materials_hint: 'Ravla mi poradila hledat šrot kolem Škrabáku... a zkontrolovat doky u Žloutkového Moře nebo Deltu ozvěn kvůli oleji.',
                 redmass_spared: 'Našel jsem živou rudou hmotu na ostrově v Deltě ozvěn, ale rozhodl jsem se ji ušetřit.',
                 redmass_collected: "Z ostrova v Deltě ozvěn mám živou rudou hmotu na hostinu.",
                 magnekin_tip: 'Podivný tvor, který se identifikuje jako Magnekin, mi řekl, že nějaké kovové šroty se dají najít v Deltě ozvěn.',
-                learned_rust_cluster_location: 'Phor Calesta mi řekla, že rudá hmota se nachází v údržbových chodbách Boudy 521.',
+                learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Boudy 521.',
             }
         },
         rust_reclamation: {
@@ -138,7 +138,7 @@ export default {
                 nonverbal_gesture_clue: 'Úředník mi řekl, abych šel na Registrační úřad a předvedl co nejlepší nonverbální gesto. Nejsem si jistý, jestli tomu úplně rozumím...',
                 ravla_forger_hint: 'Heliodor ve Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
                 ravla_forger_agreement: 'Ravla ve Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
-                document_obtained: 'Získal jsi padělaný Formulář o výjimce pro umělce od Ravly. Doruč ho Ortolanovi na nádvoří Boudy.',
+                document_obtained: "Od Ravly mám padělané povolení pro Ortolanovy ruce navíc. Teď mu ho jen musím donést.",
                 bureaucratic_incantation: 'Dutá žena z fronty na registračním úřadě mě naučila podivné byrokratické zaklínadlo.',
                 form_obtained: 'Úspěšně jsem získal formulář pro Ortolana.',
                 partial_progress: 'Získal jsem Dočasné povolení, které by mohlo Ortolanovi pomoct, ale není plně schválené.',
@@ -148,7 +148,7 @@ export default {
         },
         excavation_permit: {
             title: 'Divinografie',
-            description: 'Měl bych pomoct Phor Calestě získat vykopávkové povolení pro Božský Hřbitov na radnici. Nejdřív se musím nějak dostat dovnitř radnice.',
+            description: 'Měl bych pomoct Phoru Calestovi získat vykopávkové povolení pro Božský Hřbitov na radnici. Nejdřív se musím nějak dostat dovnitř radnice.',
             updates: {
                 godgraveyard_access_granted: 'Radní Seraphel Dune udělil přístup do úrovně Godgraveyardu pod Radnicí jako poděkování za vyřešení rukojmí krize. Phor Calesta má konečně povolení potřebné k divinografické práci.',
                 phor_meets_at_graveyard: "Phor Calesta mě počká u brány na Hřbitov bohů. Cesta dolů vede z Náměstí – staré schodiště sestupující mezi hroby.",
@@ -162,13 +162,14 @@ export default {
                 ac_seldo_referral: 'Korektor Úhlu mě nasměroval k Seldovi Třikrát-Korigovanému ve druhém patře.',
                 seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti – příliš trapné pro operativce Direktorátu koupit veřejně.',
                 seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumen Directorate výměnou za klíč od Radnice.',
+                seldo_auction_success_price: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu za {price} dinárů. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumen Directorate výměnou za klíč od Radnice.',
                 seldo_townhall_key: 'Dodal jsem Chronobřečkové Ropušátko Seldovi Třikrát-Korigovanému. Dal mi neoficiální klíč od Radnice pro boční vchod s mosaznou schránkou na stížnosti.',
                 entered_townhall: "Dostal jsem se dovnitř Radnice.",
                 phor_needs_access: "Dovnitř potřebuje i Phor Calesta – bez povolení od Radnice nesmí kopat na Hřbitově bohů, jenže Radnice je zavřená.",
-                phor_townhall_closed: "Podle Phor Calesty nikdo neví, proč je Radnice zavřená – úředníci jednoho dne prostě přestali chodit. Čeká venku už devět trávení. Možná někdo ve městě ví, jak se dostat dovnitř.",
+                phor_townhall_closed: "Podle Phora Calesty nikdo neví, proč je Radnice zavřená – úředníci jednoho dne prostě přestali chodit. Čeká venku už devět trávení. Možná někdo ve městě ví, jak se dostat dovnitř.",
                 townhall_door_locked: "Dveře Radnice jsou zamčené. Budu muset najít jinou cestu dovnitř – možná někdo ve městě ví jak.",
                 entered_townhall_records: "Teď můžu v archivech pátrat po Biskupčině hlášení o dvojníkovi.",
-                entered_townhall_permits: "Teď můžu zkusit vyřídit Phor Calestě povolení k vykopávkám.",
+                entered_townhall_permits: "Teď můžu zkusit vyřídit Phoru Calestovi povolení k vykopávkám.",
                 elphi_townhall_lead: "Dr. Elphi si myslí, že radniční razítko na Biskupčině poznámce o dvojníkovi znamená, že šla úřední cestou. Měl bych zjistit, kdo ji tam vyřizoval.",
                 seldo_auction_failed: "Chronobřečkové Ropušátko se mi na aukci ve Voxmarketu získat nepodařilo. Seldo nebude nadšený a do Radnice se možná budu muset dostat jinudy.",
             }
@@ -184,23 +185,23 @@ export default {
             title: 'Přístup na Úroveň 177',
             description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Tichém v budově Škrabáku.',
             updates: {
-                liris_tool_hint: "Kalibrační nástroj od kapitánky Liris by mohl být tím, co Matku-Výtah přiměje otevřít mi patro 177-Tiché.",
+                liris_tool_hint: "Kalibrační nástroj od kapitánky Liris by mohl být tím, co Lift-Mother přiměje otevřít mi patro 177-Tiché.",
             }
         },
         edgar_book: {
             title: 'Pomoct Edgarovi napsat knihu',
             description: 'Edgar Eskola zmínil, že chce napsat knihu. Měl bych mu pomoct.',
             updates: {
-                completed: 'Pomohli jste Edgaru Eskolovi rozvinout koncept jeho knihy. Je vám velmi vděčný.',
+                completed: "Pomohl jsem Edgaru Eskolovi vymyslet knihu. Už píše.",
             }
         },
         find_loop_copy: {
             title: "Zapečetěný sklep",
-            description: "Dostat se do zapečetěného sklepa pod Škrabákem, kde je podle Ortolana pořád uložená stará verze Infinite Foldu. Výtah dolů (Matka-Výtah) chce heslo – a to nějak souvisí s Bohohřbitovem pod Radnicí.",
+            description: "Dostat se do zapečetěného sklepa pod Škrabákem, kde je podle Ortolana pořád uložená stará verze Infinite Foldu. Výtah dolů (Lift-Mother) chce heslo – a to nějak souvisí s Bohohřbitovem pod Radnicí.",
             updates: {
                 passphrase_dead_god: "Podle Ortolana je heslem pravé jméno mrtvého boha, které si pamatuje už jen jeho náhrobek na Bohohřbitově. Měl bych si tam přečíst nápisy na hrobech – pomoct mi s tím může nějaký divinograf.",
-                phor_can_read_graves: "Phor Calesta je divinografka – mohla by mi pomoct ty hroby přečíst.",
-                password_from_choir: "Rezavý chór mi prozradil heslo do sklepa – „SKLÁDÁM SE“. Teď můžu Matkou-Výtahem sjet dolů do zapečetěného sklepa.",
+                phor_can_read_graves: "Phor Calesta je divinograf – mohl by mi pomoct ty hroby přečíst.",
+                password_from_choir: "Rezavý chór mi prozradil heslo do sklepa – „SKLÁDÁM SE“. Teď můžu s Lift-Mother sjet dolů do zapečetěného sklepa.",
                 cellar_reached: "Dostal jsem se do zapečetěného sklepení pod Škrabákem – do staré laboratoře Ortolana a Dr. Elphi. Vzadu v šeru pořád pomalu dýchá jantarové světlo. Měl bych prozkoumat konzoli.",
                 master_build_found: "Pod zaprášenou plachtou stojí hlavní sestava Nekonečného Skládání – Ortolanova pravidla, Elphiny zdi – pořád pod proudem. Něco v ní už je vzhůru.",
             }
@@ -220,6 +221,47 @@ export default {
                 lamp_family_known: "Lampy jsou celkem čtyři: Don nahoře na lávce pod Škrabákem 1140, Chandelier na sloupu na náměstí, Sconce u domu razítek a Torchère dole u vody, kde přijíždí náklad.",
                 all_lamps_found: "Všechny čtyři lampy jsou nalezené a skrze mě zase ve spojení.",
                 lamps_have_work: "Lampy říkají, že pro mě brzy budou mít práci. Měl bych se u nich zase stavit.",
+                gang_lamps_destroyed: "Gang lamp zničil Lumen Direktorát. Už není koho propojovat a žádná odměna mě nečeká.",
+                // Řádky `met_lamp_<id>` – kód vybírá podle počtu (params.textKey), {n} = počet nalezených lamp.
+                lamps_found_one: "Zatím jsem našel jednu lampu.",
+                lamps_found_few: "Zatím jsem našel {n} lampy.",
+                lamps_found_many: "Zatím jsem našel {n} lamp.",
+                lamps_found_of_four: "Našel jsem už {n} ze 4 lamp.",
+            }
+        },
+        gang_don_spy: {
+            title: "Uši v Rezavém chóru",
+            description: "Don Girandole chce, abych špehoval Rezavý chór – vetřel se mezi jejich lidi (Brukk v jejich doméně, Gnur v Boudě 521, Ravla za Řvoucím korkem), zjistil, o co jim doopravdy jde, a donesl mu to. Sám mi řekne, až toho vyhrabu dost. A když zjistím, kde jejich doména ve skutečnosti leží, můžu mu prozradit i to.",
+            updates: {
+                // Řádky `gang_spy_<člen>` – kód vybírá podle počtu (params.textKey), {n} = počet tajemství.
+                spy_secrets_one: "Z Rezavého chóru jsem vypáčil jedno tajemství. Měl bych s tím, co mám, zajít za Donem a zjistit, jestli to stačí.",
+                spy_secrets_few: "Z Rezavého chóru jsem vypáčil už {n} tajemství. Měl bych s tím, co mám, zajít za Donem a zjistit, jestli to stačí.",
+                spy_secrets_many: "Z Rezavého chóru jsem vypáčil už {n} tajemství. Měl bych s tím, co mám, zajít za Donem a zjistit, jestli to stačí.",
+            }
+        },
+        gang_torchere_smuggle: {
+            title: "Proklouznout kolem celníků",
+            description: "Torchère mi dal balíček kontrabandu – Wimlick – abych ho propašoval do jeho mrtvé schránky: do uvolněné mříže na Ulici Hořícího Medvěda. Mám ho zastrčit do mříže a pak se mu ohlásit. (Nemusím – můžu si ho nechat, prodat ho nějakému obchodníkovi, nebo ho dokonce sám vyzkoušet.)",
+            updates: {
+                gang_smuggle_delivered: "Wimlick je v mříži. Měl bych se ohlásit Torchèrovi v přístavu.",
+                gang_smuggle_kept: "Torchèrův Wimlick jsem si nechal pro sebe, místo abych ho uložil do mříže. V přístavu mu pořád můžu nahlásit, že předání proběhlo čistě – a balíček je můj, můžu ho prodat nebo použít.",
+            }
+        },
+        gang_chandelier_eavesdrop: {
+            title: "Vybrané sousto",
+            description: "Chandelier chce drby. Poslala mě odposlouchávat k zahradě Lumen Direktorátu – je tam průduch, kterým jsou slyšet hlasy zevnitř. Mám tam naslouchat a pak jí donést, co zaslechnu.",
+            updates: {
+                // `gang_eavesdrop_heard` – jedna varianta na cestu, kód ji vybírá (params.textKey).
+                gang_eavesdrop_heard_vent: "U průduchu v zahradě jsem zaslechl tajemství Direktorátu – jeden Korektor úhlů potichu vykuchal archiv, aby pohřbil chybu svého nadřízeného. Mám to donést Chandelier.",
+                gang_eavesdrop_heard_neme: "Neme mi u průduchu Direktorátu ukázal celou provinilou pravdu – vyčištěný archiv a Korektora, který mezi svými tuší krtka Rezavého chóru. Mám to donést Chandelier.",
+                gang_eavesdrop_heard_brine: "Solopis přečetl usazeniny v půdě: zahrada Direktorátu se doslova živí skartovanými spisy – Direktorát vykuchává vlastní archiv a důkazy kompostuje. Mám to donést Chandelier.",
+            }
+        },
+        gang_sconce_recover: {
+            title: "Vylovit, co bylo založeno",
+            description: "Podle Sconce úředníci na Radnici schválně špatně založili zapečetěný spis ve spisovně uvnitř a schovali ho pod vymyšlené číslo případu. Musím dovnitř, najít spis, který tam nepatří, a vynést jí ho ven.",
+            updates: {
+                gang_dossier_recovered: "Ve spisových zásuvkách jsem našel ten špatně založený spis. Mám ho vynést ven za Sconce k radničním schodům.",
             }
         },
     }
