@@ -514,11 +514,7 @@ export default class VoxMarket extends GameScene {
         
         // Load Kloor Venn drug dealer assets
         this.load.spritesheet('kloor', 'assets/images/characters/voxmarket/kloor.png', { frameWidth: 128, frameHeight: 160 }); // 0-3 idle, 4-11 walk
-        
-        // Load Oltrac drug images
-        this.load.image('grayOltrac', 'assets/images/effects/grayOltrac.png'); 
-        this.load.image('violetOltrac', 'assets/images/effects/violetOltrac.png'); 
-        this.load.image('amberOltrac', 'assets/images/effects/amberOltrac.png'); 
+        // Oltrac overlay art (…OltracFx) is loaded game-wide in LoadingScene — the drug can be taken anywhere
         
         // Audio is already loaded in GameScene's preload
     }

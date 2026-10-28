@@ -15,6 +15,8 @@ module.exports = {
       /^\/out(\/|$)/,
       /^\/build(\/|$)/,
       /^\/scripts(\/|$)/,
+      /^\/tools(\/|$)/,                   // art generators + trailer capture (trailer output alone is ~650 MB)
+      /^\/assets\/aseprite(\/|$)/,        // editable sources; the game loads only the exported PNGs
       /^\/dialog-review(\/|$)/,
       /^\/steam-build-[^/]+(\/|$)/,
       /^\/weird-game-neutralino(\/|$)/,

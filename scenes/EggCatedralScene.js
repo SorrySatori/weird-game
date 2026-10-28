@@ -11,6 +11,7 @@ export default class EggCatedralScene extends GameScene {
         super.preload();
         this.load.image('eggCatedralBg', 'assets/images/backgrounds/egg-catedral.png');
         this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
+        this.load.audio('cathedralSoundtrack', 'assets/sounds/cathedral.mp3'); // shared with CathedralEntrance
     }
 
     create() {
@@ -31,8 +32,8 @@ export default class EggCatedralScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Start cathedral theme
-        this.playSceneMusic('cathedralTheme');
+        // Cathedral soundtrack — continues seamlessly into/out of CathedralEntrance
+        this.playSceneMusic('cathedralSoundtrack', { resume: true });
         
         // Create transition zones using SceneTransitionManager
         

@@ -317,9 +317,8 @@ export default class ShedCourtyardScene extends GameScene {
         super.preload();
         this.load.image('courtyard-bg', 'assets/images/backgrounds/ShedMutationCourtyard.png');
         this.load.image('door', 'assets/images/ui/door.png');
-        this.load.image('exitArea', 'assets/images/ui/exitArea.png');
         this.load.spritesheet('ortolanIdle', 'assets/images/characters/ortolan_idle.png', { frameWidth: 128, frameHeight: 160 });
-        this.load.image('particle', 'assets/images/effects/particle.png');
+        this.load.image('particle', 'assets/images/effects/spore-particle.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
     }
 

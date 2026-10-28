@@ -81,7 +81,6 @@ export default class ShedHallScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('hall-bg', 'assets/images/backgrounds/ShedHall.png');
-        this.load.image('exitArea', 'assets/images/ui/exitArea.png');
         this.load.image('living-core', 'assets/images/characters/living-core.png');
     }
 

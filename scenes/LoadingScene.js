@@ -23,6 +23,10 @@ export default class LoadingScene extends Phaser.Scene {
         this.load.on('loaderror', (file) => { if (file && iconKeys.has(file.key)) { /* optional icon missing — placeholder is used */ } });
         ITEM_ICONS.forEach(({ key, path }) => this.load.image(key, path));
 
+        // Oltrac drug-trip overlays (systems/EffectsSystem.js). Own *Fx keys: the item icons above own
+        // grayOltrac / violetOltrac / amberOltrac, and the drug can be taken in any scene.
+        ['gray', 'violet', 'amber'].forEach(c => this.load.image(`${c}OltracFx`, `assets/images/effects/${c}Oltrac.png`));
+
         // Voxmarket sound ampules — playable from the inventory in any scene.
         preloadRecordings(this);
         

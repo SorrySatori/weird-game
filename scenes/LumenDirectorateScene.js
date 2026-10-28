@@ -77,11 +77,9 @@ export default class LumenDirectorateScene extends GameScene {
         super.preload();
         this.load.image('lumenDirectorateBg', 'assets/images/backgrounds/LumenDirectorate.png');
         this.load.image('gardener', 'assets/images/characters/gardener.png');
-        // Optional Growth/Decay alternate art — used automatically if the files exist, else the
-        // base background is tinted. Missing files are handled by the loaderror handler.
-        this.load.image('LumenDirectorate_growth', 'assets/images/backgrounds/LumenDirectorate_growth.png');
-        this.load.image('LumenDirectorate_decay', 'assets/images/backgrounds/LumenDirectorate_decay.png');
-        this.load.image('surplus_bloom', 'assets/images/items/surplus_bloom.png');
+        // Growth/Decay alternate art (LumenDirectorate_growth/_decay) and the surplus_bloom sprite are not
+        // drawn yet: applyLumenGDState tints the base background and draws the bloom as a circle.
+        // Load them here once the PNGs exist — the textures.exists checks pick them up automatically.
     }
 
     create() {

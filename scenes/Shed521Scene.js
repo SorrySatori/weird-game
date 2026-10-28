@@ -449,7 +449,6 @@ export default class Shed521Scene extends GameScene {
         this.load.image('Shed521Bg_decay', 'assets/images/backgrounds/Shed521_decay.png');
         preloadGDProps(this);
         this.load.image('exitArea', 'assets/images/ui/door.png');
-        this.load.image('mysteriousSpore', 'assets/images/items/spore.png');
         // Load Gnur sprite
         // Gnur2 = Gnur as a 6-frame walk-cycle spritesheet (3×2 grid, 582×982 per frame).
         this.load.spritesheet('gnur', './assets/images/characters/Gnur2.png', { frameWidth: 582, frameHeight: 982 });

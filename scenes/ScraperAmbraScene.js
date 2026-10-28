@@ -17,7 +17,7 @@ export default class ScraperAmbraScene extends GameScene {
 
         // Make sure sounds are loaded
         if (!this.sound.get('click')) {
-            this.load.audio('click', 'assets/audio/click.mp3');
+            this.load.audio('click', 'assets/sounds/click.mp3');
         }
     }
 

@@ -233,11 +233,11 @@ export default class EffectsSystem {
         }
         
         // Add the drug image as a semi-transparent overlay
-        if (this.scene.textures.exists('grayOltrac')) {
+        if (this.scene.textures.exists('grayOltracFx')) {
             const drugImage = this.scene.add.image(
                 this.scene.cameras.main.width / 2,
                 this.scene.cameras.main.height / 2,
-                'grayOltrac'
+                'grayOltracFx'
             );
             drugImage.setAlpha(0.15);
             drugImage.setBlendMode(Phaser.BlendModes.SCREEN);
@@ -311,11 +311,11 @@ export default class EffectsSystem {
         }
         
         // Add the drug image as a semi-transparent overlay
-        if (this.scene.textures.exists('violetOltrac')) {
+        if (this.scene.textures.exists('violetOltracFx')) {
             const drugImage = this.scene.add.image(
                 this.scene.cameras.main.width / 2,
                 this.scene.cameras.main.height / 2,
-                'violetOltrac'
+                'violetOltracFx'
             );
             drugImage.setAlpha(0.25);
             drugImage.setBlendMode(Phaser.BlendModes.SCREEN);
@@ -402,11 +402,11 @@ export default class EffectsSystem {
         }
         
         // Add the drug image as a semi-transparent overlay
-        if (this.scene.textures.exists('amberOltrac')) {
+        if (this.scene.textures.exists('amberOltracFx')) {
             const drugImage = this.scene.add.image(
                 this.scene.cameras.main.width / 2,
                 this.scene.cameras.main.height / 2,
-                'amberOltrac'
+                'amberOltracFx'
             );
             drugImage.setAlpha(0.3);
             drugImage.setBlendMode(Phaser.BlendModes.SCREEN);

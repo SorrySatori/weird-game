@@ -12,7 +12,6 @@ export default class ScraperBackyardScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('scraperBackyardBg', 'assets/images/backgrounds/ScraperBackyard.png');
-        this.load.image('abandonedBus', 'assets/images/objects/abandoned_bus.png');
         this.load.image('exitArea', 'assets/images/ui/arrow.png');
         this.load.image('door', 'assets/images/ui/door.png');
     }

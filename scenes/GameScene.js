@@ -104,7 +104,6 @@ export default class GameScene extends Phaser.Scene {
         // Load the game assets
         this.load.image('cityBackground', 'assets/images/backgrounds/EntryCity.png'); // native 1067×600 (tools/artgen/entry_bg.py)
         this.load.image('ground', 'assets/images/ui/ground.png');
-        this.load.image('cursor', 'assets/images/ui/cursor.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         preloadHudButtons(this); // inventory / map / journal / quests buttons
         // native-resolution sheet (tools/artgen/hero.py, Aseprite source Hero_priest_128): 0-3 idle, 4-11 walk; shown at scale 1
@@ -112,11 +111,6 @@ export default class GameScene extends Phaser.Scene {
             frameWidth: 128,
             frameHeight: 128
         });
-        this.load.spritesheet('stranger', 'assets/images/characters/mysterious-stranger.png', {
-            frameWidth: 64,
-            frameHeight: 64
-        });
-        this.load.image('fungalPriestAvatar', 'assets/images/characters/fungal-priest.png');
 
         // Load sound assets
         this.load.audio('backgroundMusic', 'assets/sounds/infinite_fold.mp3');
@@ -1211,14 +1205,28 @@ export default class GameScene extends Phaser.Scene {
         this.sceneMusic = null;
     }
 
-    playSceneMusic(key) {
+    playSceneMusic(key, { resume = false } = {}) {
         // Stop ALL audio currently playing in the game
         this.sound.stopAll();
-        
+
         // Play new scene music
         if (key) {
             this.sceneMusic = this.sound.add(key, { loop: true });
-            this.sceneMusic.play();
+
+            // resume: a long track shared by neighbouring scenes keeps flowing (as if it played on
+            // through the fade) instead of restarting from its intro on every scene change
+            const last = this.registry.get('sceneMusicState');
+            let seek = 0;
+            if (resume && last?.key === key && this.sceneMusic.duration > 0) {
+                seek = ((Date.now() - last.startedAt) / 1000) % this.sceneMusic.duration;
+            }
+            this.sceneMusic.play({ seek });
+            this.registry.set('sceneMusicState', { key, startedAt: Date.now() - seek * 1000 });
+
+            if (seek > 0) {
+                this.sceneMusic.setVolume(0);
+                this.tweens.add({ targets: this.sceneMusic, volume: 1, duration: 800 });
+            }
         }
     }
 

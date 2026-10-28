@@ -155,6 +155,7 @@ export default class CathedralEntrance extends GameScene {
         this.load.image('cathedralEntranceBg', 'assets/images/backgrounds/CathedralEntrance.png');
         this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
         this.load.spritesheet('guard', 'assets/images/characters/guardian1.png', { frameWidth: 128, frameHeight: 176 });
+        this.load.audio('cathedralSoundtrack', 'assets/sounds/cathedral.mp3'); // shared with EggCatedralScene
     }
 
     create() {
@@ -174,7 +175,10 @@ export default class CathedralEntrance extends GameScene {
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
-        
+
+        // Cathedral soundtrack — continues seamlessly from the exterior
+        this.playSceneMusic('cathedralSoundtrack', { resume: true });
+
         // Position the priest at the bottom center when entering this scene
         this.priest.x = 200;
         this.priest.y = 470; // Position on the ground

@@ -55,7 +55,7 @@ export default {
     ScreamingCorkScene: screamingCorkScene,
     ShedHallScene: shedHallScene,
     ShedApplicationsScene: shedApplicationsScene,
-    ShedCourtyardScene: shedCourtyardScene,
+    ShedCourtyard: shedCourtyardScene, // keyed by scene key, and this scene's key is 'ShedCourtyard' (not the file name)
     ShedRegistrationScene: shedRegistrationScene,
     EchoDrainDeltaScene: echoDrainDeltaScene,
     SkyshipBoardScene: skyshipBoardScene,
