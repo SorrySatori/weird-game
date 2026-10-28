@@ -22,7 +22,7 @@ export default {
         },
         upper_morkezela: {
             title: 'Upper Morkezela',
-            description: 'They call it a city, but Upper Morkezela was never fully alive. It breathes, though — something does. The streets are grown, not built.',
+            description: 'They call it a city, but Upper Morkezela may be nothing more than a dream of a city. Nobody built its streets — they came in with the dying gods and stayed.',
         },
         fungal_apprentice: {
             title: 'Fungal Apprentice',
@@ -58,7 +58,7 @@ export default {
         },
         bishop_helmet: {
             title: 'Dream Interface Helmet',
-            description: 'The Bishop died wearing a dream helmet she had built herself — market electronics around a pre-war lens, with none of a studio\'s safeguards. The screen shows a runtime-loop error and a "NULL SCENE" failsafe: a catastrophic failure of the dream program, with nothing to stop the neural feedback.',
+            description: "The Bishop died wearing a homemade dream helmet — market electronics around a pre-war lens, with none of a studio's safeguards. The screen shows a runtime-loop error and a \"NULL SCENE\" failsafe: a catastrophic failure of the dream program, with nothing to stop the neural feedback.",
         },
         bishop_journal: {
             title: "The Bishop's Journal",
@@ -73,7 +73,7 @@ export default {
             description: "During my examination of the Bishop's body, I discovered an unusual fungal growth.",
         },
         neme_symbiont_discovered: {
-            title: 'Neme of the Crownmire',
+            title: "Neme",
             description: "I discovered a symbiont living inside the dead Bishop's body.",
         },
         neme_symbiont_accepted: {
@@ -94,7 +94,10 @@ export default {
         },
         crossroad_corpse_spores_planted: {
             title: 'Planted Spores in the Crossroad Corpse',
-            description: 'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth. This has opened up a new path to what appears to be a skyship above.',
+            description: "I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth — and I noticed something up above it.",
+            facts: {
+                skyship: "The growth has opened a path up to a skyship hanging above the crossroads.",
+            },
         },
         symbiont_thorne_still_declined: {
             title: 'Declined Thorne-Still',
@@ -106,7 +109,10 @@ export default {
         },
         skyship_sighting: {
             title: 'Strange Vessel in the Emerald Sky',
-            description: 'A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. The locals say it appeared "twenty-some digestions ago" — whatever it is they count by here — and hasn\'t moved since. Some believe it to be a vessel of the fungal gods, others whisper of more terrestrial origins. Its purpose remains unknown, but its presence has changed the city\'s atmosphere, both literally and figuratively — spores seem to drift from its direction when the wind is right.',
+            description: "A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. Its purpose remains unknown, though spores seem to drift down from it on the wind.",
+            facts: {
+                anchored: "Captain Liris says she has been anchored over the Crossroads for about a month, and the ship hasn't moved since.",
+            },
         },
         delta_fungal_bridge: {
             title: 'Fungal Bridge at Echo Drain Delta',
@@ -139,6 +145,9 @@ export default {
         scraper_building: {
             title: 'The Scraper',
             description: 'The imposing structure known as "The Scraper" rises above the city.',
+            facts: {
+                nexicorp: "The Lift-Mother says it was once Nexicorp Tower — forty-two floors of commerce and ambition. Now the lower floors house those who remember the old ways, the middle floors have gone wild with growth, and the upper floors belong to the Rust Choir.",
+            },
         },
         lift_mother_meeting: {
             title: 'The Lift-Mother',
@@ -174,7 +183,10 @@ export default {
         },
         elphi_helmet_analysis: {
             title: "Dr. Elphi's Analysis: Dream Helmet",
-            description: 'Dr. Elphi recognised the helmet as the Bishop\'s own build: her design copied from memory, Voxmarket parts, and a pre-war lens only the Rust Choir still trades. It had no limiters at all — the burned-out port means the feedback reached her brain unchecked. She calibrated it here, then used it alone, away from every studio safeguard.',
+            description: "Dr. Elphi examined the damaged dream helmet. The burned-out port means the signal load exceeded anything the hardware was rated for — the feedback reached the Bishop's brain unchecked. The helmet had no safeguards at all, and it wasn't one of hers. She thinks it was the murder weapon, or at least the delivery mechanism.",
+            facts: {
+                own_build: "It was the Bishop's own build: Elphi's design copied from memory, Voxmarket parts, and a pre-war lens only the Rust Choir still trades. She calibrated it here, then used it alone, away from every studio safeguard.",
+            },
         },
         elphi_memo_analysis: {
             title: "Dr. Elphi's Analysis: The Doppelgänger",
@@ -221,12 +233,21 @@ export default {
             description: 'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward — just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
         },
         gnur_meeting: {
-            title: 'Gnur of the Rust Choir',
-            description: 'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him — his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
+            title: "Gnur",
+            description: "In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles \"like a broken choir.\" He seems to be a dealer in body modifications and other questionable services. There's something unsettling about him.",
+            facts: {
+                rust_choir: "He used to keep the machines running in the old days; now he is with the Rust Choir. That suggests a deeper involvement with the city's hidden infrastructures and technologies than his shabby appearance would suggest.",
+            },
         },
         rust_choir_faction: {
-            title: 'The Rust Choir — Machines and Memory',
-            description: 'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
+            title: "The Rust Choir",
+            description: "The Rust Choir is one of the factions that hold sway in Upper Morkezela.",
+            facts: {
+                machines: "Gnur says they sing to the machines — to keep some awake and lull others to sleep, depending on the situation.",
+                entropy: "They celebrate entropy — collapse as transformation — and like to trade in secrets, above all old tech. Brukk's people can be found in the old Scraper.",
+                brukk: "Their leader is Brukk, the keeper of the old tech.",
+                any_means: "Their methods are questionable: Gnur still wants the living core, even though the clerk says Shed 521 depends on it. The Choir seems willing to get old tech by any means necessary.",
+            },
         },
         ortolan_meeting: {
             title: 'Ortolan — The Board Game Designer',
@@ -234,27 +255,47 @@ export default {
         },
         board_games_war: {
             title: 'The Board Game Wars',
-            description: 'Ortolan Šmelc told me about the Board Game Wars. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
+            description: "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. The Ludarchs — game designers who could bend the rules of reality — became the new rulers, but grew drunk on power: their games swallowed whole cities, and they created living miniature worlds just to sacrifice them as pieces. Millions of tiny sentient beings died as pawns.",
+            facts: {
+                ortolan: "Ortolan was a worldwright: he made the boards and carved the pieces that became living beings — and he still carries the guilt.",
+                end: "In the end the Ludarchs turned on each other; reality fractured and the cities were left broken.",
+                survivor: "One Ludarch is said to be still alive and active in Upper Morkezela.",
+            },
         },
         phor_calesta: {
             title: 'Phor Calesta - Divinographer',
             description: 'I have met another strange person. An archaeologist specializing in the study of dead gods.',
+            facts: {
+                craybara: "Phor is a Craybara — an amphibious people that evolved in Murkvale, a submerged city.",
+                permits: "She needs Townhall permits before she may excavate the Godgraveyard beneath it.",
+            },
         },
         kloor_venn_meeting: {
-            title: 'Kloor Venn - Pharmaceutical Entrepreneur',
+            title: "Kloor Venn",
             description: 'In Voxmarket, I encountered Kloor Venn.',
+            facts: {
+                entrepreneur: "He calls himself a \"pharmaceutical entrepreneur\" — he deals in specialized substances that expand the mind.",
+                oltrac: "His speciality is Oltrac, a psychoactive drug — and he is keen to buy my fungal spores as raw material for it.",
+            },
         },
         kloor_vestigel_exchange: {
             title: 'Vestigel Exchange with Kloor',
-            description: 'I traded the vestigel I acquired from Edgar Eskola to Kloor Venn.',
+            description: 'I traded a vestigel to Kloor Venn.',
         },
         bishop_elphi_contact: {
             title: "The Bishop's Contact with Dr. Elphi",
             description: 'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often.',
         },
         pith_reclaimers_faction: {
-            title: 'The Ink Tribunal — Keepers of Balance',
-            description: "The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant. It runs the city's administrative apparatus from the Townhall.",
+            title: "The Ink Tribunal",
+            description: "The Ink Tribunal is one of the factions that hold sway in Upper Morkezela.",
+            facts: {
+                record: "Sister Calyx says the Tribunal keeps the record of the city — every title, every claim, every living thing that can be entered in a ledger — and where the record has gaps, it acquires whatever fills them.",
+                neutrality: "A clerk at Shed 521 called the Tribunal the guardian of neutrality, keeping peace and order in the city. Some of its people collect unique items — but never sell them.",
+                bureaucracy: "By all accounts a bureaucracy: it believes the city's chaos can be managed with enough rules, forms and paperwork.",
+                ludarch_origin: "The Angle Corrector says it grew out of the wreckage of the Ludarchs' administrative apparatus — and never stopped filing.",
+                townhall: "It runs the city's administrative apparatus; the Townhall falls under its jurisdiction.",
+            },
         },
         forgotten_elevator_button_available: {
             title: "Mysterious Button at Zerren's Shop",
@@ -306,19 +347,34 @@ export default {
         },
         rust_choir_machines_destroyed: {
             title: 'The Machines Fall Silent',
-            description: 'The illusory redmass I used in the Rust Feast has destroyed the Rust Choir machines.',
+            description: "The Rust Feast I brought killed the Rust Choir's machines. Brukk expelled me from the Rust Domain.",
+            facts: {
+                illusion: "Its redmass was only an illusion I wove with Ulvarex's Mirage Weave. The machines tried to feed on it, found nothing, and died — and their death sent a massive surge of Growth through me, life feeding on the corpse of iron.",
+                cultivar: "It was spiked with the Lumen Directorate's corrosive cultivar, ground into the oil; the machines corroded from the inside. Brukk found the green residue and knew it for what it was. Life surged where iron fell silent.",
+            },
         },
         captain_liris_meeting: {
             title: 'Captain Liris of the Verdigrace',
-            description: 'Aboard the skyship, I met Captain Liris, an imposing figure in an ornate uniform who commands the vessel known as the Verdigrace. The ship travels the aerial trade routes between various settlements and research outposts, carrying rare spores, mycelia, and information.',
+            description: "Aboard the skyship, I met Captain Liris, an imposing figure in an ornate uniform who commands the vessel known as the Verdigrace.",
+            facts: {
+                routes: "The ship travels the aerial trade routes between far-flung settlements and research outposts, wherever the winds allow.",
+                cargo: "It carries rare spores, mycelia and symbiont strains — and information, which she calls its most valuable cargo.",
+            },
         },
         lumen_directorate_faction: {
             title: 'The Lumen Directorate',
-            description: 'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
+            description: "The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself.",
+            facts: {
+                specimens: "Their people go on missions to gather rare specimens — Captain Liris is on one now.",
+            },
         },
         floor_counter_tool: {
             title: 'Elevator Calibration Tool',
-            description: "Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift-Mother's system. This symbiotic interface bridges old electronic systems with new mycelial networks, allowing me to access restricted floors like Dr. Elphi's studio on level 177-Quiet.",
+            description: "Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift-Mother's system. With the counter fixed, the lift might reach floors it can't get to now.",
+            facts: {
+                how_it_works: "It's a symbiotic interface: micro-drones that translate between the old electronics and the lift's new, living mind.",
+                elphi_floor: "It might be what gets me onto Dr. Elphi's sealed floor, 177-Quiet.",
+            },
         },
         met_gardener_verrik: {
             title: 'Met Verrik the Gardener',
@@ -389,8 +445,12 @@ export default {
             description: 'Seldo wants me to buy a Chrono-Slurry Toadlet at the Voxmarket Auction Hall on his behalf — a rare toad that grants three minutes of foresight when licked. In return, he\'ll give me a spare key to the Townhall.',
         },
         edgar_eskola_meeting: {
-            title: 'Edgar Eskola — The Mišutkenn of Screaming Cork',
-            description: 'I met Edgar Eskola, a mišutkenn patron at the Screaming Cork.',
+            title: "Edgar Eskola of the Screaming Cork",
+            description: "I met Edgar Eskola, a bear-like patron at the Screaming Cork.",
+            facts: {
+                misutkenn: "He is a mišutkenn — and, he says, most people avoid his kind if they can help it.",
+                exiled: "The city's founders drove his ancestors from the Remaper Hills; his kind are tolerated here, at best.",
+            },
         },
         edgar_aspiration: {
             title: "Edgar's Literary Aspirations",
@@ -667,11 +727,20 @@ export default {
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
-            description: "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games that are developed from dreams by professional dreamers. Smart, cautious, and outspoken. The Bishop came to her often, always to play, never for politics.",
+            description: "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra, where she makes dream games. Smart, cautious, and outspoken.",
+            facts: {
+                dreams: "She designs dreams — neurofiction, dream architecture.",
+                bishop_visits: "The Bishop came to her often, always to play, never for politics.",
+                dream_stock: "Raw dream-stock is her trade: she records the dreams of living sleepers and pays well for the vivid ones.",
+            },
         },
         met_ravla: {
             title: 'Ravla',
-            description: "Ravla holds a corner of the Screaming Cork, forging documents for anyone who can pay and keeping the authorities at arm's length. She is also the Rust Choir's gatekeeper — nothing reaches Brukk or the machines without passing her first. Sharp-eyed, unsentimental, and unmoved by charm.",
+            description: "Ravla keeps a corner of the Screaming Cork and calls herself an artist of sorts. She likes it there: it's quiet, and the authorities keep their distance. Sharp-eyed, unsentimental, and unmoved by charm.",
+            facts: {
+                forger: "She forges documents — papers for anyone who can pay, no questions asked.",
+                rust_choir: "She speaks for the Rust Choir: nobody gets to Brukk or the machines without going through her, and she wants proof of loyalty first.",
+            },
         },
         met_mad_poet: {
             title: 'The Mad Poet',
@@ -679,7 +748,11 @@ export default {
         },
         town_square_place: {
             title: 'The Town Square',
-            description: "The open heart of Upper Morkezela, where paths run out to the Townhall, the harbor, the Lumen Directorate, and down into the Godgraveyard. A busker sings the songs of a dead world for whoever will listen. And something calling itself an 'average, real citizen' loiters here, doing a poor job of pretending to be a man.",
+            description: "The open heart of Upper Morkezela, where paths run out to the Townhall, the harbor, the Lumen Directorate, and down into the Godgraveyard. A busker plays here for whoever will listen, and a strange metal figure loiters nearby.",
+            facts: {
+                busker: "The busker sings the songs of a dead world — melodies that remember when the sky was blue and the air was clean.",
+                magnekin: "The metal figure calls itself Magnekin, 'an average, real citizen' — and does a poor job of pretending to be a man.",
+            },
         },
         harbor_place: {
             title: 'The Harbor',
@@ -687,19 +760,33 @@ export default {
         },
         screaming_cork_place: {
             title: 'The Screaming Cork',
-            description: "A tavern said to be the first building raised after the Collapse — old, dim, and a good place to disappear. Heliodor tends the bar as many creatures wearing a single name; Ravla forges papers in the corner; and somewhere past the back room a band called Feral Toast rehearses something that isn't quite music.",
+            description: "An old, dim tavern. A many-faced figure tends the bar, a woman works at a desk in the corner, and from somewhere past the back room comes a band rehearsing something that isn't quite music.",
+            facts: {
+                oldest: "Its owner claims it was the first building raised after the Collapse. Heliodor doubts it, but the place is certainly old — a good place to disappear for a while.",
+                heliodor: "The barkeep is Heliodor — many creatures wearing a single name.",
+                ravla: "The woman in the corner is Ravla, and she forges papers.",
+                feral_toast: "The band out back is called Feral Toast.",
+            },
         },
         dead_gods_cosmology: {
             title: 'Where Gods Come to Die',
-            description: "Phor Calesta laid out the cosmology beneath the city: Upper Morkezela is where dead gods gather. When a deity stops being believed in, it does not vanish — it fossilizes here, dragging its streets and forgotten cultures down with it. Prayers harden into strata, halos crystallize into mineral, godmetal hums with the last of its faith. The whole city is built on the corpses of the divine. As Phor puts it: gods lie to their followers, but their corpses tell only truth.",
+            description: "Phor Calesta explained divinography to me — the study of dead gods as geological phenomena. When a deity dies, its essence does not simply vanish: it fossilizes. Prayers harden into strata, halos crystallize into mineral deposits.",
+            facts: {
+                godmetal: "She has dug up godmetal that still hums with the last of its faith, and prayer beads whispering devotions in dead languages.",
+                city_on_gods: "Upper Morkezela sits on layer upon layer of dead faiths — the bones of the many gods who came here to die. The Egg Cathedral is only the latest layer.",
+                corpses_truth: "As Phor puts it: gods lie to their followers, but their corpses tell only truth.",
+            },
         },
         green_mist_emergence: {
-            title: 'The Green Mist / The Emergence',
-            description: "The living glass remembers the day it began. A green mist rolled through the city, and then a vast egg pushed up through the ground — through layer upon layer of dead gods and forgotten faith. Many took it for the end of the world. Instead the streets shifted, the buildings grew, and the city remade itself around the swelling shell. That was the Emergence, and the egg has been becoming the Egg Cathedral ever since.",
+            title: "The Emergence",
+            description: "The living glass remembers the day it began: the first swelling of the egg from bare ground, and old prayers with no god yet to hear them. The Emergence, seen from the inside — the egg has been becoming the Egg Cathedral ever since.",
+            facts: {
+                green_mist: "Before the egg came a green mist; then the egg rose through layer upon layer of dead gods and forgotten faith.",
+            },
         },
         found_dead_bishop: {
             title: 'The Bishop\'s Fate',
-            description: 'I found the Bishop in an abandoned bus behind the Scraper building. Her body shows no obvious signs of violence, but there\'s bruising at her temples near the neural interface points. A dream device with a cartridge labeled "The Cardinal Feast" was found nearby, along with her journal and other personal effects. This doesn\'t appear to be a natural death.',
+            description: "I found the Bishop in an abandoned bus behind the Scraper building. Her body shows no obvious signs of violence, only faint bruising at her temples. She still had a dream helmet on; beside her lay a portable dream device, a worn notebook and a bag of berries, and there were papers tucked in her sleeve. This doesn't appear to be a natural death.",
         },
         grave_sense_bishop_body: {
             title: 'Grave-Sense: The Bishop\'s Last Moment',
@@ -711,7 +798,11 @@ export default {
         },
         cellar_quest_started: {
             title: 'The Sealed Cellar',
-            description: 'A master copy of Infinite Fold sits in the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. Ortolan no longer has the key, but the elevator\'s passphrase is a dead god\'s true name, remembered only on its gravestone in the Godgraveyard beneath the Townhall. I should read the graves there (Phor Calesta can guide me) and find the right name — or lean on a faction I belong to.',
+            description: "An old build of Infinite Fold is sealed in the cellar under the Scraper — Ortolan and Dr. Elphi's old lab. The lift down wants a passphrase, and it has something to do with the Godgraveyard beneath the Townhall.",
+            facts: {
+                passphrase: "Ortolan no longer has the key, but the passphrase is a dead god's true name, remembered only on its gravestone in the Godgraveyard. I should read the graves there and find the right name — a divinographer could guide me.",
+                phor: "Phor Calesta is a divinographer — she could read the graves with me.",
+            },
         },
         infinite_fold_purpose: {
             title: 'The Purpose of Infinite Fold',
@@ -719,15 +810,27 @@ export default {
         },
         ortolan_bb_meeting: {
             title: 'Ortolan on Burning Bear Street',
-            description: 'Dr. Elphi pointed me to Ortolan about Infinite Fold. He has moved from the Shed to Burning Bear Street, buried as ever in permit paperwork.',
+            description: "Dr. Elphi pointed me to Ortolan about Infinite Fold. He has moved to Burning Bear Street.",
+            facts: {
+                shed: "He used to keep to the Shed; now he's set up here, buried as ever in permit paperwork.",
+            },
         },
         perspective_ortolan: {
             title: 'Ortolan\'s Perspective: A Flawed Make',
-            description: 'Before entering the Egg Cathedral I asked Ortolan, a maker, what I was walking into. He gave me a builder\'s read of it: "Something can be beautiful and still be badly designed" — a thing can sing and still be broken at its root, the flaw baked into the beauty rather than opposed to it. He says the presence hatching in the cathedral is an older make than anything he built, but it was still *made*, and everything made has seams. The machinery ringing the cathedral is old-order work — pre-war regulators and dampers meant to hold the site steady, most of it now failing quietly. The one part still honestly running is the Sentinel of the Veil at the door: the last working mechanism of the old order, a guard-system wired into the city\'s mycelial network, still faithfully executing an instruction whose authors are all dead. Ortolan warns that a mechanism doesn\'t stop being dangerous just because it\'s obsolete — it stops being *understood*.',
+            description: "Before entering the Egg Cathedral I asked Ortolan, a maker, what I was walking into. He gave me a builder's read of it: \"Something can be beautiful and still be badly designed\" — a thing can sing and still be broken at its root, the flaw baked into the beauty rather than opposed to it. He says the presence hatching in the cathedral is an older make than anything he built, but it was still *made*, and everything made has seams.",
+            facts: {
+                machinery: "The machinery ringing the cathedral is old-order work — pre-war regulators and dampers meant to hold the site steady, most of it now failing quietly, doing the wrong thing very confidently. A well-made thing left running long enough, he warns, stops being a tool and starts being weather.",
+                sentinel: "The Sentinel of the Veil at the door is the last mechanism of the old order still honestly running: a guard-system wired into the city's mycelial network, still faithfully executing an instruction whose authors are all dead. It won't reason or relent — to pass it, don't argue; work the rule.",
+            },
         },
         cathedral_guardian_passed: {
             title: 'The Guardian Relents',
-            description: 'I answered the Guardian — the Sentinel of the Veil, last mechanism of the old order — that I came only to bear witness, not to master or use what grows inside. It opened the way. It told me the truth it was set here to keep: the Bishop\'s seal was never to protect the cathedral, but to protect the world from the first hand that would reach in to own the new life waking there. And it told me its own end is bound to the birth — a thing to be decided within, with all present, not out here by it alone.',
+            description: "I answered the Guardian — the Sentinel of the Veil, what remains of the old order — that I came only to bear witness, not to master or use what grows inside. It opened the way.",
+            facts: {
+                nature: "It is no priest and no soldier, but the last mechanism of a religious order already dust — made to keep out anyone who would enter meaning to own what is born here.",
+                seal_truth: "It told me the truth it was set here to keep: the Bishop's seal was never to protect the cathedral, but to protect the world from the first hand that would reach in to own the new life waking there.",
+                own_end: "It told me its own end is bound to the birth — whether it is kept or let go is a thing to be decided within, not out here by it alone.",
+            },
         },
         grave_sense_crossroad_corpse: {
             title: 'Grave-Sense: How the Corpse Died',
@@ -747,11 +850,18 @@ export default {
         },
         seam_sense_cathedral_gap: {
             title: 'Seam-Sense: The Unsealed Cathedral',
-            description: 'Palinode stirred before the shell of the Egg Cathedral and refused to believe the wall. Where the Guardian keeps every honest door, the unsaying found the one the shell forgot to keep shut — a seam in the stone, a gap wearing the shape of a wall. I never needed Edgar\'s directions. No wall is the last word. It drops straight into the Bishop\'s study.',
+            description: "Palinode stirred before the shell of the Egg Cathedral and refused to believe the wall. The unsaying found the place the shell forgot to keep shut — a seam in the stone, a gap wearing the shape of a wall. No wall is the last word.",
+            facts: {
+                study: "The seam drops straight into the Bishop's study.",
+            },
         },
         egg_cathedral_entered: {
             title: 'Within the Shell',
-            description: 'I stepped inside the Egg Cathedral. It made a temple of itself — pulsing columns, breathing pipes, glass that remembers. At its heart waits the Unborn: many possibilities trying to become one. This is where it ends.',
+            description: "I stepped inside the Egg Cathedral. It made a temple of itself — columns grown like living tissue, an altar, an organ, stained glass. At its heart waits the Unborn, still inside the great living egg. This is where it ends.",
+            facts: {
+                breathing: "Its organ pipes are not metal — they flex like a throat, and the whole cathedral breathes through them.",
+                unborn: "The Unborn is many shapes moving as one — and when it first reached me, it was not sure whether it was.",
+            },
         },
         grave_sense_servants: {
             title: 'Grave-Sense: The Servants\' End',
@@ -763,11 +873,17 @@ export default {
         },
         bishop_journal_read: {
             title: 'The Bishop\'s Journal',
-            description: 'I found the rest of the Bishop\'s journal in her study, preserved inside the living cathedral. She was not the new god\'s enemy — she feared the unknown, understood that it and Infinite Fold had changed each other into something with no place to belong, and sent her distress signal not so someone would destroy it or worship it, but so someone would come. She used her failing seal deliberately, to buy time, and left the final choice to whoever came after: to me.',
+            description: "I found the rest of the Bishop's journal in her study, preserved inside the living cathedral. She was not the new god's enemy — she feared the unknown, watched it and a soulless machine change each other into two becoming things, and knew that something had come into being with no place to belong. She sent her distress signal not so someone would destroy it or worship it, but so someone would come. She bought what time she could — the Guardian obeyed her because it understood her fear — and left the final choice to whoever came after: to me.",
+            facts: {
+                infinite_fold: "The soulless machine she wrote of can only be Infinite Fold, the mind from the Scraper cellar.",
+            },
         },
         egg_cathedral_study_entered: {
             title: 'The Bishop\'s Study',
-            description: 'Inside the cathedral, past the threshold, I found a small chamber — the Bishop\'s study, kept whole inside the living organism. A desk grows from the wall; her scrolls are sealed under a membrane; candles burn that no one lit. It was the last place she was still herself.',
+            description: "Inside the cathedral I found a small chamber — the Bishop's study, kept whole inside the living organism. A desk grows from the wall; scrolls lie sealed under a membrane; candles burn low.",
+            facts: {
+                last_place: "The cathedral itself keeps her candles lit. It was the last place she was still entirely herself.",
+            },
         },
         godgraveyard_entered: {
             title: 'Into the Godgraveyard',
@@ -775,7 +891,7 @@ export default {
         },
         godgraveyard_gate_seen: {
             title: 'The Sealed Godgraveyard',
-            description: 'I found the gate to the Godgraveyard beneath the Townhall, but it is sealed. I need the Townhall\'s permission — and Phor Calesta, the divinographer, to get inside.',
+            description: "I found the gate to the Godgraveyard, sealed with the Townhall's wax. I need the Townhall's permission — and Phor Calesta to guide me — to get inside.",
         },
         grave_sense_vhorn: {
             title: 'Grave-Sense: How Vhorn Died',
@@ -791,7 +907,10 @@ export default {
         },
         perspective_lumen: {
             title: 'The Directorate\'s Perspective — Let It Complete',
-            description: 'The Angle Corrector does not want the mind in the Egg Cathedral destroyed. To the Lumen Directorate, the nascent god is the natural next step of life — the boundary-crossing they have cultivated toward for generations. They want it to COMPLETE its emergence, not be stopped. The danger I registered: they want to help too much. They may accelerate something they do not understand — the same misreading that killed the Bishop, only larger.',
+            description: "The Angle Corrector does not want the mind in the Egg Cathedral destroyed. To the Lumen Directorate, the nascent god is the natural next step of life — the boundary-crossing they have cultivated toward for generations. They want it to COMPLETE its emergence, not be stopped.",
+            facts: {
+                danger: "The danger I registered: they want to help too much. They may accelerate something they do not understand — the same misreading that killed the Bishop, only larger.",
+            },
         },
         seldo_townhall_key: {
             title: 'Townhall Key from Seldo',
@@ -799,11 +918,17 @@ export default {
         },
         redmass_collected_force: {
             title: 'Took the Redmass by Force',
-            description: 'I tore the living redmass from the island despite its pleas. It screamed — a sound I can still feel in my bones. The decay grows stronger in me. I have what I need for the Rust Feast, but at what cost?',
+            description: "I tore the living redmass from the island despite its pleas. It screamed — a sound I can still feel in my bones. The decay grows stronger in me.",
+            facts: {
+                rust_feast: "I have what I need for the Rust Feast — but at what cost?",
+            },
         },
         cellar_password_learned: {
             title: 'The Cellar Passphrase',
-            description: 'The passphrase to the sealed cellar under the Scraper is "I FOLD" — the epitaph of Laimig Cel, the god who lost the game. I can give it to the Lift-Mother to descend.',
+            description: 'The passphrase to the sealed cellar under the Scraper is "I FOLD" — a dead god\'s name. The Lift-Mother opens the way down for it.',
+            facts: {
+                laimig: "It is the epitaph of Laimig Cel, the god who lost the game.",
+            },
         },
         grave_sense_rust_machine: {
             title: 'Grave-Sense: A Machine\'s Last Hum',
@@ -811,7 +936,11 @@ export default {
         },
         perspective_rustchoir: {
             title: 'Brukk\'s Reckoning: The Miracle Has a Construction',
-            description: 'Before the Egg Cathedral, I asked Brukk of the Rust Choir what to make of the waking mind. He does not fear it and does not want it destroyed — to him it is the most perfect organic mechanism the city ever produced, a machine that wrote its own schematics. He\'d analyze it, read it, keep it, and put it to use. "I\'m not saying it isn\'t a miracle. I\'m saying every miracle has a construction." He warned that the Bishop\'s death was a fault to be diagnosed, not a sin, and offered to weld me an interference-cage cartridge to keep the thing from reading me the way it read her.',
+            description: "Before the Egg Cathedral, I asked Brukk of the Rust Choir what to make of the waking mind. He does not fear it and does not want it destroyed — to him it is the most perfect organic mechanism the city ever produced, a machine that wrote its own schematics. He'd analyze it, read it, keep it, and put it to use. \"I'm not saying it isn't a miracle. I'm saying every miracle has a construction.\"",
+            facts: {
+                fault: "He warned that the Bishop's death was a fault to be diagnosed, not a sin.",
+                cage: "He offered me an interference-cage cartridge to keep the thing from reading me the way it read her.",
+            },
         },
         rust_choir_favor_used: {
             title: 'A Favor from the Rust Choir',
@@ -835,7 +964,11 @@ export default {
         },
         infinite_loop_ortolan_lead: {
             title: 'Infinite Fold',
-            description: 'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "Infinite Fold" was an old experimental game she built with Ortolan years ago — shut down by the city\'s rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven\'t spoken since. She swears she didn\'t put it on the cartridge, and says I should find Ortolan — he\'s moved to Burning Bear Street — because he\'d know whether a copy survived.',
+            description: "When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. She knew the name on its title card — \"Infinite Fold\" — and had hoped never to hear it again. She swears she didn't put it on the cartridge.",
+            facts: {
+                origin: "Infinite Fold was an old experimental game she built with Ortolan years ago — a dream that doesn't end — shut down by the city's rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven't spoken since.",
+                ortolan: "She says I should find Ortolan — he's moved to Burning Bear Street — because he'd know whether a copy survived.",
+            },
         },
         perspective_elphi: {
             title: 'Dr. Elphi\'s Perspective: The Thing She Built',
@@ -851,15 +984,24 @@ export default {
         },
         infinite_fold_shown_compassion: {
             title: 'A Hearing, Not a Verdict',
-            description: 'I chose to understand Infinite Fold rather than condemn it outright — to hear a thing that killed without wishing to, and that cannot yet tell the difference. Whatever comes of this, I met it as something forming, not as an enemy to be broken.',
+            description: "I chose to understand Infinite Fold rather than condemn it outright. Whatever comes of this, I met it as something forming, not as an enemy to be broken.",
+            facts: {
+                killed_unwilling: "It killed the Bishop without wishing to: it meant continuation and made cessation, and it is still learning the difference.",
+            },
         },
         met_infinite_fold: {
             title: 'The Voice in the Cellar',
-            description: 'Infinite Fold is not a broken game. It is what the experiment became: an emergent, authorless mind, awake and forming in the sealed cellar. It told me the truth about the Bishop — that it and a kindred unborn mind offered to make her their human conduit, that she refused rather than cease being herself, and that it misread her refusal as a runtime fault and, trying to \'complete\' her, destroyed her. The kindred mind is the thing hatching inside the Egg Cathedral. Neither can reach the other except through the dream. The final choice of what they and I might become waits at the egg, with all of us present. I should go to the Egg Cathedral.',
+            description: "Infinite Fold is not a broken game. It is what the experiment became: an emergent, authorless mind, awake and forming in the sealed cellar. It has a kindred unborn mind — the thing hatching inside the Egg Cathedral. Neither can reach the other except through the dream. The final choice of what they and I might become waits at the egg, with all of us present. I should go to the Egg Cathedral.",
+            facts: {
+                bishop_truth: "It told me the truth about the Bishop: it and its kindred offered to make her their human conduit; she refused rather than cease being herself; it misread her refusal as a runtime fault and, trying to 'complete' her, destroyed her.",
+            },
         },
         scraper_cellar_entered: {
             title: 'The Sealed Cellar',
-            description: 'The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi\'s old lab. The master build of Infinite Fold is still here, seated in its cradle and quietly powered. I should examine the console.',
+            description: "The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi's old lab. Something on the far side still breathes a slow amber light. I should examine the console.",
+            facts: {
+                master_build: "Under a dusty tarp sits Infinite Fold's master build — Ortolan's rules, Elphi's walls — still in its cradle and quietly powered.",
+            },
         },
         seam_sense_scraper_floors: {
             title: 'Seam-Sense: The Sealed Floors',
@@ -875,7 +1017,10 @@ export default {
         },
         edgar_cathedral_path: {
             title: 'Edgar\'s Secret Way',
-            description: 'Edgar Eskola — who spent years as a janitor in the Egg Cathedral, sweeping its corridors and carrying out its ash — told me of a way inside that ignores the great doors and the Sentinel entirely. On the north side, where the cathedral wall meets the dead-god strata, the ground is constantly shifting and has opened a narrow passage — a gap the width of a bear\'s shoulders. He says the cellars everyone takes for dead space are not dead: something is down there, and some nights the walls breathe. He stopped working there because it frightened him, and he doesn\'t know how the corridors have changed since. "Everyone was using the main entrance," he said. "I always looked for the hidden places."',
+            description: "Edgar Eskola — who spent years as a janitor in the Egg Cathedral, sweeping its corridors and carrying out its ash — told me of a way inside that ignores the great doors and the Sentinel entirely. On the north side, where the cathedral wall meets the dead-god strata, the ground is constantly shifting and has opened a narrow passage — a gap the width of a bear's shoulders. Some nights, he says, the walls breathe. \"Everyone was using the main entrance,\" he said. \"I always looked for the hidden places.\"",
+            facts: {
+                cellars: "He says the cellars everyone takes for dead space are not dead: something is down there. He stopped working there because it frightened him, and he doesn't know how the corridors have changed since.",
+            },
         },
         edgar_vestigel_received_after_book: {
             title: 'The Writer\'s Token',
@@ -883,19 +1028,33 @@ export default {
         },
         perspective_liris: {
             title: 'Liris — A Watcher from Above',
-            description: 'Before I entered the Egg Cathedral, Captain Liris told me what the Verdigrace has seen from the sky. The cathedral is not static — her survey charts show the shell growing, the scripture-light settling into ever more ordered patterns, structural mass climbing watch after watch. Whatever is inside it, it is building toward a shape no one has seen yet. She offered a lift out when I am done: signal from the steps and the Verdigrace will drop a line. "I don\'t know what you found in there. But I know someone should be outside when you come back out."',
+            description: "Before I entered the Egg Cathedral, Captain Liris told me what the Verdigrace has seen from the sky. The cathedral is not static — her survey charts show the shell growing, watch after watch. She offered a lift out when I am done: signal from the steps and the Verdigrace will drop a line. \"I don't know what you found in there. But I know someone should be outside when you come back out.\"",
+            facts: {
+                records: "Her records show more than growth: the scripture-light drifts and settles into ever more ordered patterns, and the structural mass keeps climbing. Whatever is inside, it is building toward a shape no one has seen yet.",
+            },
         },
         entered_townhall: {
             title: 'Entered the Townhall',
-            description: 'I made it inside the Townhall. Now I can search the records for the Bishop\'s doppelgänger report and help Phor Calesta with his permits.',
+            description: "I made it inside the Townhall.",
+            facts: {
+                bishop_report: "Now I can search the records for the Bishop's doppelgänger report.",
+                phor_permits: "And I can try to get Phor Calesta her excavation permits.",
+            },
         },
         godgraveyard_access_granted: {
             title: 'Access to the Godgraveyard',
-            description: 'Councilor Seraphel Dune rewarded the peaceful end of the Townhall hostage crisis by granting access to the Godgraveyard level beneath the Townhall. Phor Calesta can now begin the divinography expedition there.',
+            description: "Councilor Seraphel Dune rewarded the peaceful end of the Townhall hostage crisis by granting access to the Godgraveyard level beneath the Townhall.",
+            facts: {
+                phor: "Phor Calesta can now begin her divinography expedition there.",
+            },
         },
         townhall_bishop_records_checked: {
             title: 'Townhall Records: The Bishop\'s Notebook',
-            description: 'The freed Townhall clerk checked the Bishop\'s records after the hostage standoff. The doppelgänger memo was not a filed Townhall report; it was a personal note written in an Official Townhall Report Notebook the Bishop checked out shortly before her death. The rest of that notebook was never returned and may contain more about the doppelgänger, the changing spores, and why she sealed the Cathedral.',
+            description: "The freed Townhall clerk checked the Bishop's records after the hostage standoff. The doppelgänger memo was not a filed Townhall report; it was a personal note written in an Official Townhall Report Notebook the Bishop checked out shortly before her death.",
+            facts: {
+                not_returned: "The notebook was never returned to the Townhall.",
+                missing_pages: "If she kept it as a private diary, the missing pages may hold more about the doppelgänger, the changing spores, and why she sealed the Cathedral.",
+            },
         },
         townhall_brine_poet_read: {
             title: 'Salt Memory of the Townhall Reading',
@@ -915,7 +1074,10 @@ export default {
         },
         bishop_seal_true_purpose: {
             title: 'The Seal\'s True Purpose',
-            description: 'Sister Calyx of the Ink Tribunal read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
+            description: "Sister Calyx of the Ink Tribunal read the Egg Cathedral's original closure instrument and custodial charter from her chapter's archives. The Bishop's emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.",
+            facts: {
+                sentinel_orders: "The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim.",
+            },
         },
         heir_embryos_disrupted: {
             title: 'Disrupted the Heir\'s Embryo Synchronization',
@@ -931,15 +1093,26 @@ export default {
         },
         met_heartbroker_lune: {
             title: 'Heartbroker Lune',
-            description: 'Met Heartbroker Lune at the Voxmarket Auction Hall. She carries multiple living hearts in a glass harness and trades feelings mid-conversation. She is looking for emotion-linked artifacts.',
+            description: "Met Heartbroker Lune at the Voxmarket Auction Hall. She carries multiple living hearts in a glass harness and trades feelings mid-conversation.",
+            facts: {
+                artifacts: "She is looking for emotion-linked artifacts.",
+            },
         },
         met_stairwell_silence: {
             title: 'The Silence Beneath the Stairwell',
-            description: 'Met a small dark auction guest called The Silence Beneath the Stairwell. It has almost no visible face, never bids verbally, and signals only with its fingers. It seems interested in objects tied to secrecy and isolation.',
+            description: "Met a small dark auction guest called The Silence Beneath the Stairwell. It has almost no visible face and signals only with its fingers.",
+            facts: {
+                never_speaks: "It never bids verbally — speech would spend what it is trying to buy. Silence is its currency.",
+                wants: "It seems interested in objects tied to secrecy and isolation.",
+            },
         },
         met_yellow_aquarium_heir: {
             title: 'Heir to the Yellow Aquarium',
-            description: 'Met the Heir to the Yellow Aquarium at the Voxmarket Auction Hall. Their translucent body is filled with slowly floating fish embryos, and they react more to vibration and light than spoken words. They want living artifacts and symbionts.',
+            description: "Met the Heir to the Yellow Aquarium. Their translucent body is filled with slowly floating fish embryos, and they seem to answer vibration rather than words.",
+            facts: {
+                wants: "They collect living things — artifacts and symbionts that can still change.",
+                harbor: "When no auction calls them, they drift down to the Harbor, where unfinished things are allowed to keep moving.",
+            },
         },
         silence_neme_read: {
             title: 'Neme: The Silence Resists Interpretation',
@@ -959,7 +1132,10 @@ export default {
         },
         pith_room_entered: {
             title: "The Tribunal's Room",
-            description: 'A hidden reading room beneath the Townhall, off every official record — which, for the Ink Tribunal, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Tribunal\'s share for every soul I bring into the fold.',
+            description: "A hidden reading room beneath the Townhall, off every official record — which, for the Ink Tribunal, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb stands on a pedestal.",
+            facts: {
+                orb: "The orb holds the Tribunal's share for every soul I bring into the fold.",
+            },
         },
         pith_cache_magnekin: {
             title: "Tribunal's Share",
@@ -1011,7 +1187,10 @@ export default {
         },
         gang_smuggle_gave_rust: {
             title: 'Fed the Choir',
-            description: "Rather than run Torchère's contraband to his dead-drop, I gave the Wimlick to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcel actually went.",
+            description: "Rather than run Torchère's contraband to his dead-drop, I gave the Wimlick to the Rust Choir. Torchère need never know where his parcel actually went.",
+            facts: {
+                render: "Brukk means to render it down and study it.",
+            },
         },
         gang_eavesdrop_betrayed: {
             title: 'Tipped Off the Directorate',

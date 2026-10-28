@@ -10,6 +10,8 @@ export default class RedmassIslandScene extends GameScene {
     }
 
     get dialogContent() {
+        // The Rust Feast is only named once Ravla has asked for it
+        const hasFeastQuest = !!this.questSystem?.getQuest('rust_feast');
         return {
             ...super.dialogContent,
             speaker: 'Redmass',
@@ -46,9 +48,13 @@ export default class RedmassIslandScene extends GameScene {
             redmassWhatAreYou: {
                 text: `"I was... part of something larger once. A vein in the old infrastructure, carrying signals, carrying life. When the machines stopped, I didn't. I grew. I became aware. I am redmass — living metal."`,
                 options: [
-                    {
+                    hasFeastQuest ? {
                         text: '"I need you for the Rust Feast. I\'m sorry."',
                         key: 'i_need_you_for_the_rust_feast_im_sorry',
+                        next: 'redmassCollectWarning'
+                    } : {
+                        text: '"I\'m taking you with me. I\'m sorry."',
+                        key: 'im_taking_you_with_me_im_sorry',
                         next: 'redmassCollectWarning'
                     },
                     {
@@ -126,11 +132,11 @@ export default class RedmassIslandScene extends GameScene {
             redmassReturnSpared: {
                 text: `The redmass hums gently as you approach. "You came back. I remember you — the one who chose to listen." Its amber glow brightens. "Do you need something from me?"`,
                 options: [
-                    {
+                    ...(hasFeastQuest ? [{
                         text: '"I need redmass for the Rust Feast."',
                         key: 'i_need_redmass_for_the_rust_feast',
                         next: 'redmassVoluntary'
-                    },
+                    }] : []),
                     {
                         text: '"Just visiting."',
                         key: 'just_visiting',
@@ -301,17 +307,24 @@ export default class RedmassIslandScene extends GameScene {
 
             this.registry.set('delta_redmass_collected', true);
 
+            // The Rust Feast is only mentioned if the player actually knows about it (has the quest).
+            // Added before the entry so it lands as a pending fact (no second "Journal updated").
+            const questSystem = this.registry.get('questSystem');
+            if (questSystem && questSystem.getQuest('rust_feast')) {
+                this.addJournalFact('redmass_collected_force', 'rust_feast', "I have what I need for the Rust Feast — but at what cost?");
+            }
+
             this.addJournalEntry(
                 'redmass_collected_force',
                 'Took the Redmass by Force',
-                'I tore the living redmass from the island despite its pleas. It screamed — a sound I can still feel in my bones. The decay grows stronger in me. I have what I need for the Rust Feast, but at what cost?',
+                'I tore the living redmass from the island despite its pleas. It screamed — a sound I can still feel in my bones. The decay grows stronger in me.',
                 this.journalSystem.categories.EVENTS
             );
 
-            const questSystem = this.registry.get('questSystem');
             if (questSystem && questSystem.getQuest('rust_feast')) {
                 questSystem.updateQuest('rust_feast',
-                    'I collected the living redmass from the island at Echo Drain Delta. It begged me to stop, but I took it anyway. The Rust Choir will have their feast.',
+                    // Same key on both routes (taken / given) — keep the text route-neutral; the journal tells which.
+                    'I got living redmass for the feast from the island at Echo Drain Delta.',
                     'redmass_collected'
                 );
             }
@@ -359,7 +372,8 @@ export default class RedmassIslandScene extends GameScene {
             const questSystem = this.registry.get('questSystem');
             if (questSystem && questSystem.getQuest('rust_feast')) {
                 questSystem.updateQuest('rust_feast',
-                    'The living redmass gave me a shard of itself willingly. The Rust Choir will have their feast — and I carry no guilt for it.',
+                    // Same key on both routes (taken / given) — keep the text route-neutral; the journal tells which.
+                    'I got living redmass for the feast from the island at Echo Drain Delta.',
                     'redmass_collected'
                 );
             }

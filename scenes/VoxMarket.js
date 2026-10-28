@@ -54,8 +54,8 @@ export default class VoxMarket extends GameScene {
                     if (!this.hasJournalEntry('kloor_venn_meeting')) {
                         this.addJournalEntry(
                             'kloor_venn_meeting',
-                            'Kloor Venn - Pharmaceutical Entrepreneur',
-                            'In Voxmarket, I encountered Kloor Venn, a self-described "pharmaceutical entrepreneur" who deals in a psychoactive substance called Oltrac. He seems particularly interested in my fungal spores as potential source material for his products. There is an air of shifty opportunism about him, though his connections in the market appear extensive.',
+                            'Kloor Venn',
+                            'In Voxmarket, I encountered Kloor Venn.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Kloor Venn', location: 'Voxmarket' }
                         );
@@ -68,7 +68,10 @@ export default class VoxMarket extends GameScene {
                 options: [
                     { text: "What kind of substances?", key: 'what_kind_of_substances', next: "kloor_substances" },
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('kloor_venn_meeting', 'entrepreneur', 'He calls himself a "pharmaceutical entrepreneur" — he deals in specialized substances that expand the mind.');
+                }
             },
             
             kloor_substances: {
@@ -76,7 +79,10 @@ export default class VoxMarket extends GameScene {
                 options: [
                     { text: "Tell me more about Oltrac", key: 'tell_me_more_about_oltrac', next: "kloor_oltrac" },
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('kloor_venn_meeting', 'oltrac', 'His speciality is Oltrac, a psychoactive drug — and he is keen to buy my fungal spores as raw material for it.');
+                }
             },
             
             kloor_oltrac: {
@@ -94,7 +100,10 @@ export default class VoxMarket extends GameScene {
                     { text: "Show me what you have", key: 'show_me_what_you_have', next: "kloor_shop" },
                     { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('kloor_venn_meeting', 'oltrac', 'His speciality is Oltrac, a psychoactive drug — and he is keen to buy my fungal spores as raw material for it.');
+                }
             },
             
             kloor_shop: {
@@ -407,7 +416,7 @@ export default class VoxMarket extends GameScene {
                     this.addJournalEntry(
                         'kloor_vestigel_exchange',
                         'Vestigel Exchange with Kloor',
-                        'I traded the vestigel I acquired from Edgar Eskola to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
+                        'I traded a vestigel to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
                         this.journalSystem.categories.EVENTS,
                         { character: 'Kloor Venn', item: 'Vestigel', location: 'Voxmarket' }
                     );

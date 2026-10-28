@@ -8,7 +8,7 @@ export default {
         'Sconce': 'Sconce',
     },
     phorGreeting: {
-        text: "Ach, další poutník do archivů zapomenutého božství. Jsem Phor Calesta, archeolog ztracených teologií. Místní mi říkají 'Kopáč bohohrobů', i když já preferuji termín divinograf.",
+        text: "Ach, další poutník do archivů zapomenutého božství. Jsem Phor Calesta, archeoložka ztracených teologií. Místní mi říkají 'Kopáč bohohrobů', i když já preferuji termín divinografka.",
         options: {
             townhall_granted_permit: "Dobrá zpráva – Radnice vám schválila povolení k vykopávkám.",
             what_is_divinography: "Co je divinografie?",
@@ -18,7 +18,7 @@ export default {
         }
     },
     phorAccessGranted: {
-        text: "Phor Calesta málem upustí notes. \"Oni – oni to *schválili*? Po tom všem čekání?\" Vzchopí se, oči jí září. \"Tak není času nazbyt. Cesta dolů se otevírá z Náměstí – staré schodiště do Vaječné katedrály. Jděte tam a sejděte dolů; já vás počkám u brány. Konečně – někdo, kdo se mnou bude číst mrtvoly.\"",
+        text: "Phor Calesta málem upustí notes. \"Oni – oni to *schválili*? Po tom všem čekání?\" Vzchopí se, oči jí září. \"Tak není času nazbyt. Cesta dolů se otevírá z Náměstí – staré schodiště na Bohohřbitov. Jděte tam a sejděte dolů; já vás počkám u brány. Konečně – někdo, kdo se mnou bude číst mrtvoly.\"",
         options: {
             meet_at_lower_doors: "Sejdeme se u spodních dveří."
         }
@@ -27,7 +27,7 @@ export default {
         text: "Divinografie je studium mrtvých bohů jako geologických jevů. Když božstvo zemře, jeho esence jednoduše nezmizí – zkamení. Zkostnatělé modlitby se stávají vrstvami. Svatozáře krystalizují do nerostných ložisek. Já tyto božské pozůstatky vykopávám a katalogizuji jejich vlastnosti.",
         options: {
             that_sounds_like_grave_robbery: "To zní jako vykrádání hrobů",
-            fascinating_what_have_you_found: "Fascinující. Co jste našel?",
+            fascinating_what_have_you_found: "Fascinující. Co jste našla?",
             ask_something_else: "Zeptej se na něco jiného"
         }
     },
@@ -35,11 +35,11 @@ export default {
         text: "(Vlhce se zasměje) Možná. Ale řekněte mi – je to krádež, když zesnulý nemá žádné dědice? Žádné uctívače? Když bůh zemře a jeho věrní se rozprchnou, jeho pozůstatky se stávají... nezjištěným majetkem. Já jednoduše zajišťuji, aby byly studovány místo zapomenuty.",
         options: {
             i_suppose_thats_one_way_to_look_at_it: "Předpokládám, že to je jeden úhel pohledu",
-            what_have_you_found: "Co jste našel?"
+            what_have_you_found: "Co jste našla?"
         }
     },
     phorFindings: {
-        text: "Pozoruhodné věci. Bohokov, který hučí reziduální vírou. Růžence, které stále šeptají modlitby v mrtvých jazycích. Jednou jsem našel fragment svatozáře, který promítal poslední myšlenky svého božstva – smyčku kosmického zoufalství trvající přesně 47 sekund.",
+        text: "Pozoruhodné věci. Bohokov, který hučí reziduální vírou. Růžence, které stále šeptají modlitby v mrtvých jazycích. Jednou jsem našla fragment svatozáře, který promítal poslední myšlenky svého božstva – smyčku kosmického zoufalství trvající přesně 47 sekund.",
         options: {
             thats_disturbing: "To je znepokojující",
             where_do_you_find_these_things: "Kde tyto věci nacházíte?",
@@ -67,7 +67,7 @@ export default {
         }
     },
     phorPurpose: {
-        text: "Toto město stojí na vrstvách mrtvých věr. Vaječná katedrála nahoře je pouze nejnovější iterací. Pod městem leží kosti mnoha bohů, kteří sem přišli zemřít. Jsem tu, abych vykopal spodní vrstvy a zdokumentoval, jací bohové zemřeli, aby uvolnili místo současným. Ale k tomu musím nejprve přežít byrokracii. Bohužel, radnice mi nedovolí kopat na úrovni Bohohřbitova bez řádných povolení. Ale ta zatracená radnice je zavřená, nebo co.",
+        text: "Toto město stojí na vrstvách mrtvých věr. Vaječná katedrála nahoře je pouze nejnovější iterací. Pod městem leží kosti mnoha bohů, kteří sem přišli zemřít. Jsem tu, abych vykopala spodní vrstvy a zdokumentovala, jací bohové zemřeli, aby uvolnili místo současným. Ale k tomu musím nejprve přežít byrokracii. Bohužel, radnice mi nedovolí kopat na úrovni Bohohřbitova bez řádných povolení. Ale ta zatracená radnice je zavřená, nebo co.",
         options: {
             thats_quite_ambitious: "To je docela ambiciózní",
             can_i_help_you_to_get_the_permission: "Mohu vám pomoct získat povolení?",
@@ -76,7 +76,7 @@ export default {
         }
     },
     phorPurposeHelp: {
-        text: "Hmm. Možná byste mohl. Pokud se vám podaří prokousat byrokracií radnice a zajistit povolení k vykopávkám na Bohohřbitově, budu vám navěky vděčný.",
+        text: "Hmm. Možná byste mohl. Pokud se vám podaří prokousat byrokracií radnice a zajistit povolení k vykopávkám na Bohohřbitově, budu vám navěky vděčná.",
         options: {
             ill_see_what_i_can_do: "Uvidím, co se dá dělat"
         }
@@ -88,7 +88,7 @@ export default {
         }
     },
     phorTownhallClosed: {
-        text: "Zavřená, ano. Nikdo přesně neví proč. Úředníci jednoho dne prostě přestali chodit. Někteří říkají, že jde o byrokratickou restrukturalizaci. Jiní říkají, že budova sama odmítá návštěvníky – víte, jak to v tomhle městě chodí, budovy si vytvářejí názory.\n\nČekám tu už devět trávení. Nezbývá než koukat, jak Hodiny tráví. Kdybyste našel cestu dovnitř, byl bych vám neskonale vděčný.",
+        text: "Zavřená, ano. Nikdo přesně neví proč. Úředníci jednoho dne prostě přestali chodit. Někteří říkají, že jde o byrokratickou restrukturalizaci. Jiní říkají, že budova sama odmítá návštěvníky – víte, jak to v tomhle městě chodí, budovy si vytvářejí názory.\n\nČekám tu už devět trávení. Nezbývá než koukat, jak Hodiny tráví. Kdybyste našel cestu dovnitř, byla bych vám neskonale vděčná.",
         options: {
             ill_figure_something_out: "Něco vymyslím."
         }
@@ -103,14 +103,14 @@ export default {
         }
     },
     phorRustCluster: {
-        text: "Ach! Živá rudohmota. Fascinující organismy – zčásti minerál, zčásti rezonance víry, zčásti korozní organismus. Rostou na místech, kde kov a rozklad dosáhnou rovnováhy. Ve svých vykopávkách jsem zdokumentoval několik kolonií.",
+        text: "Ach! Živá rudohmota. Fascinující organismy – zčásti minerál, zčásti rezonance víry, zčásti korozní organismus. Rostou na místech, kde kov a rozklad dosáhnou rovnováhy. Ve svých vykopávkách jsem zdokumentovala několik kolonií.",
         options: {
             where_can_i_find_one: "Kde mohu nějakou najít?",
             what_are_they_exactly: "Co přesně jsou?"
         }
     },
     phorRustClusterLocation: {
-        text: "Nejpřístupnější kolonie, kterou jsem našel, je v nižších úrovních Boudy 521 – konkrétně v údržbářských halách. Byrokrati se té oblasti vyhýbají kvůli 'konstrukčním problémům', což ji činí perfektní pro růst rudohmoty. Hledejte zkorodované potrubí s oranžovo-rudými krystalickými výrůstky.",
+        text: "Nejpřístupnější kolonie, kterou jsem našla, je v nižších úrovních Boudy 521 – konkrétně v údržbářských halách. Byrokrati se té oblasti vyhýbají kvůli 'konstrukčním problémům', což ji činí perfektní pro růst rudohmoty. Hledejte zkorodované potrubí s oranžovo-rudými krystalickými výrůstky.",
         options: {
             how_do_i_extract_one_safely: "Jak ji bezpečně získám?",
             thank_you_for_the_information: "Děkuji za informaci"

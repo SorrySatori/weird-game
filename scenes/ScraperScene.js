@@ -2,7 +2,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { DEMO_BUILD } from '../config/build.js';
-import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus, spyFragmentCount, spyReportable, allGangQuestsComplete, gangRewardClaimed, grantGangVestigel } from '../utils/GangOfLamps.js';
+import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, spyFragmentCount, spyReportable, allGangQuestsComplete, gangRewardClaimed, grantGangVestigel } from '../utils/GangOfLamps.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
@@ -80,14 +80,20 @@ export default class ScraperScene extends GameScene {
                             { text: "Remind me who's still out there.", key: 'don_remind', next: "don_lamp_family" },
                             { text: "I'll keep looking.", key: 'don_searching_close', next: "closeDialog" }
                         ]),
-                onTrigger: () => { meetLamp(this, 'don', 'Don Girandole'); }
+                onTrigger: () => {
+                    meetLamp(this, 'don', 'Don Girandole');
+                    // Return visits: the reminder names the lamps still out there; once connected he says work is coming.
+                    if (donMet && !allLampsFound) learnLampFamily(this);
+                    if (donMet && allLampsFound) lampsHaveWork(this);
+                }
             },
             don_lamp_family: {
                 speaker: 'Don Girandole',
                 text: `"Three of mine are out there, waiting to be found. There's a *chandelier* — puts on airs, stood up on a fancy post out in the town square; she hears everything and repeats most of it. There's a jumpy little *sconce*, sweating on a wall in the house of stamps and forms, watching the clerks bury the city in paper. And there's a *torchère* — a hot-tempered dockhand of a lamp, rusting down by the water where the cargo comes in. Find them. Tell them the Don sends his regards."`,
                 options: [
                     { text: "Consider it done, Don.", key: 'don_family_close', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => { learnLampFamily(this); }
             },
 
             // ===== L2: Don's quest — "Ears on the Rust Choir" =====
@@ -254,7 +260,7 @@ export default class ScraperScene extends GameScene {
                 this.addJournalEntry(
                     'scraper_building',
                     'The Scraper',
-                    'The imposing structure known as "The Scraper" rises above the surrounding buildings. Once a corporate headquarters called Nexicorp Tower, it now stands as a living monument to transformation. Its lower floors house those who remember the old ways, while the middle floors have become wild ecosystems. No one knows how many floors it has. Elevators refuse to count them. Tenants report missing levels, duplicate floors, and entire wings dedicated to unrecognized languages or species. Most assume the building self-generates new strata in response to emotional entropy.',
+                    'The imposing structure known as "The Scraper" rises above the city.',
                     this.journalSystem.categories.PLACES,
                     { location: 'The Scraper, Upper Morkezela' }
                 );

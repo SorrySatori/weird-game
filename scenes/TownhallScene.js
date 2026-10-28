@@ -1,6 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
-import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
+import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
 export default class TownhallScene extends GameScene {
     constructor() {
@@ -71,14 +71,18 @@ export default class TownhallScene extends GameScene {
                             { text: "Remind me who's still out there.", key: 'sconce_remind', next: "sconce_lamp_family" },
                             { text: "I'll keep looking.", key: 'sconce_searching_close', next: "closeDialog" }
                         ]),
-                onTrigger: () => { meetLamp(this, 'sconce', 'Sconce'); }
+                onTrigger: () => {
+                    meetLamp(this, 'sconce', 'Sconce');
+                    if (sconceMet && allLampsFound) lampsHaveWork(this);
+                }
             },
             sconce_lamp_family: {
                 speaker: 'Sconce',
                 text: `"There are three more of us, if you're brave enough. There's the — the *Don*, they call him, a grand old lamppost lording it over the high walkway under Scraper 1140; mind your manners with that one. There's *Chandelier*, stood up on a fancy post out in the town square — she'll talk your ear off. And a *torchère*, all temper and rust, down by the water where the cargo comes in. Find them. Tell them Sconce is still here, still watching, still — still holding on."`,
                 options: [
                     { text: "I'll tell them.", key: 'sconce_family_close', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => { learnLampFamily(this); }
             },
 
             // ===== L2: Sconce's quest — "Recover What Was Filed" =====
@@ -132,7 +136,7 @@ export default class TownhallScene extends GameScene {
                         this.addJournalEntry(
                             'phor_calesta',
                             'Phor Calesta - Divinographer',
-                            'I have meet another strange person. An archaeologist specializing in the study of dead gods and their fossilized remains. He is a Craybara from city of Murkvale. Phor seeks excavation permits to explore the Godgraveyard.',
+                            'I have met another strange person. An archaeologist specializing in the study of dead gods.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Phor Calesta', related: 'Identity' }
                         );
@@ -151,7 +155,7 @@ export default class TownhallScene extends GameScene {
                         this.addJournalEntry(
                             'dead_gods_cosmology',
                             'Where Gods Come to Die',
-                            "Phor Calesta laid out the cosmology beneath the city: Upper Morkezela is where dead gods gather. When a deity stops being believed in, it does not vanish — it fossilizes here, dragging its streets and forgotten cultures down with it. Prayers harden into strata, halos crystallize into mineral, godmetal hums with the last of its faith. The whole city is built on the corpses of the divine. As Phor puts it: gods lie to their followers, but their corpses tell only truth.",
+                            "Phor Calesta explained divinography to me — the study of dead gods as geological phenomena. When a deity dies, its essence does not simply vanish: it fossilizes. Prayers harden into strata, halos crystallize into mineral deposits.",
                             this.journalSystem.categories.LORE,
                             { related: 'Divinography', character: 'Phor Calesta' }
                         );
@@ -171,13 +175,19 @@ export default class TownhallScene extends GameScene {
                     { text: "That's disturbing", key: 'thats_disturbing', next: "phorDisturbing" },
                     { text: "Where do you find these things?", key: 'where_do_you_find_these_things', next: "phorLocations" },
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('dead_gods_cosmology', 'godmetal', "She has dug up godmetal that still hums with the last of its faith, and prayer beads whispering devotions in dead languages.");
+                }
             },
             phorDisturbing: {
                 text: "Disturbing? Perhaps. But also illuminating. We learn more from divine death than divine life. Gods lie to their followers. Their corpses tell only truth.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('dead_gods_cosmology', 'corpses_truth', "As Phor puts it: gods lie to their followers, but their corpses tell only truth.");
+                }
             },
             phorLocations: {
                 text: "Anywhere pressure and memory intersect. Submerged temples. Collapsed cathedrals. The deeper strata of this very city. Murkvale, my home, is particularly rich—the water pressure there fossilizes divine essence beautifully.",
@@ -191,7 +201,10 @@ export default class TownhallScene extends GameScene {
                 options: [
                     { text: "What brought you here?", key: 'what_brought_you_here', next: "phorPurpose" },
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('phor_calesta', 'craybara', "Phor is a Craybara — an amphibious people that evolved in Murkvale, a submerged city.");
+                }
             },
             phorPurpose: {
                 text: "This city sits atop layers of dead faiths. The Egg Cathedral above is merely the latest iteration. Beneath the city lie the bones of many gods who came to die here. I'm here to excavate the lower strata and document what gods died to make room for the current ones. But to do that, I must first survive the bureaucracy. Sadly, the townhall won't let me to excavate at the Godgraveyard level without proper permits. But the damned townhall is closed or what.",
@@ -202,7 +215,11 @@ export default class TownhallScene extends GameScene {
                         { text: "The Townhall is closed? I need to get in there too.", key: 'the_townhall_is_closed_i_need_to_get_in_there_too', next: "phorTownhallClosed" }
                     ] : []),
                     { text: "Ask something else", key: 'ask_something_else', next: "phorAskSomethingElse" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('phor_calesta', 'permits', "She needs Townhall permits before she may excavate the Godgraveyard beneath it.");
+                    this.addJournalFact('dead_gods_cosmology', 'city_on_gods', "Upper Morkezela sits on layer upon layer of dead faiths — the bones of the many gods who came here to die. The Egg Cathedral is only the latest layer.");
+                }
             },
             phorPurposeHelp: {
                 text: "Hmm. Perhaps you could. If you manage to navigate the townhall bureaucracy and secure excavation permits for the Godgraveyard, I would be forever in your debt.",
@@ -212,8 +229,12 @@ export default class TownhallScene extends GameScene {
                 onTrigger: () => {
                         this.questSystem.addQuest('excavation_permit', 'Divinography', 'I should help Phor Calesta obtain excavation permits for the Godgraveyard of the townhall. First, I need to get inside the townhall somehow.', 'talked_to_phor');
                         // Divinography requires getting inside first — start that objective too.
+                        // The description is route-neutral (Elphi starts it too); Phor's reason is an update.
                         if (!this.questSystem.getQuest('enter_townhall')) {
-                            this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'The Townhall is closed and nobody knows why. I need to find a way inside — the Bishop\'s doppelgänger report was filed there, and Phor Calesta needs access too. Maybe someone in the city knows how to get in.');
+                            this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'I need to get inside the Townhall.');
+                        }
+                        if (!this.questSystem.getQuest('enter_townhall')?.isComplete) {
+                            this.questSystem.updateQuest('enter_townhall', "Phor Calesta needs to get in too — without Townhall permits she can't excavate the Godgraveyard, and the Townhall is closed.", 'phor_needs_access');
                         }
                     }
             },
@@ -230,6 +251,7 @@ export default class TownhallScene extends GameScene {
                     { text: "I'll meet you at the lower doors.", key: 'meet_at_lower_doors', next: "phorAskSomethingElse" }
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('godgraveyard_access_granted', 'phor', "Phor Calesta can now begin her divinography expedition there.");
                     if (!this.hasJournalEntry('phor_graveyard_ready')) {
                         this.addJournalEntry(
                             'phor_graveyard_ready',
@@ -240,7 +262,7 @@ export default class TownhallScene extends GameScene {
                         );
                         const eq = this.questSystem?.getQuest('excavation_permit');
                         if (eq && !eq.isComplete) {
-                            this.questSystem.updateQuest('excavation_permit', 'Phor Calesta will meet me at the Godgraveyard gate — the lower doors inside the Townhall. Time to go down and read the graves.', 'phor_meets_at_graveyard');
+                            this.questSystem.updateQuest('excavation_permit', 'Phor Calesta will meet me at the gate to the Godgraveyard. The way down opens off the Town Square — an old stair down into the graves.', 'phor_meets_at_graveyard');
                         }
                     }
                 }
@@ -253,7 +275,10 @@ export default class TownhallScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.questSystem.getQuest('enter_townhall')) {
-                        this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'The Townhall is closed and nobody knows why. I need to find a way inside — the Bishop\'s doppelgänger report was filed there, and Phor Calesta needs access too. Maybe someone in the city knows how to get in.');
+                        this.questSystem.addQuest('enter_townhall', 'Enter the Townhall', 'I need to get inside the Townhall.');
+                    }
+                    if (!this.questSystem.getQuest('enter_townhall')?.isComplete) {
+                        this.questSystem.updateQuest('enter_townhall', 'Phor Calesta says nobody knows why the Townhall closed — the clerks simply stopped coming one day. She has been waiting outside for nine digestions. Maybe someone in the city knows how to get in.', 'phor_townhall_closed');
                     }
                 }
             },
@@ -447,6 +472,10 @@ export default class TownhallScene extends GameScene {
             lockedDoor.on('pointerdown', () => {
                 if (this.clickSound) this.clickSound.play();
                 this.showNotification('The Townhall is locked.');
+                const eq = this.questSystem?.getQuest('enter_townhall');
+                if (eq && !eq.isComplete) {
+                    this.questSystem.updateQuest('enter_townhall', "The Townhall door is locked. I'll need another way in — maybe someone in the city knows how.", 'townhall_door_locked');
+                }
             });
         }
 

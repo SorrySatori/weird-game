@@ -118,7 +118,7 @@ export default {
             shed_forms_amputate: 'Bouda 521 mě naučila, že formuláře amputují čistěji než nože.',
             misutkenn_writer_festival_fire: 'Mišutkennský spisovatel nese festivalový oheň v žebrech a stále žádá příběh.',
             clean_sulkberries_accused_by_fear: 'Čisté sulkberry, obviněné jen proto, že strach potřeboval pohodlné místo k hnití.',
-            divinographer_waiting_dead_gods: 'Divinograf čekající na povolení, zatímco mrtví bohové fosilizují pod razítky.',
+            divinographer_waiting_dead_gods: 'Divinografka čekající na povolení, zatímco mrtví bohové fosilizují pod razítky.',
             neme_hostages_roots_under_stone: '[Neme] Rukojmí jsou kořeny pod kamenem: vyděšené, propojené, stále živé.',
             ulvarex_project_applause: '[Ulvarex] Promítnout do místnosti potlesk, dokud strach nevypadá jako obdiv.',
             wound_is_boredom: 'Tou ranou je nuda. Všichni už jsou unavení z poslouchání.',
@@ -329,9 +329,11 @@ Jestli vám Radnice dluží odměnu, přimějte ho říct to nahlas. Vyslovený 
         }
     },
     councilor_godgraveyard_reward: {
-        text: `"Žádost Phor Calesty o povolení k vykopávkám čekala na tři komise, dvě teologické dopadové studie a jednoho úředníka dost odvážného přiznat, že dolní dveře existují.
-
-Čekání skončilo. Uděluji vám i vašemu divinografovi přístup do úrovně Godgraveyardu pod Radnicí. Pokud se vás tam dole cokoli zeptá, kdo vám to povolil, ukažte mu mou pečeť a nepřijímejte protinabídku."`,
+        // two variants (with / without Phor's excavation quest), keyed by the English text
+        text: {
+            "\"Phor Calesta's excavation petition has been waiting for three committees, two theological impact studies, and one clerk brave enough to admit the lower doors exist.\n\nConsider the waiting finished. I am granting you and your divinographer access to the Godgraveyard level beneath the Townhall. If anything down there asks who permitted you, show it my seal and do not accept its counteroffer.\"": "„Žádost Phor Calesty o povolení k vykopávkám čekala na tři komise, dvě teologické dopadové studie a jednoho úředníka dost odvážného přiznat, že dolní dveře existují.\n\nČekání skončilo. Uděluji vám i vaší divinografce přístup do úrovně Bohohřbitova pod Radnicí. Pokud se vás tam dole cokoli zeptá, kdo vám to povolil, ukažte mu mou pečeť a nepřijímejte protinabídku.“",
+            "\"You may not have asked for a divinography permit, but you have earned a dangerous favor. I am granting you access to the Godgraveyard level beneath the Townhall.\n\nIf anything down there asks who permitted you, show it my seal and do not accept its counteroffer.\"": "„Možná jste o povolení k divinografii nežádal, ale vysloužil jste si nebezpečnou laskavost. Uděluji vám přístup do úrovně Bohohřbitova pod Radnicí.\n\nPokud se vás tam dole cokoli zeptá, kdo vám to povolil, ukažte mu mou pečeť a nepřijímejte protinabídku.“"
+        },
         options: {
             ill_use_it_carefully: 'Použiju to opatrně.',
         }

@@ -33,7 +33,7 @@ export default class EntryScene extends GameScene {
                         this.addJournalEntry(
                             'upper_morkezela',
                             'Upper Morkezela',
-                            'They call it a city, but Upper Morkezela was never fully alive. It grew like a misunderstanding — a mistake made permanent by concrete, ritual, and time. The streets curve inward. And no one knows who is in charge, there are several factions fighting for control. "In Morkezela, your second shadow watches the first. Neither trusts you." — Anonymous graffito, scratched into the side of a forgotten monorail',
+                            'They call it a city, but Upper Morkezela may be nothing more than a dream of a city. Nobody built its streets — they came in with the dying gods and stayed.',
                             this.journalSystem.categories.PLACES,
                             { location: 'Upper Morkezela skyline' }
                         );

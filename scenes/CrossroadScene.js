@@ -410,7 +410,7 @@ export default class CrossroadScene extends GameScene {
                     this.addJournalEntry(
                         'crossroad_corpse_spores_planted',
                         'Planted Spores in the Crossroad Corpse',
-                        'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth. This has opened up a new path to what appears to be a skyship above.',
+                        'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth — and I noticed something up above it.',
                         this.journalSystem.categories.EVENTS
                     );
                     
@@ -536,11 +536,13 @@ export default class CrossroadScene extends GameScene {
                     this.addJournalEntry(
                         'skyship_sighting',
                         'Strange Vessel in the Emerald Sky',
-                        'A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. The locals say it appeared "twenty-some digestions ago" — whatever it is they count by here — and hasn\'t moved since. Some believe it to be a vessel of the fungal gods, others whisper of more terrestrial origins. Its purpose remains unknown, but its presence has changed the city\'s atmosphere, both literally and figuratively - spores seem to drift from its direction when the wind is right.',
+                        'A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. Its purpose remains unknown, though spores seem to drift down from it on the wind.',
                         this.journalSystem.categories.EVENTS,
                         { location: 'Upper Morkezela skyline' }
                     );
                 }
+                // The growth from the planted corpse turns out to lead up to it
+                this.addJournalFact('crossroad_corpse_spores_planted', 'skyship', "The growth has opened a path up to a skyship hanging above the crossroads.");
                 // Step 2: Then zoom in and pan up to simulate looking up
                 this.tweens.add({
                     targets: this.cameras.main,

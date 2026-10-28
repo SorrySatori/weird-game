@@ -408,7 +408,11 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
                 ],
-                onTrigger: () => { this.learnPithReclaimers(); }
+                onTrigger: () => {
+                    this.learnPithReclaimers();
+                    this.addJournalFact('pith_reclaimers_faction', 'bureaucracy', "By all accounts a bureaucracy: it believes the city's chaos can be managed with enough rules, forms and paperwork.");
+                    this.addJournalFact('pith_reclaimers_faction', 'ludarch_origin', "The Angle Corrector says it grew out of the wreckage of the Ludarchs' administrative apparatus — and never stopped filing.");
+                }
             },
 
             ac_role: {
@@ -478,7 +482,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
             ac_sulkberry_tamper: {
                 speaker: 'The Angle Corrector',
-                text: `"I think nothing. I correct angles — I do not speculate. ministered or chemically altered, could cause exactly that kind of damage."`,
+                text: `"I think nothing. I correct angles — I do not speculate.\n\nBut the Bishop was found with neural trauma. A dream immersion, improperly administered or chemically altered, could cause exactly that kind of damage. The Cardinal Feast dream cartridge was found damaged.\n\nDraw your own conclusions. I have given you what I can without compromising the Directorate's position."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
                 ],
@@ -612,7 +616,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                         this.addJournalEntry(
                             'perspective_lumen',
                             'The Directorate\'s Perspective — Let It Complete',
-                            'The Angle Corrector does not want the mind in the Egg Cathedral destroyed. To the Lumen Directorate, the nascent god is the natural next step of life — the boundary-crossing they have cultivated toward for generations. They want it to COMPLETE its emergence, not be stopped. The danger I registered: they want to help too much. They may accelerate something they do not understand — the same misreading that killed the Bishop, only larger.',
+                            'The Angle Corrector does not want the mind in the Egg Cathedral destroyed. To the Lumen Directorate, the nascent god is the natural next step of life — the boundary-crossing they have cultivated toward for generations. They want it to COMPLETE its emergence, not be stopped.',
                             this.journalSystem.categories.FACTIONS,
                             { character: 'The Angle Corrector' }
                         );
@@ -626,7 +630,10 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 options: [
                     { text: "That's exactly what frightens me.", key: 'thats_exactly_what_frightens_me', next: "ac_fold_danger" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('perspective_lumen', 'danger', "The danger I registered: they want to help too much. They may accelerate something they do not understand — the same misreading that killed the Bishop, only larger.");
+                }
             },
 
             ac_fold_danger: {
@@ -635,7 +642,10 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 options: [
                     { text: "Then be careful what you feed it.", key: 'then_be_careful_what_you_feed_it', next: "ac_start" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "ac_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('perspective_lumen', 'danger', "The danger I registered: they want to help too much. They may accelerate something they do not understand — the same misreading that killed the Bishop, only larger.");
+                }
             },
 
             // --- Townhall ---
@@ -647,6 +657,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                     { text: "Thanks. I'll find him.", key: 'thanks_ill_find_him', next: "ac_start" },
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('pith_reclaimers_faction', 'townhall', "It runs the city's administrative apparatus; the Townhall falls under its jurisdiction.");
                     this.questSystem.updateQuest('enter_townhall', 'The Angle Corrector directed me to Seldo Thrice-Corrected on the second floor of the Lumen Directorate. He handles bureaucratic liaison and may know a way into the Townhall.', 'ac_seldo_referral');
                 }
             },
@@ -695,7 +706,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.questSystem?.getQuest('join_lumen_directorate')) {
-                        this.questSystem.addQuest('join_lumen_directorate', 'Nothing Grows in Iron', 'The Angle Corrector will grant me full Lumen Directorate membership if I cripple the Rust Choir\'s machine-shrine. Verrik keeps a restricted cultivar for the purpose — grind it into the Rust Feast oil. Or I can sabotage the machines another way. Then report back.');
+                        this.questSystem.addQuest('join_lumen_directorate', 'Nothing Grows in Iron', 'The Angle Corrector will grant me full membership in the Lumen Directorate if I cripple the Rust Choir\'s machine-shrine. Verrik, on the ground floor, keeps a cultivar behind glass for exactly this — or I can find my own way to sabotage the machines. Then report back.');
                         this.showNotification('New quest: Nothing Grows in Iron', 0x556B2F);
                     }
                 }
@@ -745,7 +756,8 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (canRevealEskola) {
-                        this.questSystem.updateQuest('the_three_vestigels', "The Directorate's files named Edgar Eskola as the buyer of the plush toy containing a Vestigel — frequents the Screaming Cork.", 'found_eskola_lead');
+                        // 'found_eskola_lead' is shared with Zerren's route (VoxmarketMarketScene) and its lang text is route-neutral.
+                        this.questSystem.updateQuest('the_three_vestigels', "Edgar Eskola is the one who bought the plush toy. He can usually be found around the Screaming Cork tavern.", 'found_eskola_lead');
                         this.showNotification('Directorate files: lead uncovered', 0x556B2F);
                     }
                 }
@@ -816,7 +828,10 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 options: [
                     ...(hasEnterTownhallQuest && !acceptedAuctionErrand && !hasTownhallKey ? [{ text: "Speaking of back doors — I need into the Townhall.", key: 'speaking_of_back_doors_i_need_into_the_townhall', next: "seldo_townhall" }] : []),
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "seldo_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('pith_reclaimers_faction', 'townhall', "It runs the city's administrative apparatus; the Townhall falls under its jurisdiction.");
+                }
             },
 
             seldo_name: {

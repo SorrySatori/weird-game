@@ -175,6 +175,8 @@ export default {
             who_are_you: "Kdo jste?",
             tell_me_about_this_place: "Povězte mi o tomhle místě",
             heard_any_rumors_lately: "Slyšel jste poslední dobou nějaké zvěsti?",
+            whats_that_noise_next_door: "Co je to vedle za hluk?",
+            do_you_know_where_the_fermented_cap_is: "Nevíte, kde je hospoda U Kvašeného klobouku?",
             i_need_a_biological_opinion_on_some_sulkberries: "Potřebuji biologický posudek na nějaké mručenky.",
             do_you_have_anything_for_sale: "Máte něco na prodej?"
         }
@@ -194,6 +196,18 @@ export default {
     },
     heliodor_place: {
         text: "Řvoucí korek tu stojí déle než většina města. Majitel tvrdí, že to byla první budova postavená po Kolapsu. Pochybujeme, že je to pravda, ale stará je určitě. Dobré místo, pokud se chcete na chvíli ztratit.",
+        options: {
+            back: "Zeptej se na něco jiného"
+        }
+    },
+    heliodor_noise: {
+        text: "*Několik Heliodorových tváří sebou naráz cukne.* „To je Feral Toast. Zkoušejí vzadu v klubu na večerní koncert. Sami tomu říkají ultranoise futurepunk, my tomu říkáme důvod, proč nám sklenice pořád utíkají z polic. Klidně se běžte podívat, dveře jsou vzadu.“",
+        options: {
+            back: "Zeptej se na něco jiného"
+        }
+    },
+    heliodor_fermented_cap: {
+        text: "„U Kvašeného klobouku?“ *Kolonií projde tiché mumlání, jak se radí sama se sebou.* „Ne. Taková hospoda neexistuje. Známe tu každý bar, výčep i zapadlý pajzl – polovina z nás v nich kdysi dělala. Jestli vám někdo tvrdil, že tam bude, nejspíš se vás chtěl jen zbavit.“",
         options: {
             back: "Zeptej se na něco jiného"
         }

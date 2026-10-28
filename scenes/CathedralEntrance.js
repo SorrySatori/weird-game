@@ -328,6 +328,9 @@ export default class CathedralEntrance extends GameScene {
             guardianNature: {
                 speaker: 'The Guardian',
                 text: "*\"I am no priest, and no soldier. I am the last mechanism of a religious order that is already dust. They made me guard this place — but not, as the others believe, to keep out the unworthy. My charge was narrower, and very specific: to keep out anyone who would enter meaning to own what is born here. Titles do not move me. Nor strength. Only the reason.\"*",
+                onTrigger: () => {
+                    this.addJournalFact('cathedral_guardian_passed', 'nature', "It is no priest and no soldier, but the last mechanism of a religious order already dust — made to keep out anyone who would enter meaning to own what is born here.");
+                },
                 options: [
                     { text: "Why can't anyone own it?", key: 'guardian_why_own', next: "guardianOwn" },
                     { text: "Then let me answer. Why I wish to enter.", key: 'guardian_back_to_question', next: "guardianGreeting" }
@@ -337,6 +340,9 @@ export default class CathedralEntrance extends GameScene {
             guardianOwn: {
                 speaker: 'The Guardian',
                 text: "*\"Because a new life owned is not a life. It is a tool with a heartbeat. Your Bishop understood this — it is why she sealed the doors. Not to protect the cathedral, but to protect the world from the first hand that would reach in to possess what wakes. That hand has come before. It will come again. I am the power standing between.\"*",
+                onTrigger: () => {
+                    this.addJournalFact('cathedral_guardian_passed', 'seal_truth', "It told me the truth it was set here to keep: the Bishop's seal was never to protect the cathedral, but to protect the world from the first hand that would reach in to own the new life waking there.");
+                },
                 options: [
                     { text: "Let me answer your question, then.", key: 'guardian_own_back', next: "guardianGreeting" }
                 ]
@@ -379,7 +385,7 @@ export default class CathedralEntrance extends GameScene {
                         this.addJournalEntry(
                             'cathedral_guardian_passed',
                             'The Guardian Relents',
-                            "I answered the Guardian — the Sentinel of the Veil, last mechanism of the old order — that I came only to bear witness, not to master or use what grows inside. It opened the way. It told me the truth it was set here to keep: the Bishop's seal was never to protect the cathedral, but to protect the world from the first hand that would reach in to own the new life waking there. And it told me its own end is bound to the birth — a thing to be decided within, with all present, not out here by it alone.",
+                            "I answered the Guardian — the Sentinel of the Veil, what remains of the old order — that I came only to bear witness, not to master or use what grows inside. It opened the way.",
                             this.journalSystem.categories.EVENTS,
                             { location: 'Egg Cathedral', related: 'The Guardian' }
                         );
@@ -402,6 +408,9 @@ export default class CathedralEntrance extends GameScene {
             guardianEnd: {
                 speaker: 'The Guardian',
                 text: "*\"When it wakes fully, I end. The order that made me will have no more meaning, and neither will its last mechanism. I have known this longer than you have been alive.\"* The eyes blink. *\"Do not grieve it. My last charge may not be to prevent the birth — but to see that it happens rightly. Whether I am kept, or let go, is a thing to be decided in there. Not out here, by me alone. I have nothing else to say. Go. It is waiting.\"*",
+                onTrigger: () => {
+                    this.addJournalFact('cathedral_guardian_passed', 'own_end', "It told me its own end is bound to the birth — whether it is kept or let go is a thing to be decided within, not out here by it alone.");
+                },
                 options: [
                     { text: "I'm ready. Open the way.", key: 'guardian_end_enter', next: "guardianFarewell" },
                     { text: "Not yet.", key: 'guardian_end_wait', next: "closeDialog" }
@@ -564,7 +573,7 @@ export default class CathedralEntrance extends GameScene {
         } else if (dialogKey === 'templeGuardShed521' && this.questSystem.getQuest('find_bishop')) {
             this.questSystem.updateQuest(
                 'find_bishop',
-                'Shed 521, also known as the Bureau of Shapes, is a bureaucratic maze where people register their forms. The Bishop is known to visit this place.',
+                "Shed 521, officially the Bureau of Shapes, is where people get the certificate they need to change their body's shape. It's right next to the Voxmarket. The Bishop might be found there too.",
                 'guard_shed521'
             );
         }

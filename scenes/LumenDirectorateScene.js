@@ -477,11 +477,14 @@ export default class LumenDirectorateScene extends GameScene {
                     { text: "Thanks. I'll head inside.", key: 'thanks_ill_head_inside', next: "closeDialog" },
                 ],
                 onTrigger: () => {
+                    // The description is shared with Captain Liris's route (SkyshipBoardScene), so it stays
+                    // route-neutral; Verrik's directions go in as an update on both paths.
                     const q = this.questSystem?.getQuest('find_lumen_directorate');
                     if (!q) {
-                        this.questSystem.addQuest('find_lumen_directorate', 'Nothing Hidden. Nothing Lost', 'Verrik, the Directorate\'s gardener, pointed me to the Angle Corrector on the third floor. I should speak with them about joining the Lumen Directorate.');
+                        this.questSystem.addQuest('find_lumen_directorate', 'Nothing Hidden. Nothing Lost', "I'd like to join the Lumen Directorate. I should learn more about their work and find out what it takes to become one of them.");
                         this.showNotification('New quest: Nothing Hidden. Nothing Lost', 0x556B2F);
-                    } else if (!q.isComplete) {
+                    }
+                    if (!this.questSystem?.getQuest('find_lumen_directorate')?.isComplete) {
                         this.questSystem.updateQuest('find_lumen_directorate', 'The gardener Verrik directed me to speak with the Angle Corrector on the third floor of the Directorate about joining.', 'gardener_directions');
                     }
                 }
@@ -695,6 +698,7 @@ export default class LumenDirectorateScene extends GameScene {
                             this.journalSystem.categories.FACTIONS,
                             { character: 'Verrik the Gardener', related: 'Lumen Directorate' }
                         );
+                        this.questSystem?.updateQuest('join_lumen_directorate', 'Verrik gave me the cultivar — a controlled rot bred to eat metal. Ground into oil, it corrodes any machine that drinks it from the inside out.', 'verrik_cultivar');
                         this.showNotification('Received: Corrosive Cultivar');
                     }
                 }

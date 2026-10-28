@@ -50,12 +50,23 @@ State shape:
 - `getQuest(id)` → quest or undefined; `quest.isComplete`; `quest.updates` is `[{key,...}]`.
 - `addQuest(id, title, description)`, `updateQuest(id, progressText, updateKey)`, `completeQuest(id, updateKey?)`.
 - Gate on quest state, e.g. `!!this.questSystem?.getQuest('ortolan_arms')?.isComplete`.
+- Same no-spoiler rule as the journal: a quest description/update says only what the player knows when it
+  is written; later reveals are NEW updates (new key) at the revealing state. Keys are often flags — never rename
+  them or move when they're written. Translations: `quests.<id>.{title,description,updates.<key>}` in `lang/{en,cs}/quests.js`.
+- A dialog state with `onShow` is NOT rendered (GameScene runs it and returns) — use `onTrigger` for side effects
+  of a state that has text/options; `onShow` is only for close/launch states.
 
 ## Journal — `this.journalSystem` (`JournalSystem.getInstance()` singleton)
 - `this.hasJournalEntry(id)` (returns the entry, truthy) / `this.getJournalEntry(id)`.
 - `this.addJournalEntry(id, title, content, category, metadata)`. Entries + `metadata` persist via save.
 - Categories: `this.journalSystem.categories.{PEOPLE,PLACES,EVENTS,LORE,DREAMS,FACTIONS}`.
 - Persisted journal entries are the durable flags the whole game gates on (survive save/load).
+- **Never journal what the player hasn't learned yet.** An entry holds only what is known at the moment it is
+  written; anything revealed later is a *fact* appended to it: `this.addJournalFact(id, factId, englishText)` in the
+  onTrigger of the state where it is revealed (idempotent per factId; may fire before the entry exists — it shows once
+  the entry is created; persisted in saves). Translations: `journal.<id>.facts.<factId>` in `lang/{en,cs}/journal.js`.
+  The journal shows description + facts one per line; `journalSystem.hasFact(id, factId)` can gate on a fact.
+  Don't move the creation point of an entry that is used as a flag; change its text and add facts instead.
 
 ## Day 1 / Day 2 architecture — DO NOT duplicate scenes
 Day 2 begins after the player sleeps at the end of Day 1. Held by journal
@@ -157,8 +168,8 @@ and a generative Web-Audio organ score.
   these are OPTIONAL flavor, NOT a gate before the Egg Cathedral finale. Done: **Sister Calyx /
   Ink Tribunal** at `VoxmarketHallScene` (`calyx_start` → `calyx_seal_law` → guardian orders /
   true purpose). Adds journal `bishop_seal_true_purpose` (LORE): the Bishop's seal reads *outward* —
-  it protects the world from anyone who would seek to OWN new life, and the Sentinel of the Veil's
-  standing order was to bar only the *acquisitive*. Also done: **Angle Corrector / Lumen Directorate**
+  it protects the world from anyone who would seek to OWN new life; the Sentinel of the Veil's
+  standing order (bar only the *acquisitive*) is a fact added in `calyx_seal_guardian_orders`. Also done: **Angle Corrector / Lumen Directorate**
   at `LumenDirectorateInteriorScene` (`ac_start` → `ac_fold_perspective` → `ac_fold_complete` /
   `ac_fold_danger`). Adds journal `perspective_lumen` (FACTIONS): the Directorate wants the nascent
   god to COMPLETE its emergence, not be stopped — the danger is they help too much and accelerate it,

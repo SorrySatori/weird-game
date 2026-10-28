@@ -14,6 +14,9 @@ class JournalSystem extends Phaser.Events.EventEmitter {
         
         // Initialize journal entries storage
         this.entries = new Map();
+        // Facts learned later about an entry (entryId -> [{ id, text }]), shown appended to it.
+        // Kept apart from the entries so a fact heard before the entry exists isn't lost.
+        this.facts = new Map();
         this.subscribers = new Set();
         this.scene = null;
         
@@ -192,6 +195,37 @@ class JournalSystem extends Phaser.Events.EventEmitter {
     }
 
     /**
+     * Append something the player has just learned to an entry (a person's entry grows as they find
+     * out more). Idempotent per factId. The text is the English fallback; the journal UI shows
+     * `journal.<entryId>.facts.<factId>` from the language files when present.
+     * @returns {boolean} - True if the fact is new
+     */
+    addFact(entryId, factId, text) {
+        const list = this.facts.get(entryId) || [];
+        if (list.some(f => f.id === factId)) {
+            return false;
+        }
+        list.push({ id: factId, text });
+        this.facts.set(entryId, list);
+
+        const entry = this.entries.get(entryId);
+        if (entry) entry.lastUpdated = new Date();
+        this.syncRegistryJournal();
+        this.notifySubscribers();
+        if (entry) this.emit('entryUpdated', entryId, entry.title);
+        return true;
+    }
+
+    hasFact(entryId, factId) {
+        return (this.facts.get(entryId) || []).some(f => f.id === factId);
+    }
+
+    /** Facts learned about an entry, in the order they were found out. */
+    getFacts(entryId) {
+        return this.facts.get(entryId) || [];
+    }
+
+    /**
      * Count how many entries match a specific criteria
      * @param {Function} filterFn - Filter function to apply
      * @returns {number} - Count of matching entries
@@ -210,7 +244,8 @@ class JournalSystem extends Phaser.Events.EventEmitter {
     getSerializableData() {
         // Convert Map to array of entries for serialization
         return {
-            entries: Array.from(this.entries.entries())
+            entries: Array.from(this.entries.entries()),
+            facts: Array.from(this.facts.entries())
         };
     }
 
@@ -248,7 +283,14 @@ class JournalSystem extends Phaser.Events.EventEmitter {
                 
                 this.entries.set(id, entry);
             });
-            
+
+            // Saves from before facts existed have none
+            this.facts = new Map(data.facts || []);
+            if (!data.facts && this.entries.has('met_infinite_fold')) {
+                // that entry used to state the Bishop truth outright; dialog gates on knowing it
+                this.facts.set('met_infinite_fold', [{ id: 'bishop_truth', text: "It told me the truth about the Bishop: it and its kindred offered to make her their human conduit; she refused rather than cease being herself; it misread her refusal as a runtime fault and, trying to 'complete' her, destroyed her." }]);
+            }
+
             this.notifySubscribers();
         }
     }

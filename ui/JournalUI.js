@@ -34,6 +34,24 @@ class JournalUI {
         });
     }
     
+    /**
+     * Title + text of an entry in the current language: the translated description (falling back to
+     * the text stored with the entry), followed by every fact learned about it since, one per line.
+     */
+    resolveEntryText(entry) {
+        const jKey = `journal.${entry.id}`;
+        const tr = (key, fallback) => {
+            const v = this.lang.t(key);
+            return v === key ? fallback : v;
+        };
+        const facts = this.journalSystem.getFacts(entry.id)
+            .map(f => tr(`${jKey}.facts.${f.id}`, f.text));
+        return {
+            title: tr(`${jKey}.title`, entry.title),
+            content: [tr(`${jKey}.description`, entry.content), ...facts].join('\n'),
+        };
+    }
+
     createUI() {
         // Background panel
         this.background = this.scene.add.graphics();
@@ -259,8 +277,8 @@ class JournalUI {
             entries = this.journalSystem.getAllEntries();
         }
         
-        // Sort entries by timestamp (newest first)
-        entries.sort((a, b) => b.timestamp - a.timestamp);
+        // Newest first; an entry that just learned a new fact counts as new
+        entries.sort((a, b) => (b.lastUpdated || b.timestamp) - (a.lastUpdated || a.timestamp));
         
         let yOffset = 20;
         const padding = 10;
@@ -278,12 +296,7 @@ class JournalUI {
             yOffset += noEntriesText.height + padding;
         } else {
             entries.forEach(entry => {
-                // Resolve translated journal content
-                const jKey = `journal.${entry.id}`;
-                const tTitle = this.lang.t(`${jKey}.title`);
-                const tContent = this.lang.t(`${jKey}.description`);
-                const displayTitle = tTitle === `${jKey}.title` ? entry.title : tTitle;
-                const displayContent = tContent === `${jKey}.description` ? entry.content : tContent;
+                const { title: displayTitle, content: displayContent } = this.resolveEntryText(entry);
 
                 // Entry container with fungal styling
                 const entryBox = this.scene.add.graphics();
@@ -542,16 +555,11 @@ class JournalUI {
             this.contentContainer.add(noEntriesText);
             yOffset += noEntriesText.height + padding;
         } else {
-            // Sort entries by timestamp (newest first)
-            entries.sort((a, b) => b.timestamp - a.timestamp);
+            // Newest first; an entry that just learned a new fact counts as new
+            entries.sort((a, b) => (b.lastUpdated || b.timestamp) - (a.lastUpdated || a.timestamp));
             
             entries.forEach(entry => {
-                // Resolve translated journal content
-                const jKey = `journal.${entry.id}`;
-                const tTitle = this.lang.t(`${jKey}.title`);
-                const tContent = this.lang.t(`${jKey}.description`);
-                const displayTitle = tTitle === `${jKey}.title` ? entry.title : tTitle;
-                const displayContent = tContent === `${jKey}.description` ? entry.content : tContent;
+                const { title: displayTitle, content: displayContent } = this.resolveEntryText(entry);
 
                 // Entry container with fungal styling
                 const entryBox = this.scene.add.graphics();

@@ -35,7 +35,7 @@ export default {
         options: { journal_4_next: "Obrátit list." }
     },
     journal_5: {
-        text: "*Poslední záznam.*\n\n„Guardian mě neposlechl proto, že jsem jeho vládkyně. Poslechl mě, protože pochopil můj strach.\n\nAle strach není důvod, aby něco bylo navěky. Získala jsem, co času šlo. Zbytek není na mně, abych rozhodla.\n\nJe na tobě.\"",
+        text: "*Poslední záznam.*\n\n„Strážce mě neposlechl proto, že jsem jeho vládkyně. Poslechl mě, protože pochopil můj strach.\n\nAle strach není důvod, aby něco bylo navěky. Získala jsem, co času šlo. Zbytek není na mně, abych rozhodla.\n\nJe na tobě.\"",
         options: { journal_close: "Zavřít deník." }
     }
 };

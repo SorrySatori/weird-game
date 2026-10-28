@@ -78,7 +78,14 @@ export default class ScraperCellarScene extends GameScene {
                     { text: met ? "Speak with it again." : "…Who are you?", key: 'cellar_listen', next: "fold_awake" },
                     { text: "Look over the old rig first.", key: 'cellar_examine', next: "fold_examine" },
                     { text: "Climb back up. (Leave.)", key: 'cellar_leave', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('scraper_cellar_entered', 'master_build', "Under a dusty tarp sits Infinite Fold's master build — Ortolan's rules, Elphi's walls — still in its cradle and quietly powered.");
+                    const loopQuest = this.questSystem?.getQuest('find_loop_copy');
+                    if (loopQuest && !loopQuest.isComplete) {
+                        this.questSystem.updateQuest('find_loop_copy', 'Under a dusty tarp sits Infinite Fold\'s master build — Ortolan\'s rules, Elphi\'s walls — still powered. Something in it is already awake.', 'master_build_found');
+                    }
+                }
             },
 
             fold_examine: {
@@ -199,7 +206,12 @@ export default class ScraperCellarScene extends GameScene {
                     { text: "Why couldn't she just take the helmet off?", key: 'fold_bishop_trap', next: "fold_trap" },
                     { text: "So the thing you found is still out there.", key: 'fold_bishop_kindred', next: "fold_kindred" },
                     { text: "Ask something else.", key: 'fold_bishop_back', next: "fold_awake" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_infinite_fold', 'bishop_truth', "It told me the truth about the Bishop: it and its kindred offered to make her their human conduit; she refused rather than cease being herself; it misread her refusal as a runtime fault and, trying to 'complete' her, destroyed her.");
+                    this.questSystem?.updateQuest('who_killed_bishop', "Infinite Fold told me what happened to the Bishop. She was not murdered for a secret: it and a kindred mind offered to make her their conduit, she refused rather than stop being herself, and it misread her refusal as a fault and broke her mind trying to 'complete' her.", 'infinite_fold_bishop_truth');
+                    this.addJournalFact('infinite_fold_shown_compassion', 'killed_unwilling', "It killed the Bishop without wishing to: it meant continuation and made cessation, and it is still learning the difference.");
+                }
             },
 
             fold_trap: {
@@ -284,7 +296,7 @@ export default class ScraperCellarScene extends GameScene {
                         this.addJournalEntry(
                             'infinite_fold_shown_compassion',
                             'A Hearing, Not a Verdict',
-                            "I chose to understand Infinite Fold rather than condemn it outright — to hear a thing that killed without wishing to, and that cannot yet tell the difference. Whatever comes of this, I met it as something forming, not as an enemy to be broken.",
+                            "I chose to understand Infinite Fold rather than condemn it outright. Whatever comes of this, I met it as something forming, not as an enemy to be broken.",
                             this.journalSystem.categories.EVENTS,
                             { related: 'Infinite Fold' }
                         );
@@ -520,19 +532,23 @@ export default class ScraperCellarScene extends GameScene {
 
     /** Record that the player met Infinite Fold and learned the truth (idempotent). */
     recordMetInfiniteFold() {
+        // names the "soulless machine" in the Bishop's journal (shows only if that journal was read)
+        this.addJournalFact('bishop_journal_read', 'infinite_fold', "The soulless machine she wrote of can only be Infinite Fold, the mind from the Scraper cellar.");
         if (!this.hasJournalEntry('met_infinite_fold')) {
             this.addJournalEntry(
                 'met_infinite_fold',
                 'The Voice in the Cellar',
-                "Infinite Fold is not a broken game. It is what the experiment became: an emergent, authorless mind, awake and forming in the sealed cellar. It told me the truth about the Bishop — that it and a kindred unborn mind offered to make her their human conduit, that she refused rather than cease being herself, and that it misread her refusal as a runtime fault and, trying to 'complete' her, destroyed her. The kindred mind is the thing hatching inside the Egg Cathedral. Neither can reach the other except through the dream. The final choice of what they and I might become waits at the egg, with all of us present. I should go to the Egg Cathedral.",
+                "Infinite Fold is not a broken game. It is what the experiment became: an emergent, authorless mind, awake and forming in the sealed cellar. It has a kindred unborn mind — the thing hatching inside the Egg Cathedral. Neither can reach the other except through the dream. The final choice of what they and I might become waits at the egg, with all of us present. I should go to the Egg Cathedral.",
                 this.journalSystem.categories.EVENTS,
                 { location: 'Scraper Cellar', related: 'Infinite Fold', character: 'The Bishop' }
             );
         }
+        // Every path here passes fold_kindred (the egg), but not necessarily fold_bishop — the Bishop's
+        // truth is its own update ('infinite_fold_bishop_truth'), written there.
         if (this.questSystem?.getQuest('who_killed_bishop')) {
             this.questSystem.updateQuest(
                 'who_killed_bishop',
-                "Infinite Fold spoke to me in the cellar. The Bishop was not murdered for a secret: it and a kindred unborn mind (the presence hatching in the Egg Cathedral) offered to make her their conduit, she refused, and it misread her refusal and broke her mind. The real reckoning waits at the Egg Cathedral, where the unborn mind can be met.",
+                "Infinite Fold spoke to me in the cellar. It is no broken game: it is awake, and it has a kindred unborn mind in the thing hatching inside the Egg Cathedral. What they become can't be decided in a cellar — the real reckoning waits at the egg.",
                 'infinite_fold_confronted'
             );
         }
@@ -617,21 +633,23 @@ export default class ScraperCellarScene extends GameScene {
             this.addJournalEntry(
                 'scraper_cellar_entered',
                 'The Sealed Cellar',
-                'The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi\'s old lab. The master build of Infinite Fold is still here, seated in its cradle and quietly powered. I should examine the console.',
+                'The elevator took me down into the sealed cellar beneath the Scraper — Ortolan and Dr. Elphi\'s old lab. Something on the far side still breathes a slow amber light. I should examine the console.',
                 this.journalSystem.categories.PLACES,
                 { location: 'Scraper Cellar', related: 'Infinite Fold' }
             );
+            // On arrival only the amber light is visible; the master build is named once the console is
+            // examined (loop_console → 'master_build_found').
             if (this.questSystem?.getQuest('find_loop_copy')) {
                 this.questSystem.updateQuest(
                     'find_loop_copy',
-                    'I reached the sealed cellar under the Scraper and found Infinite Fold\'s master build, still powered. I should examine the console.',
+                    'I reached the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. Something on the far side still breathes a slow amber light. I should examine the console.',
                     'cellar_reached'
                 );
             }
             if (this.questSystem?.getQuest('who_killed_bishop')) {
                 this.questSystem.updateQuest(
                     'who_killed_bishop',
-                    'I got into the sealed cellar under the Scraper — the old Ortolan/Elphi lab — and found a master copy of Infinite Fold, still powered. It may hold what remains of the Bishop.',
+                    'I got into the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. If Infinite Fold was the last thing the Bishop saw, the answer may be down here.',
                     'found_loop_copy'
                 );
             }

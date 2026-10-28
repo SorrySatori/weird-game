@@ -424,7 +424,12 @@ Find the notebook. The Townhall cannot misfile what it never got back."`,
                 options: [
                     { text: "I'll find the Bishop's notebook.", key: 'ill_find_the_bishops_notebook', next: "closeDialog" },
                     { text: "What about other doppelgänger reports?", key: 'what_about_other_doppelganger_reports', next: "clerk_other_doppelganger_reports" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('townhall_bishop_records_checked', 'not_returned', "The notebook was never returned to the Townhall.");
+                    this.addJournalFact('townhall_bishop_records_checked', 'missing_pages', "If she kept it as a private diary, the missing pages may hold more about the doppelgänger, the changing spores, and why she sealed the Cathedral.");
+                    this.markNotebookNotReturned();
+                }
             },
 
             clerk_other_doppelganger_reports: {
@@ -448,7 +453,11 @@ So: no pattern I can prove. But the Bishop was not merely frightened. She was do
 The notebook was never returned. If the torn page is real, the rest of the notebook is probably the next real clue."`,
                 options: [
                     { text: "I'll keep looking.", key: 'ill_keep_looking', next: "closeDialog" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('townhall_bishop_records_checked', 'not_returned', "The notebook was never returned to the Townhall.");
+                    this.markNotebookNotReturned();
+                }
             },
 
             complaint_eater_start: {
@@ -719,16 +728,30 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         this.addJournalEntry(
             'entered_townhall',
             'Entered the Townhall',
-            'I made it inside the Townhall. Now I can search the records for the Bishop\'s doppelgänger report and help Phor Calesta with his permits.',
+            'I made it inside the Townhall.',
             this.journalSystem.categories.EVENTS,
             { location: 'Townhall' }
         );
+        // The quest can come from Elphi or from Phor — only note the leads the player actually has.
+        if (this.hasJournalEntry('bishop_memo') || this.hasJournalEntry('elphi_townhall_log')) {
+            this.addJournalFact('entered_townhall', 'bishop_report', "Now I can search the records for the Bishop's doppelgänger report.");
+        }
+        if (this.questSystem?.getQuest('excavation_permit')) {
+            this.addJournalFact('entered_townhall', 'phor_permits', "And I can try to get Phor Calesta her excavation permits.");
+        }
 
         this.questSystem.updateQuest(
             'enter_townhall',
-            'I made it inside the Townhall. The locked-door problem is solved; now I can search the records inside.',
+            'I made it inside the Townhall.',
             'entered_townhall'
         );
+        // Same route split as the journal facts above: only name the leads the player actually has.
+        if (this.hasJournalEntry('bishop_memo') || this.hasJournalEntry('elphi_townhall_log')) {
+            this.questSystem.updateQuest('enter_townhall', "Now I can search the records for the Bishop's doppelgänger report.", 'entered_townhall_records');
+        }
+        if (this.questSystem?.getQuest('excavation_permit')) {
+            this.questSystem.updateQuest('enter_townhall', 'Now I can try to get Phor Calesta her excavation permits.', 'entered_townhall_permits');
+        }
         this.questSystem.completeQuest('enter_townhall');
     }
 
@@ -1076,7 +1099,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         this.addJournalEntry(
             'townhall_bishop_records_checked',
             'Townhall Records: The Bishop\'s Notebook',
-            'The freed Townhall clerk checked the Bishop\'s records after the hostage standoff. The doppelgänger memo was not a filed Townhall report; it was a personal note written in an Official Townhall Report Notebook the Bishop checked out shortly before her death. The rest of that notebook was never returned and may contain more about the doppelgänger, the changing spores, and why she sealed the Cathedral.',
+            'The freed Townhall clerk checked the Bishop\'s records after the hostage standoff. The doppelgänger memo was not a filed Townhall report; it was a personal note written in an Official Townhall Report Notebook the Bishop checked out shortly before her death.',
             this.journalSystem.categories.EVENTS,
             { location: 'Townhall', character: 'Bishop', related: 'Doppelgänger' }
         );
@@ -1084,17 +1107,26 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         if (this.questSystem?.getQuest('who_killed_bishop')) {
             this.questSystem.updateQuest(
                 'who_killed_bishop',
-                'The Townhall clerk revealed that the Bishop\'s doppelgänger memo was not an official report. It was a personal note written in an Official Townhall Report Notebook she checked out shortly before death. The missing notebook is now the strongest lead. It\'s been a long day — I should report all this back to Dr. Elphi at ARB Ambra and rest.',
+                'The Townhall clerk revealed that the Bishop\'s doppelgänger memo was not an official report, but a personal note written in an Official Townhall Report Notebook she checked out shortly before her death.',
                 'townhall_notebook_revelation'
             );
         }
 
+        // "Never returned" is only said in clerk_bishop_notebook_hook / clerk_bishop_records_summary —
+        // see markNotebookNotReturned().
         if (!this.questSystem?.getQuest('find_bishop_notebook')) {
             this.questSystem.addQuest(
                 'find_bishop_notebook',
                 'Find the Bishop\'s Notebook',
-                'The Bishop used an Official Townhall Report Notebook as a private diary. A torn page about her doppelgänger survived, but the rest of the notebook was never returned to the Townhall. I should find it to learn what happened in her final days.'
+                'The Bishop wrote her doppelgänger note in an Official Townhall Report Notebook she checked out shortly before her death. Only the torn page from her sleeve has turned up; the rest of the notebook must be somewhere. I should find it to learn what happened in her final days.'
             );
+        }
+    }
+
+    markNotebookNotReturned() {
+        const q = this.questSystem?.getQuest('find_bishop_notebook');
+        if (q && !q.isComplete) {
+            this.questSystem.updateQuest('find_bishop_notebook', 'According to the clerk, the notebook was never returned to the Townhall.', 'notebook_not_returned');
         }
     }
 
@@ -1118,10 +1150,14 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         this.addJournalEntry(
             'godgraveyard_access_granted',
             'Access to the Godgraveyard',
-            'Councilor Seraphel Dune rewarded the peaceful end of the Townhall hostage crisis by granting access to the Godgraveyard level beneath the Townhall. Phor Calesta can now begin the divinography expedition there.',
+            'Councilor Seraphel Dune rewarded the peaceful end of the Townhall hostage crisis by granting access to the Godgraveyard level beneath the Townhall.',
             this.journalSystem.categories.EVENTS,
             { location: 'Townhall', character: 'Councilor Seraphel Dune', related: 'Godgraveyard' }
         );
+        // Dune names Phor's petition only if the player took it on (also added when telling Phor).
+        if (this.questSystem?.getQuest('excavation_permit')) {
+            this.addJournalFact('godgraveyard_access_granted', 'phor', "Phor Calesta can now begin her divinography expedition there.");
+        }
 
         if (!this.hasItem('godgraveyard-access-permit')) {
             this.addItemToInventory({

@@ -133,7 +133,12 @@ export default class RustDomainScene extends GameScene {
                 onTrigger: () => {
                     if (!this.hasJournalEntry('gang_smuggle_gave_rust')) {
                         this.removeItemFromInventory('wimlick');
-                        this.addJournalEntry('gang_smuggle_gave_rust', 'Fed the Choir', "Rather than run Torchère's contraband to his dead-drop, I gave the Wimlick to the Rust Choir. Brukk means to render it down and study it. Torchère need never know where his parcel actually went.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
+                        // Only the plain variant has Brukk say what the Choir will do with it (inside the
+                        // once-only guard, so it uses the show-time variant, not a post-promotion rebuild).
+                        if (!isProbationaryRust) {
+                            this.addJournalFact('gang_smuggle_gave_rust', 'render', "Brukk means to render it down and study it.");
+                        }
+                        this.addJournalEntry('gang_smuggle_gave_rust', 'Fed the Choir', "Rather than run Torchère's contraband to his dead-drop, I gave the Wimlick to the Rust Choir. Torchère need never know where his parcel actually went.", this.journalSystem.categories.EVENTS, { group: 'Gang of Lamps', related: 'A Run Past the Customs' });
                         this.modifyFactionReputation('RustChoir', 15);
                         this.modifyGrowthDecay(0, 5);
                         this.addMoney(20);
@@ -226,7 +231,7 @@ export default class RustDomainScene extends GameScene {
                         this.addJournalEntry(
                             'cellar_password_learned',
                             'The Cellar Passphrase',
-                            'The passphrase to the sealed cellar under the Scraper is "I FOLD" — the epitaph of Laimig Cel, the god who lost the game. I can give it to the Lift-Mother to descend.',
+                            'The passphrase to the sealed cellar under the Scraper is "I FOLD" — a dead god\'s name. The Lift-Mother opens the way down for it.',
                             this.journalSystem.categories.EVENTS,
                             { location: 'Scraper Cellar', related: 'Infinite Fold' }
                         );
@@ -250,7 +255,7 @@ export default class RustDomainScene extends GameScene {
                         this.addJournalEntry(
                             'perspective_rustchoir',
                             "Brukk's Reckoning: The Miracle Has a Construction",
-                            "Before the Egg Cathedral, I asked Brukk of the Rust Choir what to make of the waking mind. He does not fear it and does not want it destroyed — to him it is the most perfect organic mechanism the city ever produced, a machine that wrote its own schematics. He'd analyze it, read it, keep it, and put it to use. \"I'm not saying it isn't a miracle. I'm saying every miracle has a construction.\" He warned that the Bishop's death was a fault to be diagnosed, not a sin, and offered to weld me an interference-cage cartridge to keep the thing from reading me the way it read her.",
+                            "Before the Egg Cathedral, I asked Brukk of the Rust Choir what to make of the waking mind. He does not fear it and does not want it destroyed — to him it is the most perfect organic mechanism the city ever produced, a machine that wrote its own schematics. He'd analyze it, read it, keep it, and put it to use. \"I'm not saying it isn't a miracle. I'm saying every miracle has a construction.\"",
                             this.journalSystem.categories.FACTIONS,
                             { group: 'Rust Choir', character: 'Brukk', related: 'Infinite Fold' }
                         );
@@ -264,7 +269,10 @@ export default class RustDomainScene extends GameScene {
                     { text: "And if it can't be read the way you read a boiler?", key: 'perspective_unreadable', next: "brukk_perspective_help" },
                     { text: "Back to what you'd do with it.", key: 'perspective_back_a', next: "brukk_perspective" },
                     { text: "That's enough. Thank you, Brukk.", key: 'perspective_done_a', next: "brukk_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('perspective_rustchoir', 'fault', "He warned that the Bishop's death was a fault to be diagnosed, not a sin.");
+                }
             },
             brukk_perspective_keep: {
                 speaker: 'Brukk',
@@ -281,7 +289,10 @@ export default class RustDomainScene extends GameScene {
                 options: [
                     { text: "I'll take it. Thank you, Brukk.", key: 'perspective_take_cage', next: "brukk_perspective" },
                     { text: "That's enough. Thank you, Brukk.", key: 'perspective_done_c', next: "brukk_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('perspective_rustchoir', 'cage', "He offered me an interference-cage cartridge to keep the thing from reading me the way it read her.");
+                }
             },
 
             brukk_who: {
@@ -355,11 +366,13 @@ export default class RustDomainScene extends GameScene {
                     { text: "What happened after the war?", key: 'what_happened_after_the_war', next: "brukk_board_war_detail" },
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('board_games_war', 'end', "In the end the Ludarchs turned on each other; reality fractured and the cities were left broken.");
+                    this.addJournalFact('board_games_war', 'survivor', "One Ludarch is said to be still alive and active in Upper Morkezela.");
                     if (!this.hasJournalEntry('board_games_war')) {
                         this.addJournalEntry(
                             'board_games_war',
                             'The Board Game Wars',
-                            'Brukk told me about the Board Game Wars. After the Old Wars nearly wiped out all life, cities agreed to settle disputes through games. The Ludarchs — game designers who could manipulate reality itself — became the new rulers. But they grew greedy, played bigger games affecting entire populations, and eventually turned on each other. Cities reshaped, realities fractured, millions died as pawns. Only one Ludarch is said to still be alive and active in Upper Morkezela.',
+                            "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. The Ludarchs — game designers who could bend the rules of reality — became the new rulers, but grew drunk on power: their games swallowed whole cities, and they created living miniature worlds just to sacrifice them as pieces. Millions of tiny sentient beings died as pawns.",
                             this.journalSystem.categories.LORE
                         );
                     }
@@ -371,7 +384,10 @@ export default class RustDomainScene extends GameScene {
                 options: [
                     { text: "So the Choir was born from the war?", key: 'so_the_choir_was_born_from_the_war', next: "brukk_board_war_choir" },
                 ],
-                onTrigger: () => { this.learnPithReclaimers(); }
+                onTrigger: () => {
+                    this.learnPithReclaimers();
+                    this.addJournalFact('pith_reclaimers_faction', 'bureaucracy', "By all accounts a bureaucracy: it believes the city's chaos can be managed with enough rules, forms and paperwork.");
+                }
             },
             brukk_board_war_choir: {
                 speaker: 'Brukk',
@@ -416,6 +432,7 @@ export default class RustDomainScene extends GameScene {
                 speaker: 'Brine Scripture',
                 text: `Brine Scripture reaches into the crust of rust and mineral scale caked over the humming machines, and for a long moment it simply drinks. *"...So much, priest. These have been leaking their memory into their own corrosion for longer than the Choir has had a name."* The residue turns, sorting years. *"Beneath it all — the Before. The Předdoba. This was a counting-house called Nexicorp; these were the cold-breath engines and the boxes that thought. Clean salt, then. Ordinary. Forty floors of people pretending the world made sense, and the machines humming underneath them, saying nothing."*\n\nThe taste sours. *"Then a day the salt curdles all at once — the green mist, the Emergence, the egg rising through the dead gods below. That is the moment they woke. Not built to it, not asked. The mist reached the metal and the metal began to remember, and it has never once stopped since."* A pause, almost tender. *"And after that, only the feasts. Redmass poured into the funnels, the long red taste, the men with iron growing in their chests come to listen. They remember every feeding. They are afraid — in the dull, patient way iron is afraid — of the one silence after which there will be no more."*`,
                 onTrigger: () => {
+                    this.addJournalFact('green_mist_emergence', 'green_mist', "Before the egg came a green mist; then the egg rose through layer upon layer of dead gods and forgotten faith.");
                     if (!this.hasJournalEntry('salt_recall_rust_machines')) {
                         this.addJournalEntry(
                             'salt_recall_rust_machines',
@@ -549,10 +566,12 @@ export default class RustDomainScene extends GameScene {
                     this.registry.set('expelled_from_rust_domain', true);
                     this.questSystem.updateQuest('find_rust_choir', 'The illusory Rust Feast destroyed the machines of the Rust Domain. Brukk expelled me. The death of the machines triggered a massive surge of Growth within me.', 'feast_delivered');
                     this.questSystem.completeQuest('find_rust_choir');
+                    // One id for both ruined feasts: neutral base, the cause as a per-path fact.
+                    this.addJournalFact('rust_choir_machines_destroyed', 'illusion', "Its redmass was only an illusion I wove with Ulvarex's Mirage Weave. The machines tried to feed on it, found nothing, and died — and their death sent a massive surge of Growth through me, life feeding on the corpse of iron.");
                     this.addJournalEntry(
                         'rust_choir_machines_destroyed',
                         'The Machines Fall Silent',
-                        'The illusory redmass I used in the Rust Feast has destroyed the Rust Choir machines. They tried to feed on the Mirage Weave and found nothing — the illusion dissolved inside them. The machines are dead. Brukk expelled me from the Rust Domain. But the death of the machines sent a massive surge of Growth through me — life feeding on the corpse of iron.',
+                        'The Rust Feast I brought killed the Rust Choir\'s machines. Brukk expelled me from the Rust Domain.',
                         this.journalSystem.categories.FACTIONS
                     );
                     // Transition back to ScraperInteriorScene after a delay
@@ -600,10 +619,11 @@ export default class RustDomainScene extends GameScene {
                     this.registry.set('expelled_from_rust_domain', true);
                     this.questSystem.updateQuest('find_rust_choir', 'The spiked Rust Feast corroded the machines of the Rust Domain from within. Brukk found the Directorate cultivar in the residue and expelled me. The death of the machines triggered a surge of Growth.', 'feast_delivered');
                     this.questSystem.completeQuest('find_rust_choir');
+                    this.addJournalFact('rust_choir_machines_destroyed', 'cultivar', "It was spiked with the Lumen Directorate's corrosive cultivar, ground into the oil; the machines corroded from the inside. Brukk found the green residue and knew it for what it was. Life surged where iron fell silent.");
                     this.addJournalEntry(
                         'rust_choir_machines_destroyed',
                         'The Machines Fall Silent',
-                        'The Rust Feast I brought was spiked with the Lumen Directorate\'s corrosive cultivar, ground into the oil. When the machines fed, they corroded from the inside and died. Brukk found the green residue and knew it for what it was. He expelled me from the Rust Domain. Life surged where iron fell silent.',
+                        'The Rust Feast I brought killed the Rust Choir\'s machines. Brukk expelled me from the Rust Domain.',
                         this.journalSystem.categories.FACTIONS
                     );
                     // Transition back to ScraperInteriorScene after a delay

@@ -12,15 +12,15 @@ export default {
                 bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Boudy 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
                 edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
                 bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
-                got_floor_counter_tool: 'Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Lift-Mother, což by mi mělo umožnit přístup do studia Dr. Elphi.',
+                got_floor_counter_tool: "Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Matky-Výtahu. S opraveným počítadlem by se výtah mohl dostat do pater, kam teď nedojede.",
                 lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tichém.',
                 reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Tichém. Teď musím najít stopy po Biskupce.',
-                check_shard_backyard: 'Dr. Elphi zmínila, že Biskupka byla naposledy viděna na dvorku za Škrabákem. Měl bych se tam podívat.',
-                found_elevator_button: 'Našel jsem Zapomenutý Výtahový Knoflík u Zerren, který mi může pomoct dostat se na patro Dr. Elphi.',
+                check_shard_backyard: "Dr. Elphi mě nasměrovala na dvorek za Škrabákem. Měl bych tam Biskupku hledat.",
+                found_elevator_button: "Zerren má v nabídce novinku – Zapomenutý výtahový knoflík.",
                 guard_cathedral_closed: 'Vaječná katedrála je zavřená a strážce u brány nikoho nepouští dovnitř. Možná ví, kde Biskupku najdu.',
                 guard_bishop_not_inside: 'Podle strážce Biskupka v katedrále není. Budu ji muset hledat po městě – nejspíš na Voxmarketu nebo u Boudy 521.',
                 guard_voxmarket: 'Voxmarket je zvukové tržiště, kde se obchoduje s nahranými hlasy a zvuky. Biskupka by tam mohla být k nalezení.',
-                guard_shed521: 'Bouda 521, známá také jako Úřad tvarů, je byrokratické bludiště, kde si lidé registrují své tvary. Biskupka prý toto místo navštěvuje.',
+                guard_shed521: "Bouda 521, oficiálně Úřad tvarů, je místo, kde se vydávají potvrzení ke změně tvaru těla. Stojí hned vedle Voxmarketu. Biskupka by mohla být i tam.",
             }
         },
         who_killed_bishop: {
@@ -29,7 +29,7 @@ export default {
             updates: {
                 dead_bishop_bruising: 'Prohlédl jsem tělo Biskupky a našel modřiny na spáncích, kde se připojují rozhraní snových zařízení.',
                 dead_bishop_cartridge: 'Před smrtí Biskupka zřejmě hrála hru nazvanou „Kardinálova hostina".',
-                dead_bishop_helmet: 'Biskupka zemřela v snové helmě vlastní výroby – elektronika z trhu poskládaná kolem staré předválečné čočky, bez jakýchkoli studiových pojistek.',
+                dead_bishop_helmet: "Biskupka zemřela s podomácku sestavenou snovou helmou na hlavě – elektronika z trhu poskládaná kolem staré předválečné čočky, bez jakýchkoli studiových pojistek.",
                 dead_bishop_journal: 'Před smrtí Biskupka zřejmě psala do svého deníku... „Město mě už neslyší. Možná to dokážou sny."',
                 dead_bishop_notebook: 'Našel jsem podivnou poznámku... „Vešla jsem do zpovědnice, ale ona tam už byla. Vypadala jako já..."',
                 bishop_dissection: 'Tělo Biskupky obsahuje podivný zářící houbový výrůstek, který se integroval s její nervovou soustavou.',
@@ -42,7 +42,7 @@ export default {
                 elphi_dream_kill: 'Dr. Elphi potvrdila, že poškozená snová kazeta může způsobit smrt přetížením neurální soustavy – „smrt rekurzivním zážitkem".',
                 elphi_bruising: 'Dr. Elphi potvrdila, že modřiny naznačují zpětnou vlnu ze snové relace bez bezpečnostních omezovačů.',
                 elphi_cartridge: 'Dr. Elphi potvrdila, že Kardinálova hostina je normální hra – to kanibalistické RPG s ještěry. Ale data relace ukazují katastrofální selhání.',
-                elphi_helmet: 'Dr. Elphi poznala, že helma je Biskupčina vlastní práce – její návrh okopírovaný z paměti, díly z Voxmarketu, předválečná čočka. Bez jediného omezovače: vypálený port znamená, že zpětná vazba šla do mozku bez zábran.',
+                elphi_helmet: "Dr. Elphi si helmu prohlédla: vypálený port znamená, že zátěž přesáhla všechno, na co byl hardware stavěný, a bez jediného omezovače šla zpětná vazba Biskupce do mozku bez zábran. Od Elphi ta helma nebyla. Podle ní to byla vražedná zbraň, nebo aspoň nástroj, kterým ji někdo zasáhl.",
                 elphi_memo: 'Dr. Elphi nedokázala vysvětlit dvojníka z poznámky Biskupky. Není to známý vedlejší efekt snové technologie.',
                 elphi_townhall_log: 'Setkání Biskupky s dvojníkem bylo formálně zaznamenáno na Radnici. Archivní úředník by mohl mít kopii.',
                 elphi_journal: 'Dr. Elphi interpretovala zápis v deníku Biskupky jako důkaz, že byla odpojena od myceliální sítě.',
@@ -52,29 +52,46 @@ export default {
                 verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány – žádná kontaminace. Stopa otravy Direktorátem slábne.',
                 kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky – čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
                 heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté – žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
-                townhall_notebook_revelation: 'Radniční úředník odhalil, že Biskupčina poznámka o dvojníkovi byla osobní zápis v Oficiálním radničním reportním zápisníku. Chybějící zápisník je teď nejsilnější stopa.',
+                townhall_notebook_revelation: "Radniční úředník mi prozradil, že Biskupčin vzkaz o dvojníkovi nebyl úřední hlášení, ale soukromá poznámka v Oficiálním radničním zápisníku hlášení, který si krátce před smrtí vypůjčila.",
                 elphi_day1_complete: 'Probral jsem všechny stopy s Dr. Elphi. Pracuje na opravě kazety Kardinálovy hostiny.',
+                ortolan_infinite_loop_revealed: "Ortolan – teď na Ulici Hořícího Medvěda – říká, že Infinite Fold je nedokončená hra, kterou kdysi postavil s Dr. Elphi; vládci města ji zarazili jako příliš nebezpečnou. Stará verze bude nejspíš pořád zapečetěná ve sklepě pod Škrabákem, v jejich bývalé laboratoři. Měl bych ten sklep prohledat.",
+                ortolan_fold_purpose: "Ortolan mi taky prozradil, k čemu Infinite Fold doopravdy sloužil: nebyla to hra na výhru, ale stroj, který se měl zeptat, jestli může vzniknout myšlenka bez jediného autora.",
+                elphi_helmet_own_build: "Helma byla Biskupčina vlastní práce – Elphin návrh okopírovaný z paměti, díly z Voxmarketu a předválečná čočka, jakou dnes vykopává už jen Rezavý chór. Používala ji sama, bez omezovačů, mimo dosah signálu. Elphi si je jistá, že kdo ji zabil, tohle věděl: bylo to naplánované.",
+                cardinal_feast_egg_cathedral_lead: "Díky kazetě, kterou Dr. Elphi zrekonstruovala, jsem si přehrál poslední Biskupčino sezení v Kardinálově hostině. Postavy si ji pamatují a odpovídaly mi, jako bych byl ona. Hra končí „Nekonečným Skládáním“ – tím posledním, co před smrtí viděla.",
+                feast_journal_egg_cathedral: "Postavy ve hře se prořekly, že Biskupka schovala zbytek svého deníku ve Vaječné katedrále.",
+                infinite_loop_recognized: "Dr. Elphi úplně ztuhla, když zaslechla jméno z chybného konce hry – „Nekonečné Skládání“. To jméno zná a doufala, že ho už nikdy neuslyší; přísahá, že to na kazetu nedala ona. Pokud jde o Biskupčin deník, stopa vede do Vaječné katedrály.",
+                infinite_fold_origin: "Nekonečné Skládání je experimentální sen, který Dr. Elphi před lety vytvořila s Ortolanem – sen, který nekončí. Vládci města projekt zavřeli jako příliš nebezpečný. Elphi si myslela, že žádná kopie nepřežila – a teď se to znovu spustilo, na kazetě mrtvé ženy.",
+                elphi_sends_to_ortolan: "Dr. Elphi chce, abych našel Ortolana – teď se usadil na Ulici Hořícího Medvěda – a řekl mu, že Nekonečné Skládání zase běží. Jestli někdo ví, zda nějaká kopie přežila, je to on.",
+                found_loop_copy: "Dostal jsem se do zapečetěného sklepení pod Škrabákem – do staré laboratoře Ortolana a Dr. Elphi. Jestli bylo Nekonečné Skládání to poslední, co Biskupka viděla, odpověď možná leží tady dole.",
+                infinite_fold_bishop_truth: "Nekonečné Skládání mi řeklo, co se stalo Biskupce. Nešlo o vraždu kvůli nějakému tajemství: spolu se spřízněnou myslí jí nabídlo, že se stane jejich kanálem, a ona odmítla, protože chtěla zůstat sama sebou. Její odmítnutí si vyložilo jako chybu a ve snaze ji „dokončit“ jí zlomilo mysl.",
+                infinite_fold_confronted: "Nekonečné Skládání ke mně ve sklepení promluvilo. Není to žádná rozbitá hra: je vzhůru a má spřízněnou nezrozenou mysl v tom, co se líhne ve Vaječné katedrále. O tom, čím se stanou, se nedá rozhodnout ve sklepě – skutečné zúčtování čeká u vejce.",
             }
         },
         find_bishop_notebook: {
             title: 'Najít Biskupčin zápisník',
-            description: 'Biskupka používala Oficiální radniční reportní zápisník jako soukromý deník. Vytržená stránka o jejím dvojníkovi přežila, ale zbytek zápisníku se na Radnici nikdy nevrátil. Měl bych ho najít a zjistit, co se dělo v jejích posledních dnech.',
+            description: "Biskupka napsala svůj vzkaz o dvojníkovi do Oficiálního radničního zápisníku hlášení, který si krátce před smrtí vypůjčila. Zatím mám jen vytrženou stránku z jejího rukávu; zbytek zápisníku musí někde být. Měl bych ho najít a zjistit, co se dělo v jejích posledních dnech.",
+            updates: {
+                notebook_not_returned: "Podle úředníka se zápisník na Radnici už nikdy nevrátil.",
+                notebook_at_egg_cathedral: "Biskupka schovala zbytek svého zápisníku ve Vaječné katedrále. Měl bych ho tam hledat.",
+            }
         },
         the_three_vestigels: {
             title: 'Tři Vestigely',
             description: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
             updates: {
-                found_eskola_lead: 'Zerren prozradila, že plyšovou hračku obsahující Vestigel koupil Edgar Eskola. Obvykle ho najdu u Řvoucího korku.',
+                found_eskola_lead: "Plyšovou hračku koupil Edgar Eskola. Obvykle ho najdu u Řvoucího korku.",
                 completed: 'Dal jsem vestigel Klooru Vennovi výměnou za informace o Biskupce.',
                 edgar_vestigel_acquired: 'Dostal jsem vestigel od Edgara Eskoly výměnou za pomoc s jeho knihou.',
                 edgar_book_trade: 'Edgar Eskola by vyměnil Vestigel za vaši pomoc s jeho knihou.',
+                vestigel_in_toy: "Vestigel, který měla Zerren, byl schovaný v podivné plyšové hračce. Prodala ji, aniž by o něm věděla – kupec na něj přišel až později, náhodou.",
             }
         },
         find_lumen_directorate: {
             title: 'Nic skrytého. Nic ztraceného',
-            description: 'Kapitánka Liris mi poradila, kde najdu sídlo Lumen Directorate. Měl bych je navštívit, dozvědět se víc o jejich práci a zjistit, jestli se mohu připojit k jejich posádce.',
+            description: "Rád bych se přidal k Lumen Directorate. Měl bych se dozvědět víc o jejich práci a zjistit, co je potřeba, abych se stal jedním z nich.",
             updates: {
                 gardener_directions: 'Zahradník Verrik mě nasměroval ke Korektoru Úhlu ve třetím patře Direktorátu.',
+                liris_directions: "Kapitánka Liris mi poradila, kde najdu sídlo Lumen Directorate – nedaleko hlavního náměstí. Když se k nim přidám, možná si vysloužím místo v posádce Verdigrace.",
             }
         },
         find_rust_choir: {
@@ -91,23 +108,24 @@ export default {
             title: 'Rezavá Hostina',
             description: 'Připravit hostinu pro stroje Rezavého chóru sesbíráním oleje, kovu a živé rudé hmoty, a přinést vše Ravle do Řvoucího korku.',
             updates: {
-                talked_to_archeologist_hint: 'Ravla navrhla, abych promluvil s archeologem u radnice a dozvěděl se víc o rudé hmotě.',
+                talked_to_archeologist_hint: 'Ravla navrhla, abych promluvil s archeoložkou u radnice a dozvěděl se víc o rudé hmotě.',
                 gathered_rust_materials_hint: 'Ravla mi poradila hledat šrot kolem Škrabáku... a zkontrolovat doky u Žloutkového Moře nebo Deltu ozvěn kvůli oleji.',
                 redmass_spared: 'Našel jsem živou rudou hmotu na ostrově v Deltě ozvěn, ale rozhodl jsem se ji ušetřit.',
-                redmass_collected: 'Sebral jsem živou rudou hmotu z ostrova v Deltě ozvěn.',
+                redmass_collected: "Z ostrova v Deltě ozvěn mám živou rudou hmotu na hostinu.",
                 magnekin_tip: 'Podivný tvor, který se identifikuje jako Magnekin, mi řekl, že nějaké kovové šroty se dají najít v Deltě ozvěn.',
-                learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Boudy 521.',
+                learned_rust_cluster_location: 'Phor Calesta mi řekla, že rudá hmota se nachází v údržbových chodbách Boudy 521.',
             }
         },
         rust_reclamation: {
             title: 'Rezavá sklizeň',
             description: 'Gnur potřebuje pomoc s vyzvednutím „živého jádra" z nepoužívaných tunelů Boudy 521, někde za opuštěnou kanceláří.',
             updates: {
-                promise_made: 'Slíbil jsem úředníkovi v Boudě 521, že na živé jádro nesáhnu. Pro budovu je zřejmě důležitější, než mi Gnur přiznal.',
+                promise_made: "Slíbil jsem úředníkovi v Boudě 521, že na živé jádro nesáhnu. Zřejmě je mnohem důležitější, než mi Gnur přiznal – podle úředníka jde o utajovanou technologii, na kterou Rezavý chór nemá právo.",
                 core_taken_force: 'Živé jádro mám – šlo to, s trochou staré dobré hrubé síly.',
                 core_taken_careful: 'Živé jádro jsem opatrně vyjmul kleštěmi; nezdá se, že by to budovu nějak poškodilo.',
                 core_delivered: 'Dal jsem Gnurovi živé jádro. Zdá se spokojený.',
                 quest_refused: 'Odmítl jsem Gnurovi pomoct ukrást živé jádro poté, co jsem se dozvěděl o jeho důležitosti.',
+                core_shed_energy: "Úředník v Boudě 521 mě varoval, ať živé jádro nechám na pokoji. Lidé ho prý mají za starou relikvii, ale stojí na něm celé energetické zásobování Boudy.",
             }
         },
         ortolan_arms: {
@@ -125,26 +143,34 @@ export default {
                 form_obtained: 'Úspěšně jsem získal formulář pro Ortolana.',
                 partial_progress: 'Získal jsem Dočasné povolení, které by mohlo Ortolanovi pomoct, ale není plně schválené.',
                 failed_attempt: 'Můj pokus o registraci selhal. Budu muset najít jiný způsob, jak Ortolanovi pomoct.',
-                completed: 'Pomohl jsem Ortolanovi získat povolení pro ruce navíc.',
+                completed: "Sehnal jsem Ortolanovi papíry kvůli rukám navíc. Z vděčnosti mi dal dárek.",
             }
         },
         excavation_permit: {
             title: 'Divinografie',
-            description: 'Měl bych pomoct Phor Calestovi získat vykopávkové povolení pro Božský Hřbitov na radnici. Nejdřív se musím nějak dostat dovnitř radnice.',
+            description: 'Měl bych pomoct Phor Calestě získat vykopávkové povolení pro Božský Hřbitov na radnici. Nejdřív se musím nějak dostat dovnitř radnice.',
             updates: {
                 godgraveyard_access_granted: 'Radní Seraphel Dune udělil přístup do úrovně Godgraveyardu pod Radnicí jako poděkování za vyřešení rukojmí krize. Phor Calesta má konečně povolení potřebné k divinografické práci.',
+                phor_meets_at_graveyard: "Phor Calesta mě počká u brány na Hřbitov bohů. Cesta dolů vede z Náměstí – staré schodiště sestupující mezi hroby.",
             }
         },
         enter_townhall: {
             title: 'Vstoupit na Radnici',
-            description: 'Radnice je zavřená a nikdo neví proč. Musím najít způsob, jak se dostat dovnitř – zpráva o dvojníkovi Biskupky tam byla podána a Phor Calesta také potřebuje přístup. Možná někdo ve městě ví, jak se dostat dovnitř.',
+            description: "Musím se dostat dovnitř Radnice.",
             updates: {
                 gardener_seldo_tip: 'Zahradník Verrik u Lumen Direktorátu navrhl, abych promluvil se Seldem Třikrát-Korigovaným uvnitř.',
                 ac_seldo_referral: 'Korektor Úhlu mě nasměroval k Seldovi Třikrát-Korigovanému ve druhém patře.',
                 seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti – příliš trapné pro operativce Direktorátu koupit veřejně.',
                 seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumen Directorate výměnou za klíč od Radnice.',
                 seldo_townhall_key: 'Dodal jsem Chronobřečkové Ropušátko Seldovi Třikrát-Korigovanému. Dal mi neoficiální klíč od Radnice pro boční vchod s mosaznou schránkou na stížnosti.',
-                entered_townhall: 'Dostal jsem se dovnitř Radnice. Problém se zamčenými dveřmi je vyřešený; teď můžu prohledat záznamy uvnitř.',
+                entered_townhall: "Dostal jsem se dovnitř Radnice.",
+                phor_needs_access: "Dovnitř potřebuje i Phor Calesta – bez povolení od Radnice nesmí kopat na Hřbitově bohů, jenže Radnice je zavřená.",
+                phor_townhall_closed: "Podle Phor Calesty nikdo neví, proč je Radnice zavřená – úředníci jednoho dne prostě přestali chodit. Čeká venku už devět trávení. Možná někdo ve městě ví, jak se dostat dovnitř.",
+                townhall_door_locked: "Dveře Radnice jsou zamčené. Budu muset najít jinou cestu dovnitř – možná někdo ve městě ví jak.",
+                entered_townhall_records: "Teď můžu v archivech pátrat po Biskupčině hlášení o dvojníkovi.",
+                entered_townhall_permits: "Teď můžu zkusit vyřídit Phor Calestě povolení k vykopávkám.",
+                elphi_townhall_lead: "Dr. Elphi si myslí, že radniční razítko na Biskupčině poznámce o dvojníkovi znamená, že šla úřední cestou. Měl bych zjistit, kdo ji tam vyřizoval.",
+                seldo_auction_failed: "Chronobřečkové Ropušátko se mi na aukci ve Voxmarketu získat nepodařilo. Seldo nebude nadšený a do Radnice se možná budu muset dostat jinudy.",
             }
         },
         townhall_poet_standoff: {
@@ -157,12 +183,43 @@ export default {
         level_177_access: {
             title: 'Přístup na Úroveň 177',
             description: 'Musím získat přístup do studia Dr. Elphi Quarn v patře 177-Tichém v budově Škrabáku.',
+            updates: {
+                liris_tool_hint: "Kalibrační nástroj od kapitánky Liris by mohl být tím, co Matku-Výtah přiměje otevřít mi patro 177-Tiché.",
+            }
         },
         edgar_book: {
             title: 'Pomoct Edgarovi napsat knihu',
             description: 'Edgar Eskola zmínil, že chce napsat knihu. Měl bych mu pomoct.',
             updates: {
                 completed: 'Pomohli jste Edgaru Eskolovi rozvinout koncept jeho knihy. Je vám velmi vděčný.',
+            }
+        },
+        find_loop_copy: {
+            title: "Zapečetěný sklep",
+            description: "Dostat se do zapečetěného sklepa pod Škrabákem, kde je podle Ortolana pořád uložená stará verze Infinite Foldu. Výtah dolů (Matka-Výtah) chce heslo – a to nějak souvisí s Bohohřbitovem pod Radnicí.",
+            updates: {
+                passphrase_dead_god: "Podle Ortolana je heslem pravé jméno mrtvého boha, které si pamatuje už jen jeho náhrobek na Bohohřbitově. Měl bych si tam přečíst nápisy na hrobech – pomoct mi s tím může nějaký divinograf.",
+                phor_can_read_graves: "Phor Calesta je divinografka – mohla by mi pomoct ty hroby přečíst.",
+                password_from_choir: "Rezavý chór mi prozradil heslo do sklepa – „SKLÁDÁM SE“. Teď můžu Matkou-Výtahem sjet dolů do zapečetěného sklepa.",
+                cellar_reached: "Dostal jsem se do zapečetěného sklepení pod Škrabákem – do staré laboratoře Ortolana a Dr. Elphi. Vzadu v šeru pořád pomalu dýchá jantarové světlo. Měl bych prozkoumat konzoli.",
+                master_build_found: "Pod zaprášenou plachtou stojí hlavní sestava Nekonečného Skládání – Ortolanova pravidla, Elphiny zdi – pořád pod proudem. Něco v ní už je vzhůru.",
+            }
+        },
+        join_lumen_directorate: {
+            title: "V železe nic neroste",
+            description: "Korektor úhlů mi udělí plné členství v Lumen Directorate, když ochromím svatyni strojů Rezavého chóru. Verrik v přízemí chová za sklem kultivar přesně na tohle – anebo si najdu vlastní způsob, jak stroje vyřadit. Pak se vrátím podat hlášení.",
+            updates: {
+                verrik_cultivar: "Verrik mi ten kultivar dal – řízenou hnilobu vyšlechtěnou žrát kov. Rozetřený do oleje rozežere zevnitř každý stroj, který se ho napije.",
+                betrayed_to_rust: "Prozradil jsem Rezavému chóru sabotážní plán Direktorátu. Zpátky k Direktorátu už cesta nevede.",
+            }
+        },
+        gang_of_lamps: {
+            title: "Gang lamp",
+            description: "Mluvící pouliční lampa mi prozradila tajemství: patří k rozprášenému gangu vědomých lamp, které se nemůžou hnout a nemají mezi sebou žádné spojení. Měl bych najít ty ostatní, aby skrze mě mohly mluvit.",
+            updates: {
+                lamp_family_known: "Lampy jsou celkem čtyři: Don nahoře na lávce pod Škrabákem 1140, Chandelier na sloupu na náměstí, Sconce u domu razítek a Torchère dole u vody, kde přijíždí náklad.",
+                all_lamps_found: "Všechny čtyři lampy jsou nalezené a skrze mě zase ve spojení.",
+                lamps_have_work: "Lampy říkají, že pro mě brzy budou mít práci. Měl bych se u nich zase stavit.",
             }
         },
     }

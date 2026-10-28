@@ -114,7 +114,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         this.addJournalEntry(
                             'met_ravla',
                             'Ravla',
-                            "Ravla holds a corner of the Screaming Cork, forging documents for anyone who can pay and keeping the authorities at arm's length. She is also the Rust Choir's gatekeeper — nothing reaches Brukk or the machines without passing her first. Sharp-eyed, unsentimental, and unmoved by charm.",
+                            "Ravla keeps a corner of the Screaming Cork and calls herself an artist of sorts. She likes it there: it's quiet, and the authorities keep their distance. Sharp-eyed, unsentimental, and unmoved by charm.",
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Ravla', location: 'Screaming Cork' }
                         );
@@ -123,6 +123,10 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             },
             ravla_job: {
                 text: "I provide services for those who need their paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
+                onTrigger: () => {
+                    this.addJournalFact('met_ravla', 'forger', "She forges documents — papers for anyone who can pay, no questions asked.");
+                    this.addJournalFact('screaming_cork_place', 'ravla', "The woman in the corner is Ravla, and she forges papers.");
+                },
                 options: [
                     { text: "I need some documents...", key: 'i_need_some_documents', next: "ravla_documents" },
                     { text: "Ask something else", key: 'back', next: "ravla_start" }
@@ -251,8 +255,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Where can I find the metal and oil?", key: 'where_can_i_find_the_metal_and_oil', next: "ravla_rust_materials" },
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('redmass_collected_force', 'rust_feast', "I have what I need for the Rust Feast — but at what cost?");
+                    this.addJournalFact('met_ravla', 'rust_choir', "She speaks for the Rust Choir: nobody gets to Brukk or the machines without going through her, and she wants proof of loyalty first.");
                     this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove your commitment. I have to gather oil, metal, and a redmass, and bring them to her.', 'talked_to_ravla');
                     this.questSystem.addQuest('rust_feast', 'Rust Feast', 'Prepare a feast for the Rust Choir machines by gathering oil, metal, and a living redmass, and bring them to Ravla at the Screaming Cork.');
+                    // the redmass may already be in the pack (taken by force before anyone mentioned a feast)
+                    if (this.hasItem && this.hasItem('redmass')) {
+                        this.questSystem.updateQuest('rust_feast', "I got living redmass for the feast from the island at Echo Drain Delta.", 'redmass_collected');
+                    }
                 },
             },
             ravla_rust_cluster: {
@@ -466,6 +476,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Who are you?", key: 'who_are_you', next: "heliodor_who" },
                     { text: "Tell me about this place", key: 'tell_me_about_this_place', next: "heliodor_place" },
                     { text: "Heard any rumors lately?", key: 'heard_any_rumors_lately', next: "heliodor_rumors" },
+                    { text: "What's that noise next door?", key: 'whats_that_noise_next_door', next: "heliodor_noise" },
+                    { text: "Do you know where the Fermented Cap tavern is?", key: 'do_you_know_where_the_fermented_cap_is', next: "heliodor_fermented_cap" },
                     ...(knowsSulkberries && !sulkberriesClearedHeliodor ? [{ text: "I need a biological opinion on some Sulkberries.", key: 'i_need_a_biological_opinion_on_some_sulkberries', next: "heliodor_sulkberry_check" }] : []),
                     {
                       text: "Do you have anything for sale?",
@@ -540,6 +552,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Fascinating. But I have other questions.", key: 'fascinating_but_i_have_other_questions', next: "heliodor_start" }
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('screaming_cork_place', 'heliodor', "The barkeep is Heliodor — many creatures wearing a single name.");
                     // Add a lore entry about Heliodor to the player's journal
                     if (!this.hasJournalEntry('heliodor_lore')) {
                         this.addJournalEntry(
@@ -553,6 +566,26 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             },
             heliodor_place: {
                 text: "The Screaming Cork's been here longer than most of the city. Owner claims it was the first building erected after the Collapse. We doubt that's true, but it's certainly old. Good place to disappear for a while.",
+                options: [
+                    { text: "Ask something else", key: 'back', next: "heliodor_start" }
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('screaming_cork_place', 'oldest', "Its owner claims it was the first building raised after the Collapse. Heliodor doubts it, but the place is certainly old — a good place to disappear for a while.");
+                }
+            },
+            // the muffled rehearsal heard through the wall (tavernRehearsal, see create())
+            heliodor_noise: {
+                text: "*Several of Heliodor's faces wince at once.* \"That's Feral Toast, rehearsing in the club out back for tonight's concert. They call it ultranoise futurepunk. We call it the reason our glasses keep walking off the shelves. Go and have a listen if you like — the door's at the back.\"",
+                options: [
+                    { text: "Ask something else", key: 'back', next: "heliodor_start" }
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('screaming_cork_place', 'feral_toast', "The band out back is called Feral Toast.");
+                }
+            },
+            // Master Thaal's excuse in EntryScene ("a prior engagement at the Fermented Cap tavern")
+            heliodor_fermented_cap: {
+                text: "\"The Fermented Cap?\" *A low murmur passes through the colony as it confers with itself.* \"No. There's no such tavern. We know every bar, pub and back-room dive in this district — half of us used to work in them. If somebody told you they'd be there, they most likely just wanted to be rid of you.\"",
                 options: [
                     { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ]
@@ -570,6 +603,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Thanks for the tip", key: 'thanks_for_the_tip', next: "heliodor_start" }
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('met_ravla', 'forger', "She forges documents — papers for anyone who can pay, no questions asked.");
+                    this.addJournalFact('screaming_cork_place', 'ravla', "The woman in the corner is Ravla, and she forges papers.");
                     // Add a hint about Ravla to any relevant quests
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
@@ -649,6 +684,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.load.spritesheet('ravla', 'assets/images/characters/ravla_idle.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('thaal', 'assets/images/characters/master_thaal.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('thaal_walk', 'assets/images/characters/master_thaal_walk.png', { frameWidth: 128, frameHeight: 128 });
+        // Feral Toast rehearsing in the club, heard through the wall (muffled + room echo baked in)
+        this.load.audio('tavernRehearsal', 'assets/sounds/tavern-rehearsal.mp3');
     }
 
     create() {
@@ -690,6 +727,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             return;
         }
 
+        // The band keeps rehearsing while you're away: coming back picks the take up where it would be
+        this.playSceneMusic('tavernRehearsal', { resume: true });
+
         // Create exit back to ScreamingCorkScene at the left edge
         this.transitionManager.createTransitionZone(
             50, // x position
@@ -719,7 +759,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             this.addJournalEntry(
                 'screaming_cork_place',
                 'The Screaming Cork',
-                "A tavern said to be the first building raised after the Collapse — old, dim, and a good place to disappear. Heliodor tends the bar as many creatures wearing a single name; Ravla forges papers in the corner; and somewhere past the back room a band called Feral Toast rehearses something that isn't quite music.",
+                "An old, dim tavern. A many-faced figure tends the bar, a woman works at a desk in the corner, and from somewhere past the back room comes a band rehearsing something that isn't quite music.",
                 this.journalSystem.categories.PLACES,
                 { location: 'Screaming Cork' }
             );

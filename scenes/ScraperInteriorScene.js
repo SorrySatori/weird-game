@@ -125,6 +125,10 @@ export default class ScraperInteriorScene extends GameScene {
                     }
                 ],
                 onTrigger: () => {
+                    // Standing at the sealed floor with Liris's tool in hand: now it's clear what the tool is good for.
+                    if (hasLirisPart && !this.hasJournalEntry('accessed_elphi_floor')) {
+                        this.addJournalFact('floor_counter_tool', 'elphi_floor', "It might be what gets me onto Dr. Elphi's sealed floor, 177-Quiet.");
+                    }
                     // Was `onTrigger: questSystem.addQuest(...)` — evaluated on every dialogContent read,
                     // so the quest appeared the moment the player spoke to the lift about anything.
                     if (questSystem && !questSystem.getQuest('level_177_access')) {
@@ -133,6 +137,12 @@ export default class ScraperInteriorScene extends GameScene {
                             'Access to Level 177',
                             'I need to gain access to Dr. Elphi Quarn\'s studio on floor 177-Quiet in the Scraper building. The Lift-Mother elevator may be able to help me reach this restricted floor if I can convince it to grant me permission.'
                         );
+                    }
+                    // Same moment as the journal fact above: only here, at the sealed floor, does Liris's tool
+                    // become a way in.
+                    const accessQuest = questSystem?.getQuest('level_177_access');
+                    if (hasLirisPart && accessQuest && !accessQuest.isComplete && !this.hasJournalEntry('accessed_elphi_floor')) {
+                        questSystem.updateQuest('level_177_access', 'Captain Liris\'s calibration tool might be what gets the Lift-Mother to open floor 177-Quiet for me.', 'liris_tool_hint');
                     }
                 }
             },
@@ -240,7 +250,10 @@ export default class ScraperInteriorScene extends GameScene {
                 options: [
                     { text: "Tell me more about the Rust Choir floors.", key: 'tell_me_more_about_the_rust_choir_floors', next: "rust_choir_floors" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('scraper_building', 'nexicorp', "The Lift-Mother says it was once Nexicorp Tower — forty-two floors of commerce and ambition. Now the lower floors house those who remember the old ways, the middle floors have gone wild with growth, and the upper floors belong to the Rust Choir.");
+                }
             },
             lift_mother_egg: {
                 text: "The Egg Emergence was when the world changed, little spore. The egg emerged from the ground like a messenger of strange news. Some believed that the end of the world was coming. But over time, it became clear that an enormous building was beginning to emerge from it. A cathedral. Some fought against the changes... others embraced them. The city remade itself in those days.",
@@ -346,7 +359,7 @@ export default class ScraperInteriorScene extends GameScene {
                         this.addJournalEntry(
                             'cellar_password_learned',
                             'The Cellar Passphrase',
-                            'The Lift-Mother accepted the passphrase to the sealed cellar under the Scraper — "I FOLD," the epitaph of Laimig Cel, the god who lost the game. Ortolan and Dr. Elphi chose it as the key to their old lab.',
+                            'The passphrase to the sealed cellar under the Scraper is "I FOLD" — a dead god\'s name. The Lift-Mother opens the way down for it.',
                             this.journalSystem.categories.EVENTS,
                             { location: 'Scraper Cellar', related: 'Infinite Fold' }
                         );

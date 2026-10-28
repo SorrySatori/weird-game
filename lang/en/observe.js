@@ -94,7 +94,7 @@ export default {
         godgraveyard_gate: {
             hint: 'The Godgraveyard Gate',
             default: "A gate, and past it a fog that swallows sound. Whatever's buried beyond doesn't want visitors, and the Townhall agrees — the way through is paperwork, not courage. I can feel the size of the things on the other side without seeing one.",
-            knows: "Phor's whole life is on the far side of this gate: reading dead gods by their fossils. He calls the locked door an insult. I'm starting to think it's the only thing keeping the graveyard from reading *us* back.",
+            knows: "Phor's whole life is on the far side of this gate: reading dead gods by their fossils. She calls the locked door an insult. I'm starting to think it's the only thing keeping the graveyard from reading *us* back.",
         },
         abandoned_bus: {
             hint: 'The Abandoned Bus',

@@ -218,7 +218,7 @@ export default class SkyshipBoardScene extends GameScene {
                         this.addJournalEntry(
                             'captain_liris_meeting',
                             'Captain Liris of the Verdigrace',
-                            'Aboard the skyship, I met Captain Liris, an imposing figure in an ornate uniform who commands the vessel known as the Verdigrace. The ship travels the aerial trade routes between various settlements and research outposts, carrying rare spores, mycelia, and information.',
+                            'Aboard the skyship, I met Captain Liris, an imposing figure in an ornate uniform who commands the vessel known as the Verdigrace.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Captain Liris', location: 'Verdigrace Skyship' }
                         );
@@ -269,7 +269,10 @@ export default class SkyshipBoardScene extends GameScene {
                         key: 'other_topics',
                         next: 'captainMain'
                     }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('lumen_directorate_faction', 'specimens', "Their people go on missions to gather rare specimens — Captain Liris is on one now.");
+                }
             },
             captainEnemies: {
                 text: "Sure, we have some enemies, as everybody. Especially that Rust Choir scum, but that's hardly surprising.", 
@@ -286,7 +289,7 @@ export default class SkyshipBoardScene extends GameScene {
                         this.addJournalEntry(
                             'lumen_directorate_faction',
                             'The Lumen Directorate',
-                            'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself. Their members often undertake missions to gather rare specimens and promote symbiotic growth.',
+                            'The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself.',
                             this.journalSystem.categories.FACTIONS,
                             { faction: 'Lumen Directorate', location: 'Skyship' }
                         );
@@ -332,7 +335,10 @@ export default class SkyshipBoardScene extends GameScene {
                         key: 'ask_something_else',
                         next: 'captainMain'
                     }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('captain_liris_meeting', 'routes', "The ship travels the aerial trade routes between far-flung settlements and research outposts, wherever the winds allow.");
+                }
             },
             captainTravel: {
                 text: "Perhaps someday, friend. But not on this journey. The ship has... chosen its crew already. I can sense it's not ready to bond with you yet. Return when you've proven your worth. The Verdigrace is particularly picky about who it accepts. If you really mean it, visit the Lumen Directorate headquarters in the city and ask about joining the crew. They might have some tasks for you to prove your dedication.",
@@ -360,8 +366,10 @@ export default class SkyshipBoardScene extends GameScene {
                 onTrigger: () => {
                     this.once('captainDirectorate', () => this.modifyFactionReputation('LumenDirectorate', 5));
                     if (!this.questSystem.getQuest('find_lumen_directorate')) {
-                        this.questSystem.addQuest('find_lumen_directorate', 'Nothing Hidden. Nothing Lost', 'Captain Liris gave me directions to the Lumen Directorate headquarters. I should visit them to learn more about their work and see if I can join their crew.')
+                        this.questSystem.addQuest('find_lumen_directorate', 'Nothing Hidden. Nothing Lost', "I'd like to join the Lumen Directorate. I should learn more about their work and find out what it takes to become one of them.");
                     }
+                    // the description is shared with Verrik's route; Liris's directions are their own update
+                    this.questSystem.updateQuest('find_lumen_directorate', "Captain Liris gave me directions to the Lumen Directorate headquarters, near the main square. Joining them might earn me a place on the Verdigrace's crew.", 'liris_directions');
                 }
             },
             captainCargo: {
@@ -377,7 +385,10 @@ export default class SkyshipBoardScene extends GameScene {
                         key: 'ask_something_else',
                         next: 'captainMain'
                     }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('captain_liris_meeting', 'cargo', "It carries rare spores, mycelia and symbiont strains — and information, which she calls its most valuable cargo.");
+                }
             },
             captainTrade: {
                 text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected any goods yet. Return after we've made our first circuit—perhaps in a few cycles—and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
@@ -435,7 +446,10 @@ export default class SkyshipBoardScene extends GameScene {
                         key: 'ask_something_else',
                         next: 'captainMain'
                     }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('floor_counter_tool', 'how_it_works', "It's a symbiotic interface: micro-drones that translate between the old electronics and the lift's new, living mind.");
+                }
             },
             
             captainGivesTool: {
@@ -456,15 +470,16 @@ export default class SkyshipBoardScene extends GameScene {
                         this.addJournalEntry(
                             'floor_counter_tool',
                             'Elevator Calibration Tool',
-                            'Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift-Mother\'s system. This symbiotic interface bridges old electronic systems with new mycelial networks, allowing me to access restricted floors like Dr. Elphi\'s studio on level 177-Quiet.',
+                            'Captain Liris provided me with a specialized calibration tool to repair the broken floor counter in the Lift-Mother\'s system. With the counter fixed, the lift might reach floors it can\'t get to now.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Captain Liris', location: 'Skyship' }
                         );
                     }
                     
-                    // Update the find_bishop quest if active
+                    // Update the find_bishop quest if active. Nothing here ties the counter to Dr. Elphi's
+                    // floor yet — that link is logged at the lift (ScraperInteriorScene, 'liris_tool_hint').
                     if (this.questSystem.getQuest('find_bishop')) {
-                        this.questSystem.updateQuest('find_bishop', 'Captain Liris gave me a calibration tool to repair the Lift-Mother\'s floor counter, which should allow me to access Dr. Elphi\'s studio.', 'got_floor_counter_tool');
+                        this.questSystem.updateQuest('find_bishop', 'Captain Liris gave me a calibration tool to repair the Lift-Mother\'s floor counter. With the counter fixed, the lift might reach floors it can\'t get to now.', 'got_floor_counter_tool');
                     }
                     
                     // Show notification
@@ -472,6 +487,9 @@ export default class SkyshipBoardScene extends GameScene {
                 }
             },
             lirisPerspective: {
+                onTrigger: () => {
+                    this.addJournalFact('skyship_sighting', 'anchored', "Captain Liris says she has been anchored over the Crossroads for about a month, and the ship hasn't moved since.");
+                },
                 text: "So you're going in. I won't ask what for — that's your business. But I've been anchored over this Crossroads a month now, and I keep the ship's eye on that cathedral because it's the most interesting thing on the continent. You want the truth? It isn't static. It never was. The old survey charts I inherited put the shell three spans shorter and the eastern buttress where there's now open air. The Verdigrace logs it every watch. That thing is growing while everyone below stands around arguing whose god it belongs to.",
                 options: [
                     {
@@ -504,7 +522,10 @@ export default class SkyshipBoardScene extends GameScene {
                         key: 'other_topics',
                         next: 'captainMain'
                     }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('perspective_liris', 'records', "Her records show more than growth: the scripture-light drifts and settles into ever more ordered patterns, and the structural mass keeps climbing. Whatever is inside, it is building toward a shape no one has seen yet.");
+                }
             },
             lirisReturn: {
                 text: "One more thing, and then I'll leave you to it. I don't know what you found in there. But I know someone should be outside when you come back out. So here's my offer: when you're done behind the Veil, signal from the cathedral steps and the Verdigrace will drop a line. A lift out — a way home, wherever home is for you now. Whatever that egg becomes, you won't have to walk away from it alone.",
@@ -525,7 +546,7 @@ export default class SkyshipBoardScene extends GameScene {
                         this.addJournalEntry(
                             'perspective_liris',
                             'Liris — A Watcher from Above',
-                            "Before I entered the Egg Cathedral, Captain Liris told me what the Verdigrace has seen from the sky. The cathedral is not static — her survey charts show the shell growing, the scripture-light settling into ever more ordered patterns, structural mass climbing watch after watch. Whatever is inside it, it is building toward a shape no one has seen yet. She offered a lift out when I am done: signal from the steps and the Verdigrace will drop a line. \"I don't know what you found in there. But I know someone should be outside when you come back out.\"",
+                            "Before I entered the Egg Cathedral, Captain Liris told me what the Verdigrace has seen from the sky. The cathedral is not static — her survey charts show the shell growing, watch after watch. She offered a lift out when I am done: signal from the steps and the Verdigrace will drop a line. \"I don't know what you found in there. But I know someone should be outside when you come back out.\"",
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Captain Liris', location: 'Verdigrace Skyship' }
                         );

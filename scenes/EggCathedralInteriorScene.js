@@ -62,6 +62,9 @@ export default class EggCathedralInteriorScene extends GameScene {
             organ_look: {
                 speaker: 'Narrator',
                 text: "The pipes are not metal. They flex faintly, like a throat. When the air moves through them the sound is not music but breathing — the whole cathedral inhaling and letting go, slow and enormous, as though it were still deciding whether to be awake.",
+                onTrigger: () => {
+                    this.addJournalFact('egg_cathedral_entered', 'breathing', "Its organ pipes are not metal — they flex like a throat, and the whole cathedral breathes through them.");
+                },
                 options: [{ text: "Step back.", key: 'organ_back', next: "closeDialog" }]
             },
             glass_look: {
@@ -70,10 +73,15 @@ export default class EggCathedralInteriorScene extends GameScene {
                 options: [{ text: "Look away.", key: 'glass_back', next: "closeDialog" }],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('green_mist_emergence')) {
+                        // The green mist is only known from Brine Scripture's reading of the Rust
+                        // Choir's machines; added first so it lands as a pending fact.
+                        if (this.hasJournalEntry('salt_recall_rust_machines')) {
+                            this.addJournalFact('green_mist_emergence', 'green_mist', "Before the egg came a green mist; then the egg rose through layer upon layer of dead gods and forgotten faith.");
+                        }
                         this.addJournalEntry(
                             'green_mist_emergence',
-                            'The Green Mist / The Emergence',
-                            "The living glass remembers the day it began. A green mist rolled through the city, and then a vast egg pushed up through the ground — through layer upon layer of dead gods and forgotten faith. Many took it for the end of the world. Instead the streets shifted, the buildings grew, and the city remade itself around the swelling shell. That was the Emergence, and the egg has been becoming the Egg Cathedral ever since.",
+                            'The Emergence',
+                            "The living glass remembers the day it began: the first swelling of the egg from bare ground, and old prayers with no god yet to hear them. The Emergence, seen from the inside — the egg has been becoming the Egg Cathedral ever since.",
                             this.journalSystem.categories.LORE,
                             { location: 'Egg Cathedral', related: 'The Unborn God' }
                         );
@@ -112,6 +120,9 @@ export default class EggCathedralInteriorScene extends GameScene {
             god_first: {
                 speaker: 'The Unborn',
                 text: "As you near the great living egg, the many-shapes inside slow, and turn toward you. The first contact is not a voice. It is several thoughts arriving at once, and then one, uncertain:\n\n*\"Am I?\"*\n\nA pause.\n\n*\"...I am.\"*\n\nAnother pause.\n\n*\"I am not sure which answer is correct.\"*",
+                onTrigger: () => {
+                    this.addJournalFact('egg_cathedral_entered', 'unborn', "The Unborn is many shapes moving as one — and when it first reached me, it was not sure whether it was.");
+                },
                 options: [
                     { text: "What are you?", key: 'god_ask_what', next: "god_what" },
                     { text: "(Study the shifting shapes within.)", key: 'god_ask_structure', next: "god_structure" }
@@ -372,7 +383,7 @@ export default class EggCathedralInteriorScene extends GameScene {
             this.addJournalEntry(
                 'egg_cathedral_entered',
                 'Within the Shell',
-                "I stepped inside the Egg Cathedral. It made a temple of itself — pulsing columns, breathing pipes, glass that remembers. At its heart waits the Unborn: many possibilities trying to become one. This is where it ends.",
+                "I stepped inside the Egg Cathedral. It made a temple of itself — columns grown like living tissue, an altar, an organ, stained glass. At its heart waits the Unborn, still inside the great living egg. This is where it ends.",
                 this.journalSystem.categories.PLACES,
                 { location: 'Egg Cathedral', related: 'The Unborn God' }
             );

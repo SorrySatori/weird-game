@@ -32,7 +32,10 @@ export default class EggCathedralStudyScene extends GameScene {
                 options: [
                     { text: read ? "Read it again." : "Peel back the membrane and read.", key: 'journal_read', next: "journal_1" },
                     { text: "Leave it be.", key: 'journal_leave', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('egg_cathedral_study_entered', 'last_place', "The cathedral itself keeps her candles lit. It was the last place she was still entirely herself.");
+                }
             },
 
             journal_1: {
@@ -60,10 +63,13 @@ export default class EggCathedralStudyScene extends GameScene {
                 text: "*Last entry.*\n\n\"The Guardian did not obey me because I am its mistress. It obeyed me because it understood my fear.\n\nBut fear is no reason for a thing to be made forever. I have bought what time I could. The rest is not mine to decide.\n\nIt is yours.\"",
                 onTrigger: () => {
                     if (!this.hasJournalEntry('bishop_journal_read')) {
+                        // Pending fact first (no second "Journal updated"): only names Infinite Fold
+                        // if the player has actually met it.
+                        this.noteJournalFoldLink();
                         this.addJournalEntry(
                             'bishop_journal_read',
                             "The Bishop's Journal",
-                            "I found the rest of the Bishop's journal in her study, preserved inside the living cathedral. She was not the new god's enemy — she feared the unknown, understood that it and Infinite Fold had changed each other into something with no place to belong, and sent her distress signal not so someone would destroy it or worship it, but so someone would come. She used her failing seal deliberately, to buy time, and left the final choice to whoever came after: to me.",
+                            "I found the rest of the Bishop's journal in her study, preserved inside the living cathedral. She was not the new god's enemy — she feared the unknown, watched it and a soulless machine change each other into two becoming things, and knew that something had come into being with no place to belong. She sent her distress signal not so someone would destroy it or worship it, but so someone would come. She bought what time she could — the Guardian obeyed her because it understood her fear — and left the final choice to whoever came after: to me.",
                             this.journalSystem.categories.LORE,
                             { location: 'Egg Cathedral', character: 'The Bishop', related: 'The Unborn God' }
                         );
@@ -141,11 +147,26 @@ export default class EggCathedralStudyScene extends GameScene {
             this.addJournalEntry(
                 'egg_cathedral_study_entered',
                 "The Bishop's Study",
-                "Inside the cathedral, past the threshold, I found a small chamber — the Bishop's study, kept whole inside the living organism. A desk grows from the wall; her scrolls are sealed under a membrane; candles burn that no one lit. It was the last place she was still herself.",
+                "Inside the cathedral I found a small chamber — the Bishop's study, kept whole inside the living organism. A desk grows from the wall; scrolls lie sealed under a membrane; candles burn low.",
                 this.journalSystem.categories.PLACES,
                 { location: 'Egg Cathedral', character: 'The Bishop' }
             );
         }
+
+        // Palinode found the seam in the shell (EggCatedralScene) and the Guardian never opened the
+        // front way — so the player came in through that gap: now they know where it leads.
+        if (this.hasJournalEntry('seam_sense_cathedral_gap') && !this.hasJournalEntry('cathedral_guardian_passed')) {
+            this.addJournalFact('seam_sense_cathedral_gap', 'study', "The seam drops straight into the Bishop's study.");
+        }
+
+        // Read her journal before meeting Infinite Fold, met it since: the machine now has a name.
+        if (this.hasJournalEntry('bishop_journal_read')) this.noteJournalFoldLink();
+    }
+
+    /** Fact on `bishop_journal_read` naming the "soulless machine" — only once Infinite Fold is met. */
+    noteJournalFoldLink() {
+        if (!this.hasJournalEntry('met_infinite_fold')) return;
+        this.addJournalFact('bishop_journal_read', 'infinite_fold', "The soulless machine she wrote of can only be Infinite Fold, the mind from the Scraper cellar.");
     }
 
     update() {

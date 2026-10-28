@@ -97,7 +97,7 @@ export default class EggCatedralScene extends GameScene {
                 this.addJournalEntry(
                     'seam_sense_cathedral_gap',
                     'Seam-Sense: The Unsealed Cathedral',
-                    'Palinode stirred before the shell of the Egg Cathedral and refused to believe the wall. Where the Guardian keeps every honest door, the unsaying found the one the shell forgot to keep shut — a seam in the stone, a gap wearing the shape of a wall. I never needed Edgar\'s directions. No wall is the last word. It drops straight into the Bishop\'s study.',
+                    'Palinode stirred before the shell of the Egg Cathedral and refused to believe the wall. The unsaying found the place the shell forgot to keep shut — a seam in the stone, a gap wearing the shape of a wall. No wall is the last word.',
                     this.journalSystem.categories.EVENTS,
                     { location: 'Egg Cathedral', via: 'palinode' }
                 );

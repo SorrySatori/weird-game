@@ -1307,12 +1307,25 @@ export default class GameScene extends Phaser.Scene {
         if (!this.journalSystem) return false;
         
         const result = this.journalSystem.addEntry(id, title, content, category, metadata);
-        
+
         // Show notification if entry was added successfully
         if (result) {
             this.showNotification('Journal updated');
         }
-        
+
+        return result;
+    }
+
+    /**
+     * Add something the player has just found out to an existing (or future) journal entry, e.g. a
+     * person's entry that grows as you learn more. Translations: `journal.<id>.facts.<factId>`.
+     */
+    addJournalFact(id, factId, text) {
+        if (!this.journalSystem) return false;
+        const result = this.journalSystem.addFact(id, factId, text);
+        if (result && this.journalSystem.hasEntry(id)) {
+            this.showNotification('Journal updated');
+        }
         return result;
     }
     
@@ -1506,8 +1519,8 @@ export default class GameScene extends Phaser.Scene {
         if (!this.hasJournalEntry || this.hasJournalEntry('pith_reclaimers_faction')) return;
         this.addJournalEntry(
             'pith_reclaimers_faction',
-            'The Ink Tribunal — Keepers of Balance',
-            'The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant. It runs the city\'s administrative apparatus from the Townhall.',
+            'The Ink Tribunal',
+            'The Ink Tribunal is one of the factions that hold sway in Upper Morkezela.',
             this.journalSystem.categories.FACTIONS,
             { faction: 'Ink Tribunal' }
         );
@@ -1786,21 +1799,26 @@ export default class GameScene extends Phaser.Scene {
         let opts = content.options;
         if (typeof opts === 'function') opts = opts.call(this);
         if (!Array.isArray(opts)) opts = [];
+        const dialogs = typeof state === 'string' ? this.dialogContent : null;
 
-        const options = opts.map(option => ({
-            label: option.text,
-            used: this.usedDialogOptions.has(this.createDialogOptionKey(stateKey, option.text)),
-            isClose: false,
-            activate: () => {
-                this.markDialogOptionAsUsed(this.createDialogOptionKey(stateKey, option.text));
-                if (option.onSelect) option.onSelect.call(this);
-                if (content.onTrigger) {
-                    const nextDialog = content.onTrigger.call(this, option);
-                    if (nextDialog) { this.showDialog(nextDialog); return; }
-                }
-                if (option.next) this.showDialog(option.next);
-            },
-        }));
+        const options = opts.map(option => {
+            const topic = this._dialogOptionTopic(stateKey, option, dialogs);
+            return {
+                label: option.text,
+                used: this.usedDialogOptions.has(this.createDialogOptionKey(stateKey, option.text)) || !!topic?.askedElsewhere(),
+                isClose: false,
+                activate: () => {
+                    this.markDialogOptionAsUsed(this.createDialogOptionKey(stateKey, option.text));
+                    if (topic) this.markDialogOptionAsUsed(topic.id);
+                    if (option.onSelect) option.onSelect.call(this);
+                    if (content.onTrigger) {
+                        const nextDialog = content.onTrigger.call(this, option);
+                        if (nextDialog) { this.showDialog(nextDialog); return; }
+                    }
+                    if (option.next) this.showDialog(option.next);
+                },
+            };
+        });
 
         if (!content.hideCloseOption) {
             options.push({
@@ -1861,6 +1879,28 @@ export default class GameScene extends Phaser.Scene {
     // Create a unique key for dialog options to track usage
     createDialogOptionKey(dialogState, optionText) {
         return `${dialogState}:${optionText}`;
+    }
+
+    /**
+     * The same question is often offered in several states of one conversation (greeting hub,
+     * "ask something else" hub, follow-ups). Once asked, it should read as used everywhere, so an
+     * option is also tracked by topic = scene + option key + target state. Options leading into a
+     * menu (4+ choices, e.g. "Ask something else") are navigation and stay per-state — otherwise
+     * they would all grey out after the first use. Returns null for options without a topic.
+     */
+    _dialogOptionTopic(stateKey, option, dialogs) {
+        if (!dialogs || !option.key || !option.next || option.next === 'closeDialog') return null;
+        const target = dialogs[option.next];
+        if (!target || target.onShow || !Array.isArray(target.options) || target.options.length >= 4) return null;
+
+        const id = `topic:${this.scene.key}:${option.key}>${option.next}`;
+        const askedElsewhere = () => this.usedDialogOptions.has(id)
+            // saves from before topic tracking: the same option already used in another state
+            || Object.entries(dialogs).some(([key, s]) => key !== stateKey && Array.isArray(s?.options)
+                && s.options.some(o => o.key === option.key && o.next === option.next
+                    && (this.usedDialogOptions.has(this.createDialogOptionKey(key, o.text))
+                        || this.usedDialogOptions.has(this.createDialogOptionKey(key, option.text)))));
+        return { id, askedElsewhere };
     }
     
     // Mark a dialog option as used

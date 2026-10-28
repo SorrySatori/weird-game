@@ -54,7 +54,20 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
-                onShow: () => this.once('lie_living_core', () => this.modifyGrowthDecay(0, 2))
+                // onTrigger, not onShow: GameScene renders nothing for a state with onShow, so the
+                // clerk's text (and the quest updates below) used to fire for lines the player never saw.
+                onTrigger: () => {
+                    this.once('lie_living_core', () => this.modifyGrowthDecay(0, 2));
+                    // The only place the clerk says WHY the core matters (the promise branch never does).
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem?.getQuest('rust_reclamation')) {
+                        questSystem.updateQuest(
+                            'rust_reclamation',
+                            "The clerk in Shed 521 warned me to leave the living core alone. People take it for an old relic, but the Shed's energy supply depends on it.",
+                            'core_shed_energy'
+                        );
+                    }
+                }
             },
             expose_gnur: {
                 text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. (puts away papers) Please promise to not mess with the living core.",
@@ -70,14 +83,14 @@ export default class ShedApplicationsScene extends GameScene {
                     { text: "Sorry, but that's private information", key: 'sorry_but_thats_private_information', next: "private"},
                     { text: "What is the Ink Tribunal?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                 ],
-                onShow: () => this.once('promise_made', () => {
+                onTrigger: () => this.once('promise_made', () => {
                     this.modifyFactionReputation('PithReclaimers', 20);
                     this.modifyGrowthDecay(2, 0);
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem?.getQuest('rust_reclamation')) {
                         questSystem.updateQuest(
                             'rust_reclamation',
-                            'I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter more to the building than Gnur let on.',
+                            'I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter far more than Gnur let on — the clerk says it is classified technology, and the Rust Choir has no right to it.',
                             'promise_made'
                         );
                     }
@@ -90,7 +103,7 @@ export default class ShedApplicationsScene extends GameScene {
                     { text: "What is the Ink Tribunal?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
                     { text: "Who is Edgar Eskola?", key: 'who_is_edgar_eskola', next: "edgar"}
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('find_bishop')) {
                         questSystem.updateQuest('find_bishop', 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.', 'edgar_eskola_clue');
@@ -109,9 +122,10 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     this.once('pith_reclaimers', () => this.modifyFactionReputation('PithReclaimers', 20));
                     this.learnPithReclaimers();
+                    this.addJournalFact('pith_reclaimers_faction', 'neutrality', "A clerk at Shed 521 called the Tribunal the guardian of neutrality, keeping peace and order in the city. Some of its people collect unique items — but never sell them.");
                 }
             },
             edgar: {
@@ -156,7 +170,7 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
                         questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve the Inherited Deformity Form.', 'deformity_form_clue');
@@ -168,7 +182,7 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
                         questSystem.updateQuest('ortolan_arms', 'When I suggested forging the documents for Ortolan, the clerk looked at me with a mix of surprise and annoyance. But can it be done? Where could I find a forger?', 'forge_documents_suggestion');
@@ -189,7 +203,7 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
                         questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office to retrieve the Artisan\'s Exemption Form.', 'artisan_form_clue');
@@ -209,7 +223,7 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Uh... okay. Can I ask for other topics?", key: 'uh_okay_can_i_ask_for_other_topics', next: "start" }
                 ],
-                onShow: () => {
+                onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem) {
                         questSystem.updateQuest('ortolan_arms', 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...', 'nonverbal_gesture_clue');

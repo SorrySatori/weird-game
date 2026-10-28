@@ -217,7 +217,10 @@ export default class VoxmarketHallScene extends GameScene {
                     { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "calyx_bidding" },
                     { text: "Taking living things into custody sounds invasive.", key: 'essence_extraction_sounds_invasive', next: "calyx_ethics" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "calyx_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('pith_reclaimers_faction', 'record', "Sister Calyx says the Tribunal keeps the record of the city — every title, every claim, every living thing that can be entered in a ledger — and where the record has gaps, it acquires whatever fills them.");
+                }
             },
 
             calyx_ethics: {
@@ -325,7 +328,11 @@ She reads it flatly, the way the Tribunal reads everything: as inventory. "'The 
                 options: [
                     { text: "So the seal filtered for one specific kind of person.", key: 'so_the_seal_filtered_for_one_kind_of_person', next: "calyx_seal_true_purpose" },
                     { text: "Go back a step.", key: 'go_back_a_step', next: "calyx_seal_law" },
-                ]
+                ],
+                onTrigger: () => {
+                    // Heard before or after the seal's purpose — the fact waits for the entry either way.
+                    this.addJournalFact('bishop_seal_true_purpose', 'sentinel_orders', "The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim.");
+                }
             },
 
             calyx_seal_true_purpose: {
@@ -344,7 +351,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                         this.addJournalEntry(
                             'bishop_seal_true_purpose',
                             'The Seal\'s True Purpose',
-                            'Sister Calyx of the Ink Tribunal read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Sentinel of the Veil was never a mere door — his standing order was to bar only the acquisitive: anyone approaching the sacred growth intending ownership, patent, or claim. And the Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
+                            'Sister Calyx of the Ink Tribunal read the Egg Cathedral\'s original closure instrument and custodial charter from her chapter\'s archives. The Bishop\'s emergency seal reads outward, not inward. It was not raised to protect the cathedral from the world, but to protect the world from the entry of anyone who would seek to OWN new life. The Bishop sealed a door to stop a claim on an unauthored mind — and then a mind tried to claim her.',
                             this.journalSystem.categories.LORE,
                             { location: 'Egg Cathedral', character: 'Sister Calyx', related: 'Bishop' }
                         );
@@ -514,7 +521,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                         this.addJournalEntry(
                             'met_heartbroker_lune',
                             'Heartbroker Lune',
-                            'Met Heartbroker Lune at the Voxmarket Auction Hall. She carries multiple living hearts in a glass harness and trades feelings mid-conversation. She is looking for emotion-linked artifacts.',
+                            'Met Heartbroker Lune at the Voxmarket Auction Hall. She carries multiple living hearts in a glass harness and trades feelings mid-conversation.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Heartbroker Lune' }
                         );
@@ -528,7 +535,10 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                 options: [
                     { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "lune_bidding" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_heartbroker_lune', 'artifacts', "She is looking for emotion-linked artifacts.");
+                }
             },
 
             lune_bidding: {
@@ -537,7 +547,10 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                 options: [
                     { text: "What makes an emotional key correct?", key: 'what_makes_an_emotional_key_correct', next: "lune_artifacts" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "lune_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_heartbroker_lune', 'artifacts', "She is looking for emotion-linked artifacts.");
+                }
             },
 
             lune_trade: {
@@ -623,7 +636,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                         this.addJournalEntry(
                             'met_yellow_aquarium_heir',
                             'Heir to the Yellow Aquarium',
-                            'Met the Heir to the Yellow Aquarium at the Voxmarket Auction Hall. Their translucent body is filled with slowly floating fish embryos, and they react more to vibration and light than spoken words. They want living artifacts and symbionts.',
+                            'Met the Heir to the Yellow Aquarium. Their translucent body is filled with slowly floating fish embryos, and they seem to answer vibration rather than words.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Heir to the Yellow Aquarium' }
                         );
@@ -633,6 +646,9 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
             heir_wants: {
                 speaker: 'Heir to the Yellow Aquarium',
+                onTrigger: () => {
+                    this.addJournalFact('met_yellow_aquarium_heir', 'wants', "They collect living things — artifacts and symbionts that can still change.");
+                },
                 text: `The embryos turn toward the display wall before the Heir does. A ripple moves through the yellow fluid in their body.\n\n"Living pieces," the Heir says at last. Their voice is soft, but the lamps buzz in sympathy. "Artifacts that still answer. Symbionts that remember they are unfinished. Dead treasures sink. Living treasures swim."\n\nTheir attention lingers on the Brine Scripture membrane, then the Toadlet, then the Dream Egg. Each glance is less like desire than tidal recognition.`,
                 options: [
                     { text: "Can you understand me?", key: 'can_you_understand_me', next: "heir_communication" },
@@ -651,6 +667,9 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
             heir_living_artifacts: {
                 speaker: 'Heir to the Yellow Aquarium',
+                onTrigger: () => {
+                    this.addJournalFact('met_yellow_aquarium_heir', 'wants', "They collect living things — artifacts and symbionts that can still change.");
+                },
                 text: `"The Yellow Aquarium inherits only what can still change," the Heir says. "A living artifact negotiates with its keeper. A symbiont edits the body that shelters it. Even a prophetic amphibian is a small treaty between hunger and time."\n\nThe embryos inside them gather near their ribs, all facing outward.\n\n"Static relics are for dry houses. We collect continuations."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "heir_start" },
@@ -697,7 +716,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                         this.addJournalEntry(
                             'met_stairwell_silence',
                             'The Silence Beneath the Stairwell',
-                            'Met a small dark auction guest called The Silence Beneath the Stairwell. It has almost no visible face, never bids verbally, and signals only with its fingers. It seems interested in objects tied to secrecy and isolation.',
+                            'Met a small dark auction guest called The Silence Beneath the Stairwell. It has almost no visible face and signals only with its fingers.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'The Silence Beneath the Stairwell' }
                         );
@@ -710,7 +729,10 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                 text: `You ask what it wants. The creature raises one finger toward the jar of Compressed Nostalgia, then curls the finger inward until the knuckle nearly disappears. Not nostalgia, then. Something sealed inside it.\n\nIt points next toward the Dream Egg, but only while no one else is looking. Finally it taps the floor twice, slow and hollow.\n\nThe meaning arrives as pressure rather than speech: objects that kept secrets. Objects that were alone long enough to become fluent in it.`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_stairwell_silence', 'wants', "It seems interested in objects tied to secrecy and isolation.");
+                }
             },
 
             silence_no_speech: {
@@ -719,7 +741,10 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
                 options: [
                     { text: "What are you bidding on?", key: 'what_are_you_bidding_on', next: "silence_bidding" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "silence_start" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_stairwell_silence', 'never_speaks', "It never bids verbally — speech would spend what it is trying to buy. Silence is its currency.");
+                }
             },
 
             silence_signals: {

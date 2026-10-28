@@ -22,6 +22,7 @@ export default class Shed521Scene extends GameScene {
         const quest = this.questSystem.getQuest('rust_reclamation');
         // Check if any update has the promise_made key
         const promiseMade = quest && quest.updates && quest.updates.some(update => update.key === 'promise_made');
+        const hasLivingCore = !!inventory?.items?.some(item => item.id === 'living-core');
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
         // Gang of Lamps: Don's spy quest — buy a whisper out of Gnur.
         const canSpyGnur = gangQuestStatus(this, GANG_QUEST_IDS.don) === 'active' && !this.hasJournalEntry('gang_spy_gnur');
@@ -49,8 +50,8 @@ export default class Shed521Scene extends GameScene {
                     if (!this.hasJournalEntry('gnur_meeting')) {
                         this.addJournalEntry(
                             'gnur_meeting',
-                            'Gnur of the Rust Choir',
-                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him — his connection to the mysterious Rust Choir suggests a deeper involvement with the city\'s hidden infrastructures and technologies than his shabby appearance would suggest.',
+                            'Gnur',
+                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 521' }
                         );
@@ -82,20 +83,30 @@ export default class Shed521Scene extends GameScene {
                 options: [
                     { text: "Tell me about the Rust Choir", key: 'tell_me_about_the_rust_choir', next: "rustChoir" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('gnur_meeting', 'rust_choir', "He used to keep the machines running in the old days; now he is with the Rust Choir. That suggests a deeper involvement with the city's hidden infrastructures and technologies than his shabby appearance would suggest.");
+                    this.addJournalFact('rust_choir_faction', 'machines', "Gnur says they sing to the machines — to keep some awake and lull others to sleep, depending on the situation.");
+                }
             },
             rustChoir: {
                 text: "We celebrate entropy, collapse as transformation. After all, all things lead to chaos. We like to trade in secrets, especially old tech. If you are interested to know more, visit the old Scraper and talk to Brukk's people.",
                 options: [
                     { text: "Who is Brukk?", key: 'who_is_brukk', next: "brukk" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('rust_choir_faction', 'entropy', "They celebrate entropy — collapse as transformation — and like to trade in secrets, above all old tech. Brukk's people can be found in the old Scraper.");
+                }
             },
             brukk: {
                 text: "Brukk is our leader... He is the keeper of the old tech, the one who can help you find what you're looking for. That's all I can tell you.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('rust_choir_faction', 'brukk', "Their leader is Brukk, the keeper of the old tech.");
+                }
             },
             bishop: {
                 text: "Ahhh, the shrouded one... yeah, she came down here, glimmer-eyed and restless. Wanted a lens — an optic from the old dream rigs, pre-war make. Only the Choir still digs those up. But info ain't free, friend.",
@@ -137,7 +148,8 @@ export default class Shed521Scene extends GameScene {
                 options: [
                     { text: "Leave", key: 'leave', next: "end" }
                 ],
-                onShow: () => {
+                // onTrigger, not onShow: a state with onShow is never rendered (its text and "Leave" never appeared)
+                onTrigger: () => {
                     // Only complete the quest if we haven't already
                     const quest = this.questSystem.getQuest('rust_reclamation');
                     if (quest && !quest.isComplete) {
@@ -167,8 +179,13 @@ export default class Shed521Scene extends GameScene {
                 text: "(Gnur's expression darkens) What lies you talkin' about, mate? I need that core. Ain't no lie in that.",
                 options: [
                     { text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", key: 'the_clerk_told_me_its_crucial_for_the_sheds_energy', next: "refuse_quest" },
-                    { text: "Never mind, I'll still get it for you.", key: 'never_mind_ill_still_get_it_for_you', next: "complete_quest" }
-                ]
+                    // Only a hand-over if the core is actually in the pack — otherwise complete_quest_end
+                    // logged "I have given Gnur the living core" and his Bishop tip without any delivery.
+                    { text: "Never mind, I'll still get it for you.", key: 'never_mind_ill_still_get_it_for_you', next: hasLivingCore ? "complete_quest" : "end" }
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('rust_choir_faction', 'any_means', "Their methods are questionable: Gnur still wants the living core, even though the clerk says Shed 521 depends on it. The Choir seems willing to get old tech by any means necessary.");
+                }
             },
             refuse_quest: {
                 text: "(Gnur's eyes narrow to slits, a metallic growl escaping his throat)\n\nSo you've been talkin' to the paper-pushers, eh? Should've known better than to trust an outsider. Get out of my sight before I decide your lungs would make a fine addition to my collection.",
@@ -269,8 +286,8 @@ export default class Shed521Scene extends GameScene {
                 if (!this.hasJournalEntry('rust_choir_faction')) {
                     this.addJournalEntry(
                         'rust_choir_faction',
-                        'The Rust Choir — Machines and Memory',
-                        'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
+                        'The Rust Choir',
+                        'The Rust Choir is one of the factions that hold sway in Upper Morkezela.',
                         this.journalSystem.categories.FACTIONS,
                         { faction: 'Rust Choir', location: 'Shed 521' }
                     );

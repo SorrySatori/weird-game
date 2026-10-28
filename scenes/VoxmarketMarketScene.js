@@ -23,6 +23,22 @@ export default class VoxmarketMarketScene extends GameScene {
         return rustQuestCompleted || vestigelQuestCompleted;
     }
 
+    /**
+     * Zerren's confession (Kloor / refuse branches) is the only place the player learns the Vestigel
+     * was hidden inside the plush toy — the plush-toy branch never says so, and neither does the
+     * shared `found_eskola_lead` update (also written by the Lumen Directorate files).
+     */
+    noteVestigelInToy() {
+        const questSystem = this.registry.get('questSystem');
+        if (questSystem?.getQuest('the_three_vestigels')) {
+            questSystem.updateQuest(
+                'the_three_vestigels',
+                'The Vestigel Zerren had was hidden inside a peculiar stuffed toy. She sold the toy without knowing it was there — the buyer found it later, by chance.',
+                'vestigel_in_toy'
+            );
+        }
+    }
+
     get dialogContent() {
         return {
             ...super.dialogContent,
@@ -116,15 +132,16 @@ export default class VoxmarketMarketScene extends GameScene {
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ],
                 onTrigger: () => {
+                    this.noteVestigelInToy();
                     if (this.registry.get('factionSystem')) {
                         this.modifyFactionReputation('RustChoir', -10);
                         this.modifyFactionReputation('PithReclaimers', 10);
-                        
+
                         if (!this.hasJournalEntry('rust_choir_faction')) {
                             this.addJournalEntry(
                                 'rust_choir_faction',
-                                'The Rust Choir - Machines and Memory',
-                                'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
+                                'The Rust Choir',
+                                'The Rust Choir is one of the factions that hold sway in Upper Morkezela.',
                                 this.journalSystem.categories.FACTIONS,
                                 { faction: 'Rust Choir', location: 'Voxmarket' }
                             );
@@ -132,8 +149,8 @@ export default class VoxmarketMarketScene extends GameScene {
                         if (!this.hasJournalEntry('pith_reclaimers_faction')) {
                             this.addJournalEntry(
                                 'pith_reclaimers_faction',
-                                'The Ink Tribunal — Keepers of Balance',
-                                'The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant.',
+                                'The Ink Tribunal',
+                                'The Ink Tribunal is one of the factions that hold sway in Upper Morkezela.',
                                 this.journalSystem.categories.FACTIONS,
                                 { faction: 'Ink Tribunal', location: 'Voxmarket' }
                             );
@@ -149,6 +166,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ],
                 onTrigger: () => {
+                    this.noteVestigelInToy();
                     if (this.registry.get('factionSystem')) {
                         this.modifyFactionReputation('RustChoir', 10);
                         this.modifyFactionReputation('PithReclaimers', -10);
@@ -157,8 +175,8 @@ export default class VoxmarketMarketScene extends GameScene {
                         if (!this.hasJournalEntry('pith_reclaimers_faction')) {
                             this.addJournalEntry(
                                 'pith_reclaimers_faction',
-                                'The Ink Tribunal — Keepers of Balance',
-                                'The Ink Tribunal appears to be a faction concerned with maintaining balance and preventing technological overreach. It stands in opposition to the Rust Choir, believing some ancient technologies should remain dormant.',
+                                'The Ink Tribunal',
+                                'The Ink Tribunal is one of the factions that hold sway in Upper Morkezela.',
                                 this.journalSystem.categories.FACTIONS,
                                 { faction: 'Ink Tribunal', location: 'Voxmarket' }
                             );
@@ -166,8 +184,8 @@ export default class VoxmarketMarketScene extends GameScene {
                         if (!this.hasJournalEntry('rust_choir_faction')) {
                             this.addJournalEntry(
                                 'rust_choir_faction',
-                                'The Rust Choir - Machines and Memory',
-                                'The Rust Choir appears to be a faction with an interest in old technology and machinery. They "sing the old machines awake" according to rumor, and seem to value the preservation and control of ancient tech. Their methods are questionable, as they appear willing to obtain technological artifacts through any means necessary.',
+                                'The Rust Choir',
+                                'The Rust Choir is one of the factions that hold sway in Upper Morkezela.',
                                 this.journalSystem.categories.FACTIONS,
                                 { faction: 'Rust Choir', location: 'Voxmarket' }
                             );
@@ -226,7 +244,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
+                        questSystem.updateQuest('the_three_vestigels', "Edgar Eskola is the one who bought the plush toy. He can usually be found around the Screaming Cork tavern.", 'found_eskola_lead');
                     }
                 },
             },
@@ -259,7 +277,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
+                        questSystem.updateQuest('the_three_vestigels', "Edgar Eskola is the one who bought the plush toy. He can usually be found around the Screaming Cork tavern.", 'found_eskola_lead');
                     }
                 }
             },
@@ -295,7 +313,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
+                        questSystem.updateQuest('the_three_vestigels', "Edgar Eskola is the one who bought the plush toy. He can usually be found around the Screaming Cork tavern.", 'found_eskola_lead');
                     }
                     this.modifyGrowthDecay(0, 5); // the G/D system announces the change itself
                 }
@@ -324,7 +342,7 @@ export default class VoxmarketMarketScene extends GameScene {
                     // Update the quest
                     const questSystem = this.registry.get('questSystem');
                     if (questSystem && questSystem.getQuest('the_three_vestigels')) {
-                        questSystem.updateQuest('the_three_vestigels', "Zerren revealed that Edgar Eskola purchased the plush toy containing a Vestigel. He can be found usually somewhere around the Screaming Cork tavern.", 'found_eskola_lead');
+                        questSystem.updateQuest('the_three_vestigels', "Edgar Eskola is the one who bought the plush toy. He can usually be found around the Screaming Cork tavern.", 'found_eskola_lead');
                     }
                 }
             }
@@ -518,7 +536,7 @@ export default class VoxmarketMarketScene extends GameScene {
             );
             
             // Update the find_bishop quest
-            questSystem.updateQuest('find_bishop', 'I found a Forgotten Elevator Button at Zerren\'s shop that might help me access Dr. Elphi\'s floor.', 'found_elevator_button');
+            questSystem.updateQuest('find_bishop', 'Zerren has a new item for sale: a Forgotten Elevator Button.', 'found_elevator_button');
             
             // Show a notification
             this.showNotification(this.t('notifications.newItemAvailable', { item: this.t('shop.items.forgotten_elevator_button.name') }), 0x7fff8e);

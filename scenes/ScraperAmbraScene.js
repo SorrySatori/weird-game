@@ -203,7 +203,7 @@ export default class ScraperAmbraScene extends GameScene {
                     ...(feastPlayed ? [
                         { text: "The game told me where the journal is.", key: 'the_game_told_me_where', next: "dr_elphi_after_feast" }
                     ] : []),
-                    ...(this.hasJournalEntry('met_infinite_fold') ? [
+                    ...(this.journalSystem?.hasFact('met_infinite_fold', 'bishop_truth') ? [
                         { text: "[Before entering the cathedral] I found the thing in the sealed cellar. It's the one that killed her.", key: 'before_cathedral_infinite_fold', next: "dr_elphi_perspective" }
                     ] : []),
                     ...(!bishopDead ? [
@@ -228,7 +228,7 @@ export default class ScraperAmbraScene extends GameScene {
                         this.addJournalEntry(
                             'met_dr_elphi',
                             'Dr. Elphi Quarn',
-                            "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra. She designs dreams — neurofiction, drift environments, games that are developed from dreams by professional dreamers. Smart, cautious, and outspoken. The Bishop came to her often, always to play, never for politics.",
+                            "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra, where she makes dream games. Smart, cautious, and outspoken.",
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Dr. Elphi Quarn', location: 'ARB Ambra' }
                         );
@@ -254,11 +254,13 @@ export default class ScraperAmbraScene extends GameScene {
                     { text: "I'll go look for her there.", key: 'ill_go_look_for_her_there', next: "dr_elphi_exit" }
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('met_dr_elphi', 'bishop_visits', "The Bishop came to her often, always to play, never for politics.");
                     // Update the find_bishop quest to direct to the Scraper backyard
+                    // (route-neutral: the same key is also written by dr_elphi_exit, which "Never mind" reaches without this state)
                     const questSystem = this.registry.get('questSystem');
                     const findBishopQuest = questSystem?.getQuest('find_bishop');
                     if (findBishopQuest && !findBishopQuest.isComplete) {
-                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Scraper backyard. I should check there next.', 'check_shard_backyard');
+                        questSystem.updateQuest('find_bishop', 'Dr. Elphi pointed me to the Scraper backyard. I should look for the Bishop there.', 'check_shard_backyard');
                     }
                 }
             },
@@ -277,7 +279,10 @@ export default class ScraperAmbraScene extends GameScene {
                     { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" },
                     { text: "Something went wrong. I'm following the trace.", key: 'something_went_wrong_im_following_the_trace', next: "dr_elphi_anomaly_path" },
                     { text: "Never mind.", key: 'never_mind', next: "dr_elphi_exit" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_dr_elphi', 'dreams', "She designs dreams — neurofiction, dream architecture.");
+                }
             },
             
             dr_elphi_testing_path: {
@@ -340,7 +345,7 @@ export default class ScraperAmbraScene extends GameScene {
                     const questSystem = this.registry.get('questSystem');
                     const findBishopQuest = questSystem?.getQuest('find_bishop');
                     if (findBishopQuest && !findBishopQuest.isComplete && !findBishopQuest.updates.some(u => u.key === 'check_shard_backyard')) {
-                        questSystem.updateQuest('find_bishop', 'Dr. Elphi mentioned the Bishop was last seen in the Scraper backyard. I should check there next.', 'check_shard_backyard');
+                        questSystem.updateQuest('find_bishop', 'Dr. Elphi pointed me to the Scraper backyard. I should look for the Bishop there.', 'check_shard_backyard');
                     }
                 }
             },
@@ -529,11 +534,11 @@ export default class ScraperAmbraScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('elphi_helmet_analysis')) {
-                        this.questSystem.updateQuest('who_killed_bishop', 'Dr. Elphi recognised the helmet as the Bishop\'s own build — her design copied from memory, Voxmarket parts, a pre-war lens. No limiters at all: the burned-out port means the feedback hit her brain unchecked.', 'elphi_helmet');
+                        this.questSystem.updateQuest('who_killed_bishop', 'Dr. Elphi looked at the helmet: the burned-out port means the load exceeded anything the hardware was rated for, and with no limiters at all the feedback hit the Bishop\'s brain unchecked. It wasn\'t one of Elphi\'s. She thinks it was the murder weapon, or at least the delivery mechanism.', 'elphi_helmet');
                         this.addJournalEntry(
                             'elphi_helmet_analysis',
                             'Dr. Elphi\'s Analysis: Dream Helmet',
-                            'Dr. Elphi recognised the helmet as the Bishop\'s own build: her design copied from memory, Voxmarket parts, and a pre-war lens only the Rust Choir still trades. It had no limiters at all — the burned-out port means the feedback reached her brain unchecked. She calibrated it here, then used it alone, away from every studio safeguard.',
+                            'Dr. Elphi examined the damaged dream helmet. The burned-out port means the signal load exceeded anything the hardware was rated for — the feedback reached the Bishop\'s brain unchecked. The helmet had no safeguards at all, and it wasn\'t one of hers. She thinks it was the murder weapon, or at least the delivery mechanism.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn' }
                         );
@@ -545,7 +550,11 @@ export default class ScraperAmbraScene extends GameScene {
                 text: `Her own — and not one of mine. She built it. My design, copied from memory, wrapped in Voxmarket electronics, and a lens I couldn't have sold her if I'd wanted to: pre-war glass, the kind only the Rust Choir still digs up. She brought it here a hundred-odd digestions ago to calibrate it against my beds — said she needed to practice outside the studio. I thought it was reckless. The Bishop was always reckless in quiet ways.\n\nI offered her supervised sessions instead. She refused. Said the studio "had too many ears."\n\nWhoever killed her knew she'd be using that thing. Alone. No limiters. Outside signal range. This was planned.`,
                 options: [
                     { text: "Back to other clues.", key: 'back_to_other_clues', next: "dr_elphi_clues_hub" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('elphi_helmet_analysis', 'own_build', "It was the Bishop's own build: Elphi's design copied from memory, Voxmarket parts, and a pre-war lens only the Rust Choir still trades. She calibrated it here, then used it alone, away from every studio safeguard.");
+                    this.questSystem?.updateQuest('who_killed_bishop', 'The helmet was the Bishop\'s own build — Elphi\'s design copied from memory, Voxmarket parts and a pre-war lens only the Rust Choir still digs up. She used it alone, with no limiters, outside signal range. Elphi is sure whoever killed her knew that: it was planned.', 'elphi_helmet_own_build');
+                }
             },
 
             dr_elphi_clues_memo: {
@@ -767,7 +776,10 @@ export default class ScraperAmbraScene extends GameScene {
                     // Facing the day's memory openly leans Growth; sealing it away leans Decay.
                     { text: "Deal. Record whatever I dream.", key: 'accept_the_dream', onSelect: () => { this.gdChoiceOnce('day2_dream', 2, 0); this.beginDay1Sleep(true); } },
                     { text: "My dreams aren't for sale. Just let me sleep.", key: 'decline_the_dream', onSelect: () => { this.gdChoiceOnce('day2_dream', 0, 2); this.beginDay1Sleep(false); } },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_dr_elphi', 'dream_stock', "Raw dream-stock is her trade: she records the dreams of living sleepers and pays well for the vivid ones.");
+                }
             },
 
             // Day-2 dialog (cartridge / feast / Infinite Fold) is kept in
@@ -811,17 +823,34 @@ export default class ScraperAmbraScene extends GameScene {
                         this.addJournalEntry(
                             'infinite_loop_ortolan_lead',
                             'Infinite Fold',
-                            'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. "Infinite Fold" was an old experimental game she built with Ortolan years ago — shut down by the city\'s rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven\'t spoken since. She swears she didn\'t put it on the cartridge, and says I should find Ortolan — he\'s moved to Burning Bear Street — because he\'d know whether a copy survived.',
+                            'When I described the glitch ending of The Cardinal Feast to Dr. Elphi, she went pale. She knew the name on its title card — "Infinite Fold" — and had hoped never to hear it again. She swears she didn\'t put it on the cartridge.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Dr. Elphi Quarn', location: 'ARB Ambra', related: 'Ortolan' }
                         );
+                        // Only what she says HERE: she knows the name. Its origin (built with Ortolan) and
+                        // the pointer to Burning Bear Street come in the next two states, as their own updates.
                         if (this.questSystem?.getQuest('who_killed_bishop')) {
                             this.questSystem.updateQuest(
                                 'who_killed_bishop',
-                                'Dr. Elphi recognized the glitch ending — "Infinite Fold" — as an old experimental game she built with Ortolan, shut down years ago by the city\'s rulers. She insists she didn\'t put it on the cartridge and told me to find Ortolan, now on Burning Bear Street, about it. The Bishop\'s journal itself is at the Egg Cathedral.',
+                                'Dr. Elphi went very still at the name on the glitch ending — "Infinite Fold". She knows it, swears she didn\'t put it on the cartridge, and had hoped never to hear it again. For the Bishop\'s journal, the lead is the Egg Cathedral.',
                                 'infinite_loop_recognized'
                             );
                         }
+                    }
+                    // She names the Egg Cathedral as the journal lead even if the game never did (the Feast can end
+                    // without Pim or Quill letting it slip), so the notebook quest learns it here at the latest.
+                    if (!this.hasJournalEntry('bishop_journal_egg_cathedral')) {
+                        this.addJournalEntry(
+                            'bishop_journal_egg_cathedral',
+                            "The Journal's Hiding Place",
+                            "Dr. Elphi named the Egg Cathedral as the lead to the rest of the Bishop's journal — the cathedral the Bishop sealed before she died.",
+                            this.journalSystem.categories.EVENTS,
+                            { location: 'Egg Cathedral', character: 'The Bishop', related: "Bishop's notebook" }
+                        );
+                    }
+                    const notebookQuest = this.questSystem?.getQuest('find_bishop_notebook');
+                    if (notebookQuest && !notebookQuest.isComplete) {
+                        this.questSystem.updateQuest('find_bishop_notebook', 'The Bishop hid the rest of her notebook at the Egg Cathedral. I should search there.', 'notebook_at_egg_cathedral');
                     }
                 }
             },
@@ -831,13 +860,22 @@ export default class ScraperAmbraScene extends GameScene {
                 options: [
                     { text: "Why send me to Ortolan?", key: 'why_send_me_to_ortolan', next: "dr_elphi_loop_ortolan" },
                     { text: "I'll find Ortolan. And the journal.", key: 'ill_find_ortolan_and_the_journal', next: "closeDialog" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('infinite_loop_ortolan_lead', 'origin', "Infinite Fold was an old experimental game she built with Ortolan years ago — a dream that doesn't end — shut down by the city's rulers as too dangerous and unpredictable. She and Ortolan then fell out over control of the games and haven't spoken since.");
+                    this.questSystem?.updateQuest('who_killed_bishop', 'Infinite Fold was an experimental dream Dr. Elphi built with Ortolan years ago — a dream that doesn\'t end — until the city\'s rulers shut it down as too dangerous. She thought every copy was gone. Now it has run again, on a dead woman\'s cartridge.', 'infinite_fold_origin');
+                }
             },
             dr_elphi_loop_ortolan: {
                 text: `Because I only built the walls; Ortolan built what they were *for*. If anyone knows whether a copy of Infinite Fold survived — and how it truly behaves — it's him. He'll wave it off as a harmless little toy; he always did. Don't believe that part.\n\nWe haven't spoken in a thousand digestions, but he'll talk to you. Last I heard he'd left the Shed and set up on Burning Bear Street, buried in permit forms as ever. Tell him it's running again.`,
                 options: [
                     { text: "I'll find Ortolan on Burning Bear Street.", key: 'ill_find_ortolan_burning_bear', next: "closeDialog" },
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('ortolan_bb_meeting', 'shed', "He used to keep to the Shed; now he's set up here, buried as ever in permit paperwork.");
+                    this.addJournalFact('infinite_loop_ortolan_lead', 'ortolan', "She says I should find Ortolan — he's moved to Burning Bear Street — because he'd know whether a copy survived.");
+                    this.questSystem?.updateQuest('who_killed_bishop', 'Dr. Elphi wants me to find Ortolan — he has set up on Burning Bear Street now — and tell him Infinite Fold is running again. If anyone knows whether a copy survived, it\'s him.', 'elphi_sends_to_ortolan');
+                }
             },
 
             // === Before the Cathedral: Elphi's perspective on Infinite Fold ===
@@ -1695,13 +1733,20 @@ export default class ScraperAmbraScene extends GameScene {
 
     // Give the player an explicit objective to get inside the Townhall. Elphi's clues point
     // there, so this is granted from her analysis (idempotent — safe if Phor already started it).
+    // The description is route-neutral (Elphi never says the Townhall is closed or mentions Phor);
+    // her reason for going is logged as its own update, only while getting in is still open.
     ensureEnterTownhallQuest() {
-        if (this.questSystem && !this.questSystem.getQuest('enter_townhall')) {
+        if (!this.questSystem) return;
+        if (!this.questSystem.getQuest('enter_townhall')) {
             this.questSystem.addQuest(
                 'enter_townhall',
                 'Enter the Townhall',
-                'The Townhall is closed and nobody knows why. I need to find a way inside — the Bishop\'s doppelgänger report was filed there, and Phor Calesta needs access too. Maybe someone in the city knows how to get in.'
+                'I need to get inside the Townhall.'
             );
+        }
+        const quest = this.questSystem.getQuest('enter_townhall');
+        if (quest && !quest.isComplete) {
+            this.questSystem.updateQuest('enter_townhall', 'Dr. Elphi thinks the Townhall stamp on the Bishop\'s doppelgänger note means it went through official channels. I should find out who there handled it.', 'elphi_townhall_lead');
         }
     }
 

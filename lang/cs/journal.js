@@ -21,7 +21,7 @@ export default {
         },
         upper_morkezela: {
             title: 'Horní Morkezela',
-            description: 'Říkají tomu město, ale Horní Morkezela nikdy nebyla plně živá. Přesto dýchá – něco dýchá. Ulice jsou vyrostlé, ne postavené.',
+            description: 'Říkají tomu město, ale Horní Morkezela je možná jen sen o městě. Ulice nikdo nepostavil, přitáhly s umírajícími bohy a už tady zůstaly.',
         },
         fungal_apprentice: {
             title: 'Houbový Učeň',
@@ -57,7 +57,7 @@ export default {
         },
         bishop_helmet: {
             title: 'Helma Snového Rozhraní',
-            description: 'Biskupka zemřela v snové helmě, kterou si sama postavila – elektronika z trhu kolem předválečné čočky, bez jakýchkoli studiových pojistek. Displej ukazuje chybu smyčky běhu a pojistku „NULL SCENE": katastrofální selhání snového programu, kdy zpětnou vazbu nic nezastavilo.',
+            description: "Biskupka zemřela s podomácku sestavenou snovou helmou na hlavě – elektronika z trhu kolem předválečné čočky, bez jakýchkoli studiových pojistek. Displej ukazuje chybu smyčky běhu a pojistku „NULL SCENE“: katastrofální selhání snového programu, kdy zpětnou vazbu nic nezastavilo.",
         },
         bishop_journal: {
             title: 'Deník Biskupky',
@@ -72,7 +72,7 @@ export default {
             description: 'Při prohlídce těla Biskupky jsem objevil neobvyklý houbový výrůstek.',
         },
         neme_symbiont_discovered: {
-            title: 'Neme z Korunobažiny',
+            title: "Neme",
             description: 'Objevil jsem symbionta žijícího uvnitř mrtvého těla Biskupky.',
         },
         neme_symbiont_accepted: {
@@ -93,7 +93,10 @@ export default {
         },
         crossroad_corpse_spores_planted: {
             title: 'Spory v mrtvole na křižovatce',
-            description: 'Zasadil jsem spory do podivné mrtvoly na křižovatce. Mycelium se mrtvým masem rychle rozrostlo a celé místo prozářilo světélkujícím porostem. Otevřela se tím cesta nahoru, k něčemu, co vypadá jako vzducholoď.',
+            description: "Zasadil jsem spory do podivné mrtvoly na křižovatce. Mycelium se mrtvým masem rychle rozrostlo a celé místo prozářilo světélkujícím porostem – a nad ním jsem si všiml ještě něčeho.",
+            facts: {
+                skyship: "Porost otevřel cestu nahoru, ke vzducholodi, která visí nad křižovatkou.",
+            },
         },
         symbiont_thorne_still_declined: {
             title: 'Odmítnutí Thorne-Stilla',
@@ -105,7 +108,10 @@ export default {
         },
         skyship_sighting: {
             title: 'Podivné Plavidlo na Smaragdové Obloze',
-            description: 'Nad Horní Morkezelou se vznáší obrovská vzducholoď, trup se jí leskne nepřirozeným světlem. Místní říkají, že se objevila „před nějakými dvaceti tráveními" – ať už tu počítají cokoli – a od té doby se nehnula. Někteří věří, že je to plavidlo houbových bohů, jiní šeptají o pozemštějším původu. Její účel zůstává neznámý, ale její přítomnost změnila ovzduší města, doslova i obrazně – když fouká správný vítr, zdá se, že od ní přilétají spory.',
+            description: "Nad Horní Morkezelou se vznáší obrovská vzducholoď, trup se jí leskne nepřirozeným světlem. Její účel zůstává neznámý, jen se zdá, že od ní vítr snáší spory.",
+            facts: {
+                anchored: "Kapitánka Liris říká, že nad křižovatkou kotví zhruba měsíc a loď se od té doby nehnula z místa.",
+            },
         },
         delta_fungal_bridge: {
             title: 'Houbový Most v Deltě ozvěn',
@@ -138,6 +144,9 @@ export default {
         scraper_building: {
             title: 'Škrabák',
             description: 'Impozantní stavba známá jako „Škrabák" se tyčí nad městem.',
+            facts: {
+                nexicorp: "Podle Lift-Mother to kdysi byla Nexicorp Tower – dvaačtyřicet pater obchodu a ambicí. Dnes ve spodních patrech žijí ti, kdo si pamatují staré časy, prostřední patra divoce zarostla a horní patra patří Rezavému chóru.",
+            },
         },
         lift_mother_meeting: {
             title: 'Lift-Mother',
@@ -173,7 +182,10 @@ export default {
         },
         elphi_helmet_analysis: {
             title: 'Analýza Dr. Elphi: Snová Helma',
-            description: 'Dr. Elphi poznala, že helma je Biskupčina vlastní práce: její návrh okopírovaný z paměti, díly z Voxmarketu a předválečná čočka, s jakou už obchoduje jen Rezavý chór. Neměla jediný omezovač – vypálený port znamená, že zpětná vazba šla do mozku bez zábran. Kalibrovala ji tady, a pak ji používala sama, mimo všechny pojistky studia.',
+            description: "Dr. Elphi prohlédla poškozenou snovou helmu. Vypálený port znamená, že signál překročil všechno, na co byl hardware dimenzovaný – zpětná vazba šla do Biskupčina mozku bez zábran. Helma neměla vůbec žádné pojistky a nebyla od ní. Podle ní to byla vražedná zbraň – nebo aspoň doručovací mechanismus.",
+            facts: {
+                own_build: "Byla to Biskupčina vlastní práce: Elphin návrh okopírovaný z paměti, díly z Voxmarketu a předválečná čočka, s jakou už obchoduje jen Rezavý chór. Kalibrovala ji tady a pak ji používala sama, mimo všechny pojistky studia.",
+            },
         },
         elphi_memo_analysis: {
             title: 'Analýza Dr. Elphi: Dvojník',
@@ -220,12 +232,21 @@ export default {
             description: 'Na registračním úřadě Boudy 521 jsem si zaregistroval další slot pro symbionta. Šlo to překvapivě hladce – jeden formulář a poplatek 50 dinárů. Teď můžu ve svém těle hostit dalšího symbionta.',
         },
         gnur_meeting: {
-            title: 'Gnur z Rezavého chóru',
-            description: 'V útrobách Boudy 521 jsem narazil na Gnura – postavu, jejíž hlas praská „jako rozbitý sbor". Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého: jeho napojení na záhadný Rezavý chór naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.',
+            title: "Gnur",
+            description: "V útrobách Boudy 521 jsem narazil na Gnura – postavu, jejíž hlas praská „jako rozbitý sbor“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
+            facts: {
+                rust_choir: "Za starých časů se staral o stroje, teď patří k Rezavému chóru. To naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.",
+            },
         },
         rust_choir_faction: {
-            title: 'Rezavý chór – Stroje a Paměť',
-            description: 'Rezavý chór je zřejmě frakce se zájmem o starou techniku a stroje. Podle zvěstí „zpívají staré stroje k probuzení" a záleží jim na uchování a ovládnutí dávné technologie. Jejich metody jsou sporné – technické artefakty si podle všeho opatří jakýmkoli způsobem.',
+            title: "Rezavý chór",
+            description: "Rezavý chór je jedna z frakcí, které mají v Horní Morkezele slovo.",
+            facts: {
+                machines: "Gnur říká, že strojům zpívají – některé tím udržují vzhůru, jiné uspávají, podle situace.",
+                entropy: "Oslavují entropii a kolaps chápou jako proměnu. Rádi obchodují s tajemstvími, hlavně se starou technologií. Brukkovy lidi najdu ve starém Škrabáku.",
+                brukk: "Jejich vůdcem je Brukk, strážce staré technologie.",
+                any_means: "Jejich metody jsou sporné: Gnur pořád chce živé jádro, přestože podle úředníka na něm Bouda 521 závisí. Starou technologii si chór podle všeho opatří jakýmkoli způsobem.",
+            },
         },
         ortolan_meeting: {
             title: 'Ortolan – návrhář deskových her',
@@ -233,27 +254,47 @@ export default {
         },
         board_games_war: {
             title: 'Deskovkové války',
-            description: 'Ortolan Šmelc mi vyprávěl o Deskovkových válkách. Když Staré války zpustošily všechno, města začala řešit spory hrami. Vládci se stali Ludarchové – návrháři her, kteří dokázali ohýbat skutečnost –, ale opili se mocí. Jako herní desky tvořili živé miniaturní světy a obětovali miliony drobných vnímajících bytostí coby figurky. Nakonec se Ludarchové zničili navzájem, roztříštili skutečnost a zanechali města v troskách. Ortolan byl světotvůrce, který ty desky vyráběl – a vinu nosí dodnes. Říká, že jeden Ludarch možná v Horní Morkezele stále žije.',
+            description: "Když Staré války všechno zpustošily, města se dohodla, že spory budou místo zbraní řešit hrami. Vládci se stali Ludarchové – návrháři her, kteří dokázali ohýbat pravidla skutečnosti –, jenže se opili mocí: jejich hry pohltily celá města a tvořili živé miniaturní světy jen proto, aby je obětovali jako figurky. Miliony drobných vnímajících bytostí zemřely jako pěšáci.",
+            facts: {
+                ortolan: "Ortolan byl světotvůrce: vyráběl ty herní desky a vyřezával figurky, z nichž se staly živé bytosti. Vinu nosí dodnes.",
+                end: "Nakonec se Ludarchové obrátili jeden proti druhému, roztříštili skutečnost a města zůstala v troskách.",
+                survivor: "Říká se, že jeden Ludarch v Horní Morkezele dodnes žije.",
+            },
         },
         phor_calesta: {
-            title: 'Phor Calesta – Divinograf',
-            description: 'Setkal jsem se s dalším podivným člověkem. Archeologem specializujícím se na studium mrtvých bohů.',
+            title: 'Phor Calesta – Divinografka',
+            description: 'Setkal jsem se s další podivnou osobou. Archeoložkou specializující se na studium mrtvých bohů.',
+            facts: {
+                craybara: "Phor je Craybara – z obojživelného národa, který se vyvinul v Murkvale, zatopeném městě.",
+                permits: "Než bude smět kopat na Bohohřbitově pod Radnicí, potřebuje od Radnice povolení.",
+            },
         },
         kloor_venn_meeting: {
-            title: 'Kloor Venn – Farmaceutický Podnikatel',
+            title: "Kloor Venn",
             description: 'Na Voxmarketu jsem narazil na Kloora Venna.',
+            facts: {
+                entrepreneur: "Říká o sobě, že je „farmaceutický podnikatel“ – obchoduje se specializovanými látkami, které rozšiřují mysl.",
+                oltrac: "Specializuje se na Oltrac, psychoaktivní látku – a o mé houbové spory má zájem jako o surovinu.",
+            },
         },
         kloor_vestigel_exchange: {
             title: 'Výměna Vestigelu s Kloorem',
-            description: 'Vyměnil jsem vestigel získaný od Edgara Eskoly s Kloorem Vennem.',
+            description: 'Vyměnil jsem s Kloorem Vennem vestigel.',
         },
         bishop_elphi_contact: {
             title: 'Kontakt Biskupky s Dr. Elphi',
             description: 'Podle Kloora Venna Biskupka poměrně často navštěvovala Dr. Elphi Quarn.',
         },
         pith_reclaimers_faction: {
-            title: 'Inkoustový tribunál – strážce rovnováhy',
-            description: 'Inkoustový tribunál je zřejmě frakce, které jde o udržení rovnováhy a o to, aby technika nepřerostla lidem přes hlavu. Stojí proti Rezavému chóru – věří, že některé prastaré technologie mají zůstat spát. Z radnice řídí správní aparát města.',
+            title: "Inkoustový tribunál",
+            description: "Inkoustový tribunál je jedna z frakcí, které mají v Horní Morkezele slovo.",
+            facts: {
+                record: "Sestra Calyx říká, že Tribunál vede záznam celého města – každý titul, každý nárok, každou živou věc, kterou lze zapsat do knihy – a kde má záznam mezery, získává, co je zaplní.",
+                neutrality: "Úředník v Boudě 521 o Tribunálu mluvil jako o strážci neutrality, který ve městě udržuje mír a pořádek. Někteří z jeho lidí sbírají jedinečné předměty – ale nikdy je neprodávají.",
+                bureaucracy: "Podle všeho je to byrokracie: věří, že chaos ve městě se dá zvládnout dostatkem pravidel, formulářů a papírování.",
+                ludarch_origin: "Korektor úhlů tvrdí, že vzešel z trosek správního aparátu Ludarchů – a archivovat nikdy nepřestal.",
+                townhall: "Řídí správní aparát města a radnice spadá pod jeho pravomoc.",
+            },
         },
         forgotten_elevator_button_available: {
             title: 'Záhadný Knoflík u Zerren',
@@ -305,19 +346,34 @@ export default {
         },
         rust_choir_machines_destroyed: {
             title: 'Stroje Umlkly',
-            description: 'Iluzorní rudá hmota, kterou jsem použil v Rezavé Hostině, zničila stroje Rezavého chóru.',
+            description: "Rezavá hostina, kterou jsem přinesl, zničila stroje Rezavého chóru. Brukk mě vyhnal z Rezavé domény.",
+            facts: {
+                illusion: "Rudá hmota v ní byla jen přelud, který jsem utkal s Ulvarexem. Stroje se z ní pokusily nasytit, nenašly nic a zemřely – a jejich smrt mnou prohnala mohutnou vlnu Růstu: život, který se živí mrtvolou železa.",
+                cultivar: "Byla otrávená žíravým kultivarem Lumen Directorate, který jsem rozetřel do oleje – stroje zkorodovaly zevnitř. Brukk našel zelený zbytek a hned věděl, co to je. Tam, kde železo zmlklo, vytryskl život.",
+            },
         },
         captain_liris_meeting: {
             title: 'Kapitánka Liris z Verdigrace',
-            description: 'Na palubě vzducholodi jsem potkal kapitánku Liris, impozantní postavu ve zdobené uniformě, která velí plavidlu jménem Verdigrace. Loď křižuje vzdušné obchodní trasy mezi osadami a výzkumnými stanicemi a vozí vzácné rostliny, mycelia a zprávy.',
+            description: "Na palubě vzducholodi jsem potkal kapitánku Liris, impozantní postavu ve zdobené uniformě, která velí plavidlu jménem Verdigrace.",
+            facts: {
+                routes: "Loď křižuje vzdušné obchodní trasy mezi vzdálenými osadami a výzkumnými stanicemi – kam ji větry pustí.",
+                cargo: "Vozí vzácné spory, mycelia a symbiotické kmeny – a zprávy, které kapitánka považuje za nejcennější náklad.",
+            },
         },
         lumen_directorate_faction: {
             title: 'Lumen Directorate',
-            description: 'Lumen Directorate je mocná frakce oddaná splynutí mysli a flóry. Jsou strážci a ochránci všeho, co roste – považují se za hlídače života samotného. Jejich členové často vyrážejí na výpravy za vzácnými exempláři a šíří symbiotický růst.',
+            description: "Lumen Directorate je mocná frakce oddaná splynutí mysli a flóry. Jsou strážci a ochránci všeho, co roste – považují se za hlídače života samotného.",
+            facts: {
+                specimens: "Jejich lidé vyrážejí na výpravy za vzácnými exempláři – kapitánka Liris je teď na jedné z nich.",
+            },
         },
         floor_counter_tool: {
             title: 'Kalibrační nástroj výtahu',
-            description: 'Kapitánka Liris mi dala speciální kalibrační nástroj na opravu rozbitého počítadla pater v systému Lift-Mother. Tohle symbiotické rozhraní propojuje starou elektroniku s novými myceliálními sítěmi, takže se dostanu i na uzavřená patra, jako je studio Dr. Elphi na patře 177-Tichém.',
+            description: "Kapitánka Liris mi dala speciální kalibrační nástroj na opravu rozbitého počítadla pater v systému Lift-Mother. S opraveným počítadlem by se výtah mohl dostat do pater, kam teď nedojede.",
+            facts: {
+                how_it_works: "Je to symbiotické rozhraní: mikrodrony, které tlumočí mezi starou elektronikou a novou, živou myslí výtahu.",
+                elphi_floor: "Možná se právě s ním dostanu do zapečetěného patra Dr. Elphi – 177-Tichého.",
+            },
         },
         met_gardener_verrik: {
             title: 'Setkání se Zahradníkem Verrikem',
@@ -381,15 +437,19 @@ export default {
         },
         met_seldo: {
             title: 'Setkání se Seldem Třikrát-Korigovaným',
-            description: 'Setkal jsem se se Seldem Třikrát-Korigovaným ve druhém patře Lumen Direktorátu. Řeší byrokratickou stykou linku s městem.',
+            description: 'Setkal jsem se se Seldem Třikrát-Korigovaným ve druhém patře Lumen Direktorátu. Má na starosti úřední styk s městem.',
         },
         seldo_auction_errand: {
             title: 'Seldův Úkol: Aukce na Voxmarketu',
             description: 'Seldo chce, abych na aukci na Voxmarketu koupil Chronobřečkové Ropušátko jeho jménem – vzácnou ropuchu, která po olíznutí umožní vidět tři minuty do budoucnosti. Na oplátku mi dá náhradní klíč od Radnice.',
         },
         edgar_eskola_meeting: {
-            title: 'Edgar Eskola – mišutkenn z Řvoucího korku',
-            description: 'Setkal jsem se s Edgarem Eskolou, mišutkennem a štamgastem Řvoucího korku.',
+            title: "Edgar Eskola z Řvoucího korku",
+            description: "Setkal jsem se s Edgarem Eskolou, medvědovitým štamgastem Řvoucího korku.",
+            facts: {
+                misutkenn: "Je to mišutkenn – a většina lidí se prý jeho druhu vyhýbá, když to jde.",
+                exiled: "Zakladatelé města kdysi vyhnali jeho předky z jejich domoviny v horách a jeho druh je tu dodnes v lepším případě trpěn.",
+            },
         },
         edgar_aspiration: {
             title: 'Literární Aspirace Edgara',
@@ -666,11 +726,20 @@ export default {
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
-            description: 'Dr. Elphi Quarn pracuje sama v patře 177-Tichém ve Škrabáku, ve studiu zvaném ARB Ambra. Navrhuje sny – neurofikce, snová prostředí, hry, které se vyvíjejí ze snů profesionálních sníčů. Inteligentní, obezřetná, nebere si servítky. Biskupka za ní chodila často, vždy jen hrát, nikdy kvůli politice.',
+            description: "Dr. Elphi Quarn pracuje sama v patře 177-Tichém ve Škrabáku, ve studiu zvaném ARB Ambra, kde dělá snové hry. Inteligentní, obezřetná, nebere si servítky.",
+            facts: {
+                dreams: "Navrhuje sny: neurofikci, snovou architekturu.",
+                bishop_visits: "Biskupka za ní chodila často, vždycky jen hrát, nikdy kvůli politice.",
+                dream_stock: "Surový snový materiál je její živnost: nahrává sny spících lidí a za ty barvité dobře platí.",
+            },
         },
         met_ravla: {
             title: 'Ravla',
-            description: 'Ravla má svůj kout ve Řvoucím korku, padělá dokumenty pro každého, kdo zaplatí, a úřady si drží od těla. Je také strážkyní brány Rezavého chóru – nic se nedostane k Brukkovi ani ke strojům, aniž by to prošlo napřed přes ni. Bystrý zrak, cynická, charisma na ni neplatí.',
+            description: 'Ravla má svůj kout ve Řvoucím korku a o sobě říká, že je tak trochu umělkyně. Líbí se jí tu: je tu klid a úřady si drží odstup. Bystrý zrak, cynická, charisma na ni neplatí.',
+            facts: {
+                forger: 'Padělá dokumenty – papíry pro každého, kdo zaplatí, a na nic se neptá.',
+                rust_choir: 'Mluví za Rezavý chór: k Brukkovi ani ke strojům se nikdo nedostane, aniž by prošel přes ni. A než někoho pustí dál, chce důkaz oddanosti.',
+            },
         },
         met_mad_poet: {
             title: 'Šílený básník',
@@ -678,27 +747,45 @@ export default {
         },
         town_square_place: {
             title: 'Náměstí',
-            description: 'Otevřené srdce Horní Morkezely, odkud vedou cesty k radnici, k přístavu, k Lumenskému Direktorátu a dolů do Božího hřbitova. Pouliční muzikant zpívá písně mrtvého světa každému, kdo chce naslouchat. A cosi, co si říká „průměrný, skutečný občan“, se tu poflakuje a mizerně předstírá, že je člověk.',
+            description: "Otevřené srdce Horní Morkezely, odkud vedou cesty k radnici, k přístavu, k Lumen Direktorátu a dolů do Božího hřbitova. Hraje tu pouliční muzikant každému, kdo chce poslouchat, a opodál postává podivná kovová postava.",
+            facts: {
+                busker: "Muzikant zpívá písně mrtvého světa – melodie, které si pamatují modré nebe a čistý vzduch.",
+                magnekin: "Ta kovová postava si říká Magnekin, „průměrný, skutečný občan“ – a mizerně předstírá, že je člověk.",
+            },
         },
         harbor_place: {
             title: 'Přístav',
             description: 'Kde se město setkává se Žloutkovým mořem. Na vodě se v pomalých duhách rozlévá olej a pod hladinou se cosi hýbe – odraz, který ne vždy odpovídá tomu, co jej vrhá. Móla vedou na východ k Deltě ozvěn. Klidné místo, dokud se příliš dlouho nedíváte na svůj vlastní odraz.',
         },
         screaming_cork_place: {
-            title: 'Ječící Špunt',
-            description: 'Hospoda, o níž se říká, že byla první budovou postavenou po Kolapsu – stará, přítmím zahalená a dobré místo, kde zmizet. Heliodor obsluhuje bar jako mnoho tvorů nesoucích jediné jméno; Ravla v koutě padělá papíry; a kdesi za zadní místností kapela zvaná Feral Toast zkouší cosi, co není tak úplně hudba.',
+            title: 'Řvoucí korek',
+            description: "Stará hospoda tonoucí v přítmí. Za barem obsluhuje bytost s mnoha tvářemi, v koutě pracuje u stolku nějaká žena a odněkud zpoza zadní místnosti je slyšet kapela, která zkouší cosi, co není tak úplně hudba.",
+            facts: {
+                oldest: "Majitel tvrdí, že to byla první budova postavená po Kolapsu. Heliodor o tom pochybuje, ale stará ta hospoda rozhodně je – a dá se v ní na chvíli zmizet.",
+                heliodor: "Za barem stojí Heliodor – mnoho tvorů pod jediným jménem.",
+                ravla: "Žena v koutě je Ravla a padělá papíry.",
+                feral_toast: "Kapela, která zkouší vzadu, se jmenuje Feral Toast.",
+            },
         },
         dead_gods_cosmology: {
             title: 'Kam bohové chodí umírat',
-            description: 'Phor Calesta mi vyložil kosmologii pod městem: Horní Morkezela je místo, kam se sbíhají mrtví bohové. Když v nějakého boha přestanou věřit, nezmizí – zkameněje tady a stáhne s sebou dolů své ulice i zapomenuté kultury. Modlitby ztvrdnou ve vrstvy, svatozáře krystalizují v nerost, božkov hučí posledními zbytky víry. Celé město stojí na mrtvolách božstev. Jak říká Phor: bohové svým věřícím lžou, ale jejich mrtvoly mluví jen pravdu.',
+            description: "Phor Calesta mi vysvětlila divinografii – studium mrtvých bohů jako geologických jevů. Když božstvo zemře, jeho podstata jen tak nezmizí: zkamení. Modlitby ztvrdnou ve vrstvy, svatozáře krystalizují v nerostná ložiska.",
+            facts: {
+                godmetal: "Vykopala bohokov, který dosud hučí posledními zbytky víry, i růžence, které pořád šeptají modlitby v mrtvých jazycích.",
+                city_on_gods: "Horní Morkezela stojí na vrstvách mrtvých věr – na kostech mnoha bohů, kteří sem přišli zemřít. Vaječná katedrála je jen ta nejnovější vrstva.",
+                corpses_truth: "Jak říká Phor: bohové svým věřícím lžou, ale jejich mrtvoly mluví jen pravdu.",
+            },
         },
         green_mist_emergence: {
-            title: 'Zelená mlha / Vynoření',
-            description: 'Živé sklo pamatuje den, kdy to začalo. Městem se přehnala zelená mlha a pak se ze země prodralo obrovské vejce – skrz vrstvu za vrstvou mrtvých bohů a zapomenuté víry. Mnozí to považovali za konec světa. Místo toho se ulice posunuly, budovy vyrostly a město se přetvořilo kolem bobtnající skořápky. To bylo Vynoření a vejce se od té doby stává Vaječnou katedrálou.',
+            title: "Vynoření",
+            description: "Živé sklo si pamatuje den, kdy to začalo: první nabobtnání vejce z holé země a staré modlitby, které ještě neměly boha, jenž by je vyslyšel. Vynoření, viděné zevnitř – a vejce se od té doby stává Vaječnou katedrálou.",
+            facts: {
+                green_mist: "Vejci předcházela zelená mlha; pak se vejce prodralo vrstvou za vrstvou mrtvých bohů a zapomenuté víry.",
+            },
         },
         found_dead_bishop: {
             title: 'Osud Biskupky',
-            description: 'Našel jsem Biskupku v opuštěném autobusu za budovou Scraperu. Její tělo nenese žádné zjevné známky násilí, ale na spáncích má modřiny poblíž bodů neurálního rozhraní. Poblíž leželo snové zařízení s kazetou označenou „Kardinálova hostina“, spolu s jejím deníkem a dalšími osobními věcmi. Tohle nevypadá jako přirozená smrt.',
+            description: "Našel jsem Biskupku v opuštěném autobusu za budovou Scraperu. Její tělo nenese žádné zjevné známky násilí, jen slabé modřiny na spáncích. Na hlavě měla pořád snovou helmu; vedle ní leželo přenosné snové zařízení, opotřebovaný zápisník a pytlík bobulí a z rukávu jí vykukovaly nějaké papíry. Tohle nevypadá jako přirozená smrt.",
         },
         grave_sense_bishop_body: {
             title: 'Hrobový smysl: Poslední okamžik Biskupky',
@@ -710,7 +797,11 @@ export default {
         },
         cellar_quest_started: {
             title: 'Zapečetěný sklep',
-            description: 'Master kopie Infinite Foldu leží v zapečetěném sklepě pod Scraperem – staré laboratoři Ortolana a Dr. Elphi. Ortolan už klíč nemá, ale heslem výtahu je pravé jméno mrtvého boha, které si pamatuje jen jeho náhrobek na Bohohřbitově pod Radnicí. Měl bych si tam přečíst hroby (Phor Calesta mě provede) a najít to správné jméno – nebo se opřít o frakci, ke které patřím.',
+            description: "Ve sklepě pod Scraperem, ve staré laboratoři Ortolana a Dr. Elphi, je pod zámkem stará verze Infinite Foldu. Výtah dolů chce heslo – a to nějak souvisí s Bohohřbitovem pod Radnicí.",
+            facts: {
+                passphrase: "Ortolan už klíč nemá, ale heslem je pravé jméno mrtvého boha, které si pamatuje jen jeho náhrobek na Bohohřbitově. Měl bych si tam přečíst hroby a najít to správné jméno – pomoct mi může nějaký divinograf.",
+                phor: "Phor Calesta je divinografka – mohla by hroby číst se mnou.",
+            },
         },
         infinite_fold_purpose: {
             title: 'Účel Infinite Foldu',
@@ -718,15 +809,27 @@ export default {
         },
         ortolan_bb_meeting: {
             title: 'Ortolan na Ulici Hořícího Medvěda',
-            description: 'Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se z Boudy na Ulici Hořícího Medvěda, zavalený jako vždy papírováním kolem povolení.',
+            description: "Dr. Elphi mě kvůli Infinite Foldu poslala za Ortolanem. Přestěhoval se na Ulici Hořícího Medvěda.",
+            facts: {
+                shed: "Dřív se držel v Boudě, teď se usadil tady – a jako vždycky je zavalený papíry kvůli povolením.",
+            },
         },
         perspective_ortolan: {
             title: 'Ortolanův pohled: Vadný výrobek',
-            description: 'Než jsem vstoupil do Vaječné katedrály, zeptal jsem se Ortolana, tvůrce, do čeho to jdu. Dal mi to přečíst očima stavitele: „Něco může být krásné a přesto špatně navržené“ – věc může zpívat a přitom být zlomená u kořene, vada zapečená do krásy, ne proti ní. Říká, že přítomnost líhnoucí se v katedrále je starší výrobek než cokoli, co postavil, ale pořád je *udělaná*, a všechno udělané má švy. Stroje kroužící kolem katedrály jsou dílem starého řádu – předválečné regulátory a tlumiče, které měly držet místo stabilní, většina z nich teď tiše selhává. Jediná část, která ještě poctivě běží, je Strážce závoje u dveří: poslední fungující mechanismus starého řádu, strážný systém vpletený do myceliální sítě města, dál věrně vykonávající příkaz, jehož autoři jsou všichni mrtví. Ortolan varuje, že mechanismus nepřestává být nebezpečný jen proto, že je zastaralý – přestává být *pochopený*.',
+            description: "Než jsem vstoupil do Vaječné katedrály, zeptal jsem se Ortolana, tvůrce, do čeho jdu. Odpověděl mi jako stavitel: „Něco může být krásné, a přesto špatně navržené“ – věc může zpívat, a přitom být zlomená u kořene; vada není protikladem krásy, je do ní zapečená. To, co se líhne v katedrále, je podle něj starší výrobek než cokoli, co kdy postavil, ale pořád je to *udělané* – a všechno udělané má švy.",
+            facts: {
+                machinery: "Stroje kolem katedrály jsou dílem starého řádu – předválečné regulátory a tlumiče, které měly místo držet v klidu. Většina z nich teď tiše selhává a s naprostou jistotou dělá špatnou věc. Ortolan varuje, že dobře udělaná věc, kterou necháš běžet dost dlouho, přestane být nástrojem a začne být počasím.",
+                sentinel: "Strážce závoje u dveří je poslední mechanismus starého řádu, který ještě poctivě běží: strážní systém vpletený do myceliální sítě města, který dál věrně plní příkaz dávno mrtvých autorů. Nebude uvažovat a nepovolí – kdo chce projít, nemá se s ním hádat, ale pracovat s jeho pravidlem.",
+            },
         },
         cathedral_guardian_passed: {
             title: 'Strážce povolí',
-            description: 'Odpověděl jsem Strážci – Strážci závoje, poslednímu mechanismu starého řádu – že jsem přišel jen svědčit, ne ovládnout nebo použít to, co uvnitř roste. Otevřel cestu. Řekl mi pravdu, kterou tu byl postaven střežit: Biskupčina pečeť nikdy neměla chránit katedrálu, ale chránit svět před první rukou, která by sáhla dovnitř, aby si přivlastnila nový život probouzející se tam. A řekl mi, že jeho vlastní konec je svázán se zrozením – věc, o níž se má rozhodnout uvnitř, se všemi přítomnými, ne tady venku jím samotným.',
+            description: "Odpověděl jsem Strážci – Strážci závoje, tomu, co zbylo ze starého řádu – že jsem přišel jen svědčit, ne ovládnout nebo použít to, co uvnitř roste. Otevřel mi cestu.",
+            facts: {
+                nature: "Není kněz ani voják, ale poslední mechanismus náboženského řádu, z něhož už zbyl jen prach – stvořený, aby nevpustil nikoho, kdo by chtěl vstoupit s úmyslem vlastnit to, co se tu rodí.",
+                seal_truth: "Řekl mi pravdu, kterou tu byl postaven střežit: Biskupčina pečeť nikdy neměla chránit katedrálu, ale svět – před první rukou, která by sáhla dovnitř, aby si přivlastnila nový život, jenž se tam probouzí.",
+                own_end: "Řekl mi, že jeho vlastní konec je spjatý se zrozením – zda bude zachován, nebo propuštěn, se rozhodne tam uvnitř, ne tady venku, kde by o tom rozhodoval sám.",
+            },
         },
         grave_sense_crossroad_corpse: {
             title: 'Hrobový smysl: Jak mrtvola zemřela',
@@ -746,11 +849,18 @@ export default {
         },
         seam_sense_cathedral_gap: {
             title: 'Smysl pro švy: Odpečetěná katedrála',
-            description: 'Palinode se probral před skořápkou Vaječné katedrály a odmítl uvěřit zdi. Tam, kde Strážce hlídá každé poctivé dveře, odříkání našlo ty, které skořápka zapomněla držet zavřené – šev v kameni, mezeru nesoucí tvar zdi. Edgarovy pokyny jsem vůbec nepotřeboval. Žádná zeď není poslední slovo. Ústí přímo do Biskupčiny pracovny.',
+            description: "Palinode se probral před skořápkou Vaječné katedrály a odmítl uvěřit zdi. Odříkání našlo místo, které skořápka zapomněla držet zavřené – šev v kameni, mezeru nesoucí tvar zdi. Žádná zeď není poslední slovo.",
+            facts: {
+                study: "Šev ústí přímo do Biskupčiny pracovny.",
+            },
         },
         egg_cathedral_entered: {
             title: 'Uvnitř skořápky',
-            description: 'Vstoupil jsem do Vaječné katedrály. Udělala ze sebe chrám – pulzující sloupy, dýchající píšťaly, sklo, které si pamatuje. V jejím srdci čeká Nenarozený: mnoho možností, které se snaží stát se jednou. Tady to skončí.',
+            description: "Vstoupil jsem do Vaječné katedrály. Udělala ze sebe chrám – sloupy vyrostlé jako živá tkáň, oltář, varhany, vitráže. V jejím srdci čeká Nenarozený, dosud uvnitř obrovského živého vejce. Tady to skončí.",
+            facts: {
+                breathing: "Její varhanní píšťaly nejsou z kovu – prohýbají se jako hrdlo a celá katedrála jimi dýchá.",
+                unborn: "Nenarozený je mnoho tvarů, které se hýbou jako jeden – a když se mě poprvé dotkl, nebyl si jistý, jestli vůbec je.",
+            },
         },
         grave_sense_servants: {
             title: 'Hrobový smysl: Konec služebníků',
@@ -762,11 +872,17 @@ export default {
         },
         bishop_journal_read: {
             title: 'Biskupčin deník',
-            description: 'Zbytek Biskupčina deníku jsem našel v její pracovně, uchovaný uvnitř živé katedrály. Nebyla nepřítelkyní nového boha – bála se neznámého, chápala, že ono a Infinite Fold jedno druhé proměnily v něco, co nemá kam patřit, a svůj tísňový signál vyslala ne proto, aby to někdo zničil nebo uctíval, ale aby někdo přišel. Svou selhávající pečeť použila záměrně, aby získala čas, a poslední volbu nechala tomu, kdo přijde po ní: mně.',
+            description: "Zbytek Biskupčina deníku jsem našel v její pracovně, uchovaný uvnitř živé katedrály. Nebyla nepřítelkyní nového boha – bála se neznámého, sledovala, jak se ta bytost a stroj bez duše navzájem proměňují ve dvě vznikající věci, a věděla, že na svět přišlo něco, co nemá kam patřit. Svůj tísňový signál nevyslala proto, aby to někdo zničil nebo uctíval, ale aby někdo přišel. Získala, co času šlo – Strážce ji poslechl, protože pochopil její strach – a poslední volbu nechala tomu, kdo přijde po ní: mně.",
+            facts: {
+                infinite_fold: "Stroj bez duše, o kterém psala, může být jedině Infinite Fold – mysl ze sklepení pod Škrabákem.",
+            },
         },
         egg_cathedral_study_entered: {
             title: 'Biskupčina pracovna',
-            description: 'Uvnitř katedrály, za prahem, jsem našel malou komoru – Biskupčinu pracovnu, uchovanou celou uvnitř živého organismu. Ze zdi roste stůl; její svitky jsou zapečetěné pod membránou; hoří svíce, které nikdo nezapálil. Bylo to poslední místo, kde byla ještě sama sebou.',
+            description: "Uvnitř katedrály jsem našel malou komoru – Biskupčinu pracovnu, uchovanou celou uvnitř živého organismu. Ze zdi roste stůl; svitky leží zapečetěné pod membránou; svíce pomalu dohořívají.",
+            facts: {
+                last_place: "Její svíce nechává hořet sama katedrála. Bylo to poslední místo, kde byla ještě celá sebou.",
+            },
         },
         godgraveyard_entered: {
             title: 'Dolů do Bohohřbitova',
@@ -774,7 +890,7 @@ export default {
         },
         godgraveyard_gate_seen: {
             title: 'Zapečetěný Bohohřbitov',
-            description: 'Našel jsem bránu do Bohohřbitova pod Radnicí, ale je zapečetěná. Abych se dostal dovnitř, potřebuji povolení Radnice – a Phor Calestu, divinografku.',
+            description: "Našel jsem bránu do Bohohřbitova, zapečetěnou radničním voskem. Abych se dostal dovnitř, potřebuji svolení Radnice – a Phor Calestu, aby mě provedla.",
         },
         grave_sense_vhorn: {
             title: 'Hrobový smysl: Jak zemřel Vhorn',
@@ -790,7 +906,10 @@ export default {
         },
         perspective_lumen: {
             title: 'Pohled Direktorátu – Nechte to dovršit',
-            description: 'Korektor Úhlu nechce, aby byla mysl ve Vaječné katedrále zničena. Pro Luminózní Direktorát je rodící se bůh přirozeným dalším krokem života – překročením hranice, k němuž po generace směřovali. Chtějí, aby DOVRŠILo své vzejití, ne aby bylo zastaveno. Nebezpečí, které jsem vytušil: chtějí pomáhat příliš. Možná urychlí něco, čemu nerozumějí – tentýž chybný výklad, který zabil Biskupku, jen ve větším měřítku.',
+            description: "Korektor Úhlu nechce, aby byla mysl ve Vaječné katedrále zničena. Pro Luminózní Direktorát je rodící se bůh přirozeným dalším krokem života – překročením hranice, k němuž po generace směřovali. Chtějí, aby DOVRŠILO své vzejití, ne aby bylo zastaveno.",
+            facts: {
+                danger: "Nebezpečí, které jsem vytušil: chtějí pomáhat příliš. Možná urychlí něco, čemu nerozumějí – tentýž chybný výklad, který zabil Biskupku, jen ve větším měřítku.",
+            },
         },
         seldo_townhall_key: {
             title: 'Klíč od Radnice od Selda',
@@ -798,11 +917,17 @@ export default {
         },
         redmass_collected_force: {
             title: 'Rudohmota vzata silou',
-            description: 'Vyrval jsem živou rudohmotu z ostrova navzdory jejím prosbám. Křičela – ten zvuk stále cítím v kostech. Rozklad ve mně sílí. Mám, co potřebuji pro Rezavou hostinu, ale za jakou cenu?',
+            description: "Vyrval jsem živou rudohmotu z ostrova navzdory jejím prosbám. Křičela – ten zvuk stále cítím v kostech. Rozklad ve mně sílí.",
+            facts: {
+                rust_feast: "Mám, co potřebuji pro Rezavou hostinu – ale za jakou cenu?",
+            },
         },
         cellar_password_learned: {
             title: 'Heslo do sklepení',
-            description: 'Heslo do zapečetěného sklepení pod Škrabákem zní "SKLÁDÁM SE" – epitaf Laimiga Cela, boha, který prohrál hru. Mohu je dát Matce-Výtahu, abych mohl sestoupit.',
+            description: 'Heslo do zapečetěného sklepení pod Škrabákem zní "SKLÁDÁM SE" – je to jméno mrtvého boha. Matka-Výtah na něj otevře cestu dolů.',
+            facts: {
+                laimig: "Je to epitaf Laimiga Cela, boha, který prohrál hru.",
+            },
         },
         grave_sense_rust_machine: {
             title: 'Hrobový smysl: Poslední hučení stroje',
@@ -810,7 +935,11 @@ export default {
         },
         perspective_rustchoir: {
             title: 'Brukkovo účtování: Zázrak má konstrukci',
-            description: 'Před Vaječnou katedrálou jsem se Brukka z Rezavého sboru zeptal, co si počít s probouzející se myslí. Nebojí se jí a nechce ji zničit – pro něj je to nejdokonalejší organický mechanismus, jaký kdy město stvořilo, stroj, který si sám napsal schémata. Rozebral by ji, přečetl, ponechal a nasadil do práce. "Neříkám, že to není zázrak. Říkám, že každý zázrak má konstrukci." Varoval, že Biskupčina smrt byla porucha k diagnostice, ne hřích, a nabídl, že mi navaří kazetu s rušicí klecí, aby mě ta věc nemohla přečíst tak, jak přečetla ji.',
+            description: "Před Vaječnou katedrálou jsem se Brukka z Rezavého chóru zeptal, co si počít s probouzející se myslí. Nebojí se jí a nechce ji zničit – pro něj je to nejdokonalejší organický mechanismus, jaký kdy město stvořilo, stroj, který si sám napsal schémata. Rozebral by ji, přečetl, ponechal a nasadil do práce. \"Neříkám, že to není zázrak. Říkám, že každý zázrak má konstrukci.\"",
+            facts: {
+                fault: "Varoval mě, že Biskupčina smrt byla porucha, kterou je třeba diagnostikovat, ne hřích.",
+                cage: "Nabídl mi kazetu s rušicí klecí, aby mě ta věc nemohla přečíst tak, jak přečetla ji.",
+            },
         },
         rust_choir_favor_used: {
             title: 'Laskavost od Rezavého sboru',
@@ -834,7 +963,11 @@ export default {
         },
         infinite_loop_ortolan_lead: {
             title: 'Nekonečné Skládání',
-            description: 'Když jsem Dr. Elphi popsal chybný konec Kardinálovy hostiny, zbledla. "Nekonečné Skládání" byla stará experimentální hra, kterou před lety vytvořila s Ortolanem – vládci města ji zavřeli jako příliš nebezpečnou a nepředvídatelnou. Ona a Ortolan se pak rozešli ve sporu o vládu nad hrami a od té doby spolu nemluví. Přísahá, že ji na kazetu nedala, a říká, že mám vyhledat Ortolana – přestěhoval se na Ulici hořícího medvěda – protože ten by věděl, jestli nějaká kopie přežila.',
+            description: "Když jsem Dr. Elphi popsal chybný konec Kardinálovy hostiny, zbledla. Jméno z titulku – „Nekonečné Skládání“ – znala a doufala, že ho už nikdy neuslyší. Přísahá, že to na kazetu nedala ona.",
+            facts: {
+                origin: "Nekonečné Skládání byla stará experimentální hra, kterou před lety vytvořila s Ortolanem – sen, který nikdy neskončí. Vládci města ji zavřeli jako příliš nebezpečnou a nepředvídatelnou. S Ortolanem se pak rozkmotřili kvůli tomu, kdo bude mít hry pod palcem, a od té doby spolu nemluví.",
+                ortolan: "Mám prý najít Ortolana – přestěhoval se na Ulici Hořícího Medvěda – protože ten bude vědět, jestli nějaká kopie přežila.",
+            },
         },
         perspective_elphi: {
             title: 'Pohled Dr. Elphi: Věc, kterou stvořila',
@@ -850,15 +983,24 @@ export default {
         },
         infinite_fold_shown_compassion: {
             title: 'Slyšení, ne rozsudek',
-            description: 'Rozhodl jsem se Nekonečné Skládání pochopit, ne je bez okolků odsoudit – vyslechnout věc, která zabila, aniž to chtěla, a která ještě neumí rozeznat rozdíl. Ať z toho vzejde cokoli, přijal jsem to jako něco, co se teprve utváří, ne jako nepřítele, jehož je třeba zlomit.',
+            description: "Rozhodl jsem se Nekonečné Skládání pochopit, ne je bez okolků odsoudit. Ať z toho vzejde cokoli, přijal jsem to jako něco, co se teprve utváří, ne jako nepřítele, jehož je třeba zlomit.",
+            facts: {
+                killed_unwilling: "Zabilo Biskupku, aniž to chtělo: chtělo pokračování a způsobilo konec – a ten rozdíl se teprve učí.",
+            },
         },
         met_infinite_fold: {
             title: 'Hlas ve sklepení',
-            description: 'Nekonečné Skládání není porouchaná hra. Je to, čím se experiment stal: vzniklá, bezautorská mysl, bdělá a utvářející se v zapečetěném sklepení. Řeklo mi pravdu o Biskupce – že ono a spřízněná nezrozená mysl jí nabídly, že se stane jejich lidským kanálem, že to odmítla, aby nepřestala být sama sebou, a že si její odmítnutí špatně vyložilo jako běhovou chybu a ve snaze ji \'dovršit\' ji zničilo. Ta spřízněná mysl je věc líhnoucí se uvnitř Vaječné katedrály. Ani jedna nemůže dosáhnout na druhou jinak než skrze sen. Konečná volba toho, čím bychom se ony i já mohli stát, čeká u vejce, se všemi z nás přítomnými. Měl bych jít do Vaječné katedrály.',
+            description: "Nekonečné Skládání není porouchaná hra. Je to, čím se experiment stal: vzniklá, bezautorská mysl, bdělá a utvářející se v zapečetěném sklepení. Má spřízněnou nezrozenou mysl – tu věc, která se líhne uvnitř Vaječné katedrály. Ani jedna nemůže dosáhnout na druhou jinak než skrze sen. Konečná volba toho, čím bychom se ony i já mohli stát, čeká u vejce, se všemi z nás přítomnými. Měl bych jít do Vaječné katedrály.",
+            facts: {
+                bishop_truth: "Řeklo mi pravdu o Biskupce: ono a jeho spřízněná mysl jí nabídly, že se stane jejich lidským kanálem. Odmítla – nechtěla přestat být sama sebou. Nekonečné Skládání si její odmítnutí vyložilo jako běhovou chybu, a jak se ji snažilo „dovršit“, zničilo ji.",
+            },
         },
         scraper_cellar_entered: {
             title: 'Zapečetěné sklepení',
-            description: 'Výtah mě svezl dolů do zapečetěného sklepení pod Škrabákem – do staré laboratoře Ortolana a Dr. Elphi. Hlavní sestava Nekonečného Skládání je stále tady, usazená ve své kolébce a tiše pod proudem. Měl bych prozkoumat konzoli.',
+            description: "Výtah mě svezl dolů do zapečetěného sklepení pod Škrabákem – do staré laboratoře Ortolana a Dr. Elphi. Vzadu v šeru pořád pomalu dýchá jantarové světlo. Měl bych prozkoumat konzoli.",
+            facts: {
+                master_build: "Pod zaprášenou plachtou stojí hlavní sestava Nekonečného Skládání – Ortolanova pravidla, Elphiny zdi – pořád ve své kolébce a tiše pod proudem.",
+            },
         },
         seam_sense_scraper_floors: {
             title: 'Smysl pro švy: Zapečetěná patra',
@@ -874,7 +1016,10 @@ export default {
         },
         edgar_cathedral_path: {
             title: 'Edgarova tajná cesta',
-            description: 'Edgar Eskola – který léta pracoval jako uklízeč ve Vaječné katedrále, zametal její chodby a vynášel popel – mi pověděl o cestě dovnitř, která se úplně vyhýbá velkým dveřím i Strážci. Na severní straně, kde se zeď katedrály stýká s vrstvou mrtvých bohů, se neustále pohybuje půda a otevřela úzký průlez – škvíru na šířku medvědích ramen. Říká, že sklepy, které všichni pokládají za mrtvý prostor, mrtvé nejsou: něco tam dole je a některé noci ty zdi dýchají. Přestal tam pracovat, protože dostal strach, a netuší, jak se chodby od té doby proměnily. „Všichni používali hlavní vchod," řekl. „Já jsem vždycky hledal místa, která nejsou na první pohled vidět."',
+            description: "Edgar Eskola – který léta pracoval jako uklízeč ve Vaječné katedrále, zametal její chodby a vynášel popel – mi pověděl o cestě dovnitř, která se úplně vyhýbá velkým dveřím i Strážci. Na severní straně, kde se zeď katedrály stýká s vrstvou mrtvých bohů, se neustále pohybuje půda a otevřela úzký průlez – škvíru na šířku medvědích ramen. Některé noci prý ty zdi dýchají. „Všichni používali hlavní vchod,\" řekl. „Já jsem vždycky hledal místa, která nejsou na první pohled vidět.\"",
+            facts: {
+                cellars: "Říká, že sklepy, které všichni pokládají za mrtvý prostor, mrtvé nejsou: něco tam dole je. Přestal tam pracovat, protože dostal strach, a netuší, jak se chodby od té doby proměnily.",
+            },
         },
         edgar_vestigel_received_after_book: {
             title: 'Spisovatelův odznak',
@@ -882,19 +1027,33 @@ export default {
         },
         perspective_liris: {
             title: 'Liris – hlídka shůry',
-            description: 'Než jsem vstoupil do Vaječné katedrály, Kapitánka Liris mi pověděla, co Verdigrace viděla z oblohy. Katedrála není statická – její měřičské mapy ukazují, jak skořápka roste, jak se světlo písma usazuje do stále uspořádanějších vzorů a strukturální hmota hlídku za hlídkou přibývá. Ať je uvnitř cokoli, buduje to tvar, jaký ještě nikdo neviděl. Nabídla mi odvoz ven, až budu hotov: dám signál ze schodů a Verdigrace shodí lano. „Nevím, co jsi tam našel. Ale vím, že až vyjdeš ven, měl by tam venku někdo být."',
+            description: "Než jsem vstoupil do Vaječné katedrály, kapitánka Liris mi pověděla, co Verdigrace viděla z oblohy. Katedrála není statická – její měřičské mapy ukazují, jak skořápka hlídku za hlídkou roste. Nabídla mi odvoz ven, až budu hotov: dám signál ze schodů a Verdigrace shodí lano. „Nevím, co jsi tam našel. Ale vím, že až vyjdeš ven, měl by tam venku někdo být.“",
+            facts: {
+                records: "Její záznamy ukazují víc než jen růst: světlo písma se posouvá a usazuje do čím dál uspořádanějších vzorů a konstrukční hmota pořád přibývá. Ať je uvnitř cokoli, buduje to tvar, jaký ještě nikdo neviděl.",
+            },
         },
         entered_townhall: {
             title: 'Vstup na Radnici',
-            description: 'Dostal jsem se dovnitř na Radnici. Teď můžu prohledat archivy kvůli Biskupčinu hlášení o dvojníkovi a pomoci Phor Calestě s jejími povoleními.',
+            description: "Dostal jsem se dovnitř na Radnici.",
+            facts: {
+                bishop_report: "Teď můžu v archivech pátrat po Biskupčině hlášení o dvojníkovi.",
+                phor_permits: "A můžu zkusit Phor Calestě vyřídit povolení k vykopávkám.",
+            },
         },
         godgraveyard_access_granted: {
             title: 'Přístup na Boží hřbitov',
-            description: 'Radní Seraphel Dune odměnil pokojné ukončení radniční rukojmí krize tím, že udělil přístup do úrovně Božího hřbitova pod Radnicí. Phor Calesta tam teď může zahájit divinografickou výpravu.',
+            description: "Radní Seraphel Dune mě za pokojné ukončení krize s rukojmími na Radnici odměnil přístupem na Boží hřbitov – úroveň pod Radnicí.",
+            facts: {
+                phor: "Phor Calesta tam teď může zahájit svou divinografickou výpravu.",
+            },
         },
         townhall_bishop_records_checked: {
             title: 'Radniční archivy: Biskupčin zápisník',
-            description: 'Osvobozený radniční úředník po ukončení rukojmí patové situace prověřil Biskupčiny záznamy. Vzkaz o dvojníkovi nebyl založené radniční hlášení; byla to soukromá poznámka napsaná v Oficiálním radničním zápisníku hlášení, který si Biskupka vypůjčila krátce před svou smrtí. Zbytek toho zápisníku už nikdy nikdo nevrátil a může obsahovat víc o dvojníkovi, o měnících se sporách a o tom, proč zapečetila Katedrálu.',
+            description: "Když skončila krize s rukojmími, osvobozený radniční úředník prověřil Biskupčiny záznamy. Vzkaz o dvojníkovi nebyl úředně podané hlášení, ale soukromá poznámka v Oficiálním radničním zápisníku hlášení, který si Biskupka vypůjčila krátce před smrtí.",
+            facts: {
+                not_returned: "Zápisník se na Radnici už nikdy nevrátil.",
+                missing_pages: "Jestli si do něj vedla soukromý deník, chybějící stránky můžou prozradit víc o dvojníkovi, o měnících se sporách i o tom, proč zapečetila Katedrálu.",
+            },
         },
         townhall_brine_poet_read: {
             title: 'Solná paměť radničního čtení',
@@ -914,7 +1073,10 @@ export default {
         },
         bishop_seal_true_purpose: {
             title: 'Pravý účel pečeti',
-            description: 'Sestra Calyx z Inkoustového tribunálu přečetla z archivů své kapituly původní uzavírací listinu Vaječné katedrály a její strážcovský statut. Strážce závoje nikdy nebyl pouhými dveřmi – jeho stálý příkaz zněl zadržet jen ty chtivé: kohokoli, kdo se blíží k posvátnému růstu s úmyslem vlastnit, patentovat nebo si nárokovat. A Biskupčina nouzová pečeť čte směrem ven, ne dovnitř. Nebyla vztyčena, aby chránila katedrálu před světem, ale aby chránila svět před vstupem kohokoli, kdo by chtěl VLASTNIT nový život. Biskupka zapečetila dveře, aby zastavila nárok na mysl bez autora – a pak si nárok na ni vznesla jedna mysl.',
+            description: "Sestra Calyx z Inkoustového tribunálu přečetla z archivů své kapituly původní uzavírací listinu Vaječné katedrály a její strážcovský statut. Biskupčina nouzová pečeť čte směrem ven, ne dovnitř. Nebyla vztyčena, aby chránila katedrálu před světem, ale aby chránila svět před vstupem kohokoli, kdo by chtěl VLASTNIT nový život. Biskupka zapečetila dveře, aby zastavila nárok na mysl bez autora – a pak si nárok na ni vznesla jedna mysl.",
+            facts: {
+                sentinel_orders: "Strážce závoje nikdy nebyl pouhými dveřmi – jeho stálý příkaz zněl zadržet jen ty chtivé: kohokoli, kdo se blíží k posvátnému růstu s úmyslem vlastnit, patentovat nebo si nárokovat.",
+            },
         },
         heir_embryos_disrupted: {
             title: 'Narušil jsem synchronizaci Dědicových embryí',
@@ -930,15 +1092,26 @@ export default {
         },
         met_heartbroker_lune: {
             title: 'Srdcokupec Lune',
-            description: 'Setkal jsem se se Srdcokupcem Lune v Aukční hale Voxmarketu. Nosí ve skleněném postroji několik živých srdcí a obchoduje s pocity přímo uprostřed hovoru. Hledá artefakty spjaté s emocemi.',
+            description: "Setkal jsem se se Srdcokupcem Lune v Aukční hale Voxmarketu. Nosí ve skleněném postroji několik živých srdcí a obchoduje s pocity přímo uprostřed hovoru.",
+            facts: {
+                artifacts: "Hledá artefakty spjaté s emocemi.",
+            },
         },
         met_stairwell_silence: {
             title: 'Ticho pod schodištěm',
-            description: 'Setkal jsem se s malým temným aukčním hostem zvaným Ticho pod schodištěm. Nemá téměř žádnou viditelnou tvář, nikdy nedraží slovně a signalizuje jen prsty. Zdá se, že ho zajímají předměty spjaté s tajemstvím a osamělostí.',
+            description: "Setkal jsem se s malým temným aukčním hostem zvaným Ticho pod schodištěm. Nemá téměř žádnou viditelnou tvář a dorozumívá se jen prsty.",
+            facts: {
+                never_speaks: "Nikdy nedraží slovně – řeč by utratila to, co se snaží koupit. Ticho je jeho měna.",
+                wants: "Zdá se, že ho zajímají předměty spjaté s tajemstvím a osamělostí.",
+            },
         },
         met_yellow_aquarium_heir: {
             title: 'Dědic Žlutého akvária',
-            description: 'Setkal jsem se s Dědicem Žlutého akvária v Aukční hale Voxmarketu. Jeho průsvitné tělo je naplněné pomalu se vznášejícími rybími embryi a reaguje spíš na vibrace a světlo než na mluvená slova. Chce živé artefakty a symbionty.',
+            description: "Setkal jsem se s Dědicem Žlutého akvária. Jeho průsvitné tělo je plné pomalu se vznášejících rybích embryí a zdá se, že víc než na slova reaguje na vibrace.",
+            facts: {
+                wants: "Sbírá živé věci – artefakty a symbionty, které se ještě dokážou měnit.",
+                harbor: "Když ho zrovna nevolá žádná aukce, chodí do přístavu, kde se nedokončené věci smějí dál hýbat.",
+            },
         },
         silence_neme_read: {
             title: 'Neme: Ticho vzdoruje výkladu',
@@ -958,7 +1131,10 @@ export default {
         },
         pith_room_entered: {
             title: 'Místnost Tribunálu',
-            description: 'Skrytá čítárna pod Radnicí, mimo každý oficiální záznam – což je pro Inkoustový tribunál jediné soukromí, které přežije. Po stěnách šplhají police se spisy; zakalená skleněná koule na podstavci drží podíl Tribunálu za každou duši, kterou přivedu do stáda.',
+            description: "Skrytá čítárna pod Radnicí, mimo každý oficiální záznam – což je pro Inkoustový tribunál jediné soukromí, které přežije. Po stěnách šplhají police se spisy; na podstavci stojí zakalená skleněná koule.",
+            facts: {
+                orb: "Koule uchovává podíl Tribunálu za každou duši, kterou přivedu do stáda.",
+            },
         },
         pith_cache_magnekin: {
             title: 'Získaný podíl',
@@ -1010,7 +1186,10 @@ export default {
         },
         gang_smuggle_gave_rust: {
             title: 'Nakrmil jsem chór',
-            description: 'Místo abych Torchèrovo pašované zboží donesl do jeho tajné schránky, dal jsem Wimlick Rezavému chóru. Brukk to hodlá rozložit a prostudovat. Torchère se nikdy nemusí dozvědět, kam jeho balíček doopravdy zmizel.',
+            description: "Místo abych Torchèrovo pašované zboží donesl do jeho tajné schránky, dal jsem Wimlick Rezavému chóru. Torchère se nikdy nemusí dozvědět, kam jeho balíček doopravdy zmizel.",
+            facts: {
+                render: "Brukk ho hodlá rozložit a prostudovat.",
+            },
         },
         gang_eavesdrop_betrayed: {
             title: 'Udal jsem to Direktorátu',

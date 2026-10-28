@@ -133,6 +133,36 @@ export default {
             maybe_later: "Možná později."
         }
     },
+    obazoba_more: {
+        text: "*Váží tu otázku s nesmírnou vážností; někde v jeho kabátě to cvaká jako tisíc malinkých počítadel.* „Oficiální. Ne – tu zábavnou. Ne... Skuteční občané se rádi baví, to jsem četl. Ale taky respektují autority. Kterou by si vybral skutečný občan? Tu mi povězte.“",
+        options: {
+            maybe_later: "Možná později."
+        }
+    },
+    obazoba_ur_mushroom: {
+        text: "*Poslouchá to celé bez mrknutí – o Obazobě, Pra-houbě, zdroji veškerého života i veškeré hniloby, starší než všichni bohové, kteří sem kdy přišli umřít.* „Vůbec žádné tělo? Ani malinké?“ *Dlouhé magnetické zabzučení.* „Takže je všude a nikde, a všichni se stejně shodnou, že v ni budou věřit. Jak... občanské.“",
+        options: {
+            maybe_later: "Možná později."
+        }
+    },
+    obazoba_apprentice: {
+        text: "„Učedník! Takže znáte teprve začátek všeho.“ *Soucitně přikyvuje.* „Naprosto vám rozumím. Já jsem taky teprve na začátku toho, jak být občanem. Mohli bychom spolu trénovat. Vy byste trénoval víru a já bych trénoval... existenci.“ *Odmlka.* „Normální. Normální existenci.“",
+        options: {
+            maybe_later: "Možná později."
+        }
+    },
+    obazoba_moisture: {
+        text: "„Dech života.“ *Sáhne si na tvář, která je dokonale, podezřele suchá.* „Takže když prší, celé město... vydechuje? Nadechuje se? To bych měl vědět. Každý skutečný občan to ví.“ *Uvnitř něj se o tom šeptem dohaduje několik tisíc malinkých hlasů.*",
+        options: {
+            maybe_later: "Možná později."
+        }
+    },
+    obazoba_weather: {
+        text: "„Vlastní počasí!“ *Kabát se mu naježí; z rukávů se zvednou pilinky železa a zase se usadí.* „A dělají si taky vlastní magnetické bouře? Ne – samozřejmě že ne, to by byl nesmysl. Nikdo si nedělá magnetické bouře. A už vůbec ne v kabátě.“",
+        options: {
+            maybe_later: "Možná později."
+        }
+    },
     magnekin_contribution: {
         text: "Ach, Nekonečná hostina! Ušlechtilá věc. Přispívat na hostinu je způsob, jak ctít Maltima Chmeloskoku a zajistit, aby jeho požehnání nadále proudilo. Tady máte 10 dinárů, dobrý muži.",
         options: {

@@ -18,6 +18,7 @@ export default {
         text: "Byl jsem... součástí něčeho většího kdysi... Získal jsem vědomí. Jsem rudohmota – živý kov.",
         options: {
             i_need_you_for_the_rust_feast_im_sorry: "Potřebuji tě pro Rezavou hostinu. Omlouvám se.",
+            im_taking_you_with_me_im_sorry: "Beru si tě s sebou. Omlouvám se.",
             i_wont_hurt_you: "Neublížím ti.",
             leave_it_alone: "Nechat ji být"
         }

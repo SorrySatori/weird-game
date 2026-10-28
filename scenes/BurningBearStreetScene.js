@@ -86,7 +86,7 @@ export default class BurningBearStreetScene extends GameScene {
                         this.addJournalEntry(
                             'perspective_ortolan',
                             "Ortolan's Perspective: A Flawed Make",
-                            "Before entering the Egg Cathedral I asked Ortolan, a maker, what I was walking into. He gave me a builder's read of it: \"Something can be beautiful and still be badly designed\" — a thing can sing and still be broken at its root, the flaw baked into the beauty rather than opposed to it. He says the presence hatching in the cathedral is an older make than anything he built, but it was still *made*, and everything made has seams. The machinery ringing the cathedral is old-order work — pre-war regulators and dampers meant to hold the site steady, most of it now failing quietly. The one part still honestly running is the Sentinel of the Veil at the door: the last working mechanism of the old order, a guard-system wired into the city's mycelial network, still faithfully executing an instruction whose authors are all dead. Ortolan warns that a mechanism doesn't stop being dangerous just because it's obsolete — it stops being *understood*.",
+                            "Before entering the Egg Cathedral I asked Ortolan, a maker, what I was walking into. He gave me a builder's read of it: \"Something can be beautiful and still be badly designed\" — a thing can sing and still be broken at its root, the flaw baked into the beauty rather than opposed to it. He says the presence hatching in the cathedral is an older make than anything he built, but it was still *made*, and everything made has seams.",
                             this.journalSystem.categories.LORE,
                             { character: 'Ortolan', location: 'Egg Cathedral', related: 'Infinite Fold' }
                         );
@@ -101,7 +101,10 @@ export default class BurningBearStreetScene extends GameScene {
                     { text: "And the guard at the door?", key: 'ortolan_bb_mechanisms_guard', next: "ortolan_bb_sentinel" },
                     { text: "Ask something else.", key: 'ortolan_bb_mechanisms_back', next: "ortolan_bb_perspective" },
                     { text: "Enough. Thank you, Ortolan.", key: 'ortolan_bb_mechanisms_close', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('perspective_ortolan', 'machinery', "The machinery ringing the cathedral is old-order work — pre-war regulators and dampers meant to hold the site steady, most of it now failing quietly, doing the wrong thing very confidently. A well-made thing left running long enough, he warns, stops being a tool and starts being weather.");
+                }
             },
 
             ortolan_bb_sentinel: {
@@ -111,7 +114,10 @@ export default class BurningBearStreetScene extends GameScene {
                     { text: "How do the surrounding systems tie in?", key: 'ortolan_bb_sentinel_machinery', next: "ortolan_bb_mechanisms" },
                     { text: "Ask something else.", key: 'ortolan_bb_sentinel_back', next: "ortolan_bb_perspective" },
                     { text: "Enough. Thank you, Ortolan.", key: 'ortolan_bb_sentinel_close', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('perspective_ortolan', 'sentinel', "The Sentinel of the Veil at the door is the last mechanism of the old order still honestly running: a guard-system wired into the city's mycelial network, still faithfully executing an instruction whose authors are all dead. It won't reason or relent — to pass it, don't argue; work the rule.");
+                }
             },
 
             ortolan_bb_loop: {
@@ -130,7 +136,11 @@ export default class BurningBearStreetScene extends GameScene {
                 options: [
                     { text: "Then where could a copy be?", key: 'where_could_a_copy_be', next: "ortolan_bb_copy" },
                     { text: "I hope you're right.", key: 'i_hope_youre_right', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => {
+                    // Optional branch: may be heard before the ortolan_infinite_loop entry exists (shows once it does).
+                    this.addJournalFact('ortolan_infinite_loop', 'dismisses_murder', "He dismisses the idea that it could have killed the Bishop — a game can't reach out of a helmet and stop a heart, he says; look to the hardware, or to whoever tampered with the cartridge.");
+                }
             },
 
             ortolan_bb_copy: {
@@ -144,7 +154,7 @@ export default class BurningBearStreetScene extends GameScene {
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('ortolan_infinite_loop')) {
-                        const base = 'Ortolan — now on Burning Bear Street — told me Infinite Fold was an unfinished experimental game he built with Dr. Elphi years ago. The city\'s rulers shut the project down as dangerous and unpredictable; Ortolan and Elphi then fell out over control of the games and haven\'t spoken since. He dismisses the idea that it could have killed the Bishop, blaming tampered hardware, and believes a master build is still sealed in the cellar under the Scraper — their old laboratory and workshop.';
+                        const base = 'Ortolan — now on Burning Bear Street — told me Infinite Fold was an unfinished experimental game he built with Dr. Elphi years ago. The city\'s rulers shut the project down as dangerous and unpredictable; Ortolan and Elphi then fell out over control of the games and haven\'t spoken since. He believes an old build is still sealed in the cellar under the Scraper — their old lab.';
                         this.addJournalEntry(
                             'ortolan_infinite_loop',
                             'Ortolan and Infinite Fold',
@@ -165,11 +175,20 @@ export default class BurningBearStreetScene extends GameScene {
                             );
                         }
                         if (this.questSystem?.getQuest('who_killed_bishop')) {
+                            // Route-neutral base ("master build" is only said by a grateful Ortolan); the
+                            // true purpose is only told if the player helped him, so it gets its own update.
                             this.questSystem.updateQuest(
                                 'who_killed_bishop',
-                                'Ortolan (now on Burning Bear Street) says Infinite Fold was an unfinished game he built with Dr. Elphi, shut down by the city\'s rulers as too dangerous. A master build is likely still sealed in the cellar under the Scraper — their old lab.' + (helped ? ' He also told me what it was truly built to do: ask whether a thought could arise with no single author.' : ' He wouldn\'t say more.') + ' I should search the Scraper cellar.',
+                                'Ortolan (now on Burning Bear Street) says Infinite Fold was an unfinished game he built with Dr. Elphi, shut down by the city\'s rulers as too dangerous. An old build is probably still sealed in the cellar under the Scraper — their old lab. I should search the Scraper cellar.',
                                 'ortolan_infinite_loop_revealed'
                             );
+                            if (helped) {
+                                this.questSystem.updateQuest(
+                                    'who_killed_bishop',
+                                    'Ortolan also told me what Infinite Fold was truly built for: not a game to win, but a machine to ask whether a thought could arise with no single author.',
+                                    'ortolan_fold_purpose'
+                                );
+                            }
                         }
                     }
                     // Start the cellar hunt: the elevator needs a dead god's name as its passphrase.
@@ -177,16 +196,31 @@ export default class BurningBearStreetScene extends GameScene {
                         this.addJournalEntry(
                             'cellar_quest_started',
                             'The Sealed Cellar',
-                            'A master copy of Infinite Fold sits in the sealed cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. Ortolan no longer has the key, but the elevator\'s passphrase is a dead god\'s true name, remembered only on its gravestone in the Godgraveyard beneath the Townhall. I should read the graves there (Phor Calesta can guide me) and find the right name — or lean on a faction I belong to.',
+                            'An old build of Infinite Fold is sealed in the cellar under the Scraper — Ortolan and Dr. Elphi\'s old lab. The lift down wants a passphrase, and it has something to do with the Godgraveyard beneath the Townhall.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Ortolan', related: 'Infinite Fold', location: 'Scraper Cellar' }
                         );
+                        // Only a grateful Ortolan explains the passphrase (the curt one barely names the graveyard).
+                        if (helped) {
+                            this.addJournalFact('cellar_quest_started', 'passphrase', "Ortolan no longer has the key, but the passphrase is a dead god's true name, remembered only on its gravestone in the Godgraveyard. I should read the graves there and find the right name — a divinographer could guide me.");
+                            if (this.hasJournalEntry('phor_calesta')) {
+                                this.addJournalFact('cellar_quest_started', 'phor', "Phor Calesta is a divinographer — she could read the graves with me.");
+                            }
+                        }
                         if (this.questSystem && !this.questSystem.getQuest('find_loop_copy')) {
+                            // Route-neutral: the curt Ortolan only says "an old build" and "something to do
+                            // with that graveyard". The dead-god detail (and Phor, if met) mirror the journal facts above.
                             this.questSystem.addQuest(
                                 'find_loop_copy',
                                 'The Sealed Cellar',
-                                'Get into the sealed cellar under the Scraper, where a master copy of Infinite Fold waits. The elevator (Lift-Mother) needs a passphrase — a dead god\'s name from the graves in the Godgraveyard beneath the Townhall (read them with Phor Calesta), or ask a faction you belong to.'
+                                'Get into the sealed cellar under the Scraper, where Ortolan says an old build of Infinite Fold is kept. The lift down (Lift-Mother) wants a passphrase — something to do with the Godgraveyard beneath the Townhall.'
                             );
+                            if (helped) {
+                                this.questSystem.updateQuest('find_loop_copy', "Ortolan told me the passphrase is a dead god's true name, remembered only on its gravestone in the Godgraveyard. I should read the graves there — a divinographer could guide me.", 'passphrase_dead_god');
+                                if (this.hasJournalEntry('phor_calesta')) {
+                                    this.questSystem.updateQuest('find_loop_copy', 'Phor Calesta is a divinographer — she could read the graves with me.', 'phor_can_read_graves');
+                                }
+                            }
                         }
                     }
                 }
@@ -455,10 +489,14 @@ export default class BurningBearStreetScene extends GameScene {
             this.addJournalEntry(
                 'ortolan_bb_meeting',
                 'Ortolan on Burning Bear Street',
-                'Dr. Elphi pointed me to Ortolan about Infinite Fold. He has moved from the Shed to Burning Bear Street, buried as ever in permit paperwork.',
+                'Dr. Elphi pointed me to Ortolan about Infinite Fold. He has moved to Burning Bear Street.',
                 this.journalSystem.categories.PEOPLE,
                 { character: 'Ortolan', location: 'Burning Bear Street' }
             );
+        }
+        // Only someone who met him at the Shed on Day 1 knows where he came from.
+        if (this.hasJournalEntry('ortolan_meeting') || this.questSystem?.getQuest('ortolan_arms')) {
+            this.addJournalFact('ortolan_bb_meeting', 'shed', "He used to keep to the Shed; now he's set up here, buried as ever in permit paperwork.");
         }
     }
 

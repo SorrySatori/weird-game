@@ -485,8 +485,8 @@ export default class ScreamingCorkScene extends GameScene {
                     if (!this.hasJournalExperience('edgar_eskola_meeting')) {
                         this.addJournalEntry(
                             'edgar_eskola_meeting',
-                            'Edgar Eskola — The Mišutkenn of Screaming Cork',
-                            'I met Edgar Eskola, a mišutkenn patron at the Screaming Cork tavern. He seems uncomfortable around humans, which is understandable given the history of prejudice against his kind in Upper Morkezela. Despite his bearish appearance, there\'s a softness to him — an intellectual quality that suggests he\'s more than the city\'s stereotypes would imply.',
+                            'Edgar Eskola of the Screaming Cork',
+                            'I met Edgar Eskola, a bear-like patron at the Screaming Cork.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Edgar Eskola', location: 'Screaming Cork' }
                         );
@@ -500,7 +500,10 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Why is that?", key: 'why_is_that', next: "edgar_prejudice" },
                     { text: "What are mišutkenn?", key: 'what_are_miutkenn', next: "edgar_what" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('edgar_eskola_meeting', 'misutkenn', "He is a mišutkenn — and, he says, most people avoid his kind if they can help it.");
+                }
             },
             edgar_what: {
         
@@ -517,7 +520,10 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "That's unfortunate.", key: 'thats_unfortunate', next: "edgar_unfortunate" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('edgar_eskola_meeting', 'exiled', "The city's founders drove his ancestors from the Remaper Hills; his kind are tolerated here, at best.");
+                }
             },
             edgar_unfortunate: {
         
@@ -1177,7 +1183,10 @@ export default class ScreamingCorkScene extends GameScene {
                 options: [
                     { text: "So there is a way in.", key: 'so_there_is_a_way_in', next: "edgar_cathedral_path" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('edgar_cathedral_path', 'cellars', "He says the cellars everyone takes for dead space are not dead: something is down there. He stopped working there because it frightened him, and he doesn't know how the corridors have changed since.");
+                }
             },
             edgar_cathedral_path: {
                 text: "\"There is. On the north side, where the cathedral wall meets the dead gods strata, there is a spot where the ground is constantly shifting, creating a narrow passage. A gap the width of a bear's shoulders, if you don't mind the smell of the underneath. You'd better go right away. Whatever's waking in there won't leave a gap open for long.\" He hesitates, one great paw flat on the table. \"Be careful. I've always thought of myself as someone who notices things that no one else notices. I wouldn't want to be the last person to see you alive.\"",
@@ -1190,7 +1199,7 @@ export default class ScreamingCorkScene extends GameScene {
                         this.addJournalEntry(
                             'edgar_cathedral_path',
                             'Edgar\'s Secret Way',
-                            'Edgar Eskola — who spent years as a janitor in the Egg Cathedral, sweeping its corridors and carrying out its ash — told me of a way inside that ignores the great doors and the Sentinel entirely. On the north side, where the cathedral wall meets the dead-god strata, the ground is constantly shifting and has opened a narrow passage — a gap the width of a bear\'s shoulders. He says the cellars everyone takes for dead space are not dead: something is down there, and some nights the walls breathe. He stopped working there because it frightened him, and he doesn\'t know how the corridors have changed since. "Everyone was using the main entrance," he said. "I always looked for the hidden places."',
+                            'Edgar Eskola — who spent years as a janitor in the Egg Cathedral, sweeping its corridors and carrying out its ash — told me of a way inside that ignores the great doors and the Sentinel entirely. On the north side, where the cathedral wall meets the dead-god strata, the ground is constantly shifting and has opened a narrow passage — a gap the width of a bear\'s shoulders. Some nights, he says, the walls breathe. "Everyone was using the main entrance," he said. "I always looked for the hidden places."',
                             this.journalSystem.categories.PLACES,
                             { character: 'Edgar Eskola', location: 'Egg Cathedral' }
                         );

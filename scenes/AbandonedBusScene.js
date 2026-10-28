@@ -390,7 +390,7 @@ export default class AbandonedBusScene extends GameScene {
                         this.addJournalEntry(
                             'found_dead_bishop',
                             'The Bishop\'s Fate',
-                            'I found the Bishop in an abandoned bus behind the Scraper building. Her body shows no obvious signs of violence, but there\'s bruising at her temples near the neural interface points. A dream device with a cartridge labeled "The Cardinal Feast" was found nearby, along with her journal and other personal effects. This doesn\'t appear to be a natural death.',
+                            'I found the Bishop in an abandoned bus behind the Scraper building. Her body shows no obvious signs of violence, only faint bruising at her temples. She still had a dream helmet on; beside her lay a portable dream device, a worn notebook and a bag of berries, and there were papers tucked in her sleeve. This doesn\'t appear to be a natural death.',
                             this.journalSystem.categories.EVENTS
                         );
                     }
@@ -471,14 +471,14 @@ export default class AbandonedBusScene extends GameScene {
                         this.addJournalEntry(
                             'bishop_helmet',
                             'Dream Interface Helmet',
-                            'The Bishop died wearing a dream helmet she had built herself — market electronics around a pre-war lens, with none of a studio\'s safeguards. The screen shows a runtime-loop error and a "NULL SCENE" failsafe: a catastrophic failure of the dream program, with nothing to stop the neural feedback.',
+                            'The Bishop died wearing a homemade dream helmet — market electronics around a pre-war lens, with none of a studio\'s safeguards. The screen shows a runtime-loop error and a "NULL SCENE" failsafe: a catastrophic failure of the dream program, with nothing to stop the neural feedback.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Bishop', related: 'Dream Technology' }
                         );
                     }
                     this.questSystem.updateQuest(
                         'who_killed_bishop',
-                        'The Bishop died wearing a dream helmet of her own making — market electronics built around an old pre-war lens, with none of the studio safeguards.',
+                        'The Bishop died wearing a homemade dream helmet — market electronics built around an old pre-war lens, with none of the studio safeguards.',
                         'dead_bishop_helmet'
                     )
                 }
@@ -589,8 +589,8 @@ export default class AbandonedBusScene extends GameScene {
                     if (this.journalSystem && !this.journalSystem.hasEntry('neme_symbiont_discovered')) {
                         this.addJournalEntry(
                             'neme_symbiont_discovered',
-                            'Neme of the Crownmire',
-                            'I discovered a symbiont living inside the dead Bishop\'s body. It appears to be a translucent bundle of filaments and glowing spore-sacs that can levitate. The symbiont calls itself "Neme of the Crownmire" and seems to have shared thoughts with the Bishop.',
+                            'Neme',
+                            'I discovered a symbiont living inside the dead Bishop\'s body.',
                             this.journalSystem.categories.EVENTS,
                             { character: 'Bishop', related: 'Symbiont' }
                         );

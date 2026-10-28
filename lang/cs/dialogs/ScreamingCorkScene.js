@@ -33,7 +33,7 @@ export default {
         }
     },
     edgar_prejudice: {
-        text: "Historie. Pověry. Strach z toho, co je jiné. Vyberte si. Zakladatelé města vyhnali mé předky z Kopřivových hor. Teď nás jen... tolerují. V lepším případě.",
+        text: "Historie. Pověry. Strach z toho, co je jiné. Vyberte si. Zakladatelé města vyhnali mé předky z Remaperských vrchů. Teď nás jen... tolerují. V lepším případě.",
         options: {
             thats_unfortunate: "To je smutné.",
             back_to_other_topics: "Zeptej se na něco jiného"

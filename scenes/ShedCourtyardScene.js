@@ -271,14 +271,22 @@ export default class ShedCourtyardScene extends GameScene {
                 options: [
                     { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
                     { text: "How did it end?", key: 'how_did_it_end', next: "ortolan_board_wars_end" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('board_games_war', 'ortolan', "Ortolan was a worldwright: he made the boards and carved the pieces that became living beings — and he still carries the guilt.");
+                }
             },
             ortolan_board_wars_end: {
                 text: `The Ludarchs turned on each other. Their games collided, overlapped, contradicted. Reality fractured. Cities were reshaped overnight. And then... silence. They destroyed each other, or got swallowed by their own creations. The boards went dark. The pieces stopped moving. What was left was this —" He gestures around. "A broken city where the rules still don't quite work. They say one Ludarch survived. Still active somewhere in Upper Morkezela. That thought keeps me up at night.`,
                 options: [
                     { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
                     { text: "Thank you for telling me.", key: 'thank_you_for_telling_me', next: "goodbye" }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('board_games_war', 'end', "In the end the Ludarchs turned on each other; reality fractured and the cities were left broken.");
+                    this.addJournalFact('board_games_war', 'survivor', "One Ludarch is said to be still alive and active in Upper Morkezela.");
+                    this.recordBoardGamesWar();
+                }
             },
             ortolan_board_wars_why: {
                 text: `Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve — it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He taps the board beside him. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch.`,
@@ -286,16 +294,7 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "That's a noble purpose.", key: 'thats_a_noble_purpose', next: "goodbye" },
                     { text: "Thank you for sharing, Ortolan.", key: 'thank_you_for_sharing_ortolan', next: "goodbye" }
                 ],
-                onTrigger: () => {
-                    if (!this.journalSystem.getEntry('board_games_war')) {
-                        this.addJournalEntry(
-                            'board_games_war',
-                            'The Board Game Wars',
-                            'Ortolan Šmelc told me about the Board Game Wars. After the Old Wars devastated everything, cities settled disputes through games. The Ludarchs — game designers who could bend reality — became rulers, but grew drunk on power. They created living miniature worlds as game boards, sacrificing millions of tiny sentient beings as pieces. The Ludarchs eventually destroyed each other, fracturing reality and leaving cities broken. Ortolan was a worldwright who made the boards — and still carries the guilt. He says one Ludarch may still be alive in Upper Morkezela.',
-                            this.journalSystem.categories.LORE
-                        );
-                    }
-                }
+                onTrigger: () => this.recordBoardGamesWar()
             },
             goodbye: {
                 text: "Don't get lost...",
@@ -311,6 +310,18 @@ export default class ShedCourtyardScene extends GameScene {
         // Infinite Fold conversation lives at Burning Bear Street on Day 2,
         // where Ortolan relocates. Here he only handles the Day-1 arms quest.
         return this._ortholanDialogContent;
+    }
+
+    /** The Board Game Wars as Ortolan tells them (same entry as Brukk's in RustDomainScene). */
+    recordBoardGamesWar() {
+        if (!this.journalSystem.getEntry('board_games_war')) {
+            this.addJournalEntry(
+                'board_games_war',
+                'The Board Game Wars',
+                "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. The Ludarchs — game designers who could bend the rules of reality — became the new rulers, but grew drunk on power: their games swallowed whole cities, and they created living miniature worlds just to sacrifice them as pieces. Millions of tiny sentient beings died as pawns.",
+                this.journalSystem.categories.LORE
+            );
+        }
     }
 
     preload() {
@@ -409,10 +420,11 @@ export default class ShedCourtyardScene extends GameScene {
         const quest = questSystem.getQuest(questId);
         if (!quest) return;
         
-        // Update quest status to completed
+        // Update quest status to completed. Route-neutral on purpose (completionType is not used in
+        // the text): the Temporary Permit route is NOT a full approval, so the log must not claim one.
         questSystem.updateQuest(
             questId,
-            `You successfully helped Ortolan obtain approval for extra arms through a ${completionType} form. He can now pursue his board game design with greater efficiency.`,
+            'I brought Ortolan the paperwork for his extra arms. He gave me a gift as thanks.',
             'completed'
         );
         questSystem.completeQuest(questId);

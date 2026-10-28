@@ -1,7 +1,7 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
 import JournalSystem from '../systems/JournalSystem.js'
-import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js'
+import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js'
 
 export default class HarborScene extends GameScene {
     constructor() {
@@ -67,14 +67,18 @@ export default class HarborScene extends GameScene {
                             { text: "Remind me where to look.", key: 'torchere_remind', next: "torchere_lamp_family" },
                             { text: "I'll keep looking.", key: 'torchere_searching_close', next: "closeDialog" }
                         ]),
-                onTrigger: () => { meetLamp(this, 'torchere', 'Torchère'); }
+                onTrigger: () => {
+                    meetLamp(this, 'torchere', 'Torchère');
+                    if (torchereMet && allLampsFound) lampsHaveWork(this);
+                }
             },
             torchere_lamp_family: {
                 speaker: 'Torchère',
                 text: `"Three more of us out there, rusting apart. There's the *Don* — perched up on the high walkway under Scraper 1140 like he owns the sky; leader, supposedly. There's *Chandelier*, stood up on a fancy post out in the town square — snob, but she hears things. And there's a *sconce*, bolted to a post out by the house of stamps, jumping at every clerk that climbs the steps — nervy little thing, but loyal. Track 'em down. Tell 'em the torch by the water's still burning."`,
                 options: [
                     { text: "I'll find them.", key: 'torchere_family_close', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => { learnLampFamily(this); }
             },
 
             // ===== L2: Torchère's quest — "A Run Past the Customs" =====
@@ -130,7 +134,7 @@ export default class HarborScene extends GameScene {
                         this.addJournalEntry(
                             'met_yellow_aquarium_heir',
                             'Heir to the Yellow Aquarium',
-                            'Met the Heir to the Yellow Aquarium at the Harbor, where they drift when no auction calls them. Their translucent body is filled with floating fish embryos, and they react more to vibration and light than to spoken words. They collect living artifacts — "continuations," they call them.',
+                            'Met the Heir to the Yellow Aquarium. Their translucent body is filled with slowly floating fish embryos, and they seem to answer vibration rather than words.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Heir to the Yellow Aquarium' }
                         );
@@ -139,6 +143,9 @@ export default class HarborScene extends GameScene {
             },
             heir_harbor_wants: {
                 speaker: 'Heir to the Yellow Aquarium',
+                onTrigger: () => {
+                    this.addJournalFact('met_yellow_aquarium_heir', 'harbor', "When no auction calls them, they drift down to the Harbor, where unfinished things are allowed to keep moving.");
+                },
                 text: `The embryos gather toward the seaward side of their body, all facing the horizon. "The auction ends. The lamps go dark. The lots are carried off to dry houses." A ripple passes through the yellow fluid. "We have no dry house. No shelf. No plaque but this one." They touch their collar. "So we come to the water, where things that are not finished are allowed to keep moving. It is not belonging. It is the next-best current."`,
                 options: [
                     ...(pithKnown && !heirRecruited ? [{ text: "The Ink Tribunal gives the unaccounted a place in the record. That could be your shelf.", key: 'heir_pith_offer_2', next: "heir_harbor_pith" }] : []),
@@ -152,6 +159,7 @@ export default class HarborScene extends GameScene {
                     { text: "Then come to the Townhall when you're ready. Councilor Dune will file you.", key: 'heir_pith_agree', next: "heir_harbor_start" }
                 ],
                 onTrigger: () => {
+                    this.addJournalFact('met_yellow_aquarium_heir', 'wants', "They collect living things — artifacts and symbionts that can still change.");
                     if (!this.hasJournalEntry('pith_recruit_heir')) {
                         this.addJournalEntry(
                             'pith_recruit_heir',

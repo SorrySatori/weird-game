@@ -56,7 +56,10 @@ export default class PithReclaimersRoomScene extends GameScene {
                     : `The orb hangs clear and empty. A whisper moves through it in a clerk's precise voice: "Balance disbursed. Bring us more of the unaccounted."`,
                 options: pending.length
                     ? [{ text: "Take the Tribunal's share.", key: 'take_pith_cache', next: "closeDialog", onSelect: () => this._collectCache() }]
-                    : [{ text: "Step away from the orb.", key: 'close_pith_cache', next: "closeDialog" }]
+                    : [{ text: "Step away from the orb.", key: 'close_pith_cache', next: "closeDialog" }],
+                onTrigger: () => {
+                    this.addJournalFact('pith_room_entered', 'orb', "The orb holds the Tribunal's share for every soul I bring into the fold.");
+                }
             },
 
             // --- Filed souls, now residing in the room ---
@@ -160,7 +163,7 @@ export default class PithReclaimersRoomScene extends GameScene {
             this.addJournalEntry(
                 'pith_room_entered',
                 "The Tribunal's Room",
-                'A hidden reading room beneath the Townhall, off every official record — which, for the Ink Tribunal, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb on its pedestal holds the Tribunal\'s share for every soul I bring into the fold.',
+                'A hidden reading room beneath the Townhall, off every official record — which, for the Ink Tribunal, is the only privacy that survives. Shelved files climb the walls; a clouded glass orb stands on a pedestal.',
                 this.journalSystem.categories.PLACES,
                 { location: "The Tribunal's Room" }
             );

@@ -96,6 +96,7 @@ export default class GodgraveyardScene extends GameScene {
                 options: graveOptions,
                 onTrigger: () => {
                     const id = 'grave_' + g.slug;
+                    if (g.correct) this.addJournalFact('cellar_password_learned', 'laimig', "It is the epitaph of Laimig Cel, the god who lost the game.");
                     if (!this.hasJournalEntry(id)) {
                         this.addJournalEntry(
                             id,
@@ -276,7 +277,7 @@ export default class GodgraveyardScene extends GameScene {
                 this.addJournalEntry(
                     'godgraveyard_gate_seen',
                     'The Sealed Godgraveyard',
-                    'I found the gate to the Godgraveyard beneath the Townhall, but it is sealed. I need the Townhall\'s permission — and Phor Calesta, the divinographer, to get inside.',
+                    'I found the gate to the Godgraveyard, sealed with the Townhall\'s wax. I need the Townhall\'s permission — and Phor Calesta to guide me — to get inside.',
                     this.journalSystem.categories.PLACES,
                     { location: 'Godgraveyard' }
                 );

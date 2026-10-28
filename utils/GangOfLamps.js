@@ -41,18 +41,45 @@ export function meetLamp(scene, id, name) {
         scene.journalSystem.categories.PEOPLE,
         { group: 'Gang of Lamps', character: name }
     );
+    // The first lamp only says it's one of a scattered gang; how many there are and who they are comes
+    // from a lamp's rundown (learnLampFamily), so neither the names nor the count go in up front.
     if (scene.questSystem && !scene.questSystem.getQuest('gang_of_lamps')) {
-        scene.questSystem.addQuest('gang_of_lamps', 'The Gang of Lamps', "A talking street-lamp let me in on a secret: a scattered gang of sentient lamps, unable to move and out of contact with one another. Find all four — Don Girandole, Torchère, Chandelier, and Sconce — so they can speak through me.");
+        scene.questSystem.addQuest('gang_of_lamps', 'The Gang of Lamps', "A talking street-lamp let me in on a secret: it belongs to a scattered gang of sentient lamps, unable to move and out of contact with one another. I should find the others so they can speak through me.");
     }
     const n = lampsFoundCount(scene);
-    if (scene.questSystem?.getQuest('gang_of_lamps')) {
+    const quest = scene.questSystem?.getQuest('gang_of_lamps');
+    if (quest) {
         if (n >= 4) {
-            scene.questSystem.updateQuest('gang_of_lamps', 'All four lamps are found and back in contact through me. Now they have work for me.', 'all_lamps_found');
+            scene.questSystem.updateQuest('gang_of_lamps', 'All four lamps are found and back in contact through me.', 'all_lamps_found');
         } else {
-            scene.questSystem.updateQuest('gang_of_lamps', `I've found ${n} of the 4 lamps.`, flag);
+            const familyKnown = quest.updates.some(u => u.key === 'lamp_family_known');
+            scene.questSystem.updateQuest('gang_of_lamps',
+                familyKnown ? `I've found ${n} of the 4 lamps.` : (n === 1 ? 'One lamp found so far.' : `${n} lamps found so far.`),
+                flag);
         }
     }
     scene.showNotification(`Found a lamp: ${name}`, 0xffcc66);
+}
+
+/**
+ * A lamp has just told the player who the four are and where they stand (its "family" rundown,
+ * or a return-visit reminder). Call from that state's onTrigger. Idempotent; no-op once all are found.
+ */
+export function learnLampFamily(scene) {
+    const quest = scene.questSystem?.getQuest('gang_of_lamps');
+    if (!quest || quest.isComplete || lampsFoundCount(scene) >= 4) return;
+    scene.questSystem.updateQuest('gang_of_lamps', 'There are four lamps in all: the Don, up on the high walkway under Scraper 1140; Chandelier, on a post in the town square; Sconce, by the house of stamps; and Torchère, down by the water where the cargo comes in.', 'lamp_family_known');
+}
+
+/**
+ * A reconnected lamp has just said there'll be work soon (its "connected" greeting). Call from that
+ * state's onTrigger. Idempotent; only before any of the four L2 jobs has been taken.
+ */
+export function lampsHaveWork(scene) {
+    const quest = scene.questSystem?.getQuest('gang_of_lamps');
+    if (!quest || quest.isComplete || gangLampsDestroyed(scene) || lampsFoundCount(scene) < 4) return;
+    if (Object.values(GANG_QUEST_IDS).some(id => scene.questSystem.getQuest(id))) return;
+    scene.questSystem.updateQuest('gang_of_lamps', "The lamps say they'll have work for me soon. I should check back with them.", 'lamps_have_work');
 }
 
 // ============================================================================
@@ -167,12 +194,17 @@ export function grantGangVestigel(scene) {
         icon: 'vestigel',
         stackable: true,
     });
+    // Only worth noting if Kloor has actually told me he's after one. Added before the entry so it
+    // lands silently with it (no second "Journal updated").
+    if (scene.questSystem?.getQuest('the_three_vestigels')) {
+        scene.addJournalFact('gang_vestigel_reward', 'kloor', 'Kloor Venn has been hunting one of these.');
+    }
     scene.addJournalEntry(
         'gang_vestigel_reward',
         'The Lamps\' Vestigel',
         (deceived
-            ? "Don Girandole made good on his promise and gave me a Vestigel — one of the three legendary alive-coins, kept hidden in a gutter for years. He called me the truest friend the family ever had. He does not know that some of what I brought his family was a lie, sold or bought from the very people they asked me to watch. The coin is warm in my hand and I cannot quite meet the little light of him. Kloor Venn has been hunting one of these."
-            : "With all four of his family reconnected and their errands run honestly, Don Girandole made good on his promise: he gave me a Vestigel the Gang had kept hidden in a gutter for years — one of the three legendary alive-coins. Kloor Venn has been hunting one of these."),
+            ? "Don Girandole made good on his promise and gave me a Vestigel — one of the three legendary alive-coins, kept hidden in a gutter for years. He called me the truest friend the family ever had. He does not know that some of what I brought his family was a lie, sold or bought from the very people they asked me to watch. The coin is warm in my hand and I cannot quite meet the little light of him."
+            : "With all four of his family reconnected and their errands run honestly, Don Girandole made good on his promise: he gave me a Vestigel the Gang had kept hidden in a gutter for years — one of the three legendary alive-coins."),
         scene.journalSystem.categories.EVENTS,
         { group: 'Gang of Lamps', related: 'The Three Vestigels' }
     );

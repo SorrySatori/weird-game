@@ -1,6 +1,6 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
-import { createStreetLamp, meetLamp, lampsFoundCount, GANG_QUEST_IDS, gangQuestStatus, eavesdropReportable } from '../utils/GangOfLamps.js'
+import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, eavesdropReportable } from '../utils/GangOfLamps.js'
 
 export default class TownSquareScene extends GameScene {
     constructor() {
@@ -64,14 +64,18 @@ export default class TownSquareScene extends GameScene {
                             { text: "Remind me where to look.", key: 'chandelier_remind', next: "chandelier_lamp_family" },
                             { text: "I'll keep looking.", key: 'chandelier_searching_close', next: "closeDialog" }
                         ]),
-                onTrigger: () => { meetLamp(this, 'chandelier', 'Chandelier'); }
+                onTrigger: () => {
+                    meetLamp(this, 'chandelier', 'Chandelier');
+                    if (chandelierMet && allLampsFound) lampsHaveWork(this);
+                }
             },
             chandelier_lamp_family: {
                 speaker: 'Chandelier',
                 text: `"Who else is out there? There is an old fright of a lamppost who fancies himself a *Don* — perched up on the high walkway under Scraper 1140, all grease and grandeur; do mind your manners with that one. There is a twitchy little *sconce* pinned to a wall in the house of stamps, watching the clerks drown the world in forms — poor nervous thing. And there is a *torchère*, all soot and temper, rusting down by the water among the crates. Find them, won't you? And do report back. I *adore* a returning source."`,
                 options: [
                     { text: "I'll bring you their words.", key: 'chandelier_family_close', next: "closeDialog" }
-                ]
+                ],
+                onTrigger: () => { learnLampFamily(this); }
             },
 
             // ===== L2: Chandelier's quest — "A Choice Morsel" (eavesdrop) =====
@@ -198,7 +202,7 @@ export default class TownSquareScene extends GameScene {
             this.addJournalEntry(
                 'town_square_place',
                 'The Town Square',
-                "The open heart of Upper Morkezela, where paths run out to the Townhall, the harbor, the Lumen Directorate, and down into the Godgraveyard. A busker sings the songs of a dead world for whoever will listen. And something calling itself an 'average, real citizen' loiters here, doing a poor job of pretending to be a man.",
+                "The open heart of Upper Morkezela, where paths run out to the Townhall, the harbor, the Lumen Directorate, and down into the Godgraveyard. A busker plays here for whoever will listen, and a strange metal figure loiters nearby.",
                 this.journalSystem.categories.PLACES,
                 { location: 'Town Square' }
             );
@@ -239,7 +243,10 @@ export default class TownSquareScene extends GameScene {
                         ...(this.registry.get('symbiontSystem')?.nemeCanRead() ? [
                             { text: "Use Neme's power to detect lies and pretense.", key: 'use_nemes_power_to_detect_lies_and_pretense', next: "magnekin_neme_power" }
                         ] : []),
-                    ]
+                    ],
+                onTrigger: () => {
+                    this.addJournalFact('town_square_place', 'magnekin', "The metal figure calls itself Magnekin, 'an average, real citizen' — and does a poor job of pretending to be a man.");
+                }
             },
 
             magnekin_greeting: {
@@ -383,6 +390,37 @@ export default class TownSquareScene extends GameScene {
                     { text: "Let me tell you about the Ur-mushroom.", key: 'let_me_tell_you_about_the_urmushroom', next: "obazoba_ur_mushroom" },
                     { text: "Mushrooms can create their own weather.", key: 'mushrooms_can_create_their_own_weather', next: "obazoba_weather" },
                     { text: "I’m just the apprentice", key: 'im_just_the_apprentice', next: "obazoba_apprentice" },
+                    { text: "Maybe later.", key: 'maybe_later', next: "magnekin_main" }
+                ]
+            },
+            // answers to the Obazoba options above (they used to point at states that didn't exist)
+            obazoba_more: {
+                text: "*He weighs the question with tremendous seriousness; something inside his coat clicks like a thousand tiny abacuses.* \"The official one. No — the fun one. No... Real citizens enjoy fun, I have read that. But they also respect authority. Which one would a real citizen choose? Tell me that one.\"",
+                options: [
+                    { text: "Maybe later.", key: 'maybe_later', next: "magnekin_main" }
+                ]
+            },
+            obazoba_ur_mushroom: {
+                text: "*He listens to all of it without blinking — the Obazoba, the Ur-mushroom, source of all life and all rot, older than every god that ever came here to die.* \"No body at all? Not even a small one?\" *A long magnetic hum.* \"So it is everywhere and nowhere, and everyone agrees to believe in it anyway. How very... civic.\"",
+                options: [
+                    { text: "Maybe later.", key: 'maybe_later', next: "magnekin_main" }
+                ]
+            },
+            obazoba_apprentice: {
+                text: "\"An apprentice! So you know only the beginning of everything.\" *He nods with deep sympathy.* \"I understand completely. I am also only at the beginning of being a citizen. We could practise together. You could practise believing, and I could practise... existing.\" *A pause.* \"Normally. Existing normally.\"",
+                options: [
+                    { text: "Maybe later.", key: 'maybe_later', next: "magnekin_main" }
+                ]
+            },
+            obazoba_moisture: {
+                text: "\"Life breathing.\" *He touches his own cheek, which is perfectly, suspiciously dry.* \"So when it rains, the whole city is... breathing out? Breathing in? I should know which. Every real citizen knows which.\" *Inside him, several thousand tiny voices argue about it in a whisper.*",
+                options: [
+                    { text: "Maybe later.", key: 'maybe_later', next: "magnekin_main" }
+                ]
+            },
+            obazoba_weather: {
+                text: "\"Their own weather!\" *His coat bristles; a few iron filings lift from his sleeves and settle again.* \"And do they make their own magnetic storms too? No — no, of course not, that would be absurd. Nobody makes magnetic storms. Especially not inside a coat.\"",
+                options: [
                     { text: "Maybe later.", key: 'maybe_later', next: "magnekin_main" }
                 ]
             },
@@ -719,7 +757,10 @@ export default class TownSquareScene extends GameScene {
                     { text: "What kind of songs do you play?", key: 'what_kind_of_songs_do_you_play', next: "busker_songs" },
                     { text: "Where did you learn these songs?", key: 'where_did_you_learn_these_songs', next: "busker_learn" },
                     { text: "Maybe later.", key: 'maybe_later', next: null }
-                ]
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('town_square_place', 'busker', "The busker sings the songs of a dead world — melodies that remember when the sky was blue and the air was clean.");
+                }
             },
 
             busker_songs: {

@@ -5,7 +5,7 @@
 export default {
     _speakers: {
         'Phor Calesta': 'Phor Calesta',
-        'Godgraveyard Gate': 'Brána Vaječné katedrály',
+        'Godgraveyard Gate': 'Brána Bohohřbitova',
         'Brine Scripture': 'Solopis',
         'Osswine': 'Osswine',
     },

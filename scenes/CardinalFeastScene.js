@@ -975,21 +975,29 @@ export default class CardinalFeastScene extends Phaser.Scene {
                 "I resumed the Bishop's last session of The Cardinal Feast on Dr. Elphi's repaired cartridge — a small top-down RPG where you play a cannibal cardinal hosting a feast. Its characters remember the Bishop and answered me as if I were her. After the feast resolved, the cartridge collapsed into \"Infinite Fold\": an empty hall with a faceless presence at the head of the table. It is the last thing the Bishop saw before she died.",
                 cat.EVENTS, { location: 'ARB Ambra', character: 'The Bishop', related: 'Dream cartridge' });
         }
-        if (this.journalSystem && !this.journalSystem.hasEntry('bishop_journal_egg_cathedral')) {
+        if (this.learnedEggCathedral && this.journalSystem && !this.journalSystem.hasEntry('bishop_journal_egg_cathedral')) {
             this.journalSystem.addEntry('bishop_journal_egg_cathedral', "The Journal's Hiding Place",
                 "Inside The Cardinal Feast, the characters leaked something they had no business knowing: the Bishop hid the rest of her journal \"somewhere no one would think to look — the Egg Cathedral.\" The game answered because it believed I was her. The missing notebook is at the Egg Cathedral she sealed before she died.",
                 cat.EVENTS, { location: 'Egg Cathedral', character: 'The Bishop', related: "Bishop's notebook" });
         }
         if (this.questSystem) {
+            // The Egg Cathedral only reaches the log if Pim or Quill actually let it slip this run
+            // (the feast can be finished without either); otherwise Dr. Elphi names it afterwards.
             if (this.questSystem.getQuest('who_killed_bishop')) {
                 this.questSystem.updateQuest('who_killed_bishop',
-                    "Dr. Elphi's reconstructed cartridge let me play the Bishop's last session of The Cardinal Feast. Its characters remember her and answered as if I were her — leaking that she hid the rest of her journal at the Egg Cathedral. The session ends in \"Infinite Fold\": the last thing she saw before she died.",
+                    "Dr. Elphi's reconstructed cartridge let me play the Bishop's last session of The Cardinal Feast. Its characters remember her and answered as if I were her. The session ends in \"Infinite Fold\": the last thing she saw before she died.",
                     'cardinal_feast_egg_cathedral_lead');
+                if (this.learnedEggCathedral) {
+                    this.questSystem.updateQuest('who_killed_bishop',
+                        "Inside the game, the characters let slip that the Bishop hid the rest of her journal at the Egg Cathedral.",
+                        'feast_journal_egg_cathedral');
+                }
             }
-            if (this.questSystem.getQuest('find_bishop_notebook')) {
-                this.questSystem.updateQuest('find_bishop_notebook', "The Cardinal Feast revealed the Bishop hid the rest of her notebook at the Egg Cathedral. I should go there.", 'notebook_at_egg_cathedral');
-            } else {
-                this.questSystem.addQuest('find_bishop_notebook', "Find the Bishop's Notebook", "The Cardinal Feast revealed the Bishop hid the rest of her notebook at the Egg Cathedral. I should search there.");
+            if (!this.questSystem.getQuest('find_bishop_notebook')) {
+                this.questSystem.addQuest('find_bishop_notebook', "Find the Bishop's Notebook", "The Bishop used an Official Townhall Report Notebook as a private diary. A torn page about her doppelgänger survived, but the rest of the notebook was never returned to the Townhall. I should find it to learn what happened in her final days.");
+            }
+            if (this.learnedEggCathedral) {
+                this.questSystem.updateQuest('find_bishop_notebook', "The Bishop hid the rest of her notebook at the Egg Cathedral. I should search there.", 'notebook_at_egg_cathedral');
             }
         }
         this.registry.set('cardinal_feast_played', true);
