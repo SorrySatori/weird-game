@@ -158,13 +158,13 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             complete_quest_dispensation: {
-                text: "This is remarkable! A special dispensation is rare indeed. You've saved me hundreds of digestions, possibly thousands, of bureaucratic struggle. Please, take this game piece I've been working on. It's a special 'worldwright' piece that can alter the rules of any game it's placed in. Very useful for creative thinking.",
+                text: "This is remarkable! A special dispensation is rare indeed. You've saved me hundreds of digestions, possibly thousands, of bureaucratic struggle. Here — the rarest thing I own. A Black Cactus, from Absolutely Profane Life: Normality. Once the most expensive card in the game; collectors paid millions of dinars for it at auction. Today it's worth nothing — the makers got so greedy that everyone quit playing. I kept it out of nostalgia. Now it's yours.",
                 options: [
                     { text: "It's beautiful, thank you.", key: 'its_beautiful_thank_you', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'dispensation');
-                    // Add worldwright piece to inventory
+                    // the Black Cactus card
                     this.addItemToInventory(armsReward('special-dispensation'));
                     // Growth reward
                     this.safeModifyGrowthDecay(6, 0);

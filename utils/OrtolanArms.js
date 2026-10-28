@@ -16,9 +16,9 @@ export const ARMS_PAPERWORK = [
     {
         form: 'special-dispensation', growth: 6, decay: 0,
         reward: {
-            id: 'worldwright-piece',
-            name: "Worldwright Game Piece",
-            description: "A special game piece crafted by Ortolan that can alter the rules of any game it's placed in. It seems to glow faintly with possibility.",
+            id: 'black-cactus-card',
+            name: "Black Cactus Card",
+            description: "A Black Cactus from Absolutely Profane Life: Normality, once the most expensive card in the game; collectors would pay millions of dinars for it at auction. Today it's worth nothing: the makers' greed annoyed everyone so much that they stopped playing. Ortolan kept it out of nostalgia.",
             stackable: false
         }
     },

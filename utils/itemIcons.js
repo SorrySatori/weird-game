@@ -45,7 +45,7 @@ export const ITEM_ICONS = [
     { key: 'silent-sentence',           path: 'assets/images/items/silent-sentence.png' },
     // ... and his gifts for it (game pieces = another)
     { key: 'game-prototype',            path: 'assets/images/items/game-prototype.png' },
-    { key: 'worldwright-piece',         path: 'assets/images/items/worldwright-piece.png' },
+    { key: 'black-cactus-card',         path: 'assets/images/items/black-cactus-card.png' },        // once worth millions
     { key: 'probability-die',           path: 'assets/images/items/probability-die.png' },
     { key: 'hopsalot-figurine',         path: 'assets/images/items/hopsalot-figurine.png' },        // Maxim Hopsalot, sans six-pack
     { key: 'fate-altering-piece',       path: 'assets/images/items/fate-altering-piece.png' },

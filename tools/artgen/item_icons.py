@@ -329,19 +329,36 @@ def game_prototype(ic):
     for x in range(15, 22, 2): ic.put(x, 43, TEXT)
     ic.outline()
 
-def worldwright_piece(ic):
-    # a tall polished-wood king piece; a green gem in its crown glows with possibility
-    ic.ell(30, 50, 11, 3.5, lambda x, y: pick(WOOD, 2.2 - (x - 30) / 12))                   # base
-    ic.rect(20, 46, 40, 49, lambda x, y: pick(WOOD, 3 - (x - 20) / 10))
-    ic.poly([(23, 46), (37, 46), (34, 40), (26, 40)], lambda x, y: pick(WOOD, 3.4 - (x - 23) / 8))
-    ic.poly([(26, 40), (34, 40), (33, 22), (27, 22)], lambda x, y: pick(WOOD, 3.6 - (x - 26) / 4))   # body
-    ic.ell(30, 21, 6, 2, lambda x, y: pick(WOOD, 3 - (x - 25) / 6))                         # collar
-    ic.poly([(25, 19), (35, 19), (37, 11), (33, 14), (30, 9), (27, 14), (23, 11)], lambda x, y: pick(BRASS, 3.6 - (x - 23) / 8))  # crown
-    ic.ell(30, 15, 2, 2, lambda x, y: GREEN[3 if (x, y) != (31, 16) else 2])                # the gem
-    ic.put(29, 14, GREEN[4])
-    for y in range(24, 39, 3): ic.put(28, y, pick(WOOD, 4))                                   # grain highlight
+def black_cactus_card(ic):
+    # the Black Cactus from Absolutely Profane Life: Normality -- a black-bordered card in a collector's toploader:
+    # a black saguaro against a violet dusk in the art box, a title bar, a rules box, a rarity gem
+    BLK = ramp('#0c0c0e #1a1a1e #2a2a30')
+    FRM = ramp('#4a3a28 #7a6440 #a88c5a #cdb382')
+    SKY = ramp('#1a1030 #34205a #5a3a86 #8a5aa8 #c08ab8')
+    x0, y0, x1, y1 = 15, 7, 45, 52
+    ic.rect(x0 - 2, y0 - 2, x1 + 2, y1 + 2, lambda x, y: hx('#9aa6a8')[:3] + (110,))            # the toploader
+    ic.rect(x0, y0, x1, y1, lambda x, y: pick(BLK, 1.2 - (x - x0 + y - y0) / 80))                # black border
+    ic.rect(x0 + 2, y0 + 2, x1 - 2, y1 - 2, lambda x, y: pick(FRM, 2.4 - (y - y0) / 50))         # inner frame
+    ic.rect(x0 + 3, y0 + 3, x1 - 3, y0 + 6, lambda x, y: pick(FRM, 3.4))                         # title bar
+    for x in range(x0 + 4, x0 + 20, 2): ic.put(x, y0 + 5, BLK[0])                                 # BLACK CACTUS
+    ic.ell(x1 - 6, y0 + 5, 1.4, 1.4, hx('#2a6a3a'))                                              # its cost
+    ic.rect(x0 + 3, y0 + 8, x1 - 3, y0 + 26, lambda x, y: pick(SKY, 4.2 - (y - y0 - 8) / 4.5))   # the art: dusk
+    for (sx, sy) in ((x0 + 6, y0 + 11), (x1 - 7, y0 + 10), (x0 + 12, y0 + 9)): ic.put(sx, sy, hx('#e8d8f0'))
+    ic.rect(x0 + 3, y0 + 24, x1 - 3, y0 + 26, lambda x, y: pick(BLK, 2))                          # dark ground
+    cx = (x0 + x1) // 2
+    ic.rect(cx - 1, y0 + 12, cx + 1, y0 + 25, BLK[0])                                             # the saguaro
+    ic.rect(cx - 6, y0 + 16, cx - 4, y0 + 21, BLK[0]); ic.rect(cx - 6, y0 + 20, cx - 1, y0 + 21, BLK[0])
+    ic.rect(cx + 4, y0 + 14, cx + 6, y0 + 19, BLK[0]); ic.rect(cx + 1, y0 + 18, cx + 6, y0 + 19, BLK[0])
+    for (px, py) in ((cx - 1, y0 + 12), (cx - 6, y0 + 16), (cx + 4, y0 + 14)): ic.put(px + 1, py, SKY[4])   # rim light
+    ic.put(cx, y0 + 11, hx('#c84a8a'))                                                            # one flower
+    ic.rect(x0 + 3, y0 + 28, x1 - 3, y0 + 29, lambda x, y: pick(FRM, 3.6))                       # type line
+    ic.rect(x0 + 3, y0 + 31, x1 - 3, y1 - 5, lambda x, y: pick(PAPER, 3.4))                       # rules box
+    text_lines(ic, x0 + 5, x1 - 5, [y0 + 33, y0 + 35, y0 + 37, y0 + 40], col=TEXT, seed=61)
+    ic.put(cx, y1 - 3, hx('#e0a030')); ic.put(cx - 1, y1 - 3, hx('#a06a20'))                     # rarity gem
+    for i in range(9):                                                                            # toploader shine
+        for (x, y) in ((x0 + 1 + i, y0 + 9 - i), (x0 + 1 + i, y0 + 12 - i)):
+            ic.put(x, y, mix(ic.get(x, y) or BLK[1], hx('#ffffff'), 0.35))
     ic.outline()
-    ic.glow(GREEN[3], r=3, a=0.35)
 
 def probability_die(ic):
     # a bone d6 in 3/4 -- the top face shows seven pips, which a die shouldn't
@@ -468,7 +485,7 @@ ICONS = [
     ('rulebook-fragment', rulebook_fragment),
     ('silent-sentence', silent_sentence),
     ('game-prototype', game_prototype),
-    ('worldwright-piece', worldwright_piece),
+    ('black-cactus-card', black_cactus_card),
     ('probability-die', probability_die),
     ('hopsalot-figurine', hopsalot_figurine),
     ('fate-altering-piece', fate_altering_piece),

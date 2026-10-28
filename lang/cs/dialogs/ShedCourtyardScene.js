@@ -91,7 +91,7 @@ export default {
         options: { thank_you_for_this_gift: "Děkuji za ten dar." }
     },
     complete_quest_dispensation: {
-        text: "To je pozoruhodné! Zvláštní dispens je vskutku vzácnost. Ušetřil jste mi stovky trávení, možná tisíce, handrkování s úředníky. Prosím, vezměte si tuhle figurku, na které pracuju. Je to zvláštní figurka „Světotvůrce“, která dokáže změnit pravidla jakékoli hry, do níž ji postavíte. Velmi užitečná pro tvůrčí myšlení.",
+        text: "To je pozoruhodné! Zvláštní dispens je vskutku vzácnost. Ušetřil jste mi stovky trávení, možná tisíce, handrkování s úředníky. Tady – ta nejvzácnější věc, co mám. Black Cactus ze hry Absolutely Profane Life: Normality. Kdysi nejdražší karta celé hry, sběratelé za ni v aukcích platili miliony dinárů. Dneska nemá cenu žádnou – autoři byli tak nenasytní, že to všechny naštvalo a hru přestali hrát. Nechal jsem si ji z nostalgie. Teď je vaše.",
         options: { its_beautiful_thank_you: "Je nádherná, děkuji." }
     },
     complete_quest_temporary: {
