@@ -301,29 +301,32 @@ def market_map(ic):
     ic.outline()
 
 def game_prototype(ic):
-    # a hand-made board-game box in 3/4: cardboard sides with a label, a lid printed with a checkered board,
-    # two pawns standing on it that won't sit still
-    BOX = ramp('#2a1c12 #4a3220 #6e4c2e #94683e #b88a56')
+    # Ortolan's prototype "Sects & Stakes": a box in 3/4 whose lid shows a cat idol with a golden halo and a ring of
+    # hooded cultists; a cat meeple (the winning strategy) and a robed cultist pawn stand on top
+    BOX = ramp('#2a1014 #4a1c22 #6e2c30 #944040')
+    LID = ramp('#1a1024 #2c1a3c #44285a #5e3a7a')
+    CAT = ramp('#141218 #2a2630 #45404c')
     ic.poly([(9, 29), (28, 39), (28, 51), (9, 41)], lambda x, y: pick(BOX, 2.8 - (y - 29) / 24))          # left side
-    ic.poly([(28, 39), (51, 27), (51, 39), (28, 51)], lambda x, y: pick(BOX, 1.6 - (x - 28) / 50))         # right side
-    ic.poly([(9, 27), (30, 16), (51, 25), (28, 37)], lambda x, y: pick(TEAL, 2.4))                          # the lid
-    L_, T_, B_ = (9, 27), (30, 16), (28, 37)                                                               # checkered board:
-    ax, ay, bx, by = T_[0] - L_[0], T_[1] - L_[1], B_[0] - L_[0], B_[1] - L_[1]                            # lid coords (a, b)
-    det = ax * by - ay * bx
-    for y in range(16, 38):
-        for x in range(9, 52):
-            if ic.get(x, y) != pick(TEAL, 2.4): continue
-            dx, dy = x + 0.5 - L_[0], y + 0.5 - L_[1]
-            a_, b_ = (dx * by - dy * bx) / det, (ax * dy - ay * dx) / det
-            if 0.12 < a_ < 0.88 and 0.12 < b_ < 0.88:
-                ic.put(x, y, pick(BONE, 3.2) if (int((a_ - 0.12) / 0.76 * 5) + int((b_ - 0.12) / 0.76 * 5)) % 2 else pick(TEAL, 1.2))
-    for i in range(23): ic.put(9 + i, 28 + i * 10 // 21, pick(TEAL, 3.4)); ic.put(28 + i, 38 - i * 12 // 23, pick(TEAL, 1))   # lid lip
-    ic.rect(14, 41, 22, 45, lambda x, y: pick(PAPER, 3.6))                                                  # label
+    ic.poly([(28, 39), (51, 27), (51, 39), (28, 51)], lambda x, y: pick(BOX, 1.4 - (x - 28) / 50))         # right side
+    ic.poly([(9, 27), (30, 16), (51, 25), (28, 37)], lambda x, y: pick(LID, 2.6 - (x - 9) / 60))           # the lid
+    for i in range(22): ic.put(10 + i, 27 - i // 2, pick(BRASS, 3)); ic.put(29 + i, 36 - (i * 11) // 22, pick(BRASS, 1))   # gilt edges
+    for i in range(23): ic.put(9 + i, 28 + (i * 10) // 22, pick(LID, 3.4)); ic.put(28 + i, 38 - (i * 12) // 23, pick(BOX, 0.4))   # lid lip
+    cx, cy = 30, 26                                                                                        # the cat idol...
+    for a_ in range(20):                                                                                   # ...its halo
+        t = a_ * math.pi / 10; ic.put(round(cx + 5.5 * math.cos(t)), round(cy - 1 + 3.2 * math.sin(t)), pick(BRASS, 4 if math.sin(t) < 0 else 3))
+    ic.ell(cx, cy, 2.6, 2.2, lambda x, y: pick(CAT, 1.6))
+    ic.put(cx - 2, cy - 3, pick(CAT, 1)); ic.put(cx + 2, cy - 3, pick(CAT, 1))                          # ears
+    ic.put(cx - 1, cy - 1, hx('#e0c040')); ic.put(cx + 1, cy - 1, hx('#e0c040'))                         # eyes
+    for (px, py) in ((19, 27), (23, 31), (37, 30), (41, 25), (25, 22), (35, 21)):                          # hooded cultists
+        ic.put(px, py, RED[3]); ic.put(px, py + 1, RED[2])
+    # a robed cultist pawn on the left, a cat meeple on the right
+    ic.poly([(14, 25), (17, 25), (18, 28), (13, 28)], lambda x, y: pick(RED, 3 - (x - 13) / 4))
+    ic.ell(15.5, 23, 1.6, 1.6, lambda x, y: pick(RED, 3.4)); ic.put(15, 23, pick(RED, 1))
+    ic.rect(42, 15, 46, 20, lambda x, y: pick(CAT, 2 - (x - 42) / 4))
+    ic.put(42, 14, pick(CAT, 2)); ic.put(46, 14, pick(CAT, 1)); ic.put(43, 16, hx('#e0c040')); ic.put(45, 16, hx('#e0c040'))
+    ic.line(47, 19, 49, 16, pick(CAT, 1))                                                                  # its tail
+    ic.rect(14, 41, 22, 45, lambda x, y: pick(PAPER, 3.6))                                                 # label
     for x in range(15, 22, 2): ic.put(x, 43, TEXT)
-    def pawn(px, py, r):
-        ic.ell(px, py - 6, 2.2, 2.2, lambda x, y: pick(r, 3.6 - (x - px + y - py + 8) / 3))
-        ic.poly([(px - 1, py - 4), (px + 2, py - 4), (px + 3, py), (px - 2, py)], lambda x, y: pick(r, 3 - (x - px) / 3))
-    pawn(25, 25, BONE); pawn(36, 24, RUST)
     ic.outline()
 
 def worldwright_piece(ic):
@@ -354,25 +357,53 @@ def probability_die(ic):
     ic.outline()
     ic.glow(VIOL[2], r=2, a=0.25)
 
-def luck_token(ic):
-    # a honey-wood token face on, a carved four-leaf sign in a groove ring; two more lie stacked behind it
-    HW = ramp('#3a2410 #6a4220 #9a6a36 #c8945a #e8bc84')
-    for (cx, cy) in ((19, 47), (21, 43)):                                                        # the stack behind
-        ic.ell(cx, cy + 2, 10, 3.4, lambda x, y: pick(HW, 1))
-        ic.ell(cx, cy, 10, 3.4, lambda x, y, cx=cx: pick(HW, 3.2 - (x - cx + 10) / 12))
-    cx, cy, r = 35, 29, 14
-    ic.ell(cx + 2, cy + 2, r, r, lambda x, y: pick(HW, 1))                                       # its edge (thickness)
-    ic.ell(cx, cy, r, r, lambda x, y: pick(HW, 3.6 - (x - cx + r) / 36 - (y - cy + r) / 36))   # a flat face
-    for a_ in range(48):                                                                         # the groove ring
-        t = a_ * math.pi / 24
-        ic.put(round(cx + 10.5 * math.cos(t)), round(cy + 10.5 * math.sin(t)), pick(HW, 1 + (math.cos(t) + math.sin(t) < -0.6)))
-    for (dx, dy) in ((-3, -3), (3, -3), (-3, 3), (3, 3)):                                        # four leaves, carved
-        ic.ell(cx + dx, cy + dy, 3.1, 3.1, pick(HW, 1))
-        ic.ell(cx + dx + 0.5, cy + dy + 0.5, 1.6, 1.6, pick(HW, 2))
-    ic.line(cx, cy, cx + 4, cy + 8, pick(HW, 0))                                                 # the stem
-    for (dx, dy) in ((-3, -3), (3, -3), (-3, 3), (3, 3)):                                        # their lit far rims
-        ic.put(cx + dx + 2, cy + dy + 2, pick(HW, 4)); ic.put(cx + dx + 3, cy + dy + 1, pick(HW, 4))
+def hopsalot_figurine(ic):
+    # a collector's box with a window: Maxim Hopsalot, patron of Lagerlandia -- hop-cone crown, foam beard, a raised
+    # tankard -- and beside it the empty plastic rings of the six-pack Ortolan drank
+    BOXC = ramp('#1a1e3a #2a3060 #3c4688 #5662b0')
+    HOP = ramp('#1f3a14 #35601f #548a2c #7fb444')
+    TUN = ramp('#3a2a10 #6a4a1a #9a7028 #c89a40')
+    SKN = ramp('#5a3a2a #8a5a40 #b88060 #dca888')
+    FOAM = ramp('#8a8878 #c8c4b0 #f0ece0')
+    ic.poly([(9, 8), (12, 5), (40, 5), (37, 8)], lambda x, y: pick(BOXC, 3))                     # box top
+    ic.poly([(37, 8), (40, 5), (40, 49), (37, 52)], lambda x, y: pick(BOXC, 0.6))                # box side
+    ic.rect(9, 8, 37, 52, lambda x, y: pick(BOXC, 2.2 - (x - 9) / 40))                           # box front
+    ic.rect(10, 9, 36, 14, lambda x, y: pick(BRASS, 3.4 - (y - 9) / 6))                          # gold header
+    for x in range(13, 34, 2): ic.put(x, 11, pick(BRASS, 1) if x % 4 else RED[2])              # the brand
+    ic.rect(12, 17, 34, 48, lambda x, y: pick(BOXC, 0.4))                                        # the window's inside
+    # Maxim Hopsalot on his plinth
+    ic.rect(17, 45, 29, 47, lambda x, y: pick(STEEL, 2.6 - (x - 17) / 10))
+    ic.ell(23, 38, 6.5, 7, lambda x, y: pick(TUN, 3.4 - (x - 17) / 7 - (y - 31) / 14))         # round body
+    ic.rect(18, 37, 28, 38, pick(TUN, 0.8))                                                      # belt
+    ic.put(23, 37, pick(BRASS, 4)); ic.put(23, 38, pick(BRASS, 3))
+    ic.ell(23, 27, 3.6, 3.6, lambda x, y: pick(SKN, 3.2 - (x - 20) / 5))                        # head
+    ic.put(22, 26, INK); ic.put(25, 26, INK)                                                     # merry eyes
+    ic.ell(23, 30.5, 3.6, 2.6, lambda x, y: pick(FOAM, 2.4 - (x - 20) / 6))                     # a beard like foam
+    for (hx_, hy_) in ((20, 22), (23, 21), (26, 22)):                                            # crown of hop cones
+        ic.ell(hx_, hy_, 1.4, 1.9, lambda x, y: pick(HOP, 3 - (y - 20) / 2))
+        ic.put(hx_, hy_ - 2, pick(HOP, 1))
+    ic.rect(29, 28, 32, 33, lambda x, y: pick(BRASS, 3.2 - (x - 29) / 3))                       # the tankard
+    ic.rect(29, 27, 32, 27, pick(FOAM, 2)); ic.put(30, 26, pick(FOAM, 2))
+    ic.put(33, 30, pick(BRASS, 1)); ic.put(33, 31, pick(BRASS, 1))
+    ic.line(28, 33, 29, 31, pick(SKN, 2))                                                        # his raised arm
+    for i in range(5):                                                                           # plastic shine, in the corner
+        for (x, y) in ((13 + i, 22 - i), (13 + i, 25 - i)): ic.put(x, y, mix(ic.get(x, y) or BOXC[1], GLASS[4], 0.5))
     ic.outline()
+    # the empty six-pack rings, lying next to the box
+    rings = {}
+    for r_ in range(2):
+        for c_ in range(3):
+            cx, cy = 44 + c_ * 6 - r_ * 3, 47 + r_ * 5
+            for y in range(cy - 3, cy + 4):
+                for x in range(cx - 4, cx + 5):
+                    d = ((x - cx) / 3.3) ** 2 + ((y - cy) / 2.3) ** 2
+                    if 0.45 <= d <= 1.0: rings[(x, y)] = hx('#d4d8d2') if y <= cy else hx('#8e968e')
+    for p, c in rings.items():
+        if p not in ic.px or ic.px[p] == INK: ic.put(*p, c)
+    for (x, y) in list(rings):
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            q = (x + dx, y + dy)
+            if q not in rings and q not in ic.px: ic.put(*q, INK)
 
 def fate_altering_piece(ic):
     # an obsidian spire piece with one eye; it gives off an unsettling violet-red light
@@ -439,7 +470,7 @@ ICONS = [
     ('game-prototype', game_prototype),
     ('worldwright-piece', worldwright_piece),
     ('probability-die', probability_die),
-    ('luck-token', luck_token),
+    ('hopsalot-figurine', hopsalot_figurine),
     ('fate-altering-piece', fate_altering_piece),
     ('chrono-slurry-toadlet', chrono_slurry_toadlet),
     ('corrosive_cultivar', corrosive_cultivar),

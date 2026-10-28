@@ -8,8 +8,8 @@ export const ARMS_PAPERWORK = [
         form: 'artisan-exemption-form', growth: 5, decay: 0,
         reward: {
             id: 'game-prototype',
-            name: "Ortolan's Game Prototype",
-            description: "A prototype board game with semi-sentient pieces that respond to your thoughts. The rules seem to shift when you're not looking.",
+            name: "Sects & Stakes Prototype",
+            description: "A prototype of Ortolan's game Sects & Stakes, in which you try to found your own sect. It looks great fun, but Ortolan hasn't quite balanced the part where your most devoted follower can split off and found an ultra-orthodox wing inside the sect. On the other hand, he nailed the feature where cats can become the main object of worship, which is a good strategy for winning.",
             stackable: false
         }
     },
@@ -34,11 +34,10 @@ export const ARMS_PAPERWORK = [
     {
         form: 'temporary-permit', growth: 3, decay: 0,
         reward: {
-            id: 'luck-token',
-            name: "Minor Luck Token",
-            description: "A simple wooden token crafted by Ortolan that seems to slightly influence probability in games of chance.",
-            stackable: true,
-            quantity: 3
+            id: 'hopsalot-figurine',
+            name: "Collectible Maxim Hopsalot Figurine",
+            description: "A collectible figurine of Maxim Hopsalot, patron of Lagerlandia. The original packaging came with a six-pack of beer, which Ortolan has apparently drunk.",
+            stackable: false
         }
     },
     {

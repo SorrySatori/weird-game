@@ -83,7 +83,7 @@ export default {
         options: { sorry_its_not_better: "Mrzí mě, že to není lepší." }
     },
     complete_quest_artisan: {
-        text: "Prokázal jste mi neuvěřitelnou službu! Tenhle formulář je přesně to, co jsem potřeboval. Jako projev díků prosím přijměte prototyp mé nejnovější hry. Ještě je ve vývoji, ale jádro mechanik je hotové. Figurky reagují na vaše myšlenky – tak si dávejte pozor, co si přejete!",
+        text: "Prokázal jste mi neuvěřitelnou službu! Tenhle formulář je přesně to, co jsem potřeboval. Jako projev díků přijměte prototyp mé nejnovější hry – Sekty a sázky. Zakládáte v ní vlastní sektu. Část, kdy se vám ten nejvěrnější odštěpí a založí si uvnitř sekty ultraortodoxní křídlo, ještě nemám úplně vyladěnou. Ale kočky se mi povedly. Udělejte z nich hlavní předmět uctívání a máte napůl vyhráno.",
         options: { thank_you_ill_treasure_it: "Děkuji, budu si toho vážit." }
     },
     complete_quest_deformity: {
@@ -95,8 +95,8 @@ export default {
         options: { its_beautiful_thank_you: "Je nádherná, děkuji." }
     },
     complete_quest_temporary: {
-        text: "Není to ideální, ale je to začátek! Vážím si vaší snahy. Tady, vezměte si tenhle žeton – není to nic velkého, ale možná vám přinese trochu štěstí. Je ze zvláštního dřeva, které jakoby v hazardních hrách lehce naklánělo pravděpodobnost.",
-        options: { thank_you_for_the_token: "Děkuji za žeton." }
+        text: "Není to ideální, ale je to začátek! Vážím si vaší snahy. Tady – sběratelská figurka Maxima Hopsalota, patrona Lagerlandie. V originálním balení! Teda... původně k ní patřil sixpack. Na ten se radši neptejte.",
+        options: { thank_you_for_the_figurine: "Děkuji za figurku." }
     },
     give_forged_permission: {
         text: "Je tohle... počkat, to je padělek! Ale... vlastně docela působivý. Pečeť vypadá opravdově, vodoznaky jsou dokonalé a podpis... no, ten je lepší než originál. Kde jste to vzal?",

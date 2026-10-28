@@ -47,7 +47,7 @@ export const ITEM_ICONS = [
     { key: 'game-prototype',            path: 'assets/images/items/game-prototype.png' },
     { key: 'worldwright-piece',         path: 'assets/images/items/worldwright-piece.png' },
     { key: 'probability-die',           path: 'assets/images/items/probability-die.png' },
-    { key: 'luck-token',                path: 'assets/images/items/luck-token.png' },
+    { key: 'hopsalot-figurine',         path: 'assets/images/items/hopsalot-figurine.png' },        // Maxim Hopsalot, sans six-pack
     { key: 'fate-altering-piece',       path: 'assets/images/items/fate-altering-piece.png' },
     // faction errands
     { key: 'chrono-slurry-toadlet',     path: 'assets/images/items/chrono-slurry-toadlet.png' },     // prophetic toad in a brass jar

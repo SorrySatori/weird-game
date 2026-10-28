@@ -131,13 +131,13 @@ export default class ShedCourtyardScene extends GameScene {
             },
             // Quest completion dialogs with rewards
             complete_quest_artisan: {
-                text: "You've done me an incredible service! This form is exactly what I needed. As a token of my gratitude, please accept this prototype of my latest game. It's still in development, but the core mechanics are solid. The pieces respond to your thoughts — just be careful what you wish for!",
+                text: "You've done me an incredible service! This form is exactly what I needed. As thanks, please take the prototype of my latest game — Sects & Stakes. You found your own sect in it. The part where your most devoted follower splits off and starts an ultra-orthodox wing inside your sect isn't quite balanced yet. But the cats came out beautifully. Make them the object of worship and you're halfway to winning.",
                 options: [
                     { text: "Thank you, I'll treasure it.", key: 'thank_you_ill_treasure_it', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'artisan');
-                    // Add game prototype to inventory
+                    // Sects & Stakes, the prototype
                     this.addItemToInventory(armsReward('artisan-exemption-form'));
                     // Growth reward
                     this.safeModifyGrowthDecay(5, 0);
@@ -172,13 +172,13 @@ export default class ShedCourtyardScene extends GameScene {
             },
             complete_quest_temporary: {
         
-                text: "It's not ideal, but it's a start! I appreciate your efforts. Here, take this token — it's not much, but it might bring you a bit of luck. It's made from a special wood that seems to influence probability slightly in games of chance.",
+                text: "It's not ideal, but it's a start! I appreciate your efforts. Here — a collectible Maxim Hopsalot, patron of Lagerlandia. In the original packaging! Well... it originally came with a six-pack. Better not ask about the six-pack.",
                 options: [
-                    { text: "Thank you for the token.", key: 'thank_you_for_the_token', next: "quest_completed" }
+                    { text: "Thank you for the figurine.", key: 'thank_you_for_the_figurine', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'temporary');
-                    // Add luck token to inventory
+                    // Maxim Hopsalot, minus his six-pack
                     this.addItemToInventory(armsReward('temporary-permit'));
                     // Growth reward
                     this.safeModifyGrowthDecay(3, 0);
