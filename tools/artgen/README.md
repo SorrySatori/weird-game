@@ -424,3 +424,16 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 Layers: ground, water, roads, shadows, forests + town, landmarks, lights, **UPRAVY - kresli sem** (under the vignette, so
 hand edits get the same edge shading), vignette (translucent black), frame; `VODITKA … (neexportovat)` is hidden: red
 rings = MapUI node circles, cyan boxes = their labels, yellow lines = title band / legend band.
+
+## Inventory icons (the demo items that had the lettered-circle placeholder)
+`item_icons.py` draws 60×60 icons (transparent, shown 1:1) in the look of the hand-drawn key / Oltrac jars / cartridge:
+light from the top left, a 1 px dark outline; families share helpers (official forms = paper + header + stamp, Ortolan's
+gifts = game pieces). File name = item id; `utils/itemIcons.js` registers them (LoadingScene loads them game-wide).
+```
+python3 item_icons.py <outdir>       # -> <id>.png per icon, icons.txt (frame order), sheet.png (4x preview)
+# build the Aseprite source (OVERWRITES assets/aseprite/UI_ItemIcons_60x60.aseprite, incl. its UPRAVY layer):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script tools/artgen/item_icons_aseprite.lua
+# export into the game (merges UPRAVY; one PNG per frame tag = item id) -- run this after hand edits in Aseprite:
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/items --script tools/artgen/item_icons_export.lua
+```
+A new icon = a function + a line in `ICONS`, then a line in `utils/itemIcons.js`.

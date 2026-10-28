@@ -31,29 +31,39 @@ export const ITEM_ICONS = [
     { key: 'dream_cartridge',         path: 'assets/images/items/dream_cartridge.png' },// "The Cardinal Feast" cartridge (the Bishop's last game)
     { key: 'ampule',                  path: 'assets/images/items/ampule.png' },         // sealed glass ampule — Zerren's sound recordings (shared icon, tinted per item)
 
-    // --- Remaining inventory placeholders — uncomment each as you draw it ---
-    // Story / quest items:
-    // { key: 'chrono-slurry-toadlet',     path: 'assets/images/items/chrono-slurry-toadlet.png' },   // prophetic toad in a brass jar
-    // { key: 'corrosive_cultivar',        path: 'assets/images/items/corrosive_cultivar.png' },       // rot-plant that eats metal
+    // --- Demo items, generated pixel art (tools/artgen/item_icons.py -> assets/aseprite/UI_ItemIcons_60x60.aseprite) ---
+    { key: 'pliers',                    path: 'assets/images/items/pliers.png' },                    // for the Living Core
+    { key: 'forgotten_elevator_button', path: 'assets/images/items/forgotten_elevator_button.png' }, // Zerren -> Lift-Mother
+    { key: 'market_map',                path: 'assets/images/items/market_map.png' },
+    // Ortolan's "extra arms" paperwork (forms = one visual family) ...
+    { key: 'artisan-exemption-form',    path: 'assets/images/items/artisan-exemption-form.png' },
+    { key: 'deformity-form',            path: 'assets/images/items/deformity-form.png' },
+    { key: 'special-dispensation',      path: 'assets/images/items/special-dispensation.png' },
+    { key: 'temporary-permit',          path: 'assets/images/items/temporary-permit.png' },
+    { key: 'forged-arms-permission',    path: 'assets/images/items/forged-arms-permission.png' },
+    { key: 'rulebook-fragment',         path: 'assets/images/items/rulebook-fragment.png' },
+    { key: 'silent-sentence',           path: 'assets/images/items/silent-sentence.png' },
+    // ... and his gifts for it (game pieces = another)
+    { key: 'game-prototype',            path: 'assets/images/items/game-prototype.png' },
+    { key: 'worldwright-piece',         path: 'assets/images/items/worldwright-piece.png' },
+    { key: 'probability-die',           path: 'assets/images/items/probability-die.png' },
+    { key: 'luck-token',                path: 'assets/images/items/luck-token.png' },
+    { key: 'fate-altering-piece',       path: 'assets/images/items/fate-altering-piece.png' },
+    // faction errands
+    { key: 'chrono-slurry-toadlet',     path: 'assets/images/items/chrono-slurry-toadlet.png' },     // prophetic toad in a brass jar
+    { key: 'corrosive_cultivar',        path: 'assets/images/items/corrosive_cultivar.png' },        // rot-plant that eats metal
+
+    // --- Older art some scenes loaded only for themselves: registered here so the icon also shows after loading
+    //     a save in another scene ---
+    { key: 'vestigel',                  path: 'assets/images/items/vestigel.png' },
+    { key: 'rust_feast',                path: 'assets/images/items/rust_feast.png' },
+    { key: 'living-core',               path: 'assets/images/characters/living-core.png' },
+    { key: 'oil',                       path: 'assets/images/items/oil.png' },
+    { key: 'metal_scrap',               path: 'assets/images/items/metal_scrap.png' },
+    { key: 'redmass',                   path: 'assets/images/items/redmass.png' },
+
+    // --- Still placeholders (outside the demo) — uncomment each as you draw it ---
     // { key: 'godgraveyard-access-permit',path: 'assets/images/items/godgraveyard-access-permit.png' },
-    // { key: 'forged-arms-permission',    path: 'assets/images/items/forged-arms-permission.png' },
-    // Ortolan "extra arms" quest chain (forms = one visual family; game pieces = another):
-    // { key: 'game-prototype',            path: 'assets/images/items/game-prototype.png' },
-    // { key: 'probability-die',           path: 'assets/images/items/probability-die.png' },
-    // { key: 'worldwright-piece',         path: 'assets/images/items/worldwright-piece.png' },
-    // { key: 'luck-token',                path: 'assets/images/items/luck-token.png' },
-    // { key: 'strategy-guide',            path: 'assets/images/items/strategy-guide.png' },
-    // { key: 'fate-altering-piece',       path: 'assets/images/items/fate-altering-piece.png' },
-    // { key: 'creative-spores',           path: 'assets/images/items/creative-spores.png' },
-    // { key: 'rulebook-fragment',         path: 'assets/images/items/rulebook-fragment.png' },
-    // { key: 'silent-sentence',           path: 'assets/images/items/silent-sentence.png' },
-    // { key: 'artisan-exemption-form',    path: 'assets/images/items/artisan-exemption-form.png' },
-    // { key: 'deformity-form',            path: 'assets/images/items/deformity-form.png' },
-    // { key: 'special-dispensation',      path: 'assets/images/items/special-dispensation.png' },
-    // { key: 'temporary-permit',          path: 'assets/images/items/temporary-permit.png' },
-    // Voxmarket shop stock:
-    // { key: 'trinket_box',               path: 'assets/images/items/trinket_box.png' },
-    // { key: 'crystal_vial',              path: 'assets/images/items/crystal_vial.png' },
-    // { key: 'market_map',                path: 'assets/images/items/market_map.png' },
-    // { key: 'forgotten_elevator_button', path: 'assets/images/items/forgotten_elevator_button.png' },
+    // { key: 'filed_dossier',             path: 'assets/images/items/filed_dossier.png' },
+    // { key: 'wimlick',                   path: 'assets/images/items/wimlick.png' },
 ];
