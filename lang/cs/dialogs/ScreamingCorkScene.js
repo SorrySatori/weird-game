@@ -15,6 +15,7 @@ export default {
             what_do_you_know_about_the_burning_bear_festival: "Co víte o Festivalu hořícího medvěda?",
             im_looking_for_a_vestigel_i_heard_you_might_have_o: "Hledám vestigel, slyšel jsem, že byste mohl jeden mít.",
             lets_start_with_some_inspirational_topics: "Pojďme vymyslet nějaká inspirativní témata.",
+            how_is_the_novel: "Tak co román?",
             read_me_from_your_book: "Přečtěte mi něco z vaší knihy.",
             edgar_cathedral_ask: "[Než vejdu do katedrály] Pracoval jste v tomhle městě všude možně. Existuje nějaká jiná cesta do Vaječné katedrály, o které třeba nikdo moc neví?"
         }
@@ -202,13 +203,14 @@ export default {
     },
     edgar_book_excerpt_ending: {
         options: {
-            what_will_the_critics_say: "Co na to řeknou kritici?"
-        }
-    },
-    edgar_book_critics: {
-        options: {
             i_look_forward_to_reading_it: "Těším se, až si to přečtu",
             thanks_edgar_book: "Díky, Edgare."
+        }
+    },
+    edgar_book_news: {
+        options: {
+            congratulations_edgar: "Gratuluju, Edgare.",
+            read_me_from_your_book: "Přečtěte mi z ní ještě něco."
         }
     },
     edgar_book_reread: {
@@ -216,7 +218,7 @@ export default {
             read_opening_again: "Začátek.",
             read_middle_again: "Prostředek.",
             read_ending_again: "Konec.",
-            read_reviews_again: "Recenze.",
+            read_reviews_again: "Co o ní říkají lidi?",
             back_to_other_topics: "Zeptej se na něco jiného"
         }
     },

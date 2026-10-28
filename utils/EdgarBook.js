@@ -44,15 +44,24 @@ export function newBookSeed() {
     return Math.floor(Math.random() * 2147483647);
 }
 
-export function render(tpl, roles, lang) {
+const NAME_FIELDS = new Set(['n', 'g', 'd', 'a', 'i', 'l', 'in', 'to', 'from']);
+
+/**
+ * Fill a template. `seen` collects the roles already named in this text: from the second mention on,
+ * a role with a `short` form uses it ("Čarodějnická akademie, kde se vašim dětem… " → "akademie").
+ */
+export function render(tpl, roles, lang, seen = new Set()) {
     return tpl.replace(/\{(\^?)([A-Z])(?:\.([a-z]+))?(?::([^}]*))?\}/g, (whole, cap, role, field, alts, at, str) => {
-        const r = roles[role]?.[lang];
+        let r = roles[role]?.[lang];
         if (!r) return whole;
         let out;
         if (alts !== undefined) {
             const forms = alts.split('|');
             out = forms.length === 2 ? forms[r.x === 'pl' ? 1 : 0] : forms[GENDER[r.x] ?? 0];
         } else {
+            const naming = NAME_FIELDS.has(field ?? 'n');
+            if (naming && r.short && seen.has(role)) r = { ...r, ...r.short };
+            if (naming) seen.add(role);
             out = field ? (r[field] ?? r.n) : r.n;
             // Czech closes an embedded relative clause with a comma when the sentence goes on
             // ("fronta, která sní o svém konci, a vrátil se…").
@@ -83,17 +92,27 @@ function titleCase(text) {
 function who(en, enX, cs, csX, tail = '', desc = null) {
     const [n, g, d, a, i, l] = cs.split('|').map(f => f + tail);
     return {
+        kind: 'who',
         en: { n: en, x: enX, rel: en.includes(', '), ...(desc ? { desc: desc[0] } : {}) },
-        cs: { n, g, d, a, i, l, x: csX, rel: tail.startsWith(','), ...(desc ? { desc: desc[1] } : {}) },
+        cs: { n, g, d, a, i, l, x: csX, rel: tail.startsWith(','), ...(desc ? { desc: desc[1] } : {}),
+              ...(tail ? { short: caseForms('who', cs) } : {}) },
     };
+}
+
+const CASES = { who: ['n', 'g', 'd', 'a', 'i', 'l'], place: ['n', 'g', 'd', 'a', 'l', 'in', 'to', 'from'] };
+function caseForms(kind, forms) {
+    const parts = forms.split('|');
+    return { ...Object.fromEntries(CASES[kind].map((k, i) => [k, parts[i]])), rel: false };
 }
 
 /** A place. `cs` = 'nom|gen|dat|acc|loc|in|to|from'; en prepositions default to in/to/from + name. */
 function place(en, cs, csX, tail = '') {
     const [n, g, d, a, l, inn, to, from] = cs.split('|').map(f => f + tail);
     return {
+        kind: 'place',
         en: { n: en.n, x: 'n', rel: en.n.includes(', '), in: en.in ?? `in ${en.n}`, to: en.to ?? `to ${en.n}`, from: en.from ?? `from ${en.n}` },
-        cs: { n, g, d, a, l, in: inn, to, from, x: csX, rel: tail.startsWith(',') },
+        cs: { n, g, d, a, l, in: inn, to, from, x: csX, rel: tail.startsWith(','),
+              ...(tail ? { short: caseForms('place', cs) } : {}) },
     };
 }
 
@@ -304,6 +323,82 @@ const FALLBACK_CAMEOS = [
     who('a talking umbrella', 'n', 'mluvící deštník|mluvícího deštníku|mluvícímu deštníku|mluvící deštník|mluvícím deštníkem|mluvícím deštníku', 'm'),
     who('a philosopher stuck in a revolving door', 'm', 'filozof uvězněný v otáčecích dveřích|filozofa uvězněného v otáčecích dveřích|filozofovi uvězněnému v otáčecích dveřích|filozofa uvězněného v otáčecích dveřích|filozofem uvězněným v otáčecích dveřích|filozofovi uvězněném v otáčecích dveřích', 'm'),
 ];
+
+// Second-mention forms. EN: a name or { n, in, to, from }; CS: the case list (null = drop the tail).
+const SHORT = {
+    // heroes
+    'Ferdinand Kroupa': ['Ferdinand', 'Ferdinand|Ferdinanda|Ferdinandovi|Ferdinanda|Ferdinandem|Ferdinandovi'],
+    'Ferdinand the Gander': ['Ferdinand', 'Ferdinand|Ferdinanda|Ferdinandovi|Ferdinanda|Ferdinandem|Ferdinandovi'],
+    'Dr. Hyfa Morel': ['Dr. Morel', 'doktorka Smržová|doktorky Smržové|doktorce Smržové|doktorku Smržovou|doktorkou Smržovou|doktorce Smržové'],
+    'Detective Lucida Nightcap': ['Detective Nightcap', 'detektivka Noční|detektivky Noční|detektivce Noční|detektivku Noční|detektivkou Noční|detektivce Noční'],
+    'the Committee Called Kevin': ['Kevin', 'Kevin|Kevina|Kevinovi|Kevina|Kevinem|Kevinovi'],
+    'Forget-Me-Not the Squirrel': ['Forget-Me-Not', 'Pomněnka|Pomněnky|Pomněnce|Pomněnku|Pomněnkou|Pomněnce'],
+    // villains
+    'the director of a household-goods company': ['the director', null],
+    'a thought nobody has had yet': ['the thought', null],
+    'a middle manager': ['the middle manager', null],
+    'the Ministry of Permitted Joy': ['the Ministry', 'Ministerstvo|Ministerstva|Ministerstvu|Ministerstvo|Ministerstvem|Ministerstvu'],
+    'a cursed accordion': ['the accordion', 'harmonika|harmoniky|harmonice|harmoniku|harmonikou|harmonice'],
+    'a philosophical snail': ['the snail', 'šnek|šneka|šnekovi|šneka|šnekem|šnekovi'],
+    'a very handsome otter': ['the otter', 'vydra|vydry|vydře|vydru|vydrou|vydře'],
+    'an empty bird feeder': ['the bird feeder', 'krmítko|krmítka|krmítku|krmítko|krmítkem|krmítku'],
+    'a goose with a grudge': ['the goose', null],
+    // places
+    'the Witchcraft Academy, where your children will definitely come to no harm': [{ n: 'the Academy', in: 'at the Academy', to: 'to the Academy', from: 'from the Academy' }, 'akademie|akademie|akademii|akademii|akademii|na akademii|na akademii|z akademie'],
+    'the Primary School of Necromancy and Home Economics': [{ n: 'the school', in: 'at the school', to: 'to the school', from: 'from the school' }, 'škola|školy|škole|školu|škole|ve škole|do školy|ze školy'],
+    'the belly of the Eternal Whale': [{ n: 'the Whale\'s belly', in: 'in the Whale\'s belly', to: 'into the Whale\'s belly', from: 'out of the Whale\'s belly' }, 'břicho Velryby|břicha Velryby|břichu Velryby|břicho Velryby|břiše Velryby|v břiše Velryby|do břicha Velryby|z břicha Velryby'],
+    'the left kidney of an immortal manatee': [{ n: 'the kidney', in: 'in the kidney', to: 'into the kidney', from: 'out of the kidney' }, 'ledvina|ledviny|ledvině|ledvinu|ledvině|v ledvině|do ledviny|z ledviny'],
+    'a forest where the mushrooms go picking people': [{ n: 'the forest', in: 'in the forest', to: 'to the forest', from: 'from the forest' }, null],
+    'the skyship Verdigrace': [{ n: 'the Verdigrace', in: 'aboard the Verdigrace', to: 'aboard the Verdigrace', from: 'off the Verdigrace' }, 'Verdigrace|Verdigrace|Verdigrace|Verdigrace|Verdigrace|na palubě Verdigrace|na palubu Verdigrace|z paluby Verdigrace'],
+    'a budget airship with no toilets': [{ n: 'the airship', in: 'aboard the airship', to: 'aboard the airship', from: 'off the airship' }, 'vzducholoď|vzducholodi|vzducholodi|vzducholoď|vzducholodi|na vzducholodi|na vzducholoď|ze vzducholodi'],
+    'an underground market where you pay in secrets': [{ n: 'the market', in: 'at the market', to: 'to the market', from: 'from the market' }, null],
+    'a board game that declared war': [{ n: 'the board game', in: 'in the board game', to: 'into the board game', from: 'out of the board game' }, null],
+    'a retirement home for forgotten gods': [{ n: 'the home', in: 'in the home', to: 'to the home', from: 'from the home' }, 'domov|domova|domovu|domov|domově|v domově|do domova|z domova'],
+    // MacGuffins
+    'a USB stick full of spores': ['the USB stick', 'flashka|flashky|flashce|flashku|flashkou|flashce'],
+    'the last unencrypted mushroom': ['the mushroom', 'houba|houby|houbě|houbu|houbou|houbě'],
+    'a footnote on the run': ['the footnote', 'poznámka|poznámky|poznámce|poznámku|poznámkou|poznámce'],
+    'a key to every door in the city but one': ['the key', 'klíč|klíče|klíči|klíč|klíčem|klíči'],
+    'a tram ticket valid for one miracle': ['the ticket', 'jízdenka|jízdenky|jízdence|jízdenku|jízdenkou|jízdence'],
+    'a prescription for antidepressants': ['the prescription', 'recept|receptu|receptu|recept|receptem|receptu'],
+    'a strongly worded letter': ['the letter', 'dopis|dopisu|dopisu|dopis|dopisem|dopisu'],
+    'a corpse that keeps changing its alibi': ['the corpse', null],
+    'a door that only opens inwards, into you': ['the door', null],
+    'a dream somebody left on a tram': ['the dream', null],
+    'the Card of Overpriced Acquisition': ['the Card', 'Kartička|Kartičky|Kartičce|Kartičku|Kartičkou|Kartičce'],
+    'a rulebook nobody ever read': ['the rulebook', null],
+    'a hymn with one note too many': ['the hymn', 'hymna|hymny|hymně|hymnu|hymnou|hymně'],
+    'a dead god\'s phone number': ['the number', 'číslo|čísla|číslu|číslo|číslem|čísle'],
+    // cameos
+    'a building that rearranges itself out of boredom': ['the building', null],
+    'a lift who insists on being called Mother': ['the lift', null],
+    'a four-armed toymaker': ['the toymaker', 'výrobce hraček|výrobce hraček|výrobci hraček|výrobce hraček|výrobcem hraček|výrobci hraček'],
+    'a queue that has been dreaming of its own end since spring': ['the queue', null],
+    'a cough with opinions': ['the cough', null],
+    'a coin that refuses to be spent': ['the coin', null],
+    'a pharmacist who mostly sells side effects': ['the pharmacist', null],
+    'a skyship captain who has never once landed': ['the captain', 'kapitánka|kapitánky|kapitánce|kapitánku|kapitánkou|kapitánce'],
+    'a choir of rusty monks who only sing the dial tone': ['the choir', 'sbor|sboru|sboru|sbor|sborem|sboru'],
+    'a bear costume that has had enough': ['the bear costume', 'kostým|kostýmu|kostýmu|kostým|kostýmem|kostýmu'],
+    'a pawn still traumatised by the Board Game Wars': ['the pawn', null],
+    'a dead god who now lives in a broken amplifier': ['the dead god', null],
+    'a man made of tiny cities whose suburbs keep running away': ['the man of tiny cities', null],
+    'a divinographer who reads gods by their bones': ['the divinographer', null],
+    'a street that moves house when nobody is looking': ['the street', null],
+    'a mišutkenn landlord with a strict no-bears policy': ['the landlord', 'domácí|domácího|domácímu|domácího|domácím|domácím'],
+    'a talking umbrella': ['the umbrella', 'deštník|deštníku|deštníku|deštník|deštníkem|deštníku'],
+    'a philosopher stuck in a revolving door': ['the philosopher', 'filozof|filozofa|filozofovi|filozofa|filozofem|filozofovi'],
+};
+
+for (const pool of [HEROES, ANIMAL_HEROES, VILLAINS, ANIMAL_VILLAINS, SETTINGS, MACGUFFINS, CAMEOS, FALLBACK_CAMEOS]) {
+    for (const entity of Object.values(pool).flat()) {
+        const short = SHORT[entity.en.n];
+        if (!short) continue;
+        const [en, cs] = short;
+        entity.en.short = { ...(typeof en === 'string' ? { n: en } : en), rel: false };
+        if (cs) entity.cs.short = caseForms(entity.kind, cs);
+    }
+}
 
 // ---------------------------------------------------------------------------------------------
 // Titles: genre gives the title, tone the "aneb …" / "or, …" subtitle; some pairs have their own.
@@ -576,8 +671,8 @@ const MIDDLES = {
 
 const ENDINGS = {
     tragic: [
-        { en: 'And so {P} gave up {M} to save {S}. {^S} did not notice. It rarely does. THE END.',
-          cs: 'A tak {P} {P:obětoval|obětovala|obětovalo|obětovali} {M.a}, aby zachránil{P:|a|o|i} {S.a}. {^S} si ničeho nevšiml{S:|a|o|y}. To se stává. KONEC.' },
+        { en: 'And so {P} gave up {M} to save {S}. Nobody {S.in} noticed a thing. Nobody ever does. THE END.',
+          cs: 'A tak {P} {P:obětoval|obětovala|obětovalo|obětovali} {M.a}, aby zachránil{P:|a|o|i} {S.a}. {^S.in} si ničeho nevšimli. To se stává. KONEC.' },
         { en: 'The last thing {P} heard was {A} saying, "Told you." The last thing {P} said was, "Fair."',
           cs: 'Poslední, co {P} {P:slyšel|slyšela|slyšelo|slyšeli}, bylo, jak {A} {A:říká|říká|říká|říkají}: „Říkal{A:|a|o|i} jsem to.“ Poslední, co {P} {P:řekl|řekla|řeklo|řekli}, bylo: „Fér.“' },
     ],
@@ -590,8 +685,8 @@ const ENDINGS = {
     romantic: [
         { en: 'They married {S.in}. {^A} caught the bouquet and wept. {^K} officiated, despite having no qualifications whatsoever.',
           cs: 'Vzali se {S.in}. Kytici chytil{A:|a|o|i} {A} a rozplakal{A:|a|o|i} se. Oddával{K:|a|o|i} {K}, přestože k tomu {K:neměl|neměla|nemělo|neměli} žádné oprávnění.' },
-        { en: '"Stay," said {A}. "{^S} needs us." {^P} stayed. {^S} did not need them. They stayed anyway. THE END.',
-          cs: '„Zůstaň,“ řekl{A:|a|o|i} {A}. „Potřebuje nás {S}.“ {^P} {P:zůstal|zůstala|zůstalo|zůstali}. {^S} je nepotřeboval{S:|a|o|y}. Zůstali stejně. KONEC.' },
+        { en: '"Stay," said {A}. "They need us {S.in}." {^P} stayed. Nobody {S.in} needed them. They stayed anyway. THE END.',
+          cs: '„Zůstaň,“ řekl{A:|a|o|i} {A}. „{^S.in} nás potřebují.“ {^P} {P:zůstal|zůstala|zůstalo|zůstali}. {^S.in} je nikdo nepotřeboval. Zůstali stejně. KONEC.' },
     ],
     existential: [
         { en: '{^A} never came. {^P} went home, made tea, and found that it was enough. Almost.',
@@ -615,17 +710,17 @@ const ENDINGS = {
 
 /** Reviews: only from people the player has actually met (journal id), plus a few anonymous ones. */
 const CRITICS = [
-    { req: null, en: '"I didn\'t understand a word of it, but it understood me completely." — Master Thaal', cs: '„Nepochopil jsem z toho ani slovo, ale ono pochopilo mě.“ — mistr Thaal' },
+    { req: null, en: '"I didn\'t understand a word of it, but I feel that the author understood me completely." — Master Thaal', cs: '„Nepochopil jsem z toho ani slovo, ale cítil jsem, že autor pochopil mne samotného.“ — mistr Thaal' },
     { req: 'met_ravla', en: '"Too long. I read it twice." — Ravla', cs: '„Moc dlouhé. Přečetla jsem to dvakrát.“ — Ravla' },
     { req: 'heliodor_lore', en: '"We read it in shifts. Oorarabaz woke up for chapter nine." — Heliodor', cs: '„Četli jsme to na směny. Kvůli deváté kapitole jsme vzbudili i Oorarabaze.“ — Heliodor' },
-    { req: 'kloor_venn_meeting', en: '"Side effects include feelings. Mild." — Kloor Venn', cs: '„Vedlejší účinky: city. Mírné.“ — Kloor Venn' },
+    { req: 'kloor_venn_meeting', en: '"Side effects include feelings. Somewhat." — Kloor Venn', cs: '„Vedlejší účinky: city. Tak trochu.“ — Kloor Venn' },
     { req: 'magnekin_reveal', en: '"A real citizen would buy two copies. I bought two copies." — Magnekin', cs: '„Skutečný občan by si koupil dva výtisky. Koupil jsem si dva výtisky.“ — Magnekin' },
     { req: 'phor_calesta', en: '"It fossilises beautifully." — Phor Calesta', cs: '„Krásně to zkamenělo.“ — Phor Calesta' },
     { req: 'lift_mother_meeting', en: '"Finally, someone writes about {S}. Going up?" — the Lift-Mother', cs: '„Konečně někdo píše o {S.l}. Jedeme nahoru?“ — Lift-Mother' },
     { req: 'met_dr_elphi', en: '"Derivative. I\'d have dreamed it better." — Dr. Elphi Quarn', cs: '„Odvozené. Já bych to vysnila líp.“ — Dr. Elphi Quarn' },
     { req: 'gnur_meeting', en: '"Ain\'t read it. Sold it twice, though." — Gnur', cs: '„Nečet’ jsem to. Ale dvakrát jsem to prodal.“ — Gnur' },
     { req: 'met_seldo', en: '"I laughed, I cried, I filed a complaint." — Seldo Thrice-Corrected', cs: '„Smál jsem se, plakal jsem, podal jsem stížnost.“ — Seldo Třikrát-Korigovaný' },
-    { req: null, en: '"{^P}? That\'s me. I\'m suing." — someone at the Screaming Cork', cs: '„{^P}? Vždyť to jsem já. Budu žalovat.“ — kdosi ve Řvoucím korku' },
+    { req: null, en: '"{^P}? That\'s me. I\'m suing the author." — someone at the Screaming Cork', cs: '„{^P}? Vždyť to jsem já. Budu autora žalovat.“ — kdosi ve Řvoucím korku' },
     { req: null, en: '"Ten out of ten. Would get lost {S.in} again." — a disoriented tourist', cs: '„Deset z deseti. Klidně bych se {S.in} ztratil znovu.“ — jeden dezorientovaný turista' },
 ];
 
@@ -639,7 +734,7 @@ const THANKS = {
 // ---------------------------------------------------------------------------------------------
 
 const TOPIC_REACTIONS = [
-    { en: '{^K}! Oh, that goes in. That absolutely goes in.', cs: '{^K}! To tam musí. To tam rozhodně musí.' },
+    { en: '{^K}! Oh, that goes in. That absolutely goes in.', cs: '{^K}! To tam musí být. To tam rozhodně musí být.' },
     { en: 'I can already see {K} in chapter four, ruining everything.', cs: 'Už vidím, jak ve čtvrté kapitole všechno pokazí {K}.' },
     { en: '{^K}. Yes. Every great novel needs one.', cs: '{^K}. Ano. Každý velký román něco takového potřebuje.' },
 ];
@@ -647,7 +742,7 @@ const TOPIC_REACTIONS = [
 const TONE_REACTIONS = {
     tragic: { en: 'Tragic. I\'m already sad for the characters, and they don\'t even exist yet.', cs: 'Tragický. Už teď je mi líto všech postav, a to ještě ani neexistují.' },
     metaphysical: { en: 'Metaphysical. Good. If anyone asks what it\'s about, we say "everything" and leave quickly.', cs: 'Metafyzický. Výborně. Kdyby se někdo ptal, o čem to je, řekneme „o všem“ a rychle odejdeme.' },
-    romantic: { en: 'Romantic! I\'ve never written a kiss. I\'ve read about them. They seem… damp.', cs: 'Romantický! Ještě nikdy jsem nepsal polibek. Četl jsem o nich. Vypadají… vlhce.' },
+    romantic: { en: 'Romantic! I\'ve never written a kiss. I\'ve read about them. They seem… damp.', cs: 'Romantický! Ještě nikdy jsem nepsal o polibku. Četl jsem o nich. Vypadají… vlhce.' },
     existential: { en: 'Existential. Finally, a book where nobody expects a happy ending, least of all me.', cs: 'Existenciální. Konečně kniha, kde nikdo nečeká šťastný konec, a já nejmíň.' },
     political: { en: 'Political. Careful — the last mišutkenn who wrote a political novel is now a rug.', cs: 'Politický. Opatrně – poslední mišutkenn, který napsal politický román, je teď předložka u krbu.' },
     comical: { en: 'Comical! Good. People laugh at me anyway; this way I get paid for it.', cs: 'Komický! Dobře. Lidi se mi smějí tak jako tak – takhle za to aspoň dostanu zaplaceno.' },
@@ -657,7 +752,7 @@ const GENRE_REACTIONS = {
     'fungal techno': { en: 'A fungal techno-thriller. Hackers, spores, and a mushroom that knows your password.', cs: 'Houbový techno-thriller. Hackeři, spory a houba, která zná vaše heslo.' },
     'postmodern': { en: 'Postmodern. So the book will know it\'s a book. Poor thing.', cs: 'Postmoderní. Takže kniha bude vědět, že je kniha. Chudinka.' },
     'urban fantasy': { en: 'Urban fantasy. Magic, but with public transport.', cs: 'Městská fantasy. Kouzla, ale s městskou hromadnou dopravou.' },
-    'funny animals': { en: 'Funny animals with depression. Finally, a genre about my family. And of course, in this genre everyone is an animal.', cs: 'Vtipná zvířata s depresí. Konečně žánr o mé rodině. A v tomhle žánru je samozřejmě každý zvíře.' },
+    'funny animals': { en: 'Funny animals with depression. Finally, a genre about my family.', cs: 'Vtipná zvířata s depresí. Konečně žánr o mé rodině.' },
     'detective': { en: 'A detective novel. Somebody dies on page one and everyone is relieved.', cs: 'Detektivka. Na první stránce někdo umře a všem se uleví.' },
     'weird fiction': { en: 'Dreamy weird fiction. Nobody will understand it, so nobody can criticise it.', cs: 'Snová weird fiction. Nikdo tomu nebude rozumět, takže to nikdo nemůže kritizovat.' },
     'mythic war epic': { en: 'A mythic war epic. Seven volumes, minimum. I\'ll need a bigger table.', cs: 'Mýtický válečný epos. Minimálně sedm dílů. Budu potřebovat větší stůl.' },
@@ -717,8 +812,9 @@ export function composeBook(draft, lang, knows = () => false) {
 
     const special = SPECIAL_TITLES[`${draft.genre}|${draft.tone}`];
     const heading = lang === 'en' ? titleCase : (t) => t;
-    const title = heading(R(special ? special[lang][0] : choose('title', TITLES[draft.genre] || [])));
-    const subtitle = heading(R(special ? special[lang][1] : choose('subtitle', SUBTITLES[draft.tone] || [])));
+    const named = new Set();
+    const title = heading(render(special ? special[lang][0] : choose('title', TITLES[draft.genre] || []), roles, lang, named));
+    const subtitle = heading(render(special ? special[lang][1] : choose('subtitle', SUBTITLES[draft.tone] || []), roles, lang, named));
     const fullTitle = lang === 'cs' ? `${title} aneb ${subtitle}` : `${title}; or, ${subtitle}`;
 
     const blurb = [R(choose('blurb', BLURBS[draft.genre] || [])), BLURB_TAILS[draft.tone]?.[lang] ?? ''].filter(Boolean).join(' ');

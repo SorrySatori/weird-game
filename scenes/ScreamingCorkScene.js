@@ -203,7 +203,10 @@ export default class ScreamingCorkScene extends GameScene {
     get dialogContent() {
         // QuestSystem tracks completion as `isComplete` (there is no `status` field).
         const bookDone = !!this.questSystem.getQuest('edgar_book')?.isComplete;
-        const farewellDone = (this.registry.get('onceFlags') || []).includes('edgar_book_farewell');
+        const onceFlags = this.registry.get('onceFlags') || [];
+        const farewellDone = onceFlags.includes('edgar_book_farewell');
+        // the city's first reactions only exist once the manuscript has had time to go around (a later visit)
+        const reviewsHeard = onceFlags.includes('edgar_book_reviews');
         // Finishing the book while the Vestigel hunt is open hands the token over in the farewell.
         // Computed here (the getter runs at show time) — assigning into `this.dialogContent.x.text`
         // from an onTrigger is lost, because every getter call builds a fresh object.
@@ -237,6 +240,9 @@ export default class ScreamingCorkScene extends GameScene {
                     // Only show book topics option if quest is active but not completed
                     ...(this.questSystem.getQuest('edgar_book') && !this.questSystem.getQuest('edgar_book').isComplete ? [
                         { text: "Let's start with some inspirational topics.", key: 'lets_start_with_some_inspirational_topics', next: "edgar_book_topics" }
+                    ] : []),
+                    ...(bookDone && book && farewellDone && !reviewsHeard ? [
+                        { text: "So, how's the novel?", key: 'how_is_the_novel', next: "edgar_book_news" }
                     ] : []),
                     ...(bookDone && book ? [
                         { text: "Read me something from your book.", key: 'read_me_from_your_book', next: "edgar_book_reread" }
@@ -551,17 +557,22 @@ export default class ScreamingCorkScene extends GameScene {
             },
             edgar_book_excerpt_ending: {
                 hideCloseOption: !farewellDone,
-                text: book ? `${cs ? '*Ztiší hlas.*' : '*He lowers his voice.*'}\n\n${book.excerpts.ending}` : '',
-                options: [
-                    { text: "What will the critics say?", key: 'what_will_the_critics_say', next: "edgar_book_critics" }
-                ]
-            },
-            edgar_book_critics: {
-                hideCloseOption: !farewellDone,
-                text: book ? `${cs ? '*Edgar zavře oči.* A až přijdou recenze:' : '*Edgar closes his eyes.* And when the reviews come in:'}\n\n${book.critics.join('\n')}${book.thanks ? '\n\n' + book.thanks : ''}` : '',
+                // the author's thank-you (third topic) is part of the book, so it closes the reading
+                text: book ? `${cs ? '*Ztiší hlas.*' : '*He lowers his voice.*'}\n\n${book.excerpts.ending}${book.thanks ? '\n\n' + book.thanks : ''}` : '',
                 options: farewellDone
                     ? [{ text: "Thanks, Edgar.", key: 'thanks_edgar_book', next: "edgar_start" }]
                     : [{ text: "I look forward to reading it", key: 'i_look_forward_to_reading_it', next: "edgar_book_farewell" }]
+            },
+            // A later visit: the manuscript has been going around the city, the first reactions are in
+            edgar_book_news: {
+                text: book ? `${cs
+                    ? '*Edgarovi cuknou uši něčím nebezpečně blízkým hrdosti.* Koluje to. Půjčil jsem rukopis jednomu člověku a teď ho má přečtený půlka města – na přeskáčku a s fleky od kávy. Už mám první reakce:'
+                    : '*Edgar\'s ears twitch with something dangerously close to pride.* It\'s going around. I lent the manuscript to one person, and now half the city has read it — out of order, with coffee stains. The first reactions are in:'}\n\n${book.critics.join('\n')}` : '',
+                options: [
+                    { text: "Congratulations, Edgar.", key: 'congratulations_edgar', next: "edgar_start" },
+                    { text: "Read me something from it again.", key: 'read_me_from_your_book', next: "edgar_book_reread" }
+                ],
+                onTrigger: () => { this.onceEver('edgar_book_reviews', () => {}); }
             },
             // Later visits: any part of the finished book again
             edgar_book_reread: {
@@ -572,7 +583,7 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "The opening.", key: 'read_opening_again', next: "edgar_book_excerpt_opening" },
                     { text: "The middle.", key: 'read_middle_again', next: "edgar_book_excerpt_middle" },
                     { text: "The ending.", key: 'read_ending_again', next: "edgar_book_excerpt_ending" },
-                    { text: "The reviews.", key: 'read_reviews_again', next: "edgar_book_critics" },
+                    ...(reviewsHeard ? [{ text: "What are people saying about it?", key: 'read_reviews_again', next: "edgar_book_news" }] : []),
                     { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ]
             },
