@@ -171,6 +171,7 @@ export default class MainScene extends Phaser.Scene {
                 this.clickSound.play();
                 this.cameras.main.fadeOut(1000, 0, 0, 0);
                 this.cameras.main.once('camerafadeoutcomplete', () => {
+                    SaveSystem.clearPersistedRegistry(this.registry);   // a new game starts with a clean world
                     this.scene.start('IntroScene');
                     // this.scene.start('EntryScene');
 
@@ -680,7 +681,9 @@ export default class MainScene extends Phaser.Scene {
                 if (saveData.growthDecay) this.registry.set('growthDecayBalance', saveData.growthDecay);
                 if (saveData.visitedScenes) this.registry.set('visitedScenes', saveData.visitedScenes);
                 if (saveData.usedDialogOptions) this.registry.set('usedDialogOptions', new Map(saveData.usedDialogOptions));
-                // Plain registry state (SaveSystem.PERSISTED_REGISTRY_KEYS: dream-queue choices, sold-out shop stock)
+                // Plain registry state (SaveSystem.PERSISTED_REGISTRY_KEYS: dream-queue choices, sold-out shop stock,
+                // world flags). Cleared first, so nothing from a game played earlier in this session leaks in.
+                SaveSystem.clearPersistedRegistry(this.registry);
                 if (saveData.registry) {
                     for (const [key, value] of Object.entries(saveData.registry)) this.registry.set(key, value);
                 }

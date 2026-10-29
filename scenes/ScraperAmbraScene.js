@@ -67,7 +67,7 @@ export default class ScraperAmbraScene extends GameScene {
         
         // Add a hint about the exit
         const cx = this.scale.width / 2;
-        const exitHint = this.add.text(cx, 520, 'Back to Elevator', {
+        const exitHint = this.add.text(cx, 520, this.t('ui.hotspots.backToElevator'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',

@@ -299,7 +299,7 @@ export default {
         },
         forgotten_elevator_button_available: {
             title: "Mysterious Button at Zerren's Shop",
-            description: 'Zerren has added a strange item to her inventory.',
+            description: "Zerren has a new item on her stall: a Forgotten Elevator Button with odd markings, for a floor that doesn't officially exist. Maybe it's my way up to Dr. Elphi's studio in Scraper 1140 — where the Bishop was headed.",
         },
         rust_feast_completed_full: {
             title: 'Rust Feast Prepared',

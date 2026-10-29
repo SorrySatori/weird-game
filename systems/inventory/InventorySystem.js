@@ -666,6 +666,24 @@ export default class InventorySystem {
     }
 
     /**
+     * Use up ONE of an item: a stack loses one, a single item is removed (removeItemFromInventory takes the whole stack)
+     * @param {string} itemId
+     * @returns {boolean} whether there was one to take
+     */
+    consumeOne(itemId) {
+        const inventory = this.scene.registry.get('inventory');
+        const item = inventory?.items.find(i => i.id === itemId);
+        if (!item) return false;
+        if ((item.quantity || 1) > 1) {
+            item.quantity -= 1;
+            this.scene.registry.set('inventory', inventory);
+            if (this.inventoryVisible) this.updateInventoryDisplay();
+            return true;
+        }
+        return !!this.removeItemFromInventory(itemId);
+    }
+
+    /**
      * Check if inventory has a specific item
      * @param {string} itemId - The item ID to check for
      * @returns {boolean} - Whether the item is in inventory

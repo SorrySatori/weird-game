@@ -27,15 +27,20 @@ export default class ScraperInteriorScene extends GameScene {
         
         // Check inventory for special items
         const hasElevatorButton = this.hasItem('forgotten_elevator_button');
-        const hasLirisPart = this.registry.get('fixed_floor_counter') === true;
+        // (the journal entry backs up the registry flag for saves made before that flag was persisted)
+        const hasLirisPart = this.registry.get('fixed_floor_counter') === true || !!this.hasJournalEntry('floor_counter_tool');
+        // Taking Thorne-Still uses the corpse up: no spores, no tree, no way up to the skyship (and Liris) -- by design
+        const skyshipLost = !!this.hasJournalEntry('symbiont_thorne_still_accepted') && !this.hasJournalEntry('crossroad_corpse_spores_planted');
+        // Refusing Gnur leaves only Kloor's story: the "two stories" plea can't happen any more
+        const gnurRefused = !!rustQuest?.isComplete && !rustQuestCompleted;
 
         // Turned away at 177-Quiet: the Lift-Mother hints at every way up the player doesn't have yet, and each hint
         // goes into the level_177_access quest log. Localized here (the cs file can't compose the parts).
         const cs = LanguageSystem.getInstance?.().getLanguage?.() === 'cs';
         const elphiHints = [
-            !hasLirisPart && 'counter',
+            !hasLirisPart && !skyshipLost && 'counter',
             !hasElevatorButton && 'button',
-            !(rustQuestCompleted && vestigelQuestCompleted) && 'importance'
+            !(rustQuestCompleted && vestigelQuestCompleted) && !gnurRefused && 'importance'
         ].filter(Boolean);
         const HINT_TEXT = {
             intro: cs ? "Pravidla jsou pravidla, malá muchomůrko. Jenže já nejsem jen z pravidel."
@@ -540,7 +545,7 @@ export default class ScraperInteriorScene extends GameScene {
         this.exitArea.setDepth(10);
         
         // Add exit hover hint
-        const exitText = this.add.text(100, 400, "Return Outside", {
+        const exitText = this.add.text(100, 400, this.t('ui.hotspots.returnOutside'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',

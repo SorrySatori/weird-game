@@ -18,10 +18,13 @@ export default class Shed521Scene extends GameScene {
         const inventory = this.registry.get('inventory');
         console.log('inventory', inventory);
         
-        // Check if player made a promise to the clerk
         const quest = this.questSystem.getQuest('rust_reclamation');
-        // Check if any update has the promise_made key
-        const promiseMade = quest && quest.updates && quest.updates.some(update => update.key === 'promise_made');
+        const questOpen = !!quest && !quest.isComplete;
+        const hasQuestUpdate = key => !!quest?.updates?.some(update => update.key === key);
+        // The player can throw the clerk's words back at Gnur once the clerk told them the Shed runs on the core
+        // (lie or expose branch: 'core_shed_energy') or made them promise to leave it ('promise_made').
+        const canConfront = questOpen && (hasQuestUpdate('promise_made') || hasQuestUpdate('core_shed_energy'));
+        const refusedGnur = hasQuestUpdate('quest_refused');
         const hasLivingCore = !!inventory?.items?.some(item => item.id === 'living-core');
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
         // Gang of Lamps: Don's spy quest — buy a whisper out of Gnur.
@@ -35,12 +38,15 @@ export default class Shed521Scene extends GameScene {
             speaker: 'Gnur',
             start: {
                 moodNpc: 'gnur',
-                textKey: 'default',
-                text: "Another stray wanderin' down the veins of Shed 521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
+                // After the refusal he no longer greets the player as a stranger
+                textKey: refusedGnur ? 'refused' : 'default',
+                text: refusedGnur
+                    ? "(Gnur barely looks up.) Well, if it ain't the paper-pushers' little helper. Got some nerve crawlin' back down here.\nSay what you want, outsider, and make it quick."
+                    : "Another stray wanderin' down the veins of Shed 521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", key: 'who_are_you_exactly', next: "background" },
-                    // Add the option to confront Gnur about lying if player made the promise
-                    ...(promiseMade ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : []),
+                    // Confront Gnur once the clerk told the player what the core is for (quest still open)
+                    ...(canConfront ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : []),
                     ...(hasFindRustQuest ? [{ text: "I'm looking for a way to reach the Rust Choir headquarters in the Scraper. Can you help me?", key: 'im_looking_for_the_way_how_to_reach_the_rust_choir', next: "rustDomain" }] : []),
                     ...(canSpyGnur ? [{ text: "You said you sell whispers. What's the Rust Choir not saying out loud?", key: 'gnur_spy_probe', next: "gnur_spy_secret" }] : []),
                     ...(canSpyGnurUlvarex ? [{ text: "[Ulvarex · Mirage Weave] (Let him see a Rust superior, and demand the whole truth.)", key: 'gnur_spy_ulvarex', next: "gnur_spy_ulvarex_read" }] : []),
@@ -194,18 +200,21 @@ export default class Shed521Scene extends GameScene {
                 ],
                 onTrigger: () => {
                     // Only fail the quest if we haven't already completed it
+                    // Everything here happens once: the state can be shown again, and the reputation shift used to
+                    // sit outside this guard (repeatable -10 Rust / +10 Tribunal).
                     const quest = this.questSystem.getQuest('rust_reclamation');
                     if (quest && !quest.isComplete) {
                         this.showNotification(this.t('notifications.questFailed'));
                         this.modifyGrowthDecay(5, 0); // Reward growth for making the ethical choice
-                        
+
                         // Update and complete the quest (marking it as failed in the description)
                         this.questSystem.updateQuest('rust_reclamation', 'I refused to help Gnur steal the living core after learning its importance. He was not happy about it.', 'quest_refused');
                         this.questSystem.completeQuest('rust_reclamation'); // Using completeQuest as there's no failQuest method
-                    }
-                    if (this.registry.get('factionSystem')) {
-                        this.modifyFactionReputation('RustChoir', -10);
-                        this.modifyFactionReputation('PithReclaimers', 10);
+
+                        if (this.registry.get('factionSystem')) {
+                            this.modifyFactionReputation('RustChoir', -10);
+                            this.modifyFactionReputation('PithReclaimers', 10);
+                        }
                     }
                 }
             },
@@ -247,15 +256,14 @@ export default class Shed521Scene extends GameScene {
             }
         };
 
-        // Check if find_bishop quest exists
-        if (this.questSystem.getQuest('find_bishop') && !this.visitedDialogs.has('bishop')) {
-            // Add bishop dialog option to start options if quest exists
+        // The Bishop topic stays until Gnur has named his price (the quest exists) -- it used to vanish after the first
+        // look, so backing out of "bishop" before "recoverTech" lost the quest for the whole session.
+        if (this.questSystem.getQuest('find_bishop') && !quest) {
             content.start.options.splice(1, 0, { text: "I'm looking for the Bishop. Have you seen her?", key: 'im_looking_for_the_bishop_have_you_seen_her', next: "bishop" });
         }
 
-        // Add quest completion option if player has the quest and the living-core
-        if (this.questSystem.getQuest('rust_reclamation') &&
-            inventory.items.some(item => item.id ==='living-core')) {
+        // Hand-over only while the quest is open (after a refusal the core may still be in the pack)
+        if (questOpen && hasLivingCore) {
             content.start.options.splice(1, 0, { text: "I have the living core you wanted", key: 'i_have_the_living_core_you_wanted', next: "complete_quest" });
         }
 
@@ -266,11 +274,13 @@ export default class Shed521Scene extends GameScene {
             ];
         }
 
-        // Update start text if recoverTech has been visited
-        if (this.visitedDialogs.has('recoverTech') && !inventory.items.some(item => item.id ==='living-core')) {
+        // While he waits for the core he talks about nothing else. Keyed on the open quest, not on visitedDialogs:
+        // after the delivery (core gone from the pack) or a refusal he was stuck on this line for the rest of the
+        // session, which also hid his way to Ravla / the Rust Choir.
+        if (questOpen && !hasLivingCore) {
             content.start.textKey = 'waiting';
             content.start.text = "Just bring me the living core, then I will talk more";
-            content.start.options = promiseMade ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : [];
+            content.start.options = canConfront ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : [];
         }
 
         return content;
@@ -282,7 +292,8 @@ export default class Shed521Scene extends GameScene {
         if ((dialogKey === 'rustChoir' || dialogKey === 'brukk' || dialogKey === 'complete_quest') && !this.visitedDialogs.has(dialogKey)) {
             const factionSystem = this.registry.get('factionSystem');
             if (factionSystem) {
-                this.modifyFactionReputation('RustChoir', 10);
+                // once per playthrough (visitedDialogs is per session: a reload used to re-grant it)
+                this.onceEver(`gnur_rep_${dialogKey}`, () => this.modifyFactionReputation('RustChoir', 10));
                 if (!this.hasJournalEntry('rust_choir_faction')) {
                     this.addJournalEntry(
                         'rust_choir_faction',

@@ -110,5 +110,17 @@ export default {
 
         // Intro
         pressSpace: 'Stiskněte MEZERNÍK pro pokračování',
+
+        // Popisky východů a míst, které si scény kreslí samy
+        hotspots: {
+            returnOutside: 'Ven',
+            returnInside: 'Zpět dovnitř',
+            enterScraper: 'Do Škrabáku',
+            backToElevator: 'Zpět k výtahu',
+            backToMainMarket: 'Zpět na tržnici',
+            abandonedBus: 'Opuštěný autobus',
+            captainLiris: 'Kapitánka Liris',
+            skyshipAbove: 'Vypadá to, že nad městem visí vzducholoď...',
+        },
     },
 };

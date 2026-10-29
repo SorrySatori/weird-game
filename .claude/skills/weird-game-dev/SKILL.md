@@ -39,9 +39,11 @@ State shape:
 - `options`: `[{ text, key, next, onSelect?, onTrigger? }]`.
   - `next`: state id to go to. `next: 'closeDialog'` closes the dialog.
   - `onSelect: () => {…}`: runs when that option is clicked (side effects, launching scenes, etc.).
-- `onTrigger`: runs **on show** (no arg) **and** on option click (receives the `option`). If it
-  **returns a state id**, navigation goes there instead of `option.next`. Guard side effects with
-  `if (!this.hasJournalEntry(...))` so re-runs are harmless.
+- `onTrigger`: runs **on show** (no arg). It runs again on an option click **only if it declares the parameter**
+  (`onTrigger: (option) => { if (!option) return; … }`) — then a returned state id navigates there instead of
+  `option.next`. A param-less `() => {}` handler is show-only, so its side effects (G/D, quest completion, item
+  removal) happen once per showing. Re-showing a state still re-runs it: guard one-time effects
+  (`if (!this.hasJournalEntry(...))`, `onceEver`).
 - `onShow`: if present, it renders instead of the normal box (used for game-over/custom overlays).
 - `hideCloseOption: true`: hides both the list "Leave" option **and** the top-right X button
   (we made the X respect it) — use for non-closable/forced dialogs.

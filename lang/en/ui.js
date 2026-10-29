@@ -110,5 +110,17 @@ export default {
 
         // Intro
         pressSpace: 'Press SPACE to continue',
+
+        // Hover labels of exits / hotspots that scenes draw themselves
+        hotspots: {
+            returnOutside: 'Return Outside',
+            returnInside: 'Return Inside',
+            enterScraper: 'Enter Scraper',
+            backToElevator: 'Back to Elevator',
+            backToMainMarket: 'Back to Main Market',
+            abandonedBus: 'Abandoned Bus',
+            captainLiris: 'Captain Liris',
+            skyshipAbove: 'Looks like there is a skyship above the city...',
+        },
     },
 };

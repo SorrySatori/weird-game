@@ -21,6 +21,15 @@ export default class ShedRegistrationScene extends GameScene {
         this.registry.set('dreamQueueChoices', { ...this.dreamQueueChoices });
     }
 
+    /** Ortolan's form paths (artisan / deformity / nonverbal) each get one outcome, then close for good (onceFlags, saved). */
+    registrationPathClosed(path) {
+        return (this.registry.get('onceFlags') || []).includes(`registration_${path}_closed`);
+    }
+
+    closeRegistrationPath(path) {
+        if (path) this.onceEver(`registration_${path}_closed`, () => {});
+    }
+
     // Safe version of modifyGrowthDecay that doesn't rely on the UI indicator
     safeModifyGrowthDecay(growthChange, decayChange) {
         // Get the growth/decay system from registry
@@ -343,6 +352,11 @@ export default class ShedRegistrationScene extends GameScene {
         if (questSystem && questSystem.getQuest('ortolan_arms')) {
             questUpdates = questSystem.getQuest('ortolan_arms')?.updates;
         }
+        // A form path is offered while Ortolan still needs papers, the Applications clerk named it, and it hasn't
+        // had its one outcome yet (no farming forms or Growth/Decay, no "reapply" before the 47 digestions).
+        const armsQuest = questSystem?.getQuest('ortolan_arms');
+        const formPathOpen = (clueKey, path) => !!armsQuest && !armsQuest.isComplete
+            && questUpdates.some(update => update.key === clueKey) && !this.registrationPathClosed(path);
         const content = {
             ...super.dialogContent,
             // 1. Sleepless Mime Dialog
@@ -369,7 +383,8 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.setDreamQueueChoice('sleeplessMime', 'memory');
-                    this.safeModifyGrowthDecay(2, 0);
+                    // the queue can be talked to again (re-entering before it dissolves): one shift per figure
+                    this.onceEver('dream_queue_mime_gd', () => this.safeModifyGrowthDecay(2, 0));
                     this.npcsInteractedWith.add('sleeplessMime');
                     this.checkAllNPCsInteracted();
                 }
@@ -437,7 +452,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.setDreamQueueChoice('vowelSeller', 'vowel');
-                    this.safeModifyGrowthDecay(0, 1);
+                    this.onceEver('dream_queue_vowel_gd', () => this.safeModifyGrowthDecay(0, 1));
                     this.npcsInteractedWith.add('vowelSeller');
                 }
             },
@@ -516,7 +531,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.setDreamQueueChoice('hollowWoman', 'empathy');
-                    this.safeModifyGrowthDecay(3, 0);
+                    this.onceEver('dream_queue_hollow_gd', () => this.safeModifyGrowthDecay(3, 0));
                     this.npcsInteractedWith.add('hollowWoman');
                     this.checkAllNPCsInteracted();
                 }
@@ -582,20 +597,12 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "I'm here for general registration.", key: 'im_here_for_general_registration', next: "registration_general" },
                     { text: "I'd rather not say.", key: 'id_rather_not_say', next: "registration_evasive" },
-                    // Only show artisan option if player has the clue and hasn't completed or failed it
-                    ...(questUpdates.some(update => update.key === 'artisan_form_clue') && 
-                        !this.journalSystem.hasEntry('registration_artisan_completed') && 
-                        !this.journalSystem.hasEntry('registration_artisan_failed') ? 
+                    // Each form path: only with its clue, and only until it has had its outcome (see formPathOpen)
+                    ...(formPathOpen('artisan_form_clue', 'artisan') ?
                         [{ text: "I need an Artisan's Exemption Form.", key: 'i_need_an_artisans_exemption_form', next: "registration_artisan" }] : []),
-                    // Only show deformity option if player has the clue and hasn't completed or failed it
-                    ...(questUpdates.some(update => update.key === 'deformity_form_clue') && 
-                        !this.journalSystem.hasEntry('registration_deformity_completed') && 
-                        !this.journalSystem.hasEntry('registration_deformity_failed') ? 
+                    ...(formPathOpen('deformity_form_clue', 'deformity') ?
                         [{ text: "I need an Inherited Deformity Form.", key: 'i_need_an_inherited_deformity_form', next: "registration_deformity" }] : []),
-                    // Only show nonverbal option if player has the clue and hasn't completed or failed it
-                    ...(questUpdates.some(update => update.key === 'nonverbal_gesture_clue') && 
-                        !this.journalSystem.hasEntry('registration_nonverbal_completed') && 
-                        !this.journalSystem.hasEntry('registration_nonverbal_failed') ? 
+                    ...(formPathOpen('nonverbal_gesture_clue', 'nonverbal') ?
                         [{ text: "(Make a nonverbal gesture)", key: 'make_a_nonverbal_gesture', next: "registration_nonverbal" }] : []),
                     // Always show extra symbiont option
                     { text: "I would like to register for an extra symbiont slot.", key: 'i_would_like_to_register_for_an_extra_symbiont_slo', next: "registration_extra_symbiont" },
@@ -616,7 +623,9 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "It's for Ortolan, a board game designer.", key: 'its_for_ortolan_a_board_game_designer', next: "registration_artisan_ortolan" },
                     { text: "I need it for personal reasons.", key: 'i_need_it_for_personal_reasons', next: "registration_artisan_personal" }
-                ]
+                ],
+                // the shared failure state closes whichever path the player is on
+                onTrigger: () => { this.registrationPath = 'artisan'; }
             },
             registration_artisan_ortolan: {
         
@@ -649,7 +658,8 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "It's for a friend with multiple arms.", key: 'its_for_a_friend_with_multiple_arms', next: "registration_deformity_friend" },
                     { text: "I need to understand the classification system.", key: 'i_need_to_understand_the_classification_system', next: "registration_deformity_system" }
-                ]
+                ],
+                onTrigger: () => { this.registrationPath = 'deformity'; }
             },
             registration_deformity_friend: {
         
@@ -686,6 +696,7 @@ export default class ShedRegistrationScene extends GameScene {
                     ...(this.dreamQueueChoices.vowelSeller === 'silence' ? [{ text: "(Present the Silent Sentence card)", key: 'present_the_silent_sentence_card', next: "registration_success_nonverbal" }] : []),
                     { text: "I can't do this. I am not a mime. Or a very bad one.", key: 'i_cant_do_this_i_am_not_a_mime_or_a_very_bad_one', next: "registration_failure" }
                 ],
+                onTrigger: () => { this.registrationPath = 'nonverbal'; }
             },
             registration_general: {
         
@@ -796,6 +807,7 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "Thank you.", key: 'thank_you', next: "registration_complete_success" }
                 ],
                 onTrigger: () => {
+                    this.closeRegistrationPath('artisan');
                     // Add form to inventory
                     this.addItemToInventory({
                         id: 'artisan-exemption-form',
@@ -825,6 +837,7 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "Thank you.", key: 'thank_you', next: "registration_complete_success" }
                 ],
                 onTrigger: () => {
+                    this.closeRegistrationPath('deformity');
                     // Add form to inventory
                     this.addItemToInventory({
                         id: 'deformity-form',
@@ -854,6 +867,7 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "(Nod gratefully)", key: 'nod_gratefully', next: "registration_complete_success" }
                 ],
                 onTrigger: () => {
+                    this.closeRegistrationPath('nonverbal');
                     // Add dispensation to inventory
                     this.addItemToInventory({
                         id: 'special-dispensation',
@@ -883,6 +897,8 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "I understand.", key: 'i_understand', next: "registration_complete_partial" }
                 ],
                 onTrigger: () => {
+                    // only reachable on the deformity path (Section 7-B)
+                    this.closeRegistrationPath('deformity');
                     // Add temporary permit to inventory
                     this.addItemToInventory({
                         id: 'temporary-permit',
@@ -907,20 +923,35 @@ export default class ShedRegistrationScene extends GameScene {
             },
             registration_failure: {
         
-                text: "(The clerk stamps 'REJECTED' on the form with finality.)\n\n'Your application is denied. Insufficient qualification, documentation, or purpose. You may reapply after a standard waiting period of 47 digestions.'",
+                // His aside is the way on: the failed path is closed for good, so it names the forger.
+                text: "(The clerk stamps 'REJECTED' on the form with finality.)\n\n'Your application is denied. Insufficient qualification, documentation, or purpose. You may reapply after a standard waiting period of 47 digestions.'\n\n(Without looking up, he adds:) 'And don't even think of taking this to the Screaming Cork. Whatever that Ravla sells there is not a document. Officially, I know nothing about her.'",
                 options: [
                     { text: "I see...", key: 'i_see', next: "registration_complete_failure" }
                 ],
                 onTrigger: () => {
-                    // Increase Decay
-                    this.safeModifyGrowthDecay(0, 3);
-                    
-                    // Update quest if relevant
+                    // one outcome per path: closing it also keeps this Decay from repeating
+                    const path = this.registrationPath;
+                    if (path && !this.registrationPathClosed(path)) {
+                        this.closeRegistrationPath(path);
+                        this.safeModifyGrowthDecay(0, 3);
+                    }
+
                     const questSystem = this.registry.get('questSystem');
-                    if (questSystem && questSystem.getQuest('ortolan_arms')) {
+                    const quest = questSystem?.getQuest('ortolan_arms');
+                    if (!quest) return;
+                    if (!quest.updates.some(update => update.key === 'ravla_forger_hint')) {
+                        // Written under Heliodor's key on purpose: that key is what opens Ravla's forgery
+                        // offer at the Screaming Cork (ScreamingCorkInteriorScene, ravla_documents).
                         questSystem.updateQuest(
-                            'ortolan_arms', 
-                            'My registration attempt failed. I\'ll need to find another way to help Ortolan with the arm situation.',
+                            'ortolan_arms',
+                            "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though — which is practically a recommendation.",
+                            'ravla_forger_hint',
+                            { textKey: 'clerk_forger_warning' }
+                        );
+                    } else {
+                        questSystem.updateQuest(
+                            'ortolan_arms',
+                            "My registration attempt failed. I'll need to find another way to help Ortolan.",
                             'failed_attempt'
                         );
                     }

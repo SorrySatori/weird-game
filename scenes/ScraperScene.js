@@ -230,7 +230,7 @@ export default class ScraperScene extends GameScene {
         scraperEntrance.setDepth(5);
         
         // Add a hint about the scraper entrance
-        const scraperHint = this.add.text(gateX, 355, 'Enter Scraper', {
+        const scraperHint = this.add.text(gateX, 355, this.t('ui.hotspots.enterScraper'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',

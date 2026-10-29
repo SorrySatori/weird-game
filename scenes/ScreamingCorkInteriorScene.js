@@ -2,6 +2,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
 import { GANG_QUEST_IDS, gangQuestStatus, recordSpyFragment } from '../utils/GangOfLamps.js';
+import { DEMO_BUILD } from '../config/build.js';
 
 export default class ScreamingCorkInteriorScene extends GameScene {
     constructor() {
@@ -18,6 +19,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const redmassSparedOnly = !!(this.registry.get('redmass_spared') && !(this.hasItem && this.hasItem('redmass')));
         const hasIllusionOption = !!(hasRustFeastQuest && this.hasItem && this.hasItem('oil') && this.hasItem('metal_scrap') && !this.hasItem('redmass') && this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon'));
         const rustFeastComplete = !!(this.questSystem && this.questSystem.getQuest('rust_feast')?.isComplete);
+        // where "I'll get to work on it" leads: in the demo, once, to Ravla's aside that the feast can't be made here yet
+        const rustTaskDone = DEMO_BUILD && !this.questSystem?.getQuest('rust_feast')?.updates?.some(u => u.key === 'demo_not_yet')
+            ? 'ravla_rust_demo' : 'closeDialog';
         // Lumen sabotage: real ingredients + the Directorate's corrosive cultivar → a spiked feast.
         const hasCorrosiveCultivar = !!(this.hasItem && this.hasItem('corrosive_cultivar'));
         const knowsSulkberries = !!this.hasJournalEntry('bishop_berries');
@@ -136,7 +140,10 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "Hmm. What kind of documents are we talking about? I don't work for free, and I don't work for just anyone.",
                 options: [
                     { text: "Just curious", key: 'just_curious', next: "ravla_curious" },
-                    ...(this.registry.get('questSystem')?.getQuest('ortolan_arms')?.updates.some(update => ['forge_documents_suggestion', 'ravla_forger_hint'].includes(update.key)) ? [
+                    ...(this.registry.get('questSystem')?.getQuest('ortolan_arms')
+                        && (this.registry.get('questSystem').getQuest('ortolan_arms').updates.some(update => ['forge_documents_suggestion', 'ravla_forger_hint'].includes(update.key))
+                            || this.journalSystem?.hasFact('met_ravla', 'forger'))
+                        && !this.registry.get('questSystem').getQuest('ortolan_arms').isComplete && !this.hasItem('forged-arms-permission') ? [
                         { text: "I need help with Ortolan's paperwork", key: 'i_need_help_with_ortolans_paperwork', next: "ravla_ortolan" }
                     ] : []),
                     { text: "Ask something else", key: 'back', next: "ravla_start" }
@@ -247,17 +254,28 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 { text: "I've changed my mind. Maybe another time.", key: 'ive_changed_my_mind_maybe_another_time', next: "ravla_start" }
                 ]
             },
+            // DEMO_BUILD: the docks, the Delta and the archeologist's redmass aren't in the demo -- Ravla says so, in character,
+            // and the quest log keeps it; the task itself stays as a teaser for the full game
+            ravla_rust_demo: {
+                text: "*Ravla leans in and lowers her voice.* \"One more thing, just between us. The places you'd need for this — the docks, the Delta, that archeologist's little treasure hunt — aren't on any map yet. Not in this version of the city. A demo, they call it. I've forged a lot of things in my life, but I can't forge you a whole district.\" *She shrugs.* \"Keep the task anyway. When they finish building the rest of the city, come back. The Choir will be waiting — and Brukk never forgets a volunteer.\"",
+                options: [
+                    { text: "I'll hold you to that.", key: 'ill_hold_you_to_that', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('rust_feast', "Ravla admitted the places I'd need for the feast aren't part of this demo yet. The Rust Choir will have to wait for the full game — Brukk never forgets a volunteer, she says.", 'demo_not_yet');
+                }
+            },
             ravla_rust_task: {
                 text: "There's a small matter that needs attending to. You want to meet Brukk? Then feed the metal first. The machines are always hungry, go and prepare a feast for them. You will need oil, metal, and, most importantly, a redmass. Mix them together, bring it to me, and I'll arrange your meeting with Brukk.",
                 options: [
-                    { text: "I'll get to work on it.", key: 'ill_get_to_work_on_it', next: "closeDialog" },
+                    { text: "I'll get to work on it.", key: 'ill_get_to_work_on_it', next: rustTaskDone },
                     { text: "What is a redmass?", key: 'what_is_a_redmass', next: "ravla_rust_cluster" },
                     { text: "Where can I find the metal and oil?", key: 'where_can_i_find_the_metal_and_oil', next: "ravla_rust_materials" },
                 ],
                 onTrigger: () => {
                     this.addJournalFact('redmass_collected_force', 'rust_feast', "I have what I need for the Rust Feast — but at what cost?");
                     this.addJournalFact('met_ravla', 'rust_choir', "She speaks for the Rust Choir: nobody gets to Brukk or the machines without going through her, and she wants proof of loyalty first.");
-                    this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove your commitment. I have to gather oil, metal, and a redmass, and bring them to her.', 'talked_to_ravla');
+                    this.questSystem.updateQuest('find_rust_choir', 'Ravla at the Screaming Cork wants me to prepare a feast for the Rust Choir machines to prove my commitment. I have to gather oil, metal, and a redmass, and bring them to her.', 'talked_to_ravla');
                     this.questSystem.addQuest('rust_feast', 'Rust Feast', 'Prepare a feast for the Rust Choir machines by gathering oil, metal, and a living redmass, and bring them to Ravla at the Screaming Cork.');
                     // the redmass may already be in the pack (taken by force before anyone mentioned a feast)
                     if (this.hasItem && this.hasItem('redmass')) {
@@ -270,13 +288,13 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     { text: "Where can I find it?", key: 'where_can_i_find_it', next: "ravla_cluster_where" },
                     { text: "Where can I find the metal and oil?", key: 'where_can_i_find_the_metal_and_oil', next: "ravla_rust_materials" },
-                    { text: "I'll get to work on it.", key: 'ill_get_to_work_on_it', next: "closeDialog" },
+                    { text: "I'll get to work on it.", key: 'ill_get_to_work_on_it', next: rustTaskDone },
                 ]
             },
             ravla_cluster_where: {
                 text: "Well, I cannot do everything for you, can I? This is a test, after all. Ahh... very well. I won't tell you directly, but go to talk to the weird archeologist who hangs around the townhall. He seems to know a lot about strange organisms. Maybe he can help you find what you're looking for.",
                 options: [
-                    { text: "Thanks for the tip. I'll get to work on it.", key: 'thanks_for_the_tip_ill_get_to_work_on_it', next: "closeDialog" },
+                    { text: "Thanks for the tip. I'll get to work on it.", key: 'thanks_for_the_tip_ill_get_to_work_on_it', next: rustTaskDone },
                     { text: "Where can I find the metal and oil?", key: 'where_can_i_find_the_metal_and_oil', next: "ravla_rust_materials" },
                 ],
                 onTrigger: () => {
@@ -286,7 +304,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_rust_materials: {
                 text: "I'm not your mother, am I? Figure it out. The city is full of scrap metal and oil leaks. Use your head. You can search around the Scraper or you can even buy metal scraps from the traders, you know. In exchange for money, heard about that concept? For the oil, I would check the Yolk Sea docks or Echo Drain Delta. Good luck.",
                 options: [
-                    { text: "Thanks for the advice. I'll get to work on it.", key: 'thanks_for_the_advice_ill_get_to_work_on_it', next: "closeDialog" },
+                    { text: "Thanks for the advice. I'll get to work on it.", key: 'thanks_for_the_advice_ill_get_to_work_on_it', next: rustTaskDone },
                     { text: "Wait, what about the redmass? What is that?", key: 'wait_what_about_the_redmass_what_is_that', next: "ravla_rust_cluster" },
                 ],
                 onTrigger: () => {
@@ -877,6 +895,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
     
     // Helper method to add an item to inventory
     addItemToInventory(item) {
+        if (this.inventorySystem) return super.addItemToInventory(item);
         const inventory = this.registry.get('inventory') || { items: [] };
         
         // Check if the item already exists (for stackable items)

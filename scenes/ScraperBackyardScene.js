@@ -35,7 +35,7 @@ export default class ScraperBackyardScene extends GameScene {
         this.exitArea.setDepth(10);
         
         // Add exit hover hint
-        const exitText = this.add.text(100, 400, "Return Inside", {
+        const exitText = this.add.text(100, 400, this.t('ui.hotspots.returnInside'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -71,7 +71,7 @@ export default class ScraperBackyardScene extends GameScene {
         this.abandonedBus.setInteractive({ useHandCursor: true });
         
         // Add bus hover hint - adjusted position
-        const busText = this.add.text(400, 350, "Abandoned Bus", {
+        const busText = this.add.text(400, 350, this.t('ui.hotspots.abandonedBus'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',

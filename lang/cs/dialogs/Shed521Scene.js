@@ -9,7 +9,8 @@ export default {
     start: {
         text: {
             default: "Další zbloudilá duše se zatoulala k Boudě 521... Co hledáš, cizinče? Vylepšení těla? Nové plíce? Nebo jen špatné nápady? Zasmál se, hlas praská jako rozladěný sbor. Řekni, co potřebuješ. Možná má starý Gnur šuškandu na prodej.",
-            waiting: "Prostě mi přines to živé jádro, pak si pokecáme."
+            waiting: "Prostě mi přines to živé jádro, pak si pokecáme.",
+            refused: "(Gnur sotva zvedne oči.) Ale hele, kamarádíček úředníčků. Ty máš teda drzost, lézt sem zase dolů.\nŘekni, co chceš, cizinče, a zkrať to."
         },
         options: {
             who_are_you_exactly: "Kdo přesně jsi?",
@@ -89,7 +90,7 @@ export default {
         text: "(Gnurův výraz potemní) O jakých lžích to mluvíš, kámo? Potřebuju to jádro. V tom žádná lež není.",
         options: {
             the_clerk_told_me_its_crucial_for_the_sheds_energy: "Úředník mi řekl, že je klíčové pro energetický chod Boudy. Nepomůžu vám ho sabotovat.",
-            never_mind_ill_still_get_it_for_you: "Nechte to, stejně vám ho přinesu."
+            never_mind_ill_still_get_it_for_you: "Nech to být, stejně ti ho přinesu."
         }
     },
     refuse_quest: {

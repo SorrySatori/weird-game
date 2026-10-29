@@ -41,6 +41,9 @@ export default {
         text: {
             plain: "'Samozřejmě! Podívejte se na můj dnešní sortiment. Pořád dostávám nové zboží, tak se klidně zase někdy stavte.'",
             button: "'Samozřejmě! Podívejte se na můj dnešní sortiment. Pořád dostávám nové zboží, tak se klidně zase někdy stavte.' Zerren promluví tichým hlasem. 'Nedávno jsem se dostala k něčemu opravdu zvláštnímu. Mám tady staré tlačítko, co vypadá jako z nějakého výtahu nebo ovládacího panelu. Jsou na tom nějaké neobvyklé znaky.'"
+        },
+        options: {
+            let_me_take_a_look: "Ukažte, podívám se."
         }
     },
     zerren_collection: {

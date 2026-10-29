@@ -979,7 +979,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
             50, 470, 50, 200, 'left', 'VoxMarket', 100, 470
         );
         
-        const exitHint = this.add.text(100, 420, 'Back to Main Market', {
+        const exitHint = this.add.text(100, 420, this.t('ui.hotspots.backToMainMarket'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',

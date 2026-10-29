@@ -36,7 +36,8 @@ export default class CrossroadScene extends GameScene {
         this.corpse = null;
 
         // Check if growth has happened
-        this.hasGrowth = this.registry.get('crossroadGrowth') || false;
+        // (the journal entry backs up the registry flag for saves made before that flag was persisted)
+        this.hasGrowth = this.registry.get('crossroadGrowth') || !!this.hasJournalEntry('crossroad_corpse_spores_planted');
         
         // Initialize the journal system
         this.journalSystem = JournalSystem.getInstance();
@@ -513,7 +514,7 @@ export default class CrossroadScene extends GameScene {
         messageBox.setDepth(10100);
         messageBox.setAlpha(0);
         
-        const messageText = this.add.text(W / 2, H - 80, "Looks like there is a skyship above the city...", {
+        const messageText = this.add.text(W / 2, H - 80, this.t('ui.hotspots.skyshipAbove'), {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center',

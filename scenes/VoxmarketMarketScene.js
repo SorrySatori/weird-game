@@ -24,6 +24,18 @@ export default class VoxmarketMarketScene extends GameScene {
         return rustQuestCompleted || vestigelQuestCompleted;
     }
 
+    /** Zerren mentions the elevator button while it is for sale: the player knows of the Elphi link, not yet bought. */
+    zerrenPitchesButton() {
+        return this.hasElphiBishopInfo() && !this.shopSystem?.isSoldOut?.('forgotten_elevator_button');
+    }
+
+    /** Open Zerren's stall a moment after the dialog box has gone. */
+    openZerrenShop() {
+        this.time.delayedCall(300, () => {
+            if (this.shopSystem) this.shopSystem.open();
+        });
+    }
+
     /**
      * Zerren's confession (Kloor / refuse branches) is the only place the player learns the Vestigel
      * was hidden inside the plush toy — the plush-toy branch never says so, and neither does the
@@ -82,22 +94,23 @@ export default class VoxmarketMarketScene extends GameScene {
                 ]
             },
             
-            zerren_shop: {
-                // Two variants (textKey) so the Czech file can carry both: the hint about the elevator button
-                // is appended only once the player knows about the Bishop's link to Dr. Elphi Quarn.
-                textKey: this.hasElphiBishopInfo() ? 'button' : 'plain',
-                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.'" + (this.hasElphiBishopInfo() ? " She lowers her voice. 'I recently acquired something special — an old elevator button with unusual markings.'" : ""),
+            // Two variants (textKey) so the Czech file can carry both. Plain: straight into the shop (an onShow
+            // state is never rendered). Button: once the player knows about the Bishop's link to Dr. Elphi Quarn
+            // and the button is still on the stall, Zerren's tip has to be READ -- so that variant is a normal
+            // state and the shop opens from its option.
+            zerren_shop: this.zerrenPitchesButton() ? {
+                textKey: 'button',
+                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.' She lowers her voice. 'I recently acquired something special — an old elevator button with unusual markings.'",
+                options: [
+                    { text: "Let me take a look.", key: 'let_me_take_a_look', next: "closeDialog", onSelect: () => this.openZerrenShop() }
+                ]
+            } : {
+                textKey: 'plain',
+                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.'",
                 options: [], // Empty options array is required
                 onShow: () => {
-                    // Close the dialog first
                     this.hideDialog();
-                    
-                    // Open the shop after a short delay
-                    this.time.delayedCall(300, () => {
-                        if (this.shopSystem) {
-                            this.shopSystem.open();
-                        }
-                    });
+                    this.openZerrenShop();
                 }
             },
             
@@ -259,7 +272,8 @@ export default class VoxmarketMarketScene extends GameScene {
                 options: [
                     { text: "Continue persuading", key: 'continue_persuading', next: "zerren_persuade_fail" } // onTrigger returns success/fail; `next` is only the fallback
                 ],
-                onTrigger: () => {
+                onTrigger: (option) => {
+                    if (!option) return;           // rolled on the click, not when the line is shown
                     // Base 25% persuasion chance. Neme's Growth Affinity adds +15 when growth-aligned
                     // (Neme hosted and not silenced by high Decay), so your balance shifts the odds.
                     const sym = this.registry.get('symbiontSystem');
@@ -414,7 +428,7 @@ export default class VoxmarketMarketScene extends GameScene {
         );
         
         // Add a hint about the exit
-        const exitHint = this.add.text(this.scale.width / 2, 520, 'Back to Main Market', {
+        const exitHint = this.add.text(this.scale.width / 2, 520, this.t('ui.hotspots.backToMainMarket'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -536,7 +550,7 @@ export default class VoxmarketMarketScene extends GameScene {
             this.addJournalEntry(
                 'forgotten_elevator_button_available',
                 'Mysterious Button at Zerren\'s Shop',
-                'Zerren has added a strange item to her inventory - a "Forgotten Elevator Button" with unusual markings. It appears to be for accessing a floor that doesn\'t officially exist. This might be useful for reaching Dr. Elphi\'s studio that the Bishop mentioned.',
+                "Zerren has a new item on her stall: a Forgotten Elevator Button with odd markings, for a floor that doesn't officially exist. Maybe it's my way up to Dr. Elphi's studio in Scraper 1140 — where the Bishop was headed.",
                 this.journalSystem.categories.EVENTS,
                 { location: 'Voxmarket', character: 'Zerren' }
             );

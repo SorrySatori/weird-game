@@ -50,7 +50,7 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             lie_living_core: {
-                text: "(Straightens papers disapprovingly) Very well. But remember — proper protocols exist for a reason. Don't you even think about messing with the living core. People usually think it's just a relict, but it is crucial for the Shed's energy maintenance.",
+                text: "(Straightens papers disapprovingly) Very well. But remember — proper protocols exist for a reason. Don't you even think about messing with the living core. People usually think it's just a relic, but it is crucial for the Shed's energy maintenance.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
@@ -70,11 +70,22 @@ export default class ShedApplicationsScene extends GameScene {
                 }
             },
             expose_gnur: {
-                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. (puts away papers) Please promise to not mess with the living core.",
+                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. And it is no relic, whatever people say — the Shed's entire energy supply depends on that core. Remove it and the lights go out in every department. (puts away papers) Please promise to not mess with the living core.",
                 options: [
                     { text: "I promise to leave it alone", key: 'i_promise_to_leave_it_alone', next: "promise_made" },
                     { text: "I'll think about it", key: 'ill_think_about_it', next: "no_promise" }
                 ],
+                // The player now hears WHY the core matters on this branch too (Gnur's confront option quotes it).
+                onTrigger: () => {
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem?.getQuest('rust_reclamation')) {
+                        questSystem.updateQuest(
+                            'rust_reclamation',
+                            "The clerk in Shed 521 warned me to leave the living core alone. People take it for an old relic, but the Shed's energy supply depends on it.",
+                            'core_shed_energy'
+                        );
+                    }
+                }
             },
             promise_made: {
                 text: "(Visibly relieved) Good... good. The Ink Tribunal will remember this. What did Gnur promise you for the living core?",
@@ -238,8 +249,13 @@ export default class ShedApplicationsScene extends GameScene {
         if (questSystem) {
             // The topics stay available until the player actually reached an outcome (a promise, a
             // refusal, a lie / one of the three form clues) — not merely opened the topic once.
-            const livingCoreSettled = ['lie_living_core', 'promise_made', 'no_promise'].some(k => this.visitedDialogs.has(k));
-            if (questSystem.getQuest('rust_reclamation') && !livingCoreSettled) {
+            // Settled = the clerk's warning or the promise is in the quest log (persists through saves; both the lie and
+            // the expose branch write 'core_shed_energy'), or an outcome was reached this session (older saves).
+            // Nothing to ask once Gnur's business is over (core delivered or refused).
+            const coreQuest = questSystem.getQuest('rust_reclamation');
+            const livingCoreSettled = !!coreQuest?.updates?.some(u => ['core_shed_energy', 'promise_made'].includes(u.key))
+                || ['lie_living_core', 'promise_made', 'no_promise'].some(k => this.visitedDialogs.has(k));
+            if (coreQuest && !coreQuest.isComplete && !livingCoreSettled) {
                 content.start.options.splice(1, 0, {
                     text: "What do you know about the living core?",
                     key: 'what_do_you_know_about_the_living_core',

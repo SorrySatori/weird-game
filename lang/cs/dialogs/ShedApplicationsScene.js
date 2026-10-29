@@ -43,7 +43,7 @@ export default {
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     expose_gnur: {
-        text: "Já to věděl! Děkuji, že jste mi to řekl. (usměje se) Ta pakáž z Rezavého chóru nemá na takovou technologii žádné právo. (odloží papíry) Slibte mi prosím, že na živé jádro nebudete sahat.",
+        text: "Já to věděl! Děkuji, že jste mi to řekl. (usměje se) Ta pakáž z Rezavého chóru nemá na takovou technologii žádné právo. A žádný relikt to není, ať si lidé říkají, co chtějí – na tom jádru závisí veškeré zásobování Boudy energií. Vyjměte ho a ve všech odděleních zhasnou světla. (odloží papíry) Slibte mi prosím, že na živé jádro nebudete sahat.",
         options: {
             i_promise_to_leave_it_alone: "Slibuji, že ho nechám být",
             ill_think_about_it: "Rozmyslím si to"

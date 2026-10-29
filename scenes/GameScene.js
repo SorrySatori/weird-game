@@ -319,7 +319,7 @@ export default class GameScene extends Phaser.Scene {
             
             // Add quest system event handlers
             questSystem.on('questAdded', (questId, title) => {
-                this.showNotification('New quest');
+                this.showNotification(this.t('notifications.newQuest'));
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
                 if (this.questLog && this.questLog.questNotificationIndicator) {
@@ -328,7 +328,7 @@ export default class GameScene extends Phaser.Scene {
             });
             
             questSystem.on('questUpdated', (questId, title) => {
-                this.showNotification('Quest updated');
+                this.showNotification(this.t('notifications.questUpdated'));
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
                 if (this.questLog && this.questLog.questNotificationIndicator) {
@@ -337,7 +337,7 @@ export default class GameScene extends Phaser.Scene {
             });
             
             questSystem.on('questCompleted', (questId, title) => {
-                this.showNotification('Quest completed!');
+                this.showNotification(this.t('notifications.questCompleted'));
                 this.modifySpores(5);
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
@@ -713,6 +713,11 @@ export default class GameScene extends Phaser.Scene {
         return false;
     }
     
+    /** Use up one of a (possibly stacked) item -- e.g. one vestigel of two. */
+    consumeOne(itemId) {
+        return this.inventorySystem ? this.inventorySystem.consumeOne(itemId) : false;
+    }
+
     hasItem(itemId) {
         // Delegate to inventory system
         if (this.inventorySystem) {
@@ -1317,8 +1322,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
-     * Run a side effect once per playthrough (e.g. a reputation shift in a dialog state whose
-     * onTrigger re-runs on every show/click). Persisted through saves via the `onceFlags` registry key.
+     * Run a side effect once per playthrough (e.g. a reputation shift in a dialog state the player can
+     * reach again -- onTrigger re-runs every time the state is shown). Persisted through saves via the `onceFlags` registry key.
      */
     onceEver(key, fn) {
         const done = this.registry.get('onceFlags') || [];
@@ -1822,7 +1827,10 @@ export default class GameScene extends Phaser.Scene {
                     this.markDialogOptionAsUsed(this.createDialogOptionKey(stateKey, option.text));
                     if (topic) this.markDialogOptionAsUsed(topic.id);
                     if (option.onSelect) option.onSelect.call(this);
-                    if (content.onTrigger) {
+                    // onTrigger already ran when the state was shown. It runs again on the click only when it asks for
+                    // the clicked option (`onTrigger: (option) => …`, e.g. to pick the next state) -- re-running every
+                    // show-time side effect doubled Growth/Decay, quest completions and item removals.
+                    if (content.onTrigger && content.onTrigger.length > 0) {
                         const nextDialog = content.onTrigger.call(this, option);
                         if (nextDialog) { this.showDialog(nextDialog); return; }
                     }

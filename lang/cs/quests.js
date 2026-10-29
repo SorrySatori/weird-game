@@ -82,7 +82,7 @@ export default {
                 found_eskola_lead: "Plyšovou hračku koupil Edgar Eskola. Obvykle ho najdu u Řvoucího korku.",
                 completed: 'Dal jsem vestigel Klooru Vennovi výměnou za informace o Biskupce.',
                 edgar_vestigel_acquired: 'Dostal jsem vestigel od Edgara Eskoly výměnou za pomoc s jeho knihou.',
-                edgar_book_trade: 'Edgar Eskola by vyměnil Vestigel za vaši pomoc s jeho knihou.',
+                edgar_book_trade: 'Edgar Eskola mi dá Vestigel, když mu pomůžu napsat knihu.',
                 vestigel_in_toy: "Vestigel, který měla Zerren, byl schovaný v podivné plyšové hračce. Prodala ji, aniž by o něm věděla – kupec na něj přišel až později, náhodou.",
             }
         },
@@ -114,6 +114,7 @@ export default {
                 redmass_collected: "Z ostrova v Deltě ozvěn mám živou rudou hmotu na hostinu.",
                 magnekin_tip: 'Podivný tvor, který se identifikuje jako Magnekin, mi řekl, že nějaké kovové šroty se dají najít v Deltě ozvěn.',
                 learned_rust_cluster_location: 'Phor Calesta mi řekl, že rudá hmota se nachází v údržbových chodbách Boudy 521.',
+                demo_not_yet: 'Ravla přiznala, že místa, která na hostinu potřebuju, v tomhle demu zatím nejsou. Na Rezavý chór si budu muset počkat do plné verze – Brukk prý na dobrovolníky nezapomíná.',
             }
         },
         rust_reclamation: {
@@ -137,6 +138,7 @@ export default {
                 artisan_form_clue: 'Úředník mi řekl, abych šel na Registrační úřad pro Formulář o výjimce pro umělce.',
                 nonverbal_gesture_clue: 'Úředník mi řekl, abych šel na Registrační úřad a předvedl co nejlepší nonverbální gesto. Nejsem si jistý, jestli tomu úplně rozumím...',
                 ravla_forger_hint: 'Heliodor ve Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
+                clerk_forger_warning: 'Můj pokus o registraci selhal a druhou žádost už úřad nepřijme. Vrchní úředník mě ale varoval před padělatelkou Ravlou ze Řvoucího korku – což je skoro jako doporučení.',
                 ravla_forger_agreement: 'Ravla ve Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
                 document_obtained: "Od Ravly mám padělané povolení pro Ortolanovy ruce navíc. Teď mu ho jen musím donést.",
                 bureaucratic_incantation: 'Dutá žena z fronty na registračním úřadě mě naučila podivné byrokratické zaklínadlo.',

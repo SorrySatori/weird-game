@@ -2,6 +2,8 @@
  * SceneTransitionManager.js
  * Handles scene transitions with consistent behavior across all scenes
  */
+import LanguageSystem from '../systems/LanguageSystem.js';
+
 export default class SceneTransitionManager {
     constructor(scene) {
         this.scene = scene;
@@ -88,7 +90,14 @@ export default class SceneTransitionManager {
         width = Math.round(width * kx);   // keep relative spacing so remapped zones don't overlap neighbours
         if (typeof walkX === 'number') walkX = Math.round(walkX * kx);
 
-        // If no destination name is provided, create one from the target scene
+        // The label is localized: a scene's own English label via `exits.<label>` (lang/<code>/locations.js),
+        // otherwise the destination's name from `locations.<sceneKey>`; a label that is just a scene key counts as none
+        const lang = LanguageSystem.getInstance();
+        if (/Scene$/.test(destinationName) && lang.str(`locations.${destinationName}`)) destinationName = '';
+        if (destinationName) destinationName = lang.str(`exits.${destinationName}`) || destinationName;
+        else destinationName = lang.str(`locations.${targetScene}`) || '';
+
+        // If there is still no name, create one from the target scene
         if (!destinationName) {
             // Convert camelCase to Title Case with spaces
             destinationName = targetScene

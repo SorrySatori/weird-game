@@ -83,7 +83,7 @@ export default {
                 found_eskola_lead: "Edgar Eskola is the one who bought the plush toy. He can usually be found around the Screaming Cork tavern.",
                 completed: 'I gave the vestigel to Kloor Venn in exchange for information about the Bishop.',
                 edgar_vestigel_acquired: 'Received a vestigel from Edgar Eskola in exchange for helping with his book.',
-                edgar_book_trade: 'Edgar Eskola would trade the Vestigel for your help with his book.',
+                edgar_book_trade: 'Edgar Eskola will give me the Vestigel if I help him write his book.',
                 vestigel_in_toy: "The Vestigel Zerren had was hidden inside a peculiar stuffed toy. She sold the toy without knowing it was there — the buyer found it later, by chance.",
             }
         },
@@ -115,6 +115,7 @@ export default {
                 redmass_collected: "I got living redmass for the feast from the island at Echo Drain Delta.",
                 magnekin_tip: 'A strange creature that identifies itself as Magnekin told me that some metal scraps could be found at Echo Drain delta.',
                 learned_rust_cluster_location: 'Phor Calesta told me that redmass can be found in the maintenance halls of Shed 521.',
+                demo_not_yet: "Ravla admitted the places I'd need for the feast aren't part of this demo yet. The Rust Choir will have to wait for the full game — Brukk never forgets a volunteer, she says.",
             }
         },
         rust_reclamation: {
@@ -138,6 +139,8 @@ export default {
                 artisan_form_clue: "The clerk told me to go to the Registration office to retrieve the Artisan's Exemption Form.",
                 nonverbal_gesture_clue: 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...',
                 ravla_forger_hint: 'Heliodor at the Screaming Cork mentioned that Ravla is a skilled document forger.',
+                // same flag key (it opens Ravla's offer), written by the Senior Clerk's warning after a failed registration
+                clerk_forger_warning: "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though — which is practically a recommendation.",
                 ravla_forger_agreement: 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.',
                 document_obtained: "I got a forged permit for Ortolan's extra arms from Ravla. Now I just need to get it to him.",
                 bureaucratic_incantation: 'The Hollow Woman in the registration queue taught me some weird bureaucratic incantation.',

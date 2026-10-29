@@ -396,74 +396,67 @@ export default class VoxMarket extends GameScene {
                 ]
             },
             
+            // The hand-over and Kloor's reveal can't be closed half-way: once he has the Vestigel the quest is
+            // complete and nothing replays the reveal, so leaving early used to lose the lead to Dr. Elphi.
             kloor_vestigels_complete: {
+                hideCloseOption: true,
                 text: "Kloor's eyes widen as you show him the Vestigel. 'Incredible! You actually found one!' He carefully takes it from you, examining it with fascination. 'As promised, I'll tell you what I know about the Bishop.'",
                 options: [
                     { text: "Tell me", key: 'tell_me', next: "kloor_bishop_reveal" }
                 ],
-                onTrigger: function() {
-                    // Remove the Vestigel from inventory
-                    this.removeItemFromInventory('vestigel');
-                    
-                    // Update quest with message before completing it
-                    this.questSystem.updateQuest(
-                        'the_three_vestigels', 
-                        'I gave the vestigel to Kloor Venn in exchange for information about the Bishop.', 
-                        'completed'
-                    );
-                    
-                    // Complete the quest
-                    this.questSystem.completeQuest('the_three_vestigels');
-                    
-                    // Add journal entry about giving the vestigel to Kloor
-                    this.addJournalEntry(
-                        'kloor_vestigel_exchange',
-                        'Vestigel Exchange with Kloor',
-                        'I traded a vestigel to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
-                        this.journalSystem.categories.EVENTS,
-                        { character: 'Kloor Venn', item: 'Vestigel', location: 'Voxmarket' }
-                    );
-                }
-            },
-            
-            kloor_bishop_reveal: {
-                text: "'From what I know, she mostly tried to find various gaming gadgets, controllers, and the like at the market. You see, the Bishop has developed quite an addiction to the dream games by Dr. Elphi Quarn. Apparently, she visited the doctor quite often. Elphi is a well-known local game designer and the owner of a studio where games are created from the dreams of professional imaginators. Besides that, she's probably pretty smart, because she invented a lot of the stuff these games use all by herself. The Bishop has been looking pretty depressed lately, as if she were searching for something or someone. You should visit Elphi Quarn at the Scraper 1140 and ask her directly, that'll be best.'",
-                options: [
-                    { text: "The dream games?", key: 'the_dream_games', next: "kloor_dream_games" }
-                ]
-            },
-            
-            kloor_dream_games: {
-                text: "'Dream games? Yeah, they can be addictive. Supposedly more addictive than Oltrac, hehe. ARB Ambra Studio makes the best ones… well, actually, the only ones that exist. I've heard that finding a good imaginator is pretty hard. A friend of mine used to work there. He said the studio is equipped with specially modified beds, and the imaginators wear silver helmets without visors on their heads, connected to a complex system of wires, cables, and electrodes. The helmets are the doctor's invention, and she's really proud of them.'",
-                options: [
-                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "kloor_quest_update" }
-                ]
-            },
-            
-            kloor_quest_update: {
-                text: "",
-                options: [],
-                onShow: () => {
-                    // Update the find_bishop quest with more detailed information
+                onTrigger: () => {
+                    const quest = this.questSystem.getQuest('the_three_vestigels');
+                    if (quest && !quest.isComplete) {
+                        this.consumeOne('vestigel');          // vestigels stack: hand over one, not the pile
+                        this.questSystem.updateQuest(
+                            'the_three_vestigels',
+                            'I gave the vestigel to Kloor Venn in exchange for information about the Bishop.',
+                            'completed'
+                        );
+                        this.questSystem.completeQuest('the_three_vestigels');
+                        this.addJournalEntry(
+                            'kloor_vestigel_exchange',
+                            'Vestigel Exchange with Kloor',
+                            'I traded a vestigel to Kloor Venn. In exchange, he promised to reveal what he knows about the Bishop and her activities in the market. The strange coin-like object seemed to fascinate him greatly - perhaps for its value, or perhaps for some other property I\'m not aware of.',
+                            this.journalSystem.categories.EVENTS,
+                            { character: 'Kloor Venn', item: 'Vestigel', location: 'Voxmarket' }
+                        );
+                    }
+                    // The lead is written together with the completion (both idempotent), not at the end of the
+                    // reveal -- a save or quit mid-conversation must not leave a finished quest without it.
                     if (this.questSystem.getQuest('find_bishop')) {
                         this.questSystem.updateQuest(
                             'find_bishop',
                             'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is a famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
                             'elphi_contact'
                         );
-                        
-                        // Add journal entry about the Bishop's contact with Dr. Elphi
-                        this.addJournalEntry(
-                            'bishop_elphi_contact',
-                            'The Bishop\'s Contact with Dr. Elphi',
-                            'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is a famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
-                            this.journalSystem.categories.EVENTS,
-                        );
+                        if (!this.hasJournalEntry('bishop_elphi_contact')) {
+                            this.addJournalEntry(
+                                'bishop_elphi_contact',
+                                'The Bishop\'s Contact with Dr. Elphi',
+                                'According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often. Dr. Elphi is a famous game designer, owner of the studio where games are made from dreams of professional imaginators. She is also an inventor. Kloor told me, that the Bishop seemed depressed and was searching for something. Her contact with Dr. Elphi seems quite irregular and unusual. I should look for Dr. Elphi at the Scraper 1140.',
+                                this.journalSystem.categories.EVENTS,
+                                { character: 'Kloor Venn', location: 'Voxmarket' }
+                            );
+                        }
                     }
-                    
-                    // Close dialog after updating quest
-                    this.hideDialog();
                 }
+            },
+
+            kloor_bishop_reveal: {
+                hideCloseOption: true,
+                text: "'From what I know, she mostly tried to find various gaming gadgets, controllers, and the like at the market. You see, the Bishop has developed quite an addiction to the dream games by Dr. Elphi Quarn. Apparently, she visited the doctor quite often. Elphi is a well-known local game designer and the owner of a studio where games are created from the dreams of professional imaginators. Besides that, she's probably pretty smart, because she invented a lot of the stuff these games use all by herself. The Bishop has been looking pretty depressed lately, as if she were searching for something or someone. You should visit Elphi Quarn at the Scraper 1140 and ask her directly, that'll be best.'",
+                options: [
+                    { text: "The dream games?", key: 'the_dream_games', next: "kloor_dream_games" }
+                ]
+            },
+
+            kloor_dream_games: {
+                hideCloseOption: true,
+                text: "'Dream games? Yeah, they can be addictive. Supposedly more addictive than Oltrac, hehe. ARB Ambra Studio makes the best ones… well, actually, the only ones that exist. I've heard that finding a good imaginator is pretty hard. A friend of mine used to work there. He said the studio is equipped with specially modified beds, and the imaginators wear silver helmets without visors on their heads, connected to a complex system of wires, cables, and electrodes. The helmets are the doctor's invention, and she's really proud of them.'",
+                options: [
+                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "closeDialog" }
+                ]
             },
             rustDomain: {
                 text: "Kloor eyes you thoughtfully. 'Rust Choir headquarters, huh? That's not exactly public knowledge. But... I might be able to help you out. For a price, of course.'",

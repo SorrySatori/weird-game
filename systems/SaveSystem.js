@@ -3,7 +3,22 @@
  */
 export default class SaveSystem {
     /** Registry keys copied into / restored from a save file (plain JSON values only). */
-    static PERSISTED_REGISTRY_KEYS = ['dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft'];
+    static PERSISTED_REGISTRY_KEYS = [
+        'dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft',
+        // durable world state the scenes keep only in the registry (lost on load before)
+        'gameDay', 'fixed_floor_counter', 'crossroadGrowth', 'cathedral_entry_granted', 'cardinal_feast_played',
+        'scraper_deadfloor_opened', 'shed_tunnel_opened', 'delta_seam_opened', 'delta_fungal_bridge_grown',
+        'delta_redmass_collected', 'delta_metal_scrap_collected', 'harbor_oil_collected',
+        'magnekin_destroyed', 'magnekin_redmass_spared', 'redmass_spared',
+        'rust_choir_member', 'expelled_from_rust_domain', 'rust_feast_illusory',
+        'pith_room_unlocked', 'lumen_clearance', 'voxmarketAuctionTestingFundsGranted', 'equipment_tutorial_done',
+        'bishop_arc_closed', 'infinite_fold_ending', 'guardian_fate', 'finale_ending', 'game_finale_complete', 'epilogue_mode',
+    ];
+
+    /** Forget the persisted registry state (a new game, or before applying a loaded save). */
+    static clearPersistedRegistry(registry) {
+        for (const key of SaveSystem.PERSISTED_REGISTRY_KEYS) registry.remove(key);
+    }
 
     constructor(scene) {
         this.scene = scene;
@@ -180,7 +195,9 @@ export default class SaveSystem {
         
         console.log('Applying loaded save data:', saveData);
 
-        // Restore persisted registry keys
+        // Restore persisted registry keys (cleared first: a key the save doesn't have must not survive from the
+        // game that was running before the load)
+        SaveSystem.clearPersistedRegistry(registry);
         if (saveData.registry) {
             for (const key of SaveSystem.PERSISTED_REGISTRY_KEYS) {
                 if (saveData.registry[key] !== undefined) registry.set(key, saveData.registry[key]);

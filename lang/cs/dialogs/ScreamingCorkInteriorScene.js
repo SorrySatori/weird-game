@@ -140,6 +140,12 @@ export default {
             ive_changed_my_mind_maybe_another_time: "Rozmyslel jsem si to. Třeba jindy."
         }
     },
+    ravla_rust_demo: {
+        text: "*Ravla se nakloní blíž a ztiší hlas.* „Ještě jedna věc, jen mezi námi. Místa, která na to budeš potřebovat – doky, Delta, archeologova honba za pokladem –, zatím nejsou na žádné mapě. V téhle verzi města ne. Říkají tomu demo. Padělala jsem v životě ledacos, ale celou čtvrť ti nepadělám.“ *Pokrčí rameny.* „Úkol si stejně nech. Až dostavějí zbytek města, vrať se. Chór na tebe počká – a Brukk na dobrovolníky nezapomíná.“",
+        options: {
+            ill_hold_you_to_that: "Beru tě za slovo."
+        }
+    },
     ravla_rust_task: {
         text: "Je tu jedna drobnost, kterou je potřeba vyřídit. Chceš za Brukkem? Tak nejdřív nakrm kov. Stroje mají pořád hlad – běž a připrav jim hostinu. Budeš potřebovat olej, kov a hlavně rudou hmotu. Dej to všechno dohromady, přines mi to a já ti schůzku s Brukkem zařídím.",
         options: {

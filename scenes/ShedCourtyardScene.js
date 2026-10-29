@@ -86,48 +86,33 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "See you later.", key: 'see_you_later', next: "goodbye" }
                 ]
             },
-            // Form submission dialogs
+            // Form submission dialogs. The paper leaves the pack only in the matching complete_quest_* state,
+            // together with the gift and the quest completion: closing the dialog halfway can't lose it.
             give_artisan_form: {
         
                 text: "An Artisan's Exemption Form?! This is perfect! Creative exemption from standard limb restrictions... exactly what I need! This form recognizes my work as a legitimate art form deserving of special consideration. You've saved me a hundred digestions of bureaucratic wrangling!",
                 options: [
                     { text: "Happy to help.", key: 'happy_to_help', next: "complete_quest_artisan" }
-                ],
-                onTrigger: () => {
-                    // Remove the form from inventory
-                    this.removeItemFromInventory('artisan-exemption-form');
-                }
+                ]
             },
             give_deformity_form: {
                 text: "An Inherited Deformity Form? Hmm, not exactly how I'd describe my need for extra arms, but... it's approved! 'Beneficial mutation status' — I suppose that works. The classification is a bit insulting, but the result is what matters. Thank you for your help!",
                 options: [
                     { text: "It's what I could get.", key: 'its_what_i_could_get', next: "complete_quest_deformity" }
-                ],
-                onTrigger: () => {
-                    // Remove the form from inventory
-                    this.removeItemFromInventory('deformity-form');
-                }
+                ]
             },
             give_special_dispensation: {
         
                 text: "A Special Dispensation! How did you manage this? These are incredibly rare! Limb modification without standard documentation... this is even better than I hoped for! You must have impressed someone important. This will save me so much trouble!",
                 options: [
                     { text: "Sometimes actions speak louder than words.", key: 'sometimes_actions_speak_louder_than_words', next: "complete_quest_dispensation" }
-                ],
-                onTrigger: () => {
-                    // Remove the form from inventory
-                    this.removeItemFromInventory('special-dispensation');
-                }
+                ]
             },
             give_temporary_permit: {
                 text: "A Temporary Permit? Well... it's better than nothing, I suppose. Limited access is still access. I'll need to find a more permanent solution eventually, but this will at least let me start the process. Thank you for your efforts.",
                 options: [
                     { text: "Sorry it's not better.", key: 'sorry_its_not_better', next: "complete_quest_temporary" }
-                ],
-                onTrigger: () => {
-                    // Remove the form from inventory
-                    this.removeItemFromInventory('temporary-permit');
-                }
+                ]
             },
             // Quest completion dialogs with rewards
             complete_quest_artisan: {
@@ -136,6 +121,7 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "Thank you, I'll treasure it.", key: 'thank_you_ill_treasure_it', next: "quest_completed" }
                 ],
                 onTrigger: () => {
+                    this.removeItemFromInventory('artisan-exemption-form');
                     this.completeQuest('ortolan_arms', 'artisan');
                     // Sects & Stakes, the prototype
                     this.addItemToInventory(armsReward('artisan-exemption-form'));
@@ -150,6 +136,7 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "Thank you for this gift.", key: 'thank_you_for_this_gift', next: "quest_completed" }
                 ],
                 onTrigger: () => {
+                    this.removeItemFromInventory('deformity-form');
                     this.completeQuest('ortolan_arms', 'deformity');
                     // the shark with legs
                     this.addItemToInventory(armsReward('deformity-form'));
@@ -163,6 +150,7 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "It's beautiful, thank you.", key: 'its_beautiful_thank_you', next: "quest_completed" }
                 ],
                 onTrigger: () => {
+                    this.removeItemFromInventory('special-dispensation');
                     this.completeQuest('ortolan_arms', 'dispensation');
                     // the Black Cactus card
                     this.addItemToInventory(armsReward('special-dispensation'));
@@ -177,6 +165,7 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "Thank you for the figurine.", key: 'thank_you_for_the_figurine', next: "quest_completed" }
                 ],
                 onTrigger: () => {
+                    this.removeItemFromInventory('temporary-permit');
                     this.completeQuest('ortolan_arms', 'temporary');
                     // Maxim Hopsalot, minus his six-pack
                     this.addItemToInventory(armsReward('temporary-permit'));
@@ -190,11 +179,7 @@ export default class ShedCourtyardScene extends GameScene {
                 options: [
                     { text: "From a specialist in the Screaming Cork.", key: 'from_a_specialist_in_the_screaming_cork', next: "forged_reaction" },
                     { text: "I'd rather not say.", key: 'id_rather_not_say', next: "forged_reaction" }
-                ],
-                onTrigger: () => {
-                    // Remove the forged document from inventory
-                    this.removeItemFromInventory('forged-arms-permission');
-                }
+                ]
             },
             forged_reaction: {
                 text: "Well, I suppose I shouldn't look a gift horse in the mouth. This will certainly do the trick — the bureaucrats barely look at these forms anyway. They just check for the right seals and stamps. Though using a forgery does feel... morally questionable.",
@@ -210,6 +195,7 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "Thank you for the gift.", key: 'thank_you_for_the_gift', next: "quest_completed" }
                 ],
                 onTrigger: () => {
+                    this.removeItemFromInventory('forged-arms-permission');
                     // Complete quest with 'forged' completion type
                     this.completeQuest('ortolan_arms', 'forged');
                     

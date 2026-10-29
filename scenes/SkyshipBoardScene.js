@@ -113,7 +113,7 @@ export default class SkyshipBoardScene extends GameScene {
         });
         
         // Add a name tag below the captain
-        const captainText = this.add.text(lx, 548, "Captain Liris", {
+        const captainText = this.add.text(lx, 548, this.t('ui.hotspots.captainLiris'), {
             fontSize: '18px',
             fill: '#7fff8e',
             align: 'center'

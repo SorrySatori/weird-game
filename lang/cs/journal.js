@@ -298,7 +298,7 @@ export default {
         },
         forgotten_elevator_button_available: {
             title: 'Záhadný Knoflík u Zerren',
-            description: 'Zerren přidala do svého sortimentu podivný předmět.',
+            description: 'Zerren má na stánku novinku: Zapomenutý výtahový knoflík s podivnými značkami, od patra, které oficiálně neexistuje. Možná se díky němu dostanu nahoru do studia Dr. Elphi ve Škrabáku 1140 – tam, kam se vydala Biskupka.',
         },
         rust_feast_completed_full: {
             title: 'Rezavá Hostina Připravena',

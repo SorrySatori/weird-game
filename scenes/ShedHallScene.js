@@ -135,11 +135,17 @@ export default class ShedHallScene extends GameScene {
             'Back'
         );
 
-            const inventory = this.registry.get('inventory');
-            const alreadyInInventory = inventory.items.some(item => item.id === 'living-core');
-            if (alreadyInInventory) {
-                this._livingCore.setVisible(false);
-            }
+        // The socket stays empty once the core is out: in the pack, extracted (core_taken_*) or already handed to
+        // Gnur. Checking the pack alone let it grow back after the delivery. A refusal leaves it in the wall.
+        const inventory = this.registry.get('inventory');
+        const alreadyInInventory = inventory.items.some(item => item.id === 'living-core');
+        const coreTaken = !!QuestSystem.getInstance().getQuest('rust_reclamation')?.updates?.some(
+            u => ['core_taken_force', 'core_taken_careful', 'core_delivered'].includes(u.key));
+        if (alreadyInInventory || coreTaken) {
+            this.tweens.killTweensOf(this._livingCore);
+            this._livingCore.destroy();
+            this._livingCore = null;
+        }
     }
 
     update() {

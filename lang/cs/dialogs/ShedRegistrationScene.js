@@ -240,7 +240,7 @@ export default {
         options: { i_understand: "Rozumím." }
     },
     registration_failure: {
-        text: "(Úředník s konečnou platností otiskne na formulář razítko ZAMÍTNUTO.)\n\n„Vaše žádost se zamítá. Nedostatečná kvalifikace, dokumentace nebo účel. Znovu můžete žádat po standardní čekací lhůtě 47 trávení.“",
+        text: "(Úředník s konečnou platností otiskne na formulář razítko ZAMÍTNUTO.)\n\n„Vaše žádost se zamítá. Nedostatečná kvalifikace, dokumentace nebo účel. Znovu můžete žádat po standardní čekací lhůtě 47 trávení.“\n\n(Aniž by zvedl oči, dodá:) „A ať vás ani nenapadne jít s tím do Řvoucího korku. Co tam prodává ta Ravla, není žádný dokument. Úředně o ní nic nevím.“",
         options: { i_see: "Aha..." }
     },
     registration_complete_success: {
