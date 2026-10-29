@@ -87,7 +87,7 @@ export default {
         options: { thank_you_ill_treasure_it: "Děkuji, budu si toho vážit." }
     },
     complete_quest_deformity: {
-        text: "No, takhle bych sám sebe zrovna nepopsal, ale účel to splní! Děkuju za pomoc. Tady, vezměte si tuhle zvláštní kostku, kterou jsem vyrobil. Má... neobvyklé vlastnosti. Občas ukáže čísla, která neexistují, a někdy předpoví příští hod. Používejte ji s rozumem.",
+        text: "No, takhle bych sám sebe zrovna nepopsal, ale účel to splní! Děkuju za pomoc. Tady – když už jsme u prospěšných mutací: žralok s nohama. Ploutve už skoro nemá. Nevzpomenu si, kde jsem k němu přišel... z nějaké deskovky o upírech a démonech, tuším. Co v ní dělal žralok, se mě neptejte. Celkově to bylo dost ustřelené, pamatuju si, že tam byla taky figurka chlapíka se sýrem.",
         options: { thank_you_for_this_gift: "Děkuji za ten dar." }
     },
     complete_quest_dispensation: {
@@ -113,7 +113,7 @@ export default {
         }
     },
     complete_quest_forged: {
-        text: "Asi máte pravdu. Zdejší byrokracie je stejně absurdní. S tímhle dokumentem si konečně nechám ten zákrok schválit! Děkuju za vaše... kreativní řešení. Tady, vezměte si tuhle zvláštní figurku, na které pracuju. Možná vám při vašich výpravách přinese trochu štěstí.",
+        text: "Asi máte pravdu. Zdejší byrokracie je stejně absurdní. S tímhle dokumentem si konečně nechám ten zákrok schválit! Děkuju za vaše... kreativní řešení. Tady – Apocalypse Cop. Detektiv s drinkem Tequila Sunrise v ruce. Není ode mě, tu hru dělal někdo jiný. Mám ho obzvlášť rád. Připomíná mi období po pádu Ludarchů, kdy jsem... pil. Hodně. Vezměte si ho. Mám pocit, že ho budete potřebovat víc než já.",
         options: { thank_you_for_the_gift: "Děkuji za dar." }
     },
     quest_completed: {

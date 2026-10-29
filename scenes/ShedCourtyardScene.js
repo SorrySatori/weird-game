@@ -145,13 +145,13 @@ export default class ShedCourtyardScene extends GameScene {
             },
             complete_quest_deformity: {
         
-                text: "Well, it's not exactly how I'd describe myself, but it gets the job done! Thank you for your help. Here, take this special die I crafted. It has... unusual properties. Sometimes it shows numbers that don't exist, and occasionally predicts future rolls. Use it wisely.",
+                text: "Well, it's not exactly how I'd describe myself, but it gets the job done! Thank you for your help. Here — speaking of beneficial mutations: a shark with legs. Hardly any fins left. I can't remember where I got it... some board game about vampires and demons, I think. Don't ask me what a shark was doing in it. The whole thing was pretty unhinged — I remember there was also a figure of a guy with a cheese.",
                 options: [
                     { text: "Thank you for this gift.", key: 'thank_you_for_this_gift', next: "quest_completed" }
                 ],
                 onTrigger: () => {
                     this.completeQuest('ortolan_arms', 'deformity');
-                    // Add special die to inventory
+                    // the shark with legs
                     this.addItemToInventory(armsReward('deformity-form'));
                     // Growth reward
                     this.safeModifyGrowthDecay(4, 0);
@@ -205,7 +205,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             complete_quest_forged: {
         
-                text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here, take this special game piece I've been working on. It might bring you some luck in your endeavors.",
+                text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here — Apocalypse Cop. A detective with a Tequila Sunrise in his hand. Not one of mine; someone else made that game. I'm especially fond of him. He reminds me of the years after the Ludarchs fell, when I... drank. A lot. Take him. I have a feeling you'll need him more than I do.",
                 options: [
                     { text: "Thank you for the gift.", key: 'thank_you_for_the_gift', next: "quest_completed" }
                 ],
@@ -216,7 +216,7 @@ export default class ShedCourtyardScene extends GameScene {
                     // Increase Decay due to using forged documents
                     this.safeModifyGrowthDecay(0, 10);
                     
-                    // Add special game piece to inventory
+                    // Apocalypse Cop, Tequila Sunrise in hand
                     this.addItemToInventory(armsReward('forged-arms-permission'));
                 }
             },

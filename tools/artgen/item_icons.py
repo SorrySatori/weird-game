@@ -41,6 +41,7 @@ VIOL   = ramp('#3a1450 #6a2a8a #a050c8 #e0a0ff')
 GREEN  = ramp('#12301c #1f5a32 #3f8f5a #7fff8e #c8ffd0')
 TEAL   = ramp('#123034 #1d4a4e #2c6a6c #44908c #6cb8ac')
 RED    = ramp('#3a0e10 #6a1a1e #9a2a2a #c84a3c')
+BLK_   = ramp('#0c0c0e #1a1a1e #2a2a30')                       # plinths, bases
 STAMP_G, STAMP_V, STAMP_B, STAMP_R = hx('#3f7a4c'), hx('#6a4a8a'), hx('#3a5a8a'), hx('#9a2a2a')
 
 
@@ -360,19 +361,26 @@ def black_cactus_card(ic):
             ic.put(x, y, mix(ic.get(x, y) or BLK[1], hx('#ffffff'), 0.35))
     ic.outline()
 
-def probability_die(ic):
-    # a bone d6 in 3/4 -- the top face shows seven pips, which a die shouldn't
-    top = [(30, 12), (47, 20), (30, 28), (13, 20)]
-    ic.poly(top, lambda x, y: pick(BONE, 4.2 - (y - 12) / 30))
-    ic.poly([(13, 20), (30, 28), (30, 48), (13, 39)], lambda x, y: pick(BONE, 3.2 - (y - 20) / 40))
-    ic.poly([(30, 28), (47, 20), (47, 39), (30, 48)], lambda x, y: pick(BONE, 2.0 - (x - 30) / 40))
-    D = hx('#2a2420')
-    for (x, y) in ((24, 18), (30, 15), (36, 18), (30, 20), (24, 22), (36, 22), (30, 25)):  # seven
-        ic.put(x, y, D); ic.put(x + 1, y, D)
-    for (x, y) in ((18, 28), (25, 38)): ic.ell(x, y, 1.3, 1.3, D)                            # two
-    for (x, y) in ((35, 31), (39, 35), (43, 31), (35, 40), (43, 39)): ic.ell(x, y, 1.1, 1.1, hx('#4a3a5a'))  # five, faintly violet
+def legged_shark_statuette(ic):
+    # a painted statuette: a grey shark standing on two stubby legs on a black plinth -- white belly, a toothy grin,
+    # and almost no fins: a stub where the dorsal fin was, a short tail
+    SH = ramp('#1e2a34 #34485a #4e687c #6e8ca0 #96b2c2')
+    BELLY = ramp('#8a948e #bcc4bc #e4e8e0')
+    ic.rect(14, 48, 46, 52, lambda x, y: pick(BLK_, 1.6 - (x - 14) / 40 + (0.8 if y == 48 else 0)))   # plinth
+    ic.rect(25, 50, 35, 51, lambda x, y: pick(BRASS, 3 - (x - 25) / 10))                               # its brass plate
+    for (lx, ly) in ((25, 37), (34, 37)):                                                              # two legs
+        ic.rect(lx, ly, lx + 3, ly + 6, lambda x, y, lx=lx: pick(SH, 3 - (x - lx) / 2))
+        ic.rect(lx + 1, ly + 6, lx + 3, ly + 9, lambda x, y, lx=lx: pick(SH, 2.4 - (x - lx) / 3))      # shins
+        ic.rect(lx - 1, ly + 10, lx + 4, ly + 10, pick(SH, 1.6))                                       # feet
+    ic.poly([(41, 28), (47, 24), (46, 29), (48, 34), (41, 31)], lambda x, y: pick(SH, 2.6 - (x - 41) / 10))   # a stubby tail
+    ic.ell(29, 30, 14, 7.5, lambda x, y: pick(SH, 3.6 - (x - 15) / 22 - (y - 23) / 10))                 # body
+    ic.poly([(18, 32), (40, 32), (36, 37), (22, 37)], lambda x, y: pick(BELLY, 2.2 - (x - 18) / 30))     # white belly
+    ic.poly([(28, 24), (31, 19), (33, 24)], lambda x, y: pick(SH, 3.2 - (x - 28) / 5))                  # what's left of the dorsal fin
+    ic.put(19, 28, INK); ic.put(18, 28, pick(SH, 4))                                                     # eye
+    for x in range(15, 23): ic.put(x, 32, INK)                                                          # grin...
+    for x in range(16, 23, 2): ic.put(x, 33, BELLY[2])                                                  # ...with teeth
+    for k in range(3): ic.line(24 + k * 2, 27, 23 + k * 2, 31, pick(SH, 1))                            # gills
     ic.outline()
-    ic.glow(VIOL[2], r=2, a=0.25)
 
 def hopsalot_figurine(ic):
     # a collector's box with a window: Maxim Hopsalot, patron of Lagerlandia -- hop-cone crown, foam beard, a raised
@@ -422,18 +430,58 @@ def hopsalot_figurine(ic):
             q = (x + dx, y + dy)
             if q not in rings and q not in ic.px: ic.put(*q, INK)
 
-def fate_altering_piece(ic):
-    # an obsidian spire piece with one eye; it gives off an unsettling violet-red light
-    ic.ell(30, 50, 10, 3.2, lambda x, y: pick(OBSID, 2.4 - (x - 30) / 10))
-    ic.poly([(22, 49), (38, 49), (34, 42), (26, 42)], lambda x, y: pick(OBSID, 3 - (x - 22) / 8))
-    ic.poly([(26, 42), (34, 42), (31, 10), (29, 10)], lambda x, y: pick(OBSID, 3.4 - (x - 26) / 3))
-    ic.ell(30, 38, 6, 1.6, lambda x, y: pick(OBSID, 3 - (x - 24) / 6))                         # collar
-    ic.ell(30, 10, 2.6, 2.6, lambda x, y: pick(OBSID, 3.6 - (x - 28 + y - 8) / 3))              # orb on top
-    ic.ell(30, 26, 3.4, 2.2, hx('#d8c0e0'))                                                 # the eye
-    ic.ell(30, 26, 1.4, 1.6, hx('#c8202a')); ic.put(30, 26, INK)
-    for y in range(12, 40, 4): ic.put(28, y, pick(OBSID, 3))
+def apocalypse_cop_figure(ic):
+    # a painted miniature of Apocalypse Cop (a nod to Disco Elysium's Harry Du Bois): swept-back auburn mullet and
+    # mutton chops, a red drinker's nose, an olive-green blazer, a cream waistcoat over the belly, a long red tie
+    # flying sideways, mustard flares, heavy brown shoes -- and a Tequila Sunrise in hand
+    JKT = ramp('#18301a #284a24 #3e6a32 #5a8a44 #78a85a')
+    VST = ramp('#6a5e4a #9a8c70 #c4b696 #e2d6b8')
+    TIE = ramp('#3a0c10 #6a1a1e #942a2a #b8463a')
+    YEL = ramp('#5a3a10 #9a6a1a #d09a30 #eec050')
+    HAIR = ramp('#2a120a #552614 #84401e #a85a2a')
+    SKN = ramp('#6a3a2a #9a5e44 #c8866a #e4ac8c')
+    SHOE = ramp('#1a1210 #2e221c #46362c')
+    ic.ell(30, 52, 12, 3, lambda x, y: pick(BLK_, 1.4 - (x - 18) / 30))                         # the base
+    ic.rect(18, 49, 42, 51, lambda x, y: pick(BLK_, 1 + (y == 49)))
+    ic.poly([(23, 34), (30, 34), (28, 47), (20, 47)], lambda x, y: pick(YEL, 3.2 - (x - 20) / 8))  # mustard flares
+    ic.poly([(30, 34), (37, 34), (40, 47), (32, 47)], lambda x, y: pick(YEL, 2.6 - (x - 30) / 8))
+    ic.line(27, 36, 25, 46, pick(YEL, 1)); ic.line(34, 36, 36, 46, pick(YEL, 1))                  # creases
+    ic.rect(19, 47, 27, 49, lambda x, y: pick(SHOE, 2 - (y - 47) / 2))                            # heavy shoes
+    ic.rect(32, 47, 40, 49, lambda x, y: pick(SHOE, 1.6 - (y - 47) / 2))
+    ic.poly([(20, 19), (40, 19), (43, 37), (17, 37)], lambda x, y: pick(JKT, 3 - (x - 17) / 18))   # the blazer
+    ic.ell(30, 28, 7.5, 8.5, lambda x, y: pick(VST, 3.2 - (x - 23) / 12 - (y - 20) / 24))         # waistcoat over the belly
+    ic.rect(25, 19, 35, 24, lambda x, y: pick(VST, 3 - (x - 25) / 12))
+    for (x, y) in ((30, 23), (30, 27), (31, 31)): ic.put(x, y, pick(SHOE, 1))                     # buttons
+    ic.rect(24, 34, 36, 35, lambda x, y: pick(STEEL, 1.6))                                         # belt
+    ic.poly([(23, 19), (26, 19), (24, 33), (20, 36)], lambda x, y: pick(JKT, 1.8))                 # lapels
+    ic.poly([(34, 19), (37, 19), (41, 36), (36, 33)], lambda x, y: pick(JKT, 1.4))
+    for (x0_, y0_, x1_, y1_) in ((30, 21, 30, 26), (30, 26, 26, 29), (26, 29, 22, 30)):                 # the tie, hanging,
+        ic.line(x0_, y0_, x1_, y1_, lambda x, y: pick(TIE, 2.8 - (30 - x) / 12), w=2)                    # its end flicked aside
+    ic.poly([(23, 29), (19, 28), (18, 31), (22, 32)], lambda x, y: pick(TIE, 2.2))                       # the blade
+    ic.ell(30.5, 19.5, 1.6, 1.2, pick(TIE, 3))                                                     # its knot
+    ic.poly([(40, 20), (43, 21), (44, 33), (41, 33)], lambda x, y: pick(JKT, 2))                   # arm, hand in pocket
+    ic.poly([(19, 20), (22, 22), (16, 30), (13, 28)], lambda x, y: pick(JKT, 3.2))                 # the drinking arm
+    ic.ell(13.5, 28.5, 1.8, 1.6, pick(SKN, 2.6))
+    ic.ell(31, 12.5, 5, 6, lambda x, y: pick(SKN, 3.2 - (x - 26) / 6))                            # head
+    ic.poly([(25, 10), (27, 4), (33, 3), (38, 6), (39, 13), (38, 19), (36, 15), (36, 9), (29, 7), (26, 12)],
+            lambda x, y: pick(HAIR, 3 - (x - 25) / 10 - (y - 3) / 30))                               # the swept-back mullet
+    ic.poly([(26, 14), (28, 18), (31, 20), (35, 19), (37, 15), (36, 13), (34, 16), (29, 17), (27, 13)],
+            lambda x, y: pick(HAIR, 2.2 - (x - 26) / 14))                                           # mutton chops + beard
+    ic.put(30, 19, pick(STEEL, 2)); ic.put(31, 19, pick(STEEL, 2)); ic.put(31, 20, pick(STEEL, 1))   # the grey chin
+    ic.line(27, 9, 30, 10, pick(HAIR, 0)); ic.line(32, 10, 34, 9, pick(HAIR, 0))                  # a scowl
+    ic.put(29, 11, INK); ic.put(33, 11, INK)
+    ic.rect(27, 13, 28, 14, hx('#c84a4a')); ic.put(26, 14, hx('#d86a5a'))                         # the red nose
+    ic.put(29, 16, hx('#a04a40'))                                                                  # mouth in the beard
+    TQ = [hx('#f4c040'), hx('#f0a030'), hx('#e87428'), hx('#d84a28'), hx('#b82a2a')]
+    for y in range(19, 29):                                                                        # the Tequila Sunrise
+        for x in range(9, 13):
+            c = TQ[min(4, (y - 19) * 5 // 10)]
+            ic.put(x, y, mix(c, hx('#ffffff'), 0.35) if x == 9 else c)
+    for x in range(9, 13): ic.put(x, 18, mix(TQ[0], hx('#ffffff'), 0.5))
+    ic.ell(14, 18, 1.7, 1.7, lambda x, y: hx('#f09030') if (x + y) % 3 else hx('#f8d870'))       # orange slice
+    ic.put(10, 17, hx('#c8102a')); ic.put(10, 16, hx('#4a2a10'))                                  # cherry
+    ic.line(12, 18, 14, 13, hx('#e8e8e0'))                                                         # straw
     ic.outline()
-    ic.glow(hx('#b0306a'), r=3, a=0.4)
 
 def chrono_slurry_toadlet(ic):
     # a brass carrier jar: glass cylinder, murky slurry, the toadlet's big eyes staring out
@@ -486,9 +534,9 @@ ICONS = [
     ('silent-sentence', silent_sentence),
     ('game-prototype', game_prototype),
     ('black-cactus-card', black_cactus_card),
-    ('probability-die', probability_die),
+    ('legged-shark-statuette', legged_shark_statuette),
     ('hopsalot-figurine', hopsalot_figurine),
-    ('fate-altering-piece', fate_altering_piece),
+    ('apocalypse-cop-figure', apocalypse_cop_figure),
     ('chrono-slurry-toadlet', chrono_slurry_toadlet),
     ('corrosive_cultivar', corrosive_cultivar),
 ]

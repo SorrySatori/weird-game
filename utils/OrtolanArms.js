@@ -25,9 +25,9 @@ export const ARMS_PAPERWORK = [
     {
         form: 'deformity-form', growth: 4, decay: 0,
         reward: {
-            id: 'probability-die',
-            name: "Probability-Bending Die",
-            description: "A strange die crafted by Ortolan that occasionally shows impossible numbers and seems to predict future rolls.",
+            id: 'legged-shark-statuette',
+            name: "Legged Shark Statuette",
+            description: "A statuette of a shark with legs, almost finless. Ortolan no longer remembers exactly where he got it, but he says it's from some board game about vampires and demons.",
             stackable: false
         }
     },
@@ -43,9 +43,9 @@ export const ARMS_PAPERWORK = [
     {
         form: 'forged-arms-permission', growth: 0, decay: 10,
         reward: {
-            id: 'fate-altering-piece',
-            name: "Fate-Altering Game Piece",
-            description: "A special game piece crafted by Ortolan that seems to subtly influence probability and fate when carried. It glows with a faint, unsettling light.",
+            id: 'apocalypse-cop-figure',
+            name: "Apocalypse Cop Figure",
+            description: "A figure of Apocalypse Cop, a detective holding a Tequila Sunrise. Ortolan is especially fond of him: he reminds him of the time after the fall of the Ludarchs, when he sank into drink. He's from a game Ortolan didn't make, someone else did. Ortolan has a feeling you'll need him more than he does.",
             stackable: false
         }
     },

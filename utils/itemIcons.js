@@ -46,9 +46,9 @@ export const ITEM_ICONS = [
     // ... and his gifts for it (game pieces = another)
     { key: 'game-prototype',            path: 'assets/images/items/game-prototype.png' },
     { key: 'black-cactus-card',         path: 'assets/images/items/black-cactus-card.png' },        // once worth millions
-    { key: 'probability-die',           path: 'assets/images/items/probability-die.png' },
+    { key: 'legged-shark-statuette',    path: 'assets/images/items/legged-shark-statuette.png' },   // from a vampire-and-demon board game
     { key: 'hopsalot-figurine',         path: 'assets/images/items/hopsalot-figurine.png' },        // Maxim Hopsalot, sans six-pack
-    { key: 'fate-altering-piece',       path: 'assets/images/items/fate-altering-piece.png' },
+    { key: 'apocalypse-cop-figure',     path: 'assets/images/items/apocalypse-cop-figure.png' },    // Tequila Sunrise in hand
     // faction errands
     { key: 'chrono-slurry-toadlet',     path: 'assets/images/items/chrono-slurry-toadlet.png' },     // prophetic toad in a brass jar
     { key: 'corrosive_cultivar',        path: 'assets/images/items/corrosive_cultivar.png' },        // rot-plant that eats metal
