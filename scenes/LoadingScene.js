@@ -87,6 +87,14 @@ export default class LoadingScene extends Phaser.Scene {
             ease: 'Sine.easeInOut'
         });
         
+        // Back from a game (utils/mainMenu.js reloaded the page): straight to the menu, no splash
+        let skipSplash = false;
+        try { skipSplash = sessionStorage.getItem('skipSplash') === '1'; sessionStorage.removeItem('skipSplash'); } catch (e) { /* no storage */ }
+        if (skipSplash) {
+            this.scene.start('MainScene');
+            return;
+        }
+
         // Display for a few seconds then transition to MainScene
         this.time.delayedCall(3000, () => {
             this.cameras.main.fadeOut(1000, 0, 0, 0);

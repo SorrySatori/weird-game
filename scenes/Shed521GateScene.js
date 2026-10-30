@@ -10,6 +10,7 @@ export default class Shed521GateScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('Shed521GateBg', 'assets/images/backgrounds/Shed521_gate.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         preloadGDProps(this); // the burning barrel by the lamp
@@ -24,7 +25,7 @@ export default class Shed521GateScene extends GameScene {
         this.transitionManager = new SceneTransitionManager(this);
         
         // Play market theme
-        this.playSceneMusic('marketTheme');
+        this.playSceneMusic('shedLoop', { resume: true });
         
         // The gate yard (native 1067×600: tools/artgen/gate_bg.py — the queue for mutation forms, the Floors door on the right)
         const bg = this.add.image(this.scale.width / 2, 300, 'Shed521GateBg');

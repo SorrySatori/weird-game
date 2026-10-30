@@ -287,6 +287,7 @@ export default class ShedCourtyardScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('courtyard-bg', 'assets/images/backgrounds/ShedMutationCourtyard.png');
         this.load.image('door', 'assets/images/ui/door.png');
         this.load.spritesheet('ortolanIdle', 'assets/images/characters/ortolan_idle.png', { frameWidth: 128, frameHeight: 160 });
@@ -296,6 +297,7 @@ export default class ShedCourtyardScene extends GameScene {
 
     create() {
         super.create();
+        this.playSceneMusic('shedLoop', { resume: true });
         
         // The Mutation Approval Courtyard (native 1067×600: tools/artgen/courtyard_bg.py)
         const bg = this.add.image(this.scale.width / 2, 300, 'courtyard-bg');

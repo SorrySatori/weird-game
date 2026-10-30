@@ -176,6 +176,7 @@ export default class ScraperScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('streetSong');
         this.load.image('scraperBg', 'assets/images/backgrounds/Scraper1140.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
@@ -196,7 +197,7 @@ export default class ScraperScene extends GameScene {
             this.ground.destroy();
             this.ground = null;
         }
-        this.playSceneMusic('genericMusic');
+        this.playSceneMusic('streetSong', { resume: true });
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);

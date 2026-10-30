@@ -317,7 +317,7 @@ export default {
         }
     },
     heliodor_sulkberry_check: {
-        text: "Několik Heliodorových dílčích organismů se jeden po druhém nakloní dopředu – nejdřív se přimhouří oči, pak se rozšíří nozdry a nakonec se natáhnou prsty, které jako by patřily úplně jiné povaze, a převezmou vzorek bobulí.\n\nDlouhá odmlka. Různé části Heliodorova složeného těla se spolu radí šeptavým cvakáním a bzučením.\n\n„Vzorek jsme prozkoumali. Tři z našich složek ho ochutnaly, dvě rozebraly zbytky spor a Oorarabaz – na chvíli probuzený – potvrdil stavbu alkaloidů vstřebáním přes membránu.\n\nPlod je čistý. Žádné jedy, žádné úpravy, žádné parazitické zásahy. Prémiový výrobek Lumen Directorate v bezvadném stavu.“",
+        text: "Několik Heliodorových dílčích organismů se jeden po druhém nakloní dopředu – nejdřív se přimhouří oči, pak se rozšíří nozdry a nakonec se natáhnou prsty, které jako by patřily úplně jiné povaze, a převezmou vzorek bobulí.\n\nDlouhá odmlka. Různé části Heliodorova složeného těla se spolu radí šeptavým cvakáním a bzučením.\n\n„Vzorek jsme prozkoumali. Tři z našich složek ho ochutnaly, dvě rozebraly zbytky spor a Oorarabaz – na chvíli probuzený – potvrdil stavbu alkaloidů vstřebáním přes membránu.\n\nPlod je čistý. Žádné jedy, žádné úpravy, žádné parazitické zásahy. Prémiový výrobek Direktorátu v bezvadném stavu.“",
         options: {
             photosentience_read_heliodors_biosignals_for_decep: "[Fotosenzitivita] Číst Heliodorovy biosignály kvůli podvodu.",
             photosentience_silenced_heliodor: "[Fotosenzitivita] Zkusit číst Heliodora… (tvůj smysl skomírá)",

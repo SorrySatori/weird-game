@@ -23,6 +23,7 @@ export default class Shed521FloorsScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('floors', 'assets/images/backgrounds/Shed521_floors.png');
         this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
         this.load.image('arrow', 'assets/images/ui/arrow.png'); // Arrow for transition hover effects
@@ -34,6 +35,7 @@ export default class Shed521FloorsScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        this.playSceneMusic('shedLoop', { resume: true });
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);

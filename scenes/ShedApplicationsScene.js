@@ -294,6 +294,7 @@ export default class ShedApplicationsScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('applications-bg', 'assets/images/backgrounds/ShedApplications.png');
         this.load.image('door', 'assets/images/ui/door.png');
         // the clerk: an 8-frame idle sheet, 128×176 (tools/artgen/clerk.py, Aseprite Shed_clerk_applications)
@@ -303,6 +304,7 @@ export default class ShedApplicationsScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        this.playSceneMusic('shedLoop', { resume: true });
         
         // Set initial priest position
         if (this.priest) {

@@ -208,8 +208,8 @@ export default {
             description: 'Dr. Elphi potvrdila, že Mručenky jsou kořeněná odrůda.',
         },
         elphi_lumen_lead: {
-            title: 'Stopa Vyšetřování: Lumen Direktorát',
-            description: 'Dr. Elphi mě nasměrovala k Lumen Direktorátu.',
+            title: 'Stopa Vyšetřování: Direktorát',
+            description: 'Dr. Elphi mě nasměrovala k Direktorátu.',
         },
         elphi_ready_for_day2: {
             title: 'Den 1 Dokončen: Vyšetřování Začíná',
@@ -314,7 +314,7 @@ export default {
         },
         rust_feast_completed_poisoned: {
             title: 'Rezavá Hostina Připravena (Otrávená)',
-            description: 'Než Ravla zamíchala Rezavou hostinu, rozetřel jsem do oleje žíravý kultivar Lumen Directorate. Ničeho si nevšimla – ale až se stroje nakrmí, sežere je zevnitř.',
+            description: 'Než Ravla zamíchala Rezavou hostinu, rozetřel jsem do oleje žíravý kultivar Direktorátu. Ničeho si nevšimla – ale až se stroje nakrmí, sežere je zevnitř.',
         },
         ravla_feast_refused_spared: {
             title: 'Ravla Odmítla – Rudá Hmota Ušetřena',
@@ -349,7 +349,7 @@ export default {
             description: "Rezavá hostina, kterou jsem přinesl, zničila stroje Rezavého chóru. Brukk mě vyhnal z Rezavé domény.",
             facts: {
                 illusion: "Rudá hmota v ní byla jen přelud, který jsem utkal s Ulvarexem. Stroje se z ní pokusily nasytit, nenašly nic a zemřely – a jejich smrt mnou prohnala mohutnou vlnu Růstu: život, který se živí mrtvolou železa.",
-                cultivar: "Byla otrávená žíravým kultivarem Lumen Directorate, který jsem rozetřel do oleje – stroje zkorodovaly zevnitř. Brukk našel zelený zbytek a hned věděl, co to je. Tam, kde železo zmlklo, vytryskl život.",
+                cultivar: "Byla otrávená žíravým kultivarem Direktorátu, který jsem rozetřel do oleje – stroje zkorodovaly zevnitř. Brukk našel zelený zbytek a hned věděl, co to je. Tam, kde železo zmlklo, vytryskl život.",
             },
         },
         captain_liris_meeting: {
@@ -361,8 +361,8 @@ export default {
             },
         },
         lumen_directorate_faction: {
-            title: 'Lumen Directorate',
-            description: "Lumen Directorate je mocná frakce oddaná splynutí mysli a flóry. Jsou strážci a ochránci všeho, co roste – považují se za hlídače života samotného.",
+            title: 'Direktorát',
+            description: "Direktorát je mocná frakce oddaná splynutí mysli a flóry. Jsou strážci a ochránci všeho, co roste – považují se za hlídače života samotného.",
             facts: {
                 specimens: "Jejich lidé vyrážejí na výpravy za vzácnými exempláři – kapitánka Liris je teď na jedné z nich.",
             },
@@ -377,23 +377,23 @@ export default {
         },
         met_gardener_verrik: {
             title: 'Setkání se Zahradníkem Verrikem',
-            description: 'Potkal jsem zahradníka jménem Verrik před Lumen Direktorátem.',
+            description: 'Potkal jsem zahradníka jménem Verrik před Direktorátem.',
         },
         verrik_gave_cultivar: {
             title: 'Kultivar Direktorátu',
             description: 'Verrik mi dal zakázaný kultivar Direktorátu – řízenou hnilobu vyšlechtěnou žrát kov. Rozetřený do oleje a předložený strojům Rezavého chóru je zkoroduje zevnitř.',
         },
         gardener_bishop_visits: {
-            title: 'Návštěvy Biskupky u Lumen Direktorátu',
+            title: 'Návštěvy Biskupky u Direktorátu',
             description: 'Zahradník Verrik prozradil, že Biskupka pravidelně navštěvovala.',
         },
         grew_mushroom_verrik: {
             title: 'Vyrostla Houba pro Verrika',
-            description: 'Obětoval jsem spory u Lumen Direktorátu a vyrostl houbu.',
+            description: 'Obětoval jsem spory u Direktorátu a vyrostl houbu.',
         },
         lumen_directorate_joined: {
-            title: 'Člen Lumen Directorate',
-            description: 'Tím, že jsem ochromil strojovou svatyni Rezavého chóru, jsem dokázal svou oddanost růstu nad stagnací. Korektor úhlů mě uvedl jako plného člena Lumen Directorate: Nic skrytého, nic ztraceného.',
+            title: 'Člen Direktorátu',
+            description: 'Tím, že jsem ochromil strojovou svatyni Rezavého chóru, jsem dokázal svou oddanost růstu nad stagnací. Korektor úhlů mě uvedl jako plného člena Direktorátu: Nic skrytého, nic ztraceného.',
         },
         met_angle_corrector: {
             title: 'Setkání s Korektorem Úhlu',
@@ -437,7 +437,7 @@ export default {
         },
         met_seldo: {
             title: 'Setkání se Seldem Třikrát-Korigovaným',
-            description: 'Setkal jsem se se Seldem Třikrát-Korigovaným ve druhém patře Lumen Direktorátu. Má na starosti úřední styk s městem.',
+            description: 'Setkal jsem se se Seldem Třikrát-Korigovaným ve druhém patře Direktorátu. Má na starosti úřední styk s městem.',
         },
         seldo_auction_errand: {
             title: 'Seldův Úkol: Aukce na Voxmarketu',
@@ -564,7 +564,7 @@ export default {
         },
         town_square_place: {
             title: 'Náměstí',
-            description: "Otevřené srdce Horní Morkezely, odkud vedou cesty k radnici, k přístavu, k Lumen Direktorátu a dolů do Božího hřbitova. Hraje tu pouliční muzikant každému, kdo chce poslouchat, a opodál postává podivná kovová postava.",
+            description: "Otevřené srdce Horní Morkezely, odkud vedou cesty k radnici, k přístavu, k Direktorátu a dolů do Božího hřbitova. Hraje tu pouliční muzikant každému, kdo chce poslouchat, a opodál postává podivná kovová postava.",
             facts: {
                 busker: "Muzikant zpívá písně mrtvého světa – melodie, které si pamatují modré nebe a čistý vzduch.",
                 magnekin: "Ta kovová postava si říká Magnekin, „průměrný, skutečný občan“ – a mizerně předstírá, že je člověk.",
@@ -963,7 +963,7 @@ export default {
         },
         rust_choir_warned_of_lumen: {
             title: 'Varování pro Chór',
-            description: 'Lumen Direktorát mě pověřil zničením strojů Rezavého chóru. Místo toho jsem varoval Brukka. Chór mě teď považuje za věrného – a Direktorát si značí k zúčtování. Po tomhle už není návratu k Direktorátu.',
+            description: 'Direktorát mě pověřil zničením strojů Rezavého chóru. Místo toho jsem varoval Brukka. Chór mě teď považuje za věrného – a Direktorát si značí k zúčtování. Po tomhle už není návratu k Direktorátu.',
         },
         lumen_surplus_harvested: {
             title: 'Přebytečný květ',

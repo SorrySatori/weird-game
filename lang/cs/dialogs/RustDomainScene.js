@@ -14,7 +14,7 @@ export default {
             ask_cellar_favor: "Chór šmejdí vnitřnostmi téhle věže. Dostaneš mě do zapečetěného sklepa dole?",
             perspective_intro: "[Než vejdu do katedrály] Ve Vaječné katedrále se probouzí mysl. Ty opatruješ stroje, které přetrvaly. Co bys s ní udělal ty?",
             brukk_ask_graft: "Dokázal by mi Chór udělat místo pro dalšího symbionta? Zaplatím.",
-            warn_rust_of_lumen: "Lumen Direktorát mě poslal sabotovat vaše stroje. Radši tě varuju.",
+            warn_rust_of_lumen: "Direktorát mě poslal sabotovat vaše stroje. Radši tě varuju.",
             brukk_spy_probe: "[Rozmluvit Brukka] Ty stroje – na co doopravdy čekají?",
             brukk_spy_osswine: "[Osswine · Hrobový smysl] (Přečíst mlčenlivé stroje, které Chór opatruje.)",
             brukk_spy_betray: "[Zrada] Poslal mě špehovat vás gang mluvících lamp. Radši budu jednat s vámi.",
@@ -131,7 +131,7 @@ export default {
         }
     },
     brukk_board_war_detail: {
-        text: "Frakce se formovaly... Lumen Direktorát si přivlastnil vítězství... Inkoustový tribunál tlačil pravidla... Ale my známe pravdu. Stroje přetrvaly.",
+        text: "Frakce se formovaly... Direktorát si přivlastnil vítězství... Inkoustový tribunál tlačil pravidla... Ale my známe pravdu. Stroje přetrvaly.",
         options: {
             so_the_choir_was_born_from_the_war: "Takže Chór se zrodil z války?"
         }

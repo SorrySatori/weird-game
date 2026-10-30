@@ -38,6 +38,7 @@ export default class ShedRegistrationScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('registration-bg', 'assets/images/backgrounds/ShedRegistrationZone.png');
         this.load.image('door', 'assets/images/ui/door.png');
         // the Senior Clerk: an 8-frame idle sheet, 128×192 (tools/artgen/senior_clerk.py, Aseprite Shed_senior_clerk)
@@ -52,6 +53,7 @@ export default class ShedRegistrationScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        this.playSceneMusic('shedLoop', { resume: true });
         // The scene instance is reused: without this a return visit before the queue was finished never shows it again
         this.dreamQueueStarted = false;
         this.isTransitioning = false;

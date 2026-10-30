@@ -220,6 +220,7 @@ export default {
             title: "Nothing Grows in Iron",
             description: "The Angle Corrector will grant me full membership in the Lumen Directorate if I cripple the Rust Choir's machine-shrine. Verrik, on the ground floor, keeps a cultivar behind glass for exactly this — or I can find my own way to sabotage the machines. Then report back.",
             updates: {
+                demo_not_yet: "The Angle Corrector admitted the city isn't finished yet — this task will have to wait for the full game. The Directorate is good at waiting, apparently.",
                 verrik_cultivar: "Verrik gave me the cultivar — a controlled rot bred to eat metal. Ground into oil, it corrodes any machine that drinks it from the inside out.",
             }
         },

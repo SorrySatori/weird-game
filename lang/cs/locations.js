@@ -17,7 +17,7 @@ export default {
         TownSquareScene: 'Městské náměstí',
         TownhallScene: 'Radnice',
         TownhallInteriorScene: 'Radnice – interiér',
-        LumenDirectorateScene: 'Lumen Directorate',
+        LumenDirectorateScene: 'Direktorát',
         BurningBearStreetScene: 'Ulice Hořícího Medvěda',
         ScreamingCorkScene: 'Řvoucí korek',
         HarborScene: 'Přístav',
@@ -25,7 +25,7 @@ export default {
         RedmassIslandScene: 'Ostrov rudohmoty',
 
         // Oznámení při příchodu do scény
-        LumenDirectorateInteriorScene: 'Lumen Directorate – interiér',
+        LumenDirectorateInteriorScene: 'Direktorát – interiér',
         ScraperInteriorScene: 'Škrabák 1140 – interiér',
         ScreamingCorkInteriorScene: 'Řvoucí korek – interiér',
         ScreamingCorkClubScene: 'Řvoucí korek – klub',

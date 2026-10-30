@@ -19,7 +19,7 @@ export default {
             im_investigating_the_bishops_death: "Vyšetřuji smrt Biskupky.",
             i_need_to_ask_about_spiced_sulkberries: "Potřebuji se zeptat na kořeněné mručenky.",
             i_need_help_getting_into_the_townhall: "Potřebuji pomoc dostat se na radnici.",
-            tell_me_about_the_lumen_directorate: "Řekněte mi o Lumen Directorate.",
+            tell_me_about_the_lumen_directorate: "Řekněte mi o Direktorátu.",
             whats_happening_with_the_egg_cathedral: "Co se děje s Vaječnou katedrálou?",
             what_can_i_do_for_the_directorate: "Co mohu udělat pro Direktorát?",
             i_want_full_membership: "Chci být víc než jen spolupracovník. Co by vyžadovalo plné členství?",
@@ -109,13 +109,13 @@ export default {
         }
     },
     ac_test_passed: {
-        text: "Teď? Jste uznáni Lumen Directorate jako spolupracovník – ne člen, ještě ne. Členství vyžaduje čas a prokázanou oddanost.\n\nAle máte přístup. Můžete se volně pohybovat těmito chodbami, konzultovat naše archivy a hledat úkoly od operativců Direktorátu.\n\nVítejte v růstu. Snažte se nezvadnout.",
+        text: "Teď? Jste uznáni Direktorátem jako spolupracovník – ne člen, ještě ne. Členství vyžaduje čas a prokázanou oddanost.\n\nAle máte přístup. Můžete se volně pohybovat těmito chodbami, konzultovat naše archivy a hledat úkoly od operativců Direktorátu.\n\nVítejte v růstu. Snažte se nezvadnout.",
         options: {
             i_have_questions: "Mám otázky."
         }
     },
     ac_about_directorate: {
-        text: "Lumen Directorate existuje, aby zajistil, že růst zvítězí. Poté, co Deskovkové války zredukovaly toto město na popel a protimluvy, jsme přestavěli. Ludarchové hráli své hry, dokud realita neunesla váhu jejich pravidel – a když se herní desky zhroutily, byli jsme to my, kdo zasadil první nové kořeny.\n\n'Nic skrytého. Nic ztraceného.' To je náš závazek. Transparentnost a zachování. Vše, co roste, si zaslouží být viděno, katalogizováno a chráněno.",
+        text: "Direktorát existuje, aby zajistil, že růst zvítězí. Poté, co Deskovkové války zredukovaly toto město na popel a protimluvy, jsme přestavěli. Ludarchové hráli své hry, dokud realita neunesla váhu jejich pravidel – a když se herní desky zhroutily, byli jsme to my, kdo zasadil první nové kořeny.\n\n'Nic skrytého. Nic ztraceného.' To je náš závazek. Transparentnost a zachování. Vše, co roste, si zaslouží být viděno, katalogizováno a chráněno.",
         options: {
             what_about_the_rust_choir_and_the_pith_reclaimers: "A co Rezavý chór a Inkoustový tribunál?",
             what_is_your_role_here: "Jaká je vaše role tady?",
@@ -274,6 +274,12 @@ export default {
             ill_think_about_it_membership: "Rozmyslím si to."
         }
     },
+    ac_lumen_demo: {
+        text: "*Korektor úhlů nakloní hlavu o přesně odměřených pár stupňů.* „Jedna korekce mých vlastních pokynů. Město, kterým byste na to museli projít, ještě není dokončené. Plány jsou narýsované, ale úhly zatím nesedí – celé jeho části teprve čekají, až je někdo postaví. Prý se tomu říká demo.“ *Odmlka, která je skoro omluvou.* „Úkol platí. Až bude město hotové, počká tu na vás – stejně jako Direktorát. Čekat umíme výborně. Zeptejte se kteréhokoli semínka.“",
+        options: {
+            then_ill_wait_like_a_seed: "Tak budu čekat jako semínko."
+        }
+    },
     ac_sabotage_accepted: {
         text: "\"Dobře. Za čistou metodou navštivte Verrika v přízemí. Ty stroje stály už příliš dlouho.\"",
         options: {
@@ -383,7 +389,7 @@ export default {
         }
     },
     seldo_errand: {
-        text: "Na Voxmarketu se v aukční hale chystá aukce. Pořádají je nepravidelně – kdykoli se nahromadí dost podivných předmětů, aby to ospravedlnilo ten cirkus.\n\nMezi položkami je tvor, kterého potřebuji. Konkrétně exemplář Chronobřečkového Ropušátka – vzácná ropucha. Když ji olížete, uvidíte přesně tři minuty do budoucnosti. Absurdně užitečné pro kohokoli, kdo naviguje byrokratické termíny.\n\nProblém? Operativec Lumen Direktorátu kupující prorockou ropuchu by vyvolal... řeči. Předpovídání budoucnosti znamená pochybnosti o přítomnosti – a pochybnosti jsou rozkladové myšlení. 'Růst nehazarduje,' jak rada ráda říká.\n\nPotřebuji, aby ji za mě koupil někdo nesvázaný.",
+        text: "Na Voxmarketu se v aukční hale chystá aukce. Pořádají je nepravidelně – kdykoli se nahromadí dost podivných předmětů, aby to ospravedlnilo ten cirkus.\n\nMezi položkami je tvor, kterého potřebuji. Konkrétně exemplář Chronobřečkového Ropušátka – vzácná ropucha. Když ji olížete, uvidíte přesně tři minuty do budoucnosti. Absurdně užitečné pro kohokoli, kdo naviguje byrokratické termíny.\n\nProblém? Operativec Direktorátu kupující prorockou ropuchu by vyvolal... řeči. Předpovídání budoucnosti znamená pochybnosti o přítomnosti – a pochybnosti jsou rozkladové myšlení. 'Růst nehazarduje,' jak rada ráda říká.\n\nPotřebuji, aby ji za mě koupil někdo nesvázaný.",
         options: {
             a_prophetic_toad_thats_your_embarrassing_secret: "Prorocká ropucha? To je vaše trapné tajemství?",
             ill_do_it_tell_me_about_the_auction: "Udělám to. Řekněte mi o aukci.",

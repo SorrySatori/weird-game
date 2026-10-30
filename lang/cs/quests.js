@@ -34,8 +34,8 @@ export default {
                 dead_bishop_notebook: 'Našel jsem podivnou poznámku... „Vešla jsem do zpovědnice, ale ona tam už byla. Vypadala jako já..."',
                 bishop_dissection: 'Tělo Biskupky obsahuje podivný zářící houbový výrůstek, který se integroval s její nervovou soustavou.',
                 dead_bishop_berries: 'Před smrtí Biskupka zřejmě jedla Mručenky.',
-                gardener_bishop_info: 'Zahradník Verrik u Lumen Direktorátu zmínil, že Biskupka pravidelně navštěvovala – konkrétně kvůli Korektoru Úhlu.',
-                gardener_sulkberry_info: 'Zahradník u Lumen Direktorátu potvrdil, že kořeněné Mručenky jsou kontrolovaná komodita.',
+                gardener_bishop_info: 'Zahradník Verrik u Direktorátu zmínil, že Biskupka pravidelně navštěvovala – konkrétně kvůli Korektoru Úhlu.',
+                gardener_sulkberry_info: 'Zahradník u Direktorátu potvrdil, že kořeněné Mručenky jsou kontrolovaná komodita.',
                 ac_bishop_relationship: 'Korektor Úhlu potvrdil profesionální vztah s Biskupkou – pravidelná setkání o přístupu do Katedrály a líhnutí.',
                 ac_sulkberry_confirmed: 'Korektor Úhlu potvrdil dodávky Mručenek pro Biskupku – používány pro snovou imerzi v Katedrále.',
                 ac_tamper_hint: 'Korektor Úhlu naznačil, že zmanipulované Mručenky by mohly způsobit neurální trauma odpovídající stavu Biskupky.',
@@ -47,8 +47,8 @@ export default {
                 elphi_townhall_log: 'Setkání Biskupky s dvojníkem bylo formálně zaznamenáno na Radnici. Archivní úředník by mohl mít kopii.',
                 elphi_journal: 'Dr. Elphi interpretovala zápis v deníku Biskupky jako důkaz, že byla odpojena od myceliální sítě.',
                 elphi_dissection: 'Dr. Elphi věří, že houbový výrůstek uvnitř Biskupky byl symbiont. Vrah mohl mířit na samotného symbionta.',
-                elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu – specialitu Lumen Direktorátu.',
-                elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Lumen Direktorátem. Prodávají kořeněné Mručenky.',
+                elphi_berries: 'Dr. Elphi identifikovala Mručenky jako kořeněnou odrůdu – specialitu Direktorátu.',
+                elphi_lumen_lead: 'Dr. Elphi navrhla promluvit s Direktorátem. Prodávají kořeněné Mručenky.',
                 verrik_sulkberry_clear: 'Zahradník Verrik potvrdil, že mručenky byly pečlivě pěstovány – žádná kontaminace. Stopa otravy Direktorátem slábne.',
                 kloor_sulkberry_clear: 'Kloor Venn analyzoval mručenky – čisté, žádné příměsi ani toxiny. Stopa otravy dále slábne.',
                 heliodor_sulkberry_clear: 'Heliodorovy kompozitní organismy potvrdily, že mručenky jsou čisté – žádné toxiny ani modifikace. Stopa mručenek je slepá ulička.',
@@ -88,10 +88,10 @@ export default {
         },
         find_lumen_directorate: {
             title: 'Nic skrytého. Nic ztraceného',
-            description: "Rád bych se přidal k Lumen Directorate. Měl bych se dozvědět víc o jejich práci a zjistit, co je potřeba, abych se stal jedním z nich.",
+            description: "Rád bych se přidal k Direktorátu. Měl bych se dozvědět víc o jejich práci a zjistit, co je potřeba, abych se stal jedním z nich.",
             updates: {
                 gardener_directions: 'Zahradník Verrik mě nasměroval ke Korektoru Úhlu ve třetím patře Direktorátu.',
-                liris_directions: "Kapitánka Liris mi poradila, kde najdu sídlo Lumen Directorate – nedaleko hlavního náměstí. Když se k nim přidám, možná si vysloužím místo v posádce Verdigrace.",
+                liris_directions: "Kapitánka Liris mi poradila, kde najdu sídlo Direktorátu – nedaleko hlavního náměstí. Když se k nim přidám, možná si vysloužím místo v posádce Verdigrace.",
             }
         },
         find_rust_choir: {
@@ -160,11 +160,11 @@ export default {
             title: 'Vstoupit na Radnici',
             description: "Musím se dostat dovnitř Radnice.",
             updates: {
-                gardener_seldo_tip: 'Zahradník Verrik u Lumen Direktorátu navrhl, abych promluvil se Seldem Třikrát-Korigovaným uvnitř.',
+                gardener_seldo_tip: 'Zahradník Verrik u Direktorátu navrhl, abych promluvil se Seldem Třikrát-Korigovaným uvnitř.',
                 ac_seldo_referral: 'Korektor Úhlu mě nasměroval k Seldovi Třikrát-Korigovanému ve druhém patře.',
                 seldo_auction_errand: 'Seldo Třikrát-Korigovaný má náhradní klíč od Radnice, ale chce protislužbu: koupit Chronobřečkové Ropušátko na aukci na Voxmarketu jeho jménem. Prorocká ropucha, která po olíznutí umožní vidět tři minuty do budoucnosti – příliš trapné pro operativce Direktorátu koupit veřejně.',
-                seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumen Directorate výměnou za klíč od Radnice.',
-                seldo_auction_success_price: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu za {price} dinárů. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Lumen Directorate výměnou za klíč od Radnice.',
+                seldo_auction_success: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Direktorátu výměnou za klíč od Radnice.',
+                seldo_auction_success_price: 'Vyhrál jsem Chronobřečkové Ropušátko na aukci ve Voxmarketu za {price} dinárů. Měl bych ho vrátit Seldovi Třikrát-Korigovanému v Direktorátu výměnou za klíč od Radnice.',
                 seldo_townhall_key: 'Dodal jsem Chronobřečkové Ropušátko Seldovi Třikrát-Korigovanému. Dal mi neoficiální klíč od Radnice pro boční vchod s mosaznou schránkou na stížnosti.',
                 entered_townhall: "Dostal jsem se dovnitř Radnice.",
                 phor_needs_access: "Dovnitř potřebuje i Phor Calesta – bez povolení od Radnice nesmí kopat na Hřbitově bohů, jenže Radnice je zavřená.",
@@ -216,8 +216,9 @@ export default {
         },
         join_lumen_directorate: {
             title: "V železe nic neroste",
-            description: "Korektor úhlů mi udělí plné členství v Lumen Directorate, když ochromím svatyni strojů Rezavého chóru. Verrik v přízemí chová za sklem kultivar přesně na tohle – anebo si najdu vlastní způsob, jak stroje vyřadit. Pak se vrátím podat hlášení.",
+            description: "Korektor úhlů mi udělí plné členství v Direktorátu, když ochromím svatyni strojů Rezavého chóru. Verrik v přízemí chová za sklem kultivar přesně na tohle – anebo si najdu vlastní způsob, jak stroje vyřadit. Pak se vrátím podat hlášení.",
             updates: {
+                demo_not_yet: "Korektor úhlů přiznal, že město ještě není dostavěné – tenhle úkol si počká do plné verze. Direktorát prý čekat umí.",
                 verrik_cultivar: "Verrik mi ten kultivar dal – řízenou hnilobu vyšlechtěnou žrát kov. Rozetřený do oleje rozežere zevnitř každý stroj, který se ho napije.",
                 betrayed_to_rust: "Prozradil jsem Rezavému chóru sabotážní plán Direktorátu. Zpátky k Direktorátu už cesta nevede.",
             }
@@ -229,7 +230,7 @@ export default {
                 lamp_family_known: "Lampy jsou celkem čtyři: Don nahoře na lávce pod Škrabákem 1140, Chandelier na sloupu na náměstí, Sconce u domu razítek a Torchère dole u vody, kde přijíždí náklad.",
                 all_lamps_found: "Všechny čtyři lampy jsou nalezené a skrze mě zase ve spojení.",
                 lamps_have_work: "Lampy říkají, že pro mě brzy budou mít práci. Měl bych se u nich zase stavit.",
-                gang_lamps_destroyed: "Gang lamp zničil Lumen Direktorát. Už není koho propojovat a žádná odměna mě nečeká.",
+                gang_lamps_destroyed: "Gang lamp zničil Direktorát. Už není koho propojovat a žádná odměna mě nečeká.",
                 // Řádky `met_lamp_<id>` – kód vybírá podle počtu (params.textKey), {n} = počet nalezených lamp.
                 lamps_found_one: "Zatím jsem našel jednu lampu.",
                 lamps_found_few: "Zatím jsem našel {n} lampy.",
@@ -257,7 +258,7 @@ export default {
         },
         gang_chandelier_eavesdrop: {
             title: "Vybrané sousto",
-            description: "Chandelier chce drby. Poslala mě odposlouchávat k zahradě Lumen Direktorátu – je tam průduch, kterým jsou slyšet hlasy zevnitř. Mám tam naslouchat a pak jí donést, co zaslechnu.",
+            description: "Chandelier chce drby. Poslala mě odposlouchávat k zahradě Direktorátu – je tam průduch, kterým jsou slyšet hlasy zevnitř. Mám tam naslouchat a pak jí donést, co zaslechnu.",
             updates: {
                 // `gang_eavesdrop_heard` – jedna varianta na cestu, kód ji vybírá (params.textKey).
                 gang_eavesdrop_heard_vent: "U průduchu v zahradě jsem zaslechl tajemství Direktorátu – jeden Korektor úhlů potichu vykuchal archiv, aby pohřbil chybu svého nadřízeného. Mám to donést Chandelier.",

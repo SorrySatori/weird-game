@@ -17,6 +17,7 @@ export default class CrossroadScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('forestGuitar');
         this.load.image('crossroadBg', 'assets/images/backgrounds/crossroad.png');
         // The dead demigod is a separate sprite so its fate (cut open / spores planted) swaps one
         // frame instead of the whole background. Frames: 0 intact, 1 skull opened, 2 mycelium tree.
@@ -50,7 +51,7 @@ export default class CrossroadScene extends GameScene {
             this.ground.destroy();
             this.ground = null;
         }
-        this.playSceneMusic('genericMusic');
+        this.playSceneMusic('forestGuitar');
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);

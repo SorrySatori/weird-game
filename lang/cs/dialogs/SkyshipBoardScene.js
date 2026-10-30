@@ -32,22 +32,22 @@ export default {
         }
     },
     captainAbout: {
-        text: "Jsem kapitánka Liris, velitelka tohoto plavidla, jak jsem řekla. Jsem na misi pro Lumen Directorate, jako obvykle.",
+        text: "Jsem kapitánka Liris, velitelka tohoto plavidla, jak jsem řekla. Jsem na misi pro Direktorát, jako obvykle.",
         options: {
-            what_is_the_lumen_directorate: "Co je Lumen Directorate?",
+            what_is_the_lumen_directorate: "Co je Direktorát?",
             other_topics: "Zeptej se na něco jiného",
         }
     },
     captainAccord: {
-        text: "Lumen Directorate je mocná organizace, víte? Usilujeme o splynutí mysli a flóry. Jsme strážci a ochránci všeho, co roste. Jsme ochránci života.",
+        text: "Direktorát je mocná organizace, víte? Usilujeme o splynutí mysli a flóry. Jsme strážci a ochránci všeho, co roste. Jsme ochránci života.",
         options: {
             other_topics: "Zeptej se na něco jiného",
             what_is_you_mission: "Jaká je vaše mise?",
-            does_lumen_directorate_have_some_enemies: "Má Lumen Directorate nějaké nepřátele?"
+            does_lumen_directorate_have_some_enemies: "Má Direktorát nějaké nepřátele?"
         }
     },
     captainMission: {
-        text: "Naše mise má za cíl hledat a sbírat vzácné exempláře pro Lumen Directorate. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
+        text: "Naše mise má za cíl hledat a sbírat vzácné exempláře pro Direktorát. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
@@ -79,14 +79,14 @@ export default {
         }
     },
     captainTravel: {
-        text: "Možná jednou, příteli. Ale ne na této cestě. Loď si... vybrala svou posádku. Cítím, že ještě není připravena se s vámi spojit. Vraťte se, až prokážete svou hodnotu. Verdigrace je obzvláště vybíravá ohledně toho, koho přijme. Pokud to myslíte vážně, navštivte ústředí Lumen Directorate ve městě a zeptejte se na vstup do posádky. Mohli by pro vás mít nějaké úkoly, abyste prokázal svou oddanost.",
+        text: "Možná jednou, příteli. Ale ne na této cestě. Loď si... vybrala svou posádku. Cítím, že ještě není připravena se s vámi spojit. Vraťte se, až prokážete svou hodnotu. Verdigrace je obzvláště vybíravá ohledně toho, koho přijme. Pokud to myslíte vážně, navštivte ústředí Direktorátu ve městě a zeptejte se na vstup do posádky. Mohli by pro vás mít nějaké úkoly, abyste prokázal svou oddanost.",
         options: {
-            where_can_i_find_the_lumen_directorate_headquarter: "Kde najdu ústředí Lumen Directorate?",
+            where_can_i_find_the_lumen_directorate_headquarter: "Kde najdu ústředí Direktorátu?",
             other_topics: "Zeptej se na něco jiného"
         }
     },
     captainDirectorate: {
-        text: "Ústředí Lumen Directorate se nachází v srdci města, poblíž hlavního náměstí. Je to pořádná budova, nemůžete ji minout.",
+        text: "Ústředí Direktorátu se nachází v srdci města, poblíž hlavního náměstí. Je to pořádná budova, nemůžete ji minout.",
         options: {
             thank_you_i_have_some_other_questions: "Děkuji! Mám ještě další otázky."
         }

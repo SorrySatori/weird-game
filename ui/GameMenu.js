@@ -2,6 +2,7 @@
  * GameMenu.js - In-game menu system triggered by ESC key
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { returnToMainMenu } from '../utils/mainMenu.js';
 
 export default class GameMenu {
     /**
@@ -215,7 +216,7 @@ export default class GameMenu {
             buttonStyle,
             () => {
                 this.clickSound.play();
-                this.scene.scene.start('MainScene');
+                returnToMainMenu(this.scene);     // a clean slate: no old quests/journal/map, no second track
             }
         );
         this.container.add(exitButton);

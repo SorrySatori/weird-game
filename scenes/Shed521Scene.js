@@ -342,7 +342,7 @@ export default class Shed521Scene extends GameScene {
             this.ground.destroy();
             this.ground = null;
         }
-        this.playSceneMusic('genericMusic');
+        this.playSceneMusic('shedLoop', { resume: true });
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
@@ -471,6 +471,7 @@ export default class Shed521Scene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('Shed521Bg', 'assets/images/backgrounds/Shed521.png');
         // Growth/Decay variants of the yard (same generator, other parameters) + the shared G/D props.
         this.load.image('Shed521Bg_growth', 'assets/images/backgrounds/Shed521_growth.png');

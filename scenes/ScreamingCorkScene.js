@@ -876,6 +876,7 @@ export default class ScreamingCorkScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('streetSong');
         this.load.image('screamingCorkBg', 'assets/images/backgrounds/ScreamingCork.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         // Edgar: an 8-frame idle sheet, 128×192 (tools/artgen/edgar.py from the old EdgarEskola.png, Aseprite Edgar_eskola)
@@ -889,6 +890,7 @@ export default class ScreamingCorkScene extends GameScene {
         this._bookFarewellThisVisit = false;
         // Call parent create first to initialize mechanics
         super.create();
+        this.playSceneMusic('streetSong', { resume: true });
 
         // Set background
         const bg = this.add.image(400, 300, 'screamingCorkBg');

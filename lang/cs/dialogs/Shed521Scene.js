@@ -127,7 +127,7 @@ export default {
         }
     },
     gnur_spy_secret: {
-        text: "Gnurův hlas klesne do spikleneckého mumlání. „Drby, jo? Pro tebe lacino – mám dneska dobrou náladu.“ Nakloní se blíž, dech je cítit olejem a statickou elektřinou. „Chór má někoho *uvnitř* Lumen Direktorátu. Jeden z jejich upjatých archivářků nám potajmu zpívá – donáší Brukkovi, které stroje se Direktorát chystá odepsat, takže víme, které stroje půjdou pořídit lacino. Ty krásný lidičky si myslí, že zvelebují město. Ve skutečnosti nám jen ukazují, kde kopat.“ S úšklebkem se narovná. „Tahle informace má větší cenu, než jsi mi dal.“",
+        text: "Gnurův hlas klesne do spikleneckého mumlání. „Drby, jo? Pro tebe lacino – mám dneska dobrou náladu.“ Nakloní se blíž, dech je cítit olejem a statickou elektřinou. „Chór má někoho *uvnitř* Direktorátu. Jeden z jejich upjatých archivářků nám potajmu zpívá – donáší Brukkovi, které stroje se Direktorát chystá odepsat, takže víme, které stroje půjdou pořídit lacino. Ty krásný lidičky si myslí, že zvelebují město. Ve skutečnosti nám jen ukazují, kde kopat.“ S úšklebkem se narovná. „Tahle informace má větší cenu, než jsi mi dal.“",
         options: {
             gnur_spy_secret_close: "Máš pravdu, stálo to za to. (Zapamatovat si to.)"
         }

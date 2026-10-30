@@ -80,12 +80,14 @@ export default class ShedHallScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('hall-bg', 'assets/images/backgrounds/ShedHall.png');
         this.load.image('living-core', 'assets/images/characters/living-core.png');
     }
 
     create() {
         super.create();
+        this.playSceneMusic('shedLoop', { resume: true });
         
         // Native 1067×600 (tools/artgen/hall_bg.py): the service hall, the tunnel off into the dark, the Core's socket
         const bg = this.add.image(400, 300, 'hall-bg');

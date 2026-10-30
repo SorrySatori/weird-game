@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { GANG_QUEST_IDS, gangQuestStatus, destroyGangLamps } from '../utils/GangOfLamps.js';
+import { DEMO_BUILD } from '../config/build.js';
 
 export default class LumenDirectorateInteriorScene extends GameScene {
     constructor() {
@@ -17,6 +18,8 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
     create() {
         super.create();
+        // the Czech speaker name doesn't match the texture key by itself
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'The Angle Corrector': 'angleCorrector', 'Korektor úhlů': 'angleCorrector' };
         this.playSceneMusic('genericMusic');
 
         const bg = this.add.image(400, 300, 'lumenInteriorBg');
@@ -50,7 +53,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
         // Show arrival notification
         this.time.delayedCall(500, () => {
-            this.showNotification('Lumen Directorate — Interior', 0x556B2F);
+            this.showNotification(this.t('locations.LumenDirectorateInteriorScene'), 0x556B2F);
         });
 
         // Create the Angle Corrector NPC
@@ -382,11 +385,11 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                             { character: 'The Angle Corrector' }
                         );
                         this.modifyFactionReputation('LumenDirectorate', 15);
-                        this.showNotification('Lumen Directorate reputation increased', 0x556B2F);
+                        this.showNotification(this.t('notifications.reputationUp', { faction: this.t('factions.LumenDirectorate') }), 0x556B2F);
                     }
                     if (this.questSystem?.getQuest('find_lumen_directorate') && !this.questSystem.getQuest('find_lumen_directorate').isComplete) {
                         this.questSystem.completeQuest('find_lumen_directorate');
-                        this.showNotification('Quest complete: Find the Lumen Directorate', 0x556B2F);
+                        this.showNotification(this.t('notifications.questCompletedNamed', { quest: this.t('quests.find_lumen_directorate.title') }), 0x556B2F);
                     }
                 }
             },
@@ -702,13 +705,25 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                 speaker: 'The Angle Corrector',
                 text: `"Good. See Verrik on the ground floor if you want the clean method. The machines have stood too long already."`,
                 options: [
-                    { text: "I'll see it done.", key: 'ill_see_it_done', next: "ac_start" },
+                    // DEMO_BUILD: once, the Angle Corrector admits the city this task needs isn't built yet
+                    { text: "I'll see it done.", key: 'ill_see_it_done',
+                      next: DEMO_BUILD && !this.questSystem?.getQuest('join_lumen_directorate')?.updates?.some(u => u.key === 'demo_not_yet') ? "ac_lumen_demo" : "ac_start" },
                 ],
                 onTrigger: () => {
                     if (!this.questSystem?.getQuest('join_lumen_directorate')) {
                         this.questSystem.addQuest('join_lumen_directorate', 'Nothing Grows in Iron', 'The Angle Corrector will grant me full membership in the Lumen Directorate if I cripple the Rust Choir\'s machine-shrine. Verrik, on the ground floor, keeps a cultivar behind glass for exactly this — or I can find my own way to sabotage the machines. Then report back.');
-                        this.showNotification('New quest: Nothing Grows in Iron', 0x556B2F);
+                        this.showNotification(this.t('notifications.newQuestNamed', { quest: this.t('quests.join_lumen_directorate.title') }), 0x556B2F);
                     }
+                }
+            },
+            ac_lumen_demo: {
+                speaker: 'The Angle Corrector',
+                text: `*The Angle Corrector tilts their head by an exact few degrees.* "One correction to my own instructions. The city you would have to cross for this is not finished. The plans are drawn, but the angles are not yet true — whole parts of it are still waiting to be built. A demo, I am told they call it." *A pause that is almost an apology.* "The task stands. When the city is finished, it will be waiting for you — and so will the Directorate. We are very good at waiting. Ask any seed."`,
+                options: [
+                    { text: "Then I'll wait like a seed.", key: 'then_ill_wait_like_a_seed', next: "ac_start" },
+                ],
+                onTrigger: () => {
+                    this.questSystem?.updateQuest('join_lumen_directorate', "The Angle Corrector admitted the city isn't finished yet — this task will have to wait for the full game. The Directorate is good at waiting, apparently.", 'demo_not_yet');
                 }
             },
             ac_sabotage_report: {
@@ -722,7 +737,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                     const q = this.questSystem?.getQuest('join_lumen_directorate');
                     if (q && !q.isComplete) {
                         this.questSystem.completeQuest('join_lumen_directorate');
-                        this.showNotification('Quest complete: Nothing Grows in Iron', 0x556B2F);
+                        this.showNotification(this.t('notifications.questCompletedNamed', { quest: this.t('quests.join_lumen_directorate.title') }), 0x556B2F);
                     }
                     if (!this.hasJournalEntry('lumen_directorate_joined')) {
                         this.addJournalEntry(
@@ -734,7 +749,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                         );
                         this.modifyFactionReputation('LumenDirectorate', 25);
                         this.registry.set('lumen_clearance', true);
-                        this.showNotification('You are now a member of the Lumen Directorate', 0x556B2F);
+                        this.showNotification(this.t('notifications.lumenMember'), 0x556B2F);
                     }
                 }
             },
@@ -758,7 +773,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                     if (canRevealEskola) {
                         // 'found_eskola_lead' is shared with Zerren's route (VoxmarketMarketScene) and its lang text is route-neutral.
                         this.questSystem.updateQuest('the_three_vestigels', "Edgar Eskola is the one who bought the plush toy. He can usually be found around the Screaming Cork tavern.", 'found_eskola_lead');
-                        this.showNotification('Directorate files: lead uncovered', 0x556B2F);
+                        this.showNotification(this.t('notifications.directorateLead'), 0x556B2F);
                     }
                 }
             },

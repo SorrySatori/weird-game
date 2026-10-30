@@ -1,4 +1,5 @@
 import GameScene from './GameScene.js';
+import { returnToMainMenu } from '../utils/mainMenu.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
@@ -1210,10 +1211,7 @@ But if the Bishop used official stationery as a private notebook, she was hiding
             fill: '#ffffff'
         }).setOrigin(0.5).setDepth(5002);
 
-        buttonBg.on('pointerdown', () => {
-            this.sound.stopAll();
-            this.scene.start('MainScene');
-        });
+        buttonBg.on('pointerdown', () => returnToMainMenu(this));
 
         this.tweens.add({
             targets: [title, body, buttonBg, buttonText],

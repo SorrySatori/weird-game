@@ -88,7 +88,7 @@ export default {
             offer_50_dinar_as_incentive: "Nabídnout 50 dinárů jako pobídku",
             try_to_persuade_her: "Pokusit se ji přesvědčit",
             use_thornestills_brain_rot_power: "Použít sílu Mozkové hniloby Thorne-stilla",
-            appeal_to_lumen_directorate_relationship: "Odvolat se na vztah s Lumen Directorate",
+            appeal_to_lumen_directorate_relationship: "Odvolat se na vztah s Direktorátem",
             back: "Zeptej se na něco jiného"
         }
     },
@@ -142,7 +142,7 @@ export default {
         }
     },
     zerren_lumen_directorate_appeal: {
-        text: "'Jako spojenec Lumen Directorate pátrám po vestigelech jejich jménem. Považují to za záležitost velké důležitosti pro rovnováhu moci v regionu.'",
+        text: "'Jako spojenec Direktorátu pátrám po vestigelech jejich jménem. Považují to za záležitost velké důležitosti pro rovnováhu moci v regionu.'",
         options: {
             continue: "Pokračovat"
         }

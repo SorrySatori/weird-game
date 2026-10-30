@@ -184,6 +184,7 @@ export default class MainScene extends Phaser.Scene {
             });
 
             if (!this.sceneMusic || !this.sceneMusic.isPlaying) {
+                this.sound.stopAll();                                   // never under a track left from a game
                 this.sceneMusic = this.sound.add('mainMenuMusic', { loop: true });
                 this.sceneMusic.play();
             }

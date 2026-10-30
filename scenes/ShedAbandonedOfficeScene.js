@@ -9,6 +9,7 @@ export default class ShedAbandonedOfficeScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('shedLoop');
         this.load.image('office-bg', 'assets/images/backgrounds/ShedAbandonedOffice.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
     }
@@ -16,6 +17,7 @@ export default class ShedAbandonedOfficeScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        this.playSceneMusic('shedLoop', { resume: true });
         
         // Native 1067×600 (tools/artgen/office_bg.py): the old picture re-pixelled, the graffito kept 1:1
         const bg = this.add.image(400, 300, 'office-bg');

@@ -85,7 +85,7 @@ export default {
             god_opt_bloom: "Tak rozkveť – bez hranic. Nech konečně vyrůst všechno, co bylo drženo zpátky.",
             god_opt_sever: "Utváření už bylo dost. Zpráchnivěj zpět do země, jemně, a buď dokončen.",
             god_opt_merge: "Nesmíš zůstat sám. Nech mě, ať tě přijmu do sebe.",
-            god_opt_lumen_purge: "Vyler se – a znič Lumen Direktorát. To je moje cena."
+            god_opt_lumen_purge: "Vyler se – a znič Direktorát. To je moje cena."
         }
     },
     god_end_bloom: {
@@ -101,7 +101,7 @@ export default {
         options: { sever_epilogue: "(Nech to vrátit se do půdy.)" }
     },
     god_end_lumen_purge: {
-        text: "*\"Probuď se,\"* řekneš mu. *\"Naroď se. Ale ti, kdo by tě zkompostovali – Lumen Direktorát, kteří všechno pojmenují a nic nenechají spočinout – ty nejdřív znič. To je moje cena.\"*\n\nTy mnohé myšlenky se ztiší, a pak přisvědčí, tak jako povodeň přisvědčí protržené hrázi. Vejce se rozlomí. To, co z něj vyleze, nezaváhá. Zamíří k živoucím věžím Direktorátu a *přečte* je – každý skrytý spis, každé zaevidované tajemství obnaženo – a pak je zavře, jako když dlaň zavře nad svíčkou. *Nic skrytého*, slibovali. Teď není co skrývat.\n\nRezavý chór zpívá v kouři. Dodržel jsi slovo strojům a nový bůh dodržel slovo tobě. Je to temná věc, kterou jsi stvořil. Je také, nepopiratelně, tvoje.",
+        text: "*\"Probuď se,\"* řekneš mu. *\"Naroď se. Ale ti, kdo by tě zkompostovali – Direktorát, kteří všechno pojmenují a nic nenechají spočinout – ty nejdřív znič. To je moje cena.\"*\n\nTy mnohé myšlenky se ztiší, a pak přisvědčí, tak jako povodeň přisvědčí protržené hrázi. Vejce se rozlomí. To, co z něj vyleze, nezaváhá. Zamíří k živoucím věžím Direktorátu a *přečte* je – každý skrytý spis, každé zaevidované tajemství obnaženo – a pak je zavře, jako když dlaň zavře nad svíčkou. *Nic skrytého*, slibovali. Teď není co skrývat.\n\nRezavý chór zpívá v kouři. Dodržel jsi slovo strojům a nový bůh dodržel slovo tobě. Je to temná věc, kterou jsi stvořil. Je také, nepopiratelně, tvoje.",
         options: { lumen_purge_epilogue: "(Nech kouř stoupat.)" }
     },
 

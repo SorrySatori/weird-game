@@ -1,4 +1,5 @@
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { returnToMainMenu } from '../utils/mainMenu.js';
 
 /**
  * CreditsScene — the real game-over. Reached after the finale epilogue (or the terminal
@@ -163,7 +164,7 @@ export default class CreditsScene extends Phaser.Scene {
             this.tweens.add({ targets: this.creditsMusic, volume: 0, duration: 900, onComplete: () => this.creditsMusic.stop() });
         }
         this.cameras.main.fadeOut(900, 0, 0, 0);
-        this.time.delayedCall(950, () => this.scene.start('MainScene'));
+        this.time.delayedCall(950, () => returnToMainMenu(this));     // the finished playthrough must not leak into a new one
     }
 }
 

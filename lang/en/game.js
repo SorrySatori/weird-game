@@ -190,6 +190,11 @@ export default {
         growthDecreased: 'Growth decreased!',
         decayIncreased: 'Decay increased!',
         decayDecreased: 'Decay decreased!',
+        newQuestNamed: 'New quest: {quest}',
+        questCompletedNamed: 'Quest complete: {quest}',
+        reputationUp: '{faction} reputation increased',
+        lumenMember: 'You are now a member of the Lumen Directorate',
+        directorateLead: 'Directorate files: lead uncovered',
     },
 
     factions: {

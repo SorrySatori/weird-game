@@ -47,6 +47,15 @@ const SYMBIONT_SPEAKERS = {
 const symbiontRow = id => (SYMBIONT_ROWS.includes(id) ? SYMBIONT_ROWS.indexOf(id) : SYMBIONT_ROWS.length);
 const symbiontPortrait = id => ({ key: 'symbionts', frame: symbiontRow(id) * 4 });
 
+// The user's soundtrack pieces that several scenes share (preloadMusic + playSceneMusic(key, { resume: true })).
+// Mastered from the raw takes in assets/sounds (-15 LUFS); the loop is OGG so it repeats without a gap.
+const SCENE_MUSIC = {
+    forestGuitar: 'assets/sounds/guitar-les.mp3',                     // "Les" -- the Crossroads in the woods
+    flightGuitar: 'assets/sounds/guitar-let-bez-mezipristani.mp3',    // "Let bez mezipřistání" -- aboard the skyship
+    shedLoop:     'assets/sounds/guitar-loop.ogg',                    // "Loop" -- the Shed 521 compound, all of it
+    streetSong:   'assets/sounds/guitar-pisen-4.mp3',                 // "Píseň č. 4" -- Scraper street, Burning Bear St., the Cork
+};
+
 export default class GameScene extends Phaser.Scene {
     constructor(config = { key: 'GameScene' }) {
         super(config);
@@ -1210,7 +1219,24 @@ export default class GameScene extends Phaser.Scene {
         this.sceneMusic = null;
     }
 
+    /** Queue a shared soundtrack (SCENE_MUSIC) in a scene's preload; a key already in the cache isn't loaded twice. */
+    preloadMusic(key) {
+        if (SCENE_MUSIC[key] && !this.cache.audio.exists(key)) this.load.audio(key, SCENE_MUSIC[key]);
+    }
+
     playSceneMusic(key, { resume = false } = {}) {
+        // resume + the same track still playing from the previous scene: keep it going untouched (no restart,
+        // no dip) and only silence everything else
+        if (key && resume) {
+            const playing = this.sound.getAllPlaying?.() || [];
+            const same = playing.find(s => s.key === key);
+            if (same) {
+                playing.forEach(s => { if (s !== same) s.stop(); });
+                this.sceneMusic = same;
+                return;
+            }
+        }
+
         // Stop ALL audio currently playing in the game
         this.sound.stopAll();
 

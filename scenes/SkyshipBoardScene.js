@@ -10,6 +10,7 @@ export default class SkyshipBoardScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('flightGuitar');
         this.load.image('skyshipBoardBg', 'assets/images/backgrounds/skyship_board.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.spritesheet('captainLiris', 'assets/images/characters/liris_idle.png', { frameWidth: 128, frameHeight: 160 });
@@ -17,6 +18,7 @@ export default class SkyshipBoardScene extends GameScene {
 
     create() {
         super.create();
+        this.playSceneMusic('flightGuitar');
 
         // Set skyship board background
         // Native 1067×600 (tools/artgen/board_bg.py): the gondola deck under the moss-netted bladder

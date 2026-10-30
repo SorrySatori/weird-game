@@ -145,6 +145,8 @@ export default class ScreamingCorkClubScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        // the band speaks as one: Telka's head (frame 0 of her sheet) is the portrait, as a 2x bust
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Feral Toast': { key: 'ft_telka', frame: 0, zoom: 2, top: 14 } };
 
         // Set background
         const bg = this.add.image(400, 300, 'screamingCorkClubBg');

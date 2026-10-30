@@ -126,7 +126,7 @@ export default {
     },
 
     calyx_ethics: {
-        text: `„Invazivní?" Upraví si manžetu protkanou houbovými vlákny. „Je invazivní, když vás město sečte při sčítání lidu? Už teď jste na tuctu seznamů. My ten svůj prostě vedeme se záměrem a přesností.\n\nLumen Direktorát pěstuje věci a předstírá, že jsou přirozené. Rezavý chór nechává věci rozpadat a nazývá to posvátným. My zapisujeme, co tu je, a říkáme tomu poctivost.\n\nAle nepřišla jsem sem diskutovat o filozofii. Přišla jsem dražit."`,
+        text: `„Invazivní?" Upraví si manžetu protkanou houbovými vlákny. „Je invazivní, když vás město sečte při sčítání lidu? Už teď jste na tuctu seznamů. My ten svůj prostě vedeme se záměrem a přesností.\n\nDirektorát pěstuje věci a předstírá, že jsou přirozené. Rezavý chór nechává věci rozpadat a nazývá to posvátným. My zapisujeme, co tu je, a říkáme tomu poctivost.\n\nAle nepřišla jsem sem diskutovat o filozofii. Přišla jsem dražit."`,
         options: {
             what_are_you_bidding_on: "Na co dražíte?",
             i_have_other_questions: "Mám další otázky.",
@@ -532,7 +532,7 @@ Její klinický klid se lehce naruší. „V tomto městě se rodí nové mysli.
     },
 
     auction_toadlet_won: {
-        text: `Ropušátko přitiskne tvář na vnitřní stranu džbánu a nějakým způsobem vypadá předem zahanbeně za Selda.\n\nMáte hlavní položku. Aukce za vámi pokračuje, ale jedinou zbývající otázkou je, jak rychle dokážete prorockého obojživelníka dostat zpět do Lumen Direktorátu.`,
+        text: `Ropušátko přitiskne tvář na vnitřní stranu džbánu a nějakým způsobem vypadá předem zahanbeně za Selda.\n\nMáte hlavní položku. Aukce za vámi pokračuje, ale jedinou zbývající otázkou je, jak rychle dokážete prorockého obojživelníka dostat zpět do Direktorátu.`,
         options: {
             leave_the_auction_hall: "Opustit aukční síň.",
         }

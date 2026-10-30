@@ -246,6 +246,7 @@ export default class BurningBearStreetScene extends GameScene {
 
     preload() {
         super.preload();
+        this.preloadMusic('streetSong');
         this.load.image('burningBearStreetBg', 'assets/images/backgrounds/BurningBearStreet.png');   // native 1067×600 (redrawn)
         this.load.image('burningBearStreetBg_growth', 'assets/images/backgrounds/BurningBearStreet_growth.png');
         this.load.image('burningBearStreetBg_decay', 'assets/images/backgrounds/BurningBearStreet_decay.png');
@@ -261,6 +262,7 @@ export default class BurningBearStreetScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        this.playSceneMusic('streetSong', { resume: true });
         
         // Set scraper background
         const bg = this.add.image(400, 300, 'burningBearStreetBg');

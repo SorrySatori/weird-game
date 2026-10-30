@@ -84,11 +84,11 @@ export default {
         oil: { name: 'Olej', description: 'Hustý olej nalezený v přístavu.', names: { magnekin: 'Magnekinský olej' }, descriptions: { magnekin: 'Hustý olej získaný ze zničeného kolektivu Magnekinů.' } },
         wimlick: { name: 'Wimlick', description: 'Hustý, lojově bílý stimulant, který páchne jako zhaslé svíčky – zbystří tě, zrychlí tě a rozváže ti jazyk. Torchère chce, abys ho doručil, ne prodal. Kontraband, ale na ulici má svou cenu.' },
         'townhall-key': { name: 'Klíč od radnice', description: 'Neoficiální náhradní klíč od Selda Třikrát-Korigovaného. Otevírá boční vchod do radnice.' },
-        corrosive_cultivar: { name: 'Korozivní kultivar', description: 'Zakázaná rostlina Lumen Directorate – řízená hniloba vyšlechtěná tak, aby žrala kov. Rozemletá do oleje a předhozená stroji ho rozežere zevnitř. Zacházej s ní opatrně.' },
+        corrosive_cultivar: { name: 'Korozivní kultivar', description: 'Zakázaná rostlina Direktorátu – řízená hniloba vyšlechtěná tak, aby žrala kov. Rozemletá do oleje a předhozená stroji ho rozežere zevnitř. Zacházej s ní opatrně.' },
         redmass: { name: 'Živá rudohmota', description: 'Kus živého kovu vyrvaný z vnímající krystalické bytosti. Stále slabě vibruje, jako by křičel.', names: { magnekin: 'Magnekinská rudohmota' }, descriptions: { willing: 'Střípek živého kovu, který vnímající krystalická bytost dala dobrovolně. Tiše, smířeně bzučí.', magnekin: 'Pulzující karmínová hmota, která kdysi nesla společné vědomí tisíců.' } },
         scraper_backyard_key: { name: 'Klíč od dvorku', description: 'Klíč od dvorku Škrabáku 1140. Jako by slabě zářil.' },
         'forged-arms-permission': { name: 'Padělané povolení na více rukou', description: 'Přesvědčivý padělek Formuláře o výjimce pro umělce, který držiteli dovoluje mít legálně více rukou pro odbornou práci.' },
-        rust_feast: { name: 'Rezavá hostina', description: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Odporně páchnoucí směs oleje, kovových hoblin a živé rudohmoty. Nádoba slabě rachotí, jako by uvnitř ještě něco žilo.', descriptions: { thin: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Řídký, sotva dostačující – střípek rudohmoty smíchaný s olejem a kovovým prachem. Tiše bzučí.', illusory: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Olej, kovové hobliny a něco, co vypadá jako živá rudohmota – ale ty znáš pravdu. Nádoba slabě bzučí, ale něco na tom zní dutě.', laced: 'Obřadní pokrm pro stroje Rezavého chóru – olej, kovové hobliny a živá rudohmota. Nepozorovaně prosycený kultivarem Lumen Directorate rozemletým do oleje. Rachotí jako každá jiná hostina. Není jako každá jiná.' } },
+        rust_feast: { name: 'Rezavá hostina', description: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Odporně páchnoucí směs oleje, kovových hoblin a živé rudohmoty. Nádoba slabě rachotí, jako by uvnitř ještě něco žilo.', descriptions: { thin: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Řídký, sotva dostačující – střípek rudohmoty smíchaný s olejem a kovovým prachem. Tiše bzučí.', illusory: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Olej, kovové hobliny a něco, co vypadá jako živá rudohmota – ale ty znáš pravdu. Nádoba slabě bzučí, ale něco na tom zní dutě.', laced: 'Obřadní pokrm pro stroje Rezavého chóru – olej, kovové hobliny a živá rudohmota. Nepozorovaně prosycený kultivarem Direktorátu rozemletým do oleje. Rachotí jako každá jiná hostina. Není jako každá jiná.' } },
         vestigel: { name: 'Spisovatelův Vestigel', description: 'Malý, jemně vyřezávaný žeton, který Edgar našel schovaný v plyšové hračce. Zdá se, že má nějaký tajemný význam.' },
         'game-prototype': { name: 'Prototyp hry Sekty a sázky', description: 'Prototyp Ortolanovy hry Sekty a sázky, ve které se snažíš založit vlastní sektu. Vypadá velmi zábavně, ale Ortolan ještě nemá úplně vyladěnou část, ve které se může tvůj nejvěrnější odštěpit a založit si ultraortodoxní křídlo uvnitř sekty. Na druhou stranu dobře zmastroval featuru, kde se hlavním objektem uctívání mohou stát kočky, což je dobrá strategie k vítězství.' },
         'legged-shark-statuette': { name: 'Soška žraloka s nohama', description: 'Soška žraloka s nohama, téměř bez ploutví. Ortolan si už přesně nepamatuje, odkud ji vzal, ale prý je z nějaké deskovky o upírech a démonech.' },
@@ -195,12 +195,17 @@ export default {
         growthDecreased: 'Růst poklesl!',
         decayIncreased: 'Rozklad vzrostl!',
         decayDecreased: 'Rozklad poklesl!',
+        newQuestNamed: 'Nový úkol: {quest}',
+        questCompletedNamed: 'Úkol dokončen: {quest}',
+        reputationUp: 'Stoupla ti reputace u frakce {faction}',
+        lumenMember: 'Jsi teď členem Direktorátu',
+        directorateLead: 'Spisy Direktorátu: nová stopa',
     },
 
     factions: {
         RustChoir: 'Rezavý chór',
         PithReclaimers: 'Inkoustový tribunál',
-        LumenDirectorate: 'Lumen Direktorát',
+        LumenDirectorate: 'Direktorát',
     },
 
     mood: {
