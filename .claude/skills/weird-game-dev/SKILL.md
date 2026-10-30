@@ -101,6 +101,10 @@ Reserve a **separate scene** only for (a) special content launched directly via
   `if (typeof window !== 'undefined') window.FooScene = FooScene;`.
 - Register in **`main.js`**: add the `import` and add the class to the `scene: [ … ]` array.
 - `SceneTransitionManager.createTransitionZone(x, y, w, h, direction, targetSceneKey, walkToX, walkToY, label?)`.
+- **Arrow keys + screen edges:** the priest stops at the screen edge; a `left`/`right` zone touching that edge is also
+  taken by walking into it (registered automatically by createTransitionZone). A custom exit hotspot (not a
+  transition zone) at an edge must register itself: `this.registerEdgeExit('left', () => this.leaveByEdge('left', 'TargetScene'), hotspot)`
+  (examples: SkyshipBoardScene, ScraperInteriorScene).
 - **Growth/Decay scenery:** `utils/GDProps.js` — `preloadGDProps(this)` in preload, then in create
   `applyGDBackground(this, bg, 'FooBg')` (swaps to `FooBg_growth`/`_decay` if that art exists) and
   `placeGDProps(this, { growth: [{prop,x,y}], decay: [...] })` (canvas coords, feet ≤ 520). Props: bush, vine (top anchor),

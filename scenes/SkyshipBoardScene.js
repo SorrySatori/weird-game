@@ -135,6 +135,8 @@ export default class SkyshipBoardScene extends GameScene {
             // Use the SceneTransitionManager to handle the transition
             this.transitionManager.handleSceneTransition('CrossroadScene', 100, 500);
         });
+        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'CrossroadScene'), this.exitArea);
     }
 
     /** Run a side effect only the first time its key is seen in this scene instance. */

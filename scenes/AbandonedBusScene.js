@@ -91,6 +91,8 @@ export default class AbandonedBusScene extends GameScene {
             }
             this.transitionManager.handleSceneTransition('ScraperBackyardScene', 50, 470);
         });
+        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperBackyardScene'), this.exitArea);
 
         // Create a container for the DeadBishop to improve hit area
         this.deadBishopContainer = this.add.container(500, 400);

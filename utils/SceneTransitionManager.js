@@ -143,6 +143,18 @@ export default class SceneTransitionManager {
             this.handleSceneTransition(targetScene, walkX, walkY, options);
         });
 
+        // A side exit touching the screen edge can also be walked into with the arrow keys: the priest walks on out
+        // of the picture while the scene fades (GameScene.registerEdgeExit / PlayerMovementSystem)
+        const W = this.scene.scale.width;
+        const atEdge = (direction === 'left' && x - width / 2 <= W * 0.2) || (direction === 'right' && x + width / 2 >= W * 0.8);
+        if (atEdge && this.scene.registerEdgeExit) {
+            this.scene.registerEdgeExit(direction, () => {
+                const p = this.scene.priest;
+                if (!p) { this.handleSceneTransition(targetScene, walkX, walkY, options); return; }
+                this.handleSceneTransition(targetScene, p.x + (direction === 'left' ? -70 : 70), p.y, options);
+            }, zone, [y - height / 2 - 40, y + height / 2 + 40]);
+        }
+
         return zone;
     }
     
@@ -232,7 +244,9 @@ export default class SceneTransitionManager {
     directTransition(targetScene, fadeOutDuration = 800) {
         this.scene.cameras.main.fadeOut(fadeOutDuration, 0, 0, 0);
         this.scene.cameras.main.once('camerafadeoutcomplete', () => {
-            this.scene.sound.stopAll();
+            // a shared soundtrack flows on into the next scene (GameScene.stopSoundsForTransition)
+            if (this.scene.stopSoundsForTransition) this.scene.stopSoundsForTransition(targetScene);
+            else this.scene.sound.stopAll();
             this.scene.scene.start(targetScene);
             this.scene.isTransitioning = false;
         });

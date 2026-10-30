@@ -2,6 +2,11 @@
  * PlayerMovementSystem.js
  * Handles player character movement, animations, and related functionality
  */
+/** how close to the screen edge the arrow keys let the priest walk (his body stays in the picture) */
+const EDGE_MARGIN = 28;
+/** walking toward an edge this close to it takes the exit on that side (the physics world bounds may stop him earlier) */
+const EDGE_EXIT_BAND = 72;
+
 export default class PlayerMovementSystem {
     /**
      * @param {Phaser.Scene} scene - The scene this system belongs to
@@ -173,9 +178,12 @@ export default class PlayerMovementSystem {
         if (!this.priest || this.dialogVisible || this.controlsDisabled) return;
         
         let moved = false;
+        const leaving = this.scene.isTransitioning;            // an exit is walking him out: keys don't steer
 
         const step = this.speed * (this.speedMultiplier || 1);
-        if (this.movementState.left) {
+        if (leaving) {
+            // nothing
+        } else if (this.movementState.left) {
             this.priest.x -= step;
             this.priest.setScale(-1, 1);
             this.priestGlow.setScale(-1.05, 1.05);
@@ -186,6 +194,19 @@ export default class PlayerMovementSystem {
             this.priest.setScale(1, 1);
             this.priestGlow.setScale(1.05, 1.05);
             moved = true;
+        }
+
+        // The screen edges: the arrows stop him there -- or, where an exit lies on that side, he leaves by it
+        if (moved) {
+            const W = this.scene.scale.width;
+            this.priest.x = Phaser.Math.Clamp(this.priest.x, EDGE_MARGIN, W - EDGE_MARGIN);
+            const side = this.movementState.left && this.priest.x <= EDGE_EXIT_BAND ? 'left'
+                : this.movementState.right && this.priest.x >= W - EDGE_EXIT_BAND ? 'right' : null;
+            if (side && this.scene.takeEdgeExit?.(side, this.priest.y)) {
+                this.movementState.left = false;
+                this.movementState.right = false;
+                moved = false;
+            }
         }
 
         // Update animations

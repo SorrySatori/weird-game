@@ -63,6 +63,8 @@ export default class ScraperBackyardScene extends GameScene {
             }
             this.transitionManager.handleSceneTransition('ScraperInteriorScene', 50, 470);
         });
+        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperInteriorScene'), this.exitArea);
         
         // Add abandoned bus - adjusted position for the zoomed out background
         this.abandonedBus = this.add.image(Math.round(400 * this.scale.width / 800), 420, 'door');

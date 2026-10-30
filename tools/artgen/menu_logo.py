@@ -5,6 +5,7 @@ Shown at 2x by MainScene (utils/menuKit.js).
   menu_logo.png       8 frames of 344x100 (the gear turns 60 deg = one spoke period over the loop, the pulse runs along
                       the mycelium) -- the anim loops seamlessly
   menu_logo_glow.png  soft white halo of the glowing parts (ADD, tinted + breathing in the game)
+  menu_logo_store.png (+_glow)  one still frame with 'A WEIRD GAME' under the name, for the Steam art (tools/storeart)
 
 python3 menu_logo.py <outdir>  ->  menu_logo.png, menu_logo_glow.png, menu/menu_logo/<n>.png"""
 import sys, os, math, random
@@ -80,7 +81,8 @@ def top_of(mask, x):
     ys = [y for (xx, y) in mask if xx == x]
     return min(ys) if ys else None
 
-def logo(f):
+def logo(f, subtitle=False):
+    """subtitle: the store variant -- 'A WEIRD GAME' under the name (part of the Steam title), the ivy left out"""
     s = Spr(LW, LH)
     glow_mask = set()
     # UPPER -- small, letter-spaced, between two riveted bronze rods ending in little gears
@@ -111,6 +113,7 @@ def logo(f):
     cast_bronze(s, mask, top, cap_h, seed=11)
     ocx, ocy = (ox0 + ox1) / 2, (oy0 + oy1) / 2
     orad = min(ox1 - ox0, oy1 - oy0) / 2
+    s.gear_centre = (ocx, ocy, orad)                            # tools/storeart crops the community icon here
     # the gear turns 60 deg over the loop: 12 teeth, 6 spokes -> seamless
     gear(s, ocx, ocy, f * (math.pi / 3) / FRAMES, rb=orad - 3.0, teeth_h=3.0, n=12, spokes=6, seed=7)
     # growth: mushrooms on M, K and L, moss at the feet of the letters, ivy hanging from the first E
@@ -121,8 +124,14 @@ def logo(f):
     phase = f / FRAMES
     for cxm, rx, sp in ((m[0] + 6, 5, 1), (k[2] - 4, 4, 1), (l[0] + 9, 6, 2), (a[2] - 6, 4, 0)):
         cushion(s, cxm, top + cap_h - 1, rx, 2.2, cxm, sporo=sp)
-    vine(s, lambda t: (e[0] + 6 + 2 * math.sin(t * 5), top + cap_h - 2 + 22 * t),
-         [(0.25, True), (0.5, True, True), (0.78, True)], curl=(e[0] + 7, top + cap_h + 21, 2.2))
+    if subtitle:
+        sub, sub_size, sub_sp = 'A WEIRD GAME', 15, 3
+        sw = text_width(sub, sub_size, sub_sp)
+        smask, _ = glyph_mask(sub, sub_size, (LW - sw) / 2, top + cap_h + 6, sub_sp)
+        cast_bronze(s, smask, min(y for _, y in smask), 10, seed=23)
+    else:
+        vine(s, lambda t: (e[0] + 6 + 2 * math.sin(t * 5), top + cap_h - 2 + 22 * t),
+             [(0.25, True), (0.5, True, True), (0.78, True)], curl=(e[0] + 7, top + cap_h + 21, 2.2))
     draw_threads(s, [(x, y, d) for (x, y, d) in pts if s.part.get((x, y)) in ('letter', 'contour')], phase, total=120, mask=glow_mask)
     for bx, h, w, lean in ((m[0] + 5, 5, 7, -1), (m[0] + 13, 9, 11, 1), (m[0] + 21, 3, 6, 2)):
         mycena(s, bx, (top_of(mask, bx) or top) - 1, h, w, lean, True, False, glow_mask)
@@ -144,4 +153,7 @@ if __name__ == '__main__':
         sheet.alpha_composite(im, (f * LW, 0))
     sheet.save(os.path.join(OUT, 'menu_logo.png'))
     glow_image(LW, LH, gm, radius=2.6, gain=1.4).save(os.path.join(OUT, 'menu_logo_glow.png'))
+    s, g = logo(0, subtitle=True)                                  # the store / library variant (tools/storeart)
+    s.image().save(os.path.join(OUT, 'menu_logo_store.png'))
+    glow_image(LW, LH, g, radius=2.6, gain=1.4).save(os.path.join(OUT, 'menu_logo_store_glow.png'))
     print('ok')

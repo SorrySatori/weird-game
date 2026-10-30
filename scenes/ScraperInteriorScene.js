@@ -570,6 +570,8 @@ export default class ScraperInteriorScene extends GameScene {
             // Use the SceneTransitionManager to handle the transition
             this.transitionManager.handleSceneTransition('ScraperScene', 50, 470);
         });
+        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperScene'), this.exitArea);
 
         // Add elevator: an invisible hit area over the Lift-Mother's portal painted in the background (canvas coords)
         const liftX = 510;

@@ -21,6 +21,7 @@ import { runEquipmentTutorial } from '../utils/equipmentTutorial.js';
 import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.js';
 import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
 import { preloadMenuKit } from '../utils/menuKit.js';
+import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
@@ -156,6 +157,10 @@ export default class GameScene extends Phaser.Scene {
         // Reset dialog state for clean scene entry
         this.dialogVisible = false;
         this.dialogBox = null;
+
+        // A shared soundtrack carried over from the previous scene: taken over by playSceneMusic(key, { resume }),
+        // otherwise let go once this scene's create() is done
+        this.events.once(Phaser.Scenes.Events.CREATE, () => this.releaseCarriedMusic());
         
         // Create background if needed
         if (typeof this.createCityBackground === 'function') {
@@ -1203,12 +1208,60 @@ export default class GameScene extends Phaser.Scene {
         // Fade out
         this.cameras.main.fadeOut(800, 0, 0, 0);
         this.cameras.main.once('camerafadeoutcomplete', () => {
-            // Stop ALL audio
-            this.sound.stopAll();
+            this.stopSoundsForTransition(newScene);
             
             // Start new scene
             this.scene.start(newScene);
         });
+    }
+
+    /**
+     * An exit the priest can also take with the arrow keys: walking into that screen edge leaves by it, as if it had
+     * been clicked. `owner` = the zone / hotspot it belongs to; the exit lives and dies with it (scene instances are
+     * re-used, so nothing has to be reset). `yRange` limits it to one floor where a scene has several.
+     */
+    registerEdgeExit(side, take, owner, yRange = null) {
+        this.edgeExits = (this.edgeExits || []).filter(e => e.owner?.active);
+        this.edgeExits.push({ side, take, owner, yRange });
+    }
+
+    /** an edge exit's default action: walk on out of the picture while the scene fades to `targetScene` */
+    leaveByEdge(side, targetScene) {
+        const tm = this.transitionManager || (this.transitionManager = new SceneTransitionManager(this));
+        const p = this.priest;
+        tm.handleSceneTransition(targetScene, p ? p.x + (side === 'left' ? -70 : 70) : 0, p ? p.y : 470);
+    }
+
+    /** PlayerMovementSystem: the priest walked into the left / right screen edge; true if an exit was taken */
+    takeEdgeExit(side, y) {
+        if (this.isTransitioning) return false;
+        const exit = (this.edgeExits || []).find(e => e.side === side && e.owner?.active
+            && (!e.owner.input || e.owner.input.enabled)
+            && (!e.yRange || (y >= e.yRange[0] && y <= e.yRange[1])));
+        if (!exit) return false;
+        exit.take();
+        return true;
+    }
+
+    /**
+     * Leaving for another scene: stop every sound except a shared soundtrack (played with resume) when the next
+     * scene is a GameScene -- it keeps flowing through the fade, no stop and no fade-in dip.
+     */
+    stopSoundsForTransition(targetKey) {
+        const carried = this.sound.__carriedMusic;
+        const target = targetKey && this.scene.manager.getScene(targetKey);
+        const keep = carried?.isPlaying && typeof target?.playSceneMusic === 'function' ? carried : null;
+        if (!keep) this.sound.__carriedMusic = null;
+        (this.sound.getAllPlaying?.() || []).forEach(s => { if (s !== keep) s.stop(); });
+    }
+
+    /** the scene didn't take over the carried soundtrack: fade it out */
+    releaseCarriedMusic() {
+        const carried = this.sound.__carriedMusic;
+        if (!carried || carried === this.sceneMusic) return;
+        this.sound.__carriedMusic = null;
+        if (!carried.isPlaying) return;
+        this.tweens.add({ targets: carried, volume: 0, duration: 500, onComplete: () => { carried.stop(); carried.destroy(); } });
     }
 
     initMusicSystem() {
@@ -1235,12 +1288,16 @@ export default class GameScene extends Phaser.Scene {
             if (same) {
                 playing.forEach(s => { if (s !== same) s.stop(); });
                 this.sceneMusic = same;
+                this.sound.__carriedMusic = same;
+                // its fade-in may have been cut short by leaving the previous scene quickly (the tween died with it)
+                if (same.volume < 1) this.tweens.add({ targets: same, volume: 1, duration: 600 });
                 return;
             }
         }
 
         // Stop ALL audio currently playing in the game
         this.sound.stopAll();
+        this.sound.__carriedMusic = null;
 
         // Play new scene music
         if (key) {
@@ -1255,6 +1312,7 @@ export default class GameScene extends Phaser.Scene {
             }
             this.sceneMusic.play({ seek });
             this.registry.set('sceneMusicState', { key, startedAt: Date.now() - seek * 1000 });
+            if (resume) this.sound.__carriedMusic = this.sceneMusic;   // may flow on into the next scene
 
             if (seek > 0) {
                 this.sceneMusic.setVolume(0);
