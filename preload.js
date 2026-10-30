@@ -216,7 +216,10 @@ console.log('Game API initialized and ready for use');
 try {
   const { contextBridge, ipcRenderer } = require('electron');
   contextBridge.exposeInMainWorld('appControl', {
-    quit: () => ipcRenderer.send('app:quit')
+    quit: () => ipcRenderer.send('app:quit'),
+    // the Settings panel's fullscreen toggle (systems/GameSettings.js)
+    setFullscreen: (on) => ipcRenderer.send('app:setFullscreen', !!on),
+    isFullscreen: () => ipcRenderer.invoke('app:isFullscreen')
   });
 } catch (_) {
   // not running as an Electron preload script

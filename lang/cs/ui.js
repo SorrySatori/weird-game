@@ -6,9 +6,10 @@ export default {
         // Hlavní nabídka
         menu: {
             title: 'Horní Morkezela:',
-            subtitle: 'Podivná Hra',
+            subtitle: 'A Weird Game',   // part of the title: stays English (user, 2026-10-30)
             startGame: 'Nová hra',
             loadGame: 'Načíst hru',
+            settings: 'Nastavení',
             language: 'Jazyk',
             exitGame: 'Ukončit hru',
         },
@@ -23,8 +24,25 @@ export default {
             shortcuts: 'Klávesové zkratky: F5 = Rychlé uložení | F9 = Rychlé načtení | ESC = Nabídka',
         },
 
+        // Panel nastavení
+        settings: {
+            title: 'NASTAVENÍ',
+            music: 'Hudba',
+            sounds: 'Zvuky',
+            fullscreen: 'Celá obrazovka',
+            language: 'Jazyk',
+            on: 'Zapnuto',
+            off: 'Vypnuto',
+        },
+
         // Ukládání / Načítání
         saveLoad: {
+            emptySlot: '— volné —',
+            confirmOverwrite: 'Přepsat? Klikni znovu',
+            savedToSlot: 'Uloženo: {slot}',
+            page: 'Strana {n} / {total}',
+            slotName: 'Uložení {n}',
+            quicksave: 'Rychlé uložení',
             saveTitle: 'ULOŽIT HRU',
             loadTitle: 'NAČÍST HRU',
             save: 'Uložit',

@@ -1,8 +1,18 @@
 /**
- * GameMenu.js - In-game menu system triggered by ESC key
+ * GameMenu.js - In-game menu system triggered by ESC key.
+ * Drawn with the menu kit (utils/menuKit.js): the pause panel, one save / load panel, settings (ui/SettingsPanel.js)
+ * and the language panel it opens. ESC steps back a panel, then closes the menu; ↑/↓ + Enter work as well as the mouse.
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { returnToMainMenu } from '../utils/mainMenu.js';
+import { createSettingsPanel } from './SettingsPanel.js';
+import {
+    createMenuButton, createMenuPanel, addPanelClose, createMenuIconButton, createSlotRow, MenuNav,
+    MENU_COLORS, MENU_FONT, saveLabel, formatSaveDate
+} from '../utils/menuKit.js';
+
+const SLOTS_PER_PAGE = 6;
+const ROW_STEP = 54;
 
 export default class GameMenu {
     /**
@@ -13,658 +23,173 @@ export default class GameMenu {
         this.visible = false;
         this.container = null;
         this.saveSystem = null;
-        this.saveSlot = 'save1';
         this.lang = LanguageSystem.getInstance();
-        
-        // Sound effects
-        this.hoverSound = scene.sound.add('hoverSound');
-        this.clickSound = scene.sound.add('clickSound');
-        
+
         // Create the menu
         this.create();
-        
+
         // Set up ESC key handling
         this.setupKeyboardControls();
     }
-    
+
     /**
      * Set up keyboard controls for the menu
      */
     setupKeyboardControls() {
-        // Remove any existing key bindings to avoid duplicates
-        if (this.escKey) {
-            this.escKey.removeAllListeners();
-        }
-        if (this.f5Key) {
-            this.f5Key.removeAllListeners();
-        }
-        if (this.f9Key) {
-            this.f9Key.removeAllListeners();
-        }
-        
-        // Add ESC key listener for menu toggle
         this.escKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        
-        // Add F5 key listener for quick save
         this.f5Key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F5);
-        
-        // Add F9 key listener for quick load
         this.f9Key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F9);
-        
-        // Use a simple flag-based approach instead of direct event binding
-        this.scene.events.on('update', () => {
-            // Toggle menu with ESC
+
+        this.onUpdate = () => {
+            // ESC: a sub-panel goes back one step (language → settings → pause), otherwise toggle the menu
             if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
-                if (this.visible) {
+                if (this.visible && this.openPanel !== 'pause') {
+                    this.showPanel(this.openPanel === 'lang' ? 'settings' : 'pause');
+                } else if (this.visible) {
                     this.hideMenu();
                 } else {
                     this.showMenu();
                 }
             }
-            
-            // Quick save with F5
-            if (Phaser.Input.Keyboard.JustDown(this.f5Key)) {
-                this.quickSave();
-            }
-            
-            // Quick load with F9
-            if (Phaser.Input.Keyboard.JustDown(this.f9Key)) {
-                this.quickLoad();
-            }
-        });
+            if (Phaser.Input.Keyboard.JustDown(this.f5Key)) this.quickSave();
+            if (Phaser.Input.Keyboard.JustDown(this.f9Key)) this.quickLoad();
+        };
+        this.scene.events.on('update', this.onUpdate);
+        // scene instances are re-used: don't leave this menu's listener behind for the next run
+        this.scene.events.once('shutdown', () => this.scene.events.off('update', this.onUpdate));
     }
-    
+
     /**
      * Create the menu elements
      */
     create() {
-        // Create a container for all menu elements
-        this.container = this.scene.add.container(0, 0);
-        this.container.setDepth(1000); // Ensure it's above everything else
-        
-        // Add a semi-transparent background
-        const bg = this.scene.add.rectangle(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2,
-            this.scene.cameras.main.width,
-            this.scene.cameras.main.height,
-            0x000000,
-            0.7
-        );
-        bg.setInteractive(); // Make background clickable to prevent click-through
+        const scene = this.scene;
+        const W = scene.scale.width, H = scene.scale.height, cx = W / 2;
+        this.container = scene.add.container(0, 0).setDepth(1000).setScrollFactor(0);
+
+        // Dim the scene and swallow clicks (no walking behind the menu)
+        const bg = scene.add.rectangle(cx, H / 2, W, H, 0x000000, 0.65).setInteractive();
+        bg.on('pointerdown', (pointer, lx, ly, event) => event?.stopPropagation());
         this.container.add(bg);
-        
-        // Add menu title
-        const title = this.scene.add.text(
-            this.scene.cameras.main.width / 2,
-            100,
-            this.lang.t('ui.gameMenu.title'),
-            {
-                fontSize: '48px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial',
-                stroke: '#0a2712',
-                strokeThickness: 6
-            }
-        );
-        title.setOrigin(0.5);
-        this.container.add(title);
-        
-        // Add keyboard shortcut help text
-        const helpText = this.scene.add.text(
-            this.scene.cameras.main.width / 2,
-            550,
-            this.lang.t('ui.gameMenu.shortcuts'),
-            {
-                fontSize: '16px',
-                fill: '#5c9b6b',
-                fontFamily: 'Arial',
-                align: 'center'
-            }
-        );
-        helpText.setOrigin(0.5);
-        this.container.add(helpText);
-        
-        // Add close button (X)
-        const closeButton = this.scene.add.text(
-            this.scene.cameras.main.width - 50,
-            50,
-            'X',
-            {
-                fontSize: '32px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial',
-                stroke: '#0a2712',
-                strokeThickness: 4
-            }
-        );
-        closeButton.setOrigin(0.5);
-        closeButton.setInteractive({ useHandCursor: true });
-        
-        // Add hover effects
-        closeButton.on('pointerover', () => {
-            closeButton.setStyle({ fill: '#2fff91' });
-            this.hoverSound.play();
+
+        this.createPausePanel(cx, 282);
+        this.createSlotsPanel(cx, 290);
+        this.settings = createSettingsPanel(scene, cx, 290, {
+            onClose: () => this.showPanel('pause'),
+            onLanguage: () => this.showPanel('lang')
         });
-        
-        closeButton.on('pointerout', () => {
-            closeButton.setStyle({ fill: '#7fff8e' });
-        });
-        
-        // Add click handler
-        closeButton.on('pointerdown', () => {
-            this.clickSound.play();
-            this.hideMenu();
-        });
-        
-        this.container.add(closeButton);
-        
-        // Add menu options
-        const buttonStyle = {
-            fontSize: '32px',
-            fill: '#7fff8e',
-            fontFamily: 'Arial'
-        };
-        
-        const buttonY = 200;
-        const buttonSpacing = 80;
-        
-        // Resume Game button
-        const resumeButton = this.createButton(
-            this.scene.cameras.main.width / 2,
-            buttonY,
-            this.lang.t('ui.gameMenu.resume'),
-            buttonStyle,
-            () => this.hideMenu()
-        );
-        this.container.add(resumeButton);
-        
-        // Save Game button
-        const saveButton = this.createButton(
-            this.scene.cameras.main.width / 2,
-            buttonY + buttonSpacing,
-            this.lang.t('ui.gameMenu.save'),
-            buttonStyle,
-            () => this.showSaveMenu()
-        );
-        this.container.add(saveButton);
-        
-        // Load Game button
-        const loadButton = this.createButton(
-            this.scene.cameras.main.width / 2,
-            buttonY + buttonSpacing * 2,
-            this.lang.t('ui.gameMenu.load'),
-            buttonStyle,
-            () => this.showLoadMenu()
-        );
-        this.container.add(loadButton);
-        
-        const langButton = this.createButton(
-            this.scene.cameras.main.width / 2,
-            buttonY + buttonSpacing * 3,
-            this.lang.t('ui.menu.language'),
-            buttonStyle,
-            () => this.showLanguageModal()
-        );
-        this.container.add(langButton);
-        
-        // Exit to Main Menu button
-        const exitButton = this.createButton(
-            this.scene.cameras.main.width / 2,
-            buttonY + buttonSpacing * 4,
-            this.lang.t('ui.gameMenu.exitToMain'),
-            buttonStyle,
-            () => {
-                this.clickSound.play();
-                returnToMainMenu(this.scene);     // a clean slate: no old quests/journal/map, no second track
-            }
-        );
-        this.container.add(exitButton);
-        
-        // Create save/load submenus (initially hidden)
-        this.createSaveMenu();
-        this.createLoadMenu();
-        
-        // Hide the menu initially
+        this.container.add(this.settings.panel.container);
+        this.createLangPanel(cx, 290);
+
+        // Keyboard shortcut help
+        this.helpText = scene.add.text(cx, H - 24, this.lang.t('ui.gameMenu.shortcuts'), {
+            fontFamily: MENU_FONT, fontSize: '14px', color: MENU_COLORS.dim, align: 'center'
+        }).setOrigin(0.5);
+        this.container.add(this.helpText);
+
         this.container.setVisible(false);
     }
-    
-    /**
-     * Create a button with hover effects
-     */
-    createButton(x, y, text, style, callback) {
-        const container = this.scene.add.container(x, y);
-        
-        // Button background
-        const bg = this.scene.add.rectangle(0, 0, 300, 60, 0x0a2712, 0.4);
-        bg.setStrokeStyle(2, 0x7fff8e);
-        container.add(bg);
-        
-        // Button text
-        const buttonText = this.scene.add.text(0, 0, text, style);
-        buttonText.setOrigin(0.5);
-        container.add(buttonText);
-        
-        // Make interactive
-        bg.setInteractive({ useHandCursor: true });
-        
-        // Add hover effects
-        bg.on('pointerover', () => {
-            bg.setFillStyle(0x0a2712, 0.6);
-            buttonText.setStyle({ ...style, fill: '#2fff91' });
-            this.hoverSound.play();
+
+    createPausePanel(x, y) {
+        const scene = this.scene;
+        this.pauseNav = new MenuNav(scene);
+        this.pause = createMenuPanel(scene, 'pause', x, y, this.lang.t('ui.gameMenu.title'));
+        addPanelClose(scene, this.pause, () => this.hideMenu());
+        const items = [
+            ['ui.gameMenu.resume', () => this.hideMenu()],
+            ['ui.gameMenu.save', () => this.showSlots('save')],
+            ['ui.gameMenu.load', () => this.showSlots('load')],
+            ['ui.menu.settings', () => this.showPanel('settings')],
+            ['ui.gameMenu.exitToMain', () => returnToMainMenu(this.scene)]   // a clean slate: no old quests/journal/map
+        ];
+        items.forEach(([key, action], i) => {
+            const b = createMenuButton(scene, 0, -124 + i * 64, this.lang.t(key), action, { variant: i, nav: this.pauseNav });
+            this.pause.container.add(b.container);
         });
-        
-        bg.on('pointerout', () => {
-            bg.setFillStyle(0x0a2712, 0.4);
-            buttonText.setStyle({ ...style, fill: '#7fff8e' });
-        });
-        
-        // Add click handler
-        bg.on('pointerdown', () => {
-            this.clickSound.play();
-            if (callback) callback();
-        });
-        
-        return container;
+        this.container.add(this.pause.container);
     }
-    
-    /**
-     * Create the save game submenu with 6 save slots
-     */
-    createSaveMenu() {
-        this.saveMenuContainer = this.scene.add.container(0, 0);
-        this.saveMenuContainer.setDepth(1001);
-        this.container.add(this.saveMenuContainer);
-        
-        // Add a panel background
-        const panelBg = this.scene.add.rectangle(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2,
-            500,
-            400,
-            0x0a2712,
-            0.9
-        );
-        panelBg.setStrokeStyle(2, 0x7fff8e);
-        this.saveMenuContainer.add(panelBg);
-        
-        // Add title
-        const title = this.scene.add.text(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2 - 170,
-            this.lang.t('ui.saveLoad.saveTitle'),
-            {
-                fontSize: '32px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial',
-                stroke: '#0a2712',
-                strokeThickness: 4
-            }
-        );
-        title.setOrigin(0.5);
-        this.saveMenuContainer.add(title);
-        
-        // Add save and back buttons at the top
-        const buttonStyle = {
-            fontSize: '24px',
-            fill: '#7fff8e',
-            fontFamily: 'Arial'
-        };
-        
-        // Add save button (top left)
-        const saveButton = this.createButton(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2 - 120,
-            this.lang.t('ui.saveLoad.save'),
-            buttonStyle,
-            () => this.saveGame()
-        );
-        this.saveMenuContainer.add(saveButton);
-        
-        // Create container for save slots
-        this.saveSlotContainer = this.scene.add.container(0, 0);
-        this.saveMenuContainer.add(this.saveSlotContainer);
-        
-        // Create navigation arrows for save slots
-        const prevPageButton = this.scene.add.text(
-            this.scene.cameras.main.width / 2 - 200,
-            this.scene.cameras.main.height / 2,
-            '◀',
-            {
-                fontSize: '32px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial'
-            }
-        );
-        prevPageButton.setOrigin(0.5);
-        prevPageButton.setInteractive({ useHandCursor: true });
-        this.saveMenuContainer.add(prevPageButton);
-        
-        const nextPageButton = this.scene.add.text(
-            this.scene.cameras.main.width / 2 + 200,
-            this.scene.cameras.main.height / 2,
-            '▶',
-            {
-                fontSize: '32px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial'
-            }
-        );
-        nextPageButton.setOrigin(0.5);
-        nextPageButton.setInteractive({ useHandCursor: true });
-        this.saveMenuContainer.add(nextPageButton);
-        
-        // Add hover effects for navigation buttons
-        prevPageButton.on('pointerover', () => {
-            prevPageButton.setStyle({ fill: '#2fff91' });
-            this.hoverSound.play();
-        });
-        prevPageButton.on('pointerout', () => {
-            prevPageButton.setStyle({ fill: '#7fff8e' });
-        });
-        
-        nextPageButton.on('pointerover', () => {
-            nextPageButton.setStyle({ fill: '#2fff91' });
-            this.hoverSound.play();
-        });
-        nextPageButton.on('pointerout', () => {
-            nextPageButton.setStyle({ fill: '#7fff8e' });
-        });
-        
-        // Initialize save slot variables
-        this.currentSavePage = 0;
-        this.slotsPerPage = 6;
-        this.saveSlots = [];
-        
-        // Create 6 save slots
-        for (let i = 0; i < this.slotsPerPage; i++) {
-            this.createSaveSlot(i);
-        }
-        
-        // Add click handlers for navigation buttons
-        prevPageButton.on('pointerdown', () => {
-            this.clickSound.play();
-            if (this.currentSavePage > 0) {
-                this.currentSavePage--;
-                this.updateSaveSlots();
-            }
-        });
-        
-        nextPageButton.on('pointerdown', () => {
-            this.clickSound.play();
-            this.currentSavePage++;
-            this.updateSaveSlots();
-        });
-        
-        // Hide the save menu initially
-        this.saveMenuContainer.setVisible(false);
+
+    /** one panel for both saving and loading: six rows per page, arrows, a page counter */
+    createSlotsPanel(x, y) {
+        const scene = this.scene;
+        this.slotsNav = new MenuNav(scene);
+        this.slots = createMenuPanel(scene, 'slots', x, y, '');
+        addPanelClose(scene, this.slots, () => this.showPanel('pause'));
+        this.slotRows = scene.add.container(0, 0);
+        this.slots.container.add(this.slotRows);
+        this.noSavesText = scene.add.text(0, -20, this.lang.t('ui.saveLoad.noSaves'), {
+            fontFamily: MENU_FONT, fontSize: '20px', color: MENU_COLORS.dim, align: 'center'
+        }).setOrigin(0.5);
+        this.pageText = scene.add.text(0, 180, '', { fontFamily: MENU_FONT, fontSize: '16px', color: MENU_COLORS.dim }).setOrigin(0.5);
+        this.prevButton = createMenuIconButton(scene, -96, 180, 'left', () => this.turnPage(-1));
+        this.nextButton = createMenuIconButton(scene, 96, 180, 'right', () => this.turnPage(1));
+        this.slots.container.add([this.noSavesText, this.pageText, this.prevButton, this.nextButton]);
+        this.container.add(this.slots.container);
     }
-    
-    /**
-     * Create a single save slot
-     * @param {number} index - Index of the slot (0-5)
-     */
-    createSaveSlot(index) {
-        // Calculate position (3 columns, 2 rows)
-        const col = index % 3;
-        const row = Math.floor(index / 3);
-        
-        const x = this.scene.cameras.main.width / 2 + (col - 1) * 140;
-        const y = this.scene.cameras.main.height / 2 - 40 + row * 80;
-        
-        // Create slot container
-        const slotContainer = this.scene.add.container(x, y);
-        
-        // Add slot background
-        const slotBg = this.scene.add.rectangle(0, 0, 120, 60, 0x000000, 0.6);
-        slotBg.setStrokeStyle(1, 0x7fff8e);
-        slotContainer.add(slotBg);
-        
-        // Add slot text
-        const slotText = this.scene.add.text(
-            0,
-            0,
-            `save${index + 1}`,
-            {
-                fontSize: '18px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial',
-                align: 'center'
-            }
-        );
-        slotText.setOrigin(0.5);
-        slotContainer.add(slotText);
-        
-        // Make slot interactive
-        slotBg.setInteractive({ useHandCursor: true });
-        
-        // Add hover effects
-        slotBg.on('pointerover', () => {
-            slotBg.setFillStyle(0x0a2712, 0.8);
-            slotText.setStyle({ fontSize: '18px', fill: '#2fff91', fontFamily: 'Arial' });
-            this.hoverSound.play();
+
+    createLangPanel(x, y) {
+        const scene = this.scene;
+        this.langNav = new MenuNav(scene);
+        this.langPanel = createMenuPanel(scene, 'lang', x, y, this.lang.t('ui.menu.language'));
+        addPanelClose(scene, this.langPanel, () => this.showPanel('settings'));
+        const current = this.lang.getLanguage();
+        this.lang.supportedLanguages.forEach((l, i) => {
+            const b = createMenuButton(scene, 0, -29 + i * 64, l.name, () => {
+                if (l.code === current) { this.showPanel('settings'); return; }
+                this.lang.setLanguage(l.code);
+                this.hideMenu();
+                this.scene.scene.restart();             // re-create the scene in the new language
+            }, { variant: i, nav: this.langNav });
+            if (l.code === current) b.setLatched(true);
+            this.langPanel.container.add(b.container);
         });
-        
-        slotBg.on('pointerout', () => {
-            slotBg.setFillStyle(0x000000, 0.6);
-            slotText.setStyle({ fontSize: '18px', fill: '#7fff8e', fontFamily: 'Arial' });
-        });
-        
-        // Add click handler
-        slotBg.on('pointerdown', () => {
-            this.clickSound.play();
-            
-            // Select this slot
-            this.selectSaveSlot(index);
-        });
-        
-        // Store slot components
-        this.saveSlots.push({
-            container: slotContainer,
-            background: slotBg,
-            text: slotText,
-            index: index,
-            selected: false
-        });
-        
-        // Add to save slot container
-        this.saveSlotContainer.add(slotContainer);
+        this.container.add(this.langPanel.container);
     }
-    
-    /**
-     * Select a save slot
-     * @param {number} index - Index of the slot to select
-     */
-    selectSaveSlot(index) {
-        // Deselect all slots
-        this.saveSlots.forEach(slot => {
-            slot.selected = false;
-            slot.background.setStrokeStyle(1, 0x7fff8e);
-        });
-        
-        // Select the clicked slot
-        const slot = this.saveSlots[index];
-        slot.selected = true;
-        slot.background.setStrokeStyle(2, 0xffffff);
-        
-        // Update save slot name
-        const slotNumber = this.currentSavePage * this.slotsPerPage + index + 1;
-        this.saveSlot = `save${slotNumber}`;
+
+    /** 'pause' | 'slots' | 'settings' | 'lang' */
+    showPanel(name) {
+        this.openPanel = name;
+        this.pause.container.setVisible(name === 'pause');
+        this.slots.container.setVisible(name === 'slots');
+        this.settings.panel.container.setVisible(name === 'settings');
+        this.langPanel.container.setVisible(name === 'lang');
+        this.helpText.setVisible(name === 'pause');
+        this.pauseNav.active = this.visible && name === 'pause';
+        this.slotsNav.active = this.visible && name === 'slots';
+        this.settings.nav.active = this.visible && name === 'settings';
+        this.langNav.active = this.visible && name === 'lang';
+        if (name === 'settings') this.settings.refresh();
     }
-    
-    /**
-     * Update save slots based on current page
-     */
-    updateSaveSlots() {
-        // Update slot texts
-        this.saveSlots.forEach((slot, i) => {
-            const slotNumber = this.currentSavePage * this.slotsPerPage + i + 1;
-            slot.text.setText(`save${slotNumber}`);
-            
-            // Reset selection
-            slot.selected = false;
-            slot.background.setStrokeStyle(1, 0x7fff8e);
-        });
-    }
-    
-    /**
-     * Create the load game submenu
-     */
-    createLoadMenu() {
-        this.loadMenuContainer = this.scene.add.container(0, 0);
-        this.loadMenuContainer.setDepth(1001);
-        this.container.add(this.loadMenuContainer);
-        
-        // Add a panel background
-        const panelBg = this.scene.add.rectangle(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2,
-            500,
-            550,
-            0x0a2712,
-            0.9
-        );
-        panelBg.setStrokeStyle(2, 0x7fff8e);
-        this.loadMenuContainer.add(panelBg);
-        
-        // Add title
-        const title = this.scene.add.text(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2 - 230,
-            this.lang.t('ui.saveLoad.loadTitle'),
-            {
-                fontSize: '32px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial',
-                stroke: '#0a2712',
-                strokeThickness: 4
-            }
-        );
-        title.setOrigin(0.5);
-        this.loadMenuContainer.add(title);
-        
-        // Add save slots container
-        this.saveSlotContainer = this.scene.add.container(0, 0);
-        this.loadMenuContainer.add(this.saveSlotContainer);
 
-        // Add "No Save Files" text (will be hidden if saves exist)
-        this.noSavesText = this.scene.add.text(
-            this.scene.cameras.main.width / 2,
-            this.scene.cameras.main.height / 2,
-            this.lang.t('ui.saveLoad.noSaves'),
-            {
-                fontSize: '24px',
-                fill: '#7fff8e',
-                fontFamily: 'Arial',
-                align: 'center'
-            }
-        );
-        this.noSavesText.setOrigin(0.5);
-        this.loadMenuContainer.add(this.noSavesText);
-
-        // Pagination state for the load list (mirrors the save menu, so every
-        // saved slot — not just the first six — is reachable).
-        this.currentLoadPage = 0;
-        this.loadSlotsPerPage = 6;
-
-        const navY = this.scene.cameras.main.height / 2 + 235;
-
-        this.loadPrevButton = this.scene.add.text(
-            this.scene.cameras.main.width / 2 - 150, navY, '◀',
-            { fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial' }
-        ).setOrigin(0.5).setInteractive({ useHandCursor: true });
-        this.loadMenuContainer.add(this.loadPrevButton);
-
-        this.loadPageText = this.scene.add.text(
-            this.scene.cameras.main.width / 2, navY, '',
-            { fontSize: '18px', fill: '#7fff8e', fontFamily: 'Arial' }
-        ).setOrigin(0.5);
-        this.loadMenuContainer.add(this.loadPageText);
-
-        this.loadNextButton = this.scene.add.text(
-            this.scene.cameras.main.width / 2 + 150, navY, '▶',
-            { fontSize: '32px', fill: '#7fff8e', fontFamily: 'Arial' }
-        ).setOrigin(0.5).setInteractive({ useHandCursor: true });
-        this.loadMenuContainer.add(this.loadNextButton);
-
-        this.loadPrevButton.on('pointerover', () => { this.loadPrevButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
-        this.loadPrevButton.on('pointerout', () => { this.loadPrevButton.setStyle({ fill: '#7fff8e' }); });
-        this.loadNextButton.on('pointerover', () => { this.loadNextButton.setStyle({ fill: '#2fff91' }); this.hoverSound.play(); });
-        this.loadNextButton.on('pointerout', () => { this.loadNextButton.setStyle({ fill: '#7fff8e' }); });
-
-        this.loadPrevButton.on('pointerdown', () => {
-            if (this.currentLoadPage > 0) {
-                this.clickSound.play();
-                this.currentLoadPage--;
-                this.populateLoadMenu();
-            }
-        });
-        this.loadNextButton.on('pointerdown', () => {
-            if ((this.currentLoadPage + 1) * this.loadSlotsPerPage < (this._loadFileCount || 0)) {
-                this.clickSound.play();
-                this.currentLoadPage++;
-                this.populateLoadMenu();
-            }
-        });
-
-        // Hide the load menu initially
-        this.loadMenuContainer.setVisible(false);
-    }
-    
-    /**
-     * Show the save menu
-     */
-    showSaveMenu() {
-        // Show the save menu container
-        this.saveMenuContainer.setVisible(true);
-        
-        // Reset save page to 0
-        this.currentSavePage = 0;
-        
-        // Update save slots
-        this.updateSaveSlots();
-        
-        // Reset save slot if not set
-        if (!this.saveSlot) {
-            this.saveSlot = 'save1';
-        }
-        
-        // Try to select the current save slot
-        const slotNumber = parseInt(this.saveSlot.replace('save', ''), 10);
-        if (!isNaN(slotNumber)) {
-            const page = Math.floor((slotNumber - 1) / this.slotsPerPage);
-            const index = (slotNumber - 1) % this.slotsPerPage;
-            
-            if (page === this.currentSavePage && index >= 0 && index < this.saveSlots.length) {
-                this.selectSaveSlot(index);
-            }
-        }
-    }
-    
-    /**
-     * Show the load menu
-     */
-    showLoadMenu() {
-        // Always start on the first page when (re)opening the load menu.
-        this.currentLoadPage = 0;
-
-        // Initialize save system if needed
+    async ensureSaveSystem() {
         if (!this.saveSystem) {
-            // Lazy-load the SaveSystem
-            import('../systems/SaveSystem.js').then(module => {
-                const SaveSystem = module.default;
-                this.saveSystem = new SaveSystem(this.scene);
-                this.populateLoadMenu();
-            });
-        } else {
-            this.populateLoadMenu();
+            const module = await import('../systems/SaveSystem.js');
+            this.saveSystem = new module.default(this.scene);
         }
-        
-        // Show the load menu
-        this.loadMenuContainer.setVisible(true);
+        return this.saveSystem;
     }
-    
+
+    /** open the slots panel for 'save' or 'load' */
+    async showSlots(mode) {
+        this.slotMode = mode;
+        this.slotPage = 0;
+        this.armedSlot = null;
+        this.slots.title.setText(this.lang.t(mode === 'save' ? 'ui.saveLoad.saveTitle' : 'ui.saveLoad.loadTitle'));
+        if (!window.gameAPI) {
+            this.scene.showNotification(this.lang.t('ui.saveLoad.saveUnavailable'), 0xff0000);
+            return;
+        }
+        await this.ensureSaveSystem();
+        this.showPanel('slots');
+        this.populateSlots();
+    }
+
+    turnPage(step) {
+        this.slotPage = Math.max(0, Math.min(this.slotPageCount - 1, this.slotPage + step));
+        this.armedSlot = null;
+        this.populateSlots();
+    }
+
     /**
      * Extract the numeric slot index from a save name like "save12".
      * Names without a trailing number sort to the end.
@@ -676,215 +201,54 @@ export default class GameMenu {
         return match ? parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
     }
 
-    /**
-     * Populate the load menu with save files
-     */
-    populateLoadMenu() {
-        // Clear previous save slots
-        this.saveSlotContainer.removeAll(true);
-        
-        // Check if gameAPI is available
-        if (!window.gameAPI) {
-            console.error('Game API not available');
-            this.noSavesText.setText(this.lang.t('ui.saveLoad.saveUnavailable'));
-            this.noSavesText.setVisible(true);
-            return;
+    /** rows for the current page: save = numbered slots (empty ones too), load = the existing saves */
+    populateSlots() {
+        this.slotRows.removeAll(true);
+        this.slotsNav.clear();
+        const files = this.saveSystem.listSaveFiles() || [];
+        let rows;
+        if (this.slotMode === 'save') {
+            const byName = new Map(files.map(f => [f.name, f]));
+            const highest = files.reduce((m, f) => /^save\d+$/.test(f.name) ? Math.max(m, this._saveSlotNumber(f.name)) : m, 0);
+            this.slotPageCount = Math.max(3, Math.ceil((highest + 1) / SLOTS_PER_PAGE));
+            rows = Array.from({ length: SLOTS_PER_PAGE }, (_, i) => {
+                const name = `save${this.slotPage * SLOTS_PER_PAGE + i + 1}`;
+                return { name, file: byName.get(name) || null };
+            });
+        } else {
+            // Sort by save-slot number ascending (save1, save2, …) so the list mirrors the numbered slots.
+            const sorted = files.slice().sort((a, b) => this._saveSlotNumber(a.name) - this._saveSlotNumber(b.name));
+            this.slotPageCount = Math.max(1, Math.ceil(sorted.length / SLOTS_PER_PAGE));
+            this.slotPage = Math.min(this.slotPage, this.slotPageCount - 1);
+            rows = sorted.slice(this.slotPage * SLOTS_PER_PAGE, (this.slotPage + 1) * SLOTS_PER_PAGE)
+                .map(file => ({ name: file.name, file }));
         }
-        
-        const saveFiles = this.saveSystem.listSaveFiles();
-
-        if (!saveFiles || saveFiles.length === 0) {
-            this.noSavesText.setVisible(true);
-            this._loadFileCount = 0;
-            if (this.loadPageText) this.loadPageText.setText('');
-            if (this.loadPrevButton) this.loadPrevButton.setVisible(false);
-            if (this.loadNextButton) this.loadNextButton.setVisible(false);
-            return;
-        }
-
-        this.noSavesText.setVisible(false);
-
-        // Sort by save-slot number ascending (save1, save2, …) so the load list
-        // mirrors the numbered save slots. Files without a number sort last.
-        saveFiles.sort((a, b) => this._saveSlotNumber(a.name) - this._saveSlotNumber(b.name));
-
-        // Paginate so every slot is reachable, not just the first six.
-        this._loadFileCount = saveFiles.length;
-        const perPage = this.loadSlotsPerPage || 6;
-        const pageCount = Math.max(1, Math.ceil(saveFiles.length / perPage));
-        if (this.currentLoadPage > pageCount - 1) this.currentLoadPage = pageCount - 1;
-        const pageStart = this.currentLoadPage * perPage;
-        const pageFiles = saveFiles.slice(pageStart, pageStart + perPage);
-
-        if (this.loadPageText) this.loadPageText.setText(`Page ${this.currentLoadPage + 1} / ${pageCount}`);
-        if (this.loadPrevButton) this.loadPrevButton.setVisible(this.currentLoadPage > 0);
-        if (this.loadNextButton) this.loadNextButton.setVisible(this.currentLoadPage < pageCount - 1);
-
-        // Add save slots
-        const slotY = this.scene.cameras.main.height / 2 - 160;
-        const slotSpacing = 55;
-
-        pageFiles.forEach((saveFile, index) => {
-            const date = new Date(saveFile.date);
-            const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-
-            // Create slot container
-            const slotContainer = this.scene.add.container(
-                this.scene.cameras.main.width / 2,
-                slotY + index * slotSpacing
-            );
-            
-            // Add slot background
-            const slotBg = this.scene.add.rectangle(0, 0, 450, 50, 0x000000, 0.6);
-            slotBg.setStrokeStyle(1, 0x7fff8e);
-            slotBg.setInteractive({ useHandCursor: true });
-            slotContainer.add(slotBg);
-            
-            // Add slot text
-            const slotText = this.scene.add.text(
-                -210,
-                0,
-                `${saveFile.name}`,
-                {
-                    fontSize: '22px',
-                    fill: '#7fff8e',
-                    fontFamily: 'Arial'
-                }
-            );
-            slotText.setOrigin(0, 0.5);
-            slotContainer.add(slotText);
-            
-            // Add date text
-            const dateText = this.scene.add.text(
-                210,
-                0,
-                formattedDate,
-                {
-                    fontSize: '16px',
-                    fill: '#7fff8e',
-                    fontFamily: 'Arial'
-                }
-            );
-            dateText.setOrigin(1, 0.5);
-            slotContainer.add(dateText);
-            
-            // Add hover effects
-            slotBg.on('pointerover', () => {
-                slotBg.setFillStyle(0x0a2712, 0.8);
-                slotText.setStyle({ fontSize: '22px', fill: '#2fff91', fontFamily: 'Arial' });
-                dateText.setStyle({ fontSize: '16px', fill: '#2fff91', fontFamily: 'Arial' });
-                this.hoverSound.play();
-            });
-            
-            slotBg.on('pointerout', () => {
-                slotBg.setFillStyle(0x000000, 0.6);
-                slotText.setStyle({ fontSize: '22px', fill: '#7fff8e', fontFamily: 'Arial' });
-                dateText.setStyle({ fontSize: '16px', fill: '#7fff8e', fontFamily: 'Arial' });
-            });
-            
-            // Add click handler
-            slotBg.on('pointerdown', () => {
-                this.clickSound.play();
-                this.loadGame(saveFile.name);
-            });
-            
-            this.saveSlotContainer.add(slotContainer);
+        this.noSavesText.setVisible(this.slotMode === 'load' && rows.length === 0);
+        rows.forEach(({ name, file }, i) => {
+            const row = createSlotRow(this.scene, 0, -148 + i * ROW_STEP, {
+                name: saveLabel(this.lang, name),
+                date: file ? formatSaveDate(file, this.lang.getLanguage()) : this.lang.t('ui.saveLoad.emptySlot'),
+                used: !!file
+            }, (r) => this.onSlot(name, !!file, r), this.slotsNav);
+            this.slotRows.add(row.container);
         });
-    }
-    
-    /**
-     * Show language selection modal
-     */
-    showLanguageModal() {
-        if (this.langModal) return;
-
-        const cx = this.scene.cameras.main.width / 2;
-        const cy = this.scene.cameras.main.height / 2;
-        const langs = this.lang.supportedLanguages;
-        const currentCode = this.lang.getLanguage();
-
-        this.langModal = this.scene.add.container(0, 0);
-        this.langModal.setDepth(1002);
-
-        // Dim overlay
-        const overlay = this.scene.add.rectangle(cx, cy, 800, 600, 0x000000, 0.7);
-        overlay.setInteractive();
-        this.langModal.add(overlay);
-
-        // Panel
-        const panelH = 60 + langs.length * 60 + 60;
-        const panel = this.scene.add.rectangle(cx, cy, 320, panelH, 0x0a2712, 0.95);
-        panel.setStrokeStyle(2, 0x7fff8e);
-        this.langModal.add(panel);
-
-        // Title
-        const title = this.scene.add.text(cx, cy - panelH / 2 + 30, this.lang.t('ui.menu.language'), {
-            fontSize: '28px',
-            fill: '#7fff8e',
-            fontFamily: 'Arial'
-        });
-        title.setOrigin(0.5);
-        this.langModal.add(title);
-
-        // Language options
-        langs.forEach((lang, idx) => {
-            const y = cy - panelH / 2 + 80 + idx * 60;
-            const isActive = lang.code === currentCode;
-
-            const optBg = this.scene.add.rectangle(cx, y, 260, 44, 0x0a2712, isActive ? 0.8 : 0.4);
-            optBg.setStrokeStyle(isActive ? 2 : 1, isActive ? 0x2fff91 : 0x7fff8e);
-            optBg.setInteractive({ useHandCursor: true });
-
-            const optText = this.scene.add.text(cx, y, lang.name, {
-                fontSize: '24px',
-                fill: isActive ? '#2fff91' : '#7fff8e',
-                fontFamily: 'Arial',
-                fontStyle: isActive ? 'bold' : ''
-            });
-            optText.setOrigin(0.5);
-
-            if (!isActive) {
-                optBg.on('pointerover', () => {
-                    optBg.setFillStyle(0x0a2712, 0.6);
-                    optText.setStyle({ fontSize: '24px', fill: '#2fff91', fontFamily: 'Arial' });
-                    this.hoverSound.play();
-                });
-                optBg.on('pointerout', () => {
-                    optBg.setFillStyle(0x0a2712, 0.4);
-                    optText.setStyle({ fontSize: '24px', fill: '#7fff8e', fontFamily: 'Arial' });
-                });
-            }
-
-            optBg.on('pointerdown', () => {
-                this.clickSound.play();
-                if (lang.code === currentCode) {
-                    this.closeLangModal();
-                    return;
-                }
-                this.lang.setLanguage(lang.code);
-                this.closeLangModal();
-                this.hideMenu();
-                // Restart the current scene to apply new language
-                this.scene.scene.restart();
-            });
-
-            this.langModal.add([optBg, optText]);
-        });
-
-        // Close on overlay click
-        overlay.on('pointerdown', () => {
-            this.clickSound.play();
-            this.closeLangModal();
-        });
-
-        this.container.add(this.langModal);
+        this.pageText.setText(this.slotPageCount > 1 ? this.lang.t('ui.saveLoad.page', { n: this.slotPage + 1, total: this.slotPageCount }) : '');
+        this.prevButton.setVisible(this.slotPage > 0);
+        this.nextButton.setVisible(this.slotPage < this.slotPageCount - 1);
     }
 
-    closeLangModal() {
-        if (this.langModal) {
-            this.langModal.destroy();
-            this.langModal = null;
+    /** load mode: load it. Save mode: an empty slot saves at once, a used one asks for a second click. */
+    onSlot(name, used, row) {
+        if (this.slotMode === 'load') { this.loadGame(name); return; }
+        if (used && this.armedSlot?.name !== name) {
+            if (this.armedSlot) { this.armedSlot.row.setSelected(false); this.armedSlot.row.setNote(null); }
+            row.setSelected(true);
+            row.setNote(this.lang.t('ui.saveLoad.confirmOverwrite'));
+            this.armedSlot = { name, row };
+            return;
         }
+        this.armedSlot = null;
+        this.saveGame(name);
     }
 
     /**
@@ -892,98 +256,53 @@ export default class GameMenu {
      * Note: We're not using this method directly anymore, but keeping it for compatibility
      */
     toggleMenu() {
-        console.log('toggleMenu called');
-        if (this.visible) {
-            this.hideMenu();
-        } else {
-            this.showMenu();
-        }
+        if (this.visible) this.hideMenu(); else this.showMenu();
     }
-    
+
     /**
      * Show the menu
      */
     showMenu() {
         // Don't show menu if dialog is visible
         if (this.scene.dialogVisible) return;
-        
-        console.log('Showing game menu');
         this.visible = true;
-        
-        if (this.container) {
-            this.container.setVisible(true);
-        }
-        
-        // Don't pause the scene as it can cause issues
-        // Instead, we'll just show the menu overlay
+        this.container.setVisible(true);
+        this.showPanel('pause');
+        // Don't pause the scene as it can cause issues -- the overlay swallows clicks and the movement system
+        // ignores keys while the menu is open (PlayerMovementSystem.isInteractingWithUI)
     }
-    
+
     /**
      * Hide the menu
      */
     hideMenu() {
-        console.log('Hiding game menu');
         this.visible = false;
-        
-        if (this.container) {
-            this.container.setVisible(false);
-        }
-        
-        if (this.saveMenuContainer) {
-            this.saveMenuContainer.setVisible(false);
-        }
-        
-        if (this.loadMenuContainer) {
-            this.loadMenuContainer.setVisible(false);
-        }
-        
-        // Hide the input field
-        if (this.saveNameInput) {
-            this.saveNameInput.style.display = 'none';
-        }
+        if (this.container) this.container.setVisible(false);
+        [this.pauseNav, this.slotsNav, this.settings?.nav, this.langNav].forEach(n => { if (n) { n.active = false; n.items.forEach(i => i.setFocus(false)); } });
     }
-    
+
     /**
      * Quick save the current game (F5 key)
      */
     async quickSave() {
-        console.log('Quick save triggered');
-        
         // Don't save if dialog is visible or menu is open
         if (this.scene.dialogVisible || this.visible) {
             return;
         }
-        
-        // Use quicksave slot
-        const saveName = 'quicksave';
-        
+
         // Check if gameAPI is available
         if (!window.gameAPI) {
             console.error('Game API not available');
             this.scene.showNotification(this.lang.t('ui.saveLoad.saveUnavailable'), 0xff0000);
             return;
         }
-        
-        // Lazy-load the SaveSystem if not already loaded
-        if (!this.saveSystem) {
-            const module = await import('../systems/SaveSystem.js');
-            const SaveSystem = module.default;
-            this.saveSystem = new SaveSystem(this.scene);
-        }
-        
-        // Get current date/time for display
-        const now = new Date();
-        const timeString = now.toLocaleTimeString();
-        
-        // Show saving notification
+        await this.ensureSaveSystem();
+
+        const timeString = new Date().toLocaleTimeString();
         this.scene.showNotification(this.lang.t('ui.saveLoad.savingGame'), 0x7fff8e);
-        
-        // Save the game
-        const result = await this.saveSystem.saveGame(saveName);
-        
-        // Show notification
+
+        const result = await this.saveSystem.saveGame('quicksave');
         if (result.success) {
-            // Play a success sound
             if (this.scene.sound.get('clickSound')) {
                 this.scene.sound.play('clickSound');
             }
@@ -992,109 +311,56 @@ export default class GameMenu {
             this.scene.showNotification(this.lang.t('ui.saveLoad.saveFailed', { error: result.message }), 0xff0000);
         }
     }
-    
+
     /**
-     * Save the current game
+     * Save the current game into a slot, then back to the pause panel
      */
-    async saveGame() {
-        // Get the save name from the selected slot
-        const saveName = this.saveSlot || 'save1';
-        
-        // Check if a slot is selected
-        let slotSelected = false;
-        for (const slot of this.saveSlots) {
-            if (slot.selected) {
-                slotSelected = true;
-                break;
-            }
-        }
-        
-        // If no slot is selected, show a notification
-        if (!slotSelected) {
-            this.scene.showNotification(this.lang.t('ui.saveLoad.selectSlot'), 0xff9900);
-            return;
-        }
-        
-        // Check if gameAPI is available
+    async saveGame(saveName) {
         if (!window.gameAPI) {
             console.error('Game API not available');
             this.scene.showNotification(this.lang.t('ui.saveLoad.saveUnavailable'), 0xff0000);
             return;
         }
-        
-        // Lazy-load the SaveSystem if not already loaded
-        if (!this.saveSystem) {
-            const module = await import('../systems/SaveSystem.js');
-            const SaveSystem = module.default;
-            this.saveSystem = new SaveSystem(this.scene);
-        }
-        
-        // Save the game
+        await this.ensureSaveSystem();
         const result = await this.saveSystem.saveGame(saveName);
-        
-        // Show notification
         if (result.success) {
-            this.scene.showNotification(this.lang.t('ui.saveLoad.gameSaved', { time: saveName }));
+            this.scene.showNotification(this.lang.t('ui.saveLoad.savedToSlot', { slot: saveLabel(this.lang, saveName) }));
+            this.showPanel('pause');
         } else {
             this.scene.showNotification(this.lang.t('ui.saveLoad.saveFailed', { error: result.message }), 0xff0000);
         }
-        
-        // Hide the save menu
-        this.saveMenuContainer.setVisible(false);
     }
-    
+
     /**
      * Quick load the most recent quicksave (F9 key)
      */
     async quickLoad() {
-        console.log('Quick load triggered');
-        
         // Don't load if dialog is visible
         if (this.scene.dialogVisible) {
             return;
         }
-        
-        // Use quicksave slot
-        const saveName = 'quicksave';
-        
-        // Check if gameAPI is available
+
         if (!window.gameAPI) {
             console.error('Game API not available');
             this.scene.showNotification(this.lang.t('ui.saveLoad.loadUnavailable'), 0xff0000);
             return;
         }
-        
-        // Check if quicksave exists
+
         const saveFiles = window.gameAPI.listSaveFiles();
         const quicksaveExists = saveFiles.success && saveFiles.files.some(file => file.name === 'quicksave');
-        
         if (!quicksaveExists) {
             this.scene.showNotification(this.lang.t('ui.saveLoad.noQuicksave'), 0xff9900);
             return;
         }
-        
-        // Lazy-load the SaveSystem if not already loaded
-        if (!this.saveSystem) {
-            const module = await import('../systems/SaveSystem.js');
-            const SaveSystem = module.default;
-            this.saveSystem = new SaveSystem(this.scene);
-        }
-        
-        // Show loading notification
+        await this.ensureSaveSystem();
+
         this.scene.showNotification(this.lang.t('ui.saveLoad.loadingQuicksave'), 0x7fff8e);
-        
-        // Load the game
-        const result = await this.saveSystem.loadGame(saveName);
-        
-        // Show notification
+        const result = await this.saveSystem.loadGame('quicksave');
         if (result.success) {
-            // Play a success sound
             if (this.scene.sound.get('clickSound')) {
                 this.scene.sound.play('clickSound');
             }
             this.scene.showNotification(this.lang.t('ui.saveLoad.gameLoaded'), 0x00ff00);
-            
-            // Hide the menu if it's open
             if (this.visible) {
                 this.hideMenu();
             }
@@ -1102,53 +368,37 @@ export default class GameMenu {
             this.scene.showNotification(this.lang.t('ui.saveLoad.loadFailed', { error: result.message }), 0xff0000);
         }
     }
-    
+
     /**
      * Load a saved game
      */
     async loadGame(slotName) {
-        // Check if gameAPI is available
         if (!window.gameAPI) {
             console.error('Game API not available');
             this.scene.showNotification(this.lang.t('ui.saveLoad.saveUnavailable'), 0xff0000);
             return;
         }
-        
-        // Lazy-load the SaveSystem if not already loaded
-        if (!this.saveSystem) {
-            const module = await import('../systems/SaveSystem.js');
-            const SaveSystem = module.default;
-            this.saveSystem = new SaveSystem(this.scene);
-        }
-        
-        // Load the game
+        await this.ensureSaveSystem();
         const result = await this.saveSystem.loadGame(slotName);
-        
-        // Show notification
         if (result.success) {
             this.scene.showNotification(this.lang.t('ui.saveLoad.gameLoaded'));
-            // Hide the menu
             this.hideMenu();
         } else {
             this.scene.showNotification(this.lang.t('ui.saveLoad.loadFailed', { error: result.message }), 0xff0000);
         }
     }
-    
+
     /**
      * Clean up resources
      */
     destroy() {
-        // Remove ESC key listener
-        if (this.escKey) {
-            this.escKey.removeAllListeners();
-        }
-        
-        // Destroy container and all children
+        this.scene.events.off('update', this.onUpdate);
+        [this.pauseNav, this.slotsNav, this.settings?.nav, this.langNav].forEach(n => n?.destroy());
         if (this.container) {
             this.container.destroy(true);
         }
     }
-    
+
     /**
      * Update the menu (called every frame)
      */

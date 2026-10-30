@@ -20,6 +20,7 @@ import { renderDialogLayout } from '../utils/dialogLayouts.js';
 import { runEquipmentTutorial } from '../utils/equipmentTutorial.js';
 import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.js';
 import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
+import { preloadMenuKit } from '../utils/menuKit.js';
 
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
@@ -115,6 +116,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('ground', 'assets/images/ui/ground.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         preloadHudButtons(this); // inventory / map / journal / quests buttons
+        preloadMenuKit(this);    // the ESC menu's plaques and panels
         // native-resolution sheet (tools/artgen/hero.py, Aseprite source Hero_priest_128): 0-3 idle, 4-11 walk; shown at scale 1
         this.load.spritesheet('priest', 'assets/images/characters/priest.png', {
             frameWidth: 128,

@@ -67,6 +67,19 @@ const createWindow = () => {
 // "Exit Game" from the in-game main menu (see preload.js → window.appControl.quit).
 ipcMain.on('app:quit', () => app.quit());
 
+// The Settings panel's fullscreen toggle. Leaving fullscreen gives a 16:9 window (the game is 1067×600, FIT-scaled).
+ipcMain.on('app:setFullscreen', (_e, on) => {
+  if (!mainWindow || mainWindow.isFullScreen() === on) return;
+  if (!on) {
+    mainWindow.once('leave-full-screen', () => {
+      mainWindow.setSize(1280, 720);
+      mainWindow.center();
+    });
+  }
+  mainWindow.setFullScreen(on);
+});
+ipcMain.handle('app:isFullscreen', () => !!mainWindow && mainWindow.isFullScreen());
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.whenReady().then(createWindow);

@@ -437,3 +437,25 @@ aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --scr
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/items --script tools/artgen/item_icons_export.lua
 ```
 A new icon = a function + a line in `ICONS`, then a line in `utils/itemIcons.js`.
+
+## Menus (main menu, ESC menu, save / load / language panels)
+Palette `pal_menu.py` (Aseprite: `menu.gpl`, copy to `~/.config/aseprite/palettes/`); shares the bronze / moss / vein /
+bone ramps with the HUD buttons and the symbiont rosary. Everything is shown at 2x by `utils/menuKit.js`.
+```
+python3 menu_ui.py <outdir>      # -> menu_button.png (+_glow), menu_slot.png, menu_small.png, menu_panel_<k>.png (+_glow), menu_spore.png
+python3 menu_logo.py <outdir>    # -> menu_logo.png (8 frames, the gear-O turns) + menu_logo_glow.png
+# build the Aseprite sources (OVERWRITES assets/aseprite/UI_Menu*.aseprite, incl. their UPRAVY layers):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
+        --script-param pal=$HOME/.config/aseprite/palettes/menu.gpl --script tools/artgen/menu_aseprite.lua
+# export into the game (merges the UPRAVY layers) -- run this after hand edits in Aseprite:
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui/menu --script tools/artgen/menu_export.lua
+cp <outdir>/menu_*_glow.png <outdir>/menu_spore.png assets/images/ui/menu/    # the ADD glows come from the generator
+```
+`UI_MenuButtons_192x48.aseprite`: tags `myceny` / `chorose` / `muchomurka` (the three decoration variants), each 11 frames:
+1 idle, 2-9 hover loop (the gear turns 90 deg -- its 4 spokes make the loop seamless -- and a pulse runs down the
+mycelium), 10 pressed, 11 disabled. `UI_MenuSlots_228x26`: `volny` / `obsazeny` x idle, hover, pressed, selected.
+`UI_MenuSmall_20x20`: arrows + close. Settings controls: `UI_MenuSlider_136x16` (glass tube; `UI_MenuSliderFill_136x16` is the
+liquid at 100 %, cropped by the game), `UI_MenuKnob_16x16` (`kolecko` 4 turn frames -- it rolls as it moves, `rozsvicene` lit),
+`UI_MenuToggle_40x20` (`vypnuto` / `zapnuto` x idle, focused). `UI_MenuPanel_<pause|slots|lang|settings>`: one frame each; a new panel size = a new entry
+in `PANELS` (menu_ui.py) **and** in `MENU_PANELS` (menuKit.js). If you move the hit plaque or the fungi, update
+`BTN_HIT` / `BTN_TEXT` / `BTN_SPORES` in menuKit.js.

@@ -98,9 +98,8 @@ export default class PlayerMovementSystem {
      * @returns {boolean} True if interacting with UI, false otherwise
      */
     isInteractingWithUI() {
-        // This is a placeholder - the actual implementation would check if the player
-        // is clicking on UI elements, which would require access to the UI elements
-        return false;
+        // The ESC menu is open: its arrows / Enter drive the menu, not the priest
+        return !!this.scene.gameMenu?.visible;
     }
 
     /**

@@ -1,4 +1,5 @@
 import LoadingScene from './scenes/LoadingScene.js';
+import { initSettings } from './systems/GameSettings.js';
 import MainScene from './scenes/MainScene.js';
 import EntryScene from './scenes/EntryScene.js';
 import GameScene from './scenes/GameScene.js';
@@ -77,6 +78,7 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
+initSettings(game);   // music / sound buses + the saved fullscreen preference (Settings panel)
 
 // FIT mode auto-refits the canvas when the window changes size — no manual resize needed.
 // (Calling game.scale.resize here would change the base game size and re-break the layout.)

@@ -9,6 +9,7 @@ export default {
             subtitle: 'A Weird Game',
             startGame: 'Start Game',
             loadGame: 'Load Game',
+            settings: 'Settings',
             language: 'Language',
             exitGame: 'Exit Game',
         },
@@ -23,8 +24,25 @@ export default {
             shortcuts: 'Keyboard Shortcuts: F5 = Quick Save | F9 = Quick Load | ESC = Menu',
         },
 
+        // Settings panel
+        settings: {
+            title: 'SETTINGS',
+            music: 'Music',
+            sounds: 'Sounds',
+            fullscreen: 'Fullscreen',
+            language: 'Language',
+            on: 'On',
+            off: 'Off',
+        },
+
         // Save / Load
         saveLoad: {
+            emptySlot: '— empty —',
+            confirmOverwrite: 'Overwrite? Click again',
+            savedToSlot: 'Saved: {slot}',
+            page: 'Page {n} / {total}',
+            slotName: 'Save {n}',
+            quicksave: 'Quicksave',
             saveTitle: 'SAVE GAME',
             loadTitle: 'LOAD GAME',
             save: 'Save',
