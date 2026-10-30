@@ -4,7 +4,7 @@
 "AppBuild"
 {
 	"AppID"       "4118600"                 // Steamworks → App Admin → the number in the URL / page header
-	"Desc"        "dev 2026-10-20 5c9ad19"  // shows in SteamPipe → Builds; put the git short hash here
+	"Desc"        "dev 2026-10-30 1645d67"  // shows in SteamPipe → Builds; put the git short hash here
 	"SetLive"     ""                        // branch to set live automatically; "default" is NOT allowed here (web UI only)
 	"Preview"     "0"                       // "1" = dry run: only writes logs/manifests, uploads nothing
 	"BuildOutput" "./output/"               // logs + chunk cache, git-ignored
