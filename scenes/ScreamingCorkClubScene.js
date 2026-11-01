@@ -75,36 +75,11 @@ export default class ScreamingCorkClubScene extends GameScene {
                 text: "\"Alright! Let's melt some minds with ultra noise! Ready everyone? One, two, three, four!\"",
                 options: [],
                 onTrigger: function() {
-                    // Store a reference to the scene for use in the callback
-                    const scene = this;
-                    
-                    // Use a short delay to ensure dialog closes properly
+                    // Close the box properly (hideDialog also clears the layout's masks -- destroying only the
+                    // box left the portrait's white mask on screen during the concert), then start the set
                     this.time.delayedCall(100, () => {
-                        // Start the performance
-                        scene.startPerformance();
-                        
-                        // Force close any open dialog
-                        if (scene.dialogBox) {
-                            scene.dialogBox.destroy();
-                            scene.dialogBox = null;
-                            scene.dialogVisible = false;
-                            
-                            // Update dialog visibility in player movement system
-                            if (scene.playerMovementSystem) {
-                                scene.playerMovementSystem.setDialogVisible(false);
-                            }
-                            
-                            // Hide avatar if present
-                            if (scene.avatar) {
-                                scene.avatar.setVisible(false);
-                            }
-                            
-                            // Destroy text mask if it exists
-                            if (scene.textMaskGraphics) {
-                                scene.textMaskGraphics.destroy();
-                                scene.textMaskGraphics = null;
-                            }
-                        }
+                        this.startPerformance();
+                        if (this.dialogVisible) this.hideDialog();
                     });
                 }
             },
@@ -395,11 +370,12 @@ export default class ScreamingCorkClubScene extends GameScene {
         let delay = 3000; // Start after 3 seconds
         let duration = 6000; // Each text stays for 5 seconds
         
-        // Fade in the container
+        // Fade in the container with the first line (an empty box hung there for the first seconds)
         this.tweens.add({
             targets: textContainer,
             alpha: 1,
             duration: 1000,
+            delay: delay - 500,
             ease: 'Power2'
         });
         

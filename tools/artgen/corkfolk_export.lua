@@ -1,7 +1,7 @@
--- Exports the Screaming Cork people's sheets from the Aseprite sources (touch-ups in "UPRAVY" included).
+-- Exports Heliodor's sheet from its Aseprite source (touch-ups in "UPRAVY" included). Ravla: ravla_export.lua.
 -- aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/corkfolk_export.lua
 local src, dst = app.params["src"], app.params["dst"]
-for _, id in ipairs({ "heliodor", "ravla" }) do
+for _, id in ipairs({ "heliodor" }) do
   local s = app.open(src .. "/Cork_" .. id .. ".aseprite")
   for _, l in ipairs(s.layers) do l.isVisible = (l.name == id or l.name == id .. " UPRAVY") end
   local sheet = Image(s.width * #s.frames, s.height, ColorMode.RGB)

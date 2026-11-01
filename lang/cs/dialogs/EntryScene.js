@@ -34,13 +34,18 @@ export default {
         options: {
             youre_just_avoiding_work_arent_you: "Vy se prostě jen vyhýbáte práci, co?",
             what_should_i_tell_the_bishop_when_i_find_her: "Co mám teda říct Biskupce, až ji najdu?",
+            what_task_master: "Jaký úkol, Mistře?",
             tell_me_more_about_the_city_first: "Nejdřív mi řekněte víc o městě."
         }
     },
     avoiding: {
-        text: "*uraženě odfrkne* Jak se opovažuješ! Provádím životně důležitý... spirituální výzkum špiritusu. Je to posvátný rituál, který vyžaduje mou plnou pozornost a několik testovacích vzorků místního piva k tomu. A teď už běž! Biskupka čeká a tohle je pro tebe vynikající trénink. Tohle je životní příležitost, tak moc nekecej!",
+        text: {
+            avoiding: "*uraženě odfrkne* Jak se opovažuješ! Provádím životně důležitý... spirituální výzkum špiritusu. Je to posvátný rituál, který vyžaduje mou plnou pozornost a několik testovacích vzorků místního piva k tomu. A teď už běž! Biskupka čeká a tohle je pro tebe vynikající trénink. Tohle je životní příležitost, tak moc nekecej!",
+            avoiding_task_unheard: "*uraženě odfrkne* Jak se opovažuješ! Provádím životně důležitý... spirituální výzkum špiritusu. Je to posvátný rituál, který vyžaduje mou plnou pozornost a několik testovacích vzorků místního piva k tomu. A teď radši poslouchej, jaký úkol tě čeká – je to pro tebe vynikající trénink. Tohle je životní příležitost, tak moc nekecej!",
+        },
         options: {
             what_should_i_tell_the_bishop_when_i_find_her: "Co mám říct Biskupce, až ji najdu?",
+            what_task_master: "Jaký úkol, Mistře?",
             tell_me_more_about_the_city_first: "Nejdřív mi řekněte víc o městě",
             master_i_have_heard_that_upper_morkezela_is_called: "Mistře, slyšel jsem, že Horní Morkezele se říká město mrtvých bohů. Mohl byste mi k tomu říct víc?"
         }

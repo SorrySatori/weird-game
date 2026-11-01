@@ -714,18 +714,9 @@ export default class RustDomainScene extends GameScene {
             'down',
             'ScraperInteriorScene',
             450, // walk to x (near elevator)
-            370  // walk to y
+            370, // walk to y
+            'Back to Elevator' // the exit's own hover label (a second, always-on hint here doubled it)
         );
-
-        const exitHint = this.add.text(400, 550, 'Back to Elevator', {
-            fontSize: '14px',
-            fill: '#c87533',
-            backgroundColor: '#1a0a00',
-            padding: { x: 8, y: 4 }
-        });
-        exitHint.setOrigin(0.5);
-        exitHint.setDepth(10);
-        exitHint.setAlpha(0.7);
 
         // Create Brukk NPC
         this.createBrukk();

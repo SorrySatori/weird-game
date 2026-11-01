@@ -163,6 +163,8 @@ export default {
         palinode_brick: 'Palinode odvolá cihlu – zazděný tunel vydechne studený vzduch směrem k Živému jádru.',
     },
     notifications: {
+        hintNoSpores: 'Na nápovědu nemáš dost spor (potřebuješ {cost})',
+        hintNothing: 'Tady není na co kliknout',
         newQuest: 'Nový úkol',
         questUpdated: 'Úkol aktualizován',
         questCompleted: 'Úkol dokončen!',
@@ -223,7 +225,7 @@ export default {
         },
         gnur: {
             growthDominant: "Cítím kolem tebe moc růstu. Kazí mi to zboží. Zelené věci se tady dole moc neprodávají.",
-            decayDominant: "Heh. Teď v sobě máš tu správnou hnilobu, cizinče. Vyjdeme spolu dobře.",
+            decayDominant: "Heh. Máš v sobě tu správnou hnilobu, cizinče – cítím ji až sem. Vyjdeme spolu dobře.",
         },
         brukk: {
             growthDominant: "Páchneš mízou a jarem. Stroje nevěří rostoucím věcem. Ani já ne.",

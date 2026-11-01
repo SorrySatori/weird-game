@@ -359,6 +359,10 @@ export default class ShedRegistrationScene extends GameScene {
         const armsQuest = questSystem?.getQuest('ortolan_arms');
         const formPathOpen = (clueKey, path) => !!armsQuest && !armsQuest.isComplete
             && questUpdates.some(update => update.key === clueKey) && !this.registrationPathClosed(path);
+        // Ortolan's quest is on but Applications hasn't named a form yet: the player can still ask about the arms here,
+        // and the clerk sends them upstairs (otherwise only general registration and the symbiont slot were offered)
+        const armsFormClue = questUpdates.some(update => ['artisan_form_clue', 'deformity_form_clue', 'nonverbal_gesture_clue'].includes(update.key));
+        const armsAskable = !!armsQuest && !armsQuest.isComplete && !armsFormClue;
         const content = {
             ...super.dialogContent,
             // 1. Sleepless Mime Dialog
@@ -606,6 +610,8 @@ export default class ShedRegistrationScene extends GameScene {
                         [{ text: "I need an Inherited Deformity Form.", key: 'i_need_an_inherited_deformity_form', next: "registration_deformity" }] : []),
                     ...(formPathOpen('nonverbal_gesture_clue', 'nonverbal') ?
                         [{ text: "(Make a nonverbal gesture)", key: 'make_a_nonverbal_gesture', next: "registration_nonverbal" }] : []),
+                    ...(armsAskable ?
+                        [{ text: "I need to register an extra pair of arms for a friend.", key: 'register_extra_arms_for_friend', next: "registration_arms_redirect" }] : []),
                     // Always show extra symbiont option
                     { text: "I would like to register for an extra symbiont slot.", key: 'i_would_like_to_register_for_an_extra_symbiont_slo', next: "registration_extra_symbiont" },
                 ],
@@ -708,6 +714,15 @@ export default class ShedRegistrationScene extends GameScene {
                     { text: "I'm here on behalf of someone else.", key: 'im_here_on_behalf_of_someone_else', next: "registration_proxy" },
                     { text: "Perhaps I should be more specific.", key: 'perhaps_i_should_be_more_specific', next: "registration_reconsider" }
                 ]
+            },
+            registration_arms_redirect: {
+                text: "(The clerk doesn't even look up.)\n\n'Limbs. Additional. Registration does not decide which form a limb falls under — Applications does. Top floor, the door with the queue. Come back with the name of the form, and I will issue it.'",
+                options: [
+                    { text: "Applications first, then. Understood.", key: 'applications_first_understood', next: "registration_reconsider" }
+                ],
+                onTrigger: () => {
+                    this.questSystem?.updateQuest('ortolan_arms', 'The Senior Clerk at Registration only issues the forms; which form Ortolan\'s arms need is decided at Applications, on the top floor of the Shed.', 'registration_sent_to_applications');
+                }
             },
             registration_proxy: {
                 text: "'Registration by proxy is not accepted. The applicant must appear in person — or you must hold a form issued in their name.'",

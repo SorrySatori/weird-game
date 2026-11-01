@@ -14,7 +14,7 @@ class JournalUI {
         
         // Create UI container
         this.container = this.scene.add.container(this.scene.scale.width / 2, 300);
-        this.container.setDepth(1000);
+        this.container.setDepth(1002); // over the Spore bar / G/D medallion (1000, created later) and the quest log (1001)
         this.container.visible = false;
         
         this.createUI();
@@ -50,6 +50,12 @@ class JournalUI {
             title: tr(`${jKey}.title`, entry.title),
             content: [tr(`${jKey}.description`, entry.content), ...facts].join('\n'),
         };
+    }
+
+    /** A category's tab label in the current language (entries keep the English category as their key). */
+    categoryLabel(category) {
+        const v = this.lang.t(`ui.hud.journalCategories.${category}`);
+        return v === `ui.hud.journalCategories.${category}` ? category : v;
     }
 
     createUI() {
@@ -110,8 +116,9 @@ class JournalUI {
         this.container.add(this.contentContainer);
         
         // Scrolling controls
-        this.scrollUpButton = this.createScrollButton(-25, -210, 'up');
-        this.scrollDownButton = this.createScrollButton(-25, 240, 'down');
+        // in the right margin beside the entries (centred above them, ▲ sat on the Events tab)
+        this.scrollUpButton = this.createScrollButton(378, -165, 'up');
+        this.scrollDownButton = this.createScrollButton(378, 245, 'down');
         
         // Enable scrolling with mouse wheel
         this.scene.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -173,7 +180,7 @@ class JournalUI {
             this.categoryTabs.push(tab);
             
             // Tab text
-            const tabButton = this.scene.add.text(x, -200, category, {
+            const tabButton = this.scene.add.text(x, -200, this.categoryLabel(category), {
                 fontSize: '18px',
                 fontFamily: 'Georgia',
                 color: '#7fff8e',
@@ -285,7 +292,7 @@ class JournalUI {
         
         if (entries.length === 0) {
             const noEntriesText = this.scene.add.text(360, yOffset, 
-                this.lang.t('ui.hud.noJournalEntries', { category: this.currentCategory || 'journal' }), {
+                this.lang.t('ui.hud.noJournalEntries', { category: this.currentCategory ? this.categoryLabel(this.currentCategory) : 'journal' }), {
                 fontSize: '18px',
                 fontFamily: 'Georgia',
                 color: '#7fff8e',

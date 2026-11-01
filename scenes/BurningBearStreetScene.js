@@ -256,7 +256,7 @@ export default class BurningBearStreetScene extends GameScene {
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.spritesheet('ortolanIdle', 'assets/images/characters/ortolan_idle.png', { frameWidth: 128, frameHeight: 160 });
-        this.load.spritesheet('ortolan4Idle', 'assets/images/characters/ortolan4_idle.png', { frameWidth: 144, frameHeight: 160 });
+        this.load.spritesheet('ortolan4Idle', 'assets/images/characters/ortolan4_idle.png', { frameWidth: 128, frameHeight: 160 });
     }
 
     create() {
@@ -475,14 +475,19 @@ export default class BurningBearStreetScene extends GameScene {
         const x = 250, groundY = 525;
         // If the player won him his extra pair of arms on Day 1, he now sports all four.
         const armsHelped = !!this.questSystem?.getQuest('ortolan_arms')?.isComplete;
-        // tools/artgen/ortolan_elphi.py: 8 idle frames at scale 1, soles on y 156 of the 160 px frame
-        const SEQ = [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 3, 0, 0, 4, 4, 0, 1, 1, 7, 0, 0, 5, 5, 0, 0, 6, 6, 0, 0, 0];
+        // tools/artgen/ortolan.py: both looks are 8 idle frames of 128×160 at scale 1, soles on y 156, with the same
+        // frame meaning (ShedCourtyardScene uses the same order): breath, blink, spectacle glint, "hm", then the pawn
+        // comes up (5), he studies it (6) and it goes back down (5)
+        const SEQ = [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 3, 0, 0, 4, 4, 0, 1, 1, 7, 0, 0, 5, 6, 6, 6, 6, 5, 0, 0, 0];
         if (!this.anims.exists('ortolan_idle')) this.anims.create({ key: 'ortolan_idle', frames: this.anims.generateFrameNumbers('ortolanIdle', { frames: SEQ }), frameRate: 4, repeat: -1 });
         if (!this.anims.exists('ortolan4_idle')) this.anims.create({ key: 'ortolan4_idle', frames: this.anims.generateFrameNumbers('ortolan4Idle', { frames: SEQ }), frameRate: 4, repeat: -1 });
-        this.ortolan = this.add.sprite(x, groundY + 4, armsHelped ? 'ortolan4Idle' : 'ortolanIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        const ortolanKey = armsHelped ? 'ortolan4Idle' : 'ortolanIdle';
+        this.ortolan = this.add.sprite(x, groundY + 4, ortolanKey, 0).setOrigin(0.5, 1).setDepth(6);
         this.ortolan.play(armsHelped ? 'ortolan4_idle' : 'ortolan_idle');
         this._ortolanHoverFx = null;  // the scene instance is reused
-        this.addGroundShadow(x, groundY - 1, armsHelped ? 70 : 46, 12);
+        this.addGroundShadow(x, groundY - 1, 46, 12);   // both looks have the same footprint now
+        // bust portrait for his dialogs (frame 0 of the look he has today); the speaker name is the same in EN and CZ
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Ortolan': { key: ortolanKey, frame: 0, zoom: 2, top: 10 } };
         this.ortolan.setInteractive({ useHandCursor: true });
 
         const label = this.add.text(x, groundY - 151 - 10, 'ORTOLAN', {

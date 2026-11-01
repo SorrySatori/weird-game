@@ -537,41 +537,9 @@ export default class ScraperInteriorScene extends GameScene {
             }
         }
 
-        // Add exit back to ScraperScene: the street doors in the left wall
-        this.exitArea = this.add.image(100, 470, 'exitArea')
-            .setDisplaySize(120, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-        
-        // Add exit hover hint
-        const exitText = this.add.text(100, 400, this.t('ui.hotspots.returnOutside'), {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        exitText.setOrigin(0.5);
-        exitText.setAlpha(0);
-        exitText.setDepth(10);
-        
-        // Show hint when hovering near the exit
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the exit area
-            if (Math.abs(pointer.x - 100) < 60 && Math.abs(pointer.y - 470) < 100) {
-                exitText.setAlpha(1);
-            } else {
-                exitText.setAlpha(0);
-            }
-        });
-        
-        // Add exit click handler
-        this.exitArea.on('pointerdown', () => {
-            // Use the SceneTransitionManager to handle the transition
-            this.transitionManager.handleSceneTransition('ScraperScene', 50, 470);
-        });
-        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
-        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperScene'), this.exitArea);
+        // Exit back to ScraperScene: the street doors in the left wall -- a regular exit (arrow + glow + label like
+        // everywhere else; 800-space numbers, remapped by the manager), the arrow keys take it at the left edge too
+        this.transitionManager.createTransitionZone(75, 470, 90, 200, 'left', 'ScraperScene', 38, 470, 'Return Outside');
 
         // Add elevator: an invisible hit area over the Lift-Mother's portal painted in the background (canvas coords)
         const liftX = 510;

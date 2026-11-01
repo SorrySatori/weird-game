@@ -158,6 +158,8 @@ export default {
         palinode_brick: 'Palinode unsays the brick — a walled tunnel exhales cold air toward the Living Core.',
     },
     notifications: {
+        hintNoSpores: 'Not enough spores for a hint ({cost} needed)',
+        hintNothing: 'Nothing here to click',
         newQuest: 'New quest',
         questUpdated: 'Quest updated',
         questCompleted: 'Quest completed!',
@@ -218,7 +220,7 @@ export default {
         },
         gnur: {
             growthDominant: "Too much bloom on you, priest. Puts my wares off. Green don't sell down here.",
-            decayDominant: "Heh. You've got the good rot in you now, outsider. We'll get along fine.",
+            decayDominant: "Heh. You carry the good rot in you, outsider — I can smell it from here. We'll get along fine.",
         },
         brukk: {
             growthDominant: "You reek of sap and spring. The machines don't trust growing things. Nor do I.",

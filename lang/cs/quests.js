@@ -142,6 +142,7 @@ export default {
                 ravla_forger_agreement: 'Ravla ve Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
                 document_obtained: "Od Ravly mám padělané povolení pro Ortolanovy ruce navíc. Teď mu ho jen musím donést.",
                 bureaucratic_incantation: 'Dutá žena z fronty na registračním úřadě mě naučila podivné byrokratické zaklínadlo.',
+                registration_sent_to_applications: "Vrchní úředník na Registraci formuláře jen vydává; který formulář Ortolanovy ruce potřebují, rozhodují Žádosti v nejvyšším patře Boudy.",
                 form_obtained: 'Úspěšně jsem získal formulář pro Ortolana.',
                 partial_progress: 'Získal jsem Dočasné povolení, které by mohlo Ortolanovi pomoct, ale není plně schválené.',
                 failed_attempt: 'Můj pokus o registraci selhal. Budu muset najít jiný způsob, jak Ortolanovi pomoct.',

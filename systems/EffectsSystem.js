@@ -536,7 +536,7 @@ export default class EffectsSystem {
             loop: true,
             callback: () => {
                 const priest = this.scene.priest;
-                if (!priest || this.scene.dialogVisible) return;
+                if (!priest || (this.scene.isModalOpen?.() ?? this.scene.dialogVisible)) return;
                 // Mutter to self
                 if (Math.random() < 0.8 && this.scene.showSpeechBubble) {
                     const lines = this.drugComments.wimlick;

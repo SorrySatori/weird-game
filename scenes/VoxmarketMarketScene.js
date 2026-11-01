@@ -53,6 +53,10 @@ export default class VoxmarketMarketScene extends GameScene {
     }
 
     get dialogContent() {
+        // Asking who bought the plush toy (bribe / persuade / Brain Rot) only makes sense while Kloor's hunt for the
+        // Vestigel is on -- before he asks, the player has no reason to pry and doesn't know of any Vestigel
+        const vestigelQuest = this.registry.get('questSystem')?.getQuest('the_three_vestigels');
+        const vestigelHuntOpen = !!vestigelQuest && !vestigelQuest.isComplete;
         return {
             ...super.dialogContent,
             speaker: 'Zerren',
@@ -125,7 +129,7 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_plush_toy: {
                 text: "'It was an odd little thing — looked like a cross between a stuffed animal and some kind of abstract sculpture. Got it from a traveler passing through.'",
                 options: [
-                    { text: "Who bought it?", key: 'who_bought_it', next: "zerren_buyer_inquiry" },
+                    ...(vestigelHuntOpen ? [{ text: "Who bought it?", key: 'who_bought_it', next: "zerren_buyer_inquiry" }] : []),
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
@@ -424,29 +428,9 @@ export default class VoxmarketMarketScene extends GameScene {
             'down', // direction
             'VoxMarket', // target scene
             400, // walk to x
-            520 // walk to y
+            520, // walk to y
+            'Back to Main Market' // the exit's own hover label (a second hint here doubled it)
         );
-        
-        // Add a hint about the exit
-        const exitHint = this.add.text(this.scale.width / 2, 520, this.t('ui.hotspots.backToMainMarket'), {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        exitHint.setOrigin(0.5);
-        exitHint.setAlpha(0);
-        exitHint.setDepth(10);
-        
-        // Show hint when hovering near the exit
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the exit area
-            if (Math.abs(pointer.x - this.scale.width / 2) < 130 && Math.abs(pointer.y - 550) < 50) {
-                exitHint.setAlpha(1);
-            } else {
-                exitHint.setAlpha(0);
-            }
-        });
         
         // Remove the NPC if it exists
         if (this.stranger) {

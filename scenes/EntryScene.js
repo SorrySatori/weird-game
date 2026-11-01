@@ -12,6 +12,10 @@ export default class EntryScene extends GameScene {
 
     get dialogContent() {
         const cs = LanguageSystem.getInstance?.().getLanguage?.() === 'cs';
+        // Until Thaal has named the task, nothing may take the Bishop for known: "What task?" stands in for
+        // "What should I tell the Bishop?" and for the send-off (whyNot/avoiding/the topics are reachable first)
+        const taskHeard = !!this._thaalTaskHeard;
+        const askTask = { text: "What task, Master?", key: 'what_task_master', next: 'task' };
         const states = {
             speaker: 'Master Thaal',
             main: {
@@ -89,6 +93,7 @@ export default class EntryScene extends GameScene {
             },
             task: {
                 hideCloseOption: true,
+                onTrigger: () => { this._thaalTaskHeard = true; },
                 text: "You must find our Bishop, who represents the holy church of the Ur-mushroom in this city. She might know about the distress call we have received from this city via myceliar network. The Bishop should be probably present at the Egg Cathedral.",
                 options: [
                     { text: "Wait, do you mean the task you have been given by the Highest Humenium Council? The only reason we are here? Why can't we go see the Bishop together?", key: 'wait_do_you_mean_the_task_you_have_been_given_by_t', next: 'whyNot' },
@@ -100,15 +105,18 @@ export default class EntryScene extends GameScene {
                 text: "*adjusts robe importantly* I am far too busy with... important research. Yes! Research into advanced mycological phenomena that would be far too complex for a novice. Besides, I have a... prior engagement at the Fermented Cap tavern. The Council specifically requested someone of your... particular level of experience.",
                 options: [
                     { text: "You're just avoiding work, aren't you?", key: 'youre_just_avoiding_work_arent_you', next: 'avoiding' },
-                    { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' },
+                    taskHeard ? { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' } : askTask,
                     { text: "Tell me more about the city first.", key: 'tell_me_more_about_the_city_first', next: 'city' }
                 ]
             },
             avoiding: {
                 hideCloseOption: true,
-                text: "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of local ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!",
+                textKey: taskHeard ? 'avoiding' : 'avoiding_task_unheard',
+                text: taskHeard
+                    ? "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of local ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!"
+                    : "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of local ale. Now listen to your task instead — it is excellent training for you. Consider yourself fortunate!",
                 options: [
-                    { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' },
+                    taskHeard ? { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' } : askTask,
                     { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
                     { text: "Master, I have heard that Upper Morkezela is called the Dead Gods city. Could you tell me more?", key: 'master_i_have_heard_that_upper_morkezela_is_called', next: 'gods' }
                 ]
@@ -153,7 +161,7 @@ export default class EntryScene extends GameScene {
                 hideCloseOption: true,
                 text: "*He is already half-turned when he stops, one finger raised.* Wait! You should know that a master priest of my rank commands one further superpower: meta-narrative awareness — deeply useful for explaining how this world actually works. So, before I go: shall I show you how to use your gear? Your diary, the map, that sort of thing?",
                 options: [
-                    { text: "Yes please, Master.", key: 'tutorial_yes', onSelect: () => { this._walkAwayOnClose = false; this.events.once('equipment-tutorial-finished', () => this.masterWalkAway()); this.time.delayedCall(420, () => this.startEquipmentTutorial()); }, next: 'closeDialog' },
+                    { text: "Yes please, Master.", key: 'tutorial_yes', onSelect: () => { this._walkAwayOnClose = false; this._thaalDone = true; this.events.once('equipment-tutorial-finished', () => this.masterWalkAway()); this.time.delayedCall(420, () => this.startEquipmentTutorial()); }, next: 'closeDialog' },
                     { text: "No need. Objectively, the best games were made in 1997 — and we did just fine without tutorials back then.", key: 'tutorial_no', next: 'close' }
                 ]
             },
@@ -318,7 +326,9 @@ export default class EntryScene extends GameScene {
             if (id === 'close' || !st || typeof st !== 'object' || !Array.isArray(st.options)) continue;
             st.hideCloseOption = true;
             if (!NO_LEAVE.has(id) && !st.options.some(o => o.next === 'farewell' || o.key === 'ill_be_on_my_way')) {
-                st.options.push({ text: cs ? 'Už půjdu.' : "I'll be on my way.", key: 'ill_be_on_my_way', next: 'farewell' });
+                st.options.push(taskHeard
+                    ? { text: cs ? 'Už půjdu.' : "I'll be on my way.", key: 'ill_be_on_my_way', next: 'farewell' }
+                    : { ...askTask, text: cs ? 'A jaký úkol to vlastně je, Mistře?' : "So what is the task, Master?" });
             }
         }
 
@@ -335,6 +345,8 @@ export default class EntryScene extends GameScene {
     }
 
     create() {
+        this._thaalTaskHeard = false;
+        this._thaalDone = false;
         // Call parent create first to initialize mechanics
         super.create();
         
@@ -457,7 +469,8 @@ export default class EntryScene extends GameScene {
 
         // Click → intro dialog.
         this.master.on('pointerdown', () => {
-            if (!this.dialogVisible) {
+            // done talking: the tutorial is about to start (420 ms) or runs, or he is already walking off
+            if (!this.dialogVisible && !this._thaalDone) {
                 this.clickSound.play();
                 this.showDialog('main');
             }
@@ -591,6 +604,7 @@ export default class EntryScene extends GameScene {
      * Make the fungal master walk away after dialog closes
      */
     masterWalkAway() {
+        this._thaalDone = true;
         if (this.master && this.masterGlow) {
             // He now walks off to the right, so face him back that way and switch to the walk anim.
             this.master.setFlipX(false);

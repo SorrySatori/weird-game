@@ -975,27 +975,10 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
+        // the exit's own hover label is the only one (a second hint here doubled it)
         this.transitionManager.createTransitionZone(
-            50, 470, 50, 200, 'left', 'VoxMarket', 100, 470
+            50, 470, 50, 200, 'left', 'VoxMarket', 100, 470, 'Back to Main Market'
         );
-        
-        const exitHint = this.add.text(100, 420, this.t('ui.hotspots.backToMainMarket'), {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        exitHint.setOrigin(0.5);
-        exitHint.setAlpha(0);
-        exitHint.setDepth(10);
-        
-        this.input.on('pointermove', (pointer) => {
-            if (Math.abs(pointer.x - 50) < 50 && Math.abs(pointer.y - 470) < 100) {
-                exitHint.setAlpha(1);
-            } else {
-                exitHint.setAlpha(0);
-            }
-        });
         
         if (this.stranger) {
             this.stranger.destroy();

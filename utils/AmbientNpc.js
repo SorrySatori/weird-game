@@ -32,7 +32,8 @@ export function createAmbientNpc(scene, { id, key = id, x, y, holds, top, depth 
 
     let next = 0;
     let bubble = null;
-    npc.on('pointerdown', () => {
+    npc.on('pointerdown', (pointer, localX, localY, event) => {
+        event.stopPropagation(); // the priest stays put -- walking over to them, he'd stand in front of the figure
         if (scene.dialogVisible || bubble?.active) return; // let the current line finish
         const lines = scene.t(`ambient.${id}.lines`);
         if (!Array.isArray(lines) || !lines.length) return;

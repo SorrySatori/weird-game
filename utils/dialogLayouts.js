@@ -33,7 +33,7 @@ function commit(scene, activate) {
 /** Mask `target` to a screen rect and let the wheel scroll it vertically when it overflows. */
 function attachScroll(scene, target, contentHeight, view) {
     if (contentHeight <= view.h) return;      // fits — no scroll needed
-    const g = scene.add.graphics();
+    const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
     g.fillStyle(0xffffff);
     g.fillRect(view.x, view.y, view.w, view.h);
     target.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));
@@ -165,7 +165,7 @@ function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
         const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, key.key, key.frame ?? 0)
             .setOrigin(0.5, 0).setScale(key.zoom);
         parent.add(spr);
-        const g = scene.add.graphics();
+        const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
         g.fillStyle(0xffffff);
         g.fillRect(cx - innerW / 2, cy - innerH / 2, innerW, innerH);
         spr.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));
@@ -180,7 +180,7 @@ function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
         spr.setScale(innerW / spr.width);
         spr.y = cy - h / 2 + 6 + spr.displayHeight / 2;        // top-align so the head shows
         parent.add(spr);
-        const g = scene.add.graphics();
+        const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
         g.fillStyle(0xffffff);
         g.fillRect(cx - innerW / 2, cy - innerH / 2, innerW, innerH);
         spr.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));

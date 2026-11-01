@@ -90,34 +90,8 @@ export default class SceneTransitionManager {
         width = Math.round(width * kx);   // keep relative spacing so remapped zones don't overlap neighbours
         if (typeof walkX === 'number') walkX = Math.round(walkX * kx);
 
-        // The label is localized: a scene's own English label via `exits.<label>` (lang/<code>/locations.js),
-        // otherwise the destination's name from `locations.<sceneKey>`; a label that is just a scene key counts as none
-        const lang = LanguageSystem.getInstance();
-        if (/Scene$/.test(destinationName) && lang.str(`locations.${destinationName}`)) destinationName = '';
-        if (destinationName) destinationName = lang.str(`exits.${destinationName}`) || destinationName;
-        else destinationName = lang.str(`locations.${targetScene}`) || '';
+        destinationName = this.exitLabel(destinationName, targetScene, direction);
 
-        // If there is still no name, create one from the target scene
-        if (!destinationName) {
-            // Convert camelCase to Title Case with spaces
-            destinationName = targetScene
-                .replace(/([A-Z])/g, ' $1') // Insert a space before all capital letters
-                .replace(/^./, str => str.toUpperCase()) // Capitalize the first letter
-                .replace(/Scene$/, '') // Remove 'Scene' suffix if present
-                .trim();
-            
-            // If we still don't have a name (unlikely), use a generic one based on direction
-            if (!destinationName) {
-                const directionNames = {
-                    'up': 'Go Up',
-                    'down': 'Go Down',
-                    'left': 'Go Left',
-                    'right': 'Go Right'
-                };
-                destinationName = directionNames[direction] || 'Exit';
-            }
-        }
-        
         // Create the interactive zone
         const zone = this.scene.add.zone(x, y, width, height)
             .setInteractive({ useHandCursor: true })
@@ -158,6 +132,105 @@ export default class SceneTransitionManager {
         return zone;
     }
     
+    /**
+     * The localized label of an exit: a scene's own English label via `exits.<label>` (lang/<code>/locations.js),
+     * otherwise the destination's name from `locations.<sceneKey>`; a label that is just a scene key counts as none
+     */
+    exitLabel(destinationName, targetScene, direction) {
+        const lang = LanguageSystem.getInstance();
+        if (/Scene$/.test(destinationName) && lang.str(`locations.${destinationName}`)) destinationName = '';
+        if (destinationName) destinationName = lang.str(`exits.${destinationName}`) || destinationName;
+        else destinationName = (targetScene && lang.str(`locations.${targetScene}`)) || '';
+
+        // If there is still no name, create one from the target scene
+        if (!destinationName && targetScene) {
+            // Convert camelCase to Title Case with spaces
+            destinationName = targetScene
+                .replace(/([A-Z])/g, ' $1') // Insert a space before all capital letters
+                .replace(/^./, str => str.toUpperCase()) // Capitalize the first letter
+                .replace(/Scene$/, '') // Remove 'Scene' suffix if present
+                .trim();
+        }
+        // If we still don't have a name (unlikely), use a generic one based on direction
+        if (!destinationName) {
+            const directionNames = {
+                'up': 'Go Up',
+                'down': 'Go Down',
+                'left': 'Go Left',
+                'right': 'Go Right'
+            };
+            destinationName = directionNames[direction] || 'Exit';
+        }
+        return destinationName;
+    }
+
+    /**
+     * An exit painted in the background -- a door, a flight of stairs, a hatch -- as a hotspot of its own shape that
+     * lights up whole on hover (a warm wash and its outline, the label above it) instead of the arrow-and-glow of
+     * createTransitionZone. Canvas coordinates (not the 800 layout). `shape`: { rect: [x, y, w, h] } or
+     * { points: [[x, y], ...] }. Clicking walks the priest to (walkX, walkY) and leaves for `target`, unless `onClick`
+     * takes over (e.g. a staircase inside the same scene). `label` may be a function (read on each hover).
+     * @returns {Phaser.GameObjects.Zone}
+     */
+    createDoorZone(shape, { target = null, walkX, walkY, label = '', direction = 'up', onClick = null, depth = 3 } = {}) {
+        const pts = shape.points
+            || [[shape.rect[0], shape.rect[1]], [shape.rect[0] + shape.rect[2], shape.rect[1]],
+                [shape.rect[0] + shape.rect[2], shape.rect[1] + shape.rect[3]], [shape.rect[0], shape.rect[1] + shape.rect[3]]];
+        const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+        const bx = Math.min(...xs), by = Math.min(...ys), bw = Math.max(...xs) - bx, bh = Math.max(...ys) - by;
+
+        // the hit area is the shape itself, in the zone's local space (its top-left corner)
+        const zone = this.scene.add.zone(bx, by, bw, bh).setOrigin(0, 0).setDepth(10);
+        zone.setInteractive({
+            hitArea: new Phaser.Geom.Polygon(pts.map(([x, y]) => [x - bx, y - by]).flat()),
+            hitAreaCallback: Phaser.Geom.Polygon.Contains,
+            useHandCursor: true
+        });
+
+        // the highlight: a soft halo, a warm wash over the shape, a gold outline
+        const flat = pts.map(([x, y]) => ({ x, y }));
+        const glow = this.scene.add.graphics().setDepth(depth).setAlpha(0);
+        glow.lineStyle(7, this.colors.glow, 0.16);
+        glow.strokePoints(flat, true, true);
+        glow.fillStyle(0xffe6a8, 0.14);
+        glow.fillPoints(flat, true, true);
+        glow.lineStyle(2, this.colors.hover, 0.9);
+        glow.strokePoints(flat, true, true);
+
+        const text = this.scene.add.text(0, 0, '', {
+            fontSize: '14px', fontFamily: 'Arial', fill: '#ffffff', align: 'center', fontStyle: 'bold',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: { x: 8, y: 4 }
+        }).setOrigin(0.5, 1).setDepth(30).setAlpha(0).setStroke('#000000', 2);
+        const W = this.scene.scale.width;
+        zone.exitLabel = () => this.exitLabel(typeof label === 'function' ? label() : label, target, direction); // also for the hint lantern
+        const placeLabel = () => {
+            text.setText(zone.exitLabel());
+            text.setPosition(Phaser.Math.Clamp(bx + bw / 2, text.width / 2 + 10, W - text.width / 2 - 10), Math.max(text.height + 10, by - 6));
+        };
+        placeLabel();
+
+        let pulse = null;
+        zone.on('pointerover', () => {
+            placeLabel();
+            this.scene.tweens.killTweensOf([glow, text]);
+            this.scene.tweens.add({ targets: [glow, text], alpha: 1, duration: 180, ease: 'Sine.easeOut' });
+            pulse = this.scene.tweens.add({ targets: glow, alpha: { from: 1, to: 0.65 }, duration: 700, delay: 180, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        });
+        zone.on('pointerout', () => {
+            pulse?.stop();
+            this.scene.tweens.killTweensOf([glow, text]);
+            this.scene.tweens.add({ targets: [glow, text], alpha: 0, duration: 200, ease: 'Sine.easeIn' });
+        });
+        zone.on('pointerdown', (pointer, localX, localY, event) => {
+            event.stopPropagation(); // the click is the exit's, not a walk to that spot
+            if (onClick) onClick();
+            else if (target) this.handleSceneTransition(target, walkX, walkY);
+        });
+
+        this.transitionElements.push({ zone, elements: { arrowContainer: glow, textContainer: text } });
+        return zone;
+    }
+
     /**
      * Handle scene transition with consistent behavior
      * @param {string} targetScene - Target scene key

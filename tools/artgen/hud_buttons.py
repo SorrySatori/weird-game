@@ -4,7 +4,8 @@
   4-5 journal   -- a moss-green leather book, bronze corners, mushroom emblem; on hover it lies open
   6-7 quests    -- a task note pinned by a bronze tack, one item ticked, a red seal; on hover the corner lifts, ticks glow
   8   badge     -- the red wax "!" seal for unread journal / quest updates
-python3 hud_buttons.py <outdir>  ->  hud_buttons.png (9 frames of 48x48) + hud/<n>.png (for Aseprite) + hud.gpl"""
+  9-10 hint     -- a bronze spore lantern; on hover the spores inside flare up green and drift out of the cap
+python3 hud_buttons.py <outdir>  ->  hud_buttons.png (11 frames of 48x48) + hud/<n>.png (for Aseprite) + hud.gpl"""
 import sys, os, math
 from PIL import Image
 from common import INK, band, h32, make_noise
@@ -284,8 +285,55 @@ def badge(f=0):
     s.outline()
     return s
 
+# --- hint: the spore lantern ------------------------------------------------------------------------------------------
+def lantern(f):
+    s = Spr(48, 48)
+    on = f == 1
+    def metal(x, y, n, lift=0.0): return tone(BRONZE, 1.1 + lift + 4.6 * lit(n) + (nA(x * 1.6, y * 1.6) - 0.5) * 0.8, x, y)
+    def cyl(x, cx=24.0, half=9.5):
+        u = max(-0.98, min(0.98, (x + 0.5 - cx) / half))
+        return (u * 0.9, -0.15, math.sqrt(1 - u * u))
+    # the glass and what burns inside it (drawn first: the frame goes over it)
+    gx0, gx1, gy0, gy1 = 16, 32, 16, 35
+    for y in range(gy0, gy1 + 1):
+        for x in range(gx0, gx1 + 1):
+            d = math.hypot((x + 0.5 - 24) / 7.5, (y + 0.5 - 27.5) / 9.0)
+            if on:
+                v = 3.4 - 2.2 * d + (nB(x * 2, y * 2) - 0.5) * 0.5
+                c = tone(VEIN, v, x, y) if v > 0.3 else tone(CAV, 3.4, x, y)
+            else:
+                c = tone(CAV, 1.6 + 1.2 * max(0.0, 1 - d) + (nB(x * 2, y * 2) - 0.5) * 0.6, x, y)
+            if x in (gx0 + 2, gx0 + 3) and gy0 + 2 < y < gy1 - 4: c = BONE[5] if on else CAV[4]     # a glint on the glass
+            s.put(x, y, c, 'glass')
+    # the spore cluster on its little wick: a fly-agaric-shaped knot of light
+    s.blob(24, 29, 3.4, 2.4, lambda x, y, n: (BONE[7] if on and n[2] > 0.75 else VEIN[3] if on else VEIN[1] if n[2] > 0.6 else VEIN[0]), 'core')
+    for y in range(31, 35): s.put(24, y, BRONZE[3], 'wick'); s.put(23, y, BRONZE[2], 'wick')
+    # the frame: ribs, cap, ring, base
+    for rx in (15, 24, 33):
+        for y in range(15, 37):
+            if rx == 24 and 26 <= y <= 31: continue                                            # the middle rib stops at the core
+            s.put(rx, y, metal(rx, y, cyl(rx), -0.4 if rx == 24 else 0.0), 'rib')
+    area(s, (12, 10, 36, 16), lambda x, y: abs(x + 0.5 - 24) <= 6 + (y - 10) * 1.7 and y >= 10,
+         lambda x, y: metal(x, y, cyl(x, half=12), 0.4 - (0.9 if y == 16 else 0)), 'cap')
+    s.blob(24, 10.5, 3.5, 1.8, lambda x, y, n: metal(x, y, n, 0.6), 'cap')
+    ring = curve(lambda t: (24 + 3.6 * math.cos(math.pi * (0.1 + 1.8 * t)), 5.8 - 3.2 * math.sin(math.pi * (0.1 + 1.8 * t))), 40)
+    s.stroke(ring, lambda t: 1.6, lambda t, x, y: BRONZE[5] if y < 4 else BRONZE[3], 'ring')
+    area(s, (12, 36, 36, 40), lambda x, y: abs(x + 0.5 - 24) <= 11 - (1 if y == 40 else 0),
+         lambda x, y: metal(x, y, cyl(x, half=12), 0.2 - (1.0 if y >= 39 else 0)), 'base')
+    for fx in (14, 33):
+        for y in (41, 42): s.put(fx, y, BRONZE[2], 'base'); s.put(fx + 1, y, BRONZE[3], 'base')
+    if on:
+        # spores drifting up out of the cap vents, a soft halo around the glass
+        for x, y, c in ((20, 3, VEIN[2]), (29, 2, VEIN[3]), (26, 6, BONE[7]), (17, 7, VEIN[3]), (32, 5, VEIN[2]), (22, 1, VEIN[3]),
+                        (35, 9, VEIN[2]), (12, 8, VEIN[2])):
+            s.put(x, y, c, 'spore')
+        for x, y in ((11, 22), (11, 28), (37, 20), (37, 27), (10, 25), (38, 24)): s.put(x, y, VEIN[2], 'halo')
+    s.outline(skip=('spore', 'halo'))
+    return s
+
 FRAMES = [lambda: satchel(0), lambda: satchel(1), lambda: map_(0), lambda: map_(1),
-          lambda: journal(0), lambda: journal(1), lambda: quests(0), lambda: quests(1), badge]
+          lambda: journal(0), lambda: journal(1), lambda: quests(0), lambda: quests(1), badge,
+          lambda: lantern(0), lambda: lantern(1)]
 
 if __name__ == '__main__':
     os.makedirs(f'{OUT}/hud', exist_ok=True)

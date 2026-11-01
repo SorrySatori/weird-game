@@ -49,7 +49,7 @@ export default class PlayerMovementSystem {
     setupKeyboardControls() {
         // Set up keyboard input
         this.scene.input.keyboard.on('keydown-LEFT', () => {
-            if (!this.dialogVisible && !this.isInteractingWithUI()) {
+            if (!this.isInteractingWithUI()) {
                 this.movementState.left = true;
             }
         });
@@ -58,7 +58,7 @@ export default class PlayerMovementSystem {
         });
 
         this.scene.input.keyboard.on('keydown-RIGHT', () => {
-            if (!this.dialogVisible && !this.isInteractingWithUI()) {
+            if (!this.isInteractingWithUI()) {
                 this.movementState.right = true;
             }
         });
@@ -67,7 +67,7 @@ export default class PlayerMovementSystem {
         });
 
         this.scene.input.keyboard.on('keydown-UP', () => {
-            if (!this.dialogVisible && !this.isInteractingWithUI()) {
+            if (!this.isInteractingWithUI()) {
                 this.movementState.up = true;
             }
         });
@@ -76,7 +76,7 @@ export default class PlayerMovementSystem {
         });
 
         this.scene.input.keyboard.on('keydown-DOWN', () => {
-            if (!this.dialogVisible && !this.isInteractingWithUI()) {
+            if (!this.isInteractingWithUI()) {
                 this.movementState.down = true;
             }
         });
@@ -89,9 +89,11 @@ export default class PlayerMovementSystem {
      * Set up mouse controls for player movement
      */
     setupMouseControls() {
-        // Add click/tap handler for movement
+        // Add click/tap handler for movement -- anywhere, the pavement strip at the bottom included
+        // (clicks on NPCs, exits and the HUD are taken by those; a click on an open panel by the modal blocker)
         this.scene.input.on('pointerdown', (pointer) => {
-            if (!this.dialogVisible && pointer.y < 500 && !this.isInteractingWithUI()) {
+            if (!this.isInteractingWithUI()) {
+                if (this.scene.handleWalkClick?.(pointer)) return; // the scene routes it itself (e.g. to another floor)
                 const targetX = pointer.x;
                 this.movePriestTo(targetX);
             }
@@ -103,8 +105,21 @@ export default class PlayerMovementSystem {
      * @returns {boolean} True if interacting with UI, false otherwise
      */
     isInteractingWithUI() {
-        // The ESC menu is open: its arrows / Enter drive the menu, not the priest
-        return !!this.scene.gameMenu?.visible;
+        // A dialog, the diary, the ESC menu (its arrows / Enter drive the menu) or another panel is open
+        return this.dialogVisible || !!(this.scene.isInputBlocked?.() ?? this.scene.gameMenu?.visible);
+    }
+
+    /** Stop where he stands: a click-to-move walk and held arrow keys (a panel has just opened over the scene). */
+    stop() {
+        if (!this.priest) return;
+        this.movementState.left = false;
+        this.movementState.right = false;
+        if (this.isTweenMoving) {
+            this.scene.tweens.killTweensOf(this.priest);
+            if (this.priestGlow) this.scene.tweens.killTweensOf(this.priestGlow);
+            this.isTweenMoving = false;
+            this.priest.play('idle', true);
+        }
     }
 
     /**
@@ -176,6 +191,7 @@ export default class PlayerMovementSystem {
      */
     update() {
         if (!this.priest || this.dialogVisible || this.controlsDisabled) return;
+        if (this.scene.isModalOpen?.()) return;              // the diary / a panel is open: he waits
         
         let moved = false;
         const leaving = this.scene.isTransitioning;            // an exit is walking him out: keys don't steer

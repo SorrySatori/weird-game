@@ -144,6 +144,7 @@ export default {
                 ravla_forger_agreement: 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.',
                 document_obtained: "I got a forged permit for Ortolan's extra arms from Ravla. Now I just need to get it to him.",
                 bureaucratic_incantation: 'The Hollow Woman in the registration queue taught me some weird bureaucratic incantation.',
+                registration_sent_to_applications: "The Senior Clerk at Registration only issues the forms; which form Ortolan's arms need is decided at Applications, on the top floor of the Shed.",
                 form_obtained: "I successfully obtained the form for Ortolan.",
                 partial_progress: "I obtained a Temporary Permit that might help Ortolan, but it's not fully approved.",
                 failed_attempt: "My registration attempt failed. I'll need to find another way to help Ortolan.",

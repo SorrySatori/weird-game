@@ -1,17 +1,18 @@
 /**
- * HUD buttons (inventory, map, journal, quests): a drawn object that "opens" while hovered (the satchel's flap
+ * HUD buttons (inventory, hint, map, journal, quests): a drawn object that "opens" while hovered (the satchel's flap
  * lifts, the map unfolds, the book opens, the note's corner curls), a localized label below it and the red wax
  * badge for unread updates. Pixel art at scale 1 — hover swaps the frame instead of scaling.
  * Art: tools/artgen/hud_buttons.py → assets/aseprite/UI_HudButtons_48x48.aseprite → hud_export.lua →
  * assets/images/ui/hud_buttons.png (frames: closed / open per button, badge last).
  */
-export const HUD_FRAME = { inventory: 0, map: 2, journal: 4, quests: 6, badge: 8 };
+export const HUD_FRAME = { inventory: 0, map: 2, journal: 4, quests: 6, badge: 8, hint: 9 };
 
 /** Where each button sits; the equipment tutorial points its highlight ring at the same spots. */
 export function hudButtonPos(scene, icon) {
     const W = scene.scale.width;
     return {
         inventory: { x: 60, y: 540 },
+        hint: { x: W - 230, y: 50 },
         map: { x: W - 170, y: 50 },
         journal: { x: W - 110, y: 50 },
         quests: { x: W - 50, y: 50 }

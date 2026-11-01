@@ -337,7 +337,7 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "Mišutkenn are... well, we're not exactly human. We're... different.",
                 options: [
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_greeting" }
                 ],
                 onTrigger: () => {
                     // the topic can be asked again: one shift ever (the G/D system announces it itself)
@@ -348,7 +348,7 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "History. Superstition. Fear of what's different. Take your pick. The founders of this city drove my ancestors from the Remaper Hills. Now we're just... tolerated. At best.",
                 options: [
                     { text: "That's unfortunate.", key: 'thats_unfortunate', next: "edgar_unfortunate" },
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_greeting" }
                 ],
                 onTrigger: () => {
                     this.addJournalFact('edgar_eskola_meeting', 'exiled', "The city's founders drove his ancestors from the Remaper Hills; his kind are tolerated here, at best.");
@@ -358,7 +358,7 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "That's one way to put it. But I've learned to live with it. Mostly.",
                 options: [
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_prejudice" }
                 ]
             },
             edgar_purpose: {
@@ -385,7 +385,7 @@ export default class ScreamingCorkScene extends GameScene {
                     ...(!this.questSystem.getQuest('edgar_book') ? [
                         { text: "I can help you write the book", key: 'i_can_help_you_write_the_book', next: "edgar_book" }
                     ] : []),
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_background" }
                 ],
                 onTrigger: () => {
                     // Add journal entry about Edgar's aspiration
@@ -668,14 +668,14 @@ export default class ScreamingCorkScene extends GameScene {
         
                 text: "I dreamed up locations and characters for Dr. Elphi Quarn's games. Turns out my imagination was too... wild. Too erratic, they said. My dreams were 'unusable.' Their loss.",
                 options: [
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_background" }
                 ]
             },
             edgar_jobs: {
         
                 text: "Bad timing, mostly. The Scraper took the Rust Choir and stopped being an official part of the city — no need for a janitor then. The other jobs... Well, being a mišutkenn doesn't help with job security in this city.",
                 options: [
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_background" }
                 ]
             },
             edgar_festival: {
@@ -693,21 +693,21 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "It is. Imagine being surrounded by burning effigies that look like your ancestors. The city lights up with fires of different colors and smells, while I hide away, waiting for it to end.",
                 options: [
                     { text: "I'm sorry to hear that.", key: 'im_sorry_to_hear_that', next: "edgar_sympathy" },
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_festival" }
                 ]
             },
             edgar_tradition: {
         
                 text: "Tradition? Traditions can be cruel. Just because something has been done for generations doesn't make it right. But few in this city would agree with me.",
                 options: [
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_festival" }
                 ]
             },
             edgar_sympathy: {
         
                 text: "Your sympathy is... unexpected. But appreciated. Perhaps not everyone in this city is as thoughtless as I've come to believe.",
                 options: [
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_disturbing" }
                 ],
                 onTrigger: () => {
                     // the topic can be asked again: one shift ever (the G/D system announces it itself)
@@ -731,7 +731,7 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Important purpose, you say? Well, I don't really *need* it, but I kinda like it. Maybe you could do something for me in exchange?",
                 options: [
                     { text: "What do you need?", key: 'what_do_you_need', next: "edgar_vestigel_convince" },
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_vestigel" }
                 ]
             },
             edgar_vestigel_request: {
@@ -739,7 +739,7 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Just like that? You know that's a valuable trinket. I wouldn't give it away without good reason.",
                 options: [
                     { text: "What would convince you to part with it?", key: 'what_would_convince_you_to_part_with_it', next: "edgar_vestigel_convince" },
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_vestigel" }
                 ]
             },
             edgar_vestigel_convince: {
@@ -754,7 +754,7 @@ export default class ScreamingCorkScene extends GameScene {
                     ] : [
                         { text: "Maybe I could help you with something.", key: 'maybe_i_could_help_you_with_something', next: "edgar_vestigel_offer" }
                     ]),
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_vestigel" }
                 ]
             },
             edgar_vestigel_offer: {
@@ -847,7 +847,7 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "\"They're breathing. In and out, slowly, as if something were sleeping there. Everyone thinks the cathedral's cellars are just a dead, empty space where nothing exists. But I don't think they're dead. There's something down there. Honestly, I stopped working there because I got scared. I have no idea if those corridors have changed in any way since then — you'll have to see for yourself.\"",
                 options: [
                     { text: "So there is a way in.", key: 'so_there_is_a_way_in', next: "edgar_cathedral_path" },
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_cathedral_way" }
                 ],
                 onTrigger: () => {
                     this.addJournalFact('edgar_cathedral_path', 'cellars', "He says the cellars everyone takes for dead space are not dead: something is down there. He stopped working there because it frightened him, and he doesn't know how the corridors have changed since.");

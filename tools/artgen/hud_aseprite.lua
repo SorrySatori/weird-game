@@ -2,11 +2,11 @@
 -- aseprite -b --script-param dir=<gen out> --script-param out=assets/aseprite --script-param pal=<gpl> --script hud_aseprite.lua
 -- Draw touch-ups into "ikony UPRAVY"; hud_export.lua merges it in.
 local d, o, pal = app.params["dir"], app.params["out"], app.params["pal"]
-local TAGS = { { "inventar", 1, 2 }, { "mapa", 3, 4 }, { "denik", 5, 6 }, { "ukoly", 7, 8 }, { "odznak", 9, 9 } }
+local TAGS = { { "inventar", 1, 2 }, { "mapa", 3, 4 }, { "denik", 5, 6 }, { "ukoly", 7, 8 }, { "odznak", 9, 9 }, { "napoveda", 10, 11 } }
 
 local s = Sprite(48, 48, ColorMode.RGB)
 local base = s.layers[1]; base.name = "ikony"
-for i = 1, 9 do
+for i = 1, 11 do
   if i > 1 then s:newEmptyFrame() end
   s:newCel(base, i, Image{ fromFile = d .. "/hud/" .. (i - 1) .. ".png" }, Point(0, 0))
   s.frames[i].duration = 0.6

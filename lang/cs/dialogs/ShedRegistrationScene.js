@@ -111,8 +111,13 @@ export default {
             i_need_an_artisans_exemption_form: "Potřebuji Formulář o výjimce pro umělce.",
             i_need_an_inherited_deformity_form: "Potřebuji Formulář o zděděné deformitě.",
             make_a_nonverbal_gesture: "(Udělat nonverbální gesto)",
+            register_extra_arms_for_friend: "Potřebuji zaregistrovat další pár rukou pro přítele.",
             i_would_like_to_register_for_an_extra_symbiont_slo: "Chtěl bych si zaregistrovat další slot pro symbionta."
         }
+    },
+    registration_arms_redirect: {
+        text: "(Úředník ani nezvedne oči.)\n\n„Končetiny. Dodatečné. Registrace nerozhoduje o tom, pod jaký formulář končetina spadá – to rozhodují Žádosti. Nejvyšší patro, dveře s frontou. Vraťte se s názvem formuláře a já vám ho vydám.“",
+        options: { applications_first_understood: "Takže nejdřív Žádosti. Rozumím." }
     },
     registration_artisan: {
         text: "„Ach, Formulář o výjimce pro umělce. Vzácný požadavek.“",

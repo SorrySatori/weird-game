@@ -62,30 +62,9 @@ export default class ScraperAmbraScene extends GameScene {
             'down', // direction
             'ScraperInteriorScene', // target scene
             400, // walk to x
-            300 // walk to y
+            300, // walk to y
+            'Back to Elevator' // the exit's own hover label (a second hint here doubled it)
         );
-        
-        // Add a hint about the exit
-        const cx = this.scale.width / 2;
-        const exitHint = this.add.text(cx, 520, this.t('ui.hotspots.backToElevator'), {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        exitHint.setOrigin(0.5);
-        exitHint.setAlpha(0);
-        exitHint.setDepth(10);
-        
-        // Show hint when hovering near the exit
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the exit area
-            if (Math.abs(pointer.x - cx) < 130 && Math.abs(pointer.y - 550) < 50) {
-                exitHint.setAlpha(1);
-            } else {
-                exitHint.setAlpha(0);
-            }
-        });
         
         // Add ambient elements
         this.createAmbientElements();

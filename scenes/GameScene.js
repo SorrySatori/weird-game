@@ -26,6 +26,16 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
 
+/** What the hint lantern costs: it outlines everything clickable in the scene until the player leaves it. */
+const HINT_COST = 5;
+
+/** Corner notifications stack downward from here (below the HUD buttons' labels), this far apart. */
+const NOTICE_TOP = 104;
+const NOTICE_GAP = 6;
+
+/** The modal input blocker: above the world (NPCs, props, exits), just below the HUD (100) and the panels (1000). */
+const MODAL_BLOCKER_DEPTH = 99;
+
 /**
  * Symbiont HUD — a mycelial "rosary" hanging from the G/D medallion, one pod per slot (sealed / open / occupied).
  * Art: tools/artgen/symbionts.py → assets/aseprite/UI_Symbiont*.aseprite → symbionts_export.lua → assets/images/ui/.
@@ -158,6 +168,10 @@ export default class GameScene extends Phaser.Scene {
         this.dialogVisible = false;
         this.dialogBox = null;
 
+        // The scene the player came from: a place with several doors can put the priest at the one he came through
+        this.enteredFrom = this.registry.get('currentScene') ?? null;
+        this.registry.set('currentScene', this.scene.key);
+
         // A shared soundtrack carried over from the previous scene: taken over by playSceneMusic(key, { resume }),
         // otherwise let go once this scene's create() is done
         this.events.once(Phaser.Scenes.Events.CREATE, () => this.releaseCarriedMusic());
@@ -189,6 +203,7 @@ export default class GameScene extends Phaser.Scene {
                 this.mapUI.toggle();
             }
         });
+        this.input.keyboard.on('keydown-H', () => this.showClickableHints()); // the hint lantern
 
         // Create the game menu (ESC key menu)
         this.gameMenu = new GameMenu(this);
@@ -211,6 +226,9 @@ export default class GameScene extends Phaser.Scene {
 
         // Growth/Decay world ambience (colour cast + motes; balanced = nothing).
         this.applyGDAmbience();
+
+        // While a dialog, the diary or another panel is open, the scene behind it doesn't react
+        this.createModalBlocker();
 
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
@@ -262,6 +280,175 @@ export default class GameScene extends Phaser.Scene {
         if (typeof super.update === 'function') {
             super.update();
         }
+    }
+
+    /**
+     * Is a modal open: a dialog, the diary, the quest log, the inventory, the map, the ESC menu, a shop or the
+     * equipment tutorial? While one is, the priest doesn't walk and nothing in the scene behind it reacts.
+     */
+    isModalOpen() {
+        return !!(this.dialogVisible || this._tutorialActive
+            || this.journalUI?.visible || this.questLog?.questPanel?.visible
+            || this.inventorySystem?.inventoryVisible || this.mapUI?.visible
+            || this.gameMenu?.visible || this.shopSystem?.isOpen);
+    }
+
+    /** A modal is open -- or was when this click began (the click on its close button has just shut it). */
+    isInputBlocked() {
+        return this.isModalOpen() || this._modalWasOpen;
+    }
+
+    /**
+     * A full-screen catcher under the modals: while one is open it takes every click (and hover) aimed at the
+     * world, so NPCs, props and exits behind a panel don't react and the priest doesn't walk. The HUD buttons and
+     * the symbiont pods (depth 100) stay above it. Synced once a frame (scene instances are re-used, so the
+     * listener goes with the scene's shutdown).
+     */
+    createModalBlocker() {
+        const W = this.scale.width;
+        this._modalWasOpen = false;
+        this.modalBlocker = this.add.zone(W / 2, 300, W * 2, 1200).setScrollFactor(0).setDepth(MODAL_BLOCKER_DEPTH).setInteractive();
+        this.modalBlocker.input.enabled = false;
+        this.modalBlocker.on('pointerdown', (pointer, localX, localY, event) => event.stopPropagation());
+
+        const sync = () => {
+            const open = this.isModalOpen();
+            if (open && !this._modalWasOpen && !this.isTransitioning) this.playerMovementSystem?.stop();
+            this._modalWasOpen = open;
+            if (this.modalBlocker?.input) this.modalBlocker.input.enabled = open;
+        };
+        this.events.on(Phaser.Scenes.Events.POST_UPDATE, sync);
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.events.off(Phaser.Scenes.Events.POST_UPDATE, sync));
+    }
+
+    /**
+     * The hint lantern (HUD button / H): for HINT_COST spores, outline everything in the scene the player can click --
+     * exits in gold with their names, people and things to examine in green -- until he leaves the scene. The outlines
+     * follow whatever moves, and things that turn up later get one too; pressing again hides / shows them for free.
+     * Whatever is interactive below the modal blocker counts (zones, NPC sprites, hotspots); the HUD and panels don't.
+     */
+    showClickableHints() {
+        if (this.isInputBlocked() || this.isTransitioning) return;
+        if (this._hints) {                                              // paid for in this scene already
+            this._hints.shown = !this._hints.shown;
+            this.syncHints();
+            return;
+        }
+        if (this.getSporeLevel() < HINT_COST) {
+            this.showNotification(this.t('notifications.hintNoSpores', { cost: HINT_COST }));
+            return;
+        }
+        const targets = this.hintTargets();
+        this.modifySpores(-HINT_COST);
+        if (!targets.length) this.showNotification(this.t('notifications.hintNothing'));
+
+        const hints = this._hints = { list: [], seen: new Set(), shown: true };
+        targets.forEach((t, i) => this.addHint(t, i * 50));
+        // follow the moving ones every frame; look for new clickables (an NPC walking in, a door unlocking) now and then
+        const sync = () => this.syncHints();
+        const rescan = this.time.addEvent({ delay: 600, loop: true, callback: () => {
+            if (this._hints !== hints) return;
+            this.hintTargets().forEach(t => { if (!hints.seen.has(t.obj)) this.addHint(t); });
+        } });
+        this.events.on(Phaser.Scenes.Events.UPDATE, sync);
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+            this.events.off(Phaser.Scenes.Events.UPDATE, sync);
+            rescan.remove();
+            if (this._hints === hints) this._hints = null;              // scene instances are re-used
+        });
+    }
+
+    /** Draw one hint (at the target's current bounds; syncHints moves it along with the object). */
+    addHint({ obj, exit, label, pts }, delay = 0) {
+        const hints = this._hints;
+        hints.seen.add(obj);
+        const W = this.scale.width;
+        const g = this.add.graphics().setDepth(MODAL_BLOCKER_DEPTH - 1).setAlpha(0);
+        const flat = pts.map(([x, y]) => ({ x, y }));
+        if (exit) {
+            // where the player can go: the exit's own shape washed in warm light, as on hover
+            g.lineStyle(7, 0xff9500, 0.16).strokePoints(flat, true, true);
+            g.fillStyle(0xffe6a8, 0.14).fillPoints(flat, true, true);
+            g.lineStyle(2, 0xffd700, 0.9).strokePoints(flat, true, true);
+        } else {
+            // what the player can click: corner brackets around it (sprites carry transparent margins)
+            const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+            const x0 = Math.min(...xs), y0 = Math.min(...ys), x1 = Math.max(...xs), y1 = Math.max(...ys);
+            const k = Math.max(6, Math.min(16, (x1 - x0) / 4, (y1 - y0) / 4));
+            g.lineStyle(5, 0x2f7a46, 0.35);
+            for (const pass of [0, 1]) {
+                if (pass) g.lineStyle(2, 0x7fff8e, 0.95);
+                g.beginPath();
+                g.moveTo(x0, y0 + k); g.lineTo(x0, y0); g.lineTo(x0 + k, y0);
+                g.moveTo(x1 - k, y0); g.lineTo(x1, y0); g.lineTo(x1, y0 + k);
+                g.moveTo(x1, y1 - k); g.lineTo(x1, y1); g.lineTo(x1 - k, y1);
+                g.moveTo(x0 + k, y1); g.lineTo(x0, y1); g.lineTo(x0, y1 - k);
+                g.strokePath();
+            }
+        }
+        this.tweens.add({ targets: g, alpha: 1, duration: 260, delay });
+        this.tweens.add({ targets: g, alpha: 0.55, duration: 650, delay: delay + 320, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        let text = null;
+        if (exit && label) {
+            const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+            text = this.add.text(0, 0, label, {
+                fontSize: '13px', fontFamily: 'Arial', fontStyle: 'bold', fill: '#ffffff',
+                backgroundColor: 'rgba(0, 0, 0, 0.75)', padding: { x: 6, y: 3 }
+            }).setOrigin(0.5, 1).setDepth(MODAL_BLOCKER_DEPTH - 1).setAlpha(0);
+            text.setPosition(Phaser.Math.Clamp((Math.min(...xs) + Math.max(...xs)) / 2, text.width / 2 + 8, W - text.width / 2 - 8),
+                Math.max(text.height + 8, Math.min(...ys) - 4));
+            this.tweens.add({ targets: text, alpha: 1, duration: 260, delay });
+        }
+        const b = obj.getBounds();
+        hints.list.push({ obj, g, text, bx: b.x, by: b.y, tx: text?.x ?? 0, ty: text?.y ?? 0 });
+    }
+
+    /** Keep each hint on its object: moved with it, hidden while it can't be clicked (gone, invisible, disabled). */
+    syncHints() {
+        const hints = this._hints;
+        if (!hints) return;
+        hints.list = hints.list.filter(h => {
+            const o = h.obj;
+            if (!o.active || !o.scene) {                                // destroyed: the hint goes too (a new one may come)
+                h.g.destroy(); h.text?.destroy(); hints.seen.delete(o);
+                return false;
+            }
+            const live = hints.shown && o.visible && (o.alpha ?? 1) > 0 && !!o.input?.enabled;   // zones have no alpha
+            h.g.setVisible(live); h.text?.setVisible(live);
+            if (live) {
+                const b = o.getBounds();
+                h.g.setPosition(b.x - h.bx, b.y - h.by);
+                h.text?.setPosition(h.tx + b.x - h.bx, h.ty + b.y - h.by);
+            }
+            return true;
+        });
+    }
+
+    /**
+     * Everything the player could click right now in the world (not the HUD / panels): [{ obj, exit, label, pts }]
+     * with the outline in canvas coords -- an exit's own polygon where it has one, the bounds otherwise.
+     */
+    hintTargets() {
+        const W = this.scale.width, H = this.scale.height;
+        const out = [];
+        const visit = (o, rootDepth) => {
+            if (!o.active || !o.visible || (o.alpha ?? 1) <= 0) return;
+            if (o.list) { o.list.forEach(c => visit(c, rootDepth)); if (!o.input) return; }
+            if (!o.input || !o.input.enabled || o === this.modalBlocker || o === this.priest || o === this.priestGlow) return;
+            if (rootDepth >= MODAL_BLOCKER_DEPTH) return;
+            const b = o.getBounds?.();
+            if (!b || b.width < 2 || b.height < 2 || b.width * b.height > W * H * 0.6) return;   // full-screen catchers
+            if (b.right < 0 || b.left > W || b.bottom < 0 || b.top > H) return;
+            const exit = !!(o.exitLabel || o.destinationName);
+            const label = o.exitLabel ? o.exitLabel() : o.destinationName || '';
+            const hit = o.input.hitArea;
+            const pts = (exit && hit instanceof Phaser.Geom.Polygon)
+                ? hit.points.map(p => [b.x + p.x, b.y + p.y])
+                : [[b.left, b.top], [b.right, b.top], [b.right, b.bottom], [b.left, b.bottom]];
+            out.push({ obj: o, exit, label, pts });
+        };
+        this.children.list.forEach(o => visit(o, o.depth));
+        return out;
     }
 
     initSystems() {
@@ -456,7 +643,7 @@ export default class GameScene extends Phaser.Scene {
                 pod.input.cursor = 'pointer';
                 pod.on('pointerdown', (pointer, localX, localY, event) => {
                     event.stopPropagation(); // don't also walk the priest to the HUD
-                    if (this.dialogVisible) return;
+                    if (this.isInputBlocked()) return;
                     this.hideSymbiontTooltip();
                     this.showSymbiontDialog(id);
                 });
@@ -673,8 +860,12 @@ export default class GameScene extends Phaser.Scene {
                 this.playerMovementSystem.setDialogVisible(this.dialogVisible);
             }
             
-            // HUD buttons top right: map and journal (the quest button belongs to QuestLog)
+            // HUD buttons top right: hint, map and journal (the quest button belongs to QuestLog)
             const L = LanguageSystem.getInstance();
+            createHudButton(this, 'hint', L.t('ui.hud.hintButton'), () => {
+                if (this.clickSound) this.clickSound.play();
+                this.showClickableHints();
+            });
             createHudButton(this, 'map', L.t('ui.hud.mapButton'), () => {
                 if (this.clickSound) this.clickSound.play();
                 if (this.mapUI && !this.dialogVisible) {
@@ -904,12 +1095,11 @@ export default class GameScene extends Phaser.Scene {
         // Guard: if this scene's camera isn't active, skip rendering
         if (!this.cameras || !this.cameras.main) return;
 
-        // Small corner notification — top-right
+        // Small corner notification — top-right, under the HUD buttons
         const gameWidth = this.cameras.main.width;
         const xPos = gameWidth - 20;
-        const yPos = notificationConfig.yPosition;
 
-        const notification = this.add.container(xPos, yPos);
+        const notification = this.add.container(xPos, 0);
         notification.setDepth(2000);
         notification.setScrollFactor(0);
 
@@ -935,6 +1125,14 @@ export default class GameScene extends Phaser.Scene {
 
         notification.add(box);
         notification.add(text);
+
+        // Stacked below the ones still showing (a fixed row per kind let two of a kind -- and every Czech one,
+        // which the English keywords don't classify -- land on top of each other)
+        this._notices = (this._notices || []).filter(n => n.scene && n.active);
+        const stackBottom = this._notices.reduce((b, n) => Math.max(b, n.y + n.noticeH / 2), NOTICE_TOP - NOTICE_GAP);
+        notification.y = stackBottom + NOTICE_GAP + boxHeight / 2;
+        notification.noticeH = boxHeight;
+        this._notices.push(notification);
 
         // Slide in from right, hold, slide out
         notification.x = xPos + boxWidth;
@@ -1137,7 +1335,6 @@ export default class GameScene extends Phaser.Scene {
             return {
                 borderColor: 0xffd700,
                 textColor: '#ffd700',
-                yPosition: 60,
                 icon: '🔍',
             };
         }
@@ -1147,7 +1344,6 @@ export default class GameScene extends Phaser.Scene {
             return {
                 borderColor: 0x7fff8e,
                 textColor: '#7fff8e',
-                yPosition: 90,
                 icon: '📖',
             };
         }
@@ -1160,7 +1356,6 @@ export default class GameScene extends Phaser.Scene {
             return {
                 borderColor: 0x9370db,
                 textColor: '#9370db',
-                yPosition: 120,
                 icon: '🍄',
             };
         }
@@ -1170,7 +1365,6 @@ export default class GameScene extends Phaser.Scene {
             return {
                 borderColor: 0x4169e1,
                 textColor: '#4169e1',
-                yPosition: 150,
                 icon: '⭐',
             };
         }
@@ -1182,7 +1376,6 @@ export default class GameScene extends Phaser.Scene {
             return {
                 borderColor: 0xff6347,
                 textColor: '#ff6347',
-                yPosition: 180,
                 icon: '❗',
             };
         }
@@ -1191,7 +1384,6 @@ export default class GameScene extends Phaser.Scene {
         return {
             borderColor: 0x7fff8e,
             textColor: '#ffffff',
-            yPosition: 60,
             icon: '',
         };
     }

@@ -319,15 +319,19 @@ export default class ShedCourtyardScene extends GameScene {
         // Add Ortolan — Day 1 only. On Day 2 he has relocated to Burning Bear Street,
         // so he must not also be standing here.
         if (!this.isDay2()) {
-        // tools/artgen/ortolan_elphi.py: his old art on its own grid, 8 idle frames of 128×160 at scale 1 (soles on y 526)
+        // tools/artgen/ortolan.py: 8 idle frames of 128×160 at scale 1 (soles on y 526). Same frame order as
+        // BurningBearStreetScene (the anim is global): breath, a blink, a glint on the spectacles, "hm", then the
+        // pawn comes up (5), he studies it (6) and it goes back down (5)
         if (!this.anims.exists('ortolan_idle')) {
-            // breath, a blink behind the glasses, a glint on them, "hm" in the beard, a hand twitches, a small nod
-            this.anims.create({ key: 'ortolan_idle', frames: this.anims.generateFrameNumbers('ortolanIdle', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 3, 0, 0, 4, 4, 0, 1, 1, 7, 0, 0, 5, 5, 0, 0, 6, 6, 0, 0, 0] }), frameRate: 4, repeat: -1 });
+            this.anims.create({ key: 'ortolan_idle', frames: this.anims.generateFrameNumbers('ortolanIdle', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 3, 0, 0, 4, 4, 0, 1, 1, 7, 0, 0, 5, 6, 6, 6, 6, 5, 0, 0, 0] }), frameRate: 4, repeat: -1 });
         }
         this._ortolan = this.add.sprite(600, 530, 'ortolanIdle', 0);
         this._ortolan.setOrigin(0.5, 1);
         this._ortolan.setDepth(6);
         this._ortolan.play('ortolan_idle');
+        // bust portrait for his dialogs (frame 0, head + beard); the speaker name is the same in EN and CZ
+        const ortolanBust = { key: 'ortolanIdle', frame: 0, zoom: 2, top: 10 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Ortolan': ortolanBust, 'Ortolan Šmelc': ortolanBust };
         this.addGroundShadow(600, 524, 46, 14);
         this._ortolan.setInteractive({ useHandCursor: true });
         this._ortolan.on('pointerdown', () => {

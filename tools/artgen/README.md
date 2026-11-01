@@ -53,18 +53,21 @@ symbiont = a new tag before `generic` + its id in `SYMBIONT_ROWS`). `UI_Symbiont
 sealed pod / cord end / glow (white, ADD, tinted per symbiont in the game); the hidden layer `maska retu` marks the pixels
 of the open pod drawn IN FRONT of the symbiont (its lower lip). Pods stack every 58 px, the cord is continuous across them.
 
-## HUD buttons (inventory satchel, map, journal, quest note + the unread badge)
+## HUD buttons (inventory satchel, map, journal, quest note, hint lantern + the unread badge)
 Palette `pal_hud.py` (Aseprite: `hud.gpl`, copy to `~/.config/aseprite/palettes/`); shares the wax / vein / bone ramps
 with the symbiont HUD.
 ```
-python3 hud_buttons.py <outdir>      # -> hud_buttons.png (9 frames of 48x48) + hud/<n>.png
+python3 hud_buttons.py <outdir>      # -> hud_buttons.png (11 frames of 48x48) + hud/<n>.png
 # build the Aseprite source (OVERWRITES assets/aseprite/UI_HudButtons_48x48.aseprite, incl. its UPRAVY layer):
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
         --script-param pal=$HOME/.config/aseprite/palettes/hud.gpl --script tools/artgen/hud_aseprite.lua
+# or only ADD the frames the source doesn't have yet (keeps every touch-up of the existing ones):
+aseprite -b --script-param dir=<outdir> --script-param src=assets/aseprite --script tools/artgen/hud_append.lua
 # export into the game -- run this after hand edits in Aseprite:
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui --script tools/artgen/hud_export.lua
 ```
-Tags `inventar` / `mapa` / `denik` / `ukoly`: frame 1 closed, frame 2 the "open" hover state; `odznak` = the badge.
+Tags `inventar` / `mapa` / `denik` / `ukoly` / `napoveda`: frame 1 closed, frame 2 the "open" hover state; `odznak` = the badge
+(frame 9, between the quests and the lantern -- the game addresses frames by index, `HUD_FRAME` in utils/hudButton.js).
 The game side is `utils/hudButton.js` (positions, hover frame swap, labels, badge).
 
 ## Feral Toast (the band in the Screaming Cork Club)
@@ -301,9 +304,12 @@ Don Girandole on the pipe-tower platform at the right edge (deck y ~378, sprite 
 ## Inside the Screaming Cork (ScreamingCorkInteriorScene): the taproom, Heliodor, Ravla
 ```
 python3 corkin_bg.py <outdir>        # -> corkin.png = ScreamingCorkInterior.png, counter.png = ScreamingCorkInterior_counter.png
-python3 corkfolk.py <outdir>         # -> heliodor.png (8 × 128×192), ravla.png (8 × 128×128) + corkfolk.gpl
+python3 corkfolk.py <outdir>         # -> heliodor.png (8 × 128×192) + corkfolk.gpl
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/corkfolk.gpl --script tools/artgen/corkfolk_aseprite.lua
-aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/corkfolk_export.lua   # -> <id>_idle.png
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/corkfolk_export.lua   # -> heliodor_idle.png
+python3 ravla.py <outdir>            # -> ravla.png (8 × 128×144) + ravla/<n>.png + ravla.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=<outdir>/ravla.gpl --script tools/artgen/ravla_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/ravla_export.lua   # -> ravla_idle.png
 ```
 The taproom on `raster3d`: a tall timber hall, a stuffed cephalopod over the back bar (drawn with `rig.py`, pasted with
 `Raster.sprite`), the name in red neon (TTF mask, DejaVu Sans Condensed Bold), bottle shelves before a clouded mirror,
@@ -312,9 +318,18 @@ the counter in front, the street door in the left wall (exit left, x ~28..122), 
 candle in the right corner. `counter.png` = every pixel nearer than Heliodor (z 17.3) inside his sprite's box; the
 scene draws it at depth 5.5 over him (depth 5). Heliodor at (533, 492) before the curtained doorway between the
 back-bar cabinets, Ravla at (960, 524), both origin bottom.
-`corkfolk.py` treats the people like `edgar.py`: the old `heliodor.png` / `ravla.png` box-filtered 8× to their native
-grid and animated by moving / relighting their own pixels (the old PNGs stay as the sources). Sources
-`assets/aseprite/Cork_heliodor.aseprite`, `Cork_ravla.aseprite`, `ScreamingCorkInterior_1067x600.aseprite` (UPRAVY layers).
+`corkfolk.py` treats Heliodor like `edgar.py`: the old `heliodor.png` box-filtered 8× to its native grid and animated
+by moving / relighting its own pixels (the old PNG stays as the source).
+`ravla.py` redraws Ravla from scratch on `rig.py` (the old `ravla.png` is only the reference for who she is): a gaunt
+forger hunched over a crate she uses as a desk -- dark hair in a bun with a brush through it, copper goggles with violet
+lenses pushed up on her forehead, a worn slate coat (collar up, a leather elbow patch, pens in the breast pocket) over a
+rust waistcoat, a Rust Choir cog pin; a quill in her right hand, the left flat on the forged sheet (red seal), an
+inkwell, her open forging case (vials in the lid, bottles inside). The purple tentacle of the old art now curls over her
+like an angler's lure and holds a lantern: its warm light is a lift in the tone buffer (`lamp_light`, so it stays on the
+ramps) and flickers per frame. The crate's foot on y 141; frames 0 writing / 1, 7 the quill runs on (0-1-7 = a word) /
+2-3 the quill to the ink and dipped / 4 a sly glance up at you / 5 the same, a blink / 6 a breath, the lantern drifts.
+The scene loads her as `ravla` (frameHeight 144, anim `ravla_idle` at 4 fps), portrait = a 2× bust of frame 4, `top` 28.
+Sources `assets/aseprite/Cork_heliodor.aseprite`, `Cork_ravla.aseprite`, `ScreamingCorkInterior_1067x600.aseprite` (UPRAVY layers).
 
 ## The club under the Screaming Cork (ScreamingCorkClubScene)
 ```
@@ -384,24 +399,35 @@ The cut (CrossroadScene.startSkyshipAnimation) pins the picture to the screen (s
 planks. Deck fixed points: the rope ladder x ~118 (exit zone 40..160), the dial-board's lens (533, 403) (observable
 800-space (400, 420, 80, 110)), Captain Liris at (700, 466) scale 0.1 (feet on the walk line), the cabin from x 826.
 
-## Captain Liris (SkyshipBoardScene) — redrawn; Ortolan + Dr. Elphi — their old art animated
+## Captain Liris (SkyshipBoardScene) + Ortolan (ShedCourtyard / BurningBearStreet) — redrawn; Dr. Elphi — her old art animated
 ```
 python3 liris.py <outdir>          # -> liris.png (8 idle frames of 128x160, soles on y 156) + liris.gpl -- rig.py: a teal hood, a brass
                                    #    monocle with an amber lens, a brick-red scarf, a long brown coat, olive tunic, spyglass, boots;
                                    #    0 rest 1 inhale 2 blink 3 the lens clicks 4-5 a gust (scarf + hem) 6 a hand to the monocle 7 settle
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/liris.gpl --script tools/artgen/liris_aseprite.lua
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/liris_export.lua   # -> liris_idle.png
-python3 ortolan_elphi.py <outdir>  # like corkfolk.py (box filter onto the source's own grid, the old pixels moved/relit):
-                                   #    ortolan 128x160 (Ortolan.png /8), ortolan4 144x160 (ortolan4.png /6, same height), elphi 128x160
-                                   #    (DrElphi.png /11, the soft white halo dropped, the hologram kept and animated); 8 frames each
+python3 ortolan.py <outdir>        # -> ortolan.png + ortolan4.png (8 idle frames of 128x160 each, soles on y 156) + ortolan.gpl -- rig.py:
+                                   #    a bald pate in a ragged white fringe, bushy brows, round brass spectacles (amber tint), ruddy nose,
+                                   #    yellowed walrus moustache, full white beard; worn brown coat (permit forms in the pocket), olive
+                                   #    waistcoat + watch chain, red pawn in his left hand. ortolan4 = the same man + the Shed-approved pair
+                                   #    (rolled-up shirtsleeves, pinker skin) holding a game board at his hips; its upper right hand grips
+                                   #    the lapel. Frames (same meaning in both): 0 rest 1 inhale 2 blink 3 spectacle glint 4 "hm" (brows,
+                                   #    moustache; ortolan4: a lower thumb lifts) 5 the pawn comes up 6 he studies it 7 exhale (head first)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=<outdir>/ortolan.gpl --script tools/artgen/ortolan_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/ortolan_export.lua   # -> ortolan_idle.png ortolan4_idle.png
+python3 ortolan_elphi.py <outdir>  # Elphi only now (the name is historical): like corkfolk.py, DrElphi.png /11 onto its own grid,
+                                   #    128x160, the soft white halo dropped, the hologram kept and animated; 8 frames
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/ortolan_elphi.gpl --script tools/artgen/ortolan_elphi_aseprite.lua
-aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/ortolan_elphi_export.lua   # -> ortolan_idle.png ortolan4_idle.png elphi_idle.png
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/ortolan_elphi_export.lua   # -> elphi_idle.png
 ```
 Sources `Sky_liris.aseprite`, `Ortolan_idle.aseprite`, `Ortolan4_idle.aseprite`, `Elphi_idle.aseprite` (tag ceka, UPRAVY layer).
 In the scenes: new texture keys `captainLiris` (sheet), `ortolanIdle` / `ortolan4Idle`, `drElphiIdle` (the old `drElphi` image
 stays loaded for ScraperAmbra's cutscene panels); all at scale 1, origin bottom, anims `liris_idle`, `ortolan_idle`,
 `ortolan4_idle`, `elphi_idle` (4 fps, frames repeated for timing); hover = a preFX glow, never scaling; the old bobbing /
-tilting tweens and green glow discs are gone. Liris has a 2x bust portrait (EN "Captain Liris" + CZ "Kapitánka Liris").
+tilting tweens and green glow discs are gone. Liris has a 2x bust portrait (EN "Captain Liris" + CZ "Kapitánka Liris"); Ortolan
+has one too (`{ key, frame: 0, zoom: 2, top: 10 }` under "Ortolan" / "Ortolan Šmelc" -- the same in CZ; on Burning Bear Street
+it points at the look he has that day). `ortolan_idle` / `ortolan4_idle` are global anims created by whichever scene runs first,
+so ShedCourtyardScene and BurningBearStreetScene must keep the same frame order (…, 0, 5, 6, 6, 6, 6, 5, 0, … = pawn up, study, down).
 
 ## Fast-travel map (ui/MapUI.js, texture `mapBg`)
 `map_bg.py` draws the map at a native 400×300 (MapUI shows it 2× with hard pixels — the game runs with `pixelArt: true`).

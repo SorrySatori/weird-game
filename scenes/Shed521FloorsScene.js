@@ -14,19 +14,49 @@ const FLOORS_FOLK = [
     { id: 'floors_queue3', sheet: 'queue3', x: 686, y: 184, top: 106, h: 128, holds: [1000, 1000, 1000, 1000, 1700, 800] },
 ];
 
+// The three floors (canvas coords): the priest's feet line on each, and which floor a click belongs to (everything
+// below a floor's slab is the floor beneath it)
+const FLOOR_Y = [520, 340, 180];
+const floorAt = y => (y >= 356 ? 0 : y >= 196 ? 1 : 2);
+
+// The doors painted in the background (tools/artgen/floors_bg.py), each a hotspot of the door's own shape:
+// floor, where the priest stands to go through, and where it leads
+const DOORS = [
+    { rect: [130, 392, 61, 122], floor: 0, x: 160, target: 'Shed521GateScene' },          // WELCOME, back to the gate
+    { rect: [554, 387, 93, 126], floor: 0, x: 600, target: 'Shed521Scene', label: 'Exit' }, // EXIT, out to the yard
+    { rect: [246, 228, 61, 112], floor: 1, x: 276, target: 'ShedAbandonedOfficeScene' },  // ASSESSMENTS
+    { rect: [182, 68, 60, 112], floor: 2, x: 212, target: 'ShedRegistrationScene' },      // REGISTRATION
+    { rect: [502, 69, 61, 111], floor: 2, x: 532, target: 'ShedApplicationsScene' },      // APPLICATIONS
+];
+
+// The ways between floors: both ends (feet, lower floor first) and the hotspot over the drawn stairs / ladder
+const LINKS = [
+    { floors: [0, 1], ends: [{ x: 785, y: 520 }, { x: 990, y: 340 }],                     // the stairs up from the ground floor
+      points: [[762, 518], [806, 518], [1004, 350], [1004, 284], [762, 466]] },
+    { floors: [0, 1], ends: [{ x: 531, y: 520 }, { x: 531, y: 340 }],                     // the ladder through the hatch
+      points: [[509, 322], [553, 322], [553, 518], [509, 518]] },
+    { floors: [1, 2], ends: [{ x: 1030, y: 340 }, { x: 880, y: 180 }],                    // the stairs up to the top floor
+      points: [[1050, 344], [1050, 282], [882, 148], [856, 168], [856, 198]] },
+];
+const linkEnd = (link, floor) => link.ends[link.floors.indexOf(floor)];
+
+// Coming back from a room, the priest stands at its door: [floor, x]
+const ARRIVALS = {
+    Shed521GateScene: [0, 160], Shed521Scene: [0, 600], ShedAbandonedOfficeScene: [1, 276],
+    ShedRegistrationScene: [2, 212], ShedApplicationsScene: [2, 532],
+};
+
 export default class Shed521FloorsScene extends GameScene {
     constructor() {
         super({ key: 'Shed521FloorsScene' });
         this.isTransitioning = false; // Add flag to track transition state
-        this.currentFloor = 1; // Track current floor: 1, 2, or 3
+        this.currentFloor = 0; // 0 ground, 1 first, 2 top
     }
 
     preload() {
         super.preload();
         this.preloadMusic('shedLoop');
         this.load.image('floors', 'assets/images/backgrounds/Shed521_floors.png');
-        this.load.image('door', 'assets/images/ui/door.png'); // Placeholder transparent image for clickable door
-        this.load.image('arrow', 'assets/images/ui/arrow.png'); // Arrow for transition hover effects
         FLOORS_FOLK.forEach(({ id, sheet, h }) => {
             this.load.spritesheet(id, `assets/images/characters/shedfloors/${sheet}.png`, { frameWidth: 128, frameHeight: h });
         });
@@ -36,20 +66,23 @@ export default class Shed521FloorsScene extends GameScene {
         // Call parent create first to initialize mechanics
         super.create();
         this.playSceneMusic('shedLoop', { resume: true });
-        
+        this._routeId = 0;  // the scene instance is re-used: a fresh route counter per visit
+
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
-        
-        // Set initial priest position to first floor
+
+        // The priest comes in at the door he came through (the middle of the ground floor otherwise)
+        const [floor, x] = ARRIVALS[this.enteredFrom] || [0, 533];
+        this.currentFloor = floor;
         if (this.priest) {
-            this.priest.x = Math.round(400 * this.scale.width / 800);  // Center of the scene
-            this.priest.y = 520;  // Adjusted ground level (first floor)
+            this.priest.x = x;
+            this.priest.y = FLOOR_Y[floor];
             this.priest.setOrigin(0.5, 1);  // Ensure origin is at feet
             this.priest.play('idle');
         }
 
         // The bureau's three floors as a cut-away (native 1067×600: tools/artgen/floors_bg.py); the floor lines are
-        // y 520 / 340 / 180 (the priest's feet), the doors and stairs sit where the zones below are
+        // y 520 / 340 / 180 (the priest's feet), the doors and stairs sit where DOORS and LINKS say
         const bg = this.add.image(this.scale.width / 2, 300, 'floors');
         this.fitBackground(bg);
         bg.setDepth(-1);
@@ -62,609 +95,149 @@ export default class Shed521FloorsScene extends GameScene {
         // (whatever stands in front of them -- the counter, the bench, the railing -- is cut out of their frames)
         this.floorsFolk = FLOORS_FOLK.map(cfg => createAmbientNpc(this, cfg));
 
-        // Create transition zones for each area using SceneTransitionManager
-        
-        // First Floor Transitions
-        
-        // Welcome Office (First Floor - Left)
-        this.welcomeZone = this.transitionManager.createTransitionZone(
-            110, // x position
-            450, // y position
-            120, // width
-            100, // height
-            'left', // direction
-            'Shed521GateScene', // target scene
-            50, // walk to x
-            520 // walk to y
-        );
-        
-        // Exit to Shed521Scene (First Floor - Center)
-        this.exitZone = this.transitionManager.createTransitionZone(
-            450, // x position
-            450, // y position
-            100, // width
-            100, // height
-            'down', // direction
-            'Shed521Scene', // target scene
-            450, // walk to x
-            450, // walk to y
-            'Exit'
-        );
-        
-        // Stairs to Second Floor (First Floor - Right)
-        this.secondFloorZone = this.transitionManager.createTransitionZone(
-            650, // x position
-            450, // y position
-            100, // width
-            100, // height
-            'up', // direction
-            'Shed521FloorsScene', // target scene - same scene, different floor
-            650, // walk to x
-            450, // walk to y - second floor level,
-            'To Second Floor'
-        );
-        
-        // Second Floor Transitions
-        
-        // Assessment Office (Second Floor - Left)
-        this.assessmentZone = this.transitionManager.createTransitionZone(
-            200, // x position
-            340, // y position
-            80, // width
-            80, // height
-            'left', // direction
-            'ShedAbandonedOfficeScene', // target scene
-            150, // walk to x
-            340 // walk to y
-        );
-        
-        // Stairs to First Floor (Second Floor - Center)
-        this.secondToFirstZone = this.transitionManager.createTransitionZone(
-            400, // x position
-            340, // y position
-            80, // width
-            80, // height
-            'down', // direction
-            'Shed521FloorsScene', // target scene - same scene, different floor
-            400, // walk to x
-            520, // walk to y - first floor level
-            'Stairs to First Floor'
-        );
-        
-        // Stairs to Third Floor (Second Floor - Right)
-        this.thirdFloorZone = this.transitionManager.createTransitionZone(
-            690, // x position
-            250, // y position
-            80, // width
-            80, // height
-            'up', // direction
-            'Shed521FloorsScene', // target scene - same scene, different floor
-            690, // walk to x
-            250, // walk to y - third floor level
-            'Stairs to Third Floor'
-        );
-        
-        // Third Floor Transitions
-        
-        // Registration Office (Third Floor - Left)
-        this.registrationZone = this.transitionManager.createTransitionZone(
-            150, // x position
-            120, // y position
-            80, // width
-            80, // height
-            'left', // direction
-            'ShedRegistrationScene', // target scene
-            100, // walk to x
-            120 // walk to y
-        );
-        
-        // Applications Office (Third Floor - Center)
-        this.applicationsZone = this.transitionManager.createTransitionZone(
-            400, // x position
-            120, // y position
-            64, // width (just the door: the queue stands right of it)
-            80, // height
-            'up', // direction
-            'ShedApplicationsScene', // target scene
-            400, // walk to x
-            120 // walk to y
-        );
-        
-        // Stairs to Second Floor (Third Floor - Right)
-        this.thirdToSecondZone = this.transitionManager.createTransitionZone(
-            690, // x position
-            120, // y position
-            80, // width
-            80, // height
-            'down', // direction
-            'Shed521FloorsScene', // target scene - same scene, different floor
-            690, // walk to x
-            120 // walk to y - second floor level
-        );
-
-        // Helper to update entrance availability based on current floor
-        this.updateEntranceAvailability = (currentFloor) => {
-            // Disable all transition zones first
-            const allZones = [
-                this.welcomeZone, this.exitZone, this.secondFloorZone,
-                this.assessmentZone, this.secondToFirstZone, this.thirdFloorZone,
-                this.thirdToSecondZone, this.registrationZone, this.applicationsZone
-            ];
-            
-            allZones.forEach(zone => {
-                if (zone && zone.input) {
-                    zone.input.enabled = false;
-                }
+        // Every door is clickable whole and lights up on hover; one on another floor is reached by the stairs first
+        DOORS.forEach(door => {
+            const zone = this.transitionManager.createDoorZone({ rect: door.rect }, {
+                target: door.target, label: door.label, onClick: () => this.enterDoor(door)
             });
-
-            // Enable zones based on current floor
-            switch (currentFloor) {
-                case 1: // First floor
-                    [this.welcomeZone, this.exitZone, this.secondFloorZone].forEach(zone => {
-                        if (zone && zone.input) {
-                            zone.input.enabled = true;
-                        }
-                    });
-                    break;
-                case 2: // Second floor
-                    [this.assessmentZone, this.secondToFirstZone, this.thirdFloorZone].forEach(zone => {
-                        if (zone && zone.input) {
-                            zone.input.enabled = true;
-                        }
-                    });
-                    break;
-                case 3: // Third floor
-                    [this.registrationZone, this.applicationsZone, this.thirdToSecondZone].forEach(zone => {
-                        if (zone && zone.input) {
-                            zone.input.enabled = true;
-                        }
-                    });
-                    break;
+            // the arrow keys leave by the WELCOME door at the left edge of the ground floor, as before
+            if (door.target === 'Shed521GateScene') {
+                this.registerEdgeExit('left', () => this.leaveByEdge('left', door.target), zone, [FLOOR_Y[0] - 40, FLOOR_Y[0] + 40]);
             }
+        });
+        // ...and so are the stairs and the ladder: up or down, depending on where the priest stands
+        LINKS.forEach(link => {
+            this.transitionManager.createDoorZone({ points: link.points }, {
+                label: () => (this.currentFloor <= link.floors[0] ? 'Upstairs' : 'Downstairs'),
+                onClick: () => this.useLink(link)
+            });
+        });
+
+        // At the foot or the top of the stairs the arrow keys ↑ / ↓ take them; a small hint shows which way
+        const climbByKey = up => {
+            if (this.isTransitioning || this.isInputBlocked() || !this.priest) return;
+            const link = this.linkHere(this.currentFloor + (up ? 1 : -1));
+            if (!link) return;
+            this._routeId++;
+            this.tweens.killTweensOf(this.priest);
+            this.climb(link);
         };
+        this.input.keyboard.on('keydown-UP', () => climbByKey(true));
+        this.input.keyboard.on('keydown-DOWN', () => climbByKey(false));
+        this.stairHint = this.add.text(0, 0, '', {
+            fontSize: '16px', fontStyle: 'bold', fill: '#ffd700', backgroundColor: 'rgba(0, 0, 0, 0.55)', padding: { x: 5, y: 1 }
+        }).setOrigin(0.5, 1).setDepth(30).setVisible(false);
+    }
 
-        // Initialize with first floor entrances active
-        this.updateEntranceAvailability(1);
+    /** A click on another floor: the priest takes the stairs (or the ladder) there and walks to the spot. */
+    handleWalkClick(pointer) {
+        if (this.isTransitioning) return true;                       // on the stairs: let him finish
+        const floor = floorAt(pointer.y);
+        if (floor === this.currentFloor) return false;               // the same floor: the usual walk
+        this.goTo(floor, pointer.x);
+        return true;
+    }
 
-        // Draw walkable straight line (platform) on second floor
-        this.secondFloorPlatform = this.add.graphics();
-        // Use background-matching color and subtle opacity
-        this.secondFloorPlatform.fillStyle(0x1a2420, 0.7); // Match dark greenish-gray, slightly transparent
-        this.secondFloorPlatform.fillRect(0, 340, this.scale.width, 8); // x, y, width, height
-        this.secondFloorPlatform.setDepth(2);
-        this.secondFloorPlatform.setVisible(false); // the background draws the slab now; keep it only as the collider
+    /** The link (stairs or ladder) to floor `to` whose end the priest stands at, if any. */
+    linkHere(to) {
+        return LINKS.find(l => l.floors.includes(this.currentFloor) && l.floors.includes(to)
+            && Math.abs(linkEnd(l, this.currentFloor).x - this.priest.x) < 56);
+    }
 
-        // Optionally, add physics body for collision (if priest uses arcade physics)
-        if (this.physics && this.priest && this.physics.add) {
-            this.physics.add.existing(this.secondFloorPlatform, true);
-            this.physics.add.collider(this.priest, this.secondFloorPlatform);
-        }
+    /** Turn the priest (and his glow) left (-1) or right (1). */
+    face(dir) {
+        this.priest.setScale(dir, 1);
+        this.priestGlow?.setScale(1.05 * dir, 1.05);
+    }
 
-        // Ensure priest's anchor is at the feet (center-bottom)
-        if (this.priest && this.priest.setOrigin) {
-            this.priest.setOrigin(0.5, 1);
-        }
-
-        // Add custom transition handling for same-scene floor changes and external scene transitions
-        
-        // 1. FLOOR TRANSITIONS (same scene, different floors)
-        
-        // First to Second Floor
-        this.secondFloorZone.off('pointerdown');
-        this.secondFloorZone.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            const priest = this.priest;
-            if (!priest) {
-                // If priest doesn't exist, just transition immediately
-                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                
-                this.time.delayedCall(200, () => {
-                    this.currentFloor = 2;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                });
-                return;
-            }
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-            
-            // First make the priest walk to the transition area
-            const walkToX = this.secondFloorZone.x;
-            
-            // Play walking animation and move to transition area horizontally
-            priest.play('walk');
-            
-            // Calculate walk duration based on horizontal distance only
-            const distance = Math.abs(priest.x - walkToX);
-            const walkDuration = distance * 4; // 4ms per pixel
-            
-            // Create a variable to track if the tween completed
-            let tweenCompleted = false;
-            
+    /** Walk along the current floor to x (resolves on arrival; never if another walk or a panel cuts it short). */
+    walkTo(x) {
+        return new Promise(resolve => {
+            const p = this.priest, move = this.playerMovementSystem;
+            x = Phaser.Math.Clamp(x, 40, this.scale.width - 40);
+            this.tweens.killTweensOf(p);
+            const dist = Math.abs(x - p.x);
+            if (dist < 3) { resolve(); return; }
+            this.face(x < p.x ? -1 : 1);
+            if (move) move.isTweenMoving = true;                    // a panel opening stops him (GameScene.createModalBlocker)
+            p.play('walk', true);
             this.tweens.add({
-                targets: priest,
-                x: walkToX,
-                // Keep the same Y position
-                duration: walkDuration,
-                ease: 'Linear',
-                onComplete: () => {
-                    tweenCompleted = true;
-                    // After reaching the transition area, teleport to second floor
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    // Short delay before teleporting
-                    this.time.delayedCall(200, () => {
-                        priest.x = Math.round(650 * this.scale.width / 800);
-                        priest.y = 340; // Second floor level
-                        
-                        this.currentFloor = 2;
-                        this.updateEntranceAvailability(this.currentFloor);
-                        
-                        // Short delay before allowing new interactions
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-            
-            // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(2000, () => {
-                if (!tweenCompleted) {
-                    console.log('Floor transition tween timed out, forcing transition');
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    priest.x = Math.round(650 * this.scale.width / 800);
-                    priest.y = 340; // Second floor level
-                    
-                    this.currentFloor = 2;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                }
-            });
-        });
-        
-        // Second to First Floor
-        this.secondToFirstZone.off('pointerdown');
-        this.secondToFirstZone.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            const priest = this.priest;
-            if (!priest) {
-                // If priest doesn't exist, just transition immediately
-                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                
-                this.time.delayedCall(200, () => {
-                    this.currentFloor = 1;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                });
-                return;
-            }
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-            
-            // First make the priest walk to the transition area
-            const walkToX = this.secondToFirstZone.x;
-            
-            // Play walking animation and move to transition area horizontally
-            priest.play('walk');
-            
-            // Calculate walk duration based on horizontal distance only
-            const distance = Math.abs(priest.x - walkToX);
-            const walkDuration = distance * 4; // 4ms per pixel
-            
-            // Create a variable to track if the tween completed
-            let tweenCompleted = false;
-            
-            this.tweens.add({
-                targets: priest,
-                x: walkToX,
-                // Keep the same Y position
-                duration: walkDuration,
-                ease: 'Linear',
-                onComplete: () => {
-                    tweenCompleted = true;
-                    // After reaching the transition area, teleport to first floor
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    // Short delay before teleporting
-                    this.time.delayedCall(200, () => {
-                        priest.x = Math.round(400 * this.scale.width / 800);
-                        priest.y = 520; // First floor level
-                        
-                        this.currentFloor = 1;
-                        this.updateEntranceAvailability(this.currentFloor);
-                        
-                        // Short delay before allowing new interactions
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-            
-            // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(2000, () => {
-                if (!tweenCompleted) {
-                    console.log('Floor transition tween timed out, forcing transition');
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    priest.x = Math.round(400 * this.scale.width / 800);
-                    priest.y = 520; // First floor level
-                    
-                    this.currentFloor = 1;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                }
-            });
-        });
-        
-        // Second to Third Floor
-        this.thirdFloorZone.off('pointerdown');
-        this.thirdFloorZone.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            const priest = this.priest;
-            if (!priest) {
-                // If priest doesn't exist, just transition immediately
-                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                
-                this.time.delayedCall(200, () => {
-                    this.currentFloor = 3;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                });
-                return;
-            }
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-            
-            // First make the priest walk to the transition area
-            const walkToX = this.thirdFloorZone.x;
-            
-            // Play walking animation and move to transition area horizontally
-            priest.play('walk');
-            
-            // Calculate walk duration based on horizontal distance only
-            const distance = Math.abs(priest.x - walkToX);
-            const walkDuration = distance * 4; // 4ms per pixel
-            
-            // Create a variable to track if the tween completed
-            let tweenCompleted = false;
-            
-            this.tweens.add({
-                targets: priest,
-                x: walkToX,
-                // Keep the same Y position
-                duration: walkDuration,
-                ease: 'Linear',
-                onComplete: () => {
-                    tweenCompleted = true;
-                    // After reaching the transition area, teleport to third floor
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    // Short delay before teleporting
-                    this.time.delayedCall(200, () => {
-                        priest.x = Math.round(690 * this.scale.width / 800);
-                        priest.y = 180; // Third floor level
-                        
-                        this.currentFloor = 3;
-                        this.updateEntranceAvailability(this.currentFloor);
-                        
-                        // Short delay before allowing new interactions
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-            
-            // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(2000, () => {
-                if (!tweenCompleted) {
-                    console.log('Floor transition tween timed out, forcing transition');
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    priest.x = Math.round(690 * this.scale.width / 800);
-                    priest.y = 180; // Third floor level
-                    
-                    this.currentFloor = 3;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                }
-            });
-        });
-        
-        // Third to Second Floor
-        this.thirdToSecondZone.off('pointerdown');
-        this.thirdToSecondZone.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            const priest = this.priest;
-            if (!priest) {
-                // If priest doesn't exist, just transition immediately
-                this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                
-                this.time.delayedCall(200, () => {
-                    this.currentFloor = 2;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                });
-                return;
-            }
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-            
-            // First make the priest walk to the transition area
-            const walkToX = this.thirdToSecondZone.x;
-            
-            // Play walking animation and move to transition area horizontally
-            priest.play('walk');
-            
-            // Calculate walk duration based on horizontal distance only
-            const distance = Math.abs(priest.x - walkToX);
-            const walkDuration = distance * 4; // 4ms per pixel
-            
-            // Create a variable to track if the tween completed
-            let tweenCompleted = false;
-            
-            this.tweens.add({
-                targets: priest,
-                x: walkToX,
-                // Keep the same Y position
-                duration: walkDuration,
-                ease: 'Linear',
-                onComplete: () => {
-                    tweenCompleted = true;
-                    // After reaching the transition area, teleport to second floor
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    // Short delay before teleporting
-                    this.time.delayedCall(200, () => {
-                        priest.x = Math.round(690 * this.scale.width / 800);
-                        priest.y = 340; // Second floor level
-                        
-                        this.currentFloor = 2;
-                        this.updateEntranceAvailability(this.currentFloor);
-                        
-                        // Short delay before allowing new interactions
-                        this.time.delayedCall(400, () => {
-                            this.isTransitioning = false;
-                        });
-                    });
-                }
-            });
-            
-            // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(2000, () => {
-                if (!tweenCompleted) {
-                    console.log('Floor transition tween timed out, forcing transition');
-                    priest.play('idle');
-                    this.cameras.main.flash(300, 127, 255, 142); // Green flash effect
-                    
-                    priest.x = Math.round(690 * this.scale.width / 800);
-                    priest.y = 340; // Second floor level
-                    
-                    this.currentFloor = 2;
-                    this.updateEntranceAvailability(this.currentFloor);
-                    this.isTransitioning = false;
-                }
-            });
-        });
-        
-        // 2. SCENE TRANSITIONS (to other scenes)
-        
-        // Assessment Office (Second Floor)
-        this.assessmentZone.off('pointerdown');
-        this.assessmentZone.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Fade out and transition to Assessment scene
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('ShedAbandonedOfficeScene');
-                this.isTransitioning = false;
-            });
-        });
-        
-        // Registration Office (Third Floor)
-        this.registrationZone.off('pointerdown');
-        this.registrationZone.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Fade out and transition to Registration scene
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('ShedRegistrationScene');
-                this.isTransitioning = false;
-            });
-        });
-        
-        // Applications Office (Third Floor)
-        this.applicationsZone.off('pointerdown');
-        this.applicationsZone.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Fade out and transition to Applications scene
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('ShedApplicationsScene');
-                this.isTransitioning = false;
+                targets: p, x, duration: dist * 5 / (move?.speedMultiplier || 1), ease: 'Linear',
+                onComplete: () => { if (move) move.isTweenMoving = false; p.play('idle', true); resolve(); }
             });
         });
     }
-    
 
-    // Helper: returns y for the third floor surface at given x
-    getThirdFloorY(x) {
-        console.log('x:', x);
-        // Left segment: flat
-        if (x < 100) {
-            // Move priest to first floor (ground level)
-            const priest = this.priest;
-            this.tweens.killTweensOf(priest);
-
-            priest.x = Math.round(400 * this.scale.width / 800);
-            priest.y = 340;
-            priest.play('idle');
-            this.cameras.main.flash(300, 127, 255, 142);
-            this.time.delayedCall(400, () => {
-                this.isTransitioning = false;
+    /** Take a link from the current floor to its other end (keys and clicks wait meanwhile). */
+    climb(link) {
+        return new Promise(resolve => {
+            const p = this.priest, move = this.playerMovementSystem;
+            const from = this.currentFloor, to = link.floors[0] === from ? link.floors[1] : link.floors[0];
+            const end = linkEnd(link, to);
+            this.isTransitioning = true;
+            if (end.x !== p.x) this.face(end.x < p.x ? -1 : 1);
+            if (move) move.isTweenMoving = true;
+            p.play('walk', true);
+            this.tweens.add({
+                targets: p, x: end.x, y: end.y, duration: Phaser.Math.Distance.Between(p.x, p.y, end.x, end.y) * 6, ease: 'Linear',
+                onComplete: () => {
+                    if (move) move.isTweenMoving = false;
+                    this.currentFloor = to;
+                    this.isTransitioning = false;
+                    p.play('idle', true);
+                    resolve();
+                }
             });
-            return 250;
-        } 
-        // the redrawn top floor is level: its walkway edge is y 180 across the whole width
-        return 180;
+        });
+    }
+
+    /** Go to floor `floor` (by the nearest stairs or ladder, floor by floor), walk to x there, then `then()`. */
+    async goTo(floor, x, then) {
+        const id = ++this._routeId;                                  // a newer route abandons this one
+        while (this.currentFloor !== floor) {
+            const next = this.currentFloor + (floor > this.currentFloor ? 1 : -1);
+            const links = LINKS.filter(l => l.floors.includes(this.currentFloor) && l.floors.includes(next));
+            const link = links.reduce((a, b) => (Math.abs(linkEnd(a, this.currentFloor).x - this.priest.x)
+                <= Math.abs(linkEnd(b, this.currentFloor).x - this.priest.x) ? a : b));
+            await this.walkTo(linkEnd(link, this.currentFloor).x);
+            if (id !== this._routeId) return;
+            await this.climb(link);
+            if (id !== this._routeId) return;
+        }
+        await this.walkTo(x);
+        if (id === this._routeId && then) then();
+    }
+
+    /** A click on the stairs / the ladder: up if he stands at or below its lower end, down otherwise. */
+    useLink(link) {
+        if (this.isTransitioning) return;
+        const [lo, hi] = link.floors;
+        const start = this.currentFloor <= lo ? lo : hi;
+        this.goTo(start, linkEnd(link, start).x, () => { this._routeId++; this.climb(link); });
+    }
+
+    /** A click on a door: get to its floor and in front of it, then go through. */
+    enterDoor(door) {
+        if (this.isTransitioning) return;
+        this.goTo(door.floor, door.x, () => {
+            this.isTransitioning = true;
+            this.priest.play('idle', true);
+            this.transitionManager.directTransition(door.target);
+        });
     }
 
     update() {
         super.update();
-        
-        // Check if player is at the right edge of the screen (relative to the canvas width —
-        // a literal 780 fired on the way to the remapped second-floor stairs at ~867)
-        if (this.priest && this.priest.x > this.scale.width - 20 && !this.isTransitioning) {
-            this.isTransitioning = true;
-            this.priest.play('idle');
-            this.cameras.main.fadeOut(800, 0, 0, 0);
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                this.scene.start('VoxMarket');
-                this.isTransitioning = false; // Reset transition flag
-            });
-        }
 
-        // --- Only adjust priest y to third floor surface when actually on third floor ---
-        if (
-            this.priest &&
-            this.priest.x >= 0 && this.priest.x <= this.scale.width &&
-            this.priest.y >= 140 && this.priest.y <= 200 // Only when near third floor
-        ) {
-            const targetY = this.getThirdFloorY(this.priest.x);
-            if (Math.abs(this.priest.y - targetY) < 40) {
-                this.priest.y = targetY;
+        // ↑ / ↓ over his head while he stands where the stairs or the ladder start
+        if (this.stairHint && this.priest) {
+            const up = !this.isTransitioning && this.linkHere(this.currentFloor + 1);
+            const down = !this.isTransitioning && this.linkHere(this.currentFloor - 1);
+            this.stairHint.setVisible(!!(up || down) && !this.isModalOpen());
+            if (up || down) {
+                this.stairHint.setText(up && down ? '↑ ↓' : up ? '↑' : '↓');
+                this.stairHint.setPosition(this.priest.x, this.priest.y - this.priest.displayHeight - 4);
             }
         }
     }
 }
-
-// If you ever set priest.x to a third floor position at scene start or elsewhere,
-// also set priest.y = this.getThirdFloorY(priest.x);

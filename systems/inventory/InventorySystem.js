@@ -805,7 +805,7 @@ export default class InventorySystem {
         popup.add(overlay);
         
         // Create a visible popup background
-        const bg = this.scene.add.rectangle(0, 0, 200, 120, 0x0a2712, 0.95);
+        const bg = this.scene.add.rectangle(0, 0, 250, 120, 0x0a2712, 0.95); // room for the Czech labels
         bg.setStrokeStyle(4, 0x7fff8e, 1); // Thicker, more visible border
         popup.add(bg);
         
@@ -820,7 +820,7 @@ export default class InventorySystem {
         popup.add(itemName);
         
         // Use button
-        const useBtn = this.scene.add.text(-50, 10, 'Use', {
+        const useBtn = this.scene.add.text(-60, 10, L().t('ui.inventory.useItem'), {
             fontSize: '22px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(10, 39, 18, 0.8)',
@@ -832,7 +832,7 @@ export default class InventorySystem {
         popup.add(useBtn);
 
         // Cancel button
-        const cancelBtn = this.scene.add.text(50, 10, 'Cancel', {
+        const cancelBtn = this.scene.add.text(60, 10, L().t('ui.inventory.cancel'), {
             fontSize: '22px',
             fill: '#ff8888',
             backgroundColor: 'rgba(39, 10, 18, 0.8)',

@@ -1,10 +1,8 @@
--- Builds the Aseprite sources of Ortolan (both looks) and Dr. Elphi from ortolan_elphi.py.
+-- Builds the Aseprite source of Dr. Elphi from ortolan_elphi.py (Ortolan moved to ortolan.py / ortolan_aseprite.lua).
 -- aseprite -b --script-param dir=<gen out> --script-param out=assets/aseprite --script-param pal=<gpl> --script ortolan_elphi_aseprite.lua
 -- Draw touch-ups into the "UPRAVY" layer; ortolan_elphi_export.lua merges it in.
 local d, o, pal = app.params["dir"], app.params["out"], app.params["pal"]
-for _, c in ipairs({ { "ortolan", 128, 160, "ceka (dech, mrk, bryle, hm, ruka, kyvnuti)", "Ortolan_idle" },
-                     { "ortolan4", 144, 160, "ceka (dech, mrk, bryle, hm, horni ruce, kyvnuti)", "Ortolan4_idle" },
-                     { "elphi", 128, 160, "ceka (dech, bryle, hologram, plast, tuknuti, vlasy)", "Elphi_idle" } }) do
+for _, c in ipairs({ { "elphi", 128, 160, "ceka (dech, bryle, hologram, plast, tuknuti, vlasy)", "Elphi_idle" } }) do
   local id, w, h, tagname, file = c[1], c[2], c[3], c[4], c[5]
   local s = Sprite(w, h, ColorMode.RGB)
   local base = s.layers[1]; base.name = id

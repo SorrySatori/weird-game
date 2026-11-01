@@ -697,9 +697,10 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         
         // what stands nearer than Heliodor (the counter, its stools) -- drawn over him (tools/artgen/corkin_bg.py)
         this.load.image('screamingCorkCounter', 'assets/images/backgrounds/ScreamingCorkInterior_counter.png');
-        // the people: 8-frame idle sheets (tools/artgen/corkfolk.py from the old heliodor.png / ravla.png, Aseprite Cork_<id>)
+        // the people: 8-frame idle sheets -- Heliodor from his old art (tools/artgen/corkfolk.py), Ravla redrawn at her
+        // crate desk (tools/artgen/ravla.py); Aseprite sources Cork_<id>
         this.load.spritesheet('heliodor', 'assets/images/characters/heliodor_idle.png', { frameWidth: 128, frameHeight: 192 });
-        this.load.spritesheet('ravla', 'assets/images/characters/ravla_idle.png', { frameWidth: 128, frameHeight: 128 });
+        this.load.spritesheet('ravla', 'assets/images/characters/ravla_idle.png', { frameWidth: 128, frameHeight: 144 });
         this.load.spritesheet('thaal', 'assets/images/characters/master_thaal.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('thaal_walk', 'assets/images/characters/master_thaal_walk.png', { frameWidth: 128, frameHeight: 128 });
         // Feral Toast rehearsing in the club, heard through the wall (muffled + room echo baked in)
@@ -836,9 +837,10 @@ export default class ScreamingCorkInteriorScene extends GameScene {
     }
 
     createNPCs() {
-        // Ravla (the forger) crouches in the right corner by her desk; soles 3 px above the frame's bottom
+        // Ravla (the forger) sits at a crate in the right corner, her tentacle holding a lantern over her work;
+        // the crate's foot is 3 px above the frame's bottom
         this.ravla = this.add.sprite(960, 524, 'ravla', 0).setOrigin(0.5, 1).setDepth(6);
-        this.addGroundShadow(960, 520, 90, 14);
+        this.addGroundShadow(966, 520, 100, 14);
         this.ravla.setInteractive({ useHandCursor: true });
 
         // Heliodor stands on the raised boards behind the counter, before the curtained doorway
@@ -846,7 +848,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.heliodor = this.add.sprite(this.scale.width / 2, 492, 'heliodor', 0).setOrigin(0.5, 1).setDepth(5);
         this.heliodor.setInteractive({ useHandCursor: true });
 
-        // idle loops, slow: Heliodor's colony glows, blinks and drips; Ravla's goggles flash, her tentacle sways
+        // idle loops, slow: Heliodor's colony glows, blinks and drips; Ravla writes a word (0-1-7), breathes and the
+        // lantern drifts (6), dips the quill (2-3) and glances up at you with a blink (4-5)
         if (!this.anims.exists('heliodor_idle')) {
             this.anims.create({
                 key: 'heliodor_idle',
@@ -858,7 +861,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         if (!this.anims.exists('ravla_idle')) {
             this.anims.create({
                 key: 'ravla_idle',
-                frames: this.anims.generateFrameNumbers('ravla', { frames: [0, 0, 1, 1, 0, 3, 3, 3, 4, 5, 4, 5, 3, 0, 0, 6, 6, 0, 7, 0, 0, 1, 1, 0, 2, 0, 0, 3, 4, 5, 3, 0] }),
+                frames: this.anims.generateFrameNumbers('ravla', { frames: [0, 1, 7, 0, 1, 7, 6, 6, 0, 1, 7, 0, 2, 3, 3, 2, 0, 1, 7, 0, 1, 7, 0, 6, 6, 4, 4, 4, 5, 4, 4, 0] }),
                 frameRate: 4,
                 repeat: -1
             });
@@ -867,7 +870,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.ravla.play('ravla_idle');
         this.dialogPortraits = { ...(this.dialogPortraits || {}),
             'Heliodor': { key: 'heliodor', frame: 0, zoom: 2, top: 24 },
-            'Ravla': { key: 'ravla', frame: 0, zoom: 2, top: 6 } };
+            'Ravla': { key: 'ravla', frame: 4, zoom: 2, top: 28 } };
         
         // Initialize shop system
         this.initShopSystem();

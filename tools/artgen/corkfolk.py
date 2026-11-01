@@ -1,13 +1,10 @@
-"""The people inside the Screaming Cork (ScreamingCorkInteriorScene) -- Heliodor the barkeep and Ravla the forger --
-brought down from their old portrait-sized art to its native grid (like edgar.py: box filter, nothing re-drawn) and
-animated in place by moving / relighting their own pixels.
+"""Heliodor the barkeep of the Screaming Cork (ScreamingCorkInteriorScene), brought down from his old portrait-sized
+art to its native grid (like edgar.py: box filter, nothing re-drawn) and animated in place by moving / relighting his
+own pixels. (Ravla the forger used to be made here the same way; she is now redrawn from scratch in ravla.py.)
   heliodor  128x192 (from heliodor.png 1024x1536), soles on y 189; 8 frames:
             0 rest  1 breath  2 the glow of the colony swells  3 one shoulder-eye of the cluster blinks
             4 the head's eyes narrow  5 the leaves on his vine arm rustle  6-7 a drop gathers on the tap and falls
-  ravla     128x128 (from ravla.png 1024x1024), soles on y 125; 8 frames:
-            0 rest  1 breath  2 the goggles flash  3 she looks down at her work  4-5 her hands fiddle
-            6-7 the tentacle behind her sways
-python3 corkfolk.py <outdir>  ->  heliodor.png ravla.png (sheets) + <id>/<n>.png + corkfolk.gpl"""
+python3 corkfolk.py <outdir>  ->  heliodor.png (sheet) + heliodor/<n>.png + corkfolk.gpl"""
 import sys, os
 from PIL import Image
 
@@ -118,36 +115,9 @@ def heliodor_frames():
          narrow(src), rustle(src), drip(src, 1), drip(src, 2)]
     return [drop(f, 9) for f in F]
 
-# ---------------------------------------------------------------------------------------------------- Ravla
-def purple(c): return c[3] and c[2] > 70 and c[2] > c[1] + 35 and c[0] > c[1]
-def ravla_frames():
-    src = pixelize(f'{CHARS}/ravla.png', 8)
-    p = src.load()
-    lenses = [(x, y) for y in range(20, 38) for x in range(58, 86) if purple(p[x, y])]
-    def flash(im):
-        out = im.copy(); o = out.load()
-        for pt in lenses:
-            c = p[pt]; o[pt] = (min(255, c[0] + 70), min(255, c[1] + 40), min(255, c[2] + 80), 255)
-        if lenses: o[min(lenses, key=lambda q: (q[1], q[0]))] = (236, 214, 255, 255)
-        return out
-    def sway(im, amp):                                                           # the tentacle's free loop leans, more at the top
-        q = im.load(); out = im.copy(); o = out.load()
-        for y in range(0, 40):
-            k = round(amp * (1 - y / 40) ** 1.3)
-            if not k: continue
-            row = [q[x, y] for x in range(0, 42)]
-            for x in range(0, 42):
-                xs = x - k
-                o[x, y] = row[xs] if 0 <= xs < 42 else (0, 0, 0, 0)
-        return out
-    F = [src, rise(src, 70, (40, 92)), flash(src), shift_box(src, (44, 4, 88, 44), 0, 1),
-         shift_box(src, (48, 74, 80, 98), 1, 0), shift_box(src, (48, 74, 80, 98), -1, 1),
-         sway(src, 2), sway(src, -1)]
-    return [drop(f, 2) for f in F]
-
 if __name__ == '__main__':
     allc = set()
-    for name, frames in (('heliodor', heliodor_frames()), ('ravla', ravla_frames())):
+    for name, frames in (('heliodor', heliodor_frames()),):
         w, h = frames[0].size
         os.makedirs(f'{OUT}/{name}', exist_ok=True)
         sheet = Image.new('RGBA', (w * len(frames), h), (0, 0, 0, 0))
