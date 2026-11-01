@@ -2,6 +2,7 @@ import { composeBook } from '../utils/EdgarBook.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { isDemoClosed, sayDemoClosed } from '../utils/demo.js';
 
 export default class ScraperAmbraScene extends GameScene {
     constructor() {
@@ -836,6 +837,7 @@ export default class ScraperAmbraScene extends GameScene {
                         key: 'put_on_the_helmet',
                         onSelect: () => {
                             this.hideDialog();
+                            if (isDemoClosed('CardinalFeastScene')) { sayDemoClosed(this); return; }
                             this.cameras.main.fadeOut(700, 0, 0, 0);
                             this.cameras.main.once('camerafadeoutcomplete', () => {
                                 this.scene.start('CardinalFeastScene', { returnScene: 'ScraperAmbraScene' });

@@ -17,6 +17,14 @@ export const DEMO_CLOSED_SCENES = new Set([
 
 export const isDemoClosed = (sceneKey) => DEMO_BUILD && DEMO_CLOSED_SCENES.has(sceneKey);
 
+/**
+ * Where a loaded save continues: its own scene, unless the build doesn't have it (a save from the full game standing in
+ * a place the demo left out) -- then at the Crossroads, the demo's hub.
+ */
+export function playableScene(sceneManager, key, fallback = 'CrossroadScene') {
+    return key && sceneManager?.keys?.[key] && !isDemoClosed(key) ? key : fallback;
+}
+
 export function preloadDemoCones(scene) {
     if (!DEMO_BUILD) return;
     scene.load.image('trafficCone', 'assets/images/props/prop_traffic_cone.png');        // tools/artgen/props.py

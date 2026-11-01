@@ -1,4 +1,5 @@
 import SaveSystem from '../systems/SaveSystem.js';
+import { playableScene } from '../utils/demo.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 
 import { fitBackground } from '../utils/fitBackground.js';
@@ -300,7 +301,8 @@ export default class MainScene extends Phaser.Scene {
                 this.registry.set('onceFlags', saveData.registry?.onceFlags || []);
                 
                 // Start the saved scene
-                const targetScene = saveData.currentScene || 'GameScene';
+                const savedScene = saveData.currentScene || 'GameScene';
+                const targetScene = playableScene(this.scene.manager, savedScene);
                 
                 this.cameras.main.fadeOut(1000, 0, 0, 0);
                 this.cameras.main.once('camerafadeoutcomplete', () => {
@@ -311,7 +313,7 @@ export default class MainScene extends Phaser.Scene {
                     
                     // Start the scene with loaded data
                     this.scene.start(targetScene, { 
-                        loadedPosition: saveData.player.position,
+                        loadedPosition: targetScene === savedScene ? saveData.player.position : null,
                         loadedSave: true // Flag to indicate this is a loaded save
                     });
                 });

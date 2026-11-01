@@ -22,28 +22,11 @@ import ScreamingCorkScene from './scenes/ScreamingCorkScene.js';
 import ScreamingCorkInteriorScene from './scenes/ScreamingCorkInteriorScene.js';
 import ScreamingCorkClubScene from './scenes/ScreamingCorkClubScene.js';
 import BurningBearStreetScene from './scenes/BurningBearStreetScene.js';
-import TownhallScene from './scenes/TownhallScene.js';
-import TownhallInteriorScene from './scenes/TownhallInteriorScene.js';
-import TownSquareScene from './scenes/TownSquareScene.js';
-import HarborScene from './scenes/HarborScene.js';
-import EchoDrainDeltaScene from './scenes/EchoDrainDeltaScene.js';
-import RedmassIslandScene from './scenes/RedmassIslandScene.js';
 import SkyshipBoardScene from './scenes/SkyshipBoardScene.js';
 import IntroScene from './scenes/IntroScene.js';
 import TransitionScene from './scenes/TransitionScene.js';
 import ScraperInteriorScene from './scenes/ScraperInteriorScene.js';
 import ScraperAmbraScene from './scenes/ScraperAmbraScene.js';
-import ScraperBackyardScene from './scenes/ScraperBackyardScene.js';
-import RustDomainScene from './scenes/RustDomainScene.js';
-import AbandonedBusScene from './scenes/AbandonedBusScene.js';
-import LumenDirectorateScene from './scenes/LumenDirectorateScene.js';
-import LumenDirectorateInteriorScene from './scenes/LumenDirectorateInteriorScene.js';
-import PithReclaimersRoomScene from './scenes/PithReclaimersRoomScene.js';
-import CardinalFeastScene from './scenes/CardinalFeastScene.js';
-import GodgraveyardScene from './scenes/GodgraveyardScene.js';
-import ScraperCellarScene from './scenes/ScraperCellarScene.js';
-import EggCathedralInteriorScene from './scenes/EggCathedralInteriorScene.js';
-import EggCathedralStudyScene from './scenes/EggCathedralStudyScene.js';
 import CreditsScene from './scenes/CreditsScene.js';
 
 // WebGL errors are handled by error-blocker.js
@@ -65,7 +48,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, TownhallScene, TownhallInteriorScene, TownSquareScene, HarborScene, EchoDrainDeltaScene, RedmassIslandScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, RustDomainScene, AbandonedBusScene, LumenDirectorateScene, LumenDirectorateInteriorScene, CardinalFeastScene, GodgraveyardScene, ScraperCellarScene, EggCathedralInteriorScene, EggCathedralStudyScene, CreditsScene, PithReclaimersRoomScene],
+    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, CreditsScene],
     backgroundColor: '#000000', // canvas clear — the not-yet-widened scene backgrounds show black (not grey) beside them
     scale: {
         // The game renders at a fixed 1067×600 (16:9). FIT scales it uniformly to fill the window,

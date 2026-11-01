@@ -1,3 +1,4 @@
+import { playableScene } from '../utils/demo.js';
 /**
  * SaveSystem.js - Handles saving and loading game state
  */
@@ -355,10 +356,11 @@ export default class SaveSystem {
         }
 
         // Switch to the saved scene if different from current
-        if (saveData.currentScene && saveData.currentScene !== this.scene.scene.key) {
-            console.log(`Switching to scene: ${saveData.currentScene}`);
-            this.scene.scene.start(saveData.currentScene, { 
-                loadedPosition: saveData.player.position,
+        const targetScene = saveData.currentScene && playableScene(this.scene.scene.manager, saveData.currentScene);
+        if (targetScene && targetScene !== this.scene.scene.key) {
+            console.log(`Switching to scene: ${targetScene}`);
+            this.scene.scene.start(targetScene, { 
+                loadedPosition: targetScene === saveData.currentScene ? saveData.player.position : null,
                 loadedSave: true // Flag to indicate this is a loaded save
             });
         } else if (saveData.player.position && this.scene.player) {
