@@ -22,6 +22,7 @@ import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.j
 import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
 import { preloadMenuKit } from '../utils/menuKit.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { isDemoClosed, preloadDemoCones, sayDemoClosed } from '../utils/demo.js';
 
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
@@ -128,6 +129,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         preloadHudButtons(this); // inventory / map / journal / quests buttons
         preloadMenuKit(this);    // the ESC menu's plaques and panels
+        preloadDemoCones(this);  // DEMO_BUILD: the traffic cones in closed exits (utils/demo.js)
         // native-resolution sheet (tools/artgen/hero.py, Aseprite source Hero_priest_128): 0-3 idle, 4-11 walk; shown at scale 1
         this.load.spritesheet('priest', 'assets/images/characters/priest.png', {
             frameWidth: 128,
@@ -1390,6 +1392,7 @@ export default class GameScene extends Phaser.Scene {
 
     transitionToScene(newScene) {
         if (this.isTransitioning) return;
+        if (isDemoClosed(newScene)) { sayDemoClosed(this); return; }
         this.isTransitioning = true;
         
         // Stop any player movement and set to idle

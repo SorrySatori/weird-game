@@ -182,7 +182,37 @@ def barrel_fire():
     for i, f in enumerate(frames): sheet.paste(f, (i * FW_, 0))
     return sheet
 
+# ------------------------------------------------------------------ demo: a traffic cone closing off a way (bottom-centre)
+CONE_OR = ramp('#3a1608 #5e2410 #8a3614 #b44c1a #d8682a #f08a44')              # weathered safety orange
+CONE_RF = ramp('#5c625c #8a8f86 #b9bcb2 #dfe0d6')                              # the reflective bands, scuffed
+def traffic_cone(k=1.0):
+    """k scales the cone (0.6 = a far one, at the end of a street) -- drawn at that size, not scaled up/down"""
+    W_, H_ = round(32 * k), round(46 * k); PIX, PART = canvas(W_, H_)
+    cx, top, base = W_ / 2 - 0.5, round(4 * k), H_ - round(9 * k)             # tip row, where the body meets the foot
+    for y in range(top, base + 1):
+        t = (y - top) / (base - top)
+        half = (1.6 + 7.4 * t) * k
+        for x in range(int(cx - half) - 1, int(cx + half) + 2):
+            u = (x + 0.5 - cx) / half
+            if abs(u) > 1: continue
+            lam = max(0.0, 0.62 - u * 0.55 + math.sqrt(max(0.0, 1 - u * u)) * 0.45)   # lit from the upper left
+            band = 0.30 < t < 0.42 or 0.58 < t < 0.70
+            v = 0.6 + 4.2 * lam + (nB(x * 3, y * 3) - 0.5) * 0.9 - (0.8 if t > 0.9 else 0)
+            if band:
+                c = CONE_RF[max(0, min(3, int(v * 0.75)))]
+                if h32(x, y, 31) % 11 == 0: c = CONE_RF[0]                              # scuffs in the reflective film
+            else:
+                c = CONE_OR[max(0, min(5, int(v)))]
+                if t > 0.78 and nA(x * 2, y * 2) > 0.6: c = WOOD[3]                     # street dirt splashed up the base
+            PIX[(x, y)] = c; PART[(x, y)] = 'band' if band else 'cone'
+    for y in range(base + 1, base + 1 + max(2, round(4 * k))):                       # the square rubber foot
+        for x in range(round(3 * k), W_ - round(3 * k)):
+            v = 1.2 + (1.4 if y == base + 1 else 0) - (0.6 if x > W_ - round(8 * k) else 0) + (nB(x * 2, y * 2) - 0.5) * 0.6
+            PIX[(x, y)] = STONE[max(0, min(9, int(v + 1)))]; PART[(x, y)] = 'foot'
+    return finish(PIX, PART, W_, H_, soft={frozenset(('cone', 'band'))})
+
 bush().save(f'{OUT}/prop_bush_flowering.png'); vine().save(f'{OUT}/prop_vine_clump.png'); mushrooms().save(f'{OUT}/prop_mushroom_cluster.png')
 trash().save(f'{OUT}/prop_trash_pile.png'); crate().save(f'{OUT}/prop_crate_broken.png'); rubble().save(f'{OUT}/prop_rubble.png')
 barrel_fire().save(f'{OUT}/prop_barrel_fire.png')
+traffic_cone().save(f'{OUT}/prop_traffic_cone.png'); traffic_cone(0.6).save(f'{OUT}/prop_traffic_cone_far.png')
 print('props done')

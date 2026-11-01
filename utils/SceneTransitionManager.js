@@ -3,6 +3,7 @@
  * Handles scene transitions with consistent behavior across all scenes
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { isDemoClosed, placeDemoCones, demoClosedLabel, sayDemoClosed } from './demo.js';
 
 export default class SceneTransitionManager {
     constructor(scene) {
@@ -92,6 +93,9 @@ export default class SceneTransitionManager {
 
         destinationName = this.exitLabel(destinationName, targetScene, direction);
 
+        // the demo build: a way into a place outside the demo is closed off by a traffic cone
+        if (isDemoClosed(targetScene)) return this.createClosedExit({ x: x - width / 2, y: y - height / 2, w: width, h: height }, targetScene);
+
         // Create the interactive zone
         const zone = this.scene.add.zone(x, y, width, height)
             .setInteractive({ useHandCursor: true })
@@ -178,6 +182,7 @@ export default class SceneTransitionManager {
                 [shape.rect[0] + shape.rect[2], shape.rect[1] + shape.rect[3]], [shape.rect[0], shape.rect[1] + shape.rect[3]]];
         const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
         const bx = Math.min(...xs), by = Math.min(...ys), bw = Math.max(...xs) - bx, bh = Math.max(...ys) - by;
+        if (isDemoClosed(target)) return this.createClosedExit({ x: bx, y: by, w: bw, h: bh }, target);
 
         // the hit area is the shape itself, in the zone's local space (its top-left corner)
         const zone = this.scene.add.zone(bx, by, bw, bh).setOrigin(0, 0).setDepth(10);
@@ -232,6 +237,29 @@ export default class SceneTransitionManager {
     }
 
     /**
+     * DEMO_BUILD: an exit into a place outside the demo. Cones stand in it; the hover says it's closed and a click makes
+     * the priest remark on it instead of leaving. No arrow-key edge exit. `r` = the exit's rect in canvas coords.
+     */
+    createClosedExit(r, targetScene) {
+        const zone = this.scene.add.zone(r.x, r.y, r.w, r.h).setOrigin(0, 0).setDepth(10).setInteractive({ useHandCursor: true });
+        zone.destinationName = demoClosedLabel();                       // the hint lantern labels it too
+        const cones = placeDemoCones(this.scene, this.scene.scene.key, targetScene, r.x + r.w / 2, Math.min(r.y + r.h, 560), r.w);
+        const top = Math.min(r.y, ...cones.map(c => c.y - c.displayHeight));
+        const text = this.scene.add.text(r.x + r.w / 2, Math.max(24, top - 6), zone.destinationName, {
+            fontSize: '14px', fontFamily: 'Arial', fill: '#ffd7a8', align: 'center', fontStyle: 'bold',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: { x: 8, y: 4 }
+        }).setOrigin(0.5, 1).setDepth(30).setAlpha(0).setStroke('#000000', 2);
+        zone.on('pointerover', () => text.setAlpha(1));
+        zone.on('pointerout', () => text.setAlpha(0));
+        zone.on('pointerdown', (pointer, localX, localY, event) => {
+            event.stopPropagation();
+            sayDemoClosed(this.scene);
+        });
+        this.transitionElements.push({ zone, elements: { textContainer: text } });
+        return zone;
+    }
+
+    /**
      * Handle scene transition with consistent behavior
      * @param {string} targetScene - Target scene key
      * @param {number} walkX - X position to walk to before transition
@@ -241,6 +269,7 @@ export default class SceneTransitionManager {
     handleSceneTransition(targetScene, walkX, walkY, options = {}) {
         // Prevent multiple transitions
         if (this.scene.isTransitioning) return;
+        if (isDemoClosed(targetScene)) { sayDemoClosed(this.scene); return; }   // a custom hotspot into a closed place
         this.scene.isTransitioning = true;
         
         // Merge options with defaults

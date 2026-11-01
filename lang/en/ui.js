@@ -106,6 +106,12 @@ export default {
         },
 
         // Inventory
+        // DEMO_BUILD: an exit into a place outside the demo (utils/demo.js)
+        demo: {
+            closedLabel: 'Closed in the demo',
+            closedLine: "A traffic cone. This way doesn't go on in the demo.",
+        },
+
         inventory: {
             button: 'Inventory',
             panelTitle: 'INVENTORY',

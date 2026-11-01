@@ -3,6 +3,7 @@
  * Fast travel map of Upper Morkezela. Shows visited locations as clickable nodes.
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { isDemoClosed } from '../utils/demo.js';
 
 export default class MapUI {
     constructor(scene) {
@@ -89,6 +90,7 @@ export default class MapUI {
     }
 
     isVisited(sceneKey) {
+        if (isDemoClosed(sceneKey)) return false;   // the demo build: places outside it never show up (an old save may know them)
         const visited = this.scene.registry.get('visitedScenes') || [];
         const loc = this.locations.find(l => l.key === sceneKey);
         return [sceneKey, ...(loc?.inside || [])].some(k => visited.includes(k));

@@ -2,6 +2,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { isDemoClosed } from '../utils/demo.js';
 
 export default class ScraperInteriorScene extends GameScene {
     constructor() {
@@ -52,11 +53,12 @@ export default class ScraperInteriorScene extends GameScene {
             importance: cs ? "Nebo mě přesvědč, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují – to už je něco jiného."
                            : "Or convince me it truly is a matter of importance. One story about the Bishop is gossip. Two that agree are another matter."
         };
-        const hasRustPassword = !!(questSystem?.getQuest('rust_feast')?.isComplete);
+        // (the demo build: the Rust Domain and the cellar aren't in it, so the Lift-Mother doesn't offer them)
+        const hasRustPassword = !!(questSystem?.getQuest('rust_feast')?.isComplete) && !isDemoClosed('RustDomainScene');
 
         // Sealed cellar (Ortolan & Elphi's old lab). The lift wants a passphrase = a dead
         // god's epitaph from the Godgraveyard. Exactly one is correct.
-        const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started');
+        const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started') && !isDemoClosed('ScraperCellarScene');
         const cellarPasswordKnown = !!this.hasJournalEntry('cellar_password_learned');
         const CELLAR_PASSWORD = 'I FOLD';
         const GRAVE_EPITAPHS = {

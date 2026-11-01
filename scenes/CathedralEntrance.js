@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { isDemoClosed, sayDemoClosed } from '../utils/demo.js';
 
 export default class CathedralEntrance extends GameScene {
     constructor() {
@@ -421,6 +422,7 @@ export default class CathedralEntrance extends GameScene {
 
     enterCathedralInterior() {
         if (this.isTransitioning) return;
+        if (isDemoClosed('EggCathedralStudyScene')) { sayDemoClosed(this); return; }
         this.isTransitioning = true;
         if (this.clickSound) this.clickSound.play();
         this.cameras.main.fadeOut(600, 0, 0, 0);

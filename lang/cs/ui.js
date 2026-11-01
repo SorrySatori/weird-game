@@ -106,6 +106,12 @@ export default {
         },
 
         // Inventář
+        // DEMO_BUILD: an exit into a place outside the demo (utils/demo.js)
+        demo: {
+            closedLabel: 'V demu uzavřeno',
+            closedLine: "Dopravní kužel. Tudy se v demu dál nedostanu.",
+        },
+
         inventory: {
             button: 'Inventář',
             panelTitle: 'INVENTÁŘ',
