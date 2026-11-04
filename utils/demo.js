@@ -52,6 +52,34 @@ export function placeDemoCones(scene, fromScene, toScene, x, bottom, width) {
 
 export const demoClosedLabel = () => LanguageSystem.getInstance().t('ui.demo.closedLabel');
 
+/** The full game on Steam (the demo is app 5564540). */
+export const STEAM_APP_ID = 4118600;
+
+/**
+ * The full game's store page: in the Electron build the main process opens it in the Steam client (falling back to
+ * the browser); in a plain browser a new tab.
+ */
+export function openStorePage() {
+    if (typeof window === 'undefined') return;
+    if (window.appControl?.openStore) window.appControl.openStore();
+    else window.open(`https://store.steampowered.com/app/${STEAM_APP_ID}/`, '_blank', 'noopener');
+}
+
+/**
+ * The end-of-demo card (scenes/DemoEndScene.js), once per playthrough: pauses `scene` and lays the card over it.
+ * The flag rides in the saved `onceFlags`, so a reloaded save past this point doesn't show it again.
+ */
+export function showDemoEnd(scene) {
+    if (!DEMO_BUILD || !scene?.onceEver) return;
+    scene.onceEver('demo_end_card', () => {
+        scene.time.delayedCall(700, () => {
+            if (!scene.scene.isActive()) return;
+            scene.scene.pause();
+            scene.scene.launch('DemoEndScene', { from: scene.scene.key });
+        });
+    });
+}
+
 /** The priest's aside at a cone (a speech bubble, so it reads as part of the world). */
 export function sayDemoClosed(scene) {
     const line = LanguageSystem.getInstance().t('ui.demo.closedLine');

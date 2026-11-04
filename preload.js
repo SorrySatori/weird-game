@@ -219,7 +219,9 @@ try {
     quit: () => ipcRenderer.send('app:quit'),
     // the Settings panel's fullscreen toggle (systems/GameSettings.js)
     setFullscreen: (on) => ipcRenderer.send('app:setFullscreen', !!on),
-    isFullscreen: () => ipcRenderer.invoke('app:isFullscreen')
+    isFullscreen: () => ipcRenderer.invoke('app:isFullscreen'),
+    // the end-of-demo card's "Wishlist on Steam" (utils/demo.js openStorePage); the URL is fixed in the main process
+    openStore: () => ipcRenderer.send('app:openStore')
   });
 } catch (_) {
   // not running as an Electron preload script

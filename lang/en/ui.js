@@ -110,6 +110,17 @@ export default {
         demo: {
             closedLabel: 'Closed in the demo',
             closedLine: "A traffic cone. This way doesn't go on in the demo.",
+            // the end-of-demo card (scenes/DemoEndScene.js)
+            end: {
+                title: 'End of the Demo',
+                body: "Thank you for playing! Elphi's key opens the Scraper's backyard — and that's where the demo ends. "
+                    + 'The search for the Bishop goes on in the full game, across all of Upper Morkezela: its districts, '
+                    + 'its factions and the symbionts that would love to move into you.\n\n'
+                    + "You can stay a while longer — whatever you haven't finished is still waiting.",
+                wishlist: 'Wishlist on Steam',
+                continue: 'Keep exploring',
+                storeOpened: 'The store page is opening in Steam.',
+            },
         },
 
         inventory: {

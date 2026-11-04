@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -79,6 +79,14 @@ ipcMain.on('app:setFullscreen', (_e, on) => {
   mainWindow.setFullScreen(on);
 });
 ipcMain.handle('app:isFullscreen', () => !!mainWindow && mainWindow.isFullScreen());
+
+// The end-of-demo card's "Wishlist on Steam": the full game's store page, in the Steam client if it's there, else the
+// browser. The renderer only asks; the URL never comes from it.
+const STORE_APP_ID = 4118600;
+ipcMain.on('app:openStore', () => {
+  const web = `https://store.steampowered.com/app/${STORE_APP_ID}/`;
+  shell.openExternal(`steam://store/${STORE_APP_ID}`).catch(() => shell.openExternal(web).catch(() => {}));
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

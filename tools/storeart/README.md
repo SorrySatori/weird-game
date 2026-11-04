@@ -6,7 +6,12 @@ pixel-art logo (`tools/artgen/menu_logo.py`, store variant with "A WEIRD GAME") 
 ```sh
 python3 tools/storeart/store_art.py                        # → tools/storeart/out/ (git-ignored) + _contact_sheet.png
 python3 tools/storeart/store_art.py --art path/to/painting.png   # a new key art, same compositions
+python3 tools/storeart/store_art.py --demo                 # the demo app's set → tools/storeart/out/demo/
 ```
+
+`--demo` puts a riveted bronze **DEMO** plaque under the name on every capsule, the library capsule/header and the
+library logo (a demo's capsules and library assets have to show it's a demo); the hero and the page background stay
+text-free. Upload them to the demo app (5564540), not to the full game.
 
 | File | Steamworks slot | Notes |
 |---|---|---|
