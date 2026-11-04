@@ -17,9 +17,7 @@ export default {
             im_looking_for_the_bishop_have_you_seen_her: "Hledám Biskupku. Neviděl jsi ji?",
             i_have_the_living_core_you_wanted: "Mám to živé jádro, co jsi chtěl",
             about_that_living_core_you_lied_to_me: "Ohledně toho živého jádra... lhal jsi mi.",
-            im_looking_for_the_way_how_to_reach_the_rust_choir: "Hledám cestu k centrále Rezavého chóru ve Škrabáku. Můžeš mi pomoct?",
-            gnur_spy_probe: "Říkal jsi, že prodáváš šuškandu. Je něco, co Rezavý chór tají?",
-            gnur_spy_ulvarex: "[Ulvarex · Tkaní přeludů] (Ať uvidí nadřízeného z Chóru a dostaň z něj celou pravdu.)"
+            im_looking_for_the_way_how_to_reach_the_rust_choir: "Hledám cestu k centrále Rezavého chóru ve Škrabáku. Můžeš mi pomoct?"
         }
     },
     background: {
@@ -124,18 +122,6 @@ export default {
         text: "Fanoušek rezavých věcí a strojů, jo? No, nadšení máme rádi. Dokaž nejdřív svou oddanost tím, že splníš malý úkol. Promluv si s Ravlou v hospodě Řvoucí korek. Bude pro tebe mít iniciační zkoušku. Když ji zvládneš, možná se staneš jedním z nás.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného"
-        }
-    },
-    gnur_spy_secret: {
-        text: "Gnurův hlas klesne do spikleneckého mumlání. „Drby, jo? Pro tebe lacino – mám dneska dobrou náladu.“ Nakloní se blíž, dech je cítit olejem a statickou elektřinou. „Chór má někoho *uvnitř* Direktorátu. Jeden z jejich upjatých archivářků nám potajmu zpívá – donáší Brukkovi, které stroje se Direktorát chystá odepsat, takže víme, které stroje půjdou pořídit lacino. Ty krásný lidičky si myslí, že zvelebují město. Ve skutečnosti nám jen ukazují, kde kopat.“ S úšklebkem se narovná. „Tahle informace má větší cenu, než jsi mi dal.“",
-        options: {
-            gnur_spy_secret_close: "Máš pravdu, stálo to za to. (Zapamatovat si to.)"
-        }
-    },
-    gnur_spy_ulvarex_read: {
-        text: "Ulvarex tě zahalí zářivým světlem – a Gnurovi se oči rozšíří, když na tvém místě najednou uvidí stát svého nadřízeného. „Á – neslyšel jsem tě přijít, šéfe, odpusť–“ Narovná se, dychtivý zavděčit se přeludu. „Ten špion? Jo, jo, pořád zpívá sladce. Ten malý archivářek v Direktorátu donáší Brukkovi o tom, co se zrovna chystají odepsat, ať víme jako první, které stroje půjdou vykoupit lacino. A prý je uvnitř ještě *druhý* pár uší, výš postavený, ale jméno mi neřekli.“ Zamrká, jak se přelud pomalu vytrácí. „...Počkat. Kdo–“ Pozdě; už všechno víš.",
-        options: {
-            gnur_spy_ulvarex_close: "(Nechat přelud rozplynout.)"
         }
     }
 };

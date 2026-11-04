@@ -313,8 +313,6 @@ const CAMEOS = {
     burning_bear: who('a bear costume that has had enough', 'n', 'medvědí kostým|medvědího kostýmu|medvědímu kostýmu|medvědí kostým|medvědím kostýmem|medvědím kostýmu', 'm', ', který už toho má dost'),
     board_games_war: who('a pawn still traumatised by the Board Game Wars', 'm', 'pěšák|pěšáka|pěšákovi|pěšáka|pěšákem|pěšákovi', 'm', ' s traumatem z Deskovkových válek'),
     noise_god: who('a dead god who now lives in a broken amplifier', 'm', 'mrtvý bůh|mrtvého boha|mrtvému bohu|mrtvého boha|mrtvým bohem|mrtvém bohu', 'm', ', který teď bydlí v rozbitém zesilovači'),
-    magnekin: who('a man made of tiny cities whose suburbs keep running away', 'm', 'muž z malinkých měst|muže z malinkých měst|muži z malinkých měst|muže z malinkých měst|mužem z malinkých měst|muži z malinkých měst', 'm', ', kterému pořád utíkají předměstí'),
-    god_graveyard: who('a divinographer who reads gods by their bones', 'm', 'divinograf|divinografa|divinografovi|divinografa|divinografem|divinografovi', 'm', ', který čte bohy z kostí'),
     city_mystery: who('a street that moves house when nobody is looking', 'n', 'ulice|ulice|ulici|ulici|ulicí|ulici', 'f', ', která se stěhuje, když se nikdo nedívá'),
     misutken_life: who('a mišutkenn landlord with a strict no-bears policy', 'm', 'mišutkenní domácí|mišutkenního domácího|mišutkennímu domácímu|mišutkenního domácího|mišutkenním domácím|mišutkenním domácím', 'm', ', který zakázal medvědy'),
 };
@@ -714,12 +712,9 @@ const CRITICS = [
     { req: 'met_ravla', en: '"Too long. I read it twice." — Ravla', cs: '„Moc dlouhé. Přečetla jsem to dvakrát.“ — Ravla' },
     { req: 'heliodor_lore', en: '"We read it in shifts. Oorarabaz woke up for chapter nine." — Heliodor', cs: '„Četli jsme to na směny. Kvůli deváté kapitole jsme vzbudili i Oorarabaze.“ — Heliodor' },
     { req: 'kloor_venn_meeting', en: '"Side effects include feelings. Somewhat." — Kloor Venn', cs: '„Vedlejší účinky: city. Tak trochu.“ — Kloor Venn' },
-    { req: 'magnekin_reveal', en: '"A real citizen would buy two copies. I bought two copies." — Magnekin', cs: '„Skutečný občan by si koupil dva výtisky. Koupil jsem si dva výtisky.“ — Magnekin' },
-    { req: 'phor_calesta', en: '"It fossilises beautifully." — Phor Calesta', cs: '„Krásně to zkamenělo.“ — Phor Calesta' },
     { req: 'lift_mother_meeting', en: '"Finally, someone writes about {S}. Going up?" — the Lift-Mother', cs: '„Konečně někdo píše o {S.l}. Jedeme nahoru?“ — Lift-Mother' },
     { req: 'met_dr_elphi', en: '"Derivative. I\'d have dreamed it better." — Dr. Elphi Quarn', cs: '„Odvozené. Já bych to vysnila líp.“ — Dr. Elphi Quarn' },
     { req: 'gnur_meeting', en: '"Ain\'t read it. Sold it twice, though." — Gnur', cs: '„Nečet’ jsem to. Ale dvakrát jsem to prodal.“ — Gnur' },
-    { req: 'met_seldo', en: '"I laughed, I cried, I filed a complaint." — Seldo Thrice-Corrected', cs: '„Smál jsem se, plakal jsem, podal jsem stížnost.“ — Seldo Třikrát-Korigovaný' },
     { req: null, en: '"{^P}? That\'s me. I\'m suing the author." — someone at the Screaming Cork', cs: '„{^P}? Vždyť to jsem já. Budu autora žalovat.“ — kdosi ve Řvoucím korku' },
     { req: null, en: '"Ten out of ten. Would get lost {S.in} again." — a disoriented tourist', cs: '„Deset z deseti. Klidně bych se {S.in} ztratil znovu.“ — jeden dezorientovaný turista' },
 ];

@@ -15,8 +15,7 @@ export default {
             do_you_know_anything_about_the_bishop: "Víte něco o Biskupce?",
             about_those_vestigels: "O Vestigelech...",
             i_have_a_vestigel_for_you: "Mám pro vás vestigel.",
-            can_you_help_me_to_get_to_rust_choir_headquarters: "Můžete mi pomoct dostat se do centrály Rezavého chóru?",
-            i_need_your_expertise_on_some_sulkberries: "Potřebuji vaši expertízu ohledně mručenek."
+            can_you_help_me_to_get_to_rust_choir_headquarters: "Můžete mi pomoct dostat se do centrály Rezavého chóru?"
         }
     },
     kloor_who: {
@@ -124,26 +123,6 @@ export default {
             back: "Zeptej se na něco jiného"
         }
     },
-    kloor_sulkberry_analyze: {
-        text: "Kloor chytne vzorek mručenky obratně mezi prsty, otáčí jí mezi palcem a ukazováčkem. Přičichne, pak z kabátu vytáhne malou skleněnou nádobu a rozdrtí do ní úlomek. Kapalina se zbarví do husté, jantarové barvy.\n\n'Kořeněná mručenka. Prémiová kvalita – toto je zboží Direktorátu, bez pochyb. Alkaloidní profil je...' Zvedne nádobu proti světlu. '...učebnicový.'\n\nOdloží nádobu. 'S tímhle není nic špatně. Žádné příměsi, žádné toxiny, žádné cizí látky.'",
-        options: {
-            photosentience_read_kloors_biosignals_for_deceptio: "[Fotosenzitivita] Číst Kloorovy biosignály kvůli podvodu.",
-            youre_sure_your_reputation_is_on_the_line: "Jste si jistý? Je to o vaši reputaci.",
-            thanks_for_the_analysis: "Díky za analýzu."
-        }
-    },
-    kloor_sulkberry_neme: {
-        text: "Necháš vědomí Neme prosáknout ven a číst síť biosignálů kolem Kloorovy nervové soustavy. Zájem – upřímný, vědecký zájem. Profesní hrdost z jeho analýzy. Záblesk oportunismu, přemýšlející, jestli by vám nemohl účtovat za konzultaci. Ale žádný podvod. Žádné zatajování.\n\nNeme mrumlá: 'Obchodník s drogami je spousta věcí, ale lhář ohledně chemie není. Bude se to zdát divné, ale jeho profesní čest by mu to nedovolila.'\n\nKloorova analýza je upřímná. Mručenky jsou čisté.",
-        options: {
-            good_to_know_thanks_kloor: "Dobré vědět. Díky, Kloore."
-        }
-    },
-    kloor_sulkberry_sure: {
-        text: "'Moje reputace JE moje živobytí.' Kloor vypadá téměř uraženě. 'Analyzuji alkaloidní sloučeniny celé roky. Vím, jak vypadá kontaminace – ať už podle barvy nebo krystalické struktury.\n\nTyhle plody jsou nedotčené.'",
-        options: {
-            back: "Zeptej se na něco jiného"
-        }
-    },
     kloor_bishop_location: {
         text: "'Nedokážu říct s jistotou. Cesty biskupky jsou nevyzpytatelné.' Ušklíbne se vlastnímu vtipu. 'Ale slyšel jsem, že navštěvuje trh pravidelně.'",
         options: {
@@ -211,14 +190,7 @@ export default {
         text: "Kloor tě zamyšleně pozoruje. 'Centrála Rezavého chóru, co? To není zrovna veřejná znalost. Ale... mohl bych ti pomoct. Za správnou cenu, samozřejmě.'",
         options: {
             what_do_you_need: "Co potřebujete?",
-            come_on_i_did_some_favors_for_the_rust_choir_alrea: "No tak, už jsem pro Rezavý chór udělal pár laskavostí. Jsme prakticky kámoši.",
             never_mind_i_have_other_questions: "Nechte to, mám jiné otázky."
-        }
-    },
-    factionAppeal: {
-        text: "Kloor zvedne obočí a zváží tvou prosbu. 'No, asi můžu udělat výjimku pro někoho, kdo prokázal laskavost Rezavému chóru. Jen tentokrát. Promluv si s Ravlou ve Řvoucím korku. Otestuje tě. Když projdeš, pustí tě dál.'",
-        options: {
-            i_have_other_questions: "Mám jiné otázky."
         }
     },
     rustDomain_price: {

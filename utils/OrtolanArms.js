@@ -1,7 +1,6 @@
 /**
  * Ortolan's "extra arms" paperwork (quest `ortolan_arms`): which documents he accepts and what he gives
- * back for each. On Day 1 the player hands them over in ShedCourtyardScene (a reaction per form); on Day 2
- * he has moved to Burning Bear Street and takes whatever the player still carries (handOverArmsPaperwork).
+ * back for each. The player hands them over in ShedCourtyardScene (a reaction per form).
  */
 export const ARMS_PAPERWORK = [
     {
@@ -55,23 +54,4 @@ export const ARMS_PAPERWORK = [
 export function armsReward(form) {
     const entry = ARMS_PAPERWORK.find(p => p.form === form);
     return entry ? { ...entry.reward } : null;
-}
-
-/** The paperwork the player can still hand over (quest open + document in the pack), best first. */
-export function heldArmsPaperwork(scene) {
-    const quest = scene.questSystem?.getQuest('ortolan_arms');
-    if (!quest || quest.isComplete) return null;
-    return ARMS_PAPERWORK.find(p => scene.hasItem?.(p.form)) || null;
-}
-
-/** Day-2 hand-over: take the document, give the matching gift, close the quest. Idempotent. */
-export function handOverArmsPaperwork(scene) {
-    const paper = heldArmsPaperwork(scene);
-    if (!paper) return false;
-    scene.removeItemFromInventory(paper.form);
-    scene.addItemToInventory(armsReward(paper.form));
-    scene.modifyGrowthDecay?.(paper.growth, paper.decay);
-    scene.questSystem.updateQuest('ortolan_arms', 'I brought Ortolan the paperwork for his extra arms. He gave me a gift as thanks.', 'completed');
-    scene.questSystem.completeQuest('ortolan_arms');
-    return true;
 }

@@ -137,7 +137,7 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Load sound assets
-        this.load.audio('backgroundMusic', 'assets/sounds/infinite_fold.mp3');
+        this.load.audio('backgroundMusic', 'assets/sounds/entry-theme.mp3');
         this.load.audio('cathedralTheme', 'assets/sounds/cathedral-theme.wav');
         this.load.audio('marketTheme', 'assets/sounds/market-theme.wav');
         this.load.audio('clickSound', 'assets/sounds/click.mp3');
@@ -1637,16 +1637,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
-     * Which in-game day are we on. Day 2 begins once the player has slept at the
-     * end of Day 1 (persisted via the journal, so it survives save/load).
-     * Scenes should gate Day-2 content behind this rather than duplicating scenes.
-     * @returns {boolean}
-     */
-    isDay2() {
-        return !!this.hasJournalEntry('day1_complete_slept');
-    }
-    
-    /**
      * Get a specific journal entry
      * @param {string} id - Entry identifier
      * @returns {Object|null} - The journal entry or null if not found
@@ -1804,11 +1794,6 @@ export default class GameScene extends Phaser.Scene {
         const key = `mood.${npcKey}.${tendency}`;
         const line = LanguageSystem.getInstance().t(key);
         return line === key ? '' : line; // t() returns the key path when missing
-    }
-
-    /** True once inducted into the Lumen Directorate. Save-persisted (journal-backed). */
-    isLumenMember() {
-        return !!this.hasJournalEntry('lumen_directorate_joined');
     }
 
     /** Idempotently record the Ink Tribunal as a discovered faction — the gate for joining them. */

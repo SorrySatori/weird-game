@@ -2,7 +2,6 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
-import { isDemoClosed } from '../utils/demo.js';
 
 export default class ScraperInteriorScene extends GameScene {
     constructor() {
@@ -53,30 +52,6 @@ export default class ScraperInteriorScene extends GameScene {
             importance: cs ? "Nebo mě přesvědč, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují – to už je něco jiného."
                            : "Or convince me it truly is a matter of importance. One story about the Bishop is gossip. Two that agree are another matter."
         };
-        // (the demo build: the Rust Domain and the cellar aren't in it, so the Lift-Mother doesn't offer them)
-        const hasRustPassword = !!(questSystem?.getQuest('rust_feast')?.isComplete) && !isDemoClosed('RustDomainScene');
-
-        // Sealed cellar (Ortolan & Elphi's old lab). The lift wants a passphrase = a dead
-        // god's epitaph from the Godgraveyard. Exactly one is correct.
-        const cellarQuestStarted = !!this.hasJournalEntry('cellar_quest_started') && !isDemoClosed('ScraperCellarScene');
-        const cellarPasswordKnown = !!this.hasJournalEntry('cellar_password_learned');
-        const CELLAR_PASSWORD = 'I FOLD';
-        const GRAVE_EPITAPHS = {
-            grave_laimig: 'I FOLD',
-            grave_sisyla: 'SLEEP HAS NO DOOR',
-            grave_vhorn: 'COUNT ME OUT',
-            grave_liln: 'BE KIND, THEN LEAVE',
-            grave_lietus: 'IT WAS ONLY YESTERDAY'
-            // Hvétrdjaana's inscription is unreadable — no usable passphrase (atmosphere only).
-        };
-        const cellarCandidates = Object.keys(GRAVE_EPITAPHS)
-            .filter(id => this.hasJournalEntry(id))
-            .map(id => ({ id, ep: GRAVE_EPITAPHS[id] }));
-
-        // Palinode (Seam-Sense) can open a seam into one of the sealed "dead floors" the
-        // Lift-Mother can no longer reach — a duplicate level the building forgot to keep.
-        const hasPalinode = !!this.symbiontSystem?.hasSymbiont('palinode');
-        const deadFloorOpened = !!this.registry.get('scraper_deadfloor_opened');
 
         const interiorContent = {
             speaker: 'Lift-Mother',
@@ -86,9 +61,6 @@ export default class ScraperInteriorScene extends GameScene {
                     ...(elphiFloorOpen
                         ? [{ text: "Take me to 177-Quiet.", key: 'take_me_to_177_quiet', next: "goto_elphi_floor" }]
                         : hasElphiBishopInfo ? [{ text: "I need to reach Dr. Elphi's floor.", key: 'i_need_to_reach_dr_elphis_floor', next: "lift_mother_elphi_floor" }] : []),
-                    ...(hasRustPassword ? [{ text: "Corrode.", key: 'corrode', next: "lift_mother_corrode" }] : []),
-                    ...(cellarQuestStarted ? [{ text: cellarPasswordKnown ? "Take me down to the old cellar." : "Take me down to the sealed cellar.", key: 'descend_to_cellar', next: cellarPasswordKnown ? "goto_scraper_cellar" : "lift_mother_cellar_prompt" }] : []),
-                    ...(hasPalinode && !deadFloorOpened ? [{ text: "[Seam-Sense] The sealed dead floors — feel for a way in.", key: 'seam_scraper_deadfloors', next: "seam_scraper_prompt" }] : []),
                     { text: "Can you take me to other floors?", key: 'can_you_take_me_to_other_floors', next: "lift_mother_floors" },
                     { text: "What is the Before-Time?", key: 'what_is_the_beforetime', next: "lift_mother_before_time" },
                     { text: "Are you... alive?", key: 'are_you_alive', next: "lift_mother_alive" },
@@ -353,114 +325,6 @@ export default class ScraperInteriorScene extends GameScene {
                             'I need to find a way to meet the Rust Choir who reside on the upper floors of the Scraper building. The Lift-Mother mentioned that they may choose to interact with the city below, so I should look for members of the Rust Choir in the city.'
                         );
                     }
-                }
-            },
-            lift_mother_corrode: {
-                text: `A long silence. Then the cables thrum. "...Corrode." The word reverberates through the shaft. "That is the old word. The Rust Word. You have earned passage, spore-child." A hidden panel slides open, revealing a button marked with a corroded gear symbol. The elevator lurches upward.`,
-                options: [
-                    { text: "Ascend to the Rust Domain.", key: 'ascend_to_the_rust_domain', next: "goto_rust_domain" }
-                ]
-            },
-            goto_rust_domain: {
-                text: "The elevator groans and shudders as it climbs past floors long abandoned. The air grows heavy with the scent of iron and oil. Numbers on the display flicker — 38... 39... 40... then symbols you don't recognize. The doors open with a rusted shriek.",
-                options: [
-                    { text: "Step out.", key: 'step_out', next: "closeDialog", onSelect: () => this.rideLiftTo('RustDomainScene') }
-                ]
-            },
-            lift_mother_cellar_prompt: {
-                text: `The cables draw taut. "The lower cellar? That door has been dark a long time, spore-child. It answered only one word — a name, given by the two who worked below. Speak it, if you carry it."`,
-                options: [
-                    ...(cellarCandidates.length
-                        ? cellarCandidates.map(c => ({
-                            text: `"${c.ep}"`,
-                            key: 'cellar_say_' + c.id,
-                            next: c.ep === CELLAR_PASSWORD ? "lift_mother_cellar_correct" : "lift_mother_cellar_wrong"
-                        }))
-                        : [{ text: "(You have no name to offer yet.)", key: 'cellar_no_name', next: "lift_mother_cellar_none" }]),
-                    { text: "Never mind.", key: 'cellar_never_mind', next: "lift_mother_start" }
-                ]
-            },
-            lift_mother_cellar_correct: {
-                text: `A long, warm hum. "...Yes. That is the name they gave the doors below. I had near forgotten it. Descent permitted, spore-child."`,
-                options: [
-                    { text: "Descend into the cellar.", key: 'descend_into_the_cellar', next: "goto_scraper_cellar" }
-                ],
-                onTrigger: () => {
-                    if (!this.hasJournalEntry('cellar_password_learned')) {
-                        this.addJournalEntry(
-                            'cellar_password_learned',
-                            'The Cellar Passphrase',
-                            'The passphrase to the sealed cellar under the Scraper is "I FOLD" — a dead god\'s name. The Lift-Mother opens the way down for it.',
-                            this.journalSystem.categories.EVENTS,
-                            { location: 'Scraper Cellar', related: 'Infinite Fold' }
-                        );
-                        if (this.questSystem?.getQuest('find_loop_copy')) {
-                            this.questSystem.updateQuest(
-                                'find_loop_copy',
-                                'I gave the Lift-Mother the right passphrase — "I FOLD," from the grave of Laimig Cel. It\'s taking me down to the sealed cellar under the Scraper.',
-                                'passphrase_accepted'
-                            );
-                        }
-                    }
-                }
-            },
-            lift_mother_cellar_wrong: {
-                text: `A pause, almost gentle. "...No. The doors below do not stir for that name. It is not the one they were given."`,
-                options: [
-                    { text: "Try another name.", key: 'try_another_name', next: "lift_mother_cellar_prompt" },
-                    { text: "Step back.", key: 'cellar_step_back', next: "lift_mother_start" }
-                ]
-            },
-            lift_mother_cellar_none: {
-                text: `"You bring me no name, child. The one you need is kept by the dead gods beneath the Townhall — read their graves, and come back with a name on your tongue."`,
-                options: [
-                    { text: "I'll go and read them.", key: 'go_read_graves', next: "lift_mother_start" }
-                ]
-            },
-            goto_scraper_cellar: {
-                text: '',
-                options: [],
-                onShow: () => {
-                    this.time.delayedCall(1400, () => {
-                        this.cameras.main.fadeOut(800, 0, 0, 0);
-                        this.cameras.main.once('camerafadeoutcomplete', () => {
-                            this.scene.start('ScraperCellarScene');
-                        });
-                    });
-                }
-            },
-            // --- Palinode / Seam-Sense: the sealed dead floors ---
-            seam_scraper_prompt: {
-                speaker: 'Palinode',
-                text: `Inside the shaft Palinode wakes and leans against the numbers. "She counts what still answers," it murmurs of the Lift-Mother. "But this building keeps floors it will not admit to — a level sealed the day the Egg came up, still holding its last held breath. The others rode past it without ever slowing. I can unsay the seam between two floors that were never supposed to touch. There is no lift to it. There is only the way I make. Shall I?"`,
-                options: [
-                    { text: "[Seam-Sense] Open the seam into the dead floor.", key: 'seam_scraper_open_opt', next: "seam_scraper_open" },
-                    { text: "Not now. Take me back.", key: 'seam_scraper_back', next: "lift_mother_start" }
-                ]
-            },
-            seam_scraper_open: {
-                speaker: 'Palinode',
-                text: `The wall between two numbers thins and gives. You step sideways out of the lift into a floor the building has been pretending it lost — an executive stratum frozen at the moment of the Emergence. Green particles hang unfallen in the still air. A meeting is arranged around a table for people who never came back down: chairs pushed out, a jug of water gone to glass, and, folded into a coat left over one chair, a cache the transformed ones left behind before they climbed the ceiling. "No one has stood here since," Palinode says. "That is the only reason it survived."`,
-                hideCloseOption: true,
-                options: [
-                    { text: "Search the cache, then leave.", key: 'seam_scraper_take', next: "lift_mother_start" }
-                ],
-                onTrigger: () => {
-                    if (this.registry.get('scraper_deadfloor_opened')) return;
-                    this.registry.set('scraper_deadfloor_opened', true);
-                    if (!this.hasJournalEntry('seam_sense_scraper_floors')) {
-                        this.addJournalEntry(
-                            'seam_sense_scraper_floors',
-                            'Seam-Sense: The Sealed Floors',
-                            'The Lift-Mother can only reach the lobby now — the upper floors sealed themselves the day the Egg emerged, and the building refuses to count the ones it lost. With Palinode I unsaid the seam between two levels that were never meant to touch, and stepped into a dead floor kept exactly as the Emergence left it: an executive stratum frozen mid-meeting, green spores still hanging unfallen in the air. The transformed ones climbed away and never came back down. In a coat left over a chair I found a small cache of dried spores they abandoned. No wall is the last word — not even a floor the building forgot.',
-                            this.journalSystem.categories.LORE,
-                            { location: 'Scraper Building', via: 'palinode' }
-                        );
-                    }
-                    if (typeof this.modifySpores === 'function') {
-                        this.modifySpores(12);
-                    }
-                    this.showNotification(this.t('gd.palinode_seam'));
                 }
             },
             closeDialog: {

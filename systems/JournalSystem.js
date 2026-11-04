@@ -286,10 +286,6 @@ class JournalSystem extends Phaser.Events.EventEmitter {
 
             // Saves from before facts existed have none
             this.facts = new Map(data.facts || []);
-            if (!data.facts && this.entries.has('met_infinite_fold')) {
-                // that entry used to state the Bishop truth outright; dialog gates on knowing it
-                this.facts.set('met_infinite_fold', [{ id: 'bishop_truth', text: "It told me the truth about the Bishop: it and its kindred offered to make her their human conduit; she refused rather than cease being herself; it misread her refusal as a runtime fault and, trying to 'complete' her, destroyed her." }]);
-            }
 
             this.notifySubscribers();
         }

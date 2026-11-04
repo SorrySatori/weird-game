@@ -21,14 +21,12 @@
 // both still resolve because their id matches the key here.
 export const ITEM_ICONS = [
     // --- Keys (done) ---
-    { key: 'townhall-key',            path: 'assets/images/items/townhall-key.png' },
     { key: 'scraper_backyard_key',    path: 'assets/images/items/scraper_backyard_key.png' },
 
     // --- Current batch (active — drop the PNGs in and they show) ---
     { key: 'grayOltrac',              path: 'assets/images/items/grayOltrac.png' },     // Oltrac drug — gray (draw once, recolour ×3)
     { key: 'violetOltrac',            path: 'assets/images/items/violetOltrac.png' },   // Oltrac drug — violet
     { key: 'amberOltrac',             path: 'assets/images/items/amberOltrac.png' },    // Oltrac drug — amber (rarest)
-    { key: 'dream_cartridge',         path: 'assets/images/items/dream_cartridge.png' },// "The Cardinal Feast" cartridge (the Bishop's last game)
     { key: 'ampule',                  path: 'assets/images/items/ampule.png' },         // sealed glass ampule — Zerren's sound recordings (shared icon, tinted per item)
 
     // --- Demo items, generated pixel art (tools/artgen/item_icons.py -> assets/aseprite/UI_ItemIcons_60x60.aseprite) ---
@@ -50,20 +48,11 @@ export const ITEM_ICONS = [
     { key: 'hopsalot-figurine',         path: 'assets/images/items/hopsalot-figurine.png' },        // Maxim Hopsalot, sans six-pack
     { key: 'apocalypse-cop-figure',     path: 'assets/images/items/apocalypse-cop-figure.png' },    // Tequila Sunrise in hand
     // faction errands
-    { key: 'chrono-slurry-toadlet',     path: 'assets/images/items/chrono-slurry-toadlet.png' },     // prophetic toad in a brass jar
-    { key: 'corrosive_cultivar',        path: 'assets/images/items/corrosive_cultivar.png' },        // rot-plant that eats metal
 
     // --- Older art some scenes loaded only for themselves: registered here so the icon also shows after loading
     //     a save in another scene ---
     { key: 'vestigel',                  path: 'assets/images/items/vestigel.png' },
-    { key: 'rust_feast',                path: 'assets/images/items/rust_feast.png' },
     { key: 'living-core',               path: 'assets/images/characters/living-core.png' },
-    { key: 'oil',                       path: 'assets/images/items/oil.png' },
-    { key: 'metal_scrap',               path: 'assets/images/items/metal_scrap.png' },
-    { key: 'redmass',                   path: 'assets/images/items/redmass.png' },
 
     // --- Still placeholders (outside the demo) — uncomment each as you draw it ---
-    // { key: 'godgraveyard-access-permit',path: 'assets/images/items/godgraveyard-access-permit.png' },
-    // { key: 'filed_dossier',             path: 'assets/images/items/filed_dossier.png' },
-    // { key: 'wimlick',                   path: 'assets/images/items/wimlick.png' },
 ];

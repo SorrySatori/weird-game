@@ -37,8 +37,6 @@ export function preloadDemoCones(scene) {
  */
 const CONE_SPOTS = {
     'BurningBearStreetScene>TownhallScene': [{ x: 520, y: 432, far: true }, { x: 548, y: 434, far: true }],
-    // the way in is the top of the picture, past the Guardian: the cones stand in the doorway on either side of him
-    'CathedralEntrance>EggCathedralStudyScene': [{ x: 478, y: 506 }, { x: 590, y: 506 }],
 };
 
 /**

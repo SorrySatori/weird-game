@@ -39,7 +39,7 @@ export default class VoxmarketMarketScene extends GameScene {
     /**
      * Zerren's confession (Kloor / refuse branches) is the only place the player learns the Vestigel
      * was hidden inside the plush toy — the plush-toy branch never says so, and neither does the
-     * shared `found_eskola_lead` update (also written by the Lumen Directorate files).
+     * shared `found_eskola_lead` update.
      */
     noteVestigelInToy() {
         const questSystem = this.registry.get('questSystem');
@@ -226,9 +226,6 @@ export default class VoxmarketMarketScene extends GameScene {
                         && (this.registry.get('sporeSystem')?.getSporeLevel() ?? 0) >= 10 ? [
                         { text: "Use Thorne-still's Brain Rot power", key: 'use_thornestills_brain_rot_power', next: "zerren_thorne_still_power" }
                     ] : []),
-                    ...((this.registry.get('factionSystem')?.getReputation('LumenDirectorate') ?? 0) >= 50 ? [
-                        { text: "Appeal to Lumen Directorate relationship", key: 'appeal_to_lumen_directorate_relationship', next: "zerren_lumen_directorate_appeal" }
-                    ] : []),
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
@@ -278,13 +275,8 @@ export default class VoxmarketMarketScene extends GameScene {
                 ],
                 onTrigger: (option) => {
                     if (!option) return;           // rolled on the click, not when the line is shown
-                    // Base 25% persuasion chance. Neme's Growth Affinity adds +15 when growth-aligned
-                    // (Neme hosted and not silenced by high Decay), so your balance shifts the odds.
-                    const sym = this.registry.get('symbiontSystem');
-                    const baseChance = 25;
-                    const chance = sym?.applyGrowthAffinity ? sym.applyGrowthAffinity(baseChance) : baseChance;
-
-                    if (Math.random() * 100 < chance) {
+                    // 25% persuasion chance
+                    if (Math.random() * 100 < 25) {
                         return "zerren_persuade_success";
                     } else {
                         return "zerren_persuade_fail";
@@ -341,20 +333,6 @@ export default class VoxmarketMarketScene extends GameScene {
                     }
                     this.modifyGrowthDecay(0, 5); // the G/D system announces the change itself
                 }
-            },
-            
-            zerren_lumen_directorate_appeal: {
-                text: "'As an ally of the Lumen Directorate, I'm tracking down these Vestigels on their behalf. They consider this a matter of great importance to the balance of power in the region.'",
-                options: [
-                    { text: "Continue", key: 'continue', next: "zerren_lumen_directorate_success" }
-                ]
-            },
-            
-            zerren_lumen_directorate_success: {
-                text: "Zerren's eyes widen with recognition. 'Oh! You're with the Directorate? Why didn't you say so?' She looks more at ease. 'The buyer was Edgar Eskola. He's a collector; he haunts the Screaming Cork tavern.'",
-                options: [
-                    { text: "The Directorate appreciates your cooperation", key: 'the_directorate_appreciates_your_cooperation', next: "zerren_quest_update" }
-                ]
             },
             
             zerren_quest_update: {

@@ -16,8 +16,7 @@ export default {
             im_looking_for_a_vestigel_i_heard_you_might_have_o: "Hledám vestigel, slyšel jsem, že byste mohl jeden mít.",
             lets_start_with_some_inspirational_topics: "Pojďme vymyslet nějaká inspirativní témata.",
             how_is_the_novel: "Tak co román?",
-            read_me_from_your_book: "Přečtěte mi něco z vaší knihy.",
-            edgar_cathedral_ask: "[Než vejdu do katedrály] Pracoval jste v tomhle městě všude možně. Existuje nějaká jiná cesta do Vaječné katedrály, o které třeba nikdo moc neví?"
+            read_me_from_your_book: "Přečtěte mi něco z vaší knihy."
         }
     },
     edgar_greeting: {
@@ -92,8 +91,6 @@ export default {
             burning_bear: "Festival hořícího medvěda",
             board_games_war: "Deskovkové války",
             noise_god: "Bůh hluku",
-            magnekin: "Magnekin – civilizace v jednom těle",
-            god_graveyard: "Hřbitov bohů pod městem",
             city_mystery: "Záhady Horní Morkezely",
             misutken_life: "Život mišutkenna ve městě"
         }
@@ -324,28 +321,6 @@ export default {
         options: {
             lets_start_right_away: "Pojďme začít hned – s nějakými inspirativními tématy.",
             back_to_other_topics: "Zeptej se na něco jiného"
-        }
-    },
-    edgar_cathedral_way: {
-        text: "Medvědovitý tvor úplně znehybní – tak jako zvířata, když zaslechnou něco potenciálně nebezpečného. \"Vaječná katedrála... Ano. Přemýšlel jsem o tom místě víc než většina lidí.\" Ztiší hlas. \"Zametal jsem její chodby. Mazal její výtahové klece. Vynášel její popel. Nikdo nesleduje toho, kdo vynáší popel. A naučil jsem se něco, co ti kněží nikdy: všichni používali hlavní vchod. Velké dveře. Strážce. Zato já jsem vždycky hledal místa, která nejsou na první pohled vidět. Některé noci ty chrámové zdi dýchají.\"",
-        options: {
-            the_walls_breathe: "Zdi dýchají?",
-            then_show_me_the_way_in: "Ukažte mi tu cestu dovnitř.",
-            back_to_other_topics: "Zeptej se na něco jiného"
-        }
-    },
-    edgar_cathedral_breathe: {
-        text: "\"Dýchají. Nádech a výdech, pomalu, jako by tam něco spalo. Všichni si myslí, že sklepy katedrály jsou jen mrtvý a prázdný prostor, kde nic není. Myslím ale, že mrtvé nejsou. Něco tam dole je. Upřímně, radši jsem tam přestal pracovat, protože jsem dostal strach. Netuším, jestli se ty chodby od té doby nějak proměnily, na to už se budete muset podívat sám.\"",
-        options: {
-            so_there_is_a_way_in: "Takže cesta dovnitř existuje.",
-            back_to_other_topics: "Zeptej se na něco jiného"
-        }
-    },
-    edgar_cathedral_path: {
-        text: "\"Existuje. Na severní straně, kde se zeď katedrály stýká s vrstvou mrtvých bohů, je místo, kde se neustále pohybuje půda a vzniká úzký průlez. Škvíra na šířku medvědích ramen, pokud vám nevadí zápach z podzemí. Jděte radši hned. Ať už se tam uvnitř probouzí cokoli, škvíru dlouho otevřenou nenechá.\" Zaváhá, jednu velkou tlapu položenou na stole. \"Buďte opatrný. Vždycky jsem o sobě uvažoval jako o někom, kdo si všímá toho, čeho si nikdo jiný nevšimne. Nerad bych byl posledním, kdo vás viděl živého.\"",
-        options: {
-            thank_you_edgar_cathedral: "Děkuji, Edgare.",
-            i_should_go: "Měl bych jít."
         }
     }
 };

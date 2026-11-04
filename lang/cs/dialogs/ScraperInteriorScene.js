@@ -6,16 +6,12 @@ export default {
     _speakers: {
         'Lift Mother': 'Lift-Mother',
         'Lift-Mother': 'Lift-Mother',
-        'Palinode': 'Palinode',
     },
     lift_mother_start: {
         text: "Výtah se otřese a odkudsi z jeho útrob se line hlas – teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
             take_me_to_177_quiet: "Vezmi mě na 177-Tiché.",
-            corrode: "Koroduj.",
-            descend_to_cellar: "Vezmi mě dolů do zapečetěného sklepa.",
-            seam_scraper_deadfloors: "[Smysl pro švy] Zapečetěná mrtvá patra – nahmatej cestu dovnitř.",
             can_you_take_me_to_other_floors: "Můžeš mě vzít na jiná patra?",
             what_is_the_beforetime: "Co je Předdoba?",
             are_you_alive: "Jsi... živá?",
@@ -140,60 +136,6 @@ export default {
         text: "Ne, hříbečku. Ještě ne. Horní patra zůstávají zapečetěná – ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mé vědomí nemá přímý přístup k heslům, ale pokud někdo vysloví to správné, mohu ho odvést do patřičného patra, to funguje. Mohl bys najít některé z Chóru ve městě a zeptat se jich.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
-        }
-    },
-    lift_mother_corrode: {
-        text: "Dlouhé ticho. Pak kabely zavibrují. \"...Koroduj.\" Slovo se rozezní šachtou. \"To je to staré slovo. Rezavé slovo. Vydobyl sis průchod, sporové dítě.\" Skrytý panel se otevře a odhalí tlačítko označené zrezivělým symbolem ozubeného kola. Výtah se trhne nahoru.",
-        options: {
-            ascend_to_the_rust_domain: "Vystoupat do Rezavé domény."
-        }
-    },
-    goto_rust_domain: {
-        text: "Výtah sténá a třese se, jak stoupá kolem dávno opuštěných pater. Vzduch houstne vůní železa a oleje. Čísla na displeji blikají – 38... 39... 40... pak symboly, které nepoznáváš. Dveře se otevřou se zarezlým skřípěním.",
-        options: {
-            step_out: "Vystoupit."
-        }
-    },
-    lift_mother_cellar_prompt: {
-        text: "Kabely se napnou. \"Dolní sklep? Ty dveře jsou dlouho temné, sporové dítě. Odpovídaly jen na jedno slovo – jméno, které dali ti dva, co pracovali dole. Vyslov ho, jestli ho neseš.\"",
-        options: {
-            cellar_no_name: "(Zatím nemáš žádné jméno.)",
-            cellar_never_mind: "To nic."
-        }
-    },
-    lift_mother_cellar_correct: {
-        text: "Dlouhé, teplé zahučení. \"...Ano. To jméno dali dveřím dole. Málem jsem ho zapomněla. Sestup povolen, sporové dítě.\"",
-        options: {
-            descend_into_the_cellar: "Sestoupit do sklepa."
-        }
-    },
-    lift_mother_cellar_wrong: {
-        text: "Pauza, skoro laskavá. \"...Ne. Dveře dole se pro tohle jméno nepohnou. Není to to pravé.\"",
-        options: {
-            try_another_name: "Zkusit jiné jméno.",
-            cellar_step_back: "Ustoupit."
-        }
-    },
-    lift_mother_cellar_none: {
-        text: "\"Nepřinášíš mi žádné jméno, dítě. To, které potřebuješ, střeží mrtví bohové pod Radnicí – přečti si jejich hroby a vrať se se jménem na jazyku.\"",
-        options: {
-            go_read_graves: "Půjdu si je přečíst."
-        }
-    },
-    goto_scraper_cellar: {
-        text: ""
-    },
-    seam_scraper_prompt: {
-        text: "V šachtě se Palinode probudí a opře se o čísla. \"Počítá to, co ještě odpovídá,\" zamumlá o Matce-Výtahu. \"Ale tahle budova si drží patra, ke kterým se nepřizná – úroveň zapečetěnou v den, kdy se vynořilo Vejce, dodnes zadržující svůj poslední nádech. Ostatní kolem ní projeli, aniž zpomalili. Dokážu odříct šev mezi dvěma patry, která se nikdy neměla dotknout. Nevede tam žádný výtah. Vede tam jen cesta, kterou udělám. Mám?\"",
-        options: {
-            seam_scraper_open_opt: "[Smysl pro švy] Otevřít šev do mrtvého patra.",
-            seam_scraper_back: "Teď ne. Vezmi mě zpět."
-        }
-    },
-    seam_scraper_open: {
-        text: "Zeď mezi dvěma čísly zeslábne a povolí. Vykročíš stranou z výtahu do patra, o kterém budova předstírá, že ho ztratila – manažerská vrstva zamrzlá v okamžiku Emergence. Zelené částice visí v nehybném vzduchu, aniž by dopadly. Kolem stolu je připraveno jednání pro lidi, kteří se už nikdy nevrátili dolů: odsunuté židle, džbán vody proměněný ve sklo a v kabátě přehozeném přes jednu židli schránka, kterou proměnění nechali, než vylezli na strop. \"Od té doby tu nikdo nestál,\" řekne Palinode. \"Jen proto to přežilo.\"",
-        options: {
-            seam_scraper_take: "Prohledat schránku a odejít."
         }
     },
     closeDialog: {

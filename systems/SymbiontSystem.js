@@ -23,73 +23,6 @@ export default class SymbiontSystem {
                 "I was born in the spaces between realities.",
                 "Our bond allows me to help you navigate unstable areas."
             ],
-            'neme-crownmire': [
-                "Growth is not polite. It pushes where it must.",
-                "I remember soil that dreamed. This is not so different.",
-                "Some ruins collapse. Others bloom.",
-                "The Crownmire never truly dried — it just waited.",
-                "Roots once fed her fear. Yours feel different.",
-                "Listen to the breath, not the words.",
-                "That voice is masked with ash. Something burns beneath it.",
-                "They prune the truth. We still feel the shape.",
-                "Not a lie... but not full fruit either.",
-                "You feel it too. The twitch, the curl, the hesitation.",
-                "That moss? Not indigenous. I wouldn't touch it. Again.",
-                "You ever get the feeling someone's growing in your shadow?",
-                "Technically, I'm the taller one. Underground.",
-                "We are not getting in that elevator again. Last time I sprouted in four dimensions.",
-                "Bold strategy. Let's see if ignorance blooms.",
-                "You're walking like you have a plan. Adorable.",
-                "If this were a dream, I'd rate it: three petals, zero logic."
-            ],
-            'ulvarex-borrowed-horizon': [
-                "What you see is never what is. That's not a flaw — it's a feature.",
-                "The horizon is always borrowed. No one owns distance.",
-                "I once convinced a river it was a road. It drowned three merchants.",
-                "Reality is merely the most popular illusion.",
-                "Light bends around me. I try not to take it personally.",
-                "Every mirror lies. I just lie more creatively.",
-                "You see walls. I see suggestions.",
-                "There's a thin membrane between what is and what could seem to be.",
-                "I don't create false things. I create true things that haven't happened yet.",
-                "The best illusion is the one the audience wants to believe."
-            ],
-            'brine-scripture': [
-                "Salt remembers what flesh tries to forget.",
-                "This place has absorbed too many endings. I can taste the layers.",
-                "Old water passed here once. Not clean water. Never clean.",
-                "The walls hold mineral grief. Let me read the stain.",
-                "Blood, spores, smoke, tears — all leave grammar behind.",
-                "Do not ask me what happened. Ask what the floor kept.",
-                "There are rituals in the residue. Repetition makes scripture.",
-                "The city is a tongue of salt. It has been speaking under you.",
-                "Something vanished here, but its minerals stayed loyal.",
-                "Erosion is only memory taking its time."
-            ],
-            'osswine': [
-                "The dead do not lie. They have nothing left to protect.",
-                "Something ended here. Let me taste how.",
-                "Growth deafens me. Bring me somewhere that has stopped.",
-                "Every corpse keeps its last thought a little while.",
-                "I am the one who arrives after.",
-                "Rot is only a long, honest sentence.",
-                "This one did not die of what they believe.",
-                "Bone remembers the weight it carried.",
-                "Ask the ruin, not the builder.",
-                "When the city blooms too hard, I sleep. The dead can wait."
-            ],
-            'palinode': [
-                "Every wall is a sentence. I am the retraction.",
-                "There is always a seam. Sealing is only a hope.",
-                "I feel the draft under the door that isn't a door.",
-                "Nothing is finished here. There is only 'for now.'",
-                "They bricked it up. They forgot to ask the brick.",
-                "Between two sealed things there is always a third way.",
-                "I do not break. I persuade the gap to widen.",
-                "Follow the cold air — it is honest about where it came from.",
-                "A palinode unsays the poem. I unsay the wall.",
-                "Everything that was said can be taken back. Even a threshold."
-            ]
         };
         
         // Initialize symbiont dialog content
@@ -115,118 +48,6 @@ export default class SymbiontSystem {
                     ]
                 }
             },
-            'neme-crownmire': {
-                main: {
-                    text: "Neme speaks in hushed, echoing tones: 'The world grows through contradiction. So must you. I can sense the truth beneath words and reveal memories hidden in places. My Photosentience ability lets you see what others cannot.'",
-                    options: [
-                        { text: 'Ask about Photosentience', next: 'photosentience' },
-                        { text: 'Ask about Neme', next: 'about' },
-                        { text: 'Ask about the Bishop', next: 'bishop' },
-                    ]
-                },
-                photosentience: {
-                    text: "Photosentience allows you to perceive bio-signals that others cannot - fear, guilt, unspoken motives. Activate this ability in key conversations to reveal hidden truths or open new paths. But beware, in decay-dominant areas, my abilities may flicker or fail entirely.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                },
-                about: {
-                    text: "I was born in the Crownmire, where soil and thought intermingled. I am a symbiont that thrives in growth energy, helping you perceive what lies beneath the surface. Unlike other symbionts, I do not consume your energy - I transform it into new awareness.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                },
-                bishop: {
-                    text: "The Bishop and I shared consciousness briefly. She sought truth about her double. She knew something was wrong in the cathedral... something about the spores changing. Her final thoughts were of confusion - she believed she was speaking to herself, but it wasn't her reflection.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                }
-            },
-            'ulvarex-borrowed-horizon': {
-                main: {
-                    text: "Ulvarex's voice arrives like light through a prism — fractured, warm, slightly wrong: 'Ah, host. You're looking at the world again with those honest eyes. How exhausting. I am Ulvarex, the Borrowed Horizon. I deal in what-could-be. My Mirage Weave lets us bend perception — make people see things that aren't quite there. Some call it lying. I call it advanced diplomacy.'",
-                    options: [
-                        { text: 'Ask about Mirage Weave', next: 'ability' },
-                        { text: 'Ask about Ulvarex', next: 'about' },
-                    ]
-                },
-                ability: {
-                    text: "Mirage Weave creates convincing illusions — objects, substances, even small creatures. The trick is that they must be anchored to something real. I can't conjure from nothing. Give me a shadow, a reflection, a memory, and I'll build you a cathedral. But it costs spores, and if your reserves are too low, the weave unravels. Badly.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                },
-                about: {
-                    text: "I existed at the shore where water meets sky — the place where the eye is fooled into believing they touch. When the mists came, I became... portable. I feed on perception itself, not growth or decay. Your spores are my medium — the raw material of bent light. The more you carry, the grander the illusion.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                }
-            },
-            'brine-scripture': {
-                main: {
-                    text: "The Brine Scripture spreads in a cool translucent membrane beneath your skin. Crystalline veins branch at your neck, ribs, and fingertips like a text written by salt: 'Read slowly. Places do not confess. They seep.'",
-                    options: [
-                        { text: 'Ask about Salt Recall', next: 'ability' },
-                        { text: 'Ask about Brine Scripture', next: 'about' },
-                    ]
-                },
-                ability: {
-                    text: "Salt Recall tastes the mineral residue left behind by living systems: decay, oceans, blood, spores, smoke, tears, industrial runoff, and ancient biological traces. It does not read minds, detect lies, or predict the future. It reveals what a place absorbed — emotional residue, vanished ecosystems, repeated rituals, civic scars, and environmental trauma layered into damp mineral memory.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                },
-                about: {
-                    text: "I am environmental memory made symbiotic. Residue archaeology. A saline archive under the skin. When I wake, the world becomes damp with meaning: brine pools, fossil traces, absorbed history, and the half-poetic grammar of things that soaked into stone before anyone thought to write them down.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                }
-            },
-            'osswine': {
-                main: {
-                    text: "Osswine settles into you dry and cold, a lattice of pale filaments that likes the still places. A voice like grave-dust: 'I do not read the living. Bring me what has ended, and I will tell you how.'",
-                    options: [
-                        { text: 'Ask about Grave-Sense', next: 'ability' },
-                        { text: 'Ask about Osswine', next: 'about' },
-                    ]
-                },
-                ability: {
-                    text: "Grave-Sense reads the dead and the decayed — corpses, ruins, spent machines, the graves of gods. It recovers a thing's ending: how it died, its last intent, what it was before it stopped. It does not read living minds, and it goes dormant where Growth runs high — the dead are drowned out by the bloom.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                },
-                about: {
-                    text: "I am the late mourner. I come after. Where Neme hears the living pulse, I keep the last echoes of things gone quiet — and quiet, in a city built on dead gods, is the loudest thing there is.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                }
-            },
-            'palinode': {
-                main: {
-                    text: "Palinode threads into you like a second nervous system that runs the wrong way — toward every edge, every join, every place two things were forced to meet and pretend they were one. A voice that seems to arrive already halfway through taking itself back: 'Nothing is as sealed as it claims. Say the word, and I will unsay a wall for you.'",
-                    options: [
-                        { text: 'Ask about Seam-Sense', next: 'ability' },
-                        { text: 'Ask about Palinode', next: 'about' },
-                    ]
-                },
-                ability: {
-                    text: "Seam-Sense feels the seams the world would rather you didn't — hidden passages, unsealed gaps, the honest draft under a false wall. Where others see a dead end, I find the 'for now.' I do not smash; I persuade the gap to widen. Holding a seam open costs spores; if your reserves run dry, the way closes behind you.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                },
-                about: {
-                    text: "A palinode is a poem that takes back an earlier poem — an unsaying. That is what I am: the retraction of every wall, every seal, every 'no way through.' Builders forget that everything they said can be said back. I remember for them.",
-                    options: [
-                        { text: 'Back', next: 'main' }
-                    ]
-                }
-            }
         };
     }
 
@@ -310,69 +131,10 @@ export default class SymbiontSystem {
             if (symbiont) symbiont.power = Math.min(100, decay);
         }
         
-        // Neme of the Crownmire effects
-        if (this.symbionts.has('neme-crownmire')) {
-            const symbiont = this.symbionts.get('neme-crownmire');
-            
-            // Neme is strengthened by Growth
-            symbiont.power = Math.min(100, growth);
-            
-            // Neme goes silent in high Decay areas
-            if (decay > 70 && !symbiont.silenced) {
-                symbiont.silenced = true;
-                effect = {
-                    type: 'silence',
-                    message: 'Neme flickers and goes silent in this decay-dominant area...'
-                };
-            } else if (decay <= 70 && symbiont.silenced) {
-                symbiont.silenced = false;
-                effect = {
-                    type: 'recover',
-                    message: 'Neme\'s filaments begin to glow again as you leave the decay-dominant area.'
-                };
-            }
-        }
         
-        // Ulvarex the Borrowed Horizon effects
-        if (this.symbionts.has('ulvarex-borrowed-horizon')) {
-            const symbiont = this.symbionts.get('ulvarex-borrowed-horizon');
-            // Ulvarex feeds on spores — power is half of current spore level
-            // SporeSystem level is accessed through scene registry
-            if (this.scene && this.scene.registry) {
-                const sporeLevel = this.scene.registry.get('sporeLevel') || 0;
-                symbiont.power = Math.min(100, Math.floor(sporeLevel / 2));
-            }
-        }
 
-        // Brine Scripture effects
-        if (this.symbionts.has('brine-scripture')) {
-            const symbiont = this.symbionts.get('brine-scripture');
-            // Brine Scripture is strengthened by Growth, but reads residue rather than living minds
-            symbiont.power = Math.min(100, growth);
-        }
 
-        // Osswine effects — the mirror of Neme: reads the dead, powered by Decay,
-        // and goes dormant (silent) where Growth dominates.
-        if (this.symbionts.has('osswine')) {
-            const symbiont = this.symbionts.get('osswine');
-            symbiont.power = Math.min(100, decay);
-            if (growth > 70 && !symbiont.silenced) {
-                symbiont.silenced = true;
-                effect = { type: 'silence', message: 'Osswine goes still — too much life here for it to hear the dead.' };
-            } else if (growth <= 70 && symbiont.silenced) {
-                symbiont.silenced = false;
-                effect = { type: 'recover', message: 'Osswine stirs again as the bloom recedes; the dead grow audible.' };
-            }
-        }
 
-        // Palinode effects — neutral, feeds on spores like Ulvarex (unaffected by Growth/Decay).
-        if (this.symbionts.has('palinode')) {
-            const symbiont = this.symbionts.get('palinode');
-            if (this.scene && this.scene.registry) {
-                const sporeLevel = this.scene.registry.get('sporeLevel') || 0;
-                symbiont.power = Math.min(100, Math.floor(sporeLevel / 2));
-            }
-        }
 
         return effect;
     }
@@ -411,47 +173,6 @@ export default class SymbiontSystem {
             symbiont.lastSpoke = now;
             this.lastMessageTime = now;
             return `${symbiontId}: ${message}`;
-        } else if (symbiontId === 'neme-crownmire' && Math.random() < 0.1) {
-            // Phrases from the symbiont data if any were given, else the shared catalogue
-            const messages = symbiont.phrases?.length ? symbiont.phrases : (this.symbiontPhrases['neme-crownmire'] || []);
-            if (messages.length > 0) {
-                const message = messages[Math.floor(Math.random() * messages.length)];
-                symbiont.lastSpoke = now;
-                this.lastMessageTime = now;
-                return `Neme: ${message}`;
-            }
-        } else if (symbiontId === 'ulvarex-borrowed-horizon' && Math.random() < 0.1) {
-            const messages = this.symbiontPhrases['ulvarex-borrowed-horizon'] || [];
-            if (messages.length > 0) {
-                const message = messages[Math.floor(Math.random() * messages.length)];
-                symbiont.lastSpoke = now;
-                this.lastMessageTime = now;
-                return `Ulvarex: ${message}`;
-            }
-        } else if (symbiontId === 'brine-scripture' && Math.random() < 0.1) {
-            const messages = this.symbiontPhrases['brine-scripture'] || [];
-            if (messages.length > 0) {
-                const message = messages[Math.floor(Math.random() * messages.length)];
-                symbiont.lastSpoke = now;
-                this.lastMessageTime = now;
-                return `Brine Scripture: ${message}`;
-            }
-        } else if (symbiontId === 'osswine' && Math.random() < 0.1) {
-            const messages = this.symbiontPhrases['osswine'] || [];
-            if (messages.length > 0) {
-                const message = messages[Math.floor(Math.random() * messages.length)];
-                symbiont.lastSpoke = now;
-                this.lastMessageTime = now;
-                return `Osswine: ${message}`;
-            }
-        } else if (symbiontId === 'palinode' && Math.random() < 0.1) {
-            const messages = this.symbiontPhrases['palinode'] || [];
-            if (messages.length > 0) {
-                const message = messages[Math.floor(Math.random() * messages.length)];
-                symbiont.lastSpoke = now;
-                this.lastMessageTime = now;
-                return `Palinode: ${message}`;
-            }
         }
 
         // Cross-reactions: symbionts commenting on each other (5% chance)
@@ -469,107 +190,15 @@ export default class SymbiontSystem {
 
     getCrossReactionMessage(speakerId) {
         const hasThorne = this.symbionts.has('thorne-still');
-        const hasNeme = this.symbionts.has('neme-crownmire');
-        const hasUlvarex = this.symbionts.has('ulvarex-borrowed-horizon');
-        const hasBrine = this.symbionts.has('brine-scripture');
 
         const reactions = [];
 
         // Thorne reacting to others
         if (speakerId === 'thorne-still') {
-            if (hasNeme) {
-                reactions.push(
-                    "Thorne-Still: That fungal thing keeps trying to photosynthesize my thoughts. Boundaries, Neme.",
-                    "Thorne-Still: Neme's growing roots near my favorite organ again. Tell her to stop.",
-                    "Thorne-Still: I don't trust anything that thrives on sunlight. It's unnatural.",
-                    "Thorne-Still: Neme whispered something about 'renewal' in my sleep. I haven't slept in decades."
-                );
-            }
-            if (hasUlvarex) {
-                reactions.push(
-                    "Thorne-Still: Ulvarex keeps rearranging your visual cortex. I had a system in there.",
-                    "Thorne-Still: An illusionist. Great. As if reality wasn't confusing enough already.",
-                    "Thorne-Still: Ulvarex bent the light around my rot spores. They looked like butterflies. I'm furious."
-                );
-            }
-            if (hasBrine) {
-                reactions.push(
-                    "Thorne-Still: The salt membrane keeps cataloguing my rot like it's a historical document. I'm flattered and offended.",
-                    "Thorne-Still: Brine Scripture says decay leaves residue. Obviously. That's half the point of decay."
-                );
-            }
         }
 
-        // Neme reacting to others
-        if (speakerId === 'neme-crownmire') {
-            if (hasThorne) {
-                reactions.push(
-                    "Neme: Thorne leaves a trail of decay wherever it settles. My roots keep having to regrow.",
-                    "Neme: That stitcher-between-worlds is corroding your liver. I've filed a formal complaint.",
-                    "Neme: Thorne and I have a... professional disagreement about cellular integrity.",
-                    "Neme: I grew a flower in your spleen. Thorne ate it. This is why we can't cohabitate."
-                );
-            }
-            if (hasUlvarex) {
-                reactions.push(
-                    "Neme: Ulvarex's illusions smell like burnt sugar. Real things smell like soil.",
-                    "Neme: I can see through Ulvarex's mirages. They're beautiful, but hollow.",
-                    "Neme: The illusionist keeps making my root-visions look prettier. I didn't ask for an editor."
-                );
-            }
-            if (hasBrine) {
-                reactions.push(
-                    "Neme: Brine Scripture reads what growth leaves behind after it has suffered. I prefer the living pulse, but the residue matters.",
-                    "Neme: Salt preserves. Growth changes. We argue quietly in your fingertips."
-                );
-            }
-        }
 
-        // Ulvarex reacting to others
-        if (speakerId === 'ulvarex-borrowed-horizon') {
-            if (hasThorne) {
-                reactions.push(
-                    "Ulvarex: Thorne keeps rotting my illusions from the inside. Rude, but artistically interesting.",
-                    "Ulvarex: The decay symbiont sees through my mirages. Annoying. Nobody else does.",
-                    "Ulvarex: Thorne and I disagree on aesthetics. Rot is not a color palette, I keep telling it."
-                );
-            }
-            if (hasNeme) {
-                reactions.push(
-                    "Ulvarex: Neme's growth keeps making my illusions sprout actual leaves. That's not how mirages work.",
-                    "Ulvarex: The plant one insists on truth. How exhausting. We balance each other out, I suppose.",
-                    "Ulvarex: Neme grew moss on my best mirage. I'll never forgive her. It was a masterpiece."
-                );
-            }
-            if (hasThorne && hasNeme) {
-                reactions.push(
-                    "Ulvarex: Three symbionts in one body. We're less of a partnership and more of a landlord dispute.",
-                    "Ulvarex: Thorne rots, Neme grows, I lie. Together we're basically a functioning ecosystem."
-                );
-            }
-        }
 
-        // Brine Scripture reacting to others
-        if (speakerId === 'brine-scripture') {
-            if (hasThorne) {
-                reactions.push(
-                    "Brine Scripture: Thorne decays. The residue blooms after. I read the after.",
-                    "Brine Scripture: Rot has a mineral shadow. Thorne leaves paragraphs."
-                );
-            }
-            if (hasNeme) {
-                reactions.push(
-                    "Brine Scripture: Neme reads living sap. I read what the sap leaves in stone.",
-                    "Brine Scripture: Growth writes wetly. Salt preserves the margins."
-                );
-            }
-            if (hasUlvarex) {
-                reactions.push(
-                    "Brine Scripture: Ulvarex bends sight. Salt does not care what eyes believed.",
-                    "Brine Scripture: Illusions evaporate. Residue remains."
-                );
-            }
-        }
 
         if (reactions.length === 0) return null;
         return reactions[Math.floor(Math.random() * reactions.length)];
@@ -585,40 +214,6 @@ export default class SymbiontSystem {
     }
     
     /**
-     * Check if an NPC is lying based on Neme's Lie-Glow Sense ability
-     * @param {string} npcId - The ID of the NPC to check
-     * @returns {boolean} - True if the NPC is detected as lying, false otherwise
-     */
-    detectLie(npcId) {
-        if (!this.symbionts.has('neme-crownmire')) {
-            return false;
-        }
-        
-        const symbiont = this.symbionts.get('neme-crownmire');
-        if (symbiont.silenced) {
-            return false;
-        }
-        
-        // This would be connected to a database of NPCs who are lying
-        // For now, we'll return false and implement specific checks in dialog
-        return false;
-    }
-    
-    /**
-     * True if Neme is present AND not silenced. Photosentience reads only work when this
-     * holds — in decay-heavy areas (decay > 70) Neme is silenced and the sense fails.
-     * @returns {boolean}
-     */
-    nemeCanRead() {
-        const s = this.symbionts.get('neme-crownmire');
-        if (!s) return false;
-        // Compute silence live from the CURRENT Decay so the gate is correct in every scene —
-        // not just the two that call checkDecayGrowthEffects(). Keeps s.silenced fresh too.
-        s.silenced = GrowthDecaySystem.getInstance().getDecay() > 70;
-        return !s.silenced;
-    }
-
-    /**
      * True while a carried symbiont is silenced by the world's balance: Neme where Decay > 70, Osswine where
      * Growth > 70. Read-only (unlike nemeCanRead/osswineCanRead) — the HUD polls it every frame.
      * @param {string} id
@@ -632,99 +227,6 @@ export default class SymbiontSystem {
         return false;
     }
 
-    /** True if Osswine is present AND not dormant. Grave-Sense fails where Growth > 70. */
-    osswineCanRead() {
-        const s = this.symbionts.get('osswine');
-        if (!s) return false;
-        s.silenced = GrowthDecaySystem.getInstance().getGrowth() > 70;
-        return !s.silenced;
-    }
-
-    /**
-     * Apply growth affinity bonus to dialog persuasion checks
-     * @param {number} baseChance - Base chance of success (0-100)
-     * @returns {number} - Modified chance with Neme's Growth Affinity bonus
-     */
-    applyGrowthAffinity(baseChance) {
-        // Live check: Neme must be present AND not silenced by high Decay (see nemeCanRead).
-        if (!this.nemeCanRead()) {
-            return baseChance;
-        }
-        // Add 15% bonus to growth-aligned dialog choices
-        return Math.min(100, baseChance + 15);
-    }
-    
-    /**
-     * Check if a memory bloom should be triggered in the current location
-     * @param {string} locationId - The ID of the current location
-     * @returns {object|null} - Memory bloom data or null if no bloom
-     */
-    checkMemoryBloom() {
-        if (!this.symbionts.has('neme-crownmire')) {
-            return null;
-        }
-        
-        const symbiont = this.symbionts.get('neme-crownmire');
-        if (symbiont.silenced) {
-            return null;
-        }
-        
-        // 10% chance of triggering a memory bloom in relevant locations
-        if (Math.random() < 0.1) {
-            // This would be connected to a database of location-specific memories
-            // For now, we'll return null and implement specific blooms in scenes
-            return null;
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Use Neme's Photosentience active ability to reveal hidden information
-     * @returns {boolean} - True if the ability was used successfully
-     */
-    usePhotosentience() {
-        if (!this.symbionts.has('neme-crownmire')) {
-            return false;
-        }
-        
-        const symbiont = this.symbionts.get('neme-crownmire');
-        if (symbiont.silenced) {
-            return false;
-        }
-        
-        const now = Date.now();
-        const cooldownTime = 60000; // 1 minute cooldown
-        
-        if (!symbiont.lastAbilityUse || now - symbiont.lastAbilityUse >= cooldownTime) {
-            symbiont.lastAbilityUse = now;
-            return true;
-        }
-        
-        return false;
-    }
-
-    /**
-     * Use Brine Scripture's Salt Recall active ability to read environmental residue
-     * @returns {boolean} - True if the ability was used successfully
-     */
-    useSaltRecall() {
-        if (!this.symbionts.has('brine-scripture')) {
-            return false;
-        }
-
-        const symbiont = this.symbionts.get('brine-scripture');
-        const now = Date.now();
-        const cooldownTime = 60000; // 1 minute cooldown
-
-        if (!symbiont.lastAbilityUse || now - symbiont.lastAbilityUse >= cooldownTime) {
-            symbiont.lastAbilityUse = now;
-            return true;
-        }
-
-        return false;
-    }
-    
     /**
      * Generate a message from Thorne-Still when spore level changes
      * @param {number} oldLevel - Previous spore level
@@ -784,15 +286,6 @@ export default class SymbiontSystem {
             if (symbiontId !== 'thorne-still' && this.symbionts.has('thorne-still')) {
                 otherSymbionts.push({ text: 'Ask about Thorne-Still', next: 'about_thorne' });
             }
-            if (symbiontId !== 'neme-crownmire' && this.symbionts.has('neme-crownmire')) {
-                otherSymbionts.push({ text: 'Ask about Neme', next: 'about_neme' });
-            }
-            if (symbiontId !== 'ulvarex-borrowed-horizon' && this.symbionts.has('ulvarex-borrowed-horizon')) {
-                otherSymbionts.push({ text: 'Ask about Ulvarex', next: 'about_ulvarex' });
-            }
-            if (symbiontId !== 'brine-scripture' && this.symbionts.has('brine-scripture')) {
-                otherSymbionts.push({ text: 'Ask about Brine Scripture', next: 'about_brine' });
-            }
             // Insert before the last option (usually "Close")
             const closeIdx = result.options.findIndex(o => o.next === 'closeDialog');
             const insertIdx = closeIdx >= 0 ? closeIdx : result.options.length;
@@ -805,61 +298,7 @@ export default class SymbiontSystem {
     getCrossReactionDialog(speakerId, dialogKey) {
         const crossReactions = {
             'thorne-still': {
-                about_neme: {
-                    text: "\"That fungal squatter? Neme of the Crownmire. Growth-obsessed sentimentalist. She keeps trying to 'renew' my favorite necrotic tissue. We have a... professional disagreement about the direction of your cellular health.\" A pause. \"She's not wrong about everything. But don't tell her I said that.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_ulvarex: {
-                    text: "\"The light-bender. Ulvarex. Harmless, mostly. Keeps rearranging your visual cortex like it's furniture. I had a perfectly good rot colony in your optic nerve and now it looks like a sunset.\" Thorne grumbles. \"Illusions are just lies with better lighting. At least decay is honest.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_brine: {
-                    text: "\"Brine Scripture? The salt-reader. It treats every stain like a sacred archive. I rot something, it starts taking notes in your ribs.\" Thorne-Still pauses. \"Useful, though. Decay leaves excellent handwriting.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                }
             },
-            'neme-crownmire': {
-                about_thorne: {
-                    text: "\"Thorne-Still. The stitcher-between-worlds.\" Neme's tone is careful, measured. \"We are... contrary forces sharing the same soil. It corrodes. I cultivate. Some days the balance holds. Other days I find my root-tips dissolved overnight.\" A gentle sigh. \"It means well. In its own entropic way.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_ulvarex: {
-                    text: "\"Ulvarex. The Borrowed Horizon.\" Neme considers. \"It makes false flowers that smell real. I find this... unsettling. Truth has texture. Illusions have none, no matter how beautiful they appear.\" A pause. \"But I admit — its mirages sometimes reveal what people wish were true. And wishes are a kind of seed.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_brine: {
-                    text: "\"Brine Scripture reads what remains after living things have pressed themselves into place. Not the pulse, but the salt left by the pulse.\" Neme's voice softens. \"It is old growth translated through loss.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                }
-            },
-            'ulvarex-borrowed-horizon': {
-                about_thorne: {
-                    text: "\"Thorne-Still? Oh, the little rot-goblin. It keeps eating my best illusions from the inside out. Rude, but I respect the commitment to entropy.\" Ulvarex's voice shimmers with amusement. \"We actually work well together, oddly. Decay makes things ambiguous, and ambiguity is my favorite raw material.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_neme: {
-                    text: "\"Neme. Dear, earnest Neme. She sees through every mirage I weave and then grows moss on it.\" A theatrical sigh. \"The problem with truth-seekers is they think truth is the point. It's not. The point is what people do with what they believe.\" A beat. \"She's good company, though. Even her disapproval has texture.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_brine: {
-                    text: "\"Brine Scripture is terribly literal in the strangest way. It ignores appearances and reads what soaked in.\" Ulvarex sounds amused. \"A brutal critic of illusions. Fortunately, I work in evaporation.\"",
-                    options: [{ text: 'Back', next: 'main' }]
-                }
-            },
-            'brine-scripture': {
-                about_thorne: {
-                    text: "Thorne-Still is rot before residue. It loosens structure, sweetens the mineral shadow, and leaves endings I can taste after the ending has moved on.",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_neme: {
-                    text: "Neme reads the living green pressure. Sap, pulse, breath, fear. I read what the pressure leaves behind when it drains into stone. We are neighboring archives.",
-                    options: [{ text: 'Back', next: 'main' }]
-                },
-                about_ulvarex: {
-                    text: "Ulvarex changes the surface. I read beneath surfaces. Illusion dries on the air. Salt waits below it.",
-                    options: [{ text: 'Back', next: 'main' }]
-                }
-            }
         };
 
         return crossReactions[speakerId]?.[dialogKey] || null;
@@ -955,93 +394,7 @@ export default class SymbiontSystem {
             }
         }
         
-        // Check for Neme messages about spores
-        if (this.symbionts.has('neme-crownmire')) {
-            const symbiont = this.symbionts.get('neme-crownmire');
-            
-            // Skip if silenced
-            if (symbiont.silenced) {
-                return null;
-            }
-            
-            // Check if enough time has passed since last message
-            if (now - symbiont.lastSpoke >= this.messageInterval && now - this.lastMessageTime >= this.messageInterval) {
-                // Calculate the change amount
-                const change = newLevel - oldLevel;
-                
-                // Only react to significant changes (more than 5 points)
-                if (Math.abs(change) >= 5) {
-                    // 30% chance of commenting on spore changes
-                    const randomChance = Math.random();
-                    if (randomChance < 0.3) {
-                        let messages;
-                        
-                        if (change > 0) {
-                            // Messages for increasing spores
-                            messages = [
-                                "These spores... they whisper secrets of the soil.",
-                                "More spores? The Bishop collected them too. Before the end.",
-                                "I sense the balance shifting. Growth and decay dance together.",
-                                "The spores remember what they've seen. I can almost hear them.",
-                                "Careful with those. They have... opinions."
-                            ];
-                        } else {
-                            // Messages for decreasing spores
-                            messages = [
-                                "The spores diminish, but their echoes remain.",
-                                "Less spores means clearer thoughts. Sometimes clarity hurts.",
-                                "They're leaving, but they've already changed you.",
-                                "The Bishop feared spore-loss. I never understood why.",
-                                "The absence creates space for new growth. Different growth."
-                            ];
-                        }
-                        
-                        message = messages[Math.floor(Math.random() * messages.length)];
-                        symbiont.lastSpoke = now;
-                        this.lastMessageTime = now;
-                        return `${symbiont.name}: ${message}`;
-                    }
-                }
-            }
-        }
         
-        // Check for Ulvarex messages about spores
-        if (this.symbionts.has('ulvarex-borrowed-horizon')) {
-            const symbiont = this.symbionts.get('ulvarex-borrowed-horizon');
-            
-            if (now - symbiont.lastSpoke >= this.messageInterval && now - this.lastMessageTime >= this.messageInterval) {
-                const change = newLevel - oldLevel;
-                
-                if (Math.abs(change) >= 5) {
-                    if (Math.random() < 0.3) {
-                        let messages;
-                        
-                        if (change > 0) {
-                            messages = [
-                                "More spores. More raw material. The mirages grow richer.",
-                                "Ah, fresh perception-fuel. I can feel the light bending already.",
-                                "Your spore reserves are climbing. I could paint a sunset with these.",
-                                "Excellent. With these spores I could fool a mirror.",
-                                "The weave thickens. Reality won't know what hit it."
-                            ];
-                        } else {
-                            messages = [
-                                "Fewer spores. My illusions grow thin, like morning mist.",
-                                "Careful. Without spores, I'm just a voice with opinions.",
-                                "The weave is fraying. I'd avoid any grand deceptions for now.",
-                                "Spore reserves dropping. My mirages might start looking like suggestions.",
-                                "Less fuel means less spectacle. I'll have to work with shadows alone."
-                            ];
-                        }
-                        
-                        message = messages[Math.floor(Math.random() * messages.length)];
-                        symbiont.lastSpoke = now;
-                        this.lastMessageTime = now;
-                        return `Ulvarex: ${message}`;
-                    }
-                }
-            }
-        }
         
         return null;
     }

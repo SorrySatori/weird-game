@@ -88,7 +88,6 @@ export default {
             offer_50_dinar_as_incentive: "Nabídnout 50 dinárů jako pobídku",
             try_to_persuade_her: "Pokusit se ji přesvědčit",
             use_thornestills_brain_rot_power: "Použít sílu Mozkové hniloby Thorne-stilla",
-            appeal_to_lumen_directorate_relationship: "Odvolat se na vztah s Direktorátem",
             back: "Zeptej se na něco jiného"
         }
     },
@@ -139,18 +138,6 @@ export default {
         text: "Zerren mluví vzdáleným hlasem, jako by recitovala fakt z paměti, místo aby prozrazovala tajemství. 'Urggh... Edgar Eskola koupil toho plyšáka. Grrrr... Najdete ho u Řvoucího korku. Sběratel podivných artefaktů. Grrrr...' Zamrká, na okamžik zmatená z toho, co se právě stalo.",
         options: {
             thank_you_for_your_help_maybe_take_some_rest_you_d: "Děkuji za pomoc. Možná si odpočiňte, nevypadáte dobře."
-        }
-    },
-    zerren_lumen_directorate_appeal: {
-        text: "'Jako spojenec Direktorátu pátrám po vestigelech jejich jménem. Považují to za záležitost velké důležitosti pro rovnováhu moci v regionu.'",
-        options: {
-            continue: "Pokračovat"
-        }
-    },
-    zerren_lumen_directorate_success: {
-        text: "Zerren se rozšíří oči úlekem. 'Ach! Jste od Direktorátu? Proč jste to neřekl hned?' Vypadá uvolněněji. 'Koupil to Edgar Eskola. Rád sbírá různé staré věci, motá se obvykle kolem Řvoucího korku.'",
-        options: {
-            the_directorate_appreciates_your_cooperation: "Direktorát si vaší spolupráce váží"
         }
     },
     zerren_quest_update: {

@@ -268,12 +268,11 @@ export default class ShedCourtyardScene extends GameScene {
     }
 
     get dialogContent() {
-        // Infinite Fold conversation lives at Burning Bear Street on Day 2,
-        // where Ortolan relocates. Here he only handles the Day-1 arms quest.
+        // Here Ortolan only handles the arms quest.
         return this._ortholanDialogContent;
     }
 
-    /** The Board Game Wars as Ortolan tells them (same entry as Brukk's in RustDomainScene). */
+    /** The Board Game Wars as Ortolan tells them. */
     recordBoardGamesWar() {
         if (!this.journalSystem.getEntry('board_games_war')) {
             this.addJournalEntry(
@@ -316,12 +315,9 @@ export default class ShedCourtyardScene extends GameScene {
             this.priest.play('idle');
         }
 
-        // Add Ortolan — Day 1 only. On Day 2 he has relocated to Burning Bear Street,
-        // so he must not also be standing here.
-        if (!this.isDay2()) {
-        // tools/artgen/ortolan.py: 8 idle frames of 128×160 at scale 1 (soles on y 526). Same frame order as
-        // BurningBearStreetScene (the anim is global): breath, a blink, a glint on the spectacles, "hm", then the
-        // pawn comes up (5), he studies it (6) and it goes back down (5)
+        // Add Ortolan
+        // tools/artgen/ortolan.py: 8 idle frames of 128×160 at scale 1 (soles on y 526). The anim (global): breath,
+        // a blink, a glint on the spectacles, "hm", then the pawn comes up (5), he studies it (6) and it goes back down (5)
         if (!this.anims.exists('ortolan_idle')) {
             this.anims.create({ key: 'ortolan_idle', frames: this.anims.generateFrameNumbers('ortolanIdle', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 3, 0, 0, 4, 4, 0, 1, 1, 7, 0, 0, 5, 6, 6, 6, 6, 5, 0, 0, 0] }), frameRate: 4, repeat: -1 });
         }
@@ -349,7 +345,6 @@ export default class ShedCourtyardScene extends GameScene {
         });
 
         // (his idle is the frame animation above -- no bobbing / tilting tweens: they smear the pixel art)
-        }
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);

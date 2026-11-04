@@ -614,33 +614,7 @@ class JournalUI {
     }
 
     getMembershipStatus(factionKey) {
-        if (factionKey === 'RustChoir') {
-            if (this.journalSystem.hasEntry('rust_choir_machines_destroyed')) {
-                return { text: '⛔ Expelled', color: '#ff4444' };
-            }
-            if (this.journalSystem.hasEntry('rust_choir_joined')) {
-                const isShard = this.journalSystem.hasEntry('rust_feast_completed_shard');
-                return isShard
-                    ? { text: '⚙ Member (Probationary)', color: '#b87333' }
-                    : { text: '⚙ Member', color: '#ffd700' };
-            }
-            if (this.journalSystem.hasEntry('rust_choir_rejected')) {
-                return { text: '✖ Membership Denied', color: '#ff8844' };
-            }
-        }
-        if (factionKey === 'PithReclaimers') {
-            if (this.journalSystem.hasEntry('pith_reclaimers_joined')) {
-                return { text: '⚙ Member', color: '#ffd700' };
-            }
-        }
-        if (factionKey === 'LumenDirectorate') {
-            if (this.journalSystem.hasEntry('lumen_directorate_joined')) {
-                return { text: '⚙ Member', color: '#ffd700' };
-            }
-            if (this.journalSystem.hasEntry('ac_growth_test_passed')) {
-                return { text: '⚙ Associate', color: '#b87333' };
-            }
-        }
+        // the demo build: no faction can be joined yet, so nobody shows a membership
         return null;
     }
     

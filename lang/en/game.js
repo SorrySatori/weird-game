@@ -3,10 +3,6 @@
  */
 export default {
     cutscene: {
-        stomach_clock: {
-            title: 'The Stomach Clock turns over',
-            caption: "At the townhall, the Stomach Clock finishes another digestion and, with a wet chime, begins the next.",
-        },
     },
     shop: {
         balance: 'Dinar: {amount}',
@@ -60,7 +56,6 @@ export default {
     // Inventory items by id (name/description shown in the inventory, effects and shops).
     // `names`/`descriptions` hold per-`variant` texts for items whose flavour depends on how they were obtained.
     items: {
-        trinket_box: { name: 'Ornate Trinket Box', description: 'A small decorative box with intricate fungal patterns.' },
         // Zerren's sound ampules (utils/Recordings.js)
         ampule_squirrel: { name: 'Ampule: Squirrel Scold', description: "A sealed glass ampule, warm to the touch. Hold it to your ear and a small tree-climber from before the Emergence scolds you across the centuries. According to Zerren, the animal went extinct long ago." },
         ampule_purr: { name: 'Ampule: A Cat, Content', description: "Seven seconds of a cat purring on someone's chest. Nobody at the Voxmarket can say whose. Zerren keeps one for herself and will not sell that one." },
@@ -72,20 +67,13 @@ export default {
         ampule_unanswered_call: { name: "Ampule: Unanswered Call", description: "The note attached to it reads: A recording of one of the most terrifying things in the world: a call from an unknown number. Supposedly recorded back in the old Nexicorp Tower. The note doesn't say whether anyone ever picked up." },
         ampule_first_ledger: { name: "Ampule: The First Ledger", description: "A sewing machine in the Townhall cellar, stitching the binding of the very first Ink Tribunal ledger. A historic moment that interested hardly anyone but clerks; judging by the label, this ampule has been sitting here for quite a while." },
         ampule_spin_hymn: { name: "Ampule: Spin Cycle Hymn", description: "A Before-Time washing machine on its final spin. According to the label, the recording was made by the Rust Choir, who considered it a particularly fine one." },
-        crystal_vial: { name: 'Luminescent Crystal Vial', description: 'A vial containing glowing crystal fragments. Makes for pleasant ambient lighting.' },
         market_map: { name: 'Voxmarket Map', description: 'A detailed map of Voxmarket and surrounding areas.' },
         forgotten_elevator_button: { name: 'Forgotten Elevator Button', description: "An old elevator button with strange markings. It seems to be for a floor that doesn't officially exist." },
         grayOltrac: { name: 'Gray Oltrac', description: 'A common variant of Oltrac. Provides mild hallucinogenic effects.' },
         violetOltrac: { name: 'Violet Oltrac', description: 'A medium-strength variant of Oltrac. Enhances perception and provides vivid visions.' },
         amberOltrac: { name: 'Amber Oltrac', description: 'The rarest and most potent form of Oltrac. Said to allow glimpses beyond the veil of reality.' },
         pliers: { name: 'Pliers', description: 'A pair of pliers. Useful for repairing or extracting.' },
-        dream_cartridge: { name: 'The Cardinal Feast', description: 'A portable dream device with a cartridge labeled "The Cardinal Feast". I hope it is at least a good game when it was the last one poor Bishop played.' },
-        metal_scrap: { name: 'Metal Scrap', description: 'Rusty metal fragments found in the delta.', names: { magnekin: 'Magnekin Metal Scraps' }, descriptions: { magnekin: 'Magnetic metal fragments from destroyed micro-cities.' } },
-        oil: { name: 'Oil', description: 'Viscous oil found at the harbor.', names: { magnekin: 'Magnekin Oil' }, descriptions: { magnekin: 'Viscous oil extracted from the destroyed Magnekin collective.' } },
         wimlick: { name: 'Wimlick', description: 'A thick, tallow-white stimulant that smells of guttered candles — sharpens you up, speeds you up, and loosens the tongue. Torchère wants it dropped, not sold. Contraband, but it has a street value.' },
-        'townhall-key': { name: 'Townhall Key', description: 'An unofficial spare key from Seldo Thrice-Corrected. It opens a side entrance to the Townhall.' },
-        corrosive_cultivar: { name: 'Corrosive Cultivar', description: 'A restricted Lumen Directorate plant — a controlled rot bred to devour metal. Ground into oil and fed to a machine, it corrodes it from the inside. Handle with care.' },
-        redmass: { name: 'Living Redmass', description: 'A piece of living metal, torn from a sentient crystalline organism. It still vibrates faintly, as if screaming.', names: { magnekin: 'Magnekin Redmass' }, descriptions: { willing: 'A shard of living metal, given willingly by a sentient crystalline organism. It hums gently, at peace.', magnekin: 'A pulsing crimson mass that once held the collective consciousness of thousands.' } },
         scraper_backyard_key: { name: 'Backyard Key', description: 'A key to the Scraper 1140 backyard. It seems to glow faintly.' },
         'forged-arms-permission': { name: 'Forged Multiple Arms Permission', description: "A convincing forgery of an Artisan's Exemption Form that would allow the bearer to legally possess multiple arms for specialized work." },
         rust_feast: { name: 'Rust Feast', description: 'A ceremonial meal prepared for the Rust Choir machines. A foul-smelling concoction of oil, metal shavings, and living redmass. The container rattles faintly, as if something inside is still alive.', descriptions: { thin: 'A ceremonial meal prepared for the Rust Choir machines. Thin, barely adequate — a small shard of redmass mixed with oil and metal dust. It hums softly.', illusory: 'A ceremonial meal prepared for the Rust Choir machines. Oil, metal shavings, and what appears to be living redmass — but you know the truth. The container hums faintly, but something feels hollow.', laced: 'A ceremonial meal for the Rust Choir machines — oil, metal shavings, and living redmass. Laced, unseen, with a Lumen Directorate cultivar ground into the oil. It rattles like any other feast. It is not.' } },
@@ -102,9 +90,6 @@ export default {
         'deformity-form': { name: 'Inherited Deformity Form', description: 'Official form classifying multiple limbs as beneficial mutations rather than deformities. Approved for use.' },
         'special-dispensation': { name: 'Special Dispensation', description: 'A rare document allowing limb modification without standard paperwork. Obtained through nonverbal means.' },
         'temporary-permit': { name: 'Temporary Permit', description: 'A provisional document granting limited access. Not fully approved, but better than nothing.' },
-        filed_dossier: { name: 'Misfiled Dossier', description: "A sealed dossier the Townhall buried under a case-number that doesn't exist. Sconce wants it brought out where it can't be quietly unhappened." },
-        'godgraveyard-access-permit': { name: 'Godgraveyard Access Permit', description: "Councilor Seraphel Dune's sealed order granting access to the Godgraveyard beneath the Townhall." },
-        'chrono-slurry-toadlet': { name: 'Chrono-Slurry Toadlet', description: 'A damp prophetic amphibian in a brass carrier jar. Seldo Thrice-Corrected wants it for three-minute bureaucratic foresight.' },
     },
     crossroad: {
         plantGrows: 'Some strange plant grows from the corpse. You also notice something above it...',
@@ -141,21 +126,6 @@ export default {
     },
     // Growth/Decay world-shift toasts: reason + shared tail (notifications.worldSoursDecay / worldLeansGrowth)
     gd: {
-        sided_directorate: 'You sided with the Directorate.',
-        clean_run_lie: 'A clean run, wrapped in a lie.',
-        contraband_dropped: 'Contraband dropped.',
-        parcel_kept: 'The parcel stays in your coat.',
-        truth_not_dirt: 'You drew out the truth, not just the dirt.',
-        fresh_gossip: 'Fresh gossip to spread.',
-        contraband_recorded: 'Contraband entered on the record.',
-        buried_truth: 'A buried truth, back in the light.',
-        lie_like_face: 'You wore a lie like a face.',
-        sided_choir: 'You sided with the Choir.',
-        choir_keeps_contraband: 'The Choir keeps the contraband.',
-        read_the_dead: 'You read the dead.',
-        truth_into_light: 'You drew the truth into the light.',
-        palinode_seam: 'Palinode unsays the seam — a dead floor opens. You gather abandoned spores.',
-        palinode_brick: 'Palinode unsays the brick — a walled tunnel exhales cold air toward the Living Core.',
     },
     notifications: {
         hintNoSpores: 'Not enough spores for a hint ({cost} needed)',
@@ -182,8 +152,6 @@ export default {
         symbiontGained: 'Gained symbiont: {name}',
         worldSoursDecay: 'The world sours toward Decay.',
         worldLeansGrowth: 'The world leans toward Growth.',
-        inventoryFull: 'Inventory is full!',
-        sporeChange: '{sign}{amount} Spores',
         nemeSilenced: 'The rot rises — Neme falls silent.',
         nemeRecovered: 'The air clears — Neme can read again.',
         osswineSilenced: 'Too much life here — Osswine goes still.',
@@ -192,28 +160,12 @@ export default {
         growthDecreased: 'Growth decreased!',
         decayIncreased: 'Decay increased!',
         decayDecreased: 'Decay decreased!',
-        newQuestNamed: 'New quest: {quest}',
-        questCompletedNamed: 'Quest complete: {quest}',
-        reputationUp: '{faction} reputation increased',
-        lumenMember: 'You are now a member of the Lumen Directorate',
-        directorateLead: 'Directorate files: lead uncovered',
     },
 
     factions: {
-        RustChoir: 'Rust Choir',
-        PithReclaimers: 'Ink Tribunal',
-        LumenDirectorate: 'Lumen Directorate',
     },
 
     mood: {
-        verrik: {
-            growthDominant: "The tendrils lean toward you before you've even spoken. Good — green things know their own.",
-            decayDominant: "Stand back from the beds a moment. Something in your spores makes the young shoots curl away.",
-        },
-        angle_corrector: {
-            growthDominant: "Your cadence has resolved toward growth. Cleaner. The measurement is a pleasure to take.",
-            decayDominant: "Hold still. Your reading skews toward collapse — a fault I would rather not stand this close to.",
-        },
         liris: {
             growthDominant: "You come aboard smelling of green weather. The deck ferns fair lean into you. Welcome.",
             decayDominant: "Something rides up with you — a rot on the wind. Keep it downwind of my skyship, if you please.",
@@ -234,22 +186,9 @@ export default {
             growthDominant: "My scales twitch — your spores are ripe, swollen with life. Prime stock, that.",
             decayDominant: "The mechanic counter smells you before you speak — rot, and plenty of it. Cheap goods.",
         },
-        townsquare_citizen: {
-            growthDominant: "The little cities in me hum — you carry a great deal of growing. Very... citizen-like. Very alive.",
-            decayDominant: "My cities flinch. Something in you is coming apart. As a real citizen, I find this... normal. Totally normal.",
-        },
     },
 
     journal: {
-        categories: {
-            EVENTS: 'EVENTS',
-            PEOPLE: 'PEOPLE',
-            PLACES: 'PLACES',
-            LORE: 'LORE',
-            DREAMS: 'DREAMS',
-            FACTIONS: 'FACTIONS',
-            CLUES: 'CLUES',
-        },
     },
 
     sporeBar: {

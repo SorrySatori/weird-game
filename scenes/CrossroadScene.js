@@ -230,8 +230,6 @@ export default class CrossroadScene extends GameScene {
     }
 
     get dialogContent() {
-        const hasBrine = !!this.symbiontSystem?.hasSymbiont('brine-scripture');
-        const hasOsswine = !!this.symbiontSystem?.hasSymbiont('osswine');
         return {
             ...super.dialogContent,
             speaker: 'Giant Corpse',
@@ -249,8 +247,6 @@ export default class CrossroadScene extends GameScene {
                         key: 'cut_it_open',
                         next: 'acceptSymbiont'
                     },
-                    ...(hasBrine ? [{ text: '[Salt Recall] Read what remains in it.', key: 'salt_recall_corpse', next: 'corpse_salt_recall' }] : []),
-                    ...(hasOsswine ? [{ text: '[Grave-Sense] Read how it died.', key: 'grave_sense_corpse', next: 'corpse_grave_sense' }] : []),
                     {
                         text: 'Leave it alone',
                         key: 'leave_it_alone',
@@ -261,49 +257,11 @@ export default class CrossroadScene extends GameScene {
             corpseExhausted: {
                 text: `There is nothing more you can do with the old corpse. Its purpose has been fulfilled.`,
                 options: [
-                    ...(hasBrine ? [{ text: '[Salt Recall] Read what remains in it.', key: 'salt_recall_corpse', next: 'corpse_salt_recall' }] : []),
-                    ...(hasOsswine ? [{ text: '[Grave-Sense] Read how it died.', key: 'grave_sense_corpse', next: 'corpse_grave_sense' }] : []),
                     {
                         text: 'Leave it alone',
                         key: 'leave_it_alone',
                         next: 'closeDialog'
                     }
-                ]
-            },
-            corpse_grave_sense: {
-                speaker: 'Osswine',
-                text: `Osswine wakes up and reads the final moments of the immense creature before you. *"...A lot of violence. He was the illegitimate son of the god Lietus Kika, who came to the city to die and left his son at the mercy of the world. It seems the demigod had quite a successful career as a tyrant and the city's supreme ruler, hmm. But one day, an enraged mob put an end to his career — tough luck. They left the bastard's body to rot at the crossroads so that no divine being would ever again dare to try to rule Upper Morkezela. But they didn't know that a demigod's body would withstand the ravages of time and remain here forever. Then again, they said that was even better — at least the memento would be permanent."*`,
-                onTrigger: () => {
-                    if (!this.hasJournalEntry('grave_sense_crossroad_corpse')) {
-                        this.addJournalEntry(
-                            'grave_sense_crossroad_corpse',
-                            'Grave-Sense: How the Corpse Died',
-                            'Through Osswine I read the giant corpse\'s ending: a lot of violence. He was the illegitimate son of the god Lietus Kika, left to the world when his father came here to die. He made himself tyrant and supreme ruler of the city, until an enraged mob ended him and left the body at the crossroads as a warning to any divine being who would try to rule Upper Morkezela. A demigod\'s body does not rot — so the warning stands forever.',
-                            this.journalSystem.categories.LORE,
-                            { location: 'Crossroad', via: 'osswine' }
-                        );
-                    }
-                },
-                options: [
-                    { text: 'Step back.', key: 'grave_sense_corpse_back', next: 'closeDialog' }
-                ]
-            },
-            corpse_salt_recall: {
-                speaker: 'Brine Scripture',
-                text: `Brine Scripture stirs and tastes the salt the great body has been leaking into the crossroad for years. *"This one has come a long way. The illegitimate child of the god Lietus Kika. Not a god — a demigod, a divine bastard. Lietus, the god of temporal confusion, came to the city to die, bringing his bastard son with him. But in his typical state of confusion, he didn't have time to secure a future for his son."*\n\n*"The bastard son attempted to take control of the city. He became a tyrant, until finally an enraged mob lynched him, murdered him, and left his body to rot at the crossroads. However, his demigod-like body resisted decay, and so this place gained a new landmark. Today, the locals are proud of it and can no longer imagine the crossroads without the demigod's corpse."*`,
-                onTrigger: () => {
-                    if (!this.hasJournalEntry('salt_recall_crossroad_corpse')) {
-                        this.addJournalEntry(
-                            'salt_recall_crossroad_corpse',
-                            'Salt Recall: The Crossroad Corpse',
-                            'Through Brine Scripture I read the salt-memory of the giant corpse at the crossroad. Not a god but a demigod: the bastard son of Lietus Kika, god of temporal confusion, who brought him here to die and, in his usual confusion, never secured his future. The son tried to rule the city, became a tyrant and was lynched; his demigod body refused to rot, and the locals grew proud of their landmark.',
-                            this.journalSystem.categories.LORE,
-                            { location: 'Crossroad', via: 'brine-scripture' }
-                        );
-                    }
-                },
-                options: [
-                    { text: 'Step back.', key: 'salt_recall_corpse_back', next: 'closeDialog' }
                 ]
             },
             corpseReconsider: {

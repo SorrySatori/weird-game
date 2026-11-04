@@ -3,10 +3,6 @@
  */
 export default {
     cutscene: {
-        stomach_clock: {
-            title: 'Žaludeční hodiny se překlopí',
-            caption: "Na radnici Žaludeční hodiny dokončí další trávení a s vlhce znějícím úderem začnou nové.",
-        },
     },
     shop: {
         balance: 'Dinárů: {amount}',
@@ -60,7 +56,6 @@ export default {
     // Předměty v inventáři podle id (název/popis v inventáři, u efektů a v obchodech).
     // `names`/`descriptions` = texty podle `variant` u předmětů, jejichž popis závisí na tom, jak je hráč získal.
     items: {
-        trinket_box: { name: 'Zdobená krabička na cetky', description: 'Malá ozdobná krabička s propracovanými houbovými vzory.' },
         // Zerreniny zvukové ampule (utils/Recordings.js)
         ampule_squirrel: { name: 'Ampule: Veverčí hubování', description: 'Zatavená skleněná ampule, na dotek teplá. Přilož ji k uchu a malý stromolezec z dob před Vynořením ti přes staletí vyhubuje. Podle Zerren to zvíře dávno vyhynulo.' },
         ampule_purr: { name: 'Ampule: Spokojená kočka', description: 'Sedm vteřin kočičího předení na něčí hrudi. Nikdo na Voxmarketu neví na čí. Zerren si jednu nechává pro sebe a tu neprodá.' },
@@ -72,20 +67,13 @@ export default {
         ampule_unanswered_call: { name: "Ampule: Nepřijatý hovor", description: "Na doprovodném lístku stojí: Záznam jedné z nejstrašnějších věcí na světě: hovoru z neznámého čísla. Prý zaznamenán ještě ve staré Nexicorp Tower. Nepíše se tu, jestli ten telefon někdo nakonec zvedl." },
         ampule_first_ledger: { name: "Ampule: První kniha zápisů", description: "Šicí stroj ve sklepě Radnice sešívá vazbu úplně první knihy Inkoustového tribunálu. Tento historický moment ovšem zajímal tak leda úředníky, podle cedulky tu ampule leží už pěkně dlouho." },
         ampule_spin_hymn: { name: "Ampule: Hymna odstřeďování", description: "Pračka z Předdoby při posledním odstřeďování. Podle cedulky nahrávku pořídil Rezavý chór a považoval ji za obzvláště vydařenou." },
-        crystal_vial: { name: 'Světélkující křišťálová lahvička', description: 'Lahvička se svítícími úlomky krystalu. Dělá příjemné tlumené světlo.' },
         market_map: { name: 'Mapa Voxmarketu', description: 'Podrobná mapa Voxmarketu a okolí.' },
         forgotten_elevator_button: { name: 'Zapomenutý výtahový knoflík', description: 'Starý výtahový knoflík s podivnými značkami. Zdá se, že patří k patru, které oficiálně neexistuje.' },
         grayOltrac: { name: 'Šedý Oltrac', description: 'Běžná odrůda Oltracu. Mírné halucinogenní účinky.' },
         violetOltrac: { name: 'Fialový Oltrac', description: 'Středně silná odrůda Oltracu. Zostřuje vnímání a přináší živé vize.' },
         amberOltrac: { name: 'Jantarový Oltrac', description: 'Nejvzácnější a nejsilnější podoba Oltracu. Prý dovolí nahlédnout za závoj skutečnosti.' },
         pliers: { name: 'Kleště', description: 'Obyčejné kleště. Hodí se na opravy i na vytahování věcí.' },
-        dream_cartridge: { name: 'Kardinálova hostina', description: 'Přenosné snové zařízení s kazetou označenou „Kardinálova hostina“. Snad je to aspoň dobrá hra, když to byla poslední, kterou chudák Biskupka hrála.' },
-        metal_scrap: { name: 'Kovový šrot', description: 'Rezavé úlomky kovu nalezené v deltě.', names: { magnekin: 'Magnekinský kovový šrot' }, descriptions: { magnekin: 'Magnetické úlomky kovu ze zničených mikroměst.' } },
-        oil: { name: 'Olej', description: 'Hustý olej nalezený v přístavu.', names: { magnekin: 'Magnekinský olej' }, descriptions: { magnekin: 'Hustý olej získaný ze zničeného kolektivu Magnekinů.' } },
         wimlick: { name: 'Wimlick', description: 'Hustý, lojově bílý stimulant, který páchne jako zhaslé svíčky – zbystří tě, zrychlí tě a rozváže ti jazyk. Torchère chce, abys ho doručil, ne prodal. Kontraband, ale na ulici má svou cenu.' },
-        'townhall-key': { name: 'Klíč od radnice', description: 'Neoficiální náhradní klíč od Selda Třikrát-Korigovaného. Otevírá boční vchod do radnice.' },
-        corrosive_cultivar: { name: 'Korozivní kultivar', description: 'Zakázaná rostlina Direktorátu – řízená hniloba vyšlechtěná tak, aby žrala kov. Rozemletá do oleje a předhozená stroji ho rozežere zevnitř. Zacházej s ní opatrně.' },
-        redmass: { name: 'Živá rudohmota', description: 'Kus živého kovu vyrvaný z vnímající krystalické bytosti. Stále slabě vibruje, jako by křičel.', names: { magnekin: 'Magnekinská rudohmota' }, descriptions: { willing: 'Střípek živého kovu, který vnímající krystalická bytost dala dobrovolně. Tiše, smířeně bzučí.', magnekin: 'Pulzující karmínová hmota, která kdysi nesla společné vědomí tisíců.' } },
         scraper_backyard_key: { name: 'Klíč od dvorku', description: 'Klíč od dvorku Škrabáku 1140. Jako by slabě zářil.' },
         'forged-arms-permission': { name: 'Padělané povolení na více rukou', description: 'Přesvědčivý padělek Formuláře o výjimce pro umělce, který držiteli dovoluje mít legálně více rukou pro odbornou práci.' },
         rust_feast: { name: 'Rezavá hostina', description: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Odporně páchnoucí směs oleje, kovových hoblin a živé rudohmoty. Nádoba slabě rachotí, jako by uvnitř ještě něco žilo.', descriptions: { thin: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Řídký, sotva dostačující – střípek rudohmoty smíchaný s olejem a kovovým prachem. Tiše bzučí.', illusory: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Olej, kovové hobliny a něco, co vypadá jako živá rudohmota – ale ty znáš pravdu. Nádoba slabě bzučí, ale něco na tom zní dutě.', laced: 'Obřadní pokrm pro stroje Rezavého chóru – olej, kovové hobliny a živá rudohmota. Nepozorovaně prosycený kultivarem Direktorátu rozemletým do oleje. Rachotí jako každá jiná hostina. Není jako každá jiná.' } },
@@ -102,9 +90,6 @@ export default {
         'deformity-form': { name: 'Formulář o zděděné deformitě', description: 'Úřední formulář, který klasifikuje více končetin jako prospěšnou mutaci, nikoli deformitu. Schváleno k použití.' },
         'special-dispensation': { name: 'Zvláštní dispens', description: 'Vzácný dokument, který dovoluje úpravu končetin bez standardního papírování. Získán nonverbální cestou.' },
         'temporary-permit': { name: 'Dočasné povolení', description: 'Prozatímní dokument udělující omezený přístup. Není plně schválený, ale lepší než nic.' },
-        filed_dossier: { name: 'Zašantročený spis', description: 'Zapečetěný spis, který radnice pohřbila pod číslem případu, jež neexistuje. Sconce chce, aby se dostal ven, kde se nedá potichu odestát.' },
-        'godgraveyard-access-permit': { name: 'Povolení ke vstupu na Hřbitov bohů', description: 'Zapečetěný příkaz radní Seraphel Dune udělující přístup na Hřbitov bohů pod radnicí.' },
-        'chrono-slurry-toadlet': { name: 'Chronobřečkové Ropušátko', description: 'Vlhký prorocký obojživelník v mosazné přenosné nádobě. Seldo Třikrát-Korigovaný ho chce kvůli tříminutové byrokratické předvídavosti.' },
     },
     crossroad: {
         plantGrows: 'Z mrtvoly vyrůstá podivná rostlina. A nad ní si všimneš ještě něčeho...',
@@ -146,21 +131,6 @@ export default {
     },
     // Hlášky posunu Růst/Rozklad: důvod + společný dovětek (notifications.worldSoursDecay / worldLeansGrowth)
     gd: {
-        sided_directorate: 'Postavil ses na stranu Direktorátu.',
-        clean_run_lie: 'Čistá fuška zabalená do lži.',
-        contraband_dropped: 'Kontraband doručen.',
-        parcel_kept: 'Balíček zůstává ve tvém kabátě.',
-        truth_not_dirt: 'Vytáhl jsi pravdu, ne jen špínu.',
-        fresh_gossip: 'Čerstvé drby k šíření.',
-        contraband_recorded: 'Kontraband zanesen do záznamů.',
-        buried_truth: 'Pohřbená pravda je zpátky na světle.',
-        lie_like_face: 'Nosil jsi lež jako vlastní tvář.',
-        sided_choir: 'Postavil ses na stranu Chóru.',
-        choir_keeps_contraband: 'Chór si kontraband nechává.',
-        read_the_dead: 'Četl jsi mrtvé.',
-        truth_into_light: 'Vytáhl jsi pravdu na světlo.',
-        palinode_seam: 'Palinode odvolá šev – otevře se mrtvé patro. Posbíráš opuštěné spory.',
-        palinode_brick: 'Palinode odvolá cihlu – zazděný tunel vydechne studený vzduch směrem k Živému jádru.',
     },
     notifications: {
         hintNoSpores: 'Na nápovědu nemáš dost spor (potřebuješ {cost})',
@@ -187,8 +157,6 @@ export default {
         symbiontGained: 'Získán symbiont: {name}',
         worldSoursDecay: 'Svět se naklání k Rozkladu.',
         worldLeansGrowth: 'Svět se naklání k Růstu.',
-        inventoryFull: 'Inventář je plný!',
-        sporeChange: '{sign}{amount} Spor',
         nemeSilenced: 'Hniloba sílí – Neme utichá.',
         nemeRecovered: 'Vzduch se čistí – Neme opět čte.',
         osswineSilenced: 'Zde je příliš mnoho života – Osswine strne.',
@@ -197,28 +165,12 @@ export default {
         growthDecreased: 'Růst poklesl!',
         decayIncreased: 'Rozklad vzrostl!',
         decayDecreased: 'Rozklad poklesl!',
-        newQuestNamed: 'Nový úkol: {quest}',
-        questCompletedNamed: 'Úkol dokončen: {quest}',
-        reputationUp: 'Stoupla ti reputace u frakce {faction}',
-        lumenMember: 'Jsi teď členem Direktorátu',
-        directorateLead: 'Spisy Direktorátu: nová stopa',
     },
 
     factions: {
-        RustChoir: 'Rezavý chór',
-        PithReclaimers: 'Inkoustový tribunál',
-        LumenDirectorate: 'Direktorát',
     },
 
     mood: {
-        verrik: {
-            growthDominant: "Úponky se k tobě naklánějí dřív, než promluvíš. Dobře – zelené věci poznají svoje lidi.",
-            decayDominant: "Ustup na chvíli od záhonů. Něco ve tvých sporách nutí mladé výhonky se schoulit.",
-        },
-        angle_corrector: {
-            growthDominant: "Tvá kadence se ustálila k růstu. Čistší. Je potěšením ji měřit.",
-            decayDominant: "Stůj klidně. Tvé měření se chýlí ke kolapsu – vada, u níž bych nerad stál tak blízko.",
-        },
         liris: {
             growthDominant: "Vstupuješ na palubu a voníš po zeleném počasí. Kapradí rostoucí na palubě se k tobě naklání. Vítej.",
             decayDominant: "Něco s tebou stoupá nahoru – hniloba ve větru. Drž to po větru dál od mé vzducholodě, buď tak laskav.",
@@ -239,22 +191,9 @@ export default {
             growthDominant: "Váhy sebou cukají – tvé spory jsou zralé, nabité životem. Prvotřídní zboží.",
             decayDominant: "Mechanický pult tě ucítí dřív, než promluvíš – hniloba, a je jí spousta. Laciné zboží.",
         },
-        townsquare_citizen: {
-            growthDominant: "Ta městečka ve mně hučí – neseš v sobě spoustu růstu. Velmi... občanské. Velmi živé.",
-            decayDominant: "Má městečka sebou trhnou. Něco v tobě se rozpadá. Jakožto skutečný občan to shledávám... normálním. Naprosto normálním.",
-        },
     },
 
     journal: {
-        categories: {
-            EVENTS: 'UDÁLOSTI',
-            PEOPLE: 'POSTAVY',
-            PLACES: 'MÍSTA',
-            LORE: 'HISTORIE',
-            DREAMS: 'SNY',
-            FACTIONS: 'FRAKCE',
-            CLUES: 'STOPY',
-        },
     },
 
     sporeBar: {

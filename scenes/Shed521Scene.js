@@ -2,7 +2,6 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
 import JournalSystem from '../systems/JournalSystem.js';
-import { GANG_QUEST_IDS, gangQuestStatus, recordSpyFragment } from '../utils/GangOfLamps.js';
 
 export default class Shed521Scene extends GameScene {
     constructor() {
@@ -27,11 +26,6 @@ export default class Shed521Scene extends GameScene {
         const refusedGnur = hasQuestUpdate('quest_refused');
         const hasLivingCore = !!inventory?.items?.some(item => item.id === 'living-core');
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
-        // Gang of Lamps: Don's spy quest — buy a whisper out of Gnur.
-        const canSpyGnur = gangQuestStatus(this, GANG_QUEST_IDS.don) === 'active' && !this.hasJournalEntry('gang_spy_gnur');
-        // Ulvarex (Mirage Weave) can make Gnur see a Rust superior instead of a stranger — a
-        // deception route that gets a deeper whisper for free, and sours the balance toward decay.
-        const canSpyGnurUlvarex = canSpyGnur && !!this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon');
 
         const content = {
             ...super.dialogContent,
@@ -48,8 +42,6 @@ export default class Shed521Scene extends GameScene {
                     // Confront Gnur once the clerk told the player what the core is for (quest still open)
                     ...(canConfront ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : []),
                     ...(hasFindRustQuest ? [{ text: "I'm looking for a way to reach the Rust Choir headquarters in the Scraper. Can you help me?", key: 'im_looking_for_the_way_how_to_reach_the_rust_choir', next: "rustDomain" }] : []),
-                    ...(canSpyGnur ? [{ text: "You said you sell whispers. What's the Rust Choir not saying out loud?", key: 'gnur_spy_probe', next: "gnur_spy_secret" }] : []),
-                    ...(canSpyGnurUlvarex ? [{ text: "[Ulvarex · Mirage Weave] (Let him see a Rust superior, and demand the whole truth.)", key: 'gnur_spy_ulvarex', next: "gnur_spy_ulvarex_read" }] : []),
                 ],
                 onTrigger: () => {
                     // Add journal entry about meeting Gnur
@@ -62,26 +54,6 @@ export default class Shed521Scene extends GameScene {
                             { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 521' }
                         );
                     }
-                }
-            },
-            gnur_spy_ulvarex_read: {
-                text: "Ulvarex pours light across your outline and *bends* it — and Gnur's forge-eyes go wide with recognition at a superior who was never there. \"Ah — didn't hear you come down, boss, forgive me—\" He stands straighter, eager to please the phantom. \"The mole? Yeah, yeah, still singing sweet. Their little archivist in the Lumen Directorate feeds Brukk which districts the pretty people are about to write off, so we know which machines'll be goin' cheap. And there's talk of a *second* pair of ears inside, higher up, but I ain't been told a name.\" He blinks as the mirage frays. \"...Wait. Who—\" Too late; you have it.",
-                options: [
-                    { text: "(Let the mirage dissolve.)", key: 'gnur_spy_ulvarex_close', next: "start" }
-                ],
-                onTrigger: () => {
-                    this.modifyGrowthDecay(0, 5);
-                    this.notifyShift('lie_like_face', 'decay');
-                    recordSpyFragment(this, 'gnur', "Rust Choir Secret: the Directorate Mole", "Wearing Ulvarex's mirage of a Rust superior, I made Gnur spill freely: the Choir has a mole inside the Lumen Directorate — an archivist tipping Brukk which districts the Directorate will write off, so the Choir claims the machines cheap. Gnur hinted at a *second*, higher-placed pair of hands inside too, though he had no name.");
-                }
-            },
-            gnur_spy_secret: {
-                text: "Gnur's crackle drops to a conspirator's murmur. \"A whisper, eh? For you, cheap — I'm feelin' generous.\" He leans close, oil-breath and static. \"The Choir's got someone *inside* the Lumen Directorate. One of their prim little archivists sings for us on the quiet — feeds Brukk which districts the Directorate's about to write off, so we know which machines'll be going cheap. The pretty people think they're pruning the city. They're just tellin' us where to dig.\" He straightens, grin crackling. \"That whisper's worth more'n you paid. Don't say Gnur never gave you nothin'.\"",
-                options: [
-                    { text: "Worth every bit. (Remember this.)", key: 'gnur_spy_secret_close', next: "start" }
-                ],
-                onTrigger: () => {
-                    recordSpyFragment(this, 'gnur', "Rust Choir Secret: Gnur", "Gnur sold me a whisper: the Rust Choir has a mole inside the Lumen Directorate — an archivist who tips Brukk off about which districts the Directorate is about to write off, so the Choir knows which machines will soon be going cheap. The Directorate thinks it's pruning the city; it's really telling the Choir where to dig.");
                 }
             },
             background: {
@@ -348,10 +320,8 @@ export default class Shed521Scene extends GameScene {
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
         // Examine: the rust-choked pipes/guts of the Shed (upper-centre, clear of Gnur below).
-        this.createObservable(400, 195, 240, 150, () => {
-            if (this.hasJournalEntry('rust_choir_joined')) return this.t('observe.shed_pipes.member');
-            return this.t('observe.shed_pipes.default');
-        }, { hint: this.t('observe.shed_pipes.hint') });
+        this.createObservable(400, 195, 240, 150, () => this.t('observe.shed_pipes.default'),
+            { hint: this.t('observe.shed_pipes.hint') });
 
         // Add Gnur NPC with proper size
         this.gnur = this.add.sprite(400, 470, 'gnur');

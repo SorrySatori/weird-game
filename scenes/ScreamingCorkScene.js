@@ -67,8 +67,8 @@ export default class ScreamingCorkScene extends GameScene {
                 usable: false,
                 consumable: false,
                 value: 0,
-                // stackable like the Gang of Lamps' one (utils/GangOfLamps.js): a non-stackable add is silently
-                // refused while another 'vestigel' is in the pack, and this one is never offered again
+                // stackable: a non-stackable add is silently refused while another 'vestigel' is in the pack,
+                // and this one is never offered again
                 stackable: true
             });
             this.questSystem.updateQuest('the_three_vestigels', afterBook
@@ -209,22 +209,6 @@ export default class ScreamingCorkScene extends GameScene {
             });
         }
 
-        if (this.hasJournalExperience('magnekin_reveal') && !selectedTopicIds.includes('magnekin')) {
-            topics.push({
-                id: 'magnekin',
-                text: "Magnekin — A Civilization in One Body",
-                description: "A collective of tiny cities held together by magnetic forces, disguised as a single humanoid citizen"
-            });
-        }
-
-        if (this.hasJournalExperience('phor_calesta') && !selectedTopicIds.includes('god_graveyard')) {
-            topics.push({
-                id: 'god_graveyard',
-                text: "The God Graveyard beneath the city",
-                description: "Layers of fossilized dead gods lying beneath Upper Morkezela, their prayers turned to strata and halos crystallized into mineral deposits"
-            });
-        }
-
         // Always provide some default topics even if the player hasn't journaled much
         if (topics.length < 2) {
             // Only add default topics if they haven't been selected yet
@@ -302,10 +286,6 @@ export default class ScreamingCorkScene extends GameScene {
                     ] : []),
                     ...(bookDone && book ? [
                         { text: "Read me something from your book.", key: 'read_me_from_your_book', next: "edgar_book_reread" }
-                    ] : []),
-                    // Before the finale: Edgar's overlooked-places perspective on the Egg Cathedral
-                    ...(this.hasJournalEntry('met_infinite_fold') ? [
-                        { text: "[Before entering the cathedral] You've worked everywhere in this city. Is there a way into the Egg Cathedral nobody talks about?", key: 'edgar_cathedral_ask', next: "edgar_cathedral_way" }
                     ] : []),
                 ],
                 onTrigger: () => {
@@ -576,10 +556,10 @@ export default class ScreamingCorkScene extends GameScene {
                             location: 'Screaming Cork',
                             quest: 'edgar_book',
                             quest_status: 'completed',
-                            // The exact book, so later scenes (the Day-1 nightlife cutscene, re-reading)
-                            // rebuild the same text: utils/EdgarBook.js composeBook(book_draft, lang).
+                            // The exact book, so re-reading it later rebuilds the same text:
+                            // utils/EdgarBook.js composeBook(book_draft, lang).
                             book_draft: { ...this.bookDraft },
-                            book_title: en.title,        // EN — the nightlife cutscene captions are English
+                            book_title: en.title,
                             book_title_cs: czech.title,
                             book_genre: this.bookDraft.genre,
                             book_tone: this.bookDraft.tone,
@@ -833,44 +813,6 @@ export default class ScreamingCorkScene extends GameScene {
                     }
                 }
             },
-
-            // Before the finale: Edgar's secret way into the Egg Cathedral
-            edgar_cathedral_way: {
-                text: "The ursine creature goes very still — the way animals do when they hear something potentially dangerous. \"The Egg Cathedral… Yes. I've thought about that place more than most have.\" He lowers his voice. \"I swept its corridors. Oiled its lift-cages. Carried out its ash. Nobody watches the one who carries out the ash. And I learned a thing the priests never did: everyone was using the main entrance. The great doors. The Sentinel. I always looked for the hidden places. Some nights, the walls breathe.\"",
-                options: [
-                    { text: "The walls breathe?", key: 'the_walls_breathe', next: "edgar_cathedral_breathe" },
-                    { text: "Then show me the way in.", key: 'then_show_me_the_way_in', next: "edgar_cathedral_path" },
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
-                ]
-            },
-            edgar_cathedral_breathe: {
-                text: "\"They're breathing. In and out, slowly, as if something were sleeping there. Everyone thinks the cathedral's cellars are just a dead, empty space where nothing exists. But I don't think they're dead. There's something down there. Honestly, I stopped working there because I got scared. I have no idea if those corridors have changed in any way since then — you'll have to see for yourself.\"",
-                options: [
-                    { text: "So there is a way in.", key: 'so_there_is_a_way_in', next: "edgar_cathedral_path" },
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_cathedral_way" }
-                ],
-                onTrigger: () => {
-                    this.addJournalFact('edgar_cathedral_path', 'cellars', "He says the cellars everyone takes for dead space are not dead: something is down there. He stopped working there because it frightened him, and he doesn't know how the corridors have changed since.");
-                }
-            },
-            edgar_cathedral_path: {
-                text: "\"There is. On the north side, where the cathedral wall meets the dead gods strata, there is a spot where the ground is constantly shifting, creating a narrow passage. A gap the width of a bear's shoulders, if you don't mind the smell of the underneath. You'd better go right away. Whatever's waking in there won't leave a gap open for long.\" He hesitates, one great paw flat on the table. \"Be careful. I've always thought of myself as someone who notices things that no one else notices. I wouldn't want to be the last person to see you alive.\"",
-                options: [
-                    { text: "Thank you, Edgar.", key: 'thank_you_edgar_cathedral', next: "edgar_start" },
-                    { text: "I should go.", key: 'i_should_go', next: "closeDialog" }
-                ],
-                onTrigger: () => {
-                    if (!this.hasJournalEntry('edgar_cathedral_path')) {
-                        this.addJournalEntry(
-                            'edgar_cathedral_path',
-                            'Edgar\'s Secret Way',
-                            'Edgar Eskola — who spent years as a janitor in the Egg Cathedral, sweeping its corridors and carrying out its ash — told me of a way inside that ignores the great doors and the Sentinel entirely. On the north side, where the cathedral wall meets the dead-god strata, the ground is constantly shifting and has opened a narrow passage — a gap the width of a bear\'s shoulders. Some nights, he says, the walls breathe. "Everyone was using the main entrance," he said. "I always looked for the hidden places."',
-                            this.journalSystem.categories.PLACES,
-                            { character: 'Edgar Eskola', location: 'Egg Cathedral' }
-                        );
-                    }
-                }
-            }
         };
     }
 

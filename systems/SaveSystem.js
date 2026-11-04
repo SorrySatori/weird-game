@@ -5,15 +5,8 @@ import { playableScene } from '../utils/demo.js';
 export default class SaveSystem {
     /** Registry keys copied into / restored from a save file (plain JSON values only). */
     static PERSISTED_REGISTRY_KEYS = [
-        'dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft',
-        // durable world state the scenes keep only in the registry (lost on load before)
-        'gameDay', 'fixed_floor_counter', 'crossroadGrowth', 'cathedral_entry_granted', 'cardinal_feast_played',
-        'scraper_deadfloor_opened', 'shed_tunnel_opened', 'delta_seam_opened', 'delta_fungal_bridge_grown',
-        'delta_redmass_collected', 'delta_metal_scrap_collected', 'harbor_oil_collected',
-        'magnekin_destroyed', 'magnekin_redmass_spared', 'redmass_spared',
-        'rust_choir_member', 'expelled_from_rust_domain', 'rust_feast_illusory',
-        'pith_room_unlocked', 'lumen_clearance', 'voxmarketAuctionTestingFundsGranted', 'equipment_tutorial_done',
-        'bishop_arc_closed', 'infinite_fold_ending', 'guardian_fate', 'finale_ending', 'game_finale_complete', 'epilogue_mode',
+        'dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft', 'fixed_floor_counter',
+        'crossroadGrowth', 'equipment_tutorial_done',
     ];
 
     /** Forget the persisted registry state (a new game, or before applying a loaded save). */
