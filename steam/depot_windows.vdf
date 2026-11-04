@@ -1,6 +1,6 @@
 "DepotBuild"
 {
-	"DepotID"     "REPLACE_DEMO_WINDOWS_DEPOT_ID"   // the DEMO app → SteamPipe → Depots (OS: Windows, 64-bit); not 4118601 (full game)
+	"DepotID"     "5564541"   // the DEMO app's depot (SteamPipe → Depots, OS: Windows); not 4118601 (full game)
 	"ContentRoot" "../out/demo/weird-game-win32-x64/"
 
 	"FileMapping"
