@@ -7,7 +7,7 @@
 "AppBuild"
 {
 	"AppID"       "5564540"                 // Upper Morkezela: A Weird Game Demo (the full game is 4118600)
-	"Desc"        "demo 2026-11-04 62fc601" // shows in SteamPipe → Builds; put the git short hash here
+	"Desc"        "demo 2026-11-04 65165c6" // shows in SteamPipe → Builds; put the git short hash here
 	"SetLive"     ""                        // branch to set live automatically; "default" is NOT allowed here (web UI only)
 	"Preview"     "0"                       // "1" = dry run: only writes logs/manifests, uploads nothing
 	"BuildOutput" "./output/"               // logs + chunk cache, git-ignored
