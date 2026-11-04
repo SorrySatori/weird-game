@@ -1,17 +1,22 @@
 // SteamPipe build script. Upload with:
 //   steamcmd +login <steam_login> +run_app_build /home/mateja/CascadeProjects/weird-game/steam/app_build.vdf +quit
 // Paths are relative to this file. Build the depots first: npx electron-forge package --platform=win32|linux --arch=x64
+// (on the steam-demo branch Forge writes to out/demo/).
+// DEMO: this branch uploads to the DEMO app, never to the full game (4118600). Create it in Steamworks first
+// (from the full game's "All Associated Packages, DLC, Demos and Tools" page), then fill in its AppID here and its
+// depot ID in depot_*.vdf.
+// Until then the placeholders make steamcmd fail instead of uploading anywhere.
 "AppBuild"
 {
-	"AppID"       "4118600"                 // Steamworks → App Admin → the number in the URL / page header
-	"Desc"        "dev 2026-10-30 1645d67"  // shows in SteamPipe → Builds; put the git short hash here
+	"AppID"       "REPLACE_DEMO_APPID"      // the demo app's ID (Steamworks → the demo's App Admin page header)
+	"Desc"        "demo <git short hash>"   // shows in SteamPipe → Builds; put the git short hash here
 	"SetLive"     ""                        // branch to set live automatically; "default" is NOT allowed here (web UI only)
 	"Preview"     "0"                       // "1" = dry run: only writes logs/manifests, uploads nothing
 	"BuildOutput" "./output/"               // logs + chunk cache, git-ignored
 
 	"Depots"
 	{
-		"4118601" "depot_windows.vdf"
-		// "REPLACE_LINUX_DEPOT_ID" "depot_linux.vdf"   // Linux depot not created yet (SteamPipe → Depots → Add New Depot)
+		"REPLACE_DEMO_WINDOWS_DEPOT_ID" "depot_windows.vdf"
+		// "REPLACE_DEMO_LINUX_DEPOT_ID" "depot_linux.vdf"   // the demo's Linux depot, once added (SteamPipe → Depots → Add New Depot)
 	}
 }

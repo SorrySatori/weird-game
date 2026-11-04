@@ -17,7 +17,7 @@ export default class PlayerMovementSystem {
         this.priestGlow = null;
         this.speed = 4;
         // Multiplier applied to walk speed (arrow-key step + click-to-move tween). Drug/status
-        // effects (e.g. the Wimlick stimulant) raise this; reset to 1 when the effect wears off.
+        // effects may raise this; reset to 1 when the effect wears off.
         this.speedMultiplier = 1;
         this.movementState = {
             left: false,

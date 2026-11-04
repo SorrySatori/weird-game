@@ -17,8 +17,8 @@
  */
 // NOTE: every item below resolves by its `id` (the resolver checks item.texture, then item.id,
 // then the name). So the texture key MUST equal the item's id, and the file is <id>.png. No item
-// definition needs editing — dream_cartridge (icon: field) and corrosive_cultivar (image: field)
-// both still resolve because their id matches the key here.
+// definition needs editing — an item with an icon: / image: field still resolves as long as its id
+// matches the key here.
 export const ITEM_ICONS = [
     // --- Keys (done) ---
     { key: 'scraper_backyard_key',    path: 'assets/images/items/scraper_backyard_key.png' },

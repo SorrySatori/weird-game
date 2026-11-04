@@ -2,6 +2,9 @@ const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
+  // The demo packages into its own folder, so a full-game build left in out/ can never be uploaded as the demo
+  // (steam/depot_*.vdf point here).
+  outDir: 'out/demo',
   packagerConfig: {
     asar: true,
     // Only ship what the game needs at runtime. Everything below is dev tooling,
@@ -15,6 +18,7 @@ module.exports = {
       /^\/out(\/|$)/,
       /^\/build(\/|$)/,
       /^\/scripts(\/|$)/,
+      /^\/steam(\/|$)/,                   // SteamPipe scripts, upload logs and manifests
       /^\/tools(\/|$)/,                   // art generators + trailer capture (trailer output alone is ~650 MB)
       /^\/assets\/aseprite(\/|$)/,        // editable sources; the game loads only the exported PNGs
       /^\/assets\/sounds\/raw(\/|$)/,      // the user's raw recordings; the game loads only the mastered files
@@ -28,6 +32,7 @@ module.exports = {
       /^\/(extract-sprite|generate-market-ground|make-transparent)\.js$/,
       /^\/[^/]+\.(md|zip|log|tar\.gz|AppImage|deb|rpm|exe)$/,
       /^\/package-lock\.json$/,
+      /^\/(forge\.config\.js|\.gitignore)$/,
     ],
   },
   rebuildConfig: {},

@@ -150,7 +150,7 @@ export default class SymbiontSystem {
             return null;
         }
         
-        // Don't speak if silenced (for Neme)
+        // Don't speak if silenced
         if (symbiont.silenced) {
             return null;
         }
@@ -209,21 +209,17 @@ export default class SymbiontSystem {
             return false;
         }
         // Live: Thorne-Still's brain-rot only bites when Decay is high enough to feed it
-        // (mirror of nemeCanRead — computed from current balance, not a stale power stat).
+        // (computed from the current balance, not a stale power stat).
         return GrowthDecaySystem.getInstance().getDecay() > 30;
     }
     
     /**
-     * True while a carried symbiont is silenced by the world's balance: Neme where Decay > 70, Osswine where
-     * Growth > 70. Read-only (unlike nemeCanRead/osswineCanRead) — the HUD polls it every frame.
-     * @param {string} id
+     * True while a carried symbiont is silenced by the world's balance. The HUD polls it every frame;
+     * Thorne-Still never goes silent.
+     * @param {string} _id
      * @returns {boolean}
      */
-    isDormant(id) {
-        if (!this.symbionts.has(id)) return false;
-        const gd = GrowthDecaySystem.getInstance();
-        if (id === 'neme-crownmire') return gd.getDecay() > 70;
-        if (id === 'osswine') return gd.getGrowth() > 70;
+    isDormant(_id) {
         return false;
     }
 
@@ -245,7 +241,7 @@ export default class SymbiontSystem {
             return null;
         }
         
-        // Check if symbiont is silenced (for Neme)
+        // Check if symbiont is silenced
         const symbiont = this.symbionts.get(symbiontId);
         if (symbiont.silenced) {
             return {

@@ -49,7 +49,7 @@ export default {
         "I once knew a mushroom who had ambition. It didn't end well.":
             "Znal jsem jednu houbu, co měla ambice. Nedopadlo to dobře.",
         // Symbionts about each other (getCrossReactionMessage)
-        // Reactions to spores rising / falling (getSporeChangeMessage): Thorne-Still, Neme, Ulvarex
+        // Reactions to spores rising / falling (getSporeChangeMessage): Thorne-Still
         "Mmm, more spores. My favorite food group.":
             "Mňam, další spory. Moje oblíbená potravinová skupina.",
         "Your spore levels are rising. I can taste the sweet decay.":

@@ -41,22 +41,13 @@ const MODAL_BLOCKER_DEPTH = 99;
  * Symbiont HUD — a mycelial "rosary" hanging from the G/D medallion, one pod per slot (sealed / open / occupied).
  * Art: tools/artgen/symbionts.py → assets/aseprite/UI_Symbiont*.aseprite → symbionts_export.lua → assets/images/ui/.
  */
-const SYMBIONT_ROWS = ['thorne-still', 'neme-crownmire', 'ulvarex-borrowed-horizon', 'brine-scripture', 'osswine', 'palinode']; // last row = generic
-const SYMBIONT_GLOW = {
-    'thorne-still': 0xc8be5a, 'neme-crownmire': 0x7fff8e, 'ulvarex-borrowed-horizon': 0xffaa5a,
-    'brine-scripture': 0x78dcc8, 'osswine': 0x6eaae6, 'palinode': 0xaa96ff
-};
+const SYMBIONT_ROWS = ['thorne-still']; // last row = generic
+const SYMBIONT_GLOW = { 'thorne-still': 0xc8be5a };
 const POD = { x: 50, top: 96, h: 58, back: 0, lip: 1, sealed: 2, end: 3, glow: 4 };
 // Idle loop at 6 fps: long rests, one slow breath, a blink, an accent — calm, never fidgety.
 const SYMBIONT_IDLE = [...Array(10).fill(0), 1, 1, 1, 1, 1, 1, ...Array(8).fill(0), 2, ...Array(9).fill(0), 3, 3, 3, 3];
 // Symbionts speaking in scene dialogs, by the speaker names those dialogs use (EN + CZ) → dialog portrait.
-const SYMBIONT_SPEAKERS = {
-    'Thorne-Still': 'thorne-still', 'Neme': 'neme-crownmire', 'Neme of the Crownmire': 'neme-crownmire',
-    'Neme z Korunního bahna': 'neme-crownmire',
-    'Ulvarex': 'ulvarex-borrowed-horizon', 'Ulvarex the Borrowed Horizon': 'ulvarex-borrowed-horizon', 'Ulvarex, Vypůjčený obzor': 'ulvarex-borrowed-horizon',
-    'Brine Scripture': 'brine-scripture', 'Solopis': 'brine-scripture',
-    'Osswine': 'osswine', 'Palinode': 'palinode'
-};
+const SYMBIONT_SPEAKERS = { 'Thorne-Still': 'thorne-still' };
 const symbiontRow = id => (SYMBIONT_ROWS.includes(id) ? SYMBIONT_ROWS.indexOf(id) : SYMBIONT_ROWS.length);
 const symbiontPortrait = id => ({ key: 'symbionts', frame: symbiontRow(id) * 4 });
 
@@ -1165,7 +1156,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
-     * "Osswine: The dead do not lie." → { id: 'osswine', text: 'The dead do not lie.' } when the speaker is a
+     * "Thorne-Still: Hold still." → { id: 'thorne-still', text: 'Hold still.' } when the speaker is a
      * symbiont the player carries; null for anything else.
      */
     symbiontLine(message) {
@@ -1326,8 +1317,6 @@ export default class GameScene extends Phaser.Scene {
         // Symbiont ambient messages — a bubble by the speaker's pod (or the bottom display)
         if (this.symbiontLine(title) ||
             lowerTitle.includes('thorne-still:') ||
-            lowerTitle.includes('ulvarex:') ||
-            lowerTitle.includes('neme') ||
             lowerTitle.includes('symbiont')) {
             return { isSymbiont: true };
         }
@@ -1728,34 +1717,15 @@ export default class GameScene extends Phaser.Scene {
     // Helper method for other scenes to modify Growth/Decay balance
     modifyGrowthDecay(growthChange, decayChange) {
         if (!this.growthDecaySystem) return;
-        const beforeDecay = this.growthDecaySystem.getDecay();
-        const beforeGrowth = this.growthDecaySystem.getGrowth();
         this.growthDecaySystem.modifyBalance(growthChange, decayChange);
-        const afterDecay = this.growthDecaySystem.getDecay();
-        const afterGrowth = this.growthDecaySystem.getGrowth();
-
-        // Announce when the balance crosses a symbiont's silence threshold (>70), so the player
-        // understands why a read ability just switched off/on. Only fires if they host it.
-        const sym = this.symbiontSystem || this.registry.get('symbiontSystem');
-        if (sym && sym.hasSymbiont) {
-            const i18n = LanguageSystem.getInstance();
-            if (sym.hasSymbiont('neme-crownmire')) {
-                if (beforeDecay <= 70 && afterDecay > 70) this.showNotification?.(i18n.t('notifications.nemeSilenced'), 0x8B0000);
-                else if (beforeDecay > 70 && afterDecay <= 70) this.showNotification?.(i18n.t('notifications.nemeRecovered'), 0x4caf50);
-            }
-            if (sym.hasSymbiont('osswine')) {
-                if (beforeGrowth <= 70 && afterGrowth > 70) this.showNotification?.(i18n.t('notifications.osswineSilenced'), 0x4caf50);
-                else if (beforeGrowth > 70 && afterGrowth <= 70) this.showNotification?.(i18n.t('notifications.osswineRecovered'), 0x8B0000);
-            }
-        }
     }
 
     /**
      * Apply a one-time Growth/Decay nudge tied to a narrative choice. Re-selecting the same
      * option (re-opening a dialog, walking the hub twice) will NOT stack the effect — the
-     * choice is remembered by a save-persisted registry flag. Use this for every Day-2
+     * choice is remembered by a save-persisted registry flag. Use this for every story
      * stance write so the accumulated balance stays honest.
-     * @param {string} key   unique id for the choice (e.g. 'elphi_blame')
+     * @param {string} key   unique id for the choice (e.g. 'edgar_what_gd')
      * @param {number} growthChange
      * @param {number} decayChange
      * @returns {boolean} true if it applied this call, false if already spent

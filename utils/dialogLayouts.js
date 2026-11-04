@@ -131,7 +131,7 @@ function resolvePortraitTexture(scene, speaker) {
     const override = scene.dialogPortraits && scene.dialogPortraits[speaker];
     if (override && scene.textures.exists(override.key ?? override)) return override;
 
-    // Normalize: strip accents (Torchère → torchere), lowercase, drop non-alphanumerics.
+    // Normalize: strip accents (Strážce → strazce), lowercase, drop non-alphanumerics.
     const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
     const spk = norm(speaker);
     if (spk.length < 3) return null;

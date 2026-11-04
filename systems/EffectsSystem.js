@@ -15,7 +15,6 @@ export default class EffectsSystem {
         this.currentDrugItem = null;
         this.commentInterval = null;
         this.sporeEffectInterval = null;
-        this.wimlickInterval = null; // Wimlick stimulant: self-talk + autonomous-movement ticker
         
         // Psychedelic comments for each drug type
         this.drugComments = {
@@ -43,19 +42,6 @@ export default class EffectsSystem {
                 "I've transcended my flesh prison! I AM EVERYWHERE AND NOWHERE!",
                 "The universe is just one giant spore waiting to bloom!",
                 "I want to go home... Wait... I'm already home."
-            ],
-            // Wimlick is a STIMULANT, not a psychedelic — jittery, over-confident self-talk.
-            wimlick: [
-                "Okay okay okay — one thing at a time. No. All things. At once. Yes.",
-                "Did I always walk this fast? I don't think I did. I love it.",
-                "I could reorganize this entire district. I should. Later. Now. Later.",
-                "My heart's doing a little drum solo and honestly? Respect.",
-                "Talking to myself again. Great sign. Excellent sign. Moving on.",
-                "So many ideas. Zero of them finished. That's fine. That's normal.",
-                "Left. No — right. Both. Let's do both, feet.",
-                "Everything is VERY interesting and I need to touch all of it.",
-                "I'm not on anything. I'm just naturally like this now. Forever, probably.",
-                "Was I going somewhere? Doesn't matter. I'm making great time."
             ]
         };
     }
@@ -127,11 +113,7 @@ export default class EffectsSystem {
         
         // Show notification (initial use only — this method doesn't run on scene-restore)
         if (this.scene.showNotification) {
-            if (item.id === 'wimlick') {
-                this.scene.showNotification('Wimlick hits — the world speeds up.', '', '', 3000);
-            } else {
-                this.scene.showNotification(LanguageSystem.getInstance().t('notifications.effectsStart', { item: LanguageSystem.getInstance().itemName(item) }));
-            }
+            this.scene.showNotification(LanguageSystem.getInstance().t('notifications.effectsStart', { item: LanguageSystem.getInstance().itemName(item) }));
         }
     }
     
@@ -155,18 +137,13 @@ export default class EffectsSystem {
                 this.applyAmberOltracEffect();
                 this.applyGameplayEffect(effectId, 'intense');
                 break;
-            case 'wimlick':
-                this.applyWimlickEffect();
-                break;
             default:
                 console.warn(`No effect defined for effect ID: ${effectId}`);
                 return;
         }
 
-        // Start psychedelic comments (Wimlick runs its own self-talk via speech bubbles instead)
-        if (effectId !== 'wimlick') {
-            this.startPsychedelicComments(effectId);
-        }
+        // Start psychedelic comments
+        this.startPsychedelicComments(effectId);
         
         // Set timer to clear effects
         if (this.effectTimer) {
@@ -478,11 +455,7 @@ export default class EffectsSystem {
             this.sporeEffectInterval = null;
         }
 
-        // Stop the Wimlick ticker and undo its speed boost
-        if (this.wimlickInterval) {
-            this.wimlickInterval.remove();
-            this.wimlickInterval = null;
-        }
+        // Undo any walk-speed change
         if (this.scene.playerMovementSystem) {
             this.scene.playerMovementSystem.speedMultiplier = 1;
         }
@@ -517,44 +490,6 @@ export default class EffectsSystem {
         return this.activeEffects.includes(effectId);
     }
     
-    /**
-     * Wimlick — a STIMULANT (not a psychedelic). No visual warp: the protagonist simply moves
-     * faster, occasionally darts off on their own, and mutters over-confident monologues in
-     * speech bubbles. Reuses the shared effect timer/registry, so it wears off like the others.
-     */
-    applyWimlickEffect() {
-        this.activeEffects.push('wimlick');
-        const move = this.scene.playerMovementSystem;
-        if (move) move.speedMultiplier = 1.85;
-        // NOTE: no notification here — this runs on every scene-restore of the effect, so a
-        // message would repeat each scene. The one-time "Experiencing effects of Wimlick..."
-        // from applyDrugEffect() (initial use only) covers it.
-
-        // Periodic self-talk (speech bubbles) + occasional autonomous darting.
-        this.wimlickInterval = this.scene.time.addEvent({
-            delay: 8000,
-            loop: true,
-            callback: () => {
-                const priest = this.scene.priest;
-                if (!priest || (this.scene.isModalOpen?.() ?? this.scene.dialogVisible)) return;
-                // Mutter to self
-                if (Math.random() < 0.8 && this.scene.showSpeechBubble) {
-                    const lines = this.drugComments.wimlick;
-                    const line = lines[Math.floor(Math.random() * lines.length)];
-                    this.scene.showSpeechBubble(priest, line, { duration: 2800 });
-                }
-                // Sometimes wander off on their own — but never hijack a walk already in progress.
-                if (Math.random() < 0.4 && move && move.movePriestTo && !move.isTweenMoving) {
-                    const width = (this.scene.cameras && this.scene.cameras.main) ? this.scene.cameras.main.width : 800;
-                    const dir = Math.random() < 0.5 ? -1 : 1;
-                    let tx = priest.x + dir * (70 + Math.random() * 130);
-                    tx = Math.max(60, Math.min(width - 60, tx));
-                    move.movePriestTo(tx);
-                }
-            }
-        });
-    }
-
     /**
      * Apply gameplay effects based on drug type
      * @param {string} drugId - The drug ID

@@ -73,10 +73,8 @@ export default {
         violetOltrac: { name: 'Fialový Oltrac', description: 'Středně silná odrůda Oltracu. Zostřuje vnímání a přináší živé vize.' },
         amberOltrac: { name: 'Jantarový Oltrac', description: 'Nejvzácnější a nejsilnější podoba Oltracu. Prý dovolí nahlédnout za závoj skutečnosti.' },
         pliers: { name: 'Kleště', description: 'Obyčejné kleště. Hodí se na opravy i na vytahování věcí.' },
-        wimlick: { name: 'Wimlick', description: 'Hustý, lojově bílý stimulant, který páchne jako zhaslé svíčky – zbystří tě, zrychlí tě a rozváže ti jazyk. Torchère chce, abys ho doručil, ne prodal. Kontraband, ale na ulici má svou cenu.' },
         scraper_backyard_key: { name: 'Klíč od dvorku', description: 'Klíč od dvorku Škrabáku 1140. Jako by slabě zářil.' },
         'forged-arms-permission': { name: 'Padělané povolení na více rukou', description: 'Přesvědčivý padělek Formuláře o výjimce pro umělce, který držiteli dovoluje mít legálně více rukou pro odbornou práci.' },
-        rust_feast: { name: 'Rezavá hostina', description: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Odporně páchnoucí směs oleje, kovových hoblin a živé rudohmoty. Nádoba slabě rachotí, jako by uvnitř ještě něco žilo.', descriptions: { thin: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Řídký, sotva dostačující – střípek rudohmoty smíchaný s olejem a kovovým prachem. Tiše bzučí.', illusory: 'Obřadní pokrm připravený pro stroje Rezavého chóru. Olej, kovové hobliny a něco, co vypadá jako živá rudohmota – ale ty znáš pravdu. Nádoba slabě bzučí, ale něco na tom zní dutě.', laced: 'Obřadní pokrm pro stroje Rezavého chóru – olej, kovové hobliny a živá rudohmota. Nepozorovaně prosycený kultivarem Direktorátu rozemletým do oleje. Rachotí jako každá jiná hostina. Není jako každá jiná.' } },
         vestigel: { name: 'Spisovatelův Vestigel', description: 'Malý, jemně vyřezávaný žeton, který Edgar našel schovaný v plyšové hračce. Zdá se, že má nějaký tajemný význam.' },
         'game-prototype': { name: 'Prototyp hry Sekty a sázky', description: 'Prototyp Ortolanovy hry Sekty a sázky, ve které se snažíš založit vlastní sektu. Vypadá velmi zábavně, ale Ortolan ještě nemá úplně vyladěnou část, ve které se může tvůj nejvěrnější odštěpit a založit si ultraortodoxní křídlo uvnitř sekty. Na druhou stranu dobře zmastroval featuru, kde se hlavním objektem uctívání mohou stát kočky, což je dobrá strategie k vítězství.' },
         'legged-shark-statuette': { name: 'Soška žraloka s nohama', description: 'Soška žraloka s nohama, téměř bez ploutví. Ortolan si už přesně nepamatuje, odkud ji vzal, ale prý je z nějaké deskovky o upírech a démonech.' },
@@ -105,11 +103,6 @@ export default {
     },
     // Hlasy symbiontů (anglické originály jsou v SymbiontSystem; tohle jsou lokalizované kopie).
     symbionts: {
-        'neme-crownmire': { name: 'Neme z Korunního bahna', ability: 'Fotosenzitivita' },
-        'ulvarex-borrowed-horizon': { name: 'Ulvarex, Vypůjčený obzor', ability: 'Tkaní přeludů' },
-        'brine-scripture': { name: 'Solopis', ability: 'Solná paměť' },
-        'osswine': { name: 'Osswine', ability: 'Hrobový smysl' },
-        'palinode': { name: 'Palinode', ability: 'Smysl pro švy' },
         'thorne-still': {
             name: 'Thorne-Still',
             ability: 'Mozková hniloba',
@@ -157,10 +150,6 @@ export default {
         symbiontGained: 'Získán symbiont: {name}',
         worldSoursDecay: 'Svět se naklání k Rozkladu.',
         worldLeansGrowth: 'Svět se naklání k Růstu.',
-        nemeSilenced: 'Hniloba sílí – Neme utichá.',
-        nemeRecovered: 'Vzduch se čistí – Neme opět čte.',
-        osswineSilenced: 'Zde je příliš mnoho života – Osswine strne.',
-        osswineRecovered: 'Květ ustupuje – mrtví jsou pro Osswine opět slyšitelní.',
         growthIncreased: 'Růst vzrostl!',
         growthDecreased: 'Růst poklesl!',
         decayIncreased: 'Rozklad vzrostl!',
