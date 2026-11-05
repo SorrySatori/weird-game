@@ -13,6 +13,7 @@ export default class Shed521GateScene extends GameScene {
         this.preloadMusic('shedLoop');
         this.load.image('Shed521GateBg', 'assets/images/backgrounds/Shed521_gate.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.image('gateBarrier', 'assets/images/props/gate_barrier.png');
         preloadGDProps(this); // the burning barrel by the lamp
         // Audio is already loaded in GameScene's preload
     }
@@ -40,7 +41,9 @@ export default class Shed521GateScene extends GameScene {
         
         // A barrel fire by the lamp post (animated, with its warm glow)
         placeProps(this, [{ prop: 'fire', x: 716, y: 500 }]);
-        
+
+        this.createGateBarrier();
+
         // Position the priest at the right side when entering this scene
         this.priest.x = 750;
         this.priest.y = 470; // Position on the ground
@@ -62,7 +65,8 @@ export default class Shed521GateScene extends GameScene {
             'right', // direction
             'Shed521FloorsScene', // target scene
             750, // walk to x
-            470  // walk to y
+            470, // walk to y
+            'Back to the Main Building' // clearer than the Floors' location name
         );
         
         // Exit to Courtyard Scene (left side of the screen)
@@ -81,6 +85,39 @@ export default class Shed521GateScene extends GameScene {
         if (this.stranger) {
             this.stranger.destroy();
         }
+    }
+
+    /**
+     * The boom barrier shut across the gate (tools/artgen/gate_bg.py renders it as its own sprite, placed pixel-exact
+     * on the background) -- it tells the player the street beyond is closed. A click gets one line from the clerk in
+     * the forms kiosk: a speech bubble, no dialog, the way the people inside the Shed talk (utils/AmbientNpc.js).
+     */
+    createGateBarrier() {
+        const barrier = this.add.image(474, 377, 'gateBarrier').setOrigin(0, 0).setDepth(0);
+        // the arm is only a few pixels thick: its whole frame is the hotspot, with a strip of air above it
+        barrier.setInteractive({
+            hitArea: new Phaser.Geom.Rectangle(0, -8, barrier.width, barrier.height + 8),
+            hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+            useHandCursor: true,
+        });
+
+        const name = this.add.text(barrier.x + barrier.width / 2, barrier.y - 18, this.t('ambient.gate_barrier.name'), {
+            fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+        }).setOrigin(0.5).setDepth(100).setAlpha(0);
+        barrier.on('pointerover', () => name.setAlpha(1));
+        barrier.on('pointerout', () => name.setAlpha(0));
+
+        const kiosk = { x: 456, y: 337 };   // the roof of the forms kiosk left of the gate (its hatch is behind the queue's last head)
+        let next = 0;
+        let bubble = null;
+        barrier.on('pointerdown', (pointer, localX, localY, event) => {
+            event.stopPropagation(); // the priest stays put
+            if (this.dialogVisible || bubble?.active) return;
+            const lines = this.t('ambient.gate_barrier.lines');
+            if (!Array.isArray(lines) || !lines.length) return;
+            name.setAlpha(0);
+            bubble = this.showSpeechBubble(kiosk, lines[next++ % lines.length], { duration: 3800, offsetY: 0 });
+        });
     }
 
     shutdown() {

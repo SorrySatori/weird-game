@@ -248,6 +248,10 @@ def build():
     icon = scale_pixels(community_icon(), 184).convert('RGB')
     save(icon, 'community_icon_184x184.jpg')
     out['community_icon_184x184.jpg'] = icon
+    # shortcut (client) icon: the same porthole as a Windows .ico, transparent outside the ring, 16..256 px
+    ico = scale_pixels(community_icon(), 256)
+    ico.save(os.path.join(args.out, 'shortcut_icon.ico'),
+             sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
     return out
 
 def contact_sheet(out):

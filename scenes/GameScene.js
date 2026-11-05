@@ -57,6 +57,9 @@ const SCENE_MUSIC = {
     forestGuitar: 'assets/sounds/guitar-les.mp3',                     // "Les" -- the Crossroads in the woods
     flightGuitar: 'assets/sounds/guitar-let-bez-mezipristani.mp3',    // "Let bez mezipřistání" -- aboard the skyship
     shedLoop:     'assets/sounds/guitar-loop.ogg',                    // "Loop" -- the Shed 521 compound, all of it
+    // "Flop" -- Ortolan's courtyard. 110 BPM, 11 bars = exactly 24.000 s; Opus because Chromium decodes it
+    // sample-exact (a Vorbis .ogg came out 960 samples long and the beat stumbled at the loop point)
+    courtyardFlop: 'assets/sounds/flop.opus',
     streetSong:   'assets/sounds/guitar-pisen-4.mp3',                 // "Píseň č. 4" -- Scraper street, Burning Bear St., the Cork
 };
 

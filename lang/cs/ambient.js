@@ -50,5 +50,12 @@ export default {
                 "Nevím, na co se tu stojí. Ale určitě to bude něco super.",
             ],
         },
+        // Shed521GateScene -- the boom barrier across the gate; the answer comes from the forms kiosk
+        gate_barrier: {
+            name: 'Závora',
+            lines: [
+                "Dneska už máš smůlu, přijď zítra.",
+            ],
+        },
     },
 };
