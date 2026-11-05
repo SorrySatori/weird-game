@@ -51,5 +51,12 @@ export default {
                 "I don't know what this line is for. But nobody would stand here for nothing, would they?",
             ],
         },
+        // Shed521GateScene -- the boom barrier across the gate; the answer comes from the forms kiosk
+        gate_barrier: {
+            name: 'Barrier',
+            lines: [
+                "You're out of luck today. Come back tomorrow.",
+            ],
+        },
     },
 };

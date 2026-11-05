@@ -44,6 +44,7 @@ export default {
     // Popisky východů, které si scény pojmenovávají samy (klíč = anglický popisek ve scéně)
     exits: {
         'Back': 'Zpět',
+        'Back to the Main Building': 'Zpět do hlavní budovy',
         'Back to the Study': 'Zpět do pracovny',
         'Back to the Threshold': 'Zpět na práh',
         'Back to the Townhall': 'Zpět na radnici',

@@ -381,20 +381,18 @@ export default class SceneTransitionManager {
         let displayText = zone.destinationName;
         if (displayText.length > 15) {
             if (displayText.includes(' ')) {
-                // Split at spaces for multi-line display
+                // Two lines, the words kept in order: break at the space that leaves the longer line shortest,
+                // never before a dash ("Shed 521 —" / "Floors"). (Filling the shorter line word by word used to
+                // reorder them: "Bouda 521 – patra" came out as "Bouda patra" / "521 –".)
                 const words = displayText.split(' ');
-                let line1 = '';
-                let line2 = '';
-                
-                for (let i = 0; i < words.length; i++) {
-                    if (line1.length <= line2.length && line1.length + words[i].length <= 15) {
-                        line1 += (line1 ? ' ' : '') + words[i];
-                    } else {
-                        line2 += (line2 ? ' ' : '') + words[i];
-                    }
+                let best = null;
+                for (let i = 1; i < words.length; i++) {
+                    if (/^[–—-]$/.test(words[i])) continue;
+                    const lines = [words.slice(0, i).join(' '), words.slice(i).join(' ')];
+                    const longest = Math.max(lines[0].length, lines[1].length);
+                    if (!best || longest <= best.longest) best = { lines, longest };   // a tie: the longer first line
                 }
-                
-                displayText = line1 + '\n' + line2;
+                if (best) displayText = best.lines.join('\n');
             } else {
                 // Truncate if no spaces
                 displayText = displayText.substring(0, 12) + '...';

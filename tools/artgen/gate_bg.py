@@ -3,11 +3,14 @@ A long timber-and-corrugated wall across the yard with cabins piled on top; in t
 an arched rib, the 5 | 21 number boards and the MUTATION FORMS sign, cables and moss hanging off it; through the gate
 a street runs into the haze. A queue of applicants (some visibly mutated) waits between stanchions and ropes for the
 forms kiosk at the gate's foot; forms litter the setts. On the near right the timber flank of the Floors building with
-its door (the exit right); the yard opens to the left (the courtyard).
+its door (the exit right); the yard opens to the left (the courtyard). A boom barrier shuts the gate -- rendered into
+its own sprite (the scene makes it clickable), the background stays without it.
 
-    python3 gate_bg.py <outdir>   ->  gate.png
+    python3 gate_bg.py <outdir>   ->  gate.png (assets/images/backgrounds/Shed521_gate.png)
+                                      gate_barrier.png (assets/images/props/gate_barrier.png; prints where it goes)
 """
 import sys, math
+from PIL import Image
 from common import h32, FONT, draw_text, text_width
 from shedkit import *
 
@@ -213,7 +216,73 @@ def letters(col):
 # a dropped sack, an overturned crate (the burning barrel on the right is an animated prop, placed by the scene)
 rs.disc(-15.5, 0.8, 18.4, 1.0, lambda x, y, s, t, z, wp: fogged(tone(OCHRE, 3.4 - t * 2 - s, x, y), z) if t < 0.55 else None)
 rs.box(-24.0, -21.6, 0, 1.6, 19.0, 21.0, planks(2.6, WARM, w=0.5, seed=31), planks(2.0, WARM, w=0.5, seed=32), top=planks(3.4, WARM, w=0.5, vertical=False), cls='prop')
-img = rs.render(INK, fog=fog_of, overlay=letters, mirror=lambda x, y, wp: 0.75 * puddle(wp[0], wp[2]),
-                light_gain=1.0, grime_gain=1.0, bloom=0.4, stain_gain=1.0)
+RENDER = dict(fog=fog_of, overlay=letters, mirror=lambda x, y, wp: 0.75 * puddle(wp[0], wp[2]),
+              light_gain=1.0, grime_gain=1.0, bloom=0.4, stain_gain=1.0)
+img = rs.render(INK, **RENDER)
 img.save(f'{OUT}/gate.png')
 print('done gate')
+
+# ---------------------------------------------------------------------------------------------------- the boom barrier
+# Shut across the gate mouth, pivoting by the forms kiosk. It is its own sprite (the scene makes it clickable): the
+# scene is rendered once more with it, and every pixel it changed in its corner of the picture becomes the sprite.
+BZ = 30.3                                                                          # the arm's face, just behind the kiosk
+def boom(x, y, s, t, z, wp):
+    """the arm: weathered red and off-white bands, the paint chipped to rust, a lit top edge and a dark underside"""
+    X, Y, Z = wp
+    red = math.floor((X + 4.3) / 1.3) % 2 == 0
+    v = (3.9 if red else 2.2) + (wn(1, X * 1.3, Y * 2.0) - 0.5) * 0.9
+    if t > 0.72: v += 0.9
+    if t < 0.28: v -= 1.1
+    c = tone(RED if red else PAPER, v, x, y)
+    if wn(2, X * 2.6, 7.0) > 0.7 or (X > 8.6 and wn(3, X * 5.0, 3.0) > 0.45): c = tone(RUSTY, 2.4 + t, x, y)   # chips, a rusted tip
+    return fogged(c, z)
+def boom_top(x, y, s, t, z, wp):
+    X = wp[0]
+    red = math.floor((X + 4.3) / 1.3) % 2 == 0
+    return fogged(tone(RED if red else PAPER, 5.0 if red else 3.4, x, y), z)
+def housing(x, y, s, t, z, wp):
+    """the pivot housing: riveted grey steel, a band of hazard stripes under its cap, a hatch with a padlock"""
+    X, Y, Z = wp
+    if 0.78 < t < 0.9:
+        return fogged(tone(RED, 4.0, x, y) if math.floor((X - Y * 0.9) * 3.2) % 2 else tone(PAPER, 2.0, x, y), z)
+    if 0.2 < s < 0.8 and 0.18 < t < 0.6:                                          # the service hatch
+        if abs(s - 0.5) < 0.1 and abs(t - 0.33) < 0.05: return fogged(OCHRE[3], z)
+        return fogged(tone(METAL, 1.6 if (s < 0.24 or s > 0.76 or t < 0.22 or t > 0.56) else 2.6, x, y), z)
+    return steel(2.8, METAL, rust=0.7)(x, y, s, t, z, wp)
+def no_entry(x, y, a, b, z, wp):
+    """the sign hung on the arm: a red disc with a white bar -- no way through, in any language"""
+    d = math.hypot(a, b)
+    if d > 0.84: return fogged(RED[1], z)
+    if abs(b) < 0.24 and abs(a) < 0.62: return fogged(PAPER[3] if (x + y) % 5 else PAPER[2], z)
+    return fogged(tone(RED, 4.4 - (a + b) * 0.6, x, y), z)
+def barrier(rs):
+    dark = lambda x, y, s, t, z, wp: fogged(tone(METAL, 1.4, x, y), z)
+    rs.box(-5.75, -4.35, 0, 3.15, 29.6, 30.8, housing, steel(1.8, METAL, rust=0.7), top=steel(3.6, METAL), cls='prop')
+    rs.box(-5.9, -4.2, 3.15, 3.35, 29.5, 30.9, lambda x, y, s, t, z, wp: fogged(tone(METAL, 3.4, x, y), z), dark,
+           top=lambda x, y, s, t, z, wp: fogged(tone(METAL, 4.4, x, y), z), cls='prop')                       # the cap
+    rs.disc(-5.05, 3.55, 30.1, 0.22, lambda x, y, a, b, z, wp: fogged(RED[2] if a + b > -0.3 else RED[4], z))  # an unlit lamp
+    rs.box(-6.5, -5.75, 2.25, 3.0, BZ - 0.1, BZ + 0.3, steel(2.0, METAL, rust=0.9), dark, top=steel(3.0, METAL), cls='prop')  # the counterweight
+    rs.box(-5.9, 9.95, 2.55, 2.95, BZ, BZ + 0.3, boom, boom, top=boom_top, cls='prop')                    # the arm
+    rs.disc(-5.05, 2.75, BZ - 0.12, 0.3, lambda x, y, a, b, z, wp: fogged(METAL[5] if a * a + b * b < 0.2 else METAL[1], z))   # the hub
+    rs.box(9.35, 9.7, 0, 2.5, BZ + 0.05, BZ + 0.3, steel(2.6, METAL, rust=0.8), dark, cls='prop')          # the rest post
+    for xf in (9.2, 9.85):                                                                                  # its fork
+        rs.line3((xf, 2.45, BZ + 0.15), (xf, 3.1, BZ + 0.15), lambda x, y, s, t, z, wp: fogged(METAL[2], z), w=0.14)
+    for xc in (1.95, 3.25):                                                                                 # the sign's wires
+        rs.line3((xc, 2.55, BZ - 0.02), (xc + (0.25 if xc < 2.5 else -0.25), 2.05, BZ - 0.02), lambda x, y, s, t, z, wp: STONE[1], w=0.08)
+    rs.disc(2.6, 1.55, BZ - 0.05, 0.62, no_entry, cls='prop')
+n0 = rs.n
+barrier(rs)
+img2 = rs.render(INK, **RENDER)
+BOX = (462, 360, 650, 424)                                                         # the barrier's corner of the picture
+spr = Image.new('RGBA', (BOX[2] - BOX[0], BOX[3] - BOX[1]), (0, 0, 0, 0))
+p0, p1, ps = img.load(), img2.load(), spr.load()
+mine = lambda x, y: rs.G[y][x] is not None and rs.G[y][x][1] > n0                 # a pixel of the barrier itself
+for y in range(BOX[1], BOX[3]):
+    for x in range(BOX[0], BOX[2]):
+        # the barrier, and the dark outline the renderer drew round it onto what is behind (no puddle mirrors, no grime drift)
+        edge = any(mine(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+        if mine(x, y) or (edge and max(abs(p0[x, y][i] - p1[x, y][i]) for i in range(3)) > 6):
+            ps[x - BOX[0], y - BOX[1]] = p1[x, y] + (255,)
+bb = spr.getbbox()
+spr.crop(bb).save(f'{OUT}/gate_barrier.png')
+print('done barrier: place its top-left at', (BOX[0] + bb[0], BOX[1] + bb[1]), 'size', (bb[2] - bb[0], bb[3] - bb[1]))
