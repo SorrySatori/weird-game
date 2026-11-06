@@ -133,7 +133,7 @@ export default {
         questCompleted: 'Úkol dokončen!',
         questFailed: 'Úkol selhal',
         journalUpdated: 'Deník aktualizován',
-        reputationChange: '{faction} Reputace: {sign}{change}',
+        reputationChange: '{faction} – reputace {sign}{change}',
         moneyGain: '+{amount} dinárů',
         moneyLoss: '-{amount} dinárů',
         purchased: 'Zakoupeno: {item}',
@@ -157,6 +157,14 @@ export default {
     },
 
     factions: {
+        RustChoir: { name: 'Rezavý chór', description: 'Frakce, která zachraňuje rez a rozklad a dává jim nový účel.' },
+        PithReclaimers: { name: 'Inkoustový tribunál', description: 'Městská byrokracie: rovnováha a pořádek udržované inkoustem, pečetí a účetní knihou.' },
+        LumenDirectorate: { name: 'Direktorát', description: 'Spojenectví, které si cení růstu a veškerého života.' },
+        status: 'Postavení: {status}',
+        standings: {
+            revered: 'Uctívaný', honored: 'Vážený', friendly: 'Přátelský', liked: 'Oblíbený', neutral: 'Neutrální',
+            disliked: 'Neoblíbený', unfriendly: 'Nepřátelský', hostile: 'Zarytý nepřítel', hated: 'Nenáviděný',
+        },
     },
 
     mood: {

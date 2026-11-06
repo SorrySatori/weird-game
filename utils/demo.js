@@ -17,6 +17,10 @@ export const DEMO_CLOSED_SCENES = new Set([
 
 export const isDemoClosed = (sceneKey) => DEMO_BUILD && DEMO_CLOSED_SCENES.has(sceneKey);
 
+/** Quests the demo hands out but can't finish (their places are closed) -- the quest log marks them. */
+export const DEMO_UNFINISHED_QUESTS = new Set(['find_lumen_directorate', 'find_rust_choir', 'rust_feast']);
+export const isDemoUnfinished = (questId) => DEMO_BUILD && DEMO_UNFINISHED_QUESTS.has(questId);
+
 /**
  * Where a loaded save continues: its own scene, unless the build doesn't have it (a save from the full game standing in
  * a place the demo left out) -- then at the Crossroads, the demo's hub.

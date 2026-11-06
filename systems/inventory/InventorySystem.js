@@ -1,25 +1,38 @@
 import LanguageSystem from '../LanguageSystem.js';
 import { isRecording, isRecordingPlaying, toggleRecording } from '../../utils/Recordings.js';
 import { createHudButton } from '../../utils/hudButton.js';
+import { createMenuPanel, addPanelClose, createMenuIconButton, playMenuSound, MENU_COLORS, MENU_FONT } from '../../utils/menuKit.js';
 
 /**
  * Inventory System
- * Manages the player's inventory, including UI and item interactions
+ * Manages the player's inventory, including UI and item interactions.
+ *
+ * The panel is the menu kit's 'ledger' frame (as the journal and the quest log): a 6×4 grid of bronze item sockets on
+ * the left (pages flip with the round arrows, the mouse wheel or PgUp / PgDn), the chosen item's card on the right
+ * (big icon, name, kind, description, and its Use / Play button), the money underneath. Hover previews an item, a
+ * click selects it; arrows move the selection, Enter / Space uses it.
  */
 const L = () => LanguageSystem.getInstance();
 
-// Grid layout: 6×3 slots per page, pages flip with the arrows or the mouse wheel.
-const SLOT_SIZE = 80;
-const SLOT_PAD = 20;
+const S = 2;                                   // pixel-art scale of the kit
 const GRID_COLS = 6;
-const GRID_ROWS = 3;
+const GRID_ROWS = 4;
 const PAGE_SIZE = GRID_COLS * GRID_ROWS;
-const GRID_W = GRID_COLS * SLOT_SIZE + (GRID_COLS - 1) * SLOT_PAD;
-const GRID_H = GRID_ROWS * SLOT_SIZE + (GRID_ROWS - 1) * SLOT_PAD;
-const GRID_CENTER_Y = -70;
-const PANEL_W = 700;
-const PANEL_H = 560;
-const DESC_H = 110;
+const SLOT = 80;                               // menu_islot 40×40 at 2×
+const SLOT_GAP = 8;
+const GRID = { left: -432, top: -204 };        // relative to the panel centre
+const GRID_W = GRID_COLS * SLOT + (GRID_COLS - 1) * SLOT_GAP;
+const GRID_H = GRID_ROWS * SLOT + (GRID_ROWS - 1) * SLOT_GAP;
+const ICON = 60;                               // item icons are drawn 60×60 (utils/itemIcons.js)
+const CARD = { x: 112, y: -204, w: 320, h: 416 };
+const CARD_CX = CARD.x + CARD.w / 2;
+const FOOT_Y = GRID.top + GRID_H + 40;         // the pager + money row
+const TEXT = {
+    name: { fontFamily: MENU_FONT, fontSize: '20px', fontStyle: 'bold', color: MENU_COLORS.title, stroke: MENU_COLORS.stroke, strokeThickness: 3, align: 'center' },
+    kind: { fontFamily: MENU_FONT, fontSize: '14px', fontStyle: 'italic', color: MENU_COLORS.dim, align: 'center' },
+    body: { fontFamily: MENU_FONT, fontSize: '15px', color: MENU_COLORS.text, lineSpacing: 4 },
+    small: { fontFamily: MENU_FONT, fontSize: '15px', color: MENU_COLORS.text, stroke: MENU_COLORS.stroke, strokeThickness: 4 },
+};
 
 // Display order: lower group sorts first. Untyped items keep their pickup order in the middle,
 // so the inventory is unlimited but quest-critical things stay on the first page.
@@ -32,12 +45,10 @@ export default class InventorySystem {
         this.inventoryVisible = false;
         this.inventoryButton = null;
         this.inventoryPanel = null;
-        this.slotsContainer = null;
         this.inventorySlots = [];
-        this.itemDescription = null;
-        this.emptyText = null;
-        this.pager = null;
         this.currentPage = 0;
+        this.selectedItem = null;              // the item object (indices shift when something is removed)
+        this.hoverItem = null;
         this._onWheel = null;
     }
 
@@ -49,14 +60,8 @@ export default class InventorySystem {
         if (!this.scene.registry.get('inventory')) {
             this.scene.registry.set('inventory', { items: [] });
         }
-
-        // Create inventory button (mushroom shape)
         this.createInventoryButton();
-        
-        // Initialize inventory panel (hidden by default)
         this.createInventoryPanel();
-        
-        // Set up keyboard shortcut
         this.setupKeyboardShortcut();
     }
 
@@ -74,240 +79,156 @@ export default class InventorySystem {
     }
 
     /**
-     * Set up keyboard shortcut for inventory
+     * Keys: I toggles; while open, arrows move the selection, Enter / Space uses it, PgUp / PgDn flip pages
      */
     setupKeyboardShortcut() {
-        // Toggle inventory with 'I' key
         this.scene.input.keyboard.on('keydown-I', () => {
             if (!this.scene.dialogVisible) {
                 this.toggleInventory();
             }
         });
+        this._onKey = (event) => this.handleKey(event);
+        this.scene.input.keyboard.on('keydown', this._onKey);
     }
 
-    /**
-     * Create the inventory panel
-     */
+    // ------------------------------------------------------------------ the panel
     createInventoryPanel() {
-        // Create inventory panel container
-        this.inventoryPanel = this.scene.add.container(this.scene.scale.width / 2, 300);
-        this.inventoryPanel.setDepth(1000); // Above most elements
-        this.inventoryPanel.setVisible(false);
-        
-        // Inventory background
-        const invBg = this.scene.add.rectangle(0, 0, PANEL_W, PANEL_H, 0x0a2712, 0.9);
-        invBg.setStrokeStyle(2, 0x7fff8e);
-        this.inventoryPanel.add(invBg);
-        
-        // Inventory title
-        const title = this.scene.add.text(0, -PANEL_H / 2 + 30, L().t('ui.inventory.panelTitle'), {
-            fontSize: '28px',
-            fill: '#7fff8e',
-            fontStyle: 'bold'
-        });
-        title.setOrigin(0.5);
-        this.inventoryPanel.add(title);
-        
-        // Add money indicator if money system exists
-        this.addMoneyIndicator();
-        
-        // Close button
-        const closeBtn = this.scene.add.container(PANEL_W / 2 - 30, -PANEL_H / 2 + 30);
-        const closeBg = this.scene.add.rectangle(0, 0, 40, 40, 0x0a2712, 0.6);
-        closeBg.setStrokeStyle(1, 0x7fff8e);
-        closeBg.setInteractive({ useHandCursor: true });
-        const closeText = this.scene.add.text(0, 0, 'X', {
-            fontSize: '24px',
-            fill: '#7fff8e'
-        });
-        closeText.setOrigin(0.5);
-        closeBtn.add([closeBg, closeText]);
-        this.inventoryPanel.add(closeBtn);
-        
-        // Make close button interactive
-        closeBg.on('pointerover', () => {
-            closeBg.setFillStyle(0x0a2712, 0.8);
-            closeText.setStyle({ fill: '#b3ffcc' });
-        });
-        closeBg.on('pointerout', () => {
-            closeBg.setFillStyle(0x0a2712, 0.6);
-            closeText.setStyle({ fill: '#7fff8e' });
-        });
-        closeBg.on('pointerdown', () => {
-            if (this.scene.clickSound) {
-                this.scene.clickSound.play();
-            }
-            this.toggleInventory(false);
-        });
-        
-        // Create inventory slots container - centered in the panel
-        this.slotsContainer = this.scene.add.container(0, GRID_CENTER_Y);
-        this.inventoryPanel.add(this.slotsContainer);
-        
-        // Create one page of slots. Each slot is reused across pages: updateInventoryDisplay()
-        // sets slot.item / slot.itemIndex (the REAL index into inventory.items) for the current page.
+        const sc = this.scene;
+        const panel = createMenuPanel(sc, 'ledger', sc.scale.width / 2, 300, L().t('ui.inventory.panelTitle'));
+        this.inventoryPanel = panel.container.setDepth(1000).setScrollFactor(0, 0, true).setVisible(false);
+        addPanelClose(sc, panel, () => this.toggleInventory(false));
+        const add = (o) => { this.inventoryPanel.add(o); return o; };
+
+        // the sockets: one page, re-filled per page (slot.item / slot.itemIndex = the REAL index into inventory.items)
         this.inventorySlots = [];
-        const startX = -GRID_W / 2 + SLOT_SIZE / 2;
-        const startY = -GRID_H / 2 + SLOT_SIZE / 2;
-        
         for (let row = 0; row < GRID_ROWS; row++) {
             for (let col = 0; col < GRID_COLS; col++) {
-                const x = startX + col * (SLOT_SIZE + SLOT_PAD);
-                const y = startY + row * (SLOT_SIZE + SLOT_PAD);
-                
-                // Create slot background
-                const slotBg = this.scene.add.rectangle(0, 0, SLOT_SIZE, SLOT_SIZE, 0x0f2315, 1);
-                slotBg.setStrokeStyle(2, 0x7fff8e, 0.5);
-                
-                // Create slot container
-                const slot = this.scene.add.container(x, y);
-                slot.add(slotBg);
-                slot.slotIndex = row * GRID_COLS + col;
-                slot.item = null;
-                slot.itemIndex = -1;
-                
-                // Make slot interactive
-                slotBg.setInteractive({ useHandCursor: true });
-                
-                // Show item description on hover
-                slotBg.on('pointerover', () => {
-                    if (slot.item) {
-                        this.showItemDescription(slot.item);
-                    }
+                const x = GRID.left + SLOT / 2 + col * (SLOT + SLOT_GAP);
+                const y = GRID.top + SLOT / 2 + row * (SLOT + SLOT_GAP);
+                const bg = add(sc.add.image(x, y, 'menuItemSlot', 0).setScale(S).setInteractive({ useHandCursor: true }));
+                bg.input.hitArea.setTo(1, 1, 38, 38);
+                const slot = { bg, x, y, slotIndex: row * GRID_COLS + col, item: null, itemIndex: -1, parts: [], hover: false };
+                bg.on('pointerover', () => {
+                    slot.hover = true; this.drawSlot(slot);
+                    if (slot.item) { this.hoverItem = slot.item; this.showDetails(); playMenuSound(sc, 'hoverSound', 0.35); }
                 });
-                
-                // Hide description when not hovering
-                slotBg.on('pointerout', () => {
-                    this.hideItemDescription();
+                bg.on('pointerout', () => {
+                    slot.hover = false; this.drawSlot(slot);
+                    if (this.hoverItem === slot.item) { this.hoverItem = null; this.showDetails(); }
                 });
-                
-                // Add slot to container
-                this.slotsContainer.add(slot);
+                bg.on('pointerdown', (pointer, lx, ly, event) => {
+                    event?.stopPropagation();
+                    if (!slot.item) return;
+                    playMenuSound(sc, 'clickSound');
+                    this.select(slot.item);
+                });
                 this.inventorySlots.push(slot);
             }
         }
-        
-        // Item description strip below the grid (fixed place, so it never leaves the panel)
-        const descY = GRID_CENTER_Y + GRID_H / 2 + 65;
-        this.itemDescription = this.scene.add.container(0, descY);
-        this.inventoryPanel.add(this.itemDescription);
-        
-        const descBg = this.scene.add.rectangle(0, 0, GRID_W + 40, DESC_H, 0x0a2712, 0.8);
-        descBg.setStrokeStyle(1, 0x7fff8e, 0.5);
-        this.itemDescription.add(descBg);
-        
-        // Item name text
-        this.itemNameText = this.scene.add.text(0, -DESC_H / 2 + 16, '', {
-            fontSize: '18px',
-            fill: '#7fff8e',
-            fontStyle: 'bold',
-            align: 'center'
-        });
-        this.itemNameText.setOrigin(0.5);
-        this.itemDescription.add(this.itemNameText);
-        
-        // Item description text
-        this.itemDescText = this.scene.add.text(0, -DESC_H / 2 + 32, '', {
-            fontSize: '14px',
-            fill: '#7fff8e',
-            wordWrap: { width: GRID_W },
-            align: 'center'
-        });
-        this.itemDescText.setOrigin(0.5, 0);
-        this.itemDescription.add(this.itemDescText);
-        
-        // Pager (hidden while everything fits on one page)
-        this.createPager(descY + DESC_H / 2 + 22);
-        
-        // Empty inventory message
-        this.emptyText = this.scene.add.text(0, GRID_CENTER_Y, L().t('ui.inventory.emptyItems'), {
-            fontSize: '20px',
-            fill: '#7fff8e',
-            fontStyle: 'italic'
-        });
-        this.emptyText.setOrigin(0.5);
-        this.inventoryPanel.add(this.emptyText);
-        
-        // Mouse wheel flips pages while the panel is open
+        this.emptyText = add(sc.add.text(GRID.left + GRID_W / 2, GRID.top + GRID_H / 2, L().t('ui.inventory.emptyItems'), {
+            ...TEXT.body, fontSize: '18px', fontStyle: 'italic', color: MENU_COLORS.dim,
+        }).setOrigin(0.5));
+
+        // the chosen item's card
+        add(sc.add.nineslice(CARD.x, CARD.y, 'menuCard', 0, CARD.w / S, CARD.h / S, 7, 7, 7, 7).setOrigin(0, 0).setScale(S));
+        this.detailSocket = add(sc.add.image(CARD_CX, CARD.y + 92, 'menuItemSlot', 1).setScale(4));
+        this.detailQty = add(sc.add.text(CARD_CX + 62, CARD.y + 150, '', TEXT.small).setOrigin(1, 1));
+        this.detailName = add(sc.add.text(CARD_CX, CARD.y + 184, '', { ...TEXT.name, wordWrap: { width: CARD.w - 36 } }).setOrigin(0.5, 0));
+        this.detailKind = add(sc.add.text(CARD_CX, 0, '', TEXT.kind).setOrigin(0.5, 0));
+        this.detailDesc = add(sc.add.text(CARD.x + 18, 0, '', { ...TEXT.body, wordWrap: { width: CARD.w - 36 } }));
+        this.detailHint = add(sc.add.text(CARD_CX, CARD.y + 184, L().t('ui.inventory.selectHint'), {
+            ...TEXT.kind, fontSize: '15px', wordWrap: { width: CARD.w - 40 },
+        }).setOrigin(0.5, 0));
+        this.createUseButton(add);
+
+        // the pager + the money
+        this.pagerPrev = add(createMenuIconButton(sc, GRID.left + GRID_W / 2 - 74, FOOT_Y, 'left', () => this.changePage(-1)));
+        this.pagerNext = add(createMenuIconButton(sc, GRID.left + GRID_W / 2 + 74, FOOT_Y, 'right', () => this.changePage(1)));
+        this.pagerLabel = add(sc.add.text(GRID.left + GRID_W / 2, FOOT_Y, '', TEXT.small).setOrigin(0.5));
+        this.coin = add(sc.add.image(GRID.left + 14, FOOT_Y, 'menuCoin').setScale(S));
+        this.moneyText = add(sc.add.text(GRID.left + 34, FOOT_Y, '', { ...TEXT.small, fontSize: '17px', color: MENU_COLORS.title }).setOrigin(0, 0.5));
+
+        // the mouse wheel flips pages while the panel is open
         this._onWheel = (pointer, over, dx, dy) => {
-            if (!this.inventoryVisible || this._activeUsePopup) return;
+            if (!this.inventoryVisible) return;
             if (dy > 0) this.changePage(1);
             else if (dy < 0) this.changePage(-1);
         };
-        this.scene.input.on('wheel', this._onWheel);
-        
-        // Flip a PLAY/STOP label back when an ampule finishes on its own
+        sc.input.on('wheel', this._onWheel);
+
+        // flip a Play / Stop label back when an ampule finishes on its own
         this._onRecordingEnded = () => { if (this.inventoryVisible) this.updateInventoryDisplay(); };
-        this.scene.events.on('recordingEnded', this._onRecordingEnded);
+        sc.events.on('recordingEnded', this._onRecordingEnded);
+        sc.events.once('shutdown', () => this.cleanup());
+        this.showDetails();
     }
 
-    /**
-     * Create the page navigation row: [<]  1 / 3  [>]
-     * @param {number} y - Panel-local y position
-     */
-    createPager(y) {
-        this.pager = this.scene.add.container(0, y);
-        this.pager.setVisible(false);
-        this.inventoryPanel.add(this.pager);
-        
-        const makeArrow = (x, label, delta) => {
-            const btn = this.scene.add.text(x, 0, label, {
-                fontSize: '22px',
-                fill: '#7fff8e',
-                backgroundColor: 'rgba(15, 35, 21, 0.9)',
-                padding: { x: 12, y: 4 }
+    /** the Use / Play / Stop button on the item card: a tab plaque (idle / hover / pressed) */
+    createUseButton(add) {
+        const sc = this.scene, y = CARD.y + CARD.h - 34;
+        const img = add(sc.add.image(CARD_CX, y, 'menuTab', 0).setScale(S).setInteractive({ useHandCursor: true }));
+        img.input.hitArea.setTo(1, 1, 66, 18);
+        const text = add(sc.add.text(CARD_CX, y + 1, '', { ...TEXT.small, fontSize: '16px', strokeThickness: 3 }).setOrigin(0.5));
+        img.on('pointerover', () => { img.setFrame(1); text.setColor(MENU_COLORS.textHover); playMenuSound(sc, 'hoverSound', 0.5); });
+        img.on('pointerout', () => { img.setFrame(0); text.setColor(MENU_COLORS.text); });
+        img.on('pointerdown', (pointer, lx, ly, event) => {
+            event?.stopPropagation();
+            img.setFrame(2); text.y = y - 1;
+            playMenuSound(sc, 'clickSound');
+            sc.time.delayedCall(110, () => {
+                if (!img.active) return;
+                img.setFrame(1); text.y = y + 1;
+                this.useSelected();
             });
-            btn.setOrigin(0.5);
-            btn.setInteractive({ useHandCursor: true });
-            btn.on('pointerover', () => { if (btn.alpha === 1) btn.setStyle({ fill: '#b3ffcc' }); });
-            btn.on('pointerout', () => btn.setStyle({ fill: '#7fff8e' }));
-            btn.on('pointerdown', () => this.changePage(delta));
-            this.pager.add(btn);
-            return btn;
-        };
-        
-        this.pagerPrev = makeArrow(-70, '<', -1);
-        this.pagerNext = makeArrow(70, '>', 1);
-        this.pagerLabel = this.scene.add.text(0, 0, '', {
-            fontSize: '16px',
-            fill: '#7fff8e'
         });
-        this.pagerLabel.setOrigin(0.5);
-        this.pager.add(this.pagerLabel);
+        this.useButton = { img, text };
     }
 
-    /**
-     * Number of pages needed for the current inventory (always ≥ 1)
-     */
+    drawSlot(slot) {
+        const selected = slot.item && slot.item === this.selectedItem;
+        slot.bg.setFrame(selected ? 3 : slot.hover && slot.item ? 2 : slot.item ? 1 : 0);
+    }
+
+    /** the texture an item shows: item.texture, its id, or its name (utils/itemIcons.js); null = lettered placeholder */
+    iconKey(item) {
+        return [item.texture, item.id, item.name?.toLowerCase().replace(/\s+/g, '_'), item.name]
+            .find(key => key && this.scene.textures.exists(key)) || null;
+    }
+
+    /** an item's icon (or a lettered enamel disc) at x, y; returns the game objects */
+    makeIcon(item, x, y, size) {
+        const sc = this.scene, key = this.iconKey(item);
+        if (key) {
+            const img = sc.add.image(x, y, key).setDisplaySize(size, size);
+            if (item.tint) img.setTint(item.tint);
+            return [img];
+        }
+        console.warn(`No texture found for item: ${item.name} (${item.id})`);
+        return [
+            sc.add.circle(x, y, size * 0.4, 0x16251b, 1).setStrokeStyle(2, 0x9a7b3a),
+            sc.add.text(x, y, (L().itemName(item) || '?').charAt(0), { ...TEXT.name, fontSize: `${Math.round(size * 0.4)}px` }).setOrigin(0.5),
+        ];
+    }
+
+    // ------------------------------------------------------------------ paging
     pageCount() {
         const items = this.scene.registry.get('inventory')?.items || [];
         return Math.max(1, Math.ceil(items.length / PAGE_SIZE));
     }
 
-    /**
-     * Flip pages by delta (clamped); redraws the grid
-     * @param {number} delta - +1 / -1
-     */
     changePage(delta) {
         const next = Phaser.Math.Clamp(this.currentPage + delta, 0, this.pageCount() - 1);
         if (next === this.currentPage) return;
         this.currentPage = next;
-        if (this.scene.clickSound) {
-            this.scene.clickSound.play();
-        }
+        playMenuSound(this.scene, 'clickSound');
         this.updateInventoryDisplay();
     }
 
-    /**
-     * Refresh the pager row for the given page count
-     * @param {number} totalPages
-     */
     updatePager(totalPages) {
-        if (!this.pager) return;
-        this.pager.setVisible(totalPages > 1);
-        this.pagerLabel.setText(`${this.currentPage + 1} / ${totalPages}`);
-        this.pagerPrev.setAlpha(this.currentPage > 0 ? 1 : 0.35);
-        this.pagerNext.setAlpha(this.currentPage < totalPages - 1 ? 1 : 0.35);
+        const many = totalPages > 1;
+        this.pagerLabel.setVisible(many).setText(`${this.currentPage + 1} / ${totalPages}`);
+        this.pagerPrev.setVisible(many).setAlpha(this.currentPage > 0 ? 1 : 0.35);
+        this.pagerNext.setVisible(many).setAlpha(this.currentPage < totalPages - 1 ? 1 : 0.35);
     }
 
     /**
@@ -322,192 +243,138 @@ export default class InventorySystem {
             .sort((a, b) => a.group - b.group || a.index - b.index);
     }
 
-    /**
-     * Add money indicator to inventory panel
-     */
-    addMoneyIndicator() {
-        // Check if money system exists
-        if (!this.scene.moneySystem) return;
-        
-        // Get money UI container
-        const moneyContainer = this.scene.moneySystem.getUIContainer();
-        if (!moneyContainer) return;
-        
-        // Position money indicator at the bottom of inventory panel
-        moneyContainer.setPosition(0, PANEL_H / 2 - 28);
-        
-        // Add to inventory panel
-        this.inventoryPanel.add(moneyContainer);
-        
-        // Make it visible when inventory is open
-        moneyContainer.setVisible(true);
-    }
-
+    // ------------------------------------------------------------------ open / close / redraw
     /**
      * Toggle inventory visibility
      * @param {boolean} forceState - Optional state to force
      */
     toggleInventory(forceState) {
-        // Set visibility based on forceState or toggle current state
         this.inventoryVisible = forceState !== undefined ? forceState : !this.inventoryVisible;
-        
-        // Update inventory panel visibility
         if (this.inventoryPanel) {
             this.inventoryPanel.setVisible(this.inventoryVisible);
         }
-        
-        // Update inventory display if visible
         if (this.inventoryVisible) {
+            this.hoverItem = null;
             this.updateInventoryDisplay();
         }
-        
-        // Notify scene that inventory visibility changed
         if (this.scene.events) {
             this.scene.events.emit('inventoryVisibilityChanged', this.inventoryVisible);
         }
     }
 
-    /**
-     * Update inventory display
-     */
     updateInventoryDisplay() {
-        // Get current inventory
-        const inventory = this.scene.registry.get('inventory');
-        const items = inventory?.items || [];
-        
-        // Clear all slots
-        this.inventorySlots.forEach(slot => {
+        if (!this.inventoryPanel) return;
+        const items = this.scene.registry.get('inventory')?.items || [];
+        if (this.selectedItem && !items.includes(this.selectedItem)) this.selectedItem = null;   // used up / sold
+
+        for (const slot of this.inventorySlots) {
+            slot.parts.forEach(p => p.destroy());
+            slot.parts = [];
             slot.item = null;
             slot.itemIndex = -1;
-            // Remove all item sprites from the slot
-            slot.each(child => {
-                if (child.type !== 'Rectangle') { // Don't remove the background
-                    child.destroy();
-                }
-            }, this);
-        });
-        this.hideItemDescription();
-        
-        // Check if inventory is empty
-        if (items.length === 0) {
-            this.currentPage = 0;
-            this.emptyText.setVisible(true);
-            this.updatePager(1);
-            return;
         }
-        
-        // Hide empty message
-        this.emptyText.setVisible(false);
-        
-        // Pick the current page of the (type-sorted) view
+        this.emptyText.setVisible(items.length === 0);
+
         const view = this.getDisplayOrder(items);
         const totalPages = Math.max(1, Math.ceil(view.length / PAGE_SIZE));
         this.currentPage = Phaser.Math.Clamp(this.currentPage, 0, totalPages - 1);
-        const pageItems = view.slice(this.currentPage * PAGE_SIZE, (this.currentPage + 1) * PAGE_SIZE);
-        
-        // Add items to slots
-        pageItems.forEach(({ item, index }, slotIdx) => {
-            {
-                const slot = this.inventorySlots[slotIdx];
-                slot.item = item;
-                slot.itemIndex = index;
-                
-                // Create item sprite or placeholder
-                let itemSprite;
-                
-                // Try different properties as texture keys
-                const possibleTextureKeys = [
-                    item.texture,                // Explicit texture property
-                    item.id,                     // Item ID
-                    item.name.toLowerCase().replace(/\s+/g, '_'),  // Lowercase name with underscores
-                    item.name                    // Item name as is
-                ];
-                
-                // Find the first valid texture key
-                const textureKey = possibleTextureKeys.find(key => 
-                    key && this.scene.textures.exists(key)
-                );
-                
-                if (textureKey) {
-                    // Use the found texture
-                    itemSprite = this.scene.add.image(0, 0, textureKey);
-                    itemSprite.setDisplaySize(60, 60);
-                    if (item.tint) itemSprite.setTint(item.tint);
-                } else {
-                    // Create a colored circle as placeholder if no texture found
-                    itemSprite = this.scene.add.circle(0, 0, 25, 0x7fff8e, 0.8);
-                    
-                    // Add first letter of item name
-                    const itemInitial = this.scene.add.text(0, 0, item.name.charAt(0), {
-                        fontSize: '24px',
-                        fill: '#0a2712',
-                        fontStyle: 'bold'
-                    });
-                    itemInitial.setOrigin(0.5);
-                    slot.add(itemInitial);
-                    
-                    // Log missing texture for debugging
-                    console.warn(`No texture found for item: ${item.name} (${item.id}). Tried: ${possibleTextureKeys.filter(Boolean).join(', ')}`);
-                }
-                
-                // Add item sprite to slot
-                slot.add(itemSprite);
-                
-                // Make item usable if it has a use function
-                if (item.usable) {
-                    // Add use indicator (recordings: PLAY / STOP)
-                    const labelKey = isRecording(item)
-                        ? (isRecordingPlaying(item.id) ? 'ui.inventory.stop' : 'ui.inventory.play')
-                        : 'ui.inventory.use';
-                    const useIndicator = this.scene.add.text(25, 25, L().t(labelKey), {
-                        fontSize: '12px',
-                        fill: '#7fff8e',
-                        backgroundColor: 'rgba(10, 39, 18, 0.7)',
-                        padding: { x: 3, y: 2 }
-                    });
-                    useIndicator.setOrigin(1, 1);
-                    slot.add(useIndicator);
-                    
-                    // Make item sprite interactive for usable items. It sits on top of the slot
-                    // background and takes the pointer, so it must show the tooltip itself.
-                    itemSprite.setInteractive({ useHandCursor: true });
-                    itemSprite.on('pointerover', () => this.showItemDescription(item));
-                    itemSprite.on('pointerout', () => this.hideItemDescription());
-                    itemSprite.on('pointerdown', () => {
-                        if (isRecording(item)) {
-                            this.useItem(index); // ampules toggle playback directly, no confirm popup
-                        } else {
-                            this.showUseItemPopup(index, item, slot);
-                        }
-                    });
-                }
+        view.slice(this.currentPage * PAGE_SIZE, (this.currentPage + 1) * PAGE_SIZE).forEach(({ item, index }, i) => {
+            const slot = this.inventorySlots[i];
+            slot.item = item;
+            slot.itemIndex = index;
+            const parts = this.makeIcon(item, slot.x, slot.y, ICON);
+            if ((item.quantity || 1) > 1) {
+                parts.push(this.scene.add.text(slot.x + 34, slot.y + 34, `×${item.quantity}`, { ...TEXT.small, fontSize: '14px' }).setOrigin(1, 1));
             }
-        }, this);
-        
+            if (item.usable) {                                        // a glowing spore: it can be used / played
+                const playing = isRecording(item) && isRecordingPlaying(item.id);
+                const dot = this.scene.add.image(slot.x - 28, slot.y + 28, 'menuSpore').setScale(S).setTint(playing ? 0xf0fff2 : 0x7fff8e);
+                if (playing) this.scene.tweens.add({ targets: dot, alpha: 0.3, duration: 500, yoyo: true, repeat: -1 });
+                parts.push(dot);
+            }
+            parts.forEach(p => this.inventoryPanel.add(p));
+            slot.parts = parts;
+        });
+        this.inventorySlots.forEach(slot => this.drawSlot(slot));
         this.updatePager(totalPages);
-    }
-    
-    /**
-     * Show item description in the strip below the grid
-     * @param {object} item - The item to show description for
-     */
-    showItemDescription(item) {
-        if (!this.itemNameText) return;
-        this.itemNameText.setText(L().itemName(item));
-        this.itemDescText.setFontSize(14).setText(L().itemDescription(item));
-        // Long lore texts step down a size so they stay inside the strip
-        if (this.itemDescText.height > DESC_H - 36) this.itemDescText.setFontSize(12);
+        this.moneyText.setText(`${this.scene.moneySystem?.amount ?? 0}`);
+        this.coin.setVisible(!!this.scene.moneySystem);
+        this.moneyText.setVisible(!!this.scene.moneySystem);
+        this.showDetails();
     }
 
-    /**
-     * Clear the description strip
-     */
-    hideItemDescription() {
-        if (!this.itemNameText) return;
-        this.itemNameText.setText('');
-        this.itemDescText.setText('');
+    select(item) {
+        this.selectedItem = item;
+        this.inventorySlots.forEach(slot => this.drawSlot(slot));
+        this.showDetails();
     }
 
+    /** the card shows the hovered item, else the selected one, else a hint */
+    showDetails() {
+        if (!this.detailName) return;
+        const item = this.hoverItem || this.selectedItem;
+        this.detailIconParts?.forEach(p => p.destroy());
+        this.detailIconParts = null;
+        this.detailSocket.setFrame(item ? 1 : 0);
+        this.detailHint.setVisible(!item);
+        for (const t of [this.detailName, this.detailKind, this.detailDesc, this.detailQty]) t.setText('');
+        this.useButton.img.setVisible(false);
+        this.useButton.text.setVisible(false);
+        if (!item) return;
+
+        const parts = this.makeIcon(item, CARD_CX, CARD.y + 92, ICON * 2);
+        parts.forEach(p => this.inventoryPanel.add(p));
+        this.detailIconParts = parts;
+        this.inventoryPanel.bringToTop(this.detailQty);
+        if ((item.quantity || 1) > 1) this.detailQty.setText(`×${item.quantity}`);
+
+        this.detailName.setText(L().itemName(item));
+        let y = this.detailName.y + this.detailName.height + 2;
+        const kindKey = `ui.inventory.types.${item.type}`, kind = item.type ? L().t(kindKey) : '';
+        this.detailKind.setText(kind && kind !== kindKey ? kind : '').setY(y);
+        if (this.detailKind.text) y += this.detailKind.height;
+        const bottom = CARD.y + CARD.h - (item.usable ? 62 : 16);
+        this.detailDesc.setY(y + 10).setFontSize(15).setText(L().itemDescription(item) || '');
+        if (this.detailDesc.y + this.detailDesc.height > bottom) this.detailDesc.setFontSize(13);   // long lore texts step down
+
+        if (item.usable) {
+            const label = isRecording(item)
+                ? (isRecordingPlaying(item.id) ? 'ui.inventory.stopItem' : 'ui.inventory.playItem')
+                : 'ui.inventory.useItem';
+            this.useButton.text.setText(L().t(label)).setVisible(true);
+            this.useButton.img.setVisible(true).setFrame(0);
+        }
+    }
+
+    /** use (or play / stop) the selected item */
+    useSelected() {
+        const item = this.selectedItem;
+        if (!item?.usable) return;
+        const index = (this.scene.registry.get('inventory')?.items || []).indexOf(item);
+        if (index >= 0) this.useItem(index);
+    }
+
+    /** arrows move the selection over the whole (paged) list, Enter / Space use it, PgUp / PgDn flip pages */
+    handleKey(event) {
+        if (!this.inventoryVisible || this.scene.dialogVisible) return;
+        const items = this.scene.registry.get('inventory')?.items || [];
+        const view = this.getDisplayOrder(items).map(v => v.item);
+        let i = view.indexOf(this.selectedItem);
+        const move = { ArrowRight: 1, KeyD: 1, ArrowLeft: -1, KeyA: -1, ArrowDown: GRID_COLS, KeyS: GRID_COLS, ArrowUp: -GRID_COLS, KeyW: -GRID_COLS }[event.code];
+        if (move !== undefined && view.length) {
+            i = i < 0 ? this.currentPage * PAGE_SIZE : Phaser.Math.Clamp(i + move, 0, view.length - 1);
+            this.hoverItem = null;
+            this.currentPage = Math.floor(i / PAGE_SIZE);
+            this.selectedItem = view[i];
+            playMenuSound(this.scene, 'hoverSound', 0.4);
+            this.updateInventoryDisplay();
+        } else if (event.code === 'Enter' || event.code === 'NumpadEnter' || event.code === 'Space') {
+            this.useSelected();
+        } else if (event.code === 'PageDown') this.changePage(1);
+        else if (event.code === 'PageUp') this.changePage(-1);
+    }
+
+    // ------------------------------------------------------------------ data (unchanged by the redesign)
     /**
      * Use an item from inventory
      * @param {number} index - Index of the item to use
@@ -515,20 +382,20 @@ export default class InventorySystem {
     useItem(index) {
         const inventory = this.scene.registry.get('inventory');
         const item = inventory.items[index];
-        
+
         if (item && item.usable) {
             // Play use sound if available
             if (this.scene.itemUseSound) {
                 this.scene.itemUseSound.play();
             }
-            
+
             // Check if this is a drug item (Oltrac variants, or anything flagged isDrug)
             const isDrug = item.isDrug === true || (item.id && (
                 item.id === 'grayOltrac' ||
                 item.id === 'violetOltrac' ||
                 item.id === 'amberOltrac'
             ));
-            
+
             // Sound ampules: toggle playback, keep the panel open
             if (isRecording(item)) {
                 const result = toggleRecording(this.scene, item);
@@ -538,24 +405,24 @@ export default class InventorySystem {
                 this.updateInventoryDisplay();
                 return;
             }
-            
+
             // Apply drug effects if applicable
             if (isDrug && this.scene.effectsSystem) {
                 console.log(`Using drug item: ${item.name}`);
                 this.scene.effectsSystem.applyDrugEffect(item);
-                
+
                 // Close the inventory when using a drug
                 this.toggleInventory(false);
             }
-            
+
             // Emit event that item was used
             this.scene.events.emit('itemUsed', item, index);
-            
+
             // If item is consumable, remove it from inventory
             if (item.consumable) {
                 this.removeItemFromInventory(index);
             }
-            
+
             // Update inventory display
             this.updateInventoryDisplay();
         }
@@ -568,67 +435,67 @@ export default class InventorySystem {
      */
     addItemToInventory(item) {
         const inventory = this.scene.registry.get('inventory');
-        
+
         const existingItem = inventory.items.find(invItem => invItem.id === item.id);
-        
+
         if (existingItem) {
             // If item is stackable, increase quantity
             if (item.stackable) {
                 existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
-                
+
                 // Update registry
                 this.scene.registry.set('inventory', inventory);
-                
+
                 // Show notification
                 if (this.scene.showNotification) {
                     this.scene.showNotification(L().t('notifications.addedToInventoryQty', { qty: item.quantity || 1, item: L().itemName(item) }));
                 }
-                
+
                 // Play pickup sound
                 if (this.scene.itemPickupSound) {
                     this.scene.itemPickupSound.play();
                 }
-                
+
                 // Update display
                 if (this.inventoryVisible) {
                     this.updateInventoryDisplay();
                 }
-                
+
                 return true;
             } else {
 
                 return false;
             }
         }
-        
+
         // No capacity limit: the panel pages through everything the player carries.
-        
+
         // Initialize quantity for new items
         if (!item.quantity) {
             item.quantity = 1;
         }
-        
+
         // Add item to inventory
         inventory.items.push(item);
-        
+
         // Update registry
         this.scene.registry.set('inventory', inventory);
-        
+
         // Show notification if available
         if (this.scene.showNotification) {
             this.scene.showNotification(L().t('notifications.addedToInventory', { item: L().itemName(item) }));
         }
-        
+
         // Play pickup sound if available
         if (this.scene.itemPickupSound) {
             this.scene.itemPickupSound.play();
         }
-        
+
         // Update inventory display if visible
         if (this.inventoryVisible) {
             this.updateInventoryDisplay();
         }
-        
+
         return true;
     }
 
@@ -640,28 +507,28 @@ export default class InventorySystem {
     removeItemFromInventory(itemIdOrIndex) {
         const inventory = this.scene.registry.get('inventory');
         let index = itemIdOrIndex;
-        
+
         // If itemIdOrIndex is a string, find the item by ID
         if (typeof itemIdOrIndex === 'string') {
             index = inventory.items.findIndex(item => item.id === itemIdOrIndex);
         }
-        
+
         // Check if item exists
         if (index < 0 || index >= inventory.items.length) {
             return null;
         }
-        
+
         // Remove item from inventory
         const removedItem = inventory.items.splice(index, 1)[0];
-        
+
         // Update registry
         this.scene.registry.set('inventory', inventory);
-        
+
         // Update inventory display if visible
         if (this.inventoryVisible) {
             this.updateInventoryDisplay();
         }
-        
+
         return removedItem;
     }
 
@@ -712,38 +579,34 @@ export default class InventorySystem {
     }
 
     /**
-     * Clean up resources
+     * Clean up resources (also on the scene's shutdown: scene instances are re-used)
      */
     cleanup() {
         if (this.inventoryButton) {
             this.inventoryButton.destroy();
             this.inventoryButton = null;
         }
-        
         if (this.inventoryPanel) {
             this.inventoryPanel.destroy();
             this.inventoryPanel = null;
         }
-        
         this.inventorySlots = [];
-        this.slotsContainer = null;
-        this.pager = null;
-        this.itemNameText = null;
-        this.itemDescText = null;
+        this.detailName = null;
+        this.detailIconParts = null;
         if (this._onWheel && this.scene.input) {
             this.scene.input.off('wheel', this._onWheel);
             this._onWheel = null;
+        }
+        if (this._onKey && this.scene.input?.keyboard) {
+            this.scene.input.keyboard.off('keydown', this._onKey);
+            this._onKey = null;
         }
         if (this._onRecordingEnded && this.scene.events) {
             this.scene.events.off('recordingEnded', this._onRecordingEnded);
             this._onRecordingEnded = null;
         }
-        if (this._activeUsePopup) {
-            this._activeUsePopup.destroy(true);
-            this._activeUsePopup = null;
-        }
     }
-    
+
     /**
      * Get all inventory items for serialization
      * @returns {Object} Inventory data for saving
@@ -751,119 +614,20 @@ export default class InventorySystem {
     getInventoryData() {
         return this.scene.registry.get('inventory') || { items: [] };
     }
-    
+
     /**
      * Load inventory data from a save file
      * @param {Object} inventoryData - Inventory data from save file
      */
     loadInventoryData(inventoryData) {
         if (!inventoryData) return;
-        
+
         // Update registry with saved inventory data
         this.scene.registry.set('inventory', inventoryData);
-        
+
         // Update inventory display if visible
         if (this.inventoryVisible) {
             this.updateInventoryDisplay();
         }
-    }
-
-    /**
-     * Show a popup menu for using an item
-     * @param {number} index - Index of the item
-     * @param {object} item - The item object
-     * @param {Phaser.GameObjects.Container} slot - The slot container
-     */
-    showUseItemPopup(index, item, slot) {
-        console.log('showUseItemPopup called for', item.name, 'at index', index);
-        
-        // Prevent multiple popups
-        if (this._activeUsePopup) {
-            console.log('Destroying existing popup');
-            this._activeUsePopup.destroy(true);
-            this._activeUsePopup = null;
-        }
-
-        // Create a centered popup directly on the camera/screen
-        // Get the camera center coordinates
-        const centerX = this.scene.cameras.main.width / 2;
-        const centerY = this.scene.cameras.main.height / 2;
-        console.log('Creating popup at center:', centerX, centerY);
-        
-        // Create a popup container that's fixed to the camera
-        const popup = this.scene.add.container(centerX, centerY);
-        popup.setDepth(9999); // Extremely high depth to ensure it's on top
-        
-        // Create a semi-transparent overlay for the entire screen
-        const overlay = this.scene.add.rectangle(
-            0, 0,
-            this.scene.cameras.main.width * 2,
-            this.scene.cameras.main.height * 2,
-            0x000000, 0.5
-        );
-        overlay.setOrigin(0.5);
-        popup.add(overlay);
-        
-        // Create a visible popup background
-        const bg = this.scene.add.rectangle(0, 0, 250, 120, 0x0a2712, 0.95); // room for the Czech labels
-        bg.setStrokeStyle(4, 0x7fff8e, 1); // Thicker, more visible border
-        popup.add(bg);
-        
-        // Add item name at the top
-        const itemName = this.scene.add.text(0, -40, L().itemName(item), {
-            fontSize: '20px',
-            fill: '#7fff8e',
-            fontStyle: 'bold',
-            align: 'center'
-        });
-        itemName.setOrigin(0.5);
-        popup.add(itemName);
-        
-        // Use button
-        const useBtn = this.scene.add.text(-60, 10, L().t('ui.inventory.useItem'), {
-            fontSize: '22px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(10, 39, 18, 0.8)',
-            padding: { x: 15, y: 8 },
-            align: 'center'
-        });
-        useBtn.setOrigin(0.5);
-        useBtn.setInteractive({ useHandCursor: true });
-        popup.add(useBtn);
-
-        // Cancel button
-        const cancelBtn = this.scene.add.text(60, 10, L().t('ui.inventory.cancel'), {
-            fontSize: '22px',
-            fill: '#ff8888',
-            backgroundColor: 'rgba(39, 10, 18, 0.8)',
-            padding: { x: 15, y: 8 },
-            align: 'center'
-        });
-        cancelBtn.setOrigin(0.5);
-        cancelBtn.setInteractive({ useHandCursor: true });
-        popup.add(cancelBtn);
-
-        // Button logic
-        useBtn.on('pointerdown', () => {
-            this.useItem(index);
-            popup.destroy(true);
-            this._activeUsePopup = null;
-        });
-        cancelBtn.on('pointerdown', () => {
-            popup.destroy(true);
-            this._activeUsePopup = null;
-        });
-
-        // Store reference for cleanup
-        this._activeUsePopup = popup;
-
-        // Optionally close popup if overlay is clicked
-        overlay.setInteractive();
-        overlay.on('pointerdown', () => {
-            if (this._activeUsePopup) {
-                this._activeUsePopup.destroy(true);
-                this._activeUsePopup = null;
-            }
-        });
     }
 }

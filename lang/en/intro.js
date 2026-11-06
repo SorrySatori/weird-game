@@ -1,13 +1,13 @@
 /**
  * English intro scene text — cutscene narration + dialogue.
- * `opening`: captions over the opening shot of the Hymnar (Obazoba's sacred mushroom, not the god himself); `dialogues[].who` picks the speaker sprite in the chamber.
+ * `opening`: captions over the opening shot of Agarida (Obazoba's sacred mushroom, not the god himself); `dialogues[].who` picks the speaker sprite in the chamber.
  */
 export default {
     intro: {
         opening: [
-            'Deep beneath the earth, far beyond the borders of Upper Morkezela, grows the Hymnar — the sacred mushroom of the god Obazoba.',
-            'Obazoba himself has no body. He is the source of all life and all rot, an ideal no one has ever touched. The Hymnar is only his shrine — yet the faithful say that through its mycelium, the whole world can be heard.',
-            'That night, a tremor ran through the Hymnar\'s mycelium: a cry for help, the kind heard once in a generation. Perhaps two.',
+            'Deep beneath the earth, far beyond the borders of Upper Morkezela, grows Agarida — the sacred mushroom of the god Obazoba.',
+            'Obazoba himself has no body. He is the source of all life and all rot, an ideal no one has ever touched. Agarida is only his shrine — yet the faithful say that through its mycelium, the whole world can be heard.',
+            'That night, a tremor ran through Agarida\'s mycelium: a cry for help, the kind heard once in a generation. Perhaps two.',
         ],
         dialogues: [
             { who: 'narrator', speaker: 'NARRATOR', text: 'In the underground temple of Obazoba, the Highest Humenium Council is gathered.' },

@@ -66,6 +66,8 @@ export default {
             spores: 'SPORY',
             quests: 'Úkoly',
             journal: 'DENÍK',
+            questTabActive: 'Aktivní',
+            questTabDone: 'Dokončené',
             map: 'MAPA',
             journalButton: 'Deník',
             hintButton: 'Nápověda',
@@ -109,6 +111,7 @@ export default {
         // DEMO_BUILD: an exit into a place outside the demo (utils/demo.js)
         demo: {
             closedLabel: 'V demu uzavřeno',
+            questNotInDemo: 'V demu nejde dokončit – pokračuje v plné verzi hry.',
             closedLine: "Dopravní kužel. Tudy se v demu dál nedostanu.",
             // závěrečná karta dema (scenes/DemoEndScene.js)
             end: {
@@ -131,6 +134,10 @@ export default {
             play: 'PŘEHRÁT',
             stop: 'STOP',
             useItem: 'Použít',
+            playItem: 'Přehrát',
+            stopItem: 'Zastavit',
+            selectHint: 'Najeď na předmět, nebo ho kliknutím vyber.',
+            types: { key_item: 'Klíčový předmět', tool: 'Nástroj', drug: 'Droga', consumable: 'Spotřební', recording: 'Zvuková nahrávka', decoration: 'Památka' },
             cancel: 'Zrušit',
             title: 'SBÍRKA SPOR',
             empty: 'Tvoje sbírka spor je prázdná.\nSbírej spory při průzkumu.',

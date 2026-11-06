@@ -90,6 +90,12 @@ export default {
             thank_you_i_have_some_other_questions: "Děkuji! Mám ještě další otázky."
         }
     },
+    captainDirectorateDemo: {
+        text: "*Liris zaváhá a ztiší hlas.* „Než se tam vydáte – tentokrát se tam nedostanete. Hlavní náměstí, Direktorát a půlka města za ním: nic z toho ještě není otevřené. Demo, říkají téhle verzi města přístavní dělníci. Do čtvrti, kterou ještě nikdo nepostavil, vás nedovezu.“ *Poklepe na zábradlí.* „Ale ten nápad si nechte. Až se zbytek města otevře, Direktorát tam bude – a Verdigrace taky.“",
+        options: {
+            ill_remember_that: "Zapamatuju si to."
+        }
+    },
     captainCargo: {
         text: "Především vzácné spory a mycélia, která nelze pěstovat ve městě. Specializované symbiotické kmeny, krystalizované růstové enzymy, rozkladu odolné stavební materiály. Převážíme také zprávy mezi rozptýlenými vzdušnými koloniemi a výzkumnými stanicemi. Informace jsou možná náš nejcennější náklad – znalosti, které by se jinak nikdy nedostaly na zem.",
         options: {

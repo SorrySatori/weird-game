@@ -1,3 +1,5 @@
+import LanguageSystem from './LanguageSystem.js';
+
 export default class FactionReputation extends Phaser.Events.EventEmitter {
     constructor() {
         super();
@@ -43,12 +45,18 @@ export default class FactionReputation extends Phaser.Events.EventEmitter {
             // Emit event directly from this instance
             this.emit('reputationChanged', this.factions[factionName].name, amount);
             return {
-                faction: this.factions[factionName].name,
+                faction: this.displayName(factionName),
                 amount: amount,
                 newTotal: this.factions[factionName].reputation
             };
         }
         return null;
+    }
+
+    /** the faction's name in the current language (the stored English one if there is no translation) */
+    displayName(factionName) {
+        const key = `factions.${factionName}.name`, v = LanguageSystem.getInstance().t(key);
+        return v === key ? this.factions[factionName]?.name : v;
     }
 
     getReputation(factionName) {

@@ -39,6 +39,7 @@ export default {
             title: 'Nothing Hidden. Nothing Lost',
             description: "I'd like to join the Lumen Directorate. I should learn more about their work and find out what it takes to become one of them.",
             updates: {
+                demo_not_yet: "Liris warned me the Directorate and the main square aren't open in this demo. Joining them will have to wait for the full game.",
                 liris_directions: "Captain Liris gave me directions to the Lumen Directorate headquarters, near the main square. Joining them might earn me a place on the Verdigrace's crew.",
             }
         },

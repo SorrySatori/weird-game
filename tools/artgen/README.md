@@ -19,19 +19,21 @@ aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
 `chars.png` is the character-scale overlay layer used in the templates. Regenerate from here rather than
 hand-editing the PNGs; hand touch-ups go into the "UPRAVY" layer of the `.aseprite` files.
 
-## Intro (the Hymnar + the Council chamber)
+## Intro (Agarida + the Council chamber)
 Underground palette `pal_under.py` (Aseprite: `intro-underground.gpl`, copy to `~/.config/aseprite/palettes/`).
 `intro_layout.py` is the shared seat/table geometry (the back-row sprites are cut exactly at the table's far edge).
 ```
-python3 intro_hymnar.py <outdir>         # -> hymnar.png 1067x1000 (+ _gills / _glow ADD layers, hymnar.json signal path + lanterns)
+python3 intro_agarida.py <outdir>        # -> agarida.png 1067x1000 (+ _gills / _glow ADD layers, agarida.json signal path + lanterns)
+                                         #    the cap is ray-cast from below (cap_model / render_cap), ~15 s
 python3 intro_council_bg.py <outdir>     # -> council_bg.png, council_table.png, council_glow.png, council.json (seats, candles)
 python3 intro_council_chars.py <outdir>  # -> council_<id>.png sheets + <id>/<n>.png frames, council_preview.png
 # build the Aseprite sources (OVERWRITES assets/aseprite/Intro_*.aseprite, incl. their UPRAVY layers):
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
         --script-param pal=$HOME/.config/aseprite/palettes/intro-underground.gpl --script tools/artgen/intro_aseprite.lua
+# (add --script-param only=agarida to both aseprite calls to rebuild/export just the mushroom and keep the Council files)
 # export into the game (merges the UPRAVY layers) -- run this after hand edits in Aseprite:
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/intro --script tools/artgen/intro_export.lua >/dev/null
-cp <outdir>/hymnar.json <outdir>/council.json assets/images/intro/
+cp <outdir>/agarida.json <outdir>/council.json assets/images/intro/
 ```
 Sheets: Varhun / Tynri / Rhull 8 frames of 128x176 (idle 0 rest / 1 inhale / 2 blink / 3 eye-glow, talk 4-7 = mouth only);
 elder_l / elder_r 4 frames of 200x350 (0 rest / 1 inhale / 2 head sinks or bulb glows / 3 blink; elder_r is flipped in the scene).
@@ -477,6 +479,12 @@ aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui/menu --script tools/artgen/menu_export.lua
 cp <outdir>/menu_*_glow.png <outdir>/menu_spore.png assets/images/ui/menu/    # the ADD glows come from the generator
 ```
+Journal + quest log (`ui/LedgerPanel.js`): `menu_panel_ledger` (+glow), `UI_MenuTab_68x20` (`klid` / `najeti` / `vybrana`),
+`UI_MenuCard_24x24` (nine-slice entry card, 7 px corners -- keep it flat, it is stretched), `UI_MenuRail_10x32` (scroll rail,
+nine-slice; the knob is `menu_knob`), `UI_MenuChevron_8x8` (quest open / closed). Inventory (`systems/inventory/InventorySystem.js`, same panel):
+`UI_MenuItemSlot_40x40` (`prazdna` / `predmet` / `najeti` / `vybrana`) and `UI_MenuCoin_12x12` (the money line). Add `--script-param only=ledger` to both
+aseprite calls to rebuild / export just these and leave the menus' UPRAVY touch-ups alone.
+
 `UI_MenuButtons_192x48.aseprite`: tags `myceny` / `chorose` / `muchomurka` (the three decoration variants), each 11 frames:
 1 idle, 2-9 hover loop (the gear turns 90 deg -- its 4 spokes make the loop seamless -- and a pulse runs down the
 mycelium), 10 pressed, 11 disabled. `UI_MenuSlots_228x26`: `volny` / `obsazeny` x idle, hover, pressed, selected.

@@ -38,6 +38,7 @@ export default {
             title: 'Nic skrytého. Nic ztraceného',
             description: "Rád bych se přidal k Direktorátu. Měl bych se dozvědět víc o jejich práci a zjistit, co je potřeba, abych se stal jedním z nich.",
             updates: {
+                demo_not_yet: 'Liris mě varovala, že Direktorát ani hlavní náměstí v tomhle demu otevřené nejsou. Na přidání se k nim si budu muset počkat do plné verze.',
                 liris_directions: "Kapitánka Liris mi poradila, kde najdu sídlo Direktorátu – nedaleko hlavního náměstí. Když se k nim přidám, možná si vysloužím místo v posádce Verdigrace.",
             }
         },

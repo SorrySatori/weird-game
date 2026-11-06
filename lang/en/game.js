@@ -157,6 +157,14 @@ export default {
     },
 
     factions: {
+        RustChoir: { name: 'Rust Choir', description: 'A faction dedicated to reclaiming and repurposing rust and decay.' },
+        PithReclaimers: { name: 'Ink Tribunal', description: "The city's bureaucracy: balance and order kept by ink, seal and ledger." },
+        LumenDirectorate: { name: 'Lumen Directorate', description: 'An alliance that values growth and all life.' },
+        status: 'Standing: {status}',
+        standings: {
+            revered: 'Revered', honored: 'Honored', friendly: 'Friendly', liked: 'Liked', neutral: 'Neutral',
+            disliked: 'Disliked', unfriendly: 'Unfriendly', hostile: 'Hostile', hated: 'Hated',
+        },
     },
 
     mood: {

@@ -13,6 +13,12 @@ moss creeping over the metal. Shown at 2x (utils/menuKit.js).
   menu_knob.png     16x16 gear knob: 0-3 turns it 90 deg (it rolls along the tube), 4-7 lit
   menu_toggle.png   40x20 lever: 0 off, 1 off focused, 2 on, 3 on focused
   menu_spore.png    3x3 spore for the click puff
+  menu_tab.png      68x20 journal / quest-log tab: 0 idle, 1 hover, 2 selected
+  menu_card.png     24x24 entry card, nine-slice (7 px corners): 0 idle, 1 lit
+  menu_rail.png     10x32 scroll rail, nine-slice (4 px sides, 6 px caps); the knob is menu_knob
+  menu_chevron.png  8x8 expand arrow: 0 closed, 1 closed lit, 2 open, 3 open lit
+  menu_islot.png    40x40 inventory socket: 0 empty, 1 holds an item, 2 hover, 3 selected
+  menu_coin.png     12x12 a dinar (the money line in the inventory)
 
 python3 menu_ui.py <outdir>  ->  the sheets above + menu/<sheet>/<n>.png frames (for Aseprite) + menu.gpl"""
 import sys, os, math, random
@@ -536,7 +542,8 @@ def toggle(f):
 
 # --- panels -----------------------------------------------------------------------------------------------------------
 # key: (w, h, title plate w) in native px; utils/menuKit.js MENU_PANELS mirrors these (shown 2x, MARGIN around)
-PANELS = {'pause': (224, 196, 128), 'slots': (256, 210, 136), 'lang': (224, 108, 112), 'settings': (256, 140, 136)}
+PANELS = {'pause': (224, 196, 128), 'slots': (256, 210, 136), 'lang': (224, 108, 112), 'settings': (256, 140, 136),
+          'ledger': (456, 248, 150)}                                # the journal + quest log (ui/LedgerPanel.js)
 MARGIN = 18
 
 def panel(key):
@@ -581,6 +588,111 @@ def panel(key):
     outline_parts(s, ORGANIC + ('moss',))
     return s, glow_image(W, H, mask, radius=2.6, gain=1.5)
 
+# --- journal / quest log: tabs, entry cards (nine-slice), the scroll rail, the expand chevron ---------------------
+TABW, TABH = 68, 20
+
+def tab(f):
+    """a tab plaque: 0 idle (sunk a pixel, dim), 1 hover, 2 selected (raised, lit enamel, a glowing thread under it)"""
+    hover, sel = f == 1, f == 2
+    s = Spr(TABW, TABH)
+    off = 0 if sel else 1
+    plaque(s, (1, 1 + off, TABW - 2, TABH - 2), 3, hover=hover or sel, frame_w=2, seed=61,
+           enamel_lift=0.9 if sel else 0.3 if hover else -0.4, rivets=[(4, 4 + off), (TABW - 6, 4 + off)])
+    if hover or sel:
+        for q, c in list(s.px.items()):
+            if s.part[q] == 'frame' and c in BRONZE and c != BRONZE[0]: s.px[q] = BRONZE[min(7, BRONZE.index(c) + (2 if sel else 1))]
+            elif s.part[q] == 'frame' and c in SEA: s.px[q] = SEA[min(3, SEA.index(c) + 1)]
+    if sel:                                                        # a thread of light along the bottom of the enamel
+        for x in range(8, TABW - 8):
+            k = 3 if 18 < x < TABW - 18 else 2
+            s.put(x, TABH - 5, GLOW[k] if (x * 7) % 11 else GLOW[4], 'glow')
+    return s
+
+CARD = 24                                                          # nine-slice source, 7 px corners (LedgerPanel CARD_SLICE)
+
+def card(f):
+    """an entry card, flat so it stretches cleanly: bronze rim (lit top / left), raised enamel, corner rivets.
+    0 idle, 1 lit (hover / open)"""
+    s = Spr(CARD, CARD)
+    for y in range(CARD):
+        for x in range(CARD):
+            d = rr_sdf(x + 0.5, y + 0.5, 0, 0, CARD, CARD, 4)
+            if d > 0: continue
+            depth = -d
+            lit_side = min(x, y) <= min(CARD - 1 - x, CARD - 1 - y)        # nearest edge is the top or the left
+            if depth < 1: s.put(x, y, BRONZE[0], 'frame')
+            elif depth < 3: s.put(x, y, BRONZE[(3 if lit_side else 1) + (2 if f else 0) - (1 if depth < 2 and not lit_side else 0)], 'frame')
+            elif depth < 4: s.put(x, y, ENAMEL[1] if lit_side else ENAMEL[5], 'enamel')
+            else: s.put(x, y, ENAMEL[4] if f else ENAMEL[3], 'enamel')
+    for rx, ry in ((3, 3), (CARD - 5, 3), (3, CARD - 5), (CARD - 5, CARD - 5)):
+        rivet(s, rx, ry)
+    return s
+
+RAILW, RAILH = 10, 32                                              # nine-slice: 4 px sides, 6 px caps
+
+def rail():
+    """the scroll rail: a bronze channel with a dark groove and a faint glowing thread (the knob rides it)"""
+    s = Spr(RAILW, RAILH)
+    for y in range(RAILH):
+        for x in range(RAILW):
+            d = rr_sdf(x + 0.5, y + 0.5, 0, 0, RAILW, RAILH, 4)
+            if d > 0: continue
+            depth = -d
+            if depth < 1: s.put(x, y, BRONZE[0], 'frame')
+            elif x <= 2 or y <= 2: s.put(x, y, BRONZE[5] if x <= 2 else BRONZE[4], 'frame')
+            elif x >= RAILW - 3 or y >= RAILH - 3: s.put(x, y, BRONZE[2], 'frame')
+            else: s.put(x, y, ENAMEL[0] if x == 3 else GLOW[0] if x == 4 or x == 5 else ENAMEL[2], 'groove')
+    return s
+
+def chevron(f):
+    """the expand arrow of a quest: 0 closed, 1 closed lit, 2 open, 3 open lit (8x8)"""
+    s = Spr(8, 8)
+    lit_c, dark_c = (GLOW[4], GLOW[2]) if f % 2 else (BRONZE[6], BRONZE[3])
+    for c in range(4):
+        for k in range(-(3 - c), (3 - c) + 1):
+            if f < 2: s.put(2 + c, 3.5 + k, lit_c if k < 0 else dark_c, 'glyph')        # ►
+            else: s.put(3.5 + k, 2 + c, lit_c if k < 0 else dark_c, 'glyph')            # ▼
+    s.outline(INK)
+    return s
+
+# --- inventory: item sockets + a coin -------------------------------------------------------------------------------
+ISLOT = 40                                                         # shown 2x: 80 px, the 60 px icon sits in the well
+
+def islot(f):
+    """an item socket: a riveted bronze collar around a deep enamel well. 0 empty (dim), 1 holds an item,
+    2 hover (the collar catches light, a ring of light in the well), 3 selected (brighter ring + mycelium on the rim)"""
+    empty, hover, sel = f == 0, f == 2, f == 3
+    s = Spr(ISLOT, ISLOT)
+    box = (1, 1, ISLOT - 2, ISLOT - 2)
+    plaque(s, box, 6, hover=hover or sel, frame_w=3, seed=43 + f, enamel_lift=-0.9 if empty else -0.3 + (0.5 if sel else 0),
+           rivets=[(4, 4), (ISLOT - 6, 4), (4, ISLOT - 6), (ISLOT - 6, ISLOT - 6)], vignette=1.6 if not sel else 0.8)
+    if hover or sel:
+        for q, c in list(s.px.items()):
+            if s.part[q] == 'frame' and c in BRONZE and c != BRONZE[0]: s.px[q] = BRONZE[min(7, BRONZE.index(c) + (2 if sel else 1))]
+            elif s.part[q] == 'frame' and c in SEA: s.px[q] = SEA[min(3, SEA.index(c) + 1)]
+        for y in range(ISLOT):                                     # a ring of light just inside the collar
+            for x in range(ISLOT):
+                d = -rr_sdf(x + 0.5, y + 0.5, *box, 6)
+                if 4.0 <= d < 6.0 and s.part.get((x, y)) == 'enamel' and (sel or d < 5.0):
+                    s.put(x, y, GLOW[(3 if d < 5.0 else 1) if sel else 2], 'glow')
+    if sel:                                                        # mycelium creeping over the top-right of the collar
+        rnd = random.Random(14)
+        pts = thread_walk(rnd, (ISLOT - 9, 2), math.pi, 16, (ISLOT - 26, 1, ISLOT - 3, 4), 0.4, 0.1)
+        draw_threads(s, pts, 0.4, total=16)
+        cushion(s, ISLOT - 9, ISLOT - 2, 4, 2, 7, sporo=1)
+        outline_parts(s, ORGANIC + ('moss',))
+    return s
+
+def coin():
+    """a dinar: a bronze coin stamped with a little mushroom, a hole through the middle of the cap"""
+    s = Spr(12, 12)
+    s.blob(6, 6, 5.5, 5.5, lambda x, y, n: tone(BRONZE, 2.2 + 4.6 * max(0.0, -0.6 * n[0] - 0.6 * n[1] + 0.5 * n[2]), x, y), 'coin')
+    for x, y in ((4, 4), (5, 4), (6, 4), (7, 4), (3, 5), (8, 5), (5, 6), (6, 6), (5, 7), (6, 7), (5, 8), (6, 8)):
+        s.put(x, y, BRONZE[1], 'stamp')
+    s.put(4, 3, BRONZE[7], 'coin'); s.put(3, 4, BRONZE[6], 'coin')
+    s.outline(INK)
+    return s
+
 def save_sheet(name, frames, cols=None):
     cols = cols or len(frames)
     w, h = frames[0].w, frames[0].h
@@ -608,6 +720,12 @@ if __name__ == '__main__':
     for k in PANELS:
         sp, gl = panel(k)
         sp.image().save(os.path.join(OUT, 'menu_panel_%s.png' % k)); gl.save(os.path.join(OUT, 'menu_panel_%s_glow.png' % k))
+    save_sheet('menu_tab', [tab(f) for f in range(3)], cols=3)
+    save_sheet('menu_card', [card(f) for f in range(2)], cols=2)
+    save_sheet('menu_rail', [rail()])
+    save_sheet('menu_chevron', [chevron(f) for f in range(4)], cols=4)
+    save_sheet('menu_islot', [islot(f) for f in range(4)], cols=4)
+    save_sheet('menu_coin', [coin()])
     spore = Image.new('RGBA', (3, 3), (0, 0, 0, 0))
     for (x, y), c in {(1, 0): GLOW[4], (0, 1): GLOW[3], (1, 1): GLOW[5], (2, 1): GLOW[3], (1, 2): GLOW[2]}.items():
         spore.putpixel((x, y), c + (255,))

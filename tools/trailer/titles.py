@@ -21,7 +21,7 @@ DECAY = (214, 128, 72)
 
 # id -> list of lines; each line: (text, size, colour, tracking em, y centre)
 TITLES = {
-    'hymnar': [("Deep beneath the earth, the mycelium carries a cry for help.", 44, BONE, 0.02, 1015)],
+    'agarida': [("Deep beneath the earth, the mycelium carries a cry for help.", 44, BONE, 0.02, 1015)],
     'city': [("A city built on the bones of dead gods", 48, BONE, 0.02, 1015)],
     'gods': [("THE GODS ARE DEAD.", 76, BONE, 0.18, 540)],
     'paperwork': [("THE PAPERWORK IS NOT.", 76, BONE, 0.18, 540)],

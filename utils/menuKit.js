@@ -15,7 +15,8 @@ const SMALL = { left: 0, right: 3, close: 6 }; // + 0 idle / 1 hover / 2 pressed
 const PANEL_MARGIN = 18;
 const SLIDER = { w: 136, h: 16, glassX0: 4, glassX1: 132 };   // the glass tube's inside (menu_ui.py GLASS)
 /** native inner size of each panel + its title plate (tools/artgen/menu_ui.py PANELS) */
-export const MENU_PANELS = { pause: { w: 224, h: 196 }, slots: { w: 256, h: 210 }, lang: { w: 224, h: 108 }, settings: { w: 256, h: 140 } };
+export const MENU_PANELS = { pause: { w: 224, h: 196 }, slots: { w: 256, h: 210 }, lang: { w: 224, h: 108 }, settings: { w: 256, h: 140 },
+    ledger: { w: 456, h: 248 } };   // ledger = the journal + quest log (ui/LedgerPanel.js)
 
 export const MENU_COLORS = {
     text: '#dccfa6', textHover: '#f2ffe6', textDisabled: '#77736a', title: '#e2c674',
@@ -39,6 +40,14 @@ export function preloadMenuKit(scene) {
     scene.load.image('menuSliderFill', DIR + 'menu_slider_fill.png');
     scene.load.spritesheet('menuKnob', DIR + 'menu_knob.png', { frameWidth: 16, frameHeight: 16 });
     scene.load.spritesheet('menuToggle', DIR + 'menu_toggle.png', { frameWidth: 40, frameHeight: 20 });
+    // the journal / quest log (ui/LedgerPanel.js): tabs, nine-slice entry cards, the scroll rail, the expand arrow
+    scene.load.spritesheet('menuTab', DIR + 'menu_tab.png', { frameWidth: 68, frameHeight: 20 });
+    scene.load.spritesheet('menuCard', DIR + 'menu_card.png', { frameWidth: 24, frameHeight: 24 });
+    scene.load.image('menuRail', DIR + 'menu_rail.png');
+    scene.load.spritesheet('menuChevron', DIR + 'menu_chevron.png', { frameWidth: 8, frameHeight: 8 });
+    // the inventory: item sockets (0 empty, 1 item, 2 hover, 3 selected) + the dinar
+    scene.load.spritesheet('menuItemSlot', DIR + 'menu_islot.png', { frameWidth: 40, frameHeight: 40 });
+    scene.load.image('menuCoin', DIR + 'menu_coin.png');
     for (const key of Object.keys(MENU_PANELS)) {
         scene.load.image(`menuPanel_${key}`, DIR + `menu_panel_${key}.png`);
         scene.load.image(`menuPanelGlow_${key}`, DIR + `menu_panel_${key}_glow.png`);

@@ -552,13 +552,7 @@ export default class GameScene extends Phaser.Scene {
         if (!this.registry.get('factionSystem')) {
             const factionSystem = new FactionReputation();
             this.registry.set('factionSystem', factionSystem);
-            
-            // Add faction system event handlers
-            factionSystem.on('reputationChanged', (faction, oldValue, newValue) => {
-                const change = newValue - oldValue;
-                const sign = change > 0 ? '+' : '';
-                this.showNotification(`${faction} Reputation: ${sign}${change}`, 0x7fff8e);
-            });
+            // (the reputation notification is shown by modifyFactionReputation, in the player's language)
         }
         this.factionSystem = this.registry.get('factionSystem');
         
@@ -2004,11 +1998,14 @@ export default class GameScene extends Phaser.Scene {
             return;
         }
 
-        // Apply i18n translation if not English
+        // Apply i18n translation if not English (the English speaker name stays for the portrait lookup:
+        // sprite keys are English, so "Chrámový strážce" alone would never find 'guard')
+        const speakerEn = content?.speaker;
         if (typeof state === 'string') {
             const langSys = LanguageSystem.getInstance();
             content = langSys.translateDialog(this.scene.key, state, content);
         }
+        this._dialogSpeakerEn = speakerEn;
 
         // Growth/Decay mood aside — a state tagged with `moodNpc` gets a reactive line prepended
         // when the player's balance is pronounced. Applied AFTER translation (so the localized line
@@ -2086,7 +2083,7 @@ export default class GameScene extends Phaser.Scene {
             });
         }
 
-        return { speaker: content.speaker || null, text: content.text || '', options };
+        return { speaker: content.speaker || null, speakerEn: this._dialogSpeakerEn || null, text: content.text || '', options };
     }
 
     hideDialog() {

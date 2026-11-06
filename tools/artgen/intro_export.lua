@@ -1,5 +1,5 @@
 -- Exports the intro art from the Aseprite sources into the game (hand touch-ups in the "UPRAVY" layers included).
--- aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/intro --script intro_export.lua
+-- aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/intro [--script-param only=agarida] --script intro_export.lua
 local src, dst = app.params["src"], app.params["dst"]
 
 -- flatten the named layers of one file into one PNG per output
@@ -14,11 +14,12 @@ local function exportLayers(file, outputs)
   spr:close()
 end
 
-exportLayers("Intro_Hymnar_1067x1000.aseprite", {
-  { out = "hymnar.png", layers = { "hymnar", "hymnar UPRAVY" } },
-  { out = "hymnar_gills.png", layers = { "lupeny zare (ADD)" } },
-  { out = "hymnar_glow.png", layers = { "zily zare (ADD)" } },
+exportLayers("Intro_Agarida_1067x1000.aseprite", {
+  { out = "agarida.png", layers = { "agarida", "agarida UPRAVY" } },
+  { out = "agarida_gills.png", layers = { "lupeny zare (ADD)" } },
+  { out = "agarida_glow.png", layers = { "zily zare (ADD)" } },
 })
+if app.params["only"] == "agarida" then print("ok") return end   -- --script-param only=agarida: skip the Council
 exportLayers("Intro_CouncilChamber_1067x600.aseprite", {
   { out = "council_bg.png", layers = { "pozadi", "pozadi UPRAVY" } },
   { out = "council_glow.png", layers = { "zare (ADD)" } },
