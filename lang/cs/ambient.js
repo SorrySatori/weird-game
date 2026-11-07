@@ -3,6 +3,16 @@
  */
 export default {
     ambient: {
+        // BurningBearStreetScene — místní, který vycpává medvěda na festival
+        bbs_bear_stuffer: {
+            name: 'Místní',
+            lines: [
+                "Promiň, teď nemám čas. Musím všechno připravit na Festival pálení medvědů.",
+                "Do tohohle půjde všechno, čeho se chci zbavit. Flašky, moje básničky, co jsem napsal v osmnácti, a soused taky, jestli bude dál chrápat.",
+                "Letos ho nacpu tak, že bude hořet až do rána.",
+                "Hoř medvídku hoř, zlozvyky mé zboř, udělej svý brum brum, ať nezůstane žádný rum rum.",
+            ],
+        },
         // Shed521FloorsScene — the ground floor
         floors_welcome_clerk: {
             name: 'Recepční',

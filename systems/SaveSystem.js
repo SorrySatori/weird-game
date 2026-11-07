@@ -6,7 +6,7 @@ export default class SaveSystem {
     /** Registry keys copied into / restored from a save file (plain JSON values only). */
     static PERSISTED_REGISTRY_KEYS = [
         'dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft', 'fixed_floor_counter',
-        'crossroadGrowth', 'equipment_tutorial_done',
+        'crossroadGrowth', 'equipment_tutorial_done', 'money',
     ];
 
     /** Forget the persisted registry state (a new game, or before applying a loaded save). */
@@ -345,7 +345,7 @@ export default class SaveSystem {
 
         // Show notification about loaded game
         if (this.scene.showNotification) {
-            this.scene.showNotification('Game loaded successfully', 0x00ff00);
+            this.scene.showNotification(this.scene.t ? this.scene.t('ui.saveLoad.gameLoaded') : 'Game loaded successfully', 0x00ff00);
         }
 
         // Switch to the saved scene if different from current

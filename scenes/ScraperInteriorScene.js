@@ -64,7 +64,7 @@ export default class ScraperInteriorScene extends GameScene {
                 button: ['hint_lost_button', "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says."],
                 // name the source the player can still hear the story from, if they know of one
                 importance: vestigelQuestCompleted && refusedGnur
-                    ? ['hint_importance_clerk', IMPORTANCE + " I turned Gnur down, but the clerk in Shed 521 owes me for it — the Ink Tribunal keeps records of everything."]
+                    ? ['hint_importance_clerk', IMPORTANCE + " I turned Gnur down, but the clerk in the Applications office, on the top floor of Shed 521, owes me for it — the Ink Tribunal keeps records of everything."]
                     : vestigelQuestCompleted && rustQuest && !rustQuest.isComplete
                     ? ['hint_importance_gnur', IMPORTANCE + " Gnur promised to remember something about the Bishop once I bring him that core."]
                     : rustQuestCompleted && vestigelQuest && !vestigelQuest.isComplete
@@ -403,7 +403,9 @@ export default class ScraperInteriorScene extends GameScene {
         
         // Set background
         // Native 1067×600 (tools/artgen/lobby_bg.py): the old Nexicorp lobby -- the Lift-Mother's portal in the middle
-        const bg = this.add.image(400, 300, 'scraperInteriorBg');
+        // '__BASE' explicitly: adding the 'liftMotherFace' frame below makes it the texture's first frame, so on the
+        // next visit a frameless add.image() drew just her doors, stretched over the whole screen
+        const bg = this.add.image(400, 300, 'scraperInteriorBg', '__BASE');
         this.fitBackground(bg);
         bg.setDepth(-1);
         // Lift-Mother's dialog portrait: her doors (arch, lights, the face) cut straight out of the background — a

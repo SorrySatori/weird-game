@@ -1,7 +1,15 @@
 /**
  * Money System for the game
- * Handles currency management, transactions, and UI display
+ * Handles currency management, transactions, and UI display.
+ *
+ * The amount lives in the game registry ('money'): it carries from scene to scene, a save stores it
+ * (SaveSystem.PERSISTED_REGISTRY_KEYS + saveData.money) and a new game clears it, so every new game starts with
+ * STARTING_MONEY. (It used to live in localStorage, which outlived games and sessions: a new game started with
+ * whatever the last one had left.)
  */
+export const STARTING_MONEY = 50;
+const LEGACY_STORAGE_KEY = 'playerMoney';
+
 export default class MoneySystem {
     /** Localized money notification via the scene's t(); falls back to the plain string. */
     _msg(key, amount, fallback) {
@@ -33,25 +41,15 @@ export default class MoneySystem {
                 x: 700,
                 y: 50
             },
-            saveKey: 'playerMoney'
         };
         
         // Merge default options with provided options
         this.options = { ...defaultOptions, ...options };
         
-        // Initialize money amount (load from localStorage if available)
-        // Force the initial amount to be set to the specified value
-        const savedMoney = this.loadMoney();
-        
-        // If this is a new version with updated initial amount, use the new amount
-        if (savedMoney === 5) {
-            // Clear the old saved value
-            this.clearSavedMoney();
-            this.amount = this.options.initialAmount;
-        } else {
-            // Otherwise use saved money or initial amount
-            this.amount = savedMoney || this.options.initialAmount;
-        }
+        // The game's current amount, or (a new game) the starting amount. (`??`, not `||`: 0 is an amount -- a broke
+        // player used to get the starting money back on the next scene.)
+        try { window.localStorage?.removeItem(LEGACY_STORAGE_KEY); } catch (e) { /* the old store, no longer used */ }
+        this.amount = this.loadMoney() ?? this.options.initialAmount;
         
         // Create UI if enabled
         if (this.options.showUI) {
@@ -252,13 +250,11 @@ export default class MoneySystem {
     }
     
     /**
-     * Save money amount to localStorage
+     * Store the amount in the game registry ('money')
      * @private
      */
     saveMoney() {
-        if (window.localStorage) {
-            window.localStorage.setItem(this.options.saveKey, this.amount.toString());
-        }
+        this.scene?.registry?.set('money', this.amount);
     }
 
     /**
@@ -276,27 +272,21 @@ export default class MoneySystem {
     }
     
     /**
-     * Load money amount from localStorage
+     * The game's current amount from the registry
      * @private
      * @returns {number|null} Loaded money amount or null if not found
      */
     loadMoney() {
-        if (window.localStorage) {
-            const saved = window.localStorage.getItem(this.options.saveKey);
-            return saved ? parseInt(saved, 10) : null;
-        }
-        return null;
+        const v = this.scene?.registry?.get('money');
+        return Number.isFinite(v) ? v : null;
     }
     
     /**
-     * Clear saved money from localStorage
+     * Forget the game's amount (the next MoneySystem starts with initialAmount)
      * @private
      */
     clearSavedMoney() {
-        if (window.localStorage) {
-            window.localStorage.removeItem(this.options.saveKey);
-            console.log('Cleared saved money value');
-        }
+        this.scene?.registry?.remove('money');
     }
     
     /**

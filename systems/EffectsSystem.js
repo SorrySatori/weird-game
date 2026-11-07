@@ -525,9 +525,8 @@ export default class EffectsSystem {
         console.log(`[EffectsSystem] Initial ${drugId} effect: ${initialEffect} spores`);
         
         // Show a notification about the spore change
-        const effectMessage = initialEffect > 0 ? 
-            `You feel the spores multiplying within you. (+${initialEffect})` : 
-            `You feel the spores receding from your system. (${initialEffect})`;
+        const L = LanguageSystem.getInstance();
+        const effectMessage = L.t(initialEffect > 0 ? 'drugs.sporesUp' : 'drugs.sporesDown', { n: initialEffect });
         this.scene.showNotification(effectMessage, '', '', 3000);
         
         // Set up interval for random spore fluctuations
@@ -558,9 +557,7 @@ export default class EffectsSystem {
                                                intensity === 'medium' ? 5 : 3;
                     
                     if (Math.abs(change) >= significantThreshold) {
-                        const fluctMessage = change > 0 ? 
-                            `A wave of fungal energy surges through you! (+${change})` : 
-                            `You feel a sudden loss of spore connection! (${change})`;
+                        const fluctMessage = L.t(change > 0 ? 'drugs.surge' : 'drugs.loss', { n: change });
                         this.scene.showNotification(fluctMessage, '', '', 2000);
                     }
                 }
@@ -580,8 +577,9 @@ export default class EffectsSystem {
             this.commentInterval.remove();
         }
         
-        // Get comments for this drug type
-        const comments = this.drugComments[drugId];
+        // Get comments for this drug type (in the player's language; the English list is the fallback)
+        const tr = LanguageSystem.getInstance().t(`drugs.comments.${drugId}`);
+        const comments = Array.isArray(tr) && tr.length ? tr : this.drugComments[drugId];
         if (!comments || !comments.length) {
             console.warn(`No comments found for drug: ${drugId}`);
             return;

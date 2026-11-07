@@ -7,12 +7,15 @@ export default {
         'Edgar Eskola': 'Edgar Eskola',
     },
     edgar_start: {
-        text: "Medvědovitý tvor se neklidně zavrtí. Pohlédne na tebe se směsí ostražitosti a zvědavosti.",
+        text: {
+            default: "Medvědovitý tvor se neklidně zavrtí. Pohlédne na tebe se směsí ostražitosti a zvědavosti.",
+            first: "Medvědovitý tvor se neklidně zavrtí. Pohlédne na tebe se směsí ostražitosti a zvědavosti. „Jestli sháníte haraburdí na vycpání medvěda na ten jejich Festival pálení medvědů, jdete za špatným medvědem.“",
+        },
         options: {
             hello_there: "Dobrý den",
             what_are_you_doing_here: "Co tady děláte?",
             tell_me_about_yourself: "Řekněte mi o sobě.",
-            what_do_you_know_about_the_burning_bear_festival: "Co víte o Festivalu hořícího medvěda?",
+            what_do_you_know_about_the_burning_bear_festival: "Co je to Festival pálení medvědů?",
             im_looking_for_a_vestigel_i_heard_you_might_have_o: "Hledám vestigel, slyšel jsem, že byste mohl jeden mít.",
             lets_start_with_some_inspirational_topics: "Pojďme vymyslet nějaká inspirativní témata.",
             how_is_the_novel: "Tak co román?",
@@ -34,7 +37,7 @@ export default {
         }
     },
     edgar_prejudice: {
-        text: "Historie. Pověry. Strach z toho, co je jiné. Vyberte si. Zakladatelé města vyhnali mé předky z Remaperských vrchů. Teď nás jen... tolerují. V lepším případě.",
+        text: "Historie. Pověry. Strach z toho, co je jiné. Vyberte si. Zakladatelé města vyhnali mé předky z Kopřivových hor. Teď nás jen... tolerují. V lepším případě.",
         options: {
             thats_unfortunate: "To je smutné.",
             back_to_other_topics: "Zeptej se na něco jiného"
@@ -88,7 +91,7 @@ export default {
             kloor_venn: "Tajemný Kloor Venn",
             skyships: "Vzducholodě nad městem",
             rust_choir: "Záhadný Rezavý chór",
-            burning_bear: "Festival hořícího medvěda",
+            burning_bear: "Festival pálení medvědů",
             board_games_war: "Deskovkové války",
             noise_god: "Bůh hluku",
             city_mystery: "Záhady Horní Morkezely",
@@ -241,7 +244,7 @@ export default {
         }
     },
     edgar_festival: {
-        text: "Festival hořícího medvěda? Krutá připomínka starodávného 'vítězství' nad mým druhem. Vycpou medvědí kůže věcmi, kterých se chtějí zbavit, a pak je o půlnoci spálí. Někteří je plní hmyzem a domácími škůdci, symboly zlozvyků, neřestmi... ale kolují drby o lidech, kteří do nich zašívají své soupeře a rivaly.",
+        text: "Festival pálení medvědů? Krutá připomínka starodávného 'vítězství' nad mým druhem. Vycpou medvědí kůže věcmi, kterých se chtějí zbavit, a pak je o půlnoci spálí. Někteří je plní hmyzem a domácími škůdci, symboly zlozvyků, neřestmi... ale kolují drby o lidech, kteří do nich zašívají své soupeře a rivaly.",
         options: {
             that_sounds_disturbing: "To se mi moc nelíbí.",
             its_just_tradition_isnt_it: "Je to přece jen tradice, ne?",

@@ -13,6 +13,8 @@ export default {
         sellItem: 'Prodat předmět',
         forSale: 'Zboží na prodej',
         yourItems: 'Vaše věci',
+        noItems: 'Nic tu není',
+        nothingToSell: 'Nemáte nic, co bychom od vás koupili.',
         noDescription: 'Bez popisu.',
         names: {
             zerren: 'Zerreniny kuriozity',
@@ -167,6 +169,41 @@ export default {
         },
     },
 
+    // trip po Oltracu (systems/EffectsSystem.js): výkyvy spor a co se hrdinovi honí hlavou
+    drugs: {
+        sporesUp: 'Cítíš, jak se v tobě množí spory. (+{n})',
+        sporesDown: 'Cítíš, jak z tebe spory ustupují. ({n})',
+        surge: 'Tělem ti projede vlna houbové energie! (+{n})',
+        loss: 'Najednou cítíš, jak slábne tvoje spojení se sporami! ({n})',
+        comments: {
+            grayOltrac: [
+                "Stěny… dýchají? Jen trošičku.",
+                "Slyším barvy. Počkat, to nedává smysl.",
+                "Mám pocit, že mám prsty z hub…",
+                "Všechno je tak nějak rozmazané na okrajích.",
+                "Spory na mě šeptají.",
+                "Má ten stín tancovat?",
+            ],
+            violetOltrac: [
+                "Vzduch je HUSTÝ fialovými možnostmi!",
+                "Myšlenky mi bují jako mycelium!",
+                "Teď VIDÍM, jak je všechno se vším propojené!",
+                "Houbové vědomí mi všude ukazuje vzorce!",
+                "Čas se do sebe skládá jako klobouk houby!",
+                "HARDCORE! Je tohle HARDCORE? Řekl bych, že jo!",
+            ],
+            amberOltrac: [
+                "ZÁVOJ SE ROZTRHL! VIDÍM ZA BLÁNU SKUTEČNOSTI!",
+                "Moje tělo se rozpouští ve zlaté spory… NÁDHERA!",
+                "Věčná Houba promlouvá skrze mě! STAL JSEM SE MYCELIEM!",
+                "Hvězdy jsou jen plodnice vesmírných hub! UŽ TO VŠECHNO DÁVÁ SMYSL!",
+                "Unikl jsem z vězení svého masa! JSEM VŠUDE A NIKDE!",
+                "Vesmír je jen jedna obří spora, která čeká, až vykvete.",
+                "Chci jít domů… Počkat… Vždyť už doma jsem.",
+            ],
+        },
+    },
+
     mood: {
         liris: {
             growthDominant: "Vstupuješ na palubu a voníš po zeleném počasí. Kapradí rostoucí na palubě se k tobě naklání. Vítej.",
@@ -185,8 +222,8 @@ export default {
             decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná – lakomí to mají vždycky snazší.",
         },
         kloor: {
-            growthDominant: "Váhy sebou cukají – tvé spory jsou zralé, nabité životem. Prvotřídní zboží.",
-            decayDominant: "Mechanický pult tě ucítí dřív, než promluvíš – hniloba, a je jí spousta. Laciné zboží.",
+            growthDominant: "A hele, ty tvoje spory, ty vypadají na prvotřídní zboží. Nějaký bych koupil.",
+            decayDominant: "Heh, ty tvoje spory, ty vypadají na prvotřídní zboží. V tomhle městě plným rozkladu a hniloby přece jen není nějaký ten růst občas na škodu.",
         },
     },
 

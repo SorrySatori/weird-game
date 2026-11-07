@@ -103,7 +103,9 @@ export default {
                 hint_lost_button: "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says.",
                 hint_importance: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Someone else in the city might know where the Bishop went.",
                 hint_importance_gnur: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Gnur promised to remember something about the Bishop once I bring him that core.",
-                hint_importance_clerk: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. I turned Gnur down, but the clerk in Shed 521 owes me for it — the Ink Tribunal keeps records of everything.",
+                hint_importance_clerk: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. I turned Gnur down, but the clerk in the Applications office, on the top floor of Shed 521, owes me for it — the Ink Tribunal keeps records of everything.",
+                clerk_records_two: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree — the Lift-Mother should let me up now.",
+                clerk_records_one: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story — I need a second one that agrees.",
                 hint_importance_kloor: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Kloor Venn will tell me what he knows about the Bishop in exchange for a vestigel.",
             }
         },

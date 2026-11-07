@@ -1,4 +1,4 @@
-import { gnurRefused, clerkToldBishop, CLERK_STORY_KEY } from '../utils/bishopTrail.js';
+import { gnurRefused, clerkToldBishop, knowsKloorStory, CLERK_STORY_KEY } from '../utils/bishopTrail.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
@@ -131,9 +131,18 @@ export default class ShedApplicationsScene extends GameScene {
                     { text: "Thank you. That helps a lot.", key: 'thank_you_that_helps', next: "start" }
                 ],
                 onTrigger: () => this.once('core_refused_thanks', () => {
-                    this.registry.get('questSystem')?.updateQuest('find_bishop',
+                    const qs = this.registry.get('questSystem');
+                    qs?.updateQuest('find_bishop',
                         "The clerk in Shed 521 showed me the Ink Tribunal's records: the Bishop had a visitor's permit for Dr. Elphi's studio on floor 177-Quiet of Scraper 1140.",
                         CLERK_STORY_KEY);
+                    // ...and in the Lift-Mother's quest, where the player waits for it: one story, or with Kloor's two
+                    if (qs?.getQuest('level_177_access') && !this.hasJournalEntry('accessed_elphi_floor')) {
+                        const two = knowsKloorStory(qs);
+                        qs.updateQuest('level_177_access', two
+                            ? "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree — the Lift-Mother should let me up now."
+                            : "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story — I need a second one that agrees.",
+                            'clerk_records', { textKey: two ? 'clerk_records_two' : 'clerk_records_one' });
+                    }
                 })
             },
             private: {
@@ -368,7 +377,8 @@ export default class ShedApplicationsScene extends GameScene {
             100, 100,  // width, height
             'right',   // direction
             'Shed521FloorsScene', // target scene
-            650, 534   // walk to coordinates (the feet: this scene anchors the priest at the feet)
+            650, 534,  // walk to coordinates (the feet: this scene anchors the priest at the feet)
+            'Back to the corridor'
         );
         
         // Add left exit area using transition manager
@@ -377,7 +387,8 @@ export default class ShedApplicationsScene extends GameScene {
             50, 200,   // width, height
             'left',    // direction
             'Shed521FloorsScene', // target scene
-            50, 534    // walk to coordinates
+            50, 534,   // walk to coordinates
+            'Back to the corridor'
         );
 
         // Add interaction with Clerk

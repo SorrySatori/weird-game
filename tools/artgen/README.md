@@ -306,8 +306,8 @@ Don Girandole on the pipe-tower platform at the right edge (deck y ~378, sprite 
 ## Inside the Screaming Cork (ScreamingCorkInteriorScene): the taproom, Heliodor, Ravla
 ```
 python3 corkin_bg.py <outdir>        # -> corkin.png = ScreamingCorkInterior.png, counter.png = ScreamingCorkInterior_counter.png
-python3 corkfolk.py <outdir>         # -> heliodor.png (8 × 128×192) + corkfolk.gpl
-aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/corkfolk.gpl --script tools/artgen/corkfolk_aseprite.lua
+python3 heliodor.py <outdir>         # -> heliodor.png (8 × 128×192) + heliodor/<n>.png + heliodor.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=<outdir>/heliodor.gpl --script tools/artgen/corkfolk_aseprite.lua
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/corkfolk_export.lua   # -> heliodor_idle.png
 python3 ravla.py <outdir>            # -> ravla.png (8 × 128×144) + ravla/<n>.png + ravla.gpl
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=<outdir>/ravla.gpl --script tools/artgen/ravla_aseprite.lua
@@ -320,8 +320,12 @@ the counter in front, the street door in the left wall (exit left, x ~28..122), 
 candle in the right corner. `counter.png` = every pixel nearer than Heliodor (z 17.3) inside his sprite's box; the
 scene draws it at depth 5.5 over him (depth 5). Heliodor at (533, 492) before the curtained doorway between the
 back-bar cabinets, Ravla at (960, 524), both origin bottom.
-`corkfolk.py` treats Heliodor like `edgar.py`: the old `heliodor.png` box-filtered 8× to its native grid and animated
-by moving / relighting its own pixels (the old PNG stays as the source).
+`heliodor.py` redraws Heliodor on `rig.py` as what he says he is -- a colony, each member with its own job and face:
+the Speaker (a pale fungal head with the green eyes and orange caps), the Mixer (a crab claw out of the right sleeve,
+shaking a steel shaker; its eyes on stalks), the Polisher (the purple tentacle out of the left sleeve, a glass and a
+rag), Oorarabaz the Green-faced (a moss cushion on the left shoulder, asleep) and the night shift (a small creature in
+the waistcoat pocket). Frames: 0-1 shaking, 2 the glass turns, 3 blink, 4 Oorarabaz breathes, 5-6 the shift changes,
+7 Oorarabaz cracks an eye. (The old derive-from-art `corkfolk.py` is gone; the lua scripts keep their names.)
 `ravla.py` redraws Ravla from scratch on `rig.py` (the old `ravla.png` is only the reference for who she is): a gaunt
 forger hunched over a crate she uses as a desk -- dark hair in a bun with a brush through it, copper goggles with violet
 lenses pushed up on her forehead, a worn slate coat (collar up, a leather elbow patch, pens in the breast pocket) over a

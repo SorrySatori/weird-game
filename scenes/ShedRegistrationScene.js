@@ -89,7 +89,7 @@ export default class ShedRegistrationScene extends GameScene {
             'Shed521FloorsScene', // target scene
             110, // walk to x
             534, // walk to y (the feet: this scene anchors the priest at the feet)
-            'Shed521FloorsScene' // destination name
+            'Back to the corridor'
         );
         
         // Create NPCs but keep them invisible until needed

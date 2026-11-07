@@ -13,6 +13,8 @@ export default {
         sellItem: 'Sell Item',
         forSale: 'Items for Sale',
         yourItems: 'Your Items',
+        noItems: 'No items available',
+        nothingToSell: "You have nothing we'd buy.",
         noDescription: 'No description available.',
         names: {
             zerren: "Zerren's Curios",
@@ -167,6 +169,41 @@ export default {
         },
     },
 
+    // the Oltrac trip (systems/EffectsSystem.js): the spore swings and what goes through the hero's head
+    drugs: {
+        sporesUp: 'You feel the spores multiplying within you. (+{n})',
+        sporesDown: 'You feel the spores receding from your system. ({n})',
+        surge: 'A wave of fungal energy surges through you! (+{n})',
+        loss: 'You feel a sudden loss of spore connection! ({n})',
+        comments: {
+            grayOltrac: [
+                "The walls are... breathing? Just a little bit.",
+                "I can hear colors. Wait, that doesn't make sense.",
+                "My fingers feel like they're made of mushrooms...",
+                "Everything is slightly fuzzy around the edges.",
+                "The spores are speaking to me in whispers.",
+                "Is that shadow supposed to be dancing?",
+            ],
+            violetOltrac: [
+                "The air is THICK with violet possibilities!",
+                "My thoughts are growing like mycelium networks!",
+                "I can SEE the connections between all things now!",
+                "The fungal consciousness is showing me patterns everywhere!",
+                "Time is folding in on itself like a spore cap!",
+                "HARDCORE! Is this HARDCORE? I'm thinking so!",
+            ],
+            amberOltrac: [
+                "THE VEIL IS TORN! I SEE BEYOND THE MEMBRANE OF REALITY!",
+                "My body is dissolving into golden spores... MAGNIFICENT!",
+                "The Eternal Mushroom speaks through me! I AM BECOME MYCELIUM!",
+                "Stars are just the fruiting bodies of cosmic fungi! IT ALL MAKES SENSE!",
+                "I've transcended my flesh prison! I AM EVERYWHERE AND NOWHERE!",
+                "The universe is just one giant spore waiting to bloom!",
+                "I want to go home... Wait... I'm already home.",
+            ],
+        },
+    },
+
     mood: {
         liris: {
             growthDominant: "You come aboard smelling of green weather. The deck ferns fair lean into you. Welcome.",
@@ -185,8 +222,8 @@ export default {
             decayDominant: "You wear decay well. Makes you easier to deal with — the greedy always are.",
         },
         kloor: {
-            growthDominant: "My scales twitch — your spores are ripe, swollen with life. Prime stock, that.",
-            decayDominant: "The mechanic counter smells you before you speak — rot, and plenty of it. Cheap goods.",
+            growthDominant: "Well, look at those spores of yours — prime goods, those. I'd buy a few.",
+            decayDominant: "Heh, those spores of yours look like prime goods. In a city this full of decay and rot, a bit of growth now and then can't hurt.",
         },
     },
 

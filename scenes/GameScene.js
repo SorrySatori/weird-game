@@ -8,7 +8,7 @@ import SporeSystem from '../systems/SporeSystem.js';
 import SporeBar from '../ui/SporeBar.js';
 import PlayerMovementSystem from '../systems/player/PlayerMovementSystem.js';
 import InventorySystem from '../systems/inventory/InventorySystem.js';
-import MoneySystem from '../systems/inventory/MoneySystem.js';
+import MoneySystem, { STARTING_MONEY } from '../systems/inventory/MoneySystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import JournalUI from '../ui/JournalUI.js';
 import EffectsSystem from '../systems/EffectsSystem.js';
@@ -509,7 +509,7 @@ export default class GameScene extends Phaser.Scene {
         
         // Initialize Money System
         this.moneySystem = new MoneySystem(this, {
-            initialAmount: 25, // Start with 25 dinar
+            initialAmount: STARTING_MONEY, // a new game's purse (MoneySystem.js)
             currencyName: 'dinar',
             position: {
                 x: 700,
@@ -1935,9 +1935,11 @@ export default class GameScene extends Phaser.Scene {
         }
         
         // Load money data
+        // (once: from then on the registry's 'money' carries it from scene to scene)
         if (this.registry.has('savedMoney') && this.moneySystem) {
             const moneyData = this.registry.get('savedMoney');
             this.moneySystem.setAmount(moneyData.amount);
+            this.registry.remove('savedMoney');
         }
 
         // Load growth/decay balance (both load paths stash it under 'growthDecayBalance').
@@ -1947,7 +1949,7 @@ export default class GameScene extends Phaser.Scene {
         }
 
         // Show notification
-        this.showNotification('Game data loaded successfully');
+        this.showNotification(this.t('ui.saveLoad.gameDataLoaded'));
     }
 
     // Dialog option creation

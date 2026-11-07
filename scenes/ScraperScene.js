@@ -35,13 +35,6 @@ export default class ScraperScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Add invisible clickable exit area at the left side: the stair-house door (down to the Crossroad)
-        this.exitArea = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(40, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-        
         // Position the priest at the right side when entering
         this.priest.x = 700;
         this.priest.y = 470;
@@ -149,59 +142,19 @@ export default class ScraperScene extends GameScene {
             });
         });
 
-        // Exit area click handler
-        this.exitArea.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
+        // The stair-house door at the left (down to the Crossroad): a standard exit -- the arrow, its label on hover,
+        // and the arrow keys take it at the screen edge (it used to be a bare invisible hotspot with none of that)
+        this.transitionManager.createTransitionZone(
+            50, // x position (800-space)
+            470, // y position
+            80, // width
+            200, // height
+            'left', // direction
+            'CrossroadScene', // target scene
+            50, // walk to x
+            470 // walk to y
+        );
 
-            const priest = this.priest;
-            if (!priest) {
-                // If priest doesn't exist, just transition immediately
-                this.cameras.main.fadeOut(800, 0, 0, 0);
-                this.cameras.main.once('camerafadeoutcomplete', () => {
-                    this.scene.start('CrossroadScene');
-                    this.isTransitioning = false;
-                });
-                return;
-            }
-            
-            // Create a variable to track if the tween completed
-            let tweenCompleted = false;
-            
-            // Play walk animation
-            priest.play('walk');
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    tweenCompleted = true;
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-            
-            // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(2000, () => {
-                if (!tweenCompleted) {
-                    console.log('Exit transition timed out, forcing transition');
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-        });
-        
         // Create exit to ScreamingCorkScene at the right edge
         this.transitionManager.createTransitionZone(
             750, // x position

@@ -1,4 +1,5 @@
 import LanguageSystem from '../LanguageSystem.js';
+import { itemValue, isSellable } from '../../utils/itemValues.js';
 /**
  * Shop System for the game
  * Handles item purchases, selling, and shop UI
@@ -297,10 +298,11 @@ export default class ShopSystem {
         );
         this.itemListContainer.add(listBg);
         
-        // Get items based on current tab (buy mode lists only priced items)
+        // Get items based on current tab: buy mode lists only priced items, sell mode only what a shop will take
+        // (worth something, and not a quest item -- utils/itemValues.js)
         const allItems = this.currentTab === 'buy' 
             ? this.inventory.filter(item => item.price)
-            : this.scene.inventorySystem.getItems();
+            : this.scene.inventorySystem.getItems().filter(isSellable);
         
         // Create item list title
         const listTitle = this.scene.add.text(
@@ -368,7 +370,7 @@ export default class ShopSystem {
             // Item price
             const price = this.currentTab === 'buy' 
                 ? Math.round(item.price * this.options.buyMultiplier) 
-                : Math.round((item.price || 0) * this.options.sellMultiplier);
+                : Math.max(1, Math.round(itemValue(item) * this.options.sellMultiplier));
             
             const priceText = this.scene.add.text(
                 -itemWidth/2 + 10, 
@@ -402,8 +404,9 @@ export default class ShopSystem {
             const noItemsText = this.scene.add.text(
                 -this.options.width/4, 
                 0, 
-                'No items available', 
+                this.currentTab === 'buy' ? this.t('shop.noItems', {}, 'No items available') : this.t('shop.nothingToSell', {}, "Nothing we'd buy from you"), 
                 {
+                    align: 'center', wordWrap: { width: this.options.width / 2 - 60 },
                     fontFamily: 'Arial',
                     fontSize: '16px',
                     color: '#888888'

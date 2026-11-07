@@ -38,6 +38,10 @@ export default class VoxMarket extends GameScene {
                     ...(this.registry.get('questSystem')?.getQuest('find_bishop') ? [
                         { text: "Do you know anything about the Bishop?", key: 'do_you_know_anything_about_the_bishop', next: "kloor_bishop" }
                     ] : []),
+                    // he told you about the Vestigels, you didn't take the job (yet): the offer is here, not buried
+                    ...((this.registry.get('onceFlags') || []).includes('kloor_told_vestigels') && !this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
+                        { text: "About those Vestigels — I could help you get one.", key: 'about_vestigels_offer_help', next: "kloor_vestigels_help" }
+                    ] : []),
                     // only while the deal is open — once he has the Vestigel there is nothing more to ask
                     // with one in the pack, hand it over straight away instead of the "any luck?" detour
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') && !this.registry.get('questSystem').getQuest('the_three_vestigels').isComplete ? [
@@ -270,17 +274,19 @@ export default class VoxMarket extends GameScene {
             kloor_bishop: {
                 text: "Kloor's expression shifts to one of caution. 'The Bishop? Yeah, I've seen her around. Not someone to mess with. She was here in the market recently, trading with some of the merchants.'",
                 options: [
-                    { text: "Do you know where she went?", key: 'do_you_know_where_she_went', next: "kloor_bishop_location" },
+                    // the lead (the lens, the Vestigel) is in the trading answer: it comes first, and "where" points back at it
                     { text: "What was she trading?", key: 'what_was_she_trading', next: "kloor_bishop_trading" },
+                    { text: "Do you know where she went?", key: 'do_you_know_where_she_went', next: "kloor_bishop_location" },
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             
+            // no dead end here: he doesn't know where she went, but he steers you to what she was after (the real lead)
             kloor_bishop_location: {
-                text: "'Can't say for certain. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But I heard she visits the market on a regular basis.'",
+                text: "'Where she went? Can't say. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But what she was after here — now that's the better question.'",
                 options: [
-                    { text: "Thanks for the information", key: 'thanks_for_the_information', next: "kloor_start" },
-                    { text: "What was she trading?", key: 'what_was_she_trading', next: "kloor_bishop_trading" }
+                    { text: "What was she after?", key: 'what_was_she_trading', next: "kloor_bishop_trading" },
+                    { text: "Ask something else", key: 'back', next: "kloor_bishop" }
                 ]
             },
             
@@ -296,7 +302,18 @@ export default class VoxMarket extends GameScene {
                 text: "'Vestigels are strange. They're like coins but... alive somehow. There are three known to exist in the market. I've been trying to get my hands on one to study its properties. Could be valuable for my... research.'",
                 options: [
                     { text: "I could help you get one", key: 'i_could_help_you_get_one', next: "kloor_vestigels_help" },
-                    { text: "Sounds dangerous", key: 'sounds_dangerous', next: "kloor_start" }
+                    { text: "Sounds dangerous", key: 'sounds_dangerous', next: "kloor_vestigels_dangerous" }
+                ],
+                // from now on the offer to help stays on his main menu until the deal is struck
+                onTrigger: () => this.onceEver('kloor_told_vestigels', () => {})
+            },
+
+            // he answers the doubt -- and the offer to help is still open
+            kloor_vestigels_dangerous: {
+                text: "'Dangerous?' Kloor snorts. 'Everything worth having in this market is dangerous. That's why it pays.' He looks you over for a moment. 'Still — if you change your mind, you won't regret it.'",
+                options: [
+                    { text: "I could help you get one", key: 'i_could_help_you_get_one', next: "kloor_vestigels_help" },
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             

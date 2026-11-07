@@ -303,8 +303,8 @@ const MACGUFFINS = {
 const CAMEOS = {
     scraper_building: who('a building that rearranges itself out of boredom', 'n', 'budova|budovy|budově|budovu|budovou|budově', 'f', ', která se z nudy přestavuje'),
     lift_mother: who('a lift who insists on being called Mother', 'f', 'výtah|výtahu|výtahu|výtah|výtahem|výtahu', 'm', ', který trvá na oslovení „Matko“'),
-    ortolan: who('a four-armed toymaker', 'm', 'čtyřruký výrobce hraček|čtyřrukého výrobce hraček|čtyřrukému výrobci hraček|čtyřrukého výrobce hraček|čtyřrukým výrobcem hraček|čtyřrukém výrobci hraček', 'm'),
-    dream_queue: who('a queue that has been dreaming of its own end since spring', 'n', 'fronta|fronty|frontě|frontu|frontou|frontě', 'f', ', která už od jara sní o svém konci'),
+    ortolan: who('a four-armed boardgame designer', 'm', 'čtyřruký výrobce deskovek|čtyřrukého výrobce deskovek|čtyřrukému výrobci deskovek|čtyřrukého výrobce deskovek|čtyřrukým výrobcem deskovek|čtyřrukém výrobci deskovek', 'm'),
+    dream_queue: who('a queue that has been dreaming of its own end since spring', 'n', 'fronta|fronty|frontě|frontu|frontou|frontě', 'f', ', v níž lidé čekají tak dlouho, až se proměnili v duchy'),
     spore_infection: who('a cough with opinions', 'n', 'kašel|kašle|kašli|kašel|kašlem|kašli', 'm', ' s vlastním názorem'),
     vestigels: who('a coin that refuses to be spent', 'n', 'mince|mince|minci|minci|mincí|minci', 'f', ', která se odmítá nechat utratit'),
     kloor_venn: who('a pharmacist who mostly sells side effects', 'm', 'lékárník|lékárníka|lékárníkovi|lékárníka|lékárníkem|lékárníkovi', 'm', ', který prodává hlavně vedlejší účinky'),

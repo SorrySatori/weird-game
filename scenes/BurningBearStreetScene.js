@@ -2,6 +2,11 @@ import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
+import { createAmbientNpc } from '../utils/AmbientNpc.js';
+
+// a local stuffing a bear for the Bear Burning Festival (tools/artgen/bearstuffer.py, Aseprite Street_bear_stuffer):
+// the texture key = the id, feet (origin bottom-centre) on the left pavement; holds = each frame's hold time in ms
+const BEAR_STUFFER = { id: 'bbs_bear_stuffer', x: 252, y: 514, top: 107, holds: [1400, 600, 500, 450, 650, 500, 1000, 900] };
 
 // Animated fire (tools/artgen/burningbear_bg.py): 6-frame loops packed in an atlas whose frames are trimmed against the
 // full 1067×600 canvas, so a sprite at (0,0) / origin (0,0) lands exactly where that fire sits in the background.
@@ -25,6 +30,7 @@ export default class BurningBearStreetScene extends GameScene {
         this.load.atlas('bbs_fire_decay', 'assets/images/props/bbs_fire_decay.png', 'assets/images/props/bbs_fire_decay.json');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.spritesheet(BEAR_STUFFER.id, 'assets/images/characters/streetfolk/bear_stuffer.png', { frameWidth: 140, frameHeight: 128 });
     }
 
     create() {
@@ -46,8 +52,10 @@ export default class BurningBearStreetScene extends GameScene {
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
-        
-        
+
+        // a local busy with the festival: a click gets a line, not a dialog
+        this.bearStuffer = createAmbientNpc(this, BEAR_STUFFER);
+
         // Position the priest at the right side when entering
         this.priest.x = 700;
         this.priest.y = 470;

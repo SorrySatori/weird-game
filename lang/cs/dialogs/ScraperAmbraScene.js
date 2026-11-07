@@ -56,7 +56,7 @@ export default {
         text: "Dělám je. Snová architektura. Neurofikce. Postsenzorická architektura.\n\nStojíte v ARB Ambra – a ne, ty iniciály nic neznamenají. Jen to líp zní.\n\nCo přesně jste slyšel?",
         options: {
             the_bishop_came_here_to_play: "Biskupka sem chodila hrát.",
-            something_went_wrong_im_following_the_trace: "Něco se pokazilo. Jdu po stopě.",
+            something_went_wrong_im_following_the_trace: "Jdu po stopě nouzového signálu, který vyšel z města. Něco je špatně, ale nevíme, co to je.",
             never_mind: "Nic, zapomeňte na to.",
             ask_something_else_games: "Zeptám se na něco jiného."
         }
