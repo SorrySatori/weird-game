@@ -178,7 +178,7 @@ export default class ScraperAmbraScene extends GameScene {
                 textKey: backyardLead ? 'lead_given' : 'default',
                 text: backyardLead
                     ? "Back already? The backyard hasn't gone anywhere. Or did you come to stare at my helmets?"
-                    : "Hm. You're not scheduled. Not tagged either. Let me guess — someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
+                    : "Hm. You're not scheduled. Not tagged either. Let me guess: someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
                 options: [
                     ...(!backyardLead ? [
                         { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
@@ -242,7 +242,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_games_path: {
-                text: "I make them. Dream architecture. Neurofiction. Post-sensory architecture.\n\nYou're standing in ARB Ambra — and no, the initials don't stand for anything. They just sound better that way.\n\nWhat did you hear exactly?",
+                text: "I make them. Dream architecture. Neurofiction. Post-sensory architecture.\n\nYou're standing in ARB Ambra. And no, the initials don't stand for anything. They just sound better that way.\n\nWhat did you hear exactly?",
                 options: backyardLead
                     ? [{ text: "Ask something else.", key: 'ask_something_else_games', next: "dr_elphi_start" }]
                     : [
@@ -264,19 +264,19 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_work_skyship: {
-                text: "*She rubs her temples.* A skyship. A colossal one, for a new game. I split my imaginators into teams — some do the interiors, some the ship itself and how it flies, some the people on board, their dialogs and quests. Simple. Nothing goes according to the brief.\n\nDolores Políčková has the main design concept. A retro-futurist airship: brass, glass, elegance. And every time she dreams it, there's a giant hen in it. She can't get rid of it. It's in every draft.",
+                text: "*She rubs her temples.* A skyship. A colossal one, for a new game. I split my imaginators into teams: some do the interiors, some the ship itself and how it flies, some the people on board, their dialogs and quests. Simple. Nothing goes according to the brief.\n\nDolores Políčková has the main design concept. A retro-futurist airship: brass, glass, elegance. And every time she dreams it, there's a giant hen in it. She can't get rid of it. It's in every draft.",
                 options: [
                     { text: "A giant hen?", key: 'a_giant_hen', next: "dr_elphi_work_captain" }
                 ]
             },
             dr_elphi_work_captain: {
-                text: "That's the least of it. Zachariáš Cvak had the captain almost finished — Captain Mervyn, dialogs and all. Then Mervyn got stuck in a loop and started rambling about some conspiracy of cabbages. Cvak keeps cleaning up his dialogs and steering him back on course. The cabbages keep coming back. And conspiring.",
+                text: "That's the least of it. Zachariáš Cvak had the captain almost finished. Captain Mervyn, dialogs and all. Then Mervyn got stuck in a loop and started rambling about some conspiracy of cabbages. Cvak keeps cleaning up his dialogs and steering him back on course. The cabbages keep coming back. And conspiring.",
                 options: [
                     { text: "And the interiors?", key: 'and_the_interiors', next: "dr_elphi_work_mox" }
                 ]
             },
             dr_elphi_work_mox: {
-                text: "Some of them are Mox Igrixee's. Mox only fully exists in this dimension in odd weeks — exactly the psychedelic energy I promised the journalists. Unfortunately, Mox recently discovered chocolate. Now it keeps breaking through into the dream: bulkheads, fittings, furniture. Some of it even takes the shape of living creatures.\n\nToday a pack of chocolate cats ran across the deck and started playing with the cabbages, and the captain crashed into the hen. *She sighs.* So I called it a day.",
+                text: "Some of them are Mox Igrixee's. Mox only fully exists in this dimension in odd weeks. Exactly the psychedelic energy I promised the journalists. Unfortunately, Mox recently discovered chocolate. Now it keeps breaking through into the dream: bulkheads, fittings, furniture. Some of it even takes the shape of living creatures.\n\nToday a pack of chocolate cats ran across the deck and started playing with the cabbages, and the captain crashed into the hen. *She sighs.* So I called it a day.",
                 options: [
                     { text: "Good luck with the hen.", key: 'good_luck_with_the_hen', next: "dr_elphi_start" }
                 ],
@@ -327,7 +327,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             // "Never mind" before she ever talked about the Bishop: no "if something happened to her"
             dr_elphi_exit_brief: {
-                text: "Suit yourself. If you're going to poke around anyway, poke around somewhere useful — the backyard. Here, take my key.\n\nCome back if you find something.",
+                text: "Suit yourself. If you're going to poke around anyway, poke around somewhere useful: the backyard. Here, take my key.\n\nCome back if you find something.",
                 options: [
                     { text: "I'll check the backyard.", key: 'ill_check_the_backyard', next: "closeDialog" },
                     { text: "Thanks.", key: 'thanks_brief', next: "closeDialog" }

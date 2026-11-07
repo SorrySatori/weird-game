@@ -24,7 +24,7 @@ export default {
         }
     },
     board_games: {
-        text: "O deskových hrách jste přece slyšel, ne? Tak vězte, že jsem nejlepší zatracený návrhář deskových her v tomhle zapomenutém městě. Moje hry nejsou žádné jednoduché věci pro děti, jaké asi znáte – nabízejí jedinečný herní zážitek. Se čtyřmi rukama bych zvládl složitější interakce a mohl toho vyrobit více a rychleji. Ale ta byrokracie... noční můra!",
+        text: "O deskových hrách jste přece slyšel, ne? Tak vězte, že jsem nejlepší zatracený návrhář deskových her v tomhle zapomenutém městě. Moje hry nejsou žádné jednoduché věci pro děti, jaké asi znáte. Nabízejí jedinečný herní zážitek. Se čtyřmi rukama bych zvládl složitější interakce a mohl toho vyrobit více a rychleji. Ale ta byrokracie... noční můra!",
         options: {
             i_could_help_you_with_the_application_process: "Mohl bych vám s tou žádostí pomoct.",
             who_are_you: "Kdo jste?",
@@ -32,7 +32,7 @@ export default {
         }
     },
     who_are_you: {
-        text: "Jsem Ortolan Šmelc, návrhář deskových her. Za časů Deskovkových válek jsem sloužil jako „světotvůrce“. Moje výtvory jsou doslova hry-mikrokosmy – dřevěné desky, na nichž se pohybují drobné vnímající figurky a odehrávají svá dramata i politické intriky. Možná jste slyšel, že mě někdo označuje za konzervativce, jen protože odmítám iluzorní techniku a hrátky s myslí; jejich tvůrci bývají morálně nestálí. Hráči jsou bohové, ale pravidla jsou posvátná.",
+        text: "Jsem Ortolan Šmelc, návrhář deskových her. Za časů Deskovkových válek jsem sloužil jako „světotvůrce“. Moje výtvory jsou doslova hry-mikrokosmy: dřevěné desky, na nichž se pohybují drobné vnímající figurky a odehrávají svá dramata i politické intriky. Možná jste slyšel, že mě někdo označuje za konzervativce, jen protože odmítám iluzorní techniku a hrátky s myslí; jejich tvůrci bývají morálně nestálí. Hráči jsou bohové, ale pravidla jsou posvátná.",
         options: {
             why_do_you_need_extra_arms: "Proč potřebujete ruce navíc?",
             table_top_divination_wars_what_do_you_mean: "Deskovkové války? Co tím myslíte?",
@@ -71,7 +71,7 @@ export default {
         options: { happy_to_help: "Rád jsem pomohl." }
     },
     give_deformity_form: {
-        text: "Formulář o zděděné deformitě? Hm, takhle bych svou potřebu rukou navíc zrovna nepopsal, ale... je schválený! „Status prospěšné mutace“ – no, budiž. Ta klasifikace je trochu urážlivá, ale hlavní je výsledek. Děkuju za pomoc!",
+        text: "Formulář o zděděné deformitě? Hm, takhle bych svou potřebu rukou navíc zrovna nepopsal, ale... je schválený! „Status prospěšné mutace.“ No, budiž. Ta klasifikace je trochu urážlivá, ale hlavní je výsledek. Děkuju za pomoc!",
         options: { its_what_i_could_get: "Víc jsem nesehnal." }
     },
     give_special_dispensation: {
@@ -83,19 +83,19 @@ export default {
         options: { sorry_its_not_better: "Mrzí mě, že to není lepší." }
     },
     complete_quest_artisan: {
-        text: "Prokázal jste mi neuvěřitelnou službu! Tenhle formulář je přesně to, co jsem potřeboval. Jako projev díků přijměte prototyp mé nejnovější hry – Sekty a sázky. Zakládáte v ní vlastní sektu. Část, kdy se vám ten nejvěrnější odštěpí a založí si uvnitř sekty ultraortodoxní křídlo, ještě nemám úplně vyladěnou. Ale kočky se mi povedly. Udělejte z nich hlavní předmět uctívání a máte napůl vyhráno.",
+        text: "Prokázal jste mi neuvěřitelnou službu! Tenhle formulář je přesně to, co jsem potřeboval. Jako projev díků přijměte prototyp mé nejnovější hry: Sekty a sázky. Zakládáte v ní vlastní sektu. Část, kdy se vám ten nejvěrnější odštěpí a založí si uvnitř sekty ultraortodoxní křídlo, ještě nemám úplně vyladěnou. Ale kočky se mi povedly. Udělejte z nich hlavní předmět uctívání a máte napůl vyhráno.",
         options: { thank_you_ill_treasure_it: "Děkuji, budu si toho vážit." }
     },
     complete_quest_deformity: {
-        text: "No, takhle bych sám sebe zrovna nepopsal, ale účel to splní! Děkuju za pomoc. Tady – když už jsme u prospěšných mutací: žralok s nohama. Ploutve už skoro nemá. Nevzpomenu si, kde jsem k němu přišel... z nějaké deskovky o upírech a démonech, tuším. Co v ní dělal žralok, se mě neptejte. Celkově to bylo dost ustřelené, pamatuju si, že tam byla taky figurka chlapíka se sýrem.",
+        text: "No, takhle bych sám sebe zrovna nepopsal, ale účel to splní! Děkuju za pomoc. Tady. Když už jsme u prospěšných mutací: žralok s nohama. Ploutve už skoro nemá. Nevzpomenu si, kde jsem k němu přišel... z nějaké deskovky o upírech a démonech, tuším. Co v ní dělal žralok, se mě neptejte. Celkově to bylo dost ustřelené, pamatuju si, že tam byla taky figurka chlapíka se sýrem.",
         options: { thank_you_for_this_gift: "Děkuji za ten dar." }
     },
     complete_quest_dispensation: {
-        text: "To je pozoruhodné! Zvláštní dispens je vskutku vzácnost. Ušetřil jste mi stovky trávení, možná tisíce, handrkování s úředníky. Tady – ta nejvzácnější věc, co mám. Black Cactus ze hry Absolutely Profane Life: Normality. Kdysi nejdražší karta celé hry, sběratelé za ni v aukcích platili miliony dinárů. Dneska nemá cenu žádnou – autoři byli tak nenasytní, že to všechny naštvalo a hru přestali hrát. Nechal jsem si ji z nostalgie. Teď je vaše.",
+        text: "To je pozoruhodné! Zvláštní dispens je vskutku vzácnost. Ušetřil jste mi stovky trávení, možná tisíce, handrkování s úředníky. Tady je ta nejvzácnější věc, co mám. Black Cactus ze hry Absolutely Profane Life: Normality. Kdysi nejdražší karta celé hry, sběratelé za ni v aukcích platili miliony dinárů. Dneska nemá cenu žádnou. Autoři byli tak nenasytní, že to všechny naštvalo a hru přestali hrát. Nechal jsem si ji z nostalgie. Teď je vaše.",
         options: { its_beautiful_thank_you: "Je nádherná, děkuji." }
     },
     complete_quest_temporary: {
-        text: "Není to ideální, ale je to začátek! Vážím si vaší snahy. Tady – sběratelská figurka Maxima Hopsalota, patrona Lagerlandie. V originálním balení! Teda... původně k ní patřil sixpack. Na ten se radši neptejte.",
+        text: "Není to ideální, ale je to začátek! Vážím si vaší snahy. Tady máte sběratelskou figurku Maxima Hopsalota, patrona Lagerlandie. V originálním balení! Teda... původně k ní patřil sixpack. Na ten se radši neptejte.",
         options: { thank_you_for_the_figurine: "Děkuji za figurku." }
     },
     give_forged_permission: {
@@ -106,14 +106,14 @@ export default {
         }
     },
     forged_reaction: {
-        text: "No, darovanému koni na zuby nekoukej, jak se říká. Tohle rozhodně zabere – úředníci se na ty formuláře stejně sotva podívají. Kontrolují jen správné pečeti a razítka. I když použít padělek je... morálně sporné.",
+        text: "No, darovanému koni na zuby nekoukej, jak se říká. Tohle rozhodně zabere. Úředníci se na ty formuláře stejně sotva podívají. Kontrolují jen správné pečeti a razítka. I když použít padělek je... morálně sporné.",
         options: {
             its_for_a_good_cause: "Je to pro dobrou věc.",
             sorry_about_that: "Omlouvám se."
         }
     },
     complete_quest_forged: {
-        text: "Asi máte pravdu. Zdejší byrokracie je stejně absurdní. S tímhle dokumentem si konečně nechám ten zákrok schválit! Děkuju za vaše... kreativní řešení. Tady – Apocalypse Cop. Detektiv s drinkem Tequila Sunrise v ruce. Není ode mě, tu hru dělal někdo jiný. Mám ho obzvlášť rád. Připomíná mi období po pádu Ludarchů, kdy jsem... pil. Hodně. Vezměte si ho. Mám pocit, že ho budete potřebovat víc než já.",
+        text: "Asi máte pravdu. Zdejší byrokracie je stejně absurdní. S tímhle dokumentem si konečně nechám ten zákrok schválit! Děkuju za vaše... kreativní řešení. Tady je Apocalypse Cop. Detektiv s drinkem Tequila Sunrise v ruce. Není ode mě, tu hru dělal někdo jiný. Mám ho obzvlášť rád. Připomíná mi období po pádu Ludarchů, kdy jsem... pil. Hodně. Vezměte si ho. Mám pocit, že ho budete potřebovat víc než já.",
         options: { thank_you_for_the_gift: "Děkuji za dar." }
     },
     quest_completed: {
@@ -129,11 +129,11 @@ export default {
         options: { sounds_fascinating: "Zní to úchvatně." }
     },
     ortolan_board_wars: {
-        text: "Ach... takže o tom chcete slyšet. Většina lidí se už neptá – radši by zapomněli.“ Ztiší hlas. „Když Staré války zpustošily všechno, města se dohodla, že spory budou řešit hrami místo zbraní. Zpočátku to fungovalo krásně. Nejlepší návrháři – Ludarchové – se stali novými vládci. Já byl tehdy jen světotvůrce, řemeslník, který vyráběl desky a figurky. Ludarchové byli něco úplně jiného. Dokázali ohýbat pravidla samotné skutečnosti. Vytvořili ve svých hrách celé živé světy. Miniaturní civilizace, zrozené a zničené během jediné partie.",
+        text: "Ach... takže o tom chcete slyšet. Většina lidí se už neptá. Radši by zapomněli.“ Ztiší hlas. „Když Staré války zpustošily všechno, města se dohodla, že spory budou řešit hrami místo zbraní. Zpočátku to fungovalo krásně. Nejlepší návrháři, Ludarchové, se stali novými vládci. Já byl tehdy jen světotvůrce, řemeslník, který vyráběl desky a figurky. Ludarchové byli něco úplně jiného. Dokázali ohýbat pravidla samotné skutečnosti. Vytvořili ve svých hrách celé živé světy. Miniaturní civilizace, zrozené a zničené během jediné partie.",
         options: { what_went_wrong: "Co se pokazilo?" }
     },
     ortolan_board_wars_fall: {
-        text: "Totéž, co se pokazí vždycky. Moc. Ludarchové přestali hrát, aby urovnali spory, a začali hrát, aby ovládali. Každá hra byla větší a skutečnější. Z figurek se stalo obyvatelstvo. Z herních plánů města. Uvnitř těch her žily a umíraly miliony – drobné bytosti, které ani nevěděly, že jsou pěšáci.“ Zahledí se na své ruce. „Některé z těch her jsem vyrobil já. Vyřezal jsem figurky, které se staly živými bytostmi. Chápete, jaké to je? Vědět, že vaše řemeslo posloužilo ke stvoření života jen proto, aby ho někdo obětoval za jeden bod k vítězství?",
+        text: "Totéž, co se pokazí vždycky. Moc. Ludarchové přestali hrát, aby urovnali spory, a začali hrát, aby ovládali. Každá hra byla větší a skutečnější. Z figurek se stalo obyvatelstvo. Z herních plánů města. Uvnitř těch her žily a umíraly miliony drobných bytostí, které ani nevěděly, že jsou pěšáci.“ Zahledí se na své ruce. „Některé z těch her jsem vyrobil já. Vyřezal jsem figurky, které se staly živými bytostmi. Chápete, jaké to je? Vědět, že vaše řemeslo posloužilo ke stvoření života jen proto, aby ho někdo obětoval za jeden bod k vítězství?",
         options: {
             is_that_why_you_still_make_games: "Proto pořád děláte hry?",
             how_did_it_end: "Jak to skončilo?"
@@ -147,7 +147,7 @@ export default {
         }
     },
     ortolan_board_wars_why: {
-        text: "Protože to někdo musí dělat správně.“ V očích má tichou, žhavou jistotu. „Ludarchové brali hry jako zbraně. Já je beru jako něco posvátného. Každé pravidlo, které napíšu, každá figurka, kterou vyřežu – to je slib. Že hra je poctivá. Že na hráčích záleží. Že nikdo nebude obětován za cizí vítězství.“ Poklepe na desku vedle sebe. „To je moje odpověď na ty války. Malé hry, poctivé hry. Kde hráči jsou bohové, ale pravidla jsou posvátná. V tom je rozdíl mezi mnou a Ludarchem.",
+        text: "Protože to někdo musí dělat správně.“ V očích má tichou, žhavou jistotu. „Ludarchové brali hry jako zbraně. Já je beru jako něco posvátného. Každé pravidlo, které napíšu, každá figurka, kterou vyřežu, to je slib. Že hra je poctivá. Že na hráčích záleží. Že nikdo nebude obětován za cizí vítězství.“ Poklepe na desku vedle sebe. „To je moje odpověď na ty války. Malé hry, poctivé hry. Kde hráči jsou bohové, ale pravidla jsou posvátná. V tom je rozdíl mezi mnou a Ludarchem.",
         options: {
             thats_a_noble_purpose: "To je ušlechtilý cíl.",
             thank_you_for_sharing_ortolan: "Děkuju, že jste se se mnou podělil, Ortolane."

@@ -5,8 +5,8 @@
 export default {
     intro: {
         opening: [
-            'Deep beneath the earth, far beyond the borders of Upper Morkezela, grows Agarida — the sacred mushroom of the god Obazoba.',
-            'Obazoba himself has no body. He is the source of all life and all rot, an ideal no one has ever touched. Agarida is only his shrine — yet the faithful say that through its mycelium, the whole world can be heard.',
+            'Deep beneath the earth, far beyond the borders of Upper Morkezela, grows Agarida, the sacred mushroom of the god Obazoba.',
+            'Obazoba himself has no body. He is the source of all life and all rot, an ideal no one has ever touched. Agarida is only his shrine. Yet the faithful say that through its mycelium, the whole world can be heard.',
             'That night, a tremor ran through Agarida\'s mycelium: a cry for help, the kind heard once in a generation. Perhaps two.',
         ],
         dialogues: [

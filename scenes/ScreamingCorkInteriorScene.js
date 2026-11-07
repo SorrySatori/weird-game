@@ -86,7 +86,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             ravla_ortolan_need: {
-                text: "It won't be cheap — 50 dinars. But I can make it perfect. No one would know the difference.",
+                text: "It won't be cheap: 50 dinars. But I can make it perfect. No one would know the difference.",
                 options: [
                     { text: "Here's the money", key: 'heres_the_money', next: "ravla_check_money" },
                     { text: "I'll think about it", key: 'ill_think_about_it', next: "ravla_ortolan_agree" },
@@ -124,7 +124,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_forge_success: {
-                text: "Here you go. Perfect forgery, trust me. The official seals, the watermarks, even the special ink — all perfect. No one will question this. Just don't tell anyone where you got it.",
+                text: "Here you go. Perfect forgery, trust me. The official seals, the watermarks, even the special ink. All perfect. No one will question this. Just don't tell anyone where you got it.",
                 options: [
                     { text: "Thank you", key: 'thank_you', next: "closeDialog" }
                 ]
@@ -180,7 +180,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             // DEMO_BUILD: the docks, the Delta and the rest of the task's places aren't in the demo -- Ravla says so, in character,
             // and the quest log keeps it; the task itself stays as a teaser for the full game
             ravla_rust_demo: {
-                text: "*Ravla leans in and lowers her voice.* \"One more thing, just between us. The places you'd need for this — the docks, the Delta and a few more besides — aren't on any map yet. Not in this version of the city. A demo, they call it. I've forged a lot of things in my life, but I can't forge you a whole district.\" *She shrugs.* \"Keep the task anyway. When they finish building the rest of the city, come back. The Choir will be waiting — and Brukk never forgets a volunteer.\"",
+                text: "*Ravla leans in and lowers her voice.* \"One more thing, just between us. The places you'd need for this (the docks, the Delta and a few more besides) aren't on any map yet. Not in this version of the city. A demo, they call it. I've forged a lot of things in my life, but I can't forge you a whole district.\" *She shrugs.* \"Keep the task anyway. When they finish building the rest of the city, come back. The Choir will be waiting, and Brukk never forgets a volunteer.\"",
                 options: [
                     { text: "I'll hold you to that.", key: 'ill_hold_you_to_that', next: "closeDialog" }
                 ],
@@ -211,7 +211,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             // Heliodor dialog
             heliodor_start: {
                 speaker: 'Heliodor',
-                text: "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading — it's actually quite peaceful most nights.\"",
+                text: "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading. It's actually quite peaceful most nights.\"",
                 options: [
                     { text: "Who are you?", key: 'who_are_you', next: "heliodor_who" },
                     { text: "Tell me about this place", key: 'tell_me_about_this_place', next: "heliodor_place" },
@@ -261,7 +261,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             },
             // the muffled rehearsal heard through the wall (tavernRehearsal, see create())
             heliodor_noise: {
-                text: "*Several of Heliodor's faces wince at once.* \"That's Feral Toast, rehearsing in the club out back for tonight's concert. They call it ultranoise futurepunk. We call it the reason our glasses keep walking off the shelves. Go and have a listen if you like — the door's at the back.\"",
+                text: "*Several of Heliodor's faces wince at once.* \"That's Feral Toast, rehearsing in the club out back for tonight's concert. They call it ultranoise futurepunk. We call it the reason our glasses keep walking off the shelves. Go and have a listen if you like. The door's at the back.\"",
                 options: [
                     { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ],
@@ -271,7 +271,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             },
             // Master Thaal's excuse in EntryScene ("a prior engagement at the Fermented Cap tavern")
             heliodor_fermented_cap: {
-                text: "\"The Fermented Cap?\" *A low murmur passes through the colony as it confers with itself.* \"No. There's no such tavern. We know every bar, pub and back-room dive in this district — half of us used to work in them. If somebody told you they'd be there, they most likely just wanted to be rid of you.\"",
+                text: "\"The Fermented Cap?\" *A low murmur passes through the colony as it confers with itself.* \"No. There's no such tavern. We know every bar, pub and back-room dive in this district. Half of us used to work in them. If somebody told you they'd be there, they most likely just wanted to be rid of you.\"",
                 options: [
                     { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ]

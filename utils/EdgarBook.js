@@ -131,7 +131,7 @@ const HEROES = {
         who('Dr. Hyfa Morel', 'f', 'doktorka Hyfa Smržová|doktorky Hyfy Smržové|doktorce Hyfě Smržové|doktorku Hyfu Smržovou|doktorkou Hyfou Smržovou|doktorce Hyfě Smržové', 'f', '',
             ['a renegade mycologist banned from three universities and one pub', 'houbová vědkyně renegátka, vyhozená ze tří univerzit a jedné hospody']),
         who('Professor Yeastley', 'm', 'profesor Kvasnička|profesora Kvasničky|profesoru Kvasničkovi|profesora Kvasničku|profesorem Kvasničkou|profesoru Kvasničkovi', 'm', '',
-            ['who once cloned himself out of spite — the two of them still aren\'t speaking', 'který se jednou ze vzdoru naklonoval – a dodnes spolu nemluví']),
+            ['who once cloned himself out of spite (the two of them still aren\'t speaking)', 'který se jednou ze vzdoru naklonoval (a dodnes spolu nemluví)']),
     ],
     'mišutkenn': [
         who('Grumbald', 'm', 'Bručoun|Bručouna|Bručounovi|Bručouna|Bručounem|Bručounovi', 'm', '',
@@ -519,50 +519,50 @@ const SPECIAL_TITLES = {
 
 const BLURBS = {
     'fungal techno': [
-        { en: 'When {P} — {P.desc} — finds {M} {S.in}, the city\'s mushroom exchange crashes overnight. Now {P:he|she|it|they} must outrun {A}, a mycelial firewall and {P:his|her|its|their} own spore allergy.',
-          cs: 'Když {P} – {P.desc} – {P:najde|najdou} {S.in} {M.a}, houbová burza se přes noc zhroutí. Teď musí utéct před {A.i}, myceliálním firewallem i vlastní alergií na spory.' },
-        { en: '{^S} runs on a mycelial network that miraculously appeared overnight, all by itself. {^P} — {P.desc} — is the only one who notices that someone unknown is moving through the network.',
-          cs: '{^S} běží na myceliální síti, která se zázračně sama objevila přes noc. {^P} – {P.desc} – si jako jedin{P:ý|á|é|í} všimne, že na síti se pohybuje ještě někdo neznámý.' },
+        { en: 'When {P}, {P.desc}, finds {M} {S.in}, the city\'s mushroom exchange crashes overnight. Now {P:he|she|it|they} must outrun {A}, a mycelial firewall and {P:his|her|its|their} own spore allergy.',
+          cs: 'Když {P}, {P.desc}, {P:najde|najdou} {S.in} {M.a}, houbová burza se přes noc zhroutí. Teď musí utéct před {A.i}, myceliálním firewallem i vlastní alergií na spory.' },
+        { en: '{^S} runs on a mycelial network that miraculously appeared overnight, all by itself. {^P}, {P.desc}, is the only one who notices that someone unknown is moving through the network.',
+          cs: '{^S} běží na myceliální síti, která se zázračně sama objevila přes noc. {^P}, {P.desc}, si jako jedin{P:ý|á|é|í} všimne, že na síti se pohybuje ještě někdo neznámý.' },
     ],
     'postmodern': [
         { en: 'This blurb was meant to introduce {P}, {P.desc}. Unfortunately {P:he|she|it|they} read the manuscript first and lodged a complaint with {A}.',
-          cs: 'Tahle anotace měla představit {P.a} – {P.desc}. Jenže {P:si přečetl|si přečetla|si přečetlo|si přečetli} rukopis dřív než vy a {P:podal|podala|podalo|podali} stížnost u {A.g}.' },
+          cs: 'V téhle anotaci se měl{P:|a|o|i} představit {P}, {P.desc}. Jenže {P:si přečetl|si přečetla|si přečetlo|si přečetli} rukopis dřív než vy a {P:podal|podala|podalo|podali} stížnost u {A.g}.' },
         { en: 'A novel in which nothing happens {S.in}, beautifully. {^P} look{P:s|} for {M}. {^M} looks back. Chapter twelve is printed upside down on purpose.',
           cs: 'Román, ve kterém se {S.in} krásně nic neděje. {^P} {P:hledá|hledají} {M.a}. {^M} hledá {P.a} taky. Dvanáctá kapitola je schválně vytištěná vzhůru nohama.' },
     ],
     'urban fantasy': [
         { en: 'By day, {P} {P:is|are} {P.desc}. By night, {P:he|she|it|they} guard{P:s|} {S} against {A}, armed only with {M} and a library card.',
-          cs: 'Ve dne {P:je|jsou} {P} {P.desc}. V noci {P:chrání|chrání} {S.a} před {A.i} – vyzbrojen{P:|a|o|i} jen {M.i} a průkazkou do knihovny.' },
+          cs: 'Ve dne {P:je|jsou} {P} {P.desc}. V noci {P:chrání|chrání} {S.a} před {A.i}, vyzbrojen{P:|a|o|i} jen {M.i} a průkazkou do knihovny.' },
         { en: 'Nobody leaves {S} after midnight. {^P} must, because {K} is waiting outside with {M} and a very bad plan.',
           cs: 'Po půlnoci nikdo neodchází {S.from}. {^P} ale musí, protože venku čeká {K} s {M.i} a velmi špatným plánem.' },
     ],
     'funny animals': [
-        { en: '{^P} — {P.desc} — {P:has|have} had a rough autumn. Supplies of {M} are running low {S.in}, {A} is gaining followers, and every Thursday everyone goes to therapy.',
-          cs: '{^P} – {P.desc} – {P:má|mají} za sebou těžký podzim. {^S.in} dochází {M}, {A} sbírá stoupence a každý čtvrtek všichni chodí na terapii.' },
+        { en: '{^P} ({P.desc}) {P:has|have} had a rough autumn. Supplies of {M} are running low {S.in}, {A} is gaining followers, and every Thursday everyone goes to therapy.',
+          cs: '{^P} ({P.desc}) {P:má|mají} za sebou těžký podzim. {^S.in} dochází {M}, {A} sbírá stoupence a každý čtvrtek všichni chodí na terapii.' },
         { en: 'A heart-warming story about friendship, depression and {M}. {^P} and {K} set out to learn why everyone {S.in} is so sad.',
           cs: 'Hřejivý příběh o přátelství, depresi a {M.l}. {^P} a {K} se vydávají zjistit, proč jsou všichni {S.in} tak smutní.' },
     ],
     'detective': [
         { en: '{^S}, three in the morning. A body, {M}, and a witness who saw nothing except {A}. {^P} light{P:s|} a cigarette {P:he won\'t|she won\'t|it won\'t|they won\'t} finish and get{P:s|} to work.',
           cs: '{^S}, tři hodiny ráno. Tělo, {M} a svědek, který neviděl nic kromě {A.g}. {^P} si zapálí cigaretu, kterou nedokouří, a pustí se do práce.' },
-        { en: 'Someone has stolen {M} from {S}, and everyone has an alibi except {K}. {^P} — {P.desc} — suspect{P:s|} {A}. {^A} suspects the reader.',
-          cs: 'Někdo ukradl {M.a} {S.from} a alibi mají všichni kromě {K.g}. {^P} – {P.desc} – {P:podezírá|podezírají} {A.a}. {^A} podezírá čtenáře.' },
+        { en: 'Someone has stolen {M} from {S}, and everyone has an alibi except {K}. {^P}, {P.desc}, suspect{P:s|} {A}. {^A} suspects the reader.',
+          cs: 'Někdo ukradl {M.a} {S.from} a alibi mají všichni kromě {K.g}. {^P}, {P.desc}, {P:podezírá|podezírají} {A.a}. {^A} podezírá čtenáře.' },
     ],
     'weird fiction': [
         { en: '{^P} wake{P:s|} up {S.in} and find{P:s|} {M} where {P:his|her|its|their} heart used to be. It is the best day of {P:his|her|its|their} life, and it seems it will never end.',
           cs: '{^P} se {S.in} {P:probudí|probudí} a místo srdce {P:najde|najdou} {M.a}. Je to nejlepší den {P:jeho|jejího|jeho|jejich} života a zdá se, že nikdy neskončí.' },
         { en: 'Nothing in this book is real except {A}. {^P} and {K} try to prove otherwise, using only {M} and the rules of a game nobody remembers.',
-          cs: 'Nic v téhle knize není skutečné kromě {A.g}. {^P} a {K} se snaží dokázat opak – jen pomocí {M.g} a pravidel hry, která si nikdo nepamatuje.' },
+          cs: 'Nic v téhle knize není skutečné kromě {A.g}. {^P} a {K} se snaží dokázat opak, a to jen pomocí {M.g} a pravidel hry, která si nikdo nepamatuje.' },
     ],
     'mythic war epic': [
-        { en: 'For a thousand turns {S} has been at war with {A}. Now {P} — {P.desc} — has drawn {M}, and the board will never be the same.',
-          cs: 'Už tisíc tahů zuří {S.in} válka s {A.i}. Teď {P} – {P.desc} – {P:vytáhl|vytáhla|vytáhlo|vytáhli} {M.a} a hrací deska už nikdy nebude jako dřív.' },
+        { en: 'For a thousand turns {S} has been at war with {A}. Now {P}, {P.desc}, has drawn {M}, and the board will never be the same.',
+          cs: 'Už tisíc tahů zuří {S.in} válka s {A.i}. Teď {P}, {P.desc}, {P:vytáhl|vytáhla|vytáhlo|vytáhli} {M.a} a hrací deska už nikdy nebude jako dřív.' },
         { en: 'Sing, o Muse, of {P}, who went {S.to} with {K} and came back with {M} and no explanation whatsoever.',
           cs: 'Zpívej, Múzo, o {P.l}, {P:jenž odešel|jež odešla|jež odešlo|již odešli} {S.to} s {K.i} a {P:vrátil|vrátila|vrátilo|vrátili} se s {M.i} a bez jakéhokoli vysvětlení.' },
     ],
     'cosmic horror': [
-        { en: 'Something is waiting {S.in}, and it knows the name of {P}. {^P} — {P.desc} — should have stopped reading at chapter three. {P:He|She|It|They} didn\'t. Neither will you.',
-          cs: 'Cosi čeká {S.in} a zná jméno {P.g}. {^P} – {P.desc} – měl{P:|a|o|i} přestat číst u třetí kapitoly. Nepřestal{P:|a|o|i}. Vy taky ne.' },
+        { en: 'Something is waiting {S.in}, and it knows the name of {P}. {^P}, {P.desc}, should have stopped reading at chapter three. {P:He|She|It|They} didn\'t. Neither will you.',
+          cs: 'Cosi čeká {S.in} a zná jméno {P.g}. {^P}, {P.desc}, měl{P:|a|o|i} přestat číst u třetí kapitoly. Nepřestal{P:|a|o|i}. Vy taky ne.' },
         { en: 'There is a hymn with one note too many, and {A} is humming it. {^P} and {K} must find {M} before the last verse — or the last reader.',
           cs: 'Existuje hymna s jednou notou navíc a {A} si ji pobrukuje. {^P} a {K} musí najít {M.a} dřív, než dozní poslední sloka – nebo poslední čtenář.' },
     ],
@@ -655,7 +655,7 @@ const MIDDLES = {
     ],
     political: [
         { en: 'The first meeting of the union took place {S.in}. {^K} chaired, {J} took the minutes, and {P} moved to abolish {A}. The motion passed with one vote against: {A}.',
-          cs: 'První schůze odborů proběhla {S.in}. Předsedal{K:|a|o|i} {K}, zápis psal{J:|a|o|i} {J} a {P} {P:navrhl|navrhla|navrhlo|navrhli} zrušit {A.a}. Návrh prošel s jedním hlasem proti – hlasem {A.g}.' },
+          cs: 'První schůze odborů proběhla {S.in}. Předsedal{K:|a|o|i} {K}, zápis psal{J:|a|o|i} {J} a {P} {P:navrhl|navrhla|navrhlo|navrhli} zrušit {A.a}. Návrh prošel s jedním hlasem proti. Byl to hlas {A.g}.' },
         { en: '{^A} issued Decree No. 1: {M} belongs to the people, meaning to {A:him|her|it|them}. Decree No. 2: there is no Decree No. 1. {^P} started printing leaflets.',
           cs: '{^A} {A:vydal|vydala|vydalo|vydali} dekret č. 1: {M} patří lidu, tedy {A:jemu|jí|jemu|jim}. Dekret č. 2: žádný dekret č. 1 neexistuje. {^P} začal{P:|a|o|i} tisknout letáky.' },
     ],
@@ -708,15 +708,15 @@ const ENDINGS = {
 
 /** Reviews: only from people the player has actually met (journal id), plus a few anonymous ones. */
 const CRITICS = [
-    { req: null, en: '"I didn\'t understand a word of it, but I feel that the author understood me completely." — Master Thaal', cs: '„Nepochopil jsem z toho ani slovo, ale cítil jsem, že autor pochopil mne samotného.“ — mistr Thaal' },
-    { req: 'met_ravla', en: '"Too long. I read it twice." — Ravla', cs: '„Moc dlouhé. Přečetla jsem to dvakrát.“ — Ravla' },
-    { req: 'heliodor_lore', en: '"We read it in shifts. Oorarabaz woke up for chapter nine." — Heliodor', cs: '„Četli jsme to na směny. Kvůli deváté kapitole jsme vzbudili i Oorarabaze.“ — Heliodor' },
-    { req: 'kloor_venn_meeting', en: '"Side effects include feelings. Somewhat." — Kloor Venn', cs: '„Vedlejší účinky: city. Tak trochu.“ — Kloor Venn' },
-    { req: 'lift_mother_meeting', en: '"Finally, someone writes about {S}. Going up?" — the Lift-Mother', cs: '„Konečně někdo píše o {S.l}. Jedeme nahoru?“ — Lift-Mother' },
-    { req: 'met_dr_elphi', en: '"Derivative. I\'d have dreamed it better." — Dr. Elphi Quarn', cs: '„Odvozené. Já bych to vysnila líp.“ — Dr. Elphi Quarn' },
-    { req: 'gnur_meeting', en: '"Ain\'t read it. Sold it twice, though." — Gnur', cs: '„Nečet’ jsem to. Ale dvakrát jsem to prodal.“ — Gnur' },
-    { req: null, en: '"{^P}? That\'s me. I\'m suing the author." — someone at the Screaming Cork', cs: '„{^P}? Vždyť to jsem já. Budu autora žalovat.“ — kdosi ve Řvoucím korku' },
-    { req: null, en: '"Ten out of ten. Would get lost {S.in} again." — a disoriented tourist', cs: '„Deset z deseti. Klidně bych se {S.in} ztratil znovu.“ — jeden dezorientovaný turista' },
+    { req: null, en: 'Master Thaal: "I didn\'t understand a word of it, but I feel that the author understood me completely."', cs: 'Mistr Thaal: „Nepochopil jsem z toho ani slovo, ale cítil jsem, že autor pochopil mne samotného.“' },
+    { req: 'met_ravla', en: 'Ravla: "Too long. I read it twice."', cs: 'Ravla: „Moc dlouhé. Přečetla jsem to dvakrát.“' },
+    { req: 'heliodor_lore', en: 'Heliodor: "We read it in shifts. Oorarabaz woke up for chapter nine."', cs: 'Heliodor: „Četli jsme to na směny. Kvůli deváté kapitole jsme vzbudili i Oorarabaze.“' },
+    { req: 'kloor_venn_meeting', en: 'Kloor Venn: "Side effects include feelings. Somewhat."', cs: 'Kloor Venn: „Vedlejší účinky: city. Tak trochu.“' },
+    { req: 'lift_mother_meeting', en: 'The Lift-Mother: "Finally, someone writes about {S}. Going up?"', cs: 'Lift-Mother: „Konečně někdo píše o {S.l}. Jedeme nahoru?“' },
+    { req: 'met_dr_elphi', en: 'Dr. Elphi Quarn: "Derivative. I\'d have dreamed it better."', cs: 'Dr. Elphi Quarn: „Odvozené. Já bych to vysnila líp.“' },
+    { req: 'gnur_meeting', en: 'Gnur: "Ain\'t read it. Sold it twice, though."', cs: 'Gnur: „Nečet’ jsem to. Ale dvakrát jsem to prodal.“' },
+    { req: null, en: 'Someone at the Screaming Cork: "{^P}? That\'s me. I\'m suing the author."', cs: 'Kdosi ve Řvoucím korku: „{^P}? Vždyť to jsem já. Budu autora žalovat.“' },
+    { req: null, en: 'A disoriented tourist: "Ten out of ten. Would get lost {S.in} again."', cs: 'Jeden dezorientovaný turista: „Deset z deseti. Klidně bych se {S.in} ztratil znovu.“' },
 ];
 
 const THANKS = {
@@ -739,8 +739,8 @@ const TONE_REACTIONS = {
     metaphysical: { en: 'Metaphysical. Good. If anyone asks what it\'s about, we say "everything" and leave quickly.', cs: 'Metafyzický. Výborně. Kdyby se někdo ptal, o čem to je, řekneme „o všem“ a rychle odejdeme.' },
     romantic: { en: 'Romantic! I\'ve never written a kiss. I\'ve read about them. They seem… damp.', cs: 'Romantický! Ještě nikdy jsem nepsal o polibku. Četl jsem o nich. Vypadají… vlhce.' },
     existential: { en: 'Existential. Finally, a book where nobody expects a happy ending, least of all me.', cs: 'Existenciální. Konečně kniha, kde nikdo nečeká šťastný konec, a já nejmíň.' },
-    political: { en: 'Political. Careful — the last mišutkenn who wrote a political novel is now a rug.', cs: 'Politický. Opatrně – poslední mišutkenn, který napsal politický román, je teď předložka u krbu.' },
-    comical: { en: 'Comical! Good. People laugh at me anyway; this way I get paid for it.', cs: 'Komický! Dobře. Lidi se mi smějí tak jako tak – takhle za to aspoň dostanu zaplaceno.' },
+    political: { en: 'Political. Careful: the last mišutkenn who wrote a political novel is now a rug.', cs: 'Politický. Opatrně: poslední mišutkenn, který napsal politický román, je teď předložka u krbu.' },
+    comical: { en: 'Comical! Good. People laugh at me anyway; this way I get paid for it.', cs: 'Komický! Dobře. Lidi se mi smějí tak jako tak, takhle za to aspoň dostanu zaplaceno.' },
 };
 
 const GENRE_REACTIONS = {
@@ -757,7 +757,7 @@ const GENRE_REACTIONS = {
 const VILLAIN_REACTION = { en: 'And every proper story needs a villain. Ours will be… {A}.', cs: 'A každý pořádný příběh potřebuje padoucha. Naším padouchem bude… {A}.' };
 
 const PROTAGONIST_REACTIONS = [
-    { en: 'Our hero: {P} — {P.desc}. I\'m in love already.', cs: 'Náš hrdina: {P} – {P.desc}. Už teď jsem zamilovaný.' },
+    { en: 'Our hero: {P}, {P.desc}. I\'m in love already.', cs: 'Náš hrdina: {P}, {P.desc}. Už teď jsem zamilovaný.' },
     { en: '{^P}! No — wait — yes. {^P}, {P.desc}. Perfect.', cs: '{^P}! Ne – počkat – ano. {^P}, {P.desc}. Dokonalé.' },
 ];
 

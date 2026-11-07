@@ -88,7 +88,7 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             bishop: {
-                text: "Ahhh, the shrouded one... yeah, she came down here, glimmer-eyed and restless. Wanted a lens — an optic from the old dream rigs, pre-war make. Only the Choir still digs those up. But info ain't free, friend.",
+                text: "Ahhh, the shrouded one... yeah, she came down here, glimmer-eyed and restless. Wanted a lens: an optic from the old dream rigs, pre-war make. Only the Choir still digs those up. But info ain't free, friend.",
                 options: [
                     { text: "What do you want?", key: 'what_do_you_want', next: "rustReclamation" },
                     { text: "I can help you recover some old tech", key: 'i_can_help_you_recover_old_tech_carefully', next: "recoverTech" },
@@ -117,7 +117,7 @@ export default class Shed521Scene extends GameScene {
                 ]
             },
             complete_quest: {
-                text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She got her lens. Paid with a Vestigel — an experimental coin, worth ten of those lenses, and she knew it. Didn't haggle. Don't have it anymore, before you ask. She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
+                text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She got her lens. Paid with a Vestigel. An experimental coin, worth ten of those lenses, and she knew it. Didn't haggle. Don't have it anymore, before you ask. She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
                 options: [
                     { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "complete_quest_end" }
                 ],

@@ -49,7 +49,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             },
             
             feral_style: {
-                text: "\"We call it 'ultranoise futurepunk' — a blend of psychedelic noise with beats that don't exist... yet.\"",
+                text: "\"We call it 'ultranoise futurepunk': a blend of psychedelic noise with beats that don't exist... yet.\"",
                 options: [
                     { text: "Sounds interesting. Play something!", key: 'sounds_interesting_play_something', next: "feral_play" },
                     { text: "Tell me about the band members", key: 'tell_me_about_the_band_members', next: "feral_intro" },
@@ -57,7 +57,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             },
             
             feral_intro: {
-                text: "\"I'm Telka on guitar. That's Bass Player XL on bass, we got him on sale. Fluffy Kārlis on drums, and Mira Dron on synth. Together we're Feral Toast — the most mind-expanding band in the underground. We make the best noise in town.\"",
+                text: "\"I'm Telka on guitar. That's Bass Player XL on bass, we got him on sale. Fluffy Kārlis on drums, and Mira Dron on synth. Together we're Feral Toast, the most mind-expanding band in the underground. We make the best noise in town.\"",
                 options: [
                     { text: "Let's hear some music!", key: 'lets_hear_some_music', next: "feral_play" },
                     { text: "What's your musical style?", key: 'whats_your_musical_style', next: "feral_style" },
@@ -65,7 +65,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             },
             
             feral_during: {
-                text: "Telka shouts over the wall of sound without missing a chord. \"Not now, fungal friend — we're mid-set! Just listen!\"",
+                text: "Telka shouts over the wall of sound without missing a chord. \"Not now, fungal friend! We're mid-set! Just listen!\"",
                 options: [
                     { text: "(Listen.)", key: 'listen', next: "closeDialog" }
                 ]

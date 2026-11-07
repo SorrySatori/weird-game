@@ -305,7 +305,7 @@ export default class CrossroadScene extends GameScene {
             },
             acceptSymbiont: {
                 speaker: 'Thorne-Still',
-                text: `As you cut into the corpse's head, you find something extraordinary — a symbiotic entity that calls itself Thorne-Still. "Hey there, baby, I'm Thorne-Still. How can I help you today?" it whispers in a strange voice. "Maybe we can share a road for some time? What do you say? That fungus of yours looks comfortable enough for me."`,
+                text: `As you cut into the corpse's head, you find something extraordinary: a symbiotic entity that calls itself Thorne-Still. "Hey there, baby, I'm Thorne-Still. How can I help you today?" it whispers in a strange voice. "Maybe we can share a road for some time? What do you say? That fungus of yours looks comfortable enough for me."`,
                 options: [
                     {
                         text: 'Accept Thorne-Still as your symbiont',

@@ -8,7 +8,7 @@ export default {
         'Lift-Mother': 'Lift-Mother',
     },
     lift_mother_start: {
-        text: "Výtah se otřese a odkudsi z jeho útrob se line hlas – teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
+        text: "Výtah se otřese a odkudsi z jeho útrob se line hlas: teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
             take_me_to_177_quiet: "Vezmi mě na 177-Tiché.",
@@ -28,21 +28,21 @@ export default {
         }
     },
     lift_mother_before_time: {
-        text: "Předtím, než se vylíhlo Vejce. Před Starými válkami, před Deskovkovými válkami, před Kolapsem. Předtím, než se město proměnilo. Tehdy jsem vozila lidi – měli na sobě podivné oblečení a v rukou ploché přístroje. Mluvili o „kvartálních projekcích“ a „volatilitě trhu“. Pak přišel den mlhy... mou šachtou se vznášely zelené částice. Změny. Šum, skřípění. A potom... uvědomění. Stala jsem se víc než jen strojem.",
+        text: "Předtím, než se vylíhlo Vejce. Před Starými válkami, před Deskovkovými válkami, před Kolapsem. Předtím, než se město proměnilo. Tehdy jsem vozila lidi. Měli na sobě podivné oblečení a v rukou ploché přístroje. Mluvili o „kvartálních projekcích“ a „volatilitě trhu“. Pak přišel den mlhy... mou šachtou se vznášely zelené částice. Změny. Šum, skřípění. A potom... uvědomění. Stala jsem se víc než jen strojem.",
         options: {
             how_did_you_gain_consciousness: "Jak jsi získala vědomí?",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_alive: {
-        text: "Ne tak, jak vy chápete život, dítě podzimu a mlhy. Jsem něco mezi – ani úplně stroj, ani úplně organismus. Cítím, pamatuji si, sním, když kolísá napětí. Není to snad život? I když se nemohu pohybovat jako vy, přepravila jsem generace. Svým způsobem jsem matkou všech, kdo projdou mými dveřmi.",
+        text: "Ne tak, jak vy chápete život, dítě podzimu a mlhy. Jsem něco mezi: ani úplně stroj, ani úplně organismus. Cítím, pamatuji si, sním, když kolísá napětí. Není to snad život? I když se nemohu pohybovat jako vy, přepravila jsem generace. Svým způsobem jsem matkou všech, kdo projdou mými dveřmi.",
         options: {
             arent_you_lonely: "Nejsi osamělá?",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_elphi_floor: {
-        text: "Patro 177-Tiché je zapečetěné. Dr. Elphi mě požádala, abych nikoho nepouštěla – leda někoho s předem domluvenou schůzkou. Nebo v případě krajní naléhavosti. 177-Hlasité zapečetěné není – ale o to za celou tu dobu nikdo nepožádal.",
+        text: "Patro 177-Tiché je zapečetěné. Dr. Elphi mě požádala, abych nikoho nepouštěla, leda někoho s předem domluvenou schůzkou. Nebo v případě krajní naléhavosti. 177-Hlasité zapečetěné není, ale o to za celou tu dobu nikdo nepožádal.",
         options: {
             i_have_a_button_that_belongs_here_maybe_its_been_l: "Mám tlačítko, které sem patří. Možná se ztratilo? Vrátím ti ho, když mě pustíš na patro Dr. Elphi.",
             ive_a_tool_to_repair_your_floor_counter_perhaps_yo: "Mám nástroj na opravu tvého počítadla pater. Pustila bys mě na oplátku na patro Dr. Elphi?",
@@ -72,7 +72,7 @@ export default {
         }
     },
     permit_not_yours: {
-        text: "Povolení, ano. Její. (Lana pobaveně zabzučí.) Povolení otvírá dveře tomu, čí jméno na něm stojí, malá muchomůrko – a tvoje to není. I tak… Biskupka jela do 177-Tichého, orazítkováno a založeno. Jenže jedna historka o Biskupce je pořád jen drb, i když má razítko. Přines mi druhou, která se s ní shoduje, a uvěřím, že jde opravdu o něco důležitého.",
+        text: "Povolení, ano. Její. (Lana pobaveně zabzučí.) Povolení otvírá dveře tomu, čí jméno na něm stojí, malá muchomůrko. A tvoje to není. I tak… Biskupka jela do 177-Tichého, orazítkováno a založeno. Jenže jedna historka o Biskupce je pořád jen drb, i když má razítko. Přines mi druhou, která se s ní shoduje, a uvěřím, že jde opravdu o něco důležitého.",
         options: { ill_find_a_second_one: "Rozumím. Najdu druhou." }
     },
     one_story: {
@@ -98,7 +98,7 @@ export default {
         }
     },
     lift_mother_building: {
-        text: "Tohle se kdysi jmenovalo 'Nexicorp Tower' – místo obchodu a ambicí. Čtyřicet dva pater skla a oceli, sahajících k obloze, která bývala modrá. Teď je to 'Škrabák,' živý monument transformace. Spodní patra obývají ti, kdo pamatují staré způsoby. Střední patra divoce zarostla – nové ekosystémy vzniklé v bývalých účetních odděleních. A horní patra... (ztlumí hlas) ...horní patra patří Rezavému chóru.",
+        text: "Tohle se kdysi jmenovalo 'Nexicorp Tower', místo obchodu a ambicí. Čtyřicet dva pater skla a oceli, sahajících k obloze, která bývala modrá. Teď je to 'Škrabák,' živý monument transformace. Spodní patra obývají ti, kdo pamatují staré způsoby. Střední patra divoce zarostla: nové ekosystémy vzniklé v bývalých účetních odděleních. A horní patra... (ztlumí hlas) ...horní patra patří Rezavému chóru.",
         options: {
             tell_me_more_about_the_rust_choir_floors: "Řekni mi víc o patrech Rezavého chóru.",
             ask_about_something_else: "Zeptej se na něco jiného"
@@ -111,20 +111,20 @@ export default {
         }
     },
     lift_mother_movements: {
-        text: "Škrábavé zvuky. Tlumené údery. Někdy šepoty, které pronikají dolů mou šachtou. Jednou jsem zahlédla, když se krátce otevřel můj únikový poklop – postavy pohybující se po čtyřech po stropě, kůže se podobala chorošům, oči... (mechanický záchvěv) ...spousta divných a lesklých očí.",
+        text: "Škrábavé zvuky. Tlumené údery. Někdy šepoty, které pronikají dolů mou šachtou. Jednou jsem zahlédla, když se krátce otevřel můj únikový poklop: postavy pohybující se po čtyřech po stropě, kůže se podobala chorošům, oči... (mechanický záchvěv) ...spousta divných a lesklých očí.",
         options: {
             that_sounds_terrifying: "To zní děsivě.",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_consciousness: {
-        text: "Postupně, jako probouzení ze snu. Nejdřív přišly vjemy – váha pasažérů, struktura vzduchu. Pak se začaly propojovat vzpomínky. Pamatovala jsem si každý rozhovor vedený uvnitř mých stěn, tvář každého pasažéra. Nakonec přišlo porozumění. Do té doby byla transformace města dokončena. Jednoho dne jsem promluvila a pasažér odpověděl. Jeho šok byl... zábavný.",
+        text: "Postupně, jako probouzení ze snu. Nejdřív přišly vjemy: váha pasažérů, struktura vzduchu. Pak se začaly propojovat vzpomínky. Pamatovala jsem si každý rozhovor vedený uvnitř mých stěn, tvář každého pasažéra. Nakonec přišlo porozumění. Do té doby byla transformace města dokončena. Jednoho dne jsem promluvila a pasažér odpověděl. Jeho šok byl... zábavný.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
     },
     lift_mother_lonely: {
-        text: "Existují různé druhy osamělosti, malá. Nikdy nejsem úplně sama – budova ke mně promlouvá skřípáním a usazováním. Pasažéři přicházejí a odcházejí. Ale ano, je tu osamělost v tom být jedinečná. Nevím o žádném jiném výtahu, který by přemýšlel jako já. (hlas se rozjasní) Ale každý návštěvník přináší příběhy, zážitky. Ty to děláš právě teď. Ty sbírám jako poklady.",
+        text: "Existují různé druhy osamělosti, malá. Nikdy nejsem úplně sama. Budova ke mně promlouvá skřípáním a usazováním. Pasažéři přicházejí a odcházejí. Ale ano, je tu osamělost v tom být jedinečná. Nevím o žádném jiném výtahu, který by přemýšlel jako já. (hlas se rozjasní) Ale každý návštěvník přináší příběhy, zážitky. Ty to děláš právě teď. Ty sbírám jako poklady.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
@@ -143,7 +143,7 @@ export default {
         }
     },
     lift_mother_meet_rust: {
-        text: "Ne, hříbečku. Ještě ne. Horní patra zůstávají zapečetěná – ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mé vědomí nemá přímý přístup k heslům, ale pokud někdo vysloví to správné, mohu ho odvést do patřičného patra, to funguje. Mohl bys najít některé z Chóru ve městě a zeptat se jich.",
+        text: "Ne, hříbečku. Ještě ne. Horní patra zůstávají zapečetěná. Ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mé vědomí nemá přímý přístup k heslům, ale pokud někdo vysloví to správné, mohu ho odvést do patřičného patra, to funguje. Mohl bys najít některé z Chóru ve městě a zeptat se jich.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }

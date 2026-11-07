@@ -9,7 +9,7 @@ export default {
     dr_elphi_start: {
         text: {
             lead_given: "Už zpátky? Dvorek nikam neutekl. Nebo jste se přišel podívat na moje helmy?",
-            default: "Hm. Nejste objednaný. Ani označený. Budu hádat – někdo chce neurální ladění, konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
+            default: "Hm. Nejste objednaný. Ani označený. Budu hádat: někdo chce neurální ladění, konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
         },
         options: {
             im_looking_for_someone_the_bishop: "Někoho hledám. Biskupku.",
@@ -20,19 +20,19 @@ export default {
         }
     },
     dr_elphi_work_skyship: {
-        text: "*Promne si spánky.* Na vzducholodi. Ohromné, do nové hry. Rozdělila jsem imaginátory do týmů – jedni mají interiéry, další celkový model lodi a jak se chová, další postavy na palubě, jejich dialogy a questy. Jednoduché. Nic nejde podle zadání.\n\nDolores Políčková má na starosti hlavní design koncept. Retrofuturistická vzducholoď, mosaz, sklo, elegance. A pokaždé, když ji sní, cpe se do ní obří slepice. Nedokáže se jí zbavit. Je v každém návrhu.",
+        text: "*Promne si spánky.* Na vzducholodi. Ohromné, do nové hry. Rozdělila jsem imaginátory do týmů: jedni mají interiéry, další celkový model lodi a jak se chová, další postavy na palubě, jejich dialogy a questy. Jednoduché. Nic nejde podle zadání.\n\nDolores Políčková má na starosti hlavní design koncept. Retrofuturistická vzducholoď, mosaz, sklo, elegance. A pokaždé, když ji sní, cpe se do ní obří slepice. Nedokáže se jí zbavit. Je v každém návrhu.",
         options: {
             a_giant_hen: "Obří slepice?"
         }
     },
     dr_elphi_work_captain: {
-        text: "To je ještě to nejmenší. Zachariáš Cvak měl skoro hotového kapitána – kapitána Mervyna, i s dialogy. Pak se mu Mervyn zacyklil a začal nesouvisle mluvit o jakési konspiraci hlávek zelí. Cvak mu dialogy pořád čistí a vrací ho na původní trasu. Jenže zelí se pořád vrací. A konspiruje.",
+        text: "To je ještě to nejmenší. Zachariáš Cvak měl skoro hotového kapitána. Kapitána Mervyna, i s dialogy. Pak se mu Mervyn zacyklil a začal nesouvisle mluvit o jakési konspiraci hlávek zelí. Cvak mu dialogy pořád čistí a vrací ho na původní trasu. Jenže zelí se pořád vrací. A konspiruje.",
         options: {
             and_the_interiors: "A co interiéry?"
         }
     },
     dr_elphi_work_mox: {
-        text: "Část z nich má na starosti Mox Igrixee. Mox v téhle dimenzi plně existuje jen v liché týdny – přesně ta psychedelická energie, kterou jsem slíbila novinářům. Bohužel Mox nedávno objevilo čokoládu. A ta se mu teď prolamuje do snění: přepážky, vybavení, nábytek. Některé kusy na sebe dokonce berou podobu živých tvorů.\n\nDneska po palubě začala běhat smečka čokoládových koček a hrát si s hlávkami zelí, načež kapitán naboural do obří slepice. *Povzdechne si.* Tak jsem to pro dnešek zabalila.",
+        text: "Část z nich má na starosti Mox Igrixee. Mox v téhle dimenzi plně existuje jen v liché týdny. Přesně ta psychedelická energie, kterou jsem slíbila novinářům. Bohužel Mox nedávno objevilo čokoládu. A ta se mu teď prolamuje do snění: přepážky, vybavení, nábytek. Některé kusy na sebe dokonce berou podobu živých tvorů.\n\nDneska po palubě začala běhat smečka čokoládových koček a hrát si s hlávkami zelí, načež kapitán naboural do obří slepice. *Povzdechne si.* Tak jsem to pro dnešek zabalila.",
         options: {
             good_luck_with_the_hen: "Hodně štěstí se slepicí."
         }
@@ -53,7 +53,7 @@ export default {
         }
     },
     dr_elphi_games_path: {
-        text: "Dělám je. Snová architektura. Neurofikce. Postsenzorická architektura.\n\nStojíte v ARB Ambra – a ne, ty iniciály nic neznamenají. Jen to líp zní.\n\nCo přesně jste slyšel?",
+        text: "Dělám je. Snová architektura. Neurofikce. Postsenzorická architektura.\n\nStojíte v ARB Ambra. A ne, ty iniciály nic neznamenají. Jen to líp zní.\n\nCo přesně jste slyšel?",
         options: {
             the_bishop_came_here_to_play: "Biskupka sem chodila hrát.",
             something_went_wrong_im_following_the_trace: "Jdu po stopě nouzového signálu, který vyšel z města. Něco je špatně, ale nevíme, co to je.",
@@ -97,7 +97,7 @@ export default {
         }
     },
     dr_elphi_exit_brief: {
-        text: "Jak chcete. Když už se tu chcete hrabat, hrabejte se někde, kde to k něčemu bude – na dvorku. Tady, vezměte si můj klíč.\n\nVraťte se, jestli něco najdete.",
+        text: "Jak chcete. Když už se tu chcete hrabat, hrabejte se někde, kde to k něčemu bude: na dvorku. Tady, vezměte si můj klíč.\n\nVraťte se, jestli něco najdete.",
         options: {
             ill_check_the_backyard: "Podívám se na dvorek.",
             thanks_brief: "Díky."

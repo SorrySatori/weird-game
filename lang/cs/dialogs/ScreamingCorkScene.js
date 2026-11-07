@@ -108,12 +108,12 @@ export default {
     edgar_book_tone: {
         text: "Dobře. Když máme nějaká témata, jaký tón by kniha měla mít? Přemýšlím o celkové atmosféře.",
         options: {
-            tragic_a_tale_of_sorrow_and_loss: "Tragický – příběh smutku a ztráty",
-            metaphysical_exploring_consciousness: "Metafyzický – zkoumání podstaty jsoucna",
-            romantic_focusing_on_connections: "Romantický – zaměřený na vztahy",
-            existential_pondering_meaning_and_mortality: "Existenciální – úvahy o smyslu života a smrtelnosti",
-            political_examining_power_dynamics: "Politický – zkoumání dynamiky moci",
-            comical_finding_humor_in_the_strange: "Komický – hledání humoru v podivnosti"
+            tragic_a_tale_of_sorrow_and_loss: "Tragický: příběh smutku a ztráty",
+            metaphysical_exploring_consciousness: "Metafyzický: zkoumání podstaty jsoucna",
+            romantic_focusing_on_connections: "Romantický: zaměřený na vztahy",
+            existential_pondering_meaning_and_mortality: "Existenciální: úvahy o smyslu života a smrtelnosti",
+            political_examining_power_dynamics: "Politický: zkoumání dynamiky moci",
+            comical_finding_humor_in_the_strange: "Komický: hledání humoru v podivnosti"
         }
     },
     edgar_book_tone_selected: {
@@ -225,7 +225,7 @@ export default {
     edgar_book_farewell: {
         text: {
             plain: "Měl bych se pustit do práce. Mám spoustu nápadů a nechci je ztratit. Ještě jednou děkuji za pomoc. Klidně se stavte zkontrolovat, jak mi to jde.",
-            vestigel: "Měl bych se pustit do práce. Mám spoustu nápadů a nechci je ztratit. Ach, a jak jsem slíbil – tady je ten vestigel. Vám se bude hodit víc než mně. Ještě jednou díky za pomoc. Klidně se stavte zkontrolovat, jak mi to jde."
+            vestigel: "Měl bych se pustit do práce. Mám spoustu nápadů a nechci je ztratit. Ach, a jak jsem slíbil, tady je ten vestigel. Vám se bude hodit víc než mně. Ještě jednou díky za pomoc. Klidně se stavte zkontrolovat, jak mi to jde."
         },
         options: {
             good_luck_edgar: "Hodně štěstí, Edgare"
@@ -238,7 +238,7 @@ export default {
         }
     },
     edgar_jobs: {
-        text: "Většinou byl problém se špatným načasováním. Škrabák převzal Rezavý chór a přestal být oficiální součástí města – údržbář už nebyl potřeba. Ty ostatní práce... no, být mišutkennem tu moc s hledáním práce nepomáhá.",
+        text: "Většinou byl problém se špatným načasováním. Škrabák převzal Rezavý chór a přestal být oficiální součástí města. Údržbář už nebyl potřeba. Ty ostatní práce... no, být mišutkennem tu moc s hledáním práce nepomáhá.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného"
         }
@@ -302,7 +302,7 @@ export default {
         }
     },
     edgar_vestigel_book_help: {
-        text: "Ano, s knihou jste mi pomoc nabídl. Férová výměna – vaše pomoc za vestigel. Sbírám nápady, ale moc daleko jsem se nedostal.",
+        text: "Ano, s knihou jste mi pomoc nabídl. Férová výměna: vaše pomoc za vestigel. Sbírám nápady, ale moc daleko jsem se nedostal.",
         options: {
             ill_make_sure_your_book_becomes_a_reality: "Postarám se, aby vaše kniha vznikla."
         }
@@ -322,7 +322,7 @@ export default {
     edgar_vestigel_thanks: {
         text: "Nezapomeňte na svůj slib. Těším se na to, co spolu vytvoříme. Kniha, která skutečně zachytí podstatu... no, toho, co musíme ještě vymyslet.",
         options: {
-            lets_start_right_away: "Pojďme začít hned – s nějakými inspirativními tématy.",
+            lets_start_right_away: "Pojďme hned začít nějakými inspirativními tématy.",
             back_to_other_topics: "Zeptej se na něco jiného"
         }
     }

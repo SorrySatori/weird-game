@@ -5,7 +5,7 @@
 export default {
     intro: {
         opening: [
-            'Hluboko pod zemí, daleko za hranicemi Horní Morkezely, roste Agarida – posvátná houba boha Obazoby.',
+            'Hluboko pod zemí, daleko za hranicemi Horní Morkezely, roste Agarida, posvátná houba boha Obazoby.',
             'Někteří věří, že Agarida je poslem samotného Obazoby v našem světě. Jiní tvrdí, že je to jen fakt velká houba. Jakože fakt velká.',
             'Náhle Agaridiným podhoubím projel impulz, který se už dlouho neobjevil. Volání o pomoc, jaké se ozve jednou za generaci.',
         ],
@@ -14,7 +14,7 @@ export default {
             { who: 'varhun', speaker: 'ARCIKNĚZ VARHUN', text: 'Zachytili jsme nouzový signál myceliální sítí. Volání o pomoc.' },
             { who: 'tynri', speaker: 'ARCIKNĚZ TYNRI', text: 'Z povrchu. Z města Horní Morkezela.' },
             { who: 'varhun', speaker: 'ARCIKNĚZ VARHUN', text: 'Musíme odpovědět, i když nevíme, kdo volá.' },
-            { who: 'rhull', speaker: 'ARCIKNĚZ RHULL', text: 'Měli bychom jít do Vaječné katedrály. Biskupka bude vědět víc – k jejím úkolům patřilo monitorovat, co se ve městě děje.' },
+            { who: 'rhull', speaker: 'ARCIKNĚZ RHULL', text: 'Měli bychom jít do Vaječné katedrály. Biskupka bude vědět víc. K jejím úkolům patřilo monitorovat, co se ve městě děje.' },
             { who: 'varhun', speaker: 'ARCIKNĚZ VARHUN', text: 'Přivolejte mistra Thaala, aby kráčel cestou mrtvých kořenů. Ať povstane houbový vyslanec.' },
             { who: 'tynri', speaker: 'ARCIKNĚZ TYNRI', text: 'Vyšetřovatel by to mohl být schopný, to ano. Ale mám dojem, že jeho učedník je... poněkud problematická osoba, řekněme.' },
             { who: 'rhull', speaker: 'ARCIKNĚZ RHULL', text: 'Je to... no, je to Thaalův učedník. Moc o něm nevím, ale vím, že není zrovna... nejbystřejší houba v lese.' },

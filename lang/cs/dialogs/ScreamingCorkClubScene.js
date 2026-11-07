@@ -15,21 +15,21 @@ export default {
         }
     },
     feral_style: {
-        text: "„Říkáme tomu ‚ultranoise futurepunk‘ – psychedelický noise s beaty, které ještě neexistují... prozatím.“",
+        text: "„Říkáme tomu ‚ultranoise futurepunk‘. Psychedelický noise s beaty, které ještě neexistují... prozatím.“",
         options: {
             sounds_interesting_play_something: "Zní to zajímavě. Zahrajte něco!",
             tell_me_about_the_band_members: "Povězte mi o členech kapely"
         }
     },
     feral_intro: {
-        text: "„Já jsem Telka, kytara. Tohle je Bass Player XL na basu, sehnali jsme ho ve slevě. Fluffy Kārlis na bicí a Mira Dron na synťák. Dohromady jsme Feral Toast – nejvíc nejlepší kapela místního undergroundu. Děláme nejlepší bordel ve městě.“",
+        text: "„Já jsem Telka, kytara. Tohle je Bass Player XL na basu, sehnali jsme ho ve slevě. Fluffy Kārlis na bicí a Mira Dron na synťák. Dohromady jsme Feral Toast, nejvíc nejlepší kapela místního undergroundu. Děláme nejlepší bordel ve městě.“",
         options: {
             lets_hear_some_music: "Tak pojďte hrát!",
             whats_your_musical_style: "Jaký je váš styl?"
         }
     },
     feral_during: {
-        text: "Telka na tebe přes zeď zvuku zařve, aniž by vynechala akord. „Teď ne, houbovej kámo – teď zkoušíme! Prostě poslouchej!“",
+        text: "Telka na tebe přes zeď zvuku zařve, aniž by vynechala akord. „Teď ne, houbovej kámo! Teď zkoušíme! Prostě poslouchej!“",
         options: {
             listen: "(Poslouchat.)"
         }

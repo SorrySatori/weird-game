@@ -65,7 +65,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             bishop_info: {
-        text: "She's not inside, if that's what you're hoping. She hasn't passed through this gate in many digestions. Probably at the Voxmarket, or around Shed 521. Look for the door that doesn’t open — until it does.",
+        text: "She's not inside, if that's what you're hoping. She hasn't passed through this gate in many digestions. Probably at the Voxmarket, or around Shed 521. Look for the door that doesn’t open. Until it does.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
                     { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: "templeGuardVoxmarket"},

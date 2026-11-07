@@ -10,18 +10,18 @@ export default {
             updates: {
                 vestigel: 'Kloor Venn wants me to find one of the three Vestigels. He mentioned that a merchant named Zerren has one.',
                 elphi_contact: "According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often... I should look for Dr. Elphi at the Scraper 1140.",
-                bishop_clue_gnur: "Gnur says the Bishop came down to Shed 521 for a lens from the old pre-war dream rigs — Rust Choir stock. He wants something in return before he says more.",
+                bishop_clue_gnur: "Gnur says the Bishop came down to Shed 521 for a lens from the old pre-war dream rigs (Rust Choir stock). He wants something in return before he says more.",
                 edgar_eskola_clue: 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.',   // old saves only
                 clerk_records_hint: "The clerk in Shed 521 hinted that the Ink Tribunal has records on the Bishop. He'll show me once I've told Gnur he won't get the core.",
                 bishop_elphi_clerk: "The clerk in Shed 521 showed me the Ink Tribunal's records: the Bishop had a visitor's permit for Dr. Elphi's studio on floor 177-Quiet of Scraper 1140.",
-                bishop_location_scraper: 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel — then headed to Scraper 1140 to meet Dr. Elphi.',
+                bishop_location_scraper: 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel. Then she headed to Scraper 1140 to meet Dr. Elphi.',
                 got_floor_counter_tool: "Captain Liris gave me a calibration tool to repair the Lift-Mother's floor counter. With the counter fixed, the lift might reach floors it can't get to now.",
                 lift_mother_permission: "The Lift-Mother has granted me access to Dr. Elphi's studio on floor 177-Quiet.",
                 reached_elphi_studio: "I've reached Dr. Elphi's studio on floor 177-Quiet. Now I need to find clues about the Bishop.",
                 check_shard_backyard: "Dr. Elphi pointed me to the Scraper backyard. I should look for the Bishop there.",
                 found_elevator_button: "Zerren has a new item for sale: a Forgotten Elevator Button.",
                 guard_cathedral_closed: 'The Egg Cathedral is closed and the guard at the gate lets no one in. He might know where to find the Bishop.',
-                guard_bishop_not_inside: "According to the guard, the Bishop isn't in the cathedral. I'll have to look for her around the city — most likely at the Voxmarket or around Shed 521.",
+                guard_bishop_not_inside: "According to the guard, the Bishop isn't in the cathedral. I'll have to look for her around the city, most likely at the Voxmarket or around Shed 521.",
                 guard_voxmarket: 'The Voxmarket is an audio bazaar where recorded voices and sounds are traded. The Bishop might be found there.',
                 guard_shed521: "Shed 521, officially the Bureau of Shapes, is where people get the certificate they need to change their body's shape. It's right next to the Voxmarket. The Bishop might be found there too.",
             }
@@ -34,7 +34,7 @@ export default {
                 completed: 'I gave the vestigel to Kloor Venn in exchange for information about the Bishop.',
                 edgar_vestigel_acquired: 'Received a vestigel from Edgar Eskola in exchange for helping with his book.',
                 edgar_book_trade: 'Edgar Eskola will give me the Vestigel if I help him write his book.',
-                vestigel_in_toy: "The Vestigel Zerren had was hidden inside a peculiar stuffed toy. She sold the toy without knowing it was there — the buyer found it later, by chance.",
+                vestigel_in_toy: "The Vestigel Zerren had was hidden inside a peculiar stuffed toy. She sold the toy without knowing it was there. The buyer found it later, by chance.",
             }
         },
         find_lumen_directorate: {
@@ -57,14 +57,14 @@ export default {
             title: 'Rust Feast',
             description: 'Prepare a feast for the Rust Choir machines by gathering oil, metal, and a living redmass, and bring them to Ravla at the Screaming Cork.',
             updates: {
-                demo_not_yet: "Ravla admitted the places I'd need for the feast aren't part of this demo yet. The Rust Choir will have to wait for the full game — Brukk never forgets a volunteer, she says.",
+                demo_not_yet: "Ravla admitted the places I'd need for the feast aren't part of this demo yet. The Rust Choir will have to wait for the full game. Brukk never forgets a volunteer, she says.",
             }
         },
         rust_reclamation: {
             title: 'Rust Reclamation',
             description: "Gnur needs help recovering a 'living core' from Shed 521's unused tunnels, located somewhere behind the abandoned office.",
             updates: {
-                promise_made: "I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter far more than Gnur let on — the clerk says it is classified technology, and the Rust Choir has no right to it.",
+                promise_made: "I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter far more than Gnur let on. The clerk says it is classified technology, and the Rust Choir has no right to it.",
                 core_taken_force: 'I have retrieved the Living Core, with a bit of good old violence.',
                 core_taken_careful: 'Carefully extracted the Living Core using pliers; it probably didn\'t damage the building in any way.',
                 core_delivered: 'I have given Gnur the living core. He seems satisfied.',
@@ -82,7 +82,7 @@ export default {
                 nonverbal_gesture_clue: 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...',
                 ravla_forger_hint: 'Heliodor at the Screaming Cork mentioned that Ravla is a skilled document forger.',
                 // same flag key (it opens Ravla's offer), written by the Senior Clerk's warning after a failed registration
-                clerk_forger_warning: "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though — which is practically a recommendation.",
+                clerk_forger_warning: "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though. That's practically a recommendation.",
                 ravla_forger_agreement: 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.',
                 document_obtained: "I got a forged permit for Ortolan's extra arms from Ravla. Now I just need to get it to him.",
                 bureaucratic_incantation: 'The Hollow Woman in the registration queue taught me some weird bureaucratic incantation.',
@@ -103,9 +103,9 @@ export default {
                 hint_lost_button: "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says.",
                 hint_importance: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Someone else in the city might know where the Bishop went.",
                 hint_importance_gnur: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Gnur promised to remember something about the Bishop once I bring him that core.",
-                hint_importance_clerk: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. I turned Gnur down, but the clerk in the Applications office, on the top floor of Shed 521, owes me for it — the Ink Tribunal keeps records of everything.",
-                clerk_records_two: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree — the Lift-Mother should let me up now.",
-                clerk_records_one: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story — I need a second one that agrees.",
+                hint_importance_clerk: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. I turned Gnur down, but the clerk in the Applications office, on the top floor of Shed 521, owes me for it; the Ink Tribunal keeps records of everything.",
+                clerk_records_two: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree. The Lift-Mother should let me up now.",
+                clerk_records_one: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story; I need a second one that agrees.",
                 hint_importance_kloor: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Kloor Venn will tell me what he knows about the Bishop in exchange for a vestigel.",
             }
         },

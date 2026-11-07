@@ -43,7 +43,7 @@ export default {
             "Tendrils of sound weave through the air, creating a sort of cloud of consciousness.",
             "You feel a strange sense of unity with the Noise God.",
             "A profound insight washes over you: The Noise God was not born but assembled...",
-            "Now, only hints of its pattern remain — buried in magnetic dust, resonating faintly through broken amplifiers, radio fog, and the bones of speakers.",
+            "Now, only hints of its pattern remain, buried in magnetic dust, resonating faintly through broken amplifiers, radio fog, and the bones of speakers.",
             "You sense that the band's music is a remnant of it, a way to connect with the Noise God.",
         ],
     },
@@ -207,11 +207,11 @@ export default {
     mood: {
         liris: {
             growthDominant: "You come aboard smelling of green weather. The deck ferns fair lean into you. Welcome.",
-            decayDominant: "Something rides up with you — a rot on the wind. Keep it downwind of my skyship, if you please.",
+            decayDominant: "Something rides up with you: a rot on the wind. Keep it downwind of my skyship, if you please.",
         },
         gnur: {
             growthDominant: "Too much bloom on you, priest. Puts my wares off. Green don't sell down here.",
-            decayDominant: "Heh. You carry the good rot in you, outsider — I can smell it from here. We'll get along fine.",
+            decayDominant: "Heh. You carry the good rot in you, outsider. I can smell it from here. We'll get along fine.",
         },
         brukk: {
             growthDominant: "You reek of sap and spring. The machines don't trust growing things. Nor do I.",
@@ -219,10 +219,10 @@ export default {
         },
         ravla: {
             growthDominant: "All that bloom on you makes me nervous. Growing things want, and want gets expensive.",
-            decayDominant: "You wear decay well. Makes you easier to deal with — the greedy always are.",
+            decayDominant: "You wear decay well. Makes you easier to deal with. The greedy always are.",
         },
         kloor: {
-            growthDominant: "Well, look at those spores of yours — prime goods, those. I'd buy a few.",
+            growthDominant: "Well, look at those spores of yours. Prime goods, those. I'd buy a few.",
             decayDominant: "Heh, those spores of yours look like prime goods. In a city this full of decay and rot, a bit of growth now and then can't hurt.",
         },
     },

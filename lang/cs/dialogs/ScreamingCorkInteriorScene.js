@@ -51,7 +51,7 @@ export default {
         }
     },
     ravla_ortolan_need: {
-        text: "Nebude to levné – 50 dinárů. Ale udělám to dokonale. Nikdo nepozná rozdíl.",
+        text: "Nebude to levné: 50 dinárů. Ale udělám to dokonale. Nikdo nepozná rozdíl.",
         options: {
             heres_the_money: "Tady jsou peníze",
             ill_think_about_it: "Rozmyslím si to",
@@ -62,7 +62,7 @@ export default {
         text: ""
     },
     ravla_forge_success: {
-        text: "Tady máš. Dokonalý padělek, věř mi. Úřední pečeti, vodoznaky, dokonce i ten zvláštní inkoust – všechno dokonalé. Nikdo to nebude zpochybňovat. Jen nikomu neříkej, kde jsi to vzal.",
+        text: "Tady máš. Dokonalý padělek, věř mi. Úřední pečeti, vodoznaky, dokonce i ten zvláštní inkoust. Všechno dokonalé. Nikdo to nebude zpochybňovat. Jen nikomu neříkej, kde jsi to vzal.",
         options: {
             thank_you: "Děkuju"
         }
@@ -96,27 +96,27 @@ export default {
         }
     },
     ravla_rust_brukk: {
-        text: "Aha, vážně? To by mohl být problém. S Brukkem napřímo mluví málokdo. Jestli s ním potřebuješ probrat něco důležitého, můžu ti schůzku domluvit. Dá se to zařídit. Ale nejdřív musíš dokázat, že se ti dá věřit – a něco pro Rezavý chór udělat.",
+        text: "Aha, vážně? To by mohl být problém. S Brukkem napřímo mluví málokdo. Jestli s ním potřebuješ probrat něco důležitého, můžu ti schůzku domluvit. Dá se to zařídit. Ale nejdřív musíš dokázat, že se ti dá věřit, a něco pro Rezavý chór udělat.",
         options: {
             what_do_you_need_me_to_do: "Co mám udělat?",
             i_see_maybe_another_time: "Chápu. Tak třeba jindy."
         }
     },
     ravla_rust_fan: {
-        text: "Ha, ten přístup se mi líbí! Rezavý chór smysl pro humor ocení – stejně jako každého, kdo chápe krásu rozkladu a strojů. Jenže vtipem se dovnitř nedostaneš. Musíš dokázat, že to myslíš vážně. Jestli ano, mám pro tebe malou zkoušku.",
+        text: "Ha, ten přístup se mi líbí! Rezavý chór smysl pro humor ocení, stejně jako každého, kdo chápe krásu rozkladu a strojů. Jenže vtipem se dovnitř nedostaneš. Musíš dokázat, že to myslíš vážně. Jestli ano, mám pro tebe malou zkoušku.",
         options: {
             how_can_i_prove_my_commitment: "Jak můžu dokázat, že to myslím vážně?",
             ive_changed_my_mind_maybe_another_time: "Rozmyslel jsem si to. Třeba jindy."
         }
     },
     ravla_rust_demo: {
-        text: "*Ravla se nakloní blíž a ztiší hlas.* „Ještě jedna věc, jen mezi námi. Místa, která na to budeš potřebovat – doky, Delta a ještě pár dalších –, zatím nejsou na žádné mapě. V téhle verzi města ne. Říkají tomu demo. Padělala jsem v životě ledacos, ale celou čtvrť ti nepadělám.“ *Pokrčí rameny.* „Úkol si stejně nech. Až dostavějí zbytek města, vrať se. Chór na tebe počká – a Brukk na dobrovolníky nezapomíná.“",
+        text: "*Ravla se nakloní blíž a ztiší hlas.* „Ještě jedna věc, jen mezi námi. Místa, která na to budeš potřebovat (doky, Delta a ještě pár dalších), zatím nejsou na žádné mapě. V téhle verzi města ne. Říkají tomu demo. Padělala jsem v životě ledacos, ale celou čtvrť ti nepadělám.“ *Pokrčí rameny.* „Úkol si stejně nech. Až dostavějí zbytek města, vrať se. Chór na tebe počká. A Brukk na dobrovolníky nezapomíná.“",
         options: {
             ill_hold_you_to_that: "Beru tě za slovo."
         }
     },
     ravla_rust_task: {
-        text: "Je tu jedna drobnost, kterou je potřeba vyřídit. Chceš za Brukkem? Tak nejdřív nakrm kov. Stroje mají pořád hlad – běž a připrav jim hostinu. Budeš potřebovat olej, kov a hlavně rudou hmotu. Dej to všechno dohromady, přines mi to a já ti schůzku s Brukkem zařídím.",
+        text: "Je tu jedna drobnost, kterou je potřeba vyřídit. Chceš za Brukkem? Tak nejdřív nakrm kov. Stroje mají pořád hlad. Běž a připrav jim hostinu. Budeš potřebovat olej, kov a hlavně rudou hmotu. Dej to všechno dohromady, přines mi to a já ti schůzku s Brukkem zařídím.",
         options: {
             ill_get_to_work_on_it: "Hned se do toho pustím."
         }
@@ -128,7 +128,7 @@ export default {
         }
     },
     heliodor_start: {
-        text: "Heliodor zdvořile přikývne. „Vítejte ve Řvoucím korku. Poprvé? Ten název trochu klame – většinu večerů je tu docela klid.“",
+        text: "Heliodor zdvořile přikývne. „Vítejte ve Řvoucím korku. Poprvé? Ten název trochu klame, většinu večerů je tu docela klid.“",
         options: {
             who_are_you: "Kdo jste?",
             tell_me_about_this_place: "Povězte mi o tomhle místě",
@@ -146,7 +146,7 @@ export default {
         }
     },
     heliodor_explain: {
-        text: "Ano, jsme. Jsme kolonie mnoha tvorů. Pro jednoduchost ale vystupujeme jako Heliodor *Donjon* Vaalstran – při představování je to snazší. Naše tělo tvoří celé společenství bytostí žijících v dokonalé symbióze, což se za barem hodí hned z několika důvodů. Každý symbiont má své nadání: jedni se věnují hostům, druzí vaří nebo míchají pití a další se starají o chod podniku. Další výhodou je, že pracujeme na směny – zatímco jedni pracují, druzí spí, takže nikdo není přetažený ani o rušných víkendech. Extrémní případ je Oorarabaz Zelenolící, vzácný organismus původem z Kopřivových hor, podobný hustému zelenému mechu, který prospí prakticky celý rok a budíme ho většinou jen na účetní uzávěrku.",
+        text: "Ano, jsme. Jsme kolonie mnoha tvorů. Pro jednoduchost ale vystupujeme jako Heliodor *Donjon* Vaalstran. Při představování je to snazší. Naše tělo tvoří celé společenství bytostí žijících v dokonalé symbióze, což se za barem hodí hned z několika důvodů. Každý symbiont má své nadání: jedni se věnují hostům, druzí vaří nebo míchají pití a další se starají o chod podniku. Další výhodou je, že pracujeme na směny: zatímco jedni pracují, druzí spí, takže nikdo není přetažený ani o rušných víkendech. Extrémní případ je Oorarabaz Zelenolící, vzácný organismus původem z Kopřivových hor, podobný hustému zelenému mechu, který prospí prakticky celý rok a budíme ho většinou jen na účetní uzávěrku.",
         options: {
             fascinating_but_i_have_other_questions: "Fascinující. Ale mám i jiné otázky."
         }
@@ -164,7 +164,7 @@ export default {
         }
     },
     heliodor_fermented_cap: {
-        text: "„U Kvašeného klobouku?“ *Kolonií projde tiché mumlání, jak se radí sama se sebou.* „Ne. Taková hospoda neexistuje. Známe tu každý bar, výčep i zapadlý pajzl – polovina z nás v nich kdysi dělala. Jestli vám někdo tvrdil, že tam bude, nejspíš se vás chtěl jen zbavit.“",
+        text: "„U Kvašeného klobouku?“ *Kolonií projde tiché mumlání, jak se radí sama se sebou.* „Ne. Taková hospoda neexistuje. Známe tu každý bar, výčep i zapadlý pajzl. Polovina z nás v nich kdysi dělala. Jestli vám někdo tvrdil, že tam bude, nejspíš se vás chtěl jen zbavit.“",
         options: {
             back: "Zeptej se na něco jiného"
         }

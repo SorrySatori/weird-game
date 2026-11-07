@@ -40,7 +40,7 @@ export default class VoxMarket extends GameScene {
                     ] : []),
                     // he told you about the Vestigels, you didn't take the job (yet): the offer is here, not buried
                     ...((this.registry.get('onceFlags') || []).includes('kloor_told_vestigels') && !this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
-                        { text: "About those Vestigels — I could help you get one.", key: 'about_vestigels_offer_help', next: "kloor_vestigels_help" }
+                        { text: "About those Vestigels: I could help you get one.", key: 'about_vestigels_offer_help', next: "kloor_vestigels_help" }
                     ] : []),
                     // only while the deal is open — once he has the Vestigel there is nothing more to ask
                     // with one in the pack, hand it over straight away instead of the "any luck?" detour
@@ -78,7 +78,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_substances: {
-                text: "'I specialize in Oltrac — a rare psychoactive compound derived from certain... biological materials.' He eyes your fungal growths with interest. 'Materials not unlike what you seem to be carrying around.'",
+                text: "'I specialize in Oltrac, a rare psychoactive compound derived from certain... biological materials.' He eyes your fungal growths with interest. 'Materials not unlike what you seem to be carrying around.'",
                 options: [
                     { text: "Tell me more about Oltrac", key: 'tell_me_more_about_oltrac', next: "kloor_oltrac" },
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
@@ -98,7 +98,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_selling: {
-                text: "'I deal in Oltrac — finest mind-expanding substance in the Voxmarket. Opens your perception to the true nature of reality.' He lowers his voice. 'Interested in buying? Or perhaps... selling me some of those spores you're carrying?'",
+                text: "'I deal in Oltrac. Finest mind-expanding substance in the Voxmarket. Opens your perception to the true nature of reality.' He lowers his voice. 'Interested in buying? Or perhaps... selling me some of those spores you're carrying?'",
                 options: [
                     { text: "Show me what you have", key: 'show_me_what_you_have', next: "kloor_shop" },
                     { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
@@ -182,7 +182,7 @@ export default class VoxMarket extends GameScene {
 
             
             kloor_gray_oltrac_8: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac — the common stuff. Not bad.' He hands you 8 dinar. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac, the common stuff. Not bad.' He hands you 8 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -192,7 +192,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_gray_oltrac_16: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac — the common stuff. Not bad.' He hands you 16 dinar. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac, the common stuff. Not bad.' He hands you 16 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -202,7 +202,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_gray_oltrac_24: {
-                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac — the common stuff. Not bad.' He hands you 24 dinar. 'Pleasure doing business with you.'",
+                text: "Kloor examines your spores carefully, then nods. 'These will work for Gray Oltrac, the common stuff. Not bad.' He hands you 24 dinar. 'Pleasure doing business with you.'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -242,7 +242,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_25: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac — the rarest kind!' He eagerly counts out 25 dinar. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac, the rarest kind!' He eagerly counts out 25 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -252,7 +252,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_50: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac — the rarest kind!' He eagerly counts out 50 dinar. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac, the rarest kind!' He eagerly counts out 50 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -262,7 +262,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_amber_oltrac_75: {
-                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac — the rarest kind!' He eagerly counts out 75 dinar. 'Exceptional business! Come back anytime!'",
+                text: "Kloor gasps as he examines your spores. 'Extraordinary! These are perfect for Amber Oltrac, the rarest kind!' He eagerly counts out 75 dinar. 'Exceptional business! Come back anytime!'",
                 options: [
                     { text: "Thanks", key: 'thanks', next: "kloor_start" }
                 ],
@@ -283,7 +283,7 @@ export default class VoxMarket extends GameScene {
             
             // no dead end here: he doesn't know where she went, but he steers you to what she was after (the real lead)
             kloor_bishop_location: {
-                text: "'Where she went? Can't say. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But what she was after here — now that's the better question.'",
+                text: "'Where she went? Can't say. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But what she was after here? Now that's the better question.'",
                 options: [
                     { text: "What was she after?", key: 'what_was_she_trading', next: "kloor_bishop_trading" },
                     { text: "Ask something else", key: 'back', next: "kloor_bishop" }
@@ -291,7 +291,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_bishop_trading: {
-                text: "'Now that's interesting.' Kloor leans in closer. 'She was after a lens — the optic out of a dream helmet — and she offered a Vestigel to anyone who could find her one. A Vestigel! Rare, experimental things; supposedly they hold... properties. Nobody here had a lens, so in the end she bought some small electronics for plain dinar and left. But word got around. And a merchant named Zerren happens to own a Vestigel too — not from the Bishop, mind you.'",
+                text: "'Now that's interesting.' Kloor leans in closer. 'She was after a lens (the optic out of a dream helmet), and she offered a Vestigel to anyone who could find her one. A Vestigel! Rare, experimental things; supposedly they hold... properties. Nobody here had a lens, so in the end she bought some small electronics for plain dinar and left. But word got around. And a merchant named Zerren happens to own a Vestigel too. Not from the Bishop, mind you.'",
                 options: [
                     ...(!this.questSystem.getQuest('the_three_vestigels')) ? [{ text: "Tell me more about these Vestigels", key: 'tell_me_more_about_these_vestigels', next: "kloor_vestigels" }] : [],
                     { text: "Thanks for the information", key: 'thanks_for_the_information', next: "kloor_start" }
@@ -310,7 +310,7 @@ export default class VoxMarket extends GameScene {
 
             // he answers the doubt -- and the offer to help is still open
             kloor_vestigels_dangerous: {
-                text: "'Dangerous?' Kloor snorts. 'Everything worth having in this market is dangerous. That's why it pays.' He looks you over for a moment. 'Still — if you change your mind, you won't regret it.'",
+                text: "'Dangerous?' Kloor snorts. 'Everything worth having in this market is dangerous. That's why it pays.' He looks you over for a moment. 'Still, if you change your mind, you won't regret it.'",
                 options: [
                     { text: "I could help you get one", key: 'i_could_help_you_get_one', next: "kloor_vestigels_help" },
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
@@ -344,7 +344,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_vestigels_quest_info: {
-                text: "'Here's what I know: Zerren has one Vestigel. She's usually in the Market area. That's the only one I've got a line on — the other two, nobody seems to know where they ended up. Get me Zerren's, and I'll tell you what you need to know about the Bishop.'",
+                text: "'Here's what I know: Zerren has one Vestigel. She's usually in the Market area. That's the only one I've got a line on. The other two, nobody seems to know where they ended up. Get me Zerren's, and I'll tell you what you need to know about the Bishop.'",
                 options: [
                     { text: "I'll find one for you", key: 'ill_find_one_for_you', next: "closeDialog" }
                 ]

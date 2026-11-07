@@ -17,7 +17,7 @@ export default {
         }
     },
     about_shed: {
-        text: "Bouda 521? (upraví si brýle) Jedno z našich nejproduktivnějších zařízení. Bývalo to obyčejné skladiště, víte. Ale dnes... je to mnohem víc. Místo, kde se... dějí věci. (usměje se) Byrokracie tu opravdu žije, plyne jako řeka. Dává věcem smysl – každému kroku, každému rozhodnutí. (odloží papíry) Dokážeme tu být produktivní a šťastní.",
+        text: "Bouda 521? (upraví si brýle) Jedno z našich nejproduktivnějších zařízení. Bývalo to obyčejné skladiště, víte. Ale dnes... je to mnohem víc. Místo, kde se... dějí věci. (usměje se) Byrokracie tu opravdu žije, plyne jako řeka. Dává věcem smysl: každému kroku, každému rozhodnutí. (odloží papíry) Dokážeme tu být produktivní a šťastní.",
         options: {
             that_sounds_like_a_lot_of_paperwork: "To zní jako spousta papírování",
             back_to_other_topics: "Zeptej se na něco jiného"
@@ -40,11 +40,11 @@ export default {
         }
     },
     lie_living_core: {
-        text: "(Nesouhlasně urovná papíry) Dobrá. Ale pamatujte – předpisy existují z dobrého důvodu. Ať vás ani nenapadne na živé jádro sahat. Lidé si většinou myslí, že je to jen relikt, ale pro energetický chod Boudy je zásadní.",
+        text: "(Nesouhlasně urovná papíry) Dobrá. Ale pamatujte: předpisy existují z dobrého důvodu. Ať vás ani nenapadne na živé jádro sahat. Lidé si většinou myslí, že je to jen relikt, ale pro energetický chod Boudy je zásadní.",
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     expose_gnur: {
-        text: "Já to věděl! Děkuji, že jste mi to řekl. (usměje se) Ta pakáž z Rezavého chóru nemá na takovou technologii žádné právo. A žádný relikt to není, ať si lidé říkají, co chtějí – na tom jádru závisí veškeré zásobování Boudy energií. Vyjměte ho a ve všech odděleních zhasnou světla. (odloží papíry) Slibte mi prosím, že na živé jádro nebudete sahat.",
+        text: "Já to věděl! Děkuji, že jste mi to řekl. (usměje se) Ta pakáž z Rezavého chóru nemá na takovou technologii žádné právo. A žádný relikt to není, ať si lidé říkají, co chtějí. Na tom jádru závisí veškeré zásobování Boudy energií. Vyjměte ho a ve všech odděleních zhasnou světla. (odloží papíry) Slibte mi prosím, že na živé jádro nebudete sahat.",
         options: {
             i_promise_to_leave_it_alone: "Slibuji, že ho nechám být",
             ill_think_about_it: "Rozmyslím si to"
@@ -59,11 +59,11 @@ export default {
         }
     },
     core_refused_thanks: {
-        text: "(Úředník odloží razítko.) Vy jste Gnurovi řekl ne? (Pousměje se.) Inkoustový tribunál na své přátele nezapomíná. Ptal jste se přece po Biskupce, ne? (Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché – studio Dr. Elphi Quarn. Podala si ho Biskupka osobně, orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
+        text: "(Úředník odloží razítko.) Vy jste Gnurovi řekl ne? (Pousměje se.) Inkoustový tribunál na své přátele nezapomíná. Ptal jste se přece po Biskupce, ne? (Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Podala si ho Biskupka osobně, orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
         options: { thank_you_that_helps: "Děkuji. To mi hodně pomůže." }
     },
     bishop_location: {
-        text: "Biskupka? (Ohlédne se po kartotéce za sebou.) Tribunál vede záznamy o každém, kdo tímhle městem projde. Jenže záznamy se nevydávají jen tak někomu. Řekněte Gnurovi ne – ať ví, že jádro nedostane – a pak se vraťte. Tribunál na své přátele nezapomíná.",
+        text: "Biskupka? (Ohlédne se po kartotéce za sebou.) Tribunál vede záznamy o každém, kdo tímhle městem projde. Jenže záznamy se nevydávají jen tak někomu. Řekněte Gnurovi ne, ať ví, že jádro nedostane. A pak se vraťte. Tribunál na své přátele nezapomíná.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného",
             who_are_the_pith_reclaimers: "Co je Inkoustový tribunál?"
@@ -81,7 +81,7 @@ export default {
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     no_promise: {
-        text: "(Nesouhlasně urovná papíry) Dobrá. Ale pamatujte – předpisy existují z dobrého důvodu.",
+        text: "(Nesouhlasně urovná papíry) Dobrá. Ale pamatujte: předpisy existují z dobrého důvodu.",
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     ortolan_inquiry: {

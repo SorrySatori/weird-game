@@ -51,7 +51,7 @@ export default class ShedApplicationsScene extends GameScene {
                 ]
             },
             lie_living_core: {
-                text: "(Straightens papers disapprovingly) Very well. But remember — proper protocols exist for a reason. Don't you even think about messing with the living core. People usually think it's just a relic, but it is crucial for the Shed's energy maintenance.",
+                text: "(Straightens papers disapprovingly) Very well. But remember: proper protocols exist for a reason. Don't you even think about messing with the living core. People usually think it's just a relic, but it is crucial for the Shed's energy maintenance.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
@@ -71,7 +71,7 @@ export default class ShedApplicationsScene extends GameScene {
                 }
             },
             expose_gnur: {
-                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. And it is no relic, whatever people say — the Shed's entire energy supply depends on that core. Remove it and the lights go out in every department. (puts away papers) Please promise to not mess with the living core.",
+                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. And it is no relic, whatever people say. The Shed's entire energy supply depends on that core. Remove it and the lights go out in every department. (puts away papers) Please promise to not mess with the living core.",
                 options: [
                     { text: "I promise to leave it alone", key: 'i_promise_to_leave_it_alone', next: "promise_made" },
                     { text: "I'll think about it", key: 'ill_think_about_it', next: "no_promise" }
@@ -111,7 +111,7 @@ export default class ShedApplicationsScene extends GameScene {
             // (he used to send the player to Edgar Eskola, who knows nothing about the Bishop -- a dead end). Now he points
             // at the Tribunal's records, his reward once the player turns Gnur down (core_refused_thanks)
             bishop_location: {
-                text: "The Bishop? (He glances at the filing cabinet behind him.) The Tribunal keeps records of everyone who passes through this city. But records aren't handed out to just anyone. Turn Gnur down — let him know he won't get the core — and then come back. The Tribunal remembers its friends.",
+                text: "The Bishop? (He glances at the filing cabinet behind him.) The Tribunal keeps records of everyone who passes through this city. But records aren't handed out to just anyone. Turn Gnur down. Let him know he won't get the core, and then come back. The Tribunal remembers its friends.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" },
                     { text: "What is the Ink Tribunal?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
@@ -126,7 +126,7 @@ export default class ShedApplicationsScene extends GameScene {
             // After the player turned Gnur down: the Tribunal pays its friends back -- with the Bishop's visitor permit for
             // Dr. Elphi's floor, the same lead Gnur would have given (utils/bishopTrail.js)
             core_refused_thanks: {
-                text: "(The clerk sets down his stamp.) You turned Gnur down? (A thin smile.) The Ink Tribunal remembers its friends. You were asking after the Bishop, weren't you? (He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet — Dr. Elphi Quarn's studio. Filed by the Bishop herself, stamped and countersigned. Wherever she went after that, she went there first.",
+                text: "(The clerk sets down his stamp.) You turned Gnur down? (A thin smile.) The Ink Tribunal remembers its friends. You were asking after the Bishop, weren't you? (He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. Filed by the Bishop herself, stamped and countersigned. Wherever she went after that, she went there first.",
                 options: [
                     { text: "Thank you. That helps a lot.", key: 'thank_you_that_helps', next: "start" }
                 ],
@@ -164,7 +164,7 @@ export default class ShedApplicationsScene extends GameScene {
                 }
             },
             no_promise: {
-                text: "(Straightens papers disapprovingly) Very well. But remember — proper protocols exist for a reason.",
+                text: "(Straightens papers disapprovingly) Very well. But remember: proper protocols exist for a reason.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]

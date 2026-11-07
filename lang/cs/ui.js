@@ -113,15 +113,15 @@ export default {
         // DEMO_BUILD: an exit into a place outside the demo (utils/demo.js)
         demo: {
             closedLabel: 'V demu uzavřeno',
-            questNotInDemo: 'V demu nejde dokončit – pokračuje v plné verzi hry.',
+            questNotInDemo: 'V demu nejde dokončit. Pokračuje v plné verzi hry.',
             closedLine: "Dopravní kužel. Tudy se v demu dál nedostanu.",
             // závěrečná karta dema (scenes/DemoEndScene.js)
             end: {
                 title: 'Konec dema',
-                body: 'Děkujeme, že jste si zahráli demo! Klíč od Elphi odemyká dvorek Škrabáku – a tam demo končí. '
+                body: 'Děkujeme, že jste si zahráli demo! Klíč od Elphi odemyká dvorek Škrabáku a tam demo končí. '
                     + 'Pátrání po Biskupce pokračuje v plné hře, napříč celou Horní Morkezelou: jejími čtvrtěmi, '
                     + 'frakcemi i symbionty, kteří by se ve vás rádi zabydleli.\n\n'
-                    + 'Můžete tu ale ještě chvíli zůstat – co jste nedokončili, na vás počká.',
+                    + 'Můžete tu ale ještě chvíli zůstat. Co jste nedokončili, na vás počká.',
                 wishlist: 'Přidat do seznamu přání',
                 continue: 'Hrát dál',
                 storeOpened: 'Stránka hry se otevírá ve Steamu.',

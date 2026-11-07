@@ -41,7 +41,7 @@ export default {
         }
     },
     bishop: {
-        text: "Aha, ta zahalená... jo, přišla sem dolů, byla nějaká neklidná a roztěkaná. Sháněla čočku – optiku ze starých snových souprav, předválečnou. Takovou věc má dneska už jenom Chór. Ale informace nejsou zadarmo, příteli.",
+        text: "Aha, ta zahalená... jo, přišla sem dolů, byla nějaká neklidná a roztěkaná. Sháněla čočku. Optiku ze starých snových souprav, předválečnou. Takovou věc má dneska už jenom Chór. Ale informace nejsou zadarmo, příteli.",
         options: {
             what_do_you_want: "Co chceš?",
             i_can_help_you_recover_old_tech_carefully: "Můžu ti pomoct získat nějakou starou technologii",
@@ -70,7 +70,7 @@ export default {
         }
     },
     complete_quest: {
-        text: "Ach... živé jádro. (Oči se mu podivně rozsvítí, když přebírá artefakt.) Ano, tohle bude krásně zpívat v našem sboru. Jak jsem slíbil, řeknu ti něco o tvé biskupce... Tu čočku jsem jí prodal. Zaplatila Vestigelem – experimentální mincí, co má cenu deseti takových čoček, což věděla. Nesmlouvala. Ten Vestigel už nemám, tak se ani neptej. Biskupku taky velmi zajímala práce Dr. Elphi. Naposledy jsem slyšel, že se vydala do Škrabáku 1140, aby se setkala s doktorkou osobně. Vypadalo to... naléhavě.",
+        text: "Ach... živé jádro. (Oči se mu podivně rozsvítí, když přebírá artefakt.) Ano, tohle bude krásně zpívat v našem sboru. Jak jsem slíbil, řeknu ti něco o tvé biskupce... Tu čočku jsem jí prodal. Zaplatila Vestigelem, experimentální mincí, co má cenu deseti takových čoček. A věděla to. Nesmlouvala. Ten Vestigel už nemám, tak se ani neptej. Biskupku taky velmi zajímala práce Dr. Elphi. Naposledy jsem slyšel, že se vydala do Škrabáku 1140, aby se setkala s doktorkou osobně. Vypadalo to... naléhavě.",
         options: {
             thank_you_for_the_information: "Děkuji za informaci"
         }

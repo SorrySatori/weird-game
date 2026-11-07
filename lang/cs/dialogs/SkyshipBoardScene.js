@@ -65,7 +65,7 @@ export default {
         }
     },
     captainDanger: {
-        text: "Ha! Život bez rizika není žádný život. Ano, jsou tu nebezpečí – bouřkové stromy, které by nás mohly pohltit, dravé létající ostružiny, které loví ve výšinách, a další hrůzy. Ale svoboda oblohy... ta stojí za jakékoliv riziko.",
+        text: "Ha! Život bez rizika není žádný život. Ano, jsou tu nebezpečí: bouřkové stromy, které by nás mohly pohltit, dravé létající ostružiny, které loví ve výšinách, a další hrůzy. Ale svoboda oblohy... ta stojí za jakékoliv riziko.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
@@ -91,26 +91,26 @@ export default {
         }
     },
     captainDirectorateDemo: {
-        text: "*Liris zaváhá a ztiší hlas.* „Než se tam vydáte – tentokrát se tam nedostanete. Hlavní náměstí, Direktorát a půlka města za ním: nic z toho ještě není otevřené. Demo, říkají téhle verzi města přístavní dělníci. Do čtvrti, kterou ještě nikdo nepostavil, vás nedovezu.“ *Poklepe na zábradlí.* „Ale ten nápad si nechte. Až se zbytek města otevře, Direktorát tam bude – a Verdigrace taky.“",
+        text: "*Liris zaváhá a ztiší hlas.* „Než se tam vydáte – tentokrát se tam nedostanete. Hlavní náměstí, Direktorát a půlka města za ním: nic z toho ještě není otevřené. Demo, říkají téhle verzi města přístavní dělníci. Do čtvrti, kterou ještě nikdo nepostavil, vás nedovezu.“ *Poklepe na zábradlí.* „Ale ten nápad si nechte. Až se zbytek města otevře, Direktorát tam bude. A Verdigrace taky.“",
         options: {
             ill_remember_that: "Zapamatuju si to."
         }
     },
     captainCargo: {
-        text: "Především vzácné spory a mycélia, která nelze pěstovat ve městě. Specializované symbiotické kmeny, krystalizované růstové enzymy, rozkladu odolné stavební materiály. Převážíme také zprávy mezi rozptýlenými vzdušnými koloniemi a výzkumnými stanicemi. Informace jsou možná náš nejcennější náklad – znalosti, které by se jinak nikdy nedostaly na zem.",
+        text: "Především vzácné spory a mycélia, která nelze pěstovat ve městě. Specializované symbiotické kmeny, krystalizované růstové enzymy, rozkladu odolné stavební materiály. Převážíme také zprávy mezi rozptýlenými vzdušnými koloniemi a výzkumnými stanicemi. Informace jsou možná náš nejcennější náklad: znalosti, které by se jinak nikdy nedostaly na zem.",
         options: {
             do_you_have_anything_to_trade: "Máte něco na výměnu?",
             ask_something_else: "Zeptej se na něco jiného"
         }
     },
     captainTrade: {
-        text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali žádné zboží. Vraťte se, až dokončíme první okruh – možná za pár cyklů – a mohla bych mít něco jedinečného pro tak odvážného průzkumníka, jako jste vy. Sledujte oblohu, až se budeme vracet.",
+        text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali žádné zboží. Vraťte se, až dokončíme první okruh (možná za pár cyklů), a mohla bych mít něco jedinečného pro tak odvážného průzkumníka, jako jste vy. Sledujte oblohu, až se budeme vracet.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
     },
     captainElevator: {
-        text: "Výtahový systém, říkáte? Ach, to asi myslíte jeden z těch starých vertikálních transportních mechanismů ve městských věžích. Tyhle staré systémy jsou fascinující – směs mechanického inženýrství a rané symbiotické technologie. O jaký problém se jedná?",
+        text: "Výtahový systém, říkáte? Ach, to asi myslíte jeden z těch starých vertikálních transportních mechanismů ve městských věžích. Tyhle staré systémy jsou fascinující. Je to směs mechanického inženýrství a rané symbiotické technologie. O jaký problém se jedná?",
         options: {
             the_floor_counter_is_broken: "Počítadlo pater je rozbité.",
             never_mind_ask_something_else: "To nic, zeptám se na něco jiného."
@@ -131,7 +131,7 @@ export default {
         }
     },
     captainGivesTool: {
-        text: "Samozřejmě! Vždycky s sebou nosím zálohy – nikdy nevíte, kdy budete potřebovat něco opravit uprostřed letu. Tady, vezměte si tento kalibrační modul. Je jednoduchý na použití: stačí ho připojit k servisnímu panelu výtahového systému a automaticky překalibruje počítadlo pater. Droni uvnitř udělají veškerou práci.",
+        text: "Samozřejmě! Vždycky s sebou nosím zálohy. Nikdy nevíte, kdy budete potřebovat něco opravit uprostřed letu. Tady, vezměte si tento kalibrační modul. Je jednoduchý na použití: stačí ho připojit k servisnímu panelu výtahového systému a automaticky překalibruje počítadlo pater. Droni uvnitř udělají veškerou práci.",
         options: {
             thank_you: "Děkuji!"
         }

@@ -114,7 +114,7 @@ export default class EntryScene extends GameScene {
                 textKey: taskHeard ? 'avoiding' : 'avoiding_task_unheard',
                 text: taskHeard
                     ? "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of local ale. Now, off you go! The Bishop awaits, and this is excellent training for you. Consider yourself fortunate!"
-                    : "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of local ale. Now listen to your task instead — it is excellent training for you. Consider yourself fortunate!",
+                    : "*huffs indignantly* How dare you! I am conducting vital... spiritual communion with the fermented spirits. It's a sacred ritual that requires my full attention and several mugs of local ale. Now listen to your task instead. It is excellent training for you. Consider yourself fortunate!",
                 options: [
                     taskHeard ? { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' } : askTask,
                     { text: "Tell me more about the city first", key: 'tell_me_more_about_the_city_first', next: 'city' },
@@ -131,10 +131,10 @@ export default class EntryScene extends GameScene {
             },
             farewell: {
                 hideCloseOption: true,
-                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences — some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's symbionts that you've probably only read about ever take an interest in you — why not; they can open up possibilities you never imagined. But be careful. Well? Anything to ask before you go?",
+                text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences: some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's symbionts that you've probably only read about ever take an interest in you, why not? They can open up possibilities you never imagined. But be careful. Well? Anything to ask before you go?",
                 options: [
                     { text: "Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
-                    { text: "The spores — a different beast how?", key: 'the_spores_different_how', next: 'spores' },
+                    { text: "The spores? A different beast how?", key: 'the_spores_different_how', next: 'spores' },
                     { text: "The symbionts. Tell me more.", key: 'the_symbionts_tell_me_more', next: 'symbionts' },
                     { text: "Thank you, I have nothing more to ask. Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'tutorialOffer' }
                 ]
@@ -159,10 +159,10 @@ export default class EntryScene extends GameScene {
             // The player tries to leave → Thaal offers an optional, meta-narrative "equipment" tutorial.
             tutorialOffer: {
                 hideCloseOption: true,
-                text: "*He is already half-turned when he stops, one finger raised.* Wait! You should know that a master priest of my rank commands one further superpower: meta-narrative awareness — deeply useful for explaining how this world actually works. So, before I go: shall I show you how to use your gear? Your diary, the map, that sort of thing?",
+                text: "*He is already half-turned when he stops, one finger raised.* Wait! You should know that a master priest of my rank commands one further superpower: meta-narrative awareness, deeply useful for explaining how this world actually works. So, before I go: shall I show you how to use your gear? Your diary, the map, that sort of thing?",
                 options: [
                     { text: "Yes please, Master.", key: 'tutorial_yes', onSelect: () => { this._walkAwayOnClose = false; this._thaalDone = true; this.events.once('equipment-tutorial-finished', () => this.masterWalkAway()); this.time.delayedCall(420, () => this.startEquipmentTutorial()); }, next: 'closeDialog' },
-                    { text: "No need. Objectively, the best games were made in 1997 — and we did just fine without tutorials back then.", key: 'tutorial_no', next: 'close' }
+                    { text: "No need. Objectively, the best games were made in 1997. And we did just fine without tutorials back then.", key: 'tutorial_no', next: 'close' }
                 ]
             },
             close: {
@@ -179,7 +179,7 @@ export default class EntryScene extends GameScene {
                 ]
             },
             spores: {
-                text: "Down in the temple the spores lie thick, quiet and obedient — like a god's breath gathered in the dark. It's all you've ever known. But out here, under open sky, they thin, they drift, and they get absolutely everywhere. You may find that this city holds creatures that feed on spores, or that would find all manner of uses for them. Some may try to buy them off you; some may help you out of a tight spot. Either way — go sparingly with the spores you carry, and keep an eye on your levels. They replenish slowly and with difficulty, though you may yet discover ways to hasten it.",
+                text: "Down in the temple the spores lie thick, quiet and obedient, like a god's breath gathered in the dark. It's all you've ever known. But out here, under open sky, they thin, they drift, and they get absolutely everywhere. You may find that this city holds creatures that feed on spores, or that would find all manner of uses for them. Some may try to buy them off you; some may help you out of a tight spot. Either way, go sparingly with the spores you carry, and keep an eye on your levels. They replenish slowly and with difficulty, though you may yet discover ways to hasten it.",
                 options: [
                     { text: "Things that feed on it? The symbionts?", key: 'things_that_feed_symbionts', next: 'symbionts' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewell' }
@@ -197,7 +197,7 @@ export default class EntryScene extends GameScene {
                 }
             },
             symbionts: {
-                text: "Heard of them in the cloister archives, no doubt — and never seen one bonded. You carry none; you'd walk differently if you did. A symbiont is a living thing you invite into your own flesh, apprentice: bonded to you, each with its own voice and its own gift — one reads the thought folded behind a face, one the last words of the dead. Their abilities can be amazing or utterly peculiar. This city keeps them in its odd corners. Should one offer itself, and you prove worthy — or foolish enough — you may take it in. But mind the balance: some wax strong in Growth and fall silent in Decay; others the reverse. Tip the city too far and your new voice may simply stop speaking. Enough! I need a beer… I mean, I have communion to attend.",
+                text: "Heard of them in the cloister archives, no doubt, and never seen one bonded. You carry none; you'd walk differently if you did. A symbiont is a living thing you invite into your own flesh, apprentice: bonded to you, each with its own voice and its own gift. One reads the thought folded behind a face, one the last words of the dead. Their abilities can be amazing or utterly peculiar. This city keeps them in its odd corners. Should one offer itself, and you prove worthy (or foolish enough), you may take it in. But mind the balance: some wax strong in Growth and fall silent in Decay; others the reverse. Tip the city too far and your new voice may simply stop speaking. Enough! I need a beer… I mean, I have communion to attend.",
                 options: [
                     { text: "And these spores you mentioned?", key: 'and_these_spores', next: 'spores' },
                     { text: "Tell me again about growth and decay.", key: 'tell_me_again_growth_decay', next: 'growthDecay' },

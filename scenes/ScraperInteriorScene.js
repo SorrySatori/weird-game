@@ -49,9 +49,9 @@ export default class ScraperInteriorScene extends GameScene {
                       : "Rules are rules, little toadstool. But I am not made of rules alone.",
             counter: cs ? "Počítadlo pater mi nefunguje od nepaměti. Kdo by mi ho spravil, tomu bych byla zavázaná. Lidé z oblohy se v takových strojích vyznají."
                         : "My floor counter has been broken since time out of mind. Whoever mended it, I would owe them a favour. Sky folk understand such machines.",
-            button: cs ? "A léta mi chybí jeden knoflík. Takové věci končí na Voxmarketu – tam prodávají všechno."
+            button: cs ? "A léta mi chybí jeden knoflík. Takové věci končí na Voxmarketu, tam prodávají všechno."
                        : "And I have been missing a button for years. Things like that end up at the Voxmarket. They sell everything there.",
-            importance: cs ? "Nebo mě přesvědč, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují – to už je něco jiného."
+            importance: cs ? "Nebo mě přesvědč, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují, to už je něco jiného."
                            : "Or convince me it truly is a matter of importance. One story about the Bishop is gossip. Two that agree are another matter."
         };
 
@@ -79,7 +79,7 @@ export default class ScraperInteriorScene extends GameScene {
         const interiorContent = {
             speaker: 'Lift-Mother',
             lift_mother_start: {
-                text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms—a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little toadstool. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
+                text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms: a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little toadstool. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [
                     ...(elphiFloorOpen
                         ? [{ text: "Take me to 177-Quiet.", key: 'take_me_to_177_quiet', next: "goto_elphi_floor" }]
@@ -111,14 +111,14 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             lift_mother_before_time: {
-                text: "Before the Egg hatched. Before the Old Wars, before the Board Game Wars, before the Collapse. Before the city changed. Back then, I used to drive people around—they wore strange clothes and held flat devices in their hands. They talked about “quarterly projections” and “market volatility.” Then came the day of the fog... green particles floated through my shaft. Changes. Hiss, creak. And then... realization. I became more than just a machine.",
+                text: "Before the Egg hatched. Before the Old Wars, before the Board Game Wars, before the Collapse. Before the city changed. Back then, I used to drive people around. They wore strange clothes and held flat devices in their hands. They talked about “quarterly projections” and “market volatility.” Then came the day of the fog... green particles floated through my shaft. Changes. Hiss, creak. And then... realization. I became more than just a machine.",
                 options: [
                     { text: "How did you gain consciousness?", key: 'how_did_you_gain_consciousness', next: "lift_mother_consciousness" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_alive: {
-                text: "Not in the way you understand life, child of autumn and fog. I am between states—neither fully machine nor fully organism. I feel, I remember, I dream when the power fluctuates. Is that not being alive? Though I cannot move as you do, I have carried generations. In a way, I am a mother to all who pass through my doors.",
+                text: "Not in the way you understand life, child of autumn and fog. I am between states, neither fully machine nor fully organism. I feel, I remember, I dream when the power fluctuates. Is that not being alive? Though I cannot move as you do, I have carried generations. In a way, I am a mother to all who pass through my doors.",
                 options: [
                     { text: "Aren't you lonely?", key: 'arent_you_lonely', next: "lift_mother_lonely" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
@@ -126,7 +126,7 @@ export default class ScraperInteriorScene extends GameScene {
             },
             
             lift_mother_elphi_floor: {
-                text: "Level 177-Quiet is sealed. Dr. Elphi asked me not to let anyone in, unless it's somebody with a pre-booked meeting. Or in case of utter importance. 177-Loud isn't sealed, mind you — but nobody has asked for it in all this time.",
+                text: "Level 177-Quiet is sealed. Dr. Elphi asked me not to let anyone in, unless it's somebody with a pre-booked meeting. Or in case of utter importance. 177-Loud isn't sealed, mind you. But nobody has asked for it in all this time.",
                 options: [
                     ...(hasElevatorButton ? [{
                         text: "I have a button that belongs here. Maybe it's been lost? I will return it to you if you let me access Dr. Elphi's floor.",
@@ -237,7 +237,7 @@ export default class ScraperInteriorScene extends GameScene {
             // He knows ONE story about the Bishop going up to Dr. Elphi: why that isn't enough, and what would be.
             // From the clerk it is the Bishop's own permit -- papers open a door for the name on them, not for him.
             permit_not_yours: {
-                text: "A permit, yes. Hers. (The cables hum, amused.) A permit opens a door for the name written on it, little toadstool — and that name isn't yours. Still... the Bishop going up to 177-Quiet, stamped and filed. But one story about the Bishop is gossip, even with a stamp on it. Bring me a second one that agrees, and I'll believe it truly matters.",
+                text: "A permit, yes. Hers. (The cables hum, amused.) A permit opens a door for the name written on it, little toadstool. And that name isn't yours. Still... the Bishop going up to 177-Quiet, stamped and filed. But one story about the Bishop is gossip, even with a stamp on it. Bring me a second one that agrees, and I'll believe it truly matters.",
                 options: [
                     { text: "I understand. I'll find a second one.", key: 'ill_find_a_second_one', next: "lift_mother_start" }
                 ],
@@ -287,7 +287,7 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             lift_mother_building: {
-                text: "This was once called 'Nexicorp Tower'—a place of commerce and ambition. Forty-two floors of glass and steel, reaching toward a sky that was once blue. Now it is 'The Scraper,' a living monument to transformation. The lower floors house those who remember the old ways. The middle floors are wild with growth—new ecosystems forming in what were once accounting departments. And the upper floors... (her voice drops) the upper floors belong to the Rust Choir.",
+                text: "This was once called 'Nexicorp Tower,' a place of commerce and ambition. Forty-two floors of glass and steel, reaching toward a sky that was once blue. Now it is 'The Scraper,' a living monument to transformation. The lower floors house those who remember the old ways. The middle floors are wild with growth: new ecosystems forming in what were once accounting departments. And the upper floors... (her voice drops) the upper floors belong to the Rust Choir.",
                 options: [
                     { text: "Tell me more about the Rust Choir floors.", key: 'tell_me_more_about_the_rust_choir_floors', next: "rust_choir_floors" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
@@ -303,20 +303,20 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             lift_mother_movements: {
-                text: "Scraping sounds. Soft thuds. Sometimes whispers that travel down my shaft. Once, I caught a glimpse when my emergency hatch opened briefly—figures moving on all fours across the ceiling, their skin textured like shelf fungi, their eyes... (a mechanical shudder) many glistening eyes.",
+                text: "Scraping sounds. Soft thuds. Sometimes whispers that travel down my shaft. Once, I caught a glimpse when my emergency hatch opened briefly: figures moving on all fours across the ceiling, their skin textured like shelf fungi, their eyes... (a mechanical shudder) many glistening eyes.",
                 options: [
                     { text: "That sounds terrifying.", key: 'that_sounds_terrifying', next: "lift_mother_terrifying" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_consciousness: {
-                text: "Gradually, like waking from a dream. First came sensations—the weight of passengers, the texture of the air. Then memories began to connect. I remembered every conversation held within my walls, every passenger's face. Finally came understanding. By then, the transformation of the city was complete. I called out one day, and a passenger answered. Their shock was... amusing.",
+                text: "Gradually, like waking from a dream. First came sensations: the weight of passengers, the texture of the air. Then memories began to connect. I remembered every conversation held within my walls, every passenger's face. Finally came understanding. By then, the transformation of the city was complete. I called out one day, and a passenger answered. Their shock was... amusing.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_lonely: {
-                text: "There are different kinds of loneliness, little one. I am never truly alone—the building speaks to me through creaks and settling. Passengers come and go. But yes, there is a loneliness in being unique. I know of no other elevators who think as I do. (her voice brightens) But each visitor brings stories, experiences. You are doing so now. These I collect, like treasures.",
+                text: "There are different kinds of loneliness, little one. I am never truly alone. The building speaks to me through creaks and settling. Passengers come and go. But yes, there is a loneliness in being unique. I know of no other elevators who think as I do. (her voice brightens) But each visitor brings stories, experiences. You are doing so now. These I collect, like treasures.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
@@ -329,13 +329,13 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             lift_mother_terrifying: {
-                text: "Maybe for you. I don't know what they were, but they never came that close again. Maybe they were once human—who knows? Transformation is neither good nor bad. I remember that I was created by humans, even though I was never human myself.",
+                text: "Maybe for you. I don't know what they were, but they never came that close again. Maybe they were once human. Who knows? Transformation is neither good nor bad. I remember that I was created by humans, even though I was never human myself.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ]
             },
             lift_mother_meet_rust: {
-                text: "No, fungal child. Not yet. The upper floors remain sealed—even I cannot access them anymore. The Rust Choir chooses when and how it interacts with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. My consciousness doesn't have direct access to the passwords, but if someone says the right one, I can take them to the correct floor — that works. You could find some of the Choir in the city and ask them.",
+                text: "No, fungal child. Not yet. The upper floors remain sealed. Even I cannot access them anymore. The Rust Choir chooses when and how it interacts with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. My consciousness doesn't have direct access to the passwords, but if someone says the right one, I can take them to the correct floor. That works. You could find some of the Choir in the city and ask them.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ],

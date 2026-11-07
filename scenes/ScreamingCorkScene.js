@@ -197,7 +197,7 @@ export default class ScreamingCorkScene extends GameScene {
             topics.push({
                 id: 'board_games_war',
                 text: "The Board Game Wars",
-                description: "An ancient conflict where Ludarchs — game designers who could rewrite reality — destroyed entire cities as pawns in their games"
+                description: "An ancient conflict where Ludarchs (game designers who could rewrite reality) destroyed entire cities as pawns in their games"
             });
         }
 
@@ -445,12 +445,12 @@ export default class ScreamingCorkScene extends GameScene {
                 text: "Now that we have some topics to work with, what tone should the book have? I'm thinking about the emotional feel of it.",
                 hideCloseOption: true,
                 options: [
-                    { text: "Tragic — a tale of sorrow and loss", key: 'tragic_a_tale_of_sorrow_and_loss', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'tragic') },
-                    { text: "Metaphysical — exploring nature of reality", key: 'metaphysical_exploring_consciousness', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'metaphysical') },
-                    { text: "Romantic — focusing on connections", key: 'romantic_focusing_on_connections', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'romantic') },
-                    { text: "Existential — pondering meaning of life and mortality", key: 'existential_pondering_meaning_and_mortality', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'existential') },
-                    { text: "Political — examining power dynamics", key: 'political_examining_power_dynamics', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'political') },
-                    { text: "Comical — finding humor in the strange", key: 'comical_finding_humor_in_the_strange', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'comical') }
+                    { text: "Tragic: a tale of sorrow and loss", key: 'tragic_a_tale_of_sorrow_and_loss', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'tragic') },
+                    { text: "Metaphysical: exploring nature of reality", key: 'metaphysical_exploring_consciousness', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'metaphysical') },
+                    { text: "Romantic: focusing on connections", key: 'romantic_focusing_on_connections', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'romantic') },
+                    { text: "Existential: pondering meaning of life and mortality", key: 'existential_pondering_meaning_and_mortality', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'existential') },
+                    { text: "Political: examining power dynamics", key: 'political_examining_power_dynamics', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'political') },
+                    { text: "Comical: finding humor in the strange", key: 'comical_finding_humor_in_the_strange', next: "edgar_book_tone_selected", onSelect: () => this.setBookPick('tone', 'comical') }
                 ]
             },
             edgar_book_tone_selected: {
@@ -606,8 +606,8 @@ export default class ScreamingCorkScene extends GameScene {
             // A later visit: the manuscript has been going around the city, the first reactions are in
             edgar_book_news: {
                 text: book ? `${cs
-                    ? '*Edgarovi cuknou uši něčím nebezpečně blízkým hrdosti.* Koluje to. Půjčil jsem rukopis jednomu člověku a teď ho má přečtený půlka města – na přeskáčku a s fleky od kávy. Už mám první reakce:'
-                    : '*Edgar\'s ears twitch with something dangerously close to pride.* It\'s going around. I lent the manuscript to one person, and now half the city has read it — out of order, with coffee stains. The first reactions are in:'}\n\n${book.critics.join('\n')}` : '',
+                    ? '*Edgarovi cuknou uši něčím nebezpečně blízkým hrdosti.* Koluje to. Půjčil jsem rukopis jednomu člověku a teď ho má přečtený půlka města. Na přeskáčku a s fleky od kávy. Už mám první reakce:'
+                    : '*Edgar\'s ears twitch with something dangerously close to pride.* It\'s going around. I lent the manuscript to one person, and now half the city has read it. Out of order, with coffee stains. The first reactions are in:'}\n\n${book.critics.join('\n')}` : '',
                 options: [
                     { text: "Congratulations, Edgar.", key: 'congratulations_edgar', next: "edgar_start" },
                     { text: "Read me something from it again.", key: 'read_me_from_your_book', next: "edgar_book_reread" }
@@ -656,7 +656,7 @@ export default class ScreamingCorkScene extends GameScene {
             },
             edgar_jobs: {
         
-                text: "Bad timing, mostly. The Scraper took the Rust Choir and stopped being an official part of the city — no need for a janitor then. The other jobs... Well, being a mišutkenn doesn't help with job security in this city.",
+                text: "Bad timing, mostly. The Scraper took the Rust Choir and stopped being an official part of the city. No need for a janitor then. The other jobs... Well, being a mišutkenn doesn't help with job security in this city.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_background" }
                 ]
@@ -764,7 +764,7 @@ export default class ScreamingCorkScene extends GameScene {
                 }
             },
             edgar_vestigel_book_help: {
-                text: "Yes, you did offer to help with my book. A fair exchange — your help for the vestigel. I've been collecting ideas but haven't made much progress.",
+                text: "Yes, you did offer to help with my book. A fair exchange: your help for the vestigel. I've been collecting ideas but haven't made much progress.",
                 options: [
                     { text: "I'll make sure your book becomes a reality.", key: 'ill_make_sure_your_book_becomes_a_reality', next: "edgar_vestigel_thanks" }
                 ]

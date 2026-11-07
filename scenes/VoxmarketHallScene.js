@@ -20,11 +20,11 @@ export default class VoxmarketHallScene extends GameScene {
                 speaker: 'Hesh & Vell',
                 textKey: metTwins ? 'twins_start_no_auction_return' : 'twins_start_no_auction_first',
                 text: metTwins
-                    ? `"Back again?" says Hesh, and Vell's lips trail half a beat behind. "No auction today, I'm afraid — the hall is dark, the lots locked away. Come back when the Voxmarket calls the next sale. You'll know when. Everyone does."`
-                    : `"The hall is closed for bidding," says Hesh — and Vell forms the words a half-second behind, the echo unsettling in the empty room. "We are Hesh, and Vell. We conduct the auctions... when there are auctions. There is none today." Both twins tilt their heads in unison. "Come back when the Voxmarket calls a sale."`,
+                    ? `"Back again?" says Hesh, and Vell's lips trail half a beat behind. "No auction today, I'm afraid. The hall is dark, the lots locked away. Come back when the Voxmarket calls the next sale. You'll know when. Everyone does."`
+                    : `"The hall is closed for bidding," says Hesh. Vell forms the words a half-second behind, the echo unsettling in the empty room. "We are Hesh, and Vell. We conduct the auctions... when there are auctions. There is none today." Both twins tilt their heads in unison. "Come back when the Voxmarket calls a sale."`,
                 options: [
                     { text: "How does the auction work?", key: 'how_does_the_auction_work', next: "twins_auction_rules" },
-                    { text: "Why do you do that — the delayed mouthing?", key: 'why_do_you_do_that_the_delayed_mouthing', next: "twins_echo" },
+                    { text: "Why do you do that, the delayed mouthing?", key: 'why_do_you_do_that_the_delayed_mouthing', next: "twins_echo" },
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('met_hesh_vell')) {
@@ -41,7 +41,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_auction_rules: {
                 speaker: 'Hesh & Vell',
-                text: `"The rules are simple," says Hesh. Vell's lips follow. "Lots are presented one by one. Bidding starts at the listed price. Raise your hand to bid. Highest bidder when we call 'Settled' wins the lot.\n\nPayment is immediate. Gold only — no barter, no vestigels, no promises. If you can't pay, you leave. If you cause a scene, you leave faster.\n\nThe pre-auction social period is just as important. Know your competition. Make friends. Or make them nervous."`,
+                text: `"The rules are simple," says Hesh. Vell's lips follow. "Lots are presented one by one. Bidding starts at the listed price. Raise your hand to bid. Highest bidder when we call 'Settled' wins the lot.\n\nPayment is immediate. Gold only: no barter, no vestigels, no promises. If you can't pay, you leave. If you cause a scene, you leave faster.\n\nThe pre-auction social period is just as important. Know your competition. Make friends. Or make them nervous."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },
                 ]
@@ -49,7 +49,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_echo: {
                 speaker: 'Hesh & Vell',
-                text: `"Do what?" says Hesh. Vell mouths "Do what?" precisely on delay. They look at each other — Hesh with a slight smirk, Vell with the ghost of the same smirk half a second later.\n\n"We've always been like this," Hesh says. "Born half a second apart. Lived half a second apart. Will probably die half a second apart. It's not an affectation — it's a condition.\n\nAlso, it makes our auction pacing impossible to interrupt. By the time you've processed what I've said, Vell has already reinforced it. Very effective for driving up bids."`,
+                text: `"Do what?" says Hesh. Vell mouths "Do what?" precisely on delay. They look at each other, Hesh with a slight smirk, Vell with the ghost of the same smirk half a second later.\n\n"We've always been like this," Hesh says. "Born half a second apart. Lived half a second apart. Will probably die half a second apart. It's not an affectation. It's a condition.\n\nAlso, it makes our auction pacing impossible to interrupt. By the time you've processed what I've said, Vell has already reinforced it. Very effective for driving up bids."`,
                 options: [
                     { text: "That's... honestly unsettling.", key: 'thats_honestly_unsettling', next: "twins_unsettling" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },
@@ -58,7 +58,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_unsettling: {
                 speaker: 'Hesh & Vell',
-                text: `"Thank you," they say — and for once, perfectly in unison. Then the delay resumes.\n\n"Unsettling is good for business," Hesh adds. "A nervous bidder is a generous bidder."`,
+                text: `"Thank you," they say. For once, perfectly in unison. Then the delay resumes.\n\n"Unsettling is good for business," Hesh adds. "A nervous bidder is a generous bidder."`,
                 options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },
                 ]

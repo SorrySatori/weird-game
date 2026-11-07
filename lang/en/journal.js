@@ -6,15 +6,15 @@ export default {
     journal: {
         temple_guard_meeting: {
             title: 'The Temple Guard',
-            description: 'At the gate of the Egg Cathedral stands a guard who lets no one in. The cathedral is closed until further notice — the yolk, he says, sleeps uneasily.',
+            description: 'At the gate of the Egg Cathedral stands a guard who lets no one in. The cathedral is closed until further notice; the yolk, he says, sleeps uneasily.',
         },
         learned_digestions: {
             title: 'Counting in Digestions',
-            description: 'The Sentinel at the Egg Cathedral counts time in digestions of the Stomach Clock — he has stood at his post for three thousand of them. The city stopped counting years when the Tally-Keeper died. A digestion runs a little longer than a day and drifts against the sun; six make a week, three hundred make a year.',
+            description: 'The Sentinel at the Egg Cathedral counts time in digestions of the Stomach Clock. He has stood at his post for three thousand of them. The city stopped counting years when the Tally-Keeper died. A digestion runs a little longer than a day and drifts against the sun; six make a week, three hundred make a year.',
         },
         heard_stomach_clock: {
             title: 'The Stomach Clock',
-            description: 'Thaal told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock. Some say it is the real stomach of the first god who came to the city to die, others that it\'s just a poor copy of a clock from some other town. Either way, its bile is sacred — and reportedly healthy.',
+            description: 'Thaal told me about the Stomach Clock at the townhall: a biomechanical chamber shaped like a digestive clock. Some say it is the real stomach of the first god who came to the city to die, others that it\'s just a poor copy of a clock from some other town. Either way, its bile is sacred (and reportedly healthy).',
         },
         obazoba_cult: {
             title: 'Obazoba Cult',
@@ -22,11 +22,11 @@ export default {
         },
         place_crossroads: {
             title: 'The Crossroads',
-            description: "The city's streets meet here, around the body of a giant. It has lain here a long time, yet it doesn't smell — it hardly even looks dead. The locals walk past it as if it were a monument. From here the ways lead to the Shed, the Voxmarket, the Scraper and the Egg Cathedral.",
+            description: "The city's streets meet here, around the body of a giant. It has lain here a long time, yet it doesn't smell; it hardly even looks dead. The locals walk past it as if it were a monument. From here the ways lead to the Shed, the Voxmarket, the Scraper and the Egg Cathedral.",
         },
         place_shed_521: {
             title: 'Shed 521',
-            description: "An old warehouse in a former shipping yard that grew into an office: the Bureau of Shapes. People come here to register the shape they are in, or to apply to change it. Queues, counters and forms on three floors — and the paperwork seems to grow on its own.",
+            description: "An old warehouse in a former shipping yard that grew into an office: the Bureau of Shapes. People come here to register the shape they are in, or to apply to change it. Queues, counters and forms on three floors. The paperwork seems to grow on its own.",
         },
         place_voxmarket: {
             title: 'The Voxmarket',
@@ -38,7 +38,7 @@ export default {
         },
         place_egg_cathedral: {
             title: 'The Egg Cathedral',
-            description: "A cathedral growing out of a gigantic egg — or still hatching from it. The shell glows faintly from within, as if something inside were breathing.",
+            description: "A cathedral growing out of a gigantic egg, or still hatching from it. The shell glows faintly from within, as if something inside were breathing.",
         },
         place_burning_bear_street: {
             title: 'Burning Bear Street',
@@ -46,7 +46,7 @@ export default {
         },
         upper_morkezela: {
             title: 'Upper Morkezela',
-            description: 'They call it a city, but Upper Morkezela may be nothing more than a dream of a city. Nobody built its streets — they came in with the dying gods and stayed.',
+            description: 'They call it a city, but Upper Morkezela may be nothing more than a dream of a city. Nobody built its streets; they came in with the dying gods and stayed.',
         },
         fungal_apprentice: {
             title: 'Fungal Apprentice',
@@ -62,11 +62,11 @@ export default {
         },
         spores_lore: {
             title: 'The Spores',
-            description: 'I know spores — they are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. Above ground, under open sky, Thaal says they thin and drift and get into everything. This city holds creatures that feed on spores, and others who would buy them off me or find their own uses for them. I should go sparingly with the ones I carry and watch my levels: they replenish slowly and with difficulty, though there may be ways to hasten it.',
+            description: 'I know spores. They are my own, the god\'s breath I grew up breathing in Obazoba\'s underground temple. Above ground, under open sky, Thaal says they thin and drift and get into everything. This city holds creatures that feed on spores, and others who would buy them off me or find their own uses for them. I should go sparingly with the ones I carry and watch my levels: they replenish slowly and with difficulty, though there may be ways to hasten it.',
         },
         symbionts_lore: {
             title: 'Symbionts',
-            description: 'I have only ever read of symbionts; I carry none. They are living things a cultist invites into their own flesh — each with a voice and a gift (the thought behind a face, the words of the dead), their abilities amazing or utterly peculiar. Found in the city\'s odd corners, they can be taken in, and they react to the balance: some strengthen in Growth and fall silent in Decay, others the reverse.',
+            description: 'I have only ever read of symbionts; I carry none. They are living things a cultist invites into their own flesh, each with a voice and a gift (the thought behind a face, the words of the dead), their abilities amazing or utterly peculiar. Found in the city\'s odd corners, they can be taken in, and they react to the balance: some strengthen in Growth and fall silent in Decay, others the reverse.',
         },
         symbiont_thorne_still_offered: {
             title: 'Encountered Thorne-Still',
@@ -74,7 +74,7 @@ export default {
         },
         crossroad_corpse_spores_planted: {
             title: 'Planted Spores in the Crossroad Corpse',
-            description: "I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth — and I noticed something up above it.",
+            description: "I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth. And I noticed something up above it.",
             facts: {
                 skyship: "The growth has opened a path up to a skyship hanging above the crossroads.",
             },
@@ -97,12 +97,12 @@ export default {
             title: 'The Scraper',
             description: "Scraper 1140: a crooked skyscraper towering over the city. It used to be an office tower; now every floor lives a life of its own, and nobody seems quite sure how many floors there are.",
             facts: {
-                nexicorp: "The Lift-Mother says it was once Nexicorp Tower — forty-two floors of commerce and ambition. Now the lower floors house those who remember the old ways, the middle floors have gone wild with growth, and the upper floors belong to the Rust Choir.",
+                nexicorp: "The Lift-Mother says it was once Nexicorp Tower: forty-two floors of commerce and ambition. Now the lower floors house those who remember the old ways, the middle floors have gone wild with growth, and the upper floors belong to the Rust Choir.",
             },
         },
         lift_mother_meeting: {
             title: 'The Lift-Mother',
-            description: 'Within the Scraper building, I encountered a most unusual consciousness — an elevator calling itself the "Lift-Mother". Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time", whatever that means, and seems to have developed sentience through centuries of carrying passengers between floors.',
+            description: 'Within the Scraper building, I encountered a most unusual consciousness: an elevator calling itself the "Lift-Mother". Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time", whatever that means, and seems to have developed sentience through centuries of carrying passengers between floors.',
         },
         accessed_elphi_floor: {
             title: "Dr. Elphi's Studio — Floor 177-Quiet",
@@ -114,7 +114,7 @@ export default {
         },
         dream_queue: {
             title: 'The Eternal Queue of Shed 521',
-            description: 'I witnessed something unsettling in the Registration Office of Shed 521 — a queue of translucent figures waiting in a line that never seems to move. They look like ghosts of applicants, condemned to wait for eternity. There is no clerk behind the desk. None of them speak unless spoken to, and the air around them feels like a half-remembered dream.',
+            description: 'I witnessed something unsettling in the Registration Office of Shed 521: a queue of translucent figures waiting in a line that never seems to move. They look like ghosts of applicants, condemned to wait for eternity. There is no clerk behind the desk. None of them speak unless spoken to, and the air around them feels like a half-remembered dream.',
         },
         dream_queue_completed: {
             title: 'Registration Office Visit',
@@ -126,7 +126,7 @@ export default {
         },
         extra_symbiont_slot_purchased: {
             title: 'Extra Symbiont Slot',
-            description: 'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward — just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
+            description: 'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward: just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
         },
         gnur_meeting: {
             title: "Gnur",
@@ -139,8 +139,8 @@ export default {
             title: "The Rust Choir",
             description: "The Rust Choir is one of the factions that hold sway in Upper Morkezela.",
             facts: {
-                machines: "Gnur says they sing to the machines — to keep some awake and lull others to sleep, depending on the situation.",
-                entropy: "They celebrate entropy — collapse as transformation — and like to trade in secrets, above all old tech. Brukk's people can be found in the old Scraper.",
+                machines: "Gnur says they sing to the machines to keep some awake and lull others to sleep, depending on the situation.",
+                entropy: "They celebrate entropy (collapse as transformation) and like to trade in secrets, above all old tech. Brukk's people can be found in the old Scraper.",
                 brukk: "Their leader is Brukk, the keeper of the old tech.",
                 any_means: "Their methods are questionable: Gnur still wants the living core, even though the clerk says Shed 521 depends on it. The Choir seems willing to get old tech by any means necessary.",
             },
@@ -151,9 +151,9 @@ export default {
         },
         board_games_war: {
             title: 'The Board Game Wars',
-            description: "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. The Ludarchs — game designers who could bend the rules of reality — became the new rulers, but grew drunk on power: their games swallowed whole cities, and they created living miniature worlds just to sacrifice them as pieces. Millions of tiny sentient beings died as pawns.",
+            description: "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. The Ludarchs (game designers who could bend the rules of reality) became the new rulers, but grew drunk on power: their games swallowed whole cities, and they created living miniature worlds just to sacrifice them as pieces. Millions of tiny sentient beings died as pawns.",
             facts: {
-                ortolan: "Ortolan was a worldwright: he made the boards and carved the pieces that became living beings — and he still carries the guilt.",
+                ortolan: "Ortolan was a worldwright: he made the boards and carved the pieces that became living beings. He still carries the guilt.",
                 end: "In the end the Ludarchs turned on each other; reality fractured and the cities were left broken.",
                 survivor: "One Ludarch is said to be still alive and active in Upper Morkezela.",
             },
@@ -162,8 +162,8 @@ export default {
             title: "Kloor Venn",
             description: 'In Voxmarket, I encountered Kloor Venn.',
             facts: {
-                entrepreneur: "He calls himself a \"pharmaceutical entrepreneur\" — he deals in specialized substances that expand the mind.",
-                oltrac: "His speciality is Oltrac, a psychoactive drug — and he is keen to buy my fungal spores as raw material for it.",
+                entrepreneur: "He calls himself a \"pharmaceutical entrepreneur\"; he deals in specialized substances that expand the mind.",
+                oltrac: "His speciality is Oltrac, a psychoactive drug. He is keen to buy my fungal spores as raw material for it.",
             },
         },
         kloor_vestigel_exchange: {
@@ -178,12 +178,12 @@ export default {
             title: "The Ink Tribunal",
             description: "The Ink Tribunal is one of the factions that hold sway in Upper Morkezela.",
             facts: {
-                neutrality: "A clerk at Shed 521 called the Tribunal the guardian of neutrality, keeping peace and order in the city. Some of its people collect unique items — but never sell them.",
+                neutrality: "A clerk at Shed 521 called the Tribunal the guardian of neutrality, keeping peace and order in the city. Some of its people collect unique items, but never sell them.",
             },
         },
         forgotten_elevator_button_available: {
             title: "Mysterious Button at Zerren's Shop",
-            description: "Zerren has a new item on her stall: a Forgotten Elevator Button with odd markings, for a floor that doesn't officially exist. Maybe it's my way up to Dr. Elphi's studio in Scraper 1140 — where the Bishop was headed.",
+            description: "Zerren has a new item on her stall: a Forgotten Elevator Button with odd markings, for a floor that doesn't officially exist. Maybe it's my way up to Dr. Elphi's studio in Scraper 1140, where the Bishop was headed.",
         },
         heliodor_lore: {
             title: 'Heliodor Donjon Vaalstran',
@@ -201,7 +201,7 @@ export default {
             title: 'The Lumen Directorate',
             description: "The Lumen Directorate is a powerful faction dedicated to the fusion of mind and flora. They are keepers and protectors of everything that grows, acting as guardians of life itself.",
             facts: {
-                specimens: "Their people go on missions to gather rare specimens — Captain Liris is on one now.",
+                specimens: "Their people go on missions to gather rare specimens; Captain Liris is on one now.",
             },
         },
         floor_counter_tool: {
@@ -216,7 +216,7 @@ export default {
             title: "Edgar Eskola of the Screaming Cork",
             description: "I met Edgar Eskola, a bear-like patron at the Screaming Cork.",
             facts: {
-                misutkenn: "He is a mišutkenn — and, he says, most people avoid his kind if they can help it.",
+                misutkenn: "He is a mišutkenn. Most people, he says, avoid his kind if they can help it.",
                 exiled: "The city's founders drove his ancestors from the Remaper Hills; his kind are tolerated here, at best.",
             },
         },
@@ -247,7 +247,7 @@ export default {
         },
         noise_god_insight: {
             title: 'Noise God Insight',
-            description: 'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback — not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here a long time ago. He may be forgotten, but the noise is still alive.',
+            description: 'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback, not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here a long time ago. He may be forgotten, but the noise is still alive.',
         },
         feral_toast_first_visit: {
             title: 'Feral Toast Rehearsal',
@@ -255,13 +255,13 @@ export default {
         },
         met_hesh_vell: {
             title: 'The Twin Auctioneers: Hesh & Vell',
-            description: 'Met the twin auctioneers at the Voxmarket Auction Hall. One speaks, the other mouths the same words half a second late. Their synchronization is unsettling and precise — and likely deliberate. They run the auction together.',
+            description: 'Met the twin auctioneers at the Voxmarket Auction Hall. One speaks, the other mouths the same words half a second late. Their synchronization is unsettling and precise, and likely deliberate. They run the auction together.',
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
             description: "Dr. Elphi Quarn works alone on floor 177-Quiet of the Scraper, in a studio called ARB Ambra, where she makes dream games. Smart, cautious, and outspoken.",
             facts: {
-                dreams: "She designs dreams — neurofiction, dream architecture.",
+                dreams: "She designs dreams: neurofiction, dream architecture.",
                 bishop_visits: "The Bishop came to her often, always to play, never for politics.",
                 skyship_game: "She's building a colossal skyship for a new game, but her imaginators keep dreaming in a giant hen, conspiring cabbages and chocolate cats.",
             },
@@ -270,7 +270,7 @@ export default {
             title: 'Ravla',
             description: "Ravla keeps a corner of the Screaming Cork and calls herself an artist of sorts. She likes it there: it's quiet, and the authorities keep their distance. Sharp-eyed, unsentimental, and unmoved by charm.",
             facts: {
-                forger: "She forges documents — papers for anyone who can pay, no questions asked.",
+                forger: "She forges documents: papers for anyone who can pay, no questions asked.",
                 rust_choir: "She speaks for the Rust Choir: nobody gets to Brukk or the machines without going through her, and she wants proof of loyalty first.",
             },
         },
@@ -278,8 +278,8 @@ export default {
             title: 'The Screaming Cork',
             description: "An old, dim tavern. A many-faced figure tends the bar, a woman works at a desk in the corner, and from somewhere past the back room comes a band rehearsing something that isn't quite music.",
             facts: {
-                oldest: "Its owner claims it was the first building raised after the Collapse. Heliodor doubts it, but the place is certainly old — a good place to disappear for a while.",
-                heliodor: "The barkeep is Heliodor — many creatures wearing a single name.",
+                oldest: "Its owner claims it was the first building raised after the Collapse. Heliodor doubts it, but the place is certainly old. A good place to disappear for a while.",
+                heliodor: "The barkeep is Heliodor: many creatures wearing a single name.",
                 ravla: "The woman in the corner is Ravla, and she forges papers.",
                 feral_toast: "The band out back is called Feral Toast.",
             },

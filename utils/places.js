@@ -7,11 +7,11 @@
 const PLACES = {
     place_crossroads: {
         title: 'The Crossroads',
-        text: "The city's streets meet here, around the body of a giant. It has lain here a long time, yet it doesn't smell — it hardly even looks dead. The locals walk past it as if it were a monument. From here the ways lead to the Shed, the Voxmarket, the Scraper and the Egg Cathedral.",
+        text: "The city's streets meet here, around the body of a giant. It has lain here a long time, yet it doesn't smell; it hardly even looks dead. The locals walk past it as if it were a monument. From here the ways lead to the Shed, the Voxmarket, the Scraper and the Egg Cathedral.",
     },
     place_shed_521: {
         title: 'Shed 521',
-        text: "An old warehouse in a former shipping yard that grew into an office: the Bureau of Shapes. People come here to register the shape they are in, or to apply to change it. Queues, counters and forms on three floors — and the paperwork seems to grow on its own.",
+        text: "An old warehouse in a former shipping yard that grew into an office: the Bureau of Shapes. People come here to register the shape they are in, or to apply to change it. Queues, counters and forms on three floors. The paperwork seems to grow on its own.",
     },
     place_voxmarket: {
         title: 'The Voxmarket',
@@ -23,7 +23,7 @@ const PLACES = {
     },
     place_egg_cathedral: {
         title: 'The Egg Cathedral',
-        text: "A cathedral growing out of a gigantic egg — or still hatching from it. The shell glows faintly from within, as if something inside were breathing.",
+        text: "A cathedral growing out of a gigantic egg, or still hatching from it. The shell glows faintly from within, as if something inside were breathing.",
     },
     place_burning_bear_street: {
         title: 'Burning Bear Street',

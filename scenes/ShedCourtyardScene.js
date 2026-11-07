@@ -42,7 +42,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             who_are_you: {
         
-                text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of the Board Game Wars. My creations are literally microcosmic games — wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might have heard some call me conservative, merely because I reject illusion-tech and mindplay; their makers are usually morally unstable. Players are gods, but rules are sacred.",
+                text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of the Board Game Wars. My creations are literally microcosmic games: wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might have heard some call me conservative, merely because I reject illusion-tech and mindplay; their makers are usually morally unstable. Players are gods, but rules are sacred.",
                 options: [
                     { text: "Why do you need extra arms?", key: 'why_do_you_need_extra_arms', next: "explain_need" },
                     { text: "The Board Game Wars? What do you mean?", key: 'table_top_divination_wars_what_do_you_mean', next: "divination_wars" },
@@ -96,7 +96,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             give_deformity_form: {
-                text: "An Inherited Deformity Form? Hmm, not exactly how I'd describe my need for extra arms, but... it's approved! 'Beneficial mutation status' — I suppose that works. The classification is a bit insulting, but the result is what matters. Thank you for your help!",
+                text: "An Inherited Deformity Form? Hmm, not exactly how I'd describe my need for extra arms, but... it's approved! 'Beneficial mutation status.' I suppose that works. The classification is a bit insulting, but the result is what matters. Thank you for your help!",
                 options: [
                     { text: "It's what I could get.", key: 'its_what_i_could_get', next: "complete_quest_deformity" }
                 ]
@@ -116,7 +116,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             // Quest completion dialogs with rewards
             complete_quest_artisan: {
-                text: "You've done me an incredible service! This form is exactly what I needed. As thanks, please take the prototype of my latest game — Sects & Stakes. You found your own sect in it. The part where your most devoted follower splits off and starts an ultra-orthodox wing inside your sect isn't quite balanced yet. But the cats came out beautifully. Make them the object of worship and you're halfway to winning.",
+                text: "You've done me an incredible service! This form is exactly what I needed. As thanks, please take the prototype of my latest game, Sects & Stakes. You found your own sect in it. The part where your most devoted follower splits off and starts an ultra-orthodox wing inside your sect isn't quite balanced yet. But the cats came out beautifully. Make them the object of worship and you're halfway to winning.",
                 options: [
                     { text: "Thank you, I'll treasure it.", key: 'thank_you_ill_treasure_it', next: "quest_completed" }
                 ],
@@ -131,7 +131,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             complete_quest_deformity: {
         
-                text: "Well, it's not exactly how I'd describe myself, but it gets the job done! Thank you for your help. Here — speaking of beneficial mutations: a shark with legs. Hardly any fins left. I can't remember where I got it... some board game about vampires and demons, I think. Don't ask me what a shark was doing in it. The whole thing was pretty unhinged — I remember there was also a figure of a guy with a cheese.",
+                text: "Well, it's not exactly how I'd describe myself, but it gets the job done! Thank you for your help. Here. Speaking of beneficial mutations: a shark with legs. Hardly any fins left. I can't remember where I got it... some board game about vampires and demons, I think. Don't ask me what a shark was doing in it. The whole thing was pretty unhinged. I remember there was also a figure of a guy with a cheese.",
                 options: [
                     { text: "Thank you for this gift.", key: 'thank_you_for_this_gift', next: "quest_completed" }
                 ],
@@ -145,7 +145,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             complete_quest_dispensation: {
-                text: "This is remarkable! A special dispensation is rare indeed. You've saved me hundreds of digestions, possibly thousands, of bureaucratic struggle. Here — the rarest thing I own. A Black Cactus, from Absolutely Profane Life: Normality. Once the most expensive card in the game; collectors paid millions of dinars for it at auction. Today it's worth nothing — the makers got so greedy that everyone quit playing. I kept it out of nostalgia. Now it's yours.",
+                text: "This is remarkable! A special dispensation is rare indeed. You've saved me hundreds of digestions, possibly thousands, of bureaucratic struggle. Here, the rarest thing I own. A Black Cactus, from Absolutely Profane Life: Normality. Once the most expensive card in the game; collectors paid millions of dinars for it at auction. Today it's worth nothing. The makers got so greedy that everyone quit playing. I kept it out of nostalgia. Now it's yours.",
                 options: [
                     { text: "It's beautiful, thank you.", key: 'its_beautiful_thank_you', next: "quest_completed" }
                 ],
@@ -160,7 +160,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             complete_quest_temporary: {
         
-                text: "It's not ideal, but it's a start! I appreciate your efforts. Here — a collectible Maxim Hopsalot, patron of Lagerlandia. In the original packaging! Well... it originally came with a six-pack. Better not ask about the six-pack.",
+                text: "It's not ideal, but it's a start! I appreciate your efforts. Here. A collectible Maxim Hopsalot, patron of Lagerlandia. In the original packaging! Well... it originally came with a six-pack. Better not ask about the six-pack.",
                 options: [
                     { text: "Thank you for the figurine.", key: 'thank_you_for_the_figurine', next: "quest_completed" }
                 ],
@@ -182,7 +182,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             forged_reaction: {
-                text: "Well, I suppose I shouldn't look a gift horse in the mouth. This will certainly do the trick — the bureaucrats barely look at these forms anyway. They just check for the right seals and stamps. Though using a forgery does feel... morally questionable.",
+                text: "Well, I suppose I shouldn't look a gift horse in the mouth. This will certainly do the trick. The bureaucrats barely look at these forms anyway. They just check for the right seals and stamps. Though using a forgery does feel... morally questionable.",
                 options: [
                     { text: "It's for a good cause.", key: 'its_for_a_good_cause', next: "complete_quest_forged" },
                     { text: "Sorry about that.", key: 'sorry_about_that', next: "complete_quest_forged" }
@@ -190,7 +190,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             complete_quest_forged: {
         
-                text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here — Apocalypse Cop. A detective with a Tequila Sunrise in his hand. Not one of mine; someone else made that game. I'm especially fond of him. He reminds me of the years after the Ludarchs fell, when I... drank. A lot. Take him. I have a feeling you'll need him more than I do.",
+                text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here: Apocalypse Cop. A detective with a Tequila Sunrise in his hand. Not one of mine; someone else made that game. I'm especially fond of him. He reminds me of the years after the Ludarchs fell, when I... drank. A lot. Take him. I have a feeling you'll need him more than I do.",
                 options: [
                     { text: "Thank you for the gift.", key: 'thank_you_for_the_gift', next: "quest_completed" }
                 ],
@@ -222,13 +222,13 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             ortolan_board_wars: {
-                text: `Ahh... you want to know about that. Most people don't ask anymore — they'd rather forget." He lowers his voice. "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. At first, it worked beautifully. The best designers — the Ludarchs — became the new rulers. I was just a worldwright back then, a craftsman who made the boards and pieces. The Ludarchs were something else entirely. They could bend the rules of reality itself. Create entire living worlds inside their games. Miniature civilizations, born and destroyed in a single match.`,
+                text: `Ahh... you want to know about that. Most people don't ask anymore. They'd rather forget." He lowers his voice. "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. At first, it worked beautifully. The best designers, the Ludarchs, became the new rulers. I was just a worldwright back then, a craftsman who made the boards and pieces. The Ludarchs were something else entirely. They could bend the rules of reality itself. Create entire living worlds inside their games. Miniature civilizations, born and destroyed in a single match.`,
                 options: [
                     { text: "What went wrong?", key: 'what_went_wrong', next: "ortolan_board_wars_fall" }
                 ]
             },
             ortolan_board_wars_fall: {
-                text: `Power. Same thing that always goes wrong. The Ludarchs stopped playing to settle disputes and started playing to dominate. Each game grew larger, more real. The pieces became populations. The boards became cities. Millions lived and died inside those games — tiny creatures who didn't even know they were pawns." He stares at his hands. "I made some of those boards. I carved the pieces that became living beings. Do you understand what that feels like? To know your craft was used to create life just so it could be sacrificed for a victory point?`,
+                text: `Power. Same thing that always goes wrong. The Ludarchs stopped playing to settle disputes and started playing to dominate. Each game grew larger, more real. The pieces became populations. The boards became cities. Millions lived and died inside those games, tiny creatures who didn't even know they were pawns." He stares at his hands. "I made some of those boards. I carved the pieces that became living beings. Do you understand what that feels like? To know your craft was used to create life just so it could be sacrificed for a victory point?`,
                 options: [
                     { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
                     { text: "How did it end?", key: 'how_did_it_end', next: "ortolan_board_wars_end" }
@@ -250,7 +250,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             ortolan_board_wars_why: {
-                text: `Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve — it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He taps the board beside him. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch.`,
+                text: `Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve: it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He taps the board beside him. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch.`,
                 options: [
                     { text: "That's a noble purpose.", key: 'thats_a_noble_purpose', next: "goodbye" },
                     { text: "Thank you for sharing, Ortolan.", key: 'thank_you_for_sharing_ortolan', next: "goodbye" }

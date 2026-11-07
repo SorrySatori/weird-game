@@ -315,7 +315,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainDanger: {
-                text: "Ha! Life without risk is no life at all. Yes, there are dangers here—storm trees that could swallow us whole, predatory flying blackberries that hunt in the heights, and other horrors. But the freedom of the skies... that's worth any risk.",
+                text: "Ha! Life without risk is no life at all. Yes, there are dangers here: storm trees that could swallow us whole, predatory flying blackberries that hunt in the heights, and other horrors. But the freedom of the skies... that's worth any risk.",
                 options: [
                     {
                         text: 'Ask something else',
@@ -379,7 +379,7 @@ export default class SkyshipBoardScene extends GameScene {
             // DEMO_BUILD: the main square and the Directorate aren't in the demo -- Liris says so, in character, and the
             // quest log keeps it (like Ravla's aside about the Rust Feast)
             captainDirectorateDemo: {
-                text: "*Liris hesitates, then lowers her voice.* \"Before you go looking — you won't get there this time. The main square, the Directorate, half the city past it: none of it is open yet. A demo, the dockhands call this version of the city. I can't fly you to a district that hasn't been built.\" *She taps the rail.* \"Hold on to the idea, though. When the rest of the city opens, the Directorate will be there — and so will the Verdigrace.\"",
+                text: "*Liris hesitates, then lowers her voice.* \"Before you go looking — you won't get there this time. The main square, the Directorate, half the city past it: none of it is open yet. A demo, the dockhands call this version of the city. I can't fly you to a district that hasn't been built.\" *She taps the rail.* \"Hold on to the idea, though. When the rest of the city opens, the Directorate will be there. And so will the Verdigrace.\"",
                 options: [
                     { text: "I'll remember that.", key: 'ill_remember_that', next: 'captainMain' }
                 ],
@@ -388,7 +388,7 @@ export default class SkyshipBoardScene extends GameScene {
                 }
             },
             captainCargo: {
-                text: "Primarily rare spores and mycelia that can't be cultivated in the city. Specialized symbiont strains, crystallized growth enzymes, decay-resistant building materials. We also carry messages between the scattered aerial colonies and research stations. Information is perhaps our most valuable cargo—knowledge that would never reach the ground otherwise.",
+                text: "Primarily rare spores and mycelia that can't be cultivated in the city. Specialized symbiont strains, crystallized growth enzymes, decay-resistant building materials. We also carry messages between the scattered aerial colonies and research stations. Information is perhaps our most valuable cargo, knowledge that would never reach the ground otherwise.",
                 options: [
                     {
                         text: 'Do you have anything to trade?',
@@ -406,7 +406,7 @@ export default class SkyshipBoardScene extends GameScene {
                 }
             },
             captainTrade: {
-                text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected any goods yet. Return after we've made our first circuit—perhaps in a few cycles—and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
+                text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected any goods yet. Return after we've made our first circuit (perhaps in a few cycles) and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
                 options: [
                     {
                         text: 'Ask something else',
@@ -417,7 +417,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainElevator: {
-                text: "An elevator system, you say? Ah, you must be referring to one of those ancient vertical transport mechanisms in the city's towers. Those old systems are fascinating—a blend of mechanical engineering and early symbiotic technology. What seems to be the issue?",
+                text: "An elevator system, you say? Ah, you must be referring to one of those ancient vertical transport mechanisms in the city's towers. Those old systems are fascinating: a blend of mechanical engineering and early symbiotic technology. What seems to be the issue?",
                 options: [
                     {
                         text: 'The floor counter is broken.',
@@ -468,7 +468,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainGivesTool: {
-                text: "Of course you can! I always carry spares—you never know when you'll need to repair something mid-flight. Here, take this calibration module. It's simple to use: just attach it to the maintenance panel of the elevator system, and it will automatically recalibrate the floor counter. The drones inside will do all the work.",
+                text: "Of course you can! I always carry spares. You never know when you'll need to repair something mid-flight. Here, take this calibration module. It's simple to use: just attach it to the maintenance panel of the elevator system, and it will automatically recalibrate the floor counter. The drones inside will do all the work.",
                 options: [
                     {
                         text: 'Thank you!',

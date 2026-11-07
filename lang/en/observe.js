@@ -7,7 +7,7 @@ export default {
     observe: {
         crossroads: {
             hint: 'The Crossroads',
-            default: "Four roads, and every one of them leads somewhere that wants something from me — the Shed, the Voxmarket, the Scraper. A dead giant makes a poor signpost, but definitely memorable.",
+            default: "Four roads, and every one of them leads somewhere that wants something from me: the Shed, the Voxmarket, the Scraper. A dead giant makes a poor signpost, but definitely memorable.",
             overgrown: "The junction's greening over. Roots have found the seams between the cobbles and decided the roads belong to them now. Give it a season and there won't be a visible piece of the road.",
             planted: "I put spores in the dead giant, and the crossroads have changed. Whatever's pushing up through the stones now, I started it. I try not to think about what it'll be when it's finished.",
         },
@@ -17,7 +17,7 @@ export default {
         },
         egg_cathedral_approach: {
             hint: 'Egg Cathedral',
-            default: "A cathedral growing from a giant egg — a dome of shell where the roof should be. Something here is very close to being born, and the architecture is just the nest it settled for.",
+            default: "A cathedral growing from a giant egg. A dome of shell where the roof should be. Something here is very close to being born, and the architecture is just the nest it settled for.",
         },
         scraper: {
             hint: 'Scraper 1140',
@@ -32,7 +32,7 @@ export default {
         voxmarket: {
             hint: 'The Voxmarket',
             default: "Every stall here sells something that used to be alive, and the vendors haggle in a dozen dialects. If a thing makes some sound in Upper Morkezela, someone at the Voxmarket has a price for it.",
-            knows_vestigels: "Somewhere in this racket the alive-coins change hands — Vestigels, worth more than gold and stranger than economics itself. Kloor would give his teeth to study one.",
+            knows_vestigels: "Somewhere in this racket the alive-coins change hands: Vestigels, worth more than gold and stranger than economics itself. Kloor would give his teeth to study one.",
         },
         shed_pipes: {
             hint: 'Shed 521',
@@ -40,8 +40,8 @@ export default {
         },
         skyship_board: {
             hint: 'The Skyship Board',
-            default: "A cold wind is blowing aboard the airship Verdigrace, but the view is breathtaking. All around, strange devices are ticking away — though they don't seem to be mechanical in origin; they look as if they've been grown.",
-            knows: "I took the floor-counter from here — the one instrument honest enough to admit the Scraper has floors that shouldn't exist.",
+            default: "A cold wind is blowing aboard the airship Verdigrace, but the view is breathtaking. All around, strange devices are ticking away, though they don't seem to be mechanical in origin; they look as if they've been grown.",
+            knows: "I took the floor-counter from here. It's the one instrument honest enough to admit the Scraper has floors that shouldn't exist.",
         },
     },
 };

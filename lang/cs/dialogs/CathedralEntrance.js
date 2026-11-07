@@ -59,7 +59,7 @@ export default {
         }
     },
     bishop_info: {
-        text: "Uvnitř není, jestli v to doufáš. Touhle branou neprošla už spoustu trávení. Pravděpodobně na Voxmarketu nebo poblíž Boudy 521. Hledej dveře, které jsou zavřené – dokud se neotevřou.",
+        text: "Uvnitř není, jestli v to doufáš. Touhle branou neprošla už spoustu trávení. Pravděpodobně na Voxmarketu nebo poblíž Boudy 521. Hledej dveře, které jsou zavřené. Dokud se neotevřou.",
         options: {
             ask_something_else: "Zeptej se na něco jiného",
             what_is_the_voxmarket: "Co je Voxmarket?",

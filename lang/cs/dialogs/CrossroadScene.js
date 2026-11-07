@@ -40,7 +40,7 @@ export default {
         }
     },
     acceptSymbiont: {
-        text: 'Když rozřízneš hlavu mrtvoly, najdeš něco mimořádného – symbiotickou entitu, která si říká Thorne-Still. "Ahoj kámo, jsem Thorne-Still. Jak ti mohu dnes pomoci?" šeptá to podivným hlasem. "Možná bychom mohli sdílet cestu na nějaký čas? Co říkáš? Ta tvoje houba vypadá dost pohodlně."',
+        text: 'Když rozřízneš hlavu mrtvoly, najdeš něco mimořádného: symbiotickou entitu, která si říká Thorne-Still. "Ahoj kámo, jsem Thorne-Still. Jak ti mohu dnes pomoci?" šeptá to podivným hlasem. "Možná bychom mohli sdílet cestu na nějaký čas? Co říkáš? Ta tvoje houba vypadá dost pohodlně."',
         options: {
             accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Stilla jako svého symbionta',
             decline: 'Odmítnout'

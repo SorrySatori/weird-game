@@ -21,7 +21,7 @@ export default {
                 "Seventeen! Is anyone seventeen? ...Nobody is ever seventeen.",
                 "Take a number from the machine. If it's out of numbers, fill in a request for a number.",
                 "The Bureau of Shapes welcomes you in whatever shape you arrived in. Just don't change it while you're in line.",
-                "*Thump.* Received. Not approved — received. Approvals are two floors up.",
+                "*Thump.* Received. Not approved. Received. Approvals are two floors up.",
             ],
         },
         floors_dozer: {
@@ -36,7 +36,7 @@ export default {
         floors_queue0: {
             name: 'First in line',
             lines: [
-                "I'm first. I've been first since spring — the door just hasn't noticed yet.",
+                "I'm first. I've been first since spring. The door just hasn't noticed yet.",
                 "Don't even try. The end of the line is over there, behind the orange hood.",
             ],
         },
@@ -50,7 +50,7 @@ export default {
         floors_queue2: {
             name: 'Applicant in line',
             lines: [
-                "I'm applying for a second spine. Nothing wrong with the first one — I just want a spare.",
+                "I'm applying for a second spine. Nothing wrong with the first one. I just want a spare.",
                 "Would you hold my place? ...No, never mind. Whoever leaves the line never comes back.",
             ],
         },

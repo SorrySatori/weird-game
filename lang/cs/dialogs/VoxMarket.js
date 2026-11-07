@@ -9,7 +9,7 @@ export default {
     kloor_start: {
         text: "Kloor Venn si tě prohlíží s podezřením i zájmem. 'Co chceš? Mám práci.'",
         options: {
-            about_vestigels_offer_help: "K těm Vestigelům – mohl bych vám nějaký sehnat.",
+            about_vestigels_offer_help: "K těm Vestigelům: mohl bych vám nějaký sehnat.",
             who_are_you: "Kdo jste?",
             what_are_you_selling: "Co prodáváte?",
             i_want_to_sell_you_some_spores: "Chci vám prodat nějaké spory.",
@@ -27,7 +27,7 @@ export default {
         }
     },
     kloor_substances: {
-        text: "'Specializuji se na Oltrac – vzácnou psychoaktivní sloučeninu získávanou z určitých... biologických materiálů.' Se zájmem si prohlíží tvé houbové výrůstky. 'Materiálů ne nepodobných tomu, co zjevně roste na tobě.'",
+        text: "'Specializuji se na Oltrac, vzácnou psychoaktivní sloučeninu získávanou z určitých... biologických materiálů.' Se zájmem si prohlíží tvé houbové výrůstky. 'Materiálů ne nepodobných tomu, co zjevně roste na tobě.'",
         options: {
             tell_me_more_about_oltrac: "Řekněte mi víc o Oltracu",
             back: "Zeptej se na něco jiného"
@@ -42,7 +42,7 @@ export default {
         }
     },
     kloor_selling: {
-        text: "'Obchoduji s Oltracem – nejlepší látkou na rozšíření mysli na celém Voxmarketu. Otevírá tvé vnímání pravé podstatě reality.' Ztlumí hlas. 'Máš zájem o koupi? Nebo snad... chceš mi prodat něco z vlastních spor?'",
+        text: "'Obchoduji s Oltracem, nejlepší látkou na rozšíření mysli na celém Voxmarketu. Otevírá tvé vnímání pravé podstatě reality.' Ztlumí hlas. 'Máš zájem o koupi? Nebo snad... chceš mi prodat něco z vlastních spor?'",
         options: {
             show_me_what_you_have: "Ukažte, co máte",
             i_could_sell_you_some_spores: "Mohl bych vám prodat nějaké spory",
@@ -81,15 +81,15 @@ export default {
         options: { ok: "OK" }
     },
     kloor_gray_oltrac_8: {
-        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac – běžné zboží. Ujde to.' Podá ti 8 dinárů. 'Bylo mi potěšením.'",
+        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac, běžné zboží. Ujde to.' Podá ti 8 dinárů. 'Bylo mi potěšením.'",
         options: { thanks: "Díky" }
     },
     kloor_gray_oltrac_16: {
-        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac – běžné zboží. Ujde to.' Podá ti 16 dinárů. 'Bylo mi potěšením.'",
+        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac, běžné zboží. Ujde to.' Podá ti 16 dinárů. 'Bylo mi potěšením.'",
         options: { thanks: "Díky" }
     },
     kloor_gray_oltrac_24: {
-        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac – běžné zboží. Ujde to.' Podá ti 24 dinárů. 'Bylo mi potěšením.'",
+        text: "Kloor pečlivě prozkoumá tvoje spory a pak přikývne. 'Tyhle se hodí na Šedý Oltrac, běžné zboží. Ujde to.' Podá ti 24 dinárů. 'Bylo mi potěšením.'",
         options: { thanks: "Díky" }
     },
     kloor_violet_oltrac_15: {
@@ -105,15 +105,15 @@ export default {
         options: { thanks: "Díky" }
     },
     kloor_amber_oltrac_25: {
-        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac – nejkvalitnější druh!' Dychtivě ti napočítá 25 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
+        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac, nejkvalitnější druh!' Dychtivě ti napočítá 25 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
         options: { thanks: "Díky" }
     },
     kloor_amber_oltrac_50: {
-        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac – nejkvalitnější druh!' Dychtivě ti napočítá 50 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
+        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac, nejkvalitnější druh!' Dychtivě ti napočítá 50 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
         options: { thanks: "Díky" }
     },
     kloor_amber_oltrac_75: {
-        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac – nejkvalitnější druh!' Dychtivě ti napočítá 75 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
+        text: "Kloor při zkoumání spor zalapá po dechu. 'Mimořádné! Tyhle jsou perfektní na Jantarový Oltrac, nejkvalitnější druh!' Dychtivě ti napočítá 75 dinárů. 'Výjimečný obchod! Přijď zas kdykoliv!'",
         options: { thanks: "Díky" }
     },
     kloor_bishop: {
@@ -125,14 +125,14 @@ export default {
         }
     },
     kloor_bishop_location: {
-        text: "'Kam šla? To nevím. Cesty Biskupky jsou nevyzpytatelné.' Ušklíbne se vlastnímu vtipu. 'Ale co tady sháněla – to je mnohem zajímavější otázka.'",
+        text: "'Kam šla? To nevím. Cesty Biskupky jsou nevyzpytatelné.' Ušklíbne se vlastnímu vtipu. 'Ale co tady sháněla? To je mnohem zajímavější otázka.'",
         options: {
             what_was_she_trading: "Co tady sháněla?",
             back: "Zeptej se na něco jiného"
         }
     },
     kloor_bishop_trading: {
-        text: "'To je vlastně dost zajímavý.' Kloor se nakloní blíž. 'Sháněla čočku – optiku ze snové helmy – a nabízela Vestigel každému, kdo by jí ji sehnal. Vestigel! Vzácná, experimentální věc; prý mají… určité vlastnosti. Čočku tady nikdo neměl, tak nakonec nakoupila drobnou elektroniku za obyčejné dináry a šla. Ale rozkřiklo se to. A obchodnice jménem Zerren náhodou jeden Vestigel má taky – ne od Biskupky, to ne.'",
+        text: "'To je vlastně dost zajímavý.' Kloor se nakloní blíž. 'Sháněla čočku (optiku ze snové helmy) a nabízela Vestigel každému, kdo by jí ji sehnal. Vestigel! Vzácná, experimentální věc; prý mají… určité vlastnosti. Čočku tady nikdo neměl, tak nakonec nakoupila drobnou elektroniku za obyčejné dináry a šla. Ale rozkřiklo se to. A obchodnice jménem Zerren náhodou jeden Vestigel má taky. Ne od Biskupky, to ne.'",
         options: {
             tell_me_more_about_these_vestigels: "Řekněte mi víc o těch Vestigelech",
             thanks_for_the_information: "Díky za informaci"
@@ -164,7 +164,7 @@ export default {
         options: { ok: "OK" }
     },
     kloor_vestigels_quest_info: {
-        text: "'Zerren má nebo měla jeden Vestigel. Obvykle bývá na tržnici. To je jediný, o kterém něco vím – kde skončily zbylé dva, to se neví. Sežeň mi ten od Zerren a já ti řeknu, co potřebuješ vědět o Biskupce.'",
+        text: "'Zerren má nebo měla jeden Vestigel. Obvykle bývá na tržnici. To je jediný, o kterém něco vím. Kde skončily zbylé dva, to se neví. Sežeň mi ten od Zerren a já ti řeknu, co potřebuješ vědět o Biskupce.'",
         options: {
             ill_find_one_for_you: "Seženu vám ho"
         }

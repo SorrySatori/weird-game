@@ -43,8 +43,8 @@ export default {
             "Vzduchem se splétají vlákna zvuku a tvoří jakýsi oblak vědomí.",
             "Cítíš zvláštní sounáležitost s Bohem hluku.",
             "Zaplaví tě hluboké poznání: Bůh hluku se nenarodil, byl stvořen...",
-            "Dnes z jeho vzoru zbývají jen náznaky – pohřbené v magnetickém prachu, slabě rezonující v rozbitých zesilovačích, v rádiové mlze a v kostech reproduktorů.",
-            "Cítíš, že hudba kapely je jeho pozůstatek – způsob, jak se s Bohem hluku spojit.",
+            "Dnes z něj zbývají jen náznaky, pohřbené v magnetickém prachu, slabě rezonující v rozbitých zesilovačích, v rádiové mlze a v kostech reproduktorů.",
+            "Cítíš, že hudba kapely je jeho pozůstatek: způsob, jak se s Bohem hluku spojit.",
         ],
     },
     shedRegistration: {
@@ -110,7 +110,7 @@ export default {
             ability: 'Mozková hniloba',
             dialogs: {
                 main: {
-                    text: "Thorne-Still ti šeptá v hlavě: ‚Čau, šéfe, jak je? Měl bych ti asi připomenout, že moje síla roste s rozkladem – a naopak, když bude růstu moc, budu muset odejít. Přemíra růstu mi fakt nesedí, kapitáne. Mozkovou hnilobu používej s rozumem... Je to mocný nástroj, ale když si nedáš pozor, dokáže někomu pořádně zprasit mozek. Takže ji radši nezkoušej na lidech, které máš rád.‘",
+                    text: "Thorne-Still ti šeptá v hlavě: ‚Čau, šéfe, jak je? Měl bych ti asi připomenout, že moje síla roste s rozkladem. A naopak, když bude růstu moc, budu muset odejít. Přemíra růstu mi fakt nesedí, kapitáne. Mozkovou hnilobu používej s rozumem... Je to mocný nástroj, ale když si nedáš pozor, dokáže někomu pořádně zprasit mozek. Takže ji radši nezkoušej na lidech, které máš rád.‘",
                     options: ['Zeptat se na Mozkovou hnilobu', 'Zeptat se na Thorne-Stilla'],
                 },
                 ability: {
@@ -118,7 +118,7 @@ export default {
                     options: ['Zpět'],
                 },
                 about: {
-                    text: "Jsem symbiont, kterému se daří v rozkladu. Kdysi jsem byl součástí něčeho většího, ale teď existuji v prostorách mezi realitami. Heh, dělám si prdel – zrovna teď existuju ve tvém žaludku. Díky našemu poutu se tu dá docela pohodlně bydlet, ale přemíra růstové energie mě z tvého těla vyžene.",
+                    text: "Jsem symbiont, kterému se daří v rozkladu. Kdysi jsem byl součástí něčeho většího, ale teď existuji v prostorách mezi realitami. Heh, dělám si prdel. Zrovna teď existuju ve tvém žaludku. Díky našemu poutu se tu dá docela pohodlně bydlet, ale přemíra růstové energie mě z tvého těla vyžene.",
                     options: ['Zpět'],
                 },
             },
@@ -135,7 +135,7 @@ export default {
         questCompleted: 'Úkol dokončen!',
         questFailed: 'Úkol selhal',
         journalUpdated: 'Deník aktualizován',
-        reputationChange: '{faction} – reputace {sign}{change}',
+        reputationChange: '{faction}: reputace {sign}{change}',
         moneyGain: '+{amount} dinárů',
         moneyLoss: '-{amount} dinárů',
         purchased: 'Zakoupeno: {item}',
@@ -207,11 +207,11 @@ export default {
     mood: {
         liris: {
             growthDominant: "Vstupuješ na palubu a voníš po zeleném počasí. Kapradí rostoucí na palubě se k tobě naklání. Vítej.",
-            decayDominant: "Něco s tebou stoupá nahoru – hniloba ve větru. Drž to po větru dál od mé vzducholodě, buď tak laskav.",
+            decayDominant: "Něco s tebou stoupá nahoru: hniloba ve větru. Drž to po větru dál od mé vzducholodě, buď tak laskav.",
         },
         gnur: {
             growthDominant: "Cítím kolem tebe moc růstu. Kazí mi to zboží. Zelené věci se tady dole moc neprodávají.",
-            decayDominant: "Heh. Máš v sobě tu správnou hnilobu, cizinče – cítím ji až sem. Vyjdeme spolu dobře.",
+            decayDominant: "Heh. Máš v sobě tu správnou hnilobu, cizinče. Cítím ji až sem. Vyjdeme spolu dobře.",
         },
         brukk: {
             growthDominant: "Páchneš mízou a jarem. Stroje nevěří rostoucím věcem. Ani já ne.",
@@ -219,7 +219,7 @@ export default {
         },
         ravla: {
             growthDominant: "Všechen ten růst na tobě mě znervózňuje. Rostoucí věci pořád něco chtějí, a chtění je drahé.",
-            decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná – lakomí to mají vždycky snazší.",
+            decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná. Lakomí to mají vždycky snazší.",
         },
         kloor: {
             growthDominant: "A hele, ty tvoje spory, ty vypadají na prvotřídní zboží. Nějaký bych koupil.",

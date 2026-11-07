@@ -5,15 +5,15 @@ export default {
     journal: {
         temple_guard_meeting: {
             title: 'Chrámový strážce',
-            description: 'U brány Vaječné katedrály stojí strážce, který nikoho nepustí dovnitř. Katedrála je až do odvolání zavřená – žloutek prý spí neklidně.',
+            description: 'U brány Vaječné katedrály stojí strážce, který nikoho nepustí dovnitř. Katedrála je až do odvolání zavřená: žloutek prý spí neklidně.',
         },
         learned_digestions: {
             title: 'Počítání v tráveních',
-            description: 'Strážce u Vaječné katedrály počítá čas v tráveních Žaludečních hodin – na svém postu jich odstál tři tisíce. Město přestalo počítat roky, když zemřel Počtář. Jedno trávení trvá o něco déle než den a proti slunci se pomalu posouvá; šest jich dá týden, tři sta rok.',
+            description: 'Strážce u Vaječné katedrály počítá čas v tráveních Žaludečních hodin. Na svém postu jich odstál tři tisíce. Město přestalo počítat roky, když zemřel Počtář. Jedno trávení trvá o něco déle než den a proti slunci se pomalu posouvá; šest jich dá týden, tři sta rok.',
         },
         heard_stomach_clock: {
             title: 'Žaludeční hodiny',
-            description: 'Thaal mi vyprávěl o Žaludečních hodinách na radnici: biomechanická komora ve tvaru trávicích hodin. Někdo říká, že je to skutečný žaludek prvního boha, který přišel do města umřít, jiní, že jen mizerná kopie hodin odjinud. Buď jak buď, jejich žluč je posvátná – a prý dokonce léčivá.',
+            description: 'Thaal mi vyprávěl o Žaludečních hodinách na radnici: biomechanická komora ve tvaru trávicích hodin. Někdo říká, že je to skutečný žaludek prvního boha, který přišel do města umřít, jiní, že jen mizerná kopie hodin odjinud. Buď jak buď, jejich žluč je posvátná (a prý dokonce léčivá).',
         },
         obazoba_cult: {
             title: 'Kult Obazoba',
@@ -21,11 +21,11 @@ export default {
         },
         place_crossroads: {
             title: 'Křižovatka',
-            description: 'Tady se sbíhají ulice města – kolem těla obra. Leží tu už dlouho, a přesto nezapáchá; skoro ani nevypadá mrtvý. Místní kolem něj chodí jako kolem pomníku. Odtud vedou cesty k Boudě, na Voxmarket, ke Škrabáku i k Vaječné katedrále.',
+            description: 'Tady se kolem těla obra sbíhají ulice města. Leží tu už dlouho, a přesto nezapáchá; skoro ani nevypadá mrtvý. Místní kolem něj chodí jako kolem pomníku. Odtud vedou cesty k Boudě, na Voxmarket, ke Škrabáku i k Vaječné katedrále.',
         },
         place_shed_521: {
             title: 'Bouda 521',
-            description: 'Starý sklad v bývalém překladišti, ze kterého vyrostl úřad – Úřad tvarů. Chodí se sem registrovat podoba, ve které zrovna jsi, nebo žádat o její změnu. Fronty, přepážky a formuláře ve třech patrech – a papíry tu jako by bujely samy od sebe.',
+            description: 'Starý sklad v bývalém překladišti, ze kterého vyrostl úřad: Úřad tvarů. Lidé sem chodí zaregistrovat podobu, ve které zrovna jsou, nebo žádat o její změnu. Fronty, přepážky a formuláře ve třech patrech. Papíry tu jako by bujely samy od sebe.',
         },
         place_voxmarket: {
             title: 'Voxmarket',
@@ -37,7 +37,7 @@ export default {
         },
         place_egg_cathedral: {
             title: 'Vaječná katedrála',
-            description: 'Katedrála, která vyrůstá z obřího vejce – nebo se z něj teprve líhne. Skořápka slabě prosvítá zevnitř, jako by uvnitř něco dýchalo.',
+            description: 'Katedrála, která vyrůstá z obřího vejce (nebo se z něj teprve líhne). Skořápka slabě prosvítá zevnitř, jako by uvnitř něco dýchalo.',
         },
         place_burning_bear_street: {
             title: 'Ulice Hořícího Medvěda',
@@ -61,11 +61,11 @@ export default {
         },
         spores_lore: {
             title: 'Spory',
-            description: 'Spory znám – jsou moje vlastní, boží dech, který jsem od dětství dýchal v podzemním Obazobově chrámu. Pod širým nebem ale podle Thaala řídnou, poletují a dostanou se úplně všude. V tomhle městě jsou bytosti, které se sporami živí, a jiné, které by je ode mě koupily nebo pro ně našly využití. S těmi, co v sobě nosím, mám šetřit a hlídat si hladinu: doplňují se jen pomalu a obtížně, i když snad existují způsoby, jak to urychlit.',
+            description: 'Spory znám. Jsou moje vlastní, boží dech, který jsem od dětství dýchal v podzemním Obazobově chrámu. Pod širým nebem ale podle Thaala řídnou, poletují a dostanou se úplně všude. V tomhle městě jsou bytosti, které se sporami živí, a jiné, které by je ode mě koupily nebo pro ně našly využití. S těmi, co v sobě nosím, mám šetřit a hlídat si hladinu: doplňují se jen pomalu a obtížně, i když snad existují způsoby, jak to urychlit.',
         },
         symbionts_lore: {
             title: 'Symbionti',
-            description: 'O symbiontech jsem zatím jen četl; žádného nenosím. Jsou to živé bytosti, které si kultista zve do vlastního těla – každá se svým hlasem a darem (myšlenka za tváří, slova mrtvých), schopnosti úžasné i fakt dost divné. Žijí v podivných koutech města a lze si je vzít do sebe; reagují na rovnováhu: někteří sílí v Růstu a umlkají v Rozkladu, jiní naopak.',
+            description: 'O symbiontech jsem zatím jen četl; žádného nenosím. Jsou to živé bytosti, které si kultista zve do vlastního těla, každá se svým hlasem a darem (myšlenka za tváří, slova mrtvých), schopnosti úžasné i fakt dost divné. Žijí v podivných koutech města a lze si je vzít do sebe; reagují na rovnováhu: někteří sílí v Růstu a umlkají v Rozkladu, jiní naopak.',
         },
         symbiont_thorne_still_offered: {
             title: 'Setkání s Thorne-Still',
@@ -73,7 +73,7 @@ export default {
         },
         crossroad_corpse_spores_planted: {
             title: 'Spory v mrtvole na křižovatce',
-            description: "Zasadil jsem spory do podivné mrtvoly na křižovatce. Mycelium se mrtvým masem rychle rozrostlo a celé místo prozářilo světélkujícím porostem – a nad ním jsem si všiml ještě něčeho.",
+            description: "Zasadil jsem spory do podivné mrtvoly na křižovatce. Mycelium se mrtvým masem rychle rozrostlo a celé místo prozářilo světélkujícím porostem. A nad ním jsem si všiml ještě něčeho.",
             facts: {
                 skyship: "Porost otevřel cestu nahoru, ke vzducholodi, která visí nad křižovatkou.",
             },
@@ -84,7 +84,7 @@ export default {
         },
         symbiont_thorne_still_accepted: {
             title: 'Přijetí Thorne-Stilla',
-            description: 'Přijal jsem symbiotickou bytost Thorne-Still. Splynula se mnou – doslova mi vlezla do žaludku. Teď můžu používat její schopnost Mozková hniloba a mást či ovlivňovat druhé.',
+            description: 'Přijal jsem symbiotickou bytost Thorne-Still. Splynula se mnou: doslova mi vlezla do žaludku. Teď můžu používat její schopnost Mozková hniloba a mást či ovlivňovat druhé.',
         },
         skyship_sighting: {
             title: 'Podivné Plavidlo na Smaragdové Obloze',
@@ -94,14 +94,14 @@ export default {
         },
         scraper_building: {
             title: 'Škrabák',
-            description: 'Škrabák 1140 – křivý mrakodrap, který se tyčí nad městem. Kdysi to byla kancelářská věž; teď si každé patro žije vlastním životem a nikdo pořádně neví, kolik pater vlastně má.',
+            description: 'Škrabák 1140: křivý mrakodrap, který se tyčí nad městem. Kdysi to byla kancelářská věž; teď si každé patro žije vlastním životem a nikdo pořádně neví, kolik pater vlastně má.',
             facts: {
-                nexicorp: "Podle Lift-Mother to kdysi byla Nexicorp Tower – dvaačtyřicet pater obchodu a ambicí. Dnes ve spodních patrech žijí ti, kdo si pamatují staré časy, prostřední patra divoce zarostla a horní patra patří Rezavému chóru.",
+                nexicorp: "Podle Lift-Mother to kdysi byla Nexicorp Tower: dvaačtyřicet pater obchodu a ambicí. Dnes ve spodních patrech žijí ti, kdo si pamatují staré časy, prostřední patra divoce zarostla a horní patra patří Rezavému chóru.",
             },
         },
         lift_mother_meeting: {
             title: 'Lift-Mother',
-            description: 'Uvnitř Škrabáku jsem narazil na nanejvýš neobvyklé vědomí – výtah, který si říká Lift-Mother. Její hlas se nesl kabely a strojovnou a mluvil s klidnou moudrostí někoho, kdo viděl nespočet životů procházet svými dveřmi. Prý jezdí od „Předdoby“, ať už to znamená cokoli, a vědomí v ní zřejmě vyrostlo za ta staletí, co vozí cestující mezi patry.',
+            description: 'Uvnitř Škrabáku jsem narazil na nanejvýš neobvyklé vědomí: výtah, který si říká Lift-Mother. Její hlas se nesl kabely a strojovnou a mluvil s klidnou moudrostí někoho, kdo viděl nespočet životů procházet svými dveřmi. Prý jezdí od „Předdoby“, ať už to znamená cokoli, a vědomí v ní zřejmě vyrostlo za ta staletí, co vozí cestující mezi patry.',
         },
         accessed_elphi_floor: {
             title: 'Studio Dr. Elphi – patro 177-Tiché',
@@ -113,7 +113,7 @@ export default {
         },
         dream_queue: {
             title: 'Věčná fronta v Boudě 521',
-            description: 'Na registračním úřadě Boudy 521 jsem viděl něco zneklidňujícího – frontu průsvitných postav, která se nikdy nepohne. Vypadají jako duchové žadatelů odsouzených čekat navěky. Za přepážkou nikdo nesedí. Nikdo z nich nepromluví, dokud ho neoslovím, a vzduch kolem nich připomíná napůl zapomenutý sen.',
+            description: 'Na registračním úřadě Boudy 521 jsem viděl něco zneklidňujícího: frontu průsvitných postav, která se nikdy nepohne. Vypadají jako duchové žadatelů odsouzených čekat navěky. Za přepážkou nikdo nesedí. Nikdo z nich nepromluví, dokud ho neoslovím, a vzduch kolem nich připomíná napůl zapomenutý sen.',
         },
         dream_queue_completed: {
             title: 'Návštěva registračního úřadu',
@@ -125,11 +125,11 @@ export default {
         },
         extra_symbiont_slot_purchased: {
             title: 'Další slot pro symbionta',
-            description: 'Na registračním úřadě Boudy 521 jsem si zaregistroval další slot pro symbionta. Šlo to překvapivě hladce – jeden formulář a poplatek 50 dinárů. Teď můžu ve svém těle hostit dalšího symbionta.',
+            description: 'Na registračním úřadě Boudy 521 jsem si zaregistroval další slot pro symbionta. Šlo to překvapivě hladce: jeden formulář a poplatek 50 dinárů. Teď můžu ve svém těle hostit dalšího symbionta.',
         },
         gnur_meeting: {
             title: "Gnur",
-            description: "V útrobách Boudy 521 jsem narazil na Gnura – postavu, jejíž hlas praská „jako rozbitý sbor“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
+            description: "V útrobách Boudy 521 jsem narazil na Gnura, postavu, jejíž hlas praská „jako rozbitý sbor“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
             facts: {
                 rust_choir: "Za starých časů se staral o stroje, teď patří k Rezavému chóru. To naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.",
             },
@@ -138,7 +138,7 @@ export default {
             title: "Rezavý chór",
             description: "Rezavý chór je jedna z frakcí, které mají v Horní Morkezele slovo.",
             facts: {
-                machines: "Gnur říká, že strojům zpívají – některé tím udržují vzhůru, jiné uspávají, podle situace.",
+                machines: "Gnur říká, že strojům zpívají: některé tím udržují vzhůru, jiné uspávají, podle situace.",
                 entropy: "Oslavují entropii a kolaps chápou jako proměnu. Rádi obchodují s tajemstvími, hlavně se starou technologií. Brukkovy lidi najdu ve starém Škrabáku.",
                 brukk: "Jejich vůdcem je Brukk, strážce staré technologie.",
                 any_means: "Jejich metody jsou sporné: Gnur pořád chce živé jádro, přestože podle úředníka na něm Bouda 521 závisí. Starou technologii si chór podle všeho opatří jakýmkoli způsobem.",
@@ -150,7 +150,7 @@ export default {
         },
         board_games_war: {
             title: 'Deskovkové války',
-            description: "Když Staré války všechno zpustošily, města se dohodla, že spory budou místo zbraní řešit hrami. Vládci se stali Ludarchové – návrháři her, kteří dokázali ohýbat pravidla skutečnosti –, jenže se opili mocí: jejich hry pohltily celá města a tvořili živé miniaturní světy jen proto, aby je obětovali jako figurky. Miliony drobných vnímajících bytostí zemřely jako pěšáci.",
+            description: "Když Staré války všechno zpustošily, města se dohodla, že spory budou místo zbraní řešit hrami. Vládci se stali Ludarchové (návrháři her, kteří dokázali ohýbat pravidla skutečnosti), jenže se opili mocí: jejich hry pohltily celá města a tvořili živé miniaturní světy jen proto, aby je obětovali jako figurky. Miliony drobných vnímajících bytostí zemřely jako pěšáci.",
             facts: {
                 ortolan: "Ortolan byl světotvůrce: vyráběl ty herní desky a vyřezával figurky, z nichž se staly živé bytosti. Vinu nosí dodnes.",
                 end: "Nakonec se Ludarchové obrátili jeden proti druhému, roztříštili skutečnost a města zůstala v troskách.",
@@ -161,8 +161,8 @@ export default {
             title: "Kloor Venn",
             description: 'Na Voxmarketu jsem narazil na Kloora Venna.',
             facts: {
-                entrepreneur: "Říká o sobě, že je „farmaceutický podnikatel“ – obchoduje se specializovanými látkami, které rozšiřují mysl.",
-                oltrac: "Specializuje se na Oltrac, psychoaktivní látku – a o mé houbové spory má zájem jako o surovinu.",
+                entrepreneur: "Říká o sobě, že je „farmaceutický podnikatel“. Obchoduje se specializovanými látkami, které rozšiřují mysl.",
+                oltrac: "Specializuje se na Oltrac, psychoaktivní látku. O mé houbové spory má zájem jako o surovinu.",
             },
         },
         kloor_vestigel_exchange: {
@@ -177,30 +177,30 @@ export default {
             title: "Inkoustový tribunál",
             description: "Inkoustový tribunál je jedna z frakcí, které mají v Horní Morkezele slovo.",
             facts: {
-                neutrality: "Úředník v Boudě 521 o Tribunálu mluvil jako o strážci neutrality, který ve městě udržuje mír a pořádek. Někteří z jeho lidí sbírají jedinečné předměty – ale nikdy je neprodávají.",
+                neutrality: "Úředník v Boudě 521 o Tribunálu mluvil jako o strážci neutrality, který ve městě udržuje mír a pořádek. Někteří z jeho lidí sbírají jedinečné předměty, ale nikdy je neprodávají.",
             },
         },
         forgotten_elevator_button_available: {
             title: 'Záhadný Knoflík u Zerren',
-            description: 'Zerren má na stánku novinku: Zapomenutý výtahový knoflík s podivnými značkami, od patra, které oficiálně neexistuje. Možná se díky němu dostanu nahoru do studia Dr. Elphi ve Škrabáku 1140 – tam, kam se vydala Biskupka.',
+            description: 'Zerren má na stánku novinku: Zapomenutý výtahový knoflík s podivnými značkami, od patra, které oficiálně neexistuje. Možná se díky němu dostanu nahoru do studia Dr. Elphi ve Škrabáku 1140, kam se vydala Biskupka.',
         },
         heliodor_lore: {
             title: 'Heliodor Donjon Vaalstran',
-            description: 'Heliodor je jedinečná bytost složená z mnoha symbiotických tvorů žijících v souladu. Řvoucí korek vedou díky spojení nadání svých jednotlivých složek – výkonný a pozoruhodný barman.',
+            description: 'Heliodor je jedinečná bytost složená z mnoha symbiotických tvorů žijících v souladu. Řvoucí korek vedou díky spojení nadání svých jednotlivých složek. Výkonný a pozoruhodný barman.',
         },
         captain_liris_meeting: {
             title: 'Kapitánka Liris z Verdigrace',
             description: "Na palubě vzducholodi jsem potkal kapitánku Liris, impozantní postavu ve zdobené uniformě, která velí plavidlu jménem Verdigrace.",
             facts: {
-                routes: "Loď křižuje vzdušné obchodní trasy mezi vzdálenými osadami a výzkumnými stanicemi – kam ji větry pustí.",
+                routes: "Loď křižuje vzdušné obchodní trasy mezi vzdálenými osadami a výzkumnými stanicemi, kam ji větry pustí.",
                 cargo: "Vozí vzácné spory, mycelia a symbiotické kmeny – a zprávy, které kapitánka považuje za nejcennější náklad.",
             },
         },
         lumen_directorate_faction: {
             title: 'Direktorát',
-            description: "Direktorát je mocná frakce oddaná splynutí mysli a flóry. Jsou strážci a ochránci všeho, co roste – považují se za hlídače života samotného.",
+            description: "Direktorát je mocná frakce oddaná splynutí mysli a flóry. Jsou strážci a ochránci všeho, co roste; považují se za hlídače života samotného.",
             facts: {
-                specimens: "Jejich lidé vyrážejí na výpravy za vzácnými exempláři – kapitánka Liris je teď na jedné z nich.",
+                specimens: "Jejich lidé vyrážejí na výpravy za vzácnými exempláři; kapitánka Liris je teď na jedné z nich.",
             },
         },
         floor_counter_tool: {
@@ -208,14 +208,14 @@ export default {
             description: "Kapitánka Liris mi dala speciální kalibrační nástroj na opravu rozbitého počítadla pater v systému Lift-Mother. S opraveným počítadlem by se výtah mohl dostat do pater, kam teď nedojede.",
             facts: {
                 how_it_works: "Je to symbiotické rozhraní: mikrodrony, které tlumočí mezi starou elektronikou a novou, živou myslí výtahu.",
-                elphi_floor: "Možná se právě s ním dostanu do zapečetěného patra Dr. Elphi – 177-Tichého.",
+                elphi_floor: "Možná se právě s ním dostanu do zapečetěného patra Dr. Elphi, 177-Tichého.",
             },
         },
         edgar_eskola_meeting: {
             title: "Edgar Eskola z Řvoucího korku",
             description: "Setkal jsem se s Edgarem Eskolou, medvědovitým štamgastem Řvoucího korku.",
             facts: {
-                misutkenn: "Je to mišutkenn – a většina lidí se prý jeho druhu vyhýbá, když to jde.",
+                misutkenn: "Je to mišutkenn. Většina lidí se prý jeho druhu vyhýbá, když to jde.",
                 exiled: "Zakladatelé města kdysi vyhnali jeho předky z jejich domoviny v horách a jeho druh je tu dodnes v lepším případě trpěn.",
             },
         },
@@ -254,7 +254,7 @@ export default {
         },
         met_hesh_vell: {
             title: 'Dvojčata-likitátoři: Hesh a Vell',
-            description: 'Setkal jsem se s dvojčaty-likitátory v Aukční hale Voxmarketu. Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy později. Jejich synchronizace je znepokojivá a přesná – a zřejmě záměrná.',
+            description: 'Setkal jsem se s dvojčaty-likitátory v Aukční hale Voxmarketu. Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy později. Jejich synchronizace je znepokojivá a přesná (a zřejmě záměrná). Aukci vedou společně.',
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
@@ -269,7 +269,7 @@ export default {
             title: 'Ravla',
             description: 'Ravla má svůj kout ve Řvoucím korku a o sobě říká, že je tak trochu umělkyně. Líbí se jí tu: je tu klid a úřady si drží odstup. Bystrý zrak, cynická, charisma na ni neplatí.',
             facts: {
-                forger: 'Padělá dokumenty – papíry pro každého, kdo zaplatí, a na nic se neptá.',
+                forger: 'Padělá dokumenty: papíry pro každého, kdo zaplatí, a na nic se neptá.',
                 rust_choir: 'Mluví za Rezavý chór: k Brukkovi ani ke strojům se nikdo nedostane, aniž by prošel přes ni. A než někoho pustí dál, chce důkaz oddanosti.',
             },
         },
@@ -277,8 +277,8 @@ export default {
             title: 'Řvoucí korek',
             description: "Stará hospoda tonoucí v přítmí. Za barem obsluhuje bytost s mnoha tvářemi, v koutě pracuje u stolku nějaká žena a odněkud zpoza zadní místnosti je slyšet kapela, která zkouší cosi, co není tak úplně hudba.",
             facts: {
-                oldest: "Majitel tvrdí, že to byla první budova postavená po Kolapsu. Heliodor o tom pochybuje, ale stará ta hospoda rozhodně je – a dá se v ní na chvíli zmizet.",
-                heliodor: "Za barem stojí Heliodor – mnoho tvorů pod jediným jménem.",
+                oldest: "Majitel tvrdí, že to byla první budova postavená po Kolapsu. Heliodor o tom pochybuje, ale stará ta hospoda rozhodně je. Dá se v ní na chvíli zmizet.",
+                heliodor: "Za barem stojí Heliodor: mnoho tvorů pod jediným jménem.",
                 ravla: "Žena v koutě je Ravla a padělá papíry.",
                 feral_toast: "Kapela, která zkouší vzadu, se jmenuje Feral Toast.",
             },

@@ -73,7 +73,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_who: {
-                text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket a good two thousand digestions now. Sounds, mostly — sealed in glass so they keep — and whatever oddments wash up alongside them. Things you won't hear anywhere else.'",
+                text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket a good two thousand digestions now. Sounds, mostly (sealed in glass so they keep), and whatever oddments wash up alongside them. Things you won't hear anywhere else.'",
                 options: [
                     { text: "What kind of sounds?", key: 'what_kind_of_trinkets', next: "zerren_selling" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
@@ -91,7 +91,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_ampules: {
-                text: "'Glass remembers, if you ask it right.' She holds one up to the light; something inside it stirs like a trapped moth. 'The sound is fixed into the glass while it's still soft. Break the seal and it's gone for good — so don't. Just hold it to your ear.' She sets it down with care. 'Most of mine are from before the Emergence. Animals, mostly. People like to hear what the world sounded like back when it wasn't listening back.'",
+                text: "'Glass remembers, if you ask it right.' She holds one up to the light; something inside it stirs like a trapped moth. 'The sound is fixed into the glass while it's still soft. Break the seal and it's gone for good. So don't. Just hold it to your ear.' She sets it down with care. 'Most of mine are from before the Emergence. Animals, mostly. People like to hear what the world sounded like back when it wasn't listening back.'",
                 options: [
                     { text: "Show me what you have for sale", key: 'show_me_what_you_have_for_sale', next: "zerren_shop" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
@@ -104,7 +104,7 @@ export default class VoxmarketMarketScene extends GameScene {
             // state and the shop opens from its option.
             zerren_shop: this.zerrenPitchesButton() ? {
                 textKey: 'button',
-                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.' She lowers her voice. 'I recently acquired something special — an old elevator button with unusual markings.'",
+                text: "'Of course! Take a look at my current inventory. I'm always getting new items in, so check back regularly.' She lowers her voice. 'I recently acquired something special: an old elevator button with unusual markings.'",
                 options: [
                     { text: "Let me take a look.", key: 'let_me_take_a_look', next: "closeDialog", onSelect: () => this.openZerrenShop() }
                 ]
@@ -119,7 +119,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_collection: {
-                text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular — sold it not six digestions ago. Strange little thing, but charming in its own way.'",
+                text: "'Thank you! I take pride in finding unique items. Had a lovely plush toy recently that was quite popular. Sold it not six digestions ago. Strange little thing, but charming in its own way.'",
                 options: [
                     { text: "Tell me more about that toy", key: 'tell_me_more_about_that_toy', next: "zerren_plush_toy" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
@@ -127,7 +127,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_plush_toy: {
-                text: "'It was an odd little thing — looked like a cross between a stuffed animal and some kind of abstract sculpture. Got it from a traveler passing through.'",
+                text: "'It was an odd little thing. Looked like a cross between a stuffed animal and some kind of abstract sculpture. Got it from a traveler passing through.'",
                 options: [
                     ...(vestigelHuntOpen ? [{ text: "Who bought it?", key: 'who_bought_it', next: "zerren_buyer_inquiry" }] : []),
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
@@ -144,7 +144,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_kloor_inquiry: {
-                text: "I see. That bastard wants it for himself, doesn't he? I don't know what he plans to do with it, but it's not good. Listen, a peculiar stuffed toy came into my hands, and there was a Vestigel hidden inside it — but I didn't know that. The buyer found out later, by chance, all on his own.",
+                text: "I see. That bastard wants it for himself, doesn't he? I don't know what he plans to do with it, but it's not good. Listen, a peculiar stuffed toy came into my hands, and there was a Vestigel hidden inside it, but I didn't know that. The buyer found out later, by chance, all on his own.",
                 options: [
                     { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
@@ -181,7 +181,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_refuse_inquiry: {
-                text: "Hmm... all right, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, a peculiar stuffed toy came into my hands, and there was a Vestigel hidden inside it — but I didn't know that. The buyer found out later, by chance, all on his own.",
+                text: "Hmm... all right, be mysterious. I bet it's one of my competitors here at the market, so I will find out anyway. Listen, a peculiar stuffed toy came into my hands, and there was a Vestigel hidden inside it, but I didn't know that. The buyer found out later, by chance, all on his own.",
                 options: [
                     { text: "Who did you sell it to?", key: 'who_did_you_sell_it_to', next: "zerren_buyer_inquiry" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
@@ -256,7 +256,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_bribe_success: {
-                text: "Zerren quickly pockets the coins. 'Well, for this kind of compensation, I suppose I can make an exception.' She leans in closer. 'It was Edgar Eskola who bought the toy. Eccentric collector — you'll usually find him around the Screaming Cork tavern.'",
+                text: "Zerren quickly pockets the coins. 'Well, for this kind of compensation, I suppose I can make an exception.' She leans in closer. 'It was Edgar Eskola who bought the toy. Eccentric collector. You'll usually find him around the Screaming Cork tavern.'",
                 options: [
                     { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "zerren_quest_update" }
                 ],

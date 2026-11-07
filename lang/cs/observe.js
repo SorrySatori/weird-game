@@ -5,7 +5,7 @@ export default {
     observe: {
         crossroads: {
             hint: 'Křižovatka',
-            default: "Čtyři cesty a každá vede někam, kde po mně něco chtějí – Bouda, Voxmarket, Škrabák. Mrtvý obr je mizerný rozcestník, ale rozhodně zapamatovatelný.",
+            default: "Čtyři cesty a každá vede někam, kde po mně něco chtějí: Bouda, Voxmarket, Škrabák. Mrtvý obr je mizerný rozcestník, ale rozhodně zapamatovatelný.",
             overgrown: "Křižovatka se zazelenala. Kořeny našly spáry mezi dlažebními kostkami a rozhodly se, že cesty teď patří jim. Ještě chvíli a chodník nebude ani vidět.",
             planted: "Zasel jsem spory do mrtvoly obra a křižovatka se proměnila. Ať už se teď mezi kameny dere cokoli nahoru, začal jsem to já. Snažím se nemyslet na to, co z toho bude, až to vyroste ještě víc.",
         },
@@ -15,7 +15,7 @@ export default {
         },
         egg_cathedral_approach: {
             hint: 'Vaječná katedrála',
-            default: "Katedrála rostoucí z obřího vejce – kupole ze skořápky tam, kde má být střecha. Rodí se tu něco, čemu katedrála slouží doslova jako skořápka.",
+            default: "Katedrála rostoucí z obřího vejce. Kupole ze skořápky tam, kde má být střecha. Rodí se tu něco, čemu katedrála slouží doslova jako skořápka.",
         },
         scraper: {
             hint: 'Škrabák 1140',
@@ -30,7 +30,7 @@ export default {
         voxmarket: {
             hint: 'Voxmarket',
             default: "Každý stánek tady prodává něco, co kdysi žilo, a kupci smlouvají tuctem nářečí. Jestli něco v Horní Morkezele vydávalo zvuk, někdo na Voxmarketu ví, kolik to stojí.",
-            knows_vestigels: "Někde v tomhle mumraji přecházejí z ruky do ruky živoucí mince – Vestigely, cennější než zlato a podivnější než ekonomika samotná. Kloor by prodal svoje zuby, aby si nějaký mohl prostudovat.",
+            knows_vestigels: "Někde v tomhle mumraji přecházejí z ruky do ruky živoucí mince: Vestigely, cennější než zlato a podivnější než ekonomika samotná. Kloor by prodal svoje zuby, aby si nějaký mohl prostudovat.",
         },
         shed_pipes: {
             hint: 'Bouda 521',
@@ -38,8 +38,8 @@ export default {
         },
         skyship_board: {
             hint: 'Paluba vzducholodi',
-            default: "Na palubě vzducholodi Verdigrace fičí studený vítr, ale rozhled je dechberoucí. Kolem odtikávají podivné přístroje, které však zřejmě nejsou mechanického původu – vypadají jako vypěstované.",
-            knows: "Tady jsem získal počítadlo pater – jediný přístroj dost poctivý na to, aby přiznal, že Škrabák má patra, která by existovat neměla.",
+            default: "Na palubě vzducholodi Verdigrace fičí studený vítr, ale rozhled je dechberoucí. Kolem odtikávají podivné přístroje, které však zřejmě nejsou mechanického původu. Vypadají jako vypěstované.",
+            knows: "Tady jsem získal počítadlo pater. Je to jediný přístroj dost poctivý na to, aby přiznal, že Škrabák má patra, která by existovat neměla.",
         },
     },
 };
