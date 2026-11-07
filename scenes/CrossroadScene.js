@@ -372,7 +372,7 @@ export default class CrossroadScene extends GameScene {
                     this.addJournalEntry(
                         'crossroad_corpse_spores_planted',
                         'Planted Spores in the Crossroad Corpse',
-                        'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth — and I noticed something up above it.',
+                        'I planted spores in the strange corpse at the crossroads. The mycelium quickly spread through the dead flesh, transforming the area with luminescent growth. And I noticed something up above it.',
                         this.journalSystem.categories.EVENTS
                     );
                     

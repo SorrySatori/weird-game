@@ -251,7 +251,7 @@ export default class ScraperAmbraScene extends GameScene {
                         { text: "Never mind.", key: 'never_mind', next: "dr_elphi_exit_brief" }
                     ],
                 onTrigger: () => {
-                    this.addJournalFact('met_dr_elphi', 'dreams', "She designs dreams — neurofiction, dream architecture.");
+                    this.addJournalFact('met_dr_elphi', 'dreams', "She designs dreams: neurofiction, dream architecture.");
                 }
             },
             

@@ -46,7 +46,7 @@ export default class VoxmarketMarketScene extends GameScene {
         if (questSystem?.getQuest('the_three_vestigels')) {
             questSystem.updateQuest(
                 'the_three_vestigels',
-                'The Vestigel Zerren had was hidden inside a peculiar stuffed toy. She sold the toy without knowing it was there — the buyer found it later, by chance.',
+                'The Vestigel Zerren had was hidden inside a peculiar stuffed toy. She sold the toy without knowing it was there. The buyer found it later, by chance.',
                 'vestigel_in_toy'
             );
         }
@@ -513,7 +513,7 @@ export default class VoxmarketMarketScene extends GameScene {
             this.addJournalEntry(
                 'forgotten_elevator_button_available',
                 'Mysterious Button at Zerren\'s Shop',
-                "Zerren has a new item on her stall: a Forgotten Elevator Button with odd markings, for a floor that doesn't officially exist. Maybe it's my way up to Dr. Elphi's studio in Scraper 1140 — where the Bishop was headed.",
+                "Zerren has a new item on her stall: a Forgotten Elevator Button with odd markings, for a floor that doesn't officially exist. Maybe it's my way up to Dr. Elphi's studio in Scraper 1140, where the Bishop was headed.",
                 this.journalSystem.categories.EVENTS,
                 { location: 'Voxmarket', character: 'Zerren' }
             );

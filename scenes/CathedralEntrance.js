@@ -121,7 +121,7 @@ export default class CathedralEntrance extends GameScene {
                         this.addJournalEntry(
                             'learned_digestions',
                             'Counting in Digestions',
-                            "The Sentinel at the Egg Cathedral counts time in digestions of the Stomach Clock — he has stood at his post for three thousand of them. The city stopped counting years when the Tally-Keeper died. A digestion runs a little longer than a day and drifts against the sun; six make a week, three hundred make a year.",
+                            "The Sentinel at the Egg Cathedral counts time in digestions of the Stomach Clock. He has stood at his post for three thousand of them. The city stopped counting years when the Tally-Keeper died. A digestion runs a little longer than a day and drifts against the sun; six make a week, three hundred make a year.",
                             this.journalSystem.categories.LORE,
                             { location: 'Egg Cathedral', related: 'The Stomach Clock' }
                         );
@@ -344,7 +344,7 @@ export default class CathedralEntrance extends GameScene {
             this.addJournalEntry(
                 'temple_guard_meeting',
                 'The Temple Guard',
-                "At the gate of the Egg Cathedral stands a guard who lets no one in. The cathedral is closed until further notice — the yolk, he says, sleeps uneasily.",
+                "At the gate of the Egg Cathedral stands a guard who lets no one in. The cathedral is closed until further notice; the yolk, he says, sleeps uneasily.",
                 this.journalSystem.categories.PEOPLE,
                 { character: 'Temple Guard', location: 'Egg Cathedral' }
             );
@@ -367,7 +367,7 @@ export default class CathedralEntrance extends GameScene {
             }
             this.questSystem.updateQuest(
                 'find_bishop',
-                "According to the guard, the Bishop isn't in the cathedral. I'll have to look for her around the city — most likely at the Voxmarket or around Shed 521.",
+                "According to the guard, the Bishop isn't in the cathedral. I'll have to look for her around the city, most likely at the Voxmarket or around Shed 521.",
                 'guard_bishop_not_inside'
             );
         } else if (dialogKey === 'templeGuardVoxmarket' && this.questSystem.getQuest('find_bishop')) {

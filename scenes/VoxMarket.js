@@ -73,7 +73,7 @@ export default class VoxMarket extends GameScene {
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('kloor_venn_meeting', 'entrepreneur', 'He calls himself a "pharmaceutical entrepreneur" — he deals in specialized substances that expand the mind.');
+                    this.addJournalFact('kloor_venn_meeting', 'entrepreneur', 'He calls himself a "pharmaceutical entrepreneur"; he deals in specialized substances that expand the mind.');
                 }
             },
             
@@ -84,7 +84,7 @@ export default class VoxMarket extends GameScene {
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('kloor_venn_meeting', 'oltrac', 'His speciality is Oltrac, a psychoactive drug — and he is keen to buy my fungal spores as raw material for it.');
+                    this.addJournalFact('kloor_venn_meeting', 'oltrac', 'His speciality is Oltrac, a psychoactive drug. He is keen to buy my fungal spores as raw material for it.');
                 }
             },
             
@@ -105,7 +105,7 @@ export default class VoxMarket extends GameScene {
                     { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('kloor_venn_meeting', 'oltrac', 'His speciality is Oltrac, a psychoactive drug — and he is keen to buy my fungal spores as raw material for it.');
+                    this.addJournalFact('kloor_venn_meeting', 'oltrac', 'His speciality is Oltrac, a psychoactive drug. He is keen to buy my fungal spores as raw material for it.');
                 }
             },
             

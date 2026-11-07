@@ -326,7 +326,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             this.addJournalEntry(
                 'noise_god_insight', 
                 'Noise God Insight', 
-                'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback — not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here a long time ago. He may be forgotten, but the noise is still alive.',
+                'During the Feral Toast rehearsal, I experienced a profound insight about the Noise God. During their set, the amplifiers began to hum in unison. Not feedback, not even mechanical. It was structured, deliberate, alive. A low harmonic, buried under the mix, pulsing at impossible intervals. I believe it was the Noise God who came to die here a long time ago. He may be forgotten, but the noise is still alive.',
                 this.journalSystem.categories.LORE,
             );
             

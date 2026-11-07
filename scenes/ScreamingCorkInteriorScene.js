@@ -51,7 +51,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             ravla_job: {
                 text: "I provide services for those who need their paperwork adjusted. Nothing illegal, of course. Just creative interpretations of bureaucratic necessities.",
                 onTrigger: () => {
-                    this.addJournalFact('met_ravla', 'forger', "She forges documents — papers for anyone who can pay, no questions asked.");
+                    this.addJournalFact('met_ravla', 'forger', "She forges documents: papers for anyone who can pay, no questions asked.");
                     this.addJournalFact('screaming_cork_place', 'ravla', "The woman in the corner is Ravla, and she forges papers.");
                 },
                 options: [
@@ -185,7 +185,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "I'll hold you to that.", key: 'ill_hold_you_to_that', next: "closeDialog" }
                 ],
                 onTrigger: () => {
-                    this.questSystem.updateQuest('rust_feast', "Ravla admitted the places I'd need for the feast aren't part of this demo yet. The Rust Choir will have to wait for the full game — Brukk never forgets a volunteer, she says.", 'demo_not_yet');
+                    this.questSystem.updateQuest('rust_feast', "Ravla admitted the places I'd need for the feast aren't part of this demo yet. The Rust Choir will have to wait for the full game. Brukk never forgets a volunteer, she says.", 'demo_not_yet');
                 }
             },
             ravla_rust_task: {
@@ -238,7 +238,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Fascinating. But I have other questions.", key: 'fascinating_but_i_have_other_questions', next: "heliodor_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('screaming_cork_place', 'heliodor', "The barkeep is Heliodor — many creatures wearing a single name.");
+                    this.addJournalFact('screaming_cork_place', 'heliodor', "The barkeep is Heliodor: many creatures wearing a single name.");
                     // Add a lore entry about Heliodor to the player's journal
                     if (!this.hasJournalEntry('heliodor_lore')) {
                         this.addJournalEntry(
@@ -256,7 +256,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Ask something else", key: 'back', next: "heliodor_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('screaming_cork_place', 'oldest', "Its owner claims it was the first building raised after the Collapse. Heliodor doubts it, but the place is certainly old — a good place to disappear for a while.");
+                    this.addJournalFact('screaming_cork_place', 'oldest', "Its owner claims it was the first building raised after the Collapse. Heliodor doubts it, but the place is certainly old. A good place to disappear for a while.");
                 }
             },
             // the muffled rehearsal heard through the wall (tavernRehearsal, see create())
@@ -289,7 +289,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Thanks for the tip", key: 'thanks_for_the_tip', next: "heliodor_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('met_ravla', 'forger', "She forges documents — papers for anyone who can pay, no questions asked.");
+                    this.addJournalFact('met_ravla', 'forger', "She forges documents: papers for anyone who can pay, no questions asked.");
                     this.addJournalFact('screaming_cork_place', 'ravla', "The woman in the corner is Ravla, and she forges papers.");
                     // Add a hint about Ravla to any relevant quests
                     const questSystem = this.registry.get('questSystem');

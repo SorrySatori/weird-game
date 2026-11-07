@@ -313,7 +313,7 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('edgar_eskola_meeting', 'misutkenn', "He is a mišutkenn — and, he says, most people avoid his kind if they can help it.");
+                    this.addJournalFact('edgar_eskola_meeting', 'misutkenn', "He is a mišutkenn. Most people, he says, avoid his kind if they can help it.");
                 }
             },
             edgar_what: {

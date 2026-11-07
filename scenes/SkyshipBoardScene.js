@@ -273,7 +273,7 @@ export default class SkyshipBoardScene extends GameScene {
                     }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('lumen_directorate_faction', 'specimens', "Their people go on missions to gather rare specimens — Captain Liris is on one now.");
+                    this.addJournalFact('lumen_directorate_faction', 'specimens', "Their people go on missions to gather rare specimens; Captain Liris is on one now.");
                 }
             },
             captainEnemies: {

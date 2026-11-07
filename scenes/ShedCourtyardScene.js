@@ -234,7 +234,7 @@ export default class ShedCourtyardScene extends GameScene {
                     { text: "How did it end?", key: 'how_did_it_end', next: "ortolan_board_wars_end" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('board_games_war', 'ortolan', "Ortolan was a worldwright: he made the boards and carved the pieces that became living beings — and he still carries the guilt.");
+                    this.addJournalFact('board_games_war', 'ortolan', "Ortolan was a worldwright: he made the boards and carved the pieces that became living beings. He still carries the guilt.");
                 }
             },
             ortolan_board_wars_end: {
@@ -278,7 +278,7 @@ export default class ShedCourtyardScene extends GameScene {
             this.addJournalEntry(
                 'board_games_war',
                 'The Board Game Wars',
-                "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. The Ludarchs — game designers who could bend the rules of reality — became the new rulers, but grew drunk on power: their games swallowed whole cities, and they created living miniature worlds just to sacrifice them as pieces. Millions of tiny sentient beings died as pawns.",
+                "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. The Ludarchs (game designers who could bend the rules of reality) became the new rulers, but grew drunk on power: their games swallowed whole cities, and they created living miniature worlds just to sacrifice them as pieces. Millions of tiny sentient beings died as pawns.",
                 this.journalSystem.categories.LORE
             );
         }

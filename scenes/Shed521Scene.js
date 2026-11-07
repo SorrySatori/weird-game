@@ -65,7 +65,7 @@ export default class Shed521Scene extends GameScene {
                 ],
                 onTrigger: () => {
                     this.addJournalFact('gnur_meeting', 'rust_choir', "He used to keep the machines running in the old days; now he is with the Rust Choir. That suggests a deeper involvement with the city's hidden infrastructures and technologies than his shabby appearance would suggest.");
-                    this.addJournalFact('rust_choir_faction', 'machines', "Gnur says they sing to the machines — to keep some awake and lull others to sleep, depending on the situation.");
+                    this.addJournalFact('rust_choir_faction', 'machines', "Gnur says they sing to the machines to keep some awake and lull others to sleep, depending on the situation.");
                 }
             },
             rustChoir: {
@@ -75,7 +75,7 @@ export default class Shed521Scene extends GameScene {
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('rust_choir_faction', 'entropy', "They celebrate entropy — collapse as transformation — and like to trade in secrets, above all old tech. Brukk's people can be found in the old Scraper.");
+                    this.addJournalFact('rust_choir_faction', 'entropy', "They celebrate entropy (collapse as transformation) and like to trade in secrets, above all old tech. Brukk's people can be found in the old Scraper.");
                 }
             },
             brukk: {
@@ -142,7 +142,7 @@ export default class Shed521Scene extends GameScene {
                         this.questSystem.completeQuest('rust_reclamation');
                         
                         // Update find_bishop quest with new information
-                        this.questSystem.updateQuest('find_bishop', 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel — then headed to Scraper 1140 to meet Dr. Elphi.', 'bishop_location_scraper');
+                        this.questSystem.updateQuest('find_bishop', 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel. Then she headed to Scraper 1140 to meet Dr. Elphi.', 'bishop_location_scraper');
                     }
                 }
             },
@@ -283,7 +283,7 @@ export default class Shed521Scene extends GameScene {
         const questSystem = this.registry.get('questSystem');
         if (questSystem) {
             if (dialogKey === 'bishop' && questSystem.quests.has('find_bishop')) {
-                questSystem.updateQuest('find_bishop', "Gnur says the Bishop came down to Shed 521 for a lens from the old pre-war dream rigs — Rust Choir stock. He wants something in return before he says more.", 'bishop_clue_gnur');
+                questSystem.updateQuest('find_bishop', "Gnur says the Bishop came down to Shed 521 for a lens from the old pre-war dream rigs (Rust Choir stock). He wants something in return before he says more.", 'bishop_clue_gnur');
             } else if (dialogKey === 'recoverTech' && !questSystem.getQuest('rust_reclamation')) {
                 questSystem.addQuest(
                     'rust_reclamation',

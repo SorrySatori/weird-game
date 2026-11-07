@@ -64,7 +64,7 @@ export default class ScraperInteriorScene extends GameScene {
                 button: ['hint_lost_button', "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says."],
                 // name the source the player can still hear the story from, if they know of one
                 importance: vestigelQuestCompleted && refusedGnur
-                    ? ['hint_importance_clerk', IMPORTANCE + " I turned Gnur down, but the clerk in the Applications office, on the top floor of Shed 521, owes me for it — the Ink Tribunal keeps records of everything."]
+                    ? ['hint_importance_clerk', IMPORTANCE + " I turned Gnur down, but the clerk in the Applications office, on the top floor of Shed 521, owes me for it; the Ink Tribunal keeps records of everything."]
                     : vestigelQuestCompleted && rustQuest && !rustQuest.isComplete
                     ? ['hint_importance_gnur', IMPORTANCE + " Gnur promised to remember something about the Bishop once I bring him that core."]
                     : rustQuestCompleted && vestigelQuest && !vestigelQuest.isComplete
@@ -95,7 +95,7 @@ export default class ScraperInteriorScene extends GameScene {
                         this.addJournalEntry(
                             'lift_mother_meeting',
                             'The Lift-Mother',
-                            'Within the Scraper building, I encountered a most unusual consciousness — an elevator calling itself the "Lift-Mother". Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time," whatever that means, and seems to have developed sentience through centuries of carrying passengers between floors.',
+                            'Within the Scraper building, I encountered a most unusual consciousness: an elevator calling itself the "Lift-Mother". Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time", whatever that means, and seems to have developed sentience through centuries of carrying passengers between floors.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Lift-Mother', location: 'Scraper Building' }
                         );
@@ -293,7 +293,7 @@ export default class ScraperInteriorScene extends GameScene {
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('scraper_building', 'nexicorp', "The Lift-Mother says it was once Nexicorp Tower — forty-two floors of commerce and ambition. Now the lower floors house those who remember the old ways, the middle floors have gone wild with growth, and the upper floors belong to the Rust Choir.");
+                    this.addJournalFact('scraper_building', 'nexicorp', "The Lift-Mother says it was once Nexicorp Tower: forty-two floors of commerce and ambition. Now the lower floors house those who remember the old ways, the middle floors have gone wild with growth, and the upper floors belong to the Rust Choir.");
                 }
             },
             lift_mother_egg: {

@@ -273,7 +273,7 @@ export default class ShedRegistrationScene extends GameScene {
                     this.journalSystem.addEntry(
                         'dream_queue',
                         'The Eternal Queue of Shed 521',
-                        'I witnessed something unsettling in the Registration Office of Shed 521 — a queue of translucent figures waiting in a line that never seems to move. They look like ghosts of applicants, condemned to wait for eternity. There is no clerk behind the desk. None of them speak unless spoken to, and the air around them feels like a half-remembered dream.',
+                        'I witnessed something unsettling in the Registration Office of Shed 521: a queue of translucent figures waiting in a line that never seems to move. They look like ghosts of applicants, condemned to wait for eternity. There is no clerk behind the desk. None of them speak unless spoken to, and the air around them feels like a half-remembered dream.',
                         this.journalSystem.categories.EVENTS,
                         { location: 'Shed 521 Registration Office' }
                     );
@@ -372,7 +372,7 @@ export default class ShedRegistrationScene extends GameScene {
             // 1. Sleepless Mime Dialog
             sleeplessMime_start: {
         
-                text: "(The creature watches you intently. You name it the Sleepless Mime for yourself. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands — forming a cube shape, like a die. They pantomime you holding it.)",
+                text: "(The creature watches you intently. You name it the Sleepless Mime for yourself. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands, forming a cube shape like a die. They pantomime you holding it.)",
                 options: [
                     { text: "Hi, who are you? I used to play like this as well, when I was a kid.", key: 'hi_who_are_you_i_used_to_play_like_this_as_well_wh', next: "sleeplessMime_memory" },
                     { text: "Err... Am I at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }
@@ -401,7 +401,7 @@ export default class ShedRegistrationScene extends GameScene {
             },
             sleeplessMime_ortolan: {
         
-                text: "(The Mime nods vigorously. They reach into their pocket and produce a tattered fragment of paper. They press it into your hand — it appears to be a page from some rulebook perhaps. Maybe... a boardgame fragment?)",
+                text: "(The Mime nods vigorously. They reach into their pocket and produce a tattered fragment of paper. They press it into your hand. It appears to be a page from some rulebook perhaps. Maybe... a boardgame fragment?)",
                 options: [
                     { text: "Read the fragment", key: 'read_the_fragment', next: "sleeplessMime_rulebook" }
                 ]
@@ -583,7 +583,7 @@ export default class ShedRegistrationScene extends GameScene {
             },
             seniorClerk_people: {
         
-                text: "(The Clerk's expression remains unchanged.)\n\n'People? There were no people. Only manifestations of the queue itself. Echoes of those who waited too long. You've absorbed their essence now — their stories are part of your processing.'\n\n(He taps his clipboard.)\n\n'Quite irregular, but we'll proceed.'",
+                text: "(The Clerk's expression remains unchanged.)\n\n'People? There were no people. Only manifestations of the queue itself. Echoes of those who waited too long. You've absorbed their essence now. Their stories are part of your processing.'\n\n(He taps his clipboard.)\n\n'Quite irregular, but we'll proceed.'",
                 options: [
                     { text: "I see...", key: 'i_see', next: "seniorClerk_processing" }
                 ]
@@ -724,7 +724,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_arms_redirect: {
-                text: "(The clerk doesn't even look up.)\n\n'Limbs. Additional. Registration does not decide which form a limb falls under — Applications does. Top floor, the door with the queue. Come back with the name of the form, and I will issue it.'",
+                text: "(The clerk doesn't even look up.)\n\n'Limbs. Additional. Registration does not decide which form a limb falls under. Applications does. Top floor, the door with the queue. Come back with the name of the form, and I will issue it.'",
                 options: [
                     { text: "Applications first, then. Understood.", key: 'applications_first_understood', next: "registration_reconsider" }
                 ],
@@ -733,7 +733,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_proxy: {
-                text: "'Registration by proxy is not accepted. The applicant must appear in person — or you must hold a form issued in their name.'",
+                text: "'Registration by proxy is not accepted. The applicant must appear in person, or you must hold a form issued in their name.'",
                 options: [
                     { text: "Understood.", key: 'understood', next: "registration_reconsider" }
                 ]
@@ -776,7 +776,7 @@ export default class ShedRegistrationScene extends GameScene {
                                 this.journalSystem.addEntry(
                                     'extra_symbiont_slot_purchased',
                                     'Extra Symbiont Slot',
-                                    'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward — just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
+                                    'I registered for an additional symbiont slot at the Shed 521 Registration Office. The process was surprisingly straightforward: just a form and a fee of 50 dinar. Now I can host another symbiont entity within my body.',
                                     this.journalSystem.categories.EVENTS,
                                     { location: 'Shed 521 Registration Office' }
                                 );
@@ -969,7 +969,7 @@ export default class ShedRegistrationScene extends GameScene {
                         // offer at the Screaming Cork (ScreamingCorkInteriorScene, ravla_documents).
                         questSystem.updateQuest(
                             'ortolan_arms',
-                            "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though — which is practically a recommendation.",
+                            "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though. That's practically a recommendation.",
                             'ravla_forger_hint',
                             { textKey: 'clerk_forger_warning' }
                         );

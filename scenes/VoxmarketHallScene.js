@@ -31,7 +31,7 @@ export default class VoxmarketHallScene extends GameScene {
                         this.addJournalEntry(
                             'met_hesh_vell',
                             'The Twin Auctioneers: Hesh & Vell',
-                            'Met the twin auctioneers at the Voxmarket Auction Hall. One speaks, the other mouths the same words half a second late. Their synchronization is unsettling and precise — and likely deliberate. They run the auction together.',
+                            'Met the twin auctioneers at the Voxmarket Auction Hall. One speaks, the other mouths the same words half a second late. Their synchronization is unsettling and precise, and likely deliberate. They run the auction together.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Hesh & Vell' }
                         );

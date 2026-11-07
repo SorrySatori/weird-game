@@ -14,7 +14,7 @@ export default {
     },
     // ---------- Sleepless Mime ----------
     sleeplessMime_start: {
-        text: "(Tvor tě upřeně pozoruje. V duchu si ho pojmenuješ Nevyspalý mim. Jeho rezavějící maska zachytává tlumené světlo. Mlčky napodobí tvůj postoj a pak rukama naznačí tvar krychle – jako hrací kostku. Předvádí, jak ji držíš v ruce.)",
+        text: "(Tvor tě upřeně pozoruje. V duchu si ho pojmenuješ Nevyspalý mim. Jeho rezavějící maska zachytává tlumené světlo. Mlčky napodobí tvůj postoj a pak rukama naznačí tvar krychle, jako hrací kostky. Předvádí, jak ji držíš v ruce.)",
         options: {
             hi_who_are_you_i_used_to_play_like_this_as_well_wh: "Ahoj, kdo jsi? Takhle jsem si taky hrával, když jsem byl malý.",
             err_i_am_at_the_right_place_can_you_help_my_friend: "Ehm... jsem tu správně? Můžeš mému kamarádovi pomoct s registrací rukou navíc?"
@@ -29,7 +29,7 @@ export default {
         options: { thank_you_for_reminding_me: "Díky, že jsi mi to připomněl." }
     },
     sleeplessMime_ortolan: {
-        text: "(Mim horlivě přikyvuje. Sáhne do kapsy a vytáhne potrhaný útržek papíru. Vtiskne ti ho do dlaně – vypadá to na stránku z nějakých pravidel. Snad... kousek pravidel deskové hry?)",
+        text: "(Mim horlivě přikyvuje. Sáhne do kapsy a vytáhne potrhaný útržek papíru. Vtiskne ti ho do dlaně. Vypadá to na stránku z nějakých pravidel. Snad... kousek pravidel deskové hry?)",
         options: { read_the_fragment: "Přečíst útržek" }
     },
     sleeplessMime_rulebook: {
@@ -52,7 +52,7 @@ export default {
         }
     },
     vowelSeller_buy: {
-        text: "„Chytrá volba. Cena je drobná vzpomínka. Něco malého... třeba chuť tvého prvního jídla v tomhle městě?“\n\n(Odzátkuje lahvičku. Samohláska se vznese, chvíli se vznáší před tebou a pak ti vklouzne do úst. Cítíš podivné chvění – samohláska se snaží najít své místo ve tvém jméně. Je to jako... a... a... a... Jenže o jméno jsi přišel v den, kdy jsi vstoupil do kultu Obazoba. A na chuť svého prvního jídla v tomhle městě si taky nevzpomínáš – těžko říct, jestli kvůli tomu obchodu, nebo protože jsi tu ještě nic nejedl.)",
+        text: "„Chytrá volba. Cena je drobná vzpomínka. Něco malého... třeba chuť tvého prvního jídla v tomhle městě?“\n\n(Odzátkuje lahvičku. Samohláska se vznese, chvíli se vznáší před tebou a pak ti vklouzne do úst. Cítíš podivné chvění, jak se samohláska snaží najít své místo ve tvém jméně. Je to jako... a... a... a... Jenže o jméno jsi přišel v den, kdy jsi vstoupil do kultu Obazoba. A na chuť svého prvního jídla v tomhle městě si taky nevzpomínáš. Těžko říct, jestli kvůli tomu obchodu, nebo protože jsi tu ještě nic nejedl.)",
         options: { thank_you_but_you_know_we_have_no_names_i_am_just_: "Děkuju. Ale víte, my jména nemáme. Jsem jen číslo. Pardon, měl jsem to říct dřív." }
     },
     vowelSeller_spores: {
@@ -96,7 +96,7 @@ export default {
         options: { thank_you: "Děkuji." }
     },
     seniorClerk_people: {
-        text: "(Úředníkův výraz se nezmění.)\n\n„S lidmi? Žádní lidé tu nebyli. Jen projevy fronty samotné. Ozvěny těch, kdo čekali příliš dlouho. Vstřebal jste jejich podstatu – jejich příběhy jsou teď součástí vašeho řízení.“\n\n(Poklepe na desky.)\n\n„Značně nestandardní, ale budeme pokračovat.“",
+        text: "(Úředníkův výraz se nezmění.)\n\n„S lidmi? Žádní lidé tu nebyli. Jen projevy fronty samotné. Ozvěny těch, kdo čekali příliš dlouho. Vstřebal jste jejich podstatu. Jejich příběhy jsou teď součástí vašeho řízení.“\n\n(Poklepe na desky.)\n\n„Značně nestandardní, ale budeme pokračovat.“",
         options: { i_see: "Aha..." }
     },
     seniorClerk_processing: {
@@ -119,7 +119,7 @@ export default {
         }
     },
     registration_arms_redirect: {
-        text: "(Úředník ani nezvedne oči.)\n\n„Končetiny. Dodatečné. Registrace nerozhoduje o tom, pod jaký formulář končetina spadá – to rozhodují Žádosti. Nejvyšší patro, dveře s frontou. Vraťte se s názvem formuláře a já vám ho vydám.“",
+        text: "(Úředník ani nezvedne oči.)\n\n„Končetiny. Dodatečné. Registrace nerozhoduje o tom, pod jaký formulář končetina spadá. To rozhodují Žádosti. Nejvyšší patro, dveře s frontou. Vraťte se s názvem formuláře a já vám ho vydám.“",
         options: { applications_first_understood: "Takže nejdřív Žádosti. Rozumím." }
     },
     registration_artisan: {
@@ -200,7 +200,7 @@ export default {
         }
     },
     registration_proxy: {
-        text: "„Registrace v zastoupení se nepřijímá. Žadatel se musí dostavit osobně – nebo musíte mít formulář vystavený na jeho jméno.“",
+        text: "„Registrace v zastoupení se nepřijímá. Žadatel se musí dostavit osobně. Nebo musíte mít formulář vystavený na jeho jméno.“",
         options: { understood: "Rozumím." }
     },
     registration_extra_symbiont: {

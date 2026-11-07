@@ -102,7 +102,7 @@ export default class ShedApplicationsScene extends GameScene {
                     if (questSystem?.getQuest('rust_reclamation')) {
                         questSystem.updateQuest(
                             'rust_reclamation',
-                            'I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter far more than Gnur let on — the clerk says it is classified technology, and the Rust Choir has no right to it.',
+                            'I promised the clerk in Shed 521 I will not mess with the living core. It seems to matter far more than Gnur let on. The clerk says it is classified technology, and the Rust Choir has no right to it.',
                             'promise_made'
                         );
                     }
@@ -139,8 +139,8 @@ export default class ShedApplicationsScene extends GameScene {
                     if (qs?.getQuest('level_177_access') && !this.hasJournalEntry('accessed_elphi_floor')) {
                         const two = knowsKloorStory(qs);
                         qs.updateQuest('level_177_access', two
-                            ? "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree — the Lift-Mother should let me up now."
-                            : "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story — I need a second one that agrees.",
+                            ? "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree. The Lift-Mother should let me up now."
+                            : "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story; I need a second one that agrees.",
                             'clerk_records', { textKey: two ? 'clerk_records_two' : 'clerk_records_one' });
                     }
                 })
@@ -160,7 +160,7 @@ export default class ShedApplicationsScene extends GameScene {
                 onTrigger: () => {
                     this.once('pith_reclaimers', () => this.modifyFactionReputation('PithReclaimers', 20));
                     this.learnPithReclaimers();
-                    this.addJournalFact('pith_reclaimers_faction', 'neutrality', "A clerk at Shed 521 called the Tribunal the guardian of neutrality, keeping peace and order in the city. Some of its people collect unique items — but never sell them.");
+                    this.addJournalFact('pith_reclaimers_faction', 'neutrality', "A clerk at Shed 521 called the Tribunal the guardian of neutrality, keeping peace and order in the city. Some of its people collect unique items, but never sell them.");
                 }
             },
             no_promise: {
