@@ -1,3 +1,5 @@
+import { knowsShedStory, knowsKloorStory } from '../utils/bishopTrail.js';
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
@@ -19,9 +21,7 @@ export default class VoxmarketMarketScene extends GameScene {
      */
     hasElphiBishopInfo() {
         const questSystem = this.registry.get('questSystem');
-        const rustQuestCompleted = !!questSystem?.getQuest('rust_reclamation')?.updates?.some(u => u.key === 'core_delivered');
-        const vestigelQuestCompleted = questSystem?.getQuest('the_three_vestigels')?.isComplete;
-        return rustQuestCompleted || vestigelQuestCompleted;
+        return knowsShedStory(questSystem) || knowsKloorStory(questSystem);   // Gnur's / the clerk's, or Kloor's
     }
 
     /** Zerren mentions the elevator button while it is for sale: the player knows of the Elphi link, not yet bought. */
@@ -365,6 +365,7 @@ export default class VoxmarketMarketScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        notePlace(this, 'place_voxmarket');   // the journal's Places tab, on the first visit
         
         // Play market theme
         this.playSceneMusic('marketTheme');

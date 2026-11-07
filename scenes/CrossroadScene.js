@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, placeGDProps } from '../utils/GDProps.js';
@@ -29,6 +30,7 @@ export default class CrossroadScene extends GameScene {
 
     create() {
         super.create();
+        notePlace(this, 'place_crossroads');   // the journal's Places tab, on the first visit
 
         // Phaser re-uses the scene instance on every start/restart: forget the previous run's objects and
         // the "already applied" guard, otherwise re-entering with growth would skip the glow + skyship zone.

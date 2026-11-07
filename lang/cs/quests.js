@@ -10,7 +10,9 @@ export default {
                 vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
                 elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji najít ve Škrabáku 1140.',
                 bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Boudy 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
-                edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
+                edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',   // jen staré savy
+                clerk_records_hint: 'Úředník v Boudě 521 naznačil, že Inkoustový tribunál má o Biskupce záznamy. Ukáže mi je, až Gnurovi řeknu, že jádro nedostane.',
+                bishop_elphi_clerk: 'Úředník v Boudě 521 mi ukázal záznamy Inkoustového tribunálu: Biskupka měla povolení k návštěvě studia Dr. Elphi v patře 177-Tichém ve Škrabáku 1140.',
                 bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
                 got_floor_counter_tool: "Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Lift-Mother. S opraveným počítadlem by se výtah mohl dostat do pater, kam teď nedojede.",
                 lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tichém.',
@@ -99,6 +101,7 @@ export default {
                 hint_lost_button: "Lift-Mother prý už léta postrádá jeden knoflík. Takové věci podle ní končí na Voxmarketu.",
                 hint_importance: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Kam Biskupka šla, by mohl vědět ještě někdo další ve městě.",
                 hint_importance_gnur: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Gnur slíbil, že si na Biskupku vzpomene, až mu přinesu to jádro.",
+                hint_importance_clerk: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Gnura jsem odmítl, ale úředník v Boudě 521 mi to dluží – Inkoustový tribunál si přece všechno zapisuje.",
                 hint_importance_kloor: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Kloor Venn mi za vestigel řekne, co o Biskupce ví.",
             }
         },

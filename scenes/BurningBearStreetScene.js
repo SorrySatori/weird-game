@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
@@ -29,6 +30,7 @@ export default class BurningBearStreetScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        notePlace(this, 'place_burning_bear_street');   // the journal's Places tab, on the first visit
         this.playSceneMusic('streetSong', { resume: true });
         
         // Set scraper background

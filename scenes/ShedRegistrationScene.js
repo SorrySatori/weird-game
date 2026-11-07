@@ -212,9 +212,7 @@ export default class ShedRegistrationScene extends GameScene {
             
         // Set up interaction
         this.seniorClerk.on('pointerdown', () => {
-            if (!this.isTransitioning && this.seniorClerk.alpha > 0.9) {
-                this.showDialog('seniorClerk_start');
-            }
+            if (!this.isTransitioning && this.seniorClerk.alpha > 0.9) this.talkToSeniorClerk();
         });
     }
     
@@ -284,9 +282,17 @@ export default class ShedRegistrationScene extends GameScene {
         });
     }
     
+    /**
+     * The first talk: his entrance (the queue, F-7, "State your business"). Every later one -- this visit or another --
+     * skips it: he looks up and asks the purpose straight away (registration_start, its 'returning' line).
+     */
+    talkToSeniorClerk() {
+        this._clerkReturning = !!this.journalSystem.hasEntry('registration_senior_clerk');
+        this.showDialog(this._clerkReturning ? 'registration_start' : 'seniorClerk_start');
+    }
+
     // Helper method to create just the Senior Clerk for returning players
     createSeniorClerk() {
-            const alreadyMet = this.journalSystem.hasEntry('registration_senior_clerk')
             // he steps up where the queue stood, feet on the yard (soles 2 px above the frame's bottom)
             if (this.seniorClerk) this.seniorClerk.destroy();
             this.seniorClerk = this.add.sprite(this.scale.width / 2, 524, 'seniorClerk', 0);
@@ -295,9 +301,7 @@ export default class ShedRegistrationScene extends GameScene {
             this.addGroundShadow(this.seniorClerk.x, 520, 64, 14);
             this.seniorClerk.setInteractive({ useHandCursor: true });
             this.seniorClerk.setVisible(true)
-            this.seniorClerk.on('pointerdown', () => {
-                this.showDialog(alreadyMet ? 'seniorClerk_returning' : 'seniorClerk_start');
-            });
+            this.seniorClerk.on('pointerdown', () => this.talkToSeniorClerk());
             
             // Show notification
             this.time.delayedCall(500, () => {
@@ -599,7 +603,11 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_start: {
-                text: "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed 521 today?'",
+                // a later talk opens here: no entrance, he just asks (talkToSeniorClerk)
+                text: this._clerkReturning
+                    ? "(The Senior Clerk looks up from his paperwork.) 'You again. State the purpose of your registration.'"
+                    : "'Before we proceed, I need to know the purpose of your registration. What brings you to Shed 521 today?'",
+                textKey: this._clerkReturning ? 'returning' : 'first',
                 options: [
                     { text: "I'm here for general registration.", key: 'im_here_for_general_registration', next: "registration_general" },
                     { text: "I'd rather not say.", key: 'id_rather_not_say', next: "registration_evasive" },
@@ -1002,12 +1010,6 @@ export default class ShedRegistrationScene extends GameScene {
                 onTrigger: () => {
                     this.hideDialog();
                 }
-            },
-            seniorClerk_returning: {
-                text: "(The Senior Clerk looks up from his paperwork.) 'Ah, you again. What registration services do you require today?'",
-                options: [
-                    { text: "I'd like to discuss registration options.", key: 'id_like_to_discuss_registration_options', next: "registration_start" }
-                ]
             },
             end: {
         

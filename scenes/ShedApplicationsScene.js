@@ -1,3 +1,4 @@
+import { gnurRefused, clerkToldBishop, CLERK_STORY_KEY } from '../utils/bishopTrail.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
@@ -107,19 +108,33 @@ export default class ShedApplicationsScene extends GameScene {
                     }
                 })
             },
+            // (he used to send the player to Edgar Eskola, who knows nothing about the Bishop -- a dead end). Now he points
+            // at the Tribunal's records, his reward once the player turns Gnur down (core_refused_thanks)
             bishop_location: {
-                text: "The Bishop? Hmm... I can't tell you where she is. But look for Edgar Eskola at the Screaming Cork tavern. I think he might know something.",
+                text: "The Bishop? (He glances at the filing cabinet behind him.) The Tribunal keeps records of everyone who passes through this city. But records aren't handed out to just anyone. Turn Gnur down — let him know he won't get the core — and then come back. The Tribunal remembers its friends.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" },
                     { text: "What is the Ink Tribunal?", key: 'who_are_the_pith_reclaimers', next: "pith_reclaimers"},
-                    { text: "Who is Edgar Eskola?", key: 'who_is_edgar_eskola', next: "edgar"}
                 ],
                 onTrigger: () => {
                     const questSystem = this.registry.get('questSystem');
-                    if (questSystem && questSystem.getQuest('find_bishop')) {
-                        questSystem.updateQuest('find_bishop', 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.', 'edgar_eskola_clue');
+                    if (questSystem?.getQuest('find_bishop') && !clerkToldBishop(questSystem)) {
+                        questSystem.updateQuest('find_bishop', "The clerk in Shed 521 hinted that the Ink Tribunal has records on the Bishop. He'll show me once I've told Gnur he won't get the core.", 'clerk_records_hint');
                     }
                 }
+            },
+            // After the player turned Gnur down: the Tribunal pays its friends back -- with the Bishop's visitor permit for
+            // Dr. Elphi's floor, the same lead Gnur would have given (utils/bishopTrail.js)
+            core_refused_thanks: {
+                text: "(The clerk sets down his stamp.) You turned Gnur down? (A thin smile.) The Ink Tribunal remembers its friends. You were asking after the Bishop, weren't you? (He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet — Dr. Elphi Quarn's studio. Filed by the Bishop herself, stamped and countersigned. Wherever she went after that, she went there first.",
+                options: [
+                    { text: "Thank you. That helps a lot.", key: 'thank_you_that_helps', next: "start" }
+                ],
+                onTrigger: () => this.once('core_refused_thanks', () => {
+                    this.registry.get('questSystem')?.updateQuest('find_bishop',
+                        "The clerk in Shed 521 showed me the Ink Tribunal's records: the Bishop had a visitor's permit for Dr. Elphi's studio on floor 177-Quiet of Scraper 1140.",
+                        CLERK_STORY_KEY);
+                })
             },
             private: {
                 text: "I see, no problem. Is there anything else I can help you with?",
@@ -138,12 +153,6 @@ export default class ShedApplicationsScene extends GameScene {
                     this.learnPithReclaimers();
                     this.addJournalFact('pith_reclaimers_faction', 'neutrality', "A clerk at Shed 521 called the Tribunal the guardian of neutrality, keeping peace and order in the city. Some of its people collect unique items — but never sell them.");
                 }
-            },
-            edgar: {
-                text: "Edgar Eskola? (raises eyebrow) He is one of the mišutkenn. Heard about them? They are ursine, sentient humanoids with patchy fur and deep-set amber eyes. Usually gentle souls, but they can be... unpredictable.",
-                options: [
-                    { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
-                ]
             },
             no_promise: {
                 text: "(Straightens papers disapprovingly) Very well. But remember — proper protocols exist for a reason.",
@@ -255,6 +264,14 @@ export default class ShedApplicationsScene extends GameScene {
             const coreQuest = questSystem.getQuest('rust_reclamation');
             const livingCoreSettled = !!coreQuest?.updates?.some(u => ['core_shed_energy', 'promise_made'].includes(u.key))
                 || ['lie_living_core', 'promise_made', 'no_promise'].some(k => this.visitedDialogs.has(k));
+            // he heard you turned Gnur down: the Tribunal's records on the Bishop, once
+            if (gnurRefused(questSystem) && questSystem.getQuest('find_bishop') && !clerkToldBishop(questSystem)) {
+                content.start.options.splice(1, 0, {
+                    text: "Gnur won't get the living core. I turned him down.",
+                    key: 'gnur_wont_get_the_core',
+                    next: "core_refused_thanks"
+                });
+            }
             if (coreQuest && !coreQuest.isComplete && !livingCoreSettled) {
                 content.start.options.splice(1, 0, {
                     text: "What do you know about the living core?",

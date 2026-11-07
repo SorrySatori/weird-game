@@ -1,3 +1,4 @@
+import { knowsShedStory, gnurRefused, clerkToldBishop } from '../utils/bishopTrail.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
@@ -19,7 +20,8 @@ export default class ScraperInteriorScene extends GameScene {
         // refuse him -- then he told you nothing, so only the delivery counts.
         const rustQuest = questSystem?.getQuest('rust_reclamation');
         const vestigelQuest = questSystem?.getQuest('the_three_vestigels');
-        const rustQuestCompleted = !!rustQuest?.updates?.some(u => u.key === 'core_delivered');
+        // Shed 521's story: Gnur's (the core delivered) or, after refusing him, the Ink Tribunal clerk's (utils/bishopTrail.js)
+        const rustQuestCompleted = knowsShedStory(questSystem);
         const vestigelQuestCompleted = !!vestigelQuest?.isComplete;
         const hasElphiBishopInfo = rustQuestCompleted || vestigelQuestCompleted;
         // Once let up, the lift just takes you there (the map has no node of its own for floor 177-Quiet any more)
@@ -31,8 +33,8 @@ export default class ScraperInteriorScene extends GameScene {
         const hasLirisPart = this.registry.get('fixed_floor_counter') === true || !!this.hasJournalEntry('floor_counter_tool');
         // Taking Thorne-Still uses the corpse up: no spores, no tree, no way up to the skyship (and Liris) -- by design
         const skyshipLost = !!this.hasJournalEntry('symbiont_thorne_still_accepted') && !this.hasJournalEntry('crossroad_corpse_spores_planted');
-        // Refusing Gnur leaves only Kloor's story: the "two stories" plea can't happen any more
-        const gnurRefused = !!rustQuest?.isComplete && !rustQuestCompleted;
+        // Refusing Gnur: his story is lost, but the clerk in Shed 521 can still tell it (from the Tribunal's records)
+        const refusedGnur = gnurRefused(questSystem) && !clerkToldBishop(questSystem);
 
         // Turned away at 177-Quiet: the Lift-Mother hints at every way up the player doesn't have yet, and each hint
         // goes into the level_177_access quest log. Localized here (the cs file can't compose the parts).
@@ -40,7 +42,7 @@ export default class ScraperInteriorScene extends GameScene {
         const elphiHints = [
             !hasLirisPart && !skyshipLost && 'counter',
             !hasElevatorButton && 'button',
-            !(rustQuestCompleted && vestigelQuestCompleted) && !gnurRefused && 'importance'
+            !(rustQuestCompleted && vestigelQuestCompleted) && 'importance'
         ].filter(Boolean);
         const HINT_TEXT = {
             intro: cs ? "Pravidla jsou pravidla, malá muchomůrko. Jenže já nejsem jen z pravidel."
@@ -52,6 +54,27 @@ export default class ScraperInteriorScene extends GameScene {
             importance: cs ? "Nebo mě přesvědč, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují – to už je něco jiného."
                            : "Or convince me it truly is a matter of importance. One story about the Bishop is gossip. Two that agree are another matter."
         };
+
+        // Turned away: each hint at a way up the player doesn't have yet goes into the level_177_access quest log
+        const writeElphiHints = (hints) => {
+            if (!questSystem?.getQuest('level_177_access') || this.hasJournalEntry('accessed_elphi_floor')) return;
+            const IMPORTANCE = "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter.";
+            const HINTS = {
+                counter: ['hint_floor_counter', "The Lift-Mother's floor counter is broken. If I got it mended, she'd owe me a favour. She says sky folk understand such machines."],
+                button: ['hint_lost_button', "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says."],
+                // name the source the player can still hear the story from, if they know of one
+                importance: vestigelQuestCompleted && refusedGnur
+                    ? ['hint_importance_clerk', IMPORTANCE + " I turned Gnur down, but the clerk in Shed 521 owes me for it — the Ink Tribunal keeps records of everything."]
+                    : vestigelQuestCompleted && rustQuest && !rustQuest.isComplete
+                    ? ['hint_importance_gnur', IMPORTANCE + " Gnur promised to remember something about the Bishop once I bring him that core."]
+                    : rustQuestCompleted && vestigelQuest && !vestigelQuest.isComplete
+                        ? ['hint_importance_kloor', IMPORTANCE + " Kloor Venn will tell me what he knows about the Bishop in exchange for a vestigel."]
+                        : ['hint_importance', IMPORTANCE + " Someone else in the city might know where the Bishop went."]
+            };
+            for (const h of hints) questSystem.updateQuest('level_177_access', HINTS[h][1], HINTS[h][0]);
+        };
+        // exactly one of the two stories (Shed 521's: Gnur / the clerk; Kloor's): the player may think it's enough
+        const oneStory = rustQuestCompleted !== vestigelQuestCompleted;
 
         const interiorContent = {
             speaker: 'Lift-Mother',
@@ -120,6 +143,10 @@ export default class ScraperInteriorScene extends GameScene {
                         key: 'i_know_the_bishops_secret_its_important_to_reach_d',
                         next: "confession_path"
                     }] : []),
+                    // one story only: let him try it -- she explains why it isn't enough (and the clerk's record isn't his permit)
+                    ...(oneStory ? [clerkToldBishop(questSystem) && !vestigelQuestCompleted
+                        ? { text: "The Ink Tribunal's records say the Bishop had a permit for this floor.", key: 'tribunal_records_permit', next: "permit_not_yours" }
+                        : { text: "I know the Bishop came here to see Dr. Elphi.", key: 'i_know_the_bishop_came_to_elphi', next: "one_story" }] : []),
                     {
                         text: "I have nothing to offer...",
                         key: 'i_have_nothing_to_offer',
@@ -204,21 +231,24 @@ export default class ScraperInteriorScene extends GameScene {
                         next: "lift_mother_start"
                     }
                 ],
-                onTrigger: () => {
-                    if (!questSystem?.getQuest('level_177_access') || this.hasJournalEntry('accessed_elphi_floor')) return;
-                    const IMPORTANCE = "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter.";
-                    const HINTS = {
-                        counter: ['hint_floor_counter', "The Lift-Mother's floor counter is broken. If I got it mended, she'd owe me a favour. She says sky folk understand such machines."],
-                        button: ['hint_lost_button', "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says."],
-                        // name the source the player can still hear the story from, if they know of one
-                        importance: vestigelQuestCompleted && rustQuest && !rustQuest.isComplete
-                            ? ['hint_importance_gnur', IMPORTANCE + " Gnur promised to remember something about the Bishop once I bring him that core."]
-                            : rustQuestCompleted && vestigelQuest && !vestigelQuest.isComplete
-                                ? ['hint_importance_kloor', IMPORTANCE + " Kloor Venn will tell me what he knows about the Bishop in exchange for a vestigel."]
-                                : ['hint_importance', IMPORTANCE + " Someone else in the city might know where the Bishop went."]
-                    };
-                    for (const h of elphiHints) questSystem.updateQuest('level_177_access', HINTS[h][1], HINTS[h][0]);
-                }
+                onTrigger: () => writeElphiHints(elphiHints)
+            },
+
+            // He knows ONE story about the Bishop going up to Dr. Elphi: why that isn't enough, and what would be.
+            // From the clerk it is the Bishop's own permit -- papers open a door for the name on them, not for him.
+            permit_not_yours: {
+                text: "A permit, yes. Hers. (The cables hum, amused.) A permit opens a door for the name written on it, little toadstool — and that name isn't yours. Still... the Bishop going up to 177-Quiet, stamped and filed. But one story about the Bishop is gossip, even with a stamp on it. Bring me a second one that agrees, and I'll believe it truly matters.",
+                options: [
+                    { text: "I understand. I'll find a second one.", key: 'ill_find_a_second_one', next: "lift_mother_start" }
+                ],
+                onTrigger: () => writeElphiHints(['importance'])
+            },
+            one_story: {
+                text: "That she went up to see the doctor? Perhaps. But one story about the Bishop is only gossip, little toadstool. Bring me a second one that agrees, and I'll believe it truly matters.",
+                options: [
+                    { text: "I understand. I'll find a second one.", key: 'ill_find_a_second_one', next: "lift_mother_start" }
+                ],
+                onTrigger: () => writeElphiHints(['importance'])
             },
             
             unlock_floor: {

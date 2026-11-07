@@ -104,7 +104,10 @@ export default {
         options: { proceed_to_the_registration_office: "Přejít k registraci" }
     },
     registration_start: {
-        text: "„Než budeme pokračovat, potřebuji znát účel vaší registrace. Co vás dnes přivádí do Boudy 521?“",
+        text: {
+            first: "„Než budeme pokračovat, potřebuji znát účel vaší registrace. Co vás dnes přivádí do Boudy 521?“",
+            returning: "(Vrchní úředník vzhlédne od papírů.) „Zase vy. Uveďte účel registrace.“",
+        },
         options: {
             im_here_for_general_registration: "Přišel jsem na obecnou registraci.",
             id_rather_not_say: "Raději bych si to nechal pro sebe.",
@@ -262,10 +265,6 @@ export default {
     },
     seniorClerk_end: {
         text: "(Vrchní úředník se vrátí ke svým papírům, jako by na tebe v tu chvíli zapomněl.)"
-    },
-    seniorClerk_returning: {
-        text: "(Vrchní úředník vzhlédne od papírů.) „Á, zase vy. Jaké registrační služby si dnes přejete?“",
-        options: { id_like_to_discuss_registration_options: "Chtěl bych probrat možnosti registrace." }
     },
     end: {
         text: ""

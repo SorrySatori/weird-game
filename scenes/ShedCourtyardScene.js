@@ -308,8 +308,9 @@ export default class ShedCourtyardScene extends GameScene {
             this.ground = null;
         }
         
+        // he comes in from the gate on the right (the gate's left exit leads here), so he starts on the right
         if (this.priest) {
-            this.priest.x = 60;
+            this.priest.x = this.scale.width - 60;
             this.priest.y = 534; // feet on the walk line
             this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
@@ -349,16 +350,18 @@ export default class ShedCourtyardScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Create exit to Shed521GateScene at the left edge
+        // Exit back to the gate at the right edge -- the way he came in
+        // (zone coords are in the old 800-wide layout; SceneTransitionManager widens them, as the gate's right exit)
         this.transitionManager.createTransitionZone(
-            50, // x position
+            750, // x position
             470, // y position
             50, // width
             200, // height
-            'left', // direction
+            'right', // direction
             'Shed521GateScene', // target scene
-            20, // walk to x
-            534 // walk to y (the feet: this scene anchors the priest at the feet)
+            780, // walk to x
+            534, // walk to y (the feet: this scene anchors the priest at the feet)
+            'Back to the Gate'
         );
 
         // Exit area cursor handling is now managed by SceneTransitionManager

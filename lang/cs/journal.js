@@ -19,6 +19,30 @@ export default {
             title: 'Kult Obazoba',
             description: 'Kult Obazoba je kult houbových uctívačů, kteří uctívají Obazobu, mýtickou houbovou entitu.',
         },
+        place_crossroads: {
+            title: 'Křižovatka',
+            description: 'Tady se sbíhají ulice města – kolem těla obra. Leží tu už dlouho, a přesto nezapáchá; skoro ani nevypadá mrtvý. Místní kolem něj chodí jako kolem pomníku. Odtud vedou cesty k Boudě, na Voxmarket, ke Škrabáku i k Vaječné katedrále.',
+        },
+        place_shed_521: {
+            title: 'Bouda 521',
+            description: 'Starý sklad v bývalém překladišti, ze kterého vyrostl úřad – Úřad tvarů. Chodí se sem registrovat podoba, ve které zrovna jsi, nebo žádat o její změnu. Fronty, přepážky a formuláře ve třech patrech – a papíry tu jako by bujely samy od sebe.',
+        },
+        place_voxmarket: {
+            title: 'Voxmarket',
+            description: 'Tržiště zvuků ve starém hangáru pro vzducholodě. Prodávají se tu hlasy, hluky a vzpomínky zatavené ve skle a ve stáncích se dokola přehrávají cizí rozhovory. Ne všechno, co se tu nabízí, je úplně legální.',
+        },
+        place_verdigrace: {
+            title: 'Verdigrace',
+            description: 'Vzducholoď kapitánky Liris. Visí nehybně nad Křižovatkou, trup má porostlý rostlinami a plachty vypadají spíš vypěstované než ušité. Odsud shora vypadá město skoro malé.',
+        },
+        place_egg_cathedral: {
+            title: 'Vaječná katedrála',
+            description: 'Katedrála, která vyrůstá z obřího vejce – nebo se z něj teprve líhne. Skořápka slabě prosvítá zevnitř, jako by uvnitř něco dýchalo.',
+        },
+        place_burning_bear_street: {
+            title: 'Ulice Hořícího Medvěda',
+            description: 'Ulice, která spojuje Škrabák s Řvoucím korkem a radnicí. Její jméno zní jako svátek, který nikdo nechce cizincům vysvětlovat.',
+        },
         upper_morkezela: {
             title: 'Horní Morkezela',
             description: 'Říkají tomu město, ale Horní Morkezela je možná jen sen o městě. Ulice nikdo nepostavil, přitáhly s umírajícími bohy a už tady zůstaly.',
@@ -70,7 +94,7 @@ export default {
         },
         scraper_building: {
             title: 'Škrabák',
-            description: 'Impozantní stavba známá jako „Škrabák" se tyčí nad městem.',
+            description: 'Škrabák 1140 – křivý mrakodrap, který se tyčí nad městem. Kdysi to byla kancelářská věž; teď si každé patro žije vlastním životem a nikdo pořádně neví, kolik pater vlastně má.',
             facts: {
                 nexicorp: "Podle Lift-Mother to kdysi byla Nexicorp Tower – dvaačtyřicet pater obchodu a ambicí. Dnes ve spodních patrech žijí ti, kdo si pamatují staré časy, prostřední patra divoce zarostla a horní patra patří Rezavému chóru.",
             },

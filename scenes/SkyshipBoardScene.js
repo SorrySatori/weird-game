@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
@@ -19,6 +20,7 @@ export default class SkyshipBoardScene extends GameScene {
 
     create() {
         super.create();
+        notePlace(this, 'place_verdigrace');   // the journal's Places tab, on the first visit
         this.playSceneMusic('flightGuitar');
 
         // Set skyship board background

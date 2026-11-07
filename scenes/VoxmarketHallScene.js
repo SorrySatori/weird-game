@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { applyGDBackground } from '../utils/GDProps.js';
@@ -76,6 +77,7 @@ export default class VoxmarketHallScene extends GameScene {
 
     create() {
         super.create();
+        notePlace(this, 'place_voxmarket');   // the journal's Places tab, on the first visit
         
         this.playSceneMusic('marketTheme');
         

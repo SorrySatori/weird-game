@@ -43,6 +43,8 @@ export default {
             page: 'Page {n} / {total}',
             slotName: 'Save {n}',
             quicksave: 'Quicksave',
+            autosave: 'Autosave',
+            autosaved: 'Game autosaved',
             saveTitle: 'SAVE GAME',
             loadTitle: 'LOAD GAME',
             save: 'Save',

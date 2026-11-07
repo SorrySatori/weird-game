@@ -128,6 +128,7 @@ export default class PlayerMovementSystem {
      */
     movePriestTo(targetX) {
         if (!this.priest || this.dialogVisible) return;
+        targetX = Phaser.Math.Clamp(targetX, EDGE_MARGIN, this.scene.scale.width - EDGE_MARGIN);   // he stays in the picture
         
         const direction = targetX < this.priest.x ? -1 : 1;
         
@@ -136,9 +137,10 @@ export default class PlayerMovementSystem {
             this.scene.clickSound.play();
         }
         
-        this.priest.setScale(direction, 1);
+        const k = this.scene.priestScale || 1;                  // a scene may show him bigger (GameScene.setPriestScale)
+        this.priest.setScale(direction * k, k);
         if (this.priestGlow) {
-            this.priestGlow.setScale(1.05 * direction, 1.05);
+            this.priestGlow.setScale(1.05 * direction * k, 1.05 * k);
             this.priestGlow.x = this.priest.x;
         }
         
@@ -156,7 +158,7 @@ export default class PlayerMovementSystem {
         this.scene.tweens.add({
             targets: this.priestGlow ? [this.priest, this.priestGlow] : [this.priest],
             x: targetX,
-            duration: Math.abs(targetX - this.priest.x) * 5 / (this.speedMultiplier || 1),
+            duration: Math.abs(targetX - this.priest.x) * 5 / ((this.speedMultiplier || 1) * k),
             ease: 'Linear',
             onComplete: () => {
                 this.isTweenMoving = false;
@@ -196,19 +198,20 @@ export default class PlayerMovementSystem {
         let moved = false;
         const leaving = this.scene.isTransitioning;            // an exit is walking him out: keys don't steer
 
-        const step = this.speed * (this.speedMultiplier || 1);
+        const k = this.scene.priestScale || 1;                  // bigger in a close-up room: longer strides too
+        const step = this.speed * (this.speedMultiplier || 1) * k;
         if (leaving) {
             // nothing
         } else if (this.movementState.left) {
             this.priest.x -= step;
-            this.priest.setScale(-1, 1);
-            this.priestGlow.setScale(-1.05, 1.05);
+            this.priest.setScale(-k, k);
+            this.priestGlow.setScale(-1.05 * k, 1.05 * k);
             moved = true;
         }
         else if (this.movementState.right) {
             this.priest.x += step;
-            this.priest.setScale(1, 1);
-            this.priestGlow.setScale(1.05, 1.05);
+            this.priest.setScale(k, k);
+            this.priestGlow.setScale(1.05 * k, 1.05 * k);
             moved = true;
         }
 

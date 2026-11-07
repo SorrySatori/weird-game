@@ -160,6 +160,9 @@ export default class GameScene extends Phaser.Scene {
 
     create() {
         
+        // the protagonist's size in this scene (scenes are re-used; a close-up room sets 2 via setPriestScale)
+        this.priestScale = 1;
+
         // Reset dialog state for clean scene entry
         this.dialogVisible = false;
         this.dialogBox = null;
@@ -241,6 +244,11 @@ export default class GameScene extends Phaser.Scene {
             this.playerMovementSystem.update();
         }
 
+        if (this.registry.get('autosavePending') && !this.dialogVisible && !this.isTransitioning && !this.isModalOpen()) {
+            this.registry.set('autosavePending', false);
+            this.autosave();
+        }
+
         // Keep the player's ground shadow under its feet. Derive the feet line from the sprite's
         // actual origin: some scenes anchor the priest at the feet (setOrigin(0.5, 1)), and a
         // fixed "+58" (a centre-origin assumption) then drops the shadow half a body too low.
@@ -282,11 +290,37 @@ export default class GameScene extends Phaser.Scene {
      * Is a modal open: a dialog, the diary, the quest log, the inventory, the map, the ESC menu, a shop or the
      * equipment tutorial? While one is, the priest doesn't walk and nothing in the scene behind it reacts.
      */
+    /**
+     * Show the protagonist k× bigger in this scene (an integer, so his pixels stay crisp) -- for a room drawn close up,
+     * e.g. a re-pixelled 3× picture where his 128 px would be a child. Turning and walking keep it (PlayerMovementSystem);
+     * place his y (and exits' walk-to y) so his feet stay on the floor: centre origin -> feet = y + 64·k.
+     */
+    setPriestScale(k) {
+        this.priestScale = k;
+        if (!this.priest) return;
+        const dir = Math.sign(this.priest.scaleX) || 1;
+        this.priest.setScale(dir * k, k);
+        this.priestGlow?.setScale(1.05 * dir * k, 1.05 * k);
+        this.priestShadow?.setScale(k);
+    }
+
     isModalOpen() {
         return !!(this.dialogVisible || this._tutorialActive
             || this.journalUI?.visible || this.questLog?.questPanel?.visible
             || this.inventorySystem?.inventoryVisible || this.mapUI?.visible
             || this.gameMenu?.visible || this.shopSystem?.isOpen);
+    }
+
+    /**
+     * Autosave into the 'autosave' slot (its own slot: it never overwrites the player's saves). Asked for by
+     * registry 'autosavePending' (a quest was completed) and done by update() of whichever scene is running, once no
+     * dialog, panel or scene change is under way -- so the quest's rewards and the closing lines are in the save.
+     */
+    autosave() {
+        if (!window.gameAPI?.saveGame) return;
+        new SaveSystem(this).saveGame('autosave').then(result => {
+            if (result?.success && this.sys.isActive()) this.showNotification(this.t('ui.saveLoad.autosaved'));
+        });
     }
 
     /** A modal is open -- or was when this click began (the click on its close button has just shut it). */
@@ -537,6 +571,7 @@ export default class GameScene extends Phaser.Scene {
             
             questSystem.on('questCompleted', (questId, title) => {
                 this.showNotification(this.t('notifications.questCompleted'));
+                this.registry.set('autosavePending', true);   // saved by update() once the scene is calm (autosave())
                 this.modifySpores(5);
                 // Show notification indicator on quest log button
                 this.registry.set('hasUnreadQuestUpdates', true);
@@ -796,9 +831,9 @@ export default class GameScene extends Phaser.Scene {
             // Also create an apprentice reference for clarity
             this.apprentice = this.priest;
             
-            // Enable physics for the priest
-            this.physics.world.enable(this.priest);
-            this.priest.body.setCollideWorldBounds(true);
+            // (no physics body: its only job was keeping him on screen, and a flipped sprite -- setScale(-1) when he faces
+            // left -- shifts an Arcade body a whole frame width, so near the right edge the world bounds yanked him back
+            // under a walk / stairs tween while his glow went on. The movement system keeps him on screen instead.)
             
             // Add a green glow effect for the fungal appearance
             const glowFX = this.add.sprite(100, 470, 'priest');

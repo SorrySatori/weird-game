@@ -333,6 +333,7 @@ export function createToggle(scene, x, y, on, onChange) {
 /** "save3" → "Save 3" / "Uložení 3", "quicksave" → "Quicksave" / "Rychlé uložení" */
 export function saveLabel(lang, name) {
     if (name === 'quicksave') return lang.t('ui.saveLoad.quicksave');
+    if (name === 'autosave') return lang.t('ui.saveLoad.autosave');
     const m = /^save(\d+)$/.exec(name || '');
     return m ? lang.t('ui.saveLoad.slotName', { n: m[1] }) : name;
 }

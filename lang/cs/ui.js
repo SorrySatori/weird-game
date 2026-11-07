@@ -43,6 +43,8 @@ export default {
             page: 'Strana {n} / {total}',
             slotName: 'Uložení {n}',
             quicksave: 'Rychlé uložení',
+            autosave: 'Automatické uložení',
+            autosaved: 'Hra se automaticky uložila',
             saveTitle: 'ULOŽIT HRU',
             loadTitle: 'NAČÍST HRU',
             save: 'Uložit',

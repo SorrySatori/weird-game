@@ -94,7 +94,7 @@ export default class ScraperScene extends GameScene {
                 this.addJournalEntry(
                     'scraper_building',
                     'The Scraper',
-                    'The imposing structure known as "The Scraper" rises above the city.',
+                    "Scraper 1140: a crooked skyscraper towering over the city. It used to be an office tower; now every floor lives a life of its own, and nobody seems quite sure how many floors there are.",
                     this.journalSystem.categories.PLACES,
                     { location: 'The Scraper, Upper Morkezela' }
                 );

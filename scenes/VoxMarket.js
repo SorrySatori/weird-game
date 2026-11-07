@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
@@ -461,6 +462,7 @@ export default class VoxMarket extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        notePlace(this, 'place_voxmarket');   // the journal's Places tab, on the first visit
         
         // Play market theme
         this.playSceneMusic('marketTheme');
