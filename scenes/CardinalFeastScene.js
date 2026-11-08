@@ -13,9 +13,43 @@ import JournalSystem from '../systems/JournalSystem.js';
  * Infinite Fold — the last thing she saw before she died.
  *
  * Self-contained top-down movement + collision + proximity-talk + portrait
- * dialog, with a generative low-organ score. Emils uses the pixel-art portraits
- * (Emils1/2/3); other roles are drawn placeholders until art exists.
+ * dialog, with a generative low-organ score. The cast are pixel-art sheets
+ * (tools/artgen/feast_cast.py): a 128 px wide sheet per character for the 2x
+ * dialog busts and its half-size twin (`_t`) for the top-down room. Otho, the
+ * Twins, Foyle and Quill are still drawn placeholder tokens.
  */
+
+// The redrawn cast: sheet id -> frame height (frames are 128 wide; the `_t` token sheet is half that in both
+// directions), where its 2x dialog bust sits (sheet row `top` at the plate's top, sheet column `cx` centred) and
+// `head` = the token's top-of-head row (name label + interaction hint go above it).
+const FEAST_SHEETS = {
+    emils: { h: 176, top: 16, cx: 64, head: 10 },
+    pim: { h: 128, top: 18, cx: 58, head: 12 },
+    vesper: { h: 176, top: 14, cx: 63, head: 9 },
+    marigold: { h: 160, top: 22, cx: 62, head: 13 },
+    cornelius: { h: 160, top: 8, cx: 64, head: 5 },
+    wren: { h: 144, top: 22, cx: 62, head: 13 },
+    gallow: { h: 176, top: 20, cx: 62, head: 11 }
+};
+// Art name -> [sheet, first frame, 8-frame idle order (repeats hold a frame)]. Emils' sheet holds three poses.
+const FEAST_ART = {
+    emils_read: ['emils', 0, [0, 0, 1, 1, 0, 2, 2, 3, 3, 0, 0, 4, 0, 1, 1, 0, 5, 5, 0, 6, 6, 0, 7, 7, 0]],
+    emils_toast: ['emils', 8, [0, 0, 1, 1, 0, 0, 5, 0, 2, 3, 3, 2, 0, 0, 1, 1, 0, 6, 7, 6, 0]],
+    emils_welcome: ['emils', 16, [0, 0, 1, 1, 0, 0, 2, 0, 3, 4, 3, 0, 0, 1, 1, 0, 5, 5, 0, 6, 6, 0, 7, 0]],
+    pim: ['pim', 0, [0, 0, 1, 1, 0, 2, 0, 3, 4, 3, 4, 3, 0, 5, 0, 1, 1, 0, 6, 0, 7, 0]],
+    vesper: ['vesper', 0, [0, 2, 0, 1, 2, 1, 0, 2, 3, 0, 2, 4, 5, 4, 5, 0, 1, 6, 7, 6, 0, 2]],
+    marigold: ['marigold', 0, [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 7]],
+    cornelius: ['cornelius', 0, [0, 0, 1, 1, 0, 0, 3, 0, 4, 4, 5, 5, 4, 0, 0, 2, 0, 1, 1, 0, 6, 0]],
+    wren: ['wren', 0, [0, 3, 4, 3, 4, 3, 0, 1, 1, 0, 2, 0, 3, 4, 3, 4, 0, 5, 5, 6, 5, 0, 7, 0]],
+    gallow: ['gallow', 0, [0, 0, 1, 1, 0, 6, 0, 7, 0, 0, 4, 0, 2, 2, 3, 0, 0, 5, 5, 0, 1, 1, 0]]
+};
+// A role's default art; dialog nodes pick Emils' pose with `portrait: 'emils1' | 'emils2' | 'emils3'`.
+const ROLE_ART = {
+    cardinal: 'emils_welcome', system: 'emils_read', pim: 'pim', vesper: 'vesper', marigold: 'marigold',
+    cornelius: 'cornelius', wren: 'wren', gallow: 'gallow'
+};
+const PORTRAIT_ART = { emils1: 'emils_read', emils2: 'emils_toast', emils3: 'emils_welcome' };
+
 export default class CardinalFeastScene extends Phaser.Scene {
     constructor() {
         super({ key: 'CardinalFeastScene' });
@@ -39,31 +73,34 @@ export default class CardinalFeastScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('emils1', 'assets/images/characters/Emils1.png'); // reading (book)
-        this.load.image('emils2', 'assets/images/characters/Emils2.png'); // toast (wine + crosier)
-        this.load.image('emils3', 'assets/images/characters/Emils3.png'); // welcome (crosier)
-        this.load.image('pimPortrait', 'assets/images/characters/Pim.png');
-        this.load.image('vesperPortrait', 'assets/images/characters/inquisitor.png');
-        this.load.image('marigoldPortrait', 'assets/images/characters/Marigold.png');
-        this.load.image('corneliusPortrait', 'assets/images/characters/Cornelius.png');
-        this.load.image('wrenPortrait', 'assets/images/characters/wren.png');
-        this.load.image('gallowPortrait', 'assets/images/characters/gallow.png');
+        for (const [id, s] of Object.entries(FEAST_SHEETS)) {
+            this.load.spritesheet('feast_' + id, `assets/images/characters/feast/${id}.png`, { frameWidth: 128, frameHeight: s.h });
+            this.load.spritesheet('feast_' + id + '_t', `assets/images/characters/feast/${id}_t.png`, { frameWidth: 64, frameHeight: s.h / 2 });
+        }
     }
 
-    // Pixel-art used for both overworld tokens and dialog portraits (per role).
-    // To add a character later: drop a PNG, load it above, add an entry here.
-    artKey(roleId, override) {
-        const ART = {
-            cardinal: override || 'emils3',
-            pim: 'pimPortrait',
-            vesper: 'vesperPortrait',
-            marigold: 'marigoldPortrait',
-            cornelius: 'corneliusPortrait',
-            wren: 'wrenPortrait',
-            gallow: 'gallowPortrait'
-        };
-        const key = ART[roleId];
-        return (key && this.textures.exists(key)) ? key : null;
+    // Idle anims for every art name: `feast_<art>` on the full sheet (dialog busts), `feast_<art>_t` on the token.
+    createCastAnims() {
+        for (const [name, [id, first, order]] of Object.entries(FEAST_ART)) {
+            for (const sfx of ['', '_t']) {
+                const key = 'feast_' + name + sfx, tex = 'feast_' + id + sfx;
+                if (this.anims.exists(key) || !this.textures.exists(tex)) continue;
+                this.anims.create({ key, frames: this.anims.generateFrameNumbers(tex, { frames: order.map(f => first + f) }), frameRate: 5, repeat: -1 });
+            }
+        }
+    }
+
+    // A role's art name (Emils' pose via a dialog node's `portrait` key), or null for roles still drawn as placeholders.
+    artName(roleId, override) {
+        const name = PORTRAIT_ART[override] || ROLE_ART[roleId];
+        return (name && this.textures.exists('feast_' + FEAST_ART[name][0])) ? name : null;
+    }
+
+    // Play an art's idle on a sprite, starting at a random point of the loop so neighbours don't breathe in step.
+    playIdle(spr, name, token) {
+        const key = 'feast_' + name + (token ? '_t' : '');
+        if (!this.anims.exists(key)) return;
+        spr.play({ key, startFrame: token ? Phaser.Math.Between(0, FEAST_ART[name][2].length - 1) : 0 });
     }
 
     create() {
@@ -92,11 +129,12 @@ export default class CardinalFeastScene extends Phaser.Scene {
         this.uiLayer = this.add.container(0, 0).setDepth(100);
         this.dialogLayer = this.add.container(0, 0).setDepth(500);
 
-        // Player avatar — Emils, scaled to an overworld token.
-        this.player = this.add.image(400, 470, 'emils3').setOrigin(0.5, 0.92);
-        this.player.setScale(72 / this.player.height);
+        // Player avatar — Emils' token (the welcome pose) at scale 1; (x, y) is his feet point, soles 6 px below it.
+        this.createCastAnims();
+        this.player = this.add.sprite(400, 470, 'feast_emils_t', FEAST_ART.emils_welcome[1]).setOrigin(0.5, 80 / 88);
+        this.playIdle(this.player, 'emils_welcome', true);
         this.actorLayer.add(this.player);
-        this.playerGlow = this.add.ellipse(400, 478, 60, 22, 0xffcf7a, 0.12);
+        this.playerGlow = this.add.ellipse(400, 476, 46, 13, 0x000000, 0.3);
         this.roomLayer.add(this.playerGlow);
 
         // Interaction hint.
@@ -186,17 +224,19 @@ export default class CardinalFeastScene extends Phaser.Scene {
         return R[id] || R.system;
     }
 
-    // A small top-down token: robe body + head, in the room.
+    // A small top-down token: robe body + head, in the room. `headY` = the top of the head relative to the feet point.
     makeToken(roleId) {
         const c = this.add.container(0, 0);
-        const key = this.artKey(roleId);
-        if (key) {
-            // Use the pixel-art character, scaled to an overworld token (feet at origin).
-            c.add(this.add.ellipse(0, 6, 38, 12, 0x000000, 0.3));
-            const img = this.add.image(0, 10, key).setOrigin(0.5, 1);
-            img.setScale(60 / img.height);
-            c.add(img);
-            c.artImage = img; // pixel-accurate hit target
+        const name = this.artName(roleId);
+        if (name) {
+            // The character's half-size sheet at scale 1, soles on the feet point, idling.
+            const [id, first] = FEAST_ART[name], s = FEAST_SHEETS[id];
+            c.add(this.add.ellipse(0, 7, 38, 11, 0x000000, 0.3));
+            const spr = this.add.sprite(0, 10, 'feast_' + id + '_t', first).setOrigin(0.5, 1);
+            this.playIdle(spr, name, true);
+            c.add(spr);
+            c.artImage = spr; // pixel-accurate hit target
+            c.headY = 10 - s.h / 2 + s.head;
             return c;
         }
         // Fallback: simple drawn token for roles without art yet.
@@ -212,7 +252,8 @@ export default class CardinalFeastScene extends Phaser.Scene {
         return c;
     }
 
-    // Dialog portrait: Emils uses the pixel art; others use a drawn bust.
+    // Dialog portrait: a 2x pixel bust of the role's sheet (Emils picks a pose via portraitKey), idling; roles
+    // without art get the drawn placeholder bust.
     drawPortrait(roleId, x, y, size, portraitKey) {
         const cont = this.add.container(0, 0);
         const bg = this.add.graphics();
@@ -222,16 +263,14 @@ export default class CardinalFeastScene extends Phaser.Scene {
         // Clip only the character art to the inner square (frame stays crisp).
         const mask = this.make.graphics({ add: false }); mask.fillStyle(0xffffff); mask.fillRect(x, y, size, size);
 
-        // Use the role's pixel-art portrait if we have it (Emils picks a pose via
-        // portraitKey); roles without art fall back to the drawn bust below.
-        const imgKey = this.artKey(roleId, portraitKey);
-        if (imgKey) {
-            // Fit to the box width and anchor at the TOP so the head/mitre is the
-            // visible part (the figures are full-body, ~2:3 portraits).
-            const img = this.add.image(x + size / 2, y - 6, imgKey).setOrigin(0.5, 0);
-            img.setScale(size / img.width);
-            img.setMask(mask.createGeometryMask());
-            cont.add(img);
+        const name = this.artName(roleId, portraitKey);
+        if (name) {
+            // Integer zoom 2: sheet row `top` at the plate's top edge, column `cx` in its middle.
+            const [id, first] = FEAST_ART[name], s = FEAST_SHEETS[id];
+            const spr = this.add.sprite(x + size / 2, y + 2 - s.top * 2, 'feast_' + id, first).setOrigin(s.cx / 128, 0).setScale(2);
+            this.playIdle(spr, name, false);
+            spr.setMask(mask.createGeometryMask());
+            cont.add(spr);
         } else {
             const r = this.role(roleId), g = this.add.graphics();
             const cx = x + size / 2, by = y + size - 6, s = size / 150;
@@ -303,12 +342,14 @@ export default class CardinalFeastScene extends Phaser.Scene {
         opts = opts || {};
         const token = this.makeToken(roleId);
         token.setPosition(x, y);
+        token.sortY = y;                                   // drawn in front of / behind the others by its feet
         this.actorLayer.add(token); this.addItem(token);
-        const label = this.add.text(x, y - 42, opts.label || this.role(roleId).name.split(' ')[0], {
+        const headY = y + (token.headY !== undefined ? token.headY : -32);
+        const label = this.add.text(x, headY - 8, opts.label || this.role(roleId).name.split(' ')[0], {
             fontFamily: 'Georgia, serif', fontSize: '11px', color: '#e8dcc0', backgroundColor: 'rgba(10,8,6,0.5)', padding: { x: 3, y: 1 }
         }).setOrigin(0.5);
         this.actorLayer.add(label); this.addItem(label);
-        const npc = { roleId, x, y, token, label, dialogStart, getNode: opts.getNode };
+        const npc = { roleId, x, y, headY, token, label, dialogStart, getNode: opts.getNode };
         // Pixel-accurate clickable area (cursor + click) that matches the visible art.
         if (token.artImage) {
             token.artImage.setInteractive({ useHandCursor: true, pixelPerfect: true });
@@ -382,7 +423,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
             this.addNpc('marigold', 470, 420, 'start');
             this.addNpc('quill', 660, 300, 'start');
             this.addNpc('gallow', 95, 285, 'start', { label: 'Gallow' });
-            this.addNpc('vesper', 400, 150, 'start', { label: 'Tann' });
+            this.addNpc('vesper', 400, 162, 'start', { label: 'Tann' });
             // The guest-of-honour seat (head of table, east).
             this.addInteract(650, 250, 'guesthonor', '☥ Name the guest of honour', { x: 614, y: 214, w: 74, h: 74 });
             this.titleBanner('The Long Hall');
@@ -391,7 +432,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
         // Place the player.
         const sp = spawn || { x: 400, y: 470 };
         this.player.setVisible(true).setPosition(sp.x, sp.y);
-        this.playerGlow.setVisible(true).setPosition(sp.x, sp.y + 8);
+        this.playerGlow.setVisible(true).setPosition(sp.x, sp.y + 6);
         this.actorLayer.bringToTop(this.player);
         this.refreshHud();
     }
@@ -508,12 +549,15 @@ export default class CardinalFeastScene extends Phaser.Scene {
 
         let moved = false;
         const attempted = (dx !== 0 || dy !== 0);
-        if (dx !== 0) { const nx = this.player.x + dx; if (!this.blocked(nx, this.player.y)) { this.player.x = nx; moved = true; } this.player.setFlipX(dx > 0); }
+        if (dx !== 0) { const nx = this.player.x + dx; if (!this.blocked(nx, this.player.y)) { this.player.x = nx; moved = true; } this.player.setFlipX(dx < 0); }
         if (dy !== 0) { const ny = this.player.y + dy; if (!this.blocked(this.player.x, ny)) { this.player.y = ny; moved = true; } }
 
         this.player.x = Phaser.Math.Clamp(this.player.x, this.bounds.x0 + 16, this.bounds.x1 - 16);
         this.player.y = Phaser.Math.Clamp(this.player.y, this.bounds.y0 + 12, this.bounds.y1 - 6);
-        this.playerGlow.setPosition(this.player.x, this.player.y + 8);
+        this.playerGlow.setPosition(this.player.x, this.player.y + 6);
+        // Depth by the feet: Emils passes behind a guest he walks north of (labels + hotspots stay on top).
+        this.player.sortY = this.player.y;
+        this.actorLayer.sort('sortY', (a, b) => (a.sortY !== undefined ? a.sortY : 1e6) - (b.sortY !== undefined ? b.sortY : 1e6));
 
         // Wedged while following a path → give up gracefully (talk if we're near the target).
         if (!usingKeys && this.path && attempted && !moved) this.arrivePath();
@@ -533,7 +577,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
             if (d < 64 && d < bestD) { best = n; bestD = d; }
         }
         this.activeNpc = best;
-        if (best) { this.hint.setVisible(true).setPosition(best.x, best.y - 50); }
+        if (best) { this.hint.setVisible(true).setPosition(best.x, best.headY !== undefined ? best.headY - 17 : best.y - 50); }
         else this.hint.setVisible(false);
     }
 

@@ -600,31 +600,41 @@ export default class ScraperCellarScene extends GameScene {
         super.create();
         this.playSceneMusic('scrappedSong');
 
+        // tools/artgen/cellar_bg.py: native 1067×600 -- the lab paints its own floor, no generic ground strip
         const bg = this.add.image(400, 300, 'scraperCellarBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
+        // The way out: the stair up to the landing and the Lift-Mother's lower door (lit whole on hover)
         this.transitionManager = new SceneTransitionManager(this);
-        this.transitionManager.createTransitionZone(
-            400, 560, 200, 60, 'up', 'ScraperInteriorScene', 400, 300, 'Elevator'
-        );
+        const stair = this.transitionManager.createDoorZone({ points: [[0, 600], [70, 572], [214, 362], [212, 244], [134, 244], [0, 330]] }, {
+            target: 'ScraperInteriorScene', walkX: 80, walkY: 470, direction: 'left', label: 'Elevator'
+        });
+        // the arrow keys leave by the same stair at the left edge (GameScene.registerEdgeExit)
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperInteriorScene'), stair);
 
-        this.priest.x = 400;
-        this.priest.y = 500;
+        // he has come down the stair from the lift: at its foot, feet on the walk line (y 534)
+        this.priest.x = 120;
+        this.priest.y = 470;
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        // The Fold console — an invisible zone over the painted terminal on the right,
-        // marked by a soft breathing amber glint.
-        const cx = 650, cy = 360;
-        const amber = this.add.circle(cx, cy - 24, 5, 0xffcf7a, 0.9).setDepth(4);
-        this.tweens.add({ targets: amber, alpha: { from: 0.25, to: 0.9 }, duration: 1600, yoyo: true, repeat: -1 });
-        const label = this.add.text(cx, cy - 90, 'Fold Console', {
+        // The Fold console -- the master build on the right (Ortolan's brass half under the tarp, Elphi's lattice of
+        // ports, the cradle's glass dome between them); its painted amber light breathes with a soft additive glow
+        const dome = { x: 756, y: 322 };
+        const amber = this.add.circle(dome.x, dome.y, 20, 0xffb44a, 0.35).setDepth(4).setBlendMode(Phaser.BlendModes.ADD);
+        this.tweens.add({ targets: amber, alpha: { from: 0.12, to: 0.45 }, scale: { from: 0.85, to: 1.1 }, duration: 1900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        const zoneRect = { x: 652, y: 296, w: 228, h: 190 };
+        const label = this.add.text(zoneRect.x + zoneRect.w / 2, zoneRect.y - 12, this.t('ui.hotspots.foldConsole'), {
             fontSize: '12px', fill: '#e8c97a', backgroundColor: 'rgba(0,0,0,0.6)', padding: { x: 5, y: 3 }
         }).setOrigin(0.5).setDepth(5).setVisible(false);
-        const zone = this.add.zone(cx - 65, cy - 75, 130, 150).setOrigin(0, 0);
-        zone.setInteractive({ hitArea: new Phaser.Geom.Rectangle(0, 0, 130, 150), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        const zone = this.add.zone(zoneRect.x, zoneRect.y, zoneRect.w, zoneRect.h).setOrigin(0, 0);
+        zone.setInteractive({ hitArea: new Phaser.Geom.Rectangle(0, 0, zoneRect.w, zoneRect.h), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
         zone.on('pointerover', () => { label.setVisible(true); document.body.style.cursor = 'pointer'; });
         zone.on('pointerout', () => { label.setVisible(false); document.body.style.cursor = 'default'; });
         zone.on('pointerdown', () => { if (this.dialogVisible) return; if (this.clickSound) this.clickSound.play(); this.showDialog('loop_console'); });

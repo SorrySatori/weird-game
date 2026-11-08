@@ -1,7 +1,10 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
 import JournalSystem from '../systems/JournalSystem.js'
-import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js'
+import { createStreetLamp, preloadStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js'
+
+/** Where harbor_bg.py put the oil can (the sprite's top-left, canvas). */
+const OILCAN_POS = { x: 349, y: 464 };
 
 export default class HarborScene extends GameScene {
     constructor() {
@@ -280,45 +283,35 @@ export default class HarborScene extends GameScene {
     preload() {
         super.preload();
 
-        this.load.image('harborBg', 'assets/images/backgrounds/Harbor.png');
-        this.load.image('oil', 'assets/images/items/oil.png');
-        this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
+        this.load.image('harborBg', 'assets/images/backgrounds/Harbor.png');   // native 1067×600: tools/artgen/harbor_bg.py
+        this.load.image('oil', 'assets/images/items/oil.png');                  // the Oil item's inventory icon
+        this.load.image('harbor_oilcan', 'assets/images/props/harbor_oilcan.png'); // its world sprite (the oil can on the pier)
+        this.load.spritesheet('heirAquariumIdle', 'assets/images/characters/voxmarket/heir_aquarium.png', { frameWidth: 128, frameHeight: 176 }); // tools/artgen/voxmarket_guests.py
         this.load.image('redmass', 'assets/images/items/redmass.png');
-        this.load.image('lamp_torchere', 'assets/images/characters/Torchere.png');
+        preloadStreetLamp(this, 'lamp_torchere');   // tools/artgen/lamps.py (Aseprite Lamps_torchere)
     }
 
     create() {
         super.create();
 
+        // The pier on the Yolk Sea (native 1067×600: tools/artgen/harbor_bg.py) — the house and the crane on the quay left,
+        // the jetty with the lamp post right; the pier's far edge is y ~467, the walk line y 534 runs along its planks.
         const bg = this.add.image(400, 300, 'harborBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the pier's planks; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         this.transitionManager = new SceneTransitionManager(this);
 
-        // Transition back to TownSquare (left side)
-        this.transitionManager.createTransitionZone(
-            0,
-            300,
-            80,
-            400,
-            'left',
-            'TownSquareScene',
-            750,
-            300,
-        );
+        // Back to the Town Square (left, along the quay)
+        this.transitionManager.createTransitionZone(50, 470, 80, 200, 'left', 'TownSquareScene', 30, 470);
 
-        // Transition to EchoDrainDelta (right side)
-        this.transitionManager.createTransitionZone(
-            720,
-            300,
-            80,
-            400,
-            'right',
-            'EchoDrainDeltaScene',
-            50,
-            300,
-        );
+        // On along the waterfront to the Echo Drain Delta (right)
+        this.transitionManager.createTransitionZone(750, 470, 80, 200, 'right', 'EchoDrainDeltaScene', 770, 470);
 
         // Create oil collectible
         this.createOilCollectible();
@@ -329,11 +322,12 @@ export default class HarborScene extends GameScene {
         // The Heir to the Yellow Aquarium drifts here when no auction calls them.
         this.createHeirResident();
 
-        // Gang of Lamps: Torchère rusts by the water.
-        createStreetLamp(this, 'lamp_torchere', 175, 430, 0.18, 'torchere_lamp_start');
+        // Gang of Lamps: Torchère rusts by the water — bolted to the pier's planks in front of the crane (the
+        // flange's front edge at y 511).
+        createStreetLamp(this, 'lamp_torchere', 175, 515, 'torchere_lamp_start');
 
-        // Examine: the Yolk Sea itself (the glowing water/horizon, center).
-        this.createObservable(440, 390, 230, 110, () => {
+        // Examine: the Yolk Sea itself (the open water between the quay and the jetty, out to the old pier's stumps).
+        this.createObservable(440, 365, 220, 80, () => {
             if (this.symbiontSystem?.hasSymbiont('ulvarex-borrowed-horizon')) return this.t('observe.yolk_sea.ulvarex');
             if (this.hasJournalEntry('met_yellow_aquarium_heir')) return this.t('observe.yolk_sea.met_heir');
             return this.t('observe.yolk_sea.default');
@@ -358,15 +352,22 @@ export default class HarborScene extends GameScene {
             return;
         }
 
-        // Shimmering water spot
+        // A patch of the water off the pier's edge, between the moored boat and the jetty, that shimmers wrong:
+        // a flat ellipse lying on the surface (canvas coords), glow and hotspot on the same spot.
+        const MIRAGE = { x: 748, y: 446 };
         const mirageGlow = this.add.graphics();
-        mirageGlow.fillStyle(0x88ccff, 0.15);
-        mirageGlow.fillCircle(580, 490, 35);
-        mirageGlow.setDepth(9);
+        mirageGlow.fillStyle(0x9fc8e8, 0.10);
+        mirageGlow.fillEllipse(MIRAGE.x, MIRAGE.y, 78, 15);
+        mirageGlow.fillStyle(0xd8eeff, 0.12);
+        mirageGlow.fillEllipse(MIRAGE.x + 6, MIRAGE.y - 1, 34, 5);
+        mirageGlow.lineStyle(1, 0xd8eeff, 0.18);
+        mirageGlow.strokeEllipse(MIRAGE.x - 2, MIRAGE.y + 1, 92, 19);
+        mirageGlow.setBlendMode(Phaser.BlendModes.ADD);
+        mirageGlow.setDepth(-0.5);
 
         this.tweens.add({
             targets: mirageGlow,
-            alpha: { from: 0.15, to: 0.4 },
+            alpha: { from: 0.35, to: 1 },
             duration: 2500,
             yoyo: true,
             repeat: -1,
@@ -374,7 +375,7 @@ export default class HarborScene extends GameScene {
         });
 
         // Interactive zone
-        const mirageZone = this.add.zone(Math.round(580 * this.scale.width / 800), 490, Math.round(70 * this.scale.width / 800), 70);
+        const mirageZone = this.add.zone(MIRAGE.x, MIRAGE.y, 96, 40);
         mirageZone.setInteractive({ useHandCursor: true });
         mirageZone.setDepth(10);
 
@@ -391,21 +392,21 @@ export default class HarborScene extends GameScene {
     createHeirResident() {
         // Once filed into the Ink Tribunal, the Heir has left the Harbor for the Tribunal's Room.
         if (this.hasJournalEntry('pith_recruit_heir')) return;
-        this.heir = this.add.image(640, 450, 'heirToAquarium');
-        this.heir.setScale(0.11);
-        this.heir.setDepth(5);
-        this.addGroundShadow(640, 450 + this.heir.displayHeight * 0.42, this.heir.displayWidth * 0.55, this.heir.displayHeight * 0.12);
-        this.heir.setInteractive({ useHandCursor: true });
-        this.tweens.add({
-            targets: this.heir,
-            alpha: { from: 0.85, to: 1 },
-            duration: 1800,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-        this.heir.on('pointerover', () => { this.heir.setScale(0.12); document.body.style.cursor = 'pointer'; });
-        this.heir.on('pointerout', () => { this.heir.setScale(0.11); document.body.style.cursor = 'default'; });
+        // 8 idle frames of 128×176 at scale 1, feet where the old picture's were. 'heir_idle' is global: keep this frame
+        // list in sync with VoxmarketHallScene + PithReclaimersRoomScene.
+        if (!this.anims.exists('heir_idle')) {
+            this.anims.create({ key: 'heir_idle', frames: this.anims.generateFrameNumbers('heirAquariumIdle', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 3, 3, 0, 4, 4, 0, 0, 5, 5, 5, 0, 1, 1, 7, 0, 0, 6, 6, 0, 0] }), frameRate: 5, repeat: -1 });
+        }
+        const feet = 516;
+        this.heir = this.add.sprite(640, feet, 'heirAquariumIdle', 0).setOrigin(0.5, 1).setDepth(5);
+        this.heir.play('heir_idle');
+        this.addGroundShadow(640, feet - 3, 46, 10);
+        this.heir.setInteractive({ hitArea: new Phaser.Geom.Rectangle(35, 11, 58, 163), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        const heirBust = { key: 'heirAquariumIdle', frame: 0, zoom: 2, top: 9 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Heir to the Yellow Aquarium': heirBust, 'Dědic Žlutého akvária': heirBust };
+        let heirHoverFx = null;
+        this.heir.on('pointerover', () => { if (!heirHoverFx) heirHoverFx = this.heir.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8); });
+        this.heir.on('pointerout', () => { if (heirHoverFx) { this.heir.preFX?.remove(heirHoverFx); heirHoverFx = null; } });
         this.heir.on('pointerdown', () => {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();
@@ -419,44 +420,13 @@ export default class HarborScene extends GameScene {
             return;
         }
 
-        const oil = this.add.sprite(300, 470, 'oil');
-        oil.setScale(0.075);
-        oil.setDepth(10);
+        // A dented oil can standing in its own spill on the pier (tools/artgen/harbor_bg.py renders it into the scene and
+        // cuts it out pixel-exact; top-left of the sprite, scale 1). Hover = a glow, not a scale.
+        const oil = this.add.image(OILCAN_POS.x, OILCAN_POS.y, 'harbor_oilcan').setOrigin(0, 0).setDepth(4);
         oil.setInteractive({ useHandCursor: true });
-
-        // Add glow effect
-        const oilGlow = this.add.graphics();
-        oilGlow.fillStyle(0xffaa00, 0.2);
-        oilGlow.fillCircle(300, 400, 30);
-        oilGlow.setDepth(9);
-
-        // Pulsing animation
-        this.tweens.add({
-            targets: oilGlow,
-            alpha: { from: 0.2, to: 0.05 },
-            duration: 1500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Floating animation
-        this.tweens.add({
-            targets: oil,
-            y: { from: 470, to: 480 },
-            duration: 2000,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Hover effect
-        oil.on('pointerover', () => {
-            oil.setScale(0.08);
-        });
-
-        oil.on('pointerout', () => {
-            oil.setScale(0.075);
-        });
+        let oilFx = null;
+        oil.on('pointerover', () => { if (!oilFx) oilFx = oil.preFX?.addGlow(0xffdf7a, 2, 0, false, 0.1, 8); });
+        oil.on('pointerout', () => { if (oilFx) { oil.preFX?.remove(oilFx); oilFx = null; } });
 
         // Collect item
         oil.on('pointerdown', () => {
@@ -479,14 +449,10 @@ export default class HarborScene extends GameScene {
 
                 // Fade out and destroy
                 this.tweens.add({
-                    targets: [oil, oilGlow],
+                    targets: oil,
                     alpha: 0,
-                    scale: 0,
                     duration: 300,
-                    onComplete: () => {
-                        oil.destroy();
-                        oilGlow.destroy();
-                    }
+                    onComplete: () => oil.destroy()
                 });
             }
         });

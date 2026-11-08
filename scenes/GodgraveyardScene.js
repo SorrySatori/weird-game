@@ -11,7 +11,25 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
  *    dead god and each grave yields a candidate password (a name/epitaph) recorded to the journal
  *    as `grave_<slug>`. Exactly one epitaph is the true passphrase to the sealed Scraper cellar
  *    ("I FOLD", grave of Laimig Cel Who Lost the Game — the homage Ortolan & Elphi chose).
+ *
+ * Art: both backgrounds are native 1067×600 (tools/artgen/gyard_gate_bg.py, gyard_bg.py). Each grave is carved for its
+ * god, and its hit polygon (canvas coords, printed by gyard_bg.py into gyard.json) follows the stone in the picture.
+ * Osswine's pale growth in the ossuary niche is its own sprite (gyard_osswine.png), gone once it has bonded.
  */
+
+// Canvas-space hit polygons of the graves in Godgraveyard.png (gyard_bg.py → gyard.json, simplified), where the unread
+// glint sits on each stone, and the zone depth (nearer stones win where two outlines overlap).
+const GRAVE_SPOTS = {
+    laimig: { depth: 0.79, mark: [236, 186], poly: [[267, 152], [295, 161], [319, 175], [322, 210], [341, 218], [314, 447], [288, 472], [221, 483], [145, 494], [122, 470], [128, 423], [145, 325], [155, 232], [162, 206], [179, 181], [204, 162], [235, 153]] },
+    sisyla: { depth: 0.74, mark: [352, 150], poly: [[349, 109], [398, 142], [412, 167], [415, 235], [420, 440], [362, 445], [300, 450], [290, 275], [287, 158], [300, 134]] },
+    vhorn: { depth: 0.72, mark: [678, 228], poly: [[671, 196], [690, 199], [707, 211], [716, 236], [722, 319], [729, 434], [686, 435], [646, 425], [637, 293], [638, 277], [646, 274], [633, 239], [638, 216], [652, 202]] },
+    liln: { depth: 0.81, mark: [767, 445], poly: [[769, 427], [793, 441], [797, 462], [791, 500], [763, 495], [737, 490], [738, 453], [745, 434]] },
+    lietus: { depth: 0.70, mark: [818, 322], poly: [[823, 303], [841, 304], [871, 321], [880, 350], [869, 370], [856, 381], [840, 389], [812, 390], [781, 379], [766, 363], [763, 350], [767, 331], [776, 319], [805, 305]] },
+    hvetrdjaana: { depth: 0.794, mark: [960, 318], poly: [[941, 287], [1008, 303], [1044, 327], [1061, 355], [1068, 390], [1085, 429], [1089, 463], [1099, 494], [1080, 506], [987, 488], [908, 473], [888, 457], [883, 416], [867, 354], [869, 345], [884, 341], [891, 335], [878, 312], [887, 302], [902, 294]] },
+};
+// The ossuary niche on the far left (the little gabled shrine full of skulls) and Osswine's growth sprite in it.
+const OSSUARY = { poly: [[18, 337], [138, 337], [138, 507], [18, 507]], glint: [78, 380], sprite: [14, 394] };
+
 export default class GodgraveyardScene extends GameScene {
     constructor() {
         super({ key: 'GodgraveyardScene' });
@@ -195,6 +213,7 @@ export default class GodgraveyardScene extends GameScene {
         const success = this.symbiontSystem?.addSymbiont('osswine', data);
         if (!success) { this.showNotification('No free symbiont slot!'); return; }
         if (this.addSymbiontIcon) this.addSymbiontIcon('osswine', data);
+        this.clearOsswineNiche();
         if (!this.hasJournalEntry('osswine_bonded')) {
             this.addJournalEntry(
                 'osswine_bonded',
@@ -207,26 +226,46 @@ export default class GodgraveyardScene extends GameScene {
         this.showNotification(this.t('notifications.symbiontGained', { name: 'Osswine' }));
     }
 
-    /** The ossuary niche where Osswine waits — only until it has bonded. */
+    /** The ossuary niche where Osswine waits (the pale growth on the skulls) — only until it has bonded. */
     createOsswineNiche() {
+        this._osswineNiche = null;
         if (this.symbiontSystem?.hasSymbiont('osswine')) return;
-        const cx = 60, cy = 300;
-        const glint = this.add.text(cx, cy - 40, '✦', { fontSize: '15px', fill: '#cdd7c0' }).setOrigin(0.5).setDepth(7).setAlpha(0.5);
-        this.tweens.add({ targets: glint, alpha: { from: 0.3, to: 0.85 }, y: cy - 46, duration: 1500, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
-        const label = this.add.text(cx, cy - 72, 'OSSUARY NICHE', {
+        const growth = this.add.image(OSSUARY.sprite[0], OSSUARY.sprite[1], 'gyardOsswine').setOrigin(0, 0).setDepth(3);
+        const [gx, gy] = OSSUARY.glint;
+        const glint = this.add.text(gx, gy, '✦', { fontSize: '15px', fill: '#cdd7c0' }).setOrigin(0.5).setDepth(7).setAlpha(0.5);
+        const glintTween = this.tweens.add({ targets: glint, alpha: { from: 0.3, to: 0.85 }, y: gy - 6, duration: 1500, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        const xs = OSSUARY.poly.map(p => p[0]), ys = OSSUARY.poly.map(p => p[1]);
+        const bx = Math.min(...xs), by = Math.min(...ys), bw = Math.max(...xs) - bx, bh = Math.max(...ys) - by;
+        const label = this.add.text(bx + bw / 2, by - 14, 'OSSUARY NICHE', {
             fontSize: '12px', fill: '#cdd7c0', backgroundColor: 'rgba(0,0,0,0.6)', padding: { x: 5, y: 3 }
         }).setOrigin(0.5).setDepth(8).setVisible(false);
-        const zone = this.add.zone(cx - 45, cy - 90, 90, 180).setOrigin(0, 0);
-        zone.setInteractive({ hitArea: new Phaser.Geom.Rectangle(0, 0, 90, 180), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        const zone = this.add.zone(bx, by, bw, bh).setOrigin(0, 0).setDepth(0.824);
+        zone.setInteractive({
+            hitArea: new Phaser.Geom.Polygon(OSSUARY.poly.map(([x, y]) => [x - bx, y - by]).flat()),
+            hitAreaCallback: Phaser.Geom.Polygon.Contains, useHandCursor: true
+        });
         zone.on('pointerover', () => { label.setVisible(true); document.body.style.cursor = 'pointer'; });
         zone.on('pointerout', () => { label.setVisible(false); document.body.style.cursor = 'default'; });
         zone.on('pointerdown', () => { if (this.dialogVisible) return; if (this.clickSound) this.clickSound.play(); this.showDialog('osswine_offer'); });
+        this._osswineNiche = { growth, glint, glintTween, label, zone };
+    }
+
+    /** Osswine has left the niche (bonded): its growth fades from the skulls, the niche is plain scenery again. */
+    clearOsswineNiche() {
+        const n = this._osswineNiche;
+        if (!n) return;
+        this._osswineNiche = null;
+        n.glintTween?.stop();
+        [n.glint, n.label, n.zone].forEach(o => o?.destroy());
+        document.body.style.cursor = 'default';
+        if (n.growth?.scene) this.tweens.add({ targets: n.growth, alpha: 0, duration: 1200, onComplete: () => n.growth.destroy() });
     }
 
     preload() {
         super.preload();
         this.load.image('godgraveyardBg', 'assets/images/backgrounds/Godgraveyard.png');
         this.load.image('godgraveyardGateBg', 'assets/images/backgrounds/GodgraveyardGate.png');
+        this.load.image('gyardOsswine', 'assets/images/props/gyard_osswine.png');
         this.load.image('phor', 'assets/images/characters/phor.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
     }
@@ -240,29 +279,38 @@ export default class GodgraveyardScene extends GameScene {
         const bg = this.add.image(400, 300, access ? 'godgraveyardBg' : 'godgraveyardGateBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // Both pictures paint their own ground (the cobbled lane / the field); drop the generic strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
+        // The gate "speaks" in the sealed-gate dialog: show the gate itself on the plate (EN + CZ speaker name)
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Godgraveyard Gate': 'godgraveyardGateBg', 'Brána Bohohřbitova': 'godgraveyardGateBg' };
 
         this.transitionManager = new SceneTransitionManager(this);
 
-        // Exit back up to the Town Square.
+        // Exit back up to the Town Square: the near edge of the picture (the lane / the path behind the viewer).
         this.transitionManager.createTransitionZone(
-            400, 560, 200, 60, 'up', 'TownSquareScene', 500, 500, 'Town Square'
+            400, 560, 200, 60, 'up', 'TownSquareScene', 400, 500, 'Town Square'
         );
 
-        this.priest.x = 400;
-        this.priest.y = 500;
+        // Feet on the walk line (y 534): on the cobbled lane before the gate / left of the path in the field
+        this.priest.x = access ? 400 : 470;
+        this.priest.y = 470;
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
         // Examine: the great half-buried god's face (only once inside the open graveyard).
         // Osswine grave-senses a literal dead god; Phor's divinography reframes what you see.
         if (access) {
-            this.createObservable(370, 215, 190, 150, () => {
+            // the face in the mud with its broken halo, between Sisyla's and Vhorn's stones (canvas x ~425..620)
+            this.createObservable(392, 318, 146, 170, () => {
                 if (this.symbiontSystem?.osswineCanRead && this.symbiontSystem.osswineCanRead()) return this.t('observe.godgraveyard.osswine');
                 if (this.hasJournalEntry('phor_calesta')) return this.t('observe.godgraveyard.knows');
                 return this.t('observe.godgraveyard.default');
-            }, { hint: this.t('observe.godgraveyard.hint') });
+            }, { hint: this.t('observe.godgraveyard.hint'), depth: 0.6 });
         } else {
-            // Locked gate: a quick examine aside (distinct from the formal gate_sealed dialog).
-            this.createObservable(400, 250, 240, 180, () => {
+            // Locked gate: a quick examine aside (distinct from the formal gate_sealed dialog) -- the chained leaves
+            this.createObservable(400, 345, 150, 190, () => {
                 if (this.hasJournalEntry('phor_calesta') || this.questSystem?.getQuest('excavation_permit')) return this.t('observe.godgraveyard_gate.knows');
                 return this.t('observe.godgraveyard_gate.default');
             }, { hint: this.t('observe.godgraveyard_gate.hint') });
@@ -303,10 +351,13 @@ export default class GodgraveyardScene extends GameScene {
     }
 
     createPhor() {
-        const p = this.add.sprite(400, 470, 'phor').setOrigin(0.5, 1).setScale(0.14).setDepth(6);
-        this.addGroundShadow(400, 470, p.displayWidth * 0.55, p.displayHeight * 0.10);
+        // On the walk line at the right edge of the flagstone path, in front of the fallen face (the old sprite until
+        // Phor is redrawn; it stays clear of the grave outlines except Vhorn's very foot)
+        const PX = 604, PY = 528;
+        const p = this.add.sprite(PX, PY, 'phor').setOrigin(0.5, 1).setScale(0.14).setDepth(6);
+        this.addGroundShadow(PX, PY, p.displayWidth * 0.55, p.displayHeight * 0.10);
         p.setInteractive({ useHandCursor: true });
-        const label = this.add.text(400, 470 - p.displayHeight - 6, 'PHOR CALESTA', {
+        const label = this.add.text(PX, PY - p.displayHeight - 6, 'PHOR CALESTA', {
             fontSize: '13px', fill: '#c9e8ff', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 4, y: 2 }
         }).setOrigin(0.5).setDepth(6);
         p.on('pointerover', () => { p.setScale(0.148); document.body.style.cursor = 'pointer'; });
@@ -315,25 +366,30 @@ export default class GodgraveyardScene extends GameScene {
     }
 
     createGraves() {
-        // Invisible clickable zones over the painted tombstones — no HUD markers.
+        // Invisible clickable zones shaped like the painted tombstones (GRAVE_SPOTS, canvas coords) — no HUD markers.
         // The player discovers them by hovering (name label + hand cursor), like NPCs.
-        const LAYOUT = { laimig: 100, sisyla: 235, vhorn: 395, liln: 505, lietus: 615, hvetrdjaana: 730 };
-        const ZW = 110, ZH = 300, CY = 250;
         this.graves().forEach(g => {
-            const cx = LAYOUT[g.slug] || g.x;
-            const zone = this.add.zone(cx - ZW / 2, CY - ZH / 2, ZW, ZH).setOrigin(0, 0);
-            zone.setInteractive({ hitArea: new Phaser.Geom.Rectangle(0, 0, ZW, ZH), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
-            const label = this.add.text(cx, 120, g.name.toUpperCase(), {
+            const spot = GRAVE_SPOTS[g.slug];
+            const xs = spot.poly.map(p => p[0]), ys = spot.poly.map(p => p[1]);
+            const bx = Math.min(...xs), by = Math.min(...ys), bw = Math.max(...xs) - bx, bh = Math.max(...ys) - by;
+            const cx = Math.min(this.scale.width - 90, Math.max(90, bx + bw / 2));
+            const zone = this.add.zone(bx, by, bw, bh).setOrigin(0, 0).setDepth(spot.depth);
+            zone.setInteractive({
+                hitArea: new Phaser.Geom.Polygon(spot.poly.map(([x, y]) => [x - bx, y - by]).flat()),
+                hitAreaCallback: Phaser.Geom.Polygon.Contains, useHandCursor: true
+            });
+            const label = this.add.text(cx, Math.max(100, by - 16), g.name.toUpperCase(), {
                 fontSize: '12px', fill: '#e8dcc0', backgroundColor: 'rgba(0,0,0,0.6)', padding: { x: 5, y: 3 },
                 align: 'center', wordWrap: { width: 170 }
             }).setOrigin(0.5).setDepth(8).setVisible(false);
 
-            // Discreet "unread" indicator — a soft golden glint above the stone that
+            // Discreet "unread" indicator — a soft golden glint on the stone that
             // gently breathes and bobs; it vanishes once the grave has been read.
             let indicator = null, indicatorTween = null;
             if (!this.hasJournalEntry('grave_' + g.slug)) {
-                indicator = this.add.text(cx, 168, '✦', { fontSize: '15px', fill: '#e6c069' }).setOrigin(0.5).setDepth(7).setAlpha(0.5);
-                indicatorTween = this.tweens.add({ targets: indicator, alpha: { from: 0.35, to: 0.9 }, y: 162, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+                const [mx, my] = spot.mark;
+                indicator = this.add.text(mx, my, '✦', { fontSize: '15px', fill: '#e6c069' }).setOrigin(0.5).setDepth(7).setAlpha(0.5);
+                indicatorTween = this.tweens.add({ targets: indicator, alpha: { from: 0.35, to: 0.9 }, y: my - 6, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
             }
 
             zone.on('pointerover', () => { label.setVisible(true); document.body.style.cursor = 'pointer'; });

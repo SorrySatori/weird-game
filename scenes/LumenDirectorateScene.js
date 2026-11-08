@@ -67,6 +67,13 @@ const CS_MUSHROOM_TRAITS = {
     'wobbles gently on its stem': 'má jemně rozviklaný třeň',
 };
 
+// Fixed points of the redrawn background (tools/artgen/lumen_bg.py prints them into lumen_points.json), canvas coords.
+const LUMEN_PORTAL = [[503, 384], [503, 324], [504, 314], [506, 305], [511, 297], [517, 290], [525, 285], [533, 281],
+    [541, 285], [549, 290], [555, 297], [560, 305], [562, 314], [563, 324], [563, 384]];   // the glazed portal
+const LUMEN_VENT = { x: 322, y: 416, w: 60, h: 30 };      // the archive vent in the retaining wall (grille 300..344 × 409..423)
+const SURPLUS_BLOOM = { x: 879, y: 427 };                 // top-left of lumen_surplus_bloom.png on the right bed
+const VERRIK_SPOT = { x: 205, y: 528 };                   // Verrik's feet, in front of the left bed
+
 export default class LumenDirectorateScene extends GameScene {
     constructor() {
         super({ key: 'LumenDirectorateScene' });
@@ -75,11 +82,14 @@ export default class LumenDirectorateScene extends GameScene {
 
     preload() {
         super.preload();
+        // Native 1067×600 (tools/artgen/lumen_bg.py <out> base|growth|decay); applyLumenGDState swaps the variants.
         this.load.image('lumenDirectorateBg', 'assets/images/backgrounds/LumenDirectorate.png');
-        this.load.image('gardener', 'assets/images/characters/gardener.png');
-        // Growth/Decay alternate art (LumenDirectorate_growth/_decay) and the surplus_bloom sprite are not
-        // drawn yet: applyLumenGDState tints the base background and draws the bloom as a circle.
-        // Load them here once the PNGs exist — the textures.exists checks pick them up automatically.
+        this.load.image('LumenDirectorate_growth', 'assets/images/backgrounds/LumenDirectorate_growth.png');
+        this.load.image('LumenDirectorate_decay', 'assets/images/backgrounds/LumenDirectorate_decay.png');
+        // the harvestable surplus bloom, cut out of the growth render (sits at SURPLUS_BLOOM)
+        this.load.image('surplus_bloom', 'assets/images/props/lumen_surplus_bloom.png');
+        // Verrik (tools/artgen/lumen_cast.py -> Aseprite Lumen_verrik): 8 idle frames of 128×192, soles on the bottom row
+        this.load.spritesheet('verrik', 'assets/images/characters/verrik_idle.png', { frameWidth: 128, frameHeight: 192 });
     }
 
     create() {
@@ -89,6 +99,11 @@ export default class LumenDirectorateScene extends GameScene {
         const bg = this.add.image(400, 300, 'lumenDirectorateBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own plaza; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         this.transitionManager = new SceneTransitionManager(this);
 
@@ -100,25 +115,18 @@ export default class LumenDirectorateScene extends GameScene {
             400,
             'right',
             'TownSquareScene',
-            100,
-            300,
+            790,
+            470,
         );
 
-        // Enter the Lumen Directorate interior
-        this.transitionManager.createTransitionZone(
-            400,
-            250,
-            150,
-            80,
-            'up',
-            'LumenDirectorateInteriorScene',
-            400,
-            450,
-        );
+        // Enter the Lumen Directorate interior: the glazed portal at the top of the steps (canvas coords).
+        this.transitionManager.createDoorZone({ points: LUMEN_PORTAL }, {
+            target: 'LumenDirectorateInteriorScene', walkX: 533, walkY: 470, direction: 'up'
+        });
 
-        // Position the priest
-        this.priest.x = 400;
-        this.priest.y = 450;
+        // Position the priest on the plaza, right of the sun inlay
+        this.priest.x = 620;
+        this.priest.y = 470;
 
         if (this.priestGlow) {
             this.priestGlow.x = this.priest.x;
@@ -140,9 +148,9 @@ export default class LumenDirectorateScene extends GameScene {
 
         this.createEavesdropSpot();
 
-        // Examine: the ivy-throttled "living" facade (upper-center, clear of the eavesdrop vent
-        // at 120,430). Reads differently once you're a member / when growth is running wild.
-        this.createObservable(400, 220, 240, 160, () => {
+        // Examine: the ivy-trained "living" facade -- the great window and the gable, above the portal's
+        // door zone (y 281+). Reads differently once you're a member / when growth is running wild.
+        this.createObservable(400, 175, 200, 190, () => {
             if (this.hasJournalEntry('lumen_directorate_joined')) return this.t('observe.lumen_architecture.joined');
             if (this.getGDTendency && this.getGDTendency() === 'growthDominant') return this.t('observe.lumen_architecture.overgrown');
             return this.t('observe.lumen_architecture.default');
@@ -153,13 +161,14 @@ export default class LumenDirectorateScene extends GameScene {
     // private talk. Present only while the eavesdrop job is active and unheard.
     // Clicking opens a route-choice dialog (plain / Neme / Brine).
     createEavesdropSpot() {
+        this._eavesdropCleanup = null;   // the scene instance is reused: drop a previous visit's hotspot handle
         const active = gangQuestStatus(this, GANG_QUEST_IDS.chandelier) === 'active';
         const heard = !!this.hasJournalEntry('gang_eavesdrop_heard');
         if (!active || heard) return;
 
-        const x = 120, y = 430;
-        const vent = this.add.rectangle(x, y, 40, 30, 0x0c120c, 0.5).setDepth(3);
-        vent.setStrokeStyle(2, 0x2a3a2a, 0.9);
+        // the bronze grille painted into the retaining wall left of the steps (canvas x 300..344, y 409..423)
+        const { x, y, w, h } = LUMEN_VENT;
+        const vent = this.add.zone(x, y, w, h).setDepth(3);
         vent.setInteractive({ useHandCursor: true });
         const hint = this.add.text(x, y - 28, 'Listen at the vent', {
             fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
@@ -227,15 +236,13 @@ export default class LumenDirectorateScene extends GameScene {
     }
 
     _createLumenGrowthState() {
-        // Extra bloom clusters spilling from the beds.
-        for (const [x, y] of [[150, 470], [330, 500], [560, 485], [690, 465]]) {
-            this.add.circle(x, y, 7 + Math.random() * 6, 0x9be86a, 0.85).setDepth(2);
-        }
-        // A ripe surplus bloom — harvestable once for spores while Growth runs high.
+        // The overflowing beds are painted into LumenDirectorate_growth; only the bloom is a sprite.
+        // A ripe surplus bloom on the right bed — harvestable once for spores while Growth runs high.
         if (!this.hasJournalEntry('lumen_surplus_harvested')) {
+            const { x, y } = SURPLUS_BLOOM;
             const surplus = this.textures.exists('surplus_bloom')
-                ? this.add.image(120, 430, 'surplus_bloom').setScale(0.2)
-                : this.add.circle(120, 430, 15, 0xd6ff8a, 1).setStrokeStyle(2, 0x4caf50);
+                ? this.add.image(x, y, 'surplus_bloom').setOrigin(0, 0)
+                : this.add.circle(x + 20, y + 20, 15, 0xd6ff8a, 1).setStrokeStyle(2, 0x4caf50);
             surplus.setDepth(3);
             surplus.setInteractive({ useHandCursor: true });
             surplus.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
@@ -258,12 +265,9 @@ export default class LumenDirectorateScene extends GameScene {
     }
 
     _createLumenDecayState() {
-        // Curling, grey-edged growth.
-        for (const [x, y] of [[150, 470], [330, 500], [560, 485]]) {
-            this.add.circle(x, y, 6, 0x6b5a3a, 0.7).setDepth(2);
-        }
-        // A blighted bed you can examine.
-        const blight = this.add.rectangle(200, 505, 100, 44, 0x4a3a24, 0.55).setStrokeStyle(1, 0x2a2418);
+        // The wilted beds are painted into LumenDirectorate_decay; the left one (crusted grey) is the blighted
+        // bed you can examine -- a hotspot over its top, below Verrik (depth 6) so he still takes his clicks.
+        const blight = this.add.zone(220, 471, 220, 50);
         blight.setDepth(2);
         blight.setInteractive({ useHandCursor: true });
         blight.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
@@ -275,45 +279,34 @@ export default class LumenDirectorateScene extends GameScene {
     }
 
     createGardener() {
-        this.gardener = this.add.image(220, 430, 'gardener');
-        this.gardener.setScale(0.15);
-        this.gardener.setDepth(5);
-        this.addGroundShadow(220, 430 + this.gardener.displayHeight * 0.42, this.gardener.displayWidth * 0.55, this.gardener.displayHeight * 0.12);
-        this.gardener.setInteractive({ useHandCursor: true });
+        // Verrik (tools/artgen/lumen_cast.py): 8 idle frames of 128×192 at scale 1, origin on his feet in front of the left
+        // bed. Frames: 0 rest, 1 inhale, 2 an antenna twitches, 3-4 the wings shiver, 5-6 the sickle's edge glints,
+        // 7 exhale; the glow-moss lantern at his hip flickers from frame to frame.
+        this._verrikHoverFx = null;   // the scene instance is reused: drop a glow left on the previous run's sprite
+        const { x, y } = VERRIK_SPOT;
+        if (!this.anims.exists('verrik_idle')) {
+            this.anims.create({
+                key: 'verrik_idle',
+                frames: this.anims.generateFrameNumbers('verrik', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 4, 3, 0, 0, 0, 1, 1, 7, 0, 0, 5, 6, 0, 0, 0, 1, 1, 7, 0, 2, 0, 0] }),
+                frameRate: 5,
+                repeat: -1
+            });
+        }
+        this.gardener = this.add.sprite(x, y, 'verrik', 0).setOrigin(0.5, 1).setDepth(6);
+        this.gardener.play('verrik_idle');
+        this.addGroundShadow(x - 4, y - 3, 74, 12);
+        // pixel-perfect: the sheet's empty corners must not swallow clicks meant for the blighted bed behind him
+        this.gardener.setInteractive({ pixelPerfect: true, useHandCursor: true });
+        // bust portrait for his dialogs (EN + CZ speaker names)
+        const bust = { key: 'verrik', frame: 0, zoom: 2, top: 34 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Verrik the Gardener': bust, 'Verrik Zahradník': bust, 'Verrik': bust };
 
-        // Glow effect
-        this.gardenerGlow = this.add.graphics();
-        this.gardenerGlow.fillStyle(0x556B2F, 0.15);
-        this.gardenerGlow.fillCircle(220, 430, 40);
-        this.gardenerGlow.setDepth(4);
-
-        this.tweens.add({
-            targets: this.gardenerGlow,
-            alpha: { from: 0.15, to: 0.05 },
-            duration: 2000,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Subtle idle sway
-        this.tweens.add({
-            targets: this.gardener,
-            angle: { from: -1, to: 1 },
-            duration: 2500,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Hover effect
+        // Hover: a soft glow round him (pixel art isn't scaled)
         this.gardener.on('pointerover', () => {
-            this.gardener.setScale(0.16);
-            document.body.style.cursor = 'pointer';
+            if (!this._verrikHoverFx) this._verrikHoverFx = this.gardener.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-
         this.gardener.on('pointerout', () => {
-            this.gardener.setScale(0.15);
-            document.body.style.cursor = 'default';
+            if (this._verrikHoverFx) { this.gardener.preFX?.remove(this._verrikHoverFx); this._verrikHoverFx = null; }
         });
 
         // Click to talk
@@ -849,12 +842,12 @@ export default class LumenDirectorateScene extends GameScene {
         const rarity = this.lastMushroomResult.rarity || 'Mundane';
         const sizeScale = rarity === 'Exceptional' ? 1.4 : rarity === 'Remarkable' ? 1.15 : rarity === 'Decent' ? 0.9 : 0.7;
 
-        // Pick a garden position — scatter in the flower beds
+        // Pick a garden position — scatter over the tops of the two front beds (canvas coords, clear of Verrik)
         const gardenSpots = [
-            { x: 120, y: 490 }, { x: 170, y: 500 }, { x: 90, y: 510 },
-            { x: 640, y: 490 }, { x: 690, y: 500 }, { x: 720, y: 510 },
-            { x: 300, y: 510 }, { x: 500, y: 510 },
-            { x: 150, y: 475 }, { x: 660, y: 475 },
+            { x: 290, y: 474 }, { x: 760, y: 470 }, { x: 118, y: 482 },
+            { x: 840, y: 478 }, { x: 318, y: 458 }, { x: 742, y: 456 },
+            { x: 138, y: 462 }, { x: 990, y: 484 }, { x: 800, y: 488 },
+            { x: 960, y: 462 },
         ];
         if (!this.gardenMushroomIndex) this.gardenMushroomIndex = 0;
         const spot = gardenSpots[this.gardenMushroomIndex % gardenSpots.length];
@@ -874,9 +867,9 @@ export default class LumenDirectorateScene extends GameScene {
             Math.max(0, stemColor.blue - 40)
         );
 
-        // Draw the mushroom
+        // Draw the mushroom -- on the bed, i.e. behind Verrik (depth 6) where a spot touches his wings
         const mushroom = this.add.container(px, py);
-        mushroom.setDepth(6);
+        mushroom.setDepth(5);
 
         const capW = 18 * sizeScale;
         const capH = 10 * sizeScale;

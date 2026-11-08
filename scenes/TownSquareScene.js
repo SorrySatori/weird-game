@@ -1,6 +1,17 @@
 import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
-import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, eavesdropReportable } from '../utils/GangOfLamps.js'
+import { createStreetLamp, preloadStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, eavesdropReportable } from '../utils/GangOfLamps.js'
+
+/** A block of dialog states with `speaker` set on every state that doesn't name its own (the block's top-level
+ *  `speaker` key itself is dropped). */
+function withSpeaker(states, speaker) {
+    const out = {};
+    for (const [k, v] of Object.entries(states || {})) {
+        if (k === 'speaker') continue;
+        out[k] = (v && typeof v === 'object' && !v.speaker) ? { ...v, speaker } : v;
+    }
+    return out;
+}
 
 export default class TownSquareScene extends GameScene {
     constructor() {
@@ -31,8 +42,10 @@ export default class TownSquareScene extends GameScene {
         ];
         return {
             ...super.dialogContent,
-            ...this._magnekinDialogContent,
-            ...this._buskerDialogContent,
+            // each block named its speaker once at its top; spread side by side the busker's top-level `speaker` used to
+            // win for both (Magnekin's lines showed "Busker" -- and now the busker's portrait), so stamp it per state
+            ...withSpeaker(this._magnekinDialogContent, 'Magnekin'),
+            ...withSpeaker(this._buskerDialogContent, 'Busker'),
 
             // ===== Gang of Lamps: Chandelier (aloof, gossipy socialite) — set on an ornate post in the square =====
             chandelier_lamp_start: {
@@ -118,14 +131,16 @@ export default class TownSquareScene extends GameScene {
     preload() {
         super.preload();
 
-        this.load.image('townSquareBg', 'assets/images/backgrounds/TownSquare.png');
-        this.load.image('magnekin', 'assets/images/characters/magnekin.png');
-        this.load.image('busker', 'assets/images/characters/busker.png');
+        this.load.image('townSquareBg', 'assets/images/backgrounds/TownSquare.png');   // native 1067×600 (tools/artgen/townsquare_bg.py)
+        // tools/artgen/busker.py: frames 0-7 the idle (him + his drum), 8 = the dialog bust (no drum, head centred)
+        this.load.spritesheet('buskerIdle', 'assets/images/characters/busker_idle.png', { frameWidth: 176, frameHeight: 144 });
+        // tools/artgen/magnekin.py: 8 idle frames standing, 4 frames of the heap he collapses into
+        this.load.spritesheet('magnekinIdle', 'assets/images/characters/magnekin_idle.png', { frameWidth: 128, frameHeight: 192 });
+        this.load.spritesheet('magnekinBroken', 'assets/images/characters/magnekin_broken_idle.png', { frameWidth: 128, frameHeight: 64 });
         this.load.image('oil', 'assets/images/items/oil.png');
         this.load.image('metal_scrap', 'assets/images/items/metal_scrap.png');
         this.load.image('redmass', 'assets/images/items/redmass.png');
-        this.load.image('magnekin_broken', 'assets/images/characters/magnekin_broken.png');
-        this.load.image('lamp_chandelier', 'assets/images/characters/Chandelier.png');
+        preloadStreetLamp(this, 'lamp_chandelier');   // tools/artgen/lamps.py (Aseprite Lamps_chandelier)
     }
 
     create() {
@@ -135,65 +150,79 @@ export default class TownSquareScene extends GameScene {
         const bg = this.add.image(400, 300, 'townSquareBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own cobbles and paving; the generic ground strip would cover them.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
+        // The scene instance is reused: drop hover glows / sprites left over from the previous run.
+        this._magnekinHoverFx = null;
+        this._buskerHoverFx = null;
+        this.magnekin = null;
+        this.magnekinBroken = null;
 
         this.transitionManager = new SceneTransitionManager(this);
 
+        // Exits (800-space; the manager remaps x). The picture: the arcade on the right runs on towards the Townhall,
+        // the side street on the left (under the Directorate's ivy) to the Lumen Directorate, the street at the far
+        // end of the square down to the harbour, and the square itself back towards the viewer to the Godgraveyard.
         this.transitionManager.createTransitionZone(
-            720,
-            300,
-            80,
-            400,
+            740,
+            410,
+            70,
+            240,
             'right',
             'TownhallScene',
-            50,
-            300,
+            790,
+            470,
         );
 
         this.transitionManager.createTransitionZone(
-            350,
-            350,
-            80,
             400,
+            290,
+            64,
+            110,
             'up',
             'HarborScene',
-            750,
-            300,
+            400,
+            470,
         );
 
         // Transition to Lumen Directorate (left side)
         this.transitionManager.createTransitionZone(
-            50,
-            300,
-            80,
-            400,
+            42,
+            410,
+            70,
+            240,
             'left',
             'LumenDirectorateScene',
-            700,
-            400,
+            10,
+            470,
         );
 
         // Down into the Godgraveyard (the scene shows a sealed gate until access is granted).
         this.transitionManager.createTransitionZone(
-            500,
-            560,
+            470,
+            572,
             150,
-            70,
+            56,
             'down',
             'GodgraveyardScene',
-            400,
-            500,
+            470,
+            470,
             'The Godgraveyard',
         );
 
         this.createMagnekin();
         this.createBusker();
 
-        // Gang of Lamps: Chandelier stands on an ornate post on the square's cobbles,
-        // left side (at the spot the player marked), clear of Magnekin (250,300) and busker (550,380).
-        createStreetLamp(this, 'lamp_chandelier', 175, 290, 0.26, 'chandelier_lamp_start');
+        // Gang of Lamps: Chandelier stands on the island's left rim (her plinth's front edge at y 468; the sheet's base
+        // axis is 3 px left of its centre, the post leans toward the square), the square's only free-standing lamp --
+        // the painted ones are wall lanterns. Clear of Magnekin and the HUD.
+        createStreetLamp(this, 'lamp_chandelier', 189, 471, 'chandelier_lamp_start');
 
-        // Examine: the dirigible drifting over the square (up in the sky, clear of NPCs).
-        this.createObservable(340, 95, 240, 90, () => {
+        // Examine: the skyship drifting over the roofs (canvas ~x 318..536, y 52..176).
+        this.createObservable(320, 114, 160, 116, () => {
             if (this.hasJournalEntry('floor_counter_tool')) return this.t('observe.airship.knows');
             return this.t('observe.airship.default');
         }, { hint: this.t('observe.airship.hint') });
@@ -315,7 +344,7 @@ export default class TownSquareScene extends GameScene {
                 ]
             },
             magnekin_neme_power: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "As you focus Neme's power on Magnekin, you sense a strange aura around him. It's a mix of deception and hidden intentions. You get the feeling that Magnekin is not being entirely truthful with you. First, he's a liar. Second, he's not a one being, he's an enormous collective of tiny creatures.",
                 options: [
                     { text: "Confront Magnekin about your discovery.", key: 'confront_magnekin_about_your_discovery', next: "magnekin_what_are_you" },
@@ -437,28 +466,28 @@ export default class TownSquareScene extends GameScene {
                 }
             },
             magnekin_join_faith: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "Join the faith of Maltimus Hopsalot? Of course, it will be my honor to do so! May the endless hops guide my path.",
                 options: [
                     { text: "Glad to hear that. Let's proceed with the holy ceremony... I mean, with the foamy ceremony", key: 'glad_to_hear_that_lets_proceed_with_the_holy_cerem', next: "magnekin_hopsalot_ceremony" },
                 ],
             },
             magnekin_hopsalot_ceremony: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "You start the ceremony to convert Magnekin to the faith of Maltimus Hopsalot. Starting with the sacred words: *Intent flows as foam does — upward, outward, and occasionally sideways*",
                 options: [
                     { text: "Continue the ceremony", key: 'continue_the_ceremony', next: "magnekin_hopsalot_ceremony_continue" },
                 ],
             },
             magnekin_hopsalot_ceremony_continue: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "The novice must then carry the mug—still full—to a small altar shaped like a keg. But you dont have a mug with you. Luckily, Magnekin produces one from his body. Just like that, he grabs some metal and forms a decent mug. The ceremony can continue",
                 options: [
                     { text: "Complete the ceremony", key: 'complete_the_ceremony', next: "magnekin_hopsalot_ceremony_complete" },
                 ],
             },
             magnekin_hopsalot_ceremony_complete: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "Magnekin raises the mug to his lips and drinks deeply, savoring the bitter taste of the sacred brew. As he finishes the last drop, he feels a warm glow spreading through his body. He is now a devoted follower of Maltimus Hopsalot. You scream the sacred chant: *HOP! HOP! HOPSA-LOOOOT!FOAM AND FIZZZ, NEVER STOP!*",
                 options: [
                     { text: "Welcome to the faith of Maltimus Hopsalot!", key: 'welcome_to_the_faith_of_maltimus_hopsalot', next: "magnekin_hopsalot_completed" },
@@ -479,7 +508,7 @@ export default class TownSquareScene extends GameScene {
                 }
             },
             magnekin_off: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "Off? What do you mean, off? Ahh damn it... it's not very convincing, is it? Look, I just want to get by in this city without drawing too much attention. You know how it is. People can be... judgmental. What gave me away?",
                 options: [
                     { text: "Everything about you is weird.", key: 'everything_about_you_is_weird', next: "magnekin_everything" },
@@ -488,7 +517,7 @@ export default class TownSquareScene extends GameScene {
                 ]
             },
             magnekin_everything: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text:" Yeah, I guess I can't hide it anymore. Alright, you got me. I'm not exactly what you'd call a 'real citizen'. I'm actually a collective of tiny cities that work together to mimic a humanoid form. We call ourselves Magnekin. You know, we use power of magnets to hold together. It's a long story. We were just curious about life in the city of the big creatures. It's fascinating experiment, really. But I'm afraid we are not very convincing at blending in.",
                 options: [
                     { text: "Fascinating. Are you really cities? How's that possible?", key: 'fascinating_are_you_really_cities_hows_that_possib', next: "magnekin_cities" },
@@ -505,7 +534,7 @@ export default class TownSquareScene extends GameScene {
                 }
             },
             magnekin_what_are_you: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "Alright, you got me. I'm not exactly what you'd call a 'real citizen'. I'm actually a collective of tiny cities that work together to mimic a humanoid form. We call ourselves Magnekin. You know, we use power of magnets to hold together. It's a long story. We were just curious about life in the city of the big creatures. It's fascinating experiment, really. But I'm afraid we are not very convincing at blending in.",
                 options: [
                     { text: "Fascinating. Are you really cities? How's that possible?", key: 'fascinating_are_you_really_cities_hows_that_possib', next: "magnekin_cities" },
@@ -583,7 +612,7 @@ export default class TownSquareScene extends GameScene {
                 }
             },
             magnekin_destroy: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "You reach out toward Magnekin with hostile intent. The collective senses your aggression immediately. 'Wait! Please! We mean no harm!' But it's too late. You strike at the magnetic bonds holding the form together.",
                 options: [
                     { text: "Continue the attack.", key: 'continue_the_attack', next: "magnekin_destroy_continue" },
@@ -593,14 +622,14 @@ export default class TownSquareScene extends GameScene {
                 }
             },
             magnekin_destroy_continue: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "The humanoid form collapses into a cascade of metal fragments, oil, and glowing components. Thousands of tiny screams echo as the micro-cities fall apart. Among the debris, you notice pools of oil, metal scraps, and something pulsing with a crimson glow—Redmass.",
                 options: [
                     { text: "Collect the oil and metal scraps.", key: 'collect_the_oil_and_metal_scraps', next: "magnekin_collect_materials" },
                 ],
             },
             magnekin_collect_materials: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "You gather the oil and metal scraps from the wreckage. The materials are valuable—oil for lubrication, metal for crafting. As you work, you can't help but feel a twinge of guilt for what you've done.",
                 options: [
                     { text: "Reach for the Redmass.", key: 'reach_for_the_redmass', next: "magnekin_redmass_speaks" },
@@ -625,7 +654,7 @@ export default class TownSquareScene extends GameScene {
                 }
             },
             magnekin_redmass_speaks: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "As your hand approaches the pulsing Redmass, it suddenly speaks! 'PLEASE! Don't take me! I am not just material—I am consciousness! I am memory! I am the last fragment of their collective dream!' The voice is desperate, pleading.",
                 options: [
                     { text: "Take the Redmass anyway.", key: 'take_the_redmass_anyway', next: "magnekin_take_redmass" },
@@ -633,7 +662,7 @@ export default class TownSquareScene extends GameScene {
                 ],
             },
             magnekin_take_redmass: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "You ignore the pleas and seize the Redmass. It screams—a sound that echoes not in your ears but in your mind. 'You... you are no different from the forces that destroyed our shrine... May your path be forever haunted by what you've taken!' The Redmass goes silent, its consciousness fading into dormancy.",
                 options: [
                     { text: "Walk away from the wreckage.", key: 'walk_away_from_the_wreckage', next: null },
@@ -658,7 +687,7 @@ export default class TownSquareScene extends GameScene {
                 }
             },
             magnekin_spare_redmass: {
-                hidecloseOption: true,
+                hideCloseOption: true,
                 text: "You pull your hand back. The Redmass pulses with what might be relief. 'Thank... thank you. I will remember this mercy. Perhaps... perhaps from this fragment, something new can grow. Not the collective we were, but something... different.' The Redmass begins to slowly crawl away, leaving a faint crimson trail.",
                 options: [
                     { text: "Watch it go.", key: 'watch_it_go', next: null },
@@ -683,68 +712,61 @@ export default class TownSquareScene extends GameScene {
         // Once filed into the Ink Tribunal, Magnekin has left the Town Square for the Tribunal's Room.
         if (magnekinRecruited) return;
 
-        this.magnekin = this.add.container(250, 300);
-        this.magnekin.setDepth(-1);
+        // Already taken apart (durable: the journal entries / the saved registry flag) -> only the heap is left.
+        const magnekinDestroyed = !!(this.hasJournalEntry('magnekin_destroyed') || this.hasJournalEntry('magnekin_destroyed_mercy')
+            || this.registry.get('magnekin_destroyed'));
+        if (magnekinDestroyed) { this.showBrokenMagnekin(); return; }
 
-        const magnekinSprite = this.add.sprite(0, 0, 'magnekin');
-        magnekinSprite.setScale(0.2);
-
-        magnekinSprite.setTint(0xc0c0c0);
-
-        this.magnekin.add(magnekinSprite);
-
-        this.addGroundShadow(250, 388, 72, 18);
-
-        this.magnekinGlow = this.add.graphics();
-        this.magnekinGlow.fillStyle(0x8888ff, 0.15);
-        this.magnekinGlow.fillCircle(250, 350, 45);
-        this.magnekinGlow.setDepth(4);
-
-        this.tweens.add({
-            targets: this.magnekinGlow,
-            alpha: { from: 0.15, to: 0.05 },
-            duration: 2000,
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.tweens.add({
-            targets: this.magnekin,
-            y: { from: 350, to: 345 },
-            duration: 2500,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        const hitArea = new Phaser.Geom.Rectangle(-40, -90, 80, 140);
-        this.magnekin.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
-
-        this.magnekin.on('pointerover', () => {
-            this.magnekin.setScale(1.05);
-            document.body.style.cursor = 'pointer';
-        });
-
-        this.magnekin.on('pointerout', () => {
-            this.magnekin.setScale(1);
-            document.body.style.cursor = 'default';
-        });
-
-        this.magnekin.on('pointerdown', () => {
-            if (this.clickSound) {
-                this.clickSound.play();
-            }
-
-            this.tweens.add({
-                targets: this.magnekin,
-                y: { from: this.magnekin.y, to: this.magnekin.y - 5 },
-                duration: 100,
-                ease: 'Power1',
-                yoyo: true
+        // Magnekin (tools/artgen/magnekin.py): 8 idle frames of 128×192 at scale 1, soles on row 189 -> origin bottom,
+        // y = feet + 2. Frames: 0 rest, 1 breath (satellites drift), 2 blink, 3-5 a shoulder pebble lifts off, hangs,
+        // snaps back with a spark, 6 eyes brighten / filings lift, 7 settle.
+        const { x: mx, feet: mf } = TownSquareScene.MAGNEKIN_AT;
+        if (!this.anims.exists('magnekin_idle')) {
+            this.anims.create({
+                key: 'magnekin_idle',
+                frames: this.anims.generateFrameNumbers('magnekinIdle', { frames: [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7] }),
+                frameRate: 5,
+                repeat: -1
             });
+        }
+        this.magnekin = this.add.sprite(mx, mf + 2, 'magnekinIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        this.magnekin.play('magnekin_idle');
+        this.addGroundShadow(mx, mf - 2, 48, 10);
+        // the body only (not the satellites round it): frame-local rect
+        this.magnekin.setInteractive({ hitArea: new Phaser.Geom.Rectangle(30, 8, 68, 183), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        const magnekinBust = { key: 'magnekinIdle', frame: 0, zoom: 2, top: 8 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Magnekin': magnekinBust };
 
+        // Hover: a soft cold glow (pixel art isn't scaled)
+        this.magnekin.on('pointerover', () => {
+            if (!this._magnekinHoverFx) this._magnekinHoverFx = this.magnekin.preFX?.addGlow(0x9fb8ff, 2, 0, false, 0.1, 8);
+        });
+        this.magnekin.on('pointerout', () => {
+            if (this._magnekinHoverFx) { this.magnekin.preFX?.remove(this._magnekinHoverFx); this._magnekinHoverFx = null; }
+        });
+        this.magnekin.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
             this.showDialog('magnekin_start');
         });
+    }
+
+    /** The heap Magnekin collapses into (tools/artgen/magnekin.py, 4 frames of 128×64, ground on row 61): a faint
+     *  spark, a twitching pebble, a satellite's wing. Stays in the square for good once he's been taken apart. */
+    showBrokenMagnekin() {
+        const { x, feet } = TownSquareScene.MAGNEKIN_AT;
+        if (!this.anims.exists('magnekin_broken_idle')) {
+            this.anims.create({
+                key: 'magnekin_broken_idle',
+                frames: this.anims.generateFrameNumbers('magnekinBroken', { frames: [0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 3, 3] }),
+                frameRate: 5,
+                repeat: -1
+            });
+        }
+        this.magnekinBroken = this.add.sprite(x, feet + 2, 'magnekinBroken', 0).setOrigin(0.5, 1).setDepth(6);
+        this.magnekinBroken.play('magnekin_broken_idle');
+        this.addGroundShadow(x, feet - 3, 90, 12);
+        return this.magnekinBroken;
     }
 
     createBusker() {
@@ -788,66 +810,36 @@ export default class TownSquareScene extends GameScene {
             }
         };
 
-        this.busker = this.add.container(550, 380);
-        this.busker.setDepth(-1);
-
-        const buskerSprite = this.add.sprite(0, 0, 'busker');
-        buskerSprite.setScale(0.2);
-
-        buskerSprite.setTint(0xffcc88);
-
-        this.busker.add(buskerSprite);
-
-        this.addGroundShadow(550, 418, 72, 18);
-
-        this.buskerGlow = this.add.graphics();
-        this.buskerGlow.fillStyle(0xffaa44, 0.15);
-        this.buskerGlow.fillCircle(550, 380, 45);
-        this.buskerGlow.setDepth(4);
-
-        this.tweens.add({
-            targets: this.buskerGlow,
-            alpha: { from: 0.15, to: 0.05 },
-            duration: 1800,
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.tweens.add({
-            targets: this.busker,
-            angle: { from: -2, to: 2 },
-            duration: 3000,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        const hitArea = new Phaser.Geom.Rectangle(-40, -90, 80, 140);
-        this.busker.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
+        // The busker and his drum (tools/artgen/busker.py): 9 frames of 176×144, soles on row 141 -> origin bottom,
+        // y = feet + 2. Frames 0-7 = the idle (down/up strums on two chords, a nod, a toe tap; the drum bobs and taps
+        // its feet in time); frame 8 is only the dialog bust. His body sits 36 px left of the frame's centre, the drum
+        // 45 px right of it.
+        const { x: bx, feet: bf } = TownSquareScene.BUSKER_AT;
+        if (!this.anims.exists('busker_idle')) {
+            this.anims.create({
+                key: 'busker_idle',
+                frames: this.anims.generateFrameNumbers('buskerIdle', { frames: [0, 1, 2, 3, 4, 5, 6, 7] }),
+                frameRate: 6,
+                repeat: -1
+            });
+        }
+        this.busker = this.add.sprite(bx, bf + 2, 'buskerIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        this.busker.play('busker_idle');
+        this.addGroundShadow(bx - 36, bf - 3, 64, 12);                 // under the stool
+        this.addGroundShadow(bx + 45, bf - 3, 40, 9);                  // under the drum
+        this.busker.setInteractive({ hitArea: new Phaser.Geom.Rectangle(20, 14, 136, 129), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        const buskerBust = { key: 'buskerIdle', frame: 8, zoom: 2, top: 12 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Busker': buskerBust, 'Pouliční muzikant': buskerBust };
 
         this.busker.on('pointerover', () => {
-            this.busker.setScale(1.05);
-            document.body.style.cursor = 'pointer';
+            if (!this._buskerHoverFx) this._buskerHoverFx = this.busker.preFX?.addGlow(0xffd27a, 2, 0, false, 0.1, 8);
         });
-
         this.busker.on('pointerout', () => {
-            this.busker.setScale(1);
-            document.body.style.cursor = 'default';
+            if (this._buskerHoverFx) { this.busker.preFX?.remove(this._buskerHoverFx); this._buskerHoverFx = null; }
         });
-
         this.busker.on('pointerdown', () => {
-            if (this.clickSound) {
-                this.clickSound.play();
-            }
-
-            this.tweens.add({
-                targets: this.busker,
-                y: { from: this.busker.y, to: this.busker.y - 5 },
-                duration: 100,
-                ease: 'Power1',
-                yoyo: true
-            });
-
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
             this.showDialog('busker_greeting');
         });
     }
@@ -855,6 +847,7 @@ export default class TownSquareScene extends GameScene {
     destroyMagnekinAnimation() {
         // Create destruction animation for Magnekin
         if (!this.magnekin) return;
+        this.magnekin.disableInteractive();
         
         // Flash effect
         this.tweens.add({
@@ -881,11 +874,11 @@ export default class TownSquareScene extends GameScene {
             const speed = 100 + Math.random() * 200;
             const particle = this.add.circle(
                 this.magnekin.x,
-                this.magnekin.y,
+                this.magnekin.y - 90,                                    // from his chest (the sprite's origin is at his feet)
                 3 + Math.random() * 3,
                 [0xc0c0c0, 0x8888ff, 0xff0000][Math.floor(Math.random() * 3)]
             );
-            particle.setAlpha(0.8);
+            particle.setAlpha(0.8).setDepth(7);
             
             // Animate particle outward
             this.tweens.add({
@@ -902,22 +895,14 @@ export default class TownSquareScene extends GameScene {
             });
         }
         
-        // Destroy Magnekin after animation and show broken sprite
+        // Destroy Magnekin after animation and leave the heap where he stood
         this.time.delayedCall(1500, () => {
             if (this.magnekin) {
+                if (this._magnekinHoverFx) { this.magnekin.preFX?.remove(this._magnekinHoverFx); this._magnekinHoverFx = null; }
                 this.magnekin.destroy();
                 this.magnekin = null;
             }
-            if (this.magnekinGlow) {
-                this.magnekinGlow.destroy();
-                this.magnekinGlow = null;
-            }
-            
-            // Show broken Magnekin sprite at the original position
-            const brokenMagnekin = this.add.sprite(250, 350, 'magnekin_broken');
-            brokenMagnekin.setScale(0.2);
-            brokenMagnekin.setDepth(-1);
-            brokenMagnekin.setTint(0xc0c0c0);
+            if (!this.magnekinBroken) this.showBrokenMagnekin();
         });
     }
 
@@ -929,6 +914,11 @@ export default class TownSquareScene extends GameScene {
         super.update();
     }
 }
+
+// Where the two stand on the new picture (canvas px; `feet` = the sole line): on the island, in front of the walk line's
+// far side, clear of the exits (Godgraveyard zone below x 527..727, the far street up the middle) and of Chandelier.
+TownSquareScene.MAGNEKIN_AT = { x: 318, feet: 527 };
+TownSquareScene.BUSKER_AT = { x: 792, feet: 522 };
 
 if (typeof window !== 'undefined') {
     window.TownSquareScene = TownSquareScene;

@@ -10,8 +10,14 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
  * Reached from CathedralEntrance (after the Guardian relents) or, as a bypass, through
  * Edgar's secret gap from the cathedral exterior. Leads deeper to EggCathedralInteriorScene.
  *
- * PLACEHOLDER ART: drawn procedurally (a study grown into living tissue).
+ * Background: native 1067×600 from tools/artgen/cathedral_study_bg.py — an egg-shaped chamber, the study's stone
+ * walls under a translucent eggshell vault with stone ribs; the desk grows out of the living apse. Exits are painted:
+ * the doorway in the left wall (back to the threshold) and the stair in the right wall (deeper in).
  */
+
+// Canvas outlines of the painted exits (printed by cathedral_study_bg.py).
+const STUDY_DOOR = [[28, 529], [28, 421], [39, 396], [59, 380], [78, 370], [97, 365], [114, 367], [130, 371], [146, 382], [154, 400], [154, 492]];
+const STUDY_STAIR = [[766, 458], [766, 376], [773, 357], [785, 345], [798, 340], [811, 337], [825, 341], [839, 349], [854, 363], [862, 386], [862, 478]];
 export default class EggCathedralStudyScene extends GameScene {
     constructor() {
         super({ key: 'EggCathedralStudyScene' });
@@ -85,59 +91,47 @@ export default class EggCathedralStudyScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        this.load.image('eggCathedralStudyBg', 'assets/images/backgrounds/EggCathedralStudy.png');
     }
 
     create() {
         super.create();
         this.playSceneMusic('cathedralTheme');
 
-        // --- Procedural placeholder: a study grown into living tissue. ---
-        const g = this.add.graphics().setDepth(-1);
-        g.fillStyle(0x0b1512, 1); g.fillRect(0, 0, this.scale.width, this.scale.height);
-        g.fillStyle(0x162a20, 1); g.fillEllipse(400, 300, 780, 580);
-        g.fillStyle(0x203b2c, 1); g.fillEllipse(400, 330, 560, 420);
-        // Desk growing out of the wall.
-        g.fillStyle(0x3a2c1e, 1); g.fillRect(300, 330, 200, 26);
-        g.fillStyle(0x2c2115, 1); g.fillRect(320, 356, 12, 90); g.fillRect(468, 356, 12, 90);
-        // Membrane-wrapped scrolls.
-        for (const sx of [330, 360, 452]) {
-            this.add.rectangle(sx, 322, 16, 20, 0xbfe6c8, 0.22).setDepth(1);
+        const bg = this.add.image(this.scale.width / 2, 300, 'eggCathedralStudyBg');
+        this.fitBackground(bg);
+        bg.setDepth(-1);
+        // The background paints the study's own floor; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
         }
-        // Candles the cathedral keeps lit.
-        for (const cx2 of [312, 488]) {
-            this.add.rectangle(cx2, 316, 4, 14, 0xd8c9a0, 0.9).setDepth(1);
-            const flame = this.add.circle(cx2, 306, 4, 0xffcf7a, 0.95).setDepth(2);
-            this.tweens.add({ targets: flame, alpha: { from: 0.5, to: 0.95 }, scaleX: { from: 0.8, to: 1.2 }, duration: 700, yoyo: true, repeat: -1 });
-        }
-
-        this.add.text(400, 578, '[ Egg Cathedral — study placeholder art ]', {
-            fontSize: '11px', fill: '#5f8f6f', backgroundColor: 'rgba(0,0,0,0.4)', padding: { x: 5, y: 2 }
-        }).setOrigin(0.5).setDepth(8);
 
         this.transitionManager = new SceneTransitionManager(this);
-        // Back out to the threshold.
-        this.transitionManager.createTransitionZone(
-            120, 500, 120, 60, 'left', 'CathedralEntrance', 200, 470, 'Back to the Threshold'
-        );
-        // Deeper in, to the god chamber.
-        this.transitionManager.createTransitionZone(
-            400, 40, 220, 40, 'up', 'EggCathedralInteriorScene', 400, 80, 'Deeper In'
-        );
+        // Back out to the threshold: the doorway in the left wall (the arrow keys leave by it at the left edge too).
+        const door = this.transitionManager.createDoorZone({ points: STUDY_DOOR }, {
+            target: 'CathedralEntrance', walkX: 90, walkY: 470, label: 'Back to the Threshold', direction: 'left'
+        });
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'CathedralEntrance'), door);
+        // Deeper in, to the god chamber: the stair climbing away in the right wall.
+        this.transitionManager.createDoorZone({ points: STUDY_STAIR }, {
+            target: 'EggCathedralInteriorScene', walkX: 814, walkY: 470, label: 'Deeper In', direction: 'up'
+        });
 
-        this.priest.x = 400;
-        this.priest.y = 480;
+        // Coming back down from the heart: arrive at the foot of the stair; otherwise by the doorway.
+        this.priest.x = this.enteredFrom === 'EggCathedralInteriorScene' ? 800 : 230;
+        this.priest.y = 470;
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        // The journal on the desk.
-        const jx = 400, jy = 322;
-        const glow = this.add.circle(jx, jy, 6, 0xffcf7a, 0.9).setDepth(3);
-        this.tweens.add({ targets: glow, alpha: { from: 0.3, to: 0.9 }, duration: 1500, yoyo: true, repeat: -1 });
-        const label = this.add.text(jx, jy - 40, "The Bishop's Journal", {
+        // The journal on the desk (800-space, remapped like createObservable): the desk and its hutch of pigeonholes.
+        const kx = this.scale.width / 800;
+        const jx = Math.round(400 * kx), jy = 400;
+        const label = this.add.text(jx, 318, this.t('ui.hotspots.bishopJournal'), {
             fontSize: '12px', fill: '#e8c97a', backgroundColor: 'rgba(0,0,0,0.6)', padding: { x: 5, y: 3 }
         }).setOrigin(0.5).setDepth(5).setVisible(false);
-        const zone = this.add.zone(jx, jy, 150, 120).setOrigin(0.5).setDepth(4);
+        const zone = this.add.zone(jx, jy, Math.round(140 * kx), 140).setOrigin(0.5).setDepth(4);
         zone.setInteractive({ useHandCursor: true });
         zone.on('pointerover', () => { label.setVisible(true); document.body.style.cursor = 'pointer'; });
         zone.on('pointerout', () => { label.setVisible(false); document.body.style.cursor = 'default'; });

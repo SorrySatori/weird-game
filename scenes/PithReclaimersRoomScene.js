@@ -96,27 +96,8 @@ export default class PithReclaimersRoomScene extends GameScene {
         super.preload();
         this.load.image('pith-room-bg', 'assets/images/backgrounds/ReclaimersRoom.png');
         // Recruited souls that now reside here.
-        this.load.image('magnekin', 'assets/images/characters/magnekin.png');
-        this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
-    }
-
-    // A filed soul lives in the room; clicking them opens their settled dialog.
-    createRecruitNpc(recruitFlag, textureKey, x, y, scale, tint, dialogState) {
-        if (!this.hasJournalEntry(recruitFlag)) return;
-        const npc = this.add.image(x, y, textureKey);
-        npc.setScale(scale);
-        if (tint !== null) npc.setTint(tint);
-        npc.setDepth(5);
-        this.addGroundShadow(x, y + npc.displayHeight * 0.40, npc.displayWidth * 0.55, npc.displayHeight * 0.12);
-        npc.setInteractive({ useHandCursor: true });
-        npc.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
-        npc.on('pointerout', () => { document.body.style.cursor = 'default'; });
-        npc.on('pointerdown', () => {
-            if (this.dialogVisible) return;
-            if (this.clickSound) this.clickSound.play();
-            this.showDialog(dialogState);
-        });
-        return npc;
+        this.load.spritesheet('magnekinIdle', 'assets/images/characters/magnekin_idle.png', { frameWidth: 128, frameHeight: 192 }); // tools/artgen/magnekin.py
+        this.load.spritesheet('heirAquariumIdle', 'assets/images/characters/voxmarket/heir_aquarium.png', { frameWidth: 128, frameHeight: 176 }); // tools/artgen/voxmarket_guests.py
     }
 
     create() {
@@ -125,14 +106,10 @@ export default class PithReclaimersRoomScene extends GameScene {
 
         if (this.ground) { this.ground.destroy(); this.ground = null; }
 
-        const bg = this.add.image(400, 300, 'pith-room-bg');
+        // The Tribunal's vaulted archive cellar, native 1067×600 with its own floor (tools/artgen/tribunal_bg.py)
+        const bg = this.add.image(this.scale.width / 2, 300, 'pith-room-bg');
         this.fitBackground(bg);
         bg.setDepth(-1);
-
-        const floor = this.add.graphics().setDepth(0);
-        floor.fillGradientStyle(0x322819, 0x322819, 0x16110a, 0x16110a, 1); // lit warm stone → shadowed fore
-        floor.fillRect(0, 466, this.scale.width, 134); // full canvas width (1067)
-        for (const ly of [500, 535, 570]) this.add.rectangle(this.scale.width / 2, ly, this.scale.width, 1, 0x120d07, 0.5).setDepth(0); // faint flagstone seams
 
         this.transitionManager = new SceneTransitionManager(this);
         this.transitionManager.createTransitionZone(
@@ -141,11 +118,12 @@ export default class PithReclaimersRoomScene extends GameScene {
 
         if (this.priest) {
             this.priest.x = 650;
-            this.priest.y = 520;
+            this.priest.y = 470; // feet on the walk line (y 534)
         }
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
-        const stash = this.add.zone(Math.round(405 * this.scale.width / 800), 360, Math.round(130 * this.scale.width / 800), 175).setInteractive({ useHandCursor: true });
+        // the cache: the glass orb on its bronze pedestal in the middle of the court circle (orb y ~368-420, plinth foot ~482)
+        const stash = this.add.zone(this.scale.width / 2, 425, 72, 118).setInteractive({ useHandCursor: true });
         stash.setDepth(5);
         stash.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
         stash.on('pointerout', () => { document.body.style.cursor = 'default'; });
@@ -155,9 +133,50 @@ export default class PithReclaimersRoomScene extends GameScene {
             this.showDialog('pith_cache');
         });
 
-        // Souls the player has filed into the Tribunal now reside here — standing further back in the room.
-        this.createRecruitNpc('pith_recruit_magnekin', 'magnekin', 300, 395, 0.15, 0xc0c0c0, 'magnekin_room_start');
-        this.createRecruitNpc('pith_recruit_heir', 'heirToAquarium', 500, 400, 0.095, null, 'heir_room_start');
+        // Souls the player has filed into the Tribunal now reside here — on the near floor either side of the court
+        // circle (feet y 523): Magnekin by the writing desk, the Heir between the eggshell vitrine and the docket trolley.
+        if (this.hasJournalEntry('pith_recruit_magnekin')) {
+            // Magnekin: 8 idle frames of 128×192 at scale 1, origin bottom. 'magnekin_idle' is global: keep this frame list
+            // in sync with TownSquareScene.
+            if (!this.anims.exists('magnekin_idle')) {
+                this.anims.create({ key: 'magnekin_idle', frames: this.anims.generateFrameNumbers('magnekinIdle', { frames: [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7] }), frameRate: 5, repeat: -1 });
+            }
+            const mag = this.add.sprite(300, 525, 'magnekinIdle', 0).setOrigin(0.5, 1).setDepth(6);
+            mag.play('magnekin_idle');
+            this.addGroundShadow(300, 521, 60, 12);
+            mag.setInteractive({ hitArea: new Phaser.Geom.Rectangle(30, 8, 68, 183), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+            const magBust = { key: 'magnekinIdle', frame: 0, zoom: 2, top: 8 };
+            this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Magnekin': magBust };
+            let magHoverFx = null;
+            mag.on('pointerover', () => { if (!magHoverFx) magHoverFx = mag.preFX?.addGlow(0x9fb8ff, 2, 0, false, 0.1, 8); });
+            mag.on('pointerout', () => { if (magHoverFx) { mag.preFX?.remove(magHoverFx); magHoverFx = null; } });
+            mag.on('pointerdown', () => {
+                if (this.dialogVisible) return;
+                if (this.clickSound) this.clickSound.play();
+                this.showDialog('magnekin_room_start');
+            });
+        }
+        if (this.hasJournalEntry('pith_recruit_heir')) {
+            // the Heir: 8 idle frames of 128×176 at scale 1, origin bottom. 'heir_idle' is global: keep this frame list in
+            // sync with VoxmarketHallScene + HarborScene.
+            if (!this.anims.exists('heir_idle')) {
+                this.anims.create({ key: 'heir_idle', frames: this.anims.generateFrameNumbers('heirAquariumIdle', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 3, 3, 0, 4, 4, 0, 0, 5, 5, 5, 0, 1, 1, 7, 0, 0, 6, 6, 0, 0] }), frameRate: 5, repeat: -1 });
+            }
+            const heir = this.add.sprite(775, 525, 'heirAquariumIdle', 0).setOrigin(0.5, 1).setDepth(6);
+            heir.play('heir_idle');
+            this.addGroundShadow(775, 521, 50, 11);
+            heir.setInteractive({ hitArea: new Phaser.Geom.Rectangle(35, 11, 58, 163), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+            const heirBust = { key: 'heirAquariumIdle', frame: 0, zoom: 2, top: 9 };
+            this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Heir to the Yellow Aquarium': heirBust, 'Dědic Žlutého akvária': heirBust };
+            let heirHoverFx = null;
+            heir.on('pointerover', () => { if (!heirHoverFx) heirHoverFx = heir.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8); });
+            heir.on('pointerout', () => { if (heirHoverFx) { heir.preFX?.remove(heirHoverFx); heirHoverFx = null; } });
+            heir.on('pointerdown', () => {
+                if (this.dialogVisible) return;
+                if (this.clickSound) this.clickSound.play();
+                this.showDialog('heir_room_start');
+            });
+        }
 
         if (!this.hasJournalEntry('pith_room_entered')) {
             this.addJournalEntry(

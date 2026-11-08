@@ -10,20 +10,67 @@ export function gangLampsDestroyed(scene) {
     return !!scene.hasJournalEntry('gang_lamps_destroyed');
 }
 
-/** Create a clickable disguised street-lamp NPC with a soft flicker. Opens `dialogKey` on click. */
-export function createStreetLamp(scene, textureKey, x, y, scale, dialogKey, depth = 6) {
+/**
+ * The lamps' art (tools/artgen/lamps.py -> assets/images/characters/lamps/<file>.png, Aseprite Lamps_<file>):
+ * 8-frame idle sheets, origin bottom-centre, shown at scale 1 -- Don at 3, because he is drawn on the 3x pixel grid of
+ * Scraper1140.png. `order` = the idle's frame sequence (holds included), `hit` = the clickable box in frame pixels
+ * [x, y, w, h], `bust` = the dialog portrait, keyed by the EN and CZ speaker names, `shadow` = [w, h] of the contact
+ * shadow on the ground (none for Don, who stands on a platform in the picture).
+ */
+export const LAMP_ART = {
+    // the near-twin of the townhall's painted lamp; the flame darts to the door, ducks, the brass lamp rattles
+    lamp_sconce: { file: 'sconce', fw: 128, fh: 176, scale: 1, fps: 6, names: ['Sconce'],
+        order: [0, 0, 0, 1, 0, 0, 2, 3, 3, 3, 3, 4, 0, 0, 0, 1, 0, 5, 5, 0, 0, 0, 6, 6, 7, 0, 0, 0],
+        hit: [44, 2, 44, 174], bust: { frame: 3, zoom: 3, top: 4 }, shadow: [30, 7] },
+    // the glint runs round the lustres once per loop, the globe's hot spot looks about, a pendant swings
+    lamp_chandelier: { file: 'chandelier', fw: 128, fh: 216, scale: 1, fps: 5, names: ['Chandelier'],
+        order: [0, 1, 2, 3, 4, 5, 6, 7],
+        hit: [32, 6, 64, 210], bust: { frame: 0, zoom: 2, top: 8 }, shadow: [34, 9] },
+    // the sea wind lays the flame over; it rounds on you and flares, spits sparks
+    lamp_torchere: { file: 'torchere', fw: 128, fh: 200, scale: 1, fps: 6, names: ['Torchère'],
+        order: [0, 1, 2, 0, 1, 5, 6, 7, 0, 1, 2, 3, 3, 4, 4, 5, 6, 7],
+        hit: [44, 0, 44, 200], bust: { frame: 3, zoom: 2, top: 0 }, shadow: [32, 10] },
+    // the head-lamp's flame turns to look, the cigar hand lifts, the ember breathes, smoke curls up
+    lamp_don: { file: 'don', fw: 45, fh: 56, scale: 3, fps: 5, names: ['Don Girandole'],
+        order: [0, 1, 1, 0, 0, 2, 3, 3, 3, 3, 4, 4, 5, 0, 0, 1, 0, 6, 6, 7, 0, 0],
+        hit: [0, 2, 45, 48], bust: { frame: 3, zoom: 4, top: 1 } },     // the foot left out: the right-edge exit is below
+};
+
+/** Queue a lamp's sheet in a scene's preload(). */
+export function preloadStreetLamp(scene, textureKey) {
+    const a = LAMP_ART[textureKey];
+    scene.load.spritesheet(textureKey, `assets/images/characters/lamps/${a.file}.png`, { frameWidth: a.fw, frameHeight: a.fh });
+}
+
+/**
+ * Create a clickable disguised street-lamp NPC: its animated sheet with the feet (the base's front edge) at canvas
+ * (x, y), a soft glow on hover, its bust as the dialog portrait. Opens `dialogKey` on click.
+ */
+export function createStreetLamp(scene, textureKey, x, y, dialogKey, depth = 6) {
     // If the Gang has been destroyed, no lamp appears anywhere ever again.
     if (gangLampsDestroyed(scene)) return null;
-    const lamp = scene.add.image(x, y, textureKey).setScale(scale).setDepth(depth);
-    lamp.setInteractive({ useHandCursor: true });
-    lamp.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
-    lamp.on('pointerout', () => { document.body.style.cursor = 'default'; });
+    const a = LAMP_ART[textureKey];
+    const animKey = textureKey + '_idle';
+    if (!scene.anims.exists(animKey)) {
+        scene.anims.create({ key: animKey, frames: scene.anims.generateFrameNumbers(textureKey, { frames: a.order }), frameRate: a.fps, repeat: -1 });
+    }
+    const lamp = scene.add.sprite(x, y, textureKey, 0).setOrigin(0.5, 1).setScale(a.scale).setDepth(depth);
+    lamp.play({ key: animKey, startFrame: Math.floor(Math.random() * a.order.length) });
+    if (a.shadow) scene.addGroundShadow(x, y - 3, a.shadow[0], a.shadow[1]);
+    const [hx, hy, hw, hh] = a.hit;
+    lamp.setInteractive({ hitArea: new Phaser.Geom.Rectangle(hx, hy, hw, hh), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+    // Hover: a soft warm glow (pixel art isn't scaled); the scene instance is reused, so the glow lives on the sprite.
+    let hoverFx = null;
+    lamp.on('pointerover', () => { if (!hoverFx) hoverFx = lamp.preFX?.addGlow(0xffd27a, 2, 0, false, 0.1, Math.max(3, Math.round(8 / a.scale))); });
+    lamp.on('pointerout', () => { if (hoverFx) { lamp.preFX?.remove(hoverFx); hoverFx = null; } });
     lamp.on('pointerdown', () => {
         if (scene.dialogVisible) return;
         if (scene.clickSound) scene.clickSound.play();
         scene.showDialog(dialogKey);
     });
-    scene.tweens.add({ targets: lamp, alpha: { from: 0.9, to: 1 }, duration: 1500 + Math.random() * 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    const bust = { key: textureKey, ...a.bust };
+    scene.dialogPortraits = { ...(scene.dialogPortraits || {}) };
+    for (const n of a.names) scene.dialogPortraits[n] = bust;
     return lamp;
 }
 

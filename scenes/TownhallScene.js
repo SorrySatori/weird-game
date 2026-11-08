@@ -1,6 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
-import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
+import { createStreetLamp, preloadStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
 export default class TownhallScene extends GameScene {
     constructor() {
@@ -336,11 +336,11 @@ export default class TownhallScene extends GameScene {
         super.preload();
         this.load.image('townhallBg', 'assets/images/backgrounds/townhall.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        this.load.image('phor', 'assets/images/characters/phor.png');
+        // Phor Calesta: an 8-frame idle sheet, 128x160, soles on row 156 (tools/artgen/townhall_cast.py, Aseprite Townhall_phor)
+        this.load.spritesheet('phorIdle', 'assets/images/characters/townhall/phor.png', { frameWidth: 128, frameHeight: 160 });
         this.load.image('growthGate', 'assets/images/items/growthGate.png');
         this.load.image('rustGate', 'assets/images/items/rustGate.png');
-        this.load.image('townhallDoor', 'assets/images/ui/door.png');
-        this.load.image('lamp_sconce', 'assets/images/characters/Sconce.png');
+        preloadStreetLamp(this, 'lamp_sconce');   // tools/artgen/lamps.py (Aseprite Lamps_sconce)
     }
 
     create() {
@@ -348,14 +348,19 @@ export default class TownhallScene extends GameScene {
         super.create();
         this.playSceneMusic('genericMusic');
 
-        // Set townhall background
+        // Set townhall background (native 1067x600, tools/artgen/townhall_bg.py)
         const bg = this.add.image(400, 300, 'townhallBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
-        
+        // The background paints its own square; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
+
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
-        
+
         this.transitionManager.createTransitionZone(
             720, // x position
             470, // y position
@@ -366,7 +371,7 @@ export default class TownhallScene extends GameScene {
             720, // walk to x
             470 // walk to y
         );
-        
+
         // Transition to BurningBearStreetScene (left side, lower area)
         this.transitionManager.createTransitionZone(
             50, // x position
@@ -375,7 +380,7 @@ export default class TownhallScene extends GameScene {
             200, // height
             'left', // direction
             'BurningBearStreetScene', // target scene
-            750, // walk to x
+            50, // walk to x (was 750: the priest walked right before leaving left)
             470 // walk to y
         );
 
@@ -399,18 +404,21 @@ export default class TownhallScene extends GameScene {
             const currentGrowth = growthDecaySystem.getGrowth();
             const currentDecay = growthDecaySystem.getDecay();
             
+            // The gates manifest on the square in front of the left wing, under their transition
+            // zones (800-space x 225/227 -> canvas ~300); bases on the paving at y ~505.
+            const gateX = Math.round(225 * this.scale.width / 800);
             // Add Growth Gate if Growth >= 80
             if (currentGrowth >= 80) {
-                const growthGate = this.add.image(225, 425, 'growthGate')
+                const growthGate = this.add.image(gateX, 445, 'growthGate')
                 growthGate.setScale(0.09)
-                growthGate.setDepth(0)
+                growthGate.setDepth(4)
             }
-            
+
             // Add Rust Gate if Decay >= 80
             if (currentDecay >= 80) {
-                const rustGate = this.add.image(227, 450, 'rustGate')
+                const rustGate = this.add.image(gateX, 457, 'rustGate')
                 rustGate.setScale(0.07)
-                rustGate.setDepth(-0.5)
+                rustGate.setDepth(4)
             }
         }
         
@@ -419,15 +427,16 @@ export default class TownhallScene extends GameScene {
             this.clickSound = this.sound.add('click');
         }
 
-        // Gang of Lamps: Sconce is bolted to a post on the right of the walkway by the townhall
-        // steps (moved right per the player's marker). Capped at x650 — just left of the right
-        // exit zone (x680-760 → TownSquare) so lamp clicks don't collide with the transition.
-        createStreetLamp(this, 'lamp_sconce', 670, 425, 0.18, 'sconce_lamp_start');
+        // Gang of Lamps: Sconce stands at the foot of the townhall stair on the right, the near-twin of the painted
+        // lamp on the left (the background leaves its spot clear); its base's front edge on the paving at y 448 like
+        // the twin's.
+        createStreetLamp(this, 'lamp_sconce', 636, 453, 'sconce_lamp_start');
 
         // Examine mechanic: the Stomach Clock on the townhall facade. The protagonist comments
         // in their own words; what they say depends on what they know — been inside > heard of
         // it (from the Entry-scene guide) > just what they see.
-        this.createObservable(400, 200, 210, 140, () => {
+        // 800-space; the painted clock (stomach ring included) is centred on canvas (533, 164), r ~108.
+        this.createObservable(400, 162, 160, 210, () => {
             const beenInside = this.hasJournalEntry('townhall_poet_resolved')
                 || this.hasJournalEntry('townhall_bishop_records_checked')
                 || this.hasItem('townhall-key')
@@ -448,33 +457,25 @@ export default class TownhallScene extends GameScene {
         const currentGrowth = growthDecaySystem?.getGrowth() || 50;
         const currentDecay = growthDecaySystem?.getDecay() || 50;
 
+        // The painted portal at the top of the stair (canvas coords from townhall_bg.py's fixed
+        // points): the double doors and their fanlight light up as a whole on hover.
+        const DOOR_POLY = [[562, 392], [562, 326], [561, 319], [558, 312], [554, 306], [548, 301], [541, 298],
+            [533, 297], [525, 298], [518, 301], [512, 306], [508, 312], [505, 319], [504, 326], [504, 392]];
         if (hasSeldoKey) {
-            // Entry zone sits on the actual door at the base of the facade (was up at y280,
-            // overlapping the Stomach Clock). Click-based, so the priest spawn (400,470) is fine.
-            this.transitionManager.createTransitionZone(
-                370,
-                455,
-                120,
-                130,
-                'up',
-                'TownhallInteriorScene',
-                370,
-                475,
-                'Townhall Interior'
-            );
+            this.transitionManager.createDoorZone({ points: DOOR_POLY }, {
+                target: 'TownhallInteriorScene', walkX: 533, walkY: 470, label: 'Townhall Interior'
+            });
         } else {
-            const lockedDoor = this.add.image(370, 455, 'townhallDoor')
-                .setScale(0.55)
-                .setAlpha(0.55)
-                .setDepth(1)
-                .setInteractive({ useHandCursor: true });
-
-            lockedDoor.on('pointerdown', () => {
-                if (this.clickSound) this.clickSound.play();
-                this.showNotification('The Townhall is locked.');
-                const eq = this.questSystem?.getQuest('enter_townhall');
-                if (eq && !eq.isComplete) {
-                    this.questSystem.updateQuest('enter_townhall', "The Townhall door is locked. I'll need another way in — maybe someone in the city knows how.", 'townhall_door_locked');
+            this.transitionManager.createDoorZone({ points: DOOR_POLY }, {
+                label: 'Townhall Interior',
+                onClick: () => {
+                    if (this.dialogVisible) return;
+                    if (this.clickSound) this.clickSound.play();
+                    this.showNotification('The Townhall is locked.');
+                    const eq = this.questSystem?.getQuest('enter_townhall');
+                    if (eq && !eq.isComplete) {
+                        this.questSystem.updateQuest('enter_townhall', "The Townhall door is locked. I'll need another way in — maybe someone in the city knows how.", 'townhall_door_locked');
+                    }
                 }
             });
         }
@@ -509,121 +510,37 @@ export default class TownhallScene extends GameScene {
     }
     
     createPhorCalesta() {
-        // Create a container for Phor Calesta
-        this.phor = this.add.container(550, 420);
-        this.phor.setDepth(5);
-        
-        // Create the character sprite
-        const phorSprite = this.add.sprite(0, 0, 'phor');
-        phorSprite.setScale(0.2); // Match the scale of other characters
-        
-        // Apply a subtle tint to give an amphibious/aquatic feel
-        phorSprite.setTint(0x88ccdd);
-        
-        // Create a container for the head for independent movement
-        const headContainer = this.add.container(0, -45);
+        // On the square right of the stair, out of the door's way, turned toward it (soles on y 528). The redrawn sheet
+        // (tools/artgen/townhall_cast.py) is shown at scale 1, origin bottom-centre: 0 rest, 1/7 breath, 2 blink,
+        // 3-5 a bubble rises through his dome water while the raised claw opens and snips shut, 6 the tail flicks.
+        // 'phor_idle' is global: keep the frame list in sync with GodgraveyardScene.
+        const PHOR_X = 800, PHOR_FEET = 528;
+        if (!this.anims.exists('phor_idle')) {
+            this.anims.create({
+                key: 'phor_idle',
+                frames: this.anims.generateFrameNumbers('phorIdle', { frames: [0, 0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 3, 4, 5, 0, 0, 0, 1, 1, 7, 0, 0, 6, 6, 0, 0, 0] }),
+                frameRate: 5,
+                repeat: -1
+            });
+        }
+        this.phor = this.add.sprite(PHOR_X, PHOR_FEET + 3, 'phorIdle', 0).setOrigin(0.5, 1).setDepth(5);
+        this.phor.play('phor_idle');
+        this.addGroundShadow(PHOR_X + 4, PHOR_FEET - 2, 70, 12);
+        // hit area = the figure's box inside the frame (frame-local coordinates)
+        this.phor.setInteractive({ hitArea: new Phaser.Geom.Rectangle(6, 18, 112, 140), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        // bust portrait from the sheet for his dialog (the name is the same in Czech)
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Phor Calesta': { key: 'phorIdle', frame: 0, zoom: 2, top: 18 } };
 
-        // Add all elements to the container
-        this.phor.add([
-            phorSprite,
-            headContainer
-        ]);
-        
-        // Add a subtle pulsating glow effect
-        this.phorGlow = this.add.graphics();
-        this.phorGlow.fillStyle(0x66ffff, 0.15);
-        this.phorGlow.fillCircle(550, 420, 45);
-        this.phorGlow.setDepth(4);
-        
-        // Animate the glow
-        this.tweens.add({
-            targets: this.phorGlow,
-            alpha: { from: 0.15, to: 0.05 },
-            duration: 1800,
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add subtle swaying movement (like underwater movement)
-        this.tweens.add({
-            targets: this.phor,
-            angle: { from: -0.5, to: 0.5 },
-            duration: 3000,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-        
-        // Add occasional head movement (looking around)
-        this.time.addEvent({
-            delay: 6000,
-            callback: () => {
-                // Random head movement
-                const lookDirection = Phaser.Math.Between(0, 2);
-                let targetX = 0;
-                
-                if (lookDirection === 0) targetX = -4; // Look left
-                else if (lookDirection === 1) targetX = 4; // Look right
-                
-                this.tweens.add({
-                    targets: headContainer,
-                    x: targetX,
-                    duration: 1200,
-                    ease: 'Power1',
-                    yoyo: true,
-                    hold: 2000
-                });
-            },
-            callbackScope: this,
-            loop: true
-        });
-        
-        const hitArea = new Phaser.Geom.Rectangle(-40, -90, 80, 140);
-        this.phor.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
-        
-        // Add hover effect
+        let hoverFx = null;
         this.phor.on('pointerover', () => {
-            this.phor.setScale(1.05);
-            document.body.style.cursor = 'pointer';
-            
-            // Alert animation when hovered
-            this.tweens.add({
-                targets: headContainer,
-                y: -48,
-                duration: 300,
-                ease: 'Power1',
-                yoyo: true
-            });
+            if (!hoverFx) hoverFx = this.phor.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-        
         this.phor.on('pointerout', () => {
-            this.phor.setScale(1);
-            document.body.style.cursor = 'default';
-            
-            // Reset head position
-            this.tweens.add({
-                targets: headContainer,
-                y: -45,
-                duration: 300,
-                ease: 'Power1'
-            });
+            if (hoverFx) { this.phor.preFX?.remove(hoverFx); hoverFx = null; }
         });
-        
-        // Show dialog on click
         this.phor.on('pointerdown', () => {
-            if (this.clickSound) {
-                this.clickSound.play();
-            }
-            
-            // Alert animation when clicked
-            this.tweens.add({
-                targets: this.phor,
-                y: { from: this.phor.y, to: this.phor.y - 5 },
-                duration: 100,
-                ease: 'Power1',
-                yoyo: true
-            });
-            
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
             this.showDialog('phorGreeting');
         });
     }

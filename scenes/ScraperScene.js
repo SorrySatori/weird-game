@@ -2,7 +2,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { DEMO_BUILD } from '../config/build.js';
-import { createStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, spyFragmentCount, spyReportable, allGangQuestsComplete, gangRewardClaimed, grantGangVestigel } from '../utils/GangOfLamps.js';
+import { createStreetLamp, preloadStreetLamp, meetLamp, lampsFoundCount, learnLampFamily, lampsHaveWork, GANG_QUEST_IDS, gangQuestStatus, spyFragmentCount, spyReportable, allGangQuestsComplete, gangRewardClaimed, grantGangVestigel } from '../utils/GangOfLamps.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
@@ -180,7 +180,7 @@ export default class ScraperScene extends GameScene {
         this.load.image('scraperBg', 'assets/images/backgrounds/Scraper1140.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        this.load.image('lamp_don', 'assets/images/characters/don_girandole.png');
+        preloadStreetLamp(this, 'lamp_don');   // tools/artgen/lamps.py (Aseprite Lamps_don, 3x pixels like the picture)
         this.load.image('vestigel', 'assets/images/items/vestigel.png');
     }
 
@@ -385,7 +385,7 @@ export default class ScraperScene extends GameScene {
         // (the structure the player marked; its deck is at canvas y≈378). Above the right-edge exit
         // zone (y370-570), so no click conflict. Depth 6 keeps him behind the walking priest.
         // Gang of Lamps is Day-2 content — Don stays off the facade in the demo build.
-        if (!DEMO_BUILD) createStreetLamp(this, 'lamp_don', 1018, 301, 0.13, 'don_lamp_start');
+        if (!DEMO_BUILD) createStreetLamp(this, 'lamp_don', 1024, 381, 'don_lamp_start');
 
         // Examine: the tower & its "SCRAPER 1140" sign (upper-center, clear of Don on the right and
         // the gate below). Comment deepens once you've been inside / learned of the cellar lab.

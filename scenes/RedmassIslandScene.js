@@ -2,6 +2,12 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 
+/** Fixed points of the redrawn island (canvas coords, printed by tools/artgen/redmass_bg.py). */
+const REDMASS = {
+    heart: { x: 450, y: 332 },   // top-left of redmass_heart.png / redmass_glow.png
+    scar: { x: 533, y: 440 },    // the burst in the trunk main
+};
+
 export default class RedmassIslandScene extends GameScene {
     constructor() {
         super({ key: 'RedmassIslandScene' });
@@ -193,39 +199,41 @@ export default class RedmassIslandScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('redmassIslandBg', 'assets/images/backgrounds/RedmassIsland.png');
-        this.load.image('redmass', 'assets/images/items/redmass.png');
+        this.load.image('redmassIslandBg', 'assets/images/backgrounds/RedmassIsland.png');   // native 1067×600: tools/artgen/redmass_bg.py
+        this.load.image('redmass', 'assets/images/items/redmass.png');                        // the Living Redmass item's inventory icon
+        // the growth itself + its lit crystal (for the breathing pulse), rendered into the scene and cut out pixel-exact
+        this.load.image('redmass_heart', 'assets/images/props/redmass_heart.png');
+        this.load.image('redmass_glow', 'assets/images/props/redmass_glow.png');
     }
 
     create() {
         super.create();
 
+        // Inside the ruined pump-house on the island (native 1067×600: tools/artgen/redmass_bg.py): front wall and roof
+        // gone, the trunk main bursting in the middle of the hall; the left wall has fallen into the water — the way back.
+        // Without the growth sprite the burst is the empty, grey-lipped scar.
         const bg = this.add.image(400, 300, 'redmassIslandBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the hall's floor; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         this.journalSystem = JournalSystem.getInstance();
 
         this.transitionManager = new SceneTransitionManager(this);
 
-        // Transition back to Echo Drain Delta
-        this.transitionManager.createTransitionZone(
-            0,
-            400,
-            80,
-            300,
-            'left',
-            'EchoDrainDeltaScene',
-            620,
-            380
-        );
+        // Back to the Echo Drain Delta (left, through the breach where the wall fell)
+        this.transitionManager.createTransitionZone(50, 470, 80, 200, 'left', 'EchoDrainDeltaScene', 30, 470);
 
         // Create the redmass interaction
         this.createRedmass();
 
-        // Examine: the redmass / island (placed high, clear of the redmass's own interactive
-        // object). Reads differently once you've spared or harvested it.
-        this.createObservable(400, 160, 260, 120, () => {
+        // Examine: the redmass / island — its veins over the back wall, high and clear of the growth's own hotspot.
+        // Reads differently once you've spared or harvested it.
+        this.createObservable(400, 300, 230, 70, () => {
             if (this.hasJournalEntry('redmass_spared')) return this.t('observe.redmass_island.spared');
             if (this.hasJournalEntry('redmass_collected_voluntary') || this.hasJournalEntry('redmass_collected_force')) return this.t('observe.redmass_island.collected');
             return this.t('observe.redmass_island.default');
@@ -236,10 +244,11 @@ export default class RedmassIslandScene extends GameScene {
 
     createRedmass() {
         const collected = this.registry.get('delta_redmass_collected');
+        const gaveWillingly = !!this.hasJournalEntry('redmass_collected_voluntary');
 
-        if (collected) {
-            // Show empty spot where redmass was — just an interactive zone
-            const scarZone = this.add.zone(Math.round(400 * this.scale.width / 800), 350, Math.round(60 * this.scale.width / 800), 60)
+        if (collected && !gaveWillingly) {
+            // Torn out: only the hollow scar in the burst pipe is left (painted in the background)
+            const scarZone = this.add.zone(REDMASS.scar.x, REDMASS.scar.y, 110, 60)
                 .setInteractive({ useHandCursor: true })
                 .setDepth(10);
 
@@ -249,39 +258,38 @@ export default class RedmassIslandScene extends GameScene {
             return;
         }
 
-        // The living redmass — using the actual redmass sprite
-        const redmass = this.add.sprite(400, 350, 'redmass');
-        redmass.setScale(0.15);
-        redmass.setDepth(10);
-        redmass.setInteractive({ useHandCursor: true });
+        // The living redmass, growing out of the burst main (pixel-exact on the background, with the light it throws)
+        const redmass = this.add.image(REDMASS.heart.x, REDMASS.heart.y, 'redmass_heart').setOrigin(0, 0).setDepth(4);
+        redmass.setInteractive({ pixelPerfect: true, alphaTolerance: 128, useHandCursor: true });
 
-        // Ambient glow around the redmass
-        const ambientGlow = this.add.graphics();
-        ambientGlow.fillStyle(0xff4400, 0.15);
-        ambientGlow.fillCircle(400, 350, 50);
-        ambientGlow.setDepth(9);
-
+        // It breathes: its lit crystal swells and fades, slowly
+        const ambientGlow = this.add.image(REDMASS.heart.x, REDMASS.heart.y, 'redmass_glow').setOrigin(0, 0).setDepth(4.1)
+            .setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.1);
         this.tweens.add({
             targets: ambientGlow,
-            alpha: { from: 0.1, to: 0.3 },
-            duration: 2500,
+            alpha: { from: 0.1, to: 0.7 },
+            duration: 2600,
             yoyo: true,
             repeat: -1,
             ease: 'Sine.easeInOut'
         });
 
-        // Hover effect
-        redmass.on('pointerover', () => {
-            redmass.setScale(0.18);
-        });
-
-        redmass.on('pointerout', () => {
-            redmass.setScale(0.15);
-        });
+        // Hover = a glow, not a scale
+        let hoverFx = null;
+        redmass.on('pointerover', () => { if (!hoverFx) hoverFx = redmass.preFX?.addGlow(0xffb070, 2, 0, false, 0.1, 8); });
+        redmass.on('pointerout', () => { if (hoverFx) { redmass.preFX?.remove(hoverFx); hoverFx = null; } });
 
         // Store references for removal on collect
         this.redmassSprite = redmass;
         this.redmassGlow = ambientGlow;
+
+        if (collected && gaveWillingly) {
+            // It gave a piece of itself and lived: still here, dimmer, glad of company
+            redmass.setTint(0xb8a8a0);
+            ambientGlow.setVisible(false);
+            redmass.on('pointerdown', () => { if (!this.dialogVisible) this.showDialog('redmassVisit'); });
+            return;
+        }
 
         redmass.on('pointerdown', () => {
             const spared = this.registry.get('redmass_spared');
@@ -332,6 +340,7 @@ export default class RedmassIslandScene extends GameScene {
             this.showNotification('Collected: Living Redmass. Decay increases...');
 
             if (this.redmassSprite) {
+                this.tweens.killTweensOf(this.redmassGlow);
                 this.tweens.add({
                     targets: [this.redmassSprite, this.redmassGlow],
                     alpha: 0,
@@ -341,6 +350,9 @@ export default class RedmassIslandScene extends GameScene {
                         this.redmassGlow.destroy();
                         this.redmassSprite = null;
                         this.redmassGlow = null;
+                        // what is left: the hollow scar
+                        const scarZone = this.add.zone(REDMASS.scar.x, REDMASS.scar.y, 110, 60).setInteractive({ useHandCursor: true }).setDepth(10);
+                        scarZone.on('pointerdown', () => { if (!this.dialogVisible) this.showDialog('redmassAlreadyCollected'); });
                     }
                 });
             }
@@ -380,24 +392,21 @@ export default class RedmassIslandScene extends GameScene {
 
             this.showNotification('Received: Living Redmass (given willingly)');
 
-            // Shrink the redmass — it survives but is diminished
+            // Dim the redmass — it survives but is diminished (on a later visit it is just glad of company)
             if (this.redmassSprite) {
-                this.tweens.add({
-                    targets: this.redmassSprite,
-                    scaleX: 0.08,
-                    scaleY: 0.08,
-                    alpha: 0.5,
-                    duration: 500
-                });
-                this.tweens.add({
-                    targets: this.redmassGlow,
-                    alpha: 0.05,
-                    duration: 500,
-                    onComplete: () => {
-                        // Disable further interaction
-                        this.redmassSprite.disableInteractive();
+                const heart = this.redmassSprite;
+                this.tweens.killTweensOf(this.redmassGlow);
+                this.tweens.add({ targets: this.redmassGlow, alpha: 0, duration: 500, onComplete: () => this.redmassGlow?.setVisible(false) });
+                this.tweens.addCounter({
+                    from: 255, to: 0, duration: 500,
+                    onUpdate: (tw) => {
+                        const k = tw.getValue() / 255;   // 1 → 0: white → the dim tint
+                        const r = Math.round(0xb8 + (0xff - 0xb8) * k), g = Math.round(0xa8 + (0xff - 0xa8) * k), b = Math.round(0xa0 + (0xff - 0xa0) * k);
+                        heart.setTint((r << 16) | (g << 8) | b);
                     }
                 });
+                heart.removeAllListeners('pointerdown');
+                heart.on('pointerdown', () => { if (!this.dialogVisible) this.showDialog('redmassVisit'); });
             }
         }
 

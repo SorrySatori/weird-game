@@ -2,6 +2,16 @@ import GameScene from './GameScene.js'
 import SceneTransitionManager from '../utils/SceneTransitionManager.js'
 import JournalSystem from '../systems/JournalSystem.js'
 
+/** Fixed points of the redrawn delta (canvas coords, printed by tools/artgen/delta_bg.py). */
+const DELTA = {
+    scrap: { x: 552, y: 497 },        // top-left of delta_scrap.png
+    bridge: { x: 673, y: 378 },       // top-left of delta_bridge.png
+    plantSpot: { x: 806, y: 506 },    // the soft sediment where the bridge roots
+    islandEnd: { x: 690, y: 380 },    // the island's shore at the far end of the bridge / the seam
+    seam: { x: 266, y: 420 },         // Palinode: the crack in the broken wall
+    spit: [[616, 498], [674, 498], [684, 444], [686, 412], [682, 386], [654, 386], [648, 412], [634, 444]],   // the half-sunk masonry
+};
+
 export default class EchoDrainDeltaScene extends GameScene {
     constructor() {
         super({ key: 'EchoDrainDeltaScene' });
@@ -118,33 +128,33 @@ export default class EchoDrainDeltaScene extends GameScene {
     preload() {
         super.preload();
 
-        this.load.image('echoDrainDeltaBg', 'assets/images/backgrounds/EchoDrainDelta.png');
-        this.load.image('metal_scrap', 'assets/images/items/metal_scrap.png');
-        this.load.image('bridge', 'assets/images/items/bridge.png');
+        this.load.image('echoDrainDeltaBg', 'assets/images/backgrounds/EchoDrainDelta.png');   // native 1067×600: tools/artgen/delta_bg.py
+        this.load.image('metal_scrap', 'assets/images/items/metal_scrap.png');                   // the Metal Scrap item's inventory icon
+        // world sprites rendered into the scene by delta_bg.py and cut out pixel-exact (top-left positions in DELTA below)
+        this.load.image('delta_scrap', 'assets/images/props/delta_scrap.png');
+        this.load.image('delta_bridge', 'assets/images/props/delta_bridge.png');
     }
 
     create() {
         super.create();
 
+        // The delta (native 1067×600: tools/artgen/delta_bg.py) — the near bank of mud and rushes is the walk line; the
+        // twin-horn tower on the left islet, the redmass island with its pump-house on the right, out across the water.
         const bg = this.add.image(400, 300, 'echoDrainDeltaBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the bank's mud; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         this.journalSystem = JournalSystem.getInstance();
 
         this.transitionManager = new SceneTransitionManager(this);
 
-        // Transition back to Harbor (left side)
-        this.transitionManager.createTransitionZone(
-            0,
-            300,
-            80,
-            400,
-            'left',
-            'HarborScene',
-            750,
-            300,
-        );
+        // Back along the shore to the Harbor (left side)
+        this.transitionManager.createTransitionZone(50, 470, 80, 200, 'left', 'HarborScene', 30, 470);
 
         // Create metal scrap collectible
         this.createMetalScrapCollectible();
@@ -174,15 +184,19 @@ export default class EchoDrainDeltaScene extends GameScene {
     }
 
     createSporePlantSpot() {
-        // The planting spot near the water's edge, toward the far island
+        // The soft sediment at the water's edge where the bridge would root (a faint glow lying flat on the mud)
+        const { x: px, y: py } = DELTA.plantSpot;
         const plantGlow = this.add.graphics();
-        plantGlow.fillStyle(0x7fff8e, 0.15);
-        plantGlow.fillCircle(620, 380, 25);
-        plantGlow.setDepth(6);
+        plantGlow.fillStyle(0x7fff8e, 0.18);
+        plantGlow.fillEllipse(px, py, 64, 14);
+        plantGlow.fillStyle(0xc8ffd0, 0.22);
+        plantGlow.fillEllipse(px, py, 26, 6);
+        plantGlow.setBlendMode(Phaser.BlendModes.ADD);
+        plantGlow.setDepth(-0.5);
 
         this.tweens.add({
             targets: plantGlow,
-            alpha: { from: 0.15, to: 0.35 },
+            alpha: { from: 0.4, to: 1 },
             duration: 1500,
             yoyo: true,
             repeat: -1,
@@ -190,7 +204,7 @@ export default class EchoDrainDeltaScene extends GameScene {
         });
 
         // Invisible interactive zone over the spot
-        const plantZone = this.add.zone(Math.round(620 * this.scale.width / 800), 380, Math.round(50 * this.scale.width / 800), 50)
+        const plantZone = this.add.zone(px, py, 84, 40)
             .setInteractive({ useHandCursor: true })
             .setDepth(7);
 
@@ -210,21 +224,17 @@ export default class EchoDrainDeltaScene extends GameScene {
             this.sporePlantSpot = null;
         }
 
-        // Place the bridge sprite across the water, connecting mainland to island
-        const bridgeSprite = this.add.image(600, 430, 'bridge');
-        bridgeSprite.setDepth(-0.5);
-        bridgeSprite.setScale(0.16);
+        // The mat of mycelium the spores grew, floating from the bank to the island (pixel-exact on the background)
+        this.add.image(DELTA.bridge.x, DELTA.bridge.y, 'delta_bridge').setOrigin(0, 0).setDepth(-0.5);
+        this.createIslandCrossing();
+    }
 
-        // Transition zone at the far end of the bridge — toward the island building
+    /** The way over to the island: its shore at the bridge's / the seam's far end; the priest walks to the landing first. */
+    createIslandCrossing() {
+        const { x, y } = DELTA.islandEnd;   // canvas
         this.transitionManager.createTransitionZone(
-            700,
-            320,
-            100,
-            80,
-            'right',
-            'RedmassIslandScene',
-            100,
-            450
+            Math.round(x * 800 / this.scale.width), y, 90, 80, 'up', 'RedmassIslandScene',
+            Math.round(DELTA.plantSpot.x * 800 / this.scale.width), 470
         );
     }
 
@@ -249,19 +259,18 @@ export default class EchoDrainDeltaScene extends GameScene {
     }
 
     createSeamCrossing() {
-        // A faint shimmer over the half-sunk ruin instead of a fungal bridge.
-        const shimmer = this.add.graphics().setDepth(-0.5);
-        shimmer.fillStyle(0xbfe6c8, 0.10);
-        shimmer.fillRect(560, 410, 210, 34);
-        this.transitionManager.createTransitionZone(
-            700, 320, 100, 80, 'right', 'RedmassIslandScene', 100, 450
-        );
+        // A faint shimmer over the spit of half-sunk masonry (painted in the background) instead of a fungal bridge.
+        const shimmer = this.add.graphics().setDepth(-0.5).setBlendMode(Phaser.BlendModes.ADD);
+        shimmer.fillStyle(0xbfe6c8, 0.16);
+        shimmer.fillPoints(DELTA.spit.map(([x, y]) => ({ x, y })), true);
+        this.tweens.add({ targets: shimmer, alpha: { from: 0.5, to: 1 }, duration: 1800, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+        this.createIslandCrossing();
     }
 
     /** The seam where Palinode waits — a gap wearing the shape of stone. */
     createPalinodeSpot() {
         if (this.symbiontSystem?.hasSymbiont('palinode')) return;
-        const cx = 150, cy = 330;
+        const { x: cx, y: cy } = DELTA.seam;   // the crack in the broken concrete wall on the near bank
         const glint = this.add.graphics().setDepth(6);
         glint.fillStyle(0xbfe6c8, 0.14);
         glint.fillCircle(cx, cy, 22);
@@ -301,34 +310,12 @@ export default class EchoDrainDeltaScene extends GameScene {
             return;
         }
 
-        const metalScrap = this.add.sprite(500, 450, 'metal_scrap');
-        metalScrap.setScale(0.05);
-        metalScrap.setDepth(10);
+        // A little heap of rusty scrap sifted out of the silt (pixel-exact on the background). Hover = a glow, not a scale.
+        const metalScrap = this.add.image(DELTA.scrap.x, DELTA.scrap.y, 'delta_scrap').setOrigin(0, 0).setDepth(4);
         metalScrap.setInteractive({ useHandCursor: true });
-
-        // Add glow effect
-        const scrapGlow = this.add.graphics();
-        scrapGlow.fillStyle(0xc0c0c0, 0.2);
-        scrapGlow.fillCircle(500, 350, 30);
-        scrapGlow.setDepth(9);
-
-        // Pulsing animation
-        this.tweens.add({
-            targets: scrapGlow,
-            alpha: { from: 0.2, to: 0.05 },
-            duration: 1500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Hover effect
-        metalScrap.on('pointerover', () => {
-            metalScrap.setScale(0.07);
-        });
-
-        metalScrap.on('pointerout', () => {
-            metalScrap.setScale(0.05);
-        });
+        let scrapFx = null;
+        metalScrap.on('pointerover', () => { if (!scrapFx) scrapFx = metalScrap.preFX?.addGlow(0xffdf7a, 2, 0, false, 0.1, 8); });
+        metalScrap.on('pointerout', () => { if (scrapFx) { metalScrap.preFX?.remove(scrapFx); scrapFx = null; } });
 
         // Collect item
         metalScrap.on('pointerdown', () => {
@@ -351,14 +338,10 @@ export default class EchoDrainDeltaScene extends GameScene {
 
                 // Fade out and destroy
                 this.tweens.add({
-                    targets: [metalScrap, scrapGlow],
+                    targets: metalScrap,
                     alpha: 0,
-                    scale: 0,
                     duration: 300,
-                    onComplete: () => {
-                        metalScrap.destroy();
-                        scrapGlow.destroy();
-                    }
+                    onComplete: () => metalScrap.destroy()
                 });
             }
         });

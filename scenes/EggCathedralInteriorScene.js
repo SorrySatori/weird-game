@@ -4,9 +4,9 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 /**
  * EggCathedralInteriorScene — the finale inside the Egg Cathedral.
  *
- * PLACEHOLDER ART: no interior asset yet, so the space is drawn procedurally (a temple the
- * organism mimicked — pulsing columns, living stained glass, an altar, and the great living
- * egg at the centre).
+ * Background: native 1067×600 from tools/artgen/cathedral_heart_bg.py — a nave of stone piers grown over by roots,
+ * the living glass and the altar in the left aisle, the throat-pipe organ and the servants' membrane on the right,
+ * and the great egg sunk into the end wall on its dais; the hotspots below follow that picture.
  *
  * The player explores, meets the remnants of the cathedral's own priesthood, and finally
  * the unborn god. The god asks whether it should continue; the player's answer — coloured by
@@ -340,6 +340,8 @@ export default class EggCathedralInteriorScene extends GameScene {
         super.preload();
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('cathedralHeartBg', 'assets/images/backgrounds/CathedralHeart.png');
+        // the egg alone, 12 frames: the shapes inside drift and turn (frame 0 = the background)
+        this.load.spritesheet('cathedralUnborn', 'assets/images/props/CathedralHeart_unborn.png', { frameWidth: 198, frameHeight: 299 });
     }
 
     create() {
@@ -347,23 +349,39 @@ export default class EggCathedralInteriorScene extends GameScene {
         this.playSceneMusic('cathedralTheme');
 
         // The heart of the cathedral — where the player meets the Unborn.
-        const bg = this.add.image(400, 300, 'cathedralHeartBg');
+        const bg = this.add.image(this.scale.width / 2, 300, 'cathedralHeartBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints the nave's wet floor; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
+
+        // The Unborn: the many shapes inside the egg, slowly becoming other shapes (laid exactly over the painted egg)
+        if (this.textures.exists('cathedralUnborn')) {
+            if (!this.anims.exists('cathedral_unborn')) {
+                this.anims.create({ key: 'cathedral_unborn', frames: this.anims.generateFrameNumbers('cathedralUnborn', { start: 0, end: 11 }), frameRate: 4, repeat: -1 });
+            }
+            this.add.sprite(434, 91, 'cathedralUnborn', 0).setOrigin(0, 0).setDepth(-0.5).play('cathedral_unborn');
+        }
 
         this.transitionManager = new SceneTransitionManager(this);
         this.transitionManager.createTransitionZone(
             400, 565, 200, 46, 'down', 'EggCathedralStudyScene', 400, 470, 'Back to the Study'
         );
 
-        this.priest.x = 400;
-        this.priest.y = 475;
+        this.priest.x = this.scale.width / 2;
+        this.priest.y = 470;
         if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.y = this.priest.y; }
 
         this.cameras.main.fadeIn(900, 0, 0, 0);
 
-        // Interactable hotspots: label + zone + dialog.
+        // Interactable hotspots: label + zone + dialog. Placed in the 800-wide layout and remapped to the canvas
+        // like createObservable / the exits, on the things painted in the background.
+        const kx = this.scale.width / 800;
         const spot = (x, y, w, h, name, key) => {
+            x = Math.round(x * kx); w = Math.round(w * kx);
             const label = this.add.text(x, y - h / 2 - 14, name, {
                 fontSize: '12px', fill: '#cde6d6', backgroundColor: 'rgba(0,0,0,0.6)', padding: { x: 5, y: 3 }
             }).setOrigin(0.5).setDepth(7).setVisible(false);
@@ -373,11 +391,11 @@ export default class EggCathedralInteriorScene extends GameScene {
             z.on('pointerout', () => { label.setVisible(false); document.body.style.cursor = 'default'; });
             z.on('pointerdown', () => { if (this.dialogVisible || this._epilogueStarted) return; if (this.clickSound) this.clickSound.play(); this.showDialog(key); });
         };
-        spot(150, 430, 120, 90, 'Altar', 'altar_look');
-        spot(650, 430, 120, 90, 'Organ', 'organ_look');
-        spot(70, 200, 90, 170, 'Stained Glass', 'glass_look');
-        spot(730, 200, 90, 170, 'The Servants', 'priests_look');
-        spot(400, 285, 260, 340, 'The Unborn', 'god_first');
+        spot(160, 427, 100, 90, this.t('ui.hotspots.cathAltar'), 'altar_look');          // the altar under the glass
+        spot(643, 370, 88, 230, this.t('ui.hotspots.cathOrgan'), 'organ_look');          // the throat-pipes, right aisle
+        spot(134, 236, 90, 270, this.t('ui.hotspots.cathGlass'), 'glass_look');          // the living lancet, left aisle
+        spot(662, 182, 128, 124, this.t('ui.hotspots.cathServants'), 'priests_look');    // the membrane over the organ
+        spot(400, 250, 168, 315, this.t('ui.hotspots.cathUnborn'), 'god_first');         // the egg on its dais
 
         if (!this.hasJournalEntry('egg_cathedral_entered')) {
             this.addJournalEntry(

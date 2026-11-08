@@ -12,7 +12,6 @@ export default class ScraperAmbraScene extends GameScene {
     preload() {
         super.preload();
         this.load.image('scraperAmbraBg', 'assets/images/backgrounds/ScraperAmbra.png');
-        this.load.image('drElphi', 'assets/images/characters/DrElphi.png');            // the big art: the cutscene panels
         this.load.spritesheet('drElphiIdle', 'assets/images/characters/elphi_idle.png', { frameWidth: 128, frameHeight: 160 });
         this.load.audio('divinorium', 'assets/sounds/sorrysatori-divinorium.mp3');
 
@@ -1061,7 +1060,7 @@ export default class ScraperAmbraScene extends GameScene {
             caption: "Dr. Elphi lowers the dream helmet over your eyes and dims the studio to a single green ember. Far below, the city is only just waking up for the night.",
             bg: 'scraperAmbraBg',
             bgTint: 0x5b6f8c,
-            sprites: [{ key: 'drElphi', x: 600, y: 500, scale: 0.2, anim: 'sway' }]
+            sprites: [{ key: 'drElphiIdle', x: 600, y: 500, anim: 'sway' }]
         });
 
         panels.push(...this.buildNightlifePanels());
@@ -1093,7 +1092,7 @@ export default class ScraperAmbraScene extends GameScene {
             caption: "You wake to the studio's pale green dawn. Dr. Elphi is already at her console, the reconstructed cartridge glinting in its cradle. \"You're up. I pulled the Bishop's last scene out of the Cardinal Feast — but first, let's see what you gave me overnight.\"",
             bg: 'scraperAmbraBg',
             bgTint: 0xbfd6c2,
-            sprites: [{ key: 'drElphi', x: 600, y: 500, scale: 0.2, anim: 'bob' }]
+            sprites: [{ key: 'drElphiIdle', x: 600, y: 500, anim: 'bob' }]
         });
 
         // If the player sold a dream, Dr. Elphi appraises it on waking and pays.
@@ -1107,7 +1106,7 @@ export default class ScraperAmbraScene extends GameScene {
                     : `Dr. Elphi skims the recording and gives a small, honest shrug. "Restful. Clean. But there's nothing in it I can sell — no edges, no teeth to keep a buyer awake. The sleep's yours to keep, at least." She pockets the blank cartridge.`,
                 bg: 'scraperAmbraBg',
                 bgTint: 0xbfd6c2,
-                sprites: [{ key: 'drElphi', x: 600, y: 500, scale: 0.2, anim: 'sway' }]
+                sprites: [{ key: 'drElphiIdle', x: 600, y: 500, anim: 'sway' }]
             });
         }
 
@@ -1525,23 +1524,26 @@ export default class ScraperAmbraScene extends GameScene {
             cs_bus: B + 'AbandonedBus.png',
             cs_scraper: B + 'Scraper1140.png',
             cs_city: B + 'EntryCity.png',
-            cs_fungal: B + 'fungal_council_1.png',
+            cs_fungal: 'assets/images/intro/council_bg.png',   // the Council's mycelium chamber (redrawn intro art)
             cs_myc: B + 'mycelial_overlay.png',
-            // Characters (Edgar & Ortolan use their dedicated cutscene art)
-            cs_edgar: C + 'edgar_reading.png',
-            cs_busker: C + 'busker.png',
-            cs_ortolan: C + 'ortolan4.png',
-            cs_seldo: C + 'seldo.png',
-            cs_brukk: C + 'Brukk.png',
+            // Characters. A { sheet, fw, fh, px, frames } entry is a pixel-art sheet: shown at the integer
+            // scale px (the panel's `scale` is ignored), animated through `frames` (default: all) at 6 fps.
+            cs_edgar: { sheet: C + 'edgar_eskola.png', fw: 128, fh: 192, px: 2 },
+            cs_busker: { sheet: C + 'busker_idle.png', fw: 176, fh: 144, px: 2, frames: [0, 1, 2, 3, 4, 5, 6, 7] },
+            cs_ortolan: { sheet: C + 'ortolan4_idle.png', fw: 128, fh: 160, px: 2 },
+            cs_seldo: { sheet: C + 'seldo_idle.png', fw: 128, fh: 192, px: 2 },
+            cs_brukk: { sheet: C + 'brukk_idle.png', fw: 128, fh: 192, px: 2 },
             cs_living_core: C + 'living-core.png',
-            cs_gardener: C + 'gardener.png',
-            cs_magnekin_broken: C + 'magnekin_broken.png',
-            cs_feral_g: C + 'feral_guitarist.png',
-            cs_feral_d: C + 'feral_drummer.png',
-            cs_feral_b: C + 'feral_bassplayer.png',
-            cs_feral_s: C + 'feral_synth.png',
+            cs_gardener: { sheet: C + 'verrik_idle.png', fw: 128, fh: 192, px: 2 },
+            cs_magnekin_broken: { sheet: C + 'magnekin_broken_idle.png', fw: 128, fh: 64, px: 3 },
+            cs_feral_g: { sheet: C + 'feral_toast/telka.png', fw: 128, fh: 192, px: 2, frames: [4, 5, 6, 7, 8, 9, 10, 11], fps: 6 },
+            cs_feral_d: { sheet: C + 'feral_toast/karlis.png', fw: 144, fh: 192, px: 2, frames: [4, 5, 6, 7, 8, 9, 10, 11], fps: 6 },
+            cs_feral_b: { sheet: C + 'feral_toast/bass_xl.png', fw: 128, fh: 192, px: 2, frames: [4, 5, 6, 7, 8, 9, 10, 11], fps: 6 },
+            cs_feral_s: { sheet: C + 'feral_toast/mira.png', fw: 128, fh: 192, px: 2, frames: [4, 5, 6, 7, 8, 9, 10, 11], fps: 6 },
+            // already loaded by the scene itself
+            drElphiIdle: { loaded: true, px: 2 },
             cs_poet: C + 'poet.png',
-            cs_bishop: C + 'DeadBishop.png'
+            cs_bishop: { sheet: C + 'dead_bishop.png', fw: 192, fh: 88, px: 2, frames: [0, 1, 2, 3] }
         };
     }
 
@@ -1560,9 +1562,10 @@ export default class ScraperAmbraScene extends GameScene {
         let toLoad = 0;
         const queueKey = (key) => {
             if (!key || this.textures.exists(key)) return;
-            const path = table[key];
-            if (!path) return;
-            this.load.image(key, path);
+            const entry = table[key];
+            if (!entry || entry.loaded) return;
+            if (entry.sheet) this.load.spritesheet(key, entry.sheet, { frameWidth: entry.fw, frameHeight: entry.fh });
+            else this.load.image(key, entry);
             toLoad++;
         };
         panels.forEach(p => {
@@ -1585,7 +1588,7 @@ export default class ScraperAmbraScene extends GameScene {
      * whole overlay out at the end and calls onComplete.
      */
     _runCutscene(panels, onComplete) {
-        const W = 800, H = 600;
+        const W = this.scale.width, H = this.scale.height;
 
         // Block world interaction / movement for the duration.
         if (this.playerMovementSystem) this.playerMovementSystem.setDialogVisible(true);
@@ -1658,7 +1661,8 @@ export default class ScraperAmbraScene extends GameScene {
      * @returns {{ container: Phaser.GameObjects.Container, tweens: Array }}
      */
     _buildCutscenePanel(panel) {
-        const W = 800, H = 600;
+        const W = this.scale.width, H = this.scale.height;
+        const kx = W / 800;                                   // panel sprites are laid out in the old 800-wide space
         const container = this.add.container(0, 0);
         const tweens = [];
 
@@ -1682,10 +1686,28 @@ export default class ScraperAmbraScene extends GameScene {
             tweens.push(this.tweens.add({ targets: myc, x: W / 2 + 20, alpha: { from: 0.1, to: 0.28 }, duration: 4200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' }));
         }
 
-        // Character sprites.
+        // Character sprites. Pixel-art sheets play their own frames at an integer scale and never rotate
+        // (sway/rock would shear the pixels); the old big paintings keep the tweened moves.
+        const table = this._cutsceneAssetTable();
         (panel.sprites || []).forEach(s => {
             if (!this.textures.exists(s.key)) return;
-            const spr = this.add.image(s.x, s.y, s.key).setOrigin(0.5, 1).setScale(s.scale || 0.24);
+            const meta = table[s.key] && typeof table[s.key] === 'object' ? table[s.key] : null;
+            const x = Math.round(s.x * kx);
+            if (meta) {
+                const spr = this.add.sprite(x, s.y, s.key, (meta.frames || [0])[0]).setOrigin(0.5, 1).setScale(meta.px);
+                const animKey = `cs_anim_${s.key}`;
+                if (!this.anims.exists(animKey)) {
+                    const frames = meta.frames || Array.from({ length: this.textures.get(s.key).frameTotal - 1 }, (_, i) => i);
+                    if (frames.length > 1) this.anims.create({ key: animKey, frames: this.anims.generateFrameNumbers(s.key, { frames }), frameRate: meta.fps || 6, repeat: -1 });
+                }
+                if (this.anims.exists(animKey)) spr.play(animKey);
+                if (s.flip) spr.setFlipX(true);
+                if (s.alpha != null) spr.setAlpha(s.alpha);
+                container.add(spr);
+                if (!['sway', 'rock'].includes(s.anim)) this._animateOverlaySprite(spr, s.anim, tweens);
+                return;
+            }
+            const spr = this.add.image(x, s.y, s.key).setOrigin(0.5, 1).setScale(s.scale || 0.24);
             if (s.flip) spr.setFlipX(true);
             if (s.alpha != null) spr.setAlpha(s.alpha);
             container.add(spr);

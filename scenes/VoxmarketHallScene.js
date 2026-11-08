@@ -943,10 +943,11 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         this.load.image('voxmarketHallBg_decay', 'assets/images/backgrounds/VoxmarketHall_decay.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.spritesheet('heshAndVell', 'assets/images/characters/voxmarket/hesh_vell.png', { frameWidth: 208, frameHeight: 176 }); // 8 idle frames, Vell two behind Hesh
-        this.load.image('sisterCalyx', 'assets/images/characters/sisterCalyx.png');
-        this.load.image('heartbrokerLune', 'assets/images/characters/HeartbrokerLune.png');
-        this.load.image('heirToAquarium', 'assets/images/characters/heirToAquarium.png');
-        this.load.image('silence', 'assets/images/characters/silence.png');
+        // the auction guests (tools/artgen/voxmarket_guests.py): 8 idle frames each, shown at scale 1
+        this.load.spritesheet('sisterCalyxIdle', 'assets/images/characters/voxmarket/sister_calyx.png', { frameWidth: 128, frameHeight: 176 });
+        this.load.spritesheet('heartbrokerLuneIdle', 'assets/images/characters/voxmarket/heartbroker_lune.png', { frameWidth: 128, frameHeight: 192 });
+        this.load.spritesheet('heirAquariumIdle', 'assets/images/characters/voxmarket/heir_aquarium.png', { frameWidth: 128, frameHeight: 176 });
+        this.load.spritesheet('silenceIdle', 'assets/images/characters/voxmarket/silence.png', { frameWidth: 128, frameHeight: 128 });
     }
 
     create() {
@@ -1023,126 +1024,68 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
         });
     }
 
-    createSisterCalyx() {
-        this.calyx = this.add.image(650, 420, 'sisterCalyx');
-        this.calyx.setScale(0.15);
-        this.calyx.setDepth(5);
-        this.addGroundShadow(650, 420 + this.calyx.displayHeight * 0.42, this.calyx.displayWidth * 0.55, this.calyx.displayHeight * 0.12);
-        this.calyx.setInteractive({ useHandCursor: true });
-
-        this.calyx.on('pointerover', () => {
-            this.calyx.setScale(0.16);
-            document.body.style.cursor = 'pointer';
+    // An auction guest (tools/artgen/voxmarket_guests.py): an idle sheet at scale 1, feet on the hall floor (the walk
+    // line), a hover glow, and a bust portrait for their dialog keyed by the English and the Czech speaker name.
+    createAuctionGuest({ key, anim, frames, x, feet = 532, hit, shadowW, dialog, names, top }) {
+        if (!this.anims.exists(anim)) {
+            this.anims.create({ key: anim, frames: this.anims.generateFrameNumbers(key, { frames }), frameRate: 5, repeat: -1 });
+        }
+        const npc = this.add.sprite(x, feet, key, 0).setOrigin(0.5, 1).setDepth(6);
+        npc.play(anim);
+        this.addGroundShadow(x, feet - 3, shadowW, 10);
+        // hit area = the figure's own box inside the 128-wide frame (frame-local coordinates)
+        npc.setInteractive({ hitArea: new Phaser.Geom.Rectangle(...hit), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        const bust = { key, frame: 0, zoom: 2, top };
+        for (const n of names) this.dialogPortraits = { ...(this.dialogPortraits || {}), [n]: bust };
+        let hoverFx = null;
+        npc.on('pointerover', () => {
+            if (!hoverFx) hoverFx = npc.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-
-        this.calyx.on('pointerout', () => {
-            this.calyx.setScale(0.15);
-            document.body.style.cursor = 'default';
+        npc.on('pointerout', () => {
+            if (hoverFx) { npc.preFX?.remove(hoverFx); hoverFx = null; }
         });
-
-        this.calyx.on('pointerdown', () => {
+        npc.on('pointerdown', () => {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();
-            this.showDialog('calyx_start');
+            this.showDialog(dialog);
+        });
+        return npc;
+    }
+
+    createSisterCalyx() {
+        // breath, the lantern swelling bright, the eyes narrowing, the staff's pod swaying with a drip, a look at the lots
+        this.calyx = this.createAuctionGuest({
+            key: 'sisterCalyxIdle', anim: 'calyx_idle', x: 790, hit: [8, 4, 104, 170], shadowW: 84, dialog: 'calyx_start',
+            frames: [0, 0, 1, 1, 7, 0, 0, 2, 2, 0, 0, 0, 3, 0, 0, 1, 1, 7, 0, 0, 4, 5, 5, 0, 0, 6, 6, 6, 0, 0],
+            names: ['Sister Calyx', 'Sestra Calyx'], top: 16,
         });
     }
 
     createHeartbrokerLune() {
-        this.lune = this.add.image(250, 420, 'heartbrokerLune');
-        this.lune.setScale(0.14);
-        this.lune.setDepth(5);
-        this.addGroundShadow(250, 420 + this.lune.displayHeight * 0.42, this.lune.displayWidth * 0.55, this.lune.displayHeight * 0.12);
-        this.lune.setInteractive({ useHandCursor: true });
-
-        this.tweens.add({
-            targets: this.lune,
-            y: this.lune.y - 4,
-            duration: 2200,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.lune.on('pointerover', () => {
-            this.lune.setScale(0.15);
-            document.body.style.cursor = 'pointer';
-        });
-
-        this.lune.on('pointerout', () => {
-            this.lune.setScale(0.14);
-            document.body.style.cursor = 'default';
-        });
-
-        this.lune.on('pointerdown', () => {
-            if (this.dialogVisible) return;
-            if (this.clickSound) this.clickSound.play();
-            this.showDialog('lune_start');
+        // the hearts beat (now and then one out of turn), the flame gutters, the raised fingers curl, the mask tilts
+        this.lune = this.createAuctionGuest({
+            key: 'heartbrokerLuneIdle', anim: 'lune_idle', x: 255, hit: [20, 8, 90, 182], shadowW: 64, dialog: 'lune_start',
+            frames: [0, 2, 0, 0, 0, 1, 2, 1, 7, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 4, 4, 5, 0, 0, 6, 6, 2, 6, 0, 0],
+            names: ['Heartbroker Lune', 'Srdcokupec Lune'], top: 8,
         });
     }
 
     createHeirToAquarium() {
-        this.heir = this.add.image(540, 425, 'heirToAquarium');
-        this.heir.setScale(0.11);
-        this.heir.setDepth(5);
-        this.addGroundShadow(540, 425 + this.heir.displayHeight * 0.42, this.heir.displayWidth * 0.55, this.heir.displayHeight * 0.12);
-        this.heir.setInteractive({ useHandCursor: true });
-
-        this.tweens.add({
-            targets: this.heir,
-            alpha: { from: 0.88, to: 1 },
-            duration: 1800,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.heir.on('pointerover', () => {
-            this.heir.setScale(0.12);
-            document.body.style.cursor = 'pointer';
-        });
-
-        this.heir.on('pointerout', () => {
-            this.heir.setScale(0.11);
-            document.body.style.cursor = 'default';
-        });
-
-        this.heir.on('pointerdown', () => {
-            if (this.dialogVisible) return;
-            if (this.clickSound) this.clickSound.play();
-            this.showDialog('heir_start');
+        // breath, a blink, the tentacle beard drifting, the embryos in the mantle turning and brightening, a tilt.
+        // 'heir_idle' is global: keep this frame list in sync with HarborScene + PithReclaimersRoomScene.
+        this.heir = this.createAuctionGuest({
+            key: 'heirAquariumIdle', anim: 'heir_idle', x: 640, hit: [35, 11, 58, 163], shadowW: 46, dialog: 'heir_start',
+            frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 3, 3, 0, 4, 4, 0, 0, 5, 5, 5, 0, 1, 1, 7, 0, 0, 6, 6, 0, 0],
+            names: ['Heir to the Yellow Aquarium', 'Dědic Žlutého akvária'], top: 9,
         });
     }
 
     createSilenceBeneathStairwell() {
-        this.silence = this.add.image(350, 435, 'silence');
-        this.silence.setScale(0.11);
-        this.silence.setDepth(5);
-        this.addGroundShadow(350, 435 + this.silence.displayHeight * 0.42, this.silence.displayWidth * 0.55, this.silence.displayHeight * 0.12);
-        this.silence.setInteractive({ useHandCursor: true });
-
-        this.tweens.add({
-            targets: this.silence,
-            alpha: { from: 0.72, to: 0.95 },
-            duration: 2600,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.silence.on('pointerover', () => {
-            this.silence.setScale(0.12);
-            document.body.style.cursor = 'pointer';
-        });
-
-        this.silence.on('pointerout', () => {
-            this.silence.setScale(0.11);
-            document.body.style.cursor = 'default';
-        });
-
-        this.silence.on('pointerdown', () => {
-            if (this.dialogVisible) return;
-            if (this.clickSound) this.clickSound.play();
-            this.showDialog('silence_start');
+        // crouched in the right wall's shadow; the hand comes out of the sleeve to sign: two, five, none
+        this.silence = this.createAuctionGuest({
+            key: 'silenceIdle', anim: 'silence_idle', x: 945, feet: 534, hit: [4, 20, 120, 106], shadowW: 110, dialog: 'silence_start',
+            frames: [0, 0, 0, 1, 1, 0, 0, 0, 0, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 7, 0, 0, 0],
+            names: ['The Silence Beneath the Stairwell', 'Ticho pod schodištěm'], top: 20,
         });
     }
 

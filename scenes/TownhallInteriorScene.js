@@ -3,6 +3,50 @@ import { returnToMainMenu } from '../utils/mainMenu.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { GANG_QUEST_IDS, gangQuestStatus } from '../utils/GangOfLamps.js';
 
+// Where the hall's people stand on the redrawn floor: the soles (x, y) in canvas coords.
+const TH_SPOTS = {
+    clerk: { x: 190, y: 528 },        // by the record cabinets on the left
+    eater: { x: 762, y: 528 },        // right of the dais, by the toppled chair
+    councilor: { x: 882, y: 528 },    // by the public bench under the lancets
+    poet: { x: 533, y: 482 },         // on the public reading dais, by the lectern (depth ~17.6)
+};
+
+// The hall's people, redrawn (tools/artgen/townhall_cast.py, Aseprite Townhall_<file>): 8-frame idle sheets shown at
+// scale 1, origin bottom-centre. sole = the soles' row in the frame; hit = the figure's box in frame coordinates;
+// top = the bust portrait's first row; names = the dialog speakers (English + Czech) that get the bust.
+// The poet's sheet is drawn ~15% smaller: he stands on the dais, further away than the walk line.
+const TH_CAST = {
+    clerk: {
+        key: 'thClerkIdle', file: 'clerk', w: 128, h: 160, sole: 156, anim: 'th_clerk_idle', fps: 6,
+        // 0/1 rest (two flame shapes, so the candle keeps flickering), 2 breath, 3 blink, 4/5 a look at the papers,
+        // 6 a note scratched with the quill, 7 the flame gutters
+        frames: [0, 1, 0, 1, 2, 2, 1, 0, 1, 0, 3, 1, 0, 1, 0, 7, 7, 1, 0, 1, 0, 4, 5, 4, 5, 6, 5, 6, 4, 5, 4, 0, 1, 0, 2, 1, 0, 1],
+        hit: [34, 10, 64, 148], shadowW: 44, top: 8,
+        names: ['Townhall Clerk', 'Freed Clerk', 'Radniční úředník', 'Osvobozený úředník'],
+    },
+    eater: {
+        key: 'thEaterIdle', file: 'eater', w: 128, h: 144, sole: 141, anim: 'th_eater_idle', fps: 4,
+        // played in order: it chews its complaint twice and swallows, the goggles whirr, the chimney puffs (the smoke rises throughout)
+        frames: [0, 1, 2, 3, 4, 5, 6, 7],
+        hit: [6, 22, 116, 120], shadowW: 104, top: 28,
+        names: ['Complaint Eater', 'Požírač stížností'],
+    },
+    councilor: {
+        key: 'thSeraphelIdle', file: 'seraphel', w: 128, h: 192, sole: 189, anim: 'th_seraphel_idle', fps: 5,
+        // breath, the whiskers drift, the fingertips tap, the skull tilts, the seals sway, a glint in the sockets
+        frames: [0, 0, 0, 1, 1, 7, 0, 0, 2, 2, 0, 0, 0, 3, 3, 0, 0, 4, 4, 4, 0, 0, 5, 5, 0, 0, 6, 0, 0],
+        hit: [34, 0, 64, 190], shadowW: 58, top: 0,
+        names: ['Councilor Seraphel Dune', 'Radní Seraphel Dune'],
+    },
+    poet: {
+        key: 'thPoetIdle', file: 'poet', w: 128, h: 144, sole: 141, anim: 'th_poet_idle', fps: 5,
+        // restless: breath, a twitchy blink, the gun hand trembles, he declaims, turns a page
+        frames: [0, 1, 0, 2, 0, 3, 0, 1, 4, 5, 4, 5, 0, 6, 6, 0, 7, 0, 3],
+        hit: [28, 16, 64, 126], shadowW: 40, top: 14,
+        names: ['The Mad Poet', 'Šílený básník'],
+    },
+};
+
 export default class TownhallInteriorScene extends GameScene {
     constructor() {
         super({ key: 'TownhallInteriorScene' });
@@ -663,20 +707,31 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         super.preload();
         this.load.image('townhallInteriorBg', 'assets/images/backgrounds/townhall_interior.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        this.load.image('townhallPoet', 'assets/images/characters/poet.png');
-        this.load.image('townhallClerk', 'assets/images/characters/townhall_clerk.png');
-        this.load.image('complaintEater', 'assets/images/characters/complaint_eater.png');
-        this.load.image('councilorSeraphelDune', 'assets/images/characters/councilor_seraphel_dune.png');
+        for (const c of Object.values(TH_CAST)) {
+            this.load.spritesheet(c.key, `assets/images/characters/townhall/${c.file}.png`, { frameWidth: c.w, frameHeight: c.h });
+        }
         this.load.image('box', 'assets/images/items/box.png');
     }
 
     create() {
         super.create();
         this.playSceneMusic('genericMusic');
+        // the scene instance is re-used: drop the people of the previous visit (their objects are gone)
+        this.poet = null;
+        this.hostages = [];
+        this.clerk = null;
+        this.complaintEater = null;
+        this.councilor = null;
 
+        // The council hall (native 1067x600, tools/artgen/townhall_int_bg.py)
         const bg = this.add.image(400, 300, 'townhallInteriorBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own floor; drop the generic ground strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         this.transitionManager = new SceneTransitionManager(this);
 
@@ -692,19 +747,29 @@ But if the Bishop used official stationery as a private notebook, she was hiding
             'Townhall Exterior'
         );
 
-        // Members-only: the hidden Tribunal's Room opens once you've joined the Tribunal.
+        // Members-only: the hidden Tribunal's Room opens once you've joined the Tribunal. Its way
+        // down is the low oak door in the left wall between the record cabinets (canvas polygon from
+        // townhall_int_bg.py's fixed points); the door is painted always, it only opens for members.
         if (this.hasJournalEntry('pith_reclaimers_joined')) {
-            this.transitionManager.createTransitionZone(
-                90, 300, 70, 240, 'left', 'PithReclaimersRoomScene', 700, 480, "The Tribunal's Room"
-            );
+            this.transitionManager.createDoorZone({
+                points: [[227, 450], [252, 437], [252, 355], [250, 348], [247, 342], [240, 339], [233, 338],
+                    [229, 340], [227, 343]]
+            }, { target: 'PithReclaimersRoomScene', walkX: 250, walkY: 470, label: "The Tribunal's Room" });
         }
 
+        // the walk line of the redrawn hall: feet on y 534 (centre origin, 128 px tall)
         this.priest.x = 400;
-        this.priest.y = 520;
+        this.priest.y = 470;
 
         if (this.priestGlow) {
             this.priestGlow.x = this.priest.x;
             this.priestGlow.y = this.priest.y;
+        }
+
+        // Bust portraits for the hall's people, from their idle sheets (keyed by the English and the Czech speaker name)
+        this.dialogPortraits = { ...(this.dialogPortraits || {}) };
+        for (const c of Object.values(TH_CAST)) {
+            for (const name of c.names) this.dialogPortraits[name] = { key: c.key, frame: 0, zoom: 2, top: c.top };
         }
 
         this.completeEnterTownhallQuestOnFirstEntry();
@@ -796,63 +861,24 @@ But if the Bishop used official stationery as a private notebook, she was hiding
     }
 
     createPoetCharacter() {
-        this.poet = this.createCharacterNpc({
-            x: 400,
-            y: 430,
-            texture: 'townhallPoet',
-            label: 'POET',
-            dialog: 'poet_start',
-            scale: 0.13,
-            depth: 6,
-            labelColor: '#ffdf7a'
-        });
+        this.poet = this.createCharacterNpc({ id: 'poet', ...TH_SPOTS.poet, dialog: 'poet_start', depth: 6 });
     }
 
     createHostageCharacters() {
-        const positions = [
-            { x: 170, y: 470, label: 'TOWNHALL CLERK', texture: 'townhallClerk', scale: 0.08, labelColor: '#ffffff' },
-            { x: 620, y: 470, label: 'COMPLAINT EATER', texture: 'complaintEater', scale: 0.085, labelColor: '#d6bcff' },
-            { x: 715, y: 450, label: 'SERAPHEL DUNE', texture: 'councilorSeraphelDune', scale: 0.09, labelColor: '#ffdf7a' },
+        // the same people, held where they stood when he took the hall; each of them points you to the poet
+        this.hostages = [
+            this.createCharacterNpc({ id: 'clerk', ...TH_SPOTS.clerk, dialog: 'poet_start' }),
+            this.createCharacterNpc({ id: 'eater', ...TH_SPOTS.eater, dialog: 'poet_start' }),
+            this.createCharacterNpc({ id: 'councilor', ...TH_SPOTS.councilor, dialog: 'poet_start' }),
         ];
-
-        this.hostages = positions.map(pos =>
-            this.createCharacterNpc({
-                x: pos.x,
-                y: pos.y,
-                texture: pos.texture,
-                label: pos.label,
-                dialog: 'poet_start',
-                scale: pos.scale,
-                depth: 5,
-                labelColor: pos.labelColor
-            })
-        );
     }
 
     createFreedClerkCharacter() {
-        this.clerk = this.createCharacterNpc({
-            x: 170,
-            y: 470,
-            texture: 'townhallClerk',
-            label: 'TOWNHALL CLERK',
-            dialog: 'clerk_after_poet',
-            scale: 0.08,
-            depth: 5,
-            labelColor: '#d1fae5'
-        });
+        this.clerk = this.createCharacterNpc({ id: 'clerk', ...TH_SPOTS.clerk, dialog: 'clerk_after_poet' });
     }
 
     createComplaintEaterCharacter() {
-        this.complaintEater = this.createCharacterNpc({
-            x: 620,
-            y: 470,
-            texture: 'complaintEater',
-            label: 'COMPLAINT EATER',
-            dialog: 'complaint_eater_start',
-            scale: 0.085,
-            depth: 5,
-            labelColor: '#d6bcff'
-        });
+        this.complaintEater = this.createCharacterNpc({ id: 'eater', ...TH_SPOTS.eater, dialog: 'complaint_eater_start' });
     }
 
     // Gang of Lamps (Sconce's quest): the misfiled dossier buried in the records drawers.
@@ -864,15 +890,16 @@ But if the Bishop used official stationery as a private notebook, she was hiding
         const alreadyPulled = !!this.hasJournalEntry('gang_dossier_recovered');
         if (!active || alreadyHas || alreadyPulled) return;
 
-        const x = 120, y = 430;
-        const drawer = this.add.rectangle(x, y, 44, 30, 0x0e120a, 0.5).setDepth(3);
-        drawer.setStrokeStyle(2, 0x3a3320, 0.9);
+        // the drawer bank of the nearest record cabinet on the left wall (canvas coords of the painted art)
+        const x = 108, y = 418;
+        const drawer = this.add.rectangle(x, y, 64, 52, 0xffe6a8, 0).setDepth(3);
+        drawer.setStrokeStyle(2, 0xffd27a, 0);
         drawer.setInteractive({ useHandCursor: true });
-        const hint = this.add.text(x, y - 28, 'Records drawers', {
+        const hint = this.add.text(x, y - 40, 'Records drawers', {
             fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
         }).setOrigin(0.5).setDepth(10).setAlpha(0);
-        drawer.on('pointerover', () => { hint.setAlpha(1); document.body.style.cursor = 'pointer'; });
-        drawer.on('pointerout', () => { hint.setAlpha(0); document.body.style.cursor = 'default'; });
+        drawer.on('pointerover', () => { hint.setAlpha(1); drawer.setFillStyle(0xffe6a8, 0.12); drawer.setStrokeStyle(2, 0xffd27a, 0.9); document.body.style.cursor = 'pointer'; });
+        drawer.on('pointerout', () => { hint.setAlpha(0); drawer.setFillStyle(0xffe6a8, 0); drawer.setStrokeStyle(2, 0xffd27a, 0); document.body.style.cursor = 'default'; });
         this._dossierCleanup = () => { drawer.disableInteractive(); drawer.destroy(); hint.destroy(); this._dossierCleanup = null; };
         drawer.on('pointerdown', () => {
             if (this.dialogVisible) return;
@@ -899,48 +926,37 @@ But if the Bishop used official stationery as a private notebook, she was hiding
     }
 
     createCouncilorCharacter() {
-        this.councilor = this.createCharacterNpc({
-            x: 715,
-            y: 450,
-            texture: 'councilorSeraphelDune',
-            label: 'SERAPHEL DUNE',
-            dialog: 'councilor_start',
-            scale: 0.09,
-            depth: 5,
-            labelColor: '#ffdf7a'
-        });
+        this.councilor = this.createCharacterNpc({ id: 'councilor', ...TH_SPOTS.councilor, dialog: 'councilor_start' });
     }
 
-    createCharacterNpc({ x, y, texture, label, dialog, scale = 0.1, depth = 5, labelColor = '#ffffff' }) {
-        const container = this.add.container(x, y);
-        container.setDepth(depth);
-
-        const sprite = this.add.image(0, 0, texture).setOrigin(0.5, 1).setScale(scale);
-
-        this.addGroundShadow(x, y + 4, sprite.displayWidth * 0.55, sprite.displayHeight * 0.10);
-
-        container.add(sprite);
-
-        const width = sprite.displayWidth + 12;
-        const height = sprite.displayHeight + 12;
-        container.setSize(width, height);
-        container.setInteractive(new Phaser.Geom.Rectangle(-width / 2, -sprite.displayHeight - 6, width, height), Phaser.Geom.Rectangle.Contains);
-
-        container.on('pointerover', () => {
-            container.setScale(1.04);
-            document.body.style.cursor = 'pointer';
+    // One of the hall's people (TH_CAST[id]): the idle sheet at scale 1 with its soles on (x, y), a ground shadow that
+    // goes with it, a hover glow, and a click that opens `dialog`.
+    createCharacterNpc({ id, x, y, dialog, depth = 5 }) {
+        const c = TH_CAST[id];
+        if (!this.anims.exists(c.anim)) {
+            this.anims.create({ key: c.anim, frames: this.anims.generateFrameNumbers(c.key, { frames: c.frames }), frameRate: c.fps, repeat: -1 });
+        }
+        // the bottom edge sits one pixel under the soles' row
+        const npc = this.add.sprite(x, y + (c.h - 1 - c.sole), c.key, 0).setOrigin(0.5, 1).setDepth(depth);
+        npc.play(c.anim);
+        const shadow = this.addGroundShadow(x, y - 2, c.shadowW, 10);
+        // the shadow goes when the person does (the hostages swap for the freed cast); on a scene shutdown the display list
+        // destroys it itself -- destroying it from here then would pull it out of the list mid-iteration
+        npc.once('destroy', () => { if (this.sys.isActive()) shadow.destroy(); });
+        npc.setInteractive({ hitArea: new Phaser.Geom.Rectangle(...c.hit), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        let hoverFx = null;
+        npc.on('pointerover', () => {
+            if (!hoverFx) hoverFx = npc.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-        container.on('pointerout', () => {
-            container.setScale(1);
-            document.body.style.cursor = 'default';
+        npc.on('pointerout', () => {
+            if (hoverFx) { npc.preFX?.remove(hoverFx); hoverFx = null; }
         });
-        container.on('pointerdown', () => {
+        npc.on('pointerdown', () => {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();
             this.showDialog(dialog);
         });
-
-        return container;
+        return npc;
     }
 
     resetPoetryBattle() {

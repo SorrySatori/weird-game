@@ -1,0 +1,130 @@
+GIMP Palette
+Name: Waterside
+Columns: 8
+#
+ 42  36  18	Yolk 1
+ 55  48  22	Yolk 2
+ 70  60  27	Yolk 3
+ 85  72  32	Yolk 4
+101  85  37	Yolk 5
+117  98  43	Yolk 6
+134 112  50	Yolk 7
+151 127  59	Yolk 8
+ 21  19  15	Deck 1
+ 31  28  22	Deck 2
+ 42  38  30	Deck 3
+ 54  49  39	Deck 4
+ 67  61  49	Deck 5
+ 81  74  60	Deck 6
+ 97  88  73	Deck 7
+115 105  87	Deck 8
+133 121 100	Deck 9
+ 21  24  22	Granite 1
+ 29  33  30	Granite 2
+ 38  43  39	Granite 3
+ 48  54  49	Granite 4
+ 59  66  60	Granite 5
+ 71  79  72	Granite 6
+ 85  93  85	Granite 7
+101 108  99	Granite 8
+117 123 113	Granite 9
+ 18  18  18	Tar 1
+ 26  26  25	Tar 2
+ 35  35  33	Tar 3
+ 45  44  41	Tar 4
+ 56  54  50	Tar 5
+ 68  65  59	Tar 6
+ 81  77  69	Tar 7
+ 18  18  16	Iron 1
+ 27  26  23	Iron 2
+ 37  35  31	Iron 3
+ 48  45  40	Iron 4
+ 60  56  50	Iron 5
+ 74  69  61	Iron 6
+ 90  84  73	Iron 7
+ 24  34  31	FogSky 1
+ 30  42  39	FogSky 2
+ 37  50  46	FogSky 3
+ 44  58  53	FogSky 4
+ 52  67  60	FogSky 5
+ 61  76  68	FogSky 6
+ 70  85  76	FogSky 7
+ 80  96  85	FogSky 8
+ 91 106  94	FogSky 9
+103 116 102	FogSky 10
+114 125 110	FogSky 11
+ 15  20  18	Murk 1
+ 20  27  24	Murk 2
+ 26  35  31	Murk 3
+ 33  44  39	Murk 4
+ 41  53  47	Murk 5
+ 50  63  55	Murk 6
+ 60  73  64	Murk 7
+ 71  84  74	Murk 8
+ 31  20  17	Brick 1
+ 44  27  22	Brick 2
+ 58  36  29	Brick 3
+ 74  46  36	Brick 4
+ 90  57  44	Brick 5
+107  69  53	Brick 6
+124  82  64	Brick 7
+140  95  75	Brick 8
+ 20  16  12	Horn 1
+ 30  23  17	Horn 2
+ 42  32  22	Horn 3
+ 55  42  28	Horn 4
+ 69  53  34	Horn 5
+ 84  65  42	Horn 6
+100  78  51	Horn 7
+ 24  36  31	Verdigris 1
+ 32  48  42	Verdigris 2
+ 43  61  53	Verdigris 3
+ 55  75  65	Verdigris 4
+ 69  90  77	Verdigris 5
+ 58  14  10	Crystal 1
+ 92  26  16	Crystal 2
+132  42  22	Crystal 3
+168  64  30	Crystal 4
+200  90  40	Crystal 5
+224 122  58	Crystal 6
+240 160  88	Crystal 7
+ 30  12  10	Redmass 1
+ 46  18  14	Redmass 2
+ 67  26  19	Redmass 3
+ 90  36  24	Redmass 4
+114  48  30	Redmass 5
+138  62  38	Redmass 6
+ 22  24  22	Concrete 1
+ 30  33  30	Concrete 2
+ 39  42  38	Concrete 3
+ 49  52  47	Concrete 4
+ 60  63  57	Concrete 5
+ 72  74  67	Concrete 6
+ 85  87  79	Concrete 7
+ 99 100  91	Concrete 8
+ 42  58  34	Mycelium 1
+ 60  82  48	Mycelium 2
+ 86 112  68	Mycelium 3
+120 144  90	Mycelium 4
+156 176 122	Mycelium 5
+196 212 160	Mycelium 6
+ 18  26  16	Algae 1
+ 26  38  20	Algae 2
+ 36  52  26	Algae 3
+ 47  67  32	Algae 4
+ 60  84  38	Algae 5
+ 76 102  48	Algae 6
+ 20  19  16	Silt 1
+ 29  27  22	Silt 2
+ 39  36  29	Silt 3
+ 50  46  37	Silt 4
+ 62  57  46	Silt 5
+ 75  69  56	Silt 6
+ 90  83  67	Silt 7
+ 26  28  16	Reed 1
+ 38  41  22	Reed 2
+ 52  56  29	Reed 3
+ 68  72  38	Reed 4
+ 86  90  48	Reed 5
+106 108  60	Reed 6
+126 125  74	Reed 7

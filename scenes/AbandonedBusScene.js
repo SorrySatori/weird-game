@@ -13,29 +13,33 @@ export default class AbandonedBusScene extends GameScene {
 
     preload() {
         super.preload();
+        // tools/artgen/bus_bg.py: native 1067×600, the inside of the half-buried double-decker
         this.load.image('abandonedBusInteriorBg', 'assets/images/backgrounds/AbandonedBus.png');
-        this.load.image('deadBishop', 'assets/images/characters/DeadBishop.png');
-        this.load.image('exitArea', 'assets/images/ui/door.png');
-        this.load.image('door', 'assets/images/ui/door.png');
+        // tools/artgen/dead_bishop.py: 5 frames of 192×88 (0-3 the growth's pulse + the helmet screen's flicker,
+        // 4 = a bust for the dialog portrait), shown at scale 1
+        this.load.spritesheet('deadBishopIdle', 'assets/images/characters/dead_bishop.png', { frameWidth: 192, frameHeight: 88 });
     }
 
     create() {
         // Call parent create first to initialize mechanics
         super.create();
 
-        // Set background
+        // Set background (the bus paints its own floor: no generic ground strip)
         const bg = this.add.image(400, 300, 'abandonedBusInteriorBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
 
-        // Position the priest in the scene
+        // Position the priest by the front door he came in through (feet on the walk line, y 534)
         if (this.priest) {
-            this.priest.x = 200;
+            this.priest.x = 190;
             this.priest.y = 470;
-            this.priest.setOrigin(0.5, 1);
             this.priest.play('idle');
 
             // Update priest's glow position
@@ -45,68 +49,34 @@ export default class AbandonedBusScene extends GameScene {
             }
         }
 
-        // Examine: the bus interior itself (upper-left, clear of the dead bishop at ~500,400).
-        this.createObservable(300, 195, 240, 130, () => this.t('observe.abandoned_bus.default'), { hint: this.t('observe.abandoned_bus.hint') });
+        // Examine: the bus itself -- the hollow where the upper deck fell in, its seats on the ledge (clear of the body)
+        this.createObservable(270, 295, 260, 90, () => this.t('observe.abandoned_bus.default'), { hint: this.t('observe.abandoned_bus.hint') });
 
-        // Add exit back to ScraperBackyardScene
-        this.exitArea = this.add.image(100, 470, 'exitArea')
-            .setDisplaySize(120, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-
-        // Add exit hover hint
-        const exitText = this.add.text(100, 400, "Exit Bus", {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
+        // The way out: the open front door in the far wall (daylight from the dug-out trench), lit whole on hover
+        const exitDoor = this.transitionManager.createDoorZone({ rect: [136, 370, 72, 112] }, {
+            target: 'ScraperBackyardScene', walkX: 172, walkY: 470, direction: 'left'
         });
-        exitText.setOrigin(0.5);
-        exitText.setAlpha(0);
-        exitText.setDepth(10);
+        // the arrow keys leave by the same door at the left edge (GameScene.registerEdgeExit)
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperBackyardScene'), exitDoor);
 
-        // Show hint when hovering near the exit
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the exit area
-            if (Math.abs(pointer.x - 100) < 60 && Math.abs(pointer.y - 470) < 100) {
-                exitText.setAlpha(1);
-            } else {
-                exitText.setAlpha(0);
-            }
-
-            // Check if pointer is near the dead bishop
-            if (Math.abs(pointer.x - 500) < 100 && Math.abs(pointer.y - 400) < 100) {
-                bishopText.setAlpha(1);
-            } else {
-                bishopText.setAlpha(0);
-            }
+        // The Bishop: slumped against the rear bench under the torn roof (bottom-centre on the floor line)
+        const BX = 735, BY = 518;
+        if (!this.anims.exists('dead_bishop_pulse')) {
+            this.anims.create({ key: 'dead_bishop_pulse', frames: this.anims.generateFrameNumbers('deadBishopIdle', { frames: [0, 0, 0, 1, 2, 2, 3, 0, 0, 0, 0, 1, 3, 0] }), frameRate: 3, repeat: -1 });
+        }
+        this.deadBishop = this.add.sprite(BX, BY, 'deadBishopIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        this.deadBishop.play('dead_bishop_pulse');
+        // the hit area is the body itself (frame-local), not the whole 192×88 frame
+        this.deadBishop.setInteractive({
+            hitArea: new Phaser.Geom.Rectangle(40, 12, 146, 76),
+            hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+            useHandCursor: true
         });
+        const bust = { key: 'deadBishopIdle', frame: 4, zoom: 2, top: 4 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Dead Bishop': bust, 'Mrtvá biskupka': bust };
 
-        // Add exit click handler
-        this.exitArea.on('pointerdown', () => {
-            // Use the SceneTransitionManager to handle the transition
-            if (!this.transitionManager) {
-                this.transitionManager = new SceneTransitionManager(this);
-            }
-            this.transitionManager.handleSceneTransition('ScraperBackyardScene', 50, 470);
-        });
-        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
-        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperBackyardScene'), this.exitArea);
-
-        // Create a container for the DeadBishop to improve hit area
-        this.deadBishopContainer = this.add.container(500, 400);
-        this.deadBishopContainer.setSize(200, 200);
-        this.deadBishopContainer.setInteractive({ useHandCursor: true });
-
-        // Add the DeadBishop sprite to the container
-        this.deadBishop = this.add.sprite(0, 0, 'deadBishop');
-        this.deadBishop.setScale(0.15);
-        this.deadBishopContainer.add(this.deadBishop);
-
-        // Add the Neme symbiont (initially hidden)
-        this.nemeSymbiont = this.add.container(500, 370);
-
+        // Neme (hidden until the dissection): it rises out of her chest
+        this.nemeSymbiont = this.add.container(BX + 21, BY - 30);
         // Create the glowing filaments
         const filaments = this.add.graphics();
         filaments.fillStyle(0x7fff8e, 0.7);
@@ -177,46 +147,27 @@ export default class AbandonedBusScene extends GameScene {
         // Initially hide the symbiont
         this.nemeSymbiont.setAlpha(0);
         this.nemeSymbiont.visible = false;
-        this.nemeSymbiont.setDepth(5);
-        const bishopName = this.add.text(0, 60, "Dead Bishop", {
+        this.nemeSymbiont.setDepth(7); // over her sprite (depth 6): it rises out of her chest
+        // Hover: a soft glow round the body and its name (pixel art isn't scaled)
+        const bishopText = this.add.text(BX + 10, BY - 104, this.t('ui.hotspots.investigateBody'), {
             fontSize: '16px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             padding: { x: 10, y: 5 }
+        }).setOrigin(0.5).setAlpha(0).setDepth(10);
+        this.deadBishop.on('pointerover', () => {
+            bishopText.setText(this.t(this.hasJournalEntry('found_dead_bishop') ? 'ui.hotspots.deadBishop' : 'ui.hotspots.investigateBody')).setAlpha(1);
+            if (!this._bishopHoverFx) this._bishopHoverFx = this.deadBishop.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-        bishopName.setOrigin(0.5);
-        this.deadBishopContainer.add(bishopName);
-
-        // Add hover hint for the DeadBishop
-        const bishopText = this.add.text(500, 320, "Investigate Body", {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        bishopText.setOrigin(0.5);
-        bishopText.setAlpha(0);
-        bishopText.setDepth(10);
-
-        // Add glow effect to the DeadBishop
-        const bishopGlow = this.add.graphics();
-        bishopGlow.fillStyle(0x7fff8e, 0.2);
-        bishopGlow.fillCircle(500, 400, 60);
-        bishopGlow.setDepth(4);
-
-        // Add pulsating animation to the glow
-        this.tweens.add({
-            targets: bishopGlow,
-            alpha: { from: 0.15, to: 0.3 },
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
+        this.deadBishop.on('pointerout', () => {
+            bishopText.setAlpha(0);
+            if (this._bishopHoverFx) { this.deadBishop.preFX?.remove(this._bishopHoverFx); this._bishopHoverFx = null; }
         });
 
         // Add DeadBishop click handler
-        this.deadBishopContainer.on('pointerdown', () => {
-            if (this.isTransitioning) return;
+        this.deadBishop.on('pointerdown', (pointer, localX, localY, event) => {
+            event?.stopPropagation?.(); // the click is the body's, not a walk to that spot
+            if (this.isTransitioning || this.dialogVisible) return;
 
             // Create a variable to track if the tween completed
             let tweenCompleted = false;
@@ -237,11 +188,15 @@ export default class AbandonedBusScene extends GameScene {
             // Kill any existing tweens
             this.tweens.killTweensOf(priest);
 
+            // walk up to her (to the left of the body), turned toward her
+            const kneelX = BX - 110;
+            priest.setScale(kneelX > priest.x ? 1 : -1, 1);
+            if (this.priestGlow) this.priestGlow.setScale(kneelX > priest.x ? 1.05 : -1.05, 1.05);
             this.tweens.add({
-                targets: priest,
-                x: 400,
+                targets: this.priestGlow ? [priest, this.priestGlow] : [priest],
+                x: kneelX,
                 y: 470,
-                duration: 800,
+                duration: Math.max(300, Math.abs(kneelX - priest.x) * 4),
                 onComplete: () => {
                     tweenCompleted = true;
                     
@@ -256,7 +211,7 @@ export default class AbandonedBusScene extends GameScene {
             });
             
             // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(1500, () => {
+            this.time.delayedCall(Math.max(1500, Math.abs(kneelX - priest.x) * 4 + 700), () => {
                 if (!tweenCompleted) {
                     console.log('Bishop interaction tween timed out, showing dialog directly');
                     

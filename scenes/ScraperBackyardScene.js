@@ -11,112 +11,44 @@ export default class ScraperBackyardScene extends GameScene {
 
     preload() {
         super.preload();
+        // tools/artgen/backyard_bg.py: native 1067×600, overcast day -- the old transit yard under the pipes
         this.load.image('scraperBackyardBg', 'assets/images/backgrounds/ScraperBackyard.png');
-        this.load.image('exitArea', 'assets/images/ui/arrow.png');
-        this.load.image('door', 'assets/images/ui/door.png');
     }
 
     create() {
         super.create();
-        
+
         const bg = this.add.image(400, 300, 'scraperBackyardBg');
         this.fitBackground(bg);
-        bg.setPosition(400, 180);
         bg.setDepth(-1);
-        
-        // Initialize the scene transition manager
-        this.transitionManager = new SceneTransitionManager(this); 
+        // the yard paints its own ground: no generic floor strip
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
-        // Add exit back to ScraperInteriorScene
-        this.exitArea = this.add.image(100, 470, 'exitArea')
-            .setDisplaySize(120, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-        
-        // Add exit hover hint
-        const exitText = this.add.text(100, 400, this.t('ui.hotspots.returnInside'), {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
+        // Initialize the scene transition manager
+        this.transitionManager = new SceneTransitionManager(this);
+
+        // Back from the bus: he climbs out of the pit on the right; otherwise he stands by the Scraper's back door
+        if (this.priest && this.enteredFrom === 'AbandonedBusScene') {
+            this.priest.x = 890;
+            this.priest.setScale(-1, 1);
+            if (this.priestGlow) { this.priestGlow.x = this.priest.x; this.priestGlow.setScale(-1.05, 1.05); }
+        }
+
+        // The Scraper's back door in its rear wall on the left: back into the lobby (lit whole on hover)
+        const backDoor = this.transitionManager.createDoorZone({ points: [[92, 363], [165, 352], [165, 472], [92, 508]] }, {
+            target: 'ScraperInteriorScene', walkX: 110, walkY: 470, direction: 'left',
+            label: () => this.t('ui.hotspots.returnInside')
         });
-        exitText.setOrigin(0.5);
-        exitText.setAlpha(0);
-        exitText.setDepth(10);
-        
-        // Show hint when hovering near the exit
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the exit area
-            if (Math.abs(pointer.x - 100) < 60 && Math.abs(pointer.y - 470) < 100) {
-                exitText.setAlpha(1);
-            } else {
-                exitText.setAlpha(0);
-            }
-        });
-        
-        // Add exit click handler
-        this.exitArea.on('pointerdown', () => {
-            // Use the SceneTransitionManager to handle the transition
-            if (!this.transitionManager) {
-                this.transitionManager = new SceneTransitionManager(this);
-            }
-            this.transitionManager.handleSceneTransition('ScraperInteriorScene', 50, 470);
-        });
-        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
-        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperInteriorScene'), this.exitArea);
-        
-        // Add abandoned bus - adjusted position for the zoomed out background
-        this.abandonedBus = this.add.image(Math.round(400 * this.scale.width / 800), 420, 'door');
-        this.abandonedBus.setScale(1.0); // Increased scale for better visibility
-        this.abandonedBus.setDepth(5);
-        this.abandonedBus.setInteractive({ useHandCursor: true });
-        
-        // Add bus hover hint - adjusted position
-        const busText = this.add.text(400, 350, this.t('ui.hotspots.abandonedBus'), {
-            fontSize: '16px',
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: { x: 10, y: 5 }
-        });
-        busText.setOrigin(0.5);
-        busText.setAlpha(0);
-        busText.setDepth(10);
-        
-        // Show hint when hovering near the bus
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the bus - adjusted hit area for new position
-            if (Math.abs(pointer.x - 400) < 100 && Math.abs(pointer.y - 420) < 100) {
-                busText.setAlpha(1);
-            } else {
-                busText.setAlpha(0);
-            }
-        });
-        
-        // Add bus click handler
-        this.abandonedBus.on('pointerdown', () => {
-            // Use the SceneTransitionManager to handle the transition
-            if (!this.transitionManager) {
-                this.transitionManager = new SceneTransitionManager(this);
-            }
-            this.transitionManager.handleSceneTransition('AbandonedBusScene', 350, 500);
-        });
-        
-        // Add glow effect directly onto the bus
-        const busGlow = this.add.graphics();
-        busGlow.fillStyle(0x7fff8e, 0.25);
-        // Create an elliptical glow that covers the bus shape
-        busGlow.fillEllipse(400, 420, 120, 70); // Shaped to match the bus dimensions
-        busGlow.setDepth(4);
-        
-        // Add pulsating animation to the glow
-        this.tweens.add({
-            targets: busGlow,
-            alpha: { from: 0.15, to: 0.3 },
-            duration: 2000,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
+        // the arrow keys leave by the same door at the left edge (GameScene.registerEdgeExit)
+        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperInteriorScene'), backDoor);
+
+        // The bus, sunk to its upper deck: the pit dug down to its front door on the right is the way in
+        this.transitionManager.createDoorZone({ points: [[724, 462], [915, 462], [1000, 518], [748, 518]] }, {
+            target: 'AbandonedBusScene', walkX: 880, walkY: 470, direction: 'down',
+            label: () => this.t('ui.hotspots.abandonedBus')
         });
 
         // Add journal entry about the backyard if not already added

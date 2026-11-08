@@ -1,0 +1,170 @@
+GIMP Palette
+Name: tribunal
+Columns: 9
+#
+ 13  11   8 ash 0
+ 20  17  13 ash 1
+ 27  23  18 ash 2
+ 35  30  23 ash 3
+ 44  37  28 ash 4
+ 54  45  34 ash 5
+ 65  54  40 ash 6
+ 77  64  47 ash 7
+ 90  75  55 ash 8
+ 16  11   8 brick 0
+ 24  16  12 brick 1
+ 33  22  17 brick 2
+ 43  29  22 brick 3
+ 54  37  27 brick 4
+ 66  45  33 brick 5
+ 79  54  40 brick 6
+ 11  10   8 flag 0
+ 18  16  12 flag 1
+ 25  22  17 flag 2
+ 33  29  22 flag 3
+ 42  37  28 flag 4
+ 51  45  34 flag 5
+ 62  54  41 flag 6
+ 74  65  49 flag 7
+ 87  76  58 flag 8
+  6   6   7 inkstone 0
+ 11  11  13 inkstone 1
+ 17  17  20 inkstone 2
+ 24  24  28 inkstone 3
+ 33  33  38 inkstone 4
+ 44  43  49 inkstone 5
+ 58  56  63 inkstone 6
+ 15  10   6 oak 0
+ 23  15   9 oak 1
+ 32  21  12 oak 2
+ 42  28  16 oak 3
+ 53  35  21 oak 4
+ 65  43  26 oak 5
+ 78  52  32 oak 6
+ 92  61  38 oak 7
+107  72  45 oak 8
+123  86  54 oak 9
+ 36  24   9 brass 0
+ 58  40  16 brass 1
+ 85  59  23 brass 2
+116  83  31 brass 3
+147 112  44 brass 4
+179 143  64 brass 5
+208 174  92 brass 6
+234 208 138 brass 7
+  8  24  15 green 0
+ 14  38  24 green 1
+ 22  58  36 green 2
+ 31  82  50 green 3
+ 43 108  66 green 4
+ 63 138  86 green 5
+ 98 176 119 green 6
+156 216 164 green 7
+210 244 208 green 8
+110  74  28 lamp 0
+149 104  42 lamp 1
+187 138  58 lamp 2
+217 170  82 lamp 3
+239 200 116 lamp 4
+251 228 166 lamp 5
+255 244 216 lamp 6
+ 20   5   5 oxblood 0
+ 33   9   8 oxblood 1
+ 49  14  11 oxblood 2
+ 67  20  16 oxblood 3
+ 86  26  21 oxblood 4
+106  34  27 oxblood 5
+127  44  34 oxblood 6
+148  56  43 oxblood 7
+ 46  40  30 parchment 0
+ 68  59  44 parchment 1
+ 92  81  60 parchment 2
+118 106  79 parchment 3
+145 132  99 parchment 4
+171 158 122 parchment 5
+196 184 146 parchment 6
+216 207 174 parchment 7
+  4   5  10 ink 0
+  8  10  20 ink 1
+ 14  17  32 ink 2
+ 22  26  48 ink 3
+ 33  38  67 ink 4
+ 46  52  88 ink 5
+ 71  66 122 ink 6
+122 114 176 ink 7
+ 20  30  10 fluid 0
+ 31  46  14 fluid 1
+ 46  68  20 fluid 2
+ 64  92  26 fluid 3
+ 86 120  34 fluid 4
+114 150  46 fluid 5
+150 184  68 fluid 6
+ 58  54  42 shell 0
+ 86  80  64 shell 1
+116 108  88 shell 2
+145 136 112 shell 3
+173 163 136 shell 4
+199 190 160 shell 5
+221 213 186 shell 6
+ 17  22  20 steel 0
+ 24  32  25 steel 1
+ 32  41  31 steel 2
+ 40  50  39 steel 3
+ 49  60  47 steel 4
+ 59  71  56 steel 5
+ 71  83  66 steel 6
+ 11  11  10 iron 0
+ 18  18  17 iron 1
+ 26  25  24 iron 2
+ 35  34  32 iron 3
+ 45  43  40 iron 4
+ 56  53  50 iron 5
+ 18  12   6 bronze 0
+ 29  20  10 bronze 1
+ 42  29  15 bronze 2
+ 56  39  21 bronze 3
+ 71  50  27 bronze 4
+ 87  62  34 bronze 5
+104  74  42 bronze 6
+ 23  11   6 spine0 0
+ 36  18  10 spine0 1
+ 52  25  14 spine0 2
+ 70  35  20 spine0 3
+ 90  47  27 spine0 4
+110  60  35 spine0 5
+ 22   6   6 spine1 0
+ 36  10   9 spine1 1
+ 53  15  13 spine1 2
+ 72  22  18 spine1 3
+ 92  30  24 spine1 4
+112  40  31 spine1 5
+ 28  20   8 spine2 0
+ 44  32  13 spine2 1
+ 62  46  19 spine2 2
+ 82  62  26 spine2 3
+103  79  34 spine2 4
+124  97  44 spine2 5
+ 10  18  12 spine3 0
+ 16  28  19 spine3 1
+ 23  40  27 spine3 2
+ 32  54  36 spine3 3
+ 42  69  46 spine3 4
+ 54  85  56 spine3 5
+  9  11  18 spine4 0
+ 15  18  29 spine4 1
+ 22  26  42 spine4 2
+ 31  36  57 spine4 3
+ 41  47  73 spine4 4
+ 53  60  90 spine4 5
+ 13  12  11 spine5 0
+ 22  20  18 spine5 1
+ 32  29  26 spine5 2
+ 43  39  35 spine5 3
+ 55  50  45 spine5 4
+ 68  62  55 spine5 5
+ 35  26  16 spine6 0
+ 54  40  24 spine6 1
+ 75  56  34 spine6 2
+ 97  73  45 spine6 3
+120  91  57 spine6 4
+143 110  70 spine6 5

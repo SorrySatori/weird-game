@@ -166,12 +166,17 @@ Standalone `Phaser.Scene` (NOT GameScene) — a **top-down, walkable** RPG launc
 `this.scene.start('CardinalFeastScene', { returnScene: '…' })`. It has its own movement +
 collision + **A\* pathfinding** (routes around obstacles), proximity/click talk, portrait dialog,
 and a generative Web-Audio organ score.
-- **Character art is data-driven via `artKey(role, override)`** — one map feeds BOTH the overworld
-  token (`makeToken`) and the dialog portrait (`drawPortrait`). To add a character: drop a
-  **transparent-corner** PNG, `this.load.image(...)` in `preload()`, add one line to the `ART` map.
-  Emils (player) uses `emils1/2/3` (pose per beat); Pim/Vesper(inquisitor)/Marigold/Cornelius/
-  Wren/Gallow have art; Twins/Foyle/Quill are still placeholder drawn tokens.
-- Verify a character PNG is transparent: `convert file.png -format '%[pixel:p{2,2}]' info:` → `srgba(0,0,0,0)`.
+- **Character art = pixel-art sheets** from `tools/artgen/feast_cast.py` in `assets/images/characters/feast/`:
+  `<id>.png` (128 px wide frames, 8-frame idle; Emils = 24 frames: 0-7 reading, 8-15 toast, 16-23 welcome)
+  for the **2x dialog busts**, and its half-size twin `<id>_t.png` (64 wide) for the **top-down room**
+  (shown at scale 1). Data tables at the top of the scene: `FEAST_SHEETS` (frame height, bust `top`/`cx`,
+  token `head` row for labels), `FEAST_ART` (art name → sheet, first frame, idle frame order),
+  `ROLE_ART` (role → art; `system` = Emils reading), `PORTRAIT_ART` (`portrait: 'emils1|2|3'` in a dialog
+  node picks Emils' pose). One `artName(role, override)` feeds both `makeToken` and `drawPortrait`.
+  Otho / the Twins / Foyle / Quill are still drawn placeholder tokens (no art yet). Tokens y-sort by
+  `sortY` (feet) in `actorLayer`; labels/hotspots stay on top.
+- After hand edits in `assets/aseprite/Feast_<id>.aseprite`: run `feast_cast_export.lua`, then
+  `python3 tools/artgen/feast_cast.py --tokens assets/images/characters/feast` to rebuild the tokens.
 
 ## Main storyline status (quest `who_killed_bishop`) — keep this current
 - **Day 1: done** — find Bishop, gather clues, Dr. Elphi analysis, Sulkberry dead-end, Townhall

@@ -668,8 +668,10 @@ export default class RustDomainScene extends GameScene {
 
     preload() {
         super.preload();
+        // tools/artgen/rustdomain_bg.py (native 1067×600)
         this.load.image('rustDomainBg', 'assets/images/backgrounds/RustDomain.png');
-        this.load.image('brukk_static', 'assets/images/characters/Brukk.png');
+        // Brukk (tools/artgen/brukk.py): 8 idle frames of 128×192, soles on row 189
+        this.load.spritesheet('brukk', 'assets/images/characters/brukk_idle.png', { frameWidth: 128, frameHeight: 192 });
     }
 
     create() {
@@ -679,6 +681,11 @@ export default class RustDomainScene extends GameScene {
         const bg = this.add.image(400, 300, 'rustDomainBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own deck and the grated walk; the generic ground strip would cover them.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
@@ -705,26 +712,28 @@ export default class RustDomainScene extends GameScene {
             return;
         }
 
-        // Create exit back to Scraper Interior (elevator)
+        // Exit back to the Lift-Mother: the grated walk in the foreground runs toward the viewer, to the lift
+        // behind the camera (800-space; the grating spans canvas x ~434–632 below the walk line)
         this.transitionManager.createTransitionZone(
             400, // x position
-            560, // y position
-            200, // width
-            50,  // height
+            568, // y position
+            150, // width
+            64,  // height
             'down',
             'ScraperInteriorScene',
-            450, // walk to x (near elevator)
-            370, // walk to y
+            400, // walk to x: down the middle of the grating...
+            520, // ...toward the viewer
             'Back to Elevator' // the exit's own hover label (a second, always-on hint here doubled it)
         );
 
         // Create Brukk NPC
         this.createBrukk();
 
-        // Examine: the Choir's central boiler-vats (the "singing machines"), upper-center above
-        // Brukk. Reads differently once you're one of the Choir. (Destroying the machines expels
-        // you from this scene, so that state is handled by the guard above — not shown here.)
-        this.createObservable(400, 270, 190, 120, () => {
+        // Examine: the Choir's singing machines — the two boiler-vats in the middle and the iron organ they feed,
+        // rising behind them under the light (canvas x ~433–633, y ~175–425). Reads differently once you're one of
+        // the Choir. (Destroying the machines expels you from this scene, so that state is handled by the guard
+        // above — not shown here.)
+        this.createObservable(400, 300, 150, 250, () => {
             if (this.hasJournalEntry('rust_choir_joined')) return this.t('observe.rust_machines.member');
             return this.t('observe.rust_machines.default');
         }, { hint: this.t('observe.rust_machines.hint') });
@@ -741,25 +750,38 @@ export default class RustDomainScene extends GameScene {
     }
 
     createBrukk() {
-        this.brukk = this.add.image(550, 430, 'brukk_static');
-        this.brukk.setScale(0.125);
-        this.brukk.setDepth(5);
-        this.addGroundShadow(550, 430 + this.brukk.displayHeight * 0.42, this.brukk.displayWidth * 0.55, this.brukk.displayHeight * 0.12);
+        // Brukk (tools/artgen/brukk.py): 8 idle frames of 128×192 at scale 1, origin on his soles, standing on the
+        // walk line right of the vats, in front of the right-hand workbench
+        this._brukkHoverFx = null;  // the scene instance is reused: drop a glow left on the previous run's sprite
+        const bx = 712, feet = 532;
+        if (!this.anims.exists('brukk_idle')) {
+            // breath (the chest seam glows), the eyes dimming, two slow beats of the baton, the head inclined to the machines
+            this.anims.create({
+                key: 'brukk_idle',
+                frames: this.anims.generateFrameNumbers('brukk', { frames: [0, 0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 4, 3, 4, 3, 0, 0, 1, 1, 7, 0, 0, 5, 5, 6, 6, 5, 0, 0, 2, 0, 0] }),
+                frameRate: 4,
+                repeat: -1
+            });
+        }
+        this.brukk = this.add.sprite(bx, feet, 'brukk', 0).setOrigin(0.5, 1).setDepth(6);
+        this.brukk.play('brukk_idle');
+        this.addGroundShadow(bx, feet - 4, 60, 12);
         this.brukk.setInteractive({ useHandCursor: true });
+        // bust portrait for his dialogs (the Czech speaker name is also "Brukk")
+        const bust = { key: 'brukk', frame: 0, zoom: 2, top: 18 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Brukk': bust };
+
+        // Hover: a soft glow round him (pixel art isn't scaled)
+        this.brukk.on('pointerover', () => {
+            if (!this._brukkHoverFx) this._brukkHoverFx = this.brukk.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
+        });
+        this.brukk.on('pointerout', () => {
+            if (this._brukkHoverFx) { this.brukk.preFX?.remove(this._brukkHoverFx); this._brukkHoverFx = null; }
+        });
 
         this.brukk.on('pointerdown', () => {
             if (this.dialogVisible) return;
             this.showDialog('brukk_start');
-        });
-
-        // Subtle wobble animation
-        this.tweens.add({
-            targets: this.brukk,
-            y: { from: 429, to: 431 },
-            ease: 'Sine.easeInOut',
-            duration: 1500,
-            yoyo: true,
-            repeat: -1
         });
     }
 

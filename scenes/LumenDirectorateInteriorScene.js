@@ -3,6 +3,11 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { GANG_QUEST_IDS, gangQuestStatus, destroyGangLamps } from '../utils/GangOfLamps.js';
 import { DEMO_BUILD } from '../config/build.js';
 
+// NPC feet on the redrawn hall floor (tools/artgen/lumen_int_bg.py), canvas coords: the walk line, in front of the near
+// columns, beside the two desks (left: Seldo's forms, right: the drafting tools).
+const SELDO_SPOT = { x: 205, y: 528 };
+const AC_SPOT = { x: 862, y: 528 };
+
 export default class LumenDirectorateInteriorScene extends GameScene {
     constructor() {
         super({ key: 'LumenDirectorateInteriorScene' });
@@ -11,24 +16,28 @@ export default class LumenDirectorateInteriorScene extends GameScene {
 
     preload() {
         super.preload();
-        this.load.image('lumenInteriorBg', 'assets/images/backgrounds/LumenDirectorateInterior.png');
-        this.load.image('angleCorrector', 'assets/images/characters/AngleCorrector.png');
-        this.load.image('seldo', 'assets/images/characters/seldo.png');
+        this.load.image('lumenInteriorBg', 'assets/images/backgrounds/LumenDirectorateInterior.png');   // native 1067×600 (tools/artgen/lumen_int_bg.py)
+        // the Angle Corrector + Seldo (tools/artgen/lumen_cast.py -> Aseprite Lumen_*): 8 idle frames of 128×192 each
+        this.load.spritesheet('angleCorrectorIdle', 'assets/images/characters/angle_corrector_idle.png', { frameWidth: 128, frameHeight: 192 });
+        this.load.spritesheet('seldoIdle', 'assets/images/characters/seldo_idle.png', { frameWidth: 128, frameHeight: 192 });
     }
 
     create() {
         super.create();
-        // the Czech speaker name doesn't match the texture key by itself
-        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'The Angle Corrector': 'angleCorrector', 'Korektor úhlů': 'angleCorrector' };
         this.playSceneMusic('genericMusic');
 
         const bg = this.add.image(400, 300, 'lumenInteriorBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
+        // The background paints its own marble floor; the generic ground strip would cover it.
+        if (this.ground) {
+            this.ground.destroy();
+            this.ground = null;
+        }
 
         this.transitionManager = new SceneTransitionManager(this);
 
-        // Exit back to Lumen Directorate exterior
+        // Exit back to Lumen Directorate exterior (the hall's door is behind the camera)
         this.transitionManager.createTransitionZone(
             400,
             550,
@@ -37,12 +46,12 @@ export default class LumenDirectorateInteriorScene extends GameScene {
             'down',
             'LumenDirectorateScene',
             400,
-            350,
+            540,
         );
 
-        // Position the priest
-        this.priest.x = 400;
-        this.priest.y = 450;
+        // Position the priest on the green runner, walk line (feet y 534)
+        this.priest.x = 533;
+        this.priest.y = 470;
 
         if (this.priestGlow) {
             this.priestGlow.x = this.priest.x;
@@ -64,45 +73,34 @@ export default class LumenDirectorateInteriorScene extends GameScene {
     }
 
     createAngleCorrector() {
-        this.angleCorrector = this.add.image(600, 320, 'angleCorrector');
-        this.angleCorrector.setScale(0.18);
-        this.angleCorrector.setDepth(5);
-        this.addGroundShadow(600, 320 + this.angleCorrector.displayHeight * 0.42, this.angleCorrector.displayWidth * 0.55, this.angleCorrector.displayHeight * 0.12);
-        this.angleCorrector.setInteractive({ useHandCursor: true });
+        // tools/artgen/lumen_cast.py: 8 idle frames of 128×192 at scale 1, feet on the walk line in front of the right near
+        // column, by the desk with the drafting tools; turned toward the hall's middle. The gilt ring over the helm turns
+        // a quarter notch per frame with period 4 (frames k and k+4 show it at the same angle), so the sequence below
+        // always steps k -> k+1 (mod 4): 0-3 rest, 4 inhale, 5 the visor brightens, 6 the helm tips, 7 exhale + a finger.
+        this._acHoverFx = null;   // the scene instance is reused: drop a glow left on the previous run's sprite
+        const { x, y } = AC_SPOT;
+        if (!this.anims.exists('angle_corrector_idle')) {
+            this.anims.create({
+                key: 'angle_corrector_idle',
+                frames: this.anims.generateFrameNumbers('angleCorrectorIdle', { frames: [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3] }),
+                frameRate: 5,
+                repeat: -1
+            });
+        }
+        this.angleCorrector = this.add.sprite(x, y, 'angleCorrectorIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        this.angleCorrector.play('angle_corrector_idle');
+        this.addGroundShadow(x + 4, y - 3, 56, 12);
+        this.angleCorrector.setInteractive({ pixelPerfect: true, useHandCursor: true });
+        // bust portrait for their dialogs (EN + CZ speaker names)
+        const bust = { key: 'angleCorrectorIdle', frame: 0, zoom: 2, top: 16 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'The Angle Corrector': bust, 'Angle Corrector': bust, 'Korektor úhlů': bust };
 
-        // Olive-green glow effect
-        this.angleCorrectorGlow = this.add.graphics();
-        this.angleCorrectorGlow.fillStyle(0x556B2F, 0.15);
-        this.angleCorrectorGlow.fillCircle(600, 320, 45);
-        this.angleCorrectorGlow.setDepth(4);
-
-        this.tweens.add({
-            targets: this.angleCorrectorGlow,
-            alpha: { from: 0.15, to: 0.04 },
-            duration: 2500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Subtle idle sway
-        this.tweens.add({
-            targets: this.angleCorrector,
-            angle: { from: -0.8, to: 0.8 },
-            duration: 3000,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Hover effect
+        // Hover: a soft glow round them (pixel art isn't scaled)
         this.angleCorrector.on('pointerover', () => {
-            this.angleCorrector.setScale(0.19);
-            document.body.style.cursor = 'pointer';
+            if (!this._acHoverFx) this._acHoverFx = this.angleCorrector.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-
         this.angleCorrector.on('pointerout', () => {
-            this.angleCorrector.setScale(0.18);
-            document.body.style.cursor = 'default';
+            if (this._acHoverFx) { this.angleCorrector.preFX?.remove(this._acHoverFx); this._acHoverFx = null; }
         });
 
         // Click to talk
@@ -114,45 +112,33 @@ export default class LumenDirectorateInteriorScene extends GameScene {
     }
 
     createSeldo() {
-        this.seldo = this.add.image(200, 340, 'seldo');
-        this.seldo.setScale(0.16);
-        this.seldo.setDepth(5);
-        this.addGroundShadow(200, 340 + this.seldo.displayHeight * 0.42, this.seldo.displayWidth * 0.55, this.seldo.displayHeight * 0.12);
-        this.seldo.setInteractive({ useHandCursor: true });
+        // tools/artgen/lumen_cast.py: 8 idle frames of 128×192 at scale 1, feet on the walk line in front of the left near
+        // column, by his desk of forms; turned toward the hall's middle. Frames: 0 rest, 1 inhale, 2 the paper rustles,
+        // 3 the protractor's needle ticks (the lamp brightens), 4 the head tilts, 5 the permit flutters, 6 a blink, 7 exhale.
+        this._seldoHoverFx = null;   // the scene instance is reused: drop a glow left on the previous run's sprite
+        const { x, y } = SELDO_SPOT;
+        if (!this.anims.exists('seldo_idle')) {
+            this.anims.create({
+                key: 'seldo_idle',
+                frames: this.anims.generateFrameNumbers('seldoIdle', { frames: [0, 0, 1, 1, 7, 0, 0, 0, 6, 0, 0, 1, 1, 2, 7, 0, 0, 3, 3, 0, 0, 4, 4, 4, 0, 0, 1, 1, 7, 0, 5, 0, 5, 0, 0, 0, 6, 0] }),
+                frameRate: 5,
+                repeat: -1
+            });
+        }
+        this.seldo = this.add.sprite(x, y, 'seldoIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        this.seldo.play('seldo_idle');
+        this.addGroundShadow(x, y - 3, 44, 10);
+        this.seldo.setInteractive({ pixelPerfect: true, useHandCursor: true });
+        // bust portrait for his dialogs (EN + CZ speaker names)
+        const bust = { key: 'seldoIdle', frame: 0, zoom: 2, top: 16 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Seldo Thrice-Corrected': bust, 'Seldo Třikrát-Korigovaný': bust, 'Seldo': bust };
 
-        // Amber bureaucratic glow
-        this.seldoGlow = this.add.graphics();
-        this.seldoGlow.fillStyle(0xC4A035, 0.12);
-        this.seldoGlow.fillCircle(200, 340, 40);
-        this.seldoGlow.setDepth(4);
-
-        this.tweens.add({
-            targets: this.seldoGlow,
-            alpha: { from: 0.12, to: 0.03 },
-            duration: 2800,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Subtle idle sway
-        this.tweens.add({
-            targets: this.seldo,
-            angle: { from: -0.6, to: 0.6 },
-            duration: 3500,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Hover effect
+        // Hover: a soft glow round him (pixel art isn't scaled)
         this.seldo.on('pointerover', () => {
-            this.seldo.setScale(0.17);
-            document.body.style.cursor = 'pointer';
+            if (!this._seldoHoverFx) this._seldoHoverFx = this.seldo.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
         });
-
         this.seldo.on('pointerout', () => {
-            this.seldo.setScale(0.16);
-            document.body.style.cursor = 'default';
+            if (this._seldoHoverFx) { this.seldo.preFX?.remove(this._seldoHoverFx); this._seldoHoverFx = null; }
         });
 
         // Click to talk
