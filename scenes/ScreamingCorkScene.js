@@ -824,7 +824,7 @@ export default class ScreamingCorkScene extends GameScene {
         this.preloadMusic('streetSong');
         this.load.image('screamingCorkBg', 'assets/images/backgrounds/ScreamingCork.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        // Edgar: an 8-frame idle sheet, 128×192 (tools/artgen/edgar.py from the old EdgarEskola.png, Aseprite Edgar_eskola)
+        // Edgar: an 8-frame idle sheet, 128×192, soles on y 189 (drawn by tools/artgen/edgar_rig.py, Aseprite Edgar_eskola)
         this.load.spritesheet('edgarEskola', 'assets/images/characters/edgar_eskola.png', { frameWidth: 128, frameHeight: 192 });
         this.load.image('vestigel', 'assets/images/items/vestigel.png');
     }
@@ -940,8 +940,18 @@ export default class ScreamingCorkScene extends GameScene {
         }
         this.edgar.play('edgar_idle');
         this.dialogPortraits = { ...(this.dialogPortraits || {}),
-            'Edgar Eskola': { key: 'edgarEskola', frame: 0, zoom: 2, top: 24 } };
+            'Edgar Eskola': { key: 'edgarEskola', frame: 0, zoom: 2, top: 19 } };
         this.edgar.setInteractive({ useHandCursor: true });
+
+        // Hover: a soft glow round him (pixel art isn't scaled). The scene instance is reused: drop a glow handle left
+        // over from the previous visit's sprite.
+        this._edgarHoverFx = null;
+        this.edgar.on('pointerover', () => {
+            if (!this._edgarHoverFx) this._edgarHoverFx = this.edgar.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
+        });
+        this.edgar.on('pointerout', () => {
+            if (this._edgarHoverFx) { this.edgar.preFX?.remove(this._edgarHoverFx); this._edgarHoverFx = null; }
+        });
 
         // Add dialog interaction
         this.edgar.on('pointerdown', () => {

@@ -343,10 +343,10 @@ export default class ScraperAmbraScene extends GameScene {
      */
     createDrElphi() {
         // She stands on the floor in front of her desk (world (12, 0, 17) in ambra_bg.py), feet anchored
-        // tools/artgen/ortolan_elphi.py: her old art on its own grid, 8 idle frames of 128×160 at scale 1 (soles on y 510)
+        // tools/artgen/elphi.py (rig.py redraw): 8 idle frames of 128×160 at scale 1 (soles on y 510)
         if (!this.anims.exists('elphi_idle')) {
-            // breath (the hologram bobs), the goggles glint, the hologram pulses and drifts, the coat's specks twinkle,
-            // a tap on the device in her hand, a lock of hair stirs
+            // breath (the hologram bobs), the goggles glint (a blink), the hologram pulses and drifts, she glances at it,
+            // a tap on the device in her hand (the glyph answers), a lock of hair stirs
             this.anims.create({ key: 'elphi_idle', frames: this.anims.generateFrameNumbers('drElphiIdle', { frames: [0, 0, 1, 1, 0, 0, 3, 3, 4, 4, 0, 0, 2, 0, 0, 1, 1, 0, 5, 5, 0, 0, 6, 0, 6, 0, 0, 3, 4, 4, 0, 7, 7, 0, 0, 0] }), frameRate: 4, repeat: -1 });
         }
         this._elphiHoverFx = null; // the scene instance is reused
@@ -355,10 +355,13 @@ export default class ScraperAmbraScene extends GameScene {
         this.drElphi.setDepth(6);
         this.drElphi.play('elphi_idle');
         this.addGroundShadow(this.drElphi.x, this.drElphi.y - 7, 52, 14);
+        // dialog portrait: a 2x bust of the idle sheet (the speaker is 'Dr. Elphi' in both languages)
+        const elphiBust = { key: 'drElphiIdle', frame: 0, zoom: 2, top: 10 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Dr. Elphi': elphiBust, 'Dr. Elphi Quarn': elphiBust };
         const midY = this.drElphi.y - this.drElphi.displayHeight / 2;
 
         // Add name tag above her head
-        const nameTag = this.add.text(this.drElphi.x, this.drElphi.y - 4 - 140 - 12, 'Dr. Elphi Quarn', {   // over her head (the figure is 140 px)
+        const nameTag = this.add.text(this.drElphi.x, this.drElphi.y - 4 - 144 - 12, 'Dr. Elphi Quarn', {   // over her curls (the figure is 144 px)
             fontSize: '14px',
             fill: '#7fff8e',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
