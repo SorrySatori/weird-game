@@ -4,13 +4,17 @@ they are). Scale 1, origin bottom-centre, soles on the frame's bottom rows; 8 ca
 them with holds).
 
   phor      128x160, soles on y 156 -- Phor Calesta, divinographer (TownhallScene, right of the stair; GodgraveyardScene):
-            a Craybara -- a capybara's blunt head in a round diving-helmet glass dome (half full of his home water, a
-            brass neck ring), a brown leather fedora on the dome, a pleated ruff, a long moss-green coat with short
+            a Craybara (crayfish + capybara) -- an unmistakable capybara's head in near-profile: a big blunt box with a
+            flat top, a deep square muzzle with the nostrils high on its top corner, a small placid half-lidded eye set
+            high and far back, small round ears, coarse reddish-brown fur, the dark morrillo gland of a grown male on
+            the snout -- carried low and forward on a short thick neck inside a round diving-helmet glass dome (his home
+            water lapping round the neck under the chin, a bronze neck ring),
+            a brown leather fedora on the dome, a pleated ruff, a long moss-green coat with short
             sleeves, a belt with a brass buckle and a leather satchel; huge orange crayfish forearms and claws (the near
             one raised, open), one booted foot and one bare crayfish foot, a segmented tail behind. Turned to the
             viewer's left.
-            0 rest  1 inhale  2 blink  3-5 a bubble leaves his nostril and rises through the dome water (4: the raised
-            claw opens wider, 5: it snips shut)  6 the tail tip flicks, the hanging claw twitches  7 exhale
+            0 rest  1 inhale  2 blink  3-5 a bubble rises from under his chin through the dome water and breaks (4: the
+            raised claw opens wider, 5: it snips shut)  6 the tail tip flicks, the hanging claw twitches  7 exhale
   clerk     128x160, soles on y 156 -- the Townhall clerk (TownhallInteriorScene): a short, scruffy, tired bureaucrat --
             wild brown hair under a battered pillbox hat with a lit candle stuck on it (wax running down the hat), round
             brass-rimmed spectacles, a stubbled scowl, a grubby shirt and cravat, a brown waistcoat with a watch chain,
@@ -119,7 +123,8 @@ def sheet(frames, path):
 
 
 # ================================================================================================= PHOR CALESTA
-FUR    = R('#1c0e07 #2a150b #3a1e0f #4b2814 #5d3219 #6f3d1f #814926 #92552e #a26338 #b07244')
+FUR    = R('#1a0d07 #28140b #371c10 #472515 #582f1a #693920 #7a4427 #8a4f2e #995b36 #a6683f')
+MUZ    = R('#2a170e #3b2214 #4e2e1b #613b22 #73482a #845533 #93623c #a17046')
 SHELLC = R('#1e0a05 #2e1007 #40170a #52200d #642a10 #763414 #883f18 #994b1d #a85823 #b6672d')
 GCOAT  = R('#0e0e09 #15160f #1c1e14 #24271a #2d3020 #363927 #40422e #4a4c36 #55563f #626149')
 GTROU  = R('#0e0d09 #15130d #1c1a12 #242117 #2d291d #363123 #403a2a')
@@ -131,7 +136,8 @@ WATER  = (58, 104, 98)
 GLASS  = (196, 222, 214)
 PUPIL  = (16, 10, 8)
 
-MP = {'fur': mat(FUR, 'pelt', 0.24, 0.05), 'shell': mat(SHELLC, 'shell', 0.2, 0.55), 'coat': mat(GCOAT, 'worn', 0.17),
+rig.TEX['coarse'] = lambda x, y: ((rig.nF(x * 1.6, y * 0.7) - 0.5) * 0.13 + (rig.nM(x * 0.9, y * 0.9) - 0.5) * 0.06)   # short bristly fur
+MP = {'fur': mat(FUR, 'coarse', 0.2, 0.05), 'muzzle': mat(MUZ, 'coarse', 0.22, 0.05), 'shell': mat(SHELLC, 'shell', 0.2, 0.55), 'coat': mat(GCOAT, 'worn', 0.17),
       'trou': mat(GTROU, 'fabric', 0.18), 'ruff': mat(RUFF, 'fabric', 0.28), 'leather': mat(LEATH, 'leather', 0.2, 0.3),
       'hat': mat(LEATH, 'felt', 0.2, 0.08), 'brass': mat(BRONZE, 'metal', 0.24, 0.8), 'boot': mat(LEATH[:-2], 'leather', 0.18, 0.5)}
 
@@ -226,38 +232,87 @@ def bell_sleeve(r, sh, end, r0, r1, g, lift=0.0, m=None):
         r.darken(x, y, 0.18)
 
 
+def boxy(r, cx, cy, rx, ry, p, m, lift=0.0, group=None, vfun=None, rot=0.0, zk=1.2):
+    """a superellipsoid (|u|^p + |w|^p <= 1): a rounded box -- flat faces, softly rounded edges and corners"""
+    oid = r.new(group)
+    c, s = math.cos(rot), math.sin(rot)
+    R = max(rx, ry) * 1.1 + 2
+    for y in range(int(cy - R), int(cy + R) + 1):
+        for x in range(int(cx - R), int(cx + R) + 1):
+            dx, dy = x + 0.5 - cx, y + 0.5 - cy
+            u, w = (dx * c + dy * s) / rx, (-dx * s + dy * c) / ry
+            f = abs(u) ** p + abs(w) ** p
+            if f > 1: continue
+            z = (1 - f) ** (1 / p)
+            gu, gw = math.copysign(abs(u) ** (p - 1), u), math.copysign(abs(w) ** (p - 1), w)
+            n = norm((gu * c - gw * s, gu * s + gw * c, z * zk))
+            v = r.shade(m, n, lift) + (vfun(x, y, u, w) if vfun else 0)
+            r.put(x, y, m, v, oid)
+    return oid
+
+
 def phor_head(r, hx, hy, P):
-    """the capybara head, facing the viewer's left (hx, hy = the cranium's centre)"""
+    """a capybara's head in near-profile, facing the viewer's left (hx, hy = the head's middle): one big blunt box --
+    a flat top running almost level from the ears to the nose, a deep, square, heavy muzzle (a touch lighter) squared
+    off at the front, the nostrils high on its top corner, the small mouth low at its front; the heavy cheek under a
+    small round eye set high and far back, small round ears high on the skull, coarse short reddish-brown fur; calm and
+    half-lidded. It sits inside the dome with clear glass round it, so its silhouette reads against the glass."""
     blink = P.get('blink')
-    fv = lambda x, y, u, w: (-0.14 if w > 0.55 else 0) + (0.06 if w < -0.5 else 0)
-    r.ellipsoid(hx + 1.5, hy + 7.0, 8.5, 5.4, MP['fur'], lift=-0.14, group='pjaw')                 # the heavy jowl
-    r.ellipsoid(hx, hy, 10.6, 9.6, MP['fur'], group='pskull', vfun=fv)
-    r.ellipsoid(hx - 8.0, hy + 3.6, 8.4, 7.0, MP['fur'], rot=-0.12, lift=0.03, group='psnout', vfun=fv)  # the blunt muzzle
-    r.ellipsoid(hx - 12.6, hy + 4.0, 4.0, 5.8, MP['fur'], lift=0.07, group='psnout', vfun=fv)         # its square front
-    r.ellipsoid(hx + 6.0, hy - 9.0, 3.0, 2.6, MP['fur'], lift=0.04, group='pear')                    # a small round ear
-    for (x, y, c) in ((hx + 5, hy - 9, FUR[2]), (hx + 6, hy - 9, FUR[1]), (hx + 5, hy - 8, FUR[3]), (hx + 7, hy - 10, FUR[7])):
+    fur = MP['fur']
+    coarse = lambda x, y, u, w: (-0.08 if h32(x, y >> 1, 61) % 11 == 0 else 0) + (0.05 if h32(x, y, 62) % 13 == 0 else 0)
+    top = hy - 7.0                                                                       # the flat top line
+    # the short, thick neck: as wide as the back half of the head, rising out of the collar ring (clipped at the ring
+    # so it never spills over the ruff) straight into the back and underside of the skull -- solid fur, no glass between
+    neck_v = lambda u, sd: (-0.14 if sd > 0.55 else 0) + (0.06 if sd < -0.5 else 0) + (-0.1 if (int(u * 14) + int(sd * 3)) % 4 == 0 else 0)
+    r.tube((hx + 4.5, hy + 1.5), (hx + 2.5, hy + 17.5), 7.8, 8.4, fur, group='pneck', folds=neck_v, clip=lambda x, y: y <= hy + 16.5)
+    r.ellipsoid(hx + 0.5, hy + 6.8, 6.4, 4.2, fur, lift=-0.05, group='pneck')                        # the throat under the jaw
+    r.ellipsoid(hx + 9.0, top + 0.6, 1.9, 1.9, fur, lift=-0.24, group='pearF')                       # the far ear
+    boxy(r, hx + 1.0, hy - 0.5, 10.6, 6.5, 3.4, fur, lift=0.05, group='pskull', rot=-0.03,
+         vfun=lambda x, y, u, w: coarse(x, y, u, w) + (0.05 if w < -0.55 else 0) - (0.1 if u > 0.72 else 0) - max(0.0, w - 0.2) * 0.2)
+    boxy(r, hx - 7.4, hy + 1.0, 5.7, 7.6, 5.0, MP['muzzle'], lift=0.1, group='psnout', rot=-0.03,
+         vfun=lambda x, y, u, w: coarse(x, y, u, w) * 0.7 - max(0.0, w - 0.35) * 0.3 + (0.05 if w < -0.6 else 0))   # deep and square
+    r.ellipsoid(hx + 1.5, hy + 3.6, 6.6, 3.7, fur, lift=-0.06, group='pjaw', vfun=coarse)            # the heavy cheek
+    # the near ear: small and round, high at the back of the skull, dark inside
+    ax, ay = hx + 6.6, top + 0.4
+    r.ellipsoid(ax, ay, 2.5, 2.3, fur, lift=0.04, group='pear')
+    for (x, y, c) in ((ax - 0.5, ay + 0.5, FUR[1]), (ax + 0.5, ay + 0.5, FUR[2]), (ax - 0.5, ay - 0.5, FUR[3]), (ax - 1.5, ay - 1.5, FUR[8])):
         r.fixed(x, y, c)
-    # the nose pad high on the muzzle's front, the nostril slit, the split upper lip, the mouth line
-    nx, ny = int(hx - 16), int(hy + 1)
-    for (dx, dy, c) in ((0, 0, FUR[1]), (1, 0, FUR[1]), (2, 0, FUR[3]), (3, 0, FUR[4]), (0, 1, FUR[0]), (1, 1, FUR[1]), (2, 1, FUR[2]),
-                        (1, -1, FUR[4]), (2, -1, FUR[5]), (3, -1, FUR[6]), (0, -1, FUR[3])):
-        r.fixed(nx + dx, ny + dy, c)
-    for k in range(2, 6): r.fixed(nx + 1, ny + k, FUR[2] if k < 4 else FUR[1])
-    for dx in range(1, 8): r.fixed(nx + dx, ny + 6 + (1 if dx > 5 else 0), FUR[1])
-    r.fixed(nx + 2, ny + 7, FUR[4]); r.fixed(nx + 3, ny + 8, FUR[3])
-    for (x, y) in ((nx + 4, ny + 3), (nx + 6, ny + 2), (nx + 5, ny + 4), (nx + 7, ny + 4)): r.fixed(x, y, FUR[3])  # whisker pores
-    # the eye: small, black, set high on the side of the head, a wet glint, a soft lid above
-    ex, ey = int(hx - 4), int(hy - 2)
+    fx = hx - 13.1                                                                      # the muzzle's blunt front
+    # the nostrils: dark slits high on the top corner of the muzzle (the far one a dot), the nose's top lit
+    for (dx, dy, c) in ((0.6, -5.5, FUR[0]), (0.6, -6.5, FUR[0]), (1.6, -6.8, FUR[0]), (2.6, -7.0, FUR[1]), (1.6, -5.8, FUR[2]),
+                        (4.6, -7.2, FUR[1]), (5.4, -7.2, FUR[2])):
+        r.fixed(fx + dx, hy + dy, c)
+    # the morrillo: the dark, bare scent gland a grown male capybara carries on top of his snout
+    for (dx, c) in ((7.6, FUR[1]), (8.6, FUR[0]), (9.6, FUR[0]), (10.6, FUR[1]), (11.6, FUR[2])):
+        r.fixed(fx + dx, top + 0.2 + (dx - 7.6) * 0.03, c)
+    for (dx, c) in ((8.6, FUR[2]), (9.6, FUR[3]), (10.6, FUR[2])):
+        r.fixed(fx + dx, top + 1.2, c)
+    r.fixed(fx + 9.6, top - 0.6, FUR[4])
+    r.fixed(fx + 2.6, hy - 7.6, MUZ[7]); r.fixed(fx + 0.6, hy - 7.4, MUZ[6])
+    # the cleft lip down the blunt front, the small mouth low on it, the crease of the chin
+    for k in range(4): r.fixed(fx + 0.6, hy - 4.5 + k, MUZ[2] if k < 3 else MUZ[1])
+    for dx in range(0, 4): r.fixed(fx + 0.6 + dx, hy + 4.5 + (1 if dx > 1 else 0), MUZ[0])
+    r.fixed(fx + 1.6, hy + 5.5, MUZ[5])
+    for dx in range(4, 10): r.fixed(fx + dx, hy + 8.0, MUZ[1])
+    for (dx, dy) in ((3, -3), (5, -2), (4, -0.5), (6, -0.5)): r.fixed(fx + dx, hy + dy, MUZ[3])   # whisker pores
+    for k in range(3): r.fixed(fx - 0.4 - k, hy - 1 + k * 0.6, (52, 36, 26))                     # a sparse whisker
+    for k in range(9):                                                                  # the long lip line: from the mouth
+        x, y = fx + 2 + k * 1.1, hy + 5.2 - k * 0.45                                    # corner back under the cheek
+        r.darken(x, y, 0.16); r.darken(x, y + 1, -0.06)
+    # the eye: small, round, set high and far back; the heavy lid half down -- placid
+    ex, ey = int(hx + 1), int(hy - 4)
     if blink:
-        r.fixed(ex - 1, ey + 1, FUR[3]); r.fixed(ex, ey + 1, FUR[2]); r.fixed(ex + 1, ey + 1, FUR[2]); r.fixed(ex + 2, ey + 1, FUR[3])
-        r.fixed(ex, ey, FUR[5]); r.fixed(ex + 1, ey, FUR[5])
+        for dx in range(-1, 2): r.fixed(ex + dx, ey + 1, FUR[1])
+        r.fixed(ex, ey, FUR[5])
     else:
-        for (dx, dy) in ((0, 0), (1, 0), (0, 1), (1, 1), (-1, 1), (2, 1), (0, 2), (1, 2)): r.fixed(ex + dx, ey + dy, PUPIL)
-        r.fixed(ex, ey, (224, 216, 196)); r.fixed(ex + 1, ey + 2, (44, 28, 20))
-        for dx in range(-1, 3): r.fixed(ex + dx, ey - 1, FUR[2])
-    r.fixed(ex + 3, ey + 3, FUR[3]); r.fixed(ex - 2, ey + 3, FUR[7])
-    for (x, y) in ((hx - 3, hy - 8), (hx + 1, hy - 9), (hx - 7, hy - 5), (hx + 3, hy - 6), (hx - 10, hy - 2)):  # lit tufts
-        r.fixed(x, y, FUR[8])
+        for dx in range(-1, 2): r.fixed(ex + dx, ey, FUR[1])                                      # the lid's lash line
+        r.fixed(ex - 1, ey + 1, (196, 184, 162)); r.fixed(ex, ey + 1, PUPIL); r.fixed(ex + 1, ey + 1, (30, 18, 12))
+        r.fixed(ex, ey + 2, (36, 22, 15))
+    r.fixed(ex - 1, ey + 2, FUR[6]); r.fixed(ex - 1, ey + 3, FUR[7]); r.fixed(ex, ey + 3, FUR[7]); r.fixed(ex + 1, ey + 2, FUR[3])
+    r.fixed(ex - 1, ey - 1, FUR[8]); r.fixed(ex, ey - 1, FUR[8]); r.fixed(ex + 1, ey - 1, FUR[7])   # the brow ridge
+    # coarse fur catching the light along the flat top
+    for x in range(int(hx - 13), int(hx + 9), 2):
+        if h32(x, 3) % 3: r.fixed(x, int(top + 0.8 + (x - hx) * 0.03), FUR[9] if x < hx else FUR[8])
 
 
 def phor(P):
@@ -368,7 +423,7 @@ def phor(P):
     for k in range(11):                                                           # the pleats' scalloped lower edge
         x = 47.5 + k * 3.2
         r.fixed(x, U(75) + (1 if k % 2 else 0) - (1 if k in (0, 10) else 0), RUFF[1])
-    hx, hy = 62, U(48)
+    hx, hy = 61, U(50.5)                                                       # low and forward on the neck
     phor_head(r, hx, hy, P)
     r.ellipsoid(59, U(66), 15.5, 3.6, MP['brass'], group='ring',
                 vfun=lambda x, y, u, w: (-0.28 if w > 0.3 else 0) + (0.16 if w < -0.4 else 0))
@@ -418,7 +473,7 @@ def phor(P):
     behind = {(x, y) for (x, y) in inside if group_at(r, x, y) in over}
     im = warm_ink(r.render())
     px = im.load()
-    wl = int(U(56))                                                               # the water line: up to his mouth
+    wl = int(U(60))                                                               # the water line: laps round his neck
     for (x, y), d in inside.items():
         if (x, y) in behind or not (0 <= x < W and 0 <= y < H): continue
         c = px[x, y]
@@ -429,14 +484,14 @@ def phor(P):
             else: px[x, y] = mix(GLASS, (120, 150, 146), e) + (int(24 + 96 * e ** 3),)
         else:                                                                      # the head behind the glass
             col = c[:3]
-            col = mix(col, WATER, 0.34) if under else mix(col, GLASS, 0.05)
+            col = mix(col, WATER, 0.28) if under else mix(col, GLASS, 0.05)
             px[x, y] = col + (255,)
     for x in range(int(DCX - DR), int(DCX + DR) + 1):                              # the meniscus
         if (x, wl) in inside and (x, wl) not in behind:
             c = px[x, wl]
             px[x, wl] = mix(c[:3], (170, 208, 198), 0.5) + (max(c[3], 180),)
-    if P.get('bubble'):                                                            # a bubble from the mouth corner rises
-        bx_, by_ = {1: (49.5, U(61)), 2: (50.5, U(59)), 3: (51.0, wl)}[P['bubble']]
+    if P.get('bubble'):                                                            # a bubble from under his chin rises
+        bx_, by_ = {1: (53.0, U(65)), 2: (53.5, U(62)), 3: (53.5, wl)}[P['bubble']]
         dots = ((0, -1, (214, 236, 228)), (-1, 0, (150, 190, 184)), (1, 0, (110, 150, 146)), (0, 1, (110, 150, 146)), (0, 0, (176, 214, 204)))
         if P['bubble'] == 3: dots = ((-1, 0, (206, 230, 222)), (1, 0, (206, 230, 222)), (0, -1, (226, 242, 236)))   # it breaks
         for (dx, dy, c) in dots:
@@ -1441,7 +1496,7 @@ def poet(P):
 
 # =================================================================================================== registry
 CAST = {'phor': (phor, PHOR_POSE), 'clerk': (clerk, CLERK_POSE), 'eater': (eater, EATER_POSE), 'seraphel': (seraphel, SERA_POSE), 'poet': (poet, POET_POSE)}
-GPL = ([INK, WARM_INK, PUPIL, WATER, GLASS, VERD, EYEW, INKC] + FUR + SHELLC + GCOAT + GTROU + RUFF + LEATH + BRONZE + GOLD + PAPER + FLAME
+GPL = ([INK, WARM_INK, PUPIL, WATER, GLASS, VERD, EYEW, INKC] + FUR + MUZ + SHELLC + GCOAT + GTROU + RUFF + LEATH + BRONZE + GOLD + PAPER + FLAME
        + CSKIN + CHAIR + CHAT + WAX + CSHIRT + CVEST + CCOAT + CTROU + QUILL + TOAD + BELLY + BRUISE + BRASSY + LENS + MAW + TIE + TEETH
        + ROBE + TEALC + BONE + STOLE + GILT + GEM + [WHISK] + PSKIN + PHAIR + PURP + SCARF + PTROU + IRON + GRIP + COVER + [EYEP])
 
