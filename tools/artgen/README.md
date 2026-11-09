@@ -485,3 +485,225 @@ liquid at 100 %, cropped by the game), `UI_MenuKnob_16x16` (`kolecko` 4 turn fra
 `UI_MenuToggle_40x20` (`vypnuto` / `zapnuto` x idle, focused). `UI_MenuPanel_<pause|slots|lang|settings>`: one frame each; a new panel size = a new entry
 in `PANELS` (menu_ui.py) **and** in `MENU_PANELS` (menuKit.js). If you move the hit plaque or the fungi, update
 `BTN_HIT` / `BTN_TEXT` / `BTN_SPORES` in menuKit.js.
+
+# Full-game redraw (2026-11-08): the remaining AI locations and characters
+Every generator below follows the same rules as the demo redraws: native 1067×600 on the shared raster3d camera (or its own lens
+where noted), overcast day outdoors, no baked people, Aseprite sources with an UPRAVY layer; characters on rig.py, 128 wide,
+8-frame idle, scale 1, origin bottom-centre, busts via `dialogPortraits {key, frame, zoom, top}` keyed by the EN and CZ names.
+The dream / cutscene panels (ScraperAmbraScene `_cutsceneAssetTable`) take pixel sheets as `{ sheet, fw, fh, px, frames, fps }`.
+
+## Voxmarket auction guests (Sister Calyx, Heartbroker Lune, the Silence, the Heir to the Yellow Aquarium)
+Same renderer (`rig.py`). `python3 voxmarket_guests.py <outdir> [ids]` → `sister_calyx.png` (128×176), `heartbroker_lune.png`
+(128×192), `silence.png` (128×128), `heir_aquarium.png` (128×176), 8 idle frames each (meanings in the docstring) + `vox_guests.gpl`. Then
+```
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/vox_guests.gpl --script tools/artgen/voxguests_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/voxmarket --script tools/artgen/voxguests_export.lua
+```
+Sources `assets/aseprite/Vox_<id>.aseprite` (tag ceka, UPRAVY layer). Keys `sisterCalyxIdle` / `heartbrokerLuneIdle` / `silenceIdle` /
+`heirAquariumIdle`, scale 1, bottom-centre origin; the Heir's global anim `heir_idle` is defined in VoxmarketHall, Harbor and the
+Pith room with the same frame list (keep them in sync).
+
+## Lumen Directorate (LumenDirectorateScene garden + LumenDirectorateInteriorScene hall)
+On raster3d + shedkit. lumen_bg.py has its own lighter overcast sky, a grey-day haze FOG, weathered limestone (per-block
+tone and colour, soot and rain runs under sills and courses), trained ivy regions (band, swag, fringe, drape, climb), and
+pointed or round windows with tracery (Win.aw = arch-family radius coordinate). lumen_int_bg.py: a glazed pointed barrel
+vault, an arcade, a marble floor; its own post= reflection march (raster3d's reflect() stops on the floor itself).
+```
+python3 lumen_bg.py <outdir> [base|growth|decay]  # -> lumen*.png (= LumenDirectorate[_growth|_decay].png) + lumen_points*.json;
+                                                  #    growth also writes surplus_bloom.png (= props/lumen_surplus_bloom.png @879,427)
+python3 lumen_int_bg.py <outdir>                  # -> lumen_int.png (= LumenDirectorateInterior.png)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script tools/artgen/lumen_aseprite.lua
+```
+Sources: assets/aseprite/LumenDirectorate_1067x600.aseprite (hidden GROWTH/DECAY/bloom layers), LumenDirectorateInterior_1067x600.aseprite.
+Fixed points (canvas): portal x 503..563 y 281..384 (door zone, polygon in the scene); archive vent 300..344 x 409..423;
+left bed top ~108..356 x 446..497 (blighted in decay); Verrik feet (205,528); interior: Seldo (205,528), Angle Corrector
+(862,528), desk fronts at depth 18.6 (y 443..490), doorway x 511..555 y 276..350; walk line y 534 in front of everything.
+
+## Dream / cutscene mycelium overlay
+`python3 mycelium_overlay.py <outdir>` → `mycelial_overlay.png` (1067×600, black = nothing under ADD blending; hyphae from spore
+points round the edges). ScraperAmbraScene `cs_myc`.
+
+## The Townhall (TownhallScene) and its council hall (TownhallInteriorScene)
+```
+python3 townhall_bg.py <outdir>       # -> townhall.png (+ fixed.json): raster3d through F 600 (patched like the cathedral's
+                                      #    1200) so the whole house stays frontal; walk line y 534 = depth 30.25 at this lens
+python3 townhall_int_bg.py <outdir>   # -> townhall_interior.png (+ fixed_int.json), standard camera
+python3 townhall_palette.py townhall.png townhall_interior.png townhall.gpl   # Aseprite palette (96 colours)
+```
+The Stomach Clock: bone face, sinew hands, brass bezel; the stomach ring and the gut-tubes are written per pixel with
+their own bulge depth (gut_ring(), tube(): a Catmull-Rom path with a cylindrical normal). Sources Townhall_1067x600 /
+TownhallInterior_1067x600.aseprite (UPRAVY layer). Fixed points: portal polygon x 504..562, y 297..392; clock centre
+(533, 164) r ~108; painted lamp feet (430, 446), Sconce's spot (636, 446); interior dais x 442..624 (poet feet 482),
+Tribunal door x 227..252, y 338..450; nearest cabinet x 16..179, y 334..573 (dossier hotspot (108, 418)).
+
+## The waterside: Harbor, Echo Drain Delta, Redmass Island (waterkit.py)
+`waterkit.WRaster` = raster3d.Raster + water planes at any height (`water(Yp, X0, X1, Z0, Z1, shader, strength, wobble)`,
+class 'water': the reflection is marched up the column from the eye mirrored under that plane, wobbled by a world-space
+ripple; no normal, so paintpass puts no damp/contact shadow on it), `beam()` (round timber/pipe/rope at any angle, t=-1 =
+lit side), `frustum()` (faceted cone, used for the echo horns), materials `timber()` / `ironround()`. Palette:
+`python3 waterkit.py waterside.gpl` (ramps in harbor_ramps.py).
+```
+python3 harbor_bg.py <out>   # harbor.png = Harbor.png + oilcan.png (props/harbor_oilcan.png, top-left 349,464)
+python3 delta_bg.py <out>    # delta.png = EchoDrainDelta.png + delta_bridge.png (673,378) + delta_scrap.png (552,497)
+python3 redmass_bg.py <out>  # redmass.png = RedmassIsland.png (the burst pipe empty = the scar) + redmass_heart.png /
+                             #   redmass_glow.png (450,332; the glow = its lit crystal only, for an additive pulse)
+```
+Sprites are cut from a second render (the object, its outline, its reflection / light spill). Sources:
+assets/aseprite/{Harbor,EchoDrainDelta,RedmassIsland}_1067x600.aseprite (bg_source.lua) and Harbor_oilcan /
+Delta_bridge / Delta_scrap / Redmass_heart.aseprite (prop_source.lua). Fixed points: Harbor pier edge y 467, walk line
+534, Torchère (175, feet 511), mirage (748,446), lamp post foot (922,435); Delta plant spot (806,506), island end
+(690,380), Palinode crack (266,420); Redmass burst (533,440), breach = exit left.
+
+## Town Square (TownSquareScene): the square, the busker and his drum, Magnekin
+```
+python3 townsquare_bg.py <outdir>   # -> townsquare.png = assets/images/backgrounds/TownSquare.png (tenement rows to the far street =
+                                    #    the harbour exit, arcade right = Townhall side, ivy side street left = Lumen side, oval island
+                                    #    of fan-laid cobbles, stalls, a fountain, wall lanterns only -- Chandelier is the only lamp post,
+                                    #    the Verdigrace in the haze)
+aseprite -b --script-param img=<outdir>/townsquare.png --script-param out=assets/aseprite/TownSquare_1067x600.aseprite --script-param "layer=NAMESTI pozadi (Claude)" --script tools/artgen/bg_source.lua
+python3 busker.py <outdir>     # -> busker.png (9 x 176x144: 0-7 idle, 8 = dialog bust without the drum) + busker.gpl
+python3 magnekin.py <outdir>   # -> magnekin.png (8 x 128x192) + magnekin_broken.png (4 x 128x64) + magnekin.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param palb=$HOME/.config/aseprite/palettes/busker.gpl \
+        --script-param palm=$HOME/.config/aseprite/palettes/magnekin.gpl --script tools/artgen/townsquare_folk_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/townsquare_folk_export.lua
+#   -> busker_idle.png, magnekin_idle.png, magnekin_broken_idle.png (keys buskerIdle / magnekinIdle / magnekinBroken)
+```
+Fixed points (canvas): far street x 491–576, y 235–345; Chandelier's foot (186, 468); Magnekin (318, feet 527); busker
+(792, feet 522); arcade x 820–1067; skyship x 318–536, y 52–176. Re-running the folk Aseprite script overwrites UPRAVY.
+
+## The Ink Tribunal's chamber (PithReclaimersRoomScene)
+```
+python3 tribunal_bg.py <outdir>    # -> tribunal.png = assets/images/backgrounds/ReclaimersRoom.png, tribunal.gpl (copy to ~/.config/aseprite/palettes/)
+```
+On raster3d: a brick barrel vault on a stone rib at z 23 that frames the view, an ashlar back wall in five bays between
+pilasters (bookcase + specimen-eye vitrine | card catalogues + ladder | registry station with the ink ampulla, dispatch
+dial, the Tribunal's seal and banners | eggshell-shard vitrine + ledgers | archway + oxblood curtain), side walls, brass tube
+post into the station; lamps feed both an analytic lit() used by the shaders and explicit paintpass lights. The court circle
+(an inkstone disc mirrored via render(mirror=)) is centred on the pedestal at world (0, 0, 21); the glass orb is composited
+after the render (ball-lens refraction of the finished image). Source assets/aseprite/ReclaimersRoom_1067x600.aseprite (UPRAVY).
+Fixed points (canvas): orb + pedestal x 533, y ~368..482 (stash zone 533,425 72x118); Magnekin (300, 525), Heir (775, 525).
+
+## Under the Scraper: the backyard, the abandoned bus (+ the dead Bishop), the sealed cellar
+```
+python3 backyard_bg.py <out>   # -> backyard.png = ScraperBackyard.png (overcast day, transit yard under the giant pipes; the bus
+                               #    = a double-decker sunk to its upper deck, a plank ramp in a pit down to its front door, right)
+python3 bus_bg.py <out>        # -> bus.png = AbandonedBus.png. Camera: shared VP/eye but raster3d.F + paintpass.F patched to 200;
+                               #    looking ACROSS the bus (walk line = the aisle), near wall cut away, upper floor fallen in
+python3 cellar_bg.py <out>     # -> cellar.png = ScraperBasement.png (Ortolan & Elphi's lab, the Fold master build on the right)
+python3 dead_bishop.py <out>   # -> dead_bishop.png: 5 x 192x88 (0-3 growth pulse + helmet-screen flicker, 4 = bust), dead_bishop.gpl
+aseprite -b --script-param dir=<out> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/dead_bishop.gpl --script tools/artgen/dead_bishop_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/dead_bishop_export.lua
+```
+Fixed points: backyard back door [[92,363],[165,352],[165,472],[92,508]], bus pit [[724,462],[915,462],[1000,518],[748,518]];
+bus front door x 136–208, y 370–482, body bottom-centre (735,518), roof hole ~(794,228); cellar stair + lift door x 0–214,
+master build x 652–880, y 296–486, dome (756,322).
+
+## The Rust Domain (RustDomainScene) + Brukk
+```
+python3 rustdomain_bg.py <outdir>    # -> rust.png = assets/images/backgrounds/RustDomain.png (raster3d): two knocked-through floors at the
+                                     #    top of the Scraper, two copper boiler-vats with redmass sight-glasses + the iron organ under a
+                                     #    shaft of daylight, workbenches with CRTs, a scrap altar, the grated walk back to the lift
+aseprite -b --script-param img=<outdir>/rust.png --script-param out=assets/aseprite/RustDomain_1067x600.aseprite --script-param "layer=RUST DOMAIN pozadi (Claude)" --script tools/artgen/bg_source.lua
+python3 brukk.py <outdir>            # -> brukk.png (8 idle frames of 128x192, soles on y 189) + brukk.gpl (rig.py)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/brukk.gpl --script tools/artgen/brukk_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/brukk_export.lua   # -> brukk_idle.png
+```
+Fixed points: vats x 447–619, organ tops ~y 175; the grating x 434–632 below the walk line = the exit; Brukk at (712, 532).
+
+## The Cardinal Feast cast (CardinalFeastScene)
+```
+python3 feast_cast.py <outdir> [id ...]   # -> <id>.png (128-wide frames) + <id>_t.png (half-size tokens) + <id>/<n>.png + feast_cast.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/feast_cast.gpl --script tools/artgen/feast_cast_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/feast --script tools/artgen/feast_cast_export.lua
+python3 tools/artgen/feast_cast.py --tokens assets/images/characters/feast   # rebuild the tokens after hand edits
+```
+Swamp-church folk on `rig.py`: Emils is a toad (warty skin, pale dewlap, gold spectacles, mitre, mozzetta); the rest are tailed
+lizards (Pim, Vesper, Marigold, Wren) and crocodiles (Cornelius, Gallow) with a shared 3/4 head (`lizard_head`). Sources
+`Feast_<id>.aseprite` (tag `ceka`; Emils `cte` / `pripiji` / `vita`). The scene shows each sheet as a 2× bust and the `_t`
+token at scale 1 in the room (half size — user-approved). Idle frame orders live in `FEAST_ART` in the scene.
+
+## The Lumen Directorate cast (Verrik, the Angle Corrector, Seldo)
+Same renderer (`rig.py`) plus flat-shaded facets (`facet()`) for plate and folded paper. `python3 lumen_cast.py <outdir> [verrik|angle_corrector|seldo]`
+→ `<id>.png` (8 idle frames of 128×192, soles on y 189) + `<id>/<n>.png` + `lumen_cast.gpl`. Verrik's wings are translucent (alpha kept through Aseprite).
+```
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/lumen_cast.gpl --script tools/artgen/lumen_cast_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/lumen_cast_export.lua
+```
+Sources `assets/aseprite/Lumen_<id>.aseprite` (tag ceka, UPRAVY layer) → `<id>_idle.png`. Scene keys `verrik` (LumenDirectorateScene, feet 205/528),
+`angleCorrectorIdle` (862/528) + `seldoIdle` (205/528) (LumenDirectorateInteriorScene), pixelPerfect hits, busts {zoom 2, top 34/16/16}.
+The Angle Corrector's ring turns with period 4: frames k and k+4 share its angle; an anim must step k→k+1 (mod 4) or the ring jumps.
+
+## Inside the Egg Cathedral: the Bishop's study (EggCathedralStudyScene) + the heart (EggCathedralInteriorScene)
+`cathedral_inkit.py` = the shared kit: the entrance's stone/eggshell ramps + flesh/vein/amber, candle light computed in
+the shaders (`light`/`lit`/`shade`, per-light falloff, `AMB` fill), `masonry`, `VeinMap` (branching vessels that join
+instead of crossing), `raycast` (analytic surfaces), `obox`/`cyl`/`hcyl`/`pipe`/`tube`, `voronoi`, `candle` (+ its light), `soot`.
+```
+python3 cathedral_study_bg.py <outdir>   # -> study.png = EggCathedralStudy.png; prints the exit outlines + journal pos
+python3 cathedral_heart_bg.py <outdir>   # -> heart.png = CathedralHeart.png, egg_anim.png = props/CathedralHeart_unborn.png
+aseprite -b --script-param img=<png> --script-param out=assets/aseprite/<Name>_1067x600.aseprite --script-param "layer=<NAME> pozadi (Claude)" --script tools/artgen/bg_source.lua
+```
+Study: egg-shaped room, ashlar below the cornice, a translucent eggshell vault (veins show like a candled egg's), stone ribs;
+the desk grows out of the flesh in the apse. Fixed points: doorway x 28..154 y 365..529 (STUDY_DOOR), stair x 766..862
+y 337..478 (STUDY_STAIR), journal ~(529, 418). Heart: the egg ray-cast (centre 0, 18, 34; semi-axes 11 / 17 / 4.6), its roots a
+VeinMap; wet floor via render(mirror=). Canvas boxes: egg 421..645 x 93..408, glass 118..238 x 99..373, altar 149..278 x 384..471,
+organ ~800..916 x 255..491, servants 799..968 x 86..271. egg_anim.png: 12 frames of 198x299 at (434, 91), frame 0 = the background.
+
+## The Townhall cast (TownhallScene, TownhallInteriorScene; Phor also GodgraveyardScene, the poet in ScraperAmbra's cutscene)
+Same renderer (`rig.py`). `python3 townhall_cast.py <outdir> [ids]` -> phor.png 128x160, clerk.png 128x160, eater.png 128x144,
+seraphel.png 128x192, poet.png 128x144 (8 idle frames each, soles on rows 156/156/141/189/141) + <id>/<n>.png + townhall_cast.gpl
+(cp to ~/.config/aseprite/palettes/). The poet is drawn ~15% smaller: he stands on the dais (depth ~17.6), not the walk line.
+```
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/townhall_cast.gpl --script tools/artgen/townhall_cast_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/townhall --script tools/artgen/townhall_cast_export.lua
+```
+Sources assets/aseprite/Townhall_<id>.aseprite (tag ceka, UPRAVY layer). Phor's glass dome and the smoke are semi-transparent pixels.
+Frame lists: `phor_idle` (TownhallScene, keep in sync with GodgraveyardScene) and `TH_CAST` in TownhallInteriorScene.
+
+## The Godgraveyard (GodgraveyardScene): the sealed gate and the field of dead gods
+```
+python3 gyard_gate_bg.py <outdir> [noname]   # -> gate.png = GodgraveyardGate.png (noname: an emblem on the plate instead of GODGRAVEYARD)
+python3 gyard_bg.py <outdir>                 # -> gyard.png = Godgraveyard.png, osswine.png = props/gyard_osswine.png (prints its
+                                             #    top-left), gyard.json (canvas hit polygons), gyard.gpl
+```
+`gyard_kit.py` = their own kit on raster3d/shedkit: carved stone as a height field shaded by its normals (incised lines, rings,
+faces; lichen/moss/wear in face space), `Slab` (leaning slabs with a real rim; `outline_px` gives the hit polygon), wrought iron,
+bare trees, Voronoi cobbles, heaps, tufts, `ground_mist()`. Each grave is carved for its god (Laimig: board + cards + the tipped
+king, Sisyla: closed eye + blind arcade, Vhorn: tallies, Liln: cupped hands, Lietus Kika: a 13-hour dial, Hvetrdjaana: unreadable
+script); the Fallen God's face + broken halo are the observable. Fixed points: graves = GRAVE_SPOTS in the scene (from gyard.json),
+the ossuary (18..138, 337..507), Phor at (600, feet 528), walk line y 534, exit = bottom edge. Sources Godgraveyard_1067x600 /
+GodgraveyardGate_1067x600.aseprite (UPRAVY).
+
+`verrik_decay` = the same 8 frames gone over (Aseprite Lumen_verrik_decay → verrik_decay_idle.png, key `verrikDecay`):
+LumenDirectorateScene swaps sheet, anim (`verrik_decay_idle`, plays 3-4-5-6 in order so the shaken-off leaves fall) and bust
+when getGDTendency() is decayDominant.
+
+## The Gang of Lamps (utils/GangOfLamps.js LAMP_ART)
+Each lamp belongs to its district's lamp family and moves only a little (flame, glints, lean). `Lamp(Rig)` in lamps.py
+adds a depth buffer and lathe solids in the background's perspective (beye = feet y - 296, F of that bg).
+```
+python3 lamps.py <outdir> [ids]   # -> sconce.png chandelier.png torchere.png don.png (+ <id>/<n>.png, lamps.gpl)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/lamps.gpl --script tools/artgen/lamps_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/lamps --script tools/artgen/lamps_export.lua
+```
+Sconce = twin of townhall_bg.py lamp() (measured off townhall.png x 430). Don is LOGICAL 45x56 on Scraper1140's 3x grid,
+quantised to scraper.gpl, shown at scale 3. Frame meanings are in lamps.py's *_POSE lists.
+
+
+## The Cardinal Feast rooms (CardinalFeastScene)
+```
+python3 feast_rooms.py <outdir>   # -> nave.png hall.png hall_dark.png flame.png feast_rooms.json feast_rooms.gpl
+aseprite -b --script-param img=<outdir>/<id>.png --script-param out=assets/aseprite/Feast_<id>_1067x600.aseprite --script-param "layer=FEAST <id> pozadi (Claude)" --script tools/artgen/bg_source.lua   # first build only
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/backgrounds/feast --script tools/artgen/feast_rooms_export.lua
+cp <outdir>/flame.png <outdir>/feast_rooms.json assets/images/backgrounds/feast/
+```
+Top-down three-quarter rooms at native 1067×600 (the north wall stands up as a face; the floor and the wall caps are seen from
+above). Every gameplay coordinate (bounds, colliders covering each prop's drawn footprint, doors, interaction spots, guest places,
+candle flames) is written to `feast_rooms.json` and the scene reads only that — to move a prop, change the generator and re-run
+it, never edit coordinates in the scene. `hall_dark` = the Infinite Fold. The cast (incl. Otho, the Goodfennow Twins, Deacon
+Foyle, Old Mother Quill) comes from `feast_cast.py`; room labels use each role's `short` name.
+
+## ref/ — the old AI originals some generators still read (not shipped)
+`tools/artgen/ref/` keeps only the AI pictures that derive-from-source generators box-filter: `EdgarEskola.png` (edgar.py),
+`feral_*.png` (feral_px.py), `DrElphi.png` (ortolan_elphi.py) and `heliodor.png` (corkfolk.py, also the `CHARS` dir that
+ortolan_elphi.py imports). Every other old AI picture was deleted from assets/images after the full-game redraw (2026-11-08);
+they are in git history before that point.

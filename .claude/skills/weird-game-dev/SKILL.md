@@ -173,8 +173,14 @@ and a generative Web-Audio organ score.
   token `head` row for labels), `FEAST_ART` (art name → sheet, first frame, idle frame order),
   `ROLE_ART` (role → art; `system` = Emils reading), `PORTRAIT_ART` (`portrait: 'emils1|2|3'` in a dialog
   node picks Emils' pose). One `artName(role, override)` feeds both `makeToken` and `drawPortrait`.
-  Otho / the Twins / Foyle / Quill are still drawn placeholder tokens (no art yet). Tokens y-sort by
-  `sortY` (feet) in `actorLayer`; labels/hotspots stay on top.
+  All eleven roles have art (incl. Otho, the Goodfennow Twins, Deacon Foyle, Old Mother Quill). Tokens
+  y-sort by `sortY` (feet) in `actorLayer`; labels/hotspots stay on top.
+- **Rooms** are painted 1067x600 backgrounds from `tools/artgen/feast_rooms.py`
+  (`assets/images/backgrounds/feast/{nave,hall,hall_dark}.png`; `hall_dark` = the Infinite Fold). The same
+  generator writes `feast_rooms.json` (bounds, colliders = each prop's full drawn footprint, doors,
+  interaction spots, guest places, candle flames) which `buildRoom` reads, so moving a prop = edit the
+  generator and re-run it; never hard-code room coordinates in the scene. Candle flames are animated
+  `feast_flame` sprites on the painted wicks.
 - After hand edits in `assets/aseprite/Feast_<id>.aseprite`: run `feast_cast_export.lua`, then
   `python3 tools/artgen/feast_cast.py --tokens assets/images/characters/feast` to rebuild the tokens.
 
@@ -250,8 +256,10 @@ and a generative Web-Audio organ score.
   `'Palinode': 'Palinode'`. Pattern easy to replicate; not a quest gate.
 - **The Gang of Lamps questline (`gang_of_lamps`) — COMPLETE (L1+L2+systems+betrayals+CZ):** four disguised
   sentient street-lamps, IMMOVABLE and out of contact, who use the player as courier. Shared mechanic lives in
-  **`utils/GangOfLamps.js`** (moved off GameScene): `createStreetLamp(scene,texKey,x,y,scale,dialogKey,depth)`
-  (returns null once the Gang is destroyed), `meetLamp(scene,id,name)` (idempotent; writes `met_lamp_<id>`,
+  **`utils/GangOfLamps.js`** (moved off GameScene): `preloadStreetLamp(scene,texKey)` in preload +
+  `createStreetLamp(scene,texKey,x,y,dialogKey,depth)` (x = the base's axis, y = the sheet's bottom; the art table
+  `LAMP_ART` holds frame size, scale, idle order, hit box, bust portrait, shadow — sheets from `tools/artgen/lamps.py`;
+  returns null once the Gang is destroyed), `meetLamp(scene,id,name)` (idempotent; writes `met_lamp_<id>`,
   starts/advances `gang_of_lamps`), `lampsFoundCount(scene)`, plus L2 helpers `GANG_QUEST_IDS`,
   `gangQuestStatus`, `spyFragmentCount`/`recordSpyFragment`, `spyReportable`/`eavesdropReportable`/`smuggleReportable`,
   `gangDeceived`, `destroyGangLamps`, `grantGangVestigel`. Scenes `import {…} from '../utils/GangOfLamps.js'` and pass `this`.

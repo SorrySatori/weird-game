@@ -1542,7 +1542,7 @@ export default class ScraperAmbraScene extends GameScene {
             cs_feral_s: { sheet: C + 'feral_toast/mira.png', fw: 128, fh: 192, px: 2, frames: [4, 5, 6, 7, 8, 9, 10, 11], fps: 6 },
             // already loaded by the scene itself
             drElphiIdle: { loaded: true, px: 2 },
-            cs_poet: C + 'poet.png',
+            cs_poet: { sheet: C + 'townhall/poet.png', fw: 128, fh: 144, px: 2, frames: [0, 1, 0, 2, 0, 3, 4, 5], fps: 5 },
             cs_bishop: { sheet: C + 'dead_bishop.png', fw: 192, fh: 88, px: 2, frames: [0, 1, 2, 3] }
         };
     }

@@ -266,7 +266,7 @@ export default class GodgraveyardScene extends GameScene {
         this.load.image('godgraveyardBg', 'assets/images/backgrounds/Godgraveyard.png');
         this.load.image('godgraveyardGateBg', 'assets/images/backgrounds/GodgraveyardGate.png');
         this.load.image('gyardOsswine', 'assets/images/props/gyard_osswine.png');
-        this.load.image('phor', 'assets/images/characters/phor.png');
+        this.load.spritesheet('phorIdle', 'assets/images/characters/townhall/phor.png', { frameWidth: 128, frameHeight: 160 });
         this.load.image('arrow', 'assets/images/ui/arrow.png');
     }
 
@@ -351,17 +351,28 @@ export default class GodgraveyardScene extends GameScene {
     }
 
     createPhor() {
-        // On the walk line at the right edge of the flagstone path, in front of the fallen face (the old sprite until
-        // Phor is redrawn; it stays clear of the grave outlines except Vhorn's very foot)
-        const PX = 604, PY = 528;
-        const p = this.add.sprite(PX, PY, 'phor').setOrigin(0.5, 1).setScale(0.14).setDepth(6);
-        this.addGroundShadow(PX, PY, p.displayWidth * 0.55, p.displayHeight * 0.10);
-        p.setInteractive({ useHandCursor: true });
-        const label = this.add.text(PX, PY - p.displayHeight - 6, 'PHOR CALESTA', {
+        // On the walk line at the right edge of the flagstone path, in front of the fallen face (clear of the grave
+        // outlines except the very foot of Vhorn's stone). Soles on frame row 156 -> sprite y = FEET + 3.
+        const PX = 600, FEET = 528;
+        // 'phor_idle' is global: keep the frame list in sync with TownhallScene.
+        if (!this.anims.exists('phor_idle')) {
+            this.anims.create({
+                key: 'phor_idle',
+                frames: this.anims.generateFrameNumbers('phorIdle', { frames: [0, 0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 3, 4, 5, 0, 0, 0, 1, 1, 7, 0, 0, 6, 6, 0, 0, 0] }),
+                frameRate: 5, repeat: -1
+            });
+        }
+        const p = this.add.sprite(PX, FEET + 3, 'phorIdle', 0).setOrigin(0.5, 1).setDepth(6);
+        p.play('phor_idle');
+        this.addGroundShadow(PX + 4, FEET - 2, 70, 12);
+        p.setInteractive({ hitArea: new Phaser.Geom.Rectangle(6, 18, 112, 140), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Phor Calesta': { key: 'phorIdle', frame: 0, zoom: 2, top: 18 } };
+        this.add.text(PX, FEET - 146, 'PHOR CALESTA', {
             fontSize: '13px', fill: '#c9e8ff', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 4, y: 2 }
         }).setOrigin(0.5).setDepth(6);
-        p.on('pointerover', () => { p.setScale(0.148); document.body.style.cursor = 'pointer'; });
-        p.on('pointerout', () => { p.setScale(0.14); document.body.style.cursor = 'default'; });
+        let hoverFx = null;
+        p.on('pointerover', () => { if (!hoverFx) hoverFx = p.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8); });
+        p.on('pointerout', () => { if (hoverFx) { p.preFX?.remove(hoverFx); hoverFx = null; } });
         p.on('pointerdown', () => { if (this.dialogVisible) return; if (this.clickSound) this.clickSound.play(); this.showDialog('phor_graveyard_start'); });
     }
 

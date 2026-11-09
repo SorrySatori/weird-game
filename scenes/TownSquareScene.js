@@ -216,10 +216,10 @@ export default class TownSquareScene extends GameScene {
         this.createMagnekin();
         this.createBusker();
 
-        // Gang of Lamps: Chandelier stands on the island's left rim (her plinth's front edge at y 468; the sheet's base
-        // axis is 3 px left of its centre, the post leans toward the square), the square's only free-standing lamp --
-        // the painted ones are wall lanterns. Clear of Magnekin and the HUD.
-        createStreetLamp(this, 'lamp_chandelier', 189, 471, 'chandelier_lamp_start');
+        // Gang of Lamps: Chandelier stands on the island's left rim (her plinth's front edge at y 468, the post leaning
+        // toward the square), the square's only free-standing lamp -- the painted ones are wall lanterns. Clear of
+        // Magnekin and the HUD.
+        createStreetLamp(this, 'lamp_chandelier', 186, 471, 'chandelier_lamp_start');
 
         // Examine: the skyship drifting over the roofs (canvas ~x 318..536, y 52..176).
         this.createObservable(320, 114, 160, 116, () => {

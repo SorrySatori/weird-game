@@ -1563,8 +1563,8 @@ def twins(P):
     a = twin(P, 'A')
     with _mirror_light():
         bb = twin(P, 'B').transpose(Image.FLIP_LEFT_RIGHT)
-    im.alpha_composite(a, (-6, 0))
-    im.alpha_composite(bb, (62, 0))
+    im.alpha_composite(bb, (54, 0))                                                 # shoulder to shoulder, so both faces
+    im.alpha_composite(a, (2, 0))                                                    # fit the 2x dialog bust
     return im
 
 

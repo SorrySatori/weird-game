@@ -1,12 +1,13 @@
 -- Builds the Aseprite sources of the Lumen Directorate cast (Verrik, the Angle Corrector, Seldo) from lumen_cast.py.
 -- aseprite -b --script-param dir=<gen out> --script-param out=assets/aseprite --script-param pal=<lumen_cast.gpl> --script lumen_cast_aseprite.lua
--- OVERWRITES assets/aseprite/Lumen_verrik.aseprite, Lumen_angle_corrector.aseprite, Lumen_seldo.aseprite (incl. their
+-- OVERWRITES assets/aseprite/Lumen_verrik.aseprite, Lumen_verrik_decay.aseprite, Lumen_angle_corrector.aseprite, Lumen_seldo.aseprite (incl. their
 -- UPRAVY layers). Draw touch-ups into the "UPRAVY" layer; lumen_cast_export.lua merges it in.
 local d, o, pal = app.params["dir"], app.params["out"], app.params["pal"]
 for _, c in ipairs({
     { "verrik", "ceka (dech, tykadlo, kridla se zachveji x2, ostri srpu se zablyskne x2, vydech; lucerna blika)", "Lumen_verrik" },
     { "angle_corrector", "ceka (0-3 klid = ctvrtiny otoceni prstenu; 4 nadech, 5 hledi se rozzari, 6 prilba se nakloni, 7 vydech + prst)", "Lumen_angle_corrector" },
-    { "seldo", "ceka (dech, papir zasusti, rucicka tiknutim + lampicka, naklon hlavy, povoleni se zachveje, mrk, vydech)", "Lumen_seldo" } }) do
+    { "seldo", "ceka (dech, papir zasusti, rucicka tiknutim + lampicka, naklon hlavy, povoleni se zachveje, mrk, vydech)", "Lumen_seldo" },
+    { "verrik_decay", "ceka - Uvadani (jako Verrik; 3-6 hrajte po sobe: padaji suche listy)", "Lumen_verrik_decay" } }) do
   local id, tagname, file = c[1], c[2], c[3]
   local s = Sprite(128, 192, ColorMode.RGB)
   local base = s.layers[1]; base.name = id

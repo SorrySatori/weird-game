@@ -9,7 +9,7 @@ import sys, os
 from PIL import Image
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else '.'
-CHARS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../assets/images/characters')
+CHARS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ref')                     # the old AI originals (not shipped)
 
 def lum(c): return (c[0] * 3 + c[1] * 4 + c[2]) / 8
 

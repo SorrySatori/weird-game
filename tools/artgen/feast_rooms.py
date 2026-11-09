@@ -403,7 +403,7 @@ def table(cv, x0, y0, w, d, seats_n, seats_s, flames, dark=False):
     ty0, ty1 = y0 - h, y0 + d - h
     for y in range(int(ty0), int(ty1)):                                               # the cloth on top
         for x in range(int(x0), int(x0 + w)):
-            v = 0.56 + (nF(x * 0.5, y * 0.5) - 0.5) * 0.06 - 0.05 * ((y - ty0) / (ty1 - ty0))
+            v = 0.46 + (nF(x * 0.5, y * 0.5) - 0.5) * 0.06 - 0.06 * ((y - ty0) / (ty1 - ty0))
             fx = (x - x0) % 48
             if fx == 0: v -= 0.1
             elif fx == 1: v += 0.05
@@ -643,7 +643,7 @@ def nave():
             if nM(x * 0.8, y * 0.4) > 0.5: cv.shade(x, y, 1.05)
     runner(cv, CX - 36, FLOOR[1] + 4, CX + 36, FLOOR[3] - 2)
     colliders = []
-    for row_y in (210, 278, 346, 414):
+    for row_y in (236, 302, 368, 434):
         for (x0, w) in ((214, 240), (612, 240)):
             pew(cv, x0, row_y, w)
             colliders.append({'x': x0 - 2, 'y': row_y - 14, 'w': w + 4, 'h': 36})
@@ -662,11 +662,11 @@ def nave():
         'bg': 'feast_nave', 'title': 'The Nave — Sunday',
         'bounds': {'x0': FLOOR[0] + 6, 'y0': FLOOR[1] + 8, 'x1': FLOOR[2] - 6, 'y1': FLOOR[3] - 8},
         'colliders': colliders,
-        'doors': [{'id': 'north', 'x': CX - 28, 'y': FLOOR[1] - 4, 'w': 56, 'h': 34, 'to': 'hall', 'spawn': {'x': CX, 'y': 500},
+        'doors': [{'id': 'north', 'x': CX - 28, 'y': FLOOR[1] - 4, 'w': 56, 'h': 44, 'to': 'hall', 'spawn': {'x': CX, 'y': 500},
                    'label': 'to the Long Hall ▲', 'lx': CX, 'ly': 104}],
         'interacts': {'pulpit': {'x': px + 38, 'y': py + 62, 'hit': {'x': px - 4, 'y': py - 32, 'w': 84, 'h': 82}, 'label': '✝ Pulpit'},
                       'booth': {'x': bx + bw + 24, 'y': by + 16, 'hit': {'x': bx, 'y': by - bh, 'w': bw, 'h': bd + bh}, 'label': '⌂ Confession'}},
-        'npcs': {'pim': [470, 326]},
+        'npcs': {'pim': [470, 340]},
         'spawn': {'x': CX, 'y': 486},
         'flames': flames
     }
@@ -688,8 +688,9 @@ def hall(dark=False):
     table(cv, tx, ty, tw, td, north if not dark else [], south if not dark else [], flames, dark=dark)
     honour_chair(cv, tx + tw + 30, 290, dark=dark)
     colliders = [{'x': tx - 4, 'y': ty - 18, 'w': tw + 8, 'h': td + 14},
-                 {'x': tx + tw + 12, 'y': 222, 'w': 40, 'h': 100}]
+                 {'x': tx + tw + 12, 'y': 222, 'w': 40, 'h': 100}, {'x': tx + tw + 62, 'y': 200, 'w': 16, 'h': 36}]
     if not dark:
+        candle_stand(cv, tx + tw + 70, 232, 28, flames, n=3)                          # a light by the seat of honour
         for y in (180, 300, 430):
             candle_stand(cv, 74, y, 22, flames); candle_stand(cv, 992, y, 22, flames)
         for x in (CX - 96, CX + 96): candle_stand(cv, x, 126, 24, flames, n=3)
@@ -698,6 +699,7 @@ def hall(dark=False):
     else:
         for y in (180, 300, 430):
             candle_stand_dark(cv, 74, y); candle_stand_dark(cv, 992, y)
+        candle_stand_dark(cv, tx + tw + 70, 232, 28, 3)
         lighting(cv, [], (0.2, 0.2, 0.27), warm=(0.6, 0.6, 0.8))
         for i, c in enumerate(cv.c):                                                     # drained of warmth
             g = (c[0] * 30 + c[1] * 59 + c[2] * 11) // 100
@@ -706,21 +708,21 @@ def hall(dark=False):
         'bg': 'feast_hall' if not dark else 'feast_hall_dark', 'title': 'The Long Hall',
         'bounds': {'x0': FLOOR[0] + 6, 'y0': FLOOR[1] + 8, 'x1': FLOOR[2] - 6, 'y1': FLOOR[3] - 8},
         'colliders': colliders,
-        'doors': [{'id': 'south', 'x': CX - 28, 'y': FLOOR[3] - 14, 'w': 56, 'h': 18, 'to': 'nave', 'spawn': {'x': CX, 'y': 236},
+        'doors': [{'id': 'south', 'x': CX - 28, 'y': FLOOR[3] - 30, 'w': 56, 'h': 34, 'to': 'nave', 'spawn': {'x': CX, 'y': 236},
                    'label': '▼ back to the Nave', 'lx': CX, 'ly': 566}],
         'interacts': {'guesthonor': {'x': tx + tw + 84, 'y': 300, 'hit': {'x': tx + tw + 12, 'y': 222, 'w': 44, 'h': 100},
                                      'label': '☥ Name the guest of honour'}},
         'npcs': {'cornelius': [north[0], 190], 'wren': [north[1], 190], 'vesper': [543, 170], 'otho': [north[2], 190], 'foyle': [north[3], 190],
                  'twins': [south[0], 432], 'marigold': [south[2], 432], 'quill': [tx + tw + 84, 392], 'gallow': [116, 296]},
         'spawn': {'x': CX, 'y': 500},
-        'flames': flames + fire
+        'flames': flames, 'fire': fire
     }
     return cv, L
 
 
-def candle_stand_dark(cv, x, base):
+def candle_stand_dark(cv, x, base, hgt=22, n=1):
     fl = []
-    candle_stand(cv, x, base, 22, fl)
+    candle_stand(cv, x, base, hgt, fl, n=n)
     for (fx, fy) in fl:
         for dy in range(0, 4): cv.put(fx, fy - dy, (34, 30, 26) if dy < 2 else (60, 58, 56))
 
@@ -750,4 +752,9 @@ if __name__ == '__main__':
     cv, dl = hall(dark=True); finish(cv, f'{OUT}/hall_dark.png'); print('hall_dark')
     flame_sheet().save(f'{OUT}/flame.png')
     json.dump(layout, open(f'{OUT}/feast_rooms.json', 'w'), ensure_ascii=False, indent=1)
+    ALL = STONE + STONE2 + WALLS + OAK + LINEN + RUG + GOLD + IRON + WAX + PEWTER + GLASS + FIRE + FOOD + [INK]
+    seen, rows = set(), []
+    for c in ALL:
+        if c not in seen: seen.add(c); rows.append('%3d %3d %3d\t#%02x%02x%02x' % (c + c))
+    open(f'{OUT}/feast_rooms.gpl', 'w').write('GIMP Palette\nName: feast_rooms\nColumns: 16\n#\n' + '\n'.join(rows) + '\n')
     print('ok', OUT)

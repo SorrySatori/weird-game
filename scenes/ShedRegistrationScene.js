@@ -110,7 +110,7 @@ export default class ShedRegistrationScene extends GameScene {
         // The queue stands on the yard in front of the desks, feet just behind the walk line (~150 px tall figures)
         this.queueContainer = this.add.container(this.scale.width / 2, 522).setDepth(6);
         
-        // 1. Sleepless Mime (using clerk.png for now) — first in queue
+        // 1. Sleepless Mime — first in queue
         // feet sit 4 px above the frame's bottom edge
         this.sleeplessMime = this.add.sprite(-170, 4, 'sleeplessMime')
             .setOrigin(0.5, 1)

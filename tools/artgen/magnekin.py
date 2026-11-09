@@ -1,6 +1,6 @@
 """Magnekin of the Town Square (TownSquareScene; after his filing, the Tribunal's Room in PithReclaimersRoomScene) and
 his collapsed remains, redrawn with the character renderer (rig.py, the Edgar quality bar) after the old AI images
-magnekin.png / magnekin_broken.png (both kept: ScraperAmbraScene's cutscene still shows them).
+magnekin.png / magnekin_broken.png (removed; in git history before the full-game redraw).
 
 He is a collective of micro-cities built on the lodestone shards of the Crownmire shrine, holding a man's shape by
 magnetism: a lanky figure packed from dark lumpy lodestone pebbles and magnetic scrap -- blue-black, iron-grey, a few

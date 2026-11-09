@@ -1,5 +1,5 @@
 """The busker of the Town Square (TownSquareScene) and his drum, redrawn with the character renderer (rig.py, the Edgar
-quality bar) after the old AI image busker.png (kept: ScraperAmbraScene's cutscene still shows it).
+quality bar) after the old AI image busker.png (removed; in git history before the full-game redraw).
 
 A street musician on a worn four-legged stool, turned a little toward the viewer's right, playing an old acoustic guitar
 held the way a guitar is held -- the waist on his right thigh, the neck rising to the viewer's right, the fretting hand

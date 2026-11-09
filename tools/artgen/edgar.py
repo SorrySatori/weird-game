@@ -1,5 +1,5 @@
 """Edgar Eskola, the mišutkenn of the Screaming Cork (ScreamingCorkScene) -- the old portrait-sized art
-(assets/images/characters/EdgarEskola.png, 1024x1536 painted at ~16 px per "pixel", shown at 0.125) brought down to
+(tools/artgen/ref/EdgarEskola.png, 1024x1536 painted at ~16 px per "pixel", shown at 0.125) brought down to
 its native grid so it reads exactly as before, then animated in place. Nothing is re-drawn from scratch: the user
 wants the bear to stay as he is; the frames only move parts of the original pixels.
 128x192 frames, soles on y 189; an 8-frame idle:
@@ -12,7 +12,7 @@ import sys, os
 from PIL import Image
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else '.'
-SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../assets/images/characters/EdgarEskola.png')
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ref/EdgarEskola.png')   # the old AI original (not shipped)
 W, H, DROP = 128, 192, 7                        # the source's soles sit on y 182 -> moved down to 189
 GLINT = (204, 190, 158, 255)
 EYES = [(50, 36, 58, 41), (65, 36, 73, 42)]     # boxes (x0, y0, x1, y1) around the eyes, source grid

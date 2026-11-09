@@ -90,6 +90,8 @@ export default class LumenDirectorateScene extends GameScene {
         this.load.image('surplus_bloom', 'assets/images/props/lumen_surplus_bloom.png');
         // Verrik (tools/artgen/lumen_cast.py -> Aseprite Lumen_verrik): 8 idle frames of 128×192, soles on the bottom row
         this.load.spritesheet('verrik', 'assets/images/characters/verrik_idle.png', { frameWidth: 128, frameHeight: 192 });
+        // ...and the same 8 frames gone over in Decay (Aseprite Lumen_verrik_decay), swapped in by createGardener()
+        this.load.spritesheet('verrikDecay', 'assets/images/characters/verrik_decay_idle.png', { frameWidth: 128, frameHeight: 192 });
     }
 
     create() {
@@ -282,23 +284,33 @@ export default class LumenDirectorateScene extends GameScene {
         // Verrik (tools/artgen/lumen_cast.py): 8 idle frames of 128×192 at scale 1, origin on his feet in front of the left
         // bed. Frames: 0 rest, 1 inhale, 2 an antenna twitches, 3-4 the wings shiver, 5-6 the sickle's edge glints,
         // 7 exhale; the glow-moss lantern at his hip flickers from frame to frame.
+        // In Decay (the same test as the decay art: getGDTendency() === 'decayDominant') he is the wilted sheet: the mantle
+        // brown-grey and patchy, blooms gone over, the lantern dimmer, dead leaves at his feet; its anim plays 3-4-5-6 in
+        // order, because two dead leaves shaken off by the wings fall through those frames.
         this._verrikHoverFx = null;   // the scene instance is reused: drop a glow left on the previous run's sprite
         const { x, y } = VERRIK_SPOT;
-        if (!this.anims.exists('verrik_idle')) {
+        const wilted = this.getGDTendency?.() === 'decayDominant' && this.textures.exists('verrikDecay');
+        const key = wilted ? 'verrikDecay' : 'verrik';
+        const animKey = wilted ? 'verrik_decay_idle' : 'verrik_idle';
+        if (!this.anims.exists(animKey)) {
             this.anims.create({
-                key: 'verrik_idle',
-                frames: this.anims.generateFrameNumbers('verrik', { frames: [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 4, 3, 0, 0, 0, 1, 1, 7, 0, 0, 5, 6, 0, 0, 0, 1, 1, 7, 0, 2, 0, 0] }),
+                key: animKey,
+                frames: this.anims.generateFrameNumbers(key, {
+                    frames: wilted
+                        ? [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 4, 5, 6, 0, 0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 1, 1, 7, 0, 0, 0]
+                        : [0, 0, 1, 1, 7, 0, 0, 2, 0, 0, 0, 1, 1, 7, 0, 3, 4, 3, 0, 0, 0, 1, 1, 7, 0, 0, 5, 6, 0, 0, 0, 1, 1, 7, 0, 2, 0, 0]
+                }),
                 frameRate: 5,
                 repeat: -1
             });
         }
-        this.gardener = this.add.sprite(x, y, 'verrik', 0).setOrigin(0.5, 1).setDepth(6);
-        this.gardener.play('verrik_idle');
+        this.gardener = this.add.sprite(x, y, key, 0).setOrigin(0.5, 1).setDepth(6);
+        this.gardener.play(animKey);
         this.addGroundShadow(x - 4, y - 3, 74, 12);
         // pixel-perfect: the sheet's empty corners must not swallow clicks meant for the blighted bed behind him
         this.gardener.setInteractive({ pixelPerfect: true, useHandCursor: true });
         // bust portrait for his dialogs (EN + CZ speaker names)
-        const bust = { key: 'verrik', frame: 0, zoom: 2, top: 34 };
+        const bust = { key, frame: 0, zoom: 2, top: 34 };
         this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Verrik the Gardener': bust, 'Verrik Zahradník': bust, 'Verrik': bust };
 
         // Hover: a soft glow round him (pixel art isn't scaled)

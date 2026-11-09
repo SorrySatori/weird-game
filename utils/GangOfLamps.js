@@ -15,7 +15,8 @@ export function gangLampsDestroyed(scene) {
  * 8-frame idle sheets, origin bottom-centre, shown at scale 1 -- Don at 3, because he is drawn on the 3x pixel grid of
  * Scraper1140.png. `order` = the idle's frame sequence (holds included), `hit` = the clickable box in frame pixels
  * [x, y, w, h], `bust` = the dialog portrait, keyed by the EN and CZ speaker names, `shadow` = [w, h] of the contact
- * shadow on the ground (none for Don, who stands on a platform in the picture).
+ * shadow on the ground (none for Don, who stands on a platform in the picture), `ox` = how far the sheet's centre
+ * sits right of the base's axis (Chandelier's post leans). The Czech speaker names equal the English ones.
  */
 export const LAMP_ART = {
     // the near-twin of the townhall's painted lamp; the flame darts to the door, ducks, the brass lamp rattles
@@ -23,7 +24,7 @@ export const LAMP_ART = {
         order: [0, 0, 0, 1, 0, 0, 2, 3, 3, 3, 3, 4, 0, 0, 0, 1, 0, 5, 5, 0, 0, 0, 6, 6, 7, 0, 0, 0],
         hit: [44, 2, 44, 174], bust: { frame: 3, zoom: 3, top: 4 }, shadow: [30, 7] },
     // the glint runs round the lustres once per loop, the globe's hot spot looks about, a pendant swings
-    lamp_chandelier: { file: 'chandelier', fw: 128, fh: 216, scale: 1, fps: 5, names: ['Chandelier'],
+    lamp_chandelier: { file: 'chandelier', fw: 128, fh: 216, scale: 1, fps: 5, names: ['Chandelier'], ox: 3,
         order: [0, 1, 2, 3, 4, 5, 6, 7],
         hit: [32, 6, 64, 210], bust: { frame: 0, zoom: 2, top: 8 }, shadow: [34, 9] },
     // the sea wind lays the flame over; it rounds on you and flares, spits sparks
@@ -43,8 +44,9 @@ export function preloadStreetLamp(scene, textureKey) {
 }
 
 /**
- * Create a clickable disguised street-lamp NPC: its animated sheet with the feet (the base's front edge) at canvas
- * (x, y), a soft glow on hover, its bust as the dialog portrait. Opens `dialogKey` on click.
+ * Create a clickable disguised street-lamp NPC: its animated sheet with the base's axis at canvas x and the canvas
+ * bottom at y (scene comments give where the base's front edge lands), a soft glow on hover, its bust as the dialog
+ * portrait. Opens `dialogKey` on click.
  */
 export function createStreetLamp(scene, textureKey, x, y, dialogKey, depth = 6) {
     // If the Gang has been destroyed, no lamp appears anywhere ever again.
@@ -54,7 +56,7 @@ export function createStreetLamp(scene, textureKey, x, y, dialogKey, depth = 6) 
     if (!scene.anims.exists(animKey)) {
         scene.anims.create({ key: animKey, frames: scene.anims.generateFrameNumbers(textureKey, { frames: a.order }), frameRate: a.fps, repeat: -1 });
     }
-    const lamp = scene.add.sprite(x, y, textureKey, 0).setOrigin(0.5, 1).setScale(a.scale).setDepth(depth);
+    const lamp = scene.add.sprite(x + (a.ox || 0) * a.scale, y, textureKey, 0).setOrigin(0.5, 1).setScale(a.scale).setDepth(depth);
     lamp.play({ key: animKey, startFrame: Math.floor(Math.random() * a.order.length) });
     if (a.shadow) scene.addGroundShadow(x, y - 3, a.shadow[0], a.shadow[1]);
     const [hx, hy, hw, hh] = a.hit;

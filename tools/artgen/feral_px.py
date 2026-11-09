@@ -15,7 +15,7 @@ from PIL import Image
 from corkfolk import pixelize, lum
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else '.'
-CHARS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../assets/images/characters')
+CHARS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ref')                     # the old AI originals (not shipped)
 W, H, SOLE = 128, 192, 189
 
 # ---------------------------------------------------------------------------------------------------- pixel moves

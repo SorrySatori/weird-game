@@ -10,6 +10,10 @@ local CAST = {
   { id = "cornelius", w = 128, h = 160, n = 8, tags = { { 1, 8, "ceka (dech, monokl, mrk, poharek, mesec)" } } },
   { id = "wren", w = 128, h = 144, n = 8, tags = { { 1, 8, "ceka (dech, mrk, pise, pohled)" } } },
   { id = "gallow", w = 128, h = 176, n = 8, tags = { { 1, 8, "ceka (dech, sekacek, mrk, zamraceni, klobasy)" } } },
+  { id = "otho", w = 128, h = 160, n = 8, tags = { { 1, 8, "ceka (kymaceni, pripitek, mrk, skytavka)" } } },
+  { id = "twins", w = 128, h = 144, n = 8, tags = { { 1, 8, "ceka (dech, pohledy na sebe, mrk, vejir, lornon)" } } },
+  { id = "foyle", w = 128, h = 160, n = 8, tags = { { 1, 8, "ceka (prst po sloupci, dech, usmev, mrk)" } } },
+  { id = "quill", w = 128, h = 144, n = 8, tags = { { 1, 8, "ceka (dech, usrkne vina, zamumla, nakloni hlavu)" } } },
 }
 for _, c in ipairs(CAST) do
   local s = Sprite(c.w, c.h, ColorMode.RGB)

@@ -15,8 +15,10 @@ import JournalSystem from '../systems/JournalSystem.js';
  * Self-contained top-down movement + collision + proximity-talk + portrait
  * dialog, with a generative low-organ score. The cast are pixel-art sheets
  * (tools/artgen/feast_cast.py): a 128 px wide sheet per character for the 2x
- * dialog busts and its half-size twin (`_t`) for the top-down room. Otho, the
- * Twins, Foyle and Quill are still drawn placeholder tokens.
+ * dialog busts and its half-size twin (`_t`) for the top-down room. The rooms
+ * are painted 1067x600 backgrounds (tools/artgen/feast_rooms.py) whose gameplay
+ * layout (bounds, colliders, doors, interaction spots, guest places, candle
+ * flames) comes from the same generator via feast_rooms.json.
  */
 
 // The redrawn cast: sheet id -> frame height (frames are 128 wide; the `_t` token sheet is half that in both
@@ -29,7 +31,11 @@ const FEAST_SHEETS = {
     marigold: { h: 160, top: 22, cx: 62, head: 13 },
     cornelius: { h: 160, top: 8, cx: 64, head: 5 },
     wren: { h: 144, top: 22, cx: 62, head: 13 },
-    gallow: { h: 176, top: 20, cx: 62, head: 11 }
+    gallow: { h: 176, top: 20, cx: 62, head: 11 },
+    otho: { h: 160, top: 30, cx: 60, head: 17 },
+    twins: { h: 144, top: 25, cx: 64, head: 14 },
+    foyle: { h: 160, top: 35, cx: 62, head: 19 },
+    quill: { h: 144, top: 40, cx: 64, head: 22 }
 };
 // Art name -> [sheet, first frame, 8-frame idle order (repeats hold a frame)]. Emils' sheet holds three poses.
 const FEAST_ART = {
@@ -41,12 +47,16 @@ const FEAST_ART = {
     marigold: ['marigold', 0, [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 7]],
     cornelius: ['cornelius', 0, [0, 0, 1, 1, 0, 0, 3, 0, 4, 4, 5, 5, 4, 0, 0, 2, 0, 1, 1, 0, 6, 0]],
     wren: ['wren', 0, [0, 3, 4, 3, 4, 3, 0, 1, 1, 0, 2, 0, 3, 4, 3, 4, 0, 5, 5, 6, 5, 0, 7, 0]],
-    gallow: ['gallow', 0, [0, 0, 1, 1, 0, 6, 0, 7, 0, 0, 4, 0, 2, 2, 3, 0, 0, 5, 5, 0, 1, 1, 0]]
+    gallow: ['gallow', 0, [0, 0, 1, 1, 0, 6, 0, 7, 0, 0, 4, 0, 2, 2, 3, 0, 0, 5, 5, 0, 1, 1, 0]],
+    otho: ['otho', 0, [0, 1, 1, 0, 3, 3, 0, 1, 1, 2, 0, 4, 4, 5, 4, 0, 6, 0, 7, 0]],
+    twins: ['twins', 0, [0, 0, 1, 1, 0, 2, 2, 0, 3, 3, 0, 4, 0, 5, 5, 0, 6, 6, 0, 7, 7, 0]],
+    foyle: ['foyle', 0, [0, 1, 1, 3, 3, 6, 0, 0, 7, 0, 4, 4, 5, 4, 0, 1, 2, 3, 0]],
+    quill: ['quill', 0, [0, 0, 1, 1, 0, 2, 3, 3, 4, 0, 0, 5, 0, 5, 0, 6, 6, 7, 6, 0]]
 };
 // A role's default art; dialog nodes pick Emils' pose with `portrait: 'emils1' | 'emils2' | 'emils3'`.
 const ROLE_ART = {
     cardinal: 'emils_welcome', system: 'emils_read', pim: 'pim', vesper: 'vesper', marigold: 'marigold',
-    cornelius: 'cornelius', wren: 'wren', gallow: 'gallow'
+    cornelius: 'cornelius', wren: 'wren', gallow: 'gallow', otho: 'otho', twins: 'twins', foyle: 'foyle', quill: 'quill'
 };
 const PORTRAIT_ART = { emils1: 'emils_read', emils2: 'emils_toast', emils3: 'emils_welcome' };
 
@@ -77,10 +87,17 @@ export default class CardinalFeastScene extends Phaser.Scene {
             this.load.spritesheet('feast_' + id, `assets/images/characters/feast/${id}.png`, { frameWidth: 128, frameHeight: s.h });
             this.load.spritesheet('feast_' + id + '_t', `assets/images/characters/feast/${id}_t.png`, { frameWidth: 64, frameHeight: s.h / 2 });
         }
+        // The rooms + their gameplay layout (one generator writes both, so art and colliders can't drift apart).
+        for (const id of ['nave', 'hall', 'hall_dark']) this.load.image('feast_' + id, `assets/images/backgrounds/feast/${id}.png`);
+        this.load.spritesheet('feast_flame', 'assets/images/backgrounds/feast/flame.png', { frameWidth: 8, frameHeight: 12 });
+        this.load.json('feast_rooms', 'assets/images/backgrounds/feast/feast_rooms.json');
     }
 
     // Idle anims for every art name: `feast_<art>` on the full sheet (dialog busts), `feast_<art>_t` on the token.
     createCastAnims() {
+        if (!this.anims.exists('feast_flame') && this.textures.exists('feast_flame')) {
+            this.anims.create({ key: 'feast_flame', frames: this.anims.generateFrameNumbers('feast_flame', { frames: [0, 1, 0, 2, 3, 2] }), frameRate: 8, repeat: -1 });
+        }
         for (const [name, [id, first, order]] of Object.entries(FEAST_ART)) {
             for (const sfx of ['', '_t']) {
                 const key = 'feast_' + name + sfx, tex = 'feast_' + id + sfx;
@@ -208,17 +225,17 @@ export default class CardinalFeastScene extends Phaser.Scene {
 
     role(id) {
         const R = {
-            cardinal: { name: 'Cardinal Emils Ven', robe: 0x7a1530, trim: 0xc8a24a, skin: 0x8aa06a },
-            pim: { name: 'Brother Pim', robe: 0x6b7f4a, trim: 0xcdbf8e, skin: 0x9bb56a },
-            vesper: { name: 'Inquisitor Vesper Tann', robe: 0x24242c, trim: 0x9aa0ad, skin: 0x69745c },
-            marigold: { name: 'Sister Marigold', robe: 0x8a6fae, trim: 0xe6d9a8, skin: 0x86996a },
-            quill: { name: 'Old Mother Quill', robe: 0x5f5e59, trim: 0x9a9790, skin: 0x6f7a64, blind: true },
+            cardinal: { name: 'Cardinal Emils Ven', short: 'Emils', robe: 0x7a1530, trim: 0xc8a24a, skin: 0x8aa06a },
+            pim: { name: 'Brother Pim', short: 'Pim', robe: 0x6b7f4a, trim: 0xcdbf8e, skin: 0x9bb56a },
+            vesper: { name: 'Inquisitor Vesper Tann', short: 'Vesper', robe: 0x24242c, trim: 0x9aa0ad, skin: 0x69745c },
+            marigold: { name: 'Sister Marigold', short: 'Marigold', robe: 0x8a6fae, trim: 0xe6d9a8, skin: 0x86996a },
+            quill: { name: 'Old Mother Quill', short: 'Quill', robe: 0x5f5e59, trim: 0x9a9790, skin: 0x6f7a64, blind: true },
             gallow: { name: 'Gallow', robe: 0x352a22, trim: 0x7c7c7c, skin: 0x4f5a44 },
-            cornelius: { name: 'Cornelius Brack', robe: 0xb98a2a, trim: 0xe2c66a, skin: 0x95a35a },
+            cornelius: { name: 'Cornelius Brack', short: 'Cornelius', robe: 0xb98a2a, trim: 0xe2c66a, skin: 0x95a35a },
             wren: { name: 'Wren', robe: 0x6f9ec0, trim: 0xd7e6f0, skin: 0x90ad6c },
-            otho: { name: 'Otho Pinescale', robe: 0x9a3b2a, trim: 0xe0a060, skin: 0xa6a85e },
-            twins: { name: 'The Goodfennow Twins', robe: 0xc9c2d8, trim: 0xa99ec4, skin: 0x86996a },
-            foyle: { name: 'Deacon Foyle', robe: 0x4a6b50, trim: 0xbfae6e, skin: 0x86a05f },
+            otho: { name: 'Otho Pinescale', short: 'Otho', robe: 0x9a3b2a, trim: 0xe0a060, skin: 0xa6a85e },
+            twins: { name: 'The Goodfennow Twins', short: 'Twins', robe: 0xc9c2d8, trim: 0xa99ec4, skin: 0x86996a },
+            foyle: { name: 'Deacon Foyle', short: 'Foyle', robe: 0x4a6b50, trim: 0xbfae6e, skin: 0x86a05f },
             system: { name: 'The Cardinal Feast', robe: 0x7a1530, trim: 0xc8a24a, skin: 0x7a1530 }
         };
         return R[id] || R.system;
@@ -325,19 +342,6 @@ export default class CardinalFeastScene extends Phaser.Scene {
     }
     addItem(o) { this._roomItems.push(o); return o; }
 
-    // Floor tiles + wall border shared by rooms.
-    drawFloor(g, x0, y0, x1, y1, floorA, floorB, wall) {
-        const ts = 40;
-        for (let y = y0; y < y1; y += ts) for (let x = x0; x < x1; x += ts) {
-            g.fillStyle(((x / ts + y / ts) % 2 === 0) ? floorA : floorB, 1);
-            g.fillRect(x, y, ts, ts);
-        }
-        g.fillStyle(wall, 1);
-        g.fillRect(0, 0, this.W, y0); g.fillRect(0, y1, this.W, this.H - y1);
-        g.fillRect(0, 0, x0, this.H); g.fillRect(x1, 0, this.W - x1, this.H);
-        g.lineStyle(3, 0x000000, 0.4); g.strokeRect(x0, y0, x1 - x0, y1 - y0);
-    }
-
     addNpc(roleId, x, y, dialogStart, opts) {
         opts = opts || {};
         const token = this.makeToken(roleId);
@@ -345,7 +349,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
         token.sortY = y;                                   // drawn in front of / behind the others by its feet
         this.actorLayer.add(token); this.addItem(token);
         const headY = y + (token.headY !== undefined ? token.headY : -32);
-        const label = this.add.text(x, headY - 8, opts.label || this.role(roleId).name.split(' ')[0], {
+        const label = this.add.text(x, headY - 8, opts.label || this.role(roleId).short || this.role(roleId).name.split(' ')[0], {
             fontFamily: 'Georgia, serif', fontSize: '11px', color: '#e8dcc0', backgroundColor: 'rgba(10,8,6,0.5)', padding: { x: 3, y: 1 }
         }).setOrigin(0.5);
         this.actorLayer.add(label); this.addItem(label);
@@ -369,77 +373,49 @@ export default class CardinalFeastScene extends Phaser.Scene {
         this.clearRoom();
         this.room = room;
         this.setMood(room === 'hall' ? 'hall' : 'cathedral');
-        const g = this.add.graphics(); this.roomLayer.addAt(g, 0); this.addItem(g);
+        // The painted room, centred on the canvas; every layout coordinate is shifted by the same offset.
+        const L = this.cache.json.get('feast_rooms')[room];
+        const ox = Math.round((this.W - this.cache.json.get('feast_rooms').w) / 2);
+        const at = (p) => ({ x: p.x + ox, y: p.y });
+        const box = (b) => ({ x: b.x + ox, y: b.y, w: b.w, h: b.h });
+        this.roomLayer.addAt(this.addItem(this.add.image(ox, 0, L.bg).setOrigin(0, 0)), 0);
+        this.bounds = { x0: L.bounds.x0 + ox, y0: L.bounds.y0, x1: L.bounds.x1 + ox, y1: L.bounds.y1 };
+        L.colliders.forEach(c => this.colliders.push(box(c)));
+        // Candle flames flicker on the painted wicks (a random start each, so they never pulse together).
+        for (const [fx, fy] of L.flames) {
+            const fl = this.addItem(this.add.sprite(fx + ox, fy + 1, 'feast_flame', 0).setOrigin(0.5, 1));
+            if (this.anims.exists('feast_flame')) fl.play({ key: 'feast_flame', startFrame: Phaser.Math.Between(0, 5) });
+            this.roomLayer.add(fl);
+        }
+        const doorText = (d) => this.addItem(this.add.text(d.lx + ox, d.ly, d.label, { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#cdbf8e', stroke: '#000', strokeThickness: 2 }).setOrigin(0.5).setDepth(20));
+        const npc = (id, opts) => this.addNpc(id, L.npcs[id][0] + ox, L.npcs[id][1], 'start', opts);
 
         if (room === 'nave') {
-            // Bounds + floor.
-            this.bounds = { x0: 60, y0: 120, x1: 740, y1: 540 };
-            this.drawFloor(g, 60, 120, 740, 540, 0x2a2016, 0x241b12, 0x161009);
-            // A long crimson aisle rug.
-            g.fillStyle(0x5a1226, 0.5); g.fillRect(360, 150, 80, 360);
-            // Pews (decorative blocks) flanking the aisle.
-            g.fillStyle(0x3a2c1e, 1);
-            for (let i = 0; i < 4; i++) { g.fillRect(150, 200 + i * 70, 150, 26); g.fillRect(500, 200 + i * 70, 150, 26); }
-            // Candles along the walls.
-            for (let i = 0; i < 6; i++) { this.drawCandle(g, 90, 170 + i * 64); this.drawCandle(g, 710, 170 + i * 64); }
-            // Pulpit (front-left, off the aisle so it never blocks the north door).
-            g.fillStyle(0x4a3520, 1); g.fillRoundedRect(150, 150, 80, 40, 6); g.lineStyle(2, 0xc8a24a, 0.7); g.strokeRoundedRect(150, 150, 80, 40, 6);
-            this.colliders.push({ x: 150, y: 150, w: 80, h: 46 });
-            this.addInteract(190, 200, 'pulpit', '✝ Pulpit', { x: 150, y: 148, w: 80, h: 50 });
-            // Confession booth (west).
-            g.fillStyle(0x3a261a, 1); g.fillRoundedRect(72, 360, 70, 110, 6); g.lineStyle(2, 0x8a6a2e, 0.8); g.strokeRoundedRect(72, 360, 70, 110, 6);
-            g.fillStyle(0x140d0a, 1); g.fillRect(96, 392, 22, 40);
-            this.colliders.push({ x: 72, y: 360, w: 70, h: 110 });
-            this.addInteract(150, 415, 'booth', '⌂ Confession', { x: 72, y: 360, w: 70, h: 110 });
-            // North doorway to the hall.
-            g.fillStyle(0x6a4a2a, 1); g.fillRect(370, 116, 60, 12);
-            this.doors.push({ x: 372, y: 116, w: 56, h: 34, to: 'hall', spawn: { x: 400, y: 500 }, locked: () => !this.feast.sermonGiven, lockMsg: 'The hall is not ready. Give the sermon first.' });
-            this.addItem(this.add.text(400, 104, 'to the Long Hall ▲', { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#cdbf8e' }).setOrigin(0.5).setDepth(20));
-
-            // NPCs.
-            this.addNpc('pim', 250, 300, 'start');
-            this.titleBanner('The Nave — Sunday');
+            const P = L.interacts.pulpit, B = L.interacts.booth, D = L.doors[0];
+            this.addInteract(P.x + ox, P.y, 'pulpit', P.label, box(P.hit));
+            this.addInteract(B.x + ox, B.y, 'booth', B.label, box(B.hit));
+            this.doors.push({ ...box(D), to: D.to, spawn: at(D.spawn), locked: () => !this.feast.sermonGiven, lockMsg: 'The hall is not ready. Give the sermon first.' });
+            doorText(D);
+            npc('pim');
         } else if (room === 'hall') {
-            this.bounds = { x0: 60, y0: 110, x1: 740, y1: 540 };
-            this.drawFloor(g, 60, 110, 740, 540, 0x322012, 0x2a1a10, 0x140b0a);
-            // The long table down the centre.
-            g.fillStyle(0x4a3320, 1); g.fillRoundedRect(180, 200, 440, 200, 10);
-            g.fillStyle(0xe7d8b4, 0.5); g.fillRoundedRect(196, 214, 408, 172, 8);
-            for (let i = 0; i < 5; i++) { this.drawCandle(g, 250 + i * 80, 300); g.fillStyle(0x7a1530, 0.6); g.fillCircle(240 + i * 82, 250, 10); g.fillCircle(240 + i * 82, 350, 10); }
-            this.colliders.push({ x: 180, y: 200, w: 440, h: 200 });
-            // Kitchen doorway (west) — Gallow.
-            g.fillStyle(0x140d0a, 1); g.fillRect(60, 250, 16, 70);
-            // South doorway back to the nave.
-            g.fillStyle(0x6a4a2a, 1); g.fillRect(370, 532, 60, 12);
-            this.doors.push({ x: 372, y: 528, w: 56, h: 18, to: 'nave', spawn: { x: 400, y: 230 } });
-            this.addItem(this.add.text(400, 548, '▼ back to the Nave', { fontFamily: 'Georgia, serif', fontSize: '11px', color: '#cdbf8e' }).setOrigin(0.5).setDepth(20));
-
-            // Seated guests around the table.
-            this.addNpc('cornelius', 250, 180, 'start');
-            this.addNpc('wren', 360, 180, 'start');
-            this.addNpc('otho', 470, 180, 'start');
-            this.addNpc('foyle', 560, 180, 'start');
-            this.addNpc('twins', 300, 420, 'start');
-            this.addNpc('marigold', 470, 420, 'start');
-            this.addNpc('quill', 660, 300, 'start');
-            this.addNpc('gallow', 95, 285, 'start', { label: 'Gallow' });
-            this.addNpc('vesper', 400, 162, 'start', { label: 'Tann' });
-            // The guest-of-honour seat (head of table, east).
-            this.addInteract(650, 250, 'guesthonor', '☥ Name the guest of honour', { x: 614, y: 214, w: 74, h: 74 });
-            this.titleBanner('The Long Hall');
+            const G = L.interacts.guesthonor, D = L.doors[0];
+            this.doors.push({ ...box(D), to: D.to, spawn: at(D.spawn) });
+            doorText(D);
+            // The guests around the table (Gallow fills the kitchen door in the west wall).
+            ['cornelius', 'wren', 'otho', 'foyle', 'twins', 'marigold', 'quill'].forEach(id => npc(id));
+            npc('gallow', { label: 'Gallow' });
+            npc('vesper', { label: 'Tann' });
+            // The seat of honour at the east head of the table.
+            this.addInteract(G.x + ox, G.y, 'guesthonor', G.label, box(G.hit));
         }
+        this.titleBanner(L.title);
 
         // Place the player.
-        const sp = spawn || { x: 400, y: 470 };
+        const sp = spawn || at(L.spawn);
         this.player.setVisible(true).setPosition(sp.x, sp.y);
         this.playerGlow.setVisible(true).setPosition(sp.x, sp.y + 6);
         this.actorLayer.bringToTop(this.player);
         this.refreshHud();
-    }
-
-    drawCandle(g, x, y) {
-        g.fillStyle(0xe7d8b4, 0.9); g.fillRect(x - 2, y, 4, 14);
-        g.fillStyle(0xffcf7a, 0.9); g.fillEllipse(x, y - 4, 5, 11);
     }
 
     titleBanner(text) {
@@ -972,11 +948,15 @@ export default class CardinalFeastScene extends Phaser.Scene {
         // Tear down the room into a lightless hall with a faceless presence.
         this.clearRoom();
         this.player.setVisible(false); this.playerGlow.setVisible(false); this.hint.setVisible(false);
+        // The Long Hall again, every candle out, the table set for one, something faceless in the seat of honour.
         const g = this.add.graphics().setDepth(300); this.addItem(g);
         g.fillStyle(0x05050a, 1); g.fillRect(0, 0, this.W, this.H);
-        g.fillStyle(0x16120f, 0.9); g.fillTriangle(240, 540, 560, 540, this.W / 2, 220);
-        g.fillStyle(0x000000, 1); g.fillEllipse(this.W / 2, 210, 90, 130); // faceless presence
-        for (let i = 0; i < 6; i++) { g.fillStyle(0x5a1020, 0.45); g.fillRect(0, 60 + i * 70, this.W, 3); }
+        if (this.textures.exists('feast_hall_dark')) {
+            this.addItem(this.add.image(Math.round((this.W - 1067) / 2), 0, 'feast_hall_dark').setOrigin(0, 0).setDepth(300));
+        }
+        const veil = this.add.graphics().setDepth(301); this.addItem(veil);
+        veil.fillStyle(0x000000, 0.55); veil.fillRect(0, 440, this.W, this.H - 440);       // keeps the panel text readable
+        for (let i = 0; i < 6; i++) { veil.fillStyle(0x5a1020, 0.3); veil.fillRect(0, 60 + i * 70, this.W, 3); }
 
         const panels = [
             { title: 'INFINITE FOLD', text: "The warm gold drains out of the world. The hall again — but empty, lightless, every candle snuffed. The long table is set for one. At its head sits a presence that is not the cardinal, and it does not turn around." },
@@ -1061,7 +1041,7 @@ export default class CardinalFeastScene extends Phaser.Scene {
                 choices: [{ label: "▸ Load the Bishop's last session", next: 'saves' }] },
             saves: { role: 'system', speaker: 'The Cardinal Feast',
                 text: "The helmet warms against your temples. A save list flickers up in a hand that isn't yours:\n\n   ✦ autosave — \"The Confession\"\n   ✦ save 2 — \"The Feast\"\n   ✦ save 3 — [ C O R R U P T E D ]\n\nThe cursor already rests on the corrupted save. You did not put it there.",
-                choices: [{ label: "▸ Resume the session", action: 'close', onPick: () => { this.time.delayedCall(50, () => this.buildRoom('nave', { x: 400, y: 470 })); } }] }
+                choices: [{ label: "▸ Resume the session", action: 'close', onPick: () => { this.time.delayedCall(50, () => this.buildRoom('nave')); } }] }
         } };
         this._dialogRole = 'system';
         this.renderNode(tree, 'boot', null);

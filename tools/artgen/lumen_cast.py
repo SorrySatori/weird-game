@@ -62,8 +62,8 @@ EYEG   = R('#161d0b #202b0f #2c3a13 #394a18 #475b1e #566d25 #677f2f #7a913c #8fa
 GLOWG  = R('#2e3c14 #45561c #5e7026 #7a8a36 #98a64c #b8c272 #d4daa0')                        # glow-moss in the lantern
 DEAD   = R('#13110e #1c1915 #26221c #302b23 #3b342a #463e32 #51483a #5c5243 #685d4d #746958 #807563')  # dead moss (Decay)
 DEADDK = R('#0f0d0b #171411 #1f1b17 #28231d #312b23 #3a3329')
-WILT   = R('#2a2026 #3a2c33 #4b3a40 #5c4a4d #6b5a59')                                    # wilted asters
-WCREAM = R('#3e372c #4e4636 #625844 #776b53 #8a7d62')                                    # wilted daisies
+WILT   = R('#2e2228 #463540 #5f4a55 #75606a #8a767c #9c8a8c')                            # wilted asters, faded
+WCREAM = R('#4a4234 #625844 #7a6e56 #92856a #a69a7e')                                    # wilted daisies, browned
 LEAF   = R('#2e1c0e #452a14 #5e3a1b #774c26 #8c5e32 #a0703e')                            # dead leaves
 WINGM  = (186, 196, 168)                                                             # wing membrane (translucent)
 WINGV  = (74, 58, 34)                                                                # wing veins
@@ -248,13 +248,15 @@ def wilted(r, x, y, kind):
         r.fixed(x, y - 1, DEAD[5])                                                     # the stalk, bent over
         if kind == 'small':
             r.fixed(x + 1, y, WILT[3]); r.fixed(x + 1, y + 1, WILT[1]); return
-        pet = ((-1, 1, 3), (1, 1, 2), (0, 2, 2), (-1, 2, 1), (1, 2, 1)) + (((-2, 1, 3), (2, 1, 1), (0, 3, 1), (-2, 2, 2)) if kind == 'big' else ())
-        for (dx, dy, k) in pet: r.fixed(x + dx, y + dy, WILT[k])
-        r.fixed(x, y, OCHRE[1]); r.fixed(x, y + 1, OCHRE[0])
+        pet = ((-1, 1, 4), (1, 1, 3), (0, 2, 3), (-1, 2, 2), (1, 2, 2), (-1, 3, 1), (1, 3, 1)) + \
+              (((-2, 1, 4), (2, 1, 2), (0, 3, 2), (-2, 2, 3), (2, 2, 1), (-2, 3, 1), (0, 4, 1)) if kind == 'big' else ())
+        for (dx, dy, k) in pet: r.fixed(x + dx, y + dy, WILT[k])                      # petals hanging off a nodding head
+        r.fixed(x, y, OCHRE[2]); r.fixed(x - 1, y, OCHRE[3]); r.fixed(x, y + 1, OCHRE[1])
+        r.fixed(x - 1, y - 2, DEAD[7])
     elif kind == 'daisy':
-        r.fixed(x, y - 1, DEAD[5])
-        for (dx, dy, k) in ((-1, 1, 3), (1, 1, 1), (0, 2, 2), (-1, 2, 0)): r.fixed(x + dx, y + dy, WCREAM[k])
-        r.fixed(x, y, OCHRE[1])
+        r.fixed(x, y - 1, DEAD[6]); r.fixed(x - 1, y - 2, DEAD[7])
+        for (dx, dy, k) in ((-1, 1, 4), (1, 1, 2), (0, 2, 3), (-1, 2, 2), (1, 2, 1), (0, 3, 1)): r.fixed(x + dx, y + dy, WCREAM[k])
+        r.fixed(x, y, OCHRE[2]); r.fixed(x - 1, y, OCHRE[3])
     else:
         r.fixed(x, y, OCHRE[1]); r.fixed(x, y - 1, OCHRE[0])                           # blown: a bare stub
 
@@ -269,8 +271,8 @@ LEAF_GROUND = [(22, 187), (106, 188), (72, 188), (47, 188)]
 def leaf_px(im, x, y, tumble, k=0):
     """a dead leaf, 3 px: flat, edge-on or lying"""
     p = im.load()
-    shape = {0: ((0, 0, 3), (1, 0, 2), (-1, 0, 4), (0, 1, 1)), 1: ((0, 0, 3), (0, 1, 2), (0, -1, 4), (1, 0, 1)),
-             2: ((0, 0, 3), (1, 0, 2), (-1, 0, 4), (2, 0, 1))}[tumble]
+    shape = {0: ((0, 0, 4), (1, 0, 3), (-1, 0, 5), (0, 1, 2), (1, 1, 1)), 1: ((0, 0, 4), (0, 1, 3), (0, -1, 5), (1, 0, 2), (1, 1, 1)),
+             2: ((0, 0, 4), (1, 0, 3), (-1, 0, 5), (2, 0, 2), (0, -1, 3))}[tumble]
     for (dx, dy, c) in shape:
         if 0 <= x + dx < im.width and 0 <= y + dy < im.height: p[x + dx, y + dy] = LEAF[max(0, c - k)] + (255,)
 
@@ -471,9 +473,9 @@ def verrik(P, fi, decay=False):
         if r.groups.get(e[2]) not in ('mantle', 'hump', 'cap'): continue
         hsh = h32(x // 3, y // 3, 41) % 7
         if decay:                                                                      # patchy: matted bald patches, a
-            cell = h32(x // 4, y // 3, 45) % 9                                         # few tufts still sickly green
-            if cell == 0: e[0] = M['deaddk']; e[1] -= 0.1
-            elif cell == 1 and r.groups.get(e[2]) != 'cap': e[0] = M['moss']; e[1] -= 0.18
+            n = rig.nM(x * 1.6 + 40, y * 1.6)                                          # few tufts still sickly green
+            if n < 0.3: e[0] = M['deaddk']; e[1] -= 0.06 + (0.3 - n) * 0.6
+            elif n > 0.74 and r.groups.get(e[2]) != 'cap': e[0] = M['moss']; e[1] -= 0.16
             elif hsh == 1: e[1] += 0.06
             if h32(x, y, 43) % 37 == 0: r.fixed(x, y, OCHRE[1] if h32(x, y, 44) % 2 else DEAD[8])
             continue
