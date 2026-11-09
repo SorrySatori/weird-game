@@ -233,8 +233,8 @@ export default class MainScene extends Phaser.Scene {
      * Populate the load menu with save files
      */
     populateLoadMenu() {
+        this.slotsNav.clear();                // before the rows are destroyed: clear() un-focuses them
         this.slotRows.removeAll(true);
-        this.slotsNav.clear();
         const files = (window.gameAPI ? this.saveSystem.listSaveFiles() : []).slice();
         // Sort by save-slot number ascending (save1, save2, …) so the list mirrors the numbered save slots;
         // files without a number (the quicksave) sort last.

@@ -364,7 +364,8 @@ export class MenuNav {
     add(item) { this.items.push(item); }
 
     clear() {
-        this.items.forEach(i => i.setFocus?.(false));
+        // a destroyed widget (its container already gone) must not be touched: setColor on a dead Text throws
+        this.items.forEach(i => { if (i.container?.scene !== undefined) i.setFocus?.(false); });
         this.items = [];
         this.index = -1;
     }

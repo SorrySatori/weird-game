@@ -824,6 +824,8 @@ export default class ScraperAmbraScene extends GameScene {
     // Cartridge / Cardinal Feast / Infinite Fold dialog. Merged into dialogContent
     // only on Day 2, so the main (Day-1) tree stays free of day-branching sprawl.
     get day2DialogContent() {
+        // did the Feast itself point to the Egg Cathedral (the journal lead)? -- needed by dr_elphi_after_feast
+        const feastNamedCathedral = !!this.questSystem?.getQuest('who_killed_bishop')?.updates?.some(u => u.key === 'feast_journal_egg_cathedral');
         return {
             speaker: 'Dr. Elphi',
 

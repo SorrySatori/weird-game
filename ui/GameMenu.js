@@ -203,8 +203,8 @@ export default class GameMenu {
 
     /** rows for the current page: save = numbered slots (empty ones too), load = the existing saves */
     populateSlots() {
+        this.slotsNav.clear();                // before the rows are destroyed: clear() un-focuses them
         this.slotRows.removeAll(true);
-        this.slotsNav.clear();
         const files = this.saveSystem.listSaveFiles() || [];
         let rows;
         if (this.slotMode === 'save') {
