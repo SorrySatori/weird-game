@@ -51,6 +51,8 @@ export default {
             i_have_a_button_that_belongs_here_maybe_its_been_l: "Mám tlačítko, které sem patří. Možná se ztratilo? Vrátím ti ho, když mě pustíš na patro Dr. Elphi.",
             ive_a_tool_to_repair_your_floor_counter_perhaps_yo: "Mám nástroj na opravu tvého počítadla pater. Pustila bys mě na oplátku na patro Dr. Elphi?",
             i_know_the_bishops_secret_its_important_to_reach_d: "Znám Biskupčino tajemství. Musím se dostat na patro Dr. Elphi a promluvit s ní. Vím, že Biskupka k ní často chodí hrát její hry, a doktorka mi ji možná pomůže najít. Prosím, pusť mě na její patro.",
+            tribunal_records_permit: "Podle záznamů Inkoustového tribunálu měla Biskupka na tohle patro povolení.",
+            i_know_the_bishop_came_to_elphi: "Vím, že sem Biskupka jezdila za Dr. Elphi.",
             i_have_nothing_to_offer: "Nemám co nabídnout...",
             ask_about_something_else: "Zeptej se na něco jiného"
         }
@@ -72,6 +74,14 @@ export default {
         options: {
             thank_you: "Děkuji."
         }
+    },
+    permit_not_yours: {
+        text: "Povolení, ano. Její. (Lana pobaveně zabzučí.) Povolení otvírá dveře tomu, čí jméno na něm stojí, malá muchomůrko – a tvoje to není. I tak… Biskupka jela do 177-Tichého, orazítkováno a založeno. Jenže jedna historka o Biskupce je pořád jen drb, i když má razítko. Přines mi druhou, která se s ní shoduje, a uvěřím, že jde opravdu o něco důležitého.",
+        options: { ill_find_a_second_one: "Rozumím. Najdu druhou." }
+    },
+    one_story: {
+        text: "Že jezdila nahoru za doktorkou? Možná. Jenže jedna historka o Biskupce je jen drb, malá muchomůrko. Přines mi druhou, která se s ní shoduje, a uvěřím, že jde opravdu o něco důležitého.",
+        options: { ill_find_a_second_one: "Rozumím. Najdu druhou." }
     },
     fail: {
         // text: composed in ScraperInteriorScene (Lift-Mother's hints at the ways up)

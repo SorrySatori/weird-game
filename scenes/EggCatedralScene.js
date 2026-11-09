@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
@@ -17,6 +18,7 @@ export default class EggCatedralScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        notePlace(this, 'place_egg_cathedral');   // the journal's Places tab, on the first visit
         
         // Set egg cathedral background
         const bg = this.add.image(400, 300, 'eggCatedralBg');

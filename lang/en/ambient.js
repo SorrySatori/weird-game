@@ -4,6 +4,16 @@
  */
 export default {
     ambient: {
+        // BurningBearStreetScene — a local stuffing a bear for the festival
+        bbs_bear_stuffer: {
+            name: 'A local',
+            lines: [
+                "Sorry, no time now. I've got to get everything ready for the Burning Bear Festival.",
+                "Everything I want to be rid of goes in here. Bottles, the poems I wrote when I was eighteen... and the neighbour too, if he keeps snoring.",
+                "This year I'll stuff him so full he'll burn till morning.",
+                "Burn, little bear, burn! Make my bad habits churn! Go growl growl, go hum hum, and leave not a drop of rum rum!",
+            ],
+        },
         // Shed521FloorsScene — the ground floor
         floors_welcome_clerk: {
             name: 'Receptionist',

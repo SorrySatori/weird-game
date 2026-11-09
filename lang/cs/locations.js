@@ -45,6 +45,8 @@ export default {
     exits: {
         'Back': 'Zpět',
         'Back to the Main Building': 'Zpět do hlavní budovy',
+        'Back to the Gate': 'Zpět k bráně',
+        'Back to the corridor': 'Zpět na chodbu',
         'Back to the Study': 'Zpět do pracovny',
         'Back to the Threshold': 'Zpět na práh',
         'Back to the Townhall': 'Zpět na radnici',

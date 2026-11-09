@@ -19,19 +19,21 @@ aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
 `chars.png` is the character-scale overlay layer used in the templates. Regenerate from here rather than
 hand-editing the PNGs; hand touch-ups go into the "UPRAVY" layer of the `.aseprite` files.
 
-## Intro (the Hymnar + the Council chamber)
+## Intro (Agarida + the Council chamber)
 Underground palette `pal_under.py` (Aseprite: `intro-underground.gpl`, copy to `~/.config/aseprite/palettes/`).
 `intro_layout.py` is the shared seat/table geometry (the back-row sprites are cut exactly at the table's far edge).
 ```
-python3 intro_hymnar.py <outdir>         # -> hymnar.png 1067x1000 (+ _gills / _glow ADD layers, hymnar.json signal path + lanterns)
+python3 intro_agarida.py <outdir>        # -> agarida.png 1067x1000 (+ _gills / _glow ADD layers, agarida.json signal path + lanterns)
+                                         #    the cap is ray-cast from below (cap_model / render_cap), ~15 s
 python3 intro_council_bg.py <outdir>     # -> council_bg.png, council_table.png, council_glow.png, council.json (seats, candles)
 python3 intro_council_chars.py <outdir>  # -> council_<id>.png sheets + <id>/<n>.png frames, council_preview.png
 # build the Aseprite sources (OVERWRITES assets/aseprite/Intro_*.aseprite, incl. their UPRAVY layers):
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
         --script-param pal=$HOME/.config/aseprite/palettes/intro-underground.gpl --script tools/artgen/intro_aseprite.lua
+# (add --script-param only=agarida to both aseprite calls to rebuild/export just the mushroom and keep the Council files)
 # export into the game (merges the UPRAVY layers) -- run this after hand edits in Aseprite:
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/intro --script tools/artgen/intro_export.lua >/dev/null
-cp <outdir>/hymnar.json <outdir>/council.json assets/images/intro/
+cp <outdir>/agarida.json <outdir>/council.json assets/images/intro/
 ```
 Sheets: Varhun / Tynri / Rhull 8 frames of 128x176 (idle 0 rest / 1 inhale / 2 blink / 3 eye-glow, talk 4-7 = mouth only);
 elder_l / elder_r 4 frames of 200x350 (0 rest / 1 inhale / 2 head sinks or bulb glows / 3 blink; elder_r is flipped in the scene).
@@ -71,7 +73,18 @@ Tags `inventar` / `mapa` / `denik` / `ukoly` / `napoveda`: frame 1 closed, frame
 The game side is `utils/hudButton.js` (positions, hover frame swap, labels, badge).
 
 ## Feral Toast (the band in the Screaming Cork Club)
-**Current sheets come from `feral_px.py`** (2026-10-25): like `edgar.py`, the original `feral_guitarist / bassplayer /
+**Current sheets come from `feral_rig.py`** (v4, 2026-11-09): drawn with the character renderer (rig.py + a region shader:
+distance-field normals on polygon/path masks, explicit cloth folds), designs read from `ref/feral_*.png`; the kick-drum head
+carries the band's toast face (user-approved). Same format as before: 128x192 (karlis 144x192), soles on row 189, 0-3 idle,
+4-11 playing = 4 beats x 2 frames at 177 BPM; fretting arm + palm drawn before the instrument, fingers after.
+```
+python3 feral_rig.py <outdir> [ids]   # -> telka.png bass_xl.png karlis.png mira.png (12 frames) + <id>/<n>.png + feral_toast.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/feral_toast.gpl [--script-param ids=karlis] --script tools/artgen/feral_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/feral_toast [--script-param ids=karlis] --script tools/artgen/feral_export.lua
+```
+Superseded, kept as a record: `feral_px.py` (v3) and `feral_toast.py` (v2; ~20 generators import ik/lerp/worm/Inst from it, don't delete).
+
+v3, `feral_px.py` (2026-10-25): like `edgar.py`, the original `feral_guitarist / bassplayer /
 drummer / synth.png` box-filtered to their native grid (8×; Kārlis 7× — seated behind the kit he read small) and
 animated by moving / relighting their own pixels: idle 0-3 (rest, breath, eyes, a small move), playing 4-11 = 4 beats,
 2 frames per beat (knees give, headbangs on 1 and 3, strums; Kārlis' stick drops onto the crash which wobbles, the kick
@@ -95,7 +108,7 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 ```
 `FeralToast_<id>.aseprite`: tag `ceka` = idle (frames 1-4), `hraje` = playing (5-12, two frames per beat of
 feral-toast.mp3 ≈ 177 BPM). Sizes: telka 128×176, bass_xl 144×192, karlis 176×176 (with the kit), mira 144×176 (with the synth).
-The old AI images `feral_*.png` stay — ScraperAmbraScene's cutscene still uses them.
+The old AI images `feral_*.png` now live in `tools/artgen/ref/` (not shipped).
 
 ## Voxmarket (the market inside the zeppelin hangar: main hall, Zerren's lane, the auction bay)
 Same camera as the Crossroad, but the shell is RAY-CAST (a barrel vault with lattice trusses, side walls with steel
@@ -246,7 +259,17 @@ The scene loads it as `seniorClerk` (anim `senior_clerk_idle`, 4 fps), origin bo
 The old `clerk2.png` is unused.
 
 ## Edgar Eskola (ScreamingCorkScene)
-Not redrawn from scratch — the bear must stay as he was. `edgar.py` box-filters the old `EdgarEskola.png` (1024×1536,
+**Current sheet: `edgar_rig.py`** (2026-11-09, user-approved): drawn with the character renderer, same design, pose and light
+from the upper right as the old picture (EdgarRig mirrors rig's light/rim/cast shadows locally); the head is one shaded height
+field (skull, brows, jowls, muzzle) with painted features, the coat open at the top with the waistcoat V, cinched at the belt.
+```
+python3 edgar_rig.py <outdir>            # -> edgar.png (8 idle frames of 128x192, last opaque row 188) + edgar/<n>.png + edgar_rig.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=<outdir>/edgar_rig.gpl --script tools/artgen/edgar_rig_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/edgar_rig_export.lua
+```
+Portrait = a 2x bust {frame 0, top 19}; hover = preFX glow. Same frame meanings as below.
+
+Superseded (kept as a record): the bear must stay as he was, so `edgar.py` box-filters the old `EdgarEskola.png` (1024×1536,
 painted at ~16 px per "pixel", shown at 0.125) down to its native 128×192 grid and animates it by moving parts of
 those pixels (the source's transparent eye glints are filled in as glints).
 ```
@@ -256,7 +279,7 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
 ```
 Source `assets/aseprite/Edgar_eskola.aseprite` (tag ceka, UPRAVY layer). Frames: 0 rest / 1 breath / 2 blink /
 3 ear twitch / 4-5 the bag sways / 6 head lowered / 7 head lowered, eyes shut. The scene keeps the key `edgarEskola`
-(anim `edgar_idle`, 4 fps) at (300, 525), origin bottom; portrait = a 2× bust. `EdgarEskola.png` stays as the source.
+(anim `edgar_idle`, 4 fps) at (300, 525), origin bottom. `EdgarEskola.png` is in `tools/artgen/ref/`.
 
 ## The Screaming Cork from the street (ScreamingCorkScene)
 ```
@@ -304,8 +327,8 @@ Don Girandole on the pipe-tower platform at the right edge (deck y ~378, sprite 
 ## Inside the Screaming Cork (ScreamingCorkInteriorScene): the taproom, Heliodor, Ravla
 ```
 python3 corkin_bg.py <outdir>        # -> corkin.png = ScreamingCorkInterior.png, counter.png = ScreamingCorkInterior_counter.png
-python3 corkfolk.py <outdir>         # -> heliodor.png (8 × 128×192) + corkfolk.gpl
-aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/corkfolk.gpl --script tools/artgen/corkfolk_aseprite.lua
+python3 heliodor.py <outdir>         # -> heliodor.png (8 × 128×192) + heliodor/<n>.png + heliodor.gpl
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=<outdir>/heliodor.gpl --script tools/artgen/corkfolk_aseprite.lua
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/corkfolk_export.lua   # -> heliodor_idle.png
 python3 ravla.py <outdir>            # -> ravla.png (8 × 128×144) + ravla/<n>.png + ravla.gpl
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=<outdir>/ravla.gpl --script tools/artgen/ravla_aseprite.lua
@@ -318,8 +341,12 @@ the counter in front, the street door in the left wall (exit left, x ~28..122), 
 candle in the right corner. `counter.png` = every pixel nearer than Heliodor (z 17.3) inside his sprite's box; the
 scene draws it at depth 5.5 over him (depth 5). Heliodor at (533, 492) before the curtained doorway between the
 back-bar cabinets, Ravla at (960, 524), both origin bottom.
-`corkfolk.py` treats Heliodor like `edgar.py`: the old `heliodor.png` box-filtered 8× to its native grid and animated
-by moving / relighting its own pixels (the old PNG stays as the source).
+`heliodor.py` redraws Heliodor on `rig.py` as what he says he is -- a colony, each member with its own job and face:
+the Speaker (a pale fungal head with the green eyes and orange caps), the Mixer (a crab claw out of the right sleeve,
+shaking a steel shaker; its eyes on stalks), the Polisher (the purple tentacle out of the left sleeve, a glass and a
+rag), Oorarabaz the Green-faced (a moss cushion on the left shoulder, asleep) and the night shift (a small creature in
+the waistcoat pocket). Frames: 0-1 shaking, 2 the glass turns, 3 blink, 4 Oorarabaz breathes, 5-6 the shift changes,
+7 Oorarabaz cracks an eye. (The old derive-from-art `corkfolk.py` is gone; the lua scripts keep their names.)
 `ravla.py` redraws Ravla from scratch on `rig.py` (the old `ravla.png` is only the reference for who she is): a gaunt
 forger hunched over a crate she uses as a desk -- dark hair in a bun with a brush through it, copper goggles with violet
 lenses pushed up on her forehead, a worn slate coat (collar up, a leather elbow patch, pens in the breast pocket) over a
@@ -399,7 +426,20 @@ The cut (CrossroadScene.startSkyshipAnimation) pins the picture to the screen (s
 planks. Deck fixed points: the rope ladder x ~118 (exit zone 40..160), the dial-board's lens (533, 403) (observable
 800-space (400, 420, 80, 110)), Captain Liris at (700, 466) scale 0.1 (feet on the walk line), the cabin from x 826.
 
-## Captain Liris (SkyshipBoardScene) + Ortolan (ShedCourtyard / BurningBearStreet) — redrawn; Dr. Elphi — her old art animated
+## Dr. Elphi Quarn (ScraperAmbraScene) — redrawn (2026-11-09)
+```
+python3 elphi.py <outdir>          # -> elphi.png (8 idle frames of 128x160, soles on y 156) + elphi.gpl -- rig.py: 3/4 to the viewer's
+                                   #    left, weight on the far leg; auburn ringlets, round teal goggles, white lab coat, teal fair-isle
+                                   #    top, device in the far hand, palm up under the mint glyph (own RGBA layer, light spill on her).
+                                   #    0 rest 1 breath 2 glint+blink 3 glyph pulses 4 drifts up 5 glance 6 thumb tap 7 hair stirs;
+                                   #    only 0->3->4->0 turns the glyph (the scene plays frames out of order)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/elphi.gpl --script tools/artgen/elphi_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/elphi_export.lua   # -> elphi_idle.png
+```
+Source `Elphi_idle.aseprite` (tag ceka, UPRAVY layer); bust `{frame 0, zoom 2, top 10}`. `ortolan_elphi.py` below is superseded
+for Elphi — don't run it (it would overwrite the redraw).
+
+## Captain Liris (SkyshipBoardScene) + Ortolan (ShedCourtyard / BurningBearStreet) — redrawn; Dr. Elphi — her old art animated (superseded, see above)
 ```
 python3 liris.py <outdir>          # -> liris.png (8 idle frames of 128x160, soles on y 156) + liris.gpl -- rig.py: a teal hood, a brass
                                    #    monocle with an amber lens, a brick-red scarf, a long brown coat, olive tunic, spyglass, boots;
@@ -477,6 +517,12 @@ aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui/menu --script tools/artgen/menu_export.lua
 cp <outdir>/menu_*_glow.png <outdir>/menu_spore.png assets/images/ui/menu/    # the ADD glows come from the generator
 ```
+Journal + quest log (`ui/LedgerPanel.js`): `menu_panel_ledger` (+glow), `UI_MenuTab_68x20` (`klid` / `najeti` / `vybrana`),
+`UI_MenuCard_24x24` (nine-slice entry card, 7 px corners -- keep it flat, it is stretched), `UI_MenuRail_10x32` (scroll rail,
+nine-slice; the knob is `menu_knob`), `UI_MenuChevron_8x8` (quest open / closed). Inventory (`systems/inventory/InventorySystem.js`, same panel):
+`UI_MenuItemSlot_40x40` (`prazdna` / `predmet` / `najeti` / `vybrana`) and `UI_MenuCoin_12x12` (the money line). Add `--script-param only=ledger` to both
+aseprite calls to rebuild / export just these and leave the menus' UPRAVY touch-ups alone.
+
 `UI_MenuButtons_192x48.aseprite`: tags `myceny` / `chorose` / `muchomurka` (the three decoration variants), each 11 frames:
 1 idle, 2-9 hover loop (the gear turns 90 deg -- its 4 spokes make the loop seamless -- and a pulse runs down the
 mycelium), 10 pressed, 11 disabled. `UI_MenuSlots_228x26`: `volny` / `obsazeny` x idle, hover, pressed, selected.

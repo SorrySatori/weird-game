@@ -1,4 +1,7 @@
-"""Feral Toast (ScreamingCorkClubScene) from their original art -- the old feral_guitarist / feral_bassplayer /
+"""SUPERSEDED (2026-11-09) by feral_rig.py, which draws the band for real with the character renderer; the sheets in
+assets/images/characters/feral_toast/ now come from there. Kept for reference only -- don't run it over them.
+
+Feral Toast (ScreamingCorkClubScene) from their original art -- the old feral_guitarist / feral_bassplayer /
 feral_drummer / feral_synth.png (1024x1536) brought down to their native grid like edgar.py (box filter, nothing
 re-drawn) and animated by moving parts of their own pixels. Replaces the rig-drawn feral_toast.py sheets, same layout:
 128x192 frames (Karlis 144x192: he is taken at 7x, seated behind his kit he would read small), soles on y 189; 0-3 idle (rest, breath, eyes, a small move), 4-11 playing = 4 beats of feral-toast.mp3

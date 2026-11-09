@@ -1,5 +1,5 @@
 -- Builds the intro's Aseprite sources from the generator output.
--- aseprite -b --script-param dir=<gen out> --script-param out=assets/aseprite --script-param pal=<gpl> --script intro_aseprite.lua
+-- aseprite -b --script-param dir=<gen out> --script-param out=assets/aseprite --script-param pal=<gpl> [--script-param only=agarida] --script intro_aseprite.lua
 -- Layer names ending in "UPRAVY" are for hand touch-ups; intro_export.lua merges each into the image above it.
 local d, o, pal = app.params["dir"], app.params["out"], app.params["pal"]
 
@@ -11,17 +11,18 @@ local function layer(spr, name, file, opts)
   return l
 end
 
--- 1. the Hymnar (Obazoba's sacred mushroom), 1067x1000 (the scene pans down it)
+-- 1. Agarida (Obazoba's sacred mushroom), 1067x1000 (the scene pans down it)
 local s = Sprite(1067, 1000, ColorMode.RGB)
-s.layers[1].name = "hymnar"
-s:newCel(s.layers[1], 1, Image{ fromFile = d .. "/hymnar.png" }, Point(0, 0))
-local paint = layer(s, "hymnar UPRAVY")
-layer(s, "lupeny zare (ADD)", "hymnar_gills.png", { hidden = true })
-layer(s, "zily zare (ADD)", "hymnar_glow.png", { hidden = true })
+s.layers[1].name = "agarida"
+s:newCel(s.layers[1], 1, Image{ fromFile = d .. "/agarida.png" }, Point(0, 0))
+local paint = layer(s, "agarida UPRAVY")
+layer(s, "lupeny zare (ADD)", "agarida_gills.png", { hidden = true })
+layer(s, "zily zare (ADD)", "agarida_glow.png", { hidden = true })
 s:loadPalette(pal)
 app.activeLayer = paint
-s:saveAs(o .. "/Intro_Hymnar_1067x1000.aseprite")
+s:saveAs(o .. "/Intro_Agarida_1067x1000.aseprite")
 s:close()
+if app.params["only"] == "agarida" then print("ok") return end   -- --script-param only=agarida: leave the Council files
 
 -- 2. the Council chamber, 1067x600: background, glow, the table (its own layer: drawn over the seats, under the
 --    archpriests), and a locked preview of where the characters sit

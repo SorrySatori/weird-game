@@ -12,6 +12,7 @@ export default {
             tell_me_about_shed521: "Povězte mi o Boudě 521",
             whats_your_role_here: "Co tady máte na starosti?",
             what_do_you_know_about_the_living_core: "Co víte o živém jádru?",
+            gnur_wont_get_the_core: "Gnur živé jádro nedostane. Odmítl jsem ho.",
             how_can_i_register_for_extra_pair_of_arms: "Jak si můžu zaregistrovat další pár rukou?"
         }
     },
@@ -57,12 +58,15 @@ export default {
             who_are_the_pith_reclaimers: "Co je Inkoustový tribunál?"
         }
     },
+    core_refused_thanks: {
+        text: "(Úředník odloží razítko.) Vy jste Gnurovi řekl ne? (Pousměje se.) Inkoustový tribunál na své přátele nezapomíná. Ptal jste se přece po Biskupce, ne? (Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché – studio Dr. Elphi Quarn. Podala si ho Biskupka osobně, orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
+        options: { thank_you_that_helps: "Děkuji. To mi hodně pomůže." }
+    },
     bishop_location: {
-        text: "Biskupka? Hm... Nevím, kde je. Ale poptejte se po Edgaru Eskolovi v hospodě Řvoucí korek. Myslím, že by mohl něco vědět.",
+        text: "Biskupka? (Ohlédne se po kartotéce za sebou.) Tribunál vede záznamy o každém, kdo tímhle městem projde. Jenže záznamy se nevydávají jen tak někomu. Řekněte Gnurovi ne – ať ví, že jádro nedostane – a pak se vraťte. Tribunál na své přátele nezapomíná.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného",
-            who_are_the_pith_reclaimers: "Co je Inkoustový tribunál?",
-            who_is_edgar_eskola: "Kdo je Edgar Eskola?"
+            who_are_the_pith_reclaimers: "Co je Inkoustový tribunál?"
         }
     },
     private: {
@@ -74,10 +78,6 @@ export default {
     },
     pith_reclaimers: {
         text: "Inkoustový tribunál je strážcem neutrality. Udržujeme ve městě mír a pořádek. Někteří z nás sbírají... jedinečné předměty, ale neprodáváme je.",
-        options: { back_to_other_topics: "Zeptej se na něco jiného" }
-    },
-    edgar: {
-        text: "Edgar Eskola? (zvedne obočí) Je to jeden z mišutkennů. Slyšel jste o nich? Medvědí vnímající humanoidi s prořídlou srstí a hluboko posazenýma jantarovýma očima. Většinou mírné duše, ale umějí být... nevyzpytatelní.",
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     no_promise: {

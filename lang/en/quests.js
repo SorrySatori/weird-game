@@ -11,7 +11,9 @@ export default {
                 vestigel: 'Kloor Venn wants me to find one of the three Vestigels. He mentioned that a merchant named Zerren has one.',
                 elphi_contact: "According to Kloor Venn, the Bishop visited Dr. Elphi Quarn quite often... I should look for Dr. Elphi at the Scraper 1140.",
                 bishop_clue_gnur: "Gnur says the Bishop came down to Shed 521 for a lens from the old pre-war dream rigs — Rust Choir stock. He wants something in return before he says more.",
-                edgar_eskola_clue: 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.',
+                edgar_eskola_clue: 'The clerk told me to find Edgar Eskola at the Screaming Cork tavern. He might know something.',   // old saves only
+                clerk_records_hint: "The clerk in Shed 521 hinted that the Ink Tribunal has records on the Bishop. He'll show me once I've told Gnur he won't get the core.",
+                bishop_elphi_clerk: "The clerk in Shed 521 showed me the Ink Tribunal's records: the Bishop had a visitor's permit for Dr. Elphi's studio on floor 177-Quiet of Scraper 1140.",
                 bishop_location_scraper: 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel — then headed to Scraper 1140 to meet Dr. Elphi.',
                 got_floor_counter_tool: "Captain Liris gave me a calibration tool to repair the Lift-Mother's floor counter. With the counter fixed, the lift might reach floors it can't get to now.",
                 lift_mother_permission: "The Lift-Mother has granted me access to Dr. Elphi's studio on floor 177-Quiet.",
@@ -92,6 +94,7 @@ export default {
             description: "I'd like to join the Lumen Directorate. I should learn more about their work and find out what it takes to become one of them.",
             updates: {
                 gardener_directions: 'The gardener Verrik directed me to speak with the Angle Corrector on the third floor of the Directorate.',
+                demo_not_yet: "Liris warned me the Directorate and the main square aren't open in this demo. Joining them will have to wait for the full game.",
                 liris_directions: "Captain Liris gave me directions to the Lumen Directorate headquarters, near the main square. Joining them might earn me a place on the Verdigrace's crew.",
             }
         },
@@ -196,6 +199,9 @@ export default {
                 hint_lost_button: "The Lift-Mother has been missing a button for years. Things like that end up at the Voxmarket, she says.",
                 hint_importance: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Someone else in the city might know where the Bishop went.",
                 hint_importance_gnur: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Gnur promised to remember something about the Bishop once I bring him that core.",
+                hint_importance_clerk: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. I turned Gnur down, but the clerk in the Applications office, on the top floor of Shed 521, owes me for it — the Ink Tribunal keeps records of everything.",
+                clerk_records_two: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree — the Lift-Mother should let me up now.",
+                clerk_records_one: "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story — I need a second one that agrees.",
                 hint_importance_kloor: "The Lift-Mother might let me up if I convince her it's truly important. To her, one story about the Bishop is gossip; two that agree are another matter. Kloor Venn will tell me what he knows about the Bishop in exchange for a vestigel.",
             }
         },

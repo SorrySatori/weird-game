@@ -1,4 +1,8 @@
-"""Edgar Eskola, the mišutkenn of the Screaming Cork (ScreamingCorkScene) -- the old portrait-sized art
+"""SUPERSEDED (2026-11-09) by edgar_rig.py, which draws Edgar for real with rig.py (same sheet format, same frame
+meanings; Aseprite source rebuilt by edgar_rig_aseprite.lua). Kept only as the record of the old derivation -- running
+it no longer matches the shipped sheet.
+
+Edgar Eskola, the mišutkenn of the Screaming Cork (ScreamingCorkScene) -- the old portrait-sized art
 (tools/artgen/ref/EdgarEskola.png, 1024x1536 painted at ~16 px per "pixel", shown at 0.125) brought down to
 its native grid so it reads exactly as before, then animated in place. Nothing is re-drawn from scratch: the user
 wants the bear to stay as he is; the frames only move parts of the original pixels.

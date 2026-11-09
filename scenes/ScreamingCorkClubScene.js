@@ -2,8 +2,8 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
 /**
- * Feral Toast as pixel-art sheets taken from their original art (tools/artgen/feral_px.py → assets/aseprite/
- * FeralToast_*.aseprite → feral_export.lua): 128×192, frames 0-3 idle, 4-11 playing. Shown at scale 1; `y` is the
+ * Feral Toast as drawn pixel-art sheets (tools/artgen/feral_rig.py → assets/aseprite/FeralToast_*.aseprite →
+ * feral_export.lua): 128×192 (Kārlis 144×192), frames 0-3 idle, 4-11 playing. Shown at scale 1; `y` is the
  * feet line (the soles sit 2 px above the frame's bottom). The playing loop runs two frames per beat of
  * feral-toast.mp3 (≈177 BPM).
  */

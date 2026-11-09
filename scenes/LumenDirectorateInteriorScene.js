@@ -371,7 +371,7 @@ export default class LumenDirectorateInteriorScene extends GameScene {
                             { character: 'The Angle Corrector' }
                         );
                         this.modifyFactionReputation('LumenDirectorate', 15);
-                        this.showNotification(this.t('notifications.reputationUp', { faction: this.t('factions.LumenDirectorate') }), 0x556B2F);
+                        this.showNotification(this.t('notifications.reputationUp', { faction: this.t('factions.LumenDirectorate.name') }), 0x556B2F);
                     }
                     if (this.questSystem?.getQuest('find_lumen_directorate') && !this.questSystem.getQuest('find_lumen_directorate').isComplete) {
                         this.questSystem.completeQuest('find_lumen_directorate');

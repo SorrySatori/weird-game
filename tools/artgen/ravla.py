@@ -1,6 +1,6 @@
 """Ravla, the Rust Choir's forger in the right corner of the Screaming Cork (ScreamingCorkInteriorScene), redrawn from
 scratch with the character renderer (rig.py, the Edgar quality bar). The old AI image ravla.png stays only as the
-reference for who she is -- no pixels are taken from it (corkfolk.py still derives Heliodor from his old art).
+reference for who she is -- no pixels are taken from it (heliodor.py redraws Heliodor the same way).
 
 A gaunt woman hunched over her work at a crate she uses as a desk: dark hair scraped back into a bun with a brush
 stuck through it, copper goggles with violet lenses pushed up on her forehead, hollow cheeks, a thin sly mouth; a

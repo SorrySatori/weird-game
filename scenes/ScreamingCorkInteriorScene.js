@@ -670,11 +670,6 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                         text: "I'll come back later.",
                         key: 'ill_come_back_later',
                         next: 'closeDialog'
-                    },
-                    {
-                        text: "I'll come back later.",
-                        key: 'ill_come_back_later',
-                        next: 'closeDialog'
                     }
                 ]
             },
@@ -848,12 +843,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.heliodor = this.add.sprite(this.scale.width / 2, 492, 'heliodor', 0).setOrigin(0.5, 1).setDepth(5);
         this.heliodor.setInteractive({ useHandCursor: true });
 
-        // idle loops, slow: Heliodor's colony glows, blinks and drips; Ravla writes a word (0-1-7), breathes and the
+        // idle loops, slow: Heliodor's colony (tools/artgen/heliodor.py) -- the Mixer's claw shakes (0-1), the tentacle turns
+        // the glass (2), the Speaker blinks (3), Oorarabaz breathes in his sleep (4), the shift changes (5-6: the pocket
+        // creature wakes, the Mixer's eyestalks sink) and Oorarabaz cracks an eye (7); Ravla writes a word (0-1-7), breathes and the
         // lantern drifts (6), dips the quill (2-3) and glances up at you with a blink (4-5)
         if (!this.anims.exists('heliodor_idle')) {
             this.anims.create({
                 key: 'heliodor_idle',
-                frames: this.anims.generateFrameNumbers('heliodor', { frames: [0, 0, 1, 1, 0, 2, 2, 0, 0, 3, 0, 0, 1, 1, 0, 6, 6, 7, 0, 0, 4, 4, 0, 5, 0, 0, 1, 1, 0, 2, 0, 0] }),
+                frames: this.anims.generateFrameNumbers('heliodor', { frames: [0, 1, 0, 1, 0, 1, 0, 0, 2, 2, 0, 0, 3, 0, 0, 4, 4, 4, 0, 1, 0, 1, 0, 0, 5, 5, 6, 6, 6, 6, 5, 0, 0, 2, 2, 0, 7, 7, 7, 0] }),
                 frameRate: 4,
                 repeat: -1
             });

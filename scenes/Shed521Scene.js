@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
@@ -330,6 +331,7 @@ export default class Shed521Scene extends GameScene {
 
     create() {
         super.create();
+        notePlace(this, 'place_shed_521');   // the journal's Places tab, on the first visit
 
 
         // Set up scene background and elements

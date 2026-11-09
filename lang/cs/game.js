@@ -17,6 +17,8 @@ export default {
         sellItem: 'Prodat předmět',
         forSale: 'Zboží na prodej',
         yourItems: 'Vaše věci',
+        noItems: 'Nic tu není',
+        nothingToSell: 'Nemáte nic, co bychom od vás koupili.',
         noDescription: 'Bez popisu.',
         names: {
             zerren: 'Zerreniny kuriozity',
@@ -170,7 +172,7 @@ export default {
         questCompleted: 'Úkol dokončen!',
         questFailed: 'Úkol selhal',
         journalUpdated: 'Deník aktualizován',
-        reputationChange: '{faction} Reputace: {sign}{change}',
+        reputationChange: '{faction} – reputace {sign}{change}',
         moneyGain: '+{amount} dinárů',
         moneyLoss: '-{amount} dinárů',
         purchased: 'Zakoupeno: {item}',
@@ -205,9 +207,53 @@ export default {
     },
 
     factions: {
-        RustChoir: 'Rezavý chór',
-        PithReclaimers: 'Inkoustový tribunál',
-        LumenDirectorate: 'Direktorát',
+        RustChoir: { name: 'Rezavý chór', description: 'Frakce, která zachraňuje rez a rozklad a dává jim nový účel.' },
+        PithReclaimers: { name: 'Inkoustový tribunál', description: 'Městská byrokracie: rovnováha a pořádek udržované inkoustem, pečetí a účetní knihou.' },
+        LumenDirectorate: { name: 'Direktorát', description: 'Spojenectví, které si cení růstu a veškerého života.' },
+        status: 'Postavení: {status}',
+        membership: {
+            member: 'Členství', probationary: 'Zkušební členství', associate: 'Přidružení',
+            denied: 'Členství zamítnuto', expelled: 'Vyloučení',
+        },
+        standings: {
+            revered: 'Uctívaný', honored: 'Vážený', friendly: 'Přátelský', liked: 'Oblíbený', neutral: 'Neutrální',
+            disliked: 'Neoblíbený', unfriendly: 'Nepřátelský', hostile: 'Zarytý nepřítel', hated: 'Nenáviděný',
+        },
+    },
+
+    // trip po Oltracu (systems/EffectsSystem.js): výkyvy spor a co se hrdinovi honí hlavou
+    drugs: {
+        sporesUp: 'Cítíš, jak se v tobě množí spory. (+{n})',
+        sporesDown: 'Cítíš, jak z tebe spory ustupují. ({n})',
+        surge: 'Tělem ti projede vlna houbové energie! (+{n})',
+        loss: 'Najednou cítíš, jak slábne tvoje spojení se sporami! ({n})',
+        comments: {
+            grayOltrac: [
+                "Stěny… dýchají? Jen trošičku.",
+                "Slyším barvy. Počkat, to nedává smysl.",
+                "Mám pocit, že mám prsty z hub…",
+                "Všechno je tak nějak rozmazané na okrajích.",
+                "Spory na mě šeptají.",
+                "Má ten stín tancovat?",
+            ],
+            violetOltrac: [
+                "Vzduch je HUSTÝ fialovými možnostmi!",
+                "Myšlenky mi bují jako mycelium!",
+                "Teď VIDÍM, jak je všechno se vším propojené!",
+                "Houbové vědomí mi všude ukazuje vzorce!",
+                "Čas se do sebe skládá jako klobouk houby!",
+                "HARDCORE! Je tohle HARDCORE? Řekl bych, že jo!",
+            ],
+            amberOltrac: [
+                "ZÁVOJ SE ROZTRHL! VIDÍM ZA BLÁNU SKUTEČNOSTI!",
+                "Moje tělo se rozpouští ve zlaté spory… NÁDHERA!",
+                "Věčná Houba promlouvá skrze mě! STAL JSEM SE MYCELIEM!",
+                "Hvězdy jsou jen plodnice vesmírných hub! UŽ TO VŠECHNO DÁVÁ SMYSL!",
+                "Unikl jsem z vězení svého masa! JSEM VŠUDE A NIKDE!",
+                "Vesmír je jen jedna obří spora, která čeká, až vykvete.",
+                "Chci jít domů… Počkat… Vždyť už doma jsem.",
+            ],
+        },
     },
 
     mood: {
@@ -236,8 +282,8 @@ export default {
             decayDominant: "Rozklad ti sluší. Snáz se s tebou jedná – lakomí to mají vždycky snazší.",
         },
         kloor: {
-            growthDominant: "Váhy sebou cukají – tvé spory jsou zralé, nabité životem. Prvotřídní zboží.",
-            decayDominant: "Mechanický pult tě ucítí dřív, než promluvíš – hniloba, a je jí spousta. Laciné zboží.",
+            growthDominant: "A hele, ty tvoje spory, ty vypadají na prvotřídní zboží. Nějaký bych koupil.",
+            decayDominant: "Heh, ty tvoje spory, ty vypadají na prvotřídní zboží. V tomhle městě plným rozkladu a hniloby přece jen není nějaký ten růst občas na škodu.",
         },
         townsquare_citizen: {
             growthDominant: "Ta městečka ve mně hučí – neseš v sobě spoustu růstu. Velmi... občanské. Velmi živé.",

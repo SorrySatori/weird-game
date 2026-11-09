@@ -58,10 +58,10 @@ export default class ScraperScene extends GameScene {
                     : (found === 3 ? 'don_lamp_first_last' : found >= 1 ? 'don_lamp_first_some' : 'don_lamp_first'),
                 text: !donMet
                     ? (found === 3
-                        ? `The gaudy old lamp on the pipe tower above the walkway — its post cast as a portly gentleman in a three-piece suit, a white-gloved hand round a smoking cigar — swings its head-lamp toward you, and its flame leaps, bright and startled. "Wait. *Wait.* I can feel them all on the wire behind you — every last one of my family, warm and humming." The light trembles. "You... you found every one of them before me. Then I'm the final light still dark, friend. Thread me in and the family is *whole* — first time in longer than I care to count. Bless your restless little legs." He is, unmistakably, moved.`
+                        ? `On the pipe tower above the walkway stands a gaudy old lamp, its post cast as a portly gentleman in a three-piece suit, a white-gloved hand round a smoking cigar. It swings its head-lamp toward you, and the flame leaps, bright and startled. "Wait. *Wait.* I can feel them all on the wire behind you — every last one of my family, warm and humming." The light trembles. "You... you found every one of them before me. Then I'm the final light still dark, friend. Thread me in and the family is *whole* — first time in longer than I care to count. Bless your restless little legs." He is, unmistakably, moved.`
                         : found >= 1
-                            ? `The gaudy old lamp on the pipe tower above the walkway — its post cast as a portly gentleman in a three-piece suit, a white-gloved hand round a smoking cigar — swivels its head-lamp toward you, the flame guttering low behind the glass. It flares with pleasure. "Ahh — I can feel it on the wire already. You've been talking to my family, haven't you? Some of them are warm again for the first time in years." The light dips, fond. "I'm Don Girandole, head of this scattered family of lamps — sentient, every one, and every one bolted to the spot. You've made a good start, errand-light. Bring the rest of us home."`
-                            : `The gaudy old lamp on the pipe tower above the walkway — its post cast as a portly gentleman in a three-piece suit, a white-gloved hand round a smoking cigar — swivels its head-lamp toward you, the flame guttering low behind the glass. High over the city, the wind makes it hiss. "Come closer, friend. Don't be shy — a lamp can't come to *you*, eh? That's the whole tragedy of my family." The light dips, confidential. "I am Don Girandole. Head of a family of lamps — sentient, every one of us, and every one of us bolted to the spot. We cannot move. We cannot so much as call across the city to one another. Scattered like loose change down the gutters. It eats at a father, being cut off from his own.\n\nBut you — you have legs. You could be my little errand-light. Find the others. Carry our words between us. Do this favor for the family, and the family does not forget its friends."`)
+                            ? `On the pipe tower above the walkway stands a gaudy old lamp, its post cast as a portly gentleman in a three-piece suit, a white-gloved hand round a smoking cigar. It swivels its head-lamp toward you, the flame guttering low behind the glass, then flares with pleasure. "Ahh — I can feel it on the wire already. You've been talking to my family, haven't you? Some of them are warm again for the first time in years." The light dips, fond. "I'm Don Girandole, head of this scattered family of lamps — sentient, every one, and every one bolted to the spot. You've made a good start, errand-light. Bring the rest of us home."`
+                            : `On the pipe tower above the walkway stands a gaudy old lamp, its post cast as a portly gentleman in a three-piece suit, a white-gloved hand round a smoking cigar. It swivels its head-lamp toward you, the flame guttering low behind the glass. High over the city, the wind makes it hiss. "Come closer, friend. Don't be shy — a lamp can't come to *you*, eh? That's the whole tragedy of my family." The light dips, confidential. "I am Don Girandole. Head of a family of lamps — sentient, every one of us, and every one of us bolted to the spot. We cannot move. We cannot so much as call across the city to one another. Scattered like loose change down the gutters. It eats at a father, being cut off from his own.\n\nBut you — you have legs. You could be my little errand-light. Find the others. Carry our words between us. Do this favor for the family, and the family does not forget its friends."`)
                     : (allLampsFound
                         ? `The Don's flame burns steady and warm now, content as a hearth. "You did it. Every one of mine, back in the circuit. We can *feel* each other again — humming down the wires, the whole family whole." He dims, satisfied. "Rest a moment, friend. Enjoy the quiet. There will be work soon enough — a family like ours always has work — but tonight, you have earned a father's thanks."`
                         : `"Back already? Good, good — but the family's still scattered, friend. A chandelier putting on airs out in the town square, a sconce by the house of stamps, a torch down by the water. Keep those legs moving." The flame flares, impatient but fond.`),
@@ -202,13 +202,6 @@ export default class ScraperScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Add invisible clickable exit area at the left side: the stair-house door (down to the Crossroad)
-        this.exitArea = this.add.image(50, 470, 'exitArea')
-            .setDisplaySize(40, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-        
         // Position the priest at the right side when entering
         this.priest.x = 700;
         this.priest.y = 470;
@@ -261,7 +254,7 @@ export default class ScraperScene extends GameScene {
                 this.addJournalEntry(
                     'scraper_building',
                     'The Scraper',
-                    'The imposing structure known as "The Scraper" rises above the city.',
+                    "Scraper 1140: a crooked skyscraper towering over the city. It used to be an office tower; now every floor lives a life of its own, and nobody seems quite sure how many floors there are.",
                     this.journalSystem.categories.PLACES,
                     { location: 'The Scraper, Upper Morkezela' }
                 );
@@ -316,59 +309,19 @@ export default class ScraperScene extends GameScene {
             });
         });
 
-        // Exit area click handler
-        this.exitArea.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
+        // The stair-house door at the left (down to the Crossroad): a standard exit -- the arrow, its label on hover,
+        // and the arrow keys take it at the screen edge (it used to be a bare invisible hotspot with none of that)
+        this.transitionManager.createTransitionZone(
+            50, // x position (800-space)
+            470, // y position
+            80, // width
+            200, // height
+            'left', // direction
+            'CrossroadScene', // target scene
+            50, // walk to x
+            470 // walk to y
+        );
 
-            const priest = this.priest;
-            if (!priest) {
-                // If priest doesn't exist, just transition immediately
-                this.cameras.main.fadeOut(800, 0, 0, 0);
-                this.cameras.main.once('camerafadeoutcomplete', () => {
-                    this.scene.start('CrossroadScene');
-                    this.isTransitioning = false;
-                });
-                return;
-            }
-            
-            // Create a variable to track if the tween completed
-            let tweenCompleted = false;
-            
-            // Play walk animation
-            priest.play('walk');
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-
-            this.tweens.add({
-                targets: priest,
-                x: 50,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    tweenCompleted = true;
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-            
-            // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(2000, () => {
-                if (!tweenCompleted) {
-                    console.log('Exit transition timed out, forcing transition');
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('CrossroadScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
-        });
-        
         // Create exit to ScreamingCorkScene at the right edge
         this.transitionManager.createTransitionZone(
             750, // x position

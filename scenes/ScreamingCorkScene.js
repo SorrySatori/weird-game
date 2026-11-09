@@ -282,13 +282,16 @@ export default class ScreamingCorkScene extends GameScene {
             // Edgar Eskola dialog
             speaker: 'Edgar Eskola',
             edgar_start: {
-        
-                text: "The ursine creature shifts uncomfortably. He glances at you with a mix of wariness and curiosity.",
+                // the first time he grumbles about the festival, so the player has heard of it before asking
+                textKey: this.hasJournalEntry('edgar_eskola_meeting') ? 'default' : 'first',
+                text: this.hasJournalEntry('edgar_eskola_meeting')
+                    ? "The ursine creature shifts uncomfortably. He glances at you with a mix of wariness and curiosity."
+                    : "The ursine creature shifts uncomfortably. He glances at you with a mix of wariness and curiosity. \"If you're collecting junk to stuff a bear with for that Burning Bear Festival of theirs, you've come to the wrong bear.\"",
                 options: [
                     { text: "Hello there.", key: 'hello_there', next: "edgar_greeting" },
                     { text: "What are you doing here?", key: 'what_are_you_doing_here', next: "edgar_purpose" },
                     { text: "Tell me about yourself.", key: 'tell_me_about_yourself', next: "edgar_background" },
-                    { text: "What do you know about the Burning Bear Festival?", key: 'what_do_you_know_about_the_burning_bear_festival', next: "edgar_festival" },
+                    { text: "What is the Burning Bear Festival?", key: 'what_do_you_know_about_the_burning_bear_festival', next: "edgar_festival" },
                     // Kloor's hunt is open and Edgar still has his vestigel
                     ...(vestigelHuntOpen && !edgarVestigelGiven ? [
                         { text: "I'm looking for a vestigel, I heard you might have one.", key: 'im_looking_for_a_vestigel_i_heard_you_might_have_o', next: "edgar_vestigel" }
@@ -607,7 +610,7 @@ export default class ScreamingCorkScene extends GameScene {
             },
             edgar_book_excerpt_middle: {
                 hideCloseOption: !farewellDone,
-                text: book ? `${cs ? '*Listuje stránkami, které ještě neexistují.*' : '*He leafs through pages that don’t exist yet.*'}\n\n${book.excerpts.middle}` : '',
+                text: book ? `${cs ? '*Listuje stránkami.*' : '*He leafs through pages that don’t exist yet.*'}\n\n${book.excerpts.middle}` : '',
                 options: [
                     { text: "How does it end?", key: 'how_does_it_end', next: "edgar_book_excerpt_ending" }
                 ]
@@ -879,7 +882,7 @@ export default class ScreamingCorkScene extends GameScene {
         this.preloadMusic('streetSong');
         this.load.image('screamingCorkBg', 'assets/images/backgrounds/ScreamingCork.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        // Edgar: an 8-frame idle sheet, 128×192 (tools/artgen/edgar.py from the old EdgarEskola.png, Aseprite Edgar_eskola)
+        // Edgar: an 8-frame idle sheet, 128×192, soles on y 189 (drawn by tools/artgen/edgar_rig.py, Aseprite Edgar_eskola)
         this.load.spritesheet('edgarEskola', 'assets/images/characters/edgar_eskola.png', { frameWidth: 128, frameHeight: 192 });
         this.load.image('vestigel', 'assets/images/items/vestigel.png');
     }
@@ -995,8 +998,18 @@ export default class ScreamingCorkScene extends GameScene {
         }
         this.edgar.play('edgar_idle');
         this.dialogPortraits = { ...(this.dialogPortraits || {}),
-            'Edgar Eskola': { key: 'edgarEskola', frame: 0, zoom: 2, top: 24 } };
+            'Edgar Eskola': { key: 'edgarEskola', frame: 0, zoom: 2, top: 19 } };
         this.edgar.setInteractive({ useHandCursor: true });
+
+        // Hover: a soft glow round him (pixel art isn't scaled). The scene instance is reused: drop a glow handle left
+        // over from the previous visit's sprite.
+        this._edgarHoverFx = null;
+        this.edgar.on('pointerover', () => {
+            if (!this._edgarHoverFx) this._edgarHoverFx = this.edgar.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
+        });
+        this.edgar.on('pointerout', () => {
+            if (this._edgarHoverFx) { this.edgar.preFX?.remove(this._edgarHoverFx); this._edgarHoverFx = null; }
+        });
 
         // Add dialog interaction
         this.edgar.on('pointerdown', () => {

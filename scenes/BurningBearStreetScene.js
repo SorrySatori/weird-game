@@ -1,8 +1,14 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { GANG_QUEST_IDS, gangQuestStatus, smuggleReportable } from '../utils/GangOfLamps.js';
 import { heldArmsPaperwork, handOverArmsPaperwork } from '../utils/OrtolanArms.js';
 import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
+import { createAmbientNpc } from '../utils/AmbientNpc.js';
+
+// a local stuffing a bear for the Bear Burning Festival (tools/artgen/bearstuffer.py, Aseprite Street_bear_stuffer):
+// the texture key = the id, feet (origin bottom-centre) on the left pavement; holds = each frame's hold time in ms
+const BEAR_STUFFER = { id: 'bbs_bear_stuffer', x: 252, y: 514, top: 107, holds: [1400, 600, 500, 450, 650, 500, 1000, 900] };
 
 // Animated fire (tools/artgen/burningbear_bg.py): 6-frame loops packed in an atlas whose frames are trimmed against the
 // full 1067×600 canvas, so a sprite at (0,0) / origin (0,0) lands exactly where that fire sits in the background.
@@ -257,11 +263,13 @@ export default class BurningBearStreetScene extends GameScene {
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.spritesheet('ortolanIdle', 'assets/images/characters/ortolan_idle.png', { frameWidth: 128, frameHeight: 160 });
         this.load.spritesheet('ortolan4Idle', 'assets/images/characters/ortolan4_idle.png', { frameWidth: 128, frameHeight: 160 });
+        this.load.spritesheet(BEAR_STUFFER.id, 'assets/images/characters/streetfolk/bear_stuffer.png', { frameWidth: 140, frameHeight: 128 });
     }
 
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        notePlace(this, 'place_burning_bear_street');   // the journal's Places tab, on the first visit
         this.playSceneMusic('streetSong', { resume: true });
         
         // Set scraper background
@@ -277,8 +285,10 @@ export default class BurningBearStreetScene extends GameScene {
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
-        
-        
+
+        // a local busy with the festival: a click gets a line, not a dialog
+        this.bearStuffer = createAmbientNpc(this, BEAR_STUFFER);
+
         // Position the priest at the right side when entering
         this.priest.x = 700;
         this.priest.y = 470;

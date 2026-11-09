@@ -4,7 +4,7 @@
 export default class SaveSystem {
     /** Registry keys copied into / restored from a save file (plain JSON values only). */
     static PERSISTED_REGISTRY_KEYS = [
-        'dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft',
+        'dreamQueueChoices', 'shopSoldOut', 'onceFlags', 'edgarBookDraft', 'money',
         // durable world state the scenes keep only in the registry (lost on load before)
         'gameDay', 'fixed_floor_counter', 'crossroadGrowth', 'cathedral_entry_granted', 'cardinal_feast_played',
         'scraper_deadfloor_opened', 'shed_tunnel_opened', 'delta_seam_opened', 'delta_fungal_bridge_grown',
@@ -351,7 +351,7 @@ export default class SaveSystem {
 
         // Show notification about loaded game
         if (this.scene.showNotification) {
-            this.scene.showNotification('Game loaded successfully', 0x00ff00);
+            this.scene.showNotification(this.scene.t ? this.scene.t('ui.saveLoad.gameLoaded') : 'Game loaded successfully', 0x00ff00);
         }
 
         // Switch to the saved scene if different from current

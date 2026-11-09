@@ -212,7 +212,7 @@ const RENDERERS = {
         box.add(panel);
 
         // Name / portrait plate, top-right — a static portrait from the speaker's own scene sprite.
-        addPortrait(scene, box, 650 + dx, 150, 150, 170, resolvePortraitTexture(scene, model.speaker), model.speaker, { font: FONT, nameColor: NAME });
+        addPortrait(scene, box, 650 + dx, 150, 150, 170, resolvePortraitTexture(scene, model.speaker) || resolvePortraitTexture(scene, model.speakerEn), model.speaker, { font: FONT, nameColor: NAME });
 
         // A thin rule under the log region, separating narration from responses.
         box.add(scene.add.rectangle(CX, 392, 660, 1, 0x2f5a44, 0.7));

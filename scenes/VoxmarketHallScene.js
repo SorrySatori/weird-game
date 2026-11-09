@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { applyGDBackground } from '../utils/GDProps.js';
@@ -952,6 +953,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
     create() {
         super.create();
+        notePlace(this, 'place_voxmarket');   // the journal's Places tab, on the first visit
         
         this.playSceneMusic('marketTheme');
         

@@ -1,3 +1,4 @@
+-- SUPERSEDED: Dr. Elphi is now built by elphi.py + elphi_aseprite.lua / elphi_export.lua (kept for reference only).
 -- Builds the Aseprite source of Dr. Elphi from ortolan_elphi.py (Ortolan moved to ortolan.py / ortolan_aseprite.lua).
 -- aseprite -b --script-param dir=<gen out> --script-param out=assets/aseprite --script-param pal=<gpl> --script ortolan_elphi_aseprite.lua
 -- Draw touch-ups into the "UPRAVY" layer; ortolan_elphi_export.lua merges it in.

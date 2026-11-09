@@ -9,6 +9,7 @@ export default {
     kloor_start: {
         text: "Kloor Venn si tě prohlíží s podezřením i zájmem. 'Co chceš? Mám práci.'",
         options: {
+            about_vestigels_offer_help: "K těm Vestigelům – mohl bych vám nějaký sehnat.",
             who_are_you: "Kdo jste?",
             what_are_you_selling: "Co prodáváte?",
             i_want_to_sell_you_some_spores: "Chci vám prodat nějaké spory.",
@@ -119,8 +120,8 @@ export default {
     kloor_bishop: {
         text: "Kloorův výraz se změní na opatrný. 'Biskupka? Jo, viděl jsem ji tady. S tou si není radno zahrávat. Byla tu na trhu nedávno, obchodovala s některými kupci.'",
         options: {
-            do_you_know_where_she_went: "Víte, kam šla?",
             what_was_she_trading: "S čím obchodovala?",
+            do_you_know_where_she_went: "Víte, kam šla?",
             back: "Zeptej se na něco jiného"
         }
     },
@@ -145,10 +146,10 @@ export default {
         }
     },
     kloor_bishop_location: {
-        text: "'Nedokážu říct s jistotou. Cesty biskupky jsou nevyzpytatelné.' Ušklíbne se vlastnímu vtipu. 'Ale slyšel jsem, že navštěvuje trh pravidelně.'",
+        text: "'Kam šla? To nevím. Cesty Biskupky jsou nevyzpytatelné.' Ušklíbne se vlastnímu vtipu. 'Ale co tady sháněla – to je mnohem zajímavější otázka.'",
         options: {
-            thanks_for_the_information: "Díky za informaci",
-            what_was_she_trading: "S čím obchodovala?"
+            what_was_she_trading: "Co tady sháněla?",
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_bishop_trading: {
@@ -163,6 +164,13 @@ export default {
         options: {
             i_could_help_you_get_one: "Mohl bych vám pomoct nějaký sehnat",
             sounds_dangerous: "To zní nebezpečně"
+        }
+    },
+    kloor_vestigels_dangerous: {
+        text: "'Nebezpečný?' Kloor si odfrkne. 'Všechno, co na tomhle trhu za něco stojí, je nebezpečný. Proto se to taky vyplatí.' Chvíli si tě měří pohledem. 'Ale kdyby sis to rozmyslel, nebudeš litovat.'",
+        options: {
+            i_could_help_you_get_one: "Mohl bych vám pomoct nějaký sehnat",
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_vestigels_help: {

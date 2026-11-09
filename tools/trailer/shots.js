@@ -88,7 +88,7 @@ function tameIntro(scene) {
 
 export const SHOTS = [
     {
-        id: 'hymnar', scene: 'IntroScene', duration: 6.2,
+        id: 'agarida', scene: 'IntroScene', duration: 6.2,
         setup(ctx) {
             const s = ctx.scene;
             tameIntro(s);

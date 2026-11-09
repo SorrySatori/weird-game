@@ -10,7 +10,9 @@ export default {
                 vestigel: 'Kloor Venn chce, abych našel jeden ze tří Vestigelů. Zmínil, že jeden má obchodnice jménem Zerren.',
                 elphi_contact: 'Podle Kloora Venna Biskupka často navštěvovala Dr. Elphi Quarn... Měl bych ji najít ve Škrabáku 1140.',
                 bishop_clue_gnur: "Gnur říká, že Biskupka přišla do Boudy 521 pro čočku ze starých předválečných snových souprav – zboží Rezavého chóru. Než řekne víc, chce něco na oplátku.",
-                edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',
+                edgar_eskola_clue: 'Úředník mi řekl, abych našel Edgara Eskolu v hospodě Řvoucí korek. Možná něco ví.',   // jen staré savy
+                clerk_records_hint: 'Úředník v Boudě 521 naznačil, že Inkoustový tribunál má o Biskupce záznamy. Ukáže mi je, až Gnurovi řeknu, že jádro nedostane.',
+                bishop_elphi_clerk: 'Úředník v Boudě 521 mi ukázal záznamy Inkoustového tribunálu: Biskupka měla povolení k návštěvě studia Dr. Elphi v patře 177-Tichém ve Škrabáku 1140.',
                 bishop_location_scraper: 'Biskupka koupila od Gnura předválečnou čočku a zaplatila Vestigelem – pak zamířila do Škrabáku 1140 za Dr. Elphi.',
                 got_floor_counter_tool: "Kapitánka Liris mi dala kalibrační nástroj na opravu počítadla pater Lift-Mother. S opraveným počítadlem by se výtah mohl dostat do pater, kam teď nedojede.",
                 lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tichém.',
@@ -91,6 +93,7 @@ export default {
             description: "Rád bych se přidal k Direktorátu. Měl bych se dozvědět víc o jejich práci a zjistit, co je potřeba, abych se stal jedním z nich.",
             updates: {
                 gardener_directions: 'Zahradník Verrik mě nasměroval ke Korektoru Úhlu ve třetím patře Direktorátu.',
+                demo_not_yet: 'Liris mě varovala, že Direktorát ani hlavní náměstí v tomhle demu otevřené nejsou. Na přidání se k nim si budu muset počkat do plné verze.',
                 liris_directions: "Kapitánka Liris mi poradila, kde najdu sídlo Direktorátu – nedaleko hlavního náměstí. Když se k nim přidám, možná si vysloužím místo v posádce Verdigrace.",
             }
         },
@@ -194,6 +197,9 @@ export default {
                 hint_lost_button: "Lift-Mother prý už léta postrádá jeden knoflík. Takové věci podle ní končí na Voxmarketu.",
                 hint_importance: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Kam Biskupka šla, by mohl vědět ještě někdo další ve městě.",
                 hint_importance_gnur: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Gnur slíbil, že si na Biskupku vzpomene, až mu přinesu to jádro.",
+                hint_importance_clerk: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Gnura jsem odmítl, ale úředník v kanceláři Žádostí v nejvyšším patře Boudy 521 mi to dluží – Inkoustový tribunál si přece všechno zapisuje.",
+                clerk_records_two: 'Úředník v kanceláři Žádostí mi ukázal záznamy Inkoustového tribunálu: Biskupka měla povolení k návštěvě patra Dr. Elphi. Spolu s Kloorovou historkou jsou to dvě, které se shodují – Lift-Mother by mě teď měla pustit nahoru.',
+                clerk_records_one: 'Úředník v kanceláři Žádostí mi ukázal záznamy Inkoustového tribunálu: Biskupka měla povolení k návštěvě patra Dr. Elphi. Pro Lift-Mother je to ale pořád jen jedna historka – potřebuju ještě druhou, která se s ní shoduje.',
                 hint_importance_kloor: "Lift-Mother by mě možná pustila nahoru, kdybych ji přesvědčil, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je pro ni drb, dvě, které se shodují, už jsou něco jiného. Kloor Venn mi za vestigel řekne, co o Biskupce ví.",
             }
         },

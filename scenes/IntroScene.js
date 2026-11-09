@@ -1,6 +1,6 @@
 // IntroScene — "The Myceliar Summons", the opening cutscene.
 //
-// Shot 1: the Hymnar, the cult's sacred giant mushroom (NOT the god — Obazoba has no body, he is an ideal). A tall
+// Shot 1: Agarida, the cult's sacred giant mushroom (NOT the god — Obazoba has no body, he is an ideal). A tall
 //         picture (1067×1000); the camera pans from the cap down to the temple at its foot while the narrator speaks.
 //         A pulse of light runs in along a root (from the direction of the city) and the camera rides it up the stalk;
 //         when it reaches the gills they flare and shed spores.
@@ -35,10 +35,10 @@ class IntroScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('introHymnar', IMG + 'hymnar.png');
-        this.load.image('introHymnarGills', IMG + 'hymnar_gills.png');
-        this.load.image('introHymnarGlow', IMG + 'hymnar_glow.png');
-        this.load.json('introHymnarData', IMG + 'hymnar.json');
+        this.load.image('introAgarida', IMG + 'agarida.png');
+        this.load.image('introAgaridaGills', IMG + 'agarida_gills.png');
+        this.load.image('introAgaridaGlow', IMG + 'agarida_glow.png');
+        this.load.json('introAgaridaData', IMG + 'agarida.json');
         this.load.image('introCouncilBg', IMG + 'council_bg.png');
         this.load.image('introCouncilTable', IMG + 'council_table.png');
         this.load.image('introCouncilGlow', IMG + 'council_glow.png');
@@ -85,7 +85,7 @@ class IntroScene extends Phaser.Scene {
         const opening = this.lang.t('intro.opening');
         const dialogues = this.lang.t('intro.dialogues');
         this.dialogues = Array.isArray(dialogues) ? dialogues.map((d) => ({ ...d, who: d.who || this.guessWho(d.speaker) })) : [];
-        // narration that belongs over the Hymnar: the captions + any leading narrator lines of the dialogue
+        // narration that belongs over Agarida: the captions + any leading narrator lines of the dialogue
         const lead = [];
         while (this.dialogues.length && this.dialogues[0].who === 'narrator') lead.push(this.dialogues.shift());
         this.shot1Steps = this.makeShot1Steps(Array.isArray(opening) ? opening : [], lead);
@@ -172,14 +172,14 @@ class IntroScene extends Phaser.Scene {
         return 'narrator';
     }
 
-    // ------------------------------------------------------------------ shot 1: the Hymnar
+    // ------------------------------------------------------------------ shot 1: Agarida
     buildShot1() {
-        const d = this.cache.json.get('introHymnarData') || {};
-        this.hymnarData = d;
-        this.world(this.add.image(0, 0, 'introHymnar').setOrigin(0, 0).setDepth(0));
-        this.gills = this.world(this.add.image(0, 0, 'introHymnarGills').setOrigin(0, 0).setDepth(1)
+        const d = this.cache.json.get('introAgaridaData') || {};
+        this.agaridaData = d;
+        this.world(this.add.image(0, 0, 'introAgarida').setOrigin(0, 0).setDepth(0));
+        this.gills = this.world(this.add.image(0, 0, 'introAgaridaGills').setOrigin(0, 0).setDepth(1)
             .setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.2));
-        this.obGlow = this.world(this.add.image(0, 0, 'introHymnarGlow').setOrigin(0, 0).setDepth(2)
+        this.obGlow = this.world(this.add.image(0, 0, 'introAgaridaGlow').setOrigin(0, 0).setDepth(2)
             .setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.25));
         this.tweens.add({ targets: this.obGlow, alpha: 0.5, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
         this.tweens.add({ targets: this.gills, alpha: 0.32, duration: 3400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
@@ -312,7 +312,7 @@ class IntroScene extends Phaser.Scene {
         this.gills.setAlpha(1);
         this.tweens.add({ targets: this.gills, alpha: 0.3, duration: 3200, ease: 'Sine.easeOut' });
         this.cameras.main.shake(500, 0.0025);
-        const rimY = this.hymnarData.rimY || 330;
+        const rimY = this.agaridaData.rimY || 330;
         const burst = this.world(this.add.particles(0, 0, 'introSpore', {
             emitZone: { type: 'random', source: new Phaser.Geom.Rectangle(0, rimY, this.W, 60) },
             lifespan: 5000, speedY: { min: 20, max: 70 }, speedX: { min: -14, max: 14 },

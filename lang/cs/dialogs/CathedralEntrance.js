@@ -124,7 +124,7 @@ export default {
         }
     },
     templeGuardDisturbing: {
-        text: "Rád, že to tak vidíš. Získal jsem nesmrtelnost a účel. Nikdy nejsem sám.",
+        text: "Jsem rád, že to tak vidíš. Získal jsem nesmrtelnost a účel. Nikdy nejsem sám.",
         options: {
             fascinating: "Fascinující"
         }

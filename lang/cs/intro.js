@@ -1,13 +1,13 @@
 /**
  * Czech intro scene text – vyprávění a dialogy z úvodní scény.
- * `opening`: titulky k úvodnímu záběru na Hymnar (posvátnou houbu boha Obazoby, ne boha samotného); `dialogues[].who` určuje, která postava v síni mluví.
+ * `opening`: titulky k úvodnímu záběru na Agaridu (posvátnou houbu boha Obazoby, ne boha samotného); `dialogues[].who` určuje, která postava v síni mluví.
  */
 export default {
     intro: {
         opening: [
-            'Hluboko pod zemí, daleko za hranicemi Horní Morkezely, roste Hymnar – posvátná houba boha Obazoby.',
-            'Někteří věří, že Hymnar je poslem samotného Obazoby v našem světě. Jiní tvrdí, že je to jen fakt velká houba. Jakože fakt velká.',
-            'Náhle Hymnarovým podhoubím projel impulz, který se už dlouho neobjevil. Volání o pomoc, jaké se ozve jednou za generaci.',
+            'Hluboko pod zemí, daleko za hranicemi Horní Morkezely, roste Agarida – posvátná houba boha Obazoby.',
+            'Někteří věří, že Agarida je poslem samotného Obazoby v našem světě. Jiní tvrdí, že je to jen fakt velká houba. Jakože fakt velká.',
+            'Náhle Agaridiným podhoubím projel impulz, který se už dlouho neobjevil. Volání o pomoc, jaké se ozve jednou za generaci.',
         ],
         dialogues: [
             { who: 'narrator', speaker: 'VYPRAVĚČ', text: 'V podzemním chrámu boha Obazoby zasedá Rada Nejvyššího Humenia.' },

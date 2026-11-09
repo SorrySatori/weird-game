@@ -1,7 +1,9 @@
 -- Exports the Feral Toast sheets from the Aseprite sources into the game (touch-ups in "UPRAVY" included).
 -- aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/feral_toast --script tools/artgen/feral_export.lua
 local src, dst = app.params["src"], app.params["dst"]
-for _, id in ipairs({ "telka", "bass_xl", "karlis", "mira" }) do
+local ids = {}  -- optional --script-param ids=karlis,mira (default: all four)
+for id in string.gmatch(app.params["ids"] or "telka,bass_xl,karlis,mira", "[^,]+") do ids[#ids + 1] = id end
+for _, id in ipairs(ids) do
   local s = app.open(src .. "/FeralToast_" .. id .. ".aseprite")
   for _, l in ipairs(s.layers) do l.isVisible = (l.name == id or l.name == id .. " UPRAVY") end
   local sheet = Image(s.width * #s.frames, s.height, ColorMode.RGB)

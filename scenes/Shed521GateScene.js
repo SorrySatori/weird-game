@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, placeProps } from '../utils/GDProps.js';
@@ -21,6 +22,7 @@ export default class Shed521GateScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        notePlace(this, 'place_shed_521');   // the journal's Places tab, on the first visit
         
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);

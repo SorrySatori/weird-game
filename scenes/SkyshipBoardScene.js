@@ -1,6 +1,8 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { DEMO_BUILD } from '../config/build.js';
 export default class SkyshipBoardScene extends GameScene {
     constructor() {
         super({ key: 'SkyshipBoardScene' });
@@ -18,6 +20,7 @@ export default class SkyshipBoardScene extends GameScene {
 
     create() {
         super.create();
+        notePlace(this, 'place_verdigrace');   // the journal's Places tab, on the first visit
         this.playSceneMusic('flightGuitar');
 
         // Set skyship board background
@@ -364,7 +367,9 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Thank you! I have some other questions.',
                         key: 'thank_you_i_have_some_other_questions',
-                        next: 'captainMain'
+                        // the demo: once, Liris's aside that the Directorate can't be joined here yet
+                        next: DEMO_BUILD && !this.questSystem?.getQuest('find_lumen_directorate')?.updates?.some(u => u.key === 'demo_not_yet')
+                            ? 'captainDirectorateDemo' : 'captainMain'
                     }
                 ],
                 onTrigger: () => {
@@ -374,6 +379,17 @@ export default class SkyshipBoardScene extends GameScene {
                     }
                     // the description is shared with Verrik's route; Liris's directions are their own update
                     this.questSystem.updateQuest('find_lumen_directorate', "Captain Liris gave me directions to the Lumen Directorate headquarters, near the main square. Joining them might earn me a place on the Verdigrace's crew.", 'liris_directions');
+                }
+            },
+            // DEMO_BUILD: the main square and the Directorate aren't in the demo -- Liris says so, in character, and the
+            // quest log keeps it (like Ravla's aside about the Rust Feast)
+            captainDirectorateDemo: {
+                text: "*Liris hesitates, then lowers her voice.* \"Before you go looking — you won't get there this time. The main square, the Directorate, half the city past it: none of it is open yet. A demo, the dockhands call this version of the city. I can't fly you to a district that hasn't been built.\" *She taps the rail.* \"Hold on to the idea, though. When the rest of the city opens, the Directorate will be there — and so will the Verdigrace.\"",
+                options: [
+                    { text: "I'll remember that.", key: 'ill_remember_that', next: 'captainMain' }
+                ],
+                onTrigger: () => {
+                    this.questSystem.updateQuest('find_lumen_directorate', "Liris warned me the Directorate and the main square aren't open in this demo. Joining them will have to wait for the full game.", 'demo_not_yet');
                 }
             },
             captainCargo: {

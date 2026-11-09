@@ -1,4 +1,8 @@
-"""Dr. Elphi Quarn brought down from her old portrait-sized art to its own grid (like edgar.py / corkfolk.py: box filter,
+"""SUPERSEDED (2026-11-09): Dr. Elphi is now redrawn by elphi.py (rig.py; elphi_aseprite.lua / elphi_export.lua build
+and export assets/aseprite/Elphi_idle.aseprite -> elphi_idle.png). This script is kept only for reference -- do not run
+it into the assets any more, it would overwrite the redraw with the old box-filtered picture.
+
+Dr. Elphi Quarn brought down from her old portrait-sized art to its own grid (like edgar.py / corkfolk.py: box filter,
 nothing re-drawn) and animated in place by moving / relighting her own pixels. (Ortolan used to live here too; he is now
 redrawn by ortolan.py -- this script no longer touches his sheets or Aseprite sources.)
   elphi     128x160 (from DrElphi.png, /11), soles on y 156; 8 frames:

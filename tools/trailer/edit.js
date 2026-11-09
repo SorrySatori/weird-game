@@ -2,7 +2,7 @@
 // Times are trailer seconds. Music cues in upper-morkezela.mp3 (measured): quiet intro, the band kicks in at
 // 18.29 s, last hit before the break at 73.78 s, back in at 77.84 s; the pulse is ≈0.857 s (70 BPM).
 //
-//   story    — opens on the Hymnar and the Council in the quiet intro, the band comes in on the city (≈75 s)
+//   story    — opens on Agarida and the Council in the quiet intro, the band comes in on the city (≈75 s)
 //   gameplay — "10 tips for visiting Upper Morkezela": cards + cursor-driven play, to Dr. Elphi's Lab (≈108 s)
 
 export const FPS = 60;
@@ -60,7 +60,7 @@ function makeCut({ musicStart, intro, file, musicFadeIn }) {
     const END = BACK + 4.0;
     const SEGMENTS = [
         ...(intro ? [
-            { at: 0, shot: 'hymnar', in: 1.4, move: still, fadeIn: 1.0 },
+            { at: 0, shot: 'agarida', in: 1.4, move: still, fadeIn: 1.0 },
             { at: 4.6, shot: 'council', in: 0.9, move: still, dissolve: 0.5 },
         ] : []),
         ...montage(KICK, DROP, intro ? 0 : 0.15),
@@ -69,7 +69,7 @@ function makeCut({ musicStart, intro, file, musicFadeIn }) {
     ];
     // Text over the picture; cards carry their own title for their whole length.
     const TITLES = [
-        ...(intro ? [{ id: 'hymnar', from: 0.7, to: 4.2 }] : []),
+        ...(intro ? [{ id: 'agarida', from: 0.7, to: 4.2 }] : []),
         { id: 'city', from: KICK + 0.35, to: KICK + U - 0.2 },
         { id: 'grow', seg: 'shedGrowth' },
         { id: 'decay', seg: 'shedDecay' },

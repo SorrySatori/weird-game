@@ -43,6 +43,8 @@ export default {
             page: 'Strana {n} / {total}',
             slotName: 'Uložení {n}',
             quicksave: 'Rychlé uložení',
+            autosave: 'Automatické uložení',
+            autosaved: 'Hra se automaticky uložila',
             saveTitle: 'ULOŽIT HRU',
             loadTitle: 'NAČÍST HRU',
             save: 'Uložit',
@@ -66,6 +68,8 @@ export default {
             spores: 'SPORY',
             quests: 'Úkoly',
             journal: 'DENÍK',
+            questTabActive: 'Aktivní',
+            questTabDone: 'Dokončené',
             map: 'MAPA',
             journalButton: 'Deník',
             hintButton: 'Nápověda',
@@ -106,6 +110,24 @@ export default {
         },
 
         // Inventář
+        // DEMO_BUILD: an exit into a place outside the demo (utils/demo.js)
+        demo: {
+            closedLabel: 'V demu uzavřeno',
+            questNotInDemo: 'V demu nejde dokončit – pokračuje v plné verzi hry.',
+            closedLine: "Dopravní kužel. Tudy se v demu dál nedostanu.",
+            // závěrečná karta dema (scenes/DemoEndScene.js)
+            end: {
+                title: 'Konec dema',
+                body: 'Děkujeme, že jste si zahráli demo! Klíč od Elphi odemyká dvorek Škrabáku – a tam demo končí. '
+                    + 'Pátrání po Biskupce pokračuje v plné hře, napříč celou Horní Morkezelou: jejími čtvrtěmi, '
+                    + 'frakcemi i symbionty, kteří by se ve vás rádi zabydleli.\n\n'
+                    + 'Můžete tu ale ještě chvíli zůstat – co jste nedokončili, na vás počká.',
+                wishlist: 'Přidat do seznamu přání',
+                continue: 'Hrát dál',
+                storeOpened: 'Stránka hry se otevírá ve Steamu.',
+            },
+        },
+
         inventory: {
             button: 'Inventář',
             panelTitle: 'INVENTÁŘ',
@@ -114,6 +136,10 @@ export default {
             play: 'PŘEHRÁT',
             stop: 'STOP',
             useItem: 'Použít',
+            playItem: 'Přehrát',
+            stopItem: 'Zastavit',
+            selectHint: 'Najeď na předmět, nebo ho kliknutím vyber.',
+            types: { key_item: 'Klíčový předmět', tool: 'Nástroj', drug: 'Droga', consumable: 'Spotřební', recording: 'Zvuková nahrávka', decoration: 'Památka' },
             cancel: 'Zrušit',
             title: 'SBÍRKA SPOR',
             empty: 'Tvoje sbírka spor je prázdná.\nSbírej spory při průzkumu.',

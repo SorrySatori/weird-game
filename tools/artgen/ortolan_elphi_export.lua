@@ -1,3 +1,4 @@
+-- SUPERSEDED: Dr. Elphi is now built by elphi.py + elphi_aseprite.lua / elphi_export.lua (kept for reference only).
 -- Exports the Dr. Elphi idle sheet from its Aseprite source (UPRAVY included). Ortolan: see ortolan_export.lua.
 -- aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/ortolan_elphi_export.lua
 local src, dst = app.params["src"], app.params["dst"]

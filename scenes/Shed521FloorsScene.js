@@ -1,3 +1,4 @@
+import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { createAmbientNpc } from '../utils/AmbientNpc.js';
@@ -65,6 +66,7 @@ export default class Shed521FloorsScene extends GameScene {
     create() {
         // Call parent create first to initialize mechanics
         super.create();
+        notePlace(this, 'place_shed_521');   // the journal's Places tab, on the first visit
         this.playSceneMusic('shedLoop', { resume: true });
         this._routeId = 0;  // the scene instance is re-used: a fresh route counter per visit
 
@@ -146,8 +148,9 @@ export default class Shed521FloorsScene extends GameScene {
 
     /** Turn the priest (and his glow) left (-1) or right (1). */
     face(dir) {
-        this.priest.setScale(dir, 1);
-        this.priestGlow?.setScale(1.05 * dir, 1.05);
+        const k = this.priestScale || 1;
+        this.priest.setScale(dir * k, k);
+        this.priestGlow?.setScale(1.05 * dir * k, 1.05 * k);
     }
 
     /** Walk along the current floor to x (resolves on arrival; never if another walk or a panel cuts it short). */

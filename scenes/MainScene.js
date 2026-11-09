@@ -127,7 +127,8 @@ export default class MainScene extends Phaser.Scene {
         this.mainNav.active = false;
         this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.cameras.main.once('camerafadeoutcomplete', () => {
-            SaveSystem.clearPersistedRegistry(this.registry);   // a new game starts with a clean world
+            SaveSystem.clearPersistedRegistry(this.registry);   // a new game starts with a clean world (money included)
+            this.registry.remove('savedMoney');                  // nor with a purse from a save loaded earlier this session
             this.scene.start('IntroScene');
         });
     }

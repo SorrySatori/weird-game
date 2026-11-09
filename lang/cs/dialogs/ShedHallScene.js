@@ -1,12 +1,13 @@
 /**
- * Czech dialog translations for ShedHallScene — the Living Core in the wall. Narration only (tyká).
+ * Czech dialog translations for ShedHallScene — the Living Core in the wall. Narration only (tyká). The player may
+ * come here before Gnur's quest, so the narration says what he sees, not the core's name.
  */
 export default {
     _speakers: {
         'Narrator': 'Vypravěč',
     },
     main: {
-        text: "Živé jádro pulzuje nadpozemskou energií. Vypadá jako srostlé se zdí, ale možná by šlo vyjmout...",
+        text: "Ve stěně je vsazený zelený svítící předmět, který pulzuje nadpozemskou energií. Slyšíš tiché hučení, které se rozléhá chodbou. Jakmile se k předmětu přiblížíš, houbové výrůstky na tvém těle se jemně rozechvějí. Vypadá to, že je ve zdi pevně usazený, ale možná by šel vyjmout…",
         options: {
             examine_it_more_carefully: "Prohlédnout si ho pozorněji",
             use_pliers_to_carefully_extract_it: "Opatrně ho vyjmout kleštěmi",
@@ -15,25 +16,25 @@ export default {
         }
     },
     examine: {
-        text: "Živé jádro je do zdi vrostlé jen na několika málo místech. Se správným nástrojem, třeba kleštěmi, by možná šlo vyjmout bez poškození...",
+        text: "Předmět drží ve zdi jen na několika málo místech. Se správným nástrojem, třeba kleštěmi, by možná šel vyjmout bez poškození…",
         options: { back: "Zpět" }
     },
     force_extract: {
-        text: "Vyrveš Živé jádro hrubou silou. Zdá se ti, že se v okolním prostoru jakoby ochladilo...",
+        text: "Vyrveš předmět ze zdi hrubou silou. Zdá se ti, že se vzduch kolem tebe ochladil…",
         options: { continue: "Pokračovat" }
     },
     careful_extract: {
-        text: "Kleštěmi Živé jádro opatrně vyjmeš. Nic dalšího se neděje. Alespoň tedy nevidíš žádnou viditelnou změnu v okolí.",
+        text: "Kleštěmi předmět opatrně uvolníš. Nic dalšího se neděje… nebo aspoň kolem sebe žádnou změnu nevidíš.",
         options: { continue: "Pokračovat" }
     },
     careful_extract_complete: {
-        text: "Živé jádro ti spokojeně pulzuje v dlaních. Opatrným vyjmutím jsi jeho energii zřejmě zachoval.",
+        text: "Předmět ti spokojeně pulzuje v dlaních. Opatrným vyjmutím jsi jeho energii zřejmě zachoval.",
         options: { continue: "Pokračovat" }
     },
     goodbye: {
-        text: "Ustoupíš od Živého jádra."
+        text: "Ustoupíš od svítícího předmětu."
     },
     goodbye_taken: {
-        text: "Ustoupíš od místa, kde bylo Živé jádro."
+        text: "Ustoupíš od prázdného otvoru ve zdi."
     }
 };

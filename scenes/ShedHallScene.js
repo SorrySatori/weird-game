@@ -10,7 +10,7 @@ export default class ShedHallScene extends GameScene {
         this._livingCoreDialogContent = {
             main: {
                 speaker: 'Narrator',
-                text: "A Living Core pulses with an otherworldly energy. It seems to be fused with the wall, but it might be possible to extract it...",
+                text: "A green, glowing object is set into the wall, pulsing with an otherworldly energy. You hear a low hum carrying down the corridor. As you step closer, the fungal growths on your body begin to quiver. The thing seems firmly fixed in the wall, but it might be possible to get it out...",
                 options: [
                     { text: "Examine it more carefully", key: 'examine_it_more_carefully', next: "examine" },
                     { text: "Extract it forcefully", key: 'extract_it_forcefully', next: "force_extract" },
@@ -18,13 +18,13 @@ export default class ShedHallScene extends GameScene {
                 ]
             },
             examine: {
-                text: "The Living Core seems connected to the wall only at a few points. With the right tools, like a pair of pliers, you might be able to extract it without causing damage...",
+                text: "The object is held by the wall at only a few points. With the right tool, a pair of pliers say, you might get it out without damaging it...",
                 options: [
                     { text: "Back", key: 'back', next: "main" }
                 ]
             },
             force_extract: {
-                text: "You wrench the Living Core free with brute force. The surrounding area seems to be getting cold...",
+                text: "You wrench the object out of the wall by brute force. The air around you seems to grow colder...",
                 options: [
                     { text: "Continue", key: 'continue', next: "goodbye_taken" }
                 ],
@@ -41,7 +41,7 @@ export default class ShedHallScene extends GameScene {
                 }
             },
             careful_extract: {
-                text: "Using the pliers, you carefully extract the Living Core. Nothing else happens... Or at least you don't see any visible changes.",
+                text: "Using the pliers, you carefully work the object free. Nothing else happens... or at least you see no change around you.",
                 options: [
                     { text: "Continue", key: 'continue', next: "careful_extract_complete" }
                 ],
@@ -58,17 +58,17 @@ export default class ShedHallScene extends GameScene {
                 }
             },
             careful_extract_complete: {
-                text: "The Living Core pulses contentedly in your hands, its energy seemingly preserved by your careful extraction.",
+                text: "The object pulses contentedly in your hands; the careful extraction seems to have kept its energy intact.",
                 options: [
                     { text: "Continue", key: 'continue', next: "goodbye_taken" }
                 ]
             },
             goodbye: {
-                text: "You step back from the Living Core.",
+                text: "You step back from the glowing object.",
                 options: []
             },
             goodbye_taken: {
-                text: "You step back from where the Living Core was.",
+                text: "You step back from the empty socket in the wall.",
                 options: []
             }
         };
@@ -173,6 +173,8 @@ export default class ShedHallScene extends GameScene {
             ];
         }
 
+        // the narration's portrait plate shows what he is looking at
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), Narrator: 'living-core' };
         this.showDialog('main');
     }
 }
