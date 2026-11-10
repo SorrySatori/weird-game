@@ -180,7 +180,7 @@ export default class ScraperScene extends GameScene {
         this.load.image('scraperBg', 'assets/images/backgrounds/Scraper1140.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
-        preloadStreetLamp(this, 'lamp_don');   // tools/artgen/lamps.py (Aseprite Lamps_don, 3x pixels like the picture)
+        preloadStreetLamp(this, 'lamp_don');   // tools/artgen/lamps.py (Aseprite Lamps_don, native 1 px like the picture)
         this.load.image('vestigel', 'assets/images/items/vestigel.png');
     }
 

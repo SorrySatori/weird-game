@@ -96,6 +96,7 @@ export default {
         mapYouAreHere: 'Jste zde',
         mapHint: 'Klikněte na navštívené místo pro rychlé cestování  •  Stiskněte M nebo ESC pro zavření',
         travelingTo: 'Cestujete do {location}...',
+        lampFound: 'Nalezená lampa: {name}',
 
         // Dialog
         dialog: {

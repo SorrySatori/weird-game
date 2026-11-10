@@ -747,8 +747,11 @@ python3 lamps.py <outdir> [ids]   # -> sconce.png chandelier.png torchere.png do
 aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/lamps.gpl --script tools/artgen/lamps_aseprite.lua
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters/lamps --script tools/artgen/lamps_export.lua
 ```
-Sconce = twin of townhall_bg.py lamp() (measured off townhall.png x 430). Don is LOGICAL 45x56 on Scraper1140's 3x grid,
-quantised to scraper.gpl, shown at scale 3. Frame meanings are in lamps.py's *_POSE lists.
+Sconce = twin of townhall_bg.py lamp() (measured off townhall.png x 430). Don is native 136x168 like the other three (since
+2026-11-10, when Scraper 1140 went native): his body is a parametric surface (elliptic sections, belly, lower near
+shoulder, `DonRig` keeps per-pixel normals for the head-lamp's light) and the three-piece suit is mapped onto it in his own
+(X, b) coordinates (J_EDGE / V_NECK / L_WIDE / J_FOLDS). Add `--script-param only=don` to both Aseprite commands to rebuild
+one lamp. Frame meanings are in lamps.py's *_POSE lists.
 
 
 ## The Cardinal Feast rooms (CardinalFeastScene)

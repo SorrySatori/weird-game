@@ -19,15 +19,18 @@ a slight lean, a nervous rattle.
              like a splayed hand, a cage lantern): a tall rust-streaked iron post bolted to the planks with banded
              collars, a coil of tarred rope on a hook, a drip pan and an open storm cage with the twisted finial, and in
              it a bare oil flame snapping sideways in the sea wind; it rounds on you, flares, spits sparks.
-  don        45x56 LOGICAL, shown at scale 3 in ScraperScene -- Scraper1140.png is the one background with 3x pixels
-             (a re-pixelled picture, scraper_bg.py), so Don is drawn on that grid and quantised to its palette
-             (scraper.gpl). The godfather: a lamp-headed man in a dark brown suit and tie, white gloves, on a lamp
-             post's foot; turned three-quarters to the left, one hand in his pocket (that shoulder lower), the other
-             holding a cigar, the head-lamp lighting his own shoulders; the flame in it turns to look, the ember
-             breathes, smoke curls up.
+  don        136x168, ScraperScene, on the pipe tower's platform (native 1 px like Scraper1140.png, scraper_native_bg.py;
+             seen a little from below). The godfather: a portly lamp-post gentleman in a dark brown three-piece suit
+             with a chalk pinstripe -- the jacket open over a strained waistcoat (buttons, a gold watch chain), peaked
+             lapels, a pocket square, a starched collar and an ochre silk tie; white kid gloves. He stands in a
+             gadrooned bronze lamp-post cup and is turned three-quarters to the viewer's left (toward the player): the
+             near hand deep in the jacket's hip pocket (that shoulder lower, the elbow out and back), the far one raised
+             with a banded cigar between the first two fingers. His head is a brass lantern (glass panes in a frame,
+             eaves, a seamed roof, a finial) with a flame on a burner inside -- the "eye" -- and its light falls on his
+             own shoulders, lapels and the cigar hand. The flame turns to look, the ember breathes, smoke curls up.
 
-Every sheet is a horizontal strip of 8 idle frames (frame meanings in IDLE_NOTES); the game shows them at scale 1
-(Don 3), origin bottom-centre; the base's lowest row is H-3 (Don: H-1). Bust portraits are frames of the same sheets
+Every sheet is a horizontal strip of 8 idle frames (frame meanings in the *_POSE lists); the game shows them at scale
+1, origin bottom-centre; the base's lowest row is H-3 (Don: H-1). Bust portraits are frames of the same sheets
 (utils/GangOfLamps.js LAMP_ART).
 python3 lamps.py <outdir> [ids...]  ->  <id>.png (sheet) + <id>/<n>.png + lamps.gpl + preview_<id>.png"""
 import sys, os, math, random
@@ -608,160 +611,584 @@ TORCHERE_POSE = [  # 0 the wind lays the flame over  1 the tip splits  2 a gust,
 
 
 # ======================================================================================================== DON GIRANDOLE
-# Scraper1140.png is the original picture re-pixelled at 3x (356x200 logical, scraper_bg.py), so the Don is drawn on
-# that grid (45x56 logical, shown at scale 3) and quantised to its palette (scraper.gpl). He sits on the pipe tower's
-# platform above the roof's horizon, so he is seen a little from below.
-SCRAPER_PAL = [(7, 8, 9), (16, 15, 17), (21, 19, 22), (23, 25, 27), (25, 28, 30), (27, 32, 34), (29, 36, 38), (31, 39, 41),
-               (45, 38, 29), (33, 43, 44), (36, 47, 47), (39, 50, 45), (40, 52, 50), (44, 57, 52), (56, 54, 43), (48, 63, 55),
-               (53, 69, 59), (72, 64, 49), (55, 74, 65), (59, 76, 64), (61, 80, 68), (80, 78, 57), (64, 84, 71), (69, 88, 74),
-               (73, 93, 78), (75, 97, 81), (79, 100, 83), (90, 97, 74), (84, 104, 85), (92, 109, 89), (109, 110, 72),
-               (100, 119, 96), (104, 118, 92), (107, 123, 97), (112, 125, 97), (114, 127, 99), (117, 130, 103), (123, 136, 111),
-               (131, 137, 108), (138, 143, 113), (151, 155, 121), (165, 163, 123), (175, 165, 118), (171, 169, 126),
-               (183, 181, 139), (71, 56, 36), (99, 73, 42), (121, 89, 47), (143, 81, 34), (155, 97, 50), (146, 120, 58),
-               (162, 117, 33), (188, 141, 53), (232, 160, 72), (255, 214, 140)]
-DN_SUIT = [(7, 8, 9), (16, 15, 17), (21, 19, 22), (45, 38, 29), (56, 54, 43), (71, 56, 36), (99, 73, 42)]
-DN_SUITL = [(21, 19, 22), (45, 38, 29), (71, 56, 36), (99, 73, 42), (121, 89, 47), (155, 97, 50)]
-DN_CREAM = [(72, 64, 49), (109, 110, 72), (138, 143, 113), (165, 163, 123), (183, 181, 139)]
-DN_BRZ = [(7, 8, 9), (21, 19, 22), (45, 38, 29), (71, 56, 36), (99, 73, 42), (121, 89, 47), (146, 120, 58), (188, 141, 53)]
-DN_TIE = [(21, 19, 22), (71, 56, 36), (121, 89, 47), (146, 120, 58), (162, 117, 33)]
-DN_GLOW = [(143, 81, 34), (162, 117, 33), (188, 141, 53), (232, 160, 72), (255, 214, 140)]
-DN_SMOKE = [(123, 136, 111), (138, 143, 113), (151, 155, 121), (165, 163, 123)]
-DN_OUT = (16, 15, 17)
-DN = dict(W=45, H=56, B=55, cx=22)
+# Native 1 px, 136x168, shown at scale 1 on Scraper1140.png (scraper_native_bg.py): the sprite's centre at canvas x 1024,
+# its bottom at y 381 on the pipe tower's platform, which stands well above the roof's horizon (y 450) -- so he is seen
+# a little from below (the cup's rim, the lantern's base plate and its eaves show their undersides). b = px above the
+# cup's foot (row 167). His body is a parametric surface (elliptic sections, a belly, one shoulder lower) turned DN_YAW
+# toward the viewer's left; the cloth (jacket, lapels, waistcoat, shirt, tie) is mapped onto it by its own coordinates,
+# so the open jacket, the strained waistcoat, the pinstripe and the folds all wrap round him.
+DN_SUIT = R('#0f0b09 #150f0c #1b1310 #221814 #2a1e18 #32241c #3b2b21 #453226 #4f3a2c #5a4232 #664b39')
+DN_SHIRT = R('#37332a #4b463a #615a4b #78705d #8f8771 #a69e86 #bbb49b #cec8ae #ded9c2')
+DN_TIE = R('#1f150b #2d1e0e #3d2912 #4f3517 #61421c #745121 #866028 #977032')
+DN_GLOVE = R('#3c3933 #534f46 #6b665a #847e6f #9c9786 #b4af9b #cac6b0 #dcd8c4 #eae7d7')
+DN_BRASS = R('#17110a #21180d #2c2011 #382915 #44321a #513c1f #5f4725 #6e522b #7d5e33 #8e6c3d #a07c4a #b48f5c')
+DN_GLASS = R('#4e3216 #66401a #7f501f #985f25 #ad6f2c #c18035 #d29240 #e0a54e #ecbb68 #f5d08a #fbe4b4')
+DN_BRONZE = R('#100c09 #17110d #1f1711 #281e15 #32261a #3d2e1f #483725 #54412c #614b33 #6e563b')
+DN_VERD = R('#1d2822 #27352d #314238 #3c5043')
+DN_CIGAR = R('#1d130c #29190f #372214 #462b19 #56351f #674026')
+DN_EMBER = R('#4a1a0c #7a2a10 #b04418 #d86a28 #f39a44 #ffc878 #fff0c8')
+DN_ASH = R('#55534d #75726a #96928a')
+DN_CHAIN = R('#4a3a1c #7a6230 #b09550 #dcc282')
+DN_SKY = (166, 180, 160)                                                      # the overcast sky caught on the glass
+DN_SMOKE = (196, 199, 188)
+DN_OUT = (17, 12, 10)
+DN = dict(W=136, H=168, B=167, cx=66)
+DN_YAW, DN_HYAW = math.radians(28), math.radians(25)                         # the body's and the lantern's turn
+DN_HX, DN_HZ = -2.0, 3.5                                                     # the head's axis from the body's (screen x, z)
+
+rig.TEX['suit'] = lambda x, y: ((rig.nF(x * 1.7, y * 1.7) - 0.5) * 0.12 + (rig.nM(x * 0.7, y * 0.7) - 0.5) * 0.08
+                                 + (0.03 if (x + 2 * y) % 3 == 0 else 0))          # worsted: grain, mottle, twill
+rig.TEX['kid'] = lambda x, y: (rig.nF(x * 1.2, y * 1.2) - 0.5) * 0.05
 
 
-def quantise(im, pal):
-    p = im.load(); cache = {}
-    for y in range(im.height):
-        for x in range(im.width):
-            c = p[x, y]
-            if c[3] == 0: continue
-            k = c[:3]
-            if k not in cache: cache[k] = min(pal, key=lambda q: (q[0] - k[0]) ** 2 * 0.3 + (q[1] - k[1]) ** 2 * 0.59 + (q[2] - k[2]) ** 2 * 0.11)
-            p[x, y] = cache[k] + (255,)
-    return im
+def spl(tab, b):
+    """Catmull-Rom through (b, value) control points, clamped at the ends"""
+    if b <= tab[0][0]: return tab[0][1]
+    if b >= tab[-1][0]: return tab[-1][1]
+    i = 0
+    while tab[i + 1][0] < b: i += 1
+    t = (b - tab[i][0]) / (tab[i + 1][0] - tab[i][0])
+    p0, p1, p2, p3 = tab[max(0, i - 1)][1], tab[i][1], tab[i + 1][1], tab[min(len(tab) - 1, i + 2)][1]
+    return 0.5 * (2 * p1 + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t ** 3)
+
+
+def segd(px, py, ax, ay, bx, by):
+    """distance from p to the segment ab"""
+    dx, dy = bx - ax, by - ay
+    L2 = dx * dx + dy * dy or 1e-9
+    t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / L2))
+    return math.hypot(px - ax - dx * t, py - ay - dy * t)
+
+
+# the body: half-widths of the far (his right) and near (his left) side, the half-depth, the belly, the neck's lean
+TOR_AF = [(31, 25), (38, 27.5), (46, 29.5), (54, 29.5), (62, 28), (70, 26.8), (77, 26.6), (82, 25.6), (84.5, 23.4),
+          (86.6, 17.5), (88.2, 11.5), (89.2, 9.6), (92, 9.2)]
+TOR_AN = [(31, 25), (38, 27.5), (46, 29.5), (54, 30), (62, 28.5), (70, 27.5), (75, 27.2), (78.5, 26.0), (81, 23.4),
+          (83.2, 17.0), (85.0, 11.5), (86.2, 9.6), (92, 9.2)]
+TOR_BD = [(31, 20), (38, 22.5), (46, 23.5), (54, 23), (62, 21), (70, 19), (77, 17.5), (82, 16), (86, 12), (89, 9.4), (92, 9)]
+TOR_ZC = [(31, 3), (38, 5), (46, 6.5), (54, 6), (62, 4), (70, 2), (78, 0.5), (92, 0)]
+TOR_ZN = [(76, 0), (89, 4.0), (92, 4.0)]
+# the cloth, in his own X (px from the front line) and b
+J_EDGE = [(31, 14), (40, 13), (50, 11), (57, 9.0), (66, 8.3), (76, 7.6), (86, 7.0), (92, 6.6)]     # the open jacket
+V_NECK = [(63, 0), (67, 1.6), (76, 3.9), (84, 5.6), (92, 6.6)]                                       # the waistcoat's V
+T_HALF = [(60, 2.9), (70, 2.7), (80, 2.1), (85, 1.6), (86, 1.4)]                                  # the tie
+L_WIDE = [(56, 0), (62, 3.6), (68, 6.6), (74, 9.2), (79, 11.4), (84, 12.4)]                           # the lapels
+V_BUTTONS = (66.5, 60.5, 54.5, 48.5, 42.5, 36.5)
+# the jacket's relief in his (X, b): (X0, b0, X1, b1, height px (- = a crease), half-width)
+J_FOLDS = [(19.0, 68.0, 22.0, 45.0, -0.35, 0.6),                                    # the near front's dart
+           (20.0, 76.0, 23.0, 62.0, 0.55, 1.5), (23.0, 62.0, 26.5, 48.0, 0.55, 1.5),  # drape off the near lapel
+           (22.5, 75.5, 12.0, 59.0, -0.55, 0.8), (25.5, 71.0, 15.5, 56.5, -0.45, 0.8),  # drag from the shoulder to the
+           (14.0, 57.0, 11.5, 50.0, -0.35, 0.7),                                     # button over the belly
+           (23.0, 50.5, 29.0, 49.0, -0.5, 0.7), (24.5, 53.5, 29.5, 52.5, -0.4, 0.7),  # creases above the pocketed arm
+           (-11.0, 56.0, -13.5, 36.0, 0.5, 1.4), (-15.5, 54.0, -18.0, 38.0, -0.4, 0.8),  # the far front hanging open
+           (-12.5, 76.0, -21.0, 66.0, -0.35, 0.8),                                   # drag across the far chest
+           (20.5, 46.0, 26.5, 63.0, -0.75, 0.8), (24.0, 45.0, 28.5, 58.0, -0.6, 0.8),  # pulled from the pocket up to the
+           (17.5, 47.0, 21.0, 56.0, -0.45, 0.8),                                     # armpit by the hand in it
+           (-23.0, 66.5, -28.5, 64.5, -0.6, 0.8), (-22.0, 62.0, -28.0, 59.5, -0.55, 0.8),  # bunched under the far arm
+           (-24.0, 71.0, -27.5, 70.0, -0.4, 0.8)]
+
+
+class DonRig(Lamp):
+    """Lamp + the normal and depth of every pixel, for the head-lamp's light on his own clothes"""
+    def __init__(s, *a, **k):
+        super().__init__(*a, **k)
+        s.nrm, s._n, s.zoff = {}, (0.0, 0.0, 1.0), 0.0          # zoff: a part's forced depth order, not its place
+        s.part = {}
+
+    def shade(s, mat_, n, lift=0.0):
+        s._n = n
+        return super().shade(mat_, n, lift) + 0.10 * max(0.0, -n[1])          # the overcast sky above
+
+    def zput(s, x, y, mat_, v, oid, d, fixed=None):
+        k = (int(math.floor(x)), int(math.floor(y)))
+        if not (0 <= k[0] < s.w and 0 <= k[1] < s.h): return
+        if k in s.zb and s.zb[k] > d: return
+        s.zb[k] = d
+        s.buf[k] = [mat_, v, oid, fixed]
+        s.nrm[k] = (s._n, d - s.zoff)
+
+    def zell(s, cx, cy, rx, ry, mat_, d, lift=0.0, rot=0.0, flat=1.0, group=None, vfun=None):
+        """an ellipsoid in canvas coords at depth d"""
+        oid = s.new(group); c, sn = math.cos(rot), math.sin(rot); Rr = max(rx, ry) + 1
+        for y in range(int(cy - Rr) - 1, int(cy + Rr) + 2):
+            for x in range(int(cx - Rr) - 1, int(cx + Rr) + 2):
+                dx, dy = x + 0.5 - cx, y + 0.5 - cy
+                u, w = (dx * c + dy * sn) / rx, (-dx * sn + dy * c) / ry
+                dd = u * u + w * w
+                if dd > 1: continue
+                nu, nw = u * flat, w * flat
+                n = norm((nu * c - nw * sn, nu * sn + nw * c, math.sqrt(max(0.0, 1 - min(dd, 0.999)))))
+                v = s.shade(mat_, n, lift) + (vfun(x, y, u, w) if vfun else 0)
+                s.zput(x, y, mat_, v, oid, d + n[2] * min(rx, ry))
+        return oid
+
+    def ztube(s, a, b, ra, rb, mat_, d, lift=0.0, group=None, vfun=None):
+        """a tapered round bar a->b in canvas coords at depth d; vfun(x, y, t, side) adds to the tone"""
+        oid = s.new(group)
+        (ax, ay), (bx, by) = a, b
+        dx, dy = bx - ax, by - ay; L2 = dx * dx + dy * dy or 1e-6; L = math.sqrt(L2)
+        Rr = max(ra, rb) + 2
+        for y in range(int(min(ay, by) - Rr), int(max(ay, by) + Rr) + 1):
+            for x in range(int(min(ax, bx) - Rr), int(max(ax, bx) + Rr) + 1):
+                px, py = x + 0.5 - ax, y + 0.5 - ay
+                t = max(0.0, min(1.0, (px * dx + py * dy) / L2))
+                r_ = ra + (rb - ra) * t
+                ox, oy = px - dx * t, py - dy * t
+                dd = math.hypot(ox, oy)
+                if dd > r_: continue
+                sx, sy = ox / r_, oy / r_
+                n = (sx, sy, math.sqrt(max(0.0, 1 - sx * sx - sy * sy)))
+                side = (ox * dy - oy * dx) / (L * r_)
+                v = s.shade(mat_, n, lift) + (vfun(x, y, t, side) if vfun else 0)
+                s.zput(x, y, mat_, v, oid, d + n[2] * r_ * 0.5)
+        return oid
 
 
 def don(P):
     W, H, B, cx = DN['W'], DN['H'], DN['B'], DN['cx']
-    s = Lamp(W, H, B, cx, F=400.0, beye=-30.0)
-    rig.TEX['suit'] = lambda x, y: (rig.nM(x * 0.8, y * 0.8) - 0.5) * 0.06
-    SUIT = Mat(DN_SUIT, 'suit', 0.18, 0.0, outline=DN_OUT)
-    SUITL = Mat(DN_SUITL, 'suit', 0.18, 0.0, outline=DN_OUT)
-    CREAM = Mat(DN_CREAM, 'plain', 0.22, 0.0, outline=DN_OUT)
-    BRZ = Mat(DN_BRZ, 'metal', 0.14, 0.45, outline=DN_OUT)
-    BRZL = Mat(DN_BRZ[1:] + [(232, 160, 72)], 'metal', 0.16, 0.45, outline=DN_OUT)
-    FOOT = Mat(DN_BRZ[:5], 'metal', 0.12, 0.3, outline=DN_OUT)
-    TIE = Mat(DN_TIE, 'plain', 0.2, 0.2, outline=DN_OUT)
-    ex, ember, lift_h, sm = P.get('eye', 0.0), P.get('ember', 0.5), P.get('hand', 0), P.get('smoke', 0)
-    hb = P.get('breath', 0)                                                      # the shoulders rise a px on the breath
-    Y = lambda y: y - hb if y < 36 else y
+    s = DonRig(W, H, B, cx, F=1200.0, beye=-90.0)
+    ct, st = math.cos(DN_YAW), math.sin(DN_YAW)
+    SUIT = Mat(DN_SUIT, 'suit', 0.11, 0.04, outline=DN_OUT)
+    SHIRT = Mat(DN_SHIRT, 'plain', 0.24, 0.0, outline=DN_OUT)
+    TIE = Mat(DN_TIE, 'plain', 0.18, 0.35, outline=DN_OUT)
+    GLOVE = Mat(DN_GLOVE, 'kid', 0.30, 0.10, outline=DN_OUT)
+    BRASS = Mat(DN_BRASS, 'metal', 0.14, 0.55, outline=DN_OUT)
+    BRONZE = Mat(DN_BRONZE, 'metal', 0.14, 0.35, outline=DN_OUT)
+    VERD = Mat(DN_VERD, 'rust', 0.14, outline=DN_OUT)
+    WARM = (246, 176, 92)
+    SUITL = Mat(warmed(DN_SUIT, 0.42, WARM), 'suit', 0.11, 0.04, outline=DN_OUT)
+    SHIRTL = Mat(warmed(DN_SHIRT, 0.4, WARM), 'plain', 0.24, outline=DN_OUT)
+    TIEL = Mat(warmed(DN_TIE, 0.35, WARM), 'plain', 0.18, 0.35, outline=DN_OUT)
+    GLOVEL = Mat(warmed(DN_GLOVE, 0.35, WARM), 'kid', 0.30, 0.10, outline=DN_OUT)
+    BRASSL = Mat(warmed(DN_BRASS, 0.4, (255, 214, 140)), 'metal', 0.16, 0.55, outline=DN_OUT)
+    ex, fs, bright = P.get('eye', 0.0), P.get('fs', 1.0), P.get('bright', 1.0)
+    ember, sm, hand = P.get('ember', 0.5), P.get('smoke', 0), P.get('hand', 0)
 
-    def settle():                                                                # rig-drawn shapes sit at depth 0
-        for k in s.buf:
-            s.zb.setdefault(k, 0.0)
-    # He is turned three-quarters to the viewer's left (toward the roof where the player stands): his right side is the
-    # far one. Far arm: the elbow tucked at his side, the forearm forward with the cigar. Near arm: the hand deep in his
-    # pocket, the elbow out a little and back, that shoulder lower.
-    hy = 32.6 - lift_h
-    s.tube((12.6, Y(28.0)), (11.4, 36.2), 2.4, 2.2, SUIT, lift=-0.10, group='farup')                       # far upper arm
-    # the jacket: broad shoulders, the near side wider and bellied, the waist going into the post's cup
-    jacket = [(18.6, Y(24.8)), (14.0, Y(25.4)), (11.4, Y(27.0)), (10.8, Y(30.0)), (11.4, 34.0), (12.6, 38.6), (14.6, 43.0),
-              (15.0, 45.6), (14.4, 47.8), (29.8, 47.8), (29.4, 45.6), (31.6, 42.4), (33.2, 39.0), (33.6, 36.0), (33.4, Y(33.0)),
-              (34.0, Y(29.6)), (32.6, Y(27.2)), (28.0, Y(25.8)), (23.6, Y(25.0))]
-    def cloth(x, y):
-        v = 0.12 * math.exp(-((x - 28.5) ** 2 / 8 + (y - 38.5) ** 2 / 10))        # the belly catches the light
-        v -= 0.10 * max(0, (x - 30.5) / 3)                                         # the near side turned away
-        return v
-    s.poly(jacket, SUIT, lift=-0.04, round_=0.85, vfun=cloth, group='body')
-    # the lapels (rolled, catching the light on their edges), the shirt, the tie, the pocket square
-    s.poly([(15.6, Y(25.4)), (17.8, Y(25.6)), (19.6, 36.4), (18.8, 36.6), (14.6, Y(29.8)), (14.8, Y(26.8))], SUIT, lift=0.24, round_=0.2, group='lapel')
-    s.poly([(23.2, Y(25.6)), (26.4, Y(25.4)), (27.8, Y(27.6)), (25.0, Y(31.0)), (20.4, 36.6), (19.8, 36.4)], SUIT, lift=0.16, round_=0.2, group='lapel')
-    s.poly([(17.8, Y(25.6)), (23.2, Y(25.6)), (20.6, 34.2), (19.4, 34.2)], CREAM, lift=0.08, round_=0.4, group='shirt')
-    s.poly([(19.4, Y(25.9)), (21.4, Y(25.9)), (21.2, Y(27.5)), (19.6, Y(27.5))], TIE, lift=0.16, round_=0.4, group='tie')
-    s.poly([(19.6, Y(27.5)), (21.2, Y(27.5)), (21.6, 33.4), (20.4, 35.0), (19.2, 33.4)], TIE, lift=0.02, round_=0.5,
-           vfun=lambda x, y: 0.14 if (x + y) % 3 == 0 else 0, group='tie')
-    s.poly([(26.4, Y(30.4)), (27.2, Y(29.4)), (27.8, Y(30.2)), (28.6, Y(29.6)), (29.2, Y(30.8)), (26.6, Y(31.0))], CREAM, lift=0.12, group='body')
-    # folds: strain from the button across the belly, creases under the near arm, the opening below the button
-    for pts, c in (([(21.0, 38.6), (24.0, 37.6), (27.0, 37.4)], (16, 15, 17)), ([(21.0, 40.4), (24.6, 41.0)], (16, 15, 17)),
-                   ([(31.6, Y(31.2)), (29.8, 33.6)], (16, 15, 17)), ([(20.2, 41.2), (19.8, 44.0), (19.2, 47.4)], (7, 8, 9)),
-                   ([(13.4, 38.0), (14.6, 42.6)], (16, 15, 17))):
-        s.stroke(pts, 0.7, color=c, group='body')
-    for by in (37.4, 41.0):
-        s.fixed(20.4, by, (121, 89, 47)); s.fixed(20.4, by + 1, (21, 19, 22))
-    s.stroke([(27.6, 42.2), (30.8, 42.0)], 0.8, color=(21, 19, 22), group='body')                           # the hip pocket
-    # the near arm: shoulder, the elbow out and back, the forearm going in to the pocket
-    s.tube((32.4, Y(28.6)), (34.4, 36.4), 2.5, 2.3, SUIT, lift=0.0, group='near')
-    s.tube((34.4, 36.4), (30.4, 42.2), 2.3, 1.9, SUIT, lift=-0.04, group='near')
-    s.stroke([(33.6, 35.4), (34.8, 36.8)], 0.7, color=(16, 15, 17), group='near')                         # the elbow crease
-    # the far forearm and the cigar hand (a white glove), in front of the body's far edge
-    s.tube((11.6, 36.2), (8.6, hy + 1.2), 2.1, 1.8, SUIT, lift=0.08, group='farlo')
-    s.stroke([(9.6, hy + 1.8), (10.4, hy + 2.4)], 1.0, color=(109, 110, 72), group='farlo')                 # the shirt cuff
-    s.ellipsoid(7.8, hy + 0.2, 2.0, 1.8, CREAM, lift=0.08, group='hand')
-    s.fixed(6.4, hy - 0.8, (183, 181, 139)); s.fixed(7.4, hy - 1.2, (165, 163, 123))                      # knuckles
-    settle()
-    # -- the lamp-post foot he stands in: its cup's rim in front of his jacket's hem
-    s.lathe([(7.2, 0), (7.2, 1.2), (6.4, 1.8), (5.2, 3.0), (4.2, 4.6), (3.7, 6.2), (4.6, 7.0), (5.7, 7.6), (6.6, 8.6),
-             (7.0, 9.6), (6.6, 10.2), (5.8, 9.8)], FOOT, lift=-0.02)
-    # -- the brass collar where a neck would be, and the head: a lantern, turned with him
-    s.axis = lambda b: 20.4
-    s.lathe([(0, 28.0 + hb), (2.8, 28.1 + hb), (3.4, 29.0 + hb), (3.2, 30.4 + hb), (2.3, 30.8 + hb), (2.1, 32.2 + hb)], BRZ, lift=0.04)
-    s.lathe([(2.1, 32.2 + hb), (3.4, 33.0 + hb), (4.4, 33.9 + hb), (4.7, 34.5 + hb), (4.2, 34.9 + hb)], BRZ, lift=0.05)
-    gy0, gy1 = B - 34.9 - hb, B - 44.0 - hb                                                     # glass bottom / top rows
-    corner = 18.8                                                                               # the near vertical corner bar
-    fx, fy = 19.4 + ex, B - 38.8 - hb
-    oid = s.new()
-    for y in range(int(gy1), int(gy0) + 1):
-        t = (gy0 - (y + 0.5)) / (gy0 - gy1)                                                    # 0 bottom .. 1 top
-        hw = 4.2 + 1.5 * t
-        xl, xr = 20.4 - hw - 0.4, 20.4 + hw - 0.4
-        for x in range(int(xl), int(xr) + 1):
-            xc = x + 0.5
-            if xc < xl or xc > xr: continue
-            if abs(xc - corner) < 0.7 or xc - xl < 0.9 or xr - xc < 0.9 or t < 0.1 or t > 0.92:
-                s.put(x, y, BRZ, 0.32 + (0.22 if xc < corner else 0.0) + 0.2 * (t > 0.92), oid); continue
-            d = math.hypot((xc - fx) / 2.0, (y + 0.5 - fy) / 2.8)
-            v = 0.32 + 0.16 * (1 - t) + 0.55 * math.exp(-d * d) - (0.20 if xc > corner else 0)        # the right pane turned away
-            if d < 0.7: v = 1.0
-            s.fixed(x, y, pick(DN_GLOW, v, x, y, 0.3))
-    ey = B - 44.0 - hb                                                                          # the eaves and the roof
-    s.poly([(12.8, ey + 1.4), (28.0, ey + 1.4), (27.2, ey - 0.2), (13.6, ey - 0.2)], BRZ, lift=0.10, round_=0.2)
-    s.poly([(14.0, ey - 0.2), (18.8, ey - 5.2), (18.8, ey - 0.2)], BRZ, lift=0.20, round_=0.1)
-    s.poly([(18.8, ey - 5.2), (26.6, ey - 0.2), (18.8, ey - 0.2)], BRZ, lift=-0.08, round_=0.1)
-    s.ellipsoid(19.0, ey - 6.2, 1.3, 1.2, BRZ, lift=0.15)
-    s.stroke([(19.0, ey - 7.4), (19.0, ey - 8.8)], 0.9, BRZ, v=0.55)
-    # the lamp lights his own shoulders, lapels, collar and the cigar hand
-    swap = {SUIT: SUITL, BRZ: BRZL, FOOT: FOOT}
-    s.relight(fx, fy + 3, 12.5, 0.32, swap, mask=lambda x, y: 1.0 if y < 33 else 0.0)
-    old = rig.BAYER
-    rig.BAYER = [[7.5 + (v - 7.5) * 0.3 for v in row] for row in BAYER]                       # the picture has no regular dither
-    try:
-        im = s.render(outline=True, shadow=0.12, contact=0.10)
-    finally:
-        rig.BAYER = old
+    def rot(X, Z): return X * ct - Z * st, X * st + Z * ct
+
+    # -------------------------------------------------------------------------------- the body (one surface)
+    def section(b):
+        return (spl(TOR_AF, b), spl(TOR_AN, b), spl(TOR_BD, b), spl(TOR_ZC, b), spl(TOR_ZN, b))
+
+    def surf(X, b, dz=0.0):
+        """the point on his front at his own X (px from the front line) and height b -> canvas x, y, depth"""
+        aF, aN, bd, zc, zn = section(b)
+        a = aN if X > 0 else aF
+        sn_ = max(-0.999, min(0.999, X / a)); c = math.sqrt(1 - sn_ * sn_)
+        Z = bd * c + zc * c * c + zn + dz
+        xr, zr = rot(X, Z)
+        x, y = s.proj(xr, b, zr)
+        return x, y, zr
+
+    def height(X, b, front, part):
+        """the cloth's relief (px, + outward): folds, drape, strain"""
+        h = 0.0
+        if part == 'vest':
+            for bk in V_BUTTONS:                                                  # strain smiles between the buttons
+                ax = abs(X)
+                if 0.9 < ax < 6.0:
+                    yb = bk - 2.2 + 0.11 * ax ** 1.45
+                    h -= 0.55 * math.exp(-((b - yb) / 0.7) ** 2) * min(1.0, (6.0 - ax) / 2.0)
+            return h
+        if part != 'jacket' or not front: return h
+        e = spl(J_EDGE, b)
+        if X > 0 and b < 60:                                                      # the near front drapes round the belly
+            h += 0.9 * math.exp(-((X - e - 5.5) / 2.0) ** 2) * min(1.0, (60 - b) / 8)
+            h -= 0.7 * math.exp(-((X - e - 9.5) / 1.4) ** 2) * min(1.0, (58 - b) / 10) if b < 58 else 0
+        if X < 0 and b < 58:
+            h += 0.7 * math.exp(-((-X - e - 4.0) / 1.8) ** 2) * min(1.0, (58 - b) / 8)
+        for (ax_, ay_, bx_, by_, hh, wd) in J_FOLDS:
+            if min(ax_, bx_) - 3 < X < max(ax_, bx_) + 3 and min(ay_, by_) - 3 < b < max(ay_, by_) + 3:
+                h += hh * math.exp(-(segd(X, b, ax_, ay_, bx_, by_) / wd) ** 2)
+        return h
+
+    def cloth(X, b, front):
+        """which cloth is at his (X, b): 'tie' 'shirt' 'vest' 'lapel' 'jacket' (+ the lapel's distance from its edge)"""
+        if front:
+            e = spl(J_EDGE, b)
+            ax = abs(X)
+            if ax < e:
+                vn = spl(V_NECK, b) if b > 63 else 0.0
+                if ax < vn:
+                    return ('tie' if b < 86.5 and abs(X + 0.3) < spl(T_HALF, b) else 'shirt'), 0
+                return 'vest', 0
+            d = ax - e
+            if b > 56 and d < spl(L_WIDE, b) and b < 81.0 + 0.62 * d: return 'lapel', d
+            if X > 0 and 15.6 < X < 22.4 and 69.6 + 0.12 * (X - 15.6) < b:              # the pocket square
+                zz = [(15.6, 1.2), (16.8, 3.8), (17.9, 1.6), (19.2, 4.6), (20.4, 1.4), (21.4, 3.2), (22.4, 0.8)]
+                for i in range(len(zz) - 1):
+                    if zz[i][0] <= X <= zz[i + 1][0]:
+                        tt = (X - zz[i][0]) / (zz[i + 1][0] - zz[i][0]); hgt = zz[i][1] + (zz[i + 1][1] - zz[i][1]) * tt
+                peak = 70.0 + 0.12 * (X - 15.6) + hgt
+                if b < peak: return 'square', 0
+        return 'jacket', 0
+
+    def hp(X, b, Z):
+        xr, zr = rot(X, Z)
+        return xr, b, zr
+    # the far arm (his right): the upper arm down his side, mostly behind him -- drawn first, so it lies behind
+    SF, EF = (-24.0, 77.5, -1.5), (-34.0, 60.5, -2.0)
+    s.zoff = -40; s.tube3([hp(*SF), hp(*EF)], lambda f: 6.6 - 0.8 * f, SUIT, lift=-0.06, group='farup', dz=-40)
+    s.zoff = 0.0
+    O = {k: s.new(k) for k in ('shirt', 'tie', 'vest', 'jacket', 'lapel', 'square')}
+    MAT = {'shirt': SHIRT, 'tie': TIE, 'vest': SUIT, 'jacket': SUIT, 'lapel': SUIT, 'square': SHIRT}
+
+    def body(region=None, dz=0.0, oid=None):
+        b = 31.0
+        while b <= 92.0:
+            aF, aN, bd, zc, zn = section(b)
+            daF = (spl(TOR_AF, b + 0.3) - spl(TOR_AF, b - 0.3)) / 0.6
+            daN = (spl(TOR_AN, b + 0.3) - spl(TOR_AN, b - 0.3)) / 0.6
+            dbd = (spl(TOR_BD, b + 0.3) - spl(TOR_BD, b - 0.3)) / 0.6
+            dzc = (spl(TOR_ZC, b + 0.3) - spl(TOR_ZC, b - 0.3)) / 0.6
+            dzn = (spl(TOR_ZN, b + 0.3) - spl(TOR_ZN, b - 0.3)) / 0.6
+            nS = int(TAU * max(aF, aN, bd) / 0.33)
+            for j in range(nS):
+                sa = -math.pi + TAU * (j + 0.5) / nS
+                c, sn_ = math.cos(sa), math.sin(sa)
+                a, da = (aN, daN) if sn_ > 0 else (aF, daF)
+                cp = max(0.0, c)
+                X, Z = a * sn_, bd * c + zc * cp * cp + zn
+                dPs = (a * c, 0.0, -bd * sn_ - 2 * zc * cp * sn_)
+                dPb = (da * sn_, 1.0, dbd * c + dzc * cp * cp + dzn)
+                nX = dPs[1] * dPb[2] - dPs[2] * dPb[1]
+                nB = dPs[2] * dPb[0] - dPs[0] * dPb[2]
+                nZ = dPs[0] * dPb[1] - dPs[1] * dPb[0]
+                nx_, nz_ = rot(nX, nZ)
+                if nz_ < -0.25 * math.sqrt(nX * nX + nB * nB + nZ * nZ): continue
+                front = c > 0.15
+                part, ld = cloth(X, b, front)
+                if region and not region(X, b, part): continue
+                n = [nx_, -nB, nz_]
+                L = math.sqrt(sum(q * q for q in n)); n = [q / L for q in n]
+                # relief: tilt the normal by the height field's slope (across = along his X, up = along b)
+                h0 = height(X, b, front, part)
+                if part in ('vest', 'jacket'):
+                    gx = (height(X + 0.5, b, front, part) - height(X - 0.5, b, front, part))
+                    gb = (height(X, b + 0.5, front, part) - height(X, b - 0.5, front, part))
+                    if gx or gb:
+                        tx, tz = rot(1.0, 0.0)
+                        n = [n[0] - gx * tx * 0.9, n[1] + gb * 0.9, n[2] - gx * tz * 0.9]
+                        L = math.sqrt(sum(q * q for q in n)); n = [q / L for q in n]
+                xr, zr = rot(X, Z)
+                x, y = s.proj(xr, b, zr)
+                m = MAT[part]
+                v = s.shade(m, n, 0.0) + 0.10 * min(0.0, h0)
+                if part == 'lapel':
+                    v += 0.05 + (0.16 if ld < 1.1 else 0) - (0.06 if spl(L_WIDE, b) - ld < 1.0 else 0)
+                elif part == 'vest':
+                    v -= 0.07                                                     # in the jacket's shade
+                elif part == 'shirt':
+                    v -= 0.04 + 0.18 * max(0.0, 1 - abs(abs(X) - spl(V_NECK, b)) / 1.5) * (b < 84)
+                elif part == 'tie':
+                    v += (0.10 if (int(math.floor(X * 1.0 + b * 0.9)) % 4 == 0) else 0)   # a woven diagonal stripe
+                if part in ('jacket', 'vest'):
+                    u = a * sa
+                    if (u + 40) % 5.5 < 0.75: v += 0.05                           # a chalk pinstripe, round the body
+                k_ = (int(math.floor(x)), int(math.floor(y)))
+                if s.zb.get(k_, -1e9) <= zr + dz: s.part[k_] = part
+                s.zput(x, y, m, v, oid or O[part], zr + dz)
+            b += 0.33
+
+    body()
+    # seams: the open jacket's edges throw a shade into the opening and catch the light on their own edge; the lapels
+    # shade the cloth under their outer edge
+    adj = {}
+    for k_, pt in s.part.items():
+        for dx_, dy_ in ((1, 0), (-1, 0), (0, 1), (0, -1), (2, 0), (-2, 0)):
+            q = s.part.get((k_[0] + dx_, k_[1] + dy_))
+            if q and q != pt: adj.setdefault(k_, {})[q] = min(adj.get(k_, {}).get(q, 9), abs(dx_) + abs(dy_))
+    for k_, qs in adj.items():
+        pt, e = s.part[k_], s.buf.get(k_)
+        if not e: continue
+        jd = min(qs.get('jacket', 9), qs.get('lapel', 9))
+        if pt in ('vest', 'shirt', 'tie') and jd < 9: e[1] -= 0.26 if jd == 1 else 0.10
+        elif pt in ('jacket', 'lapel') and min(qs.get('vest', 9), qs.get('shirt', 9), qs.get('tie', 9)) == 1: e[1] += 0.12
+        elif pt == 'jacket' and qs.get('lapel', 9) == 1: e[1] -= 0.22
+        elif pt == 'jacket' and qs.get('lapel', 9) == 2: e[1] -= 0.08
+    # waistcoat buttons, the watch chain from the middle button to the near pocket (it vanishes under the jacket)
+    for bk in V_BUTTONS:
+        x, y, z = surf(0.2, bk)
+        s.zput(x, y, None, 0, s.new('vbtn'), z + 1, (122, 96, 58)); s.zput(x, y + 1, None, 0, s.n, z + 1, (24, 17, 12))
+    oc, last, k = s.new('chain'), None, 0
+    for i in range(0, 60):
+        X = 0.6 + i * 0.2
+        bb = 54.0 - 4.4 * math.sin(math.pi * min(1.0, X / 12.0)) + 0.3
+        if X > spl(J_EDGE, bb) - 0.3: break
+        x, y, z = surf(X, bb)
+        if (int(x), int(y)) == last: continue
+        last = (int(x), int(y))
+        s.zput(x, y, None, 0, oc, z + 1, DN_CHAIN[(3, 2, 1)[k % 3]]); k += 1
+    # jacket buttons on the open near front, the breast pocket's welt, the near hip pocket (the hand goes in there)
+    for bk in (56.0, 46.0):
+        X = spl(J_EDGE, bk) + 2.2
+        x, y, z = surf(X, bk)
+        s.zput(x, y, None, 0, s.new('jbtn'), z + 1, (64, 50, 38)); s.zput(x + 1, y, None, 0, s.n, z + 1, (40, 30, 23))
+        s.zput(x, y + 1, None, 0, s.n, z + 1, (22, 16, 12))
+    for i in range(0, 34):
+        X = 15.4 + i * 0.2
+        x, y, z = surf(X, 69.4 + 0.12 * (X - 15.4))
+        s.darken(x, y, 0.22)
+
+    # -------------------------------------------------------------------------------- arms
+    s.zoff = 40
+    # the near arm (his left): the shoulder lower, the elbow out and back, the hand deep in the hip pocket
+    SN, EN, WN = (24.5, 74.0, -1.5), (31.5, 53.5, -6.5), (25.5, 41.5, 12.5)
+    s.tube3([hp(*SN), hp(*EN)], lambda f: 6.8 - 0.9 * f, SUIT, lift=0.0, group='nearup', dz=40,
+            vfun=lambda x, y, f: -0.10 * max(0.0, f - 0.75) * 4 * (0.5 + 0.5 * math.sin(x * 2.1 + y)))
+    s.tube3([hp(*EN), hp(*WN)], lambda f: 5.7 - 0.8 * f, SUIT, lift=0.02, group='nearlo', dz=42,
+            vfun=lambda x, y, f: (-0.12 if (f < 0.3 and (x + 2 * y) % 5 == 0) else 0))
+    ex_, ey_ = s.proj(*hp(*EN))
+    for (a_, l_) in ((2.5, 4.5), (2.9, 3.5), (2.1, 3.0)):                         # bunched in the crook of the elbow
+        for i in range(int(l_ * 2)):
+            s.darken(ex_ - 2.4 + math.cos(a_) * i * 0.5, ey_ - 0.8 + math.sin(a_) * i * 0.5, 0.15)
+    # the hip pocket's flap over the wrist, and the hand's knuckles pressing the cloth below it
+    def flap_region(X, b, part): return part == 'jacket' and 19.5 < X < 29.0 and 40.6 < b < 43.6 - 0.05 * (X - 19.5)
+    s.zoff = 60; body(region=flap_region, dz=60, oid=s.new('flap'))
+    s.zoff = 40
+    bx_, by_, _ = surf(24.5, 37.6)
+    for (x, y), e in s.buf.items():
+        if e[2] != O['jacket']: continue
+        u_, w_ = (x + 0.5 - bx_) / 4.6, (y + 0.5 - by_) / 3.0
+        if u_ * u_ + w_ * w_ < 1: e[1] += 0.10 * (-w_ - 0.2 * u_)
+
+    # the far forearm: from the elbow at his side forward and up to the cigar hand; creases bunch in the elbow's crook
+    wx, wb, wz = -36.0, 70.5 + hand, 9.5
+    s.tube3([hp(*EF), (wx, wb, wz)], lambda f: 5.9 - 1.1 * f, SUIT, lift=0.08, group='farlo', dz=40,
+            vfun=lambda x, y, f: (-0.16 if (f < 0.34 and (x - 2 * y) % 5 == 0) else 0) + 0.08 * f)
+    hx, hy = s.proj(wx, wb, wz)                                                   # the wrist on the canvas
+    for (ax_, ay_, bx2, by2) in ((hx + 2.6, hy + 6.0, hx + 5.4, hy + 8.4), (hx + 1.0, hy + 3.4, hx + 4.4, hy + 6.6)):
+        for i in range(9):                                                        # the sleeve's long folds
+            q = (ax_ + (bx2 - ax_) * i / 8, ay_ + (by2 - ay_) * i / 8)
+            s.darken(q[0], q[1], 0.16)
+    hd = 300.0
+    s.zoff = hd - wz
+    # the shirt cuff, then the white glove, seen from the back: the back of the hand turned up toward the lamp, the
+    # cigar between the first two fingers, the last two curled into the palm, the thumb along underneath
+    s.ztube((hx + 1.4, hy + 1.4), (hx - 0.4, hy - 0.4), 3.1, 2.9, SHIRT, hd, lift=0.10, group='cuff')
+    s.ztube((hx - 6.2, hy + 2.6), (hx - 7.6, hy + 4.0), 1.15, 1.0, GLOVE, hd + 1, lift=-0.16, group='pinky')
+    s.ztube((hx - 7.0, hy + 1.2), (hx - 9.4, hy + 2.6), 1.25, 1.1, GLOVE, hd + 2, lift=-0.10, group='ring')
+    s.ztube((hx - 9.4, hy + 2.6), (hx - 8.6, hy + 4.0), 1.1, 1.0, GLOVE, hd + 2, lift=-0.16, group='ring')
+    s.zell(hx - 3.9, hy - 0.8, 4.4, 3.4, GLOVE, hd + 3, lift=0.04, rot=-0.22, group='back',
+           vfun=lambda x, y, u, w: (-0.10 if abs(u * 0.9 + w * 0.5 - 0.15) < 0.12 and u < 0.4 else 0))
+    s.ztube((hx - 2.0, hy + 2.6), (hx - 6.6, hy + 4.2), 1.5, 1.3, GLOVE, hd + 4, lift=-0.04, group='thumb')
+    s.ztube((hx - 6.6, hy + 4.2), (hx - 8.8, hy + 3.6), 1.25, 1.05, GLOVE, hd + 4, lift=-0.02, group='thumb')
+    s.ztube((hx - 7.4, hy - 0.6), (hx - 11.2, hy - 0.2), 1.35, 1.2, GLOVE, hd + 5, lift=-0.04, group='middle')
+    s.ztube((hx - 11.2, hy - 0.2), (hx - 12.0, hy + 1.3), 1.15, 1.0, GLOVE, hd + 5, lift=-0.10, group='middle')
+    s.ztube((hx - 7.0, hy - 3.4), (hx - 10.8, hy - 4.2), 1.35, 1.2, GLOVE, hd + 6, lift=0.10, group='index')
+    s.ztube((hx - 10.8, hy - 4.2), (hx - 12.0, hy - 2.8), 1.15, 1.05, GLOVE, hd + 6, lift=0.02, group='index')
+    for (kx, ky) in ((hx - 7.0, hy - 3.6), (hx - 7.4, hy - 1.0), (hx - 7.0, hy + 1.2)):
+        e = s.buf.get((int(kx), int(ky)))
+        if e and e[0] is GLOVE: e[1] += 0.12                                      # the knuckles catch the light
+    for (gx, gy) in ((hx - 3.0, hy - 2.2), (hx - 2.2, hy - 0.6)):                 # the glove's stitched points
+        s.darken(gx, gy, 0.14); s.darken(gx - 1, gy - 0.4, 0.10)
+
+    s.zoff = 0.0
+    # -------------------------------------------------------------------------------- the lamp-post foot
+    def foot_tex(x, y, th, b):
+        t = 0.0
+        if 21.5 < b < 31.0: t += 0.20 * math.sin(th * 18)                         # gadroons round the bowl
+        if 31.6 < b < 33.0 and int(th * 30 / TAU * 2) % 2 == 0: t += 0.18         # a bead under the lip
+        if b < 6: t -= 0.10 * (6 - b) / 6                                         # the damp, dirty foot
+        return t
+    s.lathe([(23.0, 0), (23.0, 2.6), (21.6, 3.4), (21.6, 5.0), (19.4, 5.8), (17.0, 7.4), (15.0, 9.6), (13.8, 10.6),
+             (15.2, 11.6), (15.6, 13.2), (14.2, 14.6), (11.6, 15.6), (11.0, 17.8), (12.6, 18.8), (12.6, 20.4), (11.6, 21.2),
+             (13.2, 22.2), (17.2, 24.2), (21.0, 26.6), (24.6, 29.0), (27.0, 31.0), (28.0, 31.6), (28.0, 33.0), (29.4, 33.6),
+             (30.6, 34.6), (30.9, 36.2), (30.2, 37.4), (28.6, 37.9), (27.4, 37.9)], BRONZE, lift=-0.04, tex=foot_tex)
+    # verdigris in the cove and under the bowl, where the rain sits
+    s.speckle({BRONZE: VERD}, 0.16, seed=41, region=lambda x, y: (B - 11 < y < B - 5) or (B - 23 < y < B - 20))
+
+    # -------------------------------------------------------------------------------- the neck, the shirt collar, the tie knot
+    s.lathe([(5.8, 84.0), (5.6, 88.0), (5.4, 90.8), (6.9, 91.6), (7.4, 93.0), (6.6, 94.2), (5.2, 95.0), (5.0, 96.6),
+             (6.0, 97.6), (8.6, 99.0), (11.2, 100.2), (12.4, 100.8)], BRASS, lift=0.0, ox=DN_HX, oz=DN_HZ,
+            tex=lambda x, y, th, b: -0.12 * max(0.0, (b - 96.0) / 4.0))
+    s.lathe([(7.0, 87.4), (7.3, 87.6), (7.3, 90.6), (6.9, 91.0)], SHIRT, lift=-0.10, ox=DN_HX, oz=DN_HZ + 0.2)
+    def onneck(X, b, dz):                                                         # on the collar ring's front
+        x, y, _ = surf(X, b, dz - 9.6); return (x, y)
+    nz0 = 9.6
+    for sgn in (-1, 1):                                                           # the collar's wings
+        pts = [onneck(sgn * 1.0, 90.4, nz0 + 0.6), onneck(sgn * 7.6, 90.2, nz0 - 2.6), onneck(sgn * 6.0, 82.0, nz0 - 0.6),
+               onneck(sgn * 1.2, 85.0, nz0 + 0.8)]
+        ys_ = [q[1] for q in pts]; xs_ = [q[0] for q in pts]
+        def wing(x, y, sgn=sgn, ys_=ys_, xs_=xs_):                                 # starched: a few clean tones
+            if y + 0.5 > max(ys_) - 1.0: return DN_SHIRT[4]                       # the shaded point's lower edge
+            if sgn < 0: return DN_SHIRT[6] if x + 0.5 < (min(xs_) + max(xs_)) / 2 else DN_SHIRT[7]
+            return DN_SHIRT[8] if x + 0.5 < min(xs_) + 0.55 * (max(xs_) - min(xs_)) else DN_SHIRT[6]
+        s.fill(pts, SHIRT, (0, 0, 1), lift=0.0, d=40 + (1 if sgn > 0 else 0), group='wing%d' % sgn, fixedf=wing)
+    kx0 = onneck(0, 86, nz0 + 1)[0]
+    s.fill([onneck(-2.4, 89.4, nz0 + 0.8), onneck(2.2, 89.4, nz0 + 0.8), onneck(1.4, 84.8, nz0 + 1.2), onneck(-1.6, 84.8, nz0 + 1.2)],
+           TIE, (0, 0, 1), lift=0.0, d=44, group='knot',
+           fixedf=lambda x, y: DN_TIE[6] if x + 0.5 < kx0 - 0.4 else (DN_TIE[5] if x + 0.5 < kx0 + 1.4 else DN_TIE[3]))
+
+    # -------------------------------------------------------------------------------- the head: a brass lantern
+    ch, sh = math.cos(DN_HYAW), math.sin(DN_HYAW)
+    def lp(X, b, Z):
+        return s.proj(DN_HX + X * ch - Z * sh, b, DN_HZ + X * sh + Z * ch)
+    def faces(b0, b1, h0, h1):
+        """the front face (his front, turned toward the viewer's left), his left side, the underside -- canvas quads"""
+        fr = [lp(-h0, b0, h0), lp(h0, b0, h0), lp(h1, b1, h1), lp(-h1, b1, h1)]
+        sd = [lp(h0, b0, h0), lp(h0, b0, -h0), lp(h1, b1, -h1), lp(h1, b1, h1)]
+        un = [lp(-h0, b0, h0), lp(h0, b0, h0), lp(h0, b0, -h0), lp(-h0, b0, -h0)]
+        return fr, sd, un
+    NF = lambda ty: (-sh, ty, ch)
+    NS = lambda ty: (ch, ty, sh)
+    # the roof: a square pyramid, its front face toward the sky's light
+    rb0, rb1, rh0, rh1 = 132.0, 143.5, 16.6, 2.8
+    fr, sd, _ = faces(rb0, rb1, rh0, rh1)
+    streak = lambda x, y: (rig.nF(x * 2.6, y * 0.35) - 0.5) * 0.30                  # weathering run down the roof
+    roof = (s.fill(fr, BRASS, NF(-0.75), lift=-0.20, d=300, group='roof', vfun=streak),
+            s.fill(sd, BRASS, NS(-0.75), lift=-0.34, d=300, group='roof', vfun=streak))
+    def toneline(p0, p1, dv, dx=0):
+        n_ = int(max(abs(p1[0] - p0[0]), abs(p1[1] - p0[1])) * 2) + 1
+        for i in range(n_ + 1):
+            q = (p0[0] + (p1[0] - p0[0]) * i / n_ + dx, p0[1] + (p1[1] - p0[1]) * i / n_)
+            e = s.buf.get((int(math.floor(q[0])), int(math.floor(q[1]))))
+            if e and e[2] in roof: e[1] += dv
+    lerp2 = lambda a, b, u: (a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u)
+    for u in (0.22, 0.44, 0.66, 0.86):                                            # the roof's standing seams
+        toneline(lerp2(fr[0], fr[1], u), lerp2(fr[3], fr[2], u), 0.20); toneline(lerp2(fr[0], fr[1], u), lerp2(fr[3], fr[2], u), -0.12, 1)
+    for u in (0.35, 0.7):
+        toneline(lerp2(sd[0], sd[1], u), lerp2(sd[3], sd[2], u), 0.08)
+    toneline(fr[1], fr[2], 0.16)                                                  # the hip catches the sky
+    # the eaves: a plate overhanging the glass; seen from below, its underside catches the glass's light
+    eb0, eb1, eh = 129.4, 132.0, 17.6
+    fr, sd, un = faces(eb0, eb1, eh, eh)
+    s.fill(un, BRASSL, (0, 1, 0.3), lift=0.22, d=301, group='eaves')
+    s.fill(fr, BRASS, NF(0), lift=-0.06, d=302, group='eaves', vfun=lambda x, y: 0.24 if y < min(fr[2][1], fr[3][1]) + 1.2 else 0)
+    s.fill(sd, BRASS, NS(0), lift=-0.04, d=302, group='eaves')
+    # the top rail and the base plate
+    for (b0, b1, hh) in ((127.0, 129.4, 13.7), (99.6, 102.6, 11.8)):
+        fr, sd, un = faces(b0, b1, hh, hh)
+        s.fill(un, BRASS, (0, 1, 0.3), lift=-0.20, d=303, group='rail%d' % b0)
+        s.fill(fr, BRASS, NF(0), lift=0.02, d=304, group='rail%d' % b0)
+        s.fill(sd, BRASS, NS(0), lift=-0.06, d=304, group='rail%d' % b0)
+    # the glass: four panes in a brass frame (two seen), the flame inside -- its "eye" -- and its light on the panes
+    gb0, gb1, gh0, gh1 = 102.6, 127.0, 10.2, 13.0
+    fr, sd, _ = faces(gb0, gb1, gh0, gh1)
+    fx0, fy0 = lp(0.0, 112.0, 0.0)
+    fx, fy = fx0 + ex, fy0 - (fs - 1.0) * 2.0
+    def uv(q, x, y):
+        """inverse bilinear: where (x, y) lies on the quad q (u across from the left, t up from the bottom)"""
+        u, t = 0.5, 0.5
+        (x0, y0), (x1, y1), (x2, y2), (x3, y3) = q
+        for _ in range(6):
+            px = (1 - u) * (1 - t) * x0 + u * (1 - t) * x1 + u * t * x2 + (1 - u) * t * x3
+            py = (1 - u) * (1 - t) * y0 + u * (1 - t) * y1 + u * t * y2 + (1 - u) * t * y3
+            dux, duy = (1 - t) * (x1 - x0) + t * (x2 - x3), (1 - t) * (y1 - y0) + t * (y2 - y3)
+            dtx, dty = (1 - u) * (x3 - x0) + u * (x2 - x1), (1 - u) * (y3 - y0) + u * (y2 - y1)
+            det = dux * dty - dtx * duy or 1e-9
+            ex_, ey_ = x + 0.5 - px, y + 0.5 - py
+            u += (ex_ * dty - ey_ * dtx) / det; t += (dux * ey_ - duy * ex_) / det
+        return u, t
+    def hot(x, y, k=1.0):
+        dx_, dy_ = (x + 0.5 - fx) / (5.5 * k), (y + 0.5 - fy) / (7.5 * k)
+        return math.exp(-(dx_ * dx_ + dy_ * dy_)) * bright
+    def glass(q, side, wpx):
+        def f(x, y):
+            u, t = uv(q, x, y)
+            bar = 1.7 / wpx
+            if u < bar or u > 1 - bar or t < 0.05 or t > 0.95: return None          # the frame: shaded brass
+            h_ = hot(x, y, 1.25 if side else 1.0)
+            v = 0.30 + 0.12 * (1 - t) + 0.62 * h_ - 0.30 * max(0.0, t - 0.70) / 0.30   # the soot at the top
+            v -= 0.10 * max(0.0, abs(u - 0.5) - 0.3) / 0.2                               # darker toward the posts
+            if side: v = 0.16 + 0.08 * (1 - t) + 0.42 * h_ - 0.20 * max(0.0, t - 0.70) / 0.30
+            col = pick(DN_GLASS, max(0.0, min(1.0, v)), x, y, 0.55)
+            if not side:
+                # the flame: a tear leaning a little the way it looks, a white core, a dark burner under it
+                fdx = (x + 0.5 - fx + (fy - (y + 0.5)) * 0.10 * (ex / 3.0)) / (2.6 * fs)
+                fdy = (y + 0.5 - fy) / (5.0 * fs)
+                tear = fdx * fdx * (2.0 if fdy < 0 else 1.0) + fdy * fdy
+                if tear < 1.0: return pick(TH_FLAME, 0.15 + 0.85 * (1 - tear) * bright, x, y, 0.5)
+                bdx, bdy = (x + 0.5 - fx0) / 3.8, (y + 0.5 - (fy0 + 5.6)) / 1.7          # the burner under the wick
+                if bdx * bdx + bdy * bdy < 1.0 and bdy > -0.6:
+                    return DN_BRASS[9] if bdy < -0.1 else (DN_BRASS[4] if bdx < 0.2 else DN_BRASS[2])
+                if abs((u - 0.16) + (1 - t) * 0.45 - 0.42) < 0.035 and t > 0.3:      # the sky caught on the glass
+                    col = mix(col, DN_SKY, 0.45)
+            return col
+        return f
+    fw = math.hypot(fr[1][0] - fr[0][0], fr[1][1] - fr[0][1])
+    sw = math.hypot(sd[1][0] - sd[0][0], sd[1][1] - sd[0][1])
+    s.fill(sd, BRASS, NS(0.11), lift=-0.06, d=305, group='glass', fixedf=glass(sd, True, sw))
+    s.fill(fr, BRASS, NF(0.11), lift=0.0, d=306, group='glass', fixedf=glass(fr, False, fw),
+           vfun=lambda x, y: 0.30 * hot(x, y, 1.6))
+    # the finial: a chimney cap, a ring, a ball and a spike
+    s.lathe([(3.4, 143.2), (3.2, 145.6), (4.4, 146.2), (4.4, 147.2), (3.0, 147.6), (2.0, 148.0)], BRASS, lift=0.0,
+            ox=DN_HX, oz=DN_HZ, dz=320)
+    s.lathe([(0.0, 147.6), (2.2, 148.2), (3.1, 150.2), (3.1, 151.4), (2.2, 153.4), (0.9, 154.0), (1.1, 155.0), (0.8, 158.0),
+             (0.0, 160.6)], BRASS, lift=0.06, ox=DN_HX, oz=DN_HZ, dz=321)
+
+    # -------------------------------------------------------------------------------- light
+    # the head-lamp lights what faces it: his shoulders, the lapels' tops, the collar, the cigar hand; the base plate
+    # throws a shadow straight down on his collar
+    fz = DN_HZ
+    swap = {SUIT: SUITL, SHIRT: SHIRTL, TIE: TIEL, GLOVE: GLOVEL, BRASS: BRASSL}
+    for (x, y), e in s.buf.items():
+        m = e[0]
+        if m not in swap or (x, y) not in s.nrm: continue
+        if y < fy + 4 and m is BRASS: continue
+        n, d = s.nrm[(x, y)]
+        lx, ly, lz = fx - (x + 0.5), fy - (y + 0.5), fz - d
+        dist = math.sqrt(lx * lx + ly * ly + lz * lz) or 1.0
+        lam = max(0.0, (n[0] * lx + n[1] * ly + n[2] * lz) / dist)
+        down = (y + 0.5 - fy)
+        cone = 1.0 if down < 8 else min(1.0, max(0.0, (math.hypot(x + 0.5 - fx, d - fz) / (down - 8) - 0.25) * 2.5))
+        k = lam * cone / (1.0 + (dist / 44.0) ** 2) * bright
+        if k <= 0.02: continue
+        e[1] += 0.5 * k
+        if k > 0.12 + 0.34 * (dith(x, y) + 0.47): e[0] = swap[m]
+    im = s.render(outline=True, shadow=0.11, contact=0.09)
     p = im.load()
-    # the cigar (held loosely, the tip up), its band, the ember; then the smoke -- all without an outline
-    cig = [(6.0, hy - 1.4), (5.0, hy - 1.9), (4.0, hy - 2.4), (3.0, hy - 2.9)]
-    for k, (qx, qy) in enumerate(cig):
-        p[int(qx), int(qy)] = ((188, 141, 53) if k == 0 else (71, 56, 36)) + (255,)
-    p[2, int(hy - 3.4)] = DN_GLOW[2 + int(round(ember * 2))] + (255,)
-    for k in range(13):
-        t = ((k + sm * 1.6) / 13.0) % 1.0
-        qx = 1.8 + 1.5 * math.sin(t * 6.5 + 0.8) + t * 2.0
-        qy = hy - 4.6 - t * 15.0
-        if h32(k, sm, 5) % 4 == 0 or not (0 <= qx < W and 0 <= qy < H): continue
-        if p[int(qx), int(qy)][3]: continue
-        p[int(qx), int(qy)] = DN_SMOKE[min(3, int((1 - t) * 3.2))] + (255,)
-    return quantise(im, SCRAPER_PAL)
+
+    # -------------------------------------------------------------------------------- the cigar, its ember, the smoke
+    # held between the first two fingers, the lit end out to the left and a little up; drawn without an outline
+    c0x, c0y = hx - 10.0, hy - 2.2
+    ang = math.radians(198 - hand * 2)
+    ln = 12.0
+    dx_, dy_ = math.cos(ang), math.sin(ang)
+    tip = (c0x + dx_ * ln, c0y + dy_ * ln)
+    for i in range(int(ln * 3) + 1):
+        t = i / (ln * 3)
+        qx, qy = c0x + dx_ * ln * t, c0y + dy_ * ln * t
+        for w_, col in ((0, DN_CIGAR[4] if t < 0.85 else DN_CIGAR[3]), (1, DN_CIGAR[1])):
+            X_, Y_ = int(math.floor(qx)), int(math.floor(qy)) + w_
+            if (X_, Y_) in s.buf: continue
+            if 0.12 < t < 0.24: col = (150, 112, 52) if w_ == 0 else (96, 40, 30)                 # the band
+            p[X_, Y_] = col + (255,)
+    tx_, ty_ = int(math.floor(tip[0])), int(math.floor(tip[1]))
+    p[tx_ + 1, ty_] = DN_ASH[2] + (255,); p[tx_ + 1, ty_ + 1] = DN_ASH[0] + (255,)
+    e_ = max(0.0, min(1.0, ember))
+    p[tx_, ty_] = DN_EMBER[3 + int(round(e_ * 3))] + (255,)
+    p[tx_, ty_ + 1] = DN_EMBER[2 + int(round(e_ * 2))] + (255,)
+    if e_ > 0.6: p[tx_ - 1, ty_] = DN_EMBER[2] + (255,)
+    # a thin wisp rising from the ember, wavering, thinning and fading out as it climbs
+    for i in range(70):
+        t = i / 70.0
+        rise = t * 46.0
+        ph = sm * 0.8
+        qx = tip[0] - 0.5 + 2.6 * math.sin(rise * 0.17 - ph) * t ** 0.6 + 1.6 * math.sin(rise * 0.05 + ph * 0.5) * t + t * 4.0
+        qy = tip[1] - 1.5 - rise
+        a_ = int(235 * (1 - t) ** 0.9 * (0.78 + 0.22 * math.sin(i * 0.9 + sm)))
+        if a_ < 30 or h32(i, sm, 9) % 9 == 0: continue
+        for (ox_, oy_, k_) in ((0, 0, 1.0), (1 if t > 0.35 else 0, 0, 0.5 if t > 0.35 else 0)):
+            X_, Y_ = int(math.floor(qx)) + ox_, int(math.floor(qy)) + oy_
+            if not (0 <= X_ < W and 0 <= Y_ < H) or p[X_, Y_][3] == 255: continue
+            p[X_, Y_] = DN_SMOKE + (max(p[X_, Y_][3], int(a_ * k_)),)
+    # the breath: everything above the waistcoat's top button rises a pixel
+    if P.get('breath', 0):
+        cut = int(B - 64)
+        src = im.copy()
+        for y in range(0, cut):
+            for x in range(W):
+                p[x, y] = src.getpixel((x, y + 1))
+    return im
 
 
 DON_POSE = [  # 0 rest  1 the ember breathes, the smoke rises  2 the flame turns to the viewer's left (toward the player)
-              # 3 holds there  4 the cigar hand lifts a px, the ember glows  5 the breath, the flame comes back
+              # 3 holds there  4 the cigar hand lifts, the ember glows  5 the breath, the flame comes back
               # 6 it glances right  7 settle
-    dict(smoke=0, ember=0.3), dict(smoke=1, ember=0.8), dict(smoke=2, eye=-1.2, ember=0.5), dict(smoke=3, eye=-1.6, ember=0.3),
-    dict(smoke=4, eye=-0.8, hand=1, ember=1.0), dict(smoke=5, breath=1, ember=0.6), dict(smoke=6, eye=1.0, ember=0.3),
-    dict(smoke=7, ember=0.4)]
-
+    dict(smoke=0, ember=0.3), dict(smoke=1, ember=0.8), dict(smoke=2, eye=-2.6, ember=0.5, fs=1.04),
+    dict(smoke=3, eye=-3.4, ember=0.3, fs=1.06, bright=1.05), dict(smoke=4, eye=-1.6, hand=2, ember=1.0),
+    dict(smoke=5, breath=1, ember=0.6), dict(smoke=6, eye=2.2, ember=0.3, fs=0.96), dict(smoke=7, ember=0.4)]
 
 LAMPS = {
     'sconce': (sconce, SCONCE_POSE, SC),

@@ -96,6 +96,7 @@ export default {
         mapYouAreHere: 'You are here',
         mapHint: 'Click a visited location to fast travel  •  Press M or ESC to close',
         travelingTo: 'Traveling to {location}...',
+        lampFound: 'Found a lamp: {name}',
 
         // Dialog
         dialog: {
