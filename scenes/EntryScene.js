@@ -375,6 +375,10 @@ export default class EntryScene extends GameScene {
             'Egg Cathedral' // destination name
         );
         
+        // Examine the view (800-space, remapped to the 1067 canvas by createObservable): the city, the Egg Cathedral on
+        // its mound (canvas x 150..400), Scraper 1140 in the middle (x 505..590 up to the mast), the near skyship
+        this.createCityObservables();
+
         // Start background music
         this.playSceneMusic('backgroundMusic');
 
@@ -383,6 +387,15 @@ export default class EntryScene extends GameScene {
         
         // Set up the apprentice entrance sequence
         this.setupApprenticeEntrance();
+    }
+
+    createCityObservables() {
+        // The overlook is only ever seen at the very start (no exit leads back here), so each line has one variant
+        const wide = { bubble: { maxWidth: 320 } };
+        for (const [id, x, y, w, h] of [['entry_panorama', 559, 335, 217, 170], ['entry_egg', 206, 275, 187, 250],
+                                        ['entry_scraper', 410, 225, 64, 370], ['entry_skyship', 658, 178, 109, 135]]) {
+            this.createObservable(x, y, w, h, () => this.t(`observe.${id}.default`), { hint: this.t(`observe.${id}.hint`), ...wide });
+        }
     }
 
     createCityBackground() {
@@ -609,11 +622,13 @@ export default class EntryScene extends GameScene {
             // He now walks off to the right, so face him back that way and switch to the walk anim.
             this.master.setFlipX(false);
             if (this.master.anims) this.master.play('thaalWalk');
-            // Create a tween to make the master walk to the right and disappear
+            // Walk him fully off the right edge of the canvas (was a literal 900 from the 800-wide layout, so he
+            // vanished mid-screen at the signpost), at the old pace of 300 px per 5 s.
+            const exitX = this.scale.width + 80;
             this.tweens.add({
                 targets: [this.master, this.masterGlow],
-                x: 900, // Walk off the right side of the screen
-                duration: 5000,
+                x: exitX,
+                duration: Math.max(1000, 5000 * (exitX - this.master.x) / 300),
                 ease: 'Linear',
                 onComplete: () => {
                     // Remove the master and glow when they're off-screen

@@ -428,6 +428,14 @@ def paper():
 
 # ================================================================== the map
 NODES = {}                                                            # final px; MapUI = these - (533.5, 300)
+TOWNHALL = (318, 524, 104)                                            # x, ground, width
+GRAVEYARD = (22, 500)                                                 # x, ground
+
+def _skip_row(*a, **k):
+    """a row that is no longer drawn: run it (so the shared RNGs, and every house after it, stay as they were) and undo it"""
+    snap = ink.copy(); n = len(FILLS)
+    row(*a, **k)
+    ink.paste(snap); del FILLS[n:]
 
 def draw():
     r = random.Random(521)
@@ -445,11 +453,15 @@ def draw():
     lx, ly = sk(1585, 1672)
     bx = lx - 22                                                        # the street's centre line
     yl = ly - 3                                                         # where it meets the sketch's line
-    stroke([(bx - 9, yl), (bx - 9.5, 470), (bx - 8, 548)]); stroke([(bx + 9, yl - 0.5), (bx + 8.5, 480), (bx + 9, 549)])
-    # the avenue: Town Square -> Bear St -> the Screaming Cork -> the harbour
-    road([(300, 494), (340, 522), (390, 548), (bx, 556), (560, 558), (680, 556), (780, 538), (846, 512)], w=9)
-    # the square to the Townhall, and up between the houses to the Lumen Directorate
-    road([(208, 478), (172, 471), (154, 471)], w=6)
+    stroke([(bx - 9, yl), (bx - 9.5, 470), (bx - 8.5, 539)]); stroke([(bx + 9, yl - 0.5), (bx + 8.5, 480), (bx + 9, 540)])
+    # the way the scenes really join (scenes/*.js exits): Town Square -> the Townhall -> Burning Bear St (which runs up to
+    # the Scraper) -> the Screaming Cork, a dead end; the harbour is reached from the square alone, the Lumen Directorate
+    # and the Godgraveyard too. So one street from the square past the Townhall's steps and Bear St's foot to the Cork,
+    road([(302, 490), (312, 514), (336, 533), (380, 537), (bx, 544), (520, 547), (600, 545), (634, 540)], w=8)
+    # a separate harbour road from the square along the bottom of the town, touching nothing on the way,
+    road([(270, 494), (292, 528), (330, 560), (420, 572), (560, 574), (700, 570), (790, 548), (846, 512)], w=9)
+    # the lane down to the Godgraveyard's gate, and the way up between the houses to the Lumen Directorate
+    road([(200, 484), (166, 494), (128, 500)], w=6)
     road([(226, 456), (210, 414), (190, 386), (150, 368), (118, 366)], w=6)
 
     # ---- the sea: the coast with the drain's delta cut into it, the water, the island
@@ -583,35 +595,41 @@ def draw():
     # ---- Burning Bear Street: a narrow street between two rows, teddy bears hung across it on strings
     # (the houses either side are drawn with the town below; the strings go over the street at the top)
 
-    # ---- the Townhall: a long civic front, a little dome, the big clock gripped by tentacles
-    tx, tyb, tw = 32, 486, 120
-    erase([(tx - 4, tyb), (tx - 4, tyb - 70), (tx + tw + 4, tyb - 70), (tx + tw + 4, tyb)])
-    box(tx, tyb - 40, tx + tw, tyb)
-    seg((tx - 3, tyb - 40), (tx + tw + 3, tyb - 40))
-    poly([(tx + 42, tyb - 40), (tx + 42, tyb - 50), (tx + 78, tyb - 50), (tx + 78, tyb - 40)], closed=False)
-    ell(tx + 60, tyb - 50, 13, 12, 180, 360, closed=False)
-    stroke([(tx + 60, tyb - 62), (tx + 60, tyb - 69)], lw=FINE); dot(tx + 60, tyb - 70, 1.3)
-    for i in range(5):
-        for j, yy in enumerate((tyb - 30, tyb - 13)):
-            wx = tx + 10 + i * 9 if i < 3 else tx + tw - 10 - (4 - i) * 9
-            wx = [tx + 9, tx + 19, tx + 29, tx + tw - 29, tx + tw - 19, tx + tw - 9][i if i < 3 else i + 1] if i != 4 else tx + tw - 9
-            window(wx, yy, 5.5, 8, 'arch')
-    window(tx + tw - 19, tyb - 30, 5.5, 8, 'arch'); window(tx + tw - 19, tyb - 13, 5.5, 8, 'arch')
-    door(tx + 60, tyb - 3, 10, 13)
-    for k in range(3): stroke([(tx + 52 - k * 2, tyb - 3 + k * 1.5), (tx + 68 + k * 2, tyb - 3 + k * 1.5)], lw=FINE * 0.7)
-    # the clock over the door and its tentacles
-    ccx, ccy = tx + 60, tyb - 29
-    erase([(ccx - 12, ccy - 12), (ccx + 12, ccy - 12), (ccx + 12, ccy + 12), (ccx - 12, ccy + 12)])
-    ell(ccx, ccy, 10, 10)
-    for k in range(12):
-        a = k * math.pi / 6
-        stroke([(ccx + math.cos(a) * 7.6, ccy + math.sin(a) * 7.6), (ccx + math.cos(a) * 8.6, ccy + math.sin(a) * 8.6)], lw=1.2)
-    stroke([(ccx, ccy), (ccx + 0.5, ccy - 6.5)], lw=FINE * 0.8); stroke([(ccx, ccy), (ccx + 4.5, ccy + 2)], lw=FINE * 0.8)
-    for sx, pts in [(-1, [(-9, -5), (-16, -10), (-20, -6), (-24, -10)]), (1, [(9, -5), (15, -11), (21, -8), (25, -12)]),
-                    (-1, [(-9, 5), (-15, 9), (-17, 15), (-22, 16)]), (1, [(9, 5), (15, 10), (16, 16), (21, 18)])]:
-        stroke([(ccx + px_, ccy + py_) for px_, py_ in pts], lw=FINE + 0.2, smooth=True)
-        for t in (1, 2): dot(ccx + pts[t][0] + 1, ccy + pts[t][1] + 1.6, 0.7)
-    NODES['townhall'] = (tx + 60, tyb + 4)
+    # ---- the Godgraveyard (off the square): an iron fence, the gate between stone pillars under an arch with the sun
+    # emblem, giant tombstones of dead gods behind it (a slab with a carved face, a round one, a tall one), a dead tree
+    gx0, gyb = GRAVEYARD
+    erase([(gx0 - 4, gyb + 2), (gx0 - 4, gyb - 78), (gx0 + 134, gyb - 78), (gx0 + 134, gyb + 2)])
+    # the god stones behind the fence
+    poly([(gx0 + 70, gyb - 14), (gx0 + 72, gyb - 58), (gx0 + 82, gyb - 70), (gx0 + 96, gyb - 66), (gx0 + 100, gyb - 56), (gx0 + 99, gyb - 14)], closed=False)
+    ell(gx0 + 85, gyb - 44, 6, 7, lw=FINE)                                       # the carved face
+    dot(gx0 + 83, gyb - 46, 0.8); dot(gx0 + 88, gyb - 46, 0.8); stroke([(gx0 + 82, gyb - 40), (gx0 + 88, gyb - 40)], lw=1.1)
+    ell(gx0 + 115, gyb - 26, 12, 13, 180, 360, closed=False); seg((gx0 + 103, gyb - 26), (gx0 + 103, gyb - 14)); seg((gx0 + 127, gyb - 26), (gx0 + 127, gyb - 14))
+    ell(gx0 + 115, gyb - 27, 6, 6, lw=FINE * 0.8)
+    box(gx0 + 18, gyb - 52, gx0 + 30, gyb - 14); poly([(gx0 + 17, gyb - 52), (gx0 + 24, gyb - 60), (gx0 + 31, gyb - 52)], closed=False)
+    stroke([(gx0 + 24, gyb - 46), (gx0 + 24, gyb - 30)], lw=1.2); stroke([(gx0 + 20, gyb - 40), (gx0 + 28, gyb - 40)], lw=1.2)
+    # a dead tree on the left
+    stroke([(gx0 + 6, gyb - 14), (gx0 + 7, gyb - 40), (gx0 + 4, gyb - 56)], lw=FINE + 0.3, smooth=True)
+    stroke([(gx0 + 7, gyb - 38), (gx0 + 15, gyb - 52), (gx0 + 22, gyb - 56)], lw=FINE * 0.8, smooth=True)
+    stroke([(gx0 + 6, gyb - 46), (gx0 - 2, gyb - 58)], lw=FINE * 0.8); stroke([(gx0 + 4, gyb - 56), (gx0 + 9, gyb - 66)], lw=FINE * 0.7)
+    # the fence: two rails and pickets, broken by the gate
+    gcx = gx0 + 50
+    for (xa, xb) in ((gx0, gcx - 14), (gcx + 14, gx0 + 130)):
+        seg((xa, gyb - 12), (xb, gyb - 12), lw=FINE); seg((xa, gyb - 4), (xb, gyb - 4), lw=FINE)
+        x = xa + 3
+        while x < xb - 1:
+            stroke([(x, gyb), (x, gyb - 17)], lw=1.3); x += 5.5
+    # the pillars, the arch with the sun emblem, the gate leaves
+    for px_ in (gcx - 16, gcx + 10):
+        box(px_, gyb - 30, px_ + 6, gyb); box(px_ - 1, gyb - 33, px_ + 7, gyb - 30, lw=FINE, ov=0.3)
+        box(px_ + 1.5, gyb - 39, px_ + 4.5, gyb - 34, lw=FINE * 0.8, ov=0.2)                  # the lanterns
+    ell(gcx - 3, gyb - 30, 12, 10, 180, 360, closed=False, lw=FINE)
+    ell(gcx - 3, gyb - 41, 3, 3, lw=1.3)
+    for k in range(8):
+        a_ = k * math.pi / 4
+        stroke([(gcx - 3 + math.cos(a_) * 4.2, gyb - 41 + math.sin(a_) * 4.2), (gcx - 3 + math.cos(a_) * 6.4, gyb - 41 + math.sin(a_) * 6.4)], lw=1.0)
+    for x in range(int(gcx - 9), int(gcx + 9), 3): stroke([(x, gyb - 1), (x, gyb - 27)], lw=1.1)
+    seg((gcx - 10, gyb - 14), (gcx + 10, gyb - 14), lw=1.2)
+    NODES['godgraveyard'] = (gcx - 3, gyb + 6)
 
     # ---- the Lumen Directorate: a gothic front, twin spires, a rose window, lamps and flowerbeds
     lx0, lyb = 46, 352
@@ -670,16 +688,44 @@ def draw():
     row(186, 336, 268, r2, hmin=18, hmax=30, wmin=15, wmax=24)                               # under the Shed road
     row(444, 498, 302, r2, kinds=['gable', 'shed', 'cone', 'flat'], hmin=16, hmax=24, wmin=14, wmax=20)   # by the Scraper
     row(176, 334, 360, r2, hmin=24, hmax=40, wmin=15, wmax=26)                               # right of the Directorate
-    row(360, bx - 12, 470, r2, hmin=24, hmax=36, wmin=14, wmax=24, gap=(0.5, 2))             # Bear St, west, back
+    _skip_row(360, bx - 12, 470, r2, hmin=24, hmax=36, wmin=14, wmax=24, gap=(0.5, 2))       # (was Bear St, west, back)
     row(500, 800, 425, r2, hmin=22, hmax=38, wmin=16, wmax=30)                               # under the bus road
-    row(384, bx - 12, 527, r2, hmin=26, hmax=40, wmin=14, wmax=22, gap=(0.5, 2))             # Bear St, west
+    _skip_row(384, bx - 12, 527, r2, hmin=26, hmax=40, wmin=14, wmax=22, gap=(0.5, 2))       # (was Bear St, west)
     row(bx + 12, 598, 518, r2, hmin=28, hmax=46, wmin=14, wmax=24, gap=(0.5, 2))             # Bear St, east
     row(bx + 12, 600, 466, r2, hmin=22, hmax=34, wmin=14, wmax=22)                           # Bear St, east, back
     row(696, 792, 522, r2, hmin=20, hmax=32, wmin=14, wmax=24)                               # towards the harbour
     row(800, 864, 196, r2, kinds=['box3d', 'shed', 'flat', 'gable'], hmin=16, hmax=26, wmin=16, wmax=26)   # by the coast
     row(826, 880, 330, r2, hmin=18, hmax=28, wmin=14, wmax=20)
     row(800, 868, 404, r2, hmin=18, hmax=30, wmin=14, wmax=22)
-    row(22, 270, 584, r2, hmin=16, hmax=26, wmin=16, wmax=26)                                # under the Townhall
+    row(22, 270, 584, r2, hmin=16, hmax=26, wmin=16, wmax=26)                                # along the bottom left
+    row(330, 436, 474, random.Random(77), hmin=24, hmax=36, wmin=14, wmax=22, gap=(0.5, 2))   # behind the Townhall
+    # ---- the Townhall (between the square and Bear St, as in the game): a long civic front, a little dome, the big clock gripped by tentacles
+    tx, tyb, tw = TOWNHALL
+    erase([(tx - 4, tyb), (tx - 4, tyb - 70), (tx + tw + 4, tyb - 70), (tx + tw + 4, tyb)])
+    box(tx, tyb - 40, tx + tw, tyb)
+    seg((tx - 3, tyb - 40), (tx + tw + 3, tyb - 40))
+    poly([(tx + tw / 2 - 18, tyb - 40), (tx + tw / 2 - 18, tyb - 50), (tx + tw / 2 + 18, tyb - 50), (tx + tw / 2 + 18, tyb - 40)], closed=False)
+    ell(tx + tw / 2, tyb - 50, 13, 12, 180, 360, closed=False)
+    stroke([(tx + tw / 2, tyb - 62), (tx + tw / 2, tyb - 69)], lw=FINE); dot(tx + tw / 2, tyb - 70, 1.3)
+    for wx in (tx + 9, tx + 19, tx + 29, tx + tw - 29, tx + tw - 19, tx + tw - 9):
+        for yy in (tyb - 30, tyb - 13):
+            window(wx, yy, 5.5, 8, 'arch')
+    door(tx + tw / 2, tyb - 3, 10, 13)
+    for k in range(3): stroke([(tx + tw / 2 - 8 - k * 2, tyb - 3 + k * 1.5), (tx + tw / 2 + 8 + k * 2, tyb - 3 + k * 1.5)], lw=FINE * 0.7)
+    # the clock over the door and its tentacles
+    ccx, ccy = tx + tw / 2, tyb - 29
+    erase([(ccx - 12, ccy - 12), (ccx + 12, ccy - 12), (ccx + 12, ccy + 12), (ccx - 12, ccy + 12)])
+    ell(ccx, ccy, 10, 10)
+    for k in range(12):
+        a = k * math.pi / 6
+        stroke([(ccx + math.cos(a) * 7.6, ccy + math.sin(a) * 7.6), (ccx + math.cos(a) * 8.6, ccy + math.sin(a) * 8.6)], lw=1.2)
+    stroke([(ccx, ccy), (ccx + 0.5, ccy - 6.5)], lw=FINE * 0.8); stroke([(ccx, ccy), (ccx + 4.5, ccy + 2)], lw=FINE * 0.8)
+    for sx, pts in [(-1, [(-9, -5), (-16, -10), (-20, -6), (-24, -10)]), (1, [(9, -5), (15, -11), (21, -8), (25, -12)]),
+                    (-1, [(-9, 5), (-15, 9), (-17, 15), (-22, 16)]), (1, [(9, 5), (15, 10), (16, 16), (21, 18)])]:
+        stroke([(ccx + px_, ccy + py_) for px_, py_ in pts], lw=FINE + 0.2, smooth=True)
+        for t in (1, 2): dot(ccx + pts[t][0] + 1, ccy + pts[t][1] + 1.6, 0.7)
+    NODES['townhall'] = (tx + tw / 2, tyb + 4)
+
 
     # the bears over Burning Bear Street: two sagging strings with pennants and a hanging teddy
     for k, (sy, sp) in enumerate(((474, 6), (492, 8))):
@@ -708,7 +754,7 @@ def draw():
         stroke([(x - 4 * s_, y - 2 * s_), (x - 1.5 * s_, y - 0.5 * s_), (x, y + 1 * s_)], lw=1.4, smooth=True, wob=0.2)
         stroke([(x, y + 1 * s_), (x + 1.5 * s_, y - 0.5 * s_), (x + 4 * s_, y - 2 * s_)], lw=1.4, smooth=True, wob=0.2)
     # trees in the gaps
-    for (x, yb, h) in [(172, 396, 26), (346, 380, 22), (24, 412, 24), (168, 528, 20), (348, 452, 20), (304, 584, 18), (585, 588, 16), (760, 584, 18), (20, 560, 22)]:
+    for (x, yb, h) in [(172, 396, 26), (346, 380, 22), (24, 412, 24), (172, 528, 20), (250, 534, 18), (585, 596, 14), (760, 596, 14), (20, 560, 22)]:
         tree(x, yb, h)
 
 
@@ -808,11 +854,11 @@ def colour_fills():
         fpoly([(bx2 - 3, cyb - 11), (bx2 + 3, cyb - 11), (bx2 + 3.2, cyb), (bx2 - 3.2, cyb)], 'brown', 0.8)
 
     # --- the Townhall
-    tx, tyb, tw = 32, 486, 120
-    ccx, ccy = tx + 60, tyb - 29
+    tx, tyb, tw = TOWNHALL
+    ccx, ccy = tx + tw / 2, tyb - 29
     fpoly([(tx, tyb), (tx, tyb - 40), (tx + tw, tyb - 40), (tx + tw, tyb)], 'orange', 0.5, win=True, holes=[ellpts(ccx, ccy, 10, 10)])
-    fpoly([(tx + 42, tyb - 40), (tx + 42, tyb - 50), (tx + 78, tyb - 50), (tx + 78, tyb - 40)], 'orange', 0.5)
-    fpoly(ellpts(tx + 60, tyb - 50, 13, 12, 180, 360), 'green', 0.7)
+    fpoly([(tx + tw / 2 - 18, tyb - 40), (tx + tw / 2 - 18, tyb - 50), (tx + tw / 2 + 18, tyb - 50), (tx + tw / 2 + 18, tyb - 40)], 'orange', 0.5)
+    fpoly(ellpts(tx + tw / 2, tyb - 50, 13, 12, 180, 360), 'green', 0.7)
     fpoly(ellpts(ccx, ccy, 10, 10), 'yellow', 0.85)
     for pts in ([(-9, -5), (-16, -10), (-20, -6), (-24, -10)], [(9, -5), (15, -11), (21, -8), (25, -12)],
                 [(-9, 5), (-15, 9), (-17, 15), (-22, 16)], [(9, 5), (15, 10), (16, 16), (21, 18)]):
@@ -834,6 +880,17 @@ def colour_fills():
         fpoly([(fx - 12, lyb + 5), (fx + 12, lyb + 5), (fx + 12, lyb + 10), (fx - 12, lyb + 10)], 'green', 0.75)
         for k in range(5): fpoly(ellpts(fx - 9 + k * 4.5, lyb + 3 + (k % 2), 1.8, 1.8, n=8), 'red', 0.85)
 
+    # --- the Godgraveyard: grey god stones, the gold sun emblem, grass inside the fence
+    gx0, gyb = GRAVEYARD; gcx = gx0 + 50
+    fpoly([(gx0, gyb - 2), (gx0, gyb - 16), (gx0 + 130, gyb - 16), (gx0 + 130, gyb - 2)], 'green', 0.45)
+    fpoly([(gx0 + 70, gyb - 14), (gx0 + 72, gyb - 58), (gx0 + 82, gyb - 70), (gx0 + 96, gyb - 66), (gx0 + 100, gyb - 56), (gx0 + 99, gyb - 14)], 'gray', 0.6)
+    fpoly(ellpts(gx0 + 115, gyb - 26, 12, 13, 180, 360) + [(gx0 + 127, gyb - 14), (gx0 + 103, gyb - 14)], 'gray', 0.55)
+    fpoly([(gx0 + 17, gyb - 52), (gx0 + 24, gyb - 60), (gx0 + 31, gyb - 52), (gx0 + 30, gyb - 14), (gx0 + 18, gyb - 14)], 'gray', 0.5)
+    for px_ in (gcx - 16, gcx + 10):
+        fpoly([(px_, gyb), (px_, gyb - 30), (px_ + 6, gyb - 30), (px_ + 6, gyb)], 'gray', 0.6)
+        fpoly([(px_ + 1.5, gyb - 39), (px_ + 4.5, gyb - 39), (px_ + 4.5, gyb - 34), (px_ + 1.5, gyb - 34)], 'yellow', 0.85)
+    fpoly(ellpts(gcx - 3, gyb - 41, 6.5, 6.5), 'yellow', 0.85)
+
     # --- Town Square
     sqx, sqy = 252, 478
     fpoly(ellpts(sqx, sqy, 56, 17), 'gray', 0.45, holes=[ellpts(sqx, sqy, 16, 5)])
@@ -841,7 +898,7 @@ def colour_fills():
 
     # --- Burning Bear Street: the street, the bunting, the bears (one burning)
     lx, ly = sk(1585, 1672); bx = lx - 22; yl = ly - 3
-    fpoly([(bx - 9, yl), (bx + 9, yl), (bx + 9, 548), (bx - 9, 548)], 'gray', 0.4)
+    fpoly([(bx - 9, yl), (bx + 9, yl), (bx + 9, 540), (bx - 9, 540)], 'gray', 0.4)
     flags = ['red', 'yellow', 'blue', 'green']
     for k, (sy, sp) in enumerate(((474, 6), (492, 8))):
         x0, x1 = bx - 22 - k * 3, bx + 22 + k * 3
