@@ -150,7 +150,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.spritesheet('symbiontPods', 'assets/images/ui/symbiont_pods.png', { frameWidth: 48, frameHeight: 58 });
 
         // Fast-travel map background
-        this.load.image('mapBg', 'assets/images/ui/map.png');
+        this.load.image('mapBg', 'assets/images/ui/map_color.png');   // the felt-tip coloured hand-drawn map (full game: tools/artgen/handmap.py)
 
         // Handle load errors
         this.load.on('loaderror', (fileObj) => {
