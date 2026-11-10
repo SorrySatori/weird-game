@@ -15,6 +15,89 @@ export default class ScraperScene extends GameScene {
         this.load.image('scraperBg', 'assets/images/backgrounds/Scraper1140.png');
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
+        // Don Girandole, 8 idle frames of 136x168 (tools/artgen/lamps.py on dev): in the demo just for company
+        this.load.spritesheet('lamp_don', 'assets/images/characters/lamps/don.png', { frameWidth: 136, frameHeight: 168 });
+    }
+
+    // In the demo the Don is only a character to talk to: no Gang of Lamps quest, no quest log or journal entry.
+    // His goodbye leaves a door open for the full game ("tell any lamp the Don says hello").
+    get dialogContent() {
+        const met = !!this.registry.get('don_demo_met');
+        const ask = [
+            { text: "Who are you, exactly?", key: 'don_demo_who', next: 'don_demo_who' },
+            { text: "What do you do up here?", key: 'don_demo_view', next: 'don_demo_view' },
+            { text: "...you're a talking lamp.", key: 'don_demo_lamp', next: 'don_demo_lamp' },
+            { text: "I should go.", key: 'don_demo_bye', next: 'don_demo_farewell' },
+        ];
+        const more = [
+            { text: "Something else.", key: 'don_demo_back', next: 'don_demo_more' },
+            { text: "I should go.", key: 'don_demo_bye', next: 'don_demo_farewell' },
+        ];
+        return {
+            ...super.dialogContent,
+            don_demo_start: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                textKey: met ? 'don_demo_again' : 'don_demo_first',
+                text: met
+                    ? `The Don's flame turns to you lazily, the ember of his cigar glowing. "Back again? Good. A lamp gets lonely up here, with only the wind and the wires for company."`
+                    : `On the pipe tower above the walkway stands a gaudy old lamp. For some reason it doesn't stand on an ordinary post but on the body of a portly man in a three-piece suit, a white-gloved hand round a smoking cigar. It swivels its head-lamp toward you, and the flame leans closer behind the glass. "Well, well. A visitor who looks up. Hardly anybody looks up in this city, friend. They look at their feet, at their papers, busy with their earthbound little affairs. Nobody ever looks at an old lamp." A slow puff of smoke. "Don Girandole. Pleased to make your acquaintance."`,
+                options: ask,
+                onTrigger: () => { this.registry.set('don_demo_met', true); },
+            },
+            don_demo_more: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `The flame turns back to you. "What else, friend?"`,
+                options: ask,
+            },
+            don_demo_who: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `"Head of a family, friend. A family of lamps, before you laugh." The flame narrows. "We're scattered all over this city, every one of us bolted to some post or wall, and not one of us can take a single step. Still, we do quite nicely." He taps the ash off his cigar. "One day I may need a pair of legs like yours. But not today. Business is good."`,
+                options: more,
+            },
+            don_demo_view: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `"I watch the windows. Every one that lights up and every one that goes dark. You learn a lot about people from the lights they leave on, and more from the ones they put out." The flame dips toward the tower. "That one never sleeps, by the way. Remember that when you go inside."`,
+                options: more,
+            },
+            don_demo_lamp: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `"And you're a talking pair of legs. We've all got our quirks, friend." The ember glows brighter, amused. "And don't stare. It's not polite to stare at a man's lamp."`,
+                options: more,
+            },
+            don_demo_farewell: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `"Go on, then. And if you ever catch a lamp somewhere in this city looking at you a moment too long, tell it the Don says hello."`,
+                options: [{ text: "Goodbye, Don.", key: 'don_demo_close', next: 'closeDialog' }],
+            },
+        };
+    }
+
+    /** Don Girandole on the pipe-tower platform at the right edge (deck rim y 379), idle, clickable, with his bust. */
+    createDon() {
+        if (!this.anims.exists('lamp_don_idle')) {
+            this.anims.create({ key: 'lamp_don_idle', frameRate: 5, repeat: -1,
+                frames: this.anims.generateFrameNumbers('lamp_don', { frames: [0, 1, 1, 0, 0, 2, 3, 3, 3, 3, 4, 4, 5, 0, 0, 1, 0, 6, 6, 7, 0, 0] }) });
+        }
+        const don = this.add.sprite(1024, 381, 'lamp_don', 0).setOrigin(0.5, 1).setDepth(6);
+        don.play({ key: 'lamp_don_idle', startFrame: Math.floor(Math.random() * 22) });
+        // the hit box stops above the right-edge exit zone (canvas y 370..570)
+        don.setInteractive({ hitArea: new Phaser.Geom.Rectangle(8, 4, 96, 150), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        let glow = null;
+        don.on('pointerover', () => { if (!glow) glow = don.preFX?.addGlow(0xffd27a, 2, 0, false, 0.1, 8); });
+        don.on('pointerout', () => { if (glow) { don.preFX?.remove(glow); glow = null; } });
+        don.on('pointerdown', () => {
+            if (this.dialogVisible) return;
+            if (this.clickSound) this.clickSound.play();
+            this.showDialog('don_demo_start');
+        });
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Don Girandole': { key: 'lamp_don', frame: 3, zoom: 2, top: 22 } };
+        this.don = don;
     }
 
     create() {
@@ -173,6 +256,9 @@ export default class ScraperScene extends GameScene {
             if (this.hasJournalEntry('scraper_building')) return this.t('observe.scraper.been_inside');
             return this.t('observe.scraper.default');
         }, { hint: this.t('observe.scraper.hint') });
+
+        // Don Girandole on the pipe-tower platform (the full game's Gang of Lamps boss; here just to talk to)
+        this.createDon();
     }
 
     update() {

@@ -17,6 +17,7 @@ import shedRegistrationScene from './ShedRegistrationScene.js';
 import skyshipBoardScene from './SkyshipBoardScene.js';
 import scraperAmbraScene from './ScraperAmbraScene.js';
 import scraperInteriorScene from './ScraperInteriorScene.js';
+import scraperScene from './ScraperScene.js';
 import voxmarketMarketScene from './VoxmarketMarketScene.js';
 import voxmarketHallScene from './VoxmarketHallScene.js';
 
@@ -36,6 +37,7 @@ export default {
     SkyshipBoardScene: skyshipBoardScene,
     ScraperAmbraScene: scraperAmbraScene,
     ScraperInteriorScene: scraperInteriorScene,
+    ScraperScene: scraperScene,
     VoxmarketMarketScene: voxmarketMarketScene,
     VoxmarketHallScene: voxmarketHallScene,
 };
