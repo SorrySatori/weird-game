@@ -42,9 +42,10 @@ export default class MapUI {
             // --- the lower town ---
             { key: 'LumenDirectorateScene',    name: 'Lumen Directorate', x: -438, y: 60,
               inside: ['LumenDirectorateInteriorScene'] },
-            { key: 'TownhallScene',            name: 'Townhall',          x: -442, y: 190,
+            { key: 'TownhallScene',            name: 'Townhall',          x: -164, y: 228,
               inside: ['TownhallInteriorScene', 'PithReclaimersRoomScene'] },
             { key: 'TownSquareScene',          name: 'Town Square',       x: -282, y: 178 },
+            { key: 'GodgraveyardScene',        name: 'Godgraveyard',      x: -465, y: 206 },
             { key: 'BurningBearStreetScene',   name: 'Burning Bear St.',  x: -84,  y: 212 },
             { key: 'ScreamingCorkScene',       name: 'Screaming Cork',    x: 111,  y: 241,
               inside: ['ScreamingCorkInteriorScene', 'ScreamingCorkClubScene'] },
@@ -55,7 +56,8 @@ export default class MapUI {
             { key: 'RedmassIslandScene',       name: 'Redmass Island',    x: 471,  y: 152 },
         ];
 
-        // Connections between locations (for drawing lines)
+        // Connections between locations (for drawing lines): the real exits of the scenes (scenes/*.js), which the
+        // drawn roads follow too
         this.connections = [
             ['SkyshipBoardScene', 'CrossroadScene'],
             ['CrossroadScene', 'VoxMarket'],
@@ -66,7 +68,8 @@ export default class MapUI {
             ['TownSquareScene', 'TownhallScene'],
             ['TownSquareScene', 'HarborScene'],
             ['TownSquareScene', 'LumenDirectorateScene'],
-            ['TownSquareScene', 'BurningBearStreetScene'],
+            ['TownSquareScene', 'GodgraveyardScene'],
+            ['TownhallScene', 'BurningBearStreetScene'],
             ['BurningBearStreetScene', 'ScreamingCorkScene'],
             ['HarborScene', 'EchoDrainDeltaScene'],
             ['EchoDrainDeltaScene', 'RedmassIslandScene'],

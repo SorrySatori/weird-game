@@ -170,6 +170,14 @@ export default class CrossroadScene extends GameScene {
         this.corpse = this.add.sprite(this.corpseX, 496, 'crossroad_corpse', this.corpseFrame())
             .setOrigin(0.5, 1)
             .setDepth(6);
+        // Dialog bust at 1x of whichever frame its fate shows: the lower head and the face clear of the name strip
+        const scene = this;
+        const corpseBust = {
+            key: 'crossroad_corpse', zoom: 1,
+            get frame() { return scene.corpse?.frame?.name ?? scene.corpseFrame(); },
+            get top() { return { [CORPSE_FRAME.intact]: 160, [CORPSE_FRAME.cut]: 175, [CORPSE_FRAME.growth]: 150 }[this.frame] ?? 160; },
+        };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Giant Corpse': corpseBust, 'Obří mrtvola': corpseBust };
         // Only the figure + its stake are clickable (frame-local rect): the tree above must leave the skyship zone free.
         this.corpse.setInteractive({
             hitArea: new Phaser.Geom.Rectangle(56, 136, 128, 360),
@@ -462,8 +470,9 @@ export default class CrossroadScene extends GameScene {
         // Create a camera zoom effect to simulate looking up
         const originalZoom = this.cameras.main.zoom;
         
-        // The skyship picture (native 1067×600, tools/artgen/skyship_bg.py) fills the screen once the camera has
-        // tilted up: pinned to the screen and scaled by 1/zoom so it lands pixel-exact on the zoomed camera.
+        // The skyship picture (native 1067×600 pixel art, tools/artgen/skyship_native_bg.py) fills the screen once the
+        // camera has tilted up: pinned to the screen and scaled by 1/zoom so it lands pixel-exact on the zoomed camera.
+        // The picture keeps the band under the ship (canvas y 470..570) quiet for the message box below.
         const W = this.scale.width, H = this.scale.height;
         const skyship = this.add.image(W / 2, H / 2, 'skyship').setScrollFactor(0);
         skyship.setAlpha(0);
@@ -485,11 +494,19 @@ export default class CrossroadScene extends GameScene {
         messageText.setDepth(10200);
         messageText.setAlpha(0);
         
+        // The tilt never leaves the Crossroad picture (it spans the canvas, 0..H): at zoom z the view is H / z tall and
+        // centred on scrollY + H / 2, so it stays inside while |scrollY| <= edge(z). Zoom stays >= 1 (zooming out showed
+        // the black canvas round the picture) and the look-up pans exactly to the picture's top edge (half a pixel in).
+        // Each tween moves zoom and scroll on one ease, which keeps every in-between frame inside the picture too.
+        const edge = (z) => (H / 2) * (1 - 1 / z);
+        const dipZoom = originalZoom * 1.04, lookZoom = originalZoom * 1.2;
+
         // Use sequential tweens instead of timeline
-        // Step 1: First zoom out slightly to prepare for looking up
+        // Step 1: A slight dip first, the head lowering before it tips back to look up
         this.tweens.add({
             targets: this.cameras.main,
-            zoom: originalZoom * 0.9,
+            zoom: dipZoom,
+            scrollY: edge(dipZoom) * 0.6,
             duration: 1000,
             ease: 'Sine.easeInOut',
             onComplete: () => {
@@ -505,51 +522,57 @@ export default class CrossroadScene extends GameScene {
                 }
                 // The growth from the planted corpse turns out to lead up to it
                 this.addJournalFact('crossroad_corpse_spores_planted', 'skyship', "The growth has opened a path up to a skyship hanging above the crossroads.");
-                // Step 2: Then zoom in and pan up to simulate looking up
+                // Step 2: Then zoom in and pan up to the top of the picture to simulate looking up. The picture is
+                // scaled by 1/zoom on every frame, so it always covers the screen 1:1 and lands pixel-exact.
                 this.tweens.add({
                     targets: this.cameras.main,
-                    zoom: originalZoom * 1.2,
-                    scrollY: -150,
+                    zoom: lookZoom,
+                    scrollY: -(edge(lookZoom) - 0.5),
                     duration: 2000,
                     ease: 'Sine.easeInOut',
+                    onUpdate: () => skyship.setScale(1 / this.cameras.main.zoom),
                     onComplete: () => {
-                        // Step 3: Fade in the skyship (scaled against the zoom the camera ended on)
+                        // The message box: scaled against the zoom the camera ended on, under the ship
                         const inv = 1 / this.cameras.main.zoom;
                         [skyship, messageBox, messageText].forEach(o => o.setScale(inv));
                         messageBox.y = messageText.y = H / 2 + (H / 2 - 80) * inv;
-                        this.tweens.add({
-                            targets: skyship,
-                            alpha: 1,
-                            duration: 2000,
-                            ease: 'Sine.easeOut',
-                            onComplete: () => {
-                                // Step 4: Show the message after the skyship appears
-                                this.tweens.add({
-                                    targets: [messageBox, messageText],
-                                    alpha: 1,
-                                    duration: 1000,
-                                    ease: 'Sine.easeInOut',
-                                    onComplete: () => {
-                                        // Step 5: Wait a moment and then transition to the SkyshipBoardScene
-                                        this.time.delayedCall(3000, () => {
-                                            // Fade out to transition to the new scene
-                                            this.cameras.main.fadeOut(1000, 0, 0, 0);
-                                            this.cameras.main.once('camerafadeoutcomplete', () => {
-                                                // Reset camera settings before changing scenes
-                                                this.cameras.main.zoom = originalZoom;
-                                                this.cameras.main.scrollX = 0;
-                                                this.cameras.main.scrollY = 0;
-                                                
-                                                // Start the SkyshipBoardScene
-                                                this.scene.start('SkyshipBoardScene');
-                                                this.isTransitioning = false;
-                                            });
-                                        });
-                                    }
-                                });
-                            }
-                        });
                     }
+                });
+                // Step 3: Fade in the skyship from halfway through the look-up, so the move carries on into the
+                // picture; it ends when it always did (2 s after the pan), so the message and the deck keep their time
+                this.time.delayedCall(1000, () => {
+                    this.tweens.add({
+                        targets: skyship,
+                        alpha: 1,
+                        duration: 3000,
+                        ease: 'Sine.easeOut',
+                        onComplete: () => {
+                            // Step 4: Show the message after the skyship appears
+                            this.tweens.add({
+                                targets: [messageBox, messageText],
+                                alpha: 1,
+                                duration: 1000,
+                                ease: 'Sine.easeInOut',
+                                onComplete: () => {
+                                    // Step 5: Wait a moment and then transition to the SkyshipBoardScene
+                                    this.time.delayedCall(3000, () => {
+                                        // Fade out to transition to the new scene
+                                        this.cameras.main.fadeOut(1000, 0, 0, 0);
+                                        this.cameras.main.once('camerafadeoutcomplete', () => {
+                                            // Reset camera settings before changing scenes
+                                            this.cameras.main.zoom = originalZoom;
+                                            this.cameras.main.scrollX = 0;
+                                            this.cameras.main.scrollY = 0;
+                                            
+                                            // Start the SkyshipBoardScene
+                                            this.scene.start('SkyshipBoardScene');
+                                            this.isTransitioning = false;
+                                        });
+                                    });
+                                }
+                            });
+                        }
+                    });
                 });
             }
         });

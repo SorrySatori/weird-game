@@ -273,6 +273,7 @@ Fixed points: door centred on x 533 (sill y ~485); name board x 362..704, y 183.
 x 15..103; Edgar at (300, 525); the walk line y 534 runs along the pavement.
 
 ## Scraper 1140 (ScraperScene) — the old picture, re-pixelled, plus a rooftop
+**Superseded 2026-11-10 by `scraper_native_bg.py` (see "Native redraws of the last re-pixelled pictures" below); running `scraper_export.lua` would put the old 3x picture back.**
 Not redrawn from scratch — the user loves the old AI picture. `scraper_bg.py` reads it from `scraper1140_ref.png`
 (the original 1536×1024, kept here as the source): it is a 384×256 picture blown up 4×, so every 4×4 block is sampled
 back to one logical pixel (block centres, x blocks start at 4g+1), the frame is cut to **356×200** (grid x 14..370,
@@ -349,6 +350,7 @@ Noise God's altar, a few breathing green), three industrial lamps whose shades e
 Source `assets/aseprite/ScreamingCorkClub_1067x600.aseprite` (UPRAVY layer).
 
 ## Re-pixelled AI backgrounds kept as they are (`repix.py`): the abandoned office, the first view of the city
+**Superseded 2026-11-10: the office is `office_native_bg.py`, the city `entry_city_bg.py` (see below); `logical_export.lua` on the old 356x200 sources would put the old pictures back.**
 For old pictures the user wants kept (like Scraper 1140) but whose block grid is irregular (~4.5-6 px): `repix.py`
 resamples the whole source width onto **356 logical columns** (square cells), each cell taking the MOST COMMON colour of
 its middle (crisp letters and edges, no blended seams) on a palette built per colour family (`family_palette`: small but
@@ -386,6 +388,7 @@ sprite at (683, 376) in its socket, the door back to the office x 71..162; lobby
 (hit area centred (510, 350)), the backyard door x 648..706 (zone 800-space (507, 390)), the street doors x 33..169.
 
 ## The skyship Verdigrace: the look-up cut (skyship.png) and its deck (SkyshipBoardScene)
+**The cut is superseded 2026-11-10 by `skyship_native_bg.py` (see below); the deck (`board_bg.py`) stays.**
 ```
 python3 skyship_bg.py <outdir>   # -> skyship_356.png + skyship.png: skyship_ref.png (portrait) re-pixelled onto 190 columns,
                                  #    rows 22..222, centred in a 356x200 frame whose sides are new sky carrying on the source's
@@ -497,3 +500,58 @@ liquid at 100 %, cropped by the game), `UI_MenuKnob_16x16` (`kolecko` 4 turn fra
 `UI_MenuToggle_40x20` (`vypnuto` / `zapnuto` x idle, focused). `UI_MenuPanel_<pause|slots|lang|settings>`: one frame each; a new panel size = a new entry
 in `PANELS` (menu_ui.py) **and** in `MENU_PANELS` (menuKit.js). If you move the hit plaque or the fungi, update
 `BTN_HIT` / `BTN_TEXT` / `BTN_SPORES` in menuKit.js.
+
+## Native redraws of the last re-pixelled pictures (2026-11-10): Scraper 1140, the first view of the city, the office, the skyship cut
+The user found the four 3x re-pixelled AI pictures jarring next to everything else, so they are redrawn natively
+(1067x600, 1 px) keeping their composition. Each has its own generator, a `<Name>_1067x600.aseprite` source (base layer +
+empty `UPRAVY - kresli sem` + hidden `neexportovat` guides) and a 1:1 export script; to push a re-render without losing
+UPRAVY use `bg_update.lua` with the base layer's name.
+```
+python3 scraper_native_bg.py <outdir>   # -> scraper.png = Scraper1140.png (~22 s)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/scraper_native.gpl --script tools/artgen/scraper_native_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/backgrounds --script tools/artgen/scraper_native_export.lua
+python3 entry_city_bg.py <outdir>       # -> entry_city.png = EntryCity.png (~30 s)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/entry_city.gpl --script tools/artgen/entry_city_aseprite.lua
+aseprite -b --script-param f=assets/aseprite/EntryCity_1067x600.aseprite --script-param out=assets/images/backgrounds/EntryCity.png --script tools/artgen/entry_city_export.lua
+python3 office_native_bg.py <outdir>    # -> office.png = ShedAbandonedOffice.png (~20 s)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/office-native.gpl --script tools/artgen/office_native_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/backgrounds --script tools/artgen/office_native_export.lua
+python3 skyship_native_bg.py <outdir> [--fast] [--plan]   # -> skyship.png (~11 s)
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/skyship_native.gpl --script tools/artgen/skyship_native_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/backgrounds --script tools/artgen/skyship_native_export.lua
+```
+- **Scraper 1140** (`Scraper1140_1067x600.aseprite`): the dark monolith with SCRAPER 1140 in cream stroke letters (face turned
+  6 deg; its own weathered ramp FACER: floor ledges every 21 units with soot/rain runs, 7x7 panels, patched panels, vent
+  slots, a damp lower third, paint washed down under a few letters), the amber grate window, the cable web from the pole,
+  needle skyline in four haze layers, sage overcast sky; the rooftop with duckboards and reflecting puddles, parapet and
+  chain, stair-house with caged lamp, gate + bulb string + suspension footbridge, the pipe-tower platform. Camera = the
+  roof's own eye level (raster3d/paintpass globals patched in the generator): horizon y 450, eye 4.2, F 300, feet y 534 =
+  depth 15. Fixed points: gate pylons x 497..569 (top y 379) = Enter Scraper; stair-house door x 21..78 (sill 524) = exit
+  left; SCRAPER x 513..682 / y 103..163, 1140 x 561..643 (observable 800-space (447,160,200,170)); platform rim y 379 from
+  x 969 (Don Girandole on dev at (1024, 381)); walk line y 534.
+- **The first view of the city** (`EntryCity_1067x600.aseprite`): storm overcast that reads as day, the sickly green glow on
+  the horizon, god rays through a cloud break, faint hills, a ruined skyline (~950 boxes) sinking into green mist with
+  smoke plumes, skybridges, banners, a rail viaduct with a train, bird flocks. The Egg Cathedral rises OUT OF THE GROUND
+  (the Egg Emergence): the parted shell halves sink into a heaved mound (x 80..466: turf, soil strata, torn street with
+  roots, tilted road plates, two half-swallowed houses), the gothic cathedral on its saddle with a stair down (door y
+  355..386, stair foot y 462); egg centred (272, 282), top y 144. Unlabelled landmarks as on the map: Voxmarket's hangars,
+  Shed 521's tower, the Lumen Directorate's twin spires, the Townhall dome, the harbour cranes with the sea on the right
+  (Echo Drain derricks, Redmass Island). Scraper 1140 in the middle built from the Scraper generator's ramps (slab x
+  528..572, crown, mast tip y 40, faded lettering). A detailed near skyship upper right + three far ones. The overlook:
+  carved coping, panelled piers, a stone statue and an urn on the piers, wet flagstones, ivy, a lantern (748, 412) and the
+  signpost (post x 911) pointing right. Fixed points: Thaal (600, 530), walk line y 534, exit = right edge (see the
+  generator's `fixed.json` for the landmarks' x ranges). Also ScraperAmbra's `cs_city` (dev).
+- **The abandoned office** (`ShedAbandonedOffice_1067x600.aseprite`): the old L-shaped room on the shared camera, dim warm
+  sepia lit almost only through two yellowed windows (`sun()` traced shafts and pools, `ao()`, a warm grade); the Living
+  Core's roots as lit tubes up the stair and over floor, wall bases and desk legs; vines, fallen planks, paper drifts,
+  toppled chairs, collapsed shelves, joists, ducts, cables, pipes; the graffito BETTER DECAY THAN CHANGE sprayed
+  procedurally (`strokes_for` letters, a nozzle with wobble, crisp core, faint overspray, a few short drips, chipped
+  edges, dark brown-maroon `PAINT`); wall stains = vertical runs per column + blotches (`stain()`). Fixed points: doorway
+  to the Hall x 442..497 / y 298..416 = zone 800-space (352, 362, 50, 140); left edge = back to the stairs; Palinode's
+  bricked arch (662, 212); walk line y 534, priest at scale 1 (the old 2x was dropped).
+- **The skyship cut** (`Skyship_1067x600.aseprite`): the look-up from the corpse with its own lens (pitch 29 deg, F 700); the
+  deck's ship in `board_bg.py` coordinates (bladder in a puffed diamond net, fins, hull with wale and living-wood ribs,
+  balusters, fiddlehead + lantern, pods, the ladder by the bow, Liris at the rail), the corpse's tree up to the ladder,
+  Shed 521 and the Voxmarket arch in the bottom corners. The message box covers x 233..833, y 470..570. In
+  `CrossroadScene.startSkyshipAnimation` the tilt is clamped to the Crossroad picture (zoom never below 1) and the cut
+  fades in during the pan, so no black band shows.

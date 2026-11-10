@@ -23,6 +23,7 @@ export default {
         HarborScene: 'Přístav',
         EchoDrainDeltaScene: 'Delta ozvěn',
         RedmassIslandScene: 'Ostrov rudohmoty',
+        GodgraveyardScene: 'Hřbitov bohů',
 
         // Oznámení při příchodu do scény
         LumenDirectorateInteriorScene: 'Direktorát – interiér',

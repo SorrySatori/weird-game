@@ -41,5 +41,27 @@ export default {
             default: "Na palubě vzducholodi Verdigrace fičí studený vítr, ale rozhled je dechberoucí. Kolem odtikávají podivné přístroje, které však zřejmě nejsou mechanického původu. Vypadají jako vypěstované.",
             knows: "Tady jsem získal počítadlo pater. Je to jediný přístroj dost poctivý na to, aby přiznal, že Škrabák má patra, která by existovat neměla.",
         },
+        entry_panorama: {
+            hint: 'Horní Morkezela',
+            default: "Tak jsme konečně dorazili do Horní Morkezely, města mrtvých bohů. Kdo ví, co nás tam dole čeká? Z téhle výšky to vypadá skoro poklidně: kouř z komínů, vláček, který se plazí po viaduktu, a zelený opar, co pomalu polyká ulice.",
+        },
+        entry_egg: {
+            hint: 'Vaječná katedrála',
+            default: "Prý se to obří vejce jednoho dne prostě vyhrabalo ze země a nadzvedlo s sebou půl čtvrti. Teď v něm stojí katedrála. Zajímalo by mě, jestli už někoho napadlo rozklepnout ji na obří pánev a osmažit.",
+        },
+        entry_scraper: {
+            hint: 'Škrabák 1140',
+            default: "Ta tmavá věž uprostřed je Škrabák 1140. I odsud je vidět, jak se k ní z celého města sbíhají kabely, jako by z něj něco uvnitř pilo.",
+        },
+        entry_skyship: {
+            hint: 'Vzducholoď',
+            default: "Nad městem pluje vzducholoď obrostlá mechem. Odsud vypadá jako velryba, která si spletla nebe s mořem.",
+        },
+        office_graffiti: {
+            hint: 'BETTER DECAY THAN CHANGE',
+            default: "„Better decay than change.“ Lepší rozklad než změna. Barva je stará a loupe se, ale nikdo se ji nikdy nepokusil přetřít. Asi s tím tady všichni tak trochu souhlasí.",
+            decay: "„Better decay than change.“ Čím déle tu stojím, tím víc mi to dává smysl. A to mě děsí.",
+            growth: "„Better decay than change.“ Kdo tohle psal, nikdy neviděl, co udělá jarní déšť s mrtvým dřevem.",
+        },
     },
 };

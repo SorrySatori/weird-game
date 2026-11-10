@@ -1,0 +1,114 @@
+GIMP Palette
+Name: Skyship look-up (native)
+Columns: 10
+#
+ 31  60  53	Sky 1
+ 38  71  62	Sky 2
+ 46  83  71	Sky 3
+ 55  95  81	Sky 4
+ 65 107  91	Sky 5
+ 75 119 101	Sky 6
+ 86 131 112	Sky 7
+ 99 144 124	Sky 8
+113 156 136	Sky 9
+129 168 148	Sky 10
+147 181 161	Sky 11
+ 11  20  13	Bladder 1
+ 17  30  19	Bladder 2
+ 24  41  26	Bladder 3
+ 32  52  33	Bladder 4
+ 41  63  39	Bladder 5
+ 51  73  44	Bladder 6
+ 62  84  49	Bladder 7
+ 74  96  55	Bladder 8
+ 88 108  62	Bladder 9
+ 23  23  12	Net 1
+ 35  35  18	Net 2
+ 49  48  24	Net 3
+ 64  62  31	Net 4
+ 80  77  39	Net 5
+ 97  93  48	Net 6
+115 110  58	Net 7
+ 13  22  10	Living wood 1
+ 20  32  16	Living wood 2
+ 28  44  20	Living wood 3
+ 37  57  25	Living wood 4
+ 47  70  30	Living wood 5
+ 58  84  36	Living wood 6
+ 70  98  43	Living wood 7
+ 84 113  51	Living wood 8
+ 17  12   8	Hull 1
+ 26  18  12	Hull 2
+ 36  26  17	Hull 3
+ 47  35  22	Hull 4
+ 58  44  27	Hull 5
+ 70  53  33	Hull 6
+ 83  63  40	Hull 7
+ 31  18  10	Deck 1
+ 45  26  14	Deck 2
+ 60  36  19	Deck 3
+ 76  46  25	Deck 4
+ 93  57  32	Deck 5
+111  69  40	Deck 6
+130  82  50	Deck 7
+ 42 100  32	Spore glow 1
+ 70 150  46	Spore glow 2
+114 196  66	Spore glow 3
+174 232 108	Spore glow 4
+220 255 174	Spore glow 5
+ 39  28  13	Brass 1
+ 63  46  24	Brass 2
+ 90  67  36	Brass 3
+119  91  49	Brass 4
+151 118  66	Brass 5
+186 149  88	Brass 6
+ 14  23  15	Membrane 1
+ 20  33  20	Membrane 2
+ 27  44  25	Membrane 3
+ 36  56  31	Membrane 4
+ 46  69  38	Membrane 5
+ 58  83  45	Membrane 6
+ 72  98  54	Membrane 7
+ 12  23  14	Tree 1
+ 17  32  21	Tree 2
+ 24  44  27	Tree 3
+ 32  57  35	Tree 4
+ 42  71  43	Tree 5
+ 53  86  52	Tree 6
+ 66 102  61	Tree 7
+ 80 118  71	Tree 8
+ 20  58  34	Mycelium glow 1
+ 31  90  50	Mycelium glow 2
+ 47 120  69	Mycelium glow 3
+ 63 143  90	Mycelium glow 4
+ 95 199 119	Mycelium glow 5
+127 255 142	Mycelium glow 6
+200 255 208	Mycelium glow 7
+ 18  13   9	Shed timber 1
+ 27  20  14	Shed timber 2
+ 37  28  19	Shed timber 3
+ 48  36  25	Shed timber 4
+ 60  45  31	Shed timber 5
+ 72  55  38	Shed timber 6
+ 85  65  46	Shed timber 7
+ 46  47  37	Stucco 1
+ 62  63  49	Stucco 2
+ 81  82  63	Stucco 3
+101 102  78	Stucco 4
+122 124  95	Stucco 5
+144 146 111	Stucco 6
+166 168 131	Stucco 7
+ 36  18  10	Rust 1
+ 58  29  16	Rust 2
+ 85  42  22	Rust 3
+111  56  29	Rust 4
+138  74  38	Rust 5
+163  94  51	Rust 6
+ 90  58  20	Amber 1
+125  83  32	Amber 2
+162 112  44	Amber 3
+196 143  60	Amber 4
+224 176  85	Amber 5
+242 207 124	Amber 6
+  8  12  10	Ink
+255 196 110	Lantern

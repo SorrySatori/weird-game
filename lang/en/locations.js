@@ -23,6 +23,7 @@ export default {
         HarborScene: 'Harbor',
         EchoDrainDeltaScene: 'Echo Drain Delta',
         RedmassIslandScene: 'Redmass Island',
+        GodgraveyardScene: 'Godgraveyard',
 
         // Scene arrival notifications (used in showNotification)
         LumenDirectorateInteriorScene: 'Lumen Directorate — Interior',

@@ -21,7 +21,7 @@ export default class ScraperScene extends GameScene {
         // Call parent create first to initialize mechanics
         super.create();
         
-        // Native 1067×600 (tools/artgen/scraper_bg.py): the old picture re-pixelled, plus a wet rooftop to walk on
+        // Native 1067×600, 1 px pixel art (tools/artgen/scraper_native_bg.py): the tower across the gap, a wet rooftop to walk on
         const bg = this.add.image(400, 300, 'scraperBg');
         this.fitBackground(bg);
         bg.setDepth(-1);
