@@ -235,7 +235,7 @@ The official seat of the Lumen Directorate, located near the Town Square. An imp
 | Location | Description |
 |----------|-------------|
 | **Murkvale** | A submerged city ruled by the Craybara, an amphibious civilization. City ruins grow like coral; memory fossilizes in sediment. Rich in divine fossil material. |
-| **The Crownmire** | A region where soil and thought intermingled. Home to an ancient cult that worshiped magnetic spirits. Their shrine collapsed, shattering the lodestone heart into millions of shards — each becoming a micro-city's consciousness (Magnekin's people). The Crownmire "never truly dried — it just waited." |
+| **The Crownmire** | A region where soil and thought intermingled. Home to an ancient cult that worshiped magnetic spirits. Their shrine collapsed, shattering the lodestone heart into millions of shards — each becoming a micro-city's consciousness (Magnekin's people). The Crownmire "never truly dried — it just waited." CZ: **Korunoblatsko** (canon 2026-11-10; *z Korunoblatska*, *v Korunoblatsku*). |
 | **Hanging Gardens of Mycora** | An aerial trade destination on the Verdigrace's route. Trades city goods for rare cultivation specimens. |
 | **The Eastern Canopy** | Floating research outposts in the sky, reachable by skyship. |
 | **Remaper Hills** | Historic homeland of the mišutkenn (bear-folk), driven from there by Upper Morkezela's founders. |
@@ -330,6 +330,27 @@ A multi-faith governing body seated within the cathedral. All major religions se
 | **Magnekin** | A collective entity of tiny cities held together by magnetic forces, originating from the shattered lodestones of the Crownmire. Bewildered by normal human behavior and social conventions. |
 | **Composite Beings** | Entities like Heliodor — colonies of multiple creatures in perfect symbiosis, each component specialized for different tasks. |
 | **Transformed Humans** | The former Nexicorp executives who sealed themselves in the upper floors during the Egg Emergence and became something inhuman — moving on all fours across ceilings, skin like shelf fungi, eyes numerous and glistening. |
+
+
+### Magnekin's Cities (canon 2026-11-10)
+
+Names fixed for the game and the Czech novel. The big old cities carry long foreign-sounding names; the villages and settlements on the periphery sound Czech. Where the game already shows a detail of Magnekin's body (the lighthouse on his shoulder, the carillon in his chest, iron filings lifting from his sleeves, the suburbs that keep running away in Edgar's book), the settlement behind it is named. Nothing else inside him (historians, the cult, the spirits, the shrine) has a name yet.
+
+**Old cities**
+- **Jaardarlandbulc**
+- **Kroonpolder** ("kroon" = crown): forever arguing with Jaardarlandbulc over which of them stands on the bigger shard of the shrine.
+- **IJzervaart** ("ijzer" = iron): the port that ships iron to the other cities.
+- **Brommelstaaf**
+- **Vlietkarrozund**
+- **Smaadlinnbrug**
+
+**Villages and settlements**
+- **Dolní Piliny** (in the sleeve): when iron filings lift from Magnekin's sleeve, Dolní Piliny is sweeping its village green.
+- **Zvonohrádek** (in the chest): the carillon.
+- **Majáček** (on the shoulder): the tiny lighthouse.
+- **Bludná Střelka**: the suburb that keeps running away.
+- **Nová Severka**: always turns to face north, which is why Magnekin sometimes stands slightly sideways.
+- **Horní Pól** and **Dolní Pól**: two villages that repel each other, so one has to live in the left boot and the other in the right.
 
 ---
 
