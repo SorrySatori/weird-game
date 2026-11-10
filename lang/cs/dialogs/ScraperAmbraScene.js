@@ -296,12 +296,12 @@ export default {
     dr_elphi_clues_dissection: {
         text: "Houbový útvar integrovaný s jejím nervovým systémem? *Zastaví se a zírá.* To není přirozená infekce. Obazoba pěstují vnitřní sporové kolonie – to je součást jejich teologie – ale to, co popisujete, zní jako symbiont.\n\nPokud Biskupka nesla symbionta, a pokud rekurzivní sen narušil symbiotické pouto... zpětná vazba by nezničila jen její mysl. Destabilizovala by i toho symbionta.\n\nTohle mění věci. Vrah možná nemířil jen na Biskupku. Možná se snažil zabít – nebo ukořistit – cokoliv žilo uvnitř ní.",
         options: {
-            the_symbiont_called_itself_neme_of_the_crownmire: "Symbiont se nazýval Neme z Korunního bahna.",
+            the_symbiont_called_itself_neme_of_the_crownmire: "Symbiont se nazýval Neme z Korunoblatska.",
             back_to_other_clues: "Zpět k dalším stopám."
         }
     },
     dr_elphi_dissection_neme: {
-        text: "Neme z Korunního bahna. *Šeptá to jméno jako modlitbu.* Slyšela jsem o něm. Staré příběhy od starších Obazoba – fotosenzitvní symbiont, který propůjčuje schopnost vycítit lež.\n\nPokud někdo věděl, že Biskupka nese Nemeho... ten symbiont je neocenitelný. Pro určité frakce stojí za zabití.\n\nRada Nejvyššího Humenia by ho chtěla zachovat. Jiní by ho mohli chtít zničit – nebo zbraňově využít.",
+        text: "Neme z Korunoblatska. *Šeptá to jméno jako modlitbu.* Slyšela jsem o něm. Staré příběhy od starších Obazoba o fotosenzitivním symbiontovi, který propůjčuje schopnost vycítit lež.\n\nPokud někdo věděl, že Biskupka nese Nemeho... ten symbiont je neocenitelný. Pro určité frakce stojí za zabití.\n\nRada Nejvyššího Humenia by ho chtěla zachovat. Jiní by ho mohli chtít zničit, nebo zbraňově využít.",
         options: {
             back_to_other_clues: "Zpět k dalším stopám."
         }

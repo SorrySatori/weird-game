@@ -91,7 +91,7 @@ export default {
         }
     },
     ac_test_neme: {
-        text: "Neme z Korunního bahna. Růstově orientovaný symbiont – a vlastnický. Naučil vás dobře.\n\nSpojení je kořenový systém pod viditelným lesem. Jeden strom je křehký. Tisíc stromů propojených mykorrhizou? To je síla, která vydrží.\n\nAno. Direktorát vás rád přijímá. Nositelé vybraní Neme z Korunního bahna jsou tu vždy vítáni.",
+        text: "Neme z Korunoblatska. Růstově orientovaný symbiont. A vlastnický. Naučil vás dobře.\n\nSpojení je kořenový systém pod viditelným lesem. Jeden strom je křehký. Tisíc stromů propojených mykorrhizou? To je síla, která vydrží.\n\nAno. Direktorát vás rád přijímá. Nositelé vybraní Neme z Korunoblatska jsou tu vždy vítáni.",
         options: {
             what_happens_now: "Co bude teď?"
         }

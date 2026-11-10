@@ -122,7 +122,28 @@ export default {
     },
     // Hlasy symbiontů (anglické originály jsou v SymbiontSystem; tohle jsou lokalizované kopie).
     symbionts: {
-        'neme-crownmire': { name: 'Neme z Korunního bahna', ability: 'Fotosenzitivita' },
+        'neme-crownmire': {
+            name: 'Neme z Korunoblatska',
+            ability: 'Fotosenzitivita',
+            dialogs: {
+                main: {
+                    text: "Neme mluví tlumeným hlasem, který se v tobě rozléhá jako ozvěna: ‚Svět roste z rozporů. Ty budeš muset taky. Cítím pravdu, která leží pod slovy, a umím odhalit vzpomínky ukryté v místech. Díky mé Fotosenzitivitě uvidíš, co ostatní nevidí.‘",
+                    options: ['Zeptat se na Fotosenzitivitu', 'Zeptat se na Neme', 'Zeptat se na Biskupku'],
+                },
+                photosentience: {
+                    text: "Fotosenzitivita ti dovolí vnímat biosignály, které ostatním unikají: strach, vinu, nevyslovené pohnutky. Použij ji v důležitých rozhovorech a odhalíš skryté pravdy nebo si otevřeš nové cesty. Ale pozor, tam, kde vládne rozklad, můžou moje schopnosti zakolísat, nebo úplně selhat.",
+                    options: ['Zpět'],
+                },
+                about: {
+                    text: "Narodila jsem se v Korunoblatsku, kde se půda mísila s myšlenkou. Jsem symbiont, kterému se daří v energii růstu, a pomáhám ti vnímat, co leží pod povrchem. Na rozdíl od jiných symbiontů tvou energii nespotřebovávám. Proměňuju ji v novou vnímavost.",
+                    options: ['Zpět'],
+                },
+                bishop: {
+                    text: "S Biskupkou jsme krátce sdílely vědomí. Hledala pravdu o svém dvojníkovi. Věděla, že je v katedrále něco špatně... něco s tím, jak se mění spory. Její poslední myšlenky byly zmatené. Myslela si, že mluví sama se sebou, ale nebyl to její odraz.",
+                    options: ['Zpět'],
+                },
+            },
+        },
         'ulvarex-borrowed-horizon': { name: 'Ulvarex, Vypůjčený obzor', ability: 'Tkaní přeludů' },
         'brine-scripture': { name: 'Solopis', ability: 'Solná paměť' },
         'osswine': { name: 'Osswine', ability: 'Hrobový smysl' },

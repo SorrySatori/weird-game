@@ -101,7 +101,7 @@ export default {
         },
         neme_symbiont_accepted: {
             title: 'Spojen s Neme',
-            description: 'Přijal jsem symbionta Neme z Korunobažiny. Jeho úponky se uhnízdily pod mou kůží.',
+            description: 'Přijal jsem symbionta Neme z Korunoblatska. Jeho úponky se uhnízdily pod mou kůží.',
         },
         neme_symbiont_declined: {
             title: 'Odmítnutí Neme',

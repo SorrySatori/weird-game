@@ -232,7 +232,7 @@ export default {
         }
     },
     magnekin_origin: {
-        text: "No, je to trochu komplikované. Naši historici učí, že v Crownmire kdysi existoval kult, který uctíval prastaré magnetické duchy. Když se jejich svatyně po neznámé katastrofě zřítila, její magnetické srdce se roztříštilo na miliony střepů – každý střep se stal základním kamenem vědomí jednoho mikro-města. Naše civilizace teprve nedávno objevila, že existuje jiný svět za ním, v úplně jiném měřítku. Stále se učíme, jak s vámi komunikovat.",
+        text: "No, je to trochu komplikované. Naši historici učí, že v Korunoblatsku kdysi existoval kult, který uctíval prastaré magnetické duchy. Když se jejich svatyně po neznámé katastrofě zřítila, její magnetické srdce se roztříštilo na miliony střepů a každý střep se stal základním kamenem vědomí jednoho mikro-města. Naše civilizace teprve nedávno objevila, že existuje jiný svět za ním, v úplně jiném měřítku. Stále se učíme, jak s vámi komunikovat.",
         options: {
             incredible_i_can_help_you_to_blend_in_if_you_want: "Neuvěřitelné. Můžu ti pomoct zapadnout, jestli chceš.",
             interesting_but_you_seem_fragile_and_from_valuable: "Zajímavé. Ale zdáš se křehký a z cenných zdrojů (pokusit se zničit Magnekina).",

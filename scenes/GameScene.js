@@ -51,7 +51,7 @@ const SYMBIONT_IDLE = [...Array(10).fill(0), 1, 1, 1, 1, 1, 1, ...Array(8).fill(
 // Symbionts speaking in scene dialogs, by the speaker names those dialogs use (EN + CZ) → dialog portrait.
 const SYMBIONT_SPEAKERS = {
     'Thorne-Still': 'thorne-still', 'Neme': 'neme-crownmire', 'Neme of the Crownmire': 'neme-crownmire',
-    'Neme z Korunního bahna': 'neme-crownmire',
+    'Neme z Korunoblatska': 'neme-crownmire',
     'Ulvarex': 'ulvarex-borrowed-horizon', 'Ulvarex the Borrowed Horizon': 'ulvarex-borrowed-horizon', 'Ulvarex, Vypůjčený obzor': 'ulvarex-borrowed-horizon',
     'Brine Scripture': 'brine-scripture', 'Solopis': 'brine-scripture',
     'Osswine': 'osswine', 'Palinode': 'palinode'

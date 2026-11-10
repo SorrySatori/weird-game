@@ -35,7 +35,7 @@ export default {
         "Some ruins collapse. Others bloom.":
             "Některé ruiny se zřítí. Jiné rozkvetou.",
         "The Crownmire never truly dried — it just waited.":
-            "Korunní bahno nikdy doopravdy nevyschlo – jen čekalo.",
+            "Korunoblatsko nikdy doopravdy nevyschlo, jen čekalo.",
         "Roots once fed her fear. Yours feel different.":
             "Kořeny se kdysi živily jejím strachem. Ten tvůj chutná jinak.",
         "Listen to the breath, not the words.":
