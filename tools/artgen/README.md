@@ -469,27 +469,36 @@ has one too (`{ key, frame: 0, zoom: 2, top: 10 }` under "Ortolan" / "Ortolan Š
 it points at the look he has that day). `ortolan_idle` / `ortolan4_idle` are global anims created by whichever scene runs first,
 so ShedCourtyardScene and BurningBearStreetScene must keep the same frame order (…, 0, 5, 6, 6, 6, 6, 5, 0, … = pawn up, study, down).
 
-## Fast-travel map (ui/MapUI.js, texture `mapBg`)
-`map_bg.py` draws the map at a native 400×300 (MapUI shows it 2× with hard pixels — the game runs with `pixelArt: true`).
-Node `x,y` in MapUI (800×600 panel, centre 0,0) is pixel `((x + 400) / 2, (y + 300) / 2)` here: each landmark stands
-`LIFT[k]` px above its node so MapUI's circle marks its doorstep, the label zone under every node stays free of filler,
-and the roads (`ROADS`) mirror `MapUI.connections` — MapUI draws no straight lines over the art. One node per place:
-rooms and floors inside it (Dr. Elphi's studio + the Rust Domain in the Scraper, the whole Shed 521 compound, …) are in
-the location's `inside` list in MapUI, have no landmark of their own and show "you are here" on the building. Places
-the player hasn't visited get no marker and no label (the building is still drawn). **Moving a node = change it in both
-`N` here and `locations` in MapUI.js.** Palette `map.gpl` (a copy is kept here; install with
-`cp map.gpl ~/.config/aseprite/palettes/`).
+## Fast-travel map (ui/MapUI.js, texture `mapBg`) — hand-drawn
+`handmap.py` builds the 1067×600 map (shown 1:1, full screen) from the user's own felt-tip sketch `ref/map_sketch.jpg`
+(Shed 521, the Crossroads walker, the skyship, the Voxmarket hangars, Scraper 1140, the Egg Cathedral, the bus street).
+The photo is cleaned into ink (paper brightness divided out, table edge masked) and placed unchanged at
+`final = (20, 34) + (photo − (80, 370)) × 0.30`; everything it doesn't show (Lumen Directorate, Townhall with the tentacle
+clock, Town Square, Burning Bear Street with its hanging teddies, the Screaming Cork, the harbour crane + pier, Echo Drain
+Delta's horn derricks, Redmass Island, the coast) and the town's little houses are drawn round it in the same pen:
+`stroke()` = one wobbly ~3.3 px line drawn 3× and scaled down, boxes from separate strokes overshooting at the corners,
+windows as small squares with a dot. `house()` makes every house different (gable / shed / stepped / dome / arch / cone /
+twin / 3-D box / flat with a tank or mast; windows in a grid, column, scatter or one big one; a little askew) and blanks
+out what it hides, so rows are drawn back to front with `row()`. Places the player hasn't visited get no marker or label.
+**Moving a node = change `NODES` in handmap.py and `locations` in MapUI.js** (MapUI = NODES − (533.5, 300); the script
+prints both). MapUI styles its markers as ink on paper when the art is loaded (blue = visited, red = you are here).
 ```
-python3 map_bg.py <outdir>       # -> map.png, map.gpl, layers/<name>.png, map_preview.png (4x)
-# build the Aseprite source (OVERWRITES assets/aseprite/UI_Map_400x300.aseprite, incl. its UPRAVY layer):
-aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
-        --script-param pal=$HOME/.config/aseprite/palettes/map.gpl --script tools/artgen/map_aseprite.lua
-# export into the game (merges UPRAVY, skips the hidden guides) -- run this after hand edits in Aseprite:
+python3 handmap.py <outdir> [--debug]   # -> map.png, layers/{papir,skica,dokresleno}.png (+ map_debug.png with the nodes)
+# build the Aseprite source (OVERWRITES assets/aseprite/UI_Map_1067x600.aseprite, incl. its UPRAVY layer):
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script tools/artgen/map_aseprite.lua
+# export into the game (merges UPRAVY) -- run this after hand edits in Aseprite:
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui --script tools/artgen/map_export.lua
 ```
-Layers: ground, water, roads, shadows, forests + town, landmarks, lights, **UPRAVY - kresli sem** (under the vignette, so
-hand edits get the same edge shading), vignette (translucent black), frame; `VODITKA … (neexportovat)` is hidden: red
-rings = MapUI node circles, cyan boxes = their labels, yellow lines = title band / legend band.
+Layers: PAPIR (paper), SKICA (the user's sketch), DOKRESLENO (the additions), **UPRAVY - kresli sem**.
+**Coloured version** (`--color` → `map_color.png` + `layers/barvy.png`): the same drawing coloured with felt-tips,
+eight markers only (`PAL`: yellow, orange, red, violet, blue, green, brown, gray). Areas are recorded while drawing
+(`fpoly` / `fline` / `fseed`; houses, roads, trees, lamps and doors record their own, the sketch's own shapes are hand-placed
+polygons in `colour_fills()`), never touching `rnd`, so the line art is identical with or without colour. `_marker()` hatches
+each area with diagonal strokes on two alternating layers that are multiplied over the paper, so overlaps go darker in
+streaks; small enclosed pockets inside `win=True` walls become yellow windows. Aseprite: `--script-param color=1` on both
+scripts builds/exports `UI_Map_barevna_1067x600.aseprite` (BARVY layer in Multiply mode) → `assets/images/ui/map_color.png`.
+The game loads `map_color.png` (`mapBg` in `scenes/GameScene.js` preload); `map.png` is the black-and-white version.
+(The earlier 400×300 pixel-art map was `map_bg.py` → `UI_Map_400x300.aseprite`.)
 
 ## Inventory icons (the demo items that had the lettered-circle placeholder)
 `item_icons.py` draws 60×60 icons (transparent, shown 1:1) in the look of the hand-drawn key / Oltrac jars / cartridge:
