@@ -70,8 +70,9 @@ export function openStorePage() {
 }
 
 /**
- * The end-of-demo card (scenes/DemoEndScene.js), once per playthrough: pauses `scene` and lays the card over it.
- * The flag rides in the saved `onceFlags`, so a reloaded save past this point doesn't show it again.
+ * The end of the demo, once per playthrough: pauses `scene`, rolls the credits (scenes/CreditsScene.js) over it and
+ * then the end card (scenes/DemoEndScene.js). The flag rides in the saved `onceFlags`, so a reloaded save past this
+ * point doesn't show them again.
  */
 export function showDemoEnd(scene) {
     if (!DEMO_BUILD || !scene?.onceEver) return;
@@ -79,7 +80,7 @@ export function showDemoEnd(scene) {
         scene.time.delayedCall(700, () => {
             if (!scene.scene.isActive()) return;
             scene.scene.pause();
-            scene.scene.launch('DemoEndScene', { from: scene.scene.key });
+            scene.scene.launch('CreditsScene', { from: scene.scene.key });
         });
     });
 }

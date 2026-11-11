@@ -5,7 +5,8 @@ import { openStorePage } from '../utils/demo.js';
 /**
  * The end-of-demo card (DEMO_BUILD): shown once, over the paused game, after the first talk with Dr. Elphi -- the
  * point where the demo's main line stops. The title, a thank-you, "Wishlist on Steam" and "Keep exploring" (the side
- * quests stay playable). Launched by utils/demo.js showDemoEnd(); the scene it covers is resumed on close.
+ * quests stay playable). Launched by CreditsScene (utils/demo.js showDemoEnd() rolls the credits first); the scene
+ * it covers is resumed on close.
  */
 export default class DemoEndScene extends Phaser.Scene {
     constructor() {
