@@ -66,6 +66,7 @@ export default class CreditsScene extends Phaser.Scene {
             'Tomáš Kotásek',
             'Petr Ondráček',
             'Atomic Candy Creeps',
+            'Ciao Miao',
             '', '',
             '', '',
             cs ? 'Grafika a ilustrace' : 'Graphics & Artwork',
