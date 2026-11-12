@@ -87,8 +87,8 @@ app.whenReady().then(() => {
         },
     });
     win.webContents.setAudioMuted(true);
-    win.webContents.on('console-message', (_e, level, message, line, source) => {
-        if (level >= 2) console.log(`[console:${level}] ${message} (${path.basename(source || '')}:${line})`);
+    win.webContents.on('console-message', ({ level, message, lineNumber, sourceId }) => {
+        if (level === 'warning' || level === 'error') console.log(`[console:${level}] ${message} (${path.basename(sourceId || '')}:${lineNumber})`);
     });
     win.webContents.on('render-process-gone', (_e, d) => { console.error('[capture] renderer gone', d); app.exit(2); });
     win.loadFile(path.join(__dirname, 'capture.html'));
