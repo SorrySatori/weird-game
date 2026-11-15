@@ -69,7 +69,8 @@ export default {
         ampule_unanswered_call: { name: "Ampule: Nepřijatý hovor", description: "Na doprovodném lístku stojí: Záznam jedné z nejstrašnějších věcí na světě: hovoru z neznámého čísla. Prý zaznamenán ještě ve staré Nexicorp Tower. Nepíše se tu, jestli ten telefon někdo nakonec zvedl." },
         ampule_first_ledger: { name: "Ampule: První kniha zápisů", description: "Šicí stroj ve sklepě Radnice sešívá vazbu úplně první knihy Inkoustového tribunálu. Tento historický moment ovšem zajímal tak leda úředníky, podle cedulky tu ampule leží už pěkně dlouho." },
         ampule_spin_hymn: { name: "Ampule: Hymna odstřeďování", description: "Pračka z Předdoby při posledním odstřeďování. Podle cedulky nahrávku pořídil Rezavý chór a považoval ji za obzvláště vydařenou." },
-        market_map: { name: 'Mapa Voxmarketu', description: 'Podrobná mapa Voxmarketu a okolí.' },
+        market_map: { name: 'Mapa Voxmarketu', description: 'Podrobná mapa Voxmarketu a okolí.' },   // už se neprodává (staré savy)
+        crownmire_travelogue: { name: 'Cestopis z Korunoblatska', description: 'Vyprávění o cestě do Korunoblatska z pera anonymního autora, který se údajně zmenšil na mikroskopickou velikost a navštívil tajemná města Jaardarlandbulc a Kroonpolder.' },
         forgotten_elevator_button: { name: 'Zapomenutý výtahový knoflík', description: 'Starý výtahový knoflík s podivnými značkami. Zdá se, že patří k patru, které oficiálně neexistuje.' },
         grayOltrac: { name: 'Šedý Oltrac', description: 'Běžná odrůda Oltracu. Mírné halucinogenní účinky.' },
         violetOltrac: { name: 'Fialový Oltrac', description: 'Středně silná odrůda Oltracu. Zostřuje vnímání a přináší živé vize.' },

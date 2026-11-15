@@ -27,7 +27,7 @@ export default {
     },
 
     twins_echo: {
-        text: `„Děláme co?" říká Hesh. Vell artikuluje „Děláme co?" přesně na zpoždění. Podívají se na sebe: Hesh s lehkým úšklebkem, Vell s přízrakem téhož úšklebku o půl sekundy později.\n\n„Vždycky jsme byli takoví," říká Hesh. „Narodili jsme se o půl sekundy od sebe. Žijeme o půl sekundy od sebe. Pravděpodobně zemřeme o půl sekundy od sebe. Není to manýra, je to stav.\n\nTaké to dělá naše aukční tempování nemožným k přerušení. Než zpracujete, co jsem řekl, Vell to už posílil. Velmi účinné pro hnání cen nahoru."`,
+        text: `„Děláme co?" říká Hesh. Vell artikuluje „Děláme co?" přesně na zpoždění. Podívají se na sebe: Hesh s lehkým úšklebkem, Vell s přízrakem téhož úšklebku o půl sekundy později.\n\n„Vždycky jsme byli takoví," říká Hesh. „Narodili jsme se o půl sekundy od sebe. Žijeme o půl sekundy od sebe. Pravděpodobně zemřeme o půl sekundy od sebe. Není to manýra, jsme prostě takoví.\n\nTaky se nám to hodí na aukcích. Dodává jim to větší drama a napětí. A taky to znervózňuje dražitele. Nervózní dražitel je obvykle štědrý dražitel."`,
         options: {
             thats_honestly_unsettling: "To je... upřímně znepokojivé.",
             i_have_other_questions: "Mám další otázky.",

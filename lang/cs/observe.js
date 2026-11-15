@@ -15,7 +15,7 @@ export default {
         },
         egg_cathedral_approach: {
             hint: 'Vaječná katedrála',
-            default: "Katedrála rostoucí z obřího vejce. Kupole ze skořápky tam, kde má být střecha. Rodí se tu něco, čemu katedrála slouží doslova jako skořápka.",
+            default: "Katedrála rostoucí z obřího vejce. Zatím nikdo neví, jakému božstvu je zasvěcena a jak to celé dopadne.",
         },
         scraper: {
             hint: 'Škrabák 1140',

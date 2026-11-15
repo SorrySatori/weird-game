@@ -337,12 +337,13 @@ export default class ScreamingCorkClubScene extends GameScene {
     
     showPerformanceText() {
         // Create a text container for the performance narrative
-        const textContainer = this.add.container(this.scale.width / 2, 150);
+        // (whole-pixel centre + a 2 px frame: a 1 px stroke on a pixel boundary lost its top edge to rasterisation)
+        const textContainer = this.add.container(Math.round(this.scale.width / 2), 150);
         textContainer.setDepth(100);
         
         // Add semi-transparent background
         const textBg = this.add.rectangle(0, 0, 600, 100, 0x000000, 0.7);
-        textBg.setStrokeStyle(1, 0x7fff8e);
+        textBg.setStrokeStyle(2, 0x7fff8e);
         textContainer.add(textBg);
         
         // Add text with no content yet
@@ -370,13 +371,11 @@ export default class ScreamingCorkClubScene extends GameScene {
         let delay = 3000; // Start after 3 seconds
         let duration = 6000; // Each text stays for 5 seconds
         
-        // Fade in the container with the first line (an empty box hung there for the first seconds)
-        this.tweens.add({
-            targets: textContainer,
-            alpha: 1,
-            duration: 1000,
-            delay: delay - 500,
-            ease: 'Power2'
+        // The box fades in with its first line already in it (it used to hang there empty for a second)
+        text.setText(narrativeTexts[0] ?? '');
+        this.time.delayedCall(delay, () => {
+            if (!this.isPlaying) return;
+            this.tweens.add({ targets: textContainer, alpha: 1, duration: 800, ease: 'Power2' });
         });
         
         // Show each narrative text in sequence
@@ -384,8 +383,8 @@ export default class ScreamingCorkClubScene extends GameScene {
             this.time.delayedCall(delay, () => {
                 if (!this.isPlaying) return; // Skip if performance ended
                 
-                // Fade out previous text
-                this.tweens.add({
+                // Fade out previous text (the first line is already shown)
+                if (index > 0) this.tweens.add({
                     targets: text,
                     alpha: 0,
                     duration: 500,

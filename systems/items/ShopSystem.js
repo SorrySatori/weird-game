@@ -1,59 +1,67 @@
 import LanguageSystem from '../LanguageSystem.js';
 import { itemValue, isSellable } from '../../utils/itemValues.js';
+import { createMenuPanel, addPanelClose, createMenuIconButton, playMenuSound, MENU_COLORS, MENU_FONT } from '../../utils/menuKit.js';
+
 /**
- * Shop System for the game
- * Handles item purchases, selling, and shop UI
+ * Shop System: a stall's stock, buying and selling, and its panel.
+ *
+ * The panel is the menu kit's 'ledger' frame (as the journal, the quest log and the inventory): the shop's name on the
+ * title plate, Buy / Sell tab plaques, a grid of bronze item sockets with each piece's icon and price under it (pages
+ * flip with the round arrows, the mouse wheel or PgUp / PgDn), the chosen piece's card on the right (big icon, name,
+ * kind, description, the price, the Buy / Sell plaque) and your dinar underneath. Hover previews a piece, a click picks
+ * it; arrows move the pick, Enter / Space buys or sells it, Tab switches Buy / Sell.
  */
+const S = 2;                                   // pixel-art scale of the kit
+const COLS = 6;
+const ROWS = 3;
+const PAGE_SIZE = COLS * ROWS;
+const SLOT = 80;                               // menu_islot 40×40 at 2×
+const SLOT_GAP = 8;
+const ROW_PITCH = SLOT + 32;                   // a socket + its price line
+const GRID = { left: -432, top: -168 };        // relative to the panel centre
+const GRID_W = COLS * SLOT + (COLS - 1) * SLOT_GAP;
+const GRID_CX = GRID.left + GRID_W / 2;
+const ICON = 60;                               // item icons are drawn 60×60 (utils/itemIcons.js)
+const TAB_Y = -201;                            // as the ledger's tabs (ui/LedgerPanel.js)
+const CARD = { x: 112, y: -204, w: 320, h: 416 };
+const CARD_CX = CARD.x + CARD.w / 2;
+const FOOT_Y = 190;                            // the pager + money row
+const POOR = '#e0806a';                        // a price you can't pay
+const TEXT = {
+    name: { fontFamily: MENU_FONT, fontSize: '20px', fontStyle: 'bold', color: MENU_COLORS.title, stroke: MENU_COLORS.stroke, strokeThickness: 3, align: 'center' },
+    kind: { fontFamily: MENU_FONT, fontSize: '14px', fontStyle: 'italic', color: MENU_COLORS.dim, align: 'center' },
+    body: { fontFamily: MENU_FONT, fontSize: '15px', color: MENU_COLORS.text, lineSpacing: 4 },
+    small: { fontFamily: MENU_FONT, fontSize: '15px', color: MENU_COLORS.text, stroke: MENU_COLORS.stroke, strokeThickness: 4 },
+    price: { fontFamily: MENU_FONT, fontSize: '14px', color: MENU_COLORS.title, stroke: MENU_COLORS.stroke, strokeThickness: 3 },
+};
+
 export default class ShopSystem {
     /**
-     * Create a new shop system
      * @param {Phaser.Scene} scene - The scene this system belongs to
-     * @param {Object} options - Configuration options
-     * @param {string} options.shopName - Name of the shop
-     * @param {Array} options.inventory - Array of items available in the shop
-     * @param {Object} options.position - Position of the shop UI
-     * @param {number} options.position.x - X position
-     * @param {number} options.position.y - Y position
-     * @param {number} options.buyMultiplier - Price multiplier when buying (default: 1.0)
-     * @param {number} options.sellMultiplier - Price multiplier when selling (default: 0.5)
+     * @param {Object} options
+     * @param {string} options.shopName - Name of the shop (English fallback; options.shopKey → shop.names.<key>)
+     * @param {Array} options.inventory - Items for sale
+     * @param {number} options.buyMultiplier - Price multiplier when buying (default 1.0)
+     * @param {number} options.sellMultiplier - Price multiplier when selling (default 0.5)
+     * (options.position / width / height are accepted for old callers; the panel is always centred.)
      */
     constructor(scene, options = {}) {
         this.scene = scene;
-        
-        // Set default options
-        const defaultOptions = {
-            shopName: 'Shop',
-            inventory: [],
-            position: {
-                x: 400,
-                y: 300
-            },
-            buyMultiplier: 1.0,
-            sellMultiplier: 0.5,
-            width: 600,
-            height: 400
-        };
-        
-        // Merge default options with provided options
-        this.options = { ...defaultOptions, ...options };
-        
-        this.listPage = 0;
-        
-        // Initialize shop inventory. One-off items the player already bought from this shop are
-        // gone for good (registry `shopSoldOut`, persisted in saves); stackable goods restock.
+        this.options = { shopName: 'Shop', inventory: [], buyMultiplier: 1.0, sellMultiplier: 0.5, ...options };
+
+        // One-off items the player already bought from this shop are gone for good (registry `shopSoldOut`,
+        // persisted in saves); stackable goods restock.
         this.inventory = this.options.inventory.filter(item => !this.isSoldOut(item.id));
-        
-        // Create UI elements
+
         this.container = null;
         this.isOpen = false;
-        this.selectedItem = null;
-        this.itemButtons = [];
         this.currentTab = 'buy';
-        
-        // Create the shop UI
+        this.page = 0;
+        this.selectedItem = null;
+        this.hoverItem = null;
+        this.slots = [];
+
         this.createShopUI();
-        
-        console.log(`Shop system initialized: ${this.options.shopName}`);
     }
 
     // ---- i18n helpers: everything shown to the player goes through the scene's t(); the English
@@ -83,488 +91,310 @@ export default class ShopSystem {
         this.scene.registry.set('shopSoldOut', all);
     }
     itemName(item) { return LanguageSystem.getInstance().itemName(item); }
-    itemDescription(item) { return LanguageSystem.getInstance().itemDescription(item) || 'No description available.'; }
-    balanceText() { return this.t('shop.balance', { amount: this.scene.getMoney() }, `Dinar: ${this.scene.getMoney()}`); }
-    priceText(price) { return this.t('shop.price', { price }, `Price: ${price} dinar`); }
-    
-    /**
-     * Create the shop UI
-     * @private
-     */
+    itemDescription(item) { return LanguageSystem.getInstance().itemDescription(item) || this.t('shop.noDescription', {}, 'No description available.'); }
+
+    // ---- what the current tab lists, and at what price ------------------------------------------
+    /** buy: the priced stock; sell: what a shop will take (worth something, not a quest item -- utils/itemValues.js) */
+    listedItems() {
+        return this.currentTab === 'buy'
+            ? this.inventory.filter(item => item.price)
+            : (this.scene.inventorySystem?.getItems() || []).filter(isSellable);
+    }
+    priceOf(item) {
+        return this.currentTab === 'buy'
+            ? Math.round(item.price * this.options.buyMultiplier)
+            : Math.max(1, Math.round(itemValue(item) * this.options.sellMultiplier));
+    }
+    canAfford(price) { return this.currentTab === 'sell' || this.scene.hasEnoughMoney?.(price) !== false; }
+    pageCount() { return Math.max(1, Math.ceil(this.listedItems().length / PAGE_SIZE)); }
+
+    /** the icon (or a lettered enamel disc) the inventory would show for this item */
+    makeIcon(item, x, y, size) {
+        const inv = this.scene.inventorySystem;
+        if (inv?.makeIcon) return inv.makeIcon(item, x, y, size);
+        return [this.scene.add.text(x, y, (this.itemName(item) || '?').charAt(0), { ...TEXT.name, fontSize: `${Math.round(size * 0.4)}px` }).setOrigin(0.5)];
+    }
+
+    // ------------------------------------------------------------------ the panel
     createShopUI() {
-        // Create main container for the shop
-        this.container = this.scene.add.container(this.options.position.x, this.options.position.y);
-        this.container.setDepth(100);
-        this.container.setVisible(false);
-        
-        // Add background
-        const bg = this.scene.add.rectangle(
-            0, 
-            0, 
-            this.options.width, 
-            this.options.height, 
-            0x000000, 
-            0.9
-        );
-        bg.setStrokeStyle(2, 0xFFD700);
-        this.container.add(bg);
-        
-        // Add shop title
-        const title = this.scene.add.text(
-            0, 
-            -this.options.height/2 + 25, 
-            this.title(), 
-            {
-                fontFamily: 'Arial',
-                fontSize: '24px',
-                color: '#FFD700',
-                fontStyle: 'bold'
-            }
-        );
-        title.setOrigin(0.5);
-        this.container.add(title);
-        
-        // Add close button
-        const closeButton = this.scene.add.text(
-            this.options.width/2 - 30, 
-            -this.options.height/2 + 25, 
-            'X', 
-            {
-                fontFamily: 'Arial',
-                fontSize: '24px',
-                color: '#FF0000',
-                fontStyle: 'bold'
-            }
-        );
-        closeButton.setOrigin(0.5);
-        closeButton.setInteractive({ useHandCursor: true });
-        closeButton.on('pointerdown', () => this.close());
-        this.container.add(closeButton);
-        
-        // Add tabs for buy/sell
-        this.createTabs();
-        
-        // Add item list container
-        this.itemListContainer = this.scene.add.container(0, 0);
-        this.container.add(this.itemListContainer);
-        
-        // Add item details container
-        this.itemDetailsContainer = this.scene.add.container(
-            this.options.width/4, 
-            0
-        );
-        this.container.add(this.itemDetailsContainer);
-        // Tabs are created earlier; keep them above the list/detail backgrounds
-        if (this.buyTab) this.container.bringToTop(this.buyTab);
-        if (this.sellTab) this.container.bringToTop(this.sellTab);
-        
-        // Add player money display
-        this.moneyText = this.scene.add.text(
-            -this.options.width/2 + 20, 
-            -this.options.height/2 + 25, 
-            this.balanceText(), 
-            {
-                fontFamily: 'Arial',
-                fontSize: '18px',
-                color: '#FFD700'
-            }
-        );
-        this.container.add(this.moneyText);
-        
-        // Create the initial item list
-        this.showItemList();
-    }
-    
-    /**
-     * Create tabs for buy/sell modes
-     * @private
-     */
-    createTabs() {
-        const tabY = -this.options.height/2 + 70;
-        const tabWidth = 100;
-        const tabHeight = 40;
-        const tabSpacing = 10;
-        
-        // Buy tab
-        this.buyTab = this.scene.add.container(-tabWidth - tabSpacing/2, tabY);
-        const buyBg = this.scene.add.rectangle(0, 0, tabWidth, tabHeight, 0x333333, 0.9);
-        buyBg.setStrokeStyle(2, 0xFFD700);
-        this.buyTab.add(buyBg);
-        
-        const buyText = this.scene.add.text(0, 0, this.t('shop.buy', {}, 'Buy'), {
-            fontFamily: 'Arial',
-            fontSize: '18px',
-            color: '#FFFFFF'
+        const sc = this.scene;
+        const panel = createMenuPanel(sc, 'ledger', sc.scale.width / 2, 300, this.title());
+        // the shop's name on the title plate (150 native px): shrink a long one until it fits
+        for (let size = 17; panel.title.width > 286 && size > 12; size--) panel.title.setFontSize(size);
+        this.container = panel.container.setDepth(1003).setScrollFactor(0, 0, true).setVisible(false);
+        addPanelClose(sc, panel, () => this.close());
+        const add = (o) => { this.container.add(o); return o; };
+
+        // Buy / Sell plaques over the grid
+        this.tabs = ['buy', 'sell'].map((tab, i) => {
+            const x = GRID_CX + (i ? 74 : -74);
+            const img = add(sc.add.image(x, TAB_Y, 'menuTab', 0).setScale(S).setInteractive({ useHandCursor: true }));
+            img.input.hitArea.setTo(1, 1, 66, 18);
+            const text = add(sc.add.text(x, TAB_Y, this.t(`shop.${tab}`, {}, tab === 'buy' ? 'Buy' : 'Sell'), {
+                fontFamily: MENU_FONT, fontSize: '16px', color: MENU_COLORS.text, stroke: MENU_COLORS.stroke, strokeThickness: 3,
+            }).setOrigin(0.5));
+            const t = { tab, img, text, hover: false };
+            img.on('pointerover', () => { t.hover = true; this.drawTabs(); playMenuSound(sc, 'hoverSound', 0.5); });
+            img.on('pointerout', () => { t.hover = false; this.drawTabs(); });
+            img.on('pointerdown', (pointer, lx, ly, event) => {
+                event?.stopPropagation();
+                if (this.currentTab === tab) return;
+                playMenuSound(sc, 'clickSound');
+                this.setTab(tab);
+            });
+            return t;
         });
-        buyText.setOrigin(0.5);
-        this.buyTab.add(buyText);
-        
-        this.buyTab.setInteractive(new Phaser.Geom.Rectangle(-tabWidth/2, -tabHeight/2, tabWidth, tabHeight), Phaser.Geom.Rectangle.Contains);
-        this.buyTab.on('pointerdown', () => this.setTab('buy'));
-        
-        // Sell tab
-        this.sellTab = this.scene.add.container(tabSpacing/2, tabY);
-        const sellBg = this.scene.add.rectangle(0, 0, tabWidth, tabHeight, 0x333333, 0.9);
-        sellBg.setStrokeStyle(2, 0x888888);
-        this.sellTab.add(sellBg);
-        
-        const sellText = this.scene.add.text(0, 0, this.t('shop.sell', {}, 'Sell'), {
-            fontFamily: 'Arial',
-            fontSize: '18px',
-            color: '#FFFFFF'
-        });
-        sellText.setOrigin(0.5);
-        this.sellTab.add(sellText);
-        
-        this.sellTab.setInteractive(new Phaser.Geom.Rectangle(-tabWidth/2, -tabHeight/2, tabWidth, tabHeight), Phaser.Geom.Rectangle.Contains);
-        this.sellTab.on('pointerdown', () => this.setTab('sell'));
-        
-        this.container.add([this.buyTab, this.sellTab]);
+
+        // the sockets: one page, re-filled per page
+        this.slots = [];
+        for (let row = 0; row < ROWS; row++) {
+            for (let col = 0; col < COLS; col++) {
+                const x = GRID.left + SLOT / 2 + col * (SLOT + SLOT_GAP);
+                const y = GRID.top + SLOT / 2 + row * ROW_PITCH;
+                const bg = add(sc.add.image(x, y, 'menuItemSlot', 0).setScale(S).setInteractive({ useHandCursor: true }));
+                bg.input.hitArea.setTo(1, 1, 38, 38);
+                const slot = { bg, x, y, item: null, parts: [], hover: false };
+                bg.on('pointerover', () => {
+                    slot.hover = true; this.drawSlot(slot);
+                    if (slot.item) { this.hoverItem = slot.item; this.showDetails(); playMenuSound(sc, 'hoverSound', 0.35); }
+                });
+                bg.on('pointerout', () => {
+                    slot.hover = false; this.drawSlot(slot);
+                    if (this.hoverItem === slot.item) { this.hoverItem = null; this.showDetails(); }
+                });
+                bg.on('pointerdown', (pointer, lx, ly, event) => {
+                    event?.stopPropagation();
+                    if (!slot.item) return;
+                    playMenuSound(sc, 'clickSound');
+                    this.select(slot.item);
+                });
+                this.slots.push(slot);
+            }
+        }
+        this.emptyText = add(sc.add.text(GRID_CX, GRID.top + ROW_PITCH * 1.2, '', {
+            ...TEXT.body, fontSize: '18px', fontStyle: 'italic', color: MENU_COLORS.dim, align: 'center', wordWrap: { width: GRID_W - 60 },
+        }).setOrigin(0.5));
+
+        // the chosen piece's card
+        add(sc.add.nineslice(CARD.x, CARD.y, 'menuCard', 0, CARD.w / S, CARD.h / S, 7, 7, 7, 7).setOrigin(0, 0).setScale(S));
+        this.detailSocket = add(sc.add.image(CARD_CX, CARD.y + 92, 'menuItemSlot', 1).setScale(4));
+        this.detailName = add(sc.add.text(CARD_CX, CARD.y + 184, '', { ...TEXT.name, wordWrap: { width: CARD.w - 36 } }).setOrigin(0.5, 0));
+        this.detailKind = add(sc.add.text(CARD_CX, 0, '', TEXT.kind).setOrigin(0.5, 0));
+        this.detailDesc = add(sc.add.text(CARD.x + 18, 0, '', { ...TEXT.body, wordWrap: { width: CARD.w - 36 } }));
+        this.detailHint = add(sc.add.text(CARD_CX, CARD.y + 184, this.t('ui.inventory.selectHint', {}, 'Point at an item, or click it to pick it.'), {
+            ...TEXT.kind, fontSize: '15px', wordWrap: { width: CARD.w - 40 },
+        }).setOrigin(0.5, 0));
+        const priceY = CARD.y + CARD.h - 74;
+        this.detailCoin = add(sc.add.image(CARD_CX, priceY, 'menuCoin').setScale(S));
+        this.detailPrice = add(sc.add.text(CARD_CX, priceY, '', { ...TEXT.small, fontSize: '20px', color: MENU_COLORS.title }).setOrigin(0, 0.5));
+        this.createActionButton(add);
+
+        // the pager + the money
+        this.pagerPrev = add(createMenuIconButton(sc, GRID_CX - 74, FOOT_Y, 'left', () => this.changePage(-1)));
+        this.pagerNext = add(createMenuIconButton(sc, GRID_CX + 74, FOOT_Y, 'right', () => this.changePage(1)));
+        this.pagerLabel = add(sc.add.text(GRID_CX, FOOT_Y, '', TEXT.small).setOrigin(0.5));
+        add(sc.add.image(GRID.left + 14, FOOT_Y, 'menuCoin').setScale(S));
+        this.moneyText = add(sc.add.text(GRID.left + 34, FOOT_Y, '', { ...TEXT.small, fontSize: '17px', color: MENU_COLORS.title }).setOrigin(0, 0.5));
+
+        // the mouse wheel flips pages; keys move the pick, buy / sell, switch tabs (only while open)
+        this._onWheel = (pointer, over, dx, dy) => {
+            if (!this.isOpen) return;
+            if (dy > 0) this.changePage(1); else if (dy < 0) this.changePage(-1);
+        };
+        sc.input.on('wheel', this._onWheel);
+        this._onKey = (event) => this.handleKey(event);
+        sc.input.keyboard?.on('keydown', this._onKey);
+        sc.events.once('shutdown', () => this.shutdown());
+
+        this.drawTabs();
+        this.refresh();
     }
-    
+
+    /** the Buy / Sell plaque on the card (idle / hover / pressed); dimmed when you can't pay */
+    createActionButton(add) {
+        const sc = this.scene, y = CARD.y + CARD.h - 34;
+        const img = add(sc.add.image(CARD_CX, y, 'menuTab', 0).setScale(S).setInteractive({ useHandCursor: true }));
+        img.input.hitArea.setTo(1, 1, 66, 18);
+        const text = add(sc.add.text(CARD_CX, y + 1, '', { ...TEXT.small, fontSize: '16px', strokeThickness: 3 }).setOrigin(0.5));
+        const btn = { img, text, enabled: true };
+        img.on('pointerover', () => { img.setFrame(1); text.setColor(btn.enabled ? MENU_COLORS.textHover : MENU_COLORS.textDisabled); playMenuSound(sc, 'hoverSound', 0.5); });
+        img.on('pointerout', () => { img.setFrame(0); text.setColor(btn.enabled ? MENU_COLORS.text : MENU_COLORS.textDisabled); });
+        img.on('pointerdown', (pointer, lx, ly, event) => {
+            event?.stopPropagation();
+            img.setFrame(2); text.y = y - 1;
+            playMenuSound(sc, 'clickSound');
+            sc.time.delayedCall(110, () => {
+                if (!img.active) return;
+                img.setFrame(1); text.y = y + 1;
+                this.actOnSelected();
+            });
+        });
+        this.actionButton = btn;
+    }
+
+    drawTabs() {
+        this.tabs?.forEach(t => {
+            const sel = t.tab === this.currentTab;
+            t.img.setFrame(sel ? 2 : t.hover ? 1 : 0);
+            t.text.y = TAB_Y + (sel ? -1 : 1);
+            t.text.setColor(sel || t.hover ? MENU_COLORS.textHover : MENU_COLORS.text);
+            t.text.setShadow(0, 0, '#7fff8e', sel ? 6 : 0, false, true);
+        });
+    }
+
+    drawSlot(slot) {
+        const selected = slot.item && slot.item === this.selectedItem;
+        slot.bg.setFrame(selected ? 3 : slot.hover && slot.item ? 2 : slot.item ? 1 : 0);
+    }
+
+    /** fill the sockets with the current page, then the card, the pager and the money */
+    refresh() {
+        const items = this.listedItems();
+        const pages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+        this.page = Phaser.Math.Clamp(this.page, 0, pages - 1);
+        if (this.selectedItem && !items.includes(this.selectedItem)) this.selectedItem = null;
+        if (this.hoverItem && !items.includes(this.hoverItem)) this.hoverItem = null;
+        const view = items.slice(this.page * PAGE_SIZE, (this.page + 1) * PAGE_SIZE);
+        this.slots.forEach((slot, i) => {
+            slot.parts.forEach(p => p.destroy());
+            slot.parts = [];
+            slot.item = view[i] || null;
+            if (slot.item) {
+                const item = slot.item, price = this.priceOf(item);
+                slot.parts.push(...this.makeIcon(item, slot.x, slot.y, ICON));
+                if ((item.quantity || 1) > 1) {
+                    slot.parts.push(this.scene.add.text(slot.x + 34, slot.y + 34, `×${item.quantity}`, { ...TEXT.small, fontSize: '13px' }).setOrigin(1, 1));
+                }
+                const txt = this.scene.add.text(0, slot.y + SLOT / 2 + 12, `${price}`, { ...TEXT.price, color: this.canAfford(price) ? MENU_COLORS.title : POOR }).setOrigin(0, 0.5);
+                const coin = this.scene.add.image(0, slot.y + SLOT / 2 + 12, 'menuCoin');
+                const w = coin.width + 4 + txt.width;                                  // coin + number, centred under the socket
+                coin.setX(slot.x - w / 2 + coin.width / 2); txt.setX(slot.x - w / 2 + coin.width + 4);
+                slot.parts.push(coin, txt);
+                slot.parts.forEach(p => this.container.add(p));
+            }
+            this.drawSlot(slot);
+        });
+        this.slots.forEach(slot => slot.bg.setAlpha(items.length ? 1 : 0.35));          // an empty list: the message reads over dim sockets
+        this.emptyText.setVisible(!items.length).setText(this.currentTab === 'buy'
+            ? this.t('shop.noItems', {}, 'No items available')
+            : this.t('shop.nothingToSell', {}, "You have nothing we'd buy."));
+        const many = pages > 1;
+        this.pagerLabel.setVisible(many).setText(`${this.page + 1} / ${pages}`);
+        this.pagerPrev.setVisible(many).setAlpha(this.page > 0 ? 1 : 0.35);
+        this.pagerNext.setVisible(many).setAlpha(this.page < pages - 1 ? 1 : 0.35);
+        this.updateMoneyDisplay();
+        this.showDetails();
+    }
+
+    select(item) {
+        this.selectedItem = item;
+        this.slots.forEach(slot => this.drawSlot(slot));
+        this.showDetails();
+    }
+
+    /** the card shows the hovered piece, else the picked one, else a hint */
+    showDetails() {
+        if (!this.detailName) return;
+        const item = this.hoverItem || this.selectedItem;
+        this.detailIconParts?.forEach(p => p.destroy());
+        this.detailIconParts = null;
+        this.detailSocket.setFrame(item ? 1 : 0);
+        this.detailHint.setVisible(!item);
+        for (const t of [this.detailName, this.detailKind, this.detailDesc, this.detailPrice]) t.setText('');
+        this.detailCoin.setVisible(!!item);
+        this.actionButton.img.setVisible(!!item);
+        this.actionButton.text.setVisible(!!item);
+        if (!item) return;
+
+        const parts = this.makeIcon(item, CARD_CX, CARD.y + 92, ICON * 2);
+        parts.forEach(p => this.container.add(p));
+        this.detailIconParts = parts;
+
+        const L = LanguageSystem.getInstance();
+        this.detailName.setText(this.itemName(item));
+        let y = this.detailName.y + this.detailName.height + 2;
+        const kindKey = `ui.inventory.types.${item.type}`, kind = item.type ? L.t(kindKey) : '';
+        this.detailKind.setText(kind && kind !== kindKey ? kind : '').setY(y);
+        if (this.detailKind.text) y += this.detailKind.height;
+        const bottom = CARD.y + CARD.h - 96;
+        this.detailDesc.setY(y + 10).setFontSize(15).setText(this.itemDescription(item));
+        if (this.detailDesc.y + this.detailDesc.height > bottom) this.detailDesc.setFontSize(13);   // long lore texts step down
+
+        // the price: a coin and the sum, centred; red when you can't pay
+        const price = this.priceOf(item), ok = this.canAfford(price);
+        this.detailPrice.setText(`${price}`).setColor(ok ? MENU_COLORS.title : POOR);
+        const w = 24 + 8 + this.detailPrice.width;
+        this.detailCoin.setX(CARD_CX - w / 2 + 12);
+        this.detailPrice.setX(CARD_CX - w / 2 + 32);
+
+        const btn = this.actionButton;
+        btn.enabled = ok;
+        btn.text.setText(this.t(`shop.${this.currentTab}`, {}, this.currentTab === 'buy' ? 'Buy' : 'Sell'))
+            .setColor(ok ? MENU_COLORS.text : MENU_COLORS.textDisabled);
+        btn.img.setFrame(0);
+    }
+
+    /** buy or sell the picked piece (an unaffordable one explains itself) */
+    actOnSelected() {
+        const item = this.selectedItem || this.hoverItem;
+        if (!item) return;
+        const price = this.priceOf(item);
+        if (this.currentTab === 'buy') this.buyItem(item, price); else this.sellItem(item, price);
+    }
+
     /**
-     * Switch between buy and sell tabs
-     * @param {string} tab - Tab to switch to ('buy' or 'sell')
+     * Switch between the buy and sell tabs
+     * @param {string} tab - 'buy' or 'sell'
      */
     setTab(tab) {
         if (tab === this.currentTab) return;
-        
         this.currentTab = tab;
-        this.listPage = 0;
-        
-        // Update tab appearance
-        if (tab === 'buy') {
-            this.buyTab.getAt(0).setStrokeStyle(2, 0xFFD700);
-            this.sellTab.getAt(0).setStrokeStyle(2, 0x888888);
-        } else {
-            this.buyTab.getAt(0).setStrokeStyle(2, 0x888888);
-            this.sellTab.getAt(0).setStrokeStyle(2, 0xFFD700);
-        }
-        
-        // Update item list
-        this.showItemList();
-        
-        // Clear item details
-        this.clearItemDetails();
-    }
-    
-    /**
-     * Page arrows under the item list: [<]  2 / 3  [>]
-     * @param {number} totalPages
-     * @private
-     */
-    createListPager(totalPages) {
-        const x = -this.options.width/4;
-        const y = this.options.height/2 - 30;
-        const label = this.scene.add.text(x, y, `${this.listPage + 1} / ${totalPages}`, {
-            fontFamily: 'Arial', fontSize: '16px', color: '#FFFFFF'
-        }).setOrigin(0.5);
-        this.itemListContainer.add(label);
-        [[-60, '<', -1], [60, '>', 1]].forEach(([dx, glyph, delta]) => {
-            const enabled = delta < 0 ? this.listPage > 0 : this.listPage < totalPages - 1;
-            const btn = this.scene.add.text(x + dx, y, glyph, {
-                fontFamily: 'Arial', fontSize: '20px', color: '#FFD700',
-                backgroundColor: '#333333', padding: { x: 10, y: 2 }
-            }).setOrigin(0.5).setAlpha(enabled ? 1 : 0.35);
-            if (enabled) {
-                btn.setInteractive({ useHandCursor: true });
-                btn.on('pointerdown', () => {
-                    this.listPage += delta;
-                    this.clearItemDetails();
-                    this.showItemList();
-                });
-            }
-            this.itemListContainer.add(btn);
-        });
-    }
-    
-    /**
-     * Show the list of items based on current tab
-     * @private
-     */
-    showItemList() {
-        // Clear existing items
-        this.itemListContainer.removeAll(true);
-        this.itemButtons = [];
-        
-        // Create list background
-        const listBg = this.scene.add.rectangle(
-            -this.options.width/4, 
-            0, 
-            this.options.width/2 - 20, 
-            this.options.height - 120, 
-            0x222222, 
-            0.8
-        );
-        this.itemListContainer.add(listBg);
-        
-        // Get items based on current tab: buy mode lists only priced items, sell mode only what a shop will take
-        // (worth something, and not a quest item -- utils/itemValues.js)
-        const allItems = this.currentTab === 'buy' 
-            ? this.inventory.filter(item => item.price)
-            : this.scene.inventorySystem.getItems().filter(isSellable);
-        
-        // Create item list title
-        const listTitle = this.scene.add.text(
-            -this.options.width/4, 
-            -this.options.height/2 + 100, 
-            this.currentTab === 'buy' ? this.t('shop.forSale', {}, 'Items for Sale') : this.t('shop.yourItems', {}, 'Your Items'), 
-            {
-                fontFamily: 'Arial',
-                fontSize: '18px',
-                color: '#FFFFFF',
-                fontStyle: 'bold'
-            }
-        );
-        listTitle.setOrigin(0.5);
-        this.itemListContainer.add(listTitle);
-        
-        // Create scrollable item list
-        const startY = -this.options.height/2 + 140;
-        const itemHeight = 50;
-        const itemWidth = this.options.width/2 - 40;
-        
-        // Page the list instead of silently dropping whatever doesn't fit
-        const perPage = Math.max(1, Math.floor((this.options.height/2 - 80 - startY) / (itemHeight + 10)) + 1);
-        const totalPages = Math.max(1, Math.ceil(allItems.length / perPage));
-        this.listPage = Phaser.Math.Clamp(this.listPage || 0, 0, totalPages - 1);
-        const items = allItems.slice(this.listPage * perPage, (this.listPage + 1) * perPage);
-        if (totalPages > 1) this.createListPager(totalPages);
-        
-        items.forEach((item, index) => {
-            const y = startY + index * (itemHeight + 10);
-            
-            // Create item button
-            const itemButton = this.scene.add.container(-this.options.width/4, y);
-            
-            // Button background
-            const buttonBg = this.scene.add.rectangle(
-                0, 
-                0, 
-                itemWidth, 
-                itemHeight, 
-                0x333333, 
-                0.8
-            );
-            buttonBg.setStrokeStyle(1, 0x888888);
-            itemButton.add(buttonBg);
-            
-            // Item name
-            const nameText = this.scene.add.text(
-                -itemWidth/2 + 10, 
-                -10, 
-                this.itemName(item), 
-                {
-                    fontFamily: 'Arial',
-                    fontSize: '16px',
-                    color: '#FFFFFF'
-                }
-            );
-            // Long names wrap onto two lines (slightly smaller) above the price
-            const maxNameWidth = itemWidth - 20;
-            if (nameText.width > maxNameWidth) {
-                nameText.setFontSize(14).setWordWrapWidth(maxNameWidth).setY(-itemHeight/2 + 1);
-            }
-            itemButton.add(nameText);
-            
-            // Item price
-            const price = this.currentTab === 'buy' 
-                ? Math.round(item.price * this.options.buyMultiplier) 
-                : Math.max(1, Math.round(itemValue(item) * this.options.sellMultiplier));
-            
-            const priceText = this.scene.add.text(
-                -itemWidth/2 + 10, 
-                10, 
-                this.priceText(price), 
-                {
-                    fontFamily: 'Arial',
-                    fontSize: '14px',
-                    color: '#FFD700'
-                }
-            );
-            itemButton.add(priceText);
-            
-            // Make button interactive
-            itemButton.setInteractive(new Phaser.Geom.Rectangle(-itemWidth/2, -itemHeight/2, itemWidth, itemHeight), Phaser.Geom.Rectangle.Contains);
-            itemButton.on('pointerdown', () => this.selectItem(item, price));
-            itemButton.on('pointerover', () => {
-                buttonBg.setStrokeStyle(2, 0xFFD700);
-            });
-            itemButton.on('pointerout', () => {
-                buttonBg.setStrokeStyle(1, 0x888888);
-            });
-            
-            // Add to container and button list
-            this.itemListContainer.add(itemButton);
-            this.itemButtons.push(itemButton);
-        });
-        
-        // Show "No items" message if list is empty
-        if (items.length === 0 || (this.currentTab === 'buy' && this.itemButtons.length === 0)) {
-            const noItemsText = this.scene.add.text(
-                -this.options.width/4, 
-                0, 
-                this.currentTab === 'buy' ? this.t('shop.noItems', {}, 'No items available') : this.t('shop.nothingToSell', {}, "Nothing we'd buy from you"), 
-                {
-                    align: 'center', wordWrap: { width: this.options.width / 2 - 60 },
-                    fontFamily: 'Arial',
-                    fontSize: '16px',
-                    color: '#888888'
-                }
-            );
-            noItemsText.setOrigin(0.5);
-            this.itemListContainer.add(noItemsText);
-        }
-    }
-    
-    /**
-     * Select an item to show details
-     * @param {Object} item - The item to select
-     * @param {number} price - The calculated price of the item
-     * @private
-     */
-    selectItem(item, price) {
-        this.selectedItem = item;
-        this.selectedPrice = price;
-        
-        // Clear existing details
-        this.clearItemDetails();
-        
-        // Create details background
-        const detailsBg = this.scene.add.rectangle(
-            0, 
-            0, 
-            this.options.width/2 - 20, 
-            this.options.height - 120, 
-            0x222222, 
-            0.8
-        );
-        this.itemDetailsContainer.add(detailsBg);
-        
-        // Item name
-        const nameText = this.scene.add.text(
-            0, 
-            -this.options.height/2 + 90, 
-            this.itemName(item), 
-            {
-                fontFamily: 'Arial',
-                fontSize: '20px',
-                color: '#FFFFFF',
-                fontStyle: 'bold'
-            }
-        );
-        nameText.setOrigin(0.5);
-        // Long names: shrink a little, then wrap, so they stay inside the detail panel
-        const maxNameWidth = this.options.width/2 - 40;
-        for (let size = 19; nameText.width > maxNameWidth && size >= 16; size--) {
-            nameText.setFontSize(size);
-        }
-        if (nameText.width > maxNameWidth) {
-            nameText.setWordWrapWidth(maxNameWidth).setAlign('center');
-        }
-        this.itemDetailsContainer.add(nameText);
-        
-        // Item description
-        const descText = this.scene.add.text(
-            0, 
-            -this.options.height/2 + 120, 
-            this.itemDescription(item), 
-            {
-                fontFamily: 'Arial',
-                fontSize: '15px',
-                color: '#CCCCCC',
-                wordWrap: { width: this.options.width/2 - 50 },
-                align: 'center'
-            }
-        );
-        descText.setOrigin(0.5, 0);
-        this.itemDetailsContainer.add(descText);
-        
-        // Price sits under the description (measured), the action button stays pinned at the bottom.
-        // A long description is shrunk one step so the price never runs into the button.
-        const buttonY = this.options.height/2 - 85;
-        const buttonTop = buttonY - 25;
-        if (descText.y + descText.height > buttonTop - 44) {
-            descText.setFontSize(13);
-        }
-        const priceY = Math.min(descText.y + descText.height + 20, buttonTop - 16);
-        
-        // Item price
-        const priceText = this.scene.add.text(
-            0, 
-            priceY, 
-            this.priceText(price), 
-            {
-                fontFamily: 'Arial',
-                fontSize: '18px',
-                color: '#FFD700'
-            }
-        );
-        priceText.setOrigin(0.5);
-        this.itemDetailsContainer.add(priceText);
-        
-        // Action button (buy or sell)
-        const actionText = this.currentTab === 'buy'
-            ? this.t('shop.buyItem', {}, 'Buy Item')
-            : this.t('shop.sellItem', {}, 'Sell Item');
-        const actionButton = this.scene.add.container(0, buttonY);
-        
-        const buttonBg = this.scene.add.rectangle(
-            0, 
-            0, 
-            200, 
-            50, 
-            0x444444, 
-            0.9
-        );
-        buttonBg.setStrokeStyle(2, 0xFFD700);
-        actionButton.add(buttonBg);
-        
-        const buttonText = this.scene.add.text(
-            0, 
-            0, 
-            actionText, 
-            {
-                fontFamily: 'Arial',
-                fontSize: '18px',
-                color: '#FFFFFF'
-            }
-        );
-        buttonText.setOrigin(0.5);
-        actionButton.add(buttonText);
-        
-        actionButton.setInteractive(new Phaser.Geom.Rectangle(-100, -25, 200, 50), Phaser.Geom.Rectangle.Contains);
-        actionButton.on('pointerdown', () => {
-            if (this.currentTab === 'buy') {
-                this.buyItem(item, price);
-            } else {
-                this.sellItem(item, price);
-            }
-        });
-        actionButton.on('pointerover', () => {
-            buttonBg.setFillStyle(0x666666, 0.9);
-        });
-        actionButton.on('pointerout', () => {
-            buttonBg.setFillStyle(0x444444, 0.9);
-        });
-        
-        this.itemDetailsContainer.add(actionButton);
-    }
-    
-    /**
-     * Clear the item details panel
-     * @private
-     */
-    clearItemDetails() {
-        this.itemDetailsContainer.removeAll(true);
+        this.page = 0;
         this.selectedItem = null;
+        this.hoverItem = null;
+        this.drawTabs();
+        this.refresh();
     }
-    
+
+    changePage(delta) {
+        const next = Phaser.Math.Clamp(this.page + delta, 0, this.pageCount() - 1);
+        if (next === this.page) return;
+        this.page = next;
+        this.hoverItem = null;
+        playMenuSound(this.scene, 'clickSound');
+        this.refresh();
+    }
+
+    /** arrows move the pick over the whole (paged) list, Enter / Space act on it, PgUp / PgDn flip pages, Tab switches */
+    handleKey(event) {
+        if (!this.isOpen || this.scene.dialogVisible || this.scene.gameMenu?.visible) return;
+        if (event.code === 'Tab') {
+            event.preventDefault?.();
+            playMenuSound(this.scene, 'clickSound');
+            this.setTab(this.currentTab === 'buy' ? 'sell' : 'buy');
+            return;
+        }
+        const items = this.listedItems();
+        const move = { ArrowRight: 1, KeyD: 1, ArrowLeft: -1, KeyA: -1, ArrowDown: COLS, KeyS: COLS, ArrowUp: -COLS, KeyW: -COLS }[event.code];
+        if (move !== undefined && items.length) {
+            let i = items.indexOf(this.selectedItem);
+            i = i < 0 ? this.page * PAGE_SIZE : Phaser.Math.Clamp(i + move, 0, items.length - 1);
+            this.hoverItem = null;
+            this.page = Math.floor(i / PAGE_SIZE);
+            this.selectedItem = items[i];
+            playMenuSound(this.scene, 'hoverSound', 0.4);
+            this.refresh();
+        } else if (event.code === 'Enter' || event.code === 'NumpadEnter' || event.code === 'Space') {
+            this.actOnSelected();
+        } else if (event.code === 'PageDown') this.changePage(1);
+        else if (event.code === 'PageUp') this.changePage(-1);
+    }
+
+    // ------------------------------------------------------------------ trading (unchanged by the redesign)
     /**
      * Buy an item from the shop
      * @param {Object} item - The item to buy
      * @param {number} price - The price of the item
-     * @private
      */
     buyItem(item, price) {
         // Check if player has enough money
@@ -572,208 +402,119 @@ export default class ShopSystem {
             this.scene.showNotification(this.t('notifications.notEnoughMoney', {}, 'Not enough dinar!'), 'error');
             return;
         }
-        
+
         // A non-stackable item can only be carried once — don't take the money for a duplicate
         if (!item.stackable && typeof this.scene.hasItem === 'function' && this.scene.hasItem(item.id)) {
             this.scene.showNotification(this.t('notifications.alreadyOwned', {}, 'You already have one of those.'), 'error');
             return;
         }
-        
-        // Subtract money
+
         this.scene.subtractMoney(price);
-        
-        // Add item to inventory
-        this.scene.addItemToInventory({...item});
-        
+        this.scene.addItemToInventory({ ...item });
+
         // A unique piece leaves the stall for good
         if (this.isOneOff(item)) {
             this.setSoldOut(item.id, true);
-            this.removeItem(item.id);
+            this.inventory = this.inventory.filter(i => i.id !== item.id);
         }
-        
-        // Show notification
+
         this.scene.showNotification(this.t('notifications.purchased', { item: this.itemName(item) }, `Purchased: ${this.itemName(item)}`));
-        
-        // Update money display
-        this.updateMoneyDisplay();
-        
-        // Refresh item list if in sell tab
-        if (this.currentTab === 'sell') {
-            this.showItemList();
-        }
-        
-        // Clear item details
-        this.clearItemDetails();
+        if (this.selectedItem === item && this.isOneOff(item)) this.selectedItem = null;
+        if (this.hoverItem === item && this.isOneOff(item)) this.hoverItem = null;
+        this.refresh();
     }
-    
+
     /**
      * Sell an item to the shop
      * @param {Object} item - The item to sell
      * @param {number} price - The price of the item
-     * @private
      */
     sellItem(item, price) {
-        // Remove item from inventory
         if (!this.scene.removeItemFromInventory(item.id)) {
             this.scene.showNotification(this.t('notifications.failedToSell', {}, 'Failed to sell item'), 'error');
             return;
         }
-        
-        // Add money
+
         this.scene.addMoney(price);
-        
+
         // Selling a one-off piece back to the shop that stocked it puts it back on the stall
         const template = this.options.inventory.find(i => i.id === item.id);
         if (template && this.isOneOff(template) && this.isSoldOut(item.id)) {
             this.setSoldOut(item.id, false);
-            if (!this.inventory.some(i => i.id === item.id)) this.addItem(template);
+            if (!this.inventory.some(i => i.id === item.id)) this.inventory.push(template);
         }
-        
-        // Show notification
+
         this.scene.showNotification(this.t('notifications.sold', { item: this.itemName(item) }, `Sold: ${this.itemName(item)}`), '', this.t('notifications.moneyGain', { amount: price }, `+${price} dinar`));
-        
-        // Update money display
-        this.updateMoneyDisplay();
-        
-        // Refresh item list
-        this.showItemList();
-        
-        // Clear item details
-        this.clearItemDetails();
+        this.selectedItem = null;
+        this.hoverItem = null;
+        this.refresh();
     }
-    
-    /**
-     * Update the money display
-     * @private
-     */
+
+    /** the dinar under the grid (scenes call this every frame while the shop is open) */
     updateMoneyDisplay() {
-        if (this.moneyText) {
-            this.moneyText.setText(this.balanceText());
-        }
+        if (this.moneyText?.active) this.moneyText.setText(`${this.scene.getMoney?.() ?? 0}`);
     }
-    
-    /**
-     * Open the shop
-     */
+
+    // ------------------------------------------------------------------ open / close
     open() {
-        if (this.isOpen) return;
-        
+        if (this.isOpen || !this.container) return;
         this.isOpen = true;
-        this.container.setVisible(true);
-        
-        // Update money display
-        this.updateMoneyDisplay();
-        
-        // Refresh item list
-        this.showItemList();
-        
-        // Clear item details
-        this.clearItemDetails();
-        
-        // Add animation
-        this.scene.tweens.add({
-            targets: this.container,
-            scale: { from: 0.8, to: 1 },
-            alpha: { from: 0, to: 1 },
-            duration: 200,
-            ease: 'Power2'
-        });
+        this.selectedItem = null;
+        this.hoverItem = null;
+        this.container.setVisible(true).setAlpha(0);
+        this.refresh();
+        this.scene.tweens.add({ targets: this.container, alpha: 1, duration: 160, ease: 'Sine.easeOut' });   // a fade: pixel art isn't scaled
     }
-    
-    /**
-     * Close the shop
-     */
+
     close() {
-        if (!this.isOpen) return;
-        
-        // Add animation
+        if (!this.isOpen || !this.container) return;
         this.scene.tweens.add({
-            targets: this.container,
-            scale: { from: 1, to: 0.8 },
-            alpha: { from: 1, to: 0 },
-            duration: 200,
-            ease: 'Power2',
-            onComplete: () => {
-                this.isOpen = false;
-                this.container.setVisible(false);
-            }
+            targets: this.container, alpha: 0, duration: 140, ease: 'Sine.easeIn',
+            onComplete: () => { this.isOpen = false; this.container?.setVisible(false); },
         });
     }
-    
-    /**
-     * Toggle the shop open/closed
-     */
+
     toggle() {
-        if (this.isOpen) {
-            this.close();
-        } else {
-            this.open();
-        }
+        if (this.isOpen) this.close(); else this.open();
     }
-    
-    /**
-     * Add an item to the shop inventory
-     * @param {Object} item - The item to add
-     */
+
+    // ------------------------------------------------------------------ stock changes
+    /** @param {Object} item - The item to add */
     addItem(item) {
-        if (!item.price) {
-            console.warn('Item added to shop has no price:', item.name);
-        }
-        
+        if (!item.price) console.warn('Item added to shop has no price:', item.name);
         this.inventory.push(item);
-        
-        // Refresh item list if shop is open and in buy tab
-        if (this.isOpen && this.currentTab === 'buy') {
-            this.showItemList();
-        }
+        if (this.isOpen && this.currentTab === 'buy') this.refresh();
     }
-    
+
     /**
-     * Remove an item from the shop inventory
      * @param {string} itemId - The ID of the item to remove
-     * @returns {boolean} Whether the item was successfully removed
+     * @returns {boolean} Whether the item was removed
      */
     removeItem(itemId) {
         const index = this.inventory.findIndex(item => item.id === itemId);
-        
         if (index === -1) return false;
-        
         this.inventory.splice(index, 1);
-        
-        // Refresh item list if shop is open and in buy tab
-        if (this.isOpen && this.currentTab === 'buy') {
-            this.showItemList();
-        }
-        
+        if (this.isOpen && this.currentTab === 'buy') this.refresh();
         return true;
     }
-    
-    /**
-     * Set the shop inventory
-     * @param {Array} items - The new inventory
-     */
+
+    /** @param {Array} items - The new stock */
     setInventory(items) {
         this.inventory = items;
-        
-        // Refresh item list if shop is open and in buy tab
-        if (this.isOpen && this.currentTab === 'buy') {
-            this.showItemList();
-        }
+        if (this.isOpen && this.currentTab === 'buy') this.refresh();
     }
-    
-    /**
-     * Clean up resources when the scene is shut down
-     */
+
+    /** Clean up when the scene shuts down (scene instances are re-used) */
     shutdown() {
+        if (this._onWheel) { this.scene.input?.off('wheel', this._onWheel); this._onWheel = null; }
+        if (this._onKey) { this.scene.input?.keyboard?.off('keydown', this._onKey); this._onKey = null; }
         if (this.container) {
             this.container.destroy();
             this.container = null;
         }
+        this.isOpen = false;
     }
-    
-    /**
-     * Destroy this system
-     */
+
     destroy() {
         this.shutdown();
     }

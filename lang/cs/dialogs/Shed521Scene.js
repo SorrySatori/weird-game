@@ -8,7 +8,7 @@ export default {
     },
     start: {
         text: {
-            default: "Další zbloudilá duše se zatoulala k Boudě 521... Co hledáš, cizinče? Vylepšení těla? Nové plíce? Nebo jen špatné nápady? Zasmál se, hlas praská jako rozladěný sbor. Řekni, co potřebuješ. Možná má starý Gnur šuškandu na prodej.",
+            default: "Další zbloudilá duše se zatoulala k Boudě 521... Co hledáš, cizinče? Vylepšení těla? Nové plíce? Nebo jen špatné nápady? Uchechtne se a hlas mu skřípe jako rozbitý tranzistorák. Řekni, co potřebuješ. Možná má starý Gnur šuškandu na prodej.",
             waiting: "Prostě mi přines to živé jádro, pak si pokecáme.",
             refused: "(Gnur sotva zvedne oči.) Ale hele, kamarádíček úředníčků. Ty máš teda drzost, lézt sem zase dolů.\nŘekni, co chceš, cizinče, a zkrať to."
         },

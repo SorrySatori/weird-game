@@ -32,7 +32,8 @@ export const ITEM_ICONS = [
     // --- Demo items, generated pixel art (tools/artgen/item_icons.py -> assets/aseprite/UI_ItemIcons_60x60.aseprite) ---
     { key: 'pliers',                    path: 'assets/images/items/pliers.png' },                    // for the Living Core
     { key: 'forgotten_elevator_button', path: 'assets/images/items/forgotten_elevator_button.png' }, // Zerren -> Lift-Mother
-    { key: 'market_map',                path: 'assets/images/items/market_map.png' },
+    { key: 'market_map',                path: 'assets/images/items/market_map.png' },                // no longer sold (old saves)
+    { key: 'crownmire_travelogue',      path: 'assets/images/items/crownmire_travelogue.png' },      // Zerren: a travel book about Magnekin's cities
     // Ortolan's "extra arms" paperwork (forms = one visual family) ...
     { key: 'artisan-exemption-form',    path: 'assets/images/items/artisan-exemption-form.png' },
     { key: 'deformity-form',            path: 'assets/images/items/deformity-form.png' },

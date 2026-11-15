@@ -106,7 +106,7 @@ export default {
     templeGuardTime: {
         text: "Stojím na tomto postu už tři tisíce trávení Žaludečních hodin. Město přestalo počítat roky, když zemřel Počtář. Teď počítáme trávení. Mé maso dávno částečně nahradily rostliny. Mé vědomí je propojeno s městem. Myslím, že levou nohu mám z hlodavců.",
         options: {
-            thats_familiar: "To je... povědomé",
+            thats_familiar: "To zní... povědomě",
             ask_something_else: "Zeptej se na něco jiného"
         }
     },

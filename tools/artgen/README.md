@@ -408,6 +408,57 @@ The cut (CrossroadScene.startSkyshipAnimation) pins the picture to the screen (s
 planks. Deck fixed points: the rope ladder x ~118 (exit zone 40..160), the dial-board's lens (533, 403) (observable
 800-space (400, 420, 80, 110)), Captain Liris at (700, 466) scale 0.1 (feet on the walk line), the cabin from x 826.
 
+## Master Thaal (hand-drawn by the author) — restyle pass; the Cathedral guardian — redrawn
+```
+python3 handmade_restyle.py <outdir>   # reads ref/handmade_master_thaal.png, ref/handmade_master_thaal_walk.png
+                                       # -> master_thaal.png, master_thaal_walk.png (same sheet layouts, every pixel in place)
+python3 guardian.py <outdir>           # -> guardian.png (8 idle frames of 128x176, soles on y 172) + guardian.gpl -- rig.py, loosely after
+                                       #    the author's guardian (ref/handmade_guardian1.png): black cowl, amber eye-slits, brass grille, plate
+                                       #    over a plum skirt + cape, halberd, round verdigris shield; contrapposto, head turned to the player.
+                                       #    0 rest 1 inhale 2 eyes flare 3 cape stirs 4-5 head tilts 6 eyes dim 7 settle
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/guardian.gpl --script tools/artgen/guardian_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/guardian_export.lua   # -> guardian.png
+```
+Not a redraw: the author's sprites keep their shapes, faces and animation. Each pixel gets a material from its original
+colour (per-sprite rules), then a tone from its original shade ranked inside that material + form light from the top
+left (a height field: soft cloth from the silhouette, hard parts also from the drawn lines) + material texture + a
+contact shadow under material boundaries, quantised onto muted rig.py-style ramps with a 4x4 dither. Black outer
+outlines become a warm dark of the wrapped material, inner lines a soft dark; the guardian's black hood becomes shaded
+black cloth, the faces under the hoods stay voids, eyes / gem / mouth grille keep their colours. To change the art, edit
+the originals in `ref/` (or redraw there) and re-run with `<outdir>` = `assets/images/characters`.
+The guardian (texture key `guard`, CathedralEntrance): source `assets/aseprite/Cathedral_guardian.aseprite`; anim `guardIdle`
+(frames 0,0,1,2,2,1,0,0,3,3,0,0,4,5,5,5,4,0,0,6,6,7,0,0 at 5 fps), bust portrait `{ frame 0, zoom 2, top 14 }` under
+"Temple Guard" / "Chrámový strážce", hover = preFX glow (no scaling); the green aura disc is gone.
+
+## Growth/Decay medallion (HUD, texture key `growthDecay`) — redrawn
+```
+python3 gd_medallion.py <outdir>   # -> gd_medallion.png (11 frames of 100x100) + gd_medallion.gpl -- a bronze disc, engraved rune band;
+                                   #    the field split by an S-shaped copper inlay: growth (teal lattice, mossy segmented root, vines,
+                                   #    fiddleheads, tall blue glowing fungi, green gem) vs decay (cracked earth, dead fungi, spine + ribs,
+                                   #    a bone pile, a skull, debris, orange gem); both drawn densely over the whole field. Frame k = growth 10*k %:
+                                   #    the green takes that share of the field, the leading side's gem glows
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/gd_medallion.gpl --script tools/artgen/gd_medallion_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui --script tools/artgen/gd_medallion_export.lua   # -> gd_medallion.png
+```
+Source `assets/aseprite/UI_GrowthDecay_100.aseprite` (11 frames, UPRAVY layer). `GrowthDecayIndicator` shows the
+medallion at scale 1 and picks the frame `round(growth / 10)` (the old multiply tint is gone; decay = 100 - growth).
+The old AI growthDecay.jpg is gone. The Tempurra Games logo (TempurraLogo.png) stays the original painting by choice.
+
+## Gnur (Shed521Scene, texture key `gnur`) — redrawn
+```
+python3 gnur.py <outdir>           # -> gnur.png (12 frames of 128x128, faces right, soles on y 125: 0-3 idle, 4-11 walk) + gnur.gpl
+                                   #    rig.py: the old look kept (moss-green hooded robe, ragged ochre mantle, darkness in the hood,
+                                   #    two yellow eyes) + a stooped old machinist: amber eye-lamps, a brass speaker grille for a
+                                   #    mouth, an iron prosthetic hand at the belt (the arm as the protagonist's, under the mantle), a bandaged hand, a tool roll, a pre-war lens + a cog on the belt,
+                                   #    rust soaked into the hem. Idle: 0 rest 1 breath 2 eyes flicker 3 the grille crackles
+aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite --script-param pal=$HOME/.config/aseprite/palettes/gnur.gpl --script tools/artgen/gnur_aseprite.lua
+aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/characters --script tools/artgen/gnur_export.lua   # -> gnur.png
+```
+Source `assets/aseprite/Shed_gnur.aseprite` (tags ceka / chuze, UPRAVY layer). The scene shows him at scale 1, origin bottom
+at y 534 (the protagonist's feet line); anims `gnur_walk` (4-11, 8 fps; the pacing tween is 44 px/s to match the stride)
+and `gnur_idle` (4 fps). While a dialog is open he stops pacing, turns to the player and idles. Bust portrait
+`{ key: 'gnur', frame: 0, zoom: 2, top: 20 }`. The old AI sheet Gnur2.png is gone.
+
 ## Captain Liris (SkyshipBoardScene) + Ortolan (ShedCourtyard / BurningBearStreet) — redrawn; Dr. Elphi — her old art animated
 ```
 python3 liris.py <outdir>          # -> liris.png (8 idle frames of 128x160, soles on y 156) + liris.gpl -- rig.py: a teal hood, a brass

@@ -118,7 +118,7 @@ export function runEquipmentTutorial(scene) {
         });
     };
 
-    const skipBtn = { label: T('Skip tutorial', 'Přeskočit'), onClick: finish };
+    const skipBtn = { label: T('Skip tutorial', 'Přeskočit výuku'), onClick: finish };
     // Phase B: the panel is now open — the ring/prompt are cleared and the content is explained.
     const renderPhaseB = (step) => {
         clear(); // removes the highlight ring, the open-prompt and its poll

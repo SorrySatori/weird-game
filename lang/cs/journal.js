@@ -129,7 +129,7 @@ export default {
         },
         gnur_meeting: {
             title: "Gnur",
-            description: "V útrobách Boudy 521 jsem narazil na Gnura, postavu, jejíž hlas praská „jako rozbitý sbor“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
+            description: "V útrobách Boudy 521 jsem narazil na Gnura, postavu, jejíž hlas skřípe „jako rozbitý tranzistorák“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
             facts: {
                 rust_choir: "Za starých časů se staral o stroje, teď patří k Rezavému chóru. To naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.",
             },

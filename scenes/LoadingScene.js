@@ -64,7 +64,7 @@ export default class LoadingScene extends Phaser.Scene {
         // Add a subtle glow effect around the logo
         const glow = this.add.graphics();
         glow.fillStyle(0x7fff8e, 0.2);
-        glow.fillCircle(400, 300, 150);
+        glow.fillCircle(this.scale.width / 2, 300, 150);
         glow.setDepth(-1);
         
         // Add pulsating animation to the glow

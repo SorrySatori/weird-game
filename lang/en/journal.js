@@ -130,7 +130,7 @@ export default {
         },
         gnur_meeting: {
             title: "Gnur",
-            description: "In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles \"like a broken choir.\" He seems to be a dealer in body modifications and other questionable services. There's something unsettling about him.",
+            description: "In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles \"like a broken transistor radio.\" He seems to be a dealer in body modifications and other questionable services. There's something unsettling about him.",
             facts: {
                 rust_choir: "He used to keep the machines running in the old days; now he is with the Rust Choir. That suggests a deeper involvement with the city's hidden infrastructures and technologies than his shabby appearance would suggest.",
             },
