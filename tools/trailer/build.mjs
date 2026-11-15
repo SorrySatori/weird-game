@@ -116,7 +116,7 @@ if (Array.isArray(MUSIC)) {
         const mi = addInput(...(m.loop ? ['-stream_loop', String(m.loop)] : []), '-ss', fx(m.from), '-t', fx(m.dur), '-i', path.join(REPO, m.file));
         const ms = Math.round(m.at * 1000);
         graph.push(`[${mi}:a]aresample=48000,aformat=channel_layouts=stereo,volume=${m.gain || 0}dB,` +
-            `afade=t=in:st=0:d=${m.fadeIn},afade=t=out:st=${fx(m.dur - m.fadeOut)}:d=${m.fadeOut},adelay=${ms}|${ms}[m${k}]`);
+            `afade=t=in:st=0:d=${m.fadeIn}:curve=${m.fadeInCurve || 'tri'},afade=t=out:st=${fx(m.dur - m.fadeOut)}:d=${m.fadeOut}:curve=${m.fadeOutCurve || 'tri'},adelay=${ms}|${ms}[m${k}]`);
         return `[m${k}]`;
     });
     graph.push(`${parts.join('')}amix=inputs=${parts.length}:normalize=0:dropout_transition=0,alimiter=limit=0.891:attack=5:release=60:level=0,apad,atrim=end=${fx(END)}[a]`);

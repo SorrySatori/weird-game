@@ -172,9 +172,12 @@ function makeAnnounceCut(cta, file) {
         { id: 'grow2', seg: 'shedGrowth' },
         { id: 'rot', seg: 'shedDecay' },
     ];
+    // the crossfade: one bar of the entry theme, from 1.8 s before the cut to 0.6 s after it, sine curves (no dip in the
+    // middle); the entry theme starts early by the same amount from earlier in the track, so its beats stay on the cuts
+    const XF = EB, XF_PRE = 1.8;
     const MUSIC = [
-        { file: 'assets/sounds/flop.opus', from: 0, at: 0, dur: T2 + 0.15, loop: 1, fadeIn: 0.02, fadeOut: 0.35, gain: 2.0 },
-        { file: 'assets/sounds/infinite_fold.mp3', from: E_IN, at: T2, dur: END - T2, fadeIn: 0.05, fadeOut: 2.0, gain: -3.3 },
+        { file: 'assets/sounds/flop.opus', from: 0, at: 0, dur: T2 - XF_PRE + XF, loop: 1, fadeIn: 0.02, fadeOut: XF, fadeOutCurve: 'qsin', gain: 2.0 },
+        { file: 'assets/sounds/infinite_fold.mp3', from: E_IN - XF_PRE, at: T2 - XF_PRE, dur: END - T2 + XF_PRE, fadeIn: XF, fadeInCurve: 'qsin', fadeOut: 2.0, gain: -3.3 },
     ];   // Flop at −14, the entry theme at −14 LUFS (measured −16.1 / −10.8); a limiter at −1 dBFS on the mix
     return { MUSIC, SEGMENTS, TITLES, END, file };
 }
