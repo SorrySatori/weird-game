@@ -130,36 +130,40 @@ function makeTipsCut() {
 }
 
 /**
- * The demo announcement cut (≈68.5 s): an invitation to the city, only what the demo holds (no spoilers). Two pieces
- * of music, both recorded by people: the cathedral theme under the opening (the announcement, Agarida, the Council),
- * then, from the city's reveal to the end, "Les", the solo guitar of the Crossroad. Les has no fixed tempo, so every
- * cut sits on one of its strong attacks (tools/trailer/onsets.py; its phrase accents come about every 3.3 s), and so
- * do the logo and the end card.
+ * The demo announcement cut (≈69.5 s): an invitation to the city, only what the demo holds (no spoilers). Two pieces,
+ * one transition: the entry theme (the demo's entry-theme.mp3 = infinite_fold.mp3 here; 100 BPM, a bar = 2.4 s, its
+ * downbeats at 4.965 + 2.4k s) under the announcement, the signal, the Council and the city; then "Flop" (Ortolan's
+ * courtyard beat, 110 BPM, a bar = 24/11 s, an 11-bar loop) comes in on a downbeat with the things to do, and carries
+ * the finale, the logo and the end card. Every cut sits on a beat of the piece playing under it.
  */
 function makeAnnounceCut(cta, file) {
-    const OFF = 15.6 - 13.045;              // Les' track time + OFF = trailer time: its accent at 13.045 s opens the city
-    const at = (tau) => tau + OFF;
-    const LES = [13.045, 16.68, 19.515, 22.345, 25.655, 29.325, 33.39, 36.64, 39.09, 42.705, 45.905, 49.155, 52.445, 54.745];
-    const LOGO = at(58.72), CTA = at(62.37), END = at(66.0);
-    const shots = [
-        ['city', 0.2, push(560, 250, 1, 1.1)], ['crossroad', 0.4, push(400, 300, 1.02, 1.14)],
-        ['cathedral', 0.3, push(534, 330, 1.02, 1.16)], ['scraper', 0.3, [[1.3, 533.5, 420], [1.3, 533.5, 260]]],
-        ['voxmarket', 0.3, push(534, 320, 1, 1.12)], ['registration', 0.3, push(534, 240, 1.04, 1.14)],
-        ['courtyard', 0.3, push(320, 300, 1.06, 1.16)], ['gnur', 0.3, push(420, 420, 1.1, 1.2)],
-        ['liftmother', 0.4, push(480, 330, 1, 1.1)], ['zerren', 0.3, push(260, 380, 1.08, 1.16)],
-        ['edgar', 0.3, push(320, 420, 1.06, 1.16)], ['feral', 0.4, push(534, 360, 1.02, 1.16)],
-        ['shedGrowth', 0.3, push(400, 330, 1, 1.06)], ['shedDecay', 0.3, push(400, 330, 1.06, 1.2)],   // the decay runs into the logo
-    ];
+    const EB = 2.4, E0 = 19.365 - 15.6;     // entry theme: a bar; its track time at trailer 0 (its downbeat 19.365 opens the city)
+    const eAt = (tau) => tau - E0;           // entry theme track time → trailer time
+    const FB = 24 / 11;                      // a bar of Flop
+    const F0 = eAt(19.365 + 7 * EB);         // Flop's first downbeat: the things to do (trailer 32.4)
     const SEGMENTS = [
         { at: 0, card: 'announce' },
-        { at: 3.0, shot: 'agarida', in: 1.4, move: still, fadeIn: 0.6 },
-        { at: 7.6, shot: 'council2', in: 0.9, move: still, dissolve: 0.5 },
-        ...shots.map(([shot, inp, move], i) => ({ at: at(LES[i]), shot, in: inp, move })),
-        { at: LOGO, card: 'logo' },
-        { at: CTA, card: cta },
+        { at: eAt(7.365), shot: 'agarida', in: 1.4, move: still, fadeIn: 0.6 },
+        { at: eAt(12.165), shot: 'council2', in: 0.9, move: still, dissolve: 0.5 },
+        { at: eAt(19.365), shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) },
+        { at: eAt(19.365 + 2 * EB), shot: 'crossroad', in: 0.4, move: push(400, 300, 1.02, 1.14) },
+        { at: eAt(19.365 + 3 * EB), shot: 'cathedral', in: 0.3, move: push(534, 330, 1.02, 1.16) },
+        { at: eAt(19.365 + 4 * EB), shot: 'scraper', in: 0.3, move: [[1.3, 533.5, 420], [1.3, 533.5, 280]] },
+        { at: eAt(19.365 + 5 * EB), shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) },
+        // the things to do: a bar and a half each on Flop, the band two bars, so the finale starts on Flop's loop point
+        ...[['registration', 0.3, push(534, 240, 1.04, 1.14)], ['courtyard', 0.3, push(320, 300, 1.06, 1.16)],
+            ['gnur', 0.3, push(420, 420, 1.1, 1.2)], ['liftmother', 0.4, push(480, 330, 1, 1.1)],
+            ['zerren', 0.3, push(260, 380, 1.08, 1.16)], ['edgar', 0.3, push(320, 420, 1.06, 1.16)]]
+            .map(([shot, inp, move], i) => ({ at: F0 + i * 1.5 * FB, shot, in: inp, move })),
+        { at: F0 + 9 * FB, shot: 'feral', in: 0.4, move: push(534, 360, 1.02, 1.16) },
+        { at: F0 + 11 * FB, shot: 'shedGrowth', in: 0.3, move: push(400, 330, 1, 1.06) },
+        { at: F0 + 12 * FB, shot: 'shedDecay', in: 0.3, move: push(400, 330, 1.06, 1.14) },
+        { at: F0 + 13 * FB, card: 'logo' },
+        { at: F0 + 15 * FB, card: cta },
     ];
+    const END = F0 + 17 * FB;
     const TITLES = [
-        { id: 'signal', from: 3.4, to: 7.3 },
+        { id: 'signal', from: eAt(7.365) + 0.4, to: eAt(12.165) - 0.3 },
         { id: 'invite', seg: 'city' },
         { id: 'trace', seg: 'cathedral' },
         { id: 'explore', seg: 'voxmarket' },
@@ -168,9 +172,9 @@ function makeAnnounceCut(cta, file) {
         { id: 'rot', seg: 'shedDecay' },
     ];
     const MUSIC = [
-        { file: 'assets/sounds/cathedral.mp3', from: 0, at: 0, dur: 16.4, fadeIn: 0.8, fadeOut: 1.0, gain: -0.6 },
-        { file: 'assets/sounds/guitar-les.mp3', from: 12.245, at: 14.8, dur: END - 14.8, fadeIn: 0.8, fadeOut: 2.5, gain: 0.4 },
-    ];   // gains: both passages at −15 LUFS (measured −14.4 / −15.4)
+        { file: 'assets/sounds/infinite_fold.mp3', from: E0, at: 0, dur: F0 + 0.2, fadeIn: 0.6, fadeOut: 0.6, gain: -3.5 },
+        { file: 'assets/sounds/flop.opus', from: 0, at: F0, dur: END - F0, loop: 1, fadeIn: 0.02, fadeOut: 2.0, gain: 2.0 },
+    ];   // the entry theme at −16, Flop at −14 LUFS (measured −12.5 / −16.1: the beat needs to sit a little higher to sound as loud); a limiter at −1 dBFS on the mix
     return { MUSIC, SEGMENTS, TITLES, END, file };
 }
 

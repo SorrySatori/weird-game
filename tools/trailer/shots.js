@@ -117,7 +117,7 @@ export const SHOTS = [
         },
     },
     {
-        id: 'city', scene: 'EntryScene', duration: 4.4,
+        id: 'city', scene: 'EntryScene', duration: 5.4,
         setup(ctx) {
             place(ctx, 100);
             ctx.scene.priest.initialX = 100; // foreground parallax reference (the arrival walk set it to -50)
@@ -198,7 +198,7 @@ export const SHOTS = [
         },
     },
     {
-        id: 'voxmarket', scene: 'VoxMarket', duration: 4.2,
+        id: 'voxmarket', scene: 'VoxMarket', duration: 5.4,
         hud: 'hide',
     },
     {
@@ -223,7 +223,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'feral', scene: 'ScreamingCorkClubScene', duration: 4.4,
+        id: 'feral', scene: 'ScreamingCorkClubScene', duration: 5.0,
         async setup(ctx, { frame }) {
             const s = ctx.scene;
             await frame(false); // create()'s delayedCalls are only pending until the clock's next update
