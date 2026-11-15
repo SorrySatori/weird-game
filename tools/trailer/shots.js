@@ -153,7 +153,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'floors', scene: 'Shed521FloorsScene', duration: 2.6,
+        id: 'floors', scene: 'Shed521FloorsScene', duration: 4.2,
         hud: 'hide',
     },
     {
@@ -240,8 +240,8 @@ export const SHOTS = [
         hud: 'hide',
     },
     { id: 'hall', scene: 'ShedHallScene', duration: 1.6, hud: 'hide' },
-    { id: 'applications', scene: 'ShedApplicationsScene', duration: 1.6, hud: 'hide' },
-    { id: 'auction', scene: 'VoxmarketHallScene', duration: 2.4, hud: 'hide' },
+    { id: 'applications', scene: 'ShedApplicationsScene', duration: 4.4, hud: 'hide' },
+    { id: 'auction', scene: 'VoxmarketHallScene', duration: 5.4, hud: 'hide' },
     { id: 'courtyard', scene: 'ShedCourtyard', duration: 4.6, hud: 'hide' },
 ];
 
@@ -315,6 +315,44 @@ SHOTS.push(
         },
     },
     { id: 'entrance', scene: 'CathedralEntrance', duration: 2.6, setup(ctx) { place(ctx, 260); walk(ctx, 400); }, hud: 'hide' },
+);
+
+// ---- the field notes cut (edit.js 'notes'): the apprentice's diary, other places than the announcement ----
+SHOTS.push(
+    {
+        // Master Thaal leaves his apprentice to it: the Fermented Cap won't drink itself
+        id: 'thaal', scene: 'EntryScene', duration: 4.6,
+        setup(ctx) {
+            const s = ctx.scene;
+            s.tweens.killTweensOf(s.playerMovementSystem?.priestGlow ? [s.priest, s.playerMovementSystem.priestGlow] : s.priest);
+            place(ctx, 470); s.priest.setScale(1, 1); s.priest.play('idle', true);
+            s.priest.initialX = 470;
+        },
+        hud: 'hide',
+        update(ctx) {
+            const s = ctx.scene;
+            if (ctx.frame === Math.round(0.3 * ctx.fps)) bubble(ctx, s.master, "The Fermented Cap won't drink itself.", { offsetY: 118 });
+            if (ctx.frame === Math.round(1.9 * ctx.fps)) s.masterWalkAway();
+        },
+    },
+    {
+        id: 'sentinel', scene: 'CathedralEntrance', duration: 4.6,
+        setup(ctx) { place(ctx, 330); },
+        hud: 'hide',
+        update(ctx) {
+            if (ctx.frame === Math.round(0.4 * ctx.fps)) bubble(ctx, { x: 534, y: 345 }, 'Halt. The yolk sleeps uneasily today.', { offsetY: 0 });
+        },
+    },
+    {
+        id: 'kloor', scene: 'VoxMarket', duration: 5.2,
+        setup(ctx) { place(ctx, 470); },
+        hud: 'hide',
+        update(ctx) {
+            if (ctx.frame === Math.round(0.6 * ctx.fps)) bubble(ctx, find(ctx.scene, 'kloor'), 'Oltrac. Opens your perception to the true nature of reality.', { offsetY: 150 });
+        },
+    },
+    // the tavern: Heliodor at the bar, then the quiet before the band next door starts rehearsing
+    { id: 'corkin', scene: 'ScreamingCorkInteriorScene', duration: 10.0, setup(ctx) { place(ctx, 260); }, hud: 'hide' },
 );
 
 // ---- Steam screenshots ----
@@ -542,7 +580,7 @@ SHOTS.push(
         ]),
     },
     {
-        id: 'g_oltrac', scene: 'ShedCourtyard', duration: 8.4, hud: 'quiet',
+        id: 'g_oltrac', scene: 'ShedCourtyard', duration: 9.0, hud: 'quiet',
         setup(ctx) {
             const s = ctx.scene;
             s.addItemToInventory({ ...AMBER_OLTRAC });

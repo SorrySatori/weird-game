@@ -15,6 +15,8 @@ node tools/trailer/build.mjs --cut gameplay   # "10 tips for visiting Upper Mork
 node tools/trailer/gifs.mjs              # Steam description GIFs (616 px, textless, each < 5 MB) → out/gifs/
 node tools/trailer/build.mjs --cut announce           # the demo announcement (dev branch) → out/upper-morkezela-demo-announcement.mp4, end card "LATE NOVEMBER / EARLY DECEMBER"
 node tools/trailer/build.mjs --cut announce_late_nov  # the same ending on "LATE NOVEMBER" → out/upper-morkezela-demo-announcement-late-nov.mp4
+node tools/trailer/build.mjs --cut notes              # "The field notes of a not-so-sharp mushroom": the apprentice's diary, dry jokes (dev branch) → out/upper-morkezela-demo-field-notes.mp4
+node tools/trailer/build.mjs --cut notes_late_nov     # the same ending on "LATE NOVEMBER" → out/upper-morkezela-demo-field-notes-late-nov.mp4
 ```
 
 `out/` is git-ignored.
@@ -39,3 +41,4 @@ node tools/trailer/build.mjs --cut announce_late_nov  # the same ending on "LATE
 - `g_journal` is captured last, so the journal holds the real entries the other gameplay shots wrote. `after(ctx)` hooks undo state that would leak into later shots (Thorne-Still, the Oltrac effect).
 - The VS Code terminal exports `ELECTRON_RUN_AS_NODE`; `capture.sh` clears it.
 - The announcement cut is an invitation to the city: its texts only promise what the demo holds, and it shows no spoilers (no Bishop's body, nothing inside the Egg Cathedral). Capture it on the dev branch. Its music is two pieces with one transition: Flop (110 BPM, an 11-bar loop) under the opening and the city, then the entry theme (infinite_fold.mp3 here, the demo's entry-theme.mp3; 100 BPM, its fuller part, coming in on the accented beat 3) from the things to do to the end; every cut sits on a beat (`MUSIC` in edit.js is a list of passages that build.mjs mixes, loops and limits). For live recordings without a fixed tempo, `python3 tools/trailer/onsets.py <track> <from> <to>` lists the strong attacks to cut on. The release window is the end card: `cta_nov_dec` / `cta_late_nov` in titles.py.
+- The field notes cut is the alternative: one dry diary line per place (only true things about the demo), on other places than the announcement, to "Loop" (the Shed 521 guitar, every cut on one of its attacks); in the tavern, "Finally, some peace and quiet": the guitar fades, a moment of silence, then the Feral Toast rehearsal bursts through the wall (tavern-rehearsal.mp3) and the logo and the end card land on the band's hits.

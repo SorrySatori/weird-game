@@ -184,9 +184,55 @@ function makeAnnounceCut(cta, file) {
     return { MUSIC, SEGMENTS, TITLES, END, file };
 }
 
+/**
+ * The field notes cut (≈66.6 s): the apprentice's diary, one dry line per place (only what the demo holds, no spoilers),
+ * on other places than the announcement. Two pieces, both recorded by people: "Loop" (the Shed 521 guitar) under the
+ * diary, every cut on one of its strong attacks (tools/trailer/onsets.py); then, in the tavern, "Finally, some peace and
+ * quiet": the guitar fades out, a moment of silence, and the Feral Toast rehearsal bursts through the wall
+ * (tavern-rehearsal.mp3); the logo and the end card land on the band's hits.
+ */
+function makeNotesCut(cta, file) {
+    const LOOP = [3.895, 7.74, 12.02, 14.115, 17.725, 21.555, 26.155, 30.345, 35.235, 38.855, 42.49, 49.64, 53.955];   // Loop's accents = trailer time
+    const BURST = 57.2;                      // the band's first hit (tavern-rehearsal.mp3 at 1.655 s)
+    const band = (tau) => BURST + tau - 1.655;
+    const LOGO = band(4.025), CTA = band(9.15), END = band(12.705) + 0.9;
+    const shots = [
+        ['thaal', 0.2, push(560, 400, 1.06, 1.16)], ['sentinel', 0.3, push(534, 380, 1.04, 1.16)],
+        ['gate', 0.3, push(534, 320, 1.04, 1.1)], ['floors', 0.3, push(534, 330, 1.02, 1.12)],
+        ['applications', 0.3, push(534, 330, 1.04, 1.14)], ['kloor', 0.4, push(600, 380, 1.04, 1.14)],
+        ['g_oltrac', 4.2, still], ['auction', 0.3, push(620, 330, 1.02, 1.14)],
+        ['corkin', 0.3, push(520, 360, 1.02, 1.1)], ['skyship', 0.3, push(560, 420, 1.04, 1.14)],
+        ['g_corpse', 0.6, still], ['g_edgar', 1.0, still],
+        ['corkin', 4.2, push(560, 340, 1.0, 1.06)],
+    ];
+    const SEGMENTS = [
+        { at: 0, card: 'notes_title' },
+        ...shots.map(([shot, inp, move], i) => ({ at: LOOP[i], shot, in: inp, move })),
+        { at: BURST, shot: 'corkin', in: 7.45, move: push(990, 350, 1.55, 1.62) },   // the jolt: tight on the club door
+        { at: LOGO, card: 'logo' },
+        { at: CTA, card: cta },
+    ];
+    const seg = (i) => [LOOP[i], i + 1 < LOOP.length ? LOOP[i + 1] : BURST];
+    const over = (id, i, a = 0.3, b = 0.25) => { const [s0, s1] = seg(i); return { id, from: s0 + a, to: s1 - b }; };
+    const TITLES = [
+        over('n_thaal', 0), over('n_guard', 1), over('n_queue', 3), over('n_form', 4), over('n_kloor', 5), over('n_oltrac', 6),
+        over('n_twins', 7), over('n_barman', 8), over('n_sky', 9),
+        { id: 'n_corpse', from: LOOP[10] + 0.3, to: LOOP[10] + 3.7 }, { id: 'n_roommate', from: LOOP[10] + 4.4, to: LOOP[11] - 0.25 },
+        over('n_bear', 11), over('n_quiet', 12, 0.4, 0.1),
+        { id: 'n_band', from: BURST + 0.15, to: LOGO - 0.2 },
+    ];
+    const MUSIC = [
+        { file: 'assets/sounds/guitar-loop.ogg', from: 0, at: 0, dur: 56.6, fadeIn: 0.02, fadeOut: 2.1, fadeOutCurve: 'qsin', gain: -0.4 },
+        { file: 'assets/sounds/tavern-rehearsal.mp3', from: 1.5, at: BURST - 0.155, dur: END - BURST + 0.155, fadeIn: 0.02, fadeOut: 2.0, gain: 7.4 },
+    ];   // Loop at −15 LUFS, the band through the wall at −13 (measured −14.6 / −20.4: the punchline is louder)
+    return { MUSIC, SEGMENTS, TITLES, END, file };
+}
+
 export const CUTS = {
     announce: makeAnnounceCut('cta_nov_dec', 'upper-morkezela-demo-announcement.mp4'),
     announce_late_nov: makeAnnounceCut('cta_late_nov', 'upper-morkezela-demo-announcement-late-nov.mp4'),
+    notes: makeNotesCut('cta_nov_dec', 'upper-morkezela-demo-field-notes.mp4'),
+    notes_late_nov: makeNotesCut('cta_late_nov', 'upper-morkezela-demo-field-notes-late-nov.mp4'),
     story: makeCut({ musicStart: 6.27, intro: true, musicFadeIn: 0.3, file: 'upper-morkezela-demo-trailer.mp4' }),
     gameplay: makeTipsCut(),
 };
