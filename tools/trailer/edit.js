@@ -130,40 +130,41 @@ function makeTipsCut() {
 }
 
 /**
- * The demo announcement cut (≈69.5 s): an invitation to the city, only what the demo holds (no spoilers). Two pieces,
- * one transition: the entry theme (the demo's entry-theme.mp3 = infinite_fold.mp3 here; 100 BPM, a bar = 2.4 s, its
- * downbeats at 4.965 + 2.4k s) under the announcement, the signal, the Council and the city; then "Flop" (Ortolan's
- * courtyard beat, 110 BPM, a bar = 24/11 s, an 11-bar loop) comes in on a downbeat with the things to do, and carries
- * the finale, the logo and the end card. Every cut sits on a beat of the piece playing under it.
+ * The demo announcement cut (≈71.3 s): an invitation to the city, only what the demo holds (no spoilers). Two pieces,
+ * one transition: "Flop" (Ortolan's courtyard beat, 110 BPM, a bar = 24/11 s, an 11-bar loop) under the announcement,
+ * the signal, the Council and the city; then the entry theme (the demo's entry-theme.mp3 = infinite_fold.mp3 here;
+ * 100 BPM, a bar = 2.4 s, downbeats at 4.965 + 2.4k s) comes in on a downbeat of its fuller part with the things to do
+ * and carries the finale, the logo and the end card. Every cut sits on a beat of the piece playing under it.
  */
 function makeAnnounceCut(cta, file) {
-    const EB = 2.4, E0 = 19.365 - 15.6;     // entry theme: a bar; its track time at trailer 0 (its downbeat 19.365 opens the city)
-    const eAt = (tau) => tau - E0;           // entry theme track time → trailer time
-    const FB = 24 / 11;                      // a bar of Flop
-    const F0 = eAt(19.365 + 7 * EB);         // Flop's first downbeat: the things to do (trailer 32.4)
-    const SEGMENTS = [
-        { at: 0, card: 'announce' },
-        { at: eAt(7.365), shot: 'agarida', in: 1.4, move: still, fadeIn: 0.6 },
-        { at: eAt(12.165), shot: 'council2', in: 0.9, move: still, dissolve: 0.5 },
-        { at: eAt(19.365), shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) },
-        { at: eAt(19.365 + 2 * EB), shot: 'crossroad', in: 0.4, move: push(400, 300, 1.02, 1.14) },
-        { at: eAt(19.365 + 3 * EB), shot: 'cathedral', in: 0.3, move: push(534, 330, 1.02, 1.16) },
-        { at: eAt(19.365 + 4 * EB), shot: 'scraper', in: 0.3, move: [[1.3, 533.5, 420], [1.3, 533.5, 280]] },
-        { at: eAt(19.365 + 5 * EB), shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) },
-        // the things to do: a bar and a half each on Flop, the band two bars, so the finale starts on Flop's loop point
-        ...[['registration', 0.3, push(534, 240, 1.04, 1.14)], ['courtyard', 0.3, push(320, 300, 1.06, 1.16)],
-            ['gnur', 0.3, push(420, 420, 1.1, 1.2)], ['liftmother', 0.4, push(480, 330, 1, 1.1)],
-            ['zerren', 0.3, push(260, 380, 1.08, 1.16)], ['edgar', 0.3, push(320, 420, 1.06, 1.16)]]
-            .map(([shot, inp, move], i) => ({ at: F0 + i * 1.5 * FB, shot, in: inp, move })),
-        { at: F0 + 9 * FB, shot: 'feral', in: 0.4, move: push(534, 360, 1.02, 1.16) },
-        { at: F0 + 11 * FB, shot: 'shedGrowth', in: 0.3, move: push(400, 330, 1, 1.06) },
-        { at: F0 + 12 * FB, shot: 'shedDecay', in: 0.3, move: push(400, 330, 1.06, 1.14) },
-        { at: F0 + 13 * FB, card: 'logo' },
-        { at: F0 + 15 * FB, card: cta },
-    ];
-    const END = F0 + 17 * FB;
+    const FB = 24 / 11;                      // a bar of Flop (from trailer 0)
+    const EB = 2.4;                          // a bar of the entry theme
+    const E_IN = 25.365;                     // the entry theme comes in on beat 3 of a bar: its accents in this part fall there, so the logo and the end card land on them
+    const T2 = 14 * FB;                      // the transition: the things to do
+    const SEGMENTS = [];
+    let t = 0;
+    const put = (len, seg) => { SEGMENTS.push({ ...seg, at: t }); t += len; };
+    put(1.5 * FB, { card: 'announce' });
+    put(2 * FB, { shot: 'agarida', in: 1.4, move: still, fadeIn: 0.6 });
+    put(3.5 * FB, { shot: 'council2', in: 0.9, move: still, dissolve: 0.5 });
+    put(2 * FB, { shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) });
+    put(FB, { shot: 'crossroad', in: 0.4, move: push(400, 300, 1.02, 1.14) });
+    put(FB, { shot: 'cathedral', in: 0.3, move: push(534, 330, 1.02, 1.16) });
+    put(FB, { shot: 'scraper', in: 0.3, move: [[1.3, 533.5, 420], [1.3, 533.5, 280]] });
+    put(2 * FB, { shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) });
+    // the things to do: a bar and a half each on the entry theme, the band two bars
+    [['registration', 0.3, push(534, 240, 1.04, 1.14)], ['courtyard', 0.3, push(320, 300, 1.06, 1.16)],
+        ['gnur', 0.3, push(420, 420, 1.1, 1.2)], ['liftmother', 0.4, push(480, 330, 1, 1.1)],
+        ['zerren', 0.3, push(260, 380, 1.08, 1.16)], ['edgar', 0.3, push(320, 420, 1.06, 1.16)]]
+        .forEach(([shot, inp, move]) => put(1.5 * EB, { shot, in: inp, move }));
+    put(2 * EB, { shot: 'feral', in: 0.4, move: push(534, 360, 1.02, 1.16) });
+    put(EB, { shot: 'shedGrowth', in: 0.3, move: push(400, 330, 1, 1.06) });
+    put(EB, { shot: 'shedDecay', in: 0.3, move: push(400, 330, 1.06, 1.14) });
+    put(2 * EB, { card: 'logo' });
+    put(2 * EB, { card: cta });
+    const END = t;
     const TITLES = [
-        { id: 'signal', from: eAt(7.365) + 0.4, to: eAt(12.165) - 0.3 },
+        { id: 'signal', from: 1.5 * FB + 0.4, to: 3.5 * FB - 0.3 },
         { id: 'invite', seg: 'city' },
         { id: 'trace', seg: 'cathedral' },
         { id: 'explore', seg: 'voxmarket' },
@@ -172,9 +173,9 @@ function makeAnnounceCut(cta, file) {
         { id: 'rot', seg: 'shedDecay' },
     ];
     const MUSIC = [
-        { file: 'assets/sounds/infinite_fold.mp3', from: E0, at: 0, dur: F0 + 0.2, fadeIn: 0.6, fadeOut: 0.6, gain: -3.5 },
-        { file: 'assets/sounds/flop.opus', from: 0, at: F0, dur: END - F0, loop: 1, fadeIn: 0.02, fadeOut: 2.0, gain: 2.0 },
-    ];   // the entry theme at −16, Flop at −14 LUFS (measured −12.5 / −16.1: the beat needs to sit a little higher to sound as loud); a limiter at −1 dBFS on the mix
+        { file: 'assets/sounds/flop.opus', from: 0, at: 0, dur: T2 + 0.15, loop: 1, fadeIn: 0.02, fadeOut: 0.35, gain: 2.0 },
+        { file: 'assets/sounds/infinite_fold.mp3', from: E_IN, at: T2, dur: END - T2, fadeIn: 0.05, fadeOut: 2.0, gain: -3.3 },
+    ];   // Flop at −14, the entry theme at −14 LUFS (measured −16.1 / −10.8); a limiter at −1 dBFS on the mix
     return { MUSIC, SEGMENTS, TITLES, END, file };
 }
 

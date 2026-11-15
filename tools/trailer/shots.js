@@ -169,7 +169,7 @@ export const SHOTS = [
         },
     },
     {
-        id: 'shedGrowth', scene: 'Shed521Scene', duration: 2.6,
+        id: 'shedGrowth', scene: 'Shed521Scene', duration: 3.0,
         before(game) { setGrowth(game, 100); },
         setup(ctx) { place(ctx, 260); },
         hud: 'quiet',
@@ -223,7 +223,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'feral', scene: 'ScreamingCorkClubScene', duration: 5.0,
+        id: 'feral', scene: 'ScreamingCorkClubScene', duration: 5.6,
         async setup(ctx, { frame }) {
             const s = ctx.scene;
             await frame(false); // create()'s delayedCalls are only pending until the clock's next update
