@@ -245,6 +245,41 @@ export const SHOTS = [
     { id: 'courtyard', scene: 'ShedCourtyard', duration: 2.2, hud: 'hide' },
 ];
 
+// ---- the full game (dev branch): places beyond the demo, for the launch cut in edit.js ----
+/** let the protagonist into the Godgraveyard: its gate opens for the Townhall's permit in the inventory */
+function graveyardAccess(game) {
+    const inv = game.registry.get('inventory');
+    if (inv && !inv.items.some(i => i.id === 'godgraveyard-access-permit')) {
+        inv.items.push({ id: 'godgraveyard-access-permit', name: 'Godgraveyard Access Permit', type: 'key_item' });
+    }
+}
+SHOTS.push(
+    {
+        id: 'graveyard', scene: 'GodgraveyardScene', duration: 2.6,
+        before(game) { graveyardAccess(game); },
+        setup(ctx) { place(ctx, 160); walk(ctx, 330); },
+        hud: 'hide',
+    },
+    { id: 'townsquare', scene: 'TownSquareScene', duration: 4.4, setup(ctx) { place(ctx, 110); walk(ctx, 330); }, hud: 'hide' },
+    { id: 'townhall', scene: 'TownhallScene', duration: 2.6, setup(ctx) { place(ctx, 150); walk(ctx, 330); }, hud: 'hide' },
+    { id: 'tribunal', scene: 'PithReclaimersRoomScene', duration: 2.6, setup(ctx) { place(ctx, 760); walk(ctx, 620); }, hud: 'hide' },
+    { id: 'lumen', scene: 'LumenDirectorateScene', duration: 2.6, setup(ctx) { place(ctx, 200); walk(ctx, 380); }, hud: 'hide' },
+    { id: 'rust', scene: 'RustDomainScene', duration: 2.6, setup(ctx) { place(ctx, 200); walk(ctx, 380); }, hud: 'hide' },
+    { id: 'harbor', scene: 'HarborScene', duration: 2.6, setup(ctx) { place(ctx, 300); walk(ctx, 470); }, hud: 'hide' },
+    { id: 'redmass', scene: 'RedmassIslandScene', duration: 2.6, setup(ctx) { place(ctx, 140); walk(ctx, 300); }, hud: 'hide' },
+    {
+        id: 'feast', scene: 'CardinalFeastScene', duration: 2.8,
+        setup(ctx) {
+            const s = ctx.scene;
+            s.endTalk(); s.buildRoom('hall');                 // past the cartridge's boot text, straight into the feast hall
+            s.walkTo(s.player.x + 150, s.player.y - 10);
+        },
+        hud: 'hide',
+    },
+    { id: 'bus', scene: 'AbandonedBusScene', duration: 2.6, setup(ctx) { place(ctx, 60); walk(ctx, 170); }, hud: 'hide' },
+    { id: 'heart', scene: 'EggCathedralInteriorScene', duration: 3.2, setup(ctx) { place(ctx, 280); walk(ctx, 420); }, hud: 'hide' },
+);
+
 // ---- Steam screenshots ----
 // Bubble lines come verbatim from the game's own dialogs (lang/cs/dialogs for Czech), trimmed the same way.
 const L = (byLang) => byLang[window.__cap?.args?.lang] ?? byLang.en;

@@ -36,6 +36,18 @@ TITLES = {
         ("COMING SOON", 40, SPORE, 0.45, 485),
         ("Wishlist on Steam", 46, BONE, 0.04, 620),
     ],
+    # the launch cut (edit.js 'launch'): a mystery card, and the demo's release window (no exact date yet)
+    'bishop': [("WHAT HAPPENED TO THE BISHOP?", 70, BONE, 0.16, 540)],
+    'cta_late_nov': [
+        ("FREE DEMO", 84, BONE, 0.2, 380),
+        ("LATE NOVEMBER", 40, SPORE, 0.45, 485),
+        ("Wishlist on Steam", 46, BONE, 0.04, 620),
+    ],
+    'cta_nov_dec': [
+        ("FREE DEMO", 84, BONE, 0.2, 380),
+        ("LATE NOVEMBER / EARLY DECEMBER", 40, SPORE, 0.3, 485),
+        ("Wishlist on Steam", 46, BONE, 0.04, 620),
+    ],
 }
 
 

@@ -13,6 +13,8 @@ node tools/trailer/build.mjs --preview   # quick 540p check → out/preview-stor
 node tools/trailer/build.mjs             # story cut → out/upper-morkezela-demo-trailer.mp4 (1080p60, H.264 20 Mbps + AAC, Steam spec)
 node tools/trailer/build.mjs --cut gameplay   # "10 tips for visiting Upper Morkezela" to Dr. Elphi's Lab → out/upper-morkezela-demo-trailer-gameplay.mp4
 node tools/trailer/gifs.mjs              # Steam description GIFs (616 px, textless, each < 5 MB) → out/gifs/
+node tools/trailer/build.mjs --cut launch           # the demo's launch trailer (dev branch: demo + full-game places) → out/upper-morkezela-demo-trailer-launch.mp4, end card "FREE DEMO / LATE NOVEMBER"
+node tools/trailer/build.mjs --cut launch_nov_dec   # the same with "LATE NOVEMBER / EARLY DECEMBER" → out/upper-morkezela-demo-trailer-launch-nov-dec.mp4
 ```
 
 `out/` is git-ignored.
@@ -36,3 +38,4 @@ node tools/trailer/gifs.mjs              # Steam description GIFs (616 px, textl
 - Gameplay shots (`g_*`) drive the real UI with a drawn cursor: `makeCursor()` dispatches DOM mouse events on the canvas, so hovers, dialog options, the shop, the inventory and click-to-walk behave as for a player. `script([[t, fn]])` times the steps. `toText()` and `toSprite()` find their target at run time (case-insensitive, inside containers), and `toSprite()` follows NPCs that walk.
 - `g_journal` is captured last, so the journal holds the real entries the other gameplay shots wrote. `after(ctx)` hooks undo state that would leak into later shots (Thorne-Still, the Oltrac effect).
 - The VS Code terminal exports `ELECTRON_RUN_AS_NODE`; `capture.sh` clears it.
+- The launch cut needs the full game, so capture it on the dev branch: its shots `graveyard`, `townsquare`, `townhall`, `tribunal`, `lumen`, `rust`, `harbor`, `redmass`, `feast`, `bus`, `heart` (the Godgraveyard shot puts the Townhall's permit in the inventory first; the Feast shot skips the cartridge's boot text). The release window is the end card: `cta_late_nov` / `cta_nov_dec` in `titles.py`, picked per cut in `edit.js`.

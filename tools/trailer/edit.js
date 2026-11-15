@@ -129,7 +129,71 @@ function makeTipsCut() {
     };
 }
 
+/**
+ * The launch cut (≈75 s, the story cut's music and cues): the demo's places side by side with the full game's
+ * (dev branch: Town Square, the Townhall, the Godgraveyard, the Ink Tribunal, the Lumen Directorate, the Rust Domain,
+ * the harbour, Redmass, the Cardinal Feast, the Bishop's bus, the Egg Cathedral's heart); the end card gives the
+ * demo's release window (`cta`: cta_late_nov | cta_nov_dec in titles.py).
+ */
+function launchMontage(KICK, DROP) {
+    let t = KICK;
+    const next = (len, seg) => { const s = { ...seg, at: t }; t += len; return s; };
+    return [
+        next(U, { shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) }),
+        next(H, { shot: 'crossroad', in: 0.4, move: push(400, 300, 1.04, 1.16) }),
+        next(H, { shot: 'graveyard', in: 0.3, move: push(400, 300, 1.02, 1.12) }),
+        next(H, { shot: 'cathedral', in: 0.3, move: push(534, 330, 1.04, 1.16) }),
+        next(U, { shot: 'townsquare', in: 0.3, move: push(420, 320, 1, 1.12) }),
+        next(H, { card: 'gods' }),
+        next(H, { card: 'paperwork' }),
+        next(H, { shot: 'townhall', in: 0.3, move: push(534, 260, 1.02, 1.14) }),
+        next(H, { shot: 'tribunal', in: 0.3, move: push(534, 300, 1.06, 1.16) }),
+        next(H, { shot: 'registration', in: 0.3, move: push(534, 240, 1.06, 1.18) }),
+        next(U, { shot: 'ortolan', in: 0.6, move: still }),
+        next(H, { shot: 'shedGrowth', in: 0.3, move: push(400, 330, 1, 1.06) }),
+        next(H, { shot: 'shedDecay', in: 0.3, move: push(400, 330, 1.06, 1.12) }),
+        next(H, { shot: 'lumen', in: 0.3, move: push(534, 260, 1.02, 1.12) }),
+        next(H, { shot: 'rust', in: 0.3, move: push(534, 330, 1.04, 1.16) }),
+        next(U, { shot: 'liftmother', in: 0.4, move: push(480, 330, 1, 1.12) }),
+        next(H, { shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) }),
+        next(H, { shot: 'harbor', in: 0.3, move: push(420, 360, 1.02, 1.14) }),
+        next(H, { shot: 'redmass', in: 0.3, move: push(500, 400, 1.04, 1.18) }),
+        next(U, { shot: 'skyship', in: 0.3, move: push(560, 420, 1.05, 1.15) }),
+        next(U, { shot: 'feral', in: 0.4, move: push(534, 360, 1.02, 1.2) }),
+        next(H, { shot: 'feast', in: 0.3, move: push(534, 300, 1, 1.08) }),
+        next(H, { card: 'bishop' }),
+        next(H, { shot: 'bus', in: 0.3, move: push(250, 360, 1.1, 1.24) }),
+        next(H, { shot: 'elphi', in: 0.3, move: push(650, 400, 1, 1.1) }),
+        next(DROP - t, { shot: 'heart', in: 0.3, move: push(534, 320, 1.04, 1.2) }),
+    ];
+}
+
+function makeLaunchCut(cta, file) {
+    const musicStart = 6.27;
+    const KICK = CUE.kick - musicStart, DROP = CUE.drop - musicStart, BACK = CUE.back - musicStart;
+    return {
+        MUSIC: { file: MUSIC_FILE, start: musicStart, fadeIn: 0.3, fadeOut: 2.0 },
+        SEGMENTS: [
+            { at: 0, shot: 'agarida', in: 1.4, move: still, fadeIn: 1.0 },
+            { at: 4.6, shot: 'council', in: 0.9, move: still, dissolve: 0.5 },
+            ...launchMontage(KICK, DROP),
+            { at: DROP, card: 'logo' },
+            { at: BACK, card: cta },
+        ],
+        TITLES: [
+            { id: 'agarida', from: 0.7, to: 4.2 },
+            { id: 'city', from: KICK + 0.35, to: KICK + U - 0.2 },
+            { id: 'grow', seg: 'shedGrowth' },
+            { id: 'decay', seg: 'shedDecay' },
+        ],
+        END: BACK + 4.0,
+        file,
+    };
+}
+
 export const CUTS = {
+    launch: makeLaunchCut('cta_late_nov', 'upper-morkezela-demo-trailer-launch.mp4'),
+    launch_nov_dec: makeLaunchCut('cta_nov_dec', 'upper-morkezela-demo-trailer-launch-nov-dec.mp4'),
     story: makeCut({ musicStart: 6.27, intro: true, musicFadeIn: 0.3, file: 'upper-morkezela-demo-trailer.mp4' }),
     gameplay: makeTipsCut(),
 };
