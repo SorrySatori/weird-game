@@ -132,7 +132,7 @@ function makeTipsCut() {
 /**
  * The demo announcement cut (≈71.3 s): an invitation to the city, only what the demo holds (no spoilers). Two pieces,
  * one transition: "Flop" (Ortolan's courtyard beat, 110 BPM, a bar = 24/11 s, an 11-bar loop) under the announcement,
- * the signal, the Council and the city; then the entry theme (the demo's entry-theme.mp3 = infinite_fold.mp3 here;
+ * the premise (in titles over the demo's places: the call, the city, Master Thaal and his apprentice) and the city; then the entry theme (the demo's entry-theme.mp3 = infinite_fold.mp3 here;
  * 100 BPM, a bar = 2.4 s, downbeats at 4.965 + 2.4k s) comes in on a downbeat of its fuller part with the things to do
  * and carries the finale, the logo and the end card. Every cut sits on a beat of the piece playing under it.
  */
@@ -144,12 +144,13 @@ function makeAnnounceCut(cta, file) {
     const SEGMENTS = [];
     let t = 0;
     const put = (len, seg) => { SEGMENTS.push({ ...seg, at: t }); t += len; };
+    // the premise in titles over the demo's own places (no intro footage): the call, the city, who answers it
     put(1.5 * FB, { card: 'announce' });
-    put(2 * FB, { shot: 'agarida', in: 1.4, move: still, fadeIn: 0.6 });
-    put(3.5 * FB, { shot: 'council2', in: 0.9, move: still, dissolve: 0.5 });
-    put(2 * FB, { shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) });
-    put(FB, { shot: 'crossroad', in: 0.4, move: push(400, 300, 1.02, 1.14) });
-    put(FB, { shot: 'cathedral', in: 0.3, move: push(534, 330, 1.02, 1.16) });
+    put(2 * FB, { shot: 'office', in: 0.3, move: push(800, 240, 1, 1.14), fadeIn: 0.4 });
+    put(2 * FB, { shot: 'bears', in: 0.3, move: push(534, 270, 1, 1.12) });
+    put(2.5 * FB, { shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) });
+    put(1.5 * FB, { shot: 'crossroad', in: 0.4, move: push(400, 300, 1.02, 1.14) });
+    put(1.5 * FB, { shot: 'cathedral', in: 0.3, move: push(534, 330, 1.02, 1.16) });
     put(FB, { shot: 'scraper', in: 0.3, move: [[1.3, 533.5, 420], [1.3, 533.5, 280]] });
     put(2 * FB, { shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) });
     // the things to do: a bar and a half each on the entry theme, the band two bars
@@ -164,8 +165,9 @@ function makeAnnounceCut(cta, file) {
     put(2 * EB, { card: cta });
     const END = t;
     const TITLES = [
-        { id: 'signal', from: 1.5 * FB + 0.4, to: 3.5 * FB - 0.3 },
-        { id: 'invite', seg: 'city' },
+        { id: 'premise1', seg: 'office' },
+        { id: 'premise2', seg: 'bears' },
+        { id: 'premise3', seg: 'city' },
         { id: 'trace', seg: 'cathedral' },
         { id: 'explore', seg: 'voxmarket' },
         ...['registration', 'courtyard', 'gnur', 'liftmother', 'zerren', 'edgar', 'feral'].map((seg, i) => ({ id: `do${i + 1}`, seg })),

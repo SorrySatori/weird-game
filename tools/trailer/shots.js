@@ -117,7 +117,7 @@ export const SHOTS = [
         },
     },
     {
-        id: 'city', scene: 'EntryScene', duration: 5.4,
+        id: 'city', scene: 'EntryScene', duration: 6.0,
         setup(ctx) {
             place(ctx, 100);
             ctx.scene.priest.initialX = 100; // foreground parallax reference (the arrival walk set it to -50)
@@ -139,7 +139,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'bears', scene: 'BurningBearStreetScene', duration: 4.4,
+        id: 'bears', scene: 'BurningBearStreetScene', duration: 5.0,
         setup(ctx) { place(ctx, 820); walk(ctx, 640); },
         hud: 'hide',
     },
@@ -181,7 +181,7 @@ export const SHOTS = [
         hud: 'quiet',
     },
     {
-        id: 'office', scene: 'ShedAbandonedOfficeScene', duration: 4.4,
+        id: 'office', scene: 'ShedAbandonedOfficeScene', duration: 5.0,
         before(game) { setGrowth(game, 50); },
         hud: 'hide',
     },
