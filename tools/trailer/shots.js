@@ -144,7 +144,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'gate', scene: 'Shed521GateScene', duration: 2.6,
+        id: 'gate', scene: 'Shed521GateScene', duration: 3.2,
         hud: 'hide',
     },
     {
@@ -153,7 +153,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'floors', scene: 'Shed521FloorsScene', duration: 4.2,
+        id: 'floors', scene: 'Shed521FloorsScene', duration: 4.8,
         hud: 'hide',
     },
     {
@@ -210,7 +210,7 @@ export const SHOTS = [
         },
     },
     {
-        id: 'skyship', scene: 'SkyshipBoardScene', duration: 4.6,
+        id: 'skyship', scene: 'SkyshipBoardScene', duration: 5.4,
         setup(ctx) { place(ctx, 420); },
         hud: 'hide',
         update(ctx) {
@@ -241,7 +241,7 @@ export const SHOTS = [
     },
     { id: 'hall', scene: 'ShedHallScene', duration: 1.6, hud: 'hide' },
     { id: 'applications', scene: 'ShedApplicationsScene', duration: 4.4, hud: 'hide' },
-    { id: 'auction', scene: 'VoxmarketHallScene', duration: 5.4, hud: 'hide' },
+    { id: 'auction', scene: 'VoxmarketHallScene', duration: 5.8, hud: 'hide' },
     { id: 'courtyard', scene: 'ShedCourtyard', duration: 4.6, hud: 'hide' },
 ];
 
@@ -336,7 +336,7 @@ SHOTS.push(
         },
     },
     {
-        id: 'sentinel', scene: 'CathedralEntrance', duration: 4.6,
+        id: 'sentinel', scene: 'CathedralEntrance', duration: 5.6,
         setup(ctx) { place(ctx, 330); },
         hud: 'hide',
         update(ctx) {
@@ -352,7 +352,7 @@ SHOTS.push(
         },
     },
     // the tavern: Heliodor at the bar, then the quiet before the band next door starts rehearsing
-    { id: 'corkin', scene: 'ScreamingCorkInteriorScene', duration: 10.0, setup(ctx) { place(ctx, 260); }, hud: 'hide' },
+    { id: 'corkin', scene: 'ScreamingCorkInteriorScene', duration: 11.2, setup(ctx) { place(ctx, 260); }, hud: 'hide' },
 );
 
 // ---- Steam screenshots ----
@@ -580,7 +580,7 @@ SHOTS.push(
         ]),
     },
     {
-        id: 'g_oltrac', scene: 'ShedCourtyard', duration: 9.0, hud: 'quiet',
+        id: 'g_oltrac', scene: 'ShedCourtyard', duration: 9.6, hud: 'quiet',
         setup(ctx) {
             const s = ctx.scene;
             s.addItemToInventory({ ...AMBER_OLTRAC });
@@ -601,7 +601,7 @@ SHOTS.push(
         after(ctx) { ctx.scene.effectsSystem?.clearEffects(true); },
     },
     {
-        id: 'g_corpse', scene: 'CrossroadScene', duration: 7.8, hud: 'quiet',
+        id: 'g_corpse', scene: 'CrossroadScene', duration: 8.4, hud: 'quiet',
         setup(ctx) { place(ctx, 250); muteSymbionts(ctx); ctx.cursor = makeCursor(ctx, 640, 470); },
         update: script([
             [0.8, c => c.toSprite('crossroad_corpse', 450, -40)],
