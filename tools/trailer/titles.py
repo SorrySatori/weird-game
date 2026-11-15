@@ -36,8 +36,25 @@ TITLES = {
         ("COMING SOON", 40, SPORE, 0.45, 485),
         ("Wishlist on Steam", 46, BONE, 0.04, 620),
     ],
-    # the launch cut (edit.js 'launch'): a mystery card, and the demo's release window (no exact date yet)
-    'bishop': [("WHAT HAPPENED TO THE BISHOP?", 70, BONE, 0.16, 540)],
+    # the demo announcement cut (edit.js 'announce'): an invitation to the city; only what the demo holds
+    'announce': [
+        ("ANNOUNCING THE FREE DEMO OF", 40, SPORE, 0.45, 430),
+        ("UPPER MORKEZELA", 124, BONE, 0.16, 540),
+        ("A WEIRD GAME", 34, SPORE, 0.5, 650),
+    ],
+    'signal': [("Far above the roots, a city is calling for help.", 44, BONE, 0.02, 1015)],
+    'invite': [("You are cordially invited to Upper Morkezela.", 48, BONE, 0.02, 1015)],
+    'trace': [("Find the Bishop. Trace the call.", 48, BONE, 0.02, 1015)],
+    'explore': [("Get lost in its markets, towers and back alleys.", 48, BONE, 0.02, 1015)],
+    'do1': [("Take a number at the Bureau of Shapes.", 48, BONE, 0.02, 1015)],
+    'do2': [("Get a game designer two extra arms. Legally.", 48, BONE, 0.02, 1015)],
+    'do3': [("Make a deal with the Rust Choir. Or don't.", 48, BONE, 0.02, 1015)],
+    'do4': [("Sweet-talk a lift with a mind of her own.", 48, BONE, 0.02, 1015)],
+    'do5': [("Buy the voice of an extinct animal.", 48, BONE, 0.02, 1015)],
+    'do6': [("Help a bear write his book.", 48, BONE, 0.02, 1015)],
+    'do7': [("Survive a Feral Toast rehearsal.", 48, BONE, 0.02, 1015)],
+    'grow2': [("Every choice makes the city grow...", 52, GROWTH, 0.04, 1015)],
+    'rot': [("...or rot.", 52, DECAY, 0.04, 1015)],
     'cta_late_nov': [
         ("FREE DEMO", 84, BONE, 0.2, 380),
         ("LATE NOVEMBER", 40, SPORE, 0.45, 485),

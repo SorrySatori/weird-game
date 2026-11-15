@@ -130,70 +130,70 @@ function makeTipsCut() {
 }
 
 /**
- * The launch cut (≈75 s, the story cut's music and cues): the demo's places side by side with the full game's
- * (dev branch: Town Square, the Townhall, the Godgraveyard, the Ink Tribunal, the Lumen Directorate, the Rust Domain,
- * the harbour, Redmass, the Cardinal Feast, the Bishop's bus, the Egg Cathedral's heart); the end card gives the
- * demo's release window (`cta`: cta_late_nov | cta_nov_dec in titles.py).
+ * The demo announcement cut (≈81 s): an invitation to the city, only what the demo holds (no spoilers). A medley of
+ * the game's own music, one piece per act, each from where it plays in the game:
+ *   the signal      Obazoba's hall (the intro)            Agarida, the Council
+ *   the invitation  the city's arrival theme (infinite_fold.mp3 = the demo's entry-theme.mp3)             the overlook, the Crossroad, the Egg Cathedral, the Scraper, the Voxmarket
+ *   things to do    Dr. Elphi's Lab (120 BPM, cut on 2 bars)  the Bureau of Shapes, Ortolan, Gnur, the Lift-Mother, Zerren, Edgar
+ *   the punchline   Feral Toast                           the band
+ *   the finale      the main theme, into its last hit     grow / rot, a few glimpses of the city, the logo, the date
+ * MUSIC is a list of passages (build.mjs mixes them): from = in-point in the track, at = trailer time, gain in dB
+ * (measured: every passage lands near −14 LUFS).
  */
-function launchMontage(KICK, DROP) {
-    let t = KICK;
-    const next = (len, seg) => { const s = { ...seg, at: t }; t += len; return s; };
-    return [
-        next(U, { shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) }),
-        next(H, { shot: 'crossroad', in: 0.4, move: push(400, 300, 1.04, 1.16) }),
-        next(H, { shot: 'graveyard', in: 0.3, move: push(400, 300, 1.02, 1.12) }),
-        next(H, { shot: 'cathedral', in: 0.3, move: push(534, 330, 1.04, 1.16) }),
-        next(U, { shot: 'townsquare', in: 0.3, move: push(420, 320, 1, 1.12) }),
-        next(H, { card: 'gods' }),
-        next(H, { card: 'paperwork' }),
-        next(H, { shot: 'townhall', in: 0.3, move: push(534, 260, 1.02, 1.14) }),
-        next(H, { shot: 'tribunal', in: 0.3, move: push(534, 300, 1.06, 1.16) }),
-        next(H, { shot: 'registration', in: 0.3, move: push(534, 240, 1.06, 1.18) }),
-        next(U, { shot: 'ortolan', in: 0.6, move: still }),
-        next(H, { shot: 'shedGrowth', in: 0.3, move: push(400, 330, 1, 1.06) }),
-        next(H, { shot: 'shedDecay', in: 0.3, move: push(400, 330, 1.06, 1.12) }),
-        next(H, { shot: 'lumen', in: 0.3, move: push(534, 260, 1.02, 1.12) }),
-        next(H, { shot: 'rust', in: 0.3, move: push(534, 330, 1.04, 1.16) }),
-        next(U, { shot: 'liftmother', in: 0.4, move: push(480, 330, 1, 1.12) }),
-        next(H, { shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) }),
-        next(H, { shot: 'harbor', in: 0.3, move: push(420, 360, 1.02, 1.14) }),
-        next(H, { shot: 'redmass', in: 0.3, move: push(500, 400, 1.04, 1.18) }),
-        next(U, { shot: 'skyship', in: 0.3, move: push(560, 420, 1.05, 1.15) }),
-        next(U, { shot: 'feral', in: 0.4, move: push(534, 360, 1.02, 1.2) }),
-        next(H, { shot: 'feast', in: 0.3, move: push(534, 300, 1, 1.08) }),
-        next(H, { card: 'bishop' }),
-        next(H, { shot: 'bus', in: 0.3, move: push(250, 360, 1.1, 1.24) }),
-        next(H, { shot: 'elphi', in: 0.3, move: push(650, 400, 1, 1.1) }),
-        next(DROP - t, { shot: 'heart', in: 0.3, move: push(534, 320, 1.04, 1.2) }),
+function makeAnnounceCut(cta, file) {
+    const T = 2.0;                          // two bars of Dr. Elphi's Lab at 120 BPM
+    const H70 = 2 * 0.857;                  // half a bar of the main theme (70 BPM)
+    const FIN = 59.0;                       // the finale starts
+    const DROP = FIN + 8 * H70;             // the main theme's last hit before its break: the logo
+    const BACK = DROP + (CUE.back - CUE.drop);
+    const END = BACK + 4.0;
+    const fin = ['shedGrowth', 'shedDecay', 'townsquare', 'skyship', 'lumen', 'elphi', 'rust', 'entrance'];
+    const finMoves = [push(400, 330, 1, 1.06), push(400, 330, 1.06, 1.12), push(420, 320, 1.02, 1.12), push(560, 420, 1.05, 1.15),
+        push(534, 260, 1.02, 1.12), push(650, 400, 1, 1.1), push(534, 330, 1.04, 1.16), push(534, 380, 1.04, 1.16)];
+    const SEGMENTS = [
+        { at: 0, card: 'announce' },
+        { at: 3.0, shot: 'agarida', in: 1.4, move: still, fadeIn: 0.6 },
+        { at: 7.6, shot: 'council2', in: 0.9, move: still, dissolve: 0.5 },
+        { at: 15.6, shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) },
+        { at: 19.6, shot: 'crossroad', in: 0.4, move: push(400, 300, 1.02, 1.14) },
+        { at: 22.6, shot: 'cathedral', in: 0.3, move: push(534, 330, 1.02, 1.16) },
+        { at: 26.0, shot: 'scraper', in: 0.3, move: [[1.3, 533.5, 420], [1.3, 533.5, 260]] },
+        { at: 28.6, shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) },
+        { at: 31.6, shot: 'registration', in: 0.3, move: push(534, 240, 1.04, 1.14) },
+        { at: 31.6 + T * 2, shot: 'courtyard', in: 0.3, move: push(320, 300, 1.06, 1.16) },
+        { at: 31.6 + T * 4, shot: 'gnur', in: 0.3, move: push(420, 420, 1.1, 1.2) },
+        { at: 31.6 + T * 6, shot: 'liftmother', in: 0.4, move: push(480, 330, 1, 1.1) },
+        { at: 31.6 + T * 8, shot: 'zerren', in: 0.3, move: push(260, 380, 1.08, 1.16) },
+        { at: 31.6 + T * 10, shot: 'edgar', in: 0.3, move: push(320, 420, 1.06, 1.16) },
+        { at: 55.6, shot: 'feral', in: 0.4, move: push(534, 360, 1.02, 1.16) },
+        ...fin.map((shot, i) => ({ at: FIN + i * H70, shot, in: 0.3, move: finMoves[i] })),
+        { at: DROP, card: 'logo' },
+        { at: BACK, card: cta },
     ];
+    const TITLES = [
+        { id: 'signal', from: 3.4, to: 7.3 },
+        { id: 'invite', from: 15.95, to: 19.4 },
+        { id: 'trace', from: 22.9, to: 25.8 },
+        { id: 'explore', from: 28.75, to: 31.5 },
+        ...['registration', 'courtyard', 'gnur', 'liftmother', 'zerren', 'edgar', 'feral'].map((seg, i) => ({ id: `do${i + 1}`, seg })),
+        { id: 'grow2', seg: 'shedGrowth' },
+        { id: 'rot', seg: 'shedDecay' },
+    ];
+    const MUSIC = [
+        { file: 'assets/sounds/obazoba-hall.mp3', from: 4.0, at: 0, dur: 16.0, fadeIn: 1.0, fadeOut: 0.8, gain: GAIN.hall },
+        { file: 'assets/sounds/infinite_fold.mp3', from: 19.8, at: 15.4, dur: 16.6, fadeIn: 0.4, fadeOut: 0.6, gain: GAIN.entry },
+        { file: 'assets/sounds/dr_elphi.mp3', from: 95.175, at: 31.6, dur: 24.0, fadeIn: 0.03, fadeOut: 0.05, gain: GAIN.elphi },
+        { file: 'assets/sounds/feral-toast.mp3', from: 79.0, at: 55.6, dur: 3.4, fadeIn: 0.02, fadeOut: 0.12, gain: GAIN.feral },
+        { file: MUSIC_FILE, from: CUE.drop - 8 * H70, at: FIN, dur: END - FIN, fadeIn: 0.05, fadeOut: 2.0, gain: GAIN.theme },
+    ];
+    return { MUSIC, SEGMENTS, TITLES, END, file };
 }
-
-function makeLaunchCut(cta, file) {
-    const musicStart = 6.27;
-    const KICK = CUE.kick - musicStart, DROP = CUE.drop - musicStart, BACK = CUE.back - musicStart;
-    return {
-        MUSIC: { file: MUSIC_FILE, start: musicStart, fadeIn: 0.3, fadeOut: 2.0 },
-        SEGMENTS: [
-            { at: 0, shot: 'agarida', in: 1.4, move: still, fadeIn: 1.0 },
-            { at: 4.6, shot: 'council', in: 0.9, move: still, dissolve: 0.5 },
-            ...launchMontage(KICK, DROP),
-            { at: DROP, card: 'logo' },
-            { at: BACK, card: cta },
-        ],
-        TITLES: [
-            { id: 'agarida', from: 0.7, to: 4.2 },
-            { id: 'city', from: KICK + 0.35, to: KICK + U - 0.2 },
-            { id: 'grow', seg: 'shedGrowth' },
-            { id: 'decay', seg: 'shedDecay' },
-        ],
-        END: BACK + 4.0,
-        file,
-    };
-}
+// per-passage loudness match (dB), from ebur128 of each passage's span
+const GAIN = { hall: 0.7, entry: -3.0, elphi: -1.6, feral: -2.1, theme: 0 };   // → hall −16 (a quiet start), feral −13 (a punch), the rest −14 LUFS
 
 export const CUTS = {
-    launch: makeLaunchCut('cta_late_nov', 'upper-morkezela-demo-trailer-launch.mp4'),
-    launch_nov_dec: makeLaunchCut('cta_nov_dec', 'upper-morkezela-demo-trailer-launch-nov-dec.mp4'),
+    announce: makeAnnounceCut('cta_nov_dec', 'upper-morkezela-demo-announcement.mp4'),
+    announce_late_nov: makeAnnounceCut('cta_late_nov', 'upper-morkezela-demo-announcement-late-nov.mp4'),
     story: makeCut({ musicStart: 6.27, intro: true, musicFadeIn: 0.3, file: 'upper-morkezela-demo-trailer.mp4' }),
     gameplay: makeTipsCut(),
 };

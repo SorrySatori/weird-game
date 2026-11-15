@@ -110,9 +110,20 @@ graph.push(`${chunks.map(c => `[${c}]`).join('')}concat=n=${chunks.length}:v=1:a
 
 graph.push(`[base]fade=t=out:st=${fx(END - FADE_OUT)}:d=${FADE_OUT},format=yuv420p[v]`);
 
-// ---- music ----
-const mi = addInput('-ss', String(MUSIC.start), '-t', fx(END), '-i', path.join(REPO, MUSIC.file));
-graph.push(`[${mi}:a]afade=t=in:st=0:d=${MUSIC.fadeIn},afade=t=out:st=${fx(END - MUSIC.fadeOut)}:d=${MUSIC.fadeOut}[a]`);
+// ---- music: one track, or a list of passages (a medley) mixed on the trailer's clock ----
+if (Array.isArray(MUSIC)) {
+    const parts = MUSIC.map((m, k) => {
+        const mi = addInput('-ss', fx(m.from), '-t', fx(m.dur), '-i', path.join(REPO, m.file));
+        const ms = Math.round(m.at * 1000);
+        graph.push(`[${mi}:a]aresample=48000,aformat=channel_layouts=stereo,volume=${m.gain || 0}dB,` +
+            `afade=t=in:st=0:d=${m.fadeIn},afade=t=out:st=${fx(m.dur - m.fadeOut)}:d=${m.fadeOut},adelay=${ms}|${ms}[m${k}]`);
+        return `[m${k}]`;
+    });
+    graph.push(`${parts.join('')}amix=inputs=${parts.length}:normalize=0:dropout_transition=0,apad,atrim=end=${fx(END)}[a]`);
+} else {
+    const mi = addInput('-ss', String(MUSIC.start), '-t', fx(END), '-i', path.join(REPO, MUSIC.file));
+    graph.push(`[${mi}:a]afade=t=in:st=0:d=${MUSIC.fadeIn},afade=t=out:st=${fx(END - MUSIC.fadeOut)}:d=${MUSIC.fadeOut}[a]`);
+}
 
 const outFile = path.join(OUT, preview ? `preview-${cutName}.mp4` : cutFile);
 const scriptFile = path.join(OUT, `filter-${cutName}.txt`);

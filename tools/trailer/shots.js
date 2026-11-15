@@ -148,7 +148,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'registration', scene: 'ShedRegistrationScene', duration: 2.6,
+        id: 'registration', scene: 'ShedRegistrationScene', duration: 4.6,
         setup(ctx) { place(ctx, 110); walk(ctx, 300); },
         hud: 'hide',
     },
@@ -186,7 +186,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'scraper', scene: 'ScraperScene', duration: 2.6,
+        id: 'scraper', scene: 'ScraperScene', duration: 3.2,
         hud: 'hide',
     },
     {
@@ -198,11 +198,11 @@ export const SHOTS = [
         },
     },
     {
-        id: 'voxmarket', scene: 'VoxMarket', duration: 2.6,
+        id: 'voxmarket', scene: 'VoxMarket', duration: 3.6,
         hud: 'hide',
     },
     {
-        id: 'zerren', scene: 'VoxmarketMarketScene', duration: 2.6,
+        id: 'zerren', scene: 'VoxmarketMarketScene', duration: 4.6,
         setup(ctx) { place(ctx, 420); },
         hud: 'hide',
         update(ctx) {
@@ -218,7 +218,7 @@ export const SHOTS = [
         },
     },
     {
-        id: 'edgar', scene: 'ScreamingCorkScene', duration: 2.6,
+        id: 'edgar', scene: 'ScreamingCorkScene', duration: 4.6,
         setup(ctx) { place(ctx, 640); },
         hud: 'hide',
     },
@@ -242,7 +242,7 @@ export const SHOTS = [
     { id: 'hall', scene: 'ShedHallScene', duration: 1.6, hud: 'hide' },
     { id: 'applications', scene: 'ShedApplicationsScene', duration: 1.6, hud: 'hide' },
     { id: 'auction', scene: 'VoxmarketHallScene', duration: 2.4, hud: 'hide' },
-    { id: 'courtyard', scene: 'ShedCourtyard', duration: 2.2, hud: 'hide' },
+    { id: 'courtyard', scene: 'ShedCourtyard', duration: 4.6, hud: 'hide' },
 ];
 
 // ---- the full game (dev branch): places beyond the demo, for the launch cut in edit.js ----
@@ -276,8 +276,45 @@ SHOTS.push(
         },
         hud: 'hide',
     },
-    { id: 'bus', scene: 'AbandonedBusScene', duration: 2.6, setup(ctx) { place(ctx, 60); walk(ctx, 170); }, hud: 'hide' },
-    { id: 'heart', scene: 'EggCathedralInteriorScene', duration: 3.2, setup(ctx) { place(ctx, 280); walk(ctx, 420); }, hud: 'hide' },
+);
+
+// ---- the demo announcement cut (edit.js 'announce') ----
+SHOTS.push(
+    {
+        // the Council again, with other lines than the story cut's
+        id: 'council2', scene: 'IntroScene', duration: 9.6,
+        setup(ctx) {
+            const s = ctx.scene;
+            tameIntro(s);
+            s.nextShot1Step = () => {};
+            s.dialogues = [
+                { who: 'varhun', speaker: 'ARCHPRIEST VARHUN', text: 'We must respond, though we do not know who speaks.' },
+                { who: 'rhull', speaker: 'ARCHPRIEST RHULL', text: 'At least this time we have hidden the ceremonial oils.' },
+                { who: 'tynri', speaker: 'ARCHPRIEST TYNRI', text: 'And locked the fungal archive. Twice.' },
+            ];
+            s.lineIndex = 0;
+            s.toShot2();
+        },
+        update(ctx) {
+            if (ctx.frame === Math.round(3.7 * ctx.fps) || ctx.frame === Math.round(6.6 * ctx.fps)) { ctx.scene.finishTyping(); ctx.scene.nextLine(); }
+        },
+    },
+    {
+        // Gnur stops pacing and makes his pitch
+        id: 'gnur', scene: 'Shed521Scene', duration: 4.6,
+        before(game) { setGrowth(game, 50); },
+        setup(ctx) {
+            const s = ctx.scene;
+            s.tweens.killTweensOf(s.gnur);
+            s.gnur.setPosition(470, 534).setFlipX(true).play('gnur_idle');
+            place(ctx, 330);
+        },
+        hud: 'hide',
+        update(ctx) {
+            if (ctx.frame === Math.round(0.4 * ctx.fps)) bubble(ctx, ctx.scene.gnur, 'Body upgrade? New lungs? Or just bad ideas?', { offsetY: 112 });
+        },
+    },
+    { id: 'entrance', scene: 'CathedralEntrance', duration: 2.6, setup(ctx) { place(ctx, 260); walk(ctx, 400); }, hud: 'hide' },
 );
 
 // ---- Steam screenshots ----
