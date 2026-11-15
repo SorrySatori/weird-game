@@ -521,6 +521,35 @@ def corrosive_cultivar(ic):
     ic.outline()
 
 
+def crownmire_travelogue(ic):
+    # "A Crownmire Travelogue": a small bog-green leather book, a brass crown stamped on the cover, page edges, and a
+    # magnifying glass across it (its author claims to have shrunk to a microscopic size to walk Magnekin's cities)
+    LEATH = ramp('#1a1a10 #2c2e1a #424626 #5a6034 #767c46')
+    cover = [(12, 13), (44, 9), (50, 39), (18, 45)]
+    ic.poly([(18, 45), (50, 39), (50, 44), (18, 50)], lambda x, y: pick(PAPER, 3 - (x - 18) / 30 + (0.6 if y % 2 else -0.3)))   # page block, bottom
+    ic.poly([(44, 9), (47, 9), (53, 39), (50, 39)], lambda x, y: pick(PAPER, 2.4 + (0.6 if x % 2 else -0.3)))                    # page block, right
+    ic.poly(cover, lambda x, y: pick(LEATH, 3.2 - (x - 12) / 34 - (y - 9) / 40 + (0.5 if h32(x, y, 61) % 11 == 0 else 0)))
+    for t in range(33):                                                                         # the spine edge, two raised bands
+        x, y = 12 + 6 * t / 32, 13 + 32 * t / 32
+        ic.put(round(x), round(y), pick(LEATH, 0 if t in (8, 9, 23, 24) else 1))
+        ic.put(round(x) + 1, round(y), pick(LEATH, 4 if t in (8, 9, 23, 24) else 2))
+    C = lambda x, y: pick(BRASS, 3.6 - (x - 26 + y - 20) / 10)                                 # the crown, stamped in brass
+    ic.poly([(24, 27), (40, 25), (40, 21), (37, 23), (34, 17), (31, 23), (28, 19), (25, 24)], C)
+    for (x, y) in ((28, 18), (34, 16), (40, 20)): ic.put(x, y, pick(BRASS, 4))                # its points
+    for x in range(25, 40): ic.put(x, 28 - (x - 25) // 8, pick(BRASS, 1))
+    for (y0, a, b) in ((32, 24, 41), (35, 26, 39)):                                            # the title, gilt lines
+        for x in range(a, b):
+            if h32(x, y0, 62) % 5: ic.put(x, y0 - (x - 24) // 9, pick(BRASS, 3))
+    for (cx, cy) in ((44, 10), (49, 38)): ic.ell(cx, cy, 2, 2, lambda x, y: pick(BRASS, 3))   # corner protectors
+    # the magnifying glass across the corner
+    ic.line(36, 49, 27, 57, lambda x, y: pick(WOOD, 3), w=2)
+    ic.ell(42, 43, 6.5, 6.5, lambda x, y: pick(STEEL, 3.4 - (x - 36 + y - 37) / 6))
+    ic.ell(42, 43, 4.6, 4.6, lambda x, y: pick(GLASS, 3.2 - math.hypot(x - 40, y - 41) / 3))
+    for (x, y) in ((40, 40), (41, 40), (40, 41)): ic.put(x, y, pick(GLASS, 4))                 # its glint
+    for (x, y) in ((43, 44), (44, 45)): ic.put(x, y, pick(BRASS, 3))                           # the crown, magnified
+    ic.outline()
+
+
 ICONS = [
     ('pliers', pliers),
     ('forgotten_elevator_button', forgotten_elevator_button),
@@ -539,6 +568,7 @@ ICONS = [
     ('apocalypse-cop-figure', apocalypse_cop_figure),
     ('chrono-slurry-toadlet', chrono_slurry_toadlet),
     ('corrosive_cultivar', corrosive_cultivar),
+    ('crownmire_travelogue', crownmire_travelogue),
 ]
 
 def main(out):

@@ -32,7 +32,7 @@ export default {
         },
         egg_cathedral_approach: {
             hint: 'Egg Cathedral',
-            default: "A cathedral growing from a giant egg — a dome of shell where the roof should be. Something here is very close to being born, and the architecture is just the nest it settled for.",
+            default: "A cathedral growing from a giant egg. Nobody knows yet which deity it is dedicated to, or how it will all turn out.",
             knows: "I've been down in its cellar; I know the mind that is growing there.",
             ortolan: "Ortolan called it a flawed make — beautiful and broken in the same stroke.",
         },

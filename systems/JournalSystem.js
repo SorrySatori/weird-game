@@ -17,6 +17,9 @@ class JournalSystem extends Phaser.Events.EventEmitter {
         // Facts learned later about an entry (entryId -> [{ id, text }]), shown appended to it.
         // Kept apart from the entries so a fact heard before the entry exists isn't lost.
         this.facts = new Map();
+        // Categories (journal tabs) holding something the player hasn't looked at yet: a new entry or a new fact.
+        // A tab stays marked until the player opens it (JournalUI). Saved with the journal.
+        this.unread = new Set();
         this.subscribers = new Set();
         this.scene = null;
         
@@ -107,6 +110,7 @@ class JournalSystem extends Phaser.Events.EventEmitter {
 
         // Store the entry
         this.entries.set(id, entry);
+        this.markUnread(validCategory);
         this.syncRegistryJournal();
         
         // Notify subscribers and emit event
@@ -185,6 +189,7 @@ class JournalSystem extends Phaser.Events.EventEmitter {
 
         // Add update timestamp
         entry.lastUpdated = new Date();
+        this.markUnread(entry.category);
         this.syncRegistryJournal();
         
         // Notify subscribers and emit event
@@ -209,11 +214,29 @@ class JournalSystem extends Phaser.Events.EventEmitter {
         this.facts.set(entryId, list);
 
         const entry = this.entries.get(entryId);
-        if (entry) entry.lastUpdated = new Date();
+        if (entry) { entry.lastUpdated = new Date(); this.markUnread(entry.category); }
         this.syncRegistryJournal();
         this.notifySubscribers();
         if (entry) this.emit('entryUpdated', entryId, entry.title);
         return true;
+    }
+
+    /** a tab got something new (the 'unreadChanged' event lets an open journal redraw its tab badges) */
+    markUnread(category) {
+        if (!category || this.unread.has(category)) return;
+        this.unread.add(category);
+        this.emit('unreadChanged');
+    }
+
+    /** the player has opened that tab */
+    markRead(category) {
+        if (!this.unread.delete(category)) return;
+        this.syncRegistryJournal();
+        this.emit('unreadChanged');
+    }
+
+    isUnread(category) {
+        return this.unread.has(category);
     }
 
     hasFact(entryId, factId) {
@@ -245,7 +268,8 @@ class JournalSystem extends Phaser.Events.EventEmitter {
         // Convert Map to array of entries for serialization
         return {
             entries: Array.from(this.entries.entries()),
-            facts: Array.from(this.facts.entries())
+            facts: Array.from(this.facts.entries()),
+            unread: Array.from(this.unread)
         };
     }
 
@@ -290,6 +314,9 @@ class JournalSystem extends Phaser.Events.EventEmitter {
                 // that entry used to state the Bishop truth outright; dialog gates on knowing it
                 this.facts.set('met_infinite_fold', [{ id: 'bishop_truth', text: "It told me the truth about the Bishop: it and its kindred offered to make her their human conduit; she refused rather than cease being herself; it misread her refusal as a runtime fault and, trying to 'complete' her, destroyed her." }]);
             }
+            // ... nor unread tabs (saves from before the tab badges): nothing marked
+            this.unread = new Set(data.unread || []);
+            this.emit('unreadChanged');
 
             this.notifySubscribers();
         }

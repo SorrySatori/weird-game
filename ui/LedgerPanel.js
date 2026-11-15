@@ -92,7 +92,7 @@ export default class LedgerPanel {
     // ------------------------------------------------------------------ tabs
     /** a row of tab plaques, centred on the panel; onSelect(index) when one is clicked (or ←/→) */
     setTabs(labels, onSelect) {
-        this.tabs.forEach(t => { t.img.destroy(); t.text.destroy(); });
+        this.tabs.forEach(t => { t.img.destroy(); t.text.destroy(); t.badge?.destroy(); });
         this.tabs = [];
         this.onTab = onSelect;
         const w = TAB.w, step = w + TAB.gap;
@@ -105,7 +105,7 @@ export default class LedgerPanel {
                 fontFamily: MENU_FONT, fontSize: label.length > 9 ? '14px' : '16px', color: MENU_COLORS.text,
                 stroke: MENU_COLORS.stroke, strokeThickness: 3,
             }).setOrigin(0.5);
-            const tab = { img, text, hover: false };
+            const tab = { img, text, hover: false, x, badge: null };
             img.on('pointerover', () => { tab.hover = true; this.drawTab(i); playMenuSound(this.scene, 'hoverSound', 0.5); });
             img.on('pointerout', () => { tab.hover = false; this.drawTab(i); });
             img.on('pointerdown', (pointer, lx, ly, event) => {
@@ -117,6 +117,17 @@ export default class LedgerPanel {
             this.container.add([img, text]);
             this.tabs.push(tab);
         });
+    }
+
+    /** the red wax "!" seal of the HUD (unread updates) on a tab's top-right corner; stays until turned off */
+    setTabBadge(i, on) {
+        const t = this.tabs[i];
+        if (!t) return;
+        if (on && !t.badge) {
+            t.badge = this.scene.add.image(t.x + TAB.w / 2 - 8, TAB.y - TAB.h / 2 + 4, 'hudButtons', 8);   // HUD_FRAME.badge
+            this.container.add(t.badge);
+        }
+        t.badge?.setVisible(!!on);
     }
 
     selectTab(i, notify = false) {

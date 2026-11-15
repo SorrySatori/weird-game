@@ -149,8 +149,8 @@ export default class GameScene extends Phaser.Scene {
 
 
 
-        // Load Growth/Decay indicator image
-        this.load.image('growthDecay', 'assets/images/ui/growthDecay.jpg');
+        // Growth/Decay medallion: 11 frames of 100×100, frame k = growth 10·k % (tools/artgen/gd_medallion.py)
+        this.load.spritesheet('growthDecay', 'assets/images/ui/gd_medallion.png', { frameWidth: 100, frameHeight: 100 });
 
         // Symbiont HUD: 4 idle frames per symbiont (one row each) + the pods of the rosary
         this.load.spritesheet('symbionts', 'assets/images/ui/symbionts.png', { frameWidth: 32, frameHeight: 32 });

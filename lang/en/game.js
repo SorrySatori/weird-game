@@ -75,7 +75,8 @@ export default {
         ampule_first_ledger: { name: "Ampule: The First Ledger", description: "A sewing machine in the Townhall cellar, stitching the binding of the very first Ink Tribunal ledger. A historic moment that interested hardly anyone but clerks; judging by the label, this ampule has been sitting here for quite a while." },
         ampule_spin_hymn: { name: "Ampule: Spin Cycle Hymn", description: "A Before-Time washing machine on its final spin. According to the label, the recording was made by the Rust Choir, who considered it a particularly fine one." },
         crystal_vial: { name: 'Luminescent Crystal Vial', description: 'A vial containing glowing crystal fragments. Makes for pleasant ambient lighting.' },
-        market_map: { name: 'Voxmarket Map', description: 'A detailed map of Voxmarket and surrounding areas.' },
+        market_map: { name: 'Voxmarket Map', description: 'A detailed map of Voxmarket and surrounding areas.' },   // no longer sold (old saves)
+        crownmire_travelogue: { name: 'A Travelogue from the Crownmire', description: 'An account of a journey into the Crownmire by an anonymous author who supposedly shrank to a microscopic size and visited the mysterious cities of Jaardarlandbulc and Kroonpolder.' },
         forgotten_elevator_button: { name: 'Forgotten Elevator Button', description: "An old elevator button with strange markings. It seems to be for a floor that doesn't officially exist." },
         grayOltrac: { name: 'Gray Oltrac', description: 'A common variant of Oltrac. Provides mild hallucinogenic effects.' },
         violetOltrac: { name: 'Violet Oltrac', description: 'A medium-strength variant of Oltrac. Enhances perception and provides vivid visions.' },

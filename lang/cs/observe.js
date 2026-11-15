@@ -30,7 +30,7 @@ export default {
         },
         egg_cathedral_approach: {
             hint: 'Vaječná katedrála',
-            default: "Katedrála rostoucí z obřího vejce – kupole ze skořápky tam, kde má být střecha. Rodí se tu něco, čemu katedrála slouží doslova jako skořápka.",
+            default: "Katedrála rostoucí z obřího vejce. Zatím nikdo neví, jakému božstvu je zasvěcena a jak to celé dopadne.",
             knows: "Byl jsem dole ve sklepě; znám mysl, která tam roste.",
             ortolan: "Ortolan říkal, že špatně udělaná věc může být krásná a rozbitá týmž tahem.",
         },

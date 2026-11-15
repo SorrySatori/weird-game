@@ -26,6 +26,13 @@ class JournalUI {
         this.container = this.ledger.container;
         this.ledger.setTabs(this.categories.map(c => this.categoryLabel(c)), (i) => this.selectCategory(this.categories[i]));
 
+        // A tab with something new wears the HUD's red seal until the player opens it (JournalSystem.unread, saved).
+        // The journal system outlives the scene, so the listener goes with the scene.
+        const onUnread = () => this.updateTabBadges();
+        this.journalSystem.on('unreadChanged', onUnread);
+        this.scene.events.once('shutdown', () => this.journalSystem.off('unreadChanged', onUnread));
+        this.updateTabBadges();
+
         // ESC closes, J toggles
         this.escKey = this.scene.input.keyboard.addKey('ESC');
         this.escKey.on('down', () => { if (this.visible) this.toggle(); });
@@ -66,7 +73,12 @@ class JournalUI {
     selectCategory(category) {
         this.currentCategory = category;
         this.ledger.selectTab(this.categories.indexOf(category));
+        this.journalSystem.markRead(category);
         this.refreshContent();
+    }
+
+    updateTabBadges() {
+        this.categories.forEach((c, i) => this.ledger.setTabBadge(i, this.journalSystem.isUnread(c) && !(this.visible && c === this.currentCategory)));
     }
 
     refreshContent() {
@@ -207,8 +219,12 @@ class JournalUI {
         this.visible = !this.visible;
         if (this.visible) {
             this.ledger.show();
+            // opened (the HUD icon or J): the HUD's seal goes; the tabs keep theirs until each is looked at
+            this.scene.journalNotificationIndicator?.setVisible(false);
+            this.scene.registry.set('hasUnreadJournalEntries', false);
             if (!this.currentCategory) this.selectCategory(this.categories[0]);
-            else this.refreshContent();
+            else { this.journalSystem.markRead(this.currentCategory); this.refreshContent(); }
+            this.updateTabBadges();
             if (this.scene.customCursor) this.scene.customCursor.visible = false;
         } else {
             this.ledger.hide();

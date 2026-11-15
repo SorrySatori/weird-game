@@ -138,7 +138,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_echo: {
                 speaker: 'Hesh & Vell',
-                text: `"Do what?" says Hesh. Vell mouths "Do what?" precisely on delay. They look at each other — Hesh with a slight smirk, Vell with the ghost of the same smirk half a second later.\n\n"We've always been like this," Hesh says. "Born half a second apart. Lived half a second apart. Will probably die half a second apart. It's not an affectation — it's a condition.\n\nAlso, it makes our auction pacing impossible to interrupt. By the time you've processed what I've said, Vell has already reinforced it. Very effective for driving up bids."`,
+                text: `"Do what?" says Hesh. Vell mouths "Do what?" precisely on delay. They look at each other, Hesh with a slight smirk, Vell with the ghost of the same smirk half a second later.\n\n"We've always been like this," Hesh says. "Born half a second apart. Lived half a second apart. Will probably die half a second apart. It's not an affectation. It's just who we are.\n\nIt comes in handy at auctions, too. It gives them more drama and suspense. And it makes the bidders nervous. A nervous bidder is usually a generous bidder."`,
                 options: [
                     { text: "That's... honestly unsettling.", key: 'thats_honestly_unsettling', next: "twins_unsettling" },
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },

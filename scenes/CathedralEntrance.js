@@ -113,7 +113,7 @@ export default class CathedralEntrance extends GameScene {
             templeGuardTime: {
                 text: "I have stood at this post for three thousand digestions of the Stomach Clock. The city stopped counting years when the Tally-Keeper died. We count digestions now. My flesh has long since been partly replaced by plants. My consciousness is connected to the city. I think my left foot is made from rodents.",
                 options: [
-                    { text: "That's... familiar", key: 'thats_familiar', next: "templeGuardDisturbing" },
+                    { text: "That sounds... familiar", key: 'thats_familiar', next: "templeGuardDisturbing" },
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" }
                 ],
                 // The one place the city's time unit gets explained. Flags the Stomach Clock
@@ -155,7 +155,8 @@ export default class CathedralEntrance extends GameScene {
         super.preload();
         this.load.image('cathedralEntranceBg', 'assets/images/backgrounds/CathedralEntrance.png');
         this.load.image('exitArea', 'assets/images/ui/door.png'); // Reusing door image for exit area
-        this.load.spritesheet('guard', 'assets/images/characters/guardian1.png', { frameWidth: 128, frameHeight: 176 });
+        // The Sentinel (redrawn, tools/artgen/guardian.py): an 8-frame idle strip of 128×176, soles on row 172
+        this.load.spritesheet('guard', 'assets/images/characters/guardian.png', { frameWidth: 128, frameHeight: 176 });
         this.load.audio('cathedralSoundtrack', 'assets/sounds/cathedral.mp3'); // shared with EggCatedralScene
     }
 
@@ -439,45 +440,35 @@ export default class CathedralEntrance extends GameScene {
         this.templeGuard.setDepth(5);
         this.addGroundShadow(guardX, 508, 72, 18);
 
-        // Hand-drawn pixel-art guard (guardian1.png): a 6-frame idle animation laid out as a
-        // 3×2 grid of 128×176 frames, shown at native size (scale 1). Origin is bottom-centre so
-        // the feet rest on the shadow line (world y ≈ 508).
+        // The Sentinel (guardian.png, 8 idle frames of 128×176) at native size (scale 1). Origin is bottom-centre
+        // so the feet rest on the shadow line (world y ≈ 508). Idle: 0 rest, 1 inhale, 2 the eyes flare, 3 a draught
+        // stirs the cape, 4-5 the head tilts, 6 the eyes dim, 7 settling; frames repeat for a calm rhythm.
         const guardSprite = this.add.sprite(0, 58, 'guard').setOrigin(0.5, 1);
         this.templeGuard.add(guardSprite);
         if (!this.anims.exists('guardIdle')) {
             this.anims.create({
                 key: 'guardIdle',
-                frames: this.anims.generateFrameNumbers('guard', { start: 0, end: 5 }),
-                frameRate: 6,
+                frames: this.anims.generateFrameNumbers('guard', { frames: [0, 0, 1, 2, 2, 1, 0, 0, 3, 3, 0, 0, 4, 5, 5, 5, 4, 0, 0, 6, 6, 7, 0, 0] }),
+                frameRate: 5,
                 repeat: -1,
             });
         }
         guardSprite.play('guardIdle');
-
-        // Subtle green sentinel aura behind him (fungal-cathedral theme).
-        this.guardGlow = this.add.graphics();
-        this.guardGlow.fillStyle(0x7fff8e, 0.2);
-        this.guardGlow.fillCircle(guardX, 450, 50);
-        this.guardGlow.setDepth(4);
-        this.tweens.add({
-            targets: this.guardGlow,
-            alpha: { from: 0.2, to: 0.1 },
-            duration: 1500,
-            yoyo: true,
-            repeat: -1
-        });
+        const bust = { key: 'guard', frame: 0, zoom: 2, top: 14 };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Temple Guard': bust, 'Chrámový strážce': bust };
 
         // Interactive — hit area matches the 128×176 sprite footprint.
         const hitArea = new Phaser.Geom.Rectangle(-64, -118, 128, 176);
         this.templeGuard.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
 
-        // Hover effect
+        // Hover: a soft glow round him (pixel art isn't scaled)
+        let hoverFx = null;
         this.templeGuard.on('pointerover', () => {
-            this.templeGuard.setScale(1.05);
+            if (!hoverFx) hoverFx = guardSprite.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
             document.body.style.cursor = 'pointer';
         });
         this.templeGuard.on('pointerout', () => {
-            this.templeGuard.setScale(1);
+            if (hoverFx) { guardSprite.preFX?.remove(hoverFx); hoverFx = null; }
             document.body.style.cursor = 'default';
         });
 

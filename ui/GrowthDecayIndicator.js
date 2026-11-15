@@ -8,10 +8,9 @@ export default class GrowthDecayIndicator {
         // Create container for the indicator
         this.container = scene.add.container(x, y);
         
-        // Load and add the image
-        this.indicator = scene.add.image(0, 0, 'growthDecay');
+        // The medallion (native 100×100 pixel art, scale 1): its field splits between growth and decay
+        this.indicator = scene.add.image(0, 0, 'growthDecay', 5);
         this.indicator.setOrigin(0, 0);
-        this.indicator.setDisplaySize(100, 100); // Reasonable size for corner display
         
         // Make it interactive
         this.indicator.setInteractive({ useHandCursor: true });
@@ -87,17 +86,8 @@ export default class GrowthDecayIndicator {
     }
     
     updateDisplay(growth, decay) {
-        // Update the indicator's tint based on the balance
-        // More growth = greener, more decay = browner
-        const greenTint = Math.floor((growth / 100) * 255);
-        const brownTint = Math.floor((decay / 100) * 255);
-        this.indicator.setTint(
-            Phaser.Display.Color.GetColor(
-                brownTint,
-                greenTint,
-                0
-            )
-        );
+        // The green share of the field follows growth (decay = 100 - growth): frame k = growth 10·k %
+        this.indicator.setFrame(Phaser.Math.Clamp(Math.round(growth / 10), 0, 10));
         
         // Update menu text if visible
         if (this.menuBg.visible) {

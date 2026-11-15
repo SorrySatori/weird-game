@@ -494,15 +494,16 @@ export default class VoxmarketMarketScene extends GameScene {
         const questSystem = this.registry.get('questSystem');
         const findBishopActive = !!questSystem?.getQuest('find_bishop') && !questSystem.getQuest('find_bishop').isComplete;
         
-        // Basic shop inventory: sound ampules (utils/Recordings.js) + the map
+        // Basic shop inventory: sound ampules (utils/Recordings.js) + a travel book (only read, never used: it replaced
+        // the old "Voxmarket Map", which did nothing and raised false hopes; items.market_map stays for old saves)
         const shopInventory = [
             ...recordingShopStock(),
             {
-                id: 'market_map',
-                name: 'Voxmarket Map',
-                description: 'A detailed map of Voxmarket and surrounding areas.',
+                id: 'crownmire_travelogue',
+                name: 'A Travelogue from the Crownmire',
+                description: 'An account of a journey into the Crownmire by an anonymous author who supposedly shrank to a microscopic size and visited the mysterious cities of Jaardarlandbulc and Kroonpolder.',
                 price: 15,
-                type: 'tool',
+                type: 'decoration',
             },
         ];
         

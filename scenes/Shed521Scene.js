@@ -43,7 +43,7 @@ export default class Shed521Scene extends GameScene {
                 textKey: refusedGnur ? 'refused' : 'default',
                 text: refusedGnur
                     ? "(Gnur barely looks up.) Well, if it ain't the paper-pushers' little helper. Got some nerve crawlin' back down here.\nSay what you want, outsider, and make it quick."
-                    : "Another stray wanderin' down the veins of Shed 521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, voice crackling like a broken choir.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
+                    : "Another stray wanderin' down the veins of Shed 521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, his voice crackling like a broken transistor radio.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", key: 'who_are_you_exactly', next: "background" },
                     // Confront Gnur once the clerk told the player what the core is for (quest still open)
@@ -58,7 +58,7 @@ export default class Shed521Scene extends GameScene {
                         this.addJournalEntry(
                             'gnur_meeting',
                             'Gnur',
-                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken choir." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him.',
+                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken transistor radio." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 521' }
                         );
@@ -355,23 +355,23 @@ export default class Shed521Scene extends GameScene {
             return this.t('observe.shed_pipes.default');
         }, { hint: this.t('observe.shed_pipes.hint') });
 
-        // Add Gnur NPC with proper size
-        this.gnur = this.add.sprite(400, 470, 'gnur');
-        this.gnur.setDisplaySize(80, 80); // Set a fixed size
+        // Gnur (redrawn, tools/artgen/gnur.py): 128×128 frames at scale 1, facing right, soles on row 125 = the
+        // protagonist's format, so a bottom origin at y 534 puts both on one feet line. 0-3 idle, 4-11 walk.
+        this.gnur = this.add.sprite(400, 534, 'gnur').setOrigin(0.5, 1);
         this.gnur.setDepth(6); // standing-NPC layer: in front of the G/D props (4) and the ground, behind the player (20)
-        this.gnurShadow = this.addGroundShadow(400, 470 + this.gnur.displayHeight * 0.42, this.gnur.displayWidth * 0.55, this.gnur.displayHeight * 0.12);
-        this.gnur.setInteractive({ useHandCursor: true });
+        this.gnurShadow = this.addGroundShadow(400, 528, 58, 14);
+        // Hit area = his body, not the whole 128×128 frame (symmetric, so it holds when he's flipped)
+        this.gnur.setInteractive({ hitArea: new Phaser.Geom.Rectangle(34, 18, 60, 110), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Gnur': { key: 'gnur', frame: 0, zoom: 2, top: 20 } };
 
-        // Looping walk-cycle animation (anims are global — create once).
+        // Anims are global — create once. Idle: breath, the eye-lamps flicker, the grille crackles.
         if (!this.anims.exists('gnur_walk')) {
-            this.anims.create({
-                key: 'gnur_walk',
-                frames: this.anims.generateFrameNumbers('gnur', { start: 0, end: 5 }),
-                frameRate: 8,
-                repeat: -1
-            });
+            this.anims.create({ key: 'gnur_walk', frames: this.anims.generateFrameNumbers('gnur', { start: 4, end: 11 }), frameRate: 8, repeat: -1 });
+            this.anims.create({ key: 'gnur_idle', frames: this.anims.generateFrameNumbers('gnur', { frames: [0, 0, 1, 1, 0, 0, 2, 0, 0, 1, 1, 0, 3, 0] }), frameRate: 4, repeat: -1 });
         }
         this.gnur.play('gnur_walk');
+        this._gnurTalking = false;
+        this._gnurLeft = false;
 
         // Create transition to Shed521FloorsScene at the elevator
         this.transitionManager = new SceneTransitionManager(this);
@@ -387,35 +387,18 @@ export default class Shed521Scene extends GameScene {
             470  // walk to y
         );
         
-        // Add walking animation to Gnur
-        this.tweens.add({
+        // He paces 200 px back and forth (the walk cycle carries the bob; 44 px/s matches the shuffle's stride at 8 fps)
+        this.gnurPace = this.tweens.add({
             targets: this.gnur,
-            x: this.gnur.x + 200, // Walk 200 pixels to the right
-            duration: 3000,
+            x: this.gnur.x + 200,
+            duration: 4500,
             ease: 'Linear',
-            yoyo: true, // Makes it go back and forth
-            repeat: -1, // Infinite repeat
-            onYoyo: () => {
-                this.gnur.setFlipX(true); // Flip sprite when walking left
-            },
-            onRepeat: () => {
-                this.gnur.setFlipX(false); // Reset flip when walking right
-            }
-        });
-        
-        // Add subtle bobbing animation for walking
-        this.tweens.add({
-            targets: this.gnur,
-            y: this.gnur.y - 5, // Small up and down movement
-            duration: 500,
-            ease: 'Sine.easeInOut',
             yoyo: true,
-            repeat: -1
+            repeat: -1,
+            onYoyo: () => { this._gnurLeft = true; this.gnur.setFlipX(true); },
+            onRepeat: () => { this._gnurLeft = false; this.gnur.setFlipX(false); }
         });
-        
-        // Handle Gnur interactivity
-        this.gnur.setInteractive({ useHandCursor: true });
-        
+
         // Add interaction with Gnur
         this.gnur.on('pointerdown', () => {
             if (!this.dialogVisible) {
@@ -480,14 +463,28 @@ export default class Shed521Scene extends GameScene {
         this.load.image('Shed521Bg_decay', 'assets/images/backgrounds/Shed521_decay.png');
         preloadGDProps(this);
         this.load.image('exitArea', 'assets/images/ui/door.png');
-        // Load Gnur sprite
-        // Gnur2 = Gnur as a 6-frame walk-cycle spritesheet (3×2 grid, 582×982 per frame).
-        this.load.spritesheet('gnur', './assets/images/characters/Gnur2.png', { frameWidth: 582, frameHeight: 982 });
+        // Gnur: 12 frames of 128×128 (0-3 idle, 4-11 walk), tools/artgen/gnur.py → assets/aseprite/Shed_gnur.aseprite
+        this.load.spritesheet('gnur', './assets/images/characters/gnur.png', { frameWidth: 128, frameHeight: 128 });
     }
 
     update() {
         super.update();
-        if (this.gnurShadow && this.gnur) this.gnurShadow.x = this.gnur.x; // the shadow walks with him (the bob stays off the ground)
+        if (!this.gnur) return;
+        if (this.gnurShadow) this.gnurShadow.x = this.gnur.x; // the shadow walks with him
+        // While the player talks to him he stops pacing, turns to the player and idles; afterwards he walks on.
+        const talking = !!this.dialogVisible;
+        if (talking !== this._gnurTalking) {
+            this._gnurTalking = talking;
+            if (talking) {
+                this.gnurPace?.pause();
+                this.gnur.setFlipX(this.priest.x < this.gnur.x);
+                this.gnur.play('gnur_idle');
+            } else {
+                this.gnur.setFlipX(this._gnurLeft);
+                this.gnurPace?.resume();
+                this.gnur.play('gnur_walk');
+            }
+        }
     }
 }
 

@@ -462,9 +462,10 @@ SHOTS.push(
             [2.9, c => c.click()],
             [3.7, c => c.toText('Show me what you have', 400)],
             [4.2, c => c.click()],
-            [4.9, c => c.toText('Amber Oltrac', 450)],
+            // the shop panel (systems/items/ShopSystem.js): the Amber Oltrac's socket, then the Buy plaque on its card
+            [4.9, (c, ctx) => { const shop = ctx.scene.shopSystem, sl = shop.slots.find(x => x.item?.id === 'amberOltrac'); if (sl) c.moveTo(shop.container.x + sl.x, shop.container.y + sl.y, 450); }],
             [5.45, c => c.click()],
-            [6.1, c => c.toText('Buy item', 400)],
+            [6.1, (c, ctx) => { const shop = ctx.scene.shopSystem, b = shop.actionButton.img; c.moveTo(shop.container.x + b.x, shop.container.y + b.y, 400); }],
             [6.6, c => c.click()],
         ]),
     },
