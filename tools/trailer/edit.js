@@ -130,66 +130,49 @@ function makeTipsCut() {
 }
 
 /**
- * The demo announcement cut (≈81 s): an invitation to the city, only what the demo holds (no spoilers). A medley of
- * the game's own music, one piece per act, each from where it plays in the game:
- *   the signal      Obazoba's hall (the intro)            Agarida, the Council
- *   the invitation  the city's arrival theme (infinite_fold.mp3 = the demo's entry-theme.mp3)             the overlook, the Crossroad, the Egg Cathedral, the Scraper, the Voxmarket
- *   things to do    Dr. Elphi's Lab (120 BPM, cut on 2 bars)  the Bureau of Shapes, Ortolan, Gnur, the Lift-Mother, Zerren, Edgar
- *   the punchline   Feral Toast                           the band
- *   the finale      the main theme, into its last hit     grow / rot, a few glimpses of the city, the logo, the date
- * MUSIC is a list of passages (build.mjs mixes them): from = in-point in the track, at = trailer time, gain in dB
- * (measured: every passage lands near −14 LUFS).
+ * The demo announcement cut (≈68.5 s): an invitation to the city, only what the demo holds (no spoilers). Two pieces
+ * of music, both recorded by people: the cathedral theme under the opening (the announcement, Agarida, the Council),
+ * then, from the city's reveal to the end, "Les", the solo guitar of the Crossroad. Les has no fixed tempo, so every
+ * cut sits on one of its strong attacks (tools/trailer/onsets.py; its phrase accents come about every 3.3 s), and so
+ * do the logo and the end card.
  */
 function makeAnnounceCut(cta, file) {
-    const T = 2.0;                          // two bars of Dr. Elphi's Lab at 120 BPM
-    const H70 = 2 * 0.857;                  // half a bar of the main theme (70 BPM)
-    const FIN = 59.0;                       // the finale starts
-    const DROP = FIN + 8 * H70;             // the main theme's last hit before its break: the logo
-    const BACK = DROP + (CUE.back - CUE.drop);
-    const END = BACK + 4.0;
-    const fin = ['shedGrowth', 'shedDecay', 'townsquare', 'skyship', 'lumen', 'elphi', 'rust', 'entrance'];
-    const finMoves = [push(400, 330, 1, 1.06), push(400, 330, 1.06, 1.12), push(420, 320, 1.02, 1.12), push(560, 420, 1.05, 1.15),
-        push(534, 260, 1.02, 1.12), push(650, 400, 1, 1.1), push(534, 330, 1.04, 1.16), push(534, 380, 1.04, 1.16)];
+    const OFF = 15.6 - 13.045;              // Les' track time + OFF = trailer time: its accent at 13.045 s opens the city
+    const at = (tau) => tau + OFF;
+    const LES = [13.045, 16.68, 19.515, 22.345, 25.655, 29.325, 33.39, 36.64, 39.09, 42.705, 45.905, 49.155, 52.445, 54.745];
+    const LOGO = at(58.72), CTA = at(62.37), END = at(66.0);
+    const shots = [
+        ['city', 0.2, push(560, 250, 1, 1.1)], ['crossroad', 0.4, push(400, 300, 1.02, 1.14)],
+        ['cathedral', 0.3, push(534, 330, 1.02, 1.16)], ['scraper', 0.3, [[1.3, 533.5, 420], [1.3, 533.5, 260]]],
+        ['voxmarket', 0.3, push(534, 320, 1, 1.12)], ['registration', 0.3, push(534, 240, 1.04, 1.14)],
+        ['courtyard', 0.3, push(320, 300, 1.06, 1.16)], ['gnur', 0.3, push(420, 420, 1.1, 1.2)],
+        ['liftmother', 0.4, push(480, 330, 1, 1.1)], ['zerren', 0.3, push(260, 380, 1.08, 1.16)],
+        ['edgar', 0.3, push(320, 420, 1.06, 1.16)], ['feral', 0.4, push(534, 360, 1.02, 1.16)],
+        ['shedGrowth', 0.3, push(400, 330, 1, 1.06)], ['shedDecay', 0.3, push(400, 330, 1.06, 1.2)],   // the decay runs into the logo
+    ];
     const SEGMENTS = [
         { at: 0, card: 'announce' },
         { at: 3.0, shot: 'agarida', in: 1.4, move: still, fadeIn: 0.6 },
         { at: 7.6, shot: 'council2', in: 0.9, move: still, dissolve: 0.5 },
-        { at: 15.6, shot: 'city', in: 0.2, move: push(560, 250, 1, 1.1) },
-        { at: 19.6, shot: 'crossroad', in: 0.4, move: push(400, 300, 1.02, 1.14) },
-        { at: 22.6, shot: 'cathedral', in: 0.3, move: push(534, 330, 1.02, 1.16) },
-        { at: 26.0, shot: 'scraper', in: 0.3, move: [[1.3, 533.5, 420], [1.3, 533.5, 260]] },
-        { at: 28.6, shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.12) },
-        { at: 31.6, shot: 'registration', in: 0.3, move: push(534, 240, 1.04, 1.14) },
-        { at: 31.6 + T * 2, shot: 'courtyard', in: 0.3, move: push(320, 300, 1.06, 1.16) },
-        { at: 31.6 + T * 4, shot: 'gnur', in: 0.3, move: push(420, 420, 1.1, 1.2) },
-        { at: 31.6 + T * 6, shot: 'liftmother', in: 0.4, move: push(480, 330, 1, 1.1) },
-        { at: 31.6 + T * 8, shot: 'zerren', in: 0.3, move: push(260, 380, 1.08, 1.16) },
-        { at: 31.6 + T * 10, shot: 'edgar', in: 0.3, move: push(320, 420, 1.06, 1.16) },
-        { at: 55.6, shot: 'feral', in: 0.4, move: push(534, 360, 1.02, 1.16) },
-        ...fin.map((shot, i) => ({ at: FIN + i * H70, shot, in: 0.3, move: finMoves[i] })),
-        { at: DROP, card: 'logo' },
-        { at: BACK, card: cta },
+        ...shots.map(([shot, inp, move], i) => ({ at: at(LES[i]), shot, in: inp, move })),
+        { at: LOGO, card: 'logo' },
+        { at: CTA, card: cta },
     ];
     const TITLES = [
         { id: 'signal', from: 3.4, to: 7.3 },
-        { id: 'invite', from: 15.95, to: 19.4 },
-        { id: 'trace', from: 22.9, to: 25.8 },
-        { id: 'explore', from: 28.75, to: 31.5 },
+        { id: 'invite', seg: 'city' },
+        { id: 'trace', seg: 'cathedral' },
+        { id: 'explore', seg: 'voxmarket' },
         ...['registration', 'courtyard', 'gnur', 'liftmother', 'zerren', 'edgar', 'feral'].map((seg, i) => ({ id: `do${i + 1}`, seg })),
         { id: 'grow2', seg: 'shedGrowth' },
         { id: 'rot', seg: 'shedDecay' },
     ];
     const MUSIC = [
-        { file: 'assets/sounds/obazoba-hall.mp3', from: 4.0, at: 0, dur: 16.0, fadeIn: 1.0, fadeOut: 0.8, gain: GAIN.hall },
-        { file: 'assets/sounds/infinite_fold.mp3', from: 19.8, at: 15.4, dur: 16.6, fadeIn: 0.4, fadeOut: 0.6, gain: GAIN.entry },
-        { file: 'assets/sounds/dr_elphi.mp3', from: 95.175, at: 31.6, dur: 24.0, fadeIn: 0.03, fadeOut: 0.05, gain: GAIN.elphi },
-        { file: 'assets/sounds/feral-toast.mp3', from: 79.0, at: 55.6, dur: 3.4, fadeIn: 0.02, fadeOut: 0.12, gain: GAIN.feral },
-        { file: MUSIC_FILE, from: CUE.drop - 8 * H70, at: FIN, dur: END - FIN, fadeIn: 0.05, fadeOut: 2.0, gain: GAIN.theme },
-    ];
+        { file: 'assets/sounds/cathedral.mp3', from: 0, at: 0, dur: 16.4, fadeIn: 0.8, fadeOut: 1.0, gain: -0.6 },
+        { file: 'assets/sounds/guitar-les.mp3', from: 12.245, at: 14.8, dur: END - 14.8, fadeIn: 0.8, fadeOut: 2.5, gain: 0.4 },
+    ];   // gains: both passages at −15 LUFS (measured −14.4 / −15.4)
     return { MUSIC, SEGMENTS, TITLES, END, file };
 }
-// per-passage loudness match (dB), from ebur128 of each passage's span
-const GAIN = { hall: 0.7, entry: -3.0, elphi: -1.6, feral: -2.1, theme: 0 };   // → hall −16 (a quiet start), feral −13 (a punch), the rest −14 LUFS
 
 export const CUTS = {
     announce: makeAnnounceCut('cta_nov_dec', 'upper-morkezela-demo-announcement.mp4'),

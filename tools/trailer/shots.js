@@ -175,7 +175,7 @@ export const SHOTS = [
         hud: 'quiet',
     },
     {
-        id: 'shedDecay', scene: 'Shed521Scene', duration: 2.6,
+        id: 'shedDecay', scene: 'Shed521Scene', duration: 4.6,
         before(game) { setGrowth(game, 0); },
         setup(ctx) { place(ctx, 260); },
         hud: 'quiet',
@@ -186,7 +186,7 @@ export const SHOTS = [
         hud: 'hide',
     },
     {
-        id: 'scraper', scene: 'ScraperScene', duration: 3.2,
+        id: 'scraper', scene: 'ScraperScene', duration: 4.0,
         hud: 'hide',
     },
     {
@@ -198,7 +198,7 @@ export const SHOTS = [
         },
     },
     {
-        id: 'voxmarket', scene: 'VoxMarket', duration: 3.6,
+        id: 'voxmarket', scene: 'VoxMarket', duration: 4.2,
         hud: 'hide',
     },
     {
