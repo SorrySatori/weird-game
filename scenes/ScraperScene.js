@@ -1,6 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import { addHoverAura } from '../utils/hoverAura.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
@@ -88,9 +89,7 @@ export default class ScraperScene extends GameScene {
         don.play({ key: 'lamp_don_idle', startFrame: Math.floor(Math.random() * 22) });
         // the hit box stops above the right-edge exit zone (canvas y 370..570)
         don.setInteractive({ hitArea: new Phaser.Geom.Rectangle(8, 4, 96, 150), hitAreaCallback: Phaser.Geom.Rectangle.Contains, useHandCursor: true });
-        let glow = null;
-        don.on('pointerover', () => { if (!glow) glow = don.preFX?.addGlow(0xffd27a, 2, 0, false, 0.1, 8); });
-        don.on('pointerout', () => { if (glow) { don.preFX?.remove(glow); glow = null; } });
+        addHoverAura(don, [don], 0xffd27a);   // the character aura in his own lamp-light gold
         don.on('pointerdown', () => {
             if (this.dialogVisible) return;
             if (this.clickSound) this.clickSound.play();

@@ -2,6 +2,7 @@ import LanguageSystem from '../LanguageSystem.js';
 import { isRecording, isRecordingPlaying, toggleRecording } from '../../utils/Recordings.js';
 import { createHudButton } from '../../utils/hudButton.js';
 import { createMenuPanel, addPanelClose, createMenuIconButton, playMenuSound, MENU_COLORS, MENU_FONT } from '../../utils/menuKit.js';
+import { gridIconKey } from '../../utils/itemIcons.js';
 
 /**
  * Inventory System
@@ -199,7 +200,9 @@ export default class InventorySystem {
     makeIcon(item, x, y, size) {
         const sc = this.scene, key = this.iconKey(item);
         if (key) {
-            const img = sc.add.image(x, y, key).setDisplaySize(size, size);
+            // 1:1 in the grid: the copy on the 2x pixel grid (utils/itemIcons.js); the card's x2 zoom uses the original
+            const tex = size === ICON && sc.textures.exists(gridIconKey(key)) ? gridIconKey(key) : key;
+            const img = sc.add.image(x, y, tex).setDisplaySize(size, size);
             if (item.tint) img.setTint(item.tint);
             return [img];
         }

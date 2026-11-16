@@ -1,6 +1,8 @@
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { drawPixelFrame, UI_FONT } from '../utils/pixelFrame.js';
 
 let SPOREBAR_ID = 1;
+const FILL_W = 144;   // the fill at 100 %
 export default class SporeBar {
 
     constructor(scene, x, y) {
@@ -11,17 +13,18 @@ export default class SporeBar {
         // Create container for the spore bar
         this.container = scene.add.container(x, y);
         
-        // Create the background bar
-        this.background = scene.add.rectangle(0, 0, 150, 20, 0x222222, 0.8);
-        this.background.setOrigin(0, 0);
-        this.background.setStrokeStyle(1, 0x7fff8e);
+        // The frame: a pixel plate on the 2x grid (utils/pixelFrame.js); `background` is only its hover area now
+        this.frame = scene.add.graphics();
+        drawPixelFrame(this.frame, 0, 0, 152, 20);
+        this.background = scene.add.rectangle(0, 0, 152, 20, 0x000000, 0).setOrigin(0, 0);
         
-        // Create the fill bar (starts at 100%)
-        this.fillBar = scene.add.rectangle(2, 2, 146, 16, 0x7fff8e, 0.7);
+        // Create the fill bar (starts at 100%), inside the rim with a grid pixel of margin
+        this.fillBar = scene.add.rectangle(4, 4, FILL_W, 12, 0x7fff8e, 0.7);
         this.fillBar.setOrigin(0, 0);
         
         // Create label
-        this.label = scene.add.text(75, 24, this.lang.t('sporeBar.label'), {
+        this.label = scene.add.text(76, 24, this.lang.t('sporeBar.label'), {
+            fontFamily: UI_FONT,
             fontSize: '14px',
             fill: '#7fff8e',
             align: 'center'
@@ -29,15 +32,17 @@ export default class SporeBar {
         this.label.setOrigin(0.5, 0);
         
         // Create value text
-        this.valueText = scene.add.text(75, 10, '100%', {
+        this.valueText = scene.add.text(76, 10, '100%', {
+            fontFamily: UI_FONT,
             fontSize: '12px',
+            fontStyle: 'bold',
             fill: '#ffffff',
             align: 'center'
         });
         this.valueText.setOrigin(0.5, 0.5);
         
         // Add everything to the container
-        this.container.add([this.background, this.fillBar, this.label, this.valueText]);
+        this.container.add([this.frame, this.background, this.fillBar, this.label, this.valueText]);
         
         // Set high depth to ensure it's always visible
         this.container.setDepth(1000);
@@ -69,16 +74,16 @@ export default class SporeBar {
     }
     
     createTooltip() {
-        // Create semi-transparent background for tooltip
-        this.tooltipBg = this.scene.add.rectangle(0, 30, 200, 80, 0x000000, 0.8);
-        this.tooltipBg.setOrigin(0, 0);
-        this.tooltipBg.setStrokeStyle(1, 0x7fff8e);
+        // The tooltip's plate (utils/pixelFrame.js)
+        this.tooltipBg = this.scene.add.graphics();
+        drawPixelFrame(this.tooltipBg, 0, 44, 200, 80);   // below the SPORES label
         
         // Create text for displaying tooltip
-        this.tooltipText = this.scene.add.text(10, 40, 
+        this.tooltipText = this.scene.add.text(10, 54, 
             this.lang.t('sporeBar.tooltipTitle') + '\n' +
             this.lang.t('sporeBar.tooltipDesc') + '\n' +
             this.lang.t('sporeBar.tooltipCurrent', { current: 0, max: 0 }), {
+            fontFamily: UI_FONT,
             fontSize: '12px',
             fill: '#ffffff',
             align: 'left',
@@ -114,9 +119,8 @@ export default class SporeBar {
         if (!this.fillBar || !this.valueText) return;
         
         // Update the fill bar width based on spore level
-        const maxWidth = 146;
-        const fillWidth = Math.max(0, (currentSpores / maxSpores) * maxWidth);
-        this.fillBar.width = fillWidth;
+        const fillWidth = Math.max(0, (currentSpores / maxSpores) * FILL_W);
+        this.fillBar.width = Math.round(fillWidth / 2) * 2;   // whole grid pixels
         
         // Update the text
         const percentage = Math.round((currentSpores / maxSpores) * 100);

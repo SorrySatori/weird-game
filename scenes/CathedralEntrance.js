@@ -1,6 +1,7 @@
 import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { addHoverAura } from '../utils/hoverAura.js';
 
 export default class CathedralEntrance extends GameScene {
     constructor() {
@@ -200,7 +201,7 @@ export default class CathedralEntrance extends GameScene {
             'EggCatedralScene', // target scene
             400, // walk to x
             550, // walk to y
-            'Cathedral Exterior' // destination name
+            'Back' // destination name
         );
 
         // Remove the NPC if it exists
@@ -265,16 +266,10 @@ export default class CathedralEntrance extends GameScene {
         const hitArea = new Phaser.Geom.Rectangle(-64, -118, 128, 176);
         this.templeGuard.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
 
-        // Hover: a soft glow round him (pixel art isn't scaled)
-        let hoverFx = null;
-        this.templeGuard.on('pointerover', () => {
-            if (!hoverFx) hoverFx = guardSprite.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
-            document.body.style.cursor = 'pointer';
-        });
-        this.templeGuard.on('pointerout', () => {
-            if (hoverFx) { guardSprite.preFX?.remove(hoverFx); hoverFx = null; }
-            document.body.style.cursor = 'default';
-        });
+        // Hover: the character aura on the sprite inside the container (utils/hoverAura.js)
+        addHoverAura(this.templeGuard, [guardSprite]);
+        this.templeGuard.on('pointerover', () => { document.body.style.cursor = 'pointer'; });
+        this.templeGuard.on('pointerout', () => { document.body.style.cursor = 'default'; });
 
         // Show dialog on click, with a little acknowledging bob.
         this.templeGuard.on('pointerdown', () => {

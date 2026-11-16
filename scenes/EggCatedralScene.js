@@ -50,7 +50,7 @@ export default class EggCatedralScene extends GameScene {
             'CathedralEntrance', // target scene
             400, // walk to x
             470, // walk to y (stay on the ground line in front of the steps)
-            'Cathedral Interior' // destination name
+            'To the Entrance' // destination name
         );
         
         // Right border transition to CrossroadScene

@@ -538,7 +538,8 @@ export default class VoxMarket extends GameScene {
             'up', // direction
             'VoxmarketMarketScene', // target scene
             400, // walk to x
-            470 // walk to y
+            470, // walk to y
+            'To the Stalls'
         );
         
         // Create entrance to VoxmarketHallScene: the curtained arch in the hangar's right wall
@@ -550,7 +551,8 @@ export default class VoxMarket extends GameScene {
             'right', // direction
             'VoxmarketHallScene', // target scene
             686, // walk to x
-            470 // walk to y
+            470, // walk to y
+            'To the Auction Hall'
         );
         
         // Create Kloor Venn NPC

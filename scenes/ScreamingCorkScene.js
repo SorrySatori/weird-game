@@ -884,7 +884,8 @@ export default class ScreamingCorkScene extends GameScene {
             'up', // direction
             'ScreamingCorkInteriorScene', // target scene
             100, // walk to x - position inside the tavern
-            470 // walk to y
+            470, // walk to y
+            'Inside'
         );
 
         // Add a hint about the tavern entrance
@@ -943,15 +944,7 @@ export default class ScreamingCorkScene extends GameScene {
             'Edgar Eskola': { key: 'edgarEskola', frame: 0, zoom: 2, top: 19 } };
         this.edgar.setInteractive({ useHandCursor: true });
 
-        // Hover: a soft glow round him (pixel art isn't scaled). The scene instance is reused: drop a glow handle left
-        // over from the previous visit's sprite.
-        this._edgarHoverFx = null;
-        this.edgar.on('pointerover', () => {
-            if (!this._edgarHoverFx) this._edgarHoverFx = this.edgar.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
-        });
-        this.edgar.on('pointerout', () => {
-            if (this._edgarHoverFx) { this.edgar.preFX?.remove(this._edgarHoverFx); this._edgarHoverFx = null; }
-        });
+        // Hover: the aura every character has (utils/hoverAura.js, automatic)
 
         // Add dialog interaction
         this.edgar.on('pointerdown', () => {

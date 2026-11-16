@@ -85,7 +85,6 @@ export default class SkyshipBoardScene extends GameScene {
 
     createCaptainLiris() {
         // Captain Liris (tools/artgen/liris.py): 8 idle frames of 128×160 at scale 1, soles on the deck walk line
-        this._lirisHoverFx = null;  // the scene instance is reused: drop a glow left on the previous run's sprite
         const lx = 700, feet = 533;
         if (!this.anims.exists('liris_idle')) {
             // breath, a blink, the monocle's lens clicking round, a gust through the scarf and coat, a touch to the monocle
@@ -104,13 +103,7 @@ export default class SkyshipBoardScene extends GameScene {
         const bust = { key: 'captainLiris', frame: 0, zoom: 2, top: 10 };
         this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Captain Liris': bust, 'Kapitánka Liris': bust };
 
-        // Hover: a soft glow round her (pixel art isn't scaled)
-        this.captainLiris.on('pointerover', () => {
-            if (!this._lirisHoverFx) this._lirisHoverFx = this.captainLiris.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
-        });
-        this.captainLiris.on('pointerout', () => {
-            if (this._lirisHoverFx) { this.captainLiris.preFX?.remove(this._lirisHoverFx); this._lirisHoverFx = null; }
-        });
+        // Hover: the aura every character has (utils/hoverAura.js, automatic)
         
         // Add click interaction to show dialog
         this.captainLiris.on('pointerdown', () => {

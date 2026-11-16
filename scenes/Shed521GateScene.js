@@ -68,7 +68,7 @@ export default class Shed521GateScene extends GameScene {
             'Shed521FloorsScene', // target scene
             750, // walk to x
             470, // walk to y
-            'Back to the Main Building' // clearer than the Floors' location name
+            'Back Inside' // clearer than the Floors' location name
         );
         
         // Exit to Courtyard Scene (left side of the screen)
@@ -80,7 +80,8 @@ export default class Shed521GateScene extends GameScene {
             'left', // direction
             'ShedCourtyard', // target scene
             50,  // walk to x
-            470  // walk to y
+            470, // walk to y
+            'To the Courtyard'
         );
         
         // Remove the NPC if it exists
