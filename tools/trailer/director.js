@@ -131,7 +131,7 @@ async function screenshots() {
         await shot.setup?.(ctx, { wait, frame, until });
         scene.cameras.main.resetFX();
         await wait(shot.at);
-        await cap.still(shot.id, readPixels(), true);
+        await cap.still(shot.id, readPixels(), !shot.native);   // native: true -> out/stills at 1067x600 (pixel checks)
         scene.sys.events.off('prerender', hud);
         cap.log(`screenshot ${shot.id}`);
     }

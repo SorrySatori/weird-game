@@ -4,7 +4,7 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, placeGDProps } from '../utils/GDProps.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { addHoverAura } from '../utils/hoverAura.js';
-import { pixelPlate, snap, UI_FONT } from '../utils/pixelFrame.js';
+import { pixelPlate, snap, UI_FONT, UI_SIZE } from '../utils/pixelFrame.js';
 
 /** Frames of the `crossroad_corpse` sheet — the demigod's fate is shown by swapping one frame. */
 const CORPSE_FRAME = { intact: 0, cut: 1, growth: 2 };
@@ -488,7 +488,7 @@ export default class CrossroadScene extends GameScene {
         
         const messageText = this.add.text(snap(W / 2), H - 80, this.t('ui.hotspots.skyshipAbove'), {
             fontFamily: UI_FONT,
-            fontSize: '18px',
+            fontSize: UI_SIZE,
             fill: '#c8e6d0',
             align: 'center',
             wordWrap: { width: 580 }

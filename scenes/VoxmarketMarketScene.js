@@ -6,6 +6,7 @@ import JournalSystem from '../systems/JournalSystem.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
 import { recordingShopStock } from '../utils/Recordings.js';
 import { applyGDBackground } from '../utils/GDProps.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class VoxmarketMarketScene extends GameScene {
     constructor() {
@@ -434,9 +435,9 @@ export default class VoxmarketMarketScene extends GameScene {
         
         // Add a name tag above Zerren
         const zerrenTag = this.add.text(200, 420, 'Zerren', {
-            fontSize: '14px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
         });
         zerrenTag.setOrigin(0.5);

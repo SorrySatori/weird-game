@@ -2,6 +2,7 @@ import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { createAmbientNpc } from '../utils/AmbientNpc.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 // The people on the floors: animated sheets (tools/artgen/floorsfolk.py, Aseprite ShedFloors_<id>) at their canvas
 // anchors (feet, origin bottom-centre); the id is also the texture key; holds = each frame's hold time in ms,
@@ -127,7 +128,7 @@ export default class Shed521FloorsScene extends GameScene {
         this.input.keyboard.on('keydown-UP', () => climbByKey(true));
         this.input.keyboard.on('keydown-DOWN', () => climbByKey(false));
         this.stairHint = this.add.text(0, 0, '', {
-            fontSize: '16px', fontStyle: 'bold', fill: '#ffd700', backgroundColor: 'rgba(0, 0, 0, 0.55)', padding: { x: 5, y: 1 }
+            fontFamily: UI_FONT, fontSize: UI_SMALL, fill: '#ffd700', backgroundColor: 'rgba(12, 20, 16, 0.92)', padding: { x: 5, y: 1 }
         }).setOrigin(0.5, 1).setDepth(30).setVisible(false);
     }
 

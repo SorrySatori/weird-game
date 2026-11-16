@@ -1,5 +1,5 @@
 import LanguageSystem from '../systems/LanguageSystem.js';
-import { drawPixelFrame, UI_FONT } from '../utils/pixelFrame.js';
+import { drawPixelFrame, UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 let SPOREBAR_ID = 1;
 const FILL_W = 144;   // the fill at 100 %
@@ -25,7 +25,7 @@ export default class SporeBar {
         // Create label
         this.label = scene.add.text(76, 24, this.lang.t('sporeBar.label'), {
             fontFamily: UI_FONT,
-            fontSize: '14px',
+            fontSize: UI_SMALL,
             fill: '#7fff8e',
             align: 'center'
         });
@@ -34,8 +34,7 @@ export default class SporeBar {
         // Create value text
         this.valueText = scene.add.text(76, 10, '100%', {
             fontFamily: UI_FONT,
-            fontSize: '12px',
-            fontStyle: 'bold',
+            fontSize: UI_SMALL,
             fill: '#ffffff',
             align: 'center'
         });
@@ -79,12 +78,12 @@ export default class SporeBar {
         drawPixelFrame(this.tooltipBg, 0, 44, 200, 80);   // below the SPORES label
         
         // Create text for displaying tooltip
-        this.tooltipText = this.scene.add.text(10, 54, 
+        this.tooltipText = this.scene.add.text(10, 52, 
             this.lang.t('sporeBar.tooltipTitle') + '\n' +
             this.lang.t('sporeBar.tooltipDesc') + '\n' +
             this.lang.t('sporeBar.tooltipCurrent', { current: 0, max: 0 }), {
             fontFamily: UI_FONT,
-            fontSize: '12px',
+            fontSize: UI_SMALL,
             fill: '#ffffff',
             align: 'left',
             wordWrap: { width: 180 }

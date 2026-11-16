@@ -28,7 +28,7 @@ import { snapToArtGrid, pixelEllipseTexture } from '../utils/pixelGrid.js';
 import { autoHoverAura } from '../utils/hoverAura.js';
 import { trackCharacterSheets } from '../utils/characterSheets.js';
 import { applySceneLight } from '../utils/sceneLight.js';
-import { drawPixelFrame, drawPixelTail, pixelPlate, snap, UI_FONT } from '../utils/pixelFrame.js';
+import { drawPixelFrame, drawPixelTail, pixelPlate, snap, UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
@@ -39,6 +39,7 @@ const HINT_COST = 5;
 /** Corner notifications stack downward from here (below the HUD buttons' labels), this far apart. */
 const NOTICE_TOP = 104;
 const NOTICE_GAP = 6;
+const NOTICE_TOP_DIALOG = 232;   // below the dialog's portrait plate (utils/dialogLayouts.js)
 
 /** The modal input blocker: above the world (NPCs, props, exits), just below the HUD (100) and the panels (1000). */
 const MODAL_BLOCKER_DEPTH = 99;
@@ -433,7 +434,7 @@ export default class GameScene extends Phaser.Scene {
         if (exit && label) {
             const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
             text = this.add.text(0, 0, label, {
-                fontSize: '13px', fontFamily: UI_FONT, fontStyle: 'bold', fill: '#e8c46a',
+                fontSize: UI_SMALL, fontFamily: UI_FONT, fill: '#e8c46a',
                 backgroundColor: 'rgba(12, 20, 16, 0.92)', padding: { x: 6, y: 4 }   // the exit labels' look
             }).setOrigin(0.5, 1).setDepth(MODAL_BLOCKER_DEPTH - 1).setAlpha(0);
             text.setPosition(Phaser.Math.Clamp((Math.min(...xs) + Math.max(...xs)) / 2, text.width / 2 + 8, W - text.width / 2 - 8),
@@ -733,7 +734,7 @@ export default class GameScene extends Phaser.Scene {
             this.hideSymbiontMessage(); // the bubble sits where the tooltip goes
             const label = this.add.text(POD.x + 36, snap(y + 30), text(), {
                 fontFamily: UI_FONT,
-                fontSize: '12px',
+                fontSize: UI_SMALL,
                 color: '#7fff8e',
                 align: 'left',
                 lineSpacing: 2,
@@ -990,7 +991,7 @@ export default class GameScene extends Phaser.Scene {
         const container = this.add.container(target.x, target.y - offsetY).setDepth(depth);
 
         const text = this.add.text(0, 0, message, {
-            fontFamily: UI_FONT, fontSize: '13px', fontStyle: 'bold', fill: '#1b1b1b',
+            fontFamily: UI_FONT, fontSize: UI_SMALL, fill: '#1b1b1b',
             align: 'center', wordWrap: { width: maxWidth }
         }).setOrigin(0.5, 1);
 
@@ -1089,8 +1090,8 @@ export default class GameScene extends Phaser.Scene {
 
         let hint = null;
         if (opts.hint) {
-            hint = this.add.text(x, y - height / 2 - 14, opts.hint, {
-                fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+            hint = this.add.text(x, y - height / 2 - 16, opts.hint, {   // the exit labels' look (utils/SceneTransitionManager.js)
+                fontFamily: UI_FONT, fontSize: UI_SMALL, fill: '#7fff8e', backgroundColor: 'rgba(12, 20, 16, 0.92)', padding: { x: 6, y: 4 }
             }).setOrigin(0.5).setDepth(100).setAlpha(0);
         }
         zone.on('pointerover', () => { if (hint) hint.setAlpha(1); document.body.style.cursor = 'pointer'; });
@@ -1106,6 +1107,19 @@ export default class GameScene extends Phaser.Scene {
             this.showSpeechBubble(target, line, { persistent: true, ...(opts.bubble || {}) });
         });
         return zone;
+    }
+
+    /**
+     * Stack the live notices top-down at the right edge: under the HUD buttons, or, while a dialog is open, under its
+     * portrait plate (the dialog card covers the rest of the right side; the column below the bust is free).
+     */
+    restackNotices() {
+        this._notices = (this._notices || []).filter(n => n.scene && n.active);
+        let y = (this.dialogVisible ? NOTICE_TOP_DIALOG : NOTICE_TOP) - NOTICE_GAP;
+        for (const n of this._notices) {
+            n.y = snap(y + NOTICE_GAP + n.noticeH / 2);
+            y = n.y + n.noticeH / 2;
+        }
     }
 
     showNotification(title, subtitle = '', amount = '', duration = 400) {
@@ -1136,9 +1150,8 @@ export default class GameScene extends Phaser.Scene {
         // A pixel plate (utils/pixelFrame.js) with a small diamond in the notice's colour where an emoji used to be
         const text = this.add.text(0, 0, message, {
             fontFamily: UI_FONT,
-            fontSize: '13px',
+            fontSize: UI_SMALL,
             fill: notificationConfig.textColor || '#ffffff',
-            fontStyle: 'bold',
         });
         text.setOrigin(1, 0.5); // Right-aligned
 
@@ -1158,11 +1171,10 @@ export default class GameScene extends Phaser.Scene {
 
         // Stacked below the ones still showing (a fixed row per kind let two of a kind -- and every Czech one,
         // which the English keywords don't classify -- land on top of each other)
-        this._notices = (this._notices || []).filter(n => n.scene && n.active);
-        const stackBottom = this._notices.reduce((b, n) => Math.max(b, n.y + n.noticeH / 2), NOTICE_TOP - NOTICE_GAP);
-        notification.y = snap(stackBottom + NOTICE_GAP + boxHeight / 2);
         notification.noticeH = boxHeight;
+        this._notices = (this._notices || []).filter(n => n.scene && n.active);
         this._notices.push(notification);
+        this.restackNotices();
 
         // Slide in from right, hold, slide out
         notification.x = xPos + boxWidth;
@@ -1238,7 +1250,7 @@ export default class GameScene extends Phaser.Scene {
 
         const text = this.add.text(0, 0, message, {
             fontFamily: UI_FONT,
-            fontSize: '13px',
+            fontSize: UI_SMALL,
             fill: '#66ccaa',
             align: 'center',
             wordWrap: { width: gameWidth - 120 }
@@ -1288,13 +1300,12 @@ export default class GameScene extends Phaser.Scene {
 
         const name = this.add.text(12, 8, L.str(`symbionts.${id}.name`) || this.symbiontSystem.symbionts.get(id)?.name || id, {
             fontFamily: UI_FONT,
-            fontSize: '11px',
+            fontSize: UI_SMALL,
             color: '#' + colour.toString(16).padStart(6, '0'),
-            fontStyle: 'bold'
         });
         const body = this.add.text(12, 8 + name.height + 3, text, {
             fontFamily: UI_FONT,
-            fontSize: '13px',
+            fontSize: UI_SMALL,
             color: '#c8e6d0',
             lineSpacing: 2,
             wordWrap: { width: 300 }
@@ -2067,6 +2078,7 @@ export default class GameScene extends Phaser.Scene {
 
         // Present the dialog via the finalized layout (utils/dialogLayouts.js).
         renderDialogLayout(this, this._buildDialogModel(state, content));
+        this.restackNotices();   // out from behind the dialog card
     }
 
     /** Clean up scroll masks + wheel handlers created by the dialog layout. */
@@ -2131,6 +2143,7 @@ export default class GameScene extends Phaser.Scene {
         }
         this.clearDialogLayoutArtifacts();
         this.dialogVisible = false;
+        this.restackNotices();   // back under the HUD buttons
         
         // Update dialog visibility in player movement system
         if (this.playerMovementSystem) {

@@ -3,6 +3,7 @@ import GameScene from './GameScene.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { DEMO_BUILD } from '../config/build.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 export default class SkyshipBoardScene extends GameScene {
     constructor() {
         super({ key: 'SkyshipBoardScene' });
@@ -59,7 +60,7 @@ export default class SkyshipBoardScene extends GameScene {
 
         // Add a text hint for the exit
         const exitText = this.add.text(100, 550, this.t('ui.hints.returnToCity'), {
-            fontSize: '16px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
             align: 'center'
         });
@@ -112,7 +113,7 @@ export default class SkyshipBoardScene extends GameScene {
         
         // Add a name tag below the captain
         const captainText = this.add.text(lx, 548, this.t('ui.hotspots.captainLiris'), {
-            fontSize: '18px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
             align: 'center'
         });
