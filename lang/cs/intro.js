@@ -22,7 +22,7 @@ export default {
             { who: 'tynri', speaker: 'ARCIKNĚZ TYNRI', text: 'A zamkli houbový archiv. Dvakrát.' },
             { who: 'varhun', speaker: 'ARCIKNĚZ VARHUN', text: 'Zavolejte mistra Thaala. Ať najde Biskupku Horní Morkezely a odhalí zdroj toho nouzového volání. Ten učedník je jeho starost. A pokud se nevrátí zpátky, taky dobrý. Vždycky mu můžeme najít nového.' },
         ],
-        skipHint: 'ESC – přeskočit',
+        skipHint: 'Esc: přeskočit',
         transition: 'Po několika dnech cesty se před tebou konečně objeví město Horní Morkezela...',
     },
 };

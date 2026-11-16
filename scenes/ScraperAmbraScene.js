@@ -3,6 +3,7 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { isDemoClosed, sayDemoClosed, showDemoEnd } from '../utils/demo.js';
 import { addHoverAura } from '../utils/hoverAura.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class ScraperAmbraScene extends GameScene {
     constructor() {
@@ -362,9 +363,9 @@ export default class ScraperAmbraScene extends GameScene {
 
         // Add name tag above her head
         const nameTag = this.add.text(this.drElphi.x, this.drElphi.y - 4 - 144 - 12, 'Dr. Elphi Quarn', {   // over her curls (the figure is 144 px)
-            fontSize: '14px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
         });
         nameTag.setOrigin(0.5);

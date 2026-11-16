@@ -1,7 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { addHoverAura } from '../utils/hoverAura.js';
-import { pixelPlate, UI_FONT } from '../utils/pixelFrame.js';
+import { pixelPlate, UI_FONT, UI_SIZE, UI_SMALL } from '../utils/pixelFrame.js';
 
 /**
  * Feral Toast as pixel-art sheets taken from their original art (tools/artgen/feral_px.py → assets/aseprite/
@@ -253,9 +253,9 @@ export default class ScreamingCorkClubScene extends GameScene {
             this.tweens.add({ targets: glow, alpha: { from: 0.1, to: 0.18 }, duration: 2400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
 
             const nameTag = this.add.text(x, cfg.y + 8, cfg.name, {
-                fontSize: '13px',
+                fontFamily: UI_FONT, fontSize: UI_SMALL,
                 fill: '#7fff8e',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                backgroundColor: 'rgba(12, 20, 16, 0.92)',
                 padding: { x: 5, y: 2 }
             }).setOrigin(0.5, 0).setDepth(5);
 
@@ -351,7 +351,7 @@ export default class ScreamingCorkClubScene extends GameScene {
         // Add text with no content yet
         const text = this.add.text(0, 0, '', {
             fontFamily: UI_FONT,
-            fontSize: '18px',
+            fontSize: UI_SIZE,
             fill: '#c8e6d0',
             align: 'center',
             wordWrap: { width: 580 }

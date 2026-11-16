@@ -4,7 +4,7 @@
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { isDemoClosed, placeDemoCones, demoClosedLabel, sayDemoClosed } from './demo.js';
-import { UI_FONT, FRAME } from './pixelFrame.js';
+import { UI_FONT, FRAME, UI_SMALL } from './pixelFrame.js';
 
 // exit labels: the in-world UI face on the dialog card's dark green (utils/pixelFrame.js), the names in the dialog's gold
 const LABEL_BG = `rgba(${FRAME.fill >> 16 & 255}, ${FRAME.fill >> 8 & 255}, ${FRAME.fill & 255}, ${FRAME.alpha})`;
@@ -208,7 +208,7 @@ export default class SceneTransitionManager {
         glow.strokePoints(flat, true, true);
 
         const text = this.scene.add.text(0, 0, '', {
-            fontSize: '14px', fill: EXIT_INK, align: 'center', fontFamily: UI_FONT, fontStyle: 'bold', backgroundColor: LABEL_BG, padding: { x: 8, y: 4 }
+            fontSize: UI_SMALL, fill: EXIT_INK, align: 'center', fontFamily: UI_FONT, backgroundColor: LABEL_BG, padding: { x: 8, y: 4 }
         }).setOrigin(0.5, 1).setDepth(30).setAlpha(0);
         const W = this.scene.scale.width;
         zone.exitLabel = () => this.exitLabel(typeof label === 'function' ? label() : label, target, direction); // also for the hint lantern
@@ -250,7 +250,7 @@ export default class SceneTransitionManager {
         const cones = placeDemoCones(this.scene, this.scene.scene.key, targetScene, r.x + r.w / 2, Math.min(r.y + r.h, 560), r.w);
         const top = Math.min(r.y, ...cones.map(c => c.y - c.displayHeight));
         const text = this.scene.add.text(r.x + r.w / 2, Math.max(24, top - 6), zone.destinationName, {
-            fontSize: '14px', fill: '#ffd7a8', align: 'center', fontFamily: UI_FONT, fontStyle: 'bold', backgroundColor: LABEL_BG, padding: { x: 8, y: 4 }
+            fontSize: UI_SMALL, fill: '#ffd7a8', align: 'center', fontFamily: UI_FONT, backgroundColor: LABEL_BG, padding: { x: 8, y: 4 }
         }).setOrigin(0.5, 1).setDepth(30).setAlpha(0);
         zone.on('pointerover', () => text.setAlpha(1));
         zone.on('pointerout', () => text.setAlpha(0));
@@ -438,10 +438,10 @@ export default class SceneTransitionManager {
         
         // Create the text with background - initially invisible
         const text = this.scene.add.text(0, 0, displayText, {
-            fontSize: '14px',
+            fontSize: UI_SMALL,
             fill: EXIT_INK,
             align: 'center',
-            fontFamily: UI_FONT, fontStyle: 'bold', backgroundColor: LABEL_BG,
+            fontFamily: UI_FONT, backgroundColor: LABEL_BG,
             padding: { x: 8, y: 4 }
         }).setOrigin(0.5).setAlpha(0); // Initially invisible
         

@@ -22,7 +22,7 @@ export default {
             { who: 'tynri', speaker: 'ARCHPRIEST TYNRI', text: 'And locked the fungal archive. Twice.' },
             { who: 'varhun', speaker: 'ARCHPRIEST VARHUN', text: 'Summon Master Thaal. Let him find the Bishop of Upper Morkezela and discover the source of this distress call. The apprentice is his responsibility. And if the apprentice won\'t return, no problem. We can always find a new one for Master Thaal.' },
         ],
-        skipHint: 'ESC — skip',
+        skipHint: 'Esc: skip',
         transition: 'After days of travel, you finally arrive in the city of Upper Morkezela...',
     },
 };

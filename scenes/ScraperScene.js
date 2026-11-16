@@ -2,6 +2,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { addHoverAura } from '../utils/hoverAura.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
@@ -140,9 +141,9 @@ export default class ScraperScene extends GameScene {
         
         // Add a hint about the scraper entrance
         const scraperHint = this.add.text(gateX, 355, this.t('ui.hotspots.enterScraper'), {
-            fontSize: '16px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 10, y: 5 }
         });
         scraperHint.setOrigin(0.5);

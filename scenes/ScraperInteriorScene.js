@@ -3,6 +3,7 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class ScraperInteriorScene extends GameScene {
     constructor() {
@@ -466,7 +467,7 @@ export default class ScraperInteriorScene extends GameScene {
         
         // Add elevator label (the portal already reads LIFT-MOTHER, so the label only shows on hover)
         const elevatorText = this.add.text(liftX, 235, "Lift-Mother", {
-            fontSize: '18px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
             align: 'center'
         });

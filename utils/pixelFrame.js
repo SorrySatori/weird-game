@@ -8,7 +8,10 @@
  */
 import { GRID } from './pixelGrid.js';
 
-export const UI_FONT = '"Courier New", monospace';
+export const UI_FONT = '"Departure Mono", "Courier New", monospace';
+// Departure Mono is drawn on an 11 px grid, so only 11 and 22 px are crisp (and no bold: the browser smears a fake one).
+export const UI_SIZE = '22px';    // reading text: dialogs, captions, the intro, the tutorial (its pixels on the 2x grid)
+export const UI_SMALL = '11px';   // small UI: speech bubbles, notices, labels, tooltips, name tags (as small as before)
 export const FRAME = { fill: 0x0c1410, alpha: 0.92, rim: 0x8a6a2a };   // the dialog card's body, the kit's dull gold
 
 const up = (v, step) => Math.ceil(v / step) * step;

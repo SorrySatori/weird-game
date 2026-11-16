@@ -3,6 +3,7 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { composeBook, edgarReaction, newBookSeed, bookRoles, render } from '../utils/EdgarBook.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class ScreamingCorkScene extends GameScene {
     constructor() {
@@ -891,9 +892,9 @@ export default class ScreamingCorkScene extends GameScene {
         // Add a hint about the tavern entrance
         const doorX = this.scale.width / 2;
         const doorHint = this.add.text(doorX, 380, this.t('ui.hints.enterTavern'), {
-            fontSize: '16px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 10, y: 5 }
         });
         doorHint.setOrigin(0.5);
