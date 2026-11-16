@@ -3,6 +3,8 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, placeGDProps } from '../utils/GDProps.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import { addHoverAura } from '../utils/hoverAura.js';
+import { pixelPlate, snap, UI_FONT } from '../utils/pixelFrame.js';
 
 /** Frames of the `crossroad_corpse` sheet — the demigod's fate is shown by swapping one frame. */
 const CORPSE_FRAME = { intact: 0, cut: 1, growth: 2 };
@@ -184,6 +186,7 @@ export default class CrossroadScene extends GameScene {
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
             useHandCursor: true
         });
+        addHoverAura(this.corpse);   // the character aura (its sheet isn't under characters/: utils/hoverAura.js)
         this.corpse.on('pointerdown', () => {
             if (this.dialogVisible) return;
             this.showCorpseDialog();
@@ -479,14 +482,14 @@ export default class CrossroadScene extends GameScene {
         skyship.setDepth(10000);
         
         // Create a text message (under the ship, pinned to the screen like the picture)
-        const messageBox = this.add.rectangle(W / 2, H - 80, 600, 100, 0x0a2712, 0.9).setScrollFactor(0);
-        messageBox.setStrokeStyle(2, 0x7fff8e);
+        const messageBox = pixelPlate(this, 600, 100).setPosition(snap(W / 2), H - 80).setScrollFactor(0);   // utils/pixelFrame.js
         messageBox.setDepth(10100);
         messageBox.setAlpha(0);
         
-        const messageText = this.add.text(W / 2, H - 80, this.t('ui.hotspots.skyshipAbove'), {
+        const messageText = this.add.text(snap(W / 2), H - 80, this.t('ui.hotspots.skyshipAbove'), {
+            fontFamily: UI_FONT,
             fontSize: '18px',
-            fill: '#7fff8e',
+            fill: '#c8e6d0',
             align: 'center',
             wordWrap: { width: 580 }
         });

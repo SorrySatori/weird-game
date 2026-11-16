@@ -1,5 +1,7 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
+import { addHoverAura } from '../utils/hoverAura.js';
+import { pixelPlate, UI_FONT } from '../utils/pixelFrame.js';
 
 /**
  * Feral Toast as pixel-art sheets taken from their original art (tools/artgen/feral_px.py → assets/aseprite/
@@ -269,6 +271,8 @@ export default class ScreamingCorkClubScene extends GameScene {
             .setInteractive({ useHandCursor: true })
             .setOrigin(0.5);
 
+        addHoverAura(bandZone, this.bandMembers);   // the whole band glows (utils/hoverAura.js)
+
         bandZone.on('pointerdown', () => {
             if (this.dialogVisible) return;
 
@@ -341,15 +345,14 @@ export default class ScreamingCorkClubScene extends GameScene {
         const textContainer = this.add.container(Math.round(this.scale.width / 2), 150);
         textContainer.setDepth(100);
         
-        // Add semi-transparent background
-        const textBg = this.add.rectangle(0, 0, 600, 100, 0x000000, 0.7);
-        textBg.setStrokeStyle(2, 0x7fff8e);
-        textContainer.add(textBg);
+        // The caption's plate (utils/pixelFrame.js), as the other notices
+        textContainer.add(pixelPlate(this, 600, 100));
         
         // Add text with no content yet
         const text = this.add.text(0, 0, '', {
+            fontFamily: UI_FONT,
             fontSize: '18px',
-            fill: '#7fff8e',
+            fill: '#c8e6d0',
             align: 'center',
             wordWrap: { width: 580 }
         });

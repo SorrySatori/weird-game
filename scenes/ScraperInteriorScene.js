@@ -437,7 +437,7 @@ export default class ScraperInteriorScene extends GameScene {
 
         // Exit back to ScraperScene: the street doors in the left wall -- a regular exit (arrow + glow + label like
         // everywhere else; 800-space numbers, remapped by the manager), the arrow keys take it at the left edge too
-        this.transitionManager.createTransitionZone(75, 470, 90, 200, 'left', 'ScraperScene', 38, 470, 'Return Outside');
+        this.transitionManager.createTransitionZone(75, 470, 90, 200, 'left', 'ScraperScene', 38, 470, 'Outside');
 
         // Add elevator: an invisible hit area over the Lift-Mother's portal painted in the background (canvas coords)
         const liftX = 510;

@@ -17,6 +17,8 @@
  * scene._dialogMasks and wheel handlers into scene._dialogWheel (also cleaned there).
  */
 
+import { twinKey } from './portraitTwins.js';
+
 /** Entry point called by showDialog to render a dialog from its normalized model. */
 export function renderDialogLayout(scene, model) {
     RENDERERS.chronicle(scene, model);
@@ -157,12 +159,15 @@ function resolvePortraitTexture(scene, speaker) {
 
 /** Portrait plate: the scene's own character sprite (head-aligned, cropped) + a name strip. */
 function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
-    parent.add(scene.add.rectangle(cx, cy, w, h, 0x0a1a12, 0.9).setStrokeStyle(1, 0x2f5a44));
-    const innerW = w - 12, innerH = h - 12;
+    // the menu kit's nine-slice card at the 2x grid (as the shop and the journal), its frame ~10 px thick
+    parent.add(scene.add.nineslice(cx, cy, 'menuCard', 0, w / 2, h / 2, 7, 7, 7, 7).setScale(2));
+    const innerW = w - 20, innerH = h - 20;
     if (key && key.key && key.zoom && scene.textures.exists(key.key)) {
         // A bust from one frame of a full-figure pixel-art sheet: integer zoom, the frame's row `top` (the top of the
-        // head) at the plate's top edge, the rest masked off
-        const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, key.key, key.frame ?? 0)
+        // head) at the plate's top edge, the rest masked off. Drawn from the sheet's 1x twin when it has one
+        // (utils/portraitTwins.js): the world sheet is on the 2x grid, zooming it would make 4x pixels.
+        const tex = scene.textures.exists(twinKey(key.key)) ? twinKey(key.key) : key.key;
+        const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, tex, key.frame ?? 0)
             .setOrigin(0.5, 0).setScale(key.zoom);
         parent.add(spr);
         const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
@@ -177,8 +182,8 @@ function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
         parent.add(spr);
     } else if (key && scene.textures.exists(key)) {
         const spr = scene.add.sprite(cx, cy, key);            // add.sprite → frame 0 for spritesheets
-        spr.setScale(innerW / spr.width);
-        spr.y = cy - h / 2 + 6 + spr.displayHeight / 2;        // top-align so the head shows
+        spr.setScale(Math.max(1, Math.floor(innerW / spr.width)));   // integer only: the art stays on the 2x grid
+        spr.y = cy - h / 2 + 10 + spr.displayHeight / 2;       // top-align so the head shows
         parent.add(spr);
         const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
         g.fillStyle(0xffffff);
@@ -190,10 +195,10 @@ function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
     } else {
         parent.add(scene.add.text(cx, cy - 20, '▓▓', { fontFamily: opts.font, fontSize: '40px', fill: '#274' }).setOrigin(0.5));
     }
-    parent.add(scene.add.rectangle(cx, cy + h / 2 - 16, w, 32, 0x000000, 0.55));
-    parent.add(scene.add.text(cx, cy + h / 2 - 16, name || '—', {
+    parent.add(scene.add.rectangle(cx, cy + h / 2 - 26, innerW, 32, 0x000000, 0.55));
+    parent.add(scene.add.text(cx, cy + h / 2 - 26, name || '—', {
         fontFamily: opts.font, fontSize: '14px', fill: opts.nameColor, align: 'center',
-        wordWrap: { width: w - 10 }, fontStyle: 'bold',
+        wordWrap: { width: innerW - 6 }, fontStyle: 'bold',
     }).setOrigin(0.5));
 }
 
@@ -208,17 +213,18 @@ const RENDERERS = {
         const CX = Math.round(scene.scale.width / 2), dx = CX - 400;
 
         box.add(scene.add.rectangle(CX, 300, scene.scale.width, 600, 0x05080a, 0.82));  // dim the world
-        const panel = scene.add.rectangle(CX, 300, 720, 520, 0x0c1410, 0.97).setStrokeStyle(2, 0x2f5a44);
+        // the menu kit's nine-slice card at the 2x grid, as the shop and the journal (CX is even: the edges sit on the grid)
+        const panel = scene.add.nineslice(CX, 300, 'menuCard', 0, 720 / 2, 520 / 2, 7, 7, 7, 7).setScale(2);
         box.add(panel);
 
         // Name / portrait plate, top-right — a static portrait from the speaker's own scene sprite.
-        addPortrait(scene, box, 650 + dx, 150, 150, 170, resolvePortraitTexture(scene, model.speaker) || resolvePortraitTexture(scene, model.speakerEn), model.speaker, { font: FONT, nameColor: NAME });
+        addPortrait(scene, box, 650 + dx, 150, 152, 172, resolvePortraitTexture(scene, model.speaker) || resolvePortraitTexture(scene, model.speakerEn), model.speaker, { font: FONT, nameColor: NAME });
 
         // A thin rule under the log region, separating narration from responses.
-        box.add(scene.add.rectangle(CX, 392, 660, 1, 0x2f5a44, 0.7));
+        box.add(scene.add.rectangle(CX, 378, 660, 2, 0x8a6a2a, 0.7));                 // 2 px: one grid pixel
 
         // Narration log, left.
-        const view = { x: 70 + dx, y: 82, w: 486, h: 296, arrowColor: NAME };
+        const view = { x: 70 + dx, y: 82, w: 486, h: 284, arrowColor: NAME };
         const logC = scene.add.container(view.x, view.y);
         box.add(logC);
         const speakerLine = model.speaker
@@ -232,7 +238,7 @@ const RENDERERS = {
         attachScroll(scene, logC, (speakerLine ? 34 : 0) + body.height, view);
 
         // Numbered response lines, bottom (their own scroll area if long).
-        const oview = { x: 70 + dx, y: 410, w: 660, h: 148, arrowColor: NAME };
+        const oview = { x: 70 + dx, y: 394, w: 660, h: 152, arrowColor: NAME };   // ends above the card's frame (y 550)
         const optsC = scene.add.container(oview.x, oview.y);
         box.add(optsC);
         let y = 0;

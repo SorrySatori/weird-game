@@ -23,6 +23,12 @@ import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
 import { preloadMenuKit } from '../utils/menuKit.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { isDemoClosed, preloadDemoCones, sayDemoClosed } from '../utils/demo.js';
+import { loadPortraitTwins } from '../utils/portraitTwins.js';
+import { snapToArtGrid, pixelEllipseTexture } from '../utils/pixelGrid.js';
+import { autoHoverAura } from '../utils/hoverAura.js';
+import { trackCharacterSheets } from '../utils/characterSheets.js';
+import { applySceneLight } from '../utils/sceneLight.js';
+import { drawPixelFrame, drawPixelTail, pixelPlate, snap, UI_FONT } from '../utils/pixelFrame.js';
 
 /** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
 const DEBUG_GD_KEYS = true;
@@ -117,6 +123,11 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload() {
+        loadPortraitTwins(this.load); // dialog busts from the 1x sheets (the world ones are on the 2x grid)
+        snapToArtGrid(this);          // world sprites drawn on the 2x art grid (utils/pixelGrid.js)
+        trackCharacterSheets(this.load);   // which textures are characters (utils/characterSheets.js)
+        autoHoverAura(this);               // every character glows on hover (utils/hoverAura.js)
+        applySceneLight(this);             // the scene's light colours its characters (utils/sceneLight.js)
         // Load the game assets
         this.load.image('cityBackground', 'assets/images/backgrounds/EntryCity.png'); // native 1067×600 (tools/artgen/entry_city_bg.py)
         this.load.image('ground', 'assets/images/ui/ground.png');
@@ -422,8 +433,8 @@ export default class GameScene extends Phaser.Scene {
         if (exit && label) {
             const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
             text = this.add.text(0, 0, label, {
-                fontSize: '13px', fontFamily: 'Arial', fontStyle: 'bold', fill: '#ffffff',
-                backgroundColor: 'rgba(0, 0, 0, 0.75)', padding: { x: 6, y: 3 }
+                fontSize: '13px', fontFamily: UI_FONT, fontStyle: 'bold', fill: '#e8c46a',
+                backgroundColor: 'rgba(12, 20, 16, 0.92)', padding: { x: 6, y: 4 }   // the exit labels' look
             }).setOrigin(0.5, 1).setDepth(MODAL_BLOCKER_DEPTH - 1).setAlpha(0);
             text.setPosition(Phaser.Math.Clamp((Math.min(...xs) + Math.max(...xs)) / 2, text.width / 2 + 8, W - text.width / 2 - 8),
                 Math.max(text.height + 8, Math.min(...ys) - 4));
@@ -609,7 +620,7 @@ export default class GameScene extends Phaser.Scene {
         // Initialize Effects System for drug effects and visual effects
         this.effectsSystem = new EffectsSystem(this);
         this.effectsSystem.init();
-        this.sporeBar = new SporeBar(this, 325, 10);
+        this.sporeBar = new SporeBar(this, 326, 10);   // even: on the 2x grid
         
         // Load saved data if this is a loaded save
         this.loadSavedData();
@@ -720,16 +731,16 @@ export default class GameScene extends Phaser.Scene {
         pod.on('pointerover', () => {
             this.hideSymbiontTooltip();
             this.hideSymbiontMessage(); // the bubble sits where the tooltip goes
-            const label = this.add.text(POD.x + 36, y + 30, text(), {
+            const label = this.add.text(POD.x + 36, snap(y + 30), text(), {
+                fontFamily: UI_FONT,
                 fontSize: '12px',
                 color: '#7fff8e',
                 align: 'left',
                 lineSpacing: 2,
                 wordWrap: { width: 220 }
             }).setOrigin(0, 0.5);
-            const bg = this.add.rectangle(label.x - 8, label.y, label.width + 16, label.height + 12, 0x0a2712, 0.9)
-                .setOrigin(0, 0.5)
-                .setStrokeStyle(1, 0x7fff8e);
+            const bg = this.add.graphics();
+            drawPixelFrame(bg, label.x - 8, label.y - Math.ceil((label.height + 12) / 4) * 2, label.width + 16, label.height + 12, { rim: 0x7fff8e });
             this.activeTooltip = this.add.container(0, 0, [bg, label]).setDepth(103).setScrollFactor(0);
         });
         pod.on('pointerout', () => this.hideSymbiontTooltip());
@@ -979,13 +990,14 @@ export default class GameScene extends Phaser.Scene {
         const container = this.add.container(target.x, target.y - offsetY).setDepth(depth);
 
         const text = this.add.text(0, 0, message, {
-            fontSize: '13px', fontStyle: 'bold', fill: '#1b1b1b',
+            fontFamily: UI_FONT, fontSize: '13px', fontStyle: 'bold', fill: '#1b1b1b',
             align: 'center', wordWrap: { width: maxWidth }
         }).setOrigin(0.5, 1);
 
-        const padX = 12, padY = 8, tailH = 10, radius = 8;
-        const w = text.width + padX * 2;
-        const h = text.height + padY * 2;
+        // a pixel bubble on the 2x grid (utils/pixelFrame.js): sizes in 4 px so the centred body keeps even edges
+        const padX = 12, padY = 8, tailH = 8;
+        const w = Math.ceil((text.width + padX * 2) / 4) * 4;
+        const h = Math.ceil((text.height + padY * 2) / 4) * 4;
         const bx = -w / 2;
 
         // Bubble sits above the target by default; but if there isn't room above without hitting
@@ -994,17 +1006,10 @@ export default class GameScene extends Phaser.Scene {
         const flip = ((target.y - offsetY) - (h + tailH)) < topSafe;
         const byTop = flip ? tailH : -(h + tailH); // body top, container-local
 
+        const BUBBLE = { fill: 0xf5f2e6, alpha: 0.96, rim: 0x1b1b1b, round: true };
         const bubble = this.add.graphics();
-        bubble.fillStyle(0xf5f2e6, 0.96);
-        bubble.fillRoundedRect(bx, byTop, w, h, radius);
-        if (flip) bubble.fillTriangle(-8, tailH, 8, tailH, 0, 0);   // tail points up (bubble below)
-        else bubble.fillTriangle(-8, -tailH, 8, -tailH, 0, 0);      // tail points down (bubble above)
-        bubble.lineStyle(2, 0x1b1b1b, 0.9);
-        bubble.strokeRoundedRect(bx, byTop, w, h, radius);
-        bubble.beginPath();
-        if (flip) { bubble.moveTo(-8, tailH); bubble.lineTo(0, 0); bubble.lineTo(8, tailH); }
-        else { bubble.moveTo(-8, -tailH); bubble.lineTo(0, 0); bubble.lineTo(8, -tailH); }
-        bubble.strokePath();
+        drawPixelFrame(bubble, bx, byTop, w, h, BUBBLE);
+        drawPixelTail(bubble, 0, 0, tailH / 2 + 1, flip ? 'up' : 'down', BUBBLE);   // its last row opens the rim
 
         text.setPosition(0, byTop + h - padY); // sit inside the bubble body (origin 0.5,1)
         container.add([bubble, text]);
@@ -1015,8 +1020,8 @@ export default class GameScene extends Phaser.Scene {
         const maxY = 600 - 6 - (h + tailH);  // flipped: keep body bottom on-screen
         const follow = () => {
             if (!container.active) return;
-            container.x = target.x;
-            container.y = flip ? Math.min(maxY, target.y) : Math.max(minY, target.y - offsetY);
+            container.x = snap(target.x);   // on the 2x grid
+            container.y = snap(flip ? Math.min(maxY, target.y) : Math.max(minY, target.y - offsetY));
         };
         this.events.on('update', follow);
 
@@ -1122,31 +1127,31 @@ export default class GameScene extends Phaser.Scene {
 
         // Small corner notification — top-right, under the HUD buttons
         const gameWidth = this.cameras.main.width;
-        const xPos = gameWidth - 20;
+        const xPos = snap(gameWidth - 20);
 
         const notification = this.add.container(xPos, 0);
         notification.setDepth(2000);
         notification.setScrollFactor(0);
 
-        // Icon + short text on one line
-        const displayText = notificationConfig.icon ? `${notificationConfig.icon} ${message}` : message;
-
-        const text = this.add.text(0, 0, displayText, {
+        // A pixel plate (utils/pixelFrame.js) with a small diamond in the notice's colour where an emoji used to be
+        const text = this.add.text(0, 0, message, {
+            fontFamily: UI_FONT,
             fontSize: '13px',
             fill: notificationConfig.textColor || '#ffffff',
             fontStyle: 'bold',
         });
         text.setOrigin(1, 0.5); // Right-aligned
 
-        const padding = 8;
-        const boxWidth = text.width + padding * 2;
-        const boxHeight = text.height + padding * 2;
+        const padding = 8, markRoom = 12;
+        const boxWidth = Math.ceil((text.width + padding * 2 + markRoom) / 4) * 4;
+        const boxHeight = Math.ceil((text.height + padding * 2) / 4) * 4;
+        text.x = -padding;
 
         const box = this.add.graphics();
-        box.fillStyle(0x0a2712, 0.85);
-        box.fillRoundedRect(-boxWidth, -boxHeight / 2, boxWidth, boxHeight, 4);
-        box.lineStyle(1, notificationConfig.borderColor, 0.7);
-        box.strokeRoundedRect(-boxWidth, -boxHeight / 2, boxWidth, boxHeight, 4);
+        drawPixelFrame(box, -boxWidth, -boxHeight / 2, boxWidth, boxHeight);
+        const mx = -boxWidth + padding;
+        box.fillStyle(notificationConfig.borderColor ?? 0x7fff8e, 1)
+            .fillRect(mx + 2, -4, 2, 2).fillRect(mx, -2, 6, 2).fillRect(mx + 2, 0, 2, 2);
 
         notification.add(box);
         notification.add(text);
@@ -1155,7 +1160,7 @@ export default class GameScene extends Phaser.Scene {
         // which the English keywords don't classify -- land on top of each other)
         this._notices = (this._notices || []).filter(n => n.scene && n.active);
         const stackBottom = this._notices.reduce((b, n) => Math.max(b, n.y + n.noticeH / 2), NOTICE_TOP - NOTICE_GAP);
-        notification.y = stackBottom + NOTICE_GAP + boxHeight / 2;
+        notification.y = snap(stackBottom + NOTICE_GAP + boxHeight / 2);
         notification.noticeH = boxHeight;
         this._notices.push(notification);
 
@@ -1226,12 +1231,13 @@ export default class GameScene extends Phaser.Scene {
         const gameHeight = this.cameras.main.height;
         const yPos = gameHeight - 30;
 
-        const container = this.add.container(gameWidth / 2, yPos);
+        const container = this.add.container(snap(gameWidth / 2), snap(yPos));
         container.setDepth(1999);
         container.setScrollFactor(0);
         this._symbiontMsg = container;
 
-        const text = this.add.text(0, 0, `🧬 ${message}`, {
+        const text = this.add.text(0, 0, message, {
+            fontFamily: UI_FONT,
             fontSize: '13px',
             fill: '#66ccaa',
             align: 'center',
@@ -1240,14 +1246,7 @@ export default class GameScene extends Phaser.Scene {
         text.setOrigin(0.5);
 
         const padding = 8;
-        const boxWidth = Math.min(text.width + padding * 2, gameWidth - 80);
-        const boxHeight = text.height + padding * 2;
-
-        const box = this.add.graphics();
-        box.fillStyle(0x0a2712, 0.8);
-        box.fillRoundedRect(-boxWidth / 2, -boxHeight / 2, boxWidth, boxHeight, 4);
-        box.lineStyle(1, 0x66ccaa, 0.5);
-        box.strokeRoundedRect(-boxWidth / 2, -boxHeight / 2, boxWidth, boxHeight, 4);
+        const box = pixelPlate(this, Math.min(text.width + padding * 2, gameWidth - 80), text.height + padding * 2, { rim: 0x66ccaa });
 
         container.add(box);
         container.add(text);
@@ -1288,11 +1287,13 @@ export default class GameScene extends Phaser.Scene {
         const podY = POD.top + slot * POD.h + 30; // level with the pod's opening
 
         const name = this.add.text(12, 8, L.str(`symbionts.${id}.name`) || this.symbiontSystem.symbionts.get(id)?.name || id, {
+            fontFamily: UI_FONT,
             fontSize: '11px',
             color: '#' + colour.toString(16).padStart(6, '0'),
             fontStyle: 'bold'
         });
         const body = this.add.text(12, 8 + name.height + 3, text, {
+            fontFamily: UI_FONT,
             fontSize: '13px',
             color: '#c8e6d0',
             lineSpacing: 2,
@@ -1300,18 +1301,13 @@ export default class GameScene extends Phaser.Scene {
         });
         const w = Math.max(name.width, body.width) + 24;
         const h = name.height + body.height + 19;
-        const top = Phaser.Math.Clamp(podY - h / 2, 8, this.scale.height - h - 8);
-        const tailY = podY - top;
+        const top = snap(Phaser.Math.Clamp(podY - h / 2, 8, this.scale.height - h - 8));
+        const tailY = snap(podY - top);
 
+        // a pixel plate in the symbiont's colour, its stepped tail pointing at the pod (utils/pixelFrame.js)
         const g = this.add.graphics();
-        g.fillStyle(0x0a2712, 0.92);
-        g.fillRoundedRect(0, 0, w, h, 5);
-        g.lineStyle(1, colour, 0.8);
-        g.strokeRoundedRect(0, 0, w, h, 5);
-        g.fillStyle(0x0a2712, 0.92);
-        g.fillTriangle(1, tailY - 6, 1, tailY + 6, -9, tailY);
-        g.lineBetween(0, tailY - 6, -9, tailY);
-        g.lineBetween(-9, tailY, 0, tailY + 6);
+        drawPixelFrame(g, 0, 0, w, h, { rim: colour });
+        drawPixelTail(g, -8, tailY, 5, 'left', { rim: colour });
 
         const bubble = this.add.container(POD.x + 34, top, [g, name, body]).setDepth(1999).setScrollFactor(0).setAlpha(0);
         this._symbiontMsg = bubble;
@@ -1859,7 +1855,8 @@ export default class GameScene extends Phaser.Scene {
      * characters. Returns the ellipse; reposition it each frame if its owner moves.
      */
     addGroundShadow(x, y, width = 60, height = 16) {
-        const shadow = this.add.ellipse(x, y, width, height, 0x000000, 0.35);
+        // a stepped ellipse on the 2x art grid (utils/pixelGrid.js), not a smooth vector one
+        const shadow = this.add.image(x, y, pixelEllipseTexture(this, width, height)).setAlpha(0.35);
         shadow.setDepth(2);
         return shadow;
     }

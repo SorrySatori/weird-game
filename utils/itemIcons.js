@@ -19,6 +19,12 @@
 // then the name). So the texture key MUST equal the item's id, and the file is <id>.png. No item
 // definition needs editing — an item with an icon: / image: field still resolves as long as its id
 // matches the key here.
+/** The inventory / shop grid draws icons 1:1 from a copy on the 2x pixel grid (assets/images/items/2x/, made by
+ *  `tools/artgen/grid2x.py sheet <icon> --frame 60x60 --out assets/images/items/2x/<file>`); the item card zooms the
+ *  original x2. A missing copy falls back to the original. */
+export const ICON_DIR = 'assets/images/items/';
+export const gridIconKey = key => `${key}@2x`;
+
 export const ITEM_ICONS = [
     // --- Keys (done) ---
     { key: 'scraper_backyard_key',    path: 'assets/images/items/scraper_backyard_key.png' },
