@@ -17,6 +17,8 @@
  * scene._dialogMasks and wheel handlers into scene._dialogWheel (also cleaned there).
  */
 
+import { UI_FONT, UI_SIZE } from './pixelFrame.js';
+
 /** Entry point called by showDialog to render a dialog from its normalized model. */
 export function renderDialogLayout(scene, model) {
     RENDERERS.chronicle(scene, model);
@@ -157,11 +159,12 @@ function resolvePortraitTexture(scene, speaker) {
 
 /** Portrait plate: the scene's own character sprite (head-aligned, cropped) + a name strip. */
 function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
-    parent.add(scene.add.rectangle(cx, cy, w, h, 0x0a1a12, 0.9).setStrokeStyle(1, 0x2f5a44));
-    const innerW = w - 12, innerH = h - 12;
+    // the menu kit's nine-slice card at the 2x grid (as the shop and the journal), its frame ~10 px thick
+    parent.add(scene.add.nineslice(cx, cy, 'menuCard', 0, w / 2, h / 2, 7, 7, 7, 7).setScale(2));
+    const innerW = w - 20, innerH = h - 20;
     if (key && key.key && key.zoom && scene.textures.exists(key.key)) {
         // A bust from one frame of a full-figure pixel-art sheet: integer zoom, the frame's row `top` (the top of the
-        // head) at the plate's top edge, the rest masked off
+        // head) at the plate's top edge, the rest masked off. zoom 2 puts the bust on the UI layer's 2x grid.
         const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, key.key, key.frame ?? 0)
             .setOrigin(0.5, 0).setScale(key.zoom);
         parent.add(spr);
@@ -177,8 +180,11 @@ function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
         parent.add(spr);
     } else if (key && scene.textures.exists(key)) {
         const spr = scene.add.sprite(cx, cy, key);            // add.sprite → frame 0 for spritesheets
-        spr.setScale(innerW / spr.width);
-        spr.y = cy - h / 2 + 6 + spr.displayHeight / 2;        // top-align so the head shows
+        // a sprite zooms by whole steps (its pixels stay even); a picture bigger than the plate (a place's background
+        // as its "portrait") shrinks to fit, as a thumbnail
+        const fit = innerW / spr.width;
+        spr.setScale(fit >= 1 ? Math.floor(fit) : fit);
+        spr.y = cy - h / 2 + 10 + spr.displayHeight / 2;       // top-align so the head shows
         parent.add(spr);
         const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
         g.fillStyle(0xffffff);
@@ -187,14 +193,8 @@ function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
         (scene._dialogMasks = scene._dialogMasks || []).push(g);
         // Static portrait: frame 0 of the sprite (spritesheets default to their first frame).
         if (spr.anims) spr.anims.stop();
-    } else {
-        parent.add(scene.add.text(cx, cy - 20, '▓▓', { fontFamily: opts.font, fontSize: '40px', fill: '#274' }).setOrigin(0.5));
     }
-    parent.add(scene.add.rectangle(cx, cy + h / 2 - 16, w, 32, 0x000000, 0.55));
-    parent.add(scene.add.text(cx, cy + h / 2 - 16, name || '—', {
-        fontFamily: opts.font, fontSize: '14px', fill: opts.nameColor, align: 'center',
-        wordWrap: { width: w - 10 }, fontStyle: 'bold',
-    }).setOrigin(0.5));
+    // (no name strip under the bust: the log's first line names the speaker, and a long name won't fit the plate)
 }
 
 // ------------------------------------------------------------------ layout renderers
@@ -203,46 +203,54 @@ const RENDERERS = {
     // ---- CHRONICLE: narration log (left) + name/portrait plate (right) + numbered lines (bottom)
     chronicle(scene, model) {
         const box = newBox(scene);
-        const INK = '#c8e6d0', DIM = '#5f7a68', HL = '#ffffff', NAME = '#e8c46a', FONT = '"Courier New", monospace';
-        // The dialog is laid out 800 wide; centre it on the actual canvas. `dx` shifts the 800-design.
-        const CX = Math.round(scene.scale.width / 2), dx = CX - 400;
+        const INK = '#c8e6d0', DIM = '#5f7a68', HL = '#ffffff', NAME = '#e8c46a', FONT = UI_FONT;
+        // Centred on the canvas, 920 wide: the pixel font (22 px, monospace) needs the room for ~50 characters a line
+        const CX = Math.round(scene.scale.width / 2), PW = 920, left = CX - PW / 2;
 
         box.add(scene.add.rectangle(CX, 300, scene.scale.width, 600, 0x05080a, 0.82));  // dim the world
-        const panel = scene.add.rectangle(CX, 300, 720, 520, 0x0c1410, 0.97).setStrokeStyle(2, 0x2f5a44);
+        // the menu kit's nine-slice card at the 2x grid, as the shop and the journal (CX is even: the edges sit on the grid)
+        const panel = scene.add.nineslice(CX, 300, 'menuCard', 0, PW / 2, 520 / 2, 7, 7, 7, 7).setScale(2);
         box.add(panel);
 
-        // Name / portrait plate, top-right — a static portrait from the speaker's own scene sprite.
-        addPortrait(scene, box, 650 + dx, 150, 150, 170, resolvePortraitTexture(scene, model.speaker) || resolvePortraitTexture(scene, model.speakerEn), model.speaker, { font: FONT, nameColor: NAME });
+        // Portrait plate, top-right: a static bust from the speaker's own scene sprite (none for a speakerless line)
+        const portrait = resolvePortraitTexture(scene, model.speaker) || resolvePortraitTexture(scene, model.speakerEn);
+        const PLATE_W = 152, plateX = left + PW - 30 - PLATE_W / 2;
+        if (portrait) addPortrait(scene, box, plateX, 140, PLATE_W, 152, portrait, model.speaker, { font: FONT, nameColor: NAME });
 
-        // A thin rule under the log region, separating narration from responses.
-        box.add(scene.add.rectangle(CX, 392, 660, 1, 0x2f5a44, 0.7));
-
-        // Narration log, left.
-        const view = { x: 70 + dx, y: 82, w: 486, h: 296, arrowColor: NAME };
-        const logC = scene.add.container(view.x, view.y);
-        box.add(logC);
-        const speakerLine = model.speaker
-            ? scene.add.text(0, 0, model.speaker + ':', { fontFamily: FONT, fontSize: '19px', fill: NAME, fontStyle: 'bold' })
-            : null;
-        if (speakerLine) logC.add(speakerLine);
-        const body = scene.add.text(0, speakerLine ? 34 : 0, model.text, {
-            fontFamily: FONT, fontSize: '18px', fill: INK, wordWrap: { width: view.w - 14 }, lineSpacing: 9,
-        });
-        logC.add(body);
-        attachScroll(scene, logC, (speakerLine ? 34 : 0) + body.height, view);
-
-        // Numbered response lines, bottom (their own scroll area if long).
-        const oview = { x: 70 + dx, y: 410, w: 660, h: 148, arrowColor: NAME };
-        const optsC = scene.add.container(oview.x, oview.y);
+        // Numbered response lines at the bottom, built first: they take the room they need (up to OPT_MAX, then they
+        // scroll) and the narration log above gets the rest, so five options don't scroll while the log sits half empty
+        const BOTTOM = 548, OPT_MAX = 236;
+        const optsC = scene.add.container(left + 30, 0);
         box.add(optsC);
         let y = 0;
         model.options.forEach((opt, i) => {
             y += optionRow(scene, optsC, 0, y, opt, {
-                font: FONT, size: '18px', color: opt.isClose ? DIM : INK, usedColor: DIM, hover: HL,
-                prefix: (idx) => `${idx + 1}. `, align: 'left', wrapW: oview.w - 40, gap: 11,
+                font: FONT, size: UI_SIZE, color: opt.isClose ? DIM : INK, usedColor: DIM, hover: HL,
+                prefix: (idx) => `${idx + 1}. `, align: 'left', wrapW: PW - 100, gap: 6,
             }, i);
         });
+        const optH = Math.min(OPT_MAX, Math.max(y, 120));
+        const oview = { x: left + 30, y: Math.round((BOTTOM - optH) / 2) * 2, w: PW - 60, h: optH, arrowColor: NAME };
+        optsC.y = oview.y;
         attachScroll(scene, optsC, y, oview);
+
+        // A thin rule between the narration and the responses
+        box.add(scene.add.rectangle(CX, oview.y - 14, PW - 60, 2, 0x8a6a2a, 0.7));     // 2 px: one grid pixel
+
+        // Narration log, top-left, down to the rule
+        const top = 70;
+        const view = { x: left + 30, y: top, w: (portrait ? plateX - PLATE_W / 2 - 20 : left + PW - 30) - (left + 30), h: oview.y - 28 - top, arrowColor: NAME };
+        const logC = scene.add.container(view.x, view.y);
+        box.add(logC);
+        const speakerLine = model.speaker
+            ? scene.add.text(0, 0, model.speaker + ':', { fontFamily: FONT, fontSize: UI_SIZE, fill: NAME })
+            : null;
+        if (speakerLine) logC.add(speakerLine);
+        const body = scene.add.text(0, speakerLine ? 34 : 0, model.text, {
+            fontFamily: FONT, fontSize: UI_SIZE, fill: INK, wordWrap: { width: view.w - 14 }, lineSpacing: 6,
+        });
+        logC.add(body);
+        attachScroll(scene, logC, (speakerLine ? 34 : 0) + body.height, view);
     },
 
 };

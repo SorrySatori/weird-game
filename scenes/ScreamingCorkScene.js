@@ -3,6 +3,7 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { composeBook, edgarReaction, newBookSeed, bookRoles, render } from '../utils/EdgarBook.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class ScreamingCorkScene extends GameScene {
     constructor() {
@@ -942,15 +943,16 @@ export default class ScreamingCorkScene extends GameScene {
             'up', // direction
             'ScreamingCorkInteriorScene', // target scene
             100, // walk to x - position inside the tavern
-            470 // walk to y
+            470, // walk to y
+            'Inside'
         );
 
         // Add a hint about the tavern entrance
         const doorX = this.scale.width / 2;
         const doorHint = this.add.text(doorX, 380, this.t('ui.hints.enterTavern'), {
-            fontSize: '16px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 10, y: 5 }
         });
         doorHint.setOrigin(0.5);
@@ -1001,15 +1003,7 @@ export default class ScreamingCorkScene extends GameScene {
             'Edgar Eskola': { key: 'edgarEskola', frame: 0, zoom: 2, top: 19 } };
         this.edgar.setInteractive({ useHandCursor: true });
 
-        // Hover: a soft glow round him (pixel art isn't scaled). The scene instance is reused: drop a glow handle left
-        // over from the previous visit's sprite.
-        this._edgarHoverFx = null;
-        this.edgar.on('pointerover', () => {
-            if (!this._edgarHoverFx) this._edgarHoverFx = this.edgar.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
-        });
-        this.edgar.on('pointerout', () => {
-            if (this._edgarHoverFx) { this.edgar.preFX?.remove(this._edgarHoverFx); this._edgarHoverFx = null; }
-        });
+        // Hover: the aura every character has (utils/hoverAura.js, automatic)
 
         // Add dialog interaction
         this.edgar.on('pointerdown', () => {

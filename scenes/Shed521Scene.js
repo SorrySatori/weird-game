@@ -378,13 +378,14 @@ export default class Shed521Scene extends GameScene {
         
         this.transitionManager.createTransitionZone(
             291, // x position (800-space; remapped onto the tower's gate in the redrawn background)
-            400, // y position
+            350, // y position: the gate's upper half (y 300-400), clear of Gnur pacing below it (his frame starts at y 406)
             100, // width
-            200, // height
+            100, // height
             'right', // direction
             'Shed521FloorsScene', // target scene
             291, // walk to x
-            470  // walk to y
+            470, // walk to y
+            'Inside'
         );
         
         // He paces 200 px back and forth (the walk cycle carries the bob; 44 px/s matches the shuffle's stride at 8 fps)

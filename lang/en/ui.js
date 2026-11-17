@@ -106,7 +106,7 @@ export default {
         // In-world hints (door labels etc.)
         hints: {
             returnToCity: 'Return to city',
-            exitToTavern: 'Exit to Tavern',
+            exitToTavern: 'Back to the bar',
             enterTavern: 'Enter Tavern',
         },
 

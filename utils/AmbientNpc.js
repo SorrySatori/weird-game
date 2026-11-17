@@ -3,6 +3,8 @@
 // (lang/<code>/ambient.js: ambient.<id>.lines) and the hover shows their name (ambient.<id>.name).
 // Sprites are drawn at on-screen size (scale 1), feet-anchored, below the player (depth 6).
 
+import { UI_FONT, UI_SMALL } from './pixelFrame.js';
+
 const TICK = 100; // ms per animation step: a frame is held for whole ticks (Phaser 3.88 ignores per-frame durations)
 
 /**
@@ -24,8 +26,8 @@ export function createAmbientNpc(scene, { id, key = id, x, y, holds, top, depth 
     npc.setInteractive({ pixelPerfect: true, useHandCursor: true });
 
     const headY = y - top;
-    const name = scene.add.text(x, headY - 12, scene.t(`ambient.${id}.name`), {
-        fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+    const name = scene.add.text(x, headY - 14, scene.t(`ambient.${id}.name`), {   // the UI's name-tag look
+        fontFamily: UI_FONT, fontSize: UI_SMALL, fill: '#7fff8e', backgroundColor: 'rgba(12, 20, 16, 0.92)', padding: { x: 5, y: 2 }
     }).setOrigin(0.5).setDepth(100).setAlpha(0);
     npc.on('pointerover', () => name.setAlpha(1));
     npc.on('pointerout', () => name.setAlpha(0));

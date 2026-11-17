@@ -3,6 +3,7 @@ import GameScene from './GameScene.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { DEMO_BUILD } from '../config/build.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 export default class SkyshipBoardScene extends GameScene {
     constructor() {
         super({ key: 'SkyshipBoardScene' });
@@ -59,7 +60,7 @@ export default class SkyshipBoardScene extends GameScene {
 
         // Add a text hint for the exit
         const exitText = this.add.text(100, 550, this.t('ui.hints.returnToCity'), {
-            fontSize: '16px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
             align: 'center'
         });
@@ -85,7 +86,6 @@ export default class SkyshipBoardScene extends GameScene {
 
     createCaptainLiris() {
         // Captain Liris (tools/artgen/liris.py): 8 idle frames of 128×160 at scale 1, soles on the deck walk line
-        this._lirisHoverFx = null;  // the scene instance is reused: drop a glow left on the previous run's sprite
         const lx = 700, feet = 533;
         if (!this.anims.exists('liris_idle')) {
             // breath, a blink, the monocle's lens clicking round, a gust through the scarf and coat, a touch to the monocle
@@ -104,13 +104,7 @@ export default class SkyshipBoardScene extends GameScene {
         const bust = { key: 'captainLiris', frame: 0, zoom: 2, top: 10 };
         this.dialogPortraits = { ...(this.dialogPortraits || {}), 'Captain Liris': bust, 'Kapitánka Liris': bust };
 
-        // Hover: a soft glow round her (pixel art isn't scaled)
-        this.captainLiris.on('pointerover', () => {
-            if (!this._lirisHoverFx) this._lirisHoverFx = this.captainLiris.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
-        });
-        this.captainLiris.on('pointerout', () => {
-            if (this._lirisHoverFx) { this.captainLiris.preFX?.remove(this._lirisHoverFx); this._lirisHoverFx = null; }
-        });
+        // Hover: the aura every character has (utils/hoverAura.js, automatic)
         
         // Add click interaction to show dialog
         this.captainLiris.on('pointerdown', () => {
@@ -119,7 +113,7 @@ export default class SkyshipBoardScene extends GameScene {
         
         // Add a name tag below the captain
         const captainText = this.add.text(lx, 548, this.t('ui.hotspots.captainLiris'), {
-            fontSize: '18px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
             align: 'center'
         });

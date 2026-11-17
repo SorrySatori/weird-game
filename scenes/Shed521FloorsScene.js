@@ -2,6 +2,7 @@ import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { createAmbientNpc } from '../utils/AmbientNpc.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 // The people on the floors: animated sheets (tools/artgen/floorsfolk.py, Aseprite ShedFloors_<id>) at their canvas
 // anchors (feet, origin bottom-centre); the id is also the texture key; holds = each frame's hold time in ms,
@@ -23,11 +24,11 @@ const floorAt = y => (y >= 356 ? 0 : y >= 196 ? 1 : 2);
 // The doors painted in the background (tools/artgen/floors_bg.py), each a hotspot of the door's own shape:
 // floor, where the priest stands to go through, and where it leads
 const DOORS = [
-    { rect: [130, 392, 61, 122], floor: 0, x: 160, target: 'Shed521GateScene' },          // WELCOME, back to the gate
-    { rect: [554, 387, 93, 126], floor: 0, x: 600, target: 'Shed521Scene', label: 'Exit' }, // EXIT, out to the yard
-    { rect: [246, 228, 61, 112], floor: 1, x: 276, target: 'ShedAbandonedOfficeScene' },  // ASSESSMENTS
-    { rect: [182, 68, 60, 112], floor: 2, x: 212, target: 'ShedRegistrationScene' },      // REGISTRATION
-    { rect: [502, 69, 61, 111], floor: 2, x: 532, target: 'ShedApplicationsScene' },      // APPLICATIONS
+    { rect: [130, 392, 61, 122], floor: 0, x: 160, target: 'Shed521GateScene', label: 'Back to the Gate' }, // WELCOME
+    { rect: [554, 387, 93, 126], floor: 0, x: 600, target: 'Shed521Scene', label: 'Outside' }, // EXIT, out to the yard
+    { rect: [246, 228, 61, 112], floor: 1, x: 276, target: 'ShedAbandonedOfficeScene', label: 'Assessments' }, // its sign
+    { rect: [182, 68, 60, 112], floor: 2, x: 212, target: 'ShedRegistrationScene', label: 'Registration' },
+    { rect: [502, 69, 61, 111], floor: 2, x: 532, target: 'ShedApplicationsScene', label: 'Applications' },
 ];
 
 // The ways between floors: both ends (feet, lower floor first) and the hotspot over the drawn stairs / ladder
@@ -127,7 +128,7 @@ export default class Shed521FloorsScene extends GameScene {
         this.input.keyboard.on('keydown-UP', () => climbByKey(true));
         this.input.keyboard.on('keydown-DOWN', () => climbByKey(false));
         this.stairHint = this.add.text(0, 0, '', {
-            fontSize: '16px', fontStyle: 'bold', fill: '#ffd700', backgroundColor: 'rgba(0, 0, 0, 0.55)', padding: { x: 5, y: 1 }
+            fontFamily: UI_FONT, fontSize: UI_SMALL, fill: '#ffd700', backgroundColor: 'rgba(12, 20, 16, 0.92)', padding: { x: 5, y: 1 }
         }).setOrigin(0.5, 1).setDepth(30).setVisible(false);
     }
 

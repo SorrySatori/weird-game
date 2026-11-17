@@ -753,7 +753,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             'left', // direction
             'ScreamingCorkScene', // target scene
             50, // walk to x
-            470 // walk to y
+            470, // walk to y
+            'Outside'
         );
         
         // Create entrance to the club area (at the back of the tavern)
@@ -766,7 +767,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             'ScreamingCorkClubScene', // target scene
             400, // walk to x - position inside the club
             520, // walk to y
-            'Enter Club Area' // custom name
+            'Into the Club' // custom name
         );
         
         if (!this.hasJournalEntry('screaming_cork_place')) {

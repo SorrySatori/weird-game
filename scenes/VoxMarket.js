@@ -5,6 +5,7 @@ import ShopSystem from '../systems/items/ShopSystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import EffectsSystem from '../systems/EffectsSystem.js';
 import { applyGDBackground } from '../utils/GDProps.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class VoxMarket extends GameScene {
     constructor() {
@@ -604,7 +605,8 @@ export default class VoxMarket extends GameScene {
             'up', // direction
             'VoxmarketMarketScene', // target scene
             400, // walk to x
-            470 // walk to y
+            470, // walk to y
+            'To the Stalls'
         );
         
         // Create entrance to VoxmarketHallScene: the curtained arch in the hangar's right wall
@@ -616,7 +618,8 @@ export default class VoxMarket extends GameScene {
             'right', // direction
             'VoxmarketHallScene', // target scene
             686, // walk to x
-            470 // walk to y
+            470, // walk to y
+            'To the Auction Hall'
         );
         
         // Create Kloor Venn NPC
@@ -676,9 +679,9 @@ export default class VoxMarket extends GameScene {
 
         // A name tag above Kloor's head, following him
         this.kloorTag = this.add.text(this.kloor.x, this.kloor.y - 172, 'Kloor Venn', {
-            fontSize: '14px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
         }).setOrigin(0.5).setDepth(6);
 

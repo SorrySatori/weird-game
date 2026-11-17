@@ -1,5 +1,6 @@
 import { ITEM_ICONS } from '../utils/itemIcons.js';
 import { preloadRecordings } from '../utils/Recordings.js';
+import { UI_FONT, UI_SIZE } from '../utils/pixelFrame.js';
 
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
@@ -7,6 +8,10 @@ export default class LoadingScene extends Phaser.Scene {
     }
 
     preload() {
+        // The in-world UI's pixel font (Departure Mono, OFL: assets/fonts/DepartureMono-LICENSE.txt), drawn on an 11 px
+        // grid, so it is shown at 22 px: one font pixel = 2x2 screen pixels like the rest of the game (utils/pixelFrame.js)
+        this.load.font('Departure Mono', 'assets/fonts/DepartureMono-Regular.otf', 'opentype');
+
         // Load the Tempurra logo
         this.load.image('tempurraLogo', 'assets/images/ui/TempurraLogo.png');
 
@@ -32,9 +37,9 @@ export default class LoadingScene extends Phaser.Scene {
         
         // Create loading text
         const loadingText = this.add.text(this.scale.width / 2, 400, 'Loading...', {
-            fontSize: '24px',
+            fontSize: UI_SIZE,
             fill: '#7fff8e',
-            fontFamily: 'Arial'
+            fontFamily: UI_FONT
         });
         loadingText.setOrigin(0.5);
         

@@ -3,6 +3,11 @@
  * Handles scene transitions with consistent behavior across all scenes
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { UI_FONT, FRAME, UI_SMALL } from './pixelFrame.js';
+
+// exit labels: the in-world UI face on the dialog card's dark green (utils/pixelFrame.js), the names in the dialog's gold
+const LABEL_BG = `rgba(${FRAME.fill >> 16 & 255}, ${FRAME.fill >> 8 & 255}, ${FRAME.fill & 255}, ${FRAME.alpha})`;
+const EXIT_INK = '#e8c46a';
 
 export default class SceneTransitionManager {
     constructor(scene) {
@@ -198,9 +203,8 @@ export default class SceneTransitionManager {
         glow.strokePoints(flat, true, true);
 
         const text = this.scene.add.text(0, 0, '', {
-            fontSize: '14px', fontFamily: 'Arial', fill: '#ffffff', align: 'center', fontStyle: 'bold',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: { x: 8, y: 4 }
-        }).setOrigin(0.5, 1).setDepth(30).setAlpha(0).setStroke('#000000', 2);
+            fontSize: UI_SMALL, fill: EXIT_INK, align: 'center', fontFamily: UI_FONT, backgroundColor: LABEL_BG, padding: { x: 8, y: 4 }
+        }).setOrigin(0.5, 1).setDepth(30).setAlpha(0);
         const W = this.scene.scale.width;
         zone.exitLabel = () => this.exitLabel(typeof label === 'function' ? label() : label, target, direction); // also for the hint lantern
         const placeLabel = () => {
@@ -406,17 +410,12 @@ export default class SceneTransitionManager {
         
         // Create the text with background - initially invisible
         const text = this.scene.add.text(0, 0, displayText, {
-            fontSize: '14px',
-            fontFamily: 'Arial',
-            fill: '#ffffff',
+            fontSize: UI_SMALL,
+            fill: EXIT_INK,
             align: 'center',
-            fontStyle: 'bold',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            fontFamily: UI_FONT, backgroundColor: LABEL_BG,
             padding: { x: 8, y: 4 }
         }).setOrigin(0.5).setAlpha(0); // Initially invisible
-        
-        // Add stroke to text
-        text.setStroke('#000000', 2);
         
         // Add text to its container
         textContainer.add(text);

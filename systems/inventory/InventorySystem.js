@@ -199,7 +199,7 @@ export default class InventorySystem {
     makeIcon(item, x, y, size) {
         const sc = this.scene, key = this.iconKey(item);
         if (key) {
-            const img = sc.add.image(x, y, key).setDisplaySize(size, size);
+            const img = sc.add.image(x, y, key).setDisplaySize(size, size);   // 1:1 in the grid, x2 on the item card
             if (item.tint) img.setTint(item.tint);
             return [img];
         }

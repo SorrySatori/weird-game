@@ -194,7 +194,7 @@ export const SHOTS = [
         setup(ctx) { place(ctx, 200); walk(ctx, 380); },
         hud: 'hide',
         update(ctx) {
-            if (ctx.frame === Math.round(0.9 * ctx.fps)) bubble(ctx, { x: 510, y: 300 }, 'Welcome, little toadstool. I am Lift-Mother.', { offsetY: 40 });
+            if (ctx.frame === Math.round(0.9 * ctx.fps)) bubble(ctx, { x: 510, y: 248 }, 'Welcome, little toadstool.', { offsetY: 0 }); // clear of the LIFT-MOTHER plate
         },
     },
     {
@@ -390,7 +390,8 @@ export const STILLS = [
     {
         id: '06_lift_mother', scene: 'ScraperInteriorScene', at: 1.2, hud: 'quiet',
         before(game) { setGrowth(game, 50); },
-        setup(ctx) { place(ctx, 380); bubble(ctx, { x: 510, y: 300 }, L({ en: 'Welcome, little toadstool. I am Lift-Mother.', cs: 'Vítej, malá muchomůrko.' }), { offsetY: 40 }); },
+        // one line in the gap between the chandelier (bottom y≈198) and the LIFT-MOTHER plate (top y≈250), which names her
+        setup(ctx) { place(ctx, 380); bubble(ctx, { x: 510, y: 248 }, L({ en: 'Welcome, little toadstool.', cs: 'Vítej, malá muchomůrko.' }), { offsetY: 0 }); },
     },
     {
         id: '07_voxmarket_zerren', scene: 'VoxmarketMarketScene', at: 1.2, hud: 'quiet',

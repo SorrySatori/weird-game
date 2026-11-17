@@ -2,6 +2,8 @@ import { composeBook } from '../utils/EdgarBook.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { addHoverAura } from '../utils/hoverAura.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class ScraperAmbraScene extends GameScene {
     constructor() {
@@ -968,7 +970,6 @@ export default class ScraperAmbraScene extends GameScene {
             // a tap on the device in her hand (the glyph answers), a lock of hair stirs
             this.anims.create({ key: 'elphi_idle', frames: this.anims.generateFrameNumbers('drElphiIdle', { frames: [0, 0, 1, 1, 0, 0, 3, 3, 4, 4, 0, 0, 2, 0, 0, 1, 1, 0, 5, 5, 0, 0, 6, 0, 6, 0, 0, 3, 4, 4, 0, 7, 7, 0, 0, 0] }), frameRate: 4, repeat: -1 });
         }
-        this._elphiHoverFx = null; // the scene instance is reused
         this.drElphi = this.add.sprite(745, 514, 'drElphiIdle', 0);
         this.drElphi.setOrigin(0.5, 1);
         this.drElphi.setDepth(6);
@@ -981,9 +982,9 @@ export default class ScraperAmbraScene extends GameScene {
 
         // Add name tag above her head
         const nameTag = this.add.text(this.drElphi.x, this.drElphi.y - 4 - 144 - 12, 'Dr. Elphi Quarn', {   // over her curls (the figure is 144 px)
-            fontSize: '14px',
+            fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
         });
         nameTag.setOrigin(0.5);
@@ -1008,15 +1009,13 @@ export default class ScraperAmbraScene extends GameScene {
         drElphiContainer.setInteractive();
         
         // Hover effect
+        addHoverAura(drElphiContainer, [this.drElphi]);   // the character aura on the sprite inside (utils/hoverAura.js)
         drElphiContainer.on('pointerover', () => {
-            // a soft green outline glow instead of scaling (scaling smears the pixel art); WebGL only, harmless otherwise
-            if (!this._elphiHoverFx) this._elphiHoverFx = this.drElphi.preFX?.addGlow(0x7fff8e, 2, 0, false, 0.1, 8);
             nameTag.setFontSize('16px');
             document.body.style.cursor = 'pointer';
         });
         
         drElphiContainer.on('pointerout', () => {
-            if (this._elphiHoverFx) { this.drElphi.preFX?.remove(this._elphiHoverFx); this._elphiHoverFx = null; }
             nameTag.setFontSize('14px');
             document.body.style.cursor = 'default';
         });

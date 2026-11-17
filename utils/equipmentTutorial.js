@@ -14,6 +14,7 @@
 
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { hudIconCentre } from './hudButton.js';
+import { pixelPlate, snap, FRAME, UI_FONT, UI_SIZE } from './pixelFrame.js';
 
 /** Run the equipment tutorial on `scene` (a GameScene / subclass). */
 export function runEquipmentTutorial(scene) {
@@ -92,26 +93,27 @@ export function runEquipmentTutorial(scene) {
     };
 
     const caption = (body, cy, buttons) => {
-        const W = 560, PAD = 18, GAP = 16, BH = 32, BGAP = 12;
+        const W = 640, PAD = 18, GAP = 16, BH = 36, BGAP = 12;
         const c = scene.add.container(400, cy).setDepth(6001); objs.push(c);
-        const label = scene.add.text(0, 0, T('MASTER THAAL', 'MISTR THAAL'), { fontFamily: '"Courier New", monospace', fontSize: '11px', color: '#7fff8e', letterSpacing: 2 }).setOrigin(0.5, 0);
-        const txt = scene.add.text(0, 0, body, { fontFamily: 'system-ui, -apple-system, sans-serif', fontSize: '16px', color: '#e6efdf', align: 'center', wordWrap: { width: W - 2 * PAD }, lineSpacing: 5 }).setOrigin(0.5, 0);
-        buttons.forEach(b => { const t = scene.add.text(0, 0, b.label, { fontFamily: '"Courier New", monospace', fontSize: '14px', color: b.primary ? '#0b0e0a' : '#c8e6d0' }).setOrigin(0.5); b._t = t; b._w = t.width + 26; });
+        const label = scene.add.text(0, 0, T('MASTER THAAL', 'MISTR THAAL'), { fontFamily: UI_FONT, fontSize: UI_SIZE, color: '#e8c46a' }).setOrigin(0.5, 0);
+        const txt = scene.add.text(0, 0, body, { fontFamily: UI_FONT, fontSize: UI_SIZE, color: '#c8e6d0', align: 'center', wordWrap: { width: W - 2 * PAD }, lineSpacing: 4 }).setOrigin(0.5, 0);
+        buttons.forEach(b => { const t = scene.add.text(0, 0, b.label, { fontFamily: UI_FONT, fontSize: UI_SIZE, color: b.primary ? '#0b0e0a' : '#c8e6d0' }).setOrigin(0.5); b._t = t; b._w = Math.ceil((t.width + 26) / 4) * 4; });
         const totalBW = buttons.reduce((s, b) => s + b._w, 0) + BGAP * (buttons.length - 1);
-        const boxH = PAD + 16 + txt.height + GAP + BH + PAD;
+        const boxH = Math.ceil((PAD + 28 + txt.height + GAP + BH + PAD) / 4) * 4;   // on the 2x grid, centred
         // Keep the whole box (incl. its buttons) on-screen — a tall caption near the bottom
         // would otherwise push the buttons below the 600px world height and hide them.
         c.y = Math.max(boxH / 2 + 10, Math.min(cy, 600 - boxH / 2 - 10));
-        c.add(scene.add.rectangle(0, 0, W, boxH, 0x0c1410, 0.98).setStrokeStyle(2, 0x2f5a44));
+        c.add(pixelPlate(scene, W, boxH, { alpha: 0.98 }));   // utils/pixelFrame.js
         let y = -boxH / 2 + PAD;
-        label.y = y; c.add(label); y += 20;
+        label.y = y; c.add(label); y += 32;
         txt.y = y; c.add(txt); y += txt.height + GAP;
         let bx = -totalBW / 2;
         buttons.forEach(b => {
-            const rect = scene.add.rectangle(bx + b._w / 2, y + BH / 2, b._w, BH, b.primary ? 0x7fff8e : 0x14261a, b.primary ? 1 : 0.7).setStrokeStyle(1, 0x2f5a44).setInteractive({ useHandCursor: true });
-            b._t.setPosition(bx + b._w / 2, y + BH / 2);
-            rect.on('pointerover', () => rect.setScale(1.05));
-            rect.on('pointerout', () => rect.setScale(1));
+            const fill = b.primary ? 0x7fff8e : 0x14261a, lit = b.primary ? 0xb4ffbe : 0x24402c;   // hover lightens (a scale would blur it)
+            const rect = scene.add.rectangle(snap(bx + b._w / 2), snap(y + BH / 2), b._w, BH, fill, b.primary ? 1 : 0.85).setStrokeStyle(2, FRAME.rim).setInteractive({ useHandCursor: true });
+            b._t.setPosition(snap(bx + b._w / 2), snap(y + BH / 2));
+            rect.on('pointerover', () => rect.setFillStyle(lit, 1));
+            rect.on('pointerout', () => rect.setFillStyle(fill, b.primary ? 1 : 0.85));
             rect.on('pointerdown', () => { if (scene.clickSound) scene.clickSound.play(); b.onClick(); });
             c.add(rect); c.add(b._t);
             bx += b._w + BGAP;

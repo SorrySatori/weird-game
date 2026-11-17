@@ -2,6 +2,7 @@ import { notePlace } from '../utils/places.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, placeProps } from '../utils/GDProps.js';
+import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class Shed521GateScene extends GameScene {
     constructor() {
@@ -68,7 +69,7 @@ export default class Shed521GateScene extends GameScene {
             'Shed521FloorsScene', // target scene
             750, // walk to x
             470, // walk to y
-            'Back to the Main Building' // clearer than the Floors' location name
+            'Back Inside' // clearer than the Floors' location name
         );
         
         // Exit to Courtyard Scene (left side of the screen)
@@ -80,7 +81,8 @@ export default class Shed521GateScene extends GameScene {
             'left', // direction
             'ShedCourtyard', // target scene
             50,  // walk to x
-            470  // walk to y
+            470, // walk to y
+            'To the Courtyard'
         );
         
         // Remove the NPC if it exists
@@ -104,7 +106,7 @@ export default class Shed521GateScene extends GameScene {
         });
 
         const name = this.add.text(barrier.x + barrier.width / 2, barrier.y - 18, this.t('ambient.gate_barrier.name'), {
-            fontSize: '13px', fill: '#7fff8e', backgroundColor: 'rgba(0,0,0,0.5)', padding: { x: 5, y: 2 }
+            fontFamily: UI_FONT, fontSize: UI_SMALL, fill: '#7fff8e', backgroundColor: 'rgba(12, 20, 16, 0.92)', padding: { x: 5, y: 2 }
         }).setOrigin(0.5).setDepth(100).setAlpha(0);
         barrier.on('pointerover', () => name.setAlpha(1));
         barrier.on('pointerout', () => name.setAlpha(0));

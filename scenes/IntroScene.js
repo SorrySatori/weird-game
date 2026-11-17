@@ -14,10 +14,11 @@
 // Advance with SPACE / ENTER / click (first press completes a line that is still typing); ESC skips the intro.
 
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { UI_FONT, UI_SIZE } from '../utils/pixelFrame.js';
 
 const IMG = 'assets/images/intro/';
 const OY = 1100;                                 // shot 2 lives below shot 1 in world space
-const FONT = '"Courier New", monospace';
+const FONT = UI_FONT;   // the game's pixel font (utils/pixelFrame.js)
 const INK = '#c8e6d0';
 const NAME_COLOR = { narrator: '#8fb89a', varhun: '#c9a6e0', tynri: '#e8dcbc', rhull: '#a6d68e' };
 const BACK_ROW = ['tynri', 'varhun', 'rhull'];
@@ -540,20 +541,21 @@ class IntroScene extends Phaser.Scene {
         // shot 1: cinematic caption over a soft dark band
         this.captionBand = this.ui(this.add.rectangle(W / 2, H - 70, W, 140, 0x000000, 0.55).setDepth(100).setAlpha(0));
         this.captionText = this.ui(this.add.text(W / 2, H - 70, '', {
-            fontFamily: FONT, fontSize: '19px', fill: INK, align: 'center', wordWrap: { width: W - 220 }, lineSpacing: 8,
+            fontFamily: FONT, fontSize: UI_SIZE, fill: INK, align: 'center', wordWrap: { width: W - 160 }, lineSpacing: 6,
         }).setOrigin(0.5).setDepth(101));
         this.captionName = this.ui(this.add.text(W / 2, H - 124, '', {
-            fontFamily: FONT, fontSize: '14px', fill: NAME_COLOR.narrator, fontStyle: 'bold',
+            fontFamily: FONT, fontSize: UI_SIZE, fill: NAME_COLOR.narrator,
         }).setOrigin(0.5).setDepth(101));
 
-        // shot 2: dialog panel in the game's chronicle colours
+        // shot 2: dialog panel in the game's chronicle colours (its height follows the line: layoutPanel)
         const pw = W - 80, ph = 116, py = H - ph / 2 - 14;
-        this.panel = this.ui(this.add.rectangle(W / 2, py, pw, ph, 0x0c1410, 0.92).setStrokeStyle(2, 0x2f5a44).setDepth(100).setAlpha(0));
+        this.panelW = pw;
+        this.panel = this.ui(this.add.rectangle(W / 2, py, pw, ph, 0x0c1410, 0.92).setStrokeStyle(2, 0x8a6a2a).setDepth(100).setAlpha(0));
         this.panelName = this.ui(this.add.text(W / 2 - pw / 2 + 22, py - ph / 2 + 12, '', {
-            fontFamily: FONT, fontSize: '17px', fill: NAME_COLOR.narrator, fontStyle: 'bold',
+            fontFamily: FONT, fontSize: UI_SIZE, fill: NAME_COLOR.narrator,
         }).setDepth(101).setAlpha(0));
         this.panelText = this.ui(this.add.text(W / 2 - pw / 2 + 22, py - ph / 2 + 40, '', {
-            fontFamily: FONT, fontSize: '17px', fill: INK, wordWrap: { width: pw - 70 }, lineSpacing: 6,
+            fontFamily: FONT, fontSize: UI_SIZE, fill: INK, wordWrap: { width: pw - 70 }, lineSpacing: 4,
         }).setDepth(101).setAlpha(0));
         this.nextMark = this.ui(this.add.text(W / 2 + pw / 2 - 22, py + ph / 2 - 10, '▼', {
             fontFamily: FONT, fontSize: '14px', fill: '#7fff8e',
@@ -561,7 +563,7 @@ class IntroScene extends Phaser.Scene {
         this.tweens.add({ targets: this.nextMark, y: '+=3', duration: 500, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
 
         this.skipHint = this.ui(this.add.text(W - 14, 12, this.lang.t('intro.skipHint'), {
-            fontFamily: FONT, fontSize: '12px', fill: '#5f7a68',
+            fontFamily: FONT, fontSize: UI_SIZE, fill: '#5f7a68',
         }).setOrigin(1, 0).setDepth(101).setAlpha(0.8));
         this.fader = this.ui(this.add.rectangle(W / 2, H / 2, W, H, 0x000000, 1).setDepth(200));
     }
@@ -622,7 +624,9 @@ class IntroScene extends Phaser.Scene {
         this.hideCaption();
         [this.panel, this.panelName, this.panelText].forEach((o) => o.setAlpha(1));
         this.panelName.setText(line.speaker || '').setColor(NAME_COLOR[line.who] || NAME_COLOR.narrator);
-        this.panelText.setFontStyle(line.who === 'narrator' ? 'italic' : 'normal');
+        this.layoutPanel(line.text);
+        // the narrator reads in a softer ink, not in italics (a faked italic smears the pixel font)
+        this.panelText.setColor(line.who === 'narrator' ? NAME_COLOR.narrator : INK);
         const spr = this.speakers[line.who];
         if (spr) {
             spr._talking = true;
@@ -638,6 +642,18 @@ class IntroScene extends Phaser.Scene {
             }
             this.nextMark.setAlpha(1);
         });
+    }
+
+    /** Size the panel to the whole line before it types in (a long line used to run out of the panel), bottom-anchored. */
+    layoutPanel(text) {
+        this.panelText.setText(text);
+        const ph = Math.max(116, Math.ceil((40 + this.panelText.height + 22) / 4) * 4);
+        const bottom = this.H - 14, top = bottom - ph;
+        this.panel.setSize(this.panelW, ph).setY(top + ph / 2);
+        this.panel.geom?.setSize?.(this.panelW, ph);
+        this.panel.updateDisplayOrigin?.();
+        this.panelName.setY(top + 12);
+        this.panelText.setY(top + 40).setText('');
     }
 
     hideDialog() {

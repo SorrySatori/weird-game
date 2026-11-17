@@ -48,17 +48,29 @@ async function enter(key, data = {}) {
 }
 
 function describe(scene) {
-    return scene.children.list.map(o => ({
-        type: o.type,
-        tex: o.texture?.key,
-        frame: o.frame?.name,
-        name: o.name || undefined,
-        text: o.text ? String(o.text).slice(0, 60) : undefined,
-        x: Math.round(o.x), y: Math.round(o.y),
-        w: Math.round(o.displayWidth || o.width || 0), h: Math.round(o.displayHeight || o.height || 0),
-        depth: o.depth, sf: o.scrollFactorX, vis: o.visible, alpha: +(o.alpha ?? 1).toFixed(2),
-        input: !!o.input,
-    }));
+    // containers are walked too (the HUD lives in them); `scale` is the on-screen one (container scales multiplied in),
+    // `src` the texture's file, so the art's pixel grid can be audited per file
+    const out = [];
+    const walk = (list, parentScale = 1, parent) => list.forEach(o => {
+        const scale = +((o.scaleX ?? 1) * parentScale).toFixed(3);
+        const src = o.texture?.source?.[0]?.image?.src;
+        out.push({
+            type: o.type,
+            tex: o.texture?.key,
+            frame: o.frame?.name,
+            name: o.name || undefined,
+            parent,
+            src: src && !src.startsWith('data:') ? decodeURI(src.replace(/^.*?\/assets\//, 'assets/')) : undefined,
+            text: o.text ? String(o.text).slice(0, 60) : undefined,
+            x: Math.round(o.x), y: Math.round(o.y),
+            w: Math.round(o.displayWidth || o.width || 0), h: Math.round(o.displayHeight || o.height || 0),
+            scale, depth: o.depth, sf: o.scrollFactorX, vis: o.visible, alpha: +(o.alpha ?? 1).toFixed(2),
+            input: !!o.input,
+        });
+        if (o.list) walk(o.list, scale, o.name || o.type);
+    });
+    walk(scene.children.list);
+    return out;
 }
 
 async function survey() {
@@ -119,7 +131,7 @@ async function screenshots() {
         await shot.setup?.(ctx, { wait, frame, until });
         scene.cameras.main.resetFX();
         await wait(shot.at);
-        await cap.still(shot.id, readPixels(), true);
+        await cap.still(shot.id, readPixels(), !shot.native);   // native: true -> out/stills at 1067x600 (pixel checks)
         scene.sys.events.off('prerender', hud);
         cap.log(`screenshot ${shot.id}`);
     }

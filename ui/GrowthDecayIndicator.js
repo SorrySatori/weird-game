@@ -1,4 +1,5 @@
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { drawPixelFrame, UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class GrowthDecayIndicator {
     constructor(scene, x, y) {
@@ -45,15 +46,17 @@ export default class GrowthDecayIndicator {
     }
     
     createPopupMenu() {
-        // Create semi-transparent background for menu
-        this.menuBg = this.scene.add.rectangle(110, 0, 150, 80, 0x000000, 0.8);
-        this.menuBg.setOrigin(0, 0);
+        // A pixel plate (utils/pixelFrame.js) with the values in the UI font
+        this.menuBg = this.scene.add.graphics();
+        drawPixelFrame(this.menuBg, 110, 4, 132, 44);
         
         // Create text for displaying values
-        this.menuText = this.scene.add.text(120, 10, '', {
-            fontSize: '16px',
-            fill: '#ffffff',
-            align: 'left'
+        this.menuText = this.scene.add.text(122, 12, '', {
+            fontFamily: UI_FONT,
+            fontSize: UI_SMALL,
+            fill: '#c8e6d0',
+            align: 'left',
+            lineSpacing: 4
         });
         
         this.updateMenuText();

@@ -1004,7 +1004,7 @@ Her clinical calm slips, just slightly. "New minds are being born in this city. 
 
         // Show arrival notification
         this.time.delayedCall(500, () => {
-            this.showNotification('Voxmarket Auction Hall', 0x8B4513);
+            this.showNotification(this.t('locations.VoxmarketHallScene'));   // the place's own name (lang/<code>/locations.js)
         });
     }
 

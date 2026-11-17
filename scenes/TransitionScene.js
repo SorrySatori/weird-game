@@ -1,5 +1,6 @@
 // Transition scene between Intro and Entry
 import LanguageSystem from '../systems/LanguageSystem.js';
+import { UI_FONT, UI_SIZE } from '../utils/pixelFrame.js';
 
 class TransitionScene extends Phaser.Scene {
     constructor() {
@@ -17,7 +18,7 @@ class TransitionScene extends Phaser.Scene {
             this.scale.height / 2,
             LanguageSystem.getInstance().t('intro.transition'),
             {
-                fontSize: '24px',
+                fontFamily: UI_FONT, fontSize: UI_SIZE,
                 fill: '#ffffff',
                 align: 'center',
                 wordWrap: { width: this.scale.width * 0.8 }
