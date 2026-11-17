@@ -23,8 +23,7 @@ import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
 import { preloadMenuKit } from '../utils/menuKit.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { isDemoClosed, preloadDemoCones, sayDemoClosed } from '../utils/demo.js';
-import { loadPortraitTwins } from '../utils/portraitTwins.js';
-import { snapToArtGrid, pixelEllipseTexture } from '../utils/pixelGrid.js';
+import { pixelEllipseTexture } from '../utils/pixelGrid.js';
 import { autoHoverAura } from '../utils/hoverAura.js';
 import { trackCharacterSheets } from '../utils/characterSheets.js';
 import { applySceneLight } from '../utils/sceneLight.js';
@@ -124,8 +123,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        loadPortraitTwins(this.load); // dialog busts from the 1x sheets (the world ones are on the 2x grid)
-        snapToArtGrid(this);          // world sprites drawn on the 2x art grid (utils/pixelGrid.js)
         trackCharacterSheets(this.load);   // which textures are characters (utils/characterSheets.js)
         autoHoverAura(this);               // every character glows on hover (utils/hoverAura.js)
         applySceneLight(this);             // the scene's light colours its characters (utils/sceneLight.js)

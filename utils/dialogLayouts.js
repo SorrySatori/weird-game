@@ -17,7 +17,6 @@
  * scene._dialogMasks and wheel handlers into scene._dialogWheel (also cleaned there).
  */
 
-import { twinKey } from './portraitTwins.js';
 import { UI_FONT, UI_SIZE } from './pixelFrame.js';
 
 /** Entry point called by showDialog to render a dialog from its normalized model. */
@@ -165,10 +164,8 @@ function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
     const innerW = w - 20, innerH = h - 20;
     if (key && key.key && key.zoom && scene.textures.exists(key.key)) {
         // A bust from one frame of a full-figure pixel-art sheet: integer zoom, the frame's row `top` (the top of the
-        // head) at the plate's top edge, the rest masked off. Drawn from the sheet's 1x twin when it has one
-        // (utils/portraitTwins.js): the world sheet is on the 2x grid, zooming it would make 4x pixels.
-        const tex = scene.textures.exists(twinKey(key.key)) ? twinKey(key.key) : key.key;
-        const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, tex, key.frame ?? 0)
+        // head) at the plate's top edge, the rest masked off. zoom 2 puts the bust on the UI layer's 2x grid.
+        const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, key.key, key.frame ?? 0)
             .setOrigin(0.5, 0).setScale(key.zoom);
         parent.add(spr);
         const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box

@@ -35,9 +35,7 @@ OVERRIDE = {}   # scene key -> (0xRRGGBB, saturation), when the measured light n
 
 
 def light(bg):
-    rel = os.path.join('assets/images/backgrounds', bg)   # measured on the 1x original (the shipped one carries ink)
-    src = os.path.join(HERE, 'masters_1x', rel)
-    im = Image.open(src if os.path.exists(src) else os.path.join(REPO, rel)).convert('RGB').crop((0, 200, 1067, 560))
+    im = Image.open(os.path.join(REPO, 'assets/images/backgrounds', bg)).convert('RGB').crop((0, 200, 1067, 560))
     r, g, b = ImageStat.Stat(im).mean
     luma = 0.299 * r + 0.587 * g + 0.114 * b
     m = max(r, g, b)

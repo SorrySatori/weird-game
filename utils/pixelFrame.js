@@ -1,12 +1,12 @@
 /**
- * Small UI plates on the 2x pixel grid (utils/pixelGrid.js), in the menu kit's colours: a dark green body and a 2 px
+ * Small UI plates on the UI layer's 2x pixel grid (the menu kit's; the world is 1x, utils/pixelGrid.js), in its colours: a dark green body and a 2 px
  * rim with its corners cut off (one grid pixel, or two for `round`), so notices, tooltips, labels and speech bubbles
  * read as pixel art beside the world and the menu kit, not as smooth vector boxes. Sizes are rounded up to the grid
  * (centred plates to 4, so their edges stay on even pixels).
  *
  * UI_FONT is the in-world UI's one face (the dialog's): menus keep the kit's own (MENU_FONT).
  */
-import { GRID } from './pixelGrid.js';
+const GRID = 2;   // the UI layer's pixel: menu kit, dialog card, these plates
 
 export const UI_FONT = '"Departure Mono", "Courier New", monospace';
 // Departure Mono is drawn on an 11 px grid, so only 11 and 22 px are crisp (and no bold: the browser smears a fake one).
