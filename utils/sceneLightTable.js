@@ -23,4 +23,20 @@ export const SCENE_LIGHT = {
     VoxmarketMarketScene: [0xfffce7, 0.89],   // VoxmarketMarket.png
     VoxmarketHallScene: [0xe8bce8, 0.91],   // VoxmarketHall.png
     BurningBearStreetScene: [0xbfd9b9, 0.74],   // BurningBearStreet.png
+    TownSquareScene: [0xddffdc, 0.66],   // TownSquare.png
+    TownhallScene: [0xf0ffd5, 0.66],   // townhall.png
+    TownhallInteriorScene: [0xffe6b7, 0.84],   // townhall_interior.png
+    HarborScene: [0xf5ffcf, 0.67],   // Harbor.png
+    RedmassIslandScene: [0xfff6d3, 0.67],   // RedmassIsland.png
+    EchoDrainDeltaScene: [0xe2ffdc, 0.65],   // EchoDrainDelta.png
+    AbandonedBusScene: [0xccc9a7, 0.7],   // AbandonedBus.png
+    RustDomainScene: [0xccab83, 0.85],   // RustDomain.png
+    LumenDirectorateScene: [0xf9ffd6, 0.65],   // LumenDirectorate.png
+    LumenDirectorateInteriorScene: [0xf4ffe2, 0.65],   // LumenDirectorateInterior.png
+    PithReclaimersRoomScene: [0xccae7e, 0.95],   // ReclaimersRoom.png
+    ScraperBackyardScene: [0xe9e7ba, 0.82],   // ScraperBackyard.png
+    ScraperCellarScene: [0xcacc9d, 0.7],   // ScraperBasement.png
+    EggCathedralInteriorScene: [0xe0b48f, 0.79],   // CathedralHeart.png
+    EggCathedralStudyScene: [0xffe2c4, 0.68],   // EggCathedralStudy.png
+    GodgraveyardScene: [0xe1ffde, 0.65],   // Godgraveyard.png
 };

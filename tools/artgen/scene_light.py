@@ -30,6 +30,15 @@ SCENES = {   # scene key -> its background (the base one where a scene has growt
     'ScreamingCorkClubScene': 'ScreamingCorkClub.png', 'VoxMarket': 'Voxmarket.png',
     'VoxmarketMarketScene': 'VoxmarketMarket.png', 'VoxmarketHallScene': 'VoxmarketHall.png',
     'BurningBearStreetScene': 'BurningBearStreet.png',
+    # the full game beyond the demo (CardinalFeastScene is a top-down mini-game: no scene light)
+    'TownSquareScene': 'TownSquare.png', 'TownhallScene': 'townhall.png', 'TownhallInteriorScene': 'townhall_interior.png',
+    'HarborScene': 'Harbor.png', 'RedmassIslandScene': 'RedmassIsland.png', 'EchoDrainDeltaScene': 'EchoDrainDelta.png',
+    'AbandonedBusScene': 'AbandonedBus.png', 'RustDomainScene': 'RustDomain.png',
+    'LumenDirectorateScene': 'LumenDirectorate.png', 'LumenDirectorateInteriorScene': 'LumenDirectorateInterior.png',
+    'PithReclaimersRoomScene': 'ReclaimersRoom.png', 'ScraperBackyardScene': 'ScraperBackyard.png',
+    'ScraperCellarScene': 'ScraperBasement.png', 'EggCathedralInteriorScene': 'CathedralHeart.png',
+    'EggCathedralStudyScene': 'EggCathedralStudy.png',
+    'GodgraveyardScene': 'Godgraveyard.png',   # the open graveyard, where its characters stand (the gate has none)
 }
 OVERRIDE = {}   # scene key -> (0xRRGGBB, saturation), when the measured light needs a hand
 
