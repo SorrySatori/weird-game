@@ -542,7 +542,7 @@ def toggle(f):
 
 # --- panels -----------------------------------------------------------------------------------------------------------
 # key: (w, h, title plate w) in native px; utils/menuKit.js MENU_PANELS mirrors these (shown 2x, MARGIN around)
-PANELS = {'pause': (224, 196, 128), 'slots': (256, 210, 136), 'lang': (224, 108, 112), 'settings': (256, 140, 136),
+PANELS = {'pause': (224, 196, 128), 'slots': (256, 210, 136), 'lang': (224, 108, 112), 'settings': (256, 176, 136),
           'ledger': (456, 248, 150)}                                # the journal + quest log (ui/LedgerPanel.js)
 MARGIN = 18
 

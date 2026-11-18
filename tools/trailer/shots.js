@@ -610,3 +610,17 @@ SHOTS.push(
         after(ctx) { ctx.scene.effectsSystem?.clearEffects(true); },
     },
 );
+
+// ---- --dialogs: sample conversations, each saved in every dialog style (utils/dialogStyles.js) ----
+export const DIALOG_CASES = [
+    { id: 'ortolan', scene: 'ShedCourtyard', state: 'main', x: 420 },
+    { id: 'ortolan2', scene: 'ShedCourtyard', state: 'main', x: 420, picks: [0] },   // a reply in: the transcript
+    { id: 'guard', scene: 'CathedralEntrance', state: 'templeGuardGreeting', x: 330 },
+    { id: 'thaal', scene: 'EntryScene', state: 'main', x: 300 },
+    { id: 'edgar', scene: 'ScreamingCorkScene', state: 'edgar_start', x: 400 },
+    { id: 'liftmother', scene: 'ScraperInteriorScene', state: 'lift_mother_start', x: 380 },
+    { id: 'narrator', scene: 'ShedHallScene', state: 'main', x: 400 },
+    { id: 'heliodor', scene: 'ScreamingCorkInteriorScene', state: 'heliodor_start', x: 90 },          // the bubbles met here
+    { id: 'heliodor2', scene: 'ScreamingCorkInteriorScene', state: 'heliodor_fermented_cap', x: 90 }, // a long line
+    { id: 'settings', scene: 'MainScene', data: { panel: 'settings' }, menu: true },
+];

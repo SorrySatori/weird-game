@@ -1,12 +1,12 @@
 /**
- * Player settings (the Settings panel): music volume, sound volume, fullscreen. Kept in localStorage.
+ * Player settings (the Settings panel): music volume, sound volume, fullscreen, the dialog style. Kept in localStorage.
  *
  * Volumes work as two mixer buses behind every sound's own volume, so the scenes' fade-ins, the ampules' music
  * ducking and per-sound volumes keep working untouched: a looping sound (all soundtracks) or the band's set goes
  * through the music bus, everything else through the sound bus. Installed once in main.js (installAudioBuses).
  */
 const STORAGE_KEY = 'gameSettings';
-const DEFAULTS = { music: 0.8, sfx: 0.9, fullscreen: true };
+const DEFAULTS = { music: 0.8, sfx: 0.9, fullscreen: true, dialogStyle: 'cinema' };
 const MUSIC_KEYS = new Set(['feral-toast']);    // played once, still music
 
 let settings = null;

@@ -38,7 +38,6 @@ const HINT_COST = 5;
 /** Corner notifications stack downward from here (below the HUD buttons' labels), this far apart. */
 const NOTICE_TOP = 104;
 const NOTICE_GAP = 6;
-const NOTICE_TOP_DIALOG = 232;   // below the dialog's portrait plate (utils/dialogLayouts.js)
 
 /** The modal input blocker: above the world (NPCs, props, exits), just below the HUD (100) and the panels (1000). */
 const MODAL_BLOCKER_DEPTH = 99;
@@ -1107,13 +1106,48 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
-     * Stack the live notices top-down at the right edge: under the HUD buttons, or, while a dialog is open, under its
-     * portrait plate (the dialog card covers the rest of the right side; the column below the bust is free).
+     * Lay the live notices out where they cover nothing: a column top-down at the right edge under the HUD buttons.
+     * While a dialog is open its style says where they go (utils/dialogStyles.js): `_noticeSpot` { row, right, left,
+     * y, wrapRight } lays them in a row from the right (the cinema's top bar), `_noticeAvoid` lists the plates the
+     * column must keep clear of (the bubbles), so it moves under them or to the left side.
      */
     restackNotices() {
-        this._notices = (this._notices || []).filter(n => n.scene && n.active);
-        let y = (this.dialogVisible ? NOTICE_TOP_DIALOG : NOTICE_TOP) - NOTICE_GAP;
-        for (const n of this._notices) {
+        const list = this._notices = (this._notices || []).filter(n => n.scene && n.active);
+        if (!list.length) return;
+        const W = this.scale.width, H = this.scale.height;
+        const spot = this.dialogVisible ? this._noticeSpot : null;
+        if (spot?.row) {
+            let x = spot.right, y = spot.y;
+            for (const n of list) {
+                if (x !== spot.right && x - n.noticeW < spot.left) {        // full: the next row, under the bar
+                    x = spot.wrapRight ?? spot.right;
+                    y += n.noticeH + NOTICE_GAP;
+                }
+                n.x = snap(x); n.y = snap(y);
+                x -= n.noticeW + NOTICE_GAP;
+            }
+            return;
+        }
+        const totalH = list.reduce((h, n) => h + n.noticeH + NOTICE_GAP, -NOTICE_GAP);
+        const maxW = Math.max(...list.map(n => n.noticeW));
+        const right = { right: snap(W - 20), top: NOTICE_TOP };
+        let col = right;
+        const avoid = this.dialogVisible ? this._noticeAvoid : null;
+        if (avoid?.length) {
+            const across = c => avoid.filter(r => r.x < c.right && r.x + r.w > c.right - maxW);
+            // how much of the plates a column would cover (off the bottom: never)
+            const covered = c => (c.top + totalH > H - 70 ? Infinity : across(c).reduce((sum, r) =>
+                sum + Math.max(0, Math.min(r.y + r.h, c.top + totalH) - Math.max(r.y, c.top))
+                    * (Math.min(r.x + r.w, c.right) - Math.max(r.x, c.right - maxW)), 0));
+            const under = c => ({ ...c, top: Math.max(c.top, ...across(c).map(r => r.y + r.h + 12)) });
+            // the left side: past the medallion and the symbiont rosary, from the top (no HUD there)
+            const left = { right: snap(120 + maxW), top: 16 };
+            const cands = [right, under(right), left, under(left)];
+            col = cands.find(c => covered(c) === 0) || cands.reduce((best, c) => (covered(c) < covered(best) ? c : best));
+        }
+        let y = col.top - NOTICE_GAP;
+        for (const n of list) {
+            n.x = col.right;
             n.y = snap(y + NOTICE_GAP + n.noticeH / 2);
             y = n.y + n.noticeH / 2;
         }
@@ -1163,32 +1197,39 @@ export default class GameScene extends Phaser.Scene {
         box.fillStyle(notificationConfig.borderColor ?? 0x7fff8e, 1)
             .fillRect(mx + 2, -4, 2, 2).fillRect(mx, -2, 6, 2).fillRect(mx + 2, 0, 2, 2);
 
-        notification.add(box);
-        notification.add(text);
+        // the plate slides inside the notice, so the stack can move the notice itself (a dialog opening or closing)
+        const slide = this.add.container(boxWidth, 0, [box, text]);
+        notification.add(slide);
 
         // Stacked below the ones still showing (a fixed row per kind let two of a kind -- and every Czech one,
         // which the English keywords don't classify -- land on top of each other)
         notification.noticeH = boxHeight;
+        notification.noticeW = boxWidth;
         this._notices = (this._notices || []).filter(n => n.scene && n.active);
         this._notices.push(notification);
         this.restackNotices();
 
         // Slide in from right, hold, slide out
-        notification.x = xPos + boxWidth;
         notification.alpha = 0;
 
         this.tweens.add({
+            targets: slide,
+            x: 0,
+            duration,
+            ease: 'Power2',
+        });
+        this.tweens.add({
             targets: notification,
-            x: xPos,
             alpha: 1,
             duration,
             ease: 'Power2',
             onComplete: () => {
                 const holdTime = Math.max(2500, message.length * 60);
                 this.time.delayedCall(holdTime, () => {
+                    if (!notification.active) return;
+                    this.tweens.add({ targets: slide, x: boxWidth, duration: 400, ease: 'Power2' });
                     this.tweens.add({
                         targets: notification,
-                        x: xPos + boxWidth,
                         alpha: 0,
                         duration: 400,
                         ease: 'Power2',
@@ -2139,6 +2180,8 @@ export default class GameScene extends Phaser.Scene {
             this.textMaskGraphics = null;
         }
         this.clearDialogLayoutArtifacts();
+        this._dialogLog = null;     // the conversation's transcript (utils/dialogLayouts.js)
+        this._dialogModel = null;
         this.dialogVisible = false;
         this.restackNotices();   // back under the HUD buttons
         

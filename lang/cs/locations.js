@@ -58,6 +58,7 @@ export default {
         'Applications': 'Podatelna',
         'Back to the Main Building': 'Zpět do hlavní budovy',
         'Back to the Gate': 'Zpět k bráně',
+        'Inner Yard': 'Vnitřní dvůr',
         'Back to the corridor': 'Zpět na chodbu',
         'Back to the Study': 'Zpět do pracovny',
         'Back to the Threshold': 'Zpět na práh',

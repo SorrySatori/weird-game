@@ -24,7 +24,7 @@ const floorAt = y => (y >= 356 ? 0 : y >= 196 ? 1 : 2);
 // The doors painted in the background (tools/artgen/floors_bg.py), each a hotspot of the door's own shape:
 // floor, where the priest stands to go through, and where it leads
 const DOORS = [
-    { rect: [130, 392, 61, 122], floor: 0, x: 160, target: 'Shed521GateScene', label: 'Back to the Gate' }, // WELCOME
+    { rect: [130, 392, 61, 122], floor: 0, x: 160, target: 'Shed521GateScene', label: 'Inner Yard' }, // WELCOME
     { rect: [554, 387, 93, 126], floor: 0, x: 600, target: 'Shed521Scene', label: 'Outside' }, // EXIT, out to the yard
     { rect: [246, 228, 61, 112], floor: 1, x: 276, target: 'ShedAbandonedOfficeScene', label: 'Assessments' }, // its sign
     { rect: [182, 68, 60, 112], floor: 2, x: 212, target: 'ShedRegistrationScene', label: 'Registration' },
