@@ -606,3 +606,12 @@ aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/
   Shed 521 and the Voxmarket arch in the bottom corners. The message box covers x 233..833, y 470..570. In
   `CrossroadScene.startSkyshipAnimation` the tilt is clamped to the Crossroad picture (zoom never below 1) and the cut
   fades in during the pan, so no black band shows.
+
+## Talking mouths (2026-11-18): `talk_mouths.py`
+Overlay sheets that open a speaker's mouth while their line shows in a dialogue (`utils/talk.js` plays them). `CHARS`
+holds, per idle sheet, the closed mouth's line in frame 0 (x, y, width), how many jaw rows below it drop, and
+optionally the inside's colour (Edgar's dark fur needs a red maw). Every frame is matched against frame 0 around the
+mouth, so the bobbing head keeps its mouth. Output `assets/images/characters/talk/<sheet>.png`: the idle frame size,
+row 0 half open, row 1 open, only the changed pixels opaque. A redrawn character sheet = re-run the script (and check
+the mouth line still sits where `CHARS` says: `--preview out.png` shows closed / half / open side by side). A new
+character = an entry in `CHARS` **and** in `SHEETS` in utils/talk.js.

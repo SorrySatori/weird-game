@@ -17,6 +17,7 @@ import GameMenu from '../ui/GameMenu.js';
 import MapUI from '../ui/MapUI.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { renderDialogLayout } from '../utils/dialogLayouts.js';
+import { preloadTalk, stopTalk } from '../utils/talk.js';
 import { runEquipmentTutorial } from '../utils/equipmentTutorial.js';
 import { fitBackground as fitBackgroundToCanvas } from '../utils/fitBackground.js';
 import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
@@ -123,6 +124,7 @@ export default class GameScene extends Phaser.Scene {
 
     preload() {
         trackCharacterSheets(this.load);   // which textures are characters (utils/characterSheets.js)
+        preloadTalk(this);                 // the speakers' moving mouths (utils/talk.js)
         autoHoverAura(this);               // every character glows on hover (utils/hoverAura.js)
         applySceneLight(this);             // the scene's light colours its characters (utils/sceneLight.js)
         // Load the game assets
@@ -1106,6 +1108,21 @@ export default class GameScene extends Phaser.Scene {
     }
 
     /**
+     * A character's name tag standing in the scene (Zerren, Kloor, Dr. Elphi, the band): hidden while a dialog is open,
+     * where it only stuck out over the Cinema's bars or under the bubbles' tails. Returns the tag.
+     */
+    nameTag(tag) {
+        (this._nameTags = this._nameTags || []).push(tag);
+        if (this.dialogVisible) tag.setVisible(false);
+        return tag;
+    }
+
+    showNameTags(on) {
+        this._nameTags = (this._nameTags || []).filter(t => t.active);
+        this._nameTags.forEach(t => t.setVisible(on));
+    }
+
+    /**
      * Lay the live notices out where they cover nothing: a column top-down at the right edge under the HUD buttons.
      * While a dialog is open its style says where they go (utils/dialogStyles.js): `_noticeSpot` { row, right, left,
      * y, wrapRight } lays them in a row from the right (the cinema's top bar), `_noticeAvoid` lists the plates the
@@ -2016,6 +2033,7 @@ export default class GameScene extends Phaser.Scene {
         }
         
         this.dialogVisible = true;
+        this.showNameTags(false);
         
         // Update dialog visibility in player movement system
         if (this.playerMovementSystem) {
@@ -2180,9 +2198,11 @@ export default class GameScene extends Phaser.Scene {
             this.textMaskGraphics = null;
         }
         this.clearDialogLayoutArtifacts();
+        stopTalk(this);
         this._dialogLog = null;     // the conversation's transcript (utils/dialogLayouts.js)
         this._dialogModel = null;
         this.dialogVisible = false;
+        this.showNameTags(true);
         this.restackNotices();   // back under the HUD buttons
         
         // Update dialog visibility in player movement system

@@ -433,13 +433,13 @@ export default class VoxmarketMarketScene extends GameScene {
             this.showDialog('zerren_start');
         });
         
-        // Add a name tag above Zerren
-        const zerrenTag = this.add.text(200, 420, 'Zerren', {
+        // A name tag over Zerren's hood (lower down it covered her mouth, which moves when she speaks: utils/talk.js)
+        const zerrenTag = this.nameTag(this.add.text(200, 362, 'Zerren', {
             fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
             backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
-        });
+        }));
         zerrenTag.setOrigin(0.5);
         zerrenTag.setDepth(6);
         

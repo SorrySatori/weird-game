@@ -258,6 +258,7 @@ export default class ScreamingCorkClubScene extends GameScene {
                 backgroundColor: 'rgba(12, 20, 16, 0.92)',
                 padding: { x: 5, y: 2 }
             }).setOrigin(0.5, 0).setDepth(5);
+            this.nameTag(nameTag);   // hidden while a dialog is open
 
             member.bandKey = cfg.key;
             member.nameTag = nameTag;

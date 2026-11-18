@@ -4,6 +4,7 @@
 import { SHOTS, STILLS, SURVEY_SCENES, HUD, DIALOG_CASES } from './shots.js';
 import { DIALOG_STYLES, cycleDialogStyle } from '../../utils/dialogLayouts.js';
 import { setSetting } from '../../systems/GameSettings.js';
+import { startTalk } from '../../utils/talk.js';
 
 const cap = window.__cap;
 const vt = window.__vt;
@@ -124,8 +125,13 @@ async function dialogs() {
                 const hits = [], walk = o => { if (o.type === 'Rectangle' && o.input?.enabled) hits.push(o); o.list?.forEach(walk); };
                 walk(scene.dialogBox);
                 hits[c.hover ?? 0]?.emit('pointerover');   // a reply under the pointer, to show the hover state
+                if (cap.args.talk) {                        // the mouth held open, to see where it sits
+                    startTalk(scene, scene._dialogSpeakers, '"aaaa"', '');
+                    const t = scene._talk;
+                    if (t) { t.timer?.remove(false); t.end = Infinity; t.state = 2; t.sync(); }
+                }
                 await wait(0.1);
-                await cap.still(`dialog_${c.id}_${style}`, readPixels());
+                await cap.still(`dialog_${c.id}_${style}${cap.args.talk ? '_talk' : ''}`, readPixels());
             }
             cap.log(`dialogs ${c.id}`);
         } catch (e) {

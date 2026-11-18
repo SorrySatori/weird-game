@@ -11,6 +11,7 @@
  */
 import { UI_FONT, UI_SIZE, FRAME, drawPixelFrame, drawPixelTail } from './pixelFrame.js';
 import { commit, attachScroll, newBox, resolvePortraitTexture } from './dialogLayouts.js';
+import { faceX } from './talk.js';
 
 const INK = '#c8e6d0', DIM = '#5f7a68', NAME = '#e8c46a', GOLD = 0xe8c46a, RIM = FRAME.rim;
 const even = v => Math.round(v / 2) * 2;
@@ -109,20 +110,33 @@ function worldBox(scene, obj) {
  * Placed by its painted area: `cx` its middle, then `bottom` its lowest painted row or `top` its highest. It moves as
  * it does in the world (the same animation) and faces the same way.
  */
-function addFigure(scene, parent, fig, { cx, bottom, top, zoom: z }) {
+function addFigure(scene, parent, fig, { cx, bottom, top, zoom: z, mirror, anim: animKey }) {
     const b = fig.bounds, bw = b.right - b.left, bh = b.bottom - b.top;
     const zoom = z ?? (bh >= 96 ? 2 : Math.max(2, Math.floor(160 / Math.max(bw, bh))));
     const spr = scene.add.sprite(0, 0, fig.key, fig.frame).setOrigin(0, 0).setScale(zoom);
     const fw = spr.frame.width;
-    const mirrored = !!fig.world && (fig.world.flipX !== (fig.world.scaleX < 0));
+    const mirrored = mirror ?? (!!fig.world && (fig.world.flipX !== (fig.world.scaleX < 0)));
     spr.setFlipX(mirrored);
     const l = mirrored ? fw - b.right : b.left, r = mirrored ? fw - b.left : b.right;
     spr.x = even(cx - (l + r) / 2 * zoom);
     spr.y = even(bottom != null ? bottom - b.bottom * zoom : top - b.top * zoom);
-    const anim = fig.world?.anims?.isPlaying && fig.world.anims.currentAnim;
+    const anim = animKey !== undefined ? (animKey && { key: animKey, frames: [{ textureKey: fig.key }] })
+        : fig.world?.anims?.isPlaying && fig.world.anims.currentAnim;
     if (anim && anim.frames[0]?.textureKey === fig.key) spr.play(anim.key);
     parent.add(spr);
     return { spr, zoom, left: spr.x + l * zoom, right: spr.x + r * zoom, top: spr.y + b.top * zoom, bottom: spr.y + b.bottom * zoom };
+}
+
+/**
+ * The animation a portrait plays: the world sprite's own while it idles; while it walks (Kloor pacing his stall), the
+ * sheet's idle animation, or none (the still frame). A portrait doesn't walk.
+ */
+function portraitAnim(scene, fig) {
+    const moving = a => /walk|run|move/i.test(a.key);
+    const cur = fig.world?.anims?.isPlaying && fig.world.anims.currentAnim;
+    if (cur && cur.frames[0]?.textureKey === fig.key && !moving(cur)) return cur.key;
+    const idle = scene.anims.anims.getArray().find(a => /idle/i.test(a.key) && a.frames[0]?.textureKey === fig.key && !moving(a));
+    return idle?.key || null;
 }
 
 // ------------------------------------------------------------------ replies
@@ -184,6 +198,7 @@ export const STYLE_RENDERERS = {
         const box = newBox(scene);
         const W = scene.scale.width, H = scene.scale.height, M = 14, PAD = 14, G = 2, GAP = 16, TAB = 18;
         const fig = figureOf(scene, model);
+        scene._dialogSpeakers = [fig?.world];
         const a = worldBox(scene, fig?.world);                     // none: a narrator, a face in the wall
         const ax = a ? a.x : W / 2;
         const p = worldBox(scene, scene.priest) || { x: W / 2, top: H - 80 };
@@ -304,17 +319,27 @@ export const STYLE_RENDERERS = {
             bottom.add(frame);
             const ov = scene.dialogPortraits?.[model.speaker] || scene.dialogPortraits?.[model.speakerEn];
             const b = fig.bounds, bw = b.right - b.left, bh = b.bottom - b.top;
+            // the portrait holds still in its frame: the sheet as drawn (not mirrored as the sprite walks back and
+            // forth), idling, and a figure wider than the frame centred on its face (Kloor's snout, not his middle),
+            // never so far that the frame shows empty space past the figure's edge
+            const look = { mirror: false, anim: portraitAnim(scene, fig) };
+            const across = z => {
+                const w = bw * z, mid = (b.left + b.right) / 2;
+                if (w <= PW - 8) return pcx;
+                return clamp(pcx - ((faceX(fig.key) ?? mid) - mid) * z, PX + PW - 6 - w / 2, PX + 6 + w / 2);
+            };
             let f;
             if (ov?.zoom) {
-                f = addFigure(scene, bottom, fig, { cx: pcx, top: PY + 4 + (b.top - (ov.top || 0)) * ov.zoom, zoom: ov.zoom });
+                f = addFigure(scene, bottom, fig, { ...look, cx: across(ov.zoom), top: PY + 4 + (b.top - (ov.top || 0)) * ov.zoom, zoom: ov.zoom });
             } else if (bh >= 96) {
-                f = addFigure(scene, bottom, fig, { cx: pcx, top: PY + 10, zoom: 2 });
+                f = addFigure(scene, bottom, fig, { ...look, cx: across(2), top: PY + 10, zoom: 2 });
             } else {
                 const z = Math.max(1, Math.floor(Math.min(PW - 16, PH - 16) / Math.max(bw, bh)));
-                f = addFigure(scene, bottom, fig, { cx: pcx, top: PY + (PH - bh * z) / 2, zoom: z });
+                f = addFigure(scene, bottom, fig, { ...look, cx: pcx, top: PY + (PH - bh * z) / 2, zoom: z });
             }
             portraitMask = maskRect(scene, PX + 2, PY + 2, PW - 4, PH - 4);
             f.spr.setMask(portraitMask);
+            scene._dialogSpeakers = [fig.world, f.spr];
         }
 
         const RX = 680, RW = W - 36 - RX, MW = 44;

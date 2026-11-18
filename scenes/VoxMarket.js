@@ -618,6 +618,7 @@ export default class VoxMarket extends GameScene {
             backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
         }).setOrigin(0.5).setDepth(6);
+        this.nameTag(this.kloorTag);   // hidden while a dialog is open
 
         this.startKloorWalking();
     }

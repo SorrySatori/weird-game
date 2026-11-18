@@ -17,6 +17,7 @@ const options = {
     survey: flag('survey'),
     screenshots: flag('screenshots'),
     dialogs: flag('dialogs'),
+    talk: flag('talk'),          // with --dialogs: the speaker's mouth held open (utils/talk.js)
     only: opt('only', '') ? opt('only').split(',') : null,
     fps: Number(opt('fps', 60)),
     lang: opt('lang', 'en'),

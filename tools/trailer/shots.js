@@ -622,5 +622,8 @@ export const DIALOG_CASES = [
     { id: 'narrator', scene: 'ShedHallScene', state: 'main', x: 400 },
     { id: 'heliodor', scene: 'ScreamingCorkInteriorScene', state: 'heliodor_start', x: 90 },          // the bubbles met here
     { id: 'heliodor2', scene: 'ScreamingCorkInteriorScene', state: 'heliodor_fermented_cap', x: 90 }, // a long line
+    { id: 'zerren', scene: 'VoxmarketMarketScene', state: 'zerren_start', x: 520 },   // her name tag vs her mouth
+    { id: 'kloor', scene: 'VoxMarket', state: 'kloor_start', x: 300 },   // a wide figure that paces: the portrait holds still
     { id: 'settings', scene: 'MainScene', data: { panel: 'settings' }, menu: true },
+    { id: 'menu', scene: 'MainScene', data: {}, menu: true },
 ];

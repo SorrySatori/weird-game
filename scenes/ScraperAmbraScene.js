@@ -370,6 +370,7 @@ export default class ScraperAmbraScene extends GameScene {
         });
         nameTag.setOrigin(0.5);
         nameTag.setDepth(5);
+        this.nameTag(nameTag);   // hidden while a dialog is open
         
         // (her idle is the frame animation above -- no glow disc, bobbing or tilting tweens on the pixel art)
         

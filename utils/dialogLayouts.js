@@ -19,6 +19,7 @@
 
 import { getSetting, setSetting } from '../systems/GameSettings.js';
 import { STYLE_RENDERERS } from './dialogStyles.js';
+import { startTalk, stopTalk } from './talk.js';
 
 /** The presentations the player can pick in Settings; an unknown saved value (an older trial style) falls back to cinema. */
 export const DIALOG_STYLES = ['cinema', 'bubbles'];
@@ -40,6 +41,8 @@ export function renderDialogLayout(scene, model, { replay = false } = {}) {
     }
     scene._dialogModel = model;
     STYLE_RENDERERS[currentDialogStyle()](scene, model);
+    // the speaker's mouth moves for the new line (the style lists the sprites: in the world, the portrait)
+    if (replay) stopTalk(scene); else startTalk(scene, scene._dialogSpeakers, model.text, `${model.speaker || ''} ${model.speakerEn || ''}`);
 }
 
 /** Next (dir 1) or previous style; an open dialog is re-drawn in it at once. Returns the new style. */
@@ -117,6 +120,7 @@ export function newBox(scene) {
     scene.dialogBox = box;
     scene._noticeSpot = null;    // where the notices go while it's open: the style sets these (GameScene.restackNotices)
     scene._noticeAvoid = null;
+    scene._dialogSpeakers = [];  // the speaker's sprites whose mouth moves (utils/talk.js): the style fills it
     return box;
 }
 
