@@ -1,4 +1,4 @@
-import { ITEM_ICONS, ICON_DIR, gridIconKey } from '../utils/itemIcons.js';
+import { ITEM_ICONS } from '../utils/itemIcons.js';
 import { preloadRecordings } from '../utils/Recordings.js';
 import { UI_FONT, UI_SIZE } from '../utils/pixelFrame.js';
 
@@ -24,14 +24,9 @@ export default class LoadingScene extends Phaser.Scene {
         // (inventory in any scene, after a save load). An icon not yet drawn simply fails to
         // load and the item falls back to its lettered-circle placeholder — so we quietly
         // ignore load errors for these optional textures.
-        const iconKeys = new Set(ITEM_ICONS.flatMap(i => [i.key, gridIconKey(i.key)]));
+        const iconKeys = new Set(ITEM_ICONS.map(i => i.key));
         this.load.on('loaderror', (file) => { if (file && iconKeys.has(file.key)) { /* optional icon missing — placeholder is used */ } });
-        ITEM_ICONS.forEach(({ key, path }) => {
-            this.load.image(key, path);
-            // the inventory / shop grid shows icons 1:1, so it takes the copy on the 2x pixel grid (tools/artgen/grid2x.py);
-            // the item card shows the original at x2, which is 2x pixels already
-            if (path.startsWith(ICON_DIR)) this.load.image(gridIconKey(key), ICON_DIR + '2x/' + path.slice(ICON_DIR.length));
-        });
+        ITEM_ICONS.forEach(({ key, path }) => this.load.image(key, path));
 
         // Oltrac drug-trip overlays (systems/EffectsSystem.js). Own *Fx keys: the item icons above own
         // grayOltrac / violetOltrac / amberOltrac, and the drug can be taken in any scene.
