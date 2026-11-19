@@ -21,8 +21,9 @@ import { getSetting, setSetting } from '../systems/GameSettings.js';
 import { STYLE_RENDERERS } from './dialogStyles.js';
 import { startTalk, stopTalk } from './talk.js';
 
-/** The presentations the player can pick in Settings; an unknown saved value (an older trial style) falls back to cinema. */
-export const DIALOG_STYLES = ['cinema', 'bubbles'];
+/** The presentations the player can pick in Settings; the first is the default, and an unknown saved value (an older
+ * trial style) falls back to it. */
+export const DIALOG_STYLES = ['bubbles', 'cinema'];
 export const currentDialogStyle = () => (DIALOG_STYLES.includes(getSetting('dialogStyle')) ? getSetting('dialogStyle') : DIALOG_STYLES[0]);
 
 /**
@@ -41,6 +42,7 @@ export function renderDialogLayout(scene, model, { replay = false } = {}) {
     }
     scene._dialogModel = model;
     STYLE_RENDERERS[currentDialogStyle()](scene, model);
+    scene.onDialogLayout?.(currentDialogStyle());   // a scene that frames its shot per style (the bus)
     // the speaker's mouth moves for the new line (the style lists the sprites: in the world, the portrait)
     if (replay) stopTalk(scene); else startTalk(scene, scene._dialogSpeakers, model.text, `${model.speaker || ''} ${model.speakerEn || ''}`);
 }
@@ -76,7 +78,7 @@ export function commit(scene, opt) {
  */
 export function attachScroll(scene, target, contentHeight, view) {
     if (contentHeight <= view.h) return false;   // fits — no scroll needed
-    const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
+    const g = scene.make.graphics({}, false).setScrollFactor(0); // a mask shape only: off the display list, so it never shows as a white box
     g.fillStyle(0xffffff);
     g.fillRect(view.x, view.y, view.w, view.h);
     target.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));
@@ -116,7 +118,9 @@ export function attachScroll(scene, target, contentHeight, view) {
 
 /** New empty dialog container at the top depth. */
 export function newBox(scene) {
-    const box = scene.add.container(0, 0).setDepth(1000);
+    // pinned to the screen, so a scene can move its camera under an open dialog (the bus frames the Bishop above the
+    // Cinema bar)
+    const box = scene.add.container(0, 0).setDepth(1000).setScrollFactor(0);
     scene.dialogBox = box;
     scene._noticeSpot = null;    // where the notices go while it's open: the style sets these (GameScene.restackNotices)
     scene._noticeAvoid = null;

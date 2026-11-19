@@ -59,6 +59,14 @@ export default {
             hint: 'A skyship',
             default: "A skyship overgrown with moss drifts over the city. From here it looks like a whale that mistook the sky for the sea.",
         },
+        abandoned_bus: {
+            hint: 'The Abandoned Bus',
+            default: "A bus that stopped running when its route stopped existing. Somebody lived in here. Or something: the seats are worn into shapes that don't fit any sensible number of bodies. It still smells faintly of a journey that never arrived.",
+        },
+        // the Bishop's body after the demo's last monologue (AbandonedBusScene): a look, never an examination
+        dead_bishop: {
+            default: "She looks as if she's only asleep. I wish she were.",
+        },
         office_graffiti: {
             hint: 'BETTER DECAY THAN CHANGE',
             default: "BETTER DECAY THAN CHANGE. The paint is old and flaking, yet nobody ever tried to paint over it. I suppose everyone here agrees with it, a little.",

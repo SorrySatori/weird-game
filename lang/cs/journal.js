@@ -283,6 +283,19 @@ export default {
                 feral_toast: "Kapela, která zkouší vzadu, se jmenuje Feral Toast.",
             },
         },
+        // poslední místa dema (ScraperBackyardScene, AbandonedBusScene)
+        scraper_backyard: {
+            title: 'Dvorek Škrabáku',
+            description: 'Za Škrabákem je starý dopravní dvůr pod spletí rezavých trubek. Do země se v něm propadl autobus až po horní patro a někdo k jeho dveřím vykopal jámu.',
+        },
+        abandoned_bus_interior: {
+            title: 'Uvnitř opuštěného autobusu',
+            description: 'Uvnitř napůl zasypaného autobusu se rozpad mísí s novým růstem. Sedadla hnijí, z laviček raší bledé houby a ve tmě svítí zelené skvrny.',
+        },
+        found_dead_bishop: {
+            title: 'Osud Biskupky',
+            description: 'Našel jsem Biskupku mrtvou v opuštěném autobusu za Škrabákem. Vypadá, jako by jen spala. Na hlavě má helmu podobnou těm herním helmám, které jsem viděl u doktorky Elphi, jen nějakou trochu jinou. Chtěl ji někdo umlčet?',
+        },
         edgar_vestigel_received_after_book: {
             title: 'Spisovatelův odznak',
             description: 'Dnes jsem od Edgara Eskoly ve Řvoucím korku získal jeden ze tří vestigelů. Dal mi ho jako poděkování za pomoc s napsáním jeho knihy. Vestigel byl ukrytý uvnitř plyšové hračky, kterou Edgar koupil od pouličního prodavače. Zmínil, že prodavač ho odmítl vzít zpátky, když mu ji nabídl, s odkazem na „profesní čest". Samotný vestigel je malý, ale spletitě vyřezávaný, zjevně cenný pro někoho, kdo zná jeho účel.',

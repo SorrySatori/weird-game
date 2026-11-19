@@ -18,6 +18,7 @@ export default {
                 lift_mother_permission: 'Lift-Mother mi udělila přístup do studia Dr. Elphi v patře 177-Tichém.',
                 reached_elphi_studio: 'Dostal jsem se do studia Dr. Elphi v patře 177-Tichém. Teď musím najít stopy po Biskupce.',
                 check_shard_backyard: "Dr. Elphi mě nasměrovala na dvorek za Škrabákem. Měl bych tam Biskupku hledat.",
+                found_dead_in_bus: 'Našel jsem Biskupku mrtvou v opuštěném autobusu za Škrabákem.',
                 found_elevator_button: "Zerren má v nabídce novinku: Zapomenutý výtahový knoflík.",
                 guard_cathedral_closed: 'Vaječná katedrála je zavřená a strážce u brány nikoho nepouští dovnitř. Možná ví, kde Biskupku najdu.',
                 guard_bishop_not_inside: 'Podle strážce Biskupka v katedrále není. Budu ji muset hledat po městě, nejspíš na Voxmarketu nebo u Boudy 521.',

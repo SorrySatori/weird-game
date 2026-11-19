@@ -57,6 +57,14 @@ export default {
             hint: 'Vzducholoď',
             default: "Nad městem pluje vzducholoď obrostlá mechem. Odsud vypadá jako velryba, která si spletla nebe s mořem.",
         },
+        abandoned_bus: {
+            hint: 'Opuštěný autobus',
+            default: "Autobus, který přestal jezdit, když přestala existovat jeho trasa. Někdo tu bydlel. Nebo spíš něco: sedadla jsou prosezená do tvarů, které neodpovídají žádnému rozumnému počtu těl. Pořád tu slabě visí pach cesty, která nikdy nedojela do cíle.",
+        },
+        // tělo Biskupky po posledním monologu dema (AbandonedBusScene): jen pohled, žádné ohledávání
+        dead_bishop: {
+            default: "Vypadá, jako by jen spala. Kéž by to tak bylo.",
+        },
         office_graffiti: {
             hint: 'BETTER DECAY THAN CHANGE',
             default: "„Better decay than change.“ Lepší rozklad než změna. Barva je stará a loupe se, ale nikdo se ji nikdy nepokusil přetřít. Asi s tím tady všichni tak trochu souhlasí.",

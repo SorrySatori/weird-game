@@ -4,7 +4,7 @@
 
 export const SURVEY_SCENES = [
     'IntroScene', 'EntryScene', 'CrossroadScene', 'EggCatedralScene', 'CathedralEntrance',
-    'ScraperScene', 'ScraperInteriorScene', 'ScraperAmbraScene', 'SkyshipBoardScene',
+    'ScraperScene', 'ScraperInteriorScene', 'ScraperAmbraScene', 'ScraperBackyardScene', 'AbandonedBusScene', 'SkyshipBoardScene',
     'Shed521GateScene', 'Shed521Scene', 'Shed521FloorsScene', 'ShedCourtyard', 'ShedRegistrationScene',
     'ShedHallScene', 'ShedApplicationsScene', 'ShedAbandonedOfficeScene',
     'ScreamingCorkScene', 'ScreamingCorkInteriorScene', 'ScreamingCorkClubScene',

@@ -19,6 +19,7 @@ export default {
                 lift_mother_permission: "The Lift-Mother has granted me access to Dr. Elphi's studio on floor 177-Quiet.",
                 reached_elphi_studio: "I've reached Dr. Elphi's studio on floor 177-Quiet. Now I need to find clues about the Bishop.",
                 check_shard_backyard: "Dr. Elphi pointed me to the Scraper backyard. I should look for the Bishop there.",
+                found_dead_in_bus: 'I found the Bishop dead in an abandoned bus behind the Scraper.',
                 found_elevator_button: "Zerren has a new item for sale: a Forgotten Elevator Button.",
                 guard_cathedral_closed: 'The Egg Cathedral is closed and the guard at the gate lets no one in. He might know where to find the Bishop.',
                 guard_bishop_not_inside: "According to the guard, the Bishop isn't in the cathedral. I'll have to look for her around the city, most likely at the Voxmarket or around Shed 521.",

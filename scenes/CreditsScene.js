@@ -108,7 +108,7 @@ export default class CreditsScene extends Phaser.Scene {
             fontFamily: MENU_FONT, fontSize: '13px', fontStyle: 'italic', color: MENU_COLORS.dim
         }).setOrigin(1, 1).setDepth(5).setAlpha(0.6);
 
-        // The click / Enter that closed Elphi's dialog mustn't skip the credits: a short grace period, no key repeats.
+        // The click / Enter that closed the last dialog (the priest's words over the Bishop) mustn't skip the credits: a short grace period, no key repeats.
         this.inputReadyAt = this.time.now + 1200;
         const skip = (e) => { if (!e?.repeat) this._advance(); };
         this.input.on('pointerdown', skip);

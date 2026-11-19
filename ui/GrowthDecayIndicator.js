@@ -22,8 +22,8 @@ export default class GrowthDecayIndicator {
         // Add everything to the container
         this.container.add([this.indicator, this.menuBg, this.menuText]);
         
-        // Set high depth to ensure it's always visible
-        this.container.setDepth(1000);
+        // Set high depth to ensure it's always visible; pinned to the screen like the rest of the HUD
+        this.container.setDepth(1000).setScrollFactor(0);
         
         // Initially hide the menu
         this.hideMenu();

@@ -33,7 +33,7 @@ function fitLines(t, h, lineSpacing = 6) {
 
 /** A mask shape off the display list (cleaned with the dialog by GameScene.clearDialogLayoutArtifacts). */
 function maskRect(scene, x, y, w, h) {
-    const g = scene.make.graphics({}, false);
+    const g = scene.make.graphics({}, false).setScrollFactor(0);   // on the screen, like the dialog box
     g.fillStyle(0xffffff);
     g.fillRect(x, y, w, h);
     (scene._dialogMasks = scene._dialogMasks || []).push(g);

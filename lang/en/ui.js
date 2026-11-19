@@ -121,8 +121,8 @@ export default {
             // the end-of-demo card (scenes/DemoEndScene.js)
             end: {
                 title: 'End of the Demo',
-                body: "Thank you for playing! Elphi's key opens the Scraper's backyard, and that's where the demo ends. "
-                    + 'The search for the Bishop goes on in the full game, across all of Upper Morkezela: its districts, '
+                body: "Thank you for playing! The Bishop is dead, and that's where the demo ends. "
+                    + 'What happened to her is for the full game to tell, across all of Upper Morkezela: its districts, '
                     + 'its factions and the symbionts that would love to move into you.\n\n'
                     + "You can stay a while longer; whatever you haven't finished is still waiting.",
                 wishlist: 'Wishlist on Steam',
@@ -170,6 +170,7 @@ export default {
             backToElevator: 'Back to Elevator',
             backToMainMarket: 'Back to Main Market',
             abandonedBus: 'Abandoned Bus',
+            deadBishop: 'Dead Bishop',
             captainLiris: 'Captain Liris',
             skyshipAbove: 'Looks like there is a skyship above the city...',
         },

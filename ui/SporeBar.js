@@ -44,7 +44,7 @@ export default class SporeBar {
         this.container.add([this.frame, this.background, this.fillBar, this.label, this.valueText]);
         
         // Set high depth to ensure it's always visible
-        this.container.setDepth(1000);
+        this.container.setDepth(1000).setScrollFactor(0);   // pinned to the screen like the rest of the HUD
         
         // Make the bar interactive for showing more details
         this.background.setInteractive({ useHandCursor: true });

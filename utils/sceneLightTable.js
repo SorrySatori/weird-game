@@ -23,4 +23,6 @@ export const SCENE_LIGHT = {
     VoxmarketMarketScene: [0xfffce7, 0.89],   // VoxmarketMarket.png
     VoxmarketHallScene: [0xe8bce8, 0.91],   // VoxmarketHall.png
     BurningBearStreetScene: [0xbfd9b9, 0.74],   // BurningBearStreet.png
+    ScraperBackyardScene: [0xe9e7ba, 0.82],   // ScraperBackyard.png
+    AbandonedBusScene: [0xccc9a7, 0.7],   // AbandonedBus.png
 };

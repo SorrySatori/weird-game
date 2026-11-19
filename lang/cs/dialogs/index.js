@@ -20,6 +20,7 @@ import scraperInteriorScene from './ScraperInteriorScene.js';
 import scraperScene from './ScraperScene.js';
 import voxmarketMarketScene from './VoxmarketMarketScene.js';
 import voxmarketHallScene from './VoxmarketHallScene.js';
+import abandonedBusScene from './AbandonedBusScene.js';
 
 export default {
     EntryScene: entryScene,
@@ -40,4 +41,5 @@ export default {
     ScraperScene: scraperScene,
     VoxmarketMarketScene: voxmarketMarketScene,
     VoxmarketHallScene: voxmarketHallScene,
+    AbandonedBusScene: abandonedBusScene,
 };

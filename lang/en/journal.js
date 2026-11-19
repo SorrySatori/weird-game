@@ -284,6 +284,19 @@ export default {
                 feral_toast: "The band out back is called Feral Toast.",
             },
         },
+        // the demo's last places (ScraperBackyardScene, AbandonedBusScene)
+        scraper_backyard: {
+            title: 'Scraper Backyard',
+            description: 'Behind the Scraper lies an old transit yard under a tangle of rusty pipes. A bus has sunk into the ground up to its upper deck, and someone has dug a pit down to its door.',
+        },
+        abandoned_bus_interior: {
+            title: 'Abandoned Bus Interior',
+            description: 'Inside the half-buried bus, decay and new growth live side by side. The seats are rotting, pale mushrooms sprout from the benches and patches of green light glow in the dark.',
+        },
+        found_dead_bishop: {
+            title: "The Bishop's Fate",
+            description: "I found the Bishop dead in an abandoned bus behind the Scraper. She looks as if she were only asleep. On her head is a helmet like the game helmets I saw at Dr. Elphi's, only somehow different. Did somebody want her silenced?",
+        },
         edgar_vestigel_received_after_book: {
             title: 'The Writer\'s Token',
             description: 'Today I acquired one of the three vestigels from Edgar Eskola at the Screaming Cork. He gave it to me as thanks for helping him write his book. The vestigel had been hidden inside a plush toy that Edgar had bought from a street vendor. He mentioned that the vendor refused to take it back when offered, citing "professional honor." The vestigel itself is small but intricately carved, clearly valuable to someone who knows its purpose.',

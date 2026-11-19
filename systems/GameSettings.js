@@ -6,7 +6,7 @@
  * through the music bus, everything else through the sound bus. Installed once in main.js (installAudioBuses).
  */
 const STORAGE_KEY = 'gameSettings';
-const DEFAULTS = { music: 0.8, sfx: 0.9, fullscreen: true, dialogStyle: 'cinema' };
+const DEFAULTS = { music: 0.8, sfx: 0.9, fullscreen: true, dialogStyle: 'bubbles' };
 const MUSIC_KEYS = new Set(['feral-toast']);    // played once, still music
 
 let settings = null;
