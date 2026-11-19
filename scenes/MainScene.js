@@ -19,7 +19,10 @@ export default class MainScene extends Phaser.Scene {
 
     preload() {
         // Load images
-        this.load.image('background', 'assets/images/backgrounds/background.png');
+        // TRIAL: Marti's unfinished painting (a phone photo, 16:9 band) to see how it sits under the menu
+        this.load.image('menuPaintingWip', 'assets/images/backgrounds/menu_painting_wip.png');
+        // its green airship, cut out to fly (tools/artgen/menu_wip_airship.py; its spot in the painting is smoke now)
+        this.load.image('menuPaintingWipAirship', 'assets/images/backgrounds/menu_painting_wip_airship.png');
         preloadMenuKit(this);
         // the title: 8 frames, the gear-O turns (tools/artgen/menu_logo.py)
         this.load.spritesheet('menuLogo', 'assets/images/ui/menu/menu_logo.png', { frameWidth: 344, frameHeight: 100 });
@@ -43,8 +46,9 @@ export default class MainScene extends Phaser.Scene {
         const W = this.scale.width, H = this.scale.height, CX = W / 2;
 
         // Add background — cover-fit (uniform scale, no distortion, bottom-anchored); see utils/fitBackground.js.
-        const bg = this.add.image(CX, 300, 'background');
+        const bg = this.add.image(CX, 300, 'menuPaintingWip');
         fitBackground(this, bg);
+        this.createAirship(bg);
         // darken the middle column a little so the title and the plaques read over the painting
         const shade = this.add.graphics();
         for (let i = 0; i < 24; i++) {
@@ -107,6 +111,31 @@ export default class MainScene extends Phaser.Scene {
         // Fullscreen is handled at the Electron window level (the app launches fullscreen and the
         // app menu's F11 toggles it). With Scale.FIT the canvas auto-refits, so we must NOT call
         // this.scale.resize() here — that would change the base game size and re-break the layout.
+    }
+
+    /**
+     * The painting's green airship sets off from its painted spot and drifts right to left across the sky (behind the
+     * title and the plaques), then comes round again from the right after a pause.
+     */
+    createAirship(bg) {
+        const W = this.scale.width;
+        const sx = bg.displayWidth / bg.width, sy = bg.displayHeight / bg.height;
+        // its centre in the 1067×600 painting (printed by tools/artgen/menu_wip_airship.py)
+        const homeX = bg.x - bg.displayWidth / 2 + 985 * sx;
+        const homeY = bg.y - bg.displayHeight / 2 + 88 * sy;
+        const ship = this.add.image(homeX, homeY, 'menuPaintingWipAirship').setScale(sx, sy);
+        const SPEED = 16;                        // px/s: about a minute across the sky
+        const off = ship.displayWidth / 2 + 4;   // fully off screen
+        const fly = (fromX) => {
+            ship.x = fromX;
+            this.tweens.add({
+                targets: ship, x: -off, duration: (fromX + off) / SPEED * 1000, ease: 'Linear',
+                onComplete: () => this.time.delayedCall(1000, () => fly(W + off))   // a second out of sight, then back from the right
+            });
+        };
+        fly(homeX);
+        // and rides the air a little
+        this.tweens.add({ targets: ship, y: homeY + 3, duration: 3200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
     }
 
     /** a few glowing spores drifting up through the painting */
