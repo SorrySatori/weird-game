@@ -3,11 +3,16 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, placeProps } from '../utils/GDProps.js';
 import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
+import { preloadUlvarexPuddle, setupUlvarexEncounter, ulvarexDialog } from '../utils/ulvarexEncounter.js';
 
 export default class Shed521GateScene extends GameScene {
     constructor() {
         super({ key: 'Shed521GateScene' });
         this.isTransitioning = false; // Add flag to track transition state
+    }
+
+    get dialogContent() {
+        return { ...super.dialogContent, ...ulvarexDialog(this) };
     }
 
     preload() {
@@ -16,6 +21,7 @@ export default class Shed521GateScene extends GameScene {
         this.load.image('Shed521GateBg', 'assets/images/backgrounds/Shed521_gate.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         this.load.image('gateBarrier', 'assets/images/props/gate_barrier.png');
+        preloadUlvarexPuddle(this, 'gate');   // Ulvarex's puddle (utils/ulvarexEncounter.js)
         preloadGDProps(this); // the burning barrel by the lamp
         // Audio is already loaded in GameScene's preload
     }
@@ -46,6 +52,9 @@ export default class Shed521GateScene extends GameScene {
         placeProps(this, [{ prop: 'fire', x: 716, y: 500 }]);
 
         this.createGateBarrier();
+
+        // Ulvarex's puddle on the wet setts in front of the barrier (shows on a Violet/Amber Oltrac trip)
+        setupUlvarexEncounter(this, 'gate');
 
         // Position the priest at the right side when entering this scene
         this.priest.x = 750;

@@ -77,7 +77,7 @@ export default {
         amberOltrac: { name: 'Jantarový Oltrac', description: 'Nejvzácnější a nejsilnější podoba Oltracu. Prý dovolí nahlédnout za závoj skutečnosti.' },
         pliers: { name: 'Kleště', description: 'Obyčejné kleště. Hodí se na opravy i na vytahování věcí.' },
         scraper_backyard_key: { name: 'Klíč od dvorku', description: 'Klíč od dvorku Škrabáku 1140. Jako by slabě zářil.' },
-        'forged-arms-permission': { name: 'Padělané povolení na více rukou', description: 'Přesvědčivý padělek Formuláře o výjimce pro umělce, který držiteli dovoluje mít legálně více rukou pro odbornou práci.' },
+        'forged-arms-permission': { name: 'Padělané povolení na více rukou', description: 'Přesvědčivý padělek Formuláře o výjimce pro umělce, který držiteli dovoluje mít legálně více rukou pro odbornou práci.', descriptions: { audited: 'Bezchybný padělek Formuláře o výjimce pro umělce. Ravla ho předělala po „kontrole“: dvanáct zubů na pečeti a ryba ve vodoznaku plave správným směrem.' } },
         vestigel: { name: 'Spisovatelův Vestigel', description: 'Malý, jemně vyřezávaný žeton, který Edgar našel schovaný v plyšové hračce. Zdá se, že má nějaký tajemný význam.' },
         'game-prototype': { name: 'Prototyp hry Sekty a sázky', description: 'Prototyp Ortolanovy hry Sekty a sázky, ve které se snažíš založit vlastní sektu. Vypadá velmi zábavně, ale Ortolan ještě nemá úplně vyladěnou část, ve které se může tvůj nejvěrnější odštěpit a založit si ultraortodoxní křídlo uvnitř sekty. Na druhou stranu dobře zmastroval featuru, kde se hlavním objektem uctívání mohou stát kočky, což je dobrá strategie k vítězství.' },
         'legged-shark-statuette': { name: 'Soška žraloka s nohama', description: 'Soška žraloka s nohama, téměř bez ploutví. Ortolan si už přesně nepamatuje, odkud ji vzal, ale prý je z nějaké deskovky o upírech a démonech.' },
@@ -109,6 +109,7 @@ export default {
         'thorne-still': {
             name: 'Thorne-Still',
             ability: 'Mozková hniloba',
+            askAbout: 'Zeptat se na Thorne-Stilla',
             dialogs: {
                 main: {
                     text: "Thorne-Still ti šeptá v hlavě: ‚Čau, šéfe, jak je? Měl bych ti asi připomenout, že moje síla roste s rozkladem. A naopak, když bude růstu moc, budu muset odejít. Přemíra růstu mi fakt nesedí, kapitáne. Mozkovou hnilobu používej s rozumem... Je to mocný nástroj, ale když si nedáš pozor, dokáže někomu pořádně zprasit mozek. Takže ji radši nezkoušej na lidech, které máš rád.‘",
@@ -120,6 +121,38 @@ export default {
                 },
                 about: {
                     text: "Jsem symbiont, kterému se daří v rozkladu. Kdysi jsem byl součástí něčeho většího, ale teď existuji v prostorách mezi realitami. Heh, dělám si prdel. Zrovna teď existuju ve tvém žaludku. Díky našemu poutu se tu dá docela pohodlně bydlet, ale přemíra růstové energie mě z tvého těla vyžene.",
+                    options: ['Zpět'],
+                },
+                about_ulvarex: {
+                    text: "„Ta, co ohýbá světlo. Ulvarex. Většinou neškodná. Pořád ti přestavuje vnitřek očních nervů, jako by to byl nábytek nebo co. Měl jsem ve tvém očním důlku schovanou pěknou kolonii hub a najednou je to tam úplně vyčištěné.“ Thorne bručí. „Iluze jsou jen lži s lepším osvětlením. Rozklad je aspoň poctivý.“",
+                    options: ['Zpět'],
+                },
+            },
+        },
+        // Ulvarex je v češtině ona (teatrální, trochu ješitná, laskavá k živému)
+        'ulvarex-borrowed-horizon': {
+            name: 'Ulvarex, Vypůjčený obzor',
+            ability: 'Tkaní přeludů',
+            askAbout: 'Zeptat se na Ulvarex',
+            dialogs: {
+                main: {
+                    text: "Hlas Ulvarex k tobě dorazí jako světlo skrz hranol, roztříštěný, hřejivý a maličko nakřivo: ‚Á, hostiteli. Zase koukáš na svět těma poctivýma očima? To musí být vyčerpávající. Jsem Ulvarex, Vypůjčený obzor, a obchoduju s tím, co by mohlo být. Moje Tkaní přeludů ohýbá vnímání, takže lidi vidí věci, které tam tak úplně nejsou. Někdo by to mohl chápat jako lhaní, ale řekla bych, že to je spíš pokročilá diplomacie.‘",
+                    options: ['Zeptat se na Tkaní přeludů', 'Zeptat se na Ulvarex'],
+                },
+                ability: {
+                    text: "Tkaní přeludů vyrábí přesvědčivé iluze: předměty, látky, dokonce i drobné tvory. Háček je v tom, že každou musím k něčemu skutečnému ukotvit. Nemůžu vykouzlit iluzi úplně bez ničeho. Dej mi stín, odraz nebo kus plechu a postavím ti katedrálu. Stojí to ale spory. A mám svůj vkus: přelud, který chrání něco živého, pomůže tomuhle městu nadále růst, kdežto přelud upředený z holé chamtivosti po sobě nechá jen rozklad. Dám ti vědět, kdy můžu pomoct.",
+                    options: ['Zpět'],
+                },
+                about: {
+                    text: "Žila jsem na pobřeží, tam, kde se voda potkává s nebem, na místě, kde se zdá, že se oboje dotýká. Když se objevily podivné mlhy, začala jsem... cestovat. Živím se vnímáním, myšlenkami a sporami. Hniloba je ale můj nepřítel.",
+                    options: ['Zpět'],
+                },
+                silent: {
+                    text: "Ulvarex mlčí. Díky rozkladu panujícímu ve městě se jí nedaří vytvářet iluze tak dobře jako dřív.",
+                    options: [],
+                },
+                about_thorne: {
+                    text: "„Thorne-Still? Ále, ten malý hnilobný skřet. Pořád mi ujídá ty nejlepší materiály na iluze. Nevychované, ale cením, jak oddaně slouží entropii.“ Hlas Ulvarex se pobaveně zatřpytí. „Kupodivu spolu vycházíme. Jen ho nenech vyhrát: až rozklad získá navrch, sežere jako první mě.“",
                     options: ['Zpět'],
                 },
             },

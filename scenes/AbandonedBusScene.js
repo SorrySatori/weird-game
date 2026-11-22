@@ -81,7 +81,7 @@ export default class AbandonedBusScene extends GameScene {
             this.addJournalEntry(
                 'abandoned_bus_interior',
                 'Abandoned Bus Interior',
-                'Inside the half-buried bus, decay and new growth live side by side. The seats are rotting, pale mushrooms sprout from the benches and patches of green light glow in the dark.',
+                'Inside the crumbling, half-buried bus, new life is pushing its way up. The seats are rotting, pale mushrooms sprout from the benches and patches of green light glow in the dark.',
                 this.journalSystem.categories.PLACES,
                 { location: 'Abandoned Bus' }
             );

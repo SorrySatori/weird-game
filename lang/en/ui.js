@@ -107,6 +107,8 @@ export default {
 
         // In-world hints (door labels etc.)
         hints: {
+            // Kloor after the first Violet/Amber Oltrac sale (scenes/VoxMarket.js): the way to Ulvarex
+            kloorReflections: "Good choice. Take it for a stroll around the city, you might see things that'll surprise you.",
             returnToCity: 'Return to city',
             exitToTavern: 'Back to the bar',
             enterTavern: 'Enter Tavern',
@@ -121,10 +123,10 @@ export default {
             // the end-of-demo card (scenes/DemoEndScene.js)
             end: {
                 title: 'End of the Demo',
-                body: "Thank you for playing! The Bishop is dead, and that's where the demo ends. "
-                    + 'What happened to her is for the full game to tell, across all of Upper Morkezela: its districts, '
-                    + 'its factions and the symbionts that would love to move into you.\n\n'
-                    + "You can stay a while longer; whatever you haven't finished is still waiting.",
+                body: "Thank you for playing the demo! The Bishop is dead, and that's where the demo ends. "
+                    + 'You will be able to dig deeper into the mysterious circumstances of her death in the full game, '
+                    + 'along with more of Upper Morkezela, its people and other symbionts that would love to move into you.\n\n'
+                    + 'You can stay a while longer, though, and finish anything you need to.',
                 wishlist: 'Wishlist on Steam',
                 continue: 'Keep exploring',
                 storeOpened: 'The store page is opening in Steam.',
@@ -164,6 +166,7 @@ export default {
 
         // Hover labels of exits / hotspots that scenes draw themselves
         hotspots: {
+            ulvarexPuddle: 'A puddle with a sunset in it',   // Ulvarex's puddle on an Oltrac trip (utils/ulvarexEncounter.js)
             returnOutside: 'Return Outside',
             returnInside: 'Return Inside',
             enterScraper: 'Enter Scraper',

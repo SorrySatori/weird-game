@@ -407,20 +407,20 @@ export default class EffectsSystem {
         
         // Add reality-warping effect (screen distortion)
         // This would ideally use a shader, but we'll simulate with scaling
-        const gameObjects = this.scene.children.list.filter(obj => 
-            obj !== this.effectsContainer && 
-            obj.type === 'Container' || 
-            obj.type === 'Sprite' || 
-            obj.type === 'Image'
+        // (not the protagonist: his scale's sign is the way he faces, the walk turns him every step and the tween would
+        // turn him back, so he'd walk backwards; the others keep their sign, a mirrored figure stays mirrored)
+        const { priest, priestGlow } = this.scene;
+        const gameObjects = this.scene.children.list.filter(obj =>
+            obj !== this.effectsContainer && obj !== priest && obj !== priestGlow &&
+            (obj.type === 'Container' || obj.type === 'Sprite' || obj.type === 'Image')
         );
         
         gameObjects.forEach(obj => {
             if (obj.setScale) {
-                const originalScale = obj.scale;
                 this.scene.tweens.add({
                     targets: obj,
-                    scaleX: originalScale * Phaser.Math.FloatBetween(0.95, 1.05),
-                    scaleY: originalScale * Phaser.Math.FloatBetween(0.95, 1.05),
+                    scaleX: obj.scaleX * Phaser.Math.FloatBetween(0.95, 1.05),
+                    scaleY: obj.scaleY * Phaser.Math.FloatBetween(0.95, 1.05),
                     duration: Phaser.Math.Between(2000, 4000),
                     yoyo: true,
                     repeat: Math.ceil(this.effectDuration / 4000),

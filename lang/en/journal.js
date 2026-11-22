@@ -87,6 +87,15 @@ export default {
             title: 'Accepted Thorne-Still',
             description: 'I accepted the symbiotic entity Thorne-Still. It merged with me, crawling into my stomach. I can now use its Brain Rot ability to confuse and manipulate others.',
         },
+        // Ulvarex (utils/ulvarexEncounter.js): seen on an Oltrac trip, then bonded
+        met_ulvarex: {
+            title: 'Ulvarex',
+            description: "On an Oltrac trip I saw a puddle mirroring a sunset instead of the grey sky. In it lives Ulvarex, the Borrowed Horizon, a symbiont pressed into the reflection. I can only see her on Oltrac: Violet or Amber, she says, Gray is too weak.",
+        },
+        symbiont_ulvarex_accepted: {
+            title: 'Accepted Ulvarex',
+            description: "On an Oltrac trip I found Ulvarex, the Borrowed Horizon. She settled behind my eyes. She feeds on my spores and gives me Mirage Weave: illusions convincing enough to fool the hand as well as the eye. She likes the city alive: should decay take over, she will fall silent.",
+        },
         skyship_sighting: {
             title: 'Strange Vessel in the Emerald Sky',
             description: "A massive skyship hovers above Upper Morkezela, its hull gleaming with an unnatural light. Its purpose remains unknown, though spores seem to drift down from it on the wind.",
@@ -133,6 +142,7 @@ export default {
             description: "In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles \"like a broken transistor radio.\" He seems to be a dealer in body modifications and other questionable services. There's something unsettling about him.",
             facts: {
                 rust_choir: "He used to keep the machines running in the old days; now he is with the Rust Choir. That suggests a deeper involvement with the city's hidden infrastructures and technologies than his shabby appearance would suggest.",
+                mirage_core: "He walked off with a living core Ulvarex wove from a scrap of tin. A mirage doesn't last forever, though. One day he'll notice.",
             },
         },
         rust_choir_faction: {
@@ -164,6 +174,7 @@ export default {
             facts: {
                 entrepreneur: "He calls himself a \"pharmaceutical entrepreneur\"; he deals in specialized substances that expand the mind.",
                 oltrac: "His speciality is Oltrac, a psychoactive drug. He is keen to buy my fungal spores as raw material for it.",
+                reflections: "Kloor's advice: with Violet or Amber Oltrac it's apparently worth taking a walk around the city. I might see something that's normally hidden. No idea what he meant.",
             },
         },
         kloor_vestigel_exchange: {
@@ -256,6 +267,14 @@ export default {
         met_hesh_vell: {
             title: 'The Twin Auctioneers: Hesh & Vell',
             description: 'Met the twin auctioneers at the Voxmarket Auction Hall. One speaks, the other mouths the same words half a second late. Their synchronization is unsettling and precise, and likely deliberate. They run the auction together.',
+            facts: {
+                shills: "Zerren says the twins cheat at their auctions and do all they can to drive the prices up.",
+                shills_ulvarex: "Ulvarex saw through the twins: half the hands raised at their sales belong to their own people. And that's probably just one of their dirty tricks.",
+            },
+        },
+        twins_honest_auction: {
+            title: 'An Honest Auction',
+            description: "I gave Hesh & Vell an artefact woven by Ulvarex, a bell jar holding a violet planet, in exchange for their promise to stop cheating at their auctions. Every lot is to go for a fair price.",
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
@@ -271,6 +290,8 @@ export default {
             description: "Ravla keeps a corner of the Screaming Cork and calls herself an artist of sorts. She likes it there: it's quiet, and the authorities keep their distance. Sharp-eyed, unsentimental, and unmoved by charm.",
             facts: {
                 forger: "She forges documents: papers for anyone who can pay, no questions asked.",
+                audit: "Ulvarex conjured an illusion of an Ink Tribunal inspector, who found three flaws in Ravla's \"perfect\" forgery. Ravla went quiet, then redid Ortolan's permit properly and wouldn't take my money for it.",
+                audit_sample: "Ulvarex wove an inspector of the Ink Tribunal, who found three flaws in one of Ravla's forgeries. Ravla went quiet and swore to redo everything she has sold this year.",
                 rust_choir: "She speaks for the Rust Choir: nobody gets to Brukk or the machines without going through her, and she wants proof of loyalty first.",
             },
         },
@@ -291,7 +312,7 @@ export default {
         },
         abandoned_bus_interior: {
             title: 'Abandoned Bus Interior',
-            description: 'Inside the half-buried bus, decay and new growth live side by side. The seats are rotting, pale mushrooms sprout from the benches and patches of green light glow in the dark.',
+            description: 'Inside the crumbling, half-buried bus, new life is pushing its way up. The seats are rotting, pale mushrooms sprout from the benches and patches of green light glow in the dark.',
         },
         found_dead_bishop: {
             title: "The Bishop's Fate",

@@ -3,6 +3,10 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { preloadGDProps, applyGDBackground, placeGDProps } from '../utils/GDProps.js';
 import JournalSystem from '../systems/JournalSystem.js';
+import { canWeave, spendWeave } from '../utils/ulvarexEncounter.js';
+
+/** Spores for Ulvarex's mirage of the living core (a big weave: it has to fool Gnur's claws and ears too) */
+const MIRAGE_CORE_COST = 15;
 
 export default class Shed521Scene extends GameScene {
     constructor() {
@@ -27,6 +31,10 @@ export default class Shed521Scene extends GameScene {
         const refusedGnur = hasQuestUpdate('quest_refused');
         const hasLivingCore = !!inventory?.items?.some(item => item.id === 'living-core');
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
+        // Ulvarex can spin him a living core out of a scrap of tin while the real one is still in its wall (Growth:
+        // the Shed keeps its core; the clerk in Applications can be told so, utils/bishopTrail.js gnurFooled)
+        const coreStillInWall = !hasQuestUpdate('core_taken_force') && !hasQuestUpdate('core_taken_careful') && !hasLivingCore;
+        const canMirageCore = questOpen && coreStillInWall && canWeave(this, MIRAGE_CORE_COST);
 
         const content = {
             ...super.dialogContent,
@@ -45,6 +53,7 @@ export default class Shed521Scene extends GameScene {
                     ...(hasFindRustQuest ? [{ text: "I'm looking for a way to reach the Rust Choir headquarters in the Scraper. Can you help me?", key: 'im_looking_for_the_way_how_to_reach_the_rust_choir', next: "rustDomain" }] : []),
                 ],
                 onTrigger: () => {
+                    this._mirageCore = false;   // a mirage woven earlier and not handed over is gone (a new one costs again)
                     // Add journal entry about meeting Gnur
                     if (!this.hasJournalEntry('gnur_meeting')) {
                         this.addJournalEntry(
@@ -119,8 +128,41 @@ export default class Shed521Scene extends GameScene {
             complete_quest: {
                 text: "Ah... the living core. (His eyes glimmer with an unsettling light as he takes the artifact.) Yes, this will sing beautifully in our choir.\n\nAs promised, about your Bishop... She got her lens. Paid with a Vestigel. An experimental coin, worth ten of those lenses, and she knew it. Didn't haggle. Don't have it anymore, before you ask. She was quite interested in Dr. Elphi's work. Last I heard, she made her way to Scraper 1140 to meet with the good doctor herself. Seemed... urgent.",
                 options: [
-                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "complete_quest_end" }
+                    // the same words either way: Gnur can't tell Ulvarex's mirage from the real thing
+                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: this._mirageCore ? "complete_quest_mirage_end" : "complete_quest_end" }
                 ],
+            },
+            // Ulvarex's mirage: a scrap of tin becomes the living core, down to its hum
+            mirage_core_weave: {
+                speaker: 'Narrator',
+                hideCloseOption: true,
+                text: "You pick a twisted scrap of tin off the floor and close your hand around it. Behind your eyes Ulvarex stretches like a cat in the sun. \"Green. Warm. Humming like something alive. Leave it to me.\" When you open your hand, a living core pulses in it, exactly as you saw it in the wall, down to the low hum.",
+                options: [
+                    { text: "Hand it to Gnur.", key: 'mirage_core_hand_over', next: "complete_quest" }
+                ],
+                onTrigger: () => {
+                    if (this._mirageCore) return;   // (shown once per weave: the spores go once)
+                    this._mirageCore = true;
+                    spendWeave(this, MIRAGE_CORE_COST);
+                }
+            },
+            complete_quest_mirage_end: {
+                text: "(Gnur turns the core over in his claws, listens to it hum and tucks it away somewhere inside his coat, humming along.)",
+                options: [
+                    { text: "Leave", key: 'leave', next: "end" }
+                ],
+                onTrigger: () => {
+                    this._mirageCore = false;
+                    const quest = this.questSystem.getQuest('rust_reclamation');
+                    if (quest && !quest.isComplete) {
+                        // the real core keeps the Shed alive: Growth (more than the careful extraction's +2)
+                        this.gdChoiceOnce('ulvarex_mirage_core', 3, 0);
+                        this.questSystem.updateQuest('rust_reclamation', "Gnur got a living core Ulvarex wove out of a scrap of tin. The real one is still humming in its wall, and he told me what he knew about the Bishop.", 'core_illusion');
+                        this.questSystem.completeQuest('rust_reclamation');
+                        this.questSystem.updateQuest('find_bishop', 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel. Then she headed to Scraper 1140 to meet Dr. Elphi.', 'bishop_location_scraper');
+                        this.addJournalFact('gnur_meeting', 'mirage_core', "He walked off with a living core Ulvarex wove from a scrap of tin. A mirage doesn't last forever, though. One day he'll notice.");
+                    }
+                }
             },
             complete_quest_end: {
                 text: "(Gnur returns to his work, humming a strange metallic tune.)",
@@ -253,7 +295,10 @@ export default class Shed521Scene extends GameScene {
         if (questOpen && !hasLivingCore) {
             content.start.textKey = 'waiting';
             content.start.text = "Just bring me the living core, then I will talk more";
-            content.start.options = canConfront ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : [];
+            content.start.options = [
+                ...(canConfront ? [{ text: "About that living core... you lied to me.", key: 'about_that_living_core_you_lied_to_me', next: "confront_about_lie" }] : []),
+                ...(canMirageCore ? [{ text: "[Ulvarex] Give him an illusory living core made from a scrap of tin.", key: 'ulvarex_mirage_core', next: "mirage_core_weave" }] : []),
+            ];
         }
 
         return content;

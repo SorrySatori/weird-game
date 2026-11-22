@@ -68,6 +68,8 @@ export default {
                 core_taken_force: 'Živé jádro mám. Šlo to, s trochou staré dobré hrubé síly.',
                 core_taken_careful: 'Živé jádro jsem opatrně vyjmul kleštěmi; nezdá se, že by to budovu nějak poškodilo.',
                 core_delivered: 'Dal jsem Gnurovi živé jádro. Zdá se spokojený.',
+                core_illusion: "Gnur dostal živé jádro, které Ulvarex upředla z kusu plechu. To skutečné pořád bzučí ve zdi a Gnur mi řekl, co ví o Biskupce.",
+                mirage_promised: "Slíbil jsem úředníkovi v Boudě 521, že Gnur dostane nanejvýš přelud živého jádra. Inkoustový tribunál mi zaplatil předem.",
                 quest_refused: 'Odmítl jsem Gnurovi pomoct ukrást živé jádro poté, co jsem se dozvěděl o jeho důležitosti.',
                 core_shed_energy: "Úředník v Boudě 521 mě varoval, ať živé jádro nechám na pokoji. Lidé ho prý mají za starou relikvii, ale stojí na něm celé energetické zásobování Boudy.",
             }

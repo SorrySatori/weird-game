@@ -47,13 +47,16 @@ const MODAL_BLOCKER_DEPTH = 99;
  * Symbiont HUD — a mycelial "rosary" hanging from the G/D medallion, one pod per slot (sealed / open / occupied).
  * Art: tools/artgen/symbionts.py → assets/aseprite/UI_Symbiont*.aseprite → symbionts_export.lua → assets/images/ui/.
  */
-const SYMBIONT_ROWS = ['thorne-still']; // last row = generic
-const SYMBIONT_GLOW = { 'thorne-still': 0xc8be5a };
+const SYMBIONT_ROWS = ['thorne-still', 'ulvarex-borrowed-horizon']; // last row = generic
+const SYMBIONT_GLOW = { 'thorne-still': 0xc8be5a, 'ulvarex-borrowed-horizon': 0xffaa5a };
 const POD = { x: 50, top: 96, h: 58, back: 0, lip: 1, sealed: 2, end: 3, glow: 4 };
 // Idle loop at 6 fps: long rests, one slow breath, a blink, an accent — calm, never fidgety.
 const SYMBIONT_IDLE = [...Array(10).fill(0), 1, 1, 1, 1, 1, 1, ...Array(8).fill(0), 2, ...Array(9).fill(0), 3, 3, 3, 3];
 // Symbionts speaking in scene dialogs, by the speaker names those dialogs use (EN + CZ) → dialog portrait.
-const SYMBIONT_SPEAKERS = { 'Thorne-Still': 'thorne-still' };
+const SYMBIONT_SPEAKERS = {
+    'Thorne-Still': 'thorne-still',
+    'Ulvarex': 'ulvarex-borrowed-horizon', 'Ulvarex the Borrowed Horizon': 'ulvarex-borrowed-horizon', 'Ulvarex, Vypůjčený obzor': 'ulvarex-borrowed-horizon'
+};
 const symbiontRow = id => (SYMBIONT_ROWS.includes(id) ? SYMBIONT_ROWS.indexOf(id) : SYMBIONT_ROWS.length);
 const symbiontPortrait = id => ({ key: 'symbionts', frame: symbiontRow(id) * 4 });
 
@@ -274,6 +277,14 @@ export default class GameScene extends Phaser.Scene {
             this.gameMenu.update();
         }
 
+        // A symbiont falling silent / waking with the world's balance (Ulvarex in the rot) says so by its pod
+        if (this.symbiontSystem?.updateDormancy && this.symbiontContainer) {
+            for (const { id, state } of this.symbiontSystem.updateDormancy()) {
+                const line = this.symbiontSystem.dormancyLine(id, state);
+                if (line) this.time.delayedCall(50, () => this.showNotification(line, '', '', 5000));
+            }
+        }
+
         // Rebuild the symbiont HUD when a symbiont arrives or leaves, a slot opens, or one falls silent
         if (this.symbiontContainer && this.symbiontSystem && this.symbiontUiKey() !== this._symbiontUiKey) {
             this.createSymbiontUI();
@@ -315,7 +326,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     isModalOpen() {
-        return !!(this.dialogVisible || this._tutorialActive
+        // (_scriptedWalk: the priest is walked somewhere by the story, e.g. up to Ulvarex's puddle; no clicks meanwhile)
+        return !!(this.dialogVisible || this._tutorialActive || this._scriptedWalk
             || this.journalUI?.visible || this.questLog?.questPanel?.visible
             || this.inventorySystem?.inventoryVisible || this.mapUI?.visible
             || this.gameMenu?.visible || this.shopSystem?.isOpen);
@@ -781,16 +793,20 @@ export default class GameScene extends Phaser.Scene {
         }
         
         // Localized copy (lang/*/game.js → symbionts.<id>.dialogs.<key>); the English on the system is the fallback.
+        // A silenced symbiont answers with its 'silent' line whatever was asked.
         const L = LanguageSystem.getInstance();
-        const locText = L.str(`symbionts.${symbiontId}.dialogs.${dialogKey}.text`);
-        const locOpts = L.t(`symbionts.${symbiontId}.dialogs.${dialogKey}.options`);
+        const locKey = dialogContent.silent ? 'silent' : dialogKey;
+        const locText = L.str(`symbionts.${symbiontId}.dialogs.${locKey}.text`);
+        const locOpts = L.t(`symbionts.${symbiontId}.dialogs.${locKey}.options`);
         const locName = L.str(`symbionts.${symbiontId}.name`);
         // Create a dynamic dialog state
         const dynamicDialogState = {
             speaker: (dialogContent?.speaker === symbiontSystem.symbionts.get(symbiontId)?.name && locName) || dialogContent?.speaker || locName || 'Person',
             text: locText || dialogContent.text,
             options: dialogContent.options.map((option, i) => {
-                const text = (Array.isArray(locOpts) && locOpts[i]) || option.text;
+                // "Ask about <the other symbiont>" (added after the symbiont's own options): that one's askAbout line
+                const text = (option.askAbout && L.str(`symbionts.${option.askAbout}.askAbout`))
+                    || (Array.isArray(locOpts) && locOpts[i]) || option.text;
                 if (option.next === 'closeDialog') {
                     // Keep closeDialog as is
                     return { ...option, text };

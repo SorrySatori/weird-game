@@ -77,7 +77,7 @@ export default {
         amberOltrac: { name: 'Amber Oltrac', description: 'The rarest and most potent form of Oltrac. Said to allow glimpses beyond the veil of reality.' },
         pliers: { name: 'Pliers', description: 'A pair of pliers. Useful for repairing or extracting.' },
         scraper_backyard_key: { name: 'Backyard Key', description: 'A key to the Scraper 1140 backyard. It seems to glow faintly.' },
-        'forged-arms-permission': { name: 'Forged Multiple Arms Permission', description: "A convincing forgery of an Artisan's Exemption Form that would allow the bearer to legally possess multiple arms for specialized work." },
+        'forged-arms-permission': { name: 'Forged Multiple Arms Permission', description: "A convincing forgery of an Artisan's Exemption Form that would allow the bearer to legally possess multiple arms for specialized work.", descriptions: { audited: "A flawless forgery of an Artisan's Exemption Form. Ravla redid it after an \"inspection\": twelve teeth on the seal, the watermark fish swimming the right way." } },
         vestigel: { name: "Writer's Vestigel", description: 'A small, intricately carved token that Edgar found hidden inside a plush toy. It seems to have some mysterious significance.' },
         'game-prototype': { name: "Sects & Stakes Prototype", description: "A prototype of Ortolan's game Sects & Stakes, in which you try to found your own sect. It looks great fun, but Ortolan hasn't quite balanced the part where your most devoted follower can split off and found an ultra-orthodox wing inside the sect. On the other hand, he nailed the feature where cats can become the main object of worship, which is a good strategy for winning." },
         'legged-shark-statuette': { name: "Legged Shark Statuette", description: "A statuette of a shark with legs, almost finless. Ortolan no longer remembers exactly where he got it, but he says it's from some board game about vampires and demons." },
@@ -109,6 +109,7 @@ export default {
         'thorne-still': {
             name: 'Thorne-Still',
             ability: 'Brain Rot',
+            askAbout: 'Ask about Thorne-Still',
             dialogs: {
                 main: {
                     text: "Thorne-Still whispers in your mind: 'Hey chief, what's up? Maybe I should remind you that my power grows with decay, but too much growth will force me to leave. I'm not a fan of too much growth, captain. Use my Brain Rot ability wisely... It's a powerful tool, but it can seriously fuck up some brains if you're not careful. So, probably don't use it on people you like.'",
@@ -123,6 +124,12 @@ export default {
                     options: ['Back'],
                 },
             },
+        },
+        // (her dialog texts are the English on SymbiontSystem)
+        'ulvarex-borrowed-horizon': {
+            name: 'Ulvarex the Borrowed Horizon',
+            ability: 'Mirage Weave',
+            askAbout: 'Ask about Ulvarex',
         },
     },
     // Growth/Decay world-shift toasts: reason + shared tail (notifications.worldSoursDecay / worldLeansGrowth)

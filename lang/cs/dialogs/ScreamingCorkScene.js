@@ -138,6 +138,13 @@ export default {
     edgar_book_genre_selected: {
         // text: Edgarova reakce se skládá ve scéně (utils/EdgarBook.js)
         options: {
+            lets_decide_on_the_main_protagonist: "Pojďme vymyslet hlavní postavu",
+            ulvarex_edgar_villain: "[Ulvarex] Ukázat Edgarovi lepšího padoucha."
+        }
+    },
+    edgar_book_villain_ulvarex: {
+        // text: přelud pana Mnohotvárného + Edgarova reakce se skládají ve scéně (utils/EdgarBook.js)
+        options: {
             lets_decide_on_the_main_protagonist: "Pojďme vymyslet hlavní postavu"
         }
     },
@@ -151,7 +158,8 @@ export default {
             a_sentient_fungal_colony: "Inteligentní kolonie hub",
             a_dream_detective: "Snový detektiv",
             a_rogue_ludarch: "Ludarch odpadlík",
-            a_living_collective_pretending_to_be_one_person: "Kolektiv bytostí předstírající jednu osobu"
+            a_living_collective_pretending_to_be_one_person: "Kolektiv bytostí předstírající jednu osobu",
+            a_feeble_ghost: "[Ulvarex] Duch, který umí vyčarovat jen hodně slabé iluze"
         }
     },
     edgar_book_protagonist_selected: {

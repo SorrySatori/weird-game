@@ -69,6 +69,8 @@ export default {
                 core_taken_force: 'I have retrieved the Living Core, with a bit of good old violence.',
                 core_taken_careful: 'Carefully extracted the Living Core using pliers; it probably didn\'t damage the building in any way.',
                 core_delivered: 'I have given Gnur the living core. He seems satisfied.',
+                core_illusion: "Gnur got a living core Ulvarex wove out of a scrap of tin. The real one is still humming in its wall, and he told me what he knew about the Bishop.",
+                mirage_promised: "I promised the clerk in Shed 521 that Gnur will only ever get a mirage of the living core. The Ink Tribunal paid me in advance.",
                 quest_refused: 'I refused to help Gnur steal the living core after learning its importance.',
                 core_shed_energy: "The clerk in Shed 521 warned me to leave the living core alone. People take it for an old relic, but the Shed's energy supply depends on it.",
             }

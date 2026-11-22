@@ -1,5 +1,8 @@
 import GrowthDecaySystem from './GrowthDecaySystem.js';
 
+/** Above this Decay Ulvarex's mirages unravel and she goes quiet (her abilities are unavailable meanwhile). */
+export const ULVAREX_SILENT_DECAY = 70;
+
 export default class SymbiontSystem {
     constructor(scene) {
         this.scene = scene;
@@ -22,6 +25,21 @@ export default class SymbiontSystem {
                 "This area needs suturing. The fabric is weak.",
                 "I was born in the spaces between realities.",
                 "Our bond allows me to help you navigate unstable areas."
+            ],
+            // Ulvarex, the Borrowed Horizon (CZ: feminine, lang/cs/symbiontLines.js)
+            'ulvarex-borrowed-horizon': [
+                "Never trust your own eyes. Unless I'm the one living in them.",
+                "Space and time belong to no one.",
+                "I once convinced a river it was a road. The fish built a petrol station on it.",
+                "Reality is merely the most popular illusion.",
+                "I hear light. I see sound.",
+                "Every mirror lies. I just lie more creatively.",
+                "Rules are really more like guidelines.",
+                "There's only a very thin line between what is and what could be.",
+                "I don't make lies. I make truths that haven't happened yet.",
+                "Want to see a trick? Look out, what's that behind you?",
+                "How many fingers do you see? How many? You'd better go and lie down.",
+                "This city isn't pretty enough. It could do with a few more mirages."
             ],
         };
         
@@ -48,6 +66,33 @@ export default class SymbiontSystem {
                     ]
                 }
             },
+            // The demo's Growth-leaning illusionist: silent where Decay runs high (isDormant), her uses lean to Growth
+            'ulvarex-borrowed-horizon': {
+                main: {
+                    text: "Ulvarex's voice arrives like light through a prism, fractured, warm and slightly wrong: 'Ah, host. Looking at the world again with those honest eyes? How exhausting. I am Ulvarex, the Borrowed Horizon, and I deal in what could be. My Mirage Weave bends perception, so people see things that aren't quite there. Some might take it for lying, but I'd say it's more like advanced diplomacy.'",
+                    options: [
+                        { text: 'Ask about Mirage Weave', next: 'ability' },
+                        { text: 'Ask about Ulvarex', next: 'about' },
+                    ]
+                },
+                ability: {
+                    text: "Mirage Weave makes convincing illusions: objects, substances, even small creatures. The trick is that every one must be anchored to something real. I can't conjure an illusion out of nothing at all. Give me a shadow, a reflection, a scrap of tin, and I'll build you a cathedral. It costs spores, though. And I have my tastes: a mirage that shelters something living helps this city keep growing, while one spun out of plain greed leaves nothing but decay behind. I'll let you know when I can help.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                },
+                about: {
+                    text: "I lived at the shore where water meets sky, the place where the two seem to touch. When the strange mists appeared, I started... travelling. I feed on perception, thoughts and spores. Rot is my enemy, though.",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                },
+                // shown instead of the others while she is dormant (Decay > 70)
+                silent: {
+                    text: "Ulvarex is silent. With decay ruling the city, she can't weave illusions as well as she used to.",
+                    options: []
+                }
+            },
         };
     }
 
@@ -59,7 +104,9 @@ export default class SymbiontSystem {
         }
         this.symbionts.set(id, {
             ...data,
-            lastSpoke: 0
+            lastSpoke: 0,
+            // she arrives already knowing the world's balance (no "falls silent" notice on bonding in the rot)
+            ...(id === 'ulvarex-borrowed-horizon' ? { silenced: this.isDormant(id, true) } : {})
         });
         this.syncRegistrySymbionts();
         return true;
@@ -173,6 +220,14 @@ export default class SymbiontSystem {
             symbiont.lastSpoke = now;
             this.lastMessageTime = now;
             return `${symbiontId}: ${message}`;
+        } else if (symbiontId === 'ulvarex-borrowed-horizon' && Math.random() < 0.1) {
+            const messages = this.symbiontPhrases['ulvarex-borrowed-horizon'] || [];
+            if (messages.length > 0) {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                symbiont.lastSpoke = now;
+                this.lastMessageTime = now;
+                return `Ulvarex: ${message}`;
+            }
         }
 
         // Cross-reactions: symbionts commenting on each other (5% chance)
@@ -190,15 +245,27 @@ export default class SymbiontSystem {
 
     getCrossReactionMessage(speakerId) {
         const hasThorne = this.symbionts.has('thorne-still');
+        const hasUlvarex = this.symbionts.has('ulvarex-borrowed-horizon');
 
         const reactions = [];
 
         // Thorne reacting to others
-        if (speakerId === 'thorne-still') {
+        if (speakerId === 'thorne-still' && hasUlvarex) {
+            reactions.push(
+                "Thorne-Still: Ulvarex keeps rearranging your rods and cones. I had a system in there.",
+                "Thorne-Still: An illusionist. Great. As if reality wasn't confusing enough already.",
+                "Thorne-Still: Ulvarex bent the light around my rot spores. I was growing that mould, it was going to be a metre tall. I'm furious."
+            );
         }
 
-
-
+        // Ulvarex reacting to others
+        if (speakerId === 'ulvarex-borrowed-horizon' && hasThorne) {
+            reactions.push(
+                "Ulvarex: Thorne keeps rotting my illusions from the inside. Rude, but artistically interesting.",
+                "Ulvarex: The decay symbiont sees through my mirages. Annoying. Nobody else does.",
+                "Ulvarex: Thorne and I disagree on aesthetics. Rot is not a color, I keep telling it."
+            );
+        }
 
         if (reactions.length === 0) return null;
         return reactions[Math.floor(Math.random() * reactions.length)];
@@ -214,13 +281,50 @@ export default class SymbiontSystem {
     }
     
     /**
-     * True while a carried symbiont is silenced by the world's balance. The HUD polls it every frame;
-     * Thorne-Still never goes silent.
-     * @param {string} _id
+     * True while a carried symbiont is silenced by the world's balance. The HUD polls it every frame.
+     * Thorne-Still never goes silent; Ulvarex does where Decay runs high (the mirror of Thorne-Still
+     * leaving at high Growth): the rot curdles the light she weaves with.
+     * @param {string} id
+     * @param {boolean} [ignorePresence] answer for a symbiont that isn't carried (yet)
      * @returns {boolean}
      */
-    isDormant(_id) {
+    isDormant(id, ignorePresence = false) {
+        if (!ignorePresence && !this.symbionts.has(id)) return false;
+        if (id === 'ulvarex-borrowed-horizon') return GrowthDecaySystem.getInstance().getDecay() > ULVAREX_SILENT_DECAY;
         return false;
+    }
+
+    /** Ulvarex is carried, awake (Decay not above 70) and the player has `cost` spores for a weave. */
+    canWeave(cost = 0) {
+        if (!this.symbionts.has('ulvarex-borrowed-horizon') || this.isDormant('ulvarex-borrowed-horizon')) return false;
+        return (this.scene?.registry?.get('sporeSystem')?.getSporeLevel() ?? 0) >= cost;
+    }
+
+    /**
+     * Ulvarex falling silent or waking up since the last call (GameScene.update polls it): her `silenced` flag rides
+     * in the save, so a scene start or a reload never announces a change that didn't happen.
+     * @returns {Array<{id: string, state: 'silence'|'recover'}>}
+     */
+    updateDormancy() {
+        const changes = [];
+        const id = 'ulvarex-borrowed-horizon';
+        const s = this.symbionts.get(id);
+        if (!s) return changes;
+        const dormant = this.isDormant(id);
+        if (dormant !== !!s.silenced) {
+            s.silenced = dormant;
+            changes.push({ id, state: dormant ? 'silence' : 'recover' });
+            this.syncRegistrySymbionts();
+        }
+        return changes;
+    }
+
+    /** What a symbiont says when it falls silent / wakes up (the HUD shows it in a bubble by its pod). */
+    dormancyLine(id, state) {
+        if (id !== 'ulvarex-borrowed-horizon') return null;
+        return state === 'silence'
+            ? "Ulvarex: Too much rot in the air. Illusions are hard to make right now. Do something about it, or we've nothing to talk about."
+            : "Ulvarex: Ah, the light is clean again. I'm back.";
     }
 
     /**
@@ -241,13 +345,14 @@ export default class SymbiontSystem {
             return null;
         }
         
-        // Check if symbiont is silenced
+        // Silenced by the world's balance: its own "silent" line (localized as dialogs.silent)
         const symbiont = this.symbionts.get(symbiontId);
-        if (symbiont.silenced) {
+        if (this.isDormant(symbiontId)) {
             return {
                 speaker: symbiont.name,
-                text: `${symbiont.name} is silent in this decay-dominant area...`,
-                options: []
+                text: this.symbiontDialogs[symbiontId]?.silent?.text || `${symbiont.name} is silent in this decay-dominant area...`,
+                options: [],
+                silent: true
             };
         }
         
@@ -278,9 +383,13 @@ export default class SymbiontSystem {
         
         // Inject cross-reaction options into the main dialog
         if (dialogKey === 'main' && this.symbionts.size >= 2) {
+            // `askAbout`: GameScene localizes it as symbionts.<that id>.askAbout
             const otherSymbionts = [];
             if (symbiontId !== 'thorne-still' && this.symbionts.has('thorne-still')) {
-                otherSymbionts.push({ text: 'Ask about Thorne-Still', next: 'about_thorne' });
+                otherSymbionts.push({ text: 'Ask about Thorne-Still', next: 'about_thorne', askAbout: 'thorne-still' });
+            }
+            if (symbiontId !== 'ulvarex-borrowed-horizon' && this.symbionts.has('ulvarex-borrowed-horizon')) {
+                otherSymbionts.push({ text: 'Ask about Ulvarex', next: 'about_ulvarex', askAbout: 'ulvarex-borrowed-horizon' });
             }
             // Insert before the last option (usually "Close")
             const closeIdx = result.options.findIndex(o => o.next === 'closeDialog');
@@ -294,6 +403,16 @@ export default class SymbiontSystem {
     getCrossReactionDialog(speakerId, dialogKey) {
         const crossReactions = {
             'thorne-still': {
+                about_ulvarex: {
+                    text: "\"The light-bender. Ulvarex. Harmless, mostly. Keeps rearranging the insides of your optic nerves like it's furniture or something. I had a nice little fungus colony tucked away in your eye socket, and suddenly it's all scrubbed clean.\" Thorne grumbles. \"Illusions are just lies with better lighting. At least decay is honest.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
+            },
+            'ulvarex-borrowed-horizon': {
+                about_thorne: {
+                    text: "\"Thorne-Still? Oh, the little rot-goblin. It keeps nibbling away at my best illusion material. Rude, but I value its devotion to entropy.\" Ulvarex's voice shimmers with amusement. \"We get along, oddly. Just don't let it win: when decay gets the upper hand, I'm the first thing it eats.\"",
+                    options: [{ text: 'Back', next: 'main' }]
+                },
             },
         };
 
@@ -389,9 +508,32 @@ export default class SymbiontSystem {
                 }
             }
         }
-        
-        
-        
+
+        // Ulvarex: her spores are the stuff of her mirages (quiet while the rot silences her)
+        const ulvarex = this.symbionts.get('ulvarex-borrowed-horizon');
+        if (ulvarex && !this.isDormant('ulvarex-borrowed-horizon')
+            && now - ulvarex.lastSpoke >= this.messageInterval && now - this.lastMessageTime >= this.messageInterval) {
+            const change = newLevel - oldLevel;
+            if (Math.abs(change) >= 5 && Math.random() < 0.3) {
+                const messages = change > 0 ? [
+                    "More spores. More raw material. The mirages grow richer.",
+                    "Ah, fresh perception-fuel. I can feel the light bending already.",
+                    "Your spore reserves are climbing. Perfect material for painting a sunset.",
+                    "Excellent. With these spores I could fool a mirror.",
+                    "The weave thickens. Reality won't know which way to turn."
+                ] : [
+                    "Fewer spores. My illusions grow thin, like morning mist.",
+                    "Careful. Without spores, I'm just a voice that can't do a thing.",
+                    "The weave is fraying. I'd avoid any grand mirages for now.",
+                    "Spore reserves dropping. My mirages might start looking like suggestions.",
+                    "Less fuel means less spectacle. I'll have to work with shadows alone."
+                ];
+                ulvarex.lastSpoke = now;
+                this.lastMessageTime = now;
+                return `Ulvarex: ${messages[Math.floor(Math.random() * messages.length)]}`;
+            }
+        }
+
         return null;
     }
     

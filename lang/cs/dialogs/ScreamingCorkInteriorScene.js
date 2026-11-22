@@ -6,6 +6,7 @@ export default {
     _speakers: {
         'Ravla': 'Ravla',
         'Heliodor': 'Heliodor',
+        'Narrator': 'Vypravěč',
     },
     ravla_start: {
         text: "Ravla vzhlédne od práce, oči ostré a vypočítavé. „Potřebuješ něco? Mám práci, tak ať je to rychle.“",
@@ -13,7 +14,10 @@ export default {
             who_are_you: "Kdo jsi?",
             what_do_you_do_here: "Co tady děláš?",
             i_was_told_you_can_get_me_to_rust_choir_base: "Řekli mi, že mě můžeš dostat na základnu Rezavého chóru.",
-            im_still_gathering_the_feast_ingredients: "Pořád ještě sháním suroviny na hostinu."
+            im_still_gathering_the_feast_ingredients: "Pořád ještě sháním suroviny na hostinu.",
+            ravla_ulvarex_inspect: "[Ulvarex] K tomu dokonalému povolení. Necháme ho zkontrolovat.",
+            ravla_ulvarex_audit_start: "[Ulvarex] K tomu povolení pro Ortolana. Nejdřív ať se na tvou práci podívá inspektor.",
+            ravla_ulvarex_audit_any: "[Ulvarex] Tak schválně, jak dobrá ta tvoje práce doopravdy je."
         }
     },
     ravla_who: {
@@ -54,8 +58,29 @@ export default {
         text: "Nebude to levné: 50 dinárů. Ale udělám to dokonale. Nikdo nepozná rozdíl.",
         options: {
             heres_the_money: "Tady jsou peníze",
+            ravla_ulvarex_audit: "[Ulvarex] Dokonale? To ať posoudí inspektor.",
             ill_think_about_it: "Rozmyslím si to",
             thats_too_expensive: "To je moc drahé"
+        }
+    },
+    // Ulvarex: přeludový inspektor Inkoustového tribunálu u Ravlina lokte
+    ravla_audit: {
+        text: {
+            sample: "Necháš Ulvarex zaměřit se na pečeť, kterou má Ravla položenou na stole jako předlohu. U stolu se zhmotní inspektor Inkoustového tribunálu: šedé manžety, inkoust až po zápěstí, v jednom oku zašroubovanou lupu. Beze slova vezme ze stohu jedno vzorové povolení a podrží ho proti lampě.\n\n„Ozubené kolečko na téhle pečeti má jedenáct zubů. To pravé jich má dvanáct,“ řekne. „Ryba ve vodoznaku plave proti proudu, ty naše plavou od reformy po proudu. A tenhle inkoust je cítit červenou řepou.“ Papír odloží a rozpadne se v obláčku oranžového světla.",
+            bought: "Necháš Ulvarex zaměřit se na pečeť, kterou má Ravla položenou na stole jako předlohu. U stolu se zhmotní inspektor Inkoustového tribunálu: šedé manžety, inkoust až po zápěstí, v jednom oku zašroubovanou lupu. Beze slova vezme ze stohu povolení pro Ortolana a podrží ho proti lampě.\n\n„Ozubené kolečko na téhle pečeti má jedenáct zubů. To pravé jich má dvanáct,“ řekne. „Ryba ve vodoznaku plave proti proudu, ty naše plavou od reformy po proudu. A tenhle inkoust je cítit červenou řepou.“ Papír odloží a rozpadne se v obláčku oranžového světla.",
+        },
+        options: {
+            ravla_audit_watch: "Sledovat Ravlu.",
+        }
+    },
+    ravla_audit_shaken: {
+        text: {
+            free: "Ravla zírá do prázdného vzduchu, kde inspektor stál, a pak na papír. Vezme ze stolu pravou pečeť a polohlasně počítá zuby. Pak je počítá znovu.\n\n„Dvanáct,“ řekne nakonec hodně potichu. „Tolik let tohle dělám.“ Nepodívá se na tebe. „To jsi byl ty, co? Nějaký trik. To je jedno. Měl pravdu.“ Smete papír do kamen a vytáhne čistý formulář. „Ortolanovo povolení udělám pořádně. A tohle jde na účet podniku.“",
+            humbled: "Ravla zírá do prázdného vzduchu, kde inspektor stál, a pak na papír. Vezme ze stolu pravou pečeť a polohlasně počítá zuby. Pak je počítá znovu.\n\n„Dvanáct,“ řekne nakonec hodně potichu. „Tolik let tohle dělám.“ Nepodívá se na tebe. „To jsi byl ty, co? Nějaký trik. To je jedno. Měl pravdu.“ Smete papír do kamen a vytáhne čistý formulář. „Všechno, co jsem letos prodala, se mi vrátí na stůl a udělám to znovu. Pořádně.“ Teprve teď se na tebe podívá. „A Rezavému chóru o tom ani slovo.“",
+            refund: "Ravla zírá do prázdného vzduchu, kde inspektor stál, a pak na papír. Vezme ze stolu pravou pečeť a polohlasně počítá zuby. Pak je počítá znovu.\n\n„Dvanáct,“ řekne nakonec hodně potichu. „Tolik let tohle dělám.“ Nepodívá se na tebe. „To jsi byl ty, co? Nějaký trik. To je jedno. Měl pravdu.“ Smete papír do kamen a vytáhne čistý formulář. „Ortolan dostane nové, pořádně udělané. A tady máš svých padesát zpátky. Za stejnou práci si dvakrát neúčtuju.“",
+        },
+        options: {
+            ravla_audit_thanks: "Díky, Ravlo.",
         }
     },
     ravla_check_money: {

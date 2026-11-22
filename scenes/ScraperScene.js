@@ -3,6 +3,7 @@ import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { addHoverAura } from '../utils/hoverAura.js';
 import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
+import { preloadUlvarexPuddle, setupUlvarexEncounter, ulvarexDialog, hasUlvarex } from '../utils/ulvarexEncounter.js';
 
 export default class ScraperScene extends GameScene {
     constructor() {
@@ -15,6 +16,7 @@ export default class ScraperScene extends GameScene {
         super.preload();
         this.preloadMusic('streetSong');
         this.load.image('scraperBg', 'assets/images/backgrounds/Scraper1140.png');
+        preloadUlvarexPuddle(this, 'roof');   // Ulvarex's puddle (utils/ulvarexEncounter.js)
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.image('arrow', 'assets/images/ui/arrow.png');
         // Don Girandole, 8 idle frames of 136x168 (tools/artgen/lamps.py on dev): in the demo just for company
@@ -29,6 +31,8 @@ export default class ScraperScene extends GameScene {
             { text: "Who are you, exactly?", key: 'don_demo_who', next: 'don_demo_who' },
             { text: "What do you do up here?", key: 'don_demo_view', next: 'don_demo_view' },
             { text: "...you're a talking lamp.", key: 'don_demo_lamp', next: 'don_demo_lamp' },
+            // his hint at Ulvarex's puddle up here (utils/ulvarexEncounter.js), next to Kloor's; gone once she's bonded
+            ...(hasUlvarex(this) ? [] : [{ text: "Quite a view of the Scraper from up here.", key: 'don_demo_scraper', next: 'don_demo_scraper' }]),
             { text: "I should go.", key: 'don_demo_bye', next: 'don_demo_farewell' },
         ];
         const more = [
@@ -37,6 +41,7 @@ export default class ScraperScene extends GameScene {
         ];
         return {
             ...super.dialogContent,
+            ...ulvarexDialog(this),
             don_demo_start: {
                 speaker: 'Don Girandole',
                 hideCloseOption: true,   // his own "I should go" leads to the goodbye
@@ -63,6 +68,12 @@ export default class ScraperScene extends GameScene {
                 speaker: 'Don Girandole',
                 hideCloseOption: true,   // his own "I should go" leads to the goodbye
                 text: `"I watch the windows. Every one that lights up and every one that goes dark. You learn a lot about people from the lights they leave on, and more from the ones they put out." The flame dips toward the tower. "That one never sleeps, by the way. Remember that when you go inside."`,
+                options: more,
+            },
+            don_demo_scraper: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `"Magnificent building, the Scraper, eh? I never get tired of looking at it. Mind you, once I had some extra strong Oltrac, and then I saw some really weird things."`,
                 options: more,
             },
             don_demo_lamp: {
@@ -259,6 +270,9 @@ export default class ScraperScene extends GameScene {
 
         // Don Girandole on the pipe-tower platform (the full game's Gang of Lamps boss; here just to talk to)
         this.createDon();
+
+        // Ulvarex's puddle on the wet roof left of the footbridge (shows on a Violet/Amber Oltrac trip)
+        setupUlvarexEncounter(this, 'roof');
     }
 
     update() {

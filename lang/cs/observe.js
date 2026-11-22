@@ -59,7 +59,7 @@ export default {
         },
         abandoned_bus: {
             hint: 'Opuštěný autobus',
-            default: "Autobus, který přestal jezdit, když přestala existovat jeho trasa. Někdo tu bydlel. Nebo spíš něco: sedadla jsou prosezená do tvarů, které neodpovídají žádnému rozumnému počtu těl. Pořád tu slabě visí pach cesty, která nikdy nedojela do cíle.",
+            default: "Autobus, který přestal jezdit, když přestala existovat jeho trasa. Někdo tu bydlel. Těžko říct, o jakou životní formu šlo, protože sedadla jsou dost podivně prosezená. Netušíš, co má zadek takového tvaru, ale setkat by ses s tím nechtěl, díky moc.",
         },
         // tělo Biskupky po posledním monologu dema (AbandonedBusScene): jen pohled, žádné ohledávání
         dead_bishop: {

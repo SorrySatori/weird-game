@@ -169,6 +169,13 @@ const HEROES = {
         who('the Committee Called Kevin', 'n', 'Výbor jménem Kevin|Výboru jménem Kevin|Výboru jménem Kevin|Výbor jménem Kevin|Výborem jménem Kevin|Výboru jménem Kevin', 'm', '',
             ['which agreed to be one person after a six-hour vote', 'který se po šestihodinovém hlasování dohodl, že bude jeden člověk']),
     ],
+    // only with Ulvarex (ScreamingCorkScene): her idea, demonstrated with a straw in Edgar's glass
+    'feeble ghost': [
+        who('Ignatius Bendy', 'm', 'duch Ignác Brčko|ducha Ignáce Brčka|duchu Ignácovi Brčkovi|ducha Ignáce Brčka|duchem Ignácem Brčkem|duchu Ignácovi Brčkovi', 'm', '',
+            ['a ghost whose most powerful illusion is a drinking straw, which he is very proud of', 'jehož nejmocnější iluzí je brčko, na které je náležitě hrdý']),
+        who('the late Mrs. Spookworth', 'f', 'nebožka paní Strašilová|nebožky paní Strašilové|nebožce paní Strašilové|nebožku paní Strašilovou|nebožkou paní Strašilovou|nebožce paní Strašilové', 'f', '',
+            ['a ghost whose most terrifying illusion to date is a slightly damp napkin', 'přízrak, jehož dosud nejděsivější iluzí je mírně navlhlý ubrousek']),
+    ],
 };
 
 // "Funny animals with depression": the genre turns every hero into an animal.
@@ -189,6 +196,8 @@ const ANIMAL_HEROES = {
         ['a mole who played chess against the whole garden and lost', 'krtek, který hrál šachy s celou zahradou a prohrál']),
     'living collective': who('Seventeen Sparrows in a Coat', 'pl', 'sedmnáct vrabců v kabátě|sedmnácti vrabců v kabátě|sedmnácti vrabcům v kabátě|sedmnáct vrabců v kabátě|sedmnácti vrabci v kabátě|sedmnácti vrabcích v kabátě', 'n', '',
         ['who pass for a single civil servant', 'kteří se vydávají za jednoho úředníka']),
+    'feeble ghost': who('the Ghost of a Hamster', 'm', 'duch křečka|ducha křečka|duchu křečka|ducha křečka|duchem křečka|duchu křečka', 'm', '',
+        ['who can conjure a single sunflower seed, and a see-through one at that', 'který umí vyčarovat jediné slunečnicové semínko, a to ještě průhledné']),
 };
 
 const VILLAINS = {
@@ -227,6 +236,10 @@ const ANIMAL_VILLAINS = {
     political: who('the Fascist Stag', 'm', 'fašistický jelen|fašistického jelena|fašistickému jelenovi|fašistického jelena|fašistickým jelenem|fašistickém jelenovi', 'm'),
     comical: who('a goose with a grudge', 'f', 'husa|husy|huse|husu|husou|huse', 'f', ' s nevyřízenými účty'),
 };
+
+// Ulvarex's villain (ScreamingCorkScene): she walks him out of the bar smoke, and he replaces whoever the tone called for
+const MANIFOLD = who('Mr. Manifold', 'm', 'pan Mnohotvárný|pana Mnohotvárného|panu Mnohotvárnému|pana Mnohotvárného|panem Mnohotvárným|panu Mnohotvárném', 'm');
+const ANIMAL_MANIFOLD = who('Mr. Manifold the Chameleon', 'm', 'chameleon pan Mnohotvárný|chameleona pana Mnohotvárného|chameleonu panu Mnohotvárnému|chameleona pana Mnohotvárného|chameleonem panem Mnohotvárným|chameleonu panu Mnohotvárném', 'm');
 
 const SETTINGS = {
     'scraper': [
@@ -331,6 +344,9 @@ const SHORT = {
     'Detective Lucida Nightcap': ['Detective Nightcap', 'detektivka Noční|detektivky Noční|detektivce Noční|detektivku Noční|detektivkou Noční|detektivce Noční'],
     'the Committee Called Kevin': ['Kevin', 'Kevin|Kevina|Kevinovi|Kevina|Kevinem|Kevinovi'],
     'Forget-Me-Not the Squirrel': ['Forget-Me-Not', 'Pomněnka|Pomněnky|Pomněnce|Pomněnku|Pomněnkou|Pomněnce'],
+    'Ignatius Bendy': ['Ignatius', 'Ignác|Ignáce|Ignácovi|Ignáce|Ignácem|Ignácovi'],
+    'the late Mrs. Spookworth': ['Mrs. Spookworth', 'paní Strašilová|paní Strašilové|paní Strašilové|paní Strašilovou|paní Strašilovou|paní Strašilové'],
+    'Mr. Manifold the Chameleon': ['Mr. Manifold', 'pan Mnohotvárný|pana Mnohotvárného|panu Mnohotvárnému|pana Mnohotvárného|panem Mnohotvárným|panu Mnohotvárném'],
     // villains
     'the director of a household-goods company': ['the director', null],
     'a thought nobody has had yet': ['the thought', null],
@@ -388,7 +404,7 @@ const SHORT = {
     'a philosopher stuck in a revolving door': ['the philosopher', 'filozof|filozofa|filozofovi|filozofa|filozofem|filozofovi'],
 };
 
-for (const pool of [HEROES, ANIMAL_HEROES, VILLAINS, ANIMAL_VILLAINS, SETTINGS, MACGUFFINS, CAMEOS, FALLBACK_CAMEOS]) {
+for (const pool of [HEROES, ANIMAL_HEROES, VILLAINS, ANIMAL_VILLAINS, { MANIFOLD, ANIMAL_MANIFOLD }, SETTINGS, MACGUFFINS, CAMEOS, FALLBACK_CAMEOS]) {
     for (const entity of Object.values(pool).flat()) {
         const short = SHORT[entity.en.n];
         if (!short) continue;
@@ -756,6 +772,12 @@ const GENRE_REACTIONS = {
 
 const VILLAIN_REACTION = { en: 'And every proper story needs a villain. Ours will be… {A}.', cs: 'A každý pořádný příběh potřebuje padoucha. Naším padouchem bude… {A}.' };
 
+// Ulvarex walks Mr. Manifold out of the bar smoke: {O} the villain the tone had called for, {A} him
+const MANIFOLD_REACTION = {
+    en: '*Edgar watches the figure change its face four times on the way to the bar, then knocks over his drink.* Forget {O}. Our villain is {A}. Nobody knows what he really looks like. Not even he does.',
+    cs: '*Edgar sleduje, jak postava cestou k baru čtyřikrát vymění obličej, a pak převrhne sklenici.* Zapomeňte na {O.a}. Naším padouchem bude {A}. Nikdo neví, jak doopravdy vypadá. Ani on sám.',
+};
+
 const PROTAGONIST_REACTIONS = [
     { en: 'Our hero: {P}, {P.desc}. I\'m in love already.', cs: 'Náš hrdina: {P}, {P.desc}. Už teď jsem zamilovaný.' },
     { en: '{^P}! No — wait — yes. {^P}, {P.desc}. Perfect.', cs: '{^P}! Ne – počkat – ano. {^P}, {P.desc}. Dokonalé.' },
@@ -781,7 +803,9 @@ export function bookRoles(draft) {
     if (draft.protagonist) {
         roles.P = animals ? ANIMAL_HEROES[draft.protagonist] : pick(seed, 'P', HEROES[draft.protagonist] || []);
     }
-    if (draft.tone) {
+    if (draft.villain === 'manifold') {
+        roles.A = animals ? ANIMAL_MANIFOLD : MANIFOLD;   // Ulvarex's villain trumps the tone's
+    } else if (draft.tone) {
         roles.A = animals ? ANIMAL_VILLAINS[draft.tone] : pick(seed, 'A', VILLAINS[draft.tone] || []);
     }
     if (draft.setting) roles.S = pick(seed, 'S', SETTINGS[draft.setting] || []);
@@ -851,6 +875,13 @@ export function edgarReaction(kind, draft, lang, topicId = null) {
     }
 }
 
+/** Edgar meets Mr. Manifold (Ulvarex's villain): the reaction names the villain the tone had called for. */
+export function manifoldReaction(draft, lang) {
+    const roles = bookRoles({ ...draft, villain: 'manifold' });
+    const O = bookRoles({ ...draft, villain: null }).A;
+    return O ? render(MANIFOLD_REACTION[lang], { ...roles, O }, lang) : null;
+}
+
 /** Every pick id the book understands (for tests / validation). */
 export const BOOK_IDS = {
     topics: Object.keys(CAMEOS),
@@ -858,4 +889,5 @@ export const BOOK_IDS = {
     genre: Object.keys(TITLES),
     protagonist: Object.keys(HEROES),
     setting: Object.keys(SETTINGS),
+    villain: [null, 'manifold'],
 };

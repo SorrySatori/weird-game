@@ -2,7 +2,11 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
 import JournalSystem from '../systems/JournalSystem.js';
-import { composeBook, edgarReaction, newBookSeed, bookRoles, render } from '../utils/EdgarBook.js';
+import { composeBook, edgarReaction, newBookSeed, bookRoles, render, manifoldReaction } from '../utils/EdgarBook.js';
+import { canWeave, spendWeave } from '../utils/ulvarexEncounter.js';
+
+/** Spores for each of Ulvarex's small weaves for Edgar's book (a villain out of the smoke, a straw in his glass) */
+const EDGAR_WEAVE_COST = 5;
 import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 export default class ScreamingCorkScene extends GameScene {
@@ -260,6 +264,8 @@ export default class ScreamingCorkScene extends GameScene {
         const used = this.bookDraftUsed;
         const book = (used.tone && used.genre && used.protagonist && used.setting) ? this.composeEdgarBook(lang) : null;
         const bookCast = book ? bookRoles(this.bookDraftUsed) : null;
+        // Ulvarex's contributions to the book: Mr. Manifold for a villain, a feeble ghost for a hero (small Growth)
+        const ulvarexMuse = canWeave(this, EDGAR_WEAVE_COST);
 
         return {
             ...super.dialogContent, // Include parent dialog content for symbiont dialogs
@@ -481,8 +487,26 @@ export default class ScreamingCorkScene extends GameScene {
                 // the genre bends the cast: Edgar names the villain that tone + genre call for
                 text: edgarReaction('genre', draft, lang) || "Perfect genre!",
                 options: [
-                    { text: "Let's decide on the main protagonist", key: 'lets_decide_on_the_main_protagonist', next: "edgar_book_protagonist" }
+                    { text: "Let's decide on the main protagonist", key: 'lets_decide_on_the_main_protagonist', next: "edgar_book_protagonist" },
+                    ...(ulvarexMuse && draft.villain !== 'manifold' ? [{ text: "[Ulvarex] Show Edgar a better villain.", key: 'ulvarex_edgar_villain', next: "edgar_book_villain_ulvarex" }] : []),
                 ]
+            },
+            // Ulvarex walks Mr. Manifold out of the bar smoke; he replaces the villain the tone called for
+            edgar_book_villain_ulvarex: {
+                hideCloseOption: true,
+                text: (cs
+                    ? '*Necháš Ulvarex vypůjčit si kouř nad barem. Vystoupí z něj pán v dobrém kabátě, kterému obličej nevydrží v klidu: chvíli bankéřův, chvíli babiččin, pak volavčí, pak tvůj. Ukloní se Edgarovi a je pryč.*\n\n'
+                    : '*You let Ulvarex borrow the smoke over the bar. Out of it steps a gentleman in a good coat whose face won\'t hold still: a banker\'s, a grandmother\'s, a heron\'s, yours. He bows to Edgar and is gone.*\n\n')
+                    + (manifoldReaction(draft, lang) || ''),
+                options: [
+                    { text: "Let's decide on the main protagonist", key: 'lets_decide_on_the_main_protagonist', next: "edgar_book_protagonist" }
+                ],
+                onTrigger: () => {
+                    if (this.bookDraft.villain === 'manifold') return;
+                    this.setBookPick('villain', 'manifold');
+                    spendWeave(this, EDGAR_WEAVE_COST);
+                    this.gdChoiceOnce('ulvarex_edgar_villain', 1, 0);
+                }
             },
 
             edgar_book_protagonist: {
@@ -497,11 +521,19 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "A dream detective", key: 'a_dream_detective', next: "edgar_book_protagonist_selected", onSelect: () => this.setBookPick('protagonist', 'dream detective') },
                     { text: "A rogue Ludarch", key: 'a_rogue_ludarch', next: "edgar_book_protagonist_selected", onSelect: () => this.setBookPick('protagonist', 'rogue Ludarch') },
                     { text: "A living collective pretending to be one person", key: 'a_living_collective_pretending_to_be_one_person', next: "edgar_book_protagonist_selected", onSelect: () => this.setBookPick('protagonist', 'living collective') },
+                    ...(ulvarexMuse ? [{ text: "[Ulvarex] A ghost who can conjure only very feeble illusions", key: 'a_feeble_ghost', next: "edgar_book_protagonist_selected", onSelect: () => {
+                        this.setBookPick('protagonist', 'feeble ghost');
+                        spendWeave(this, EDGAR_WEAVE_COST);
+                        this.gdChoiceOnce('ulvarex_edgar_ghost', 1, 0);
+                    } }] : []),
                 ]
             },
             edgar_book_protagonist_selected: {
                 hideCloseOption: true,
-                text: edgarReaction('protagonist', draft, lang) || "A fascinating choice!",
+                // Ulvarex's ghost comes with a demonstration
+                text: (draft.protagonist === 'feeble ghost'
+                    ? (cs ? '*V Edgarově sklenici se objeví brčko, pak si to rozmyslí a zase vybledne.* ' : '*A drinking straw appears in Edgar\'s glass, then thinks better of it and fades.* ')
+                    : '') + (edgarReaction('protagonist', draft, lang) || "A fascinating choice!"),
                 options: [
                     { text: "Finally, let's choose a setting", key: 'finally_lets_choose_a_setting', next: "edgar_book_setting" }
                 ]

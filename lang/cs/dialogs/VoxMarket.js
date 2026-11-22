@@ -34,7 +34,7 @@ export default {
         }
     },
     kloor_oltrac: {
-        text: "'Oltrac existuje v různých variantách. Šedý je běžný, Fialový je silnější a Jantarový... no, Jantarový Oltrac je úplně jiný level. Otevírá dveře v hlavě, o kterých většina ani neví. Kvalita závisí na zdrojovém materiálu.'",
+        text: "'Oltrac existuje v různých variantách. Šedý je běžný, Fialový je silnější a Jantarový... no, Jantarový Oltrac je úplně jiný level. Otevírá dveře v hlavě, o kterých většina ani neví. Kvalita závisí na zdrojovém materiálu.' Poklepe si na čenich. 'Dám ti radu: s Fialovým nebo Jantarovým je někdy zajímavý vydat se na výlet po městě. Tahle látka ti může ukázat věci, který bys jinak přehlíd.'",
         options: {
             i_want_to_buy_some: "Chci něco koupit",
             i_could_sell_you_some_spores: "Mohl bych vám prodat nějaké spory",

@@ -11,6 +11,7 @@ export default {
         options: {
             who_are_you: "Kdo jste?",
             what_do_you_sell: "Co prodáváte?",
+            zerren_auction: "Kupujete něco na aukci vedle?",
             about_the_vestigel_you_had: "O vestigelu, co jste prý měla..."
         }
     },
@@ -50,6 +51,12 @@ export default {
         text: "'Děkuji! Jsem na svoji sbírku unikátů pyšná. Nedávno jsem měla pěkného plyšáka, o kterého byl velký zájem. Prodala jsem ho ani ne před šesti tráveními. Podivná malá věcička, ale svým způsobem okouzlující.'",
         options: {
             tell_me_more_about_that_toy: "Řekněte mi víc o tom plyšákovi",
+            back: "Zeptej se na něco jiného"
+        }
+    },
+    zerren_auction: {
+        text: "'Na aukci u dvojčat? Už ani omylem.' Ztlumí hlas. 'Hesh s Vellem se z každé aukce snaží vytřískat co nejvíc. Vyhypované předměty, vymyšlené báchorky, triky, jak zmást dražitele a dohnat je k tomu, aby zaplatili co nejvíc. Oni tomu říkají optimalizace a zefektivnění dražby, já tomu říkám cinknutá aukce.'",
+        options: {
             back: "Zeptej se na něco jiného"
         }
     },

@@ -43,6 +43,7 @@ export default class ShopSystem {
      * @param {Array} options.inventory - Items for sale
      * @param {number} options.buyMultiplier - Price multiplier when buying (default 1.0)
      * @param {number} options.sellMultiplier - Price multiplier when selling (default 0.5)
+     * @param {Function} [options.onBuy] - called with the item after a purchase went through
      * (options.position / width / height are accepted for old callers; the panel is always centred.)
      */
     constructor(scene, options = {}) {
@@ -419,6 +420,7 @@ export default class ShopSystem {
         }
 
         this.scene.showNotification(this.t('notifications.purchased', { item: this.itemName(item) }, `Purchased: ${this.itemName(item)}`));
+        this.options.onBuy?.(item);
         if (this.selectedItem === item && this.isOneOff(item)) this.selectedItem = null;
         if (this.hoverItem === item && this.isOneOff(item)) this.hoverItem = null;
         this.refresh();
