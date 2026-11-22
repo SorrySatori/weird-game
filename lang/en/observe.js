@@ -61,7 +61,7 @@ export default {
         },
         abandoned_bus: {
             hint: 'The Abandoned Bus',
-            default: "A bus that stopped running when its route stopped existing. Somebody lived in here. Hard to say what kind of life form, because the seats are worn into some very odd shapes. You've no idea what has a backside shaped like that, but you'd rather not meet it, thanks very much.",
+            default: "A bus that stopped running for some reason. Somebody lived in here. Hard to say what kind of life form, because the seats are worn into some very odd shapes. I've no idea what has a backside shaped like that, but I wouldn't want to meet it, thanks very much.",
         },
         // the Bishop's body after the demo's last monologue (AbandonedBusScene): a look, never an examination
         dead_bishop: {

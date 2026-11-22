@@ -73,9 +73,10 @@ export default class AbandonedBusScene extends GameScene {
         this.registerEdgeExit('left', () => this.leaveByEdge('left', 'ScraperBackyardScene'), exitDoor);
 
         this.createBishop();
-        // the priest in the monologue: his bust in the Cinema bar, his own figure in Bubbles
+        // the player (Thaal's apprentice, not a priest; the sprite key is historical) in the monologue: his bust in
+        // the Cinema bar, his own figure in Bubbles
         const priestBust = { key: 'priest', frame: 0, zoom: 2, top: 4 };
-        this.dialogPortraits = { ...(this.dialogPortraits || {}), Priest: priestBust, 'Kněz': priestBust };
+        this.dialogPortraits = { ...(this.dialogPortraits || {}), Apprentice: priestBust, 'Učedník': priestBust };
 
         if (this.journalSystem && !this.journalSystem.hasEntry('abandoned_bus_interior')) {
             this.addJournalEntry(
@@ -199,26 +200,26 @@ export default class AbandonedBusScene extends GameScene {
         return {
             ...super.dialogContent,
             bishop_found_1: {
-                speaker: 'Priest',
+                speaker: 'Apprentice',
                 text: "That's... that's the Bishop! It has to be her. She looks like she's only asleep. But she isn't, is she? No. She's dead, no doubt about it.",
                 hideCloseOption: true,
                 options: [{ text: 'Continue', key: 'bus_mono_next', next: 'bishop_found_2' }],
                 onTrigger: () => this.recordDiscovery()
             },
             bishop_found_2: {
-                speaker: 'Priest',
+                speaker: 'Apprentice',
                 text: "What happened here? Did somebody want her silenced? And what's that on her head? It looks like one of those game helmets I saw at Dr. Elphi's, only somehow different.",
                 hideCloseOption: true,
                 options: [{ text: 'Continue', key: 'bus_mono_next', next: 'bishop_found_3' }]
             },
             bishop_found_3: {
-                speaker: 'Priest',
+                speaker: 'Apprentice',
                 text: "Could the doctor herself have had a hand in this? But she sent me here herself, of her own free will.",
                 hideCloseOption: true,
                 options: [{ text: 'Continue', key: 'bus_mono_next', next: 'bishop_found_4' }]
             },
             bishop_found_4: {
-                speaker: 'Priest',
+                speaker: 'Apprentice',
                 text: "So what now? The Master is waiting for news, and the one person who might have known anything about that call from the city is dead. And this is only my first day here. Who knows what comes next?",
                 hideCloseOption: true,
                 options: [{ text: '...', key: 'bus_mono_end', next: 'closeDialog' }],

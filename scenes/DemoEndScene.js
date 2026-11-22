@@ -4,8 +4,8 @@ import { openStorePage } from '../utils/demo.js';
 
 /**
  * The end-of-demo card (DEMO_BUILD): shown once, over the paused game, when the player finds the Bishop dead in the
- * bus behind the Scraper (scenes/AbandonedBusScene.js) -- the point where the demo's main line stops. The title, a thank-you, "Wishlist on Steam" and "Keep exploring" (the side
- * quests stay playable). Launched by CreditsScene (utils/demo.js showDemoEnd() rolls the credits first); the scene
+ * bus behind the Scraper (scenes/AbandonedBusScene.js) -- the point where the demo's main line stops. The title, a thank-you, "Wishlist on Steam", "Keep exploring" (the side
+ * quests stay playable) and, in the Electron build, "Exit Game". Launched by CreditsScene (utils/demo.js showDemoEnd() rolls the credits first); the scene
  * it covers is resumed on close.
  */
 export default class DemoEndScene extends Phaser.Scene {
@@ -35,17 +35,17 @@ export default class DemoEndScene extends Phaser.Scene {
         if (!this.anims.exists('menuLogoTurn')) {
             this.anims.create({ key: 'menuLogoTurn', frames: this.anims.generateFrameNumbers('menuLogo', { start: 0, end: 7 }), frameRate: 5, repeat: -1 });
         }
-        const LOGO_Y = 112;
+        const LOGO_Y = 104;
         const logo = this.add.sprite(CX, LOGO_Y, 'menuLogo', 0).setScale(2).play('menuLogoTurn');
         const glow = this.add.image(CX, LOGO_Y, 'menuLogoGlow').setScale(2)
             .setBlendMode(Phaser.BlendModes.ADD).setTint(MENU_COLORS.glow).setAlpha(0.25);
         this.tweens.add({ targets: glow, alpha: 0.55, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
 
-        const title = this.add.text(CX, 232, t('ui.demo.end.title'), {
+        const title = this.add.text(CX, 196, t('ui.demo.end.title'), {
             fontFamily: MENU_FONT, fontSize: '30px', color: MENU_COLORS.title,
             stroke: MENU_COLORS.stroke, strokeThickness: 5
         }).setOrigin(0.5);
-        const body = this.add.text(CX, 262, t('ui.demo.end.body'), {
+        const body = this.add.text(CX, 226, t('ui.demo.end.body'), {
             fontFamily: MENU_FONT, fontSize: '17px', color: MENU_COLORS.text, align: 'center',
             stroke: MENU_COLORS.stroke, strokeThickness: 3, lineSpacing: 4, wordWrap: { width: 720 }
         }).setOrigin(0.5, 0);
@@ -56,13 +56,20 @@ export default class DemoEndScene extends Phaser.Scene {
         card.add([logo, glow, title, body, note]);
 
         const nav = new MenuNav(this);
-        const top = Math.max(452, body.y + body.height + 46);
+        // the buttons stack up from the bottom (Exit Game only in the Electron build, as in the main menu)
+        const canQuit = /Electron/i.test(navigator.userAgent);
+        const STEP = 62, LAST_Y = H - 72;
+        const top = Math.max(body.y + body.height + 44, LAST_Y - (canQuit ? 2 : 1) * STEP);
         const wishlist = createMenuButton(this, CX, top, t('ui.demo.end.wishlist'), () => {
             openStorePage();
             note.setText(t('ui.demo.end.storeOpened'));
         }, { variant: 0, nav, fontSize: 18 });
-        const keep = createMenuButton(this, CX, top + 66, t('ui.demo.end.continue'), () => this.close(), { variant: 1, nav });
+        const keep = createMenuButton(this, CX, top + STEP, t('ui.demo.end.continue'), () => this.close(), { variant: 1, nav });
         card.add([wishlist.container, keep.container]);
+        if (canQuit) {
+            const quit = createMenuButton(this, CX, top + 2 * STEP, t('ui.menu.exitGame'), () => this.exitGame(), { variant: 2, nav });
+            card.add(quit.container);
+        }
         // nothing focused up front: an Enter still held from the dialog mustn't throw the player into the store
         this.input.keyboard.on('keydown-ESC', () => this.close());
 
@@ -70,6 +77,17 @@ export default class DemoEndScene extends Phaser.Scene {
         card.setAlpha(0);
         this.tweens.add({ targets: shade, alpha: 1, duration: 700, ease: 'Sine.easeOut' });
         this.tweens.add({ targets: card, alpha: 1, duration: 900, delay: 300, ease: 'Sine.easeOut' });
+    }
+
+    /** Quits like the main menu (MainScene.exitGame): the preload's IPC bridge, else closing the window. */
+    exitGame() {
+        if (this.closing) return;
+        this.closing = true;
+        this.cameras.main.fadeOut(400, 0, 0, 0);
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+            if (window.appControl && typeof window.appControl.quit === 'function') window.appControl.quit();
+            else window.close();
+        });
     }
 
     close() {

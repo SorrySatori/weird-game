@@ -287,7 +287,7 @@ export function ulvarexDialog(scene) {
                     scene.addJournalEntry(
                         'met_ulvarex',
                         'Ulvarex',
-                        "On an Oltrac trip I saw a puddle mirroring a sunset instead of the grey sky. In it lives Ulvarex, the Borrowed Horizon, a symbiont pressed into the reflection. I can only see her on Oltrac: Violet or Amber, she says, Gray is too weak.",
+                        "On an Oltrac trip I saw a puddle mirroring a sunset instead of the grey sky. In it lives Ulvarex, the Borrowed Horizon, a symbiont pressed into the reflection. I can only see her on Oltrac.",
                         scene.journalSystem.categories.PEOPLE,
                         { symbiont: ULVAREX_ID }
                     );
@@ -304,7 +304,7 @@ export function ulvarexDialog(scene) {
         },
         ulvarex_why: {
             speaker: 'Ulvarex',
-            text: "\"Puddles carry reflections from everywhere the rain has been. I hitched a ride on a particularly convincing sunset, rained down with it over this city and ended up here, pressed into a film on the water. Embarrassing, really. For an entity of infinite creative potential, a puddle is a humbling address. And only people on Oltrac can see me at all. Violet or Amber; Gray is too weak. You'd be surprised how few of them look down.\"",
+            text: "\"I hitched a ride on a particularly convincing sunset, rained down with it over this city and ended up here, pressed into a film on the water. Embarrassing, really. For an entity of infinite creative potential, a puddle is a humbling address. And the only ones who can see me at all are people on Oltrac, or particularly sensitive individuals.\"",
             options: [
                 { text: "What would bonding with you mean?", key: 'ulvarex_what_bond', next: 'ulvarex_bond' },
                 { text: "I'll leave you to your puddle.", key: 'ulvarex_leave_puddle', next: 'ulvarex_decline' },

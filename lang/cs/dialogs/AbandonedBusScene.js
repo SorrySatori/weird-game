@@ -4,7 +4,7 @@
  */
 export default {
     _speakers: {
-        'Priest': 'Kněz',
+        'Apprentice': 'Učedník',
     },
     bishop_found_1: {
         text: "Vždyť to je... to je Biskupka! Musí to být ona. Vypadá, jako by jen spala. Ale nespí, že ne? Ne, je rozhodně mrtvá.",

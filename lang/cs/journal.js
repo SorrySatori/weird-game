@@ -88,7 +88,7 @@ export default {
         },
         met_ulvarex: {
             title: 'Ulvarex',
-            description: "Na Oltracu jsem uviděl kaluž, ve které se místo šedého nebe zrcadlil západ slunce. Žije v ní Ulvarex, Vypůjčený obzor, symbiontka vtisknutá do odrazu. Dokáži ji spatřit jen na Oltracu: na fialovém nebo jantarovém, šedý je prý moc slabý.",
+            description: "Na Oltracu jsem uviděl kaluž, ve které se místo šedého nebe zrcadlil západ slunce. Žije v ní Ulvarex, Vypůjčený obzor, symbiontka vtisknutá do odrazu. Dokáži ji spatřit jen na Oltracu.",
         },
         symbiont_ulvarex_accepted: {
             title: 'Přijetí Ulvarex',

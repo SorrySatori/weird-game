@@ -90,7 +90,7 @@ export default {
         // Ulvarex (utils/ulvarexEncounter.js): seen on an Oltrac trip, then bonded
         met_ulvarex: {
             title: 'Ulvarex',
-            description: "On an Oltrac trip I saw a puddle mirroring a sunset instead of the grey sky. In it lives Ulvarex, the Borrowed Horizon, a symbiont pressed into the reflection. I can only see her on Oltrac: Violet or Amber, she says, Gray is too weak.",
+            description: "On an Oltrac trip I saw a puddle mirroring a sunset instead of the grey sky. In it lives Ulvarex, the Borrowed Horizon, a symbiont pressed into the reflection. I can only see her on Oltrac.",
         },
         symbiont_ulvarex_accepted: {
             title: 'Accepted Ulvarex',
