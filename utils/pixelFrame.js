@@ -46,7 +46,7 @@ export function pixelPlate(scene, w, h, opts) {
 }
 
 /**
- * A stepped tail (a bubble's pointer) with its tip at (tipX, tipY), `steps` grid rows long, pointing 'down', 'up' or 'left'.
+ * A stepped tail (a bubble's pointer) with its tip at (tipX, tipY), `steps` grid rows long, pointing 'down', 'up', 'left' or 'right'.
  * Its widest row lies on the plate's rim and opens it, so draw it after the plate, with the base row on the rim.
  */
 export function drawPixelTail(g, tipX, tipY, steps, dir, { fill = FRAME.fill, rim = FRAME.rim } = {}) {
@@ -58,8 +58,8 @@ export function drawPixelTail(g, tipX, tipY, steps, dir, { fill = FRAME.fill, ri
             const y = dir === 'down' ? tipY - (i + 1) * G : tipY + i * G;
             if (half) g.fillStyle(fill, 1).fillRect(tipX - half, y, 2 * half, G);   // opaque: it covers the rim it opens
             g.fillStyle(rim, 1).fillRect(tipX - half - G, y, G, G).fillRect(tipX + half, y, G, G);
-        } else {                                                    // 'left': the tip on the left
-            const x = tipX + i * G;
+        } else {                                                    // 'left' / 'right': the tip on that side
+            const x = dir === 'right' ? tipX - (i + 1) * G : tipX + i * G;
             if (half) g.fillStyle(fill, 1).fillRect(x, tipY - half, G, 2 * half);
             g.fillStyle(rim, 1).fillRect(x, tipY - half - G, G, G).fillRect(x, tipY + half, G, G);
         }

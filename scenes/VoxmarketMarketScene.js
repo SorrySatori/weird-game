@@ -67,6 +67,7 @@ export default class VoxmarketMarketScene extends GameScene {
                 options: [
                     { text: "Who are you?", key: 'who_are_you', next: "zerren_who" },
                     { text: "What do you sell?", key: 'what_do_you_sell', next: "zerren_selling" },
+                    { text: "Do you ever buy at the auction next door?", key: 'zerren_auction', next: "zerren_auction" },
                     ...(this.registry.get('questSystem')?.getQuest('the_three_vestigels') ? [
                         { text: "About the Vestigel you had...", key: 'about_the_vestigel_you_had', next: "zerren_vestigel_inquiry" }
                     ] : []),
@@ -125,6 +126,16 @@ export default class VoxmarketMarketScene extends GameScene {
                     { text: "Tell me more about that toy", key: 'tell_me_more_about_that_toy', next: "zerren_plush_toy" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
+            },
+            // How the player learns the twins rig their sales (Ulvarex can make them stop, VoxmarketHallScene)
+            zerren_auction: {
+                text: "'The twins' auction? Not on your life.' She lowers her voice. 'Hesh and Vell squeeze every last coin out of every sale. Hyped-up lots, made-up yarns, tricks to muddle the bidders and drive them to pay as much as they possibly can. They call it optimising and streamlining the auction. I call it a rigged room.'",
+                options: [
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
+                ],
+                onTrigger: () => {
+                    this.addJournalFact('met_hesh_vell', 'shills', "Zerren says the twins cheat at their auctions and do all they can to drive the prices up.");
+                }
             },
             
             zerren_plush_toy: {
@@ -433,13 +444,13 @@ export default class VoxmarketMarketScene extends GameScene {
             this.showDialog('zerren_start');
         });
         
-        // Add a name tag above Zerren
-        const zerrenTag = this.add.text(200, 420, 'Zerren', {
+        // A name tag over Zerren's hood (lower down it covered her mouth, which moves when she speaks: utils/talk.js)
+        const zerrenTag = this.nameTag(this.add.text(200, 362, 'Zerren', {
             fontFamily: UI_FONT, fontSize: UI_SMALL,
             fill: '#7fff8e',
             backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
-        });
+        }));
         zerrenTag.setOrigin(0.5);
         zerrenTag.setDepth(6);
         

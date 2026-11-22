@@ -2,6 +2,10 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import ShopSystem from '../systems/items/ShopSystem.js';
 import { DEMO_BUILD } from '../config/build.js';
+import { canWeave, spendWeave } from '../utils/ulvarexEncounter.js';
+
+/** Spores for Ulvarex's mirage inspector of the Ink Tribunal (anchored in the real seal Ravla copies from) */
+const AUDIT_COST = 10;
 
 export default class ScreamingCorkInteriorScene extends GameScene {
     constructor() {
@@ -17,6 +21,19 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         const rustTaskDone = DEMO_BUILD && !this.questSystem?.getQuest('rust_feast')?.updates?.some(u => u.key === 'demo_not_yet')
             ? 'ravla_rust_demo' : 'closeDialog';
 
+        // Ulvarex: an inspector of the Ink Tribunal woven at Ravla's elbow shows her the flaws in her "perfect" forgery
+        // (Growth: her clients won't be caught with botched papers). Any time once the player knows she forges (her own
+        // words or Heliodor's tip). While Ortolan's arms quest runs it's his permit: before she's paid she redoes it for
+        // free, after, she gives the fifty back. Otherwise a sample from her pile, and she swears to redo the year's work.
+        const ortolanOpen = !!this.questSystem?.getQuest('ortolan_arms') && !this.questSystem.getQuest('ortolan_arms').isComplete;
+        const knowsForger = !!this.journalSystem?.hasFact('met_ravla', 'forger')
+            || !!this.questSystem?.getQuest('ortolan_arms')?.updates?.some(u => ['ravla_forger_hint', 'ravla_forger_agreement'].includes(u.key));
+        const audited = !!(this.journalSystem?.hasFact('met_ravla', 'audit') || this.journalSystem?.hasFact('met_ravla', 'audit_sample'));
+        // (from her first menu only once he knows what she does; in the talk about Ortolan's permit she has just said it)
+        const canAudit = !audited && canWeave(this, AUDIT_COST);
+        const permitBought = ortolanOpen && !!(this.hasItem && this.hasItem('forged-arms-permission'));
+        const auditFromStart = canAudit && (knowsForger || permitBought);
+
         const content = {
             ...super.dialogContent,
 
@@ -28,7 +45,10 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     { text: "Who are you?", key: 'who_are_you', next: "ravla_who" },
                     { text: "What do you do here?", key: 'what_do_you_do_here', next: "ravla_job" },
                     ...(hasFindRustQuest ? [{ text: "I was told you can get me to Rust Choir base.", key: 'i_was_told_you_can_get_me_to_rust_choir_base', next: "ravla_rust_domain" }] : []),
-                    ...(hasRustFeastQuest ? [{ text: "I'm still gathering the feast ingredients.", key: 'im_still_gathering_the_feast_ingredients', next: "ravla_feast_missing" }] : [])
+                    ...(hasRustFeastQuest ? [{ text: "I'm still gathering the feast ingredients.", key: 'im_still_gathering_the_feast_ingredients', next: "ravla_feast_missing" }] : []),
+                    ...(auditFromStart && permitBought ? [{ text: "[Ulvarex] About that perfect permit. Let's have it inspected.", key: 'ravla_ulvarex_inspect', next: "ravla_audit" }] : []),
+                    ...(auditFromStart && ortolanOpen && !permitBought ? [{ text: "[Ulvarex] About Ortolan's permit. First let an inspector look at your work.", key: 'ravla_ulvarex_audit_start', next: "ravla_audit" }] : []),
+                    ...(auditFromStart && !ortolanOpen ? [{ text: "[Ulvarex] Let's see how good your work really is.", key: 'ravla_ulvarex_audit_any', next: "ravla_audit" }] : [])
                 ]
             },
             ravla_who: {
@@ -89,6 +109,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 text: "It won't be cheap: 50 dinars. But I can make it perfect. No one would know the difference.",
                 options: [
                     { text: "Here's the money", key: 'heres_the_money', next: "ravla_check_money" },
+                    ...(canAudit && ortolanOpen && !permitBought ? [{ text: "[Ulvarex] Perfect? Let an inspector be the judge of that.", key: 'ravla_ulvarex_audit', next: "ravla_audit" }] : []),
                     { text: "I'll think about it", key: 'ill_think_about_it', next: "ravla_ortolan_agree" },
                     { text: "That's too expensive", key: 'thats_too_expensive', next: "ravla_start" }
                 ]
@@ -128,6 +149,65 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 options: [
                     { text: "Thank you", key: 'thank_you', next: "closeDialog" }
                 ]
+            },
+            ravla_audit: {
+                speaker: 'Narrator',
+                hideCloseOption: true,
+                textKey: permitBought ? 'bought' : 'sample',
+                text: "You let Ulvarex focus on the seal Ravla keeps on her desk to copy from. By the desk an inspector of the Ink Tribunal takes shape: grey cuffs, ink up to the wrists, a loupe screwed into one eye. Without a word he picks up "
+                    + (permitBought ? "Ortolan's permit from the pile" : "a sample permit from her pile") + " and holds it to the lamp.\n\n\"The cogwheel on this seal has eleven teeth. The real one has twelve,\" he says. \"The fish in the watermark swims upstream; ours have swum downstream since the reform. And this ink smells of beetroot.\" He lays the paper down and comes apart in a puff of orange light.",
+                options: [
+                    { text: "Watch Ravla.", key: 'ravla_audit_watch', next: "ravla_audit_shaken" }
+                ],
+                onTrigger: () => {
+                    if (this._auditWoven) return;   // (the spores go once per weave)
+                    this._auditWoven = true;
+                    this._auditForOrtolan = ortolanOpen;
+                    this._auditRefund = permitBought;
+                    spendWeave(this, AUDIT_COST);
+                }
+            },
+            ravla_audit_shaken: {
+                speaker: 'Ravla',
+                textKey: !this._auditForOrtolan ? 'humbled' : this._auditRefund ? 'refund' : 'free',
+                text: "Ravla stares at the empty air where the inspector stood, then at the paper. She picks the real seal up off her desk and counts the teeth under her breath. Then she counts them again.\n\n\"Twelve,\" she says at last, very quietly. \"All these years I've been doing this.\" She doesn't look at you. \"That was you, wasn't it? Some trick. Doesn't matter. He was right.\" She sweeps the paper into the stove and pulls out a clean form. "
+                    + (!this._auditForOrtolan
+                        ? "\"Everything I've sold this year comes back across this desk and gets done again. Properly.\" Only now does she look at you. \"And not a word about this to the Rust Choir.\""
+                        : this._auditRefund
+                        ? "\"Ortolan gets a new one, done properly. And here's your fifty back. I don't charge twice for the same job.\""
+                        : "\"Ortolan's permit gets done properly. And this one's on the house.\""),
+                options: [
+                    { text: "Thank you, Ravla.", key: 'ravla_audit_thanks', next: "closeDialog" }
+                ],
+                onTrigger: () => {
+                    if (!this._auditWoven) return;
+                    this._auditWoven = false;
+                    if (this.journalSystem?.hasFact('met_ravla', 'audit') || this.journalSystem?.hasFact('met_ravla', 'audit_sample')) return;
+                    this.gdChoiceOnce('ulvarex_ravla_audit', 2, 0);
+                    // she knows she was tricked, even if she can't say how
+                    if (this.registry.get('factionSystem')) this.modifyFactionReputation('RustChoir', -5);
+                    if (!this._auditForOrtolan) {
+                        this.addJournalFact('met_ravla', 'audit_sample', "Ulvarex wove an inspector of the Ink Tribunal, who found three flaws in one of Ravla's forgeries. Ravla went quiet and swore to redo everything she has sold this year.");
+                        return;
+                    }
+                    const refund = this._auditRefund;
+                    if (refund) {
+                        this.removeItemFromInventory('forged-arms-permission');
+                        this.addMoney(50);
+                    }
+                    this.addItemToInventory({
+                        id: 'forged-arms-permission',
+                        name: "Forged Multiple Arms Permission",
+                        description: "A flawless forgery of an Artisan's Exemption Form. Ravla redid it after an \"inspection\": twelve teeth on the seal, the watermark fish swimming the right way.",
+                        variant: 'audited',
+                        stackable: false
+                    });
+                    const questSystem = this.registry.get('questSystem');
+                    if (questSystem && !questSystem.getQuest('ortolan_arms')?.updates?.some(u => u.key === 'document_obtained')) {
+                        questSystem.updateQuest('ortolan_arms', "I got a forged permit for Ortolan's extra arms from Ravla. Now I just need to get it to him.", 'document_obtained');
+                    }
+                    this.addJournalFact('met_ravla', 'audit', "Ulvarex conjured an illusion of an Ink Tribunal inspector, who found three flaws in Ravla's \"perfect\" forgery. Ravla went quiet, then redid Ortolan's permit properly and wouldn't take my money for it.");
+                }
             },
             ravla_not_enough_money: {
                 text: "What are you trying to pull? You don't have 50 dinars. Come back when you have the money. I don't work for free.",

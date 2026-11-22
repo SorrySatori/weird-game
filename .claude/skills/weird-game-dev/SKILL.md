@@ -12,9 +12,36 @@ description: >-
 
 # weird-game — developer conventions
 
-A Phaser **3.88** point-and-walk RPG (side view: the player "priest" moves **horizontally**,
-click-to-move + arrows, via `systems/player/PlayerMovementSystem.js`). Runs under Electron
+A Phaser **3.88** point-and-walk RPG (side view: the player, whose sprite the code calls `priest`, moves
+**horizontally**, click-to-move + arrows, via `systems/player/PlayerMovementSystem.js`). Runs under Electron
 (`npm start`). Scenes are plain JS classes extending `scenes/GameScene.js`.
+
+## Canon first: before writing ANY player-facing line
+The full canon is `WORLD_HISTORY_AND_GEOGRAPHY.md` (EN). Grep it and `lang/` for how the world already says a thing
+before inventing one. Do the same before calling an unfamiliar word in the user's text a typo: world terms look odd on
+purpose. Never fall back to Earth defaults. These are the facts that get broken most easily:
+- **Time** is counted in **digestions** of the Stomach Clock (CZ **„trávení“**).
+  - 1 digestion ≈ 29 h, 6 = a week, 300 = a year.
+  - The city stopped counting years when the Tally-Keeper died.
+  - Write "six digestions ago", „pár set trávení“. Never months, weeks or days. Seconds are fine.
+- **The protagonist** is Master Thaal's **apprentice** (CZ **„učedník“**), a fungal emissary of the Obazoba cult.
+  - He is **not a priest**. The sprite key `priest` / `this.priest` is only a historical name in the code.
+  - As a dialog speaker use `'Apprentice'`, and „Učedník“ in the CZ `_speakers`.
+  - The Cardinal Feast mini-game is a separate story, starring Cardinal Emils Ven.
+- **The god Obazoba** has no body. Never describe one.
+- **Money** is the dinar (CZ „dinár“). **Spores** are the second, biological currency and also fuel symbiont
+  abilities. **Growth / Decay** (CZ Růst / Rozklad) shape the city.
+- **The sky**: day, overcast, no sun or moon in it.
+- **Czech narration** always says „ty“ to the player, even when the NPC says „vy“.
+- **Czech symbiont genders**: Neme and Ulvarex are feminine. Thorne-Still and the others are masculine.
+- **Fixed Czech names**:
+  - Bouda 521, Škrabák 1140, Řvoucí korek („ve Řvoucím korku“), Vaječná katedrála, patro 177-Tiché
+  - Direktorát (Lumen Directorate), Lift-Mother (untranslated)
+  - Solopis, Korunoblatsko, Kardinálova hostina, Deskovkové války, Předdoba
+- **Style**:
+  - No em or en dashes in game texts.
+  - Similes must make literal sense.
+  - Fungi appear only where the place has a reason for them.
 
 ## Golden rule: verify every edit
 `.js` files use ESM `import`, so `node --check scenes/X.js` fails ("Cannot use import…").

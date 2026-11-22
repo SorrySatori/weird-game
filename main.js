@@ -27,6 +27,8 @@ import IntroScene from './scenes/IntroScene.js';
 import TransitionScene from './scenes/TransitionScene.js';
 import ScraperInteriorScene from './scenes/ScraperInteriorScene.js';
 import ScraperAmbraScene from './scenes/ScraperAmbraScene.js';
+import ScraperBackyardScene from './scenes/ScraperBackyardScene.js';
+import AbandonedBusScene from './scenes/AbandonedBusScene.js';
 import CreditsScene from './scenes/CreditsScene.js';
 import DemoEndScene from './scenes/DemoEndScene.js';
 
@@ -49,7 +51,7 @@ const config = {
         keyboard: true,
         gamepad: false
     },
-    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, CreditsScene, DemoEndScene],
+    scene: [LoadingScene, MainScene, EntryScene, GameScene, EggCatedralScene, CathedralEntrance, VoxMarket, VoxmarketMarketScene, VoxmarketHallScene, CrossroadScene, ScraperScene, Shed521Scene, Shed521FloorsScene, Shed521GateScene, ShedRegistrationScene, ShedApplicationsScene, ShedAbandonedOfficeScene, ShedHallScene, ShedCourtyardScene, ScreamingCorkScene, ScreamingCorkInteriorScene, ScreamingCorkClubScene, BurningBearStreetScene, SkyshipBoardScene, IntroScene, TransitionScene, ScraperInteriorScene, ScraperAmbraScene, ScraperBackyardScene, AbandonedBusScene, CreditsScene, DemoEndScene],
     backgroundColor: '#000000', // canvas clear — the not-yet-widened scene backgrounds show black (not grey) beside them
     scale: {
         // The game renders at a fixed 1067×600 (16:9). FIT scales it uniformly to fill the window,

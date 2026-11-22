@@ -15,7 +15,7 @@ const SMALL = { left: 0, right: 3, close: 6 }; // + 0 idle / 1 hover / 2 pressed
 const PANEL_MARGIN = 18;
 const SLIDER = { w: 136, h: 16, glassX0: 4, glassX1: 132 };   // the glass tube's inside (menu_ui.py GLASS)
 /** native inner size of each panel + its title plate (tools/artgen/menu_ui.py PANELS) */
-export const MENU_PANELS = { pause: { w: 224, h: 196 }, slots: { w: 256, h: 210 }, lang: { w: 224, h: 108 }, settings: { w: 256, h: 140 },
+export const MENU_PANELS = { pause: { w: 224, h: 196 }, slots: { w: 256, h: 210 }, lang: { w: 224, h: 108 }, settings: { w: 256, h: 176 },
     ledger: { w: 456, h: 248 } };   // ledger = the journal + quest log (ui/LedgerPanel.js)
 
 export const MENU_COLORS = {

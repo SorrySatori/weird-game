@@ -1,7 +1,7 @@
 // Electron entry for the trailer capture. Opens capture.html in a hidden window and turns the frames the
 // director sends into one lossless clip per shot (out/shots/<id>.mkv) plus PNG stills (out/stills/).
 //
-//   node_modules/.bin/electron tools/trailer/capture-main.cjs [--survey|--screenshots] [--only id,id] [--fps 60] [--lang cs]
+//   node_modules/.bin/electron tools/trailer/capture-main.cjs [--survey|--screenshots|--dialogs] [--only id,id] [--fps 60] [--lang cs]
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const fs = require('fs');
@@ -16,6 +16,8 @@ const opt = (name, def) => { const i = argv.indexOf(`--${name}`); return i >= 0 
 const options = {
     survey: flag('survey'),
     screenshots: flag('screenshots'),
+    dialogs: flag('dialogs'),
+    talk: flag('talk'),          // with --dialogs: the speaker's mouth held open (utils/talk.js)
     only: opt('only', '') ? opt('only').split(',') : null,
     fps: Number(opt('fps', 60)),
     lang: opt('lang', 'en'),

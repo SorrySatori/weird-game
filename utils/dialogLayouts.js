@@ -1,41 +1,84 @@
 /**
- * dialogLayouts.js — the game's dialogue presentation ("chronicle" layout).
+ * dialogLayouts.js: the entry point of the dialogue presentation and the helpers its styles share.
  *
- * A scrollable narration log + a name/portrait plate, with numbered response lines along the
- * bottom. The character portrait reuses the speaker's own sprite already loaded in the scene
- * (shown static, first frame).
+ * The player picks the style in Settings (utils/dialogStyles.js draws them):
+ *   bubbles  in the world: the line in a plate over the speaker, the replies in a plate over the protagonist
+ *   cinema   letterbox bars, the line as a subtitle in the bottom bar with the speaker's portrait, the replies on the right
  *
  * The LOGIC stays in GameScene: showDialog resolves/translates content, runs onTrigger, then hands
  * a normalized model to renderDialogLayout(). Options carry their own `activate()` (the real
- * navigation). This module only builds GameObjects + wires hover/click → commit(activate).
+ * navigation). The styles only build GameObjects + wire hover/click → commit(activate).
  *
  * Model shape (built by GameScene._buildDialogModel):
- *   { speaker: string|null, text: string,
+ *   { speaker: string|null, speakerEn: string|null, text: string,
  *     options: [{ label: string, used: boolean, isClose: boolean, activate: fn }] }
  *
  * Everything created goes into scene.dialogBox (a container destroyed by hideDialog); masks go into
  * scene._dialogMasks and wheel handlers into scene._dialogWheel (also cleaned there).
  */
 
-import { UI_FONT, UI_SIZE } from './pixelFrame.js';
+import { getSetting, setSetting } from '../systems/GameSettings.js';
+import { STYLE_RENDERERS } from './dialogStyles.js';
+import { startTalk, stopTalk } from './talk.js';
 
-/** Entry point called by showDialog to render a dialog from its normalized model. */
-export function renderDialogLayout(scene, model) {
-    RENDERERS.chronicle(scene, model);
+/** The presentations the player can pick in Settings; the first is the default, and an unknown saved value (an older
+ * trial style) falls back to it. */
+export const DIALOG_STYLES = ['bubbles', 'cinema'];
+export const currentDialogStyle = () => (DIALOG_STYLES.includes(getSetting('dialogStyle')) ? getSetting('dialogStyle') : DIALOG_STYLES[0]);
+
+/**
+ * Entry point called by showDialog to render a dialog from its normalized model.
+ * The conversation so far (the lines and the replies picked) is kept in scene._dialogLog until the dialog closes, for
+ * the styles that show a transcript; `replay` re-renders the current line (another style) without logging it again.
+ */
+export function renderDialogLayout(scene, model, { replay = false } = {}) {
+    if (!replay) {
+        const log = scene._dialogLog || (scene._dialogLog = []);
+        model.fresh = log.length === 0;
+        log.push({ speaker: model.speaker, text: model.text });
+        if (log.length > 16) log.splice(0, log.length - 16);
+    } else {
+        model.fresh = false;
+    }
+    scene._dialogModel = model;
+    STYLE_RENDERERS[currentDialogStyle()](scene, model);
+    scene.onDialogLayout?.(currentDialogStyle());   // a scene that frames its shot per style (the bus)
+    // the speaker's mouth moves for the new line (the style lists the sprites: in the world, the portrait)
+    if (replay) stopTalk(scene); else startTalk(scene, scene._dialogSpeakers, model.text, `${model.speaker || ''} ${model.speakerEn || ''}`);
+}
+
+/** Next (dir 1) or previous style; an open dialog is re-drawn in it at once. Returns the new style. */
+export function cycleDialogStyle(scene, dir = 1) {
+    const n = DIALOG_STYLES.length;
+    const next = DIALOG_STYLES[(DIALOG_STYLES.indexOf(currentDialogStyle()) + dir + n) % n];
+    setSetting('dialogStyle', next);
+    if (scene?.dialogVisible && scene._dialogModel) {
+        scene.dialogBox?.destroy();
+        scene.dialogBox = null;
+        scene.clearDialogLayoutArtifacts();
+        renderDialogLayout(scene, scene._dialogModel, { replay: true });
+        scene.restackNotices?.();
+    }
+    return next;
 }
 
 // ------------------------------------------------------------------ shared helpers
 
-/** Play the murmur and run the option's navigation. */
-function commit(scene, activate) {
+/** Play the murmur, log the reply (the transcript styles show it) and run the option's navigation. */
+export function commit(scene, opt) {
     try { scene.dialogMurmur?.play?.({ volume: 0.8, rate: 0.9 }); } catch (e) { /* ignore */ }
-    activate();
+    if (!opt.isClose && scene._dialogLog) scene._dialogLog.push({ reply: opt.label });
+    opt.activate();
 }
 
-/** Mask `target` to a screen rect and let the wheel scroll it vertically when it overflows. */
-function attachScroll(scene, target, contentHeight, view) {
-    if (contentHeight <= view.h) return;      // fits — no scroll needed
-    const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
+/**
+ * Mask `target` to a screen rect and let the wheel scroll it vertically when it overflows.
+ * view: { x, y, w, h, arrowColor?, startAtEnd? (show the end first: a transcript), arrows? (false: none) }
+ * Returns true when it scrolls.
+ */
+export function attachScroll(scene, target, contentHeight, view) {
+    if (contentHeight <= view.h) return false;   // fits — no scroll needed
+    const g = scene.make.graphics({}, false).setScrollFactor(0); // a mask shape only: off the display list, so it never shows as a white box
     g.fillStyle(0xffffff);
     g.fillRect(view.x, view.y, view.w, view.h);
     target.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));
@@ -43,7 +86,8 @@ function attachScroll(scene, target, contentHeight, view) {
 
     const topY = target.y;
     const minY = topY - (contentHeight - view.h);
-    const step = amt => { target.y = Phaser.Math.Clamp(target.y + amt, minY, topY); };
+    const step = amt => { target.y = Math.round(Phaser.Math.Clamp(target.y + amt, minY, topY) / 2) * 2; };
+    if (view.startAtEnd) step(-contentHeight);
 
     const handler = (pointer, objs, dx, dy) => {
         if (!scene.dialogVisible) return;
@@ -66,57 +110,21 @@ function attachScroll(scene, target, contentHeight, view) {
         scene.dialogBox.add(a);
         return a;
     };
+    if (view.arrows === false) return true;
     mkArrow('▲', view.y + 10);
     mkArrow('▼', view.y + view.h - 10);
-}
-
-/**
- * A clickable option row. Returns its pixel height.
- * opts: { font, size, color, hover, usedColor, prefix, align:'left'|'center', wrapW, accent:0xRRGGBB|null }
- */
-function optionRow(scene, parent, x, y, opt, opts, index) {
-    const baseColor = opt.isClose ? (opts.closeColor || opts.color) : (opt.used ? opts.usedColor : opts.color);
-    const prefix = typeof opts.prefix === 'function' ? opts.prefix(index, opt) : (opts.prefix || '');
-    const label = scene.add.text(x, y, prefix + opt.label, {
-        fontFamily: opts.font, fontSize: opts.size, fill: baseColor,
-        wordWrap: { width: opts.wrapW }, align: opts.align || 'left',
-    });
-    if (opts.align === 'center') label.setOrigin(0.5, 0); else label.setOrigin(0, 0);
-    parent.add(label);
-
-    const h = label.height;
-    // Hit area / hover accent spanning the row.
-    const hitW = opts.hitW || (opts.wrapW + 24);
-    const hitX = opts.align === 'center' ? x - hitW / 2 : x - 8;
-    const hit = scene.add.rectangle(hitX, y - 4, hitW, h + 8, 0xffffff, 0.001).setOrigin(0, 0);
-    hit.setInteractive({ useHandCursor: true });
-    parent.add(hit);
-
-    let accent = null;
-    if (opts.accent != null) {
-        accent = scene.add.rectangle(hitX, y - 4, 3, h + 8, opts.accent, 0).setOrigin(0, 0);
-        parent.add(accent);
-    }
-
-    hit.on('pointerover', () => {
-        label.setFill(opts.hover);
-        if (accent) accent.setAlpha(1);
-        if (opts.hoverBg) hit.setFillStyle(opts.hoverBg, 0.18);
-    });
-    hit.on('pointerout', () => {
-        label.setFill(baseColor);
-        if (accent) accent.setAlpha(0);
-        if (opts.hoverBg) hit.setFillStyle(0xffffff, 0.001);
-    });
-    hit.on('pointerdown', () => { hit.disableInteractive(); commit(scene, opt.activate); });
-
-    return h + (opts.gap != null ? opts.gap : 12);
+    return true;
 }
 
 /** New empty dialog container at the top depth. */
-function newBox(scene) {
-    const box = scene.add.container(0, 0).setDepth(1000);
+export function newBox(scene) {
+    // pinned to the screen, so a scene can move its camera under an open dialog (the bus frames the Bishop above the
+    // Cinema bar)
+    const box = scene.add.container(0, 0).setDepth(1000).setScrollFactor(0);
     scene.dialogBox = box;
+    scene._noticeSpot = null;    // where the notices go while it's open: the style sets these (GameScene.restackNotices)
+    scene._noticeAvoid = null;
+    scene._dialogSpeakers = [];  // the speaker's sprites whose mouth moves (utils/talk.js): the style fills it
     return box;
 }
 
@@ -128,7 +136,7 @@ function newBox(scene) {
  * Matching: exact normalized key first (e.g. "Gnur" → 'gnur'), then a substring match on the
  * speaker's words (e.g. "Fungal Master Thaal" → 'fungal_master'); obvious non-character keys skipped.
  */
-function resolvePortraitTexture(scene, speaker) {
+export function resolvePortraitTexture(scene, speaker) {
     if (!speaker) return null;
     const override = scene.dialogPortraits && scene.dialogPortraits[speaker];
     if (override && scene.textures.exists(override.key ?? override)) return override;
@@ -156,98 +164,3 @@ function resolvePortraitTexture(scene, speaker) {
     }
     return null;
 }
-
-/** Portrait plate: the scene's own character sprite (head-aligned, cropped) + a name strip. */
-function addPortrait(scene, parent, cx, cy, w, h, key, name, opts) {
-    // the menu kit's nine-slice card at the 2x grid (as the shop and the journal), its frame ~10 px thick
-    parent.add(scene.add.nineslice(cx, cy, 'menuCard', 0, w / 2, h / 2, 7, 7, 7, 7).setScale(2));
-    const innerW = w - 20, innerH = h - 20;
-    if (key && key.key && key.zoom && scene.textures.exists(key.key)) {
-        // A bust from one frame of a full-figure pixel-art sheet: integer zoom, the frame's row `top` (the top of the
-        // head) at the plate's top edge, the rest masked off. zoom 2 puts the bust on the UI layer's 2x grid.
-        const spr = scene.add.sprite(cx, cy - innerH / 2 + 4 - (key.top || 0) * key.zoom, key.key, key.frame ?? 0)
-            .setOrigin(0.5, 0).setScale(key.zoom);
-        parent.add(spr);
-        const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
-        g.fillStyle(0xffffff);
-        g.fillRect(cx - innerW / 2, cy - innerH / 2, innerW, innerH);
-        spr.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));
-        (scene._dialogMasks = scene._dialogMasks || []).push(g);
-    } else if (key && key.key && scene.textures.exists(key.key)) {
-        // One frame of a sheet (a small pixel-art sprite): whole, integer-scaled, centred above the name strip.
-        const spr = scene.add.sprite(cx, cy - 16, key.key, key.frame);
-        spr.setScale(Math.max(1, Math.floor(Math.min(innerW, innerH - 32) / Math.max(spr.width, spr.height))));
-        parent.add(spr);
-    } else if (key && scene.textures.exists(key)) {
-        const spr = scene.add.sprite(cx, cy, key);            // add.sprite → frame 0 for spritesheets
-        spr.setScale(Math.max(1, Math.floor(innerW / spr.width)));   // integer only: the art stays on the 2x grid
-        spr.y = cy - h / 2 + 10 + spr.displayHeight / 2;       // top-align so the head shows
-        parent.add(spr);
-        const g = scene.make.graphics({}, false); // a mask shape only: off the display list, so it never shows as a white box
-        g.fillStyle(0xffffff);
-        g.fillRect(cx - innerW / 2, cy - innerH / 2, innerW, innerH);
-        spr.setMask(new Phaser.Display.Masks.GeometryMask(scene, g));
-        (scene._dialogMasks = scene._dialogMasks || []).push(g);
-        // Static portrait: frame 0 of the sprite (spritesheets default to their first frame).
-        if (spr.anims) spr.anims.stop();
-    }
-    // (no name strip under the bust: the log's first line names the speaker, and a long name won't fit the plate)
-}
-
-// ------------------------------------------------------------------ layout renderers
-
-const RENDERERS = {
-    // ---- CHRONICLE: narration log (left) + name/portrait plate (right) + numbered lines (bottom)
-    chronicle(scene, model) {
-        const box = newBox(scene);
-        const INK = '#c8e6d0', DIM = '#5f7a68', HL = '#ffffff', NAME = '#e8c46a', FONT = UI_FONT;
-        // Centred on the canvas, 920 wide: the pixel font (22 px, monospace) needs the room for ~50 characters a line
-        const CX = Math.round(scene.scale.width / 2), PW = 920, left = CX - PW / 2;
-
-        box.add(scene.add.rectangle(CX, 300, scene.scale.width, 600, 0x05080a, 0.82));  // dim the world
-        // the menu kit's nine-slice card at the 2x grid, as the shop and the journal (CX is even: the edges sit on the grid)
-        const panel = scene.add.nineslice(CX, 300, 'menuCard', 0, PW / 2, 520 / 2, 7, 7, 7, 7).setScale(2);
-        box.add(panel);
-
-        // Portrait plate, top-right: a static bust from the speaker's own scene sprite (none for a speakerless line)
-        const portrait = resolvePortraitTexture(scene, model.speaker) || resolvePortraitTexture(scene, model.speakerEn);
-        const PLATE_W = 152, plateX = left + PW - 30 - PLATE_W / 2;
-        if (portrait) addPortrait(scene, box, plateX, 140, PLATE_W, 152, portrait, model.speaker, { font: FONT, nameColor: NAME });
-
-        // Numbered response lines at the bottom, built first: they take the room they need (up to OPT_MAX, then they
-        // scroll) and the narration log above gets the rest, so five options don't scroll while the log sits half empty
-        const BOTTOM = 548, OPT_MAX = 236;
-        const optsC = scene.add.container(left + 30, 0);
-        box.add(optsC);
-        let y = 0;
-        model.options.forEach((opt, i) => {
-            y += optionRow(scene, optsC, 0, y, opt, {
-                font: FONT, size: UI_SIZE, color: opt.isClose ? DIM : INK, usedColor: DIM, hover: HL,
-                prefix: (idx) => `${idx + 1}. `, align: 'left', wrapW: PW - 100, gap: 6,
-            }, i);
-        });
-        const optH = Math.min(OPT_MAX, Math.max(y, 120));
-        const oview = { x: left + 30, y: Math.round((BOTTOM - optH) / 2) * 2, w: PW - 60, h: optH, arrowColor: NAME };
-        optsC.y = oview.y;
-        attachScroll(scene, optsC, y, oview);
-
-        // A thin rule between the narration and the responses
-        box.add(scene.add.rectangle(CX, oview.y - 14, PW - 60, 2, 0x8a6a2a, 0.7));     // 2 px: one grid pixel
-
-        // Narration log, top-left, down to the rule
-        const top = 70;
-        const view = { x: left + 30, y: top, w: (portrait ? plateX - PLATE_W / 2 - 20 : left + PW - 30) - (left + 30), h: oview.y - 28 - top, arrowColor: NAME };
-        const logC = scene.add.container(view.x, view.y);
-        box.add(logC);
-        const speakerLine = model.speaker
-            ? scene.add.text(0, 0, model.speaker + ':', { fontFamily: FONT, fontSize: UI_SIZE, fill: NAME })
-            : null;
-        if (speakerLine) logC.add(speakerLine);
-        const body = scene.add.text(0, speakerLine ? 34 : 0, model.text, {
-            fontFamily: FONT, fontSize: UI_SIZE, fill: INK, wordWrap: { width: view.w - 14 }, lineSpacing: 6,
-        });
-        logC.add(body);
-        attachScroll(scene, logC, (speakerLine ? 34 : 0) + body.height, view);
-    },
-
-};

@@ -86,6 +86,14 @@ export default {
             title: 'Přijetí Thorne-Stilla',
             description: 'Přijal jsem symbiotickou bytost Thorne-Still. Splynula se mnou: doslova mi vlezla do žaludku. Teď můžu používat její schopnost Mozková hniloba a mást či ovlivňovat druhé.',
         },
+        met_ulvarex: {
+            title: 'Ulvarex',
+            description: "Na Oltracu jsem uviděl kaluž, ve které se místo šedého nebe zrcadlil západ slunce. Žije v ní Ulvarex, Vypůjčený obzor, symbiontka vtisknutá do odrazu. Dokáži ji spatřit jen na Oltracu.",
+        },
+        symbiont_ulvarex_accepted: {
+            title: 'Přijetí Ulvarex',
+            description: "Na Oltracu jsem našel Ulvarex, Vypůjčený obzor. Usadila se mi za očima. Živí se mými sporami a dává mi Tkaní přeludů: iluze tak přesvědčivé, že oklamou ruku stejně jako oko. Má ráda, když město žije: pokud by vládl rozklad, zmlkne.",
+        },
         skyship_sighting: {
             title: 'Podivné Plavidlo na Smaragdové Obloze',
             description: "Nad Horní Morkezelou se vznáší obrovská vzducholoď, trup se jí leskne nepřirozeným světlem. Její účel zůstává neznámý, jen se zdá, že od ní vítr snáší spory.",
@@ -132,6 +140,7 @@ export default {
             description: "V útrobách Boudy 521 jsem narazil na Gnura, postavu, jejíž hlas skřípe „jako rozbitý tranzistorák“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
             facts: {
                 rust_choir: "Za starých časů se staral o stroje, teď patří k Rezavému chóru. To naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.",
+                mirage_core: "Odnesl si živé jádro, které mu Ulvarex upředla z kusu plechu. Jenže přelud nevydrží věčně. Jednou si toho všimne.",
             },
         },
         rust_choir_faction: {
@@ -163,6 +172,7 @@ export default {
             facts: {
                 entrepreneur: "Říká o sobě, že je „farmaceutický podnikatel“. Obchoduje se specializovanými látkami, které rozšiřují mysl.",
                 oltrac: "Specializuje se na Oltrac, psychoaktivní látku. O mé houbové spory má zájem jako o surovinu.",
+                reflections: "Kloorova rada: s Fialovým nebo Jantarovým Oltracem je prý zajímavé projít se po městě. Prý bych mohl spatřit něco, co normálně není vidět. Netuším, co tím myslel.",
             },
         },
         kloor_vestigel_exchange: {
@@ -255,6 +265,14 @@ export default {
         met_hesh_vell: {
             title: 'Dvojčata-likitátoři: Hesh a Vell',
             description: 'Setkal jsem se s dvojčaty-likitátory v Aukční hale Voxmarketu. Jeden mluví, druhý bezhlasně artikuluje tatáž slova o půl sekundy později. Jejich synchronizace je znepokojivá a přesná (a zřejmě záměrná). Aukci vedou společně.',
+            facts: {
+                shills: "Podle Zerren dvojčata při dražbách podvádějí a snaží se šroubovat ceny co nejvíce.",
+                shills_ulvarex: "Ulvarex dvojčata prokoukla: polovina rukou, které se na jejich dražbách zvednou, patří jejich vlastním lidem. A to bude nejspíš jen jeden z jejich špinavých triků.",
+            },
+        },
+        twins_honest_auction: {
+            title: 'Poctivá aukce',
+            description: "Dal jsem Heshovi a Vellovi artefakt, který utkala Ulvarex, skleněný zvon obsahující fialovou planetu, výměnou za jejich slib, že na aukcích přestanou podvádět. Každá položka má jít za poctivou cenu.",
         },
         met_dr_elphi: {
             title: 'Dr. Elphi Quarn',
@@ -270,6 +288,8 @@ export default {
             description: 'Ravla má svůj kout ve Řvoucím korku a o sobě říká, že je tak trochu umělkyně. Líbí se jí tu: je tu klid a úřady si drží odstup. Bystrý zrak, cynická, charisma na ni neplatí.',
             facts: {
                 forger: 'Padělá dokumenty: papíry pro každého, kdo zaplatí, a na nic se neptá.',
+                audit: "Ulvarex vytvořila iluzi inspektora Inkoustového tribunálu, který v Ravlině „dokonalém“ padělku našel tři chyby. Ravla zmlkla, pak Ortolanovo povolení udělala pořádně a nevzala si za něj ode mě ani dinár.",
+                audit_sample: "Ulvarex utkala inspektora Inkoustového tribunálu, který v jednom Ravlině padělku našel tři chyby. Ravla zmlkla a zařekla se, že všechno, co letos prodala, udělá znovu.",
                 rust_choir: 'Mluví za Rezavý chór: k Brukkovi ani ke strojům se nikdo nedostane, aniž by prošel přes ni. A než někoho pustí dál, chce důkaz oddanosti.',
             },
         },
@@ -282,6 +302,19 @@ export default {
                 ravla: "Žena v koutě je Ravla a padělá papíry.",
                 feral_toast: "Kapela, která zkouší vzadu, se jmenuje Feral Toast.",
             },
+        },
+        // poslední místa dema (ScraperBackyardScene, AbandonedBusScene)
+        scraper_backyard: {
+            title: 'Dvorek Škrabáku',
+            description: 'Za Škrabákem je starý dopravní dvůr pod spletí rezavých trubek. Do země se v něm propadl autobus až po horní patro a někdo k jeho dveřím vykopal jámu.',
+        },
+        abandoned_bus_interior: {
+            title: 'Uvnitř opuštěného autobusu',
+            description: 'Uvnitř rozpadlého a napůl zasypaného autobusu se na povrch dere nový život. Sedadla hnijí, z laviček raší bledé houby a ve tmě svítí zelené skvrny.',
+        },
+        found_dead_bishop: {
+            title: 'Osud Biskupky',
+            description: 'Našel jsem Biskupku mrtvou v opuštěném autobusu za Škrabákem. Vypadá, jako by jen spala. Na hlavě má helmu podobnou těm herním helmám, které jsem viděl u doktorky Elphi, jen nějakou trochu jinou. Chtěl ji někdo umlčet?',
         },
         edgar_vestigel_received_after_book: {
             title: 'Spisovatelův odznak',

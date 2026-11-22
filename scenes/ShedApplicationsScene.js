@@ -1,4 +1,5 @@
-import { gnurRefused, clerkToldBishop, knowsKloorStory, CLERK_STORY_KEY } from '../utils/bishopTrail.js';
+import { gnurRefused, gnurFooled, clerkToldBishop, knowsKloorStory, CLERK_STORY_KEY } from '../utils/bishopTrail.js';
+import { hasUlvarex } from '../utils/ulvarexEncounter.js';
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 
@@ -130,20 +131,29 @@ export default class ShedApplicationsScene extends GameScene {
                 options: [
                     { text: "Thank you. That helps a lot.", key: 'thank_you_that_helps', next: "start" }
                 ],
-                onTrigger: () => this.once('core_refused_thanks', () => {
+                onTrigger: () => this.giveTribunalRecords()
+            },
+            // Ulvarex, Gnur first: he went off with her mirage of the core, the real one still hums in its wall
+            core_mirage_thanks: {
+                text: "(The clerk sets down his stamp.) Gnur walked off happy and the core is still humming in its wall? (A thin smile.) I won't ask how you managed it. The Ink Tribunal remembers its friends. You were asking after the Bishop, weren't you? (He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. Requested by the Bishop herself; it's stamped and countersigned. Wherever she went after that, she went there first.",
+                options: [
+                    { text: "Thank you. That helps a lot.", key: 'thank_you_that_helps', next: "start" }
+                ],
+                onTrigger: () => this.giveTribunalRecords()
+            },
+            // Ulvarex, the clerk first (Gnur's quest still open): the promise that Gnur only ever gets a mirage
+            core_mirage_promise: {
+                text: "(The clerk peers at you over his glasses for a long moment.) A forgery. The Ink Tribunal disapproves of forgeries. Officially. (He opens a drawer.) Unofficially, though, I must say we are very glad the core came to no harm. Thank you. You were asking after the Bishop, weren't you? (He runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. The Bishop requested it in person; it's stamped and countersigned. Wherever she went after that, she most likely went there first. (He shuts the drawer.)",
+                options: [
+                    { text: "You can count on it.", key: 'clerk_mirage_word', next: "start" }
+                ],
+                onTrigger: () => {
                     const qs = this.registry.get('questSystem');
-                    qs?.updateQuest('find_bishop',
-                        "The clerk in Shed 521 showed me the Ink Tribunal's records: the Bishop had a visitor's permit for Dr. Elphi's studio on floor 177-Quiet of Scraper 1140.",
-                        CLERK_STORY_KEY);
-                    // ...and in the Lift-Mother's quest, where the player waits for it: one story, or with Kloor's two
-                    if (qs?.getQuest('level_177_access') && !this.hasJournalEntry('accessed_elphi_floor')) {
-                        const two = knowsKloorStory(qs);
-                        qs.updateQuest('level_177_access', two
-                            ? "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree. The Lift-Mother should let me up now."
-                            : "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story; I need a second one that agrees.",
-                            'clerk_records', { textKey: two ? 'clerk_records_two' : 'clerk_records_one' });
+                    if (qs?.getQuest('rust_reclamation') && !qs.getQuest('rust_reclamation').updates.some(u => u.key === 'mirage_promised')) {
+                        qs.updateQuest('rust_reclamation', "I promised the clerk in Shed 521 that Gnur will only ever get a mirage of the living core. The Ink Tribunal paid me in advance.", 'mirage_promised');
                     }
-                })
+                    this.giveTribunalRecords();
+                }
             },
             private: {
                 text: "I see, no problem. Is there anything else I can help you with?",
@@ -281,6 +291,23 @@ export default class ShedApplicationsScene extends GameScene {
                     next: "core_refused_thanks"
                 });
             }
+            // Ulvarex (utils/ulvarexEncounter.js): Gnur already has her mirage of the core...
+            if (gnurFooled(questSystem) && questSystem.getQuest('find_bishop') && !clerkToldBishop(questSystem)) {
+                content.start.options.splice(1, 0, {
+                    text: "Gnur won't get the living core. He went off with a fake one and doesn't know it.",
+                    key: 'gnur_got_a_mirage',
+                    next: "core_mirage_thanks"
+                });
+            }
+            // ...or will: once the clerk has warned about the core, the player can promise it, Gnur's quest still open
+            if (hasUlvarex(this) && coreQuest && !coreQuest.isComplete && livingCoreSettled
+                && questSystem.getQuest('find_bishop') && !clerkToldBishop(questSystem)) {
+                content.start.options.splice(1, 0, {
+                    text: "[Ulvarex] Gnur won't get the real core. I'll only give him a mirage.",
+                    key: 'clerk_mirage_promise',
+                    next: "core_mirage_promise"
+                });
+            }
             if (coreQuest && !coreQuest.isComplete && !livingCoreSettled) {
                 content.start.options.splice(1, 0, {
                     text: "What do you know about the living core?",
@@ -303,6 +330,28 @@ export default class ShedApplicationsScene extends GameScene {
     }
 
     /** Run a side effect only the first time its key is seen in this scene instance. */
+    /**
+     * The Tribunal's thanks for keeping the core out of Gnur's hands (turned down, or fooled with Ulvarex's mirage):
+     * the Bishop's visitor permit for Dr. Elphi's floor, the same lead Gnur gives (utils/bishopTrail.js). Once.
+     */
+    giveTribunalRecords() {
+        this.once('core_refused_thanks', () => {
+            const qs = this.registry.get('questSystem');
+            if (!qs || clerkToldBishop(qs)) return;
+            qs.updateQuest('find_bishop',
+                "The clerk in Shed 521 showed me the Ink Tribunal's records: the Bishop had a visitor's permit for Dr. Elphi's studio on floor 177-Quiet of Scraper 1140.",
+                CLERK_STORY_KEY);
+            // ...and in the Lift-Mother's quest, where the player waits for it: one story, or with Kloor's two
+            if (qs.getQuest('level_177_access') && !this.hasJournalEntry('accessed_elphi_floor')) {
+                const two = knowsKloorStory(qs);
+                qs.updateQuest('level_177_access', two
+                    ? "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. With Kloor's story, that's two that agree. The Lift-Mother should let me up now."
+                    : "The clerk in the Applications office showed me the Ink Tribunal's records: the Bishop had a permit to visit Dr. Elphi's floor. To the Lift-Mother it's still just one story; I need a second one that agrees.",
+                    'clerk_records', { textKey: two ? 'clerk_records_two' : 'clerk_records_one' });
+            }
+        });
+    }
+
     once(key, fn) {
         if (this._rewarded.has(key)) return;
         this._rewarded.add(key);

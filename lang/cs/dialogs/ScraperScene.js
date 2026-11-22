@@ -15,6 +15,7 @@ export default {
             don_demo_who: "Kdo vlastně jsi?",
             don_demo_view: "Co tady nahoře děláš?",
             don_demo_lamp: "...ty jsi mluvící lampa.",
+            don_demo_scraper: "Odsud je na Škrabák pěkný výhled.",
             don_demo_bye: "Musím jít.",
         },
     },
@@ -24,6 +25,7 @@ export default {
             don_demo_who: "Kdo vlastně jsi?",
             don_demo_view: "Co tady nahoře děláš?",
             don_demo_lamp: "...ty jsi mluvící lampa.",
+            don_demo_scraper: "Odsud je na Škrabák pěkný výhled.",
             don_demo_bye: "Musím jít.",
         },
     },
@@ -36,6 +38,14 @@ export default {
     },
     don_demo_view: {
         text: "„Dívám se do oken. Na každé, které se rozsvítí, a na každé, které zhasne. O lidech se toho hodně dozvíš podle světel, která nechají svítit, a ještě víc podle těch, která zhasnou.“ Plamen se skloní k věži. „Tohle mimochodem nikdy nespí. Pamatuj si to, až půjdeš dovnitř.“",
+        options: {
+            don_demo_back: "Ještě něco.",
+            don_demo_bye: "Musím jít.",
+        },
+    },
+    // jeho nápověda ke kaluži s Ulvarex (vedle Kloorovy), dokud ji hráč nemá
+    don_demo_scraper: {
+        text: "„Je to magnificentní budova, co, ten Škrabák? Pohled na něj mě nikdy neomrzí. I když, jednou jsem si dal extra silnej Oltrac a pak jsem viděl fakt divný věci.“",
         options: {
             don_demo_back: "Ještě něco.",
             don_demo_bye: "Musím jít.",

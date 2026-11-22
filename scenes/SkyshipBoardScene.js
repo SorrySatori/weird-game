@@ -4,6 +4,7 @@ import JournalSystem from '../systems/JournalSystem.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { DEMO_BUILD } from '../config/build.js';
 import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
+import { preloadUlvarexPuddle, setupUlvarexEncounter, ulvarexDialog } from '../utils/ulvarexEncounter.js';
 export default class SkyshipBoardScene extends GameScene {
     constructor() {
         super({ key: 'SkyshipBoardScene' });
@@ -15,6 +16,7 @@ export default class SkyshipBoardScene extends GameScene {
         super.preload();
         this.preloadMusic('flightGuitar');
         this.load.image('skyshipBoardBg', 'assets/images/backgrounds/skyship_board.png');
+        preloadUlvarexPuddle(this, 'skyship');   // Ulvarex's puddle (utils/ulvarexEncounter.js)
         this.load.image('exitArea', 'assets/images/ui/door.png');
         this.load.spritesheet('captainLiris', 'assets/images/characters/liris_idle.png', { frameWidth: 128, frameHeight: 160 });
     }
@@ -82,6 +84,10 @@ export default class SkyshipBoardScene extends GameScene {
         
         // Add Captain Liris
         this.createCaptainLiris();
+
+        // Ulvarex's puddle: rainwater on the deck boards between the hatch and the dial-board (on a Violet/Amber
+        // Oltrac trip). Not a skyship reward: the same Oltrac shows her on the Scraper roof and in the Shed 521 yard.
+        setupUlvarexEncounter(this, 'skyship');
     }
 
     createCaptainLiris() {
@@ -505,7 +511,7 @@ export default class SkyshipBoardScene extends GameScene {
         };
         
         // Return combined dialog content
-        return { ...parentContent, ...skyshipContent };
+        return { ...parentContent, ...ulvarexDialog(this), ...skyshipContent };
     }
 
     update() {

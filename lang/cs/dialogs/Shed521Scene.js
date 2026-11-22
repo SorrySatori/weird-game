@@ -5,6 +5,7 @@
 export default {
     _speakers: {
         'Gnur': 'Gnur',
+        'Narrator': 'Vypravěč',
     },
     start: {
         text: {
@@ -17,7 +18,8 @@ export default {
             im_looking_for_the_bishop_have_you_seen_her: "Hledám Biskupku. Neviděl jsi ji?",
             i_have_the_living_core_you_wanted: "Mám to živé jádro, co jsi chtěl",
             about_that_living_core_you_lied_to_me: "Ohledně toho živého jádra... lhal jsi mi.",
-            im_looking_for_the_way_how_to_reach_the_rust_choir: "Hledám cestu k centrále Rezavého chóru ve Škrabáku. Můžeš mi pomoct?"
+            im_looking_for_the_way_how_to_reach_the_rust_choir: "Hledám cestu k centrále Rezavého chóru ve Škrabáku. Můžeš mi pomoct?",
+            ulvarex_mirage_core: "[Ulvarex] Dát mu iluzivní živé jádro vytvořené z kusu plechu."
         }
     },
     background: {
@@ -73,6 +75,19 @@ export default {
         text: "Ach... živé jádro. (Oči se mu podivně rozsvítí, když přebírá artefakt.) Ano, tohle bude krásně zpívat v našem sboru. Jak jsem slíbil, řeknu ti něco o tvé biskupce... Tu čočku jsem jí prodal. Zaplatila Vestigelem, experimentální mincí, co má cenu deseti takových čoček. A věděla to. Nesmlouvala. Ten Vestigel už nemám, tak se ani neptej. Biskupku taky velmi zajímala práce Dr. Elphi. Naposledy jsem slyšel, že se vydala do Škrabáku 1140, aby se setkala s doktorkou osobně. Vypadalo to... naléhavě.",
         options: {
             thank_you_for_the_information: "Děkuji za informaci"
+        }
+    },
+    // Ulvarex: přelud živého jádra z kusu plechu (skutečné zůstane ve zdi)
+    mirage_core_weave: {
+        text: "Zvedneš ze země zkroucený kus plechu a sevřeš ho v dlani. Ulvarex se ti za očima protáhne jako kočka na sluníčku. „Zelené. Teplé. Bzučí jako něco živého. Nech to na mně.“ Když dlaň otevřeš, pulzuje v ní živé jádro, přesně takové, jaké jsi viděl ve zdi, i s tím tichým bzučením.",
+        options: {
+            mirage_core_hand_over: "Podat ho Gnurovi."
+        }
+    },
+    complete_quest_mirage_end: {
+        text: "(Gnur jádro obrací v pařátech, poslouchá, jak bzučí, a pak ho zastrčí někam do kabátu a brouká si s ním.)",
+        options: {
+            leave: "Odejít"
         }
     },
     complete_quest_end: {

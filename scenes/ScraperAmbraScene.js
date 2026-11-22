@@ -1,7 +1,6 @@
 import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
-import { isDemoClosed, sayDemoClosed, showDemoEnd } from '../utils/demo.js';
 import { addHoverAura } from '../utils/hoverAura.js';
 import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
@@ -23,7 +22,6 @@ export default class ScraperAmbraScene extends GameScene {
     }
 
     create() {
-        this.demoEndPending = false;
         // Call parent create first to initialize mechanics
         super.create();
         this.playSceneMusic('dr_elphi_theme');
@@ -135,17 +133,8 @@ export default class ScraperAmbraScene extends GameScene {
         });
     }
     
-    /** The demo's main line ends with this talk: the end card follows once the dialog closes (any way it closes). */
-    hideDialog() {
-        super.hideDialog();
-        if (!this.demoEndPending) return;
-        this.demoEndPending = false;
-        showDemoEnd(this);
-    }
-
     /** Elphi's backyard key + the quest pointer (both exit lines; idempotent). */
     giveBackyardLead() {
-        this.demoEndPending = true;
         // Key only once (re-opening the exit used to push a duplicate), and make sure the quest points
         // to the backyard even when the player got here via "Never mind" without the Bishop/anomaly branch.
         if (!this.hasItem('scraper_backyard_key')) {
@@ -370,6 +359,7 @@ export default class ScraperAmbraScene extends GameScene {
         });
         nameTag.setOrigin(0.5);
         nameTag.setDepth(5);
+        this.nameTag(nameTag);   // hidden while a dialog is open
         
         // (her idle is the frame animation above -- no glow disc, bobbing or tilting tweens on the pixel art)
         

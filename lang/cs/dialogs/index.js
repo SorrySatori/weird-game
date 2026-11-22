@@ -20,6 +20,15 @@ import scraperInteriorScene from './ScraperInteriorScene.js';
 import scraperScene from './ScraperScene.js';
 import voxmarketMarketScene from './VoxmarketMarketScene.js';
 import voxmarketHallScene from './VoxmarketHallScene.js';
+import abandonedBusScene from './AbandonedBusScene.js';
+import ulvarexEncounter from './UlvarexEncounter.js';
+
+/** A scene's own translations + Ulvarex's encounter (utils/ulvarexEncounter.js: her puddle is in three scenes). */
+const withUlvarex = (scene = {}) => ({
+    ...scene,
+    ...ulvarexEncounter,
+    _speakers: { ...(scene._speakers || {}), ...ulvarexEncounter._speakers },
+});
 
 export default {
     EntryScene: entryScene,
@@ -34,10 +43,12 @@ export default {
     ShedApplicationsScene: shedApplicationsScene,
     ShedCourtyard: shedCourtyardScene, // keyed by scene key, and this scene's key is 'ShedCourtyard' (not the file name)
     ShedRegistrationScene: shedRegistrationScene,
-    SkyshipBoardScene: skyshipBoardScene,
+    SkyshipBoardScene: withUlvarex(skyshipBoardScene),
     ScraperAmbraScene: scraperAmbraScene,
     ScraperInteriorScene: scraperInteriorScene,
-    ScraperScene: scraperScene,
+    ScraperScene: withUlvarex(scraperScene),
+    Shed521GateScene: withUlvarex(),
     VoxmarketMarketScene: voxmarketMarketScene,
     VoxmarketHallScene: voxmarketHallScene,
+    AbandonedBusScene: abandonedBusScene,
 };

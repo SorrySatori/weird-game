@@ -90,7 +90,9 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_oltrac: {
-                text: "'Oltrac comes in different varieties. Gray is common, Violet is more potent, and Amber... well, Amber Oltrac is something special. Opens doors in the mind that most don't even know exist. The quality depends on the source material.'",
+                // ...and his hint at Ulvarex (utils/ulvarexEncounter.js), like the one he drops after a Violet/Amber sale
+                text: "'Oltrac comes in different varieties. Gray is common, Violet is more potent, and Amber... well, Amber Oltrac is something special. Opens doors in the mind that most don't even know exist. The quality depends on the source material.' He taps the side of his snout. 'Word of advice: with the Violet or the Amber, a stroll round the city can get interesting. That stuff can show you things you'd otherwise miss.'",
+                onTrigger: () => this.learnKloorHint(),
                 options: [
                     { text: "I want to buy some", key: 'i_want_to_buy_some', next: "kloor_shop" },
                     { text: "I could sell you some spores", key: 'i_could_sell_you_some_spores', next: "kloor_buy_spores" },
@@ -590,6 +592,15 @@ export default class VoxMarket extends GameScene {
         if (this.shopSystem && this.shopSystem.isOpen) {
             this.shopSystem.updateMoneyDisplay();
         }
+
+        // Kloor's tip after the first Violet/Amber sale, once the panel is shut
+        if (this._kloorHintPending && !this.shopSystem?.isOpen && !this.isModalOpen() && this.kloor?.scene) {
+            this._kloorHintPending = false;
+            this.onceEver('kloor_reflection_hint', () => {
+                this.learnKloorHint();
+                this.showSpeechBubble(this.kloor, this.t('ui.hints.kloorReflections'), { duration: 6500, offsetY: 176, maxWidth: 260 });
+            });
+        }
     }
     
     /**
@@ -618,6 +629,7 @@ export default class VoxMarket extends GameScene {
             backgroundColor: 'rgba(12, 20, 16, 0.92)',
             padding: { x: 5, y: 2 }
         }).setOrigin(0.5).setDepth(6);
+        this.nameTag(this.kloorTag);   // hidden while a dialog is open
 
         this.startKloorWalking();
     }
@@ -698,8 +710,19 @@ export default class VoxMarket extends GameScene {
                 y: 300
             },
             buyMultiplier: 1.0,
-            sellMultiplier: 0.5
+            sellMultiplier: 0.5,
+            // the first Violet or Amber sold: Kloor's tip about what it shows (said once the shop panel is closed)
+            onBuy: (item) => {
+                if (['violetOltrac', 'amberOltrac'].includes(item.id) && !(this.registry.get('onceFlags') || []).includes('kloor_reflection_hint')) {
+                    this._kloorHintPending = true;
+                }
+            }
         });
+    }
+
+    /** Kloor's tip that a Violet/Amber trip shows what lives in reflections, kept in his journal entry. */
+    learnKloorHint() {
+        this.addJournalFact('kloor_venn_meeting', 'reflections', "Kloor's advice: with Violet or Amber Oltrac it's apparently worth taking a walk around the city. I might see something that's normally hidden. No idea what he meant.");
     }
     
     /**

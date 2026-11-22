@@ -19,6 +19,7 @@ export default {
                 lift_mother_permission: "The Lift-Mother has granted me access to Dr. Elphi's studio on floor 177-Quiet.",
                 reached_elphi_studio: "I've reached Dr. Elphi's studio on floor 177-Quiet. Now I need to find clues about the Bishop.",
                 check_shard_backyard: "Dr. Elphi pointed me to the Scraper backyard. I should look for the Bishop there.",
+                found_dead_in_bus: 'I found the Bishop dead in an abandoned bus behind the Scraper.',
                 found_elevator_button: "Zerren has a new item for sale: a Forgotten Elevator Button.",
                 guard_cathedral_closed: 'The Egg Cathedral is closed and the guard at the gate lets no one in. He might know where to find the Bishop.',
                 guard_bishop_not_inside: "According to the guard, the Bishop isn't in the cathedral. I'll have to look for her around the city, most likely at the Voxmarket or around Shed 521.",
@@ -68,6 +69,8 @@ export default {
                 core_taken_force: 'I have retrieved the Living Core, with a bit of good old violence.',
                 core_taken_careful: 'Carefully extracted the Living Core using pliers; it probably didn\'t damage the building in any way.',
                 core_delivered: 'I have given Gnur the living core. He seems satisfied.',
+                core_illusion: "Gnur got a living core Ulvarex wove out of a scrap of tin. The real one is still humming in its wall, and he told me what he knew about the Bishop.",
+                mirage_promised: "I promised the clerk in Shed 521 that Gnur will only ever get a mirage of the living core. The Ink Tribunal paid me in advance.",
                 quest_refused: 'I refused to help Gnur steal the living core after learning its importance.',
                 core_shed_energy: "The clerk in Shed 521 warned me to leave the living core alone. People take it for an old relic, but the Shed's energy supply depends on it.",
             }

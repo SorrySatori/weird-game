@@ -13,6 +13,8 @@ export default {
             whats_your_role_here: "Co tady máte na starosti?",
             what_do_you_know_about_the_living_core: "Co víte o živém jádru?",
             gnur_wont_get_the_core: "Gnur živé jádro nedostane. Odmítl jsem ho.",
+            gnur_got_a_mirage: "Gnur živé jádro nedostane. Odnesl si padělek a vůbec o tom neví.",
+            clerk_mirage_promise: "[Ulvarex] Gnur skutečné jádro nedostane. Dám mu jen přelud.",
             how_can_i_register_for_extra_pair_of_arms: "Jak si můžu zaregistrovat další pár rukou?"
         }
     },
@@ -61,6 +63,16 @@ export default {
     core_refused_thanks: {
         text: "(Úředník odloží razítko.) Vy jste Gnurovi řekl ne? (Pousměje se.) Inkoustový tribunál na své přátele nezapomíná. Ptal jste se přece po Biskupce, ne? (Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Podala si ho Biskupka osobně, orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
         options: { thank_you_that_helps: "Děkuji. To mi hodně pomůže." }
+    },
+    // Ulvarex: Gnur odešel s přeludem jádra (to skutečné bzučí dál ve zdi)
+    core_mirage_thanks: {
+        text: "(Úředník odloží razítko.) Gnur odešel spokojený a jádro přitom pořád bzučí ve zdi? (Pousměje se.) Nebudu se ptát, jak jste to dokázal. Inkoustový tribunál na své přátele nezapomíná. Ptal jste se přece po Biskupce, ne? (Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Požádala si o něj Biskupka osobně, je orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
+        options: { thank_you_that_helps: "Děkuji. To mi hodně pomůže." }
+    },
+    // Ulvarex: slib předem, Gnurův úkol ještě běží
+    core_mirage_promise: {
+        text: "(Úředník si tě dlouho prohlíží přes brýle.) Padělek. Inkoustový tribunál padělky neschvaluje. Oficiálně. (Otevře šuplík.) Neoficiálně je ale třeba říct, že jsme velmi rádi, že jádro nepřišlo k úhoně. Díky. Ptal jste se po Biskupce, není to tak? (Přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Požádala o to Biskupka osobně, je to orazítkované a s kontrasignací. Ať šla potom kamkoli, nejspíše šla nejdříve tam. (Zasune šuplík.)",
+        options: { clerk_mirage_word: "Spolehněte se." }
     },
     bishop_location: {
         text: "Biskupka? (Ohlédne se po kartotéce za sebou.) Tribunál vede záznamy o každém, kdo tímhle městem projde. Jenže záznamy se nevydávají jen tak někomu. Řekněte Gnurovi ne, ať ví, že jádro nedostane. A pak se vraťte. Tribunál na své přátele nezapomíná.",

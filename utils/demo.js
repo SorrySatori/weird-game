@@ -1,8 +1,9 @@
 /**
  * The demo cut (config/build.js DEMO_BUILD). Places outside the demo stay in the game, but every way into them is
  * closed off: SceneTransitionManager turns an exit to one of them into a traffic cone the priest won't pass, and the
- * few dialog / script transitions check isDemoClosed() themselves. Demo = the main line up to the first talk with
- * Dr. Elphi + the Ortolan, Edgar, Gnur and Kloor side quests (tools/trailer/shots.js SURVEY_SCENES lists its places).
+ * few dialog / script transitions check isDemoClosed() themselves. Demo = the main line up to finding the Bishop dead in
+ * the bus behind the Scraper (AbandonedBusScene) + the Ortolan, Edgar, Gnur and Kloor side quests (tools/trailer/shots.js
+ * SURVEY_SCENES lists its places).
  */
 import { DEMO_BUILD } from '../config/build.js';
 import LanguageSystem from '../systems/LanguageSystem.js';
@@ -10,8 +11,7 @@ import LanguageSystem from '../systems/LanguageSystem.js';
 export const DEMO_CLOSED_SCENES = new Set([
     'TownhallScene', 'TownhallInteriorScene', 'PithReclaimersRoomScene', 'TownSquareScene',
     'LumenDirectorateScene', 'LumenDirectorateInteriorScene', 'GodgraveyardScene', 'HarborScene',
-    'EchoDrainDeltaScene', 'RedmassIslandScene',
-    'ScraperBackyardScene', 'AbandonedBusScene', 'RustDomainScene', 'ScraperCellarScene',
+    'EchoDrainDeltaScene', 'RedmassIslandScene', 'RustDomainScene', 'ScraperCellarScene',
     'EggCathedralStudyScene', 'EggCathedralInteriorScene', 'CardinalFeastScene',
 ]);
 
@@ -71,18 +71,22 @@ export function openStorePage() {
 
 /**
  * The end of the demo, once per playthrough: pauses `scene`, rolls the credits (scenes/CreditsScene.js) over it and
- * then the end card (scenes/DemoEndScene.js). The flag rides in the saved `onceFlags`, so a reloaded save past this
- * point doesn't show them again.
+ * then the end card (scenes/DemoEndScene.js), which resumes it. The flag rides in the saved `onceFlags`, so a reloaded
+ * save past this point doesn't show them again. (It was 'demo_end_card' while the demo ended with the first talk with
+ * Dr. Elphi: a save from then still gets the new ending in the bus.) True if the end is on its way.
  */
 export function showDemoEnd(scene) {
-    if (!DEMO_BUILD || !scene?.onceEver) return;
-    scene.onceEver('demo_end_card', () => {
+    if (!DEMO_BUILD || !scene?.onceEver) return false;
+    let shown = false;
+    scene.onceEver('demo_end_bus', () => {
+        shown = true;
         scene.time.delayedCall(700, () => {
             if (!scene.scene.isActive()) return;
             scene.scene.pause();
             scene.scene.launch('CreditsScene', { from: scene.scene.key });
         });
     });
+    return shown;
 }
 
 /** The priest's aside at a cone (a speech bubble, so it reads as part of the world). */

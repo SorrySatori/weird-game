@@ -31,6 +31,9 @@ export default {
             sounds: 'Zvuky',
             fullscreen: 'Celá obrazovka',
             language: 'Jazyk',
+            dialogStyle: 'Dialogy',
+            dialogStyles: { bubbles: 'Bubliny', cinema: 'Film' },
+            confirm: 'Potvrdit',
             on: 'Zapnuto',
             off: 'Vypnuto',
         },
@@ -104,6 +107,7 @@ export default {
 
         // Nápovědy ve světě (popisky dveří apod.)
         hints: {
+            kloorReflections: "Dobrá volba. Běž se s tím projít do města a třeba uvidíš věci, že se budeš divit.",
             returnToCity: 'Zpět do města',
             exitToTavern: 'Zpět do hospody',
             enterTavern: 'Vstoupit do hospody',
@@ -118,10 +122,10 @@ export default {
             // závěrečná karta dema (scenes/DemoEndScene.js)
             end: {
                 title: 'Konec dema',
-                body: 'Děkujeme, že jste si zahráli demo! Klíč od Elphi odemyká dvorek Škrabáku a tam demo končí. '
-                    + 'Pátrání po Biskupce pokračuje v plné hře, napříč celou Horní Morkezelou: jejími čtvrtěmi, '
-                    + 'frakcemi i symbionty, kteří by se ve vás rádi zabydleli.\n\n'
-                    + 'Můžete tu ale ještě chvíli zůstat. Co jste nedokončili, na vás počká.',
+                body: 'Děkujeme, že jste si zahráli demo! Biskupka je mrtvá a demo zde končí. '
+                    + 'Tajemné okolnosti její smrti budete moci více prozkoumat až v plné hře, stejně jako další části '
+                    + 'Horní Morkezely, její obyvatele a další symbionty, kteří by se ve vás rádi zabydleli.\n\n'
+                    + 'Můžete tu ale ještě chvíli zůstat a dokončit cokoliv, co potřebujete.',
                 wishlist: 'Přidat do seznamu přání',
                 continue: 'Hrát dál',
                 storeOpened: 'Stránka hry se otevírá ve Steamu.',
@@ -161,12 +165,14 @@ export default {
 
         // Popisky východů a míst, které si scény kreslí samy
         hotspots: {
+            ulvarexPuddle: 'Kaluž, ve které zapadá slunce',
             returnOutside: 'Ven',
             returnInside: 'Zpět dovnitř',
             enterScraper: 'Do Škrabáku',
             backToElevator: 'Zpět k výtahu',
             backToMainMarket: 'Zpět na tržnici',
             abandonedBus: 'Opuštěný autobus',
+            deadBishop: 'Mrtvá Biskupka',
             captainLiris: 'Kapitánka Liris',
             skyshipAbove: 'Vypadá to, že nad městem visí vzducholoď...',
         },

@@ -1,6 +1,10 @@
 // Trailer director: runs inside capture.html, drives the game frame by frame on the virtual clock and
-// records the shots from shots.js. --survey instead saves a still + object dump of every demo scene.
-import { SHOTS, STILLS, SURVEY_SCENES, HUD } from './shots.js';
+// records the shots from shots.js. --survey instead saves a still + object dump of every demo scene,
+// --dialogs a still of sample conversations in every dialog style (out/stills/dialog_<case>_<style>.png).
+import { SHOTS, STILLS, SURVEY_SCENES, HUD, DIALOG_CASES } from './shots.js';
+import { DIALOG_STYLES, cycleDialogStyle } from '../../utils/dialogLayouts.js';
+import { setSetting } from '../../systems/GameSettings.js';
+import { startTalk } from '../../utils/talk.js';
 
 const cap = window.__cap;
 const vt = window.__vt;
@@ -91,6 +95,51 @@ async function survey() {
     }
 }
 
+async function dialogs() {
+    await enter('EntryScene'); // the registry systems
+    for (const c of cap.args.only ? DIALOG_CASES.filter(d => cap.args.only.includes(d.id)) : DIALOG_CASES) {
+        try {
+            setSetting('dialogStyle', DIALOG_STYLES[0]);
+            if (c.menu) {   // the Settings panel with its dialog-style row
+                await enter(c.scene, c.data);
+                await wait(1);
+                await cap.still(`dialog_${c.id}`, readPixels());
+                continue;
+            }
+            const scene = await enter(c.scene);
+            scene.isTransitioning = true;
+            scene.time.removeAllEvents();   // arrival dialogs and timers
+            await wait(0.5);
+            scene.hideDialog();
+            if (scene.priest && c.x != null) scene.priest.x = c.x;
+            scene.showDialog(c.state);
+            for (const pick of c.picks || []) {   // walk the conversation as a click would (the reply goes in the transcript)
+                await wait(0.2);
+                const opt = scene._dialogModel.options[pick];
+                scene._dialogLog?.push({ reply: opt.label });
+                opt.activate();
+            }
+            for (const style of DIALOG_STYLES) {
+                if (style !== DIALOG_STYLES[0]) cycleDialogStyle(scene, 1);
+                await wait(0.3);
+                const hits = [], walk = o => { if (o.type === 'Rectangle' && o.input?.enabled) hits.push(o); o.list?.forEach(walk); };
+                walk(scene.dialogBox);
+                hits[c.hover ?? 0]?.emit('pointerover');   // a reply under the pointer, to show the hover state
+                if (cap.args.talk) {                        // the mouth held open, to see where it sits
+                    startTalk(scene, scene._dialogSpeakers, '"aaaa"', '');
+                    const t = scene._talk;
+                    if (t) { t.timer?.remove(false); t.end = Infinity; t.state = 2; t.sync(); }
+                }
+                await wait(0.1);
+                await cap.still(`dialog_${c.id}_${style}${cap.args.talk ? '_talk' : ''}`, readPixels());
+            }
+            cap.log(`dialogs ${c.id}`);
+        } catch (e) {
+            cap.log(`dialogs ${c.id} FAILED: ${e.stack || e}`);
+        }
+    }
+}
+
 async function shoot() {
     const list = cap.args.only ? SHOTS.filter(s => cap.args.only.includes(s.id)) : SHOTS;
     await enter('EntryScene'); // creates the registry systems (G/D, symbionts…) that `before` hooks touch
@@ -148,6 +197,7 @@ async function screenshots() {
         }, 120 * FPS, 'LoadingScene');
         if (cap.args.survey) await survey();
         else if (cap.args.screenshots) await screenshots();
+        else if (cap.args.dialogs) await dialogs();
         else await shoot();
         await cap.finish(0);
     } catch (e) {
