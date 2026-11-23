@@ -27,7 +27,7 @@
  * ← / → or Tab the tabs, PgUp / PgDn the text; the wheel scrolls whatever it's over.
  */
 import { tex, rng, hash, put } from '../paperKit.js';
-import { LOOK, detailCard, markChosen, drawTabs } from '../panelStyle.js';
+import { LOOK, detailCard, markChosen, drawTabs, dragRails } from '../panelStyle.js';
 
 const MONO = 'Departure Mono', BEBAS = 'Bebas Neue';
 
@@ -131,17 +131,21 @@ function questScreen(scene, ctx, cfg) {
         const c = k % cols, r = Math.floor(k / cols);
         return { x: LA.x + c * (colW + gapX), y: LA.y + (r - st.scroll) * LA.rowH, w: colW, h: LA.rowH };
     };
+    let railsNow = [];                                 // the rails as drawn (dragRails reads them)
     const drawRails = (qs) => {
         rails.clear();
+        railsNow = [];
         const col = cfg.rail ?? 0xffffff, nRows = Math.ceil(qs.length / cols);
         if (nRows > visRows) {
-            const bh = Math.max(24, LA.h * visRows / nRows);
-            rails.fillStyle(col, 0.75).fillRect(LA.x + LA.w + (LA.railGap ?? 8), LA.y + (LA.h - bh) * st.scroll / (nRows - visRows), 3, bh);
+            const bh = Math.max(24, LA.h * visRows / nRows), x = LA.x + LA.w + (LA.railGap ?? 8), frac = st.scroll / (nRows - visRows);
+            rails.fillStyle(col, 0.75).fillRect(x, LA.y + (LA.h - bh) * frac, 4, bh);
+            railsNow.push({ x, y: LA.y, h: LA.h, thumb: bh, frac, set: (f) => { const v = Math.round(f * (nRows - visRows)); if (v !== st.scroll) { st.scroll = v; redraw(); } } });
         }
         const md = dHeight - DA.h;
         if (md > 0) {
-            const bh = Math.max(24, DA.h * DA.h / dHeight);
-            rails.fillStyle(col, 0.75).fillRect(card.x + card.w + 8, DA.y + (DA.h - bh) * st.dscroll / md, 3, bh);
+            const bh = Math.max(24, DA.h * DA.h / dHeight), x = card.x + card.w + 8, frac = st.dscroll / md;
+            rails.fillStyle(col, 0.75).fillRect(x, DA.y + (DA.h - bh) * frac, 4, bh);
+            railsNow.push({ x, y: DA.y, h: DA.h, thumb: bh, frac, set: (f) => scrollD(f * md - st.dscroll) });
         }
     };
     const switchTab = (key) => {
@@ -196,6 +200,7 @@ function questScreen(scene, ctx, cfg) {
         if (h && h.key !== st.sel) { st.sel = h.key; st.dscroll = 0; ctx.sound('clickSound'); redraw(); }
     });
     scene.input.on('gameout', () => { cursor(false); if (st.hover) { st.hover = null; redraw(); } });
+    dragRails(scene, () => railsNow);                  // the rails can be dragged as well as wheeled
     scene.input.on('wheel', (p, o, dx, dy) => {
         if (inBox(p, { x: card.x, y: card.y, w: card.w + 20, h: card.h })) scrollD(Math.sign(dy) * 40);
         else if (inBox(p, { x: LA.x - 10, y: LA.y, w: LA.w + 30, h: LA.h })) { st.scroll += Math.sign(dy); redraw(); }

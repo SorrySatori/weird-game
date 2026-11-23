@@ -31,7 +31,7 @@
  * text on the detail card, the empty text.
  */
 import { tex, rng, hash } from '../paperKit.js';
-import { LOOK, detailCard, markChosen, drawTabs } from '../panelStyle.js';
+import { LOOK, detailCard, markChosen, drawTabs, dragRails } from '../panelStyle.js';
 
 const MONO = 'Departure Mono', SERIF = 'Georgia';
 
@@ -164,13 +164,19 @@ function journalScreen(scene, ctx, D) {
         st.follow = false;
         st.scroll = Phaser.Math.Clamp(st.scroll, 0, lay.max);
     };
-    const rail = (x, y, h, frac, size) => overC.add(scene.add.rectangle(x, y + (h - h * size) * frac, 3, Math.max(20, h * size), D.railColor, 0.75).setOrigin(0));
+    let railsNow = [];                                 // the rails as drawn (dragRails reads them)
+    const rail = (x, y, h, frac, size, set) => {
+        const thumb = Math.max(20, h * size);
+        overC.add(scene.add.rectangle(x, y + (h - thumb) * frac, 4, thumb, D.railColor, 0.75).setOrigin(0));
+        railsNow.push({ x, y, h, thumb, frac, set });
+    };
     const turn = (d) => { st.scroll += d; redraw(); ctx.sound('clickSound'); };
 
     const redraw = () => {
         const its = items(), lay = layout(its);
         fix(its, lay);
         for (const c of [tabsC, listC, overC, headC]) c.removeAll(true);
+        railsNow = [];
         D.tabs(tabsC, ctx.categories(), ctx.category());
         tabHits = tabsC.list.filter(o => o.type === 'Zone').map(z => ({ key: z.getData('key'), x: z.x - z.width / 2, y: z.y - z.height / 2, w: z.width, h: z.height }));
         rowHits = [];
@@ -183,7 +189,8 @@ function journalScreen(scene, ctx, D) {
         });
         if (!its.length && !groupsOf(its)) D.empty(listC, ctx.empty());
         if (LR.paged) D.pager?.(overC, st.scroll, lay.pages, turn);
-        else if (lay.max > 0) rail(LR.x + LR.w + (LR.railDx ?? 6), LR.y, LR.h, st.scroll / lay.max, vis / lay.pages);
+        else if (lay.max > 0) rail(LR.x + LR.w + (LR.railDx ?? 6), LR.y, LR.h, st.scroll / lay.max, vis / lay.pages,
+            (f) => { const v = Math.round(f * lay.max); if (v !== st.scroll) { st.scroll = v; redraw(); } });
         const it = its.find(x => x.key === st.sel);
         inner?.destroy();
         inner = scene.add.container(A.x, A.y).setMask(detMask);
@@ -192,7 +199,10 @@ function journalScreen(scene, ctx, D) {
         st.dh = it ? D.detail(inner, it, A.w) : 0;
         st.dscroll = Phaser.Math.Clamp(st.dscroll, 0, Math.max(0, st.dh - A.h));
         inner.y = A.y - st.dscroll;
-        if (st.dh > A.h) rail(card.x + card.w + 6, AS.y, AS.h, st.dscroll / (st.dh - A.h), A.h / st.dh);
+        if (st.dh > A.h) {
+            const md = st.dh - A.h;
+            rail(card.x + card.w + 6, AS.y, AS.h, st.dscroll / md, A.h / st.dh, (f) => scrollDetail(f * md - st.dscroll));
+        }
     };
 
     const scrollDetail = (d) => {
@@ -219,6 +229,7 @@ function journalScreen(scene, ctx, D) {
         if (h && h.key !== st.sel) { st.sel = h.key; st.dscroll = 0; ctx.sound('clickSound'); redraw(); }
     });
     scene.input.on('gameout', () => { if (st.hover) { st.hover = null; redraw(); } });
+    dragRails(scene, () => railsNow);                  // the rails can be dragged as well as wheeled
     scene.input.on('wheel', (p, o, dx, dy) => {
         if (inR(p, { x: card.x - 6, y: card.y - 6, w: card.w + 24, h: card.h + 12 })) scrollDetail(Math.sign(dy) * 40);
         else if (inR(p, { x: LR.x - 30, y: LR.y - 12, w: (LR.paged ? LR.span : LR.w) + 50, h: LR.h + 24 })) {

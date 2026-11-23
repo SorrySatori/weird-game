@@ -187,3 +187,32 @@ export function drawTabs(scene, set, layer, x, y, tabs, active, onPick, { vertic
     });
     return vertical ? ty : tx;
 }
+
+/**
+ * Make a panel's scroll rails draggable: press on a rail (it's thin, so a few px either side count) and drag; a press
+ * on the track beside the thumb jumps the thumb there. rails() → the rails as drawn now:
+ * [{ x (the rail's left edge), y, h (its track), thumb (the thumb's height), frac (0..1, where the thumb is),
+ *    set(frac) (scroll to it and redraw) }]
+ */
+export function dragRails(scene, rails) {
+    let drag = null;
+    const hit = (p) => rails().find(r => p.x >= r.x - 8 && p.x <= r.x + 11 && p.y >= r.y - 4 && p.y <= r.y + r.h + 4);
+    const move = (p) => {
+        const { r, grab } = drag, span = r.h - r.thumb;
+        if (span > 0) r.set(Phaser.Math.Clamp((p.y - grab - r.y) / span, 0, 1));
+    };
+    scene.input.on('pointerdown', (p) => {
+        const r = hit(p);
+        if (!r) return;
+        const top = r.y + (r.h - r.thumb) * r.frac;
+        drag = { r, grab: p.y >= top && p.y <= top + r.thumb ? p.y - top : r.thumb / 2 };
+        move(p);
+    });
+    scene.input.on('pointermove', (p) => {
+        if (!drag) return;
+        if (p.isDown === false) { drag = null; return; }
+        move(p);
+    });
+    scene.input.on('pointerup', () => { drag = null; });
+    scene.input.on('gameout', () => { drag = null; });
+}
