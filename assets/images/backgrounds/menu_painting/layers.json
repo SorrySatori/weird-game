@@ -1,0 +1,241 @@
+{
+ "band": {
+  "w": 1012,
+  "h": 716,
+  "spireTop": 93
+ },
+ "airship": {
+  "x": 933.0,
+  "y": 206.0
+ },
+ "scraper_window_0": {
+  "x": 832,
+  "y": 167
+ },
+ "scraper_window_1": {
+  "x": 810,
+  "y": 249
+ },
+ "scraper_window_2": {
+  "x": 822,
+  "y": 360
+ },
+ "scraper_window_3": {
+  "x": 788,
+  "y": 393
+ },
+ "scraper_window_4": {
+  "x": 831,
+  "y": 425
+ },
+ "scraper_window_5": {
+  "x": 801,
+  "y": 232
+ },
+ "scraper_window_6": {
+  "x": 811,
+  "y": 268
+ },
+ "scraper_window_7": {
+  "x": 827,
+  "y": 264
+ },
+ "scraper_window_8": {
+  "x": 823,
+  "y": 306
+ },
+ "scraper_window_9": {
+  "x": 805,
+  "y": 326
+ },
+ "scraper_window_10": {
+  "x": 804,
+  "y": 386
+ },
+ "scraper_window_11": {
+  "x": 813,
+  "y": 412
+ },
+ "scraper_window_12": {
+  "x": 797,
+  "y": 416
+ },
+ "scraper_window_13": {
+  "x": 826,
+  "y": 438
+ },
+ "cathedral_violet": {
+  "x": 124,
+  "y": 217
+ },
+ "cathedral_green": {
+  "x": 125,
+  "y": 217
+ },
+ "cathedral_rose": {
+  "x": 125,
+  "y": 218
+ },
+ "cathedral_cyan": {
+  "x": 125,
+  "y": 217
+ },
+ "scraper_windows": [
+  {
+   "name": "scraper_window_0",
+   "lit": true
+  },
+  {
+   "name": "scraper_window_1",
+   "lit": true
+  },
+  {
+   "name": "scraper_window_2",
+   "lit": true
+  },
+  {
+   "name": "scraper_window_3",
+   "lit": true
+  },
+  {
+   "name": "scraper_window_4",
+   "lit": true
+  },
+  {
+   "name": "scraper_window_5",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_6",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_7",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_8",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_9",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_10",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_11",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_12",
+   "lit": false
+  },
+  {
+   "name": "scraper_window_13",
+   "lit": false
+  }
+ ],
+ "cathedral_lights": [
+  "cathedral_violet",
+  "cathedral_green",
+  "cathedral_rose",
+  "cathedral_cyan"
+ ],
+ "glow_spots": [
+  [
+   420.8,
+   281.5
+  ],
+  [
+   464.7,
+   316.2
+  ],
+  [
+   524.1,
+   308.9
+  ],
+  [
+   547.3,
+   316.2
+  ],
+  [
+   586.0,
+   304.8
+  ],
+  [
+   619.6,
+   302.2
+  ],
+  [
+   648.0,
+   299.6
+  ],
+  [
+   578.3,
+   330.6
+  ]
+ ],
+ "idle": {
+  "edgar": {
+   "feetY": 690.2,
+   "height": 233.5,
+   "centreX": 157.7,
+   "halfWidth": 56.5
+  },
+  "ortolan": {
+   "feetY": 688.6,
+   "height": 250.5,
+   "centreX": 910.8,
+   "halfWidth": 43.4
+  }
+ },
+ "clock_minute": {
+  "x": 914,
+  "y": 356,
+  "w": 26,
+  "h": 23,
+  "pivotX": 934.2928571428571,
+  "pivotY": 360.5829725829726,
+  "originX": 0.7804945054945034,
+  "originY": 0.19925967752054852,
+  "angle": 141.89242312248513
+ },
+ "clock_hour": {
+  "x": 929,
+  "y": 356,
+  "w": 20,
+  "h": 22,
+  "pivotX": 934.2928571428571,
+  "pivotY": 360.5829725829726,
+  "originX": 0.2646428571428544,
+  "originY": 0.20831693558966435,
+  "angle": 51.0724564072077
+ },
+ "files": [
+  "airship",
+  "cathedral_cyan",
+  "cathedral_green",
+  "cathedral_rose",
+  "cathedral_violet",
+  "clock_hour",
+  "clock_minute",
+  "idle_weight",
+  "scraper_window_0",
+  "scraper_window_1",
+  "scraper_window_10",
+  "scraper_window_11",
+  "scraper_window_12",
+  "scraper_window_13",
+  "scraper_window_2",
+  "scraper_window_3",
+  "scraper_window_4",
+  "scraper_window_5",
+  "scraper_window_6",
+  "scraper_window_7",
+  "scraper_window_8",
+  "scraper_window_9"
+ ]
+}
