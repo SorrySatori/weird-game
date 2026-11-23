@@ -1,3 +1,6 @@
+import { setSetting } from '../../systems/GameSettings.js';
+import { recordingItem } from '../../utils/Recordings.js';
+
 // What happens in the game for each trailer shot. Every shot is captured to out/shots/<id>.mkv at the
 // game's native 1067×600; edit.js decides which part of it is used, the camera move and the titles.
 // `setup` runs once after the scene's create(); `update` runs every captured frame with ctx.t in seconds.
@@ -297,7 +300,73 @@ export const STILLS = [
             place(ctx, 120);
         },
     },
+    // more places (2026-11-23)
+    { id: '09_burning_bear_street', scene: 'BurningBearStreetScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 640); } },
+    { id: '10_screaming_cork', scene: 'ScreamingCorkScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 700); } },
+    { id: '11_elphi_studio', scene: 'ScraperAmbraScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 330); } },
+    { id: '12_scraper_rooftop', scene: 'ScraperScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 760); } },
+    { id: '13_skyship_deck', scene: 'SkyshipBoardScene', at: 1.5, hud: 'quiet', setup(ctx) { place(ctx, 300); } },
+    { id: '14_auction_twins', scene: 'VoxmarketHallScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 260); } },
+    { id: '15_egg_cathedral', scene: 'EggCatedralScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 300); } },
+    { id: '16_voxmarket_hangar', scene: 'VoxMarket', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 700); } },
+    // the panels in both looks (Settings: Učedník / Úřad) and the main menu
+    { id: '17_inventory_bag', scene: 'VoxMarket', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'apprentice', 'inventory', 5); } },
+    { id: '18_journal_notebook', scene: 'ScreamingCorkScene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'apprentice', 'journal'); } },
+    { id: '19_quests_corkboard', scene: 'Shed521Scene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'apprentice', 'quests'); } },
+    { id: '20_shop_stall', scene: 'VoxMarket', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'apprentice', 'shop', 1); } },
+    { id: '21_inventory_cabinet', scene: 'VoxMarket', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'inventory', 3); } },
+    { id: '22_journal_dossiers', scene: 'ScreamingCorkScene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'journal'); } },
+    { id: '23_quests_forms', scene: 'Shed521Scene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'quests'); } },
+    { id: '24_shop_catalogue', scene: 'VoxmarketMarketScene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'shop', 1); } },
+    { id: '25_main_menu', scene: 'MainScene', at: 2.5 },
 ];
+
+/**
+ * An early-demo state for the panel shots (no spoilers: only what the first hour gives, no puzzle solutions or quest
+ * rewards in the bag, the errands only as given): things bought at the market, the first people met, the errands.
+ */
+function stockUp(scene) {
+    scene.registry.set('inventory', { items: [
+        { id: 'grayOltrac', name: 'Gray Oltrac', type: 'drug', usable: true, consumable: true, stackable: true, quantity: 2, isDrug: true },
+        { id: 'violetOltrac', name: 'Violet Oltrac', type: 'drug', usable: true, consumable: true, stackable: true, quantity: 1, isDrug: true },
+        { id: 'amberOltrac', name: 'Amber Oltrac', type: 'drug', usable: true, consumable: true, stackable: true, quantity: 1, isDrug: true },
+        recordingItem('ampule_squirrel'),
+        recordingItem('ampule_purr'),
+        { id: 'crownmire_travelogue', name: 'Crownmire travelogue', type: 'decoration' },
+    ] });
+    if (scene.moneySystem) scene.moneySystem.amount = 64;
+    if (scene.registry.get('stillsStocked')) return;
+    scene.registry.set('stillsStocked', true);
+    const P = 'People', PL = 'Places';
+    const J = (id, cat, facts = []) => {
+        scene.addJournalEntry(id, id, '', cat);
+        facts.forEach(f => scene.addJournalFact(id, f, f));
+    };
+    J('place_voxmarket', PL); J('screaming_cork_place', PL, ['oldest', 'heliodor', 'feral_toast']); J('place_shed_521', PL);
+    J('ortolan_meeting', P); J('gnur_meeting', P); J('edgar_eskola_meeting', P, ['misutkenn']);
+    J('kloor_venn_meeting', P, ['entrepreneur', 'oltrac', 'reflections']);
+    const qs = scene.registry.get('questSystem');
+    const Q = (id, steps = []) => { if (qs.getQuest?.(id)) return; qs.addQuest(id, id, ''); steps.forEach(k => qs.updateQuest(id, k, k)); };
+    Q('find_bishop', ['vestigel']);
+    Q('ortolan_arms', ['deformity_form_clue']);
+    Q('the_three_vestigels');
+    Q('edgar_book');
+    Q('find_rust_choir', ['talk_to_ravla']);
+}
+
+/** open one of the panels in a look; `pick` = how many steps right to choose a nicer item first */
+async function panel(ctx, { wait }, set, which, pick = 0) {
+    const s = ctx.scene;
+    setSetting('panelSet', set);
+    stockUp(s);
+    if (which === 'inventory') s.inventorySystem.toggleInventory(true);
+    if (which === 'journal') { s.journalUI.currentCategory = 'People'; s.journalUI.toggle(); }
+    if (which === 'quests') { s.questLog.activeTab = 'active'; s.questLog.showQuestLog(); }
+    if (which === 'shop') s.shopSystem.open();
+    await wait(0.5);
+    const ov = s.game.scene.getScene('PaperScreenScene');
+    for (let i = 0; i < pick; i++) { ov?.screen?.key('ArrowRight'); await wait(0.05); }
+}
 
 // ---- gameplay ("10 tips") shots: a visible cursor drives the real UI ----
 // Clicks are real DOM mouse events on the game canvas, so hover states, dialogs, the shop, the inventory

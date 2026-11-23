@@ -37,38 +37,6 @@ export default class SkyshipBoardScene extends GameScene {
             this.ground = null;
         }
 
-        // Add exit area to go back to CrossroadScene: the rope ladder hooked over the rail by the bow
-        this.exitArea = this.add.image(100, 500, 'exitArea')
-            .setDisplaySize(120, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        this.exitArea.setDepth(10);
-
-        // Add a subtle glow effect to hint at the exit area
-        const exitGlow = this.add.graphics();
-        exitGlow.fillStyle(0x7fff8e, 0.2);
-        exitGlow.fillCircle(100, 500, 50);
-        exitGlow.setDepth(9);
-        
-        // Add pulsating animation to the glow
-        this.tweens.add({
-            targets: exitGlow,
-            alpha: { from: 0.2, to: 0.4 },
-            duration: 1500,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
-
-        // Add a text hint for the exit
-        const exitText = this.add.text(100, 550, this.t('ui.hints.returnToCity'), {
-            fontFamily: UI_FONT, fontSize: UI_SMALL,
-            fill: '#7fff8e',
-            align: 'center'
-        });
-        exitText.setOrigin(0.5);
-        exitText.setDepth(10);
-
         // Examine: the dial-board itself (the grown instrument with the green lens, centre back). Knows-tier once
         // the floor-counter's taken.
         this.createObservable(400, 420, 80, 110, () => {
@@ -133,13 +101,10 @@ export default class SkyshipBoardScene extends GameScene {
             this.transitionManager = new SceneTransitionManager(this);
         }
         
-        // Exit to CrossroadScene
-        this.exitArea.on('pointerdown', () => {
-            // Use the SceneTransitionManager to handle the transition
-            this.transitionManager.handleSceneTransition('CrossroadScene', 100, 500);
+        // back to the city: the deck on past the bow, at the left edge (lit as the other edge exits; the arrow keys too)
+        this.transitionManager.createEdgeExit('left', {
+            target: 'CrossroadScene', walkX: 20, walkY: 500, width: 170, top: 400, label: () => this.t('ui.hints.returnToCity')
         });
-        // the arrow keys leave by the same exit at the left edge (GameScene.registerEdgeExit)
-        this.registerEdgeExit('left', () => this.leaveByEdge('left', 'CrossroadScene'), this.exitArea);
     }
 
     /** Run a side effect only the first time its key is seen in this scene instance. */
