@@ -2,8 +2,8 @@
   "_": "The noir release cut's narration (edit.js makeNoirCut, titles.py): the apprentice tells the case. Caption id -> text per language. A caption's time on screen follows its length (the longer of the two languages), so both cuts share one timing.",
   "captions": {
     "1a": {
-      "en": "In Upper Morkezela, time is measured by the digestions of a giant digestive tract they keep on display at the Townhall.",
-      "cs": "V Horní Morkezele se čas měří trávením obřího trávicího traktu, který tu mají vystavený na radnici."
+      "en": "In Upper Morkezela, time is measured by the digestions of giant guts they keep on display at the Townhall.",
+      "cs": "V Horní Morkezele se čas měří trávením obřích útrob, které tu mají vystavené na radnici."
     },
     "1b": {
       "en": "This case was hard to swallow from the very first moment.",
@@ -48,6 +48,10 @@
     "5b": {
       "en": "So he applied for more.",
       "cs": "Tak si zažádal o další."
+    },
+    "5c": {
+      "en": "Hands. Not work.",
+      "cs": "Ruce. Ne práci."
     },
     "6a": {
       "en": "Gnur offered me new lungs. I said no.",
@@ -136,8 +140,14 @@
   },
   "cards": {
     "cta": {
-      "en": ["FREE DEMO", "OUT NOW ON STEAM"],
-      "cs": ["DEMO ZDARMA", "NA STEAMU"]
+      "en": [
+        "FREE DEMO",
+        "OUT NOW ON STEAM"
+      ],
+      "cs": [
+        "DEMO ZDARMA",
+        "NA STEAMU"
+      ]
     }
   }
 }

@@ -146,6 +146,7 @@ const NOIR = JSON.parse(fs.readFileSync(new URL('./noir.json', import.meta.url),
 const LES_ONSETS = [0.435,0.860,1.295,2.320,2.500,2.910,3.295,3.715,4.100,5.770,6.195,6.455,6.600,6.995,7.415,9.820,10.180,10.595,10.745,10.865,10.900,12.240,12.650,13.045,13.450,13.860,15.880,16.275,16.680,17.105,18.705,19.515,19.925,20.320,21.545,21.950,22.345,22.765,23.170,23.590,25.655,26.055,26.470,26.890,28.940,29.325,29.715,30.140,31.190,31.360,31.410,31.750,32.565,32.970,33.390,35.035,35.840,36.230,36.640,38.690,39.090,39.910,41.110,41.525,41.935,42.705,43.080,43.475,43.875,45.095,45.905,46.320,47.115,47.520,47.570,48.330,49.155,49.560,50.800,52.060,52.445,52.870,53.290,54.745,58.310,58.720,59.135,59.560,61.965,62.370,64.395,64.800,65.240,65.640,66.460,68.895,71.725,72.530,72.925,73.325,78.575,79.000,81.870,83.875,85.485,86.105,86.675,87.095,87.915,87.980,89.930,90.345,90.750,92.215,92.450,92.835,93.695,95.310,96.130,97.365,98.585,100.630,101.050,101.885,103.905,104.110,104.330,104.445,104.705,110.805,111.220,113.930,113.990,114.225,115.265,116.910,120.450,121.245,122.515,122.930,123.355,123.755,125.405,125.835,126.230,126.655,128.685,129.105,129.515,129.930,132.255,132.350,132.390,132.785,133.205,134.470,135.690,136.105,136.525,138.155,138.560,138.950,139.370,139.800,141.835,144.650];
 
 function makeNoirCut(lang, file) {
+    const les = 'assets/sounds/guitar-les.mp3';
     const CPS = 16, PAD = 0.55, MIN = 1.7;                  // reading speed, the eye's start-up, the shortest caption
     const LEAD = 0.35, GAP = 0.25, BEAT = 0.45, TAIL = 0.35;
     const capLen = (id) => { const c = NOIR.captions[id]; return Math.max(MIN, Math.max(c.en.length, c.cs.length) / CPS + PAD); };
@@ -156,7 +157,7 @@ function makeNoirCut(lang, file) {
         { shot: 'nr_thaal', in: 0.3, move: push(545, 430, 1.4, 1.52), caps: ['2a', '2b', '2c'] },
         { shot: 'nr_sentinel', in: 0.3, move: push(534, 380, 1.02, 1.12), caps: ['3a', '3b', '3c'], beat: true },
         { shot: 'nr_queue', in: 0.3, move: push(534, 300, 1.02, 1.1), caps: ['4a', '4b'], beat: true },
-        { shot: 'nr_ortolan', in: 0.3, move: push(510, 400, 1.04, 1.16), caps: ['5a', '5b'], beat: true },
+        { shot: 'nr_ortolan', in: 0.3, move: push(510, 400, 1.04, 1.16), caps: ['5a', '5b', '5c'], beat: true },
         { shot: 'nr_gnur', in: 0.3, move: push(420, 420, 1.06, 1.18), caps: ['6a', '6b'], beat: true },
         { shot: 'nr_kloor', in: 0.4, move: push(600, 380, 1.04, 1.14), caps: ['7a'] },
         { shot: 'nr_oltrac', in: 0.1, move: still, caps: ['7b', '7c'], beat: true, lead: 0.6 },
@@ -212,9 +213,9 @@ function makeNoirCut(lang, file) {
     const CTA = LOGO + (133.205 - 129.93), END = CTA + 5.5;
     SEGMENTS.push({ card: 'nr_logo', at: LOGO }, { card: `nr_${lang}_cta`, at: CTA });
     const MUSIC = [
-        { file: 'assets/sounds/guitar-les.mp3', from: 0, at: 0, dur: BURST - 0.6, fadeIn: 0.02, fadeOut: 2.6, fadeOutCurve: 'qsin', gain: -0.2 },
+        { file: les, from: 0, at: 0, dur: BURST - 0.6, fadeIn: 0.02, fadeOut: 2.6, fadeOutCurve: 'qsin', gain: -0.2 },
         { file: 'assets/sounds/tavern-rehearsal.mp3', from: 1.5, at: BURST - 0.155, dur: STOP - BURST + 0.155, fadeIn: 0.02, fadeOut: 0.04, gain: 9.5 },
-        { file: 'assets/sounds/guitar-les.mp3', from: fromC, at: RESUME, dur: END - RESUME, fadeIn: 1.2, fadeInCurve: 'hsin', fadeOut: 2.5, gain: -0.2 },
+        { file: les, from: fromC, at: RESUME, dur: END - RESUME, fadeIn: 1.2, fadeInCurve: 'hsin', fadeOut: 2.5, gain: -0.2 },
     ];   // "Les" at −15 LUFS, the band at −11.5 (measured −14.8 / −21.0: the punchline is louder)
     return { MUSIC, SEGMENTS, TITLES, END, file };
 }
