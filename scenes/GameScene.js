@@ -1,3 +1,4 @@
+import { paperScene } from '../ui/paperKit.js';
 import GrowthDecaySystem from '../systems/GrowthDecaySystem.js';
 import GrowthDecayIndicator from '../ui/GrowthDecayIndicator.js';
 import QuestSystem from '../systems/QuestSystem.js';
@@ -1199,6 +1200,10 @@ export default class GameScene extends Phaser.Scene {
         // Build short message
         let message = title;
         if (amount !== '') message += ' ' + amount;
+
+        // a panel (ui/paperKit.js) is open in its scene above this one: say it there
+        const panel = paperScene(this.game);
+        if (panel?.notify) { panel.notify(message, notificationConfig.textColor || '#ffffff'); return; }
 
         // Guard: if this scene's camera isn't active, skip rendering
         if (!this.cameras || !this.cameras.main) return;

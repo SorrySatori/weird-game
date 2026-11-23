@@ -1,31 +1,29 @@
 /**
- * QuestLog — the quests: a menu-kit ledger panel (ui/LedgerPanel.js) with Active / Completed tabs. Each quest is an
- * enamel card; click its header to open it (description, then every progress update). A quest the demo can't finish
- * (utils/demo.js DEMO_UNFINISHED_QUESTS) carries a traffic cone and says so.
+ * QuestLog — the quests, in the panel set's look (ui/panels/questScreens.js: the apprentice's corkboard, or the
+ * office's forms), Active / Completed tabs.
+ * The list shows each quest with its latest step under the title; the chosen one's text is beside it (what to do,
+ * then every step so far). A quest the demo can't finish (utils/demo.js DEMO_UNFINISHED_QUESTS) carries a traffic
+ * cone and says so.
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { createHudButton } from '../utils/hudButton.js';
-import { playMenuSound, MENU_COLORS } from '../utils/menuKit.js';
 import { isDemoUnfinished } from '../utils/demo.js';
-import LedgerPanel, { LEDGER_TEXT, LEDGER_PAGE_WIDTH } from './LedgerPanel.js';
+import { openPaperScreen, closePaperScreen, refreshPaperScreen } from './paperKit.js';
+import { panelSet } from './panelStyle.js';
+import { QUEST_SCREENS } from './panels/questScreens.js';
+import { playMenuSound } from '../utils/menuKit.js';
 
-const PAD = 18;
-const GAP = 10;
-const HEAD_H = 48;                                       // a closed card
-const CARD_W = LEDGER_PAGE_WIDTH - 8;
-const TEXT_W = CARD_W - PAD * 2 - 20;
-const DEMO_COLOR = '#e8a24a';                            // the traffic cones' orange, softened
+const DEMO_COLOR = '#b8601a';                            // the traffic cones' orange, darkened for paper
 
 export default class QuestLog {
     constructor(scene, x = 750, y = 50) {
         this.scene = scene;
         this.questSystem = scene.registry.get('questSystem');
         this.lang = LanguageSystem.getInstance();
-        this.expandedQuests = new Set();
         this.activeTab = 'active';
+        this.questPanel = { visible: false };                  // GameScene.isModalOpen() and the tutorial read questPanel.visible
 
         this.createQuestButton(x, y);
-        this.createQuestPanel();
 
         this.onQuestsChanged = () => { if (this.questPanel.visible) this.updateQuestDisplay(); };
         this.questSystem.subscribe(this.onQuestsChanged);
@@ -42,20 +40,6 @@ export default class QuestLog {
         if (this.scene.registry.get('hasUnreadQuestUpdates')) {
             this.questNotificationIndicator.setVisible(true);
         }
-    }
-
-    createQuestPanel() {
-        // over the Spore bar (1000); under the journal (1002)
-        this.ledger = new LedgerPanel(this.scene, {
-            title: this.lang.t('ui.hud.quests').toUpperCase(), depth: 1001, y: 300, onClose: () => this.hideQuestLog(),
-        });
-        this.questPanel = this.ledger.container;               // GameScene.isModalOpen() checks questPanel.visible
-        const tab = (key, fallback) => { const v = this.lang.t(key); return v === key ? fallback : v; };
-        this.ledger.setTabs([tab('ui.hud.questTabActive', 'Active'), tab('ui.hud.questTabDone', 'Completed')], (i) => {
-            this.activeTab = i === 0 ? 'active' : 'finished';
-            this.updateQuestDisplay();
-        });
-        this.ledger.selectTab(0);
     }
 
     /** a quest's title / description / update in the current language (stored English if there's no translation) */
@@ -77,93 +61,52 @@ export default class QuestLog {
         return update.text;
     }
 
-    createQuestEntry(quest, y) {
-        const L = this.ledger, sc = this.scene;
-        const { tKey, title, description } = this.questText(quest);
-        const open = this.expandedQuests.has(quest.id);
-        const demo = !quest.isComplete && isDemoUnfinished(quest.id);
-        const card = L.addCard(y, HEAD_H, { lit: open });
+    tabLabel(key, fallback) { const v = this.lang.t(key); return v === key ? fallback : v; }
 
-        const chevron = sc.add.image(PAD + 4, y + HEAD_H / 2, 'menuChevron', open ? 2 : 0).setScale(2);
-        const titleText = sc.add.text(PAD + 22, y + HEAD_H / 2, title, {
-            ...LEDGER_TEXT.title, color: quest.isComplete ? '#9fe8a8' : MENU_COLORS.title, wordWrap: { width: TEXT_W - 30 },
-        }).setOrigin(0, 0.5);
-        const parts = [chevron, titleText];
-        if (demo && sc.textures.exists('trafficConeFar')) {             // the demo's closed-way sign
-            parts.push(sc.add.image(CARD_W - PAD - 8, y + HEAD_H / 2 + 13, 'trafficConeFar').setOrigin(0.5, 1));
-        }
-        let h = Math.max(HEAD_H, titleText.height + 22);
-        titleText.y = y + h / 2; chevron.y = y + h / 2;
-
-        if (open) {
-            let cy = y + h + 2;
-            const desc = sc.add.text(PAD + 22, cy, description, { ...LEDGER_TEXT.body, wordWrap: { width: TEXT_W } });
-            parts.push(desc);
-            cy += desc.height + 10;
-            if (demo) {
-                const note = sc.add.text(PAD + 22, cy, this.lang.t('ui.demo.questNotInDemo'), {
-                    ...LEDGER_TEXT.body, color: DEMO_COLOR, fontStyle: 'italic', wordWrap: { width: TEXT_W },
-                });
-                parts.push(note);
-                cy += note.height + 10;
-            }
-            if (quest.updates?.length) {
-                const head = sc.add.text(PAD + 22, cy, this.lang.t('ui.hud.questProgress'), { ...LEDGER_TEXT.heading, fontSize: '16px' });
-                parts.push(head);
-                cy += head.height + 6;
-                for (const update of quest.updates) {
-                    const dot = sc.add.image(PAD + 30, cy + 10, 'menuSpore').setScale(2).setTint(0x7fff8e);
-                    const line = sc.add.text(PAD + 42, cy, this.updateText(tKey, update), { ...LEDGER_TEXT.dim, wordWrap: { width: TEXT_W - 20 } });
-                    parts.push(dot, line);
-                    cy += line.height + 8;
-                }
-            }
-            h = cy - y + 6;
-        }
-        L.content.add(parts);
-        card.setSize(CARD_W / 2, h / 2);
-
-        // the header opens / closes the quest
-        const hit = sc.add.zone(0, y, CARD_W, Math.max(HEAD_H, titleText.height + 22)).setOrigin(0, 0).setInteractive({ useHandCursor: true });
-        hit.on('pointerover', (pointer) => {
-            if (!L.inPage(pointer)) return;
-            card.setTexture('menuCard', 1); chevron.setFrame(open ? 3 : 1);
-            playMenuSound(sc, 'hoverSound', 0.4);
-        });
-        hit.on('pointerout', () => { card.setTexture('menuCard', open ? 1 : 0); chevron.setFrame(open ? 2 : 0); });
-        hit.on('pointerdown', (pointer, lx, ly, event) => {
-            event?.stopPropagation();
-            if (!L.inPage(pointer)) return;
-            playMenuSound(sc, 'clickSound');
-            this.toggleQuestExpansion(quest.id);
-        });
-        L.content.add(hit);
-        return h + GAP;
+    /** a quest as the designs get it */
+    questData(q) {
+        const { tKey, title, description } = this.questText(q);
+        return {
+            key: q.id, title, description, done: !!q.isComplete, demo: !q.isComplete && isDemoUnfinished(q.id),
+            updates: (q.updates || []).map(u => this.updateText(tKey, u))
+        };
     }
 
-    updateQuestDisplay() {
-        const L = this.ledger;
-        const keepScroll = L.scrollY;
-        L.clear();
-        const quests = this.questSystem.getAllQuests().filter(q => (this.activeTab === 'active') !== !!q.isComplete);
-        if (!quests.length) {
-            const msg = this.lang.t(this.activeTab === 'active' ? 'ui.hud.noActiveQuests' : 'ui.hud.noCompletedQuests');
-            L.setContentHeight(L.addEmpty(40, msg) + 60);
-            return;
-        }
-        let y = 6;
-        for (const quest of quests) y += this.createQuestEntry(quest, y);
-        L.setContentHeight(y + 4);
-        if (this.keepScroll) L.scrollTo(keepScroll);
-        this.keepScroll = false;
+    /** the quest log's screen in the panel set's look (ui/panels/questScreens.js: a corkboard, or official forms) */
+    buildScreen(overlay) {
+        return QUEST_SCREENS[panelSet()](overlay, this.screenCtx(overlay));
     }
 
-    toggleQuestExpansion(questId) {
-        if (this.expandedQuests.has(questId)) this.expandedQuests.delete(questId);
-        else this.expandedQuests.add(questId);
-        this.keepScroll = true;                                 // opening a card must not jump back to the top
-        this.updateQuestDisplay();
+    /** everything a quest-log screen reads and does (see ui/panels/questScreens.js for the contract) */
+    screenCtx(overlay) {
+        return {
+            scene: overlay, W: overlay.scale.width, H: overlay.scale.height, lang: this.lang.getLanguage(),
+            t: (key, params, fallback = key) => { const v = this.lang.t(key, params); return v === key ? fallback : v; },
+            title: this.lang.t('ui.hud.quests'),
+            tabs: [{ key: 'active', label: this.tabLabel('ui.hud.questTabActive', 'Active') }, { key: 'finished', label: this.tabLabel('ui.hud.questTabDone', 'Completed') }],
+            tab: () => this.activeTab,
+            setTab: (key) => { this.activeTab = key; },
+            quests: () => this.questSystem.getAllQuests().filter(q => (this.activeTab === 'active') !== !!q.isComplete).map(q => this.questData(q)),
+            all: () => this.questSystem.getAllQuests().map(q => this.questData(q)),
+            empty: () => this.lang.t(this.activeTab === 'active' ? 'ui.hud.noActiveQuests' : 'ui.hud.noCompletedQuests'),
+            strings: {
+                progress: this.lang.t('ui.hud.questProgress'), demoNote: this.lang.t('ui.demo.questNotInDemo'),
+                done: this.tabLabel('ui.hud.questTabDone', 'Completed'), active: this.tabLabel('ui.hud.questTabActive', 'Active')
+            },
+            sound: (key, vol = 1) => playMenuSound(overlay, key, vol),
+            close: () => this.close()
+        };
     }
+
+    updateQuestDisplay() { refreshPaperScreen(this); }
+
+    /** paperKit: another panel took the screen over */
+    paperClosed() {
+        this.questPanel.visible = false;
+        this.scene.registry.set('questLogVisible', false);
+    }
+
+    close() { this.hideQuestLog(); }
 
     toggleQuestLog() {
         if (this.questPanel.visible) this.hideQuestLog();
@@ -171,9 +114,9 @@ export default class QuestLog {
     }
 
     showQuestLog() {
-        this.ledger.show();
+        this.questPanel.visible = true;
         this.scene.registry.set('questLogVisible', true);
-        this.updateQuestDisplay();
+        openPaperScreen(this);
         if (this.questNotificationIndicator) {
             this.questNotificationIndicator.setVisible(false);
             this.scene.registry.set('hasUnreadQuestUpdates', false);
@@ -181,14 +124,15 @@ export default class QuestLog {
     }
 
     hideQuestLog() {
-        this.ledger.hide();
+        this.questPanel.visible = false;
         this.scene.registry.set('questLogVisible', false);
+        closePaperScreen(this);
     }
 
     cleanup() {
         this.questSystem.unsubscribe(this.onQuestsChanged);
         this.scene.input.keyboard.off('keydown-Q', this.onQ);
         this.buttonContainer?.destroy();
-        this.ledger?.destroy();
+        closePaperScreen(this);
     }
 }

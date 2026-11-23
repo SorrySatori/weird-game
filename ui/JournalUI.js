@@ -1,16 +1,15 @@
 /**
- * JournalUI.js — the journal: a menu-kit ledger panel (ui/LedgerPanel.js) with a tab per category; every entry is an
- * enamel card (title, what the player knew when it was written, then each fact learned since). The Factions tab also
- * shows the standing with each discovered faction on a glass gauge.
+ * JournalUI.js — the journal, in the panel set's look (ui/panels/journalScreens.js: the apprentice's notebook, or the
+ * office's dossiers), a tab per category. The list shows the entries newest first (an
+ * entry that learned a new fact counts as new); the chosen one's text is beside it: what the player knew when it was
+ * written, then each fact learned since. The Factions tab lists the discovered factions first, with the standing on a
+ * gauge, then the faction records. A tab with something unread wears a red seal until it's looked at.
  */
 import LanguageSystem from '../systems/LanguageSystem.js';
-import LedgerPanel, { LEDGER_TEXT, LEDGER_PAGE_WIDTH } from './LedgerPanel.js';
-
-const PAD = 18;                       // inside a card
-const GAP = 12;                       // between cards
-const CARD_W = LEDGER_PAGE_WIDTH - 8;
-const TEXT_W = CARD_W - PAD * 2;
-const GAUGE = { half: 63, center: 68 };          // menu_slider's glass (native px 4..131): the middle, half its length
+import { openPaperScreen, closePaperScreen, refreshPaperScreen } from './paperKit.js';
+import { panelSet } from './panelStyle.js';
+import { JOURNAL_SCREENS } from './panels/journalScreens.js';
+import { playMenuSound } from '../utils/menuKit.js';
 
 class JournalUI {
     constructor(scene) {
@@ -21,21 +20,13 @@ class JournalUI {
         this.lang = LanguageSystem.getInstance();
         this.categories = Object.values(this.journalSystem.categories);
 
-        // over the Spore bar / G/D medallion (1000, created later) and the quest log (1001)
-        this.ledger = new LedgerPanel(scene, { title: this.lang.t('ui.hud.journal'), depth: 1002, onClose: () => this.toggle() });
-        this.container = this.ledger.container;
-        this.ledger.setTabs(this.categories.map(c => this.categoryLabel(c)), (i) => this.selectCategory(this.categories[i]));
-
         // A tab with something new wears the HUD's red seal until the player opens it (JournalSystem.unread, saved).
         // The journal system outlives the scene, so the listener goes with the scene.
-        const onUnread = () => this.updateTabBadges();
+        const onUnread = () => refreshPaperScreen(this);
         this.journalSystem.on('unreadChanged', onUnread);
-        this.scene.events.once('shutdown', () => this.journalSystem.off('unreadChanged', onUnread));
-        this.updateTabBadges();
+        this.scene.events.once('shutdown', () => { this.journalSystem.off('unreadChanged', onUnread); closePaperScreen(this); });
 
-        // ESC closes, J toggles
-        this.escKey = this.scene.input.keyboard.addKey('ESC');
-        this.escKey.on('down', () => { if (this.visible) this.toggle(); });
+        // J toggles (ESC closes: GameMenu)
         this.jKey = this.scene.input.keyboard.addKey('J');
         this.jKey.on('down', () => this.toggle());
     }
@@ -72,110 +63,66 @@ class JournalUI {
 
     selectCategory(category) {
         this.currentCategory = category;
-        this.ledger.selectTab(this.categories.indexOf(category));
         this.journalSystem.markRead(category);
-        this.refreshContent();
     }
 
-    updateTabBadges() {
-        this.categories.forEach((c, i) => this.ledger.setTabBadge(i, this.journalSystem.isUnread(c) && !(this.visible && c === this.currentCategory)));
+    /** an entry as the designs get it */
+    entryData(entry) {
+        const { title, description, facts } = this.resolveEntryText(entry);
+        return { key: entry.id, title, description, facts, category: entry.category, categoryLabel: this.categoryLabel(entry.category), updated: entry.lastUpdated || entry.timestamp || 0 };
     }
 
-    refreshContent() {
-        const L = this.ledger;
-        L.clear();
-        let y = 6;
-        if (this.currentCategory === 'Factions') {
-            y = this.addFactionStandings(y);
-            y += L.addHeading(y, this.lang.t('ui.hud.factionRecords')) + 14;
-            y = this.addEntries(y, this.journalSystem.getEntriesByCategory('Factions'), this.lang.t('ui.hud.noFactionRecords'));
-        } else {
-            const entries = this.currentCategory
-                ? this.journalSystem.getEntriesByCategory(this.currentCategory)
-                : this.journalSystem.getAllEntries();
-            y = this.addEntries(y, entries, this.lang.t('ui.hud.noJournalEntries', {
-                category: this.currentCategory ? this.categoryLabel(this.currentCategory) : 'journal',
-            }));
-        }
-        L.setContentHeight(y + 6);
+    /** the journal's screen in the panel set's look (ui/panels/journalScreens.js: the notebook, or the dossiers) */
+    buildScreen(overlay) {
+        return JOURNAL_SCREENS[panelSet()](overlay, this.screenCtx(overlay));
     }
 
-    /** newest first (an entry that just learned a new fact counts as new); returns the y below the last card */
-    addEntries(y, entries, emptyText) {
-        if (!entries.length) return y + this.ledger.addEmpty(y + 30, emptyText) + 40;
-        entries = [...entries].sort((a, b) => (b.lastUpdated || b.timestamp) - (a.lastUpdated || a.timestamp));
-        for (const entry of entries) {
-            const { title, description, facts } = this.resolveEntryText(entry);
-            y += this.addEntryCard(y, title, description, facts) + GAP;
-        }
-        return y;
+    /** everything a journal screen reads and does (see ui/panels/journalScreens.js for the contract) */
+    screenCtx(overlay) {
+        // newest first; entries from the same instant in a fixed order (by id), so they don't swap between openings
+        const newest = (list) => [...list].sort((a, b) => ((b.lastUpdated || b.timestamp) - (a.lastUpdated || a.timestamp)) || String(a.id).localeCompare(String(b.id)));
+        return {
+            scene: overlay, W: overlay.scale.width, H: overlay.scale.height, lang: this.lang.getLanguage(),
+            t: (key, params, fallback = key) => this.t(key, fallback, params),
+            title: this.lang.t('ui.hud.journal'),
+            categories: () => this.categories.map(c => ({
+                key: c, label: this.categoryLabel(c), unread: this.journalSystem.isUnread(c) && c !== this.currentCategory
+            })),
+            category: () => this.currentCategory,
+            setCategory: (key) => this.selectCategory(key),
+            entries: (category = this.currentCategory) => newest(this.journalSystem.getEntriesByCategory(category)).map(e => this.entryData(e)),
+            allEntries: () => newest(this.journalSystem.getAllEntries()).map(e => this.entryData(e)),
+            factions: () => {
+                const fs = this.scene.registry.get('factionSystem');
+                const keys = fs ? Object.keys(fs.factions).filter(k => fs.factions[k].discovered || fs.factions[k].reputation !== 0) : [];
+                return keys.map(key => {
+                    const f = fs.factions[key];
+                    return {
+                        key, name: fs.displayName ? fs.displayName(key) : f.name, value: f.reputation, standing: this.standing(f.reputation),
+                        status: this.t('factions.status', `Standing: ${this.standing(f.reputation)}`, { status: this.standing(f.reputation) }),
+                        description: this.t(`factions.${key}.description`, f.description || '')
+                    };
+                });
+            },
+            empty: () => (this.currentCategory === 'Factions'
+                ? this.lang.t('ui.hud.noFactions')
+                : this.lang.t('ui.hud.noJournalEntries', { category: this.categoryLabel(this.currentCategory) })),
+            strings: {
+                factionStanding: this.lang.t('ui.hud.factionStanding'), factionRecords: this.lang.t('ui.hud.factionRecords'),
+                noFactions: this.lang.t('ui.hud.noFactions'), noFactionRecords: this.lang.t('ui.hud.noFactionRecords')
+            },
+            sound: (key, vol = 1) => playMenuSound(overlay, key, vol),
+            close: () => this.close()
+        };
     }
 
-    addEntryCard(y, title, description, facts) {
-        const L = this.ledger, sc = this.scene;
-        const card = L.addCard(y, 60);
-        const titleText = sc.add.text(PAD, y + PAD - 4, title, { ...LEDGER_TEXT.title, wordWrap: { width: TEXT_W } });
-        let cy = y + PAD - 4 + titleText.height + 6;
-        const parts = [titleText];
-        if (description) {
-            const body = sc.add.text(PAD, cy, description, { ...LEDGER_TEXT.body, wordWrap: { width: TEXT_W } });
-            parts.push(body);
-            cy += body.height + 4;
-        }
-        for (const fact of facts) {                                   // what was learned later: one glowing spore each
-            const dot = sc.add.image(PAD + 4, cy + 10, 'menuSpore').setScale(2).setTint(0x7fff8e);
-            const line = sc.add.text(PAD + 16, cy, fact, { ...LEDGER_TEXT.body, wordWrap: { width: TEXT_W - 16 } });
-            parts.push(dot, line);
-            cy += line.height + 4;
-        }
-        L.content.add(parts);
-        const h = cy - y + PAD - 6;
-        card.setSize(CARD_W / 2, h / 2);
-        return h;
+    /** paperKit: another panel took the screen over */
+    paperClosed() {
+        this.visible = false;
+        if (this.scene.customCursor) this.scene.customCursor.visible = true;
     }
 
-    /** the standing with each discovered faction: name, a glass gauge (green right / red left of the middle), status */
-    addFactionStandings(y) {
-        const L = this.ledger, sc = this.scene;
-        y += L.addHeading(y, this.lang.t('ui.hud.factionStanding')) + 14;
-        const fs = this.scene.registry.get('factionSystem');
-        const keys = fs ? Object.keys(fs.factions).filter(k => fs.factions[k].discovered || fs.factions[k].reputation !== 0) : [];
-        if (!keys.length) return y + L.addEmpty(y + 10, this.lang.t('ui.hud.noFactions')) + 30;
-
-        for (const key of keys) {
-            const f = fs.factions[key];
-            const rep = Phaser.Math.Clamp(f.reputation, -100, 100);
-            const card = L.addCard(y, 60);
-            const name = sc.add.text(PAD, y + PAD - 4, fs.displayName ? fs.displayName(key) : f.name, LEDGER_TEXT.title);
-            const gy = y + PAD - 4 + name.height + 22;
-            const gx = PAD + 136;                                     // gauge centre
-            const track = sc.add.image(gx, gy, 'menuSlider', 0).setScale(2);
-            const fill = sc.add.image(gx, gy, 'menuSliderFill').setScale(2);
-            const len = Math.round(Math.abs(rep) / 100 * GAUGE.half);
-            if (rep >= 0) fill.setCrop(GAUGE.center, 0, len, 16);
-            else fill.setCrop(GAUGE.center - len, 0, len, 16).setTintFill(0xc4553a);   // red liquid for a grudge
-            const value = sc.add.text(gx + 152, gy, `${rep >= 0 ? '+' : ''}${f.reputation}`, {
-                ...LEDGER_TEXT.title, color: rep >= 0 ? '#9fe8a8' : '#ff8a6a',
-            }).setOrigin(0, 0.5);
-            const status = sc.add.text(gx + 220, gy, this.t('factions.status', `Standing: ${this.standing(rep)}`,
-                { status: this.standing(rep) }), { ...LEDGER_TEXT.body, fontStyle: 'italic' }).setOrigin(0, 0.5);
-            let cy = gy + 24;
-            const parts = [name, track, fill, value, status];
-            const member = this.getMembershipStatus(key);
-            if (member) {
-                const m = sc.add.text(PAD, cy, member.text, { ...LEDGER_TEXT.body, color: member.color, fontStyle: 'bold' });
-                parts.push(m); cy += m.height + 4;
-            }
-            const desc = sc.add.text(PAD, cy, this.t(`factions.${key}.description`, f.description || ''), { ...LEDGER_TEXT.dim, wordWrap: { width: TEXT_W } });
-            parts.push(desc);
-            cy += desc.height;
-            L.content.add(parts);
-            const h = cy - y + PAD - 2;
-            card.setSize(CARD_W / 2, h / 2);
-            y += h + GAP;
-        }
-        return y + 10;
-    }
+    close() { if (this.visible) this.toggle(); }
 
     /** the standing's word, in the player's language */
     standing(rep) {
@@ -192,16 +139,14 @@ class JournalUI {
     toggle() {
         this.visible = !this.visible;
         if (this.visible) {
-            this.ledger.show();
             // opened (the HUD icon or J): the HUD's seal goes; the tabs keep theirs until each is looked at
             this.scene.journalNotificationIndicator?.setVisible(false);
             this.scene.registry.set('hasUnreadJournalEntries', false);
-            if (!this.currentCategory) this.selectCategory(this.categories[0]);
-            else { this.journalSystem.markRead(this.currentCategory); this.refreshContent(); }
-            this.updateTabBadges();
+            this.selectCategory(this.currentCategory || this.categories[0]);
+            openPaperScreen(this);
             if (this.scene.customCursor) this.scene.customCursor.visible = false;
         } else {
-            this.ledger.hide();
+            closePaperScreen(this);
             if (this.scene.customCursor) this.scene.customCursor.visible = true;
         }
     }

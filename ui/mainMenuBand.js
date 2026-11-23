@@ -287,6 +287,7 @@ export function createMainMenuBand(scene, { width: BW, items }) {
                 fill = scene.add.rectangle(-RX / 2, 0, RX, ROW, 0x000000).setOrigin(0, 0.5);
                 e.gear = scene.add.image(-RX / 2 + 30, 0, gear(scene, 8, 8, { hole: 0.32 })).setTint(ACID);
                 label = scene.add.text(-RX / 2 + 48, 0, item.label.toUpperCase(), LABEL).setOrigin(0, 0.5);
+                for (let fs = 19; label.width > RX - 64 && fs > 13; fs--) label.setFontSize(fs - 1);   // a long label fits the band
                 // the mushrooms that sprout on the focused entry (they stand on its top edge, by the rule)
                 glow = scene.add.image(RX / 2 - 30, -ROW / 2 - 4, glowTex(scene)).setTint(ACID).setBlendMode(Phaser.BlendModes.ADD)
                     .setDisplaySize(70, 34).setAlpha(0);
@@ -407,7 +408,7 @@ function createFungusGarden(scene, { RX, floorY, depth }) {
     const flies = [0, 1].map(() => scene.add.rectangle(0, 0, 2, 2, 0xd8d6cc).setDepth(depth + 0.02));   // it smells of carrion
 
     // the clump on the right
-    const cx = 160;
+    const cx = RX - 55;                              // (by the rule, whatever the band's width)
     const cGlow = glowAt(cx + 10, floorY - 12, 90, 50, 0.25, 0.45);
     [[-12, 0, 1.7], [3, 1, 1.35], [17, 0, 1.05], [30, 2, 1.4], [42, 1, 0.8]].forEach(([dx, kind, sc]) => {
         scene.add.image(cx + dx, floorY, shroom(scene, kind)).setOrigin(0.5, 1).setScale(sc).setTint(ACID).setDepth(depth);
@@ -639,13 +640,13 @@ function chooser(scene, text, step) {
 }
 
 /**
- * The settings in a band panel: music, sounds, fullscreen, language, dialog style, Confirm.
+ * The settings in a band panel: music, sounds, fullscreen, language, dialog style, the panels' look, Confirm.
  * deps: { t, getSetting, setSetting, isFullscreen, languages: {code, name}[], language(), setLanguage(code),
- *         dialogStyle(), cycleDialogStyle(dir) }
+ *         dialogStyle(), cycleDialogStyle(dir), panelSet(), cyclePanelSet(dir) }
  */
 export function createBandSettings(scene, { x, w, onClose }, deps) {
     const panel = createBandPanel(scene, { x, w, title: deps.t('ui.settings.title'), onClose });
-    const Y = [158, 212, 266, 320, 374], CONFIRM = 452;
+    const Y = [150, 200, 250, 300, 350, 400], CONFIRM = 476;
     const up = (s) => s.toUpperCase();
     const music = slider(scene, panel, deps.getSetting('music'), (v) => deps.setSetting('music', v));
     const sfx = slider(scene, panel, deps.getSetting('sfx'), (v, final) => {
@@ -661,11 +662,13 @@ export function createBandSettings(scene, { x, w, onClose }, deps) {
         if (next && next.code !== deps.language()) deps.setLanguage(next.code);
     });
     const style = chooser(scene, () => deps.t(`ui.settings.dialogStyles.${deps.dialogStyle()}`), (dir) => deps.cycleDialogStyle(dir));
+    const inv = chooser(scene, () => deps.t(`ui.settings.panelSets.${deps.panelSet()}`), (dir) => deps.cyclePanelSet(dir));
     panelRow(scene, panel, Y[0], up(deps.t('ui.settings.music')), music);
     panelRow(scene, panel, Y[1], up(deps.t('ui.settings.sounds')), sfx);
     panelRow(scene, panel, Y[2], up(deps.t('ui.settings.fullscreen')), full);
     panelRow(scene, panel, Y[3], up(deps.t('ui.settings.language')), lang);
     panelRow(scene, panel, Y[4], up(deps.t('ui.settings.dialogStyle')), style);
+    panelRow(scene, panel, Y[5], up(deps.t('ui.settings.panels')), inv);
     panelButton(scene, panel, CONFIRM, up(deps.t('ui.settings.confirm')), () => onClose?.());
     return {
         panel,
@@ -674,17 +677,19 @@ export function createBandSettings(scene, { x, w, onClose }, deps) {
             music.setValue(deps.getSetting('music'));
             sfx.setValue(deps.getSetting('sfx'));
             style.refresh();
+            inv.refresh();
             deps.isFullscreen().then(on => full.setValue(on));
         }
     };
 }
 
 /**
- * The saves in a band panel: one row per save (its name, its date), a pager if there are more than fit.
- * list(): [{ name, date, onLoad }]
+ * Save slots in a band panel: one row per slot (its name, its date or a note), a pager if there are more than fit;
+ * the Load panel by default, the in-game Save panel with titleKey 'ui.saveLoad.saveTitle'.
+ * list(): [{ name, date, onLoad }]  (onLoad: what a click on the row does)
  */
-export function createBandLoad(scene, { x, w, onClose, perPage = 6 }, { t, list }) {
-    const panel = createBandPanel(scene, { x, w, title: t('ui.saveLoad.loadTitle'), onClose });
+export function createBandLoad(scene, { x, w, onClose, perPage = 6, titleKey = 'ui.saveLoad.loadTitle' }, { t, list }) {
+    const panel = createBandPanel(scene, { x, w, title: t(titleKey), onClose });
     const none = scene.add.text(28, 170, t('ui.saveLoad.noSaves'), { ...ROW_LABEL, color: '#8f8f8f' }).setVisible(false);
     panel.body.add(none);
     let page = 0, rows = [];
@@ -710,6 +715,12 @@ export function createBandLoad(scene, { x, w, onClose, perPage = 6 }, { t, list 
     };
     return {
         panel,
-        show() { page = 0; panel.show(); populate(); }
+        show() { page = 0; panel.show(); populate(); },
+        /** re-draw the rows (a slot armed for overwriting), keeping the focus where it was */
+        refresh() {
+            const i = panel.nav.index;
+            populate();
+            if (i >= 0 && rows[i]) panel.nav.focus(rows[i]);
+        }
     };
 }

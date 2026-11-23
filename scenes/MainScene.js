@@ -7,6 +7,7 @@ import { getSetting, setSetting, isFullscreen } from '../systems/GameSettings.js
 import { currentDialogStyle, cycleDialogStyle } from '../utils/dialogLayouts.js';
 import { preloadMainMenuBand, createMainMenuBand, createBandSettings, createBandLoad, createTopTitle } from '../ui/mainMenuBand.js';
 import { PaintingIdleFX } from '../ui/paintingIdleFX.js';
+import { PANEL_SETS, panelSet } from '../ui/panelStyle.js';
 
 const SLOTS_PER_PAGE = 6;
 const PANEL_W = 470;           // the Load / Settings panels sliding out of the band
@@ -91,7 +92,12 @@ export default class MainScene extends Phaser.Scene {
                     this.cameras.main.once('camerafadeoutcomplete', () => this.scene.restart({ panel: 'settings', translated: true }));
                 },
                 dialogStyle: () => currentDialogStyle(),
-                cycleDialogStyle: (dir) => cycleDialogStyle(this, dir)
+                cycleDialogStyle: (dir) => cycleDialogStyle(this, dir),
+                panelSet,
+                cyclePanelSet: (dir) => {
+                    const i = PANEL_SETS.indexOf(panelSet());
+                    setSetting('panelSet', PANEL_SETS[(i + dir + PANEL_SETS.length) % PANEL_SETS.length]);
+                }
             }),
             load: createBandLoad(this, { x: bandW, w: PANEL_W, onClose: () => this.closePanel(), perPage: SLOTS_PER_PAGE }, {
                 t, list: () => this.saveList()

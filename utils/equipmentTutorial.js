@@ -15,6 +15,7 @@
 import LanguageSystem from '../systems/LanguageSystem.js';
 import { hudIconCentre } from './hudButton.js';
 import { pixelPlate, snap, FRAME, UI_FONT, UI_SIZE } from './pixelFrame.js';
+import { paperScene, anyPaperScreenOpen } from '../ui/paperKit.js';
 
 /** Run the equipment tutorial on `scene` (a GameScene / subclass). */
 export function runEquipmentTutorial(scene) {
@@ -93,24 +94,26 @@ export function runEquipmentTutorial(scene) {
     };
 
     const caption = (body, cy, buttons) => {
+        // over an open panel (ui/paperKit.js draws it in its own scene above the game) the caption goes there too
+        const hs = paperScene(scene.game) || scene;
         const W = 640, PAD = 18, GAP = 16, BH = 36, BGAP = 12;
-        const c = scene.add.container(400, cy).setDepth(6001); objs.push(c);
-        const label = scene.add.text(0, 0, T('MASTER THAAL', 'MISTR THAAL'), { fontFamily: UI_FONT, fontSize: UI_SIZE, color: '#e8c46a' }).setOrigin(0.5, 0);
-        const txt = scene.add.text(0, 0, body, { fontFamily: UI_FONT, fontSize: UI_SIZE, color: '#c8e6d0', align: 'center', wordWrap: { width: W - 2 * PAD }, lineSpacing: 4 }).setOrigin(0.5, 0);
-        buttons.forEach(b => { const t = scene.add.text(0, 0, b.label, { fontFamily: UI_FONT, fontSize: UI_SIZE, color: b.primary ? '#0b0e0a' : '#c8e6d0' }).setOrigin(0.5); b._t = t; b._w = Math.ceil((t.width + 26) / 4) * 4; });
+        const c = hs.add.container(400, cy).setDepth(6001); objs.push(c);
+        const label = hs.add.text(0, 0, T('MASTER THAAL', 'MISTR THAAL'), { fontFamily: UI_FONT, fontSize: UI_SIZE, color: '#e8c46a' }).setOrigin(0.5, 0);
+        const txt = hs.add.text(0, 0, body, { fontFamily: UI_FONT, fontSize: UI_SIZE, color: '#c8e6d0', align: 'center', wordWrap: { width: W - 2 * PAD }, lineSpacing: 4 }).setOrigin(0.5, 0);
+        buttons.forEach(b => { const t = hs.add.text(0, 0, b.label, { fontFamily: UI_FONT, fontSize: UI_SIZE, color: b.primary ? '#0b0e0a' : '#c8e6d0' }).setOrigin(0.5); b._t = t; b._w = Math.ceil((t.width + 26) / 4) * 4; });
         const totalBW = buttons.reduce((s, b) => s + b._w, 0) + BGAP * (buttons.length - 1);
         const boxH = Math.ceil((PAD + 28 + txt.height + GAP + BH + PAD) / 4) * 4;   // on the 2x grid, centred
         // Keep the whole box (incl. its buttons) on-screen — a tall caption near the bottom
         // would otherwise push the buttons below the 600px world height and hide them.
         c.y = Math.max(boxH / 2 + 10, Math.min(cy, 600 - boxH / 2 - 10));
-        c.add(pixelPlate(scene, W, boxH, { alpha: 0.98 }));   // utils/pixelFrame.js
+        c.add(pixelPlate(hs, W, boxH, { alpha: 0.98 }));   // utils/pixelFrame.js
         let y = -boxH / 2 + PAD;
         label.y = y; c.add(label); y += 32;
         txt.y = y; c.add(txt); y += txt.height + GAP;
         let bx = -totalBW / 2;
         buttons.forEach(b => {
             const fill = b.primary ? 0x7fff8e : 0x14261a, lit = b.primary ? 0xb4ffbe : 0x24402c;   // hover lightens (a scale would blur it)
-            const rect = scene.add.rectangle(snap(bx + b._w / 2), snap(y + BH / 2), b._w, BH, fill, b.primary ? 1 : 0.85).setStrokeStyle(2, FRAME.rim).setInteractive({ useHandCursor: true });
+            const rect = hs.add.rectangle(snap(bx + b._w / 2), snap(y + BH / 2), b._w, BH, fill, b.primary ? 1 : 0.85).setStrokeStyle(2, FRAME.rim).setInteractive({ useHandCursor: true });
             b._t.setPosition(snap(bx + b._w / 2), snap(y + BH / 2));
             rect.on('pointerover', () => rect.setFillStyle(lit, 1));
             rect.on('pointerout', () => rect.setFillStyle(fill, b.primary ? 1 : 0.85));
@@ -140,11 +143,12 @@ export function runEquipmentTutorial(scene) {
         if (step.isOpen) {
             // Interactive: the PLAYER opens the panel (click the highlighted icon or press the key);
             // opening it advances the step and removes the indicator. No "show me" button.
-            if (step.isOpen()) { openClose = step.close; renderPhaseB(step); return; }
+            const ready = () => step.isOpen() && (!anyPaperScreenOpen() || !!paperScene(scene.game));
+            if (ready()) { openClose = step.close; renderPhaseB(step); return; }
             ringFor(step.anchor);
             caption(step.show, cy, [skipBtn]);
             const poll = scene.time.addEvent({ delay: 150, loop: true, callback: () => {
-                if (step.isOpen()) { openClose = step.close; renderPhaseB(step); }
+                if (ready()) { openClose = step.close; renderPhaseB(step); }
             } });
             objs.push({ destroy: () => poll.remove() });
         } else {

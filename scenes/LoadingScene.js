@@ -11,6 +11,8 @@ export default class LoadingScene extends Phaser.Scene {
         // The in-world UI's pixel font (Departure Mono, OFL: assets/fonts/DepartureMono-LICENSE.txt), drawn on an 11 px
         // grid, so it is shown at 22 px: one font pixel = 2x2 screen pixels like the rest of the game (utils/pixelFrame.js)
         this.load.font('Departure Mono', 'assets/fonts/DepartureMono-Regular.otf', 'opentype');
+        // the apprentice's handwriting in the panels (ui/panelStyle.js; Caveat, OFL: assets/fonts/Caveat-OFL.txt)
+        this.load.font('Caveat', 'assets/fonts/Caveat.ttf', 'truetype', { weight: '400 700' });
 
         // Load the Tempurra logo
         this.load.image('tempurraLogo', 'assets/images/ui/TempurraLogo.png');
