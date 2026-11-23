@@ -694,8 +694,10 @@ export function createBandLoad(scene, { x, w, onClose, perPage = 6, titleKey = '
     panel.body.add(none);
     let page = 0, rows = [];
     const populate = () => {
-        rows.forEach(r => r.container.destroy());
+        // unfocus first, destroy after: clear() re-colours the focused row's texts, and a destroyed Text has no canvas
+        // (the TypeError froze the whole game on every overwrite of a used save slot)
         panel.nav.clear();
+        rows.forEach(r => r.container.destroy());
         rows = [];
         const saves = list();
         const pages = Math.max(1, Math.ceil(saves.length / perPage));
