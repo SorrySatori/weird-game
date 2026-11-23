@@ -1063,6 +1063,199 @@ def stall():
     P.save('stall')
 
 
+MANILA = ramp('#4e3b22 #67502d #806538 #997b44 #ae8f51 #c1a160 #d0b170 #dcbf80')
+WHITE = ramp('#77746a #918d82 #aaa699 #c1bdaf #d4d0c2 #e2ded1 #ebe8dc #f2efe5')
+
+
+def paper_sheet(P, x0, y0, x1, y1, rmp, seed, base=6.2, amp=1.2, torn=0.0, dog=0):
+    """a calm aged sheet over [x0, x1) x [y0, y1) with a slightly ragged edge; dog = a folded corner (px) top-right"""
+    f = fbm(seed, P.w, P.h, cells=(40, 16, 6), weights=(0.5, 0.3, 0.2))
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            e = min(x - x0, x1 - 1 - x, y - y0, y1 - 1 - y)
+            if e < 1 and f(x * 6, y * 6) < torn: continue
+            if dog and (x1 - 1 - x) + (y - y0) < dog: continue
+            v = base + (f(x, y) - 0.5) * amp - max(0, 4 - e) * 0.25 + (random.random() - 0.5) * 0.25
+            P.put(x, y, lerp(rmp, v))
+    if dog:                                                       # the folded-over corner
+        for y in range(y0, y0 + dog):
+            for x in range(x1 - dog, x1):
+                if (x1 - 1 - x) + (y - y0) < dog and (x - (x1 - dog)) < (y - y0) + 1:
+                    P.put(x, y, lerp(rmp, base - 1.6))
+    return f
+
+
+def age(P, x0, y0, x1, y1, seed, strength=1.0, damp=0.3, rnd=None):
+    """wear a sheet: blotchy discolouring, damp rising from the bottom with a tide line, grubby edges, thumb smudges"""
+    rnd = rnd or random.Random(seed)
+    lo = fbm(seed + 1, P.w, P.h, cells=(60, 26, 10), weights=(0.55, 0.3, 0.15))
+    dl = fbm(seed + 2, P.w * 4, P.h, cells=(14, 6, 3), weights=(0.5, 0.3, 0.2))
+    hgt = y1 - y0
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            if not P.a(x, y): continue
+            e = min(x - x0, x1 - 1 - x, y - y0, y1 - 1 - y)
+            g = lo(x, y)
+            if g > 0.48: P.mix(x, y, (125, 95, 52), min(0.4, (g - 0.48) * 1.0 * strength))
+            if damp:
+                level = y1 - hgt * damp * (0.85 + 0.3 * dl(x * 1.6, 3))   # how high the damp got here
+                if y > level: P.mix(x, y, (112, 88, 50), 0.14 * strength)
+                elif y > level - 1: P.mix(x, y, (95, 68, 36), 0.38 * strength)
+            if e < 7: P.mix(x, y, (60, 45, 28), (7 - e) * 0.05 * strength)
+    for _ in range(int(5 * strength) + 2):                            # grubby thumbs near the edges
+        side = rnd.random()
+        ex = x0 + rnd.uniform(4, 14) if side < 0.3 else x1 - rnd.uniform(4, 14) if side < 0.6 else rnd.uniform(x0 + 10, x1 - 10)
+        ey = rnd.uniform(y0 + 10, y1 - 10) if side < 0.6 else y1 - rnd.uniform(4, 12)
+        for yy in range(-9, 10):
+            for xx in range(-7, 8):
+                d = math.hypot(xx / 7, yy / 9)
+                if d < 1 and P.a(ex + xx, ey + yy) and int(d * 9) % 2 == 0: P.mix(ex + xx, ey + yy, (55, 42, 30), 0.16 * (1 - d) + 0.04)
+
+
+def shadow(P, x0, y0, x1, y1, a=140, dx=3, dy=4):
+    for y in range(y0 + dy, y1 + dy):
+        for x in range(x0 + dx, x1 + dx):
+            if P.ok(x, y) and P.a(x, y) == 0: P.put(x, y, BLACK, a)
+
+
+def staple(P, x, y, horiz=True):
+    for k in range(6):
+        P.put(x + (k if horiz else 0), y + (0 if horiz else k), IRON[6] if k % 2 else IRON[5])
+    stains_rust = [(x + (2 if horiz else 0), y + (0 if horiz else 2))]
+    for (sx, sy) in stains_rust:
+        for yy in range(sy - 3, sy + 8):
+            for xx in range(sx - 4, sx + 6):
+                d = math.hypot(xx - sx, (yy - sy) * (0.6 if yy > sy else 1))
+                if d < 5: P.mix(xx, yy, RUST[4], 0.35 - d * 0.06)
+
+
+def folder_office():
+    """the office journal: a stained manila folder on the corroded wall, the typed index sheet clipped in, a vein crawling
+    over its corner; 534 x 300, transparent round it (ui/panels/journalScreens.js buildDossier: FOLDER 30,64 1010x524,
+    IDX 50,86 652x488, the fold at x 714)"""
+    W, H = 534, 300
+    P = Px(W, H); rnd = random.Random(111); random.seed(111)
+    FX0, FY0, FX1, FY1 = 15, 32, 520, 294
+    shadow(P, FX0, FY0, FX1, FY1, 150, 4, 5)
+    tmp = Px(W, H)
+    f = paper_sheet(tmp, FX0, FY0, FX1, FY1, MANILA, 112, base=5.2, amp=1.6, torn=0.25)
+    for y in range(H):
+        for x in range(W):
+            if tmp.a(x, y): P.p[x, y] = tmp.p[x, y]
+    age(P, FX0, FY0, FX1, FY1, 114, 1.1, 0.25, rnd)
+    for y in range(FY0, FY1):                                     # the fold of the folder
+        P.mix(357, y, (60, 40, 20), 0.4); P.mix(358, y, (240, 220, 170), 0.18)
+    stains_on_paper(P, rnd, f, FX0, FY0, FX1, FY1, MANILA, coffee=(470, 270, 15), tide=(400, 70, 30),
+                    mould_at=((22, 285, 7), (512, 40, 5), (300, 290, 4)), fox=90, blot=0.45)
+    # the index sheet, stapled in
+    IX0, IY0, IX1, IY1 = 25, 43, 351, 287
+    shadow(P, IX0, IY0, IX1, IY1, 90, 2, 3)
+    g = paper_sheet(P, IX0, IY0, IX1, IY1, WHITE, 113, base=5.7, amp=1.1, torn=0.1)
+    age(P, IX0, IY0, IX1, IY1, 115, 0.7, 0.16, rnd)
+    stains_on_paper(P, rnd, g, IX0, IY0, IX1, IY1, WHITE, coffee=(330, 262, 12), mould_at=((30, 280, 4),), fox=50, blot=0.3)
+    staple(P, IX0 + 10, IY0 + 3); staple(P, IX1 - 18, IY0 + 3)
+    for sx in (IX0 + 12, IX1 - 16): streak(P, sx, IY0 + 5, rnd, rnd.randint(18, 40), RUST[4], 0.5)
+    # a vein along the folder's top edge, clamped, out from behind it on the right
+    tube(P, [(FX1 + 10, FY0 + 40), (FX1 + 2, FY0 + 12), (FX1 - 20, FY0 - 2), (FX1 - 110, FY0), (FX1 - 200, FY0 - 3), (FX1 - 300, FY0 - 1)], 2.8, rnd, clamps=(30, 120, 220))
+    for _ in range(14): capillaries(P, rnd.uniform(FX1 - 290, FX1 - 8), FY0 + rnd.uniform(1, 3), rnd, rnd.randint(8, 20), a=math.pi / 2 + rnd.uniform(-0.7, 0.7), t=0.45)
+    # a vein crawling up over the folder's bottom-left corner, capillaries seeping into the manila
+    tube(P, [(-4, 270), (6, 262), (14, 250), (18, 236), (16, 220), (20, 206)], 2.6, rnd, clamps=(18,))
+    for _ in range(10): capillaries(P, rnd.uniform(14, 24), rnd.uniform(206, 262), rnd, rnd.randint(8, 18), a=rnd.uniform(-0.8, 0.8))
+    for _ in range(6): capillaries(P, rnd.uniform(360, 518), 292, rnd, rnd.randint(8, 16), a=-math.pi / 2 + rnd.uniform(-0.6, 0.6), t=0.4)
+    P.save('folder_office')
+
+
+def tray_office():
+    """the office quest log: a corroded riveted in-tray with a flesh tube clamped along its rim; 534 x 300, transparent
+    round it (ui/panels/questScreens.js buildForms: TRAY 26,66 676x504)"""
+    W, H = 534, 300
+    P = Px(W, H); rnd = random.Random(121); random.seed(121)
+    X0, Y0, X1, Y1 = 13, 33, 351, 285
+    shadow(P, X0, Y0, X1, Y1, 160, 3, 4)
+    f = fbm(122, W, H)
+    iron_surface(P, X0, Y0, X1, Y1, 123, paint=0.6, rustiness=0.5, f=f, base=2.6)
+    for y in range(Y0 + 5, Y1 - 5):                               # the tray's floor, damp
+        for x in range(X0 + 5, X1 - 5):
+            P.mix(x, y, (12, 16, 12), 0.45)
+    bevel(P, X0, Y0, X1, Y1, 0.35, 0.8, 2)
+    bevel(P, X0 + 5, Y0 + 5, X1 - 5, Y1 - 5, 0.0, 0.0)
+    for y in range(Y0 + 5, Y0 + 9):
+        for x in range(X0 + 5, X1 - 5): P.mix(x, y, BLACK, 0.5 - (y - Y0 - 5) * 0.12)
+    for x in range(X0 + 6, X1 - 6, 12):
+        rivet(P, x, Y0 + 1, rnd.random() * 0.7); rivet(P, x, Y1 - 4, rnd.random() * 0.7)
+        if rnd.random() < 0.4: streak(P, x + 1, Y1 - 1, rnd, rnd.randint(4, 12), RUST[5], 0.6)
+    for y in range(Y0 + 14, Y1 - 8, 12):
+        rivet(P, X0 + 1, y, rnd.random() * 0.7); rivet(P, X1 - 4, y, rnd.random() * 0.7)
+    for _ in range(8): mould(P, rnd.uniform(X0 + 8, X1 - 8), rnd.uniform(Y0 + 8, Y1 - 8), rnd.uniform(3, 7), rnd, (110, 125, 100), (20, 26, 18), 0.45)
+    tube(P, [(X1 + 8, Y0 + 60), (X1 + 2, Y0 + 30), (X1 - 20, Y0 - 3), (X1 - 120, Y0 - 1), (X1 - 200, Y0 - 4), (X1 - 260, Y0 - 1)], 3.0, rnd, clamps=(40, 130, 220))
+    for _ in range(12): capillaries(P, rnd.uniform(X1 - 250, X1 - 10), Y0 + rnd.uniform(1, 4), rnd, rnd.randint(6, 14), a=math.pi / 2 + rnd.uniform(-0.6, 0.6))
+    fm = fbm(124, W, H, cells=(6, 3), weights=(0.6, 0.4))
+    for cx in (X0 + 10, X0 + 140, X1 - 20):
+        moss(P, cx, Y1 + 1, rnd.uniform(10, 18), 4, rnd, fm)
+    for bx in (X0 + 4, X0 + 60, X0 + 200, X1 - 10):
+        weeds(P, bx, Y1 + 4, rnd, n=rnd.randint(4, 8), hmax=rnd.randint(8, 14), dry=0.3)
+    P.save('tray_office')
+
+
+def forms_office():
+    """three stained forms for the in-tray, 322 x 30 each, punched on the left (questScreens.js buildForms rows)"""
+    for k in range(3):
+        W, H = 322, 30
+        P = Px(W, H); rnd = random.Random(130 + k)
+        f = paper_sheet(P, 0, 0, W, H, WHITE, 131 + k, base=5.3, amp=1.2, torn=0.15)
+        age(P, 0, 0, W, H, 135 + k, 0.9, 0.0, rnd)
+        for y in range(4, H - 2, 5):                               # the punched holes
+            P.put(7, y, (40, 40, 36)); P.put(8, y, (60, 58, 52)); P.put(7, y + 1, (70, 66, 60))
+        for x in range(12, W - 4):
+            if f(x * 3, 9) > 0.4: P.mix(x, 9, (120, 130, 120), 0.25)
+        stains_on_paper(P, rnd, f, 0, 0, W, H, WHITE, fox=25, blot=0.3,
+                        coffee=(rnd.uniform(200, 300), rnd.uniform(8, 22), 9) if k == 1 else None,
+                        mould_at=((W - 6, H - 5, 3),) if k == 2 else ())
+        staple(P, 14, 1)
+        streak(P, 16, 3, rnd, rnd.randint(8, 20), RUST[4], 0.5)
+        P.save(f'form_office_{k}')
+
+
+def catalogue_office():
+    """the office shop: a yellowed mail-order catalogue page, stained, clipped, with its printed rules and grid;
+    534 x 300, transparent round it (shopScreens.js buildCatalogue: PG 28,30 678x552, GRID 44,128 215x136)"""
+    W, H = 534, 300
+    P = Px(W, H); rnd = random.Random(141); random.seed(141)
+    X0, Y0, X1, Y1 = 14, 15, 353, 291
+    shadow(P, X0, Y0, X1, Y1, 160, 4, 5)
+    f = paper_sheet(P, X0, Y0, X1, Y1, PAPER, 142, base=6.5, amp=1.2, torn=0.2, dog=12)
+    age(P, X0, Y0, X1, Y1, 143, 1.0, 0.2, rnd)
+    for y in range(Y0, Y1):                                        # yellowed into the binding on the left
+        for x in range(X0, X0 + 14): P.mix(x, y, (120, 90, 40), 0.22 * (1 - (x - X0) / 14))
+    ink = (42, 29, 16)
+    for x in range(X0 + 10, X1 - 10):                              # the masthead rules and the foot rule
+        if f(x * 4, 50) > 0.18: P.mix(x, Y0 + 35, ink, 0.85); P.mix(x, Y0 + 36, ink, 0.6)
+        if f(x * 4, 54) > 0.25: P.mix(x, Y0 + 38, ink, 0.6)
+        if f(x * 4, 58) > 0.25: P.mix(x, Y1 - 20, ink, 0.6)
+    gx, gy, cw, ch = 22, 64, 107.5, 68
+    for i in (1, 2):
+        x = round(gx + i * cw)
+        for y in range(gy + 3, gy + 3 * ch - 3):
+            if y % 3: P.mix(x, y, (60, 40, 20), 0.28)
+    for j in (1, 2):
+        y = gy + j * ch
+        for x in range(gx + 3, round(gx + 3 * cw) - 3):
+            if x % 3: P.mix(x, y, (60, 40, 20), 0.28)
+    stains_on_paper(P, rnd, f, X0, Y0, X1, Y1, PAPER, coffee=(300, 262, 14), tide=(40, 250, 26),
+                    mould_at=((346, 284, 5), (20, 22, 4)), fox=80, blot=0.4)
+    # a rusty bulldog clip at the top, rust bled into the paper; veins seeping through from below at the bottom edge
+    for y in range(Y0 - 6, Y0 + 6):
+        for x in range(170, 194):
+            P.put(x, y, lerp(IRON, 4 - (y - Y0 + 6) * 0.18 + (f(x * 5, y * 5) - 0.5) * 2) if f(x * 3, y * 3) < 0.62 else RUST[4])
+    for x in range(170, 194): P.put(x, Y0 - 7, OUTL); P.put(x, Y0 + 6, OUTL)
+    for yy in range(Y0 + 6, Y0 + 16):
+        for xx in range(168, 196): P.mix(xx, yy, RUST[4], 0.3 * (1 - (yy - Y0 - 6) / 10))
+    for _ in range(8): capillaries(P, rnd.uniform(40, 340), Y1 - 1, rnd, rnd.randint(8, 18), a=-math.pi / 2 + rnd.uniform(-0.7, 0.7), t=0.4)
+    for _ in range(3): root(P, X0 + rnd.uniform(-6, 20), Y1 + 4, rnd, rnd.randint(25, 50), -math.pi / 2 + rnd.uniform(0.1, 0.8), 1.4)
+    tube(P, [(X1 + 30, Y1 - 30), (X1 + 6, Y1 - 40), (X1 - 6, Y1 - 60), (X1 - 2, Y1 - 120), (X1 + 8, Y1 - 160)], 2.6, rnd, clamps=(40, 110))
+    P.save('catalogue_office')
+
+
 def nail():
     """a rusty nail head driven through the note, 7 x 7"""
     P = Px(7, 7)
@@ -1078,6 +1271,7 @@ def nail():
 
 if __name__ == '__main__':
     which = sys.argv[2:] or ['backdrop_office', 'cabinet', 'cabinet_glass', 'card_office', 'clip_office', 'labels_office',
-                             'backdrop_apprentice', 'desk_mat', 'card_apprentice', 'nail', 'diary', 'plate', 'stall']
+                             'backdrop_apprentice', 'desk_mat', 'card_apprentice', 'nail', 'diary', 'plate', 'stall',
+                             'folder_office', 'tray_office', 'forms_office', 'catalogue_office']
     for name in which:
         globals()[name]()

@@ -27,7 +27,7 @@
  * paper 2, items 3, detail texts 4, ui 5, the cursor zones 9.
  */
 import { tex, rng, fitHeight, SERIF, MONO } from '../paperKit.js';
-import { LOOK, detailCard, markChosen, drawTabs, grime, scrapTex } from '../panelStyle.js';
+import { LOOK, detailCard, markChosen, drawTabs, grime, scrapTex, panelBackdrop } from '../panelStyle.js';
 
 const tr = (ctx, cs, en) => (ctx.lang === 'cs' ? cs : en);
 
@@ -330,6 +330,12 @@ function buildCatalogue(scene, ctx) {
         pageSize: 9, cols: 3,
         moneyText: (api, m) => `${m} din.`,
         backdrop() {
+            if (grime(scene, 'catalogue_office')) {                       // the yellowed catalogue page on the corroded wall
+                panelBackdrop(scene, 'office');
+                scene.add.image(0, 0, grime(scene, 'catalogue_office')).setOrigin(0).setScale(2).setDepth(1);
+                card = detailCard(scene, 'office');
+                return;
+            }
             scene.add.image(0, 0, tex(scene, 'sh_cat_bg2', W, H, (c) => {
                 c.fillStyle = '#17120e'; c.fillRect(0, 0, W, H);
                 const r = rng(31);

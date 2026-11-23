@@ -404,7 +404,10 @@ function buildDossier(scene, ctx) {
         area: { x: 20, y: 62, w: L.DETAIL.w - 40, h: L.DETAIL.h - 78 },
         railColor: 0x8a6a3a,
         backdrop() {
-            scene.add.image(0, 0, tex(scene, 'jn_dossier_bg2', W, H, (c) => {
+            if (grime(scene, 'folder_office')) {                          // the stained folder on the corroded wall (ui_grime.py)
+                panelBackdrop(scene, 'office');
+                scene.add.image(0, 0, grime(scene, 'folder_office')).setOrigin(0).setScale(2).setDepth(0.5);
+            } else scene.add.image(0, 0, tex(scene, 'jn_dossier_bg2', W, H, (c) => {
                 c.fillStyle = '#34413b'; c.fillRect(0, 0, W, H);
                 c.strokeStyle = 'rgba(0,0,0,0.12)'; c.lineWidth = 1;
                 for (let k = -H; k < W; k += 14) { c.beginPath(); c.moveTo(k, 0); c.lineTo(k + H, H); c.stroke(); }
@@ -458,7 +461,7 @@ function buildDossier(scene, ctx) {
             e.facts.forEach((f, i) => {                                                                     // the addenda, stapled on, in blue biro
                 const t = scene.add.text(12, 24, f, { ...T.later, wordWrap: { width: w - 26 } });
                 const h = t.height + 34;
-                add(c, scene.add.rectangle(0, y, w - 2, h, 0xeef2fb).setOrigin(0).setStrokeStyle(1, 0x9aa8d0, 0.8));
+                add(c, scene.add.rectangle(0, y, w - 2, h, 0xe9e4d2).setOrigin(0).setStrokeStyle(1, 0x9a9278, 0.8));    // a yellowed slip
                 add(c, scene.add.text(12, y + 8, `${S.addendum} ${i + 1}`, { fontFamily: MONO, fontSize: '11px', color: L.LATER, letterSpacing: 2 }));
                 const g = add(c, scene.add.graphics().lineStyle(2, 0x8f969b, 1));
                 g.lineBetween(w - 40, y - 3, w - 22, y - 3); g.lineBetween(w - 40, y + 3, w - 22, y + 3);

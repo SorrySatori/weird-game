@@ -27,7 +27,7 @@
  * ← / → or Tab the tabs, PgUp / PgDn the text; the wheel scrolls whatever it's over.
  */
 import { tex, rng, hash, put } from '../paperKit.js';
-import { LOOK, detailCard, markChosen, drawTabs, dragRails, grime } from '../panelStyle.js';
+import { LOOK, detailCard, markChosen, drawTabs, dragRails, grime, panelBackdrop } from '../panelStyle.js';
 
 const MONO = 'Departure Mono', BEBAS = 'Bebas Neue';
 
@@ -436,7 +436,11 @@ function buildForms(scene, ctx) {
     const { W, H } = ctx, w = words(ctx), O = LOOK.office, T = O.text;
     const BLUE = '#2d4fa0', RED = '#b0302a';
     const TRAY = { x: 26, y: 66, w: 676, h: 504 };
-    scene.add.image(0, 0, tex(scene, 'qs_forms2', W, H, (c) => {
+    const art = grime(scene, 'tray_office');
+    if (art) {                                                        // the corroded in-tray on the wall (ui_grime.py)
+        panelBackdrop(scene, 'office');
+        scene.add.image(0, 0, art).setOrigin(0).setScale(2).setDepth(0.5);
+    } else scene.add.image(0, 0, tex(scene, 'qs_forms2', W, H, (c) => {
         const g = c.createLinearGradient(0, 0, 0, H);
         g.addColorStop(0, '#56645a'); g.addColorStop(1, '#3a453d');
         c.fillStyle = g; c.fillRect(0, 0, W, H);
@@ -457,8 +461,12 @@ function buildForms(scene, ctx) {
         row: (c, q, b, { on, hov }) => {
             const x = b.x + 2, y = b.y + 4, rw = b.w - 4, rh = b.h - 8;
             put(c, scene.add.rectangle(x + 3, y + 3, rw, rh, 0x000000, 0.3).setOrigin(0));
-            put(c, scene.add.rectangle(x, y, rw, rh, on ? 0xffffff : hov ? 0xf4f5ea : 0xe2e6d6).setOrigin(0).setStrokeStyle(1, 0x8f9a90));
-            for (let py = y + 8; py < y + rh - 4; py += 10) put(c, scene.add.circle(x + 14, py, 2, 0x56645a));
+            const form = art && rw === 644 && rh === 60 && grime(scene, `form_office_${hash(q.key) % 3}`);    // a stained punched form
+            if (form) put(c, scene.add.image(x, y, form).setOrigin(0).setScale(2).setTint(on ? 0xffffff : hov ? 0xf0f0e6 : 0xd6d8cc));
+            else {
+                put(c, scene.add.rectangle(x, y, rw, rh, on ? 0xffffff : hov ? 0xf4f5ea : 0xe2e6d6).setOrigin(0).setStrokeStyle(1, 0x8f9a90));
+                for (let py = y + 8; py < y + rh - 4; py += 10) put(c, scene.add.circle(x + 14, py, 2, 0x56645a));
+            }
             put(c, scene.add.text(x + 26, y + 6, `${w('Č.', 'No.')} ${number(ctx, q)}`, { ...T.small, letterSpacing: 1, color: '#4a5a4e' }));
             ell(put(c, scene.add.text(x + 26, y + 20, q.title, { ...T.title, fontSize: '15px', color: q.done ? '#5a6a5e' : '#1f2a22' })), rw - 170);
             ell(put(c, scene.add.text(x + 26, y + 40, latest(q), { ...T.later, fontSize: '12px' })), rw - (q.demo ? 70 : 40));

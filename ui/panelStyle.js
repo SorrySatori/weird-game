@@ -23,7 +23,7 @@ export const PANEL_SETS = ['apprentice', 'office'];
  */
 export const GRIME_FILES = ['backdrop_office', 'backdrop_apprentice', 'cabinet', 'cabinet_glass', 'desk_mat',
     'card_office', 'card_apprentice', 'clip_office', 'nail', 'label_office_0', 'label_office_1', 'label_office_2',
-    'diary', 'plate', 'stall'];
+    'diary', 'plate', 'stall', 'folder_office', 'tray_office', 'form_office_0', 'form_office_1', 'form_office_2', 'catalogue_office'];
 
 /** the apprentice's tabs and slips: torn scraps of rag and paper, drawn at the UI's 2x pixel grid (muted, dirty) */
 const SCRAPS = [
@@ -31,8 +31,10 @@ const SCRAPS = [
     ['#4e3b29', '#6a5139', '#866a4a', '#a0835c', '#b49770'],       // kraft
     ['#4a4943', '#615f57', '#79766b', '#918d80', '#a6a294'],       // grey rag
     ['#3f4530', '#545c3f', '#6a734f', '#7f895f', '#939c70'],       // faded olive cloth
-    ['#4e2e28', '#6a3f35', '#855244', '#9c6655', '#ad7866']        // faded oxblood
+    ['#4e2e28', '#6a3f35', '#855244', '#9c6655', '#ad7866'],       // faded oxblood
+    ['#67502d', '#806538', '#997b44', '#ae8f51', '#c1a160']        // manila (the office's folder tabs)
 ];
+export const MANILA_SCRAP = 5;
 export function scrapTex(scene, w, h, tone, seed, lift = 0) {
     const key = `psScrap_${w}_${h}_${tone}_${seed}_${lift}`;
     if (scene.textures.exists(key)) return key;
@@ -233,7 +235,10 @@ export function drawTabs(scene, set, layer, x, y, tabs, active, onPick, { vertic
         const w = vertical ? 86 : txt.width + 26, h = vertical ? 34 : (set === 'office' ? 22 : 28);
         const cx = vertical ? tx + w / 2 + (on ? 0 : 8) : tx + w / 2, cy = vertical ? ty + h / 2 : ty + (on ? -3 : 0);
         let bg;
-        if (set === 'office') {
+        if (set === 'office' && scene.textures.exists('uiGrime_cabinet')) {     // a worn manila tab (pixel art)
+            bg = scene.add.image(cx, cy, scrapTex(scene, Math.ceil(w / 2) * 2, h, MANILA_SCRAP, 21 + i, on ? 1 : 0)).setScale(2);
+            if (!on) bg.setTint(0xc8bca6);
+        } else if (set === 'office') {
             bg = scene.add.graphics().fillStyle(on ? 0xe8d39a : 0xc9b07a, 1).lineStyle(1, 0x6a5430, 1);
             const pts = [{ x: cx - w / 2, y: cy + h / 2 }, { x: cx - w / 2 + 6, y: cy - h / 2 }, { x: cx + w / 2 - 6, y: cy - h / 2 }, { x: cx + w / 2, y: cy + h / 2 }];
             bg.fillPoints(pts, true).strokePoints(pts, true);
