@@ -39,32 +39,14 @@ export default class EggCatedralScene extends GameScene {
         
         // Create transition zones using SceneTransitionManager
         
-        // Cathedral entrance door transition — the small glowing door at the top of the steps,
-        // far away in the middle of the picture. The priest walks up the path on the ground line.
-        this.transitionManager.createTransitionZone(
-            400, // x position (800-space; remapped to the canvas centre)
-            390, // y position
-            26,  // width
-            50,  // height
-            'up', // direction
-            'CathedralEntrance', // target scene
-            400, // walk to x
-            470, // walk to y (stay on the ground line in front of the steps)
-            'To the Entrance' // destination name
-        );
-        
-        // Right border transition to CrossroadScene
-        this.transitionManager.createTransitionZone(
-            780, // x position
-            470, // y position
-            40,  // width
-            200, // height
-            'right', // direction
-            'CrossroadScene', // target scene
-            100, // walk to x
-            470, // walk to y
-            'Crossroads' // destination name
-        );
+        // Exits (canvas coords). The cathedral's small glowing door at the top of the steps, far away in the middle of
+        // the picture, lights up whole; the priest walks up the path on the ground line
+        const tm = this.transitionManager;
+        tm.createDoorZone({ rect: [513, 362, 42, 50] }, {
+            target: 'CathedralEntrance', walkX: 534, walkY: 470, label: 'To the Entrance'
+        });
+        // the cobbled path on to the right, to the Crossroads
+        tm.createEdgeExit('right', { target: 'CrossroadScene', walkX: 1040, walkY: 470, label: 'Crossroads', width: 200, top: 380 });
 
         // Examine: the whole Egg Cathedral, anchored to its towers and spires. The bubble auto-flips
         // below it (tail up) so it clears the top HUD. Clear of the entrance-door transition (y≈365-415).

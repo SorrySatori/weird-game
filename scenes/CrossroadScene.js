@@ -91,53 +91,19 @@ export default class CrossroadScene extends GameScene {
     }
 
     setupSceneTransitions() {
-        // Create transition zone for Shed521 entrance
-        this.transitionManager.createTransitionZone(
-            100, // x position
-            400, // y position
-            120, // width
-            200, // height
-            'left', // direction
-            'Shed521Scene', // target scene
-            100, // walk to x
-            400 // walk to y
-        );
-        
-        // Egg Cathedral: the road that comes TOWARD the viewer (bottom centre of the junction)
-        this.transitionManager.createTransitionZone(
-            400, // x position (800-space; remapped to the canvas centre)
-            572, // y position
-            150, // width
-            56,  // height
-            'down', // direction
-            'EggCatedralScene', // target scene
-            400, // walk to x
-            470 // walk to y
-        );
-        
-        // Create transition zone for VoxMarket entrance
-        this.transitionManager.createTransitionZone(
-            650, // x position
-            400, // y position
-            100, // width
-            200, // height
-            'right', // direction
-            'VoxMarket', // target scene
-            650, // walk to x
-            470 // walk to y
-        );
-        
-        // Scraper: the road that runs AWAY from the viewer, past the signpost toward the hazy skyline
-        this.transitionManager.createTransitionZone(
-            409, // x position (800-space ≈ canvas 545, the road's centre line right of the corpse)
-            400, // y position
-            52,  // width
-            120, // height
-            'up', // direction
-            'ScraperScene', // target scene
-            409, // walk to x
-            470 // walk to y
-        );
+        const tm = this.transitionManager;
+        // Shed 521: its double door
+        tm.createDoorZone({ rect: [91, 322, 126, 78] }, { target: 'Shed521Scene', walkX: 154, walkY: 450 });
+        // Voxmarket: its gate under the sign lights up whole
+        tm.createDoorZone({ rect: [778, 288, 266, 134] }, { target: 'VoxMarket', walkX: 860, walkY: 470 });
+        // the Scraper: the road running away from the viewer, past the signpost toward the hazy skyline
+        tm.createPathZone([[468, 468], [626, 468], [574, 338], [516, 338]], {
+            toward: [545, 330], target: 'ScraperScene', walkX: 545, walkY: 470, direction: 'up'
+        });
+        // the Egg Cathedral: the road that comes toward the viewer, out at the bottom
+        tm.createPathZone([[392, 532], [712, 532], [790, 600], [318, 600]], {
+            toward: [552, 610], target: 'EggCatedralScene', walkX: 545, walkY: 470, direction: 'down'
+        });
     }
 
     /** Growth/Decay scenery: props only (the background has no variants yet); feet stay behind the walk line. */

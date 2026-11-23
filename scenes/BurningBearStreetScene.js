@@ -69,38 +69,18 @@ export default class BurningBearStreetScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        this.transitionManager.createTransitionZone(
-            50, // x position
-            470, // y position
-            80, // width
-            200, // height
-            'left', // direction
-            'ScraperScene', // target scene
-            60, // walk to x (into the left archway)
-            470 // walk to y
-        );
-
-        this.transitionManager.createTransitionZone(
-            400, // x position (800-space; the far end of the street, toward the Townhall tower)
-            375, // y position — above the fire pit, so clicking the pit doesn't leave the scene
-            90, // width
-            110, // height
-            'up', // direction
-            'TownhallScene', // target scene
-            400, // walk to x
-            470 // walk to y
-        );
-        
-        this.transitionManager.createTransitionZone(
-            750, // x position
-            470, // y position
-            80, // width
-            200, // height
-            'right', // direction
-            'ScreamingCorkScene', // target scene
-            745, // walk to x (into the right archway)
-            470 // walk to y
-        );
+        // Exits (canvas coords): the archways at both ends light up whole (left to the Scraper, right to the Screaming
+        // Cork); the street runs away toward the Townhall tower (its far end, above the fire pit, so clicking the pit
+        // doesn't leave the scene; closed in the demo: cones)
+        this.transitionManager.createDoorZone({ points: [[23, 551], [23, 425], [25, 411], [30, 398], [39, 387], [51, 378], [64, 373], [78, 371], [93, 373], [106, 378], [118, 387], [127, 398], [132, 411], [134, 425], [134, 519], [84, 545], [46, 552]] }, {
+            target: 'ScraperScene', walkX: 60, walkY: 470, direction: 'left'
+        });
+        this.transitionManager.createPathZone([[455, 430], [620, 430], [568, 320], [505, 320]], {
+            toward: [535, 310], target: 'TownhallScene', walkX: 533, walkY: 470, direction: 'up'
+        });
+        this.transitionManager.createDoorZone({ points: [[932, 507], [932, 425], [934, 411], [940, 398], [948, 387], [960, 378], [974, 373], [988, 371], [1002, 373], [1016, 378], [1028, 387], [1036, 398], [1042, 411], [1044, 425], [1044, 561], [1016, 550]] }, {
+            target: 'ScreamingCorkScene', walkX: 994, walkY: 470, direction: 'right'
+        });
     }
 
     // Growth/Decay: alt background (overgrown street / the bears burning) + scenery props.

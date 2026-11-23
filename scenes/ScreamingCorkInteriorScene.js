@@ -481,31 +481,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         // The band keeps rehearsing while you're away: coming back picks the take up where it would be
         this.playSceneMusic('tavernRehearsal', { resume: true });
 
-        // Create exit back to ScreamingCorkScene at the left edge
-        this.transitionManager.createTransitionZone(
-            50, // x position
-            470, // y position
-            80, // width
-            200, // height
-            'left', // direction
-            'ScreamingCorkScene', // target scene
-            50, // walk to x
-            470, // walk to y
-            'Outside'
-        );
-        
-        // Create entrance to the club area (at the back of the tavern)
-        this.transitionManager.createTransitionZone(
-            650, // x position - back of the tavern
-            350, // y position
-            100, // width
-            150, // height
-            'up', // direction
-            'ScreamingCorkClubScene', // target scene
-            400, // walk to x - position inside the club
-            520, // walk to y
-            'Into the Club' // custom name
-        );
+        // Exits (canvas coords): the front door on the left (open, light behind it) and the red-lit doorway at the back
+        // that leads down to the club; both light up whole
+        this.transitionManager.createDoorZone({ points: [[38, 350], [128, 340], [132, 472], [38, 476]] }, {
+            target: 'ScreamingCorkScene', walkX: 67, walkY: 470, label: 'Outside', direction: 'left'
+        });
+        this.transitionManager.createDoorZone({ rect: [816, 322, 66, 126] }, {
+            target: 'ScreamingCorkClubScene', walkX: 848, walkY: 470, label: 'Into the Club'
+        });
         
         if (!this.hasJournalEntry('screaming_cork_place')) {
             this.addJournalEntry(

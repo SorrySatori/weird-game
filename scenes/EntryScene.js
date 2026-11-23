@@ -362,18 +362,10 @@ export default class EntryScene extends GameScene {
         // Create fungal master after mechanics are initialized
         this.createFungalMaster();
         
-        // Create transition zone to EggCatedralScene at the right edge
-        this.transitionManager.createTransitionZone(
-            780, // x position
-            470, // y position
-            40,  // width
-            200, // height
-            'right', // direction
-            'EggCatedralScene', // target scene
-            100, // walk to x in target scene
-            470, // walk to y in target scene
-            'Egg Cathedral' // destination name
-        );
+        // Exit to EggCatedralScene: the rooftop goes on to the right, past the signpost (canvas coords)
+        this.transitionManager.createEdgeExit('right', {
+            target: 'EggCatedralScene', walkX: 1040, walkY: 470, label: 'Egg Cathedral', width: 190, top: 380
+        });
         
         // Examine the view (800-space, remapped to the 1067 canvas by createObservable): the city, the Egg Cathedral on
         // its mound (canvas x 150..400), Scraper 1140 in the middle (x 505..590 up to the mast), the near skyship

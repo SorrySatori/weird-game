@@ -191,18 +191,10 @@ export default class CathedralEntrance extends GameScene {
             this.priestGlow.y = this.priest.y;
         }
         
-        // Create transition zone for exit to EggCatedralScene
-        this.transitionManager.createTransitionZone(
-            400, // x position
-            550, // y position
-            200, // width
-            40,  // height
-            'down', // direction
-            'EggCatedralScene', // target scene
-            400, // walk to x
-            550, // walk to y
-            'Back' // destination name
-        );
+        // Exit to EggCatedralScene: the pavement toward the viewer, out at the bottom (canvas coords)
+        this.transitionManager.createPathZone([[330, 540], [740, 540], [800, 600], [270, 600]], {
+            toward: [535, 612], target: 'EggCatedralScene', walkX: 534, walkY: 550, direction: 'down', label: 'Back'
+        });
 
         // Remove the NPC if it exists
         if (this.stranger) {

@@ -80,17 +80,10 @@ export default class ShedRegistrationScene extends GameScene {
             this.ground = null;
         }
         
-        this.transitionManager.createTransitionZone(
-            80, // x position
-            500, // y position
-            200, // width
-            80,  // height
-            'left', // direction
-            'Shed521FloorsScene', // target scene
-            110, // walk to x
-            534, // walk to y (the feet: this scene anchors the priest at the feet)
-            'Back to the corridor'
-        );
+        // back to the corridor: the way out on the left (canvas coords)
+        this.transitionManager.createEdgeExit('left', {
+            target: 'Shed521FloorsScene', walkX: 147, walkY: 534, label: 'Back to the corridor', width: 170, top: 330   // walkY: the feet
+        });
         
         // Create NPCs but keep them invisible until needed
         this.createDreamQueueNPCs();

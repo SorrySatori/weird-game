@@ -181,7 +181,7 @@ export default class SceneTransitionManager {
      * takes over (e.g. a staircase inside the same scene). `label` may be a function (read on each hover).
      * @returns {Phaser.GameObjects.Zone}
      */
-    createDoorZone(shape, { target = null, walkX, walkY, label = '', direction = 'up', onClick = null, depth = 3 } = {}) {
+    createDoorZone(shape, { target = null, walkX, walkY, label = '', direction = 'up', onClick = null, depth = 3, options = {} } = {}) {
         const pts = shape.points
             || [[shape.rect[0], shape.rect[1]], [shape.rect[0] + shape.rect[2], shape.rect[1]],
                 [shape.rect[0] + shape.rect[2], shape.rect[1] + shape.rect[3]], [shape.rect[0], shape.rect[1] + shape.rect[3]]];
@@ -233,11 +233,144 @@ export default class SceneTransitionManager {
         zone.on('pointerdown', (pointer, localX, localY, event) => {
             event.stopPropagation(); // the click is the exit's, not a walk to that spot
             if (onClick) onClick();
-            else if (target) this.handleSceneTransition(target, walkX, walkY);
+            else if (target) this.handleSceneTransition(target, walkX, walkY, options);
         });
 
         this.transitionElements.push({ zone, elements: { arrowContainer: glow, textContainer: text } });
         return zone;
+    }
+
+    /**
+     * An exit that isn't a door -- a street going on past the edge of the picture, a road into the distance -- as a
+     * stretch of the scene that lights up on hover: a warm wash over the `points` polygon (canvas coords), soft at its
+     * edges, brightening toward `toward` ([x, y], where the way leads), with light flowing slowly that way, and the label
+     * at that end. No arrow, no circle. Clicking walks the priest to (walkX, walkY) and leaves for `target`.
+     * `edge` ('left' | 'right'): the way leaves by that screen edge, so the arrow keys take it too.
+     * @returns {Phaser.GameObjects.Zone}
+     */
+    createPathZone(points, { toward, target, walkX, walkY, label = '', direction = 'up', edge = null, onClick = null, depth = 3, options = {} } = {}) {
+        const sc = this.scene, W = sc.scale.width;
+        const xs = points.map(p => p[0]), ys = points.map(p => p[1]);
+        const bx = Math.min(...xs), by = Math.min(...ys), bw = Math.max(...xs) - bx, bh = Math.max(...ys) - by;
+        if (isDemoClosed(target)) return this.createClosedExit({ x: bx, y: by, w: bw, h: bh }, target);
+
+        const zone = sc.add.zone(bx, by, bw, bh).setOrigin(0, 0).setDepth(10);
+        zone.setInteractive({
+            hitArea: new Phaser.Geom.Polygon(points.map(([x, y]) => [x - bx, y - by]).flat()),
+            hitAreaCallback: Phaser.Geom.Polygon.Contains,
+            useHandCursor: true
+        });
+
+        // the shared textures: a ramp (transparent → white along x) and a soft band (a bump of light)
+        const ensure = (key, w, h, draw) => {
+            if (!sc.textures.exists(key)) { const t = sc.textures.createCanvas(key, w, h); draw(t.getContext(), w, h); t.refresh(); }
+            return key;
+        };
+        const ramp = ensure('exitRamp', 256, 4, (c, w, h) => {
+            const g = c.createLinearGradient(0, 0, w, 0);
+            g.addColorStop(0, 'rgba(255,255,255,0.18)'); g.addColorStop(0.5, 'rgba(255,255,255,0.55)'); g.addColorStop(1, 'rgba(255,255,255,1)');
+            c.fillStyle = g; c.fillRect(0, 0, w, h);
+        });
+        const band = ensure('exitBand', 128, 4, (c, w, h) => {
+            const g = c.createLinearGradient(0, 0, w, 0);
+            g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+            c.fillStyle = g; c.fillRect(0, 0, w, h);
+        });
+        // the stretch's own soft-edged mask (the polygon, blurred), once per shape
+        const PAD = 14;
+        const maskKey = `exitMask_${points.flat().join('_')}`;
+        ensure(maskKey, Math.ceil(bw + 2 * PAD), Math.ceil(bh + 2 * PAD), (c) => {
+            c.filter = 'blur(10px)';
+            c.fillStyle = '#ffffff';
+            c.beginPath();
+            points.forEach(([x, y], i) => (i ? c.lineTo(x - bx + PAD, y - by + PAD) : c.moveTo(x - bx + PAD, y - by + PAD)));
+            c.closePath();
+            c.fill();
+        });
+        const mask = sc.make.image({ x: bx - PAD, y: by - PAD, key: maskKey, add: false }).setOrigin(0).createBitmapMask();
+
+        // along the way: from the polygon's near end to its far end (projected onto the direction to `toward`)
+        const cx = xs.reduce((a, b) => a + b, 0) / xs.length, cy = ys.reduce((a, b) => a + b, 0) / ys.length;
+        const ang = Math.atan2(toward[1] - cy, toward[0] - cx), ux = Math.cos(ang), uy = Math.sin(ang);
+        const along = points.map(([x, y]) => (x - cx) * ux + (y - cy) * uy), across = points.map(([x, y]) => -(x - cx) * uy + (y - cy) * ux);
+        const a0 = Math.min(...along) - PAD, a1 = Math.max(...along) + PAD;
+        const thick = Math.max(...across) - Math.min(...across) + 2 * PAD, len = a1 - a0;
+        const at = (t) => ({ x: cx + ux * (a0 + t * len), y: cy + uy * (a0 + t * len) });
+        const mid = at(0.5);
+        const wash = sc.add.image(mid.x, mid.y, ramp).setDisplaySize(len, thick).setRotation(ang)
+            .setTint(0xffb54a).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0).setDepth(depth).setMask(mask);
+        const flow = sc.add.image(mid.x, mid.y, band).setDisplaySize(len * 0.3, thick).setRotation(ang)
+            .setTint(0xffd27a).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0).setDepth(depth).setMask(mask);
+
+        // the label at the far end (a side exit: by its edge, with a ‹ / › for the way)
+        const text = sc.add.text(0, 0, '', {
+            fontSize: UI_SMALL, fill: EXIT_INK, align: 'center', fontFamily: UI_FONT, backgroundColor: LABEL_BG, padding: { x: 8, y: 4 }
+        }).setOrigin(0.5, 1).setDepth(30).setAlpha(0);
+        zone.exitLabel = () => this.exitLabel(typeof label === 'function' ? label() : label, target, direction); // also for the hint lantern
+        const placeLabel = () => {
+            const name = zone.exitLabel();
+            text.setText(edge === 'left' ? `‹ ${name}` : edge === 'right' ? `${name} ›` : name);
+            const end = at(0.86);
+            const lx = edge === 'left' ? bx + text.width / 2 + 8 : edge === 'right' ? bx + bw - text.width / 2 - 8 : end.x;
+            const ly = edge ? by + bh * 0.42 : Math.min(end.y, by + bh) - 8;
+            text.setPosition(Phaser.Math.Clamp(lx, text.width / 2 + 10, W - text.width / 2 - 10), Math.max(text.height + 10, ly));
+        };
+        placeLabel();
+
+        let flowTween = null;
+        const runFlow = () => {
+            const s0 = at(0.15), s1 = at(0.95);
+            flow.setPosition(s0.x, s0.y).setAlpha(0);
+            flowTween = sc.tweens.add({
+                targets: flow, x: s1.x, y: s1.y, duration: 1500, ease: 'Sine.easeIn',
+                onUpdate: (tw) => flow.setAlpha(0.4 * Math.sin(Math.PI * tw.progress)),
+                onComplete: () => { if (hovered) sc.time.delayedCall(250, () => { if (hovered) runFlow(); }); }
+            });
+        };
+        let hovered = false;
+        zone.on('pointerover', () => {
+            hovered = true;
+            placeLabel();
+            sc.tweens.killTweensOf([wash, text]);
+            sc.tweens.add({ targets: wash, alpha: 0.5, duration: 260, ease: 'Sine.easeOut' });
+            sc.tweens.add({ targets: text, alpha: 1, duration: 180, ease: 'Sine.easeOut' });
+            flowTween?.stop();
+            runFlow();
+        });
+        zone.on('pointerout', () => {
+            hovered = false;
+            flowTween?.stop();
+            sc.tweens.killTweensOf([wash, text, flow]);
+            sc.tweens.add({ targets: [wash, flow, text], alpha: 0, duration: 220, ease: 'Sine.easeIn' });
+        });
+        zone.on('pointerdown', (pointer, localX, localY, event) => {
+            event.stopPropagation();
+            if (onClick) onClick();
+            else if (target) this.handleSceneTransition(target, walkX, walkY, options);
+        });
+
+        if (edge && sc.registerEdgeExit) {
+            sc.registerEdgeExit(edge, () => {
+                const pr = sc.priest;
+                if (!pr) { this.handleSceneTransition(target, walkX, walkY, options); return; }
+                this.handleSceneTransition(target, pr.x + (edge === 'left' ? -70 : 70), pr.y, options);
+            }, zone, [by, by + bh]);
+        }
+        this.transitionElements.push({ zone, elements: { arrowContainer: wash, textContainer: text, tweens: [] } });
+        sc.events.once('shutdown', () => { flow.destroy(); mask.destroy?.(); });
+        return zone;
+    }
+
+    /**
+     * A side exit: the stretch of the scene by the left / right edge (`width` px in from it, from `top` down to the
+     * bottom), lit as createPathZone, the way leading out by that edge.
+     */
+    createEdgeExit(side, { target, walkX, walkY, label = '', width = 150, top = 230, bottom = null, options = {}, onClick = null } = {}) {
+        const W = this.scene.scale.width, H = this.scene.scale.height, b = bottom ?? H;
+        const x0 = side === 'left' ? 0 : W - width, x1 = side === 'left' ? width : W;
+        return this.createPathZone([[x0, top], [x1, top], [x1, b], [x0, b]], {
+            toward: [side === 'left' ? 0 : W, (top + b) / 2], target, walkX, walkY, label, direction: side, edge: side, options, onClick
+        });
     }
 
     /**
@@ -294,12 +427,19 @@ export default class SceneTransitionManager {
         let tweenCompleted = false;
         
         // Play walk animation
-        if (priest.anims && priest.anims.exists('walk')) {
-            priest.play('walk');
+        if (priest.anims && this.scene.anims.exists('walk')) {        // (the game's animation, not the sprite's own)
+            priest.play('walk', true);
         }
         
         // Kill any existing tweens
         this.scene.tweens.killTweensOf(priest);
+
+        // he faces the way he walks (he used to back out of a room toward a door behind him)
+        if (Math.abs(walkX - priest.x) > 4) {
+            const k = Math.abs(priest.scaleY) || 1, d = walkX < priest.x ? -1 : 1;
+            priest.setScale(d * k, k);
+            this.scene.priestGlow?.setScale(d * 1.05 * k, 1.05 * k);
+        }
         
         // Calculate distance and duration
         const distance = Phaser.Math.Distance.Between(priest.x, priest.y, walkX, walkY);
@@ -316,7 +456,7 @@ export default class SceneTransitionManager {
                 tweenCompleted = true;
                 
                 // Play idle animation if it exists
-                if (priest.anims && priest.anims.exists('idle')) {
+                if (priest.anims && this.scene.anims.exists('idle')) {
                     priest.play('idle');
                 }
                 
@@ -331,7 +471,7 @@ export default class SceneTransitionManager {
                 console.log(`Scene transition to ${targetScene} timed out, forcing transition`);
                 
                 // Play idle animation if it exists
-                if (priest && priest.anims && priest.anims.exists('idle')) {
+                if (priest && priest.anims && this.scene.anims.exists('idle')) {
                     priest.play('idle');
                 }
                 

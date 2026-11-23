@@ -173,11 +173,9 @@ export default class VoxmarketHallScene extends GameScene {
         
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
-        // the exit's own hover label is the only one (a second hint here doubled it)
-        this.transitionManager.createTransitionZone(
-            50, 470, 50, 200, 'left', 'VoxMarket', 100, 470, 'Back to Main Market'
-        );
-        
+        // back to the main market past the left edge; the exit's own hover label is the only one (a second hint here doubled it)
+        this.transitionManager.createEdgeExit('left', { target: 'VoxMarket', walkX: 133, walkY: 470, label: 'Back to Main Market', width: 150, top: 260 });
+
         if (this.stranger) {
             this.stranger.destroy();
         }

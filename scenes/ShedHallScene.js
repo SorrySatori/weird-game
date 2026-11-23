@@ -124,18 +124,10 @@ export default class ShedHallScene extends GameScene {
         // Initialize SceneTransitionManager
         this.transitionManager = new SceneTransitionManager(this);
 
-        // The steel door in the left wall: back up to the abandoned office
-        this.transitionManager.createTransitionZone(
-            87, // x position
-            450, // y position
-            70, // width
-            200, // height
-            'left', // direction
-            'ShedAbandonedOfficeScene',
-            87, // walk to x
-            470, // walk to y
-            'Back'
-        );
+        // The steel door in the left wall: back up to the abandoned office (canvas coords, the slab in perspective)
+        this.transitionManager.createDoorZone({ points: [[72, 383], [161, 369], [161, 480], [72, 545]] }, {
+            target: 'ShedAbandonedOfficeScene', walkX: 116, walkY: 470, label: 'Back'
+        });
 
         // The socket stays empty once the core is out: in the pack, extracted (core_taken_*) or already handed to
         // Gnur. Checking the pack alone let it grow back after the delivery. A refusal leaves it in the wall.

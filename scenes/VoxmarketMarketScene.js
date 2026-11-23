@@ -410,19 +410,12 @@ export default class VoxmarketMarketScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
-        // Create exit to VoxMarket at the bottom of the screen
-        this.transitionManager.createTransitionZone(
-            400, // x position
-            550, // y position
-            200, // width
-            50, // height
-            'down', // direction
-            'VoxMarket', // target scene
-            400, // walk to x
-            520, // walk to y
-            'Back to Main Market' // the exit's own hover label (a second hint here doubled it)
-        );
-        
+        // Exit back to the main market: the floor toward the viewer, out at the bottom (canvas coords)
+        this.transitionManager.createPathZone([[360, 545], [720, 545], [780, 600], [300, 600]], {
+            toward: [540, 615], target: 'VoxMarket', walkX: 533, walkY: 520,
+            label: 'Back to Main Market', direction: 'down'   // the exit's own hover label (a second hint here doubled it)
+        });
+
         // Remove the NPC if it exists
         if (this.stranger) {
             this.stranger.destroy();

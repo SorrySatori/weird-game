@@ -52,18 +52,11 @@ export default class ScraperAmbraScene extends GameScene {
             this.priestGlow.y = this.priest.y;
         }
         
-        // Create exit back to Scraper Interior
-        this.transitionManager.createTransitionZone(
-            400, // x position
-            550, // y position
-            200, // width
-            50, // height
-            'down', // direction
-            'ScraperInteriorScene', // target scene
-            400, // walk to x
-            300, // walk to y
-            'Back to Elevator' // the exit's own hover label (a second hint here doubled it)
-        );
+        // Exit back to Scraper Interior: the floor toward the viewer, out at the bottom (canvas coords)
+        this.transitionManager.createPathZone([[372, 538], [700, 538], [760, 600], [312, 600]], {
+            toward: [536, 612], target: 'ScraperInteriorScene', walkX: 534, walkY: 300, direction: 'down',
+            label: 'Back to Elevator' // the exit's own hover label (a second hint here doubled it)
+        });
         
         // Add ambient elements
         this.createAmbientElements();

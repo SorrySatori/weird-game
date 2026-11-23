@@ -41,31 +41,15 @@ export default class ShedAbandonedOfficeScene extends GameScene {
         this.transitionManager = new SceneTransitionManager(this);
 
         // the whole left edge of the room: the stairwell door is just out of frame (its warm light falls on the floor)
-        this.transitionManager.createTransitionZone(
-            50, // x position
-            470, // y position
-            50, // width
-            200, // height
-            'left', // direction
-            'Shed521FloorsScene',
-            50, // walk to x
-            WALK_Y, // walk to y
-            'Back to the stairs' 
-        )
+        this.transitionManager.createEdgeExit('left', {
+            target: 'Shed521FloorsScene', walkX: 67, walkY: WALK_Y, label: 'Back to the stairs', width: 140, top: 330
+        });
 
         // The doorway in the back wall (canvas x 437..502 with its frame, y 293..416): the stair down to the Hall, lit
-        // green from below; the zone takes in the threshold too
-        this.transitionManager.createTransitionZone(
-            352, // x position
-            362, // y position
-            50, // width
-            140, // height
-            'up', // direction
-            'ShedHallScene',
-            352, // walk to x
-            WALK_Y, // walk to y
-            'To the Hall'
-        )
+        // green from below; the threshold is in too
+        this.transitionManager.createDoorZone({ rect: [437, 293, 65, 123] }, {
+            target: 'ShedHallScene', walkX: 469, walkY: WALK_Y, label: 'To the Hall'
+        });
 
         // The graffiti BETTER DECAY THAN CHANGE (canvas x 700..975, y 135..345, so its hover label clears the HUD; clear of Palinode's arch at x 639..685)
         this.createObservable(628, 240, 206, 210, () => {

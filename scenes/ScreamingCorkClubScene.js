@@ -154,18 +154,11 @@ export default class ScreamingCorkClubScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        // Create exit back to ScreamingCorkInteriorScene
-        this.transitionManager.createTransitionZone(
-            400, // x position
-            550, // y position
-            150, // width
-            50, // height
-            'down', // direction
-            'ScreamingCorkInteriorScene', // target scene
-            400, // walk to x
-            500, // walk to y
-            this.t('ui.hints.exitToTavern') // custom name
-        );
+        // Exit back to the tavern: the floor toward the viewer, out at the bottom (canvas coords)
+        this.transitionManager.createPathZone([[380, 540], [690, 540], [740, 600], [330, 600]], {
+            toward: [535, 615], target: 'ScreamingCorkInteriorScene', walkX: 533, walkY: 500,
+            label: this.t('ui.hints.exitToTavern'), direction: 'down'
+        });
         
         // Create the band members
         this.createBandMembers();

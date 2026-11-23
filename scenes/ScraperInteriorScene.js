@@ -436,9 +436,14 @@ export default class ScraperInteriorScene extends GameScene {
             }
         }
 
-        // Exit back to ScraperScene: the street doors in the left wall -- a regular exit (arrow + glow + label like
-        // everywhere else; 800-space numbers, remapped by the manager), the arrow keys take it at the left edge too
-        this.transitionManager.createTransitionZone(75, 470, 90, 200, 'left', 'ScraperScene', 38, 470, 'Outside');
+        // Exit back to ScraperScene: the glass street doors in the left wall light up whole (canvas coords); the arrow
+        // keys take them at the left edge too
+        const tm = this.transitionManager;
+        const streetDoors = tm.createDoorZone({ points: [[15, 290], [178, 292], [178, 468], [15, 526]] }, {
+            target: 'ScraperScene', walkX: 51, walkY: 470, label: 'Outside'
+        });
+        this.registerEdgeExit?.('left', () => tm.handleSceneTransition('ScraperScene', (this.priest?.x ?? 51) - 70, this.priest?.y ?? 470),
+            streetDoors, [330, 610]);
 
         // Add elevator: an invisible hit area over the Lift-Mother's portal painted in the background (canvas coords)
         const liftX = 510;
@@ -487,16 +492,10 @@ export default class ScraperInteriorScene extends GameScene {
 
         const inventory = this.registry.get('inventory');
         if(inventory.items.some(item => item.id === 'scraper_backyard_key')) {
-            this.transitionManager.createTransitionZone(
-            507, // x position (the panelled door under the SCRAPER 1140 plaque)
-            390, // y position
-            50, // width
-            100, // height
-            'up', // direction
-            'ScraperBackyardScene', // target scene
-            507, // walk to x
-            470  // walk to y
-        );
+            // the panelled door under the SCRAPER 1140 plaque (canvas coords)
+            this.transitionManager.createDoorZone({ rect: [643, 340, 68, 100] }, {
+                target: 'ScraperBackyardScene', walkX: 676, walkY: 470
+            });
     }
     }
 

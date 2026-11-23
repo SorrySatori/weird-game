@@ -233,8 +233,8 @@ export default class PlayerMovementSystem {
             if (!this.priest.anims.isPlaying || this.priest.anims.currentAnim.key !== 'walk') {
                 this.priest.play('walk');
             }
-        } else if (!this.isTweenMoving && this.priest.anims.currentAnim && this.priest.anims.currentAnim.key === 'walk') {
-            this.priest.play('idle');
+        } else if (!this.isTweenMoving && !leaving && this.priest.anims.currentAnim && this.priest.anims.currentAnim.key === 'walk') {
+            this.priest.play('idle');                           // (an exit walking him out keeps his walk going)
         }
 
         // Update visual effects

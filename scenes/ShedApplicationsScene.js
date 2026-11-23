@@ -420,25 +420,13 @@ export default class ShedApplicationsScene extends GameScene {
         // Initialize the transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Add exit back to Shed521FloorsScene using transition manager
-        this.transitionManager.createTransitionZone(
-            650, 520,  // x, y position
-            100, 100,  // width, height
-            'right',   // direction
-            'Shed521FloorsScene', // target scene
-            650, 534,  // walk to coordinates (the feet: this scene anchors the priest at the feet)
-            'Back to the corridor'
-        );
-        
-        // Add left exit area using transition manager
-        this.transitionManager.createTransitionZone(
-            50, 470,   // x, y position
-            50, 200,   // width, height
-            'left',    // direction
-            'Shed521FloorsScene', // target scene
-            50, 534,   // walk to coordinates
-            'Back to the corridor'
-        );
+        // The doors in the right and the left wall: both back to the corridor (canvas coords; the priest's feet at 534)
+        this.transitionManager.createDoorZone({ points: [[866, 352], [946, 365], [946, 500], [866, 472]] }, {
+            target: 'Shed521FloorsScene', walkX: 867, walkY: 534, label: 'Back to the corridor'
+        });
+        this.transitionManager.createDoorZone({ points: [[53, 375], [154, 359], [154, 487], [53, 515]] }, {
+            target: 'Shed521FloorsScene', walkX: 67, walkY: 534, label: 'Back to the corridor'
+        });
 
         // Add interaction with Clerk
         this.clerk.on('pointerdown', () => {

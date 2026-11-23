@@ -2,7 +2,6 @@ import GameScene from './GameScene.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import JournalSystem from '../systems/JournalSystem.js';
 import { addHoverAura } from '../utils/hoverAura.js';
-import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 import { preloadUlvarexPuddle, setupUlvarexEncounter, ulvarexDialog, hasUlvarex } from '../utils/ulvarexEncounter.js';
 
 export default class ScraperScene extends GameScene {
@@ -142,124 +141,29 @@ export default class ScraperScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
-        // Add entrance to the Scraper building interior: the "1140" gate of the footbridge, centre of the background
-        const gateX = this.scale.width / 2;
-        const scraperEntrance = this.add.image(gateX, 470, 'exitArea')
-            .setDisplaySize(100, 200)
-            .setAlpha(0.01)
-            .setInteractive({ useHandCursor: true });
-        scraperEntrance.setDepth(5);
-        
-        // Add a hint about the scraper entrance
-        const scraperHint = this.add.text(gateX, 355, this.t('ui.hotspots.enterScraper'), {
-            fontFamily: UI_FONT, fontSize: UI_SMALL,
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(12, 20, 16, 0.92)',
-            padding: { x: 10, y: 5 }
-        });
-        scraperHint.setOrigin(0.5);
-        scraperHint.setAlpha(0);
-        scraperHint.setDepth(10);
-        
-        // Show hint when hovering near the entrance
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the scraper entrance
-            if (Math.abs(pointer.x - gateX) < 50 && Math.abs(pointer.y - 470) < 100) {
-                scraperHint.setAlpha(1);
-            } else {
-                scraperHint.setAlpha(0);
-            }
-        });
-        
-        // Add scraper entrance click handler
-        scraperEntrance.on('pointerdown', () => {
-            if (this.isTransitioning) return;
-            this.isTransitioning = true;
-            
-            // Add journal entry about the Scraper
-            if (!this.hasJournalEntry('scraper_building')) {
-                this.addJournalEntry(
-                    'scraper_building',
-                    'The Scraper',
-                    "Scraper 1140: a crooked skyscraper towering over the city. It used to be an office tower; now every floor lives a life of its own, and nobody seems quite sure how many floors there are.",
-                    this.journalSystem.categories.PLACES,
-                    { location: 'The Scraper, Upper Morkezela' }
-                );
-            }
-            
-            // Move priest to scraper entrance
-            const priest = this.priest;
-            if (!priest) {
-                // If priest doesn't exist, just transition immediately
-                this.cameras.main.fadeOut(800, 0, 0, 0);
-                this.cameras.main.once('camerafadeoutcomplete', () => {
-                    this.scene.start('ScraperInteriorScene');
-                    this.isTransitioning = false;
-                });
-                return;
-            }
-            
-            // Create a variable to track if the tween completed
-            let tweenCompleted = false;
-            
-            // Play walk animation
-            priest.play('walk');
-            
-            // Kill any existing tweens
-            this.tweens.killTweensOf(priest);
-            
-            this.tweens.add({
-                targets: priest,
-                x: gateX,
-                y: 470,
-                duration: 1000,
-                onComplete: () => {
-                    tweenCompleted = true;
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ScraperInteriorScene');
-                        this.isTransitioning = false; // Reset transition flag
-                    });
+        // Exits (canvas coords):
+        // - the Scraper: the gate of the footbridge lights up whole (its first visit writes the journal entry)
+        // - the Crossroad: the walkway on to the left, past the stair-house (not through its door); the arrow keys too
+        // - Burning Bear Street: the street on to the right (the band stays under the Don's lamp-post)
+        const tm = this.transitionManager;
+        tm.createDoorZone({ rect: [487, 374, 92, 141] }, {
+            target: 'ScraperInteriorScene', walkX: 533, walkY: 470, label: () => this.t('ui.hotspots.enterScraper'),
+            onClick: () => {
+                if (!this.hasJournalEntry('scraper_building')) {
+                    this.addJournalEntry(
+                        'scraper_building',
+                        'The Scraper',
+                        "Scraper 1140: a crooked skyscraper towering over the city. It used to be an office tower; now every floor lives a life of its own, and nobody seems quite sure how many floors there are.",
+                        this.journalSystem.categories.PLACES,
+                        { location: 'The Scraper, Upper Morkezela' }
+                    );
                 }
-            });
-            
-            // Add a safety timeout in case the tween doesn't complete
-            this.time.delayedCall(2000, () => {
-                if (!tweenCompleted) {
-                    console.log('Scraper entrance transition timed out, forcing transition');
-                    this.cameras.main.fadeOut(800, 0, 0, 0);
-                    this.cameras.main.once('camerafadeoutcomplete', () => {
-                        this.scene.start('ScraperInteriorScene');
-                        this.isTransitioning = false;
-                    });
-                }
-            });
+                tm.handleSceneTransition('ScraperInteriorScene', 533, 470);
+            }
         });
+        tm.createEdgeExit('left', { target: 'CrossroadScene', walkX: 20, walkY: 470, width: 190, top: 395 });   // as tall as the right one
+        tm.createEdgeExit('right', { target: 'BurningBearStreetScene', walkX: 1047, walkY: 470, width: 170, top: 395 });
 
-        // The stair-house door at the left (down to the Crossroad): a standard exit -- the arrow, its label on hover,
-        // and the arrow keys take it at the screen edge (it used to be a bare invisible hotspot with none of that)
-        this.transitionManager.createTransitionZone(
-            50, // x position (800-space)
-            470, // y position
-            80, // width
-            200, // height
-            'left', // direction
-            'CrossroadScene', // target scene
-            50, // walk to x
-            470 // walk to y
-        );
-
-        // Create exit to ScreamingCorkScene at the right edge
-        this.transitionManager.createTransitionZone(
-            750, // x position
-            470, // y position
-            80, // width
-            200, // height
-            'right', // direction
-            'BurningBearStreetScene', // target scene
-            750, // walk to x
-            470 // walk to y
-        );
 
         // Examine: the tower & its "SCRAPER 1140" sign (upper-center, clear of the gate below).
         // Comment deepens once you've been inside.

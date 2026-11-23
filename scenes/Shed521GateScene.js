@@ -69,30 +69,14 @@ export default class Shed521GateScene extends GameScene {
         // Create transition zones using SceneTransitionManager
         
         // Exit to Floors Scene (right side of the screen)
-        this.floorsZone = this.transitionManager.createTransitionZone(
-            750, // x position
-            470, // y position
-            50,  // width
-            200, // height
-            'right', // direction
-            'Shed521FloorsScene', // target scene
-            750, // walk to x
-            470, // walk to y
-            'Back Inside' // clearer than the Floors' location name
-        );
-        
-        // Exit to Courtyard Scene (left side of the screen)
-        this.courtyardZone = this.transitionManager.createTransitionZone(
-            50,  // x position
-            470, // y position
-            50,  // width
-            200, // height
-            'left', // direction
-            'ShedCourtyard', // target scene
-            50,  // walk to x
-            470, // walk to y
-            'To the Courtyard'
-        );
+        // the door under the lamp in the building on the right: back inside (canvas coords)
+        this.floorsZone = this.transitionManager.createDoorZone({ points: [[933, 350], [1008, 360], [1008, 474], [933, 447]] }, {
+            target: 'Shed521FloorsScene', walkX: 1000, walkY: 470, label: 'Back Inside'   // clearer than the Floors' name
+        });
+        // the way left, past the queue, to the courtyard
+        this.courtyardZone = this.transitionManager.createEdgeExit('left', {
+            target: 'ShedCourtyard', walkX: 67, walkY: 470, label: 'To the Courtyard', width: 150, top: 300
+        });
         
         // Remove the NPC if it exists
         if (this.stranger) {

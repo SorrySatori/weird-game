@@ -896,51 +896,11 @@ export default class ScreamingCorkScene extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
 
-        // Create exit to ScraperScene at the left edge
-        this.transitionManager.createTransitionZone(
-            50, // x position
-            470, // y position
-            80, // width
-            200, // height
-            'left', // direction
-            'BurningBearStreetScene', // target scene
-            50, // walk to x
-            470 // walk to y
-        );
-
-        // Create entrance to the tavern interior (centered on the tavern door)
-        this.transitionManager.createTransitionZone(
-            400, // x position - centered on the door
-            470, // y position
-            100, // width
-            200, // height
-            'up', // direction
-            'ScreamingCorkInteriorScene', // target scene
-            100, // walk to x - position inside the tavern
-            470, // walk to y
-            'Inside'
-        );
-
-        // Add a hint about the tavern entrance
-        const doorX = this.scale.width / 2;
-        const doorHint = this.add.text(doorX, 380, this.t('ui.hints.enterTavern'), {
-            fontFamily: UI_FONT, fontSize: UI_SMALL,
-            fill: '#7fff8e',
-            backgroundColor: 'rgba(12, 20, 16, 0.92)',
-            padding: { x: 10, y: 5 }
-        });
-        doorHint.setOrigin(0.5);
-        doorHint.setAlpha(0);
-        doorHint.setDepth(10);
-
-        // Show hint when hovering near the door
-        this.input.on('pointermove', (pointer) => {
-            // Check if pointer is near the door area
-            if (Math.abs(pointer.x - doorX) < 50 && Math.abs(pointer.y - 470) < 100) {
-                doorHint.setAlpha(1);
-            } else {
-                doorHint.setAlpha(0);
-            }
+        // Exits (canvas coords): the street goes on to the left; the tavern's door lights up whole (its label says it
+        // leads inside, ui.hints.enterTavern)
+        this.transitionManager.createEdgeExit('left', { target: 'BurningBearStreetScene', walkX: 30, walkY: 470, width: 200 });
+        this.transitionManager.createDoorZone({ rect: [490, 362, 90, 120] }, {
+            target: 'ScreamingCorkInteriorScene', walkX: 535, walkY: 470, label: () => this.t('ui.hints.enterTavern')
         });
 
         // Add Edgar Eskola NPC

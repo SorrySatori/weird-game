@@ -391,17 +391,10 @@ export default class Shed521Scene extends GameScene {
         // Create transition to Shed521FloorsScene at the elevator
         this.transitionManager = new SceneTransitionManager(this);
         
-        this.transitionManager.createTransitionZone(
-            291, // x position (800-space; remapped onto the tower's gate in the redrawn background)
-            350, // y position: the gate's upper half (y 300-400), clear of Gnur pacing below it (his frame starts at y 406)
-            100, // width
-            100, // height
-            'right', // direction
-            'Shed521FloorsScene', // target scene
-            291, // walk to x
-            470, // walk to y
-            'Inside'
-        );
+        // the tower's big gate (canvas coords): its lower edge stays above Gnur's head, he paces in front of it
+        this.transitionManager.createDoorZone({ rect: [302, 322, 176, 98] }, {
+            target: 'Shed521FloorsScene', walkX: 388, walkY: 470, label: 'Inside'
+        });
         
         // He paces 200 px back and forth (the walk cycle carries the bob; 44 px/s matches the shuffle's stride at 8 fps)
         this.gnurPace = this.tweens.add({
@@ -433,17 +426,8 @@ export default class Shed521Scene extends GameScene {
             this.priestGlow.y = this.priest.y;
         }
         
-        // Create exit to CrossroadScene at the right edge
-        this.transitionManager.createTransitionZone(
-            750, // x position
-            470, // y position
-            40,  // width
-            200, // height
-            'right', // direction
-            'CrossroadScene', // target scene
-            700, // walk to x
-            470  // walk to y
-        );
+        // the yard goes on to the right, to the Crossroads
+        this.transitionManager.createEdgeExit('right', { target: 'CrossroadScene', walkX: 934, walkY: 470, width: 150, top: 300 });
     }
 
     /**

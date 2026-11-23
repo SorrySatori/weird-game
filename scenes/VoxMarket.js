@@ -520,44 +520,17 @@ export default class VoxMarket extends GameScene {
         // Add fade-in effect
         this.cameras.main.fadeIn(800, 0, 0, 0);
         
-        // Create exit to CrossroadScene at the left edge
-        this.transitionManager.createTransitionZone(
-            50, // x position
-            470, // y position
-            50, // width
-            200, // height
-            'left', // direction
-            'CrossroadScene', // target scene
-            50, // walk to x
-            470 // walk to y
-        );
-        
-        // Create entrance to VoxmarketMarketScene at the top
-        this.transitionManager.createTransitionZone(
-            400, // x position
-            470, // y position
-            200, // width
-            50, // height
-            'up', // direction
-            'VoxmarketMarketScene', // target scene
-            400, // walk to x
-            470, // walk to y
-            'To the Stalls'
-        );
-        
-        // Create entrance to VoxmarketHallScene: the curtained arch in the hangar's right wall
-        this.transitionManager.createTransitionZone(
-            686, // x position (800-space; canvas ≈ 915, the auction portal)
-            470, // y position
-            50, // width
-            200, // height
-            'right', // direction
-            'VoxmarketHallScene', // target scene
-            686, // walk to x
-            470, // walk to y
-            'To the Auction Hall'
-        );
-        
+        // Exits (canvas coords): the Crossroads past the left edge; the stalls up the central aisle, away from the
+        // viewer; the auction hall through the curtained arch in the hangar's right wall (seen at an angle: its crown
+        // leans left and its foot follows the floor down toward the viewer)
+        this.transitionManager.createEdgeExit('left', { target: 'CrossroadScene', walkX: 67, walkY: 470, width: 150, top: 260 });
+        this.transitionManager.createPathZone([[440, 470], [660, 470], [585, 345], [500, 345]], {
+            toward: [542, 330], target: 'VoxmarketMarketScene', walkX: 533, walkY: 470, label: 'To the Stalls', direction: 'up'
+        });
+        this.transitionManager.createDoorZone({ points: [[857, 428], [857, 318], [862, 303], [872, 293], [887, 287], [905, 283], [925, 283], [945, 286], [962, 292], [976, 300], [988, 312], [996, 325], [1000, 340], [1000, 468]] }, {
+            target: 'VoxmarketHallScene', walkX: 915, walkY: 470, label: 'To the Auction Hall', direction: 'right'
+        });
+
         // Create Kloor Venn NPC
         this.createKloorVenn();
         

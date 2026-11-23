@@ -350,19 +350,10 @@ export default class ShedCourtyardScene extends GameScene {
         // Initialize the scene transition manager
         this.transitionManager = new SceneTransitionManager(this);
         
-        // Exit back to the gate at the right edge -- the way he came in
-        // (zone coords are in the old 800-wide layout; SceneTransitionManager widens them, as the gate's right exit)
-        this.transitionManager.createTransitionZone(
-            750, // x position
-            470, // y position
-            50, // width
-            200, // height
-            'right', // direction
-            'Shed521GateScene', // target scene
-            780, // walk to x
-            534, // walk to y (the feet: this scene anchors the priest at the feet)
-            'Back to the Gate'
-        );
+        // Exit back to the gate: the arcade on the right, the way he came in (canvas coords)
+        this.transitionManager.createEdgeExit('right', {
+            target: 'Shed521GateScene', walkX: 1040, walkY: 534, label: 'Back to the Gate', width: 150, top: 330   // walkY: the feet (this scene anchors the priest at the feet)
+        });
 
         // Exit area cursor handling is now managed by SceneTransitionManager
     }
