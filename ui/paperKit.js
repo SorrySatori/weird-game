@@ -10,7 +10,7 @@
  * pointerout). Keys: arrows move, Enter acts, PgUp / PgDn page; ESC (GameMenu), the owner's key or the cross close.
  */
 import { playMenuSound } from '../utils/menuKit.js';
-import { panelSet, detailCard, markChosen, LOOK } from './panelStyle.js';
+import { panelSet, detailCard, markChosen, LOOK, grime, panelBackdrop, scrapTex } from './panelStyle.js';
 
 /** the inventory's style for the panel set (ui/panelStyle.js): the apprentice's bag on a desk, the office's cabinet */
 export function paperStyle() {
@@ -92,6 +92,12 @@ function shadowOf(icon, alpha) {
 /** the walnut drawer (x, y, w, h), felt inside, optional compartment dividers (cols x rows); key = cache key */
 function cabinetFrame(scene, key, x, y, w, h, { cols = 0, rows = 0, title = '' } = {}) {
     const IN = 24, IW = w - 2 * IN, IH = h - 2 * IN, DIV = 8;
+    const art = w === 660 && h === 470 && cols === 5 && rows === 3 && grime(scene, 'cabinet');
+    if (art) {                                        // the corroded cabinet (ui_grime.py: its 12 px margin is the overgrowth)
+        scene.add.image(x - 24, y - 24, art).setOrigin(0).setScale(2);
+        if (title) scene.add.text(x + w / 2, y + 13, title, { fontFamily: MONO, fontSize: '11px', color: '#1e1406' }).setOrigin(0.5).setDepth(1);
+        return { IX: x + IN, IY: y + IN, IW, IH, DIV };
+    }
     scene.add.image(x, y, tex(scene, key, w, h, (c) => {
         const g = c.createLinearGradient(0, 0, 0, h);
         g.addColorStop(0, '#5a3a22'); g.addColorStop(1, '#3b2414');
@@ -134,6 +140,8 @@ function cabinetFrame(scene, key, x, y, w, h, { cols = 0, rows = 0, title = '' }
 
 /** the glass over the drawer's inside */
 function cabinetGlass(scene, key, x, y, w, h) {
+    const art = w === 612 && h === 422 && grime(scene, 'cabinet_glass');
+    if (art) return scene.add.image(x, y, art).setOrigin(0).setScale(2).setDepth(3);
     return scene.add.image(x, y, tex(scene, key, w, h, (c) => {
         for (const [x0, ww, a] of [[0.12, 0.08, 0.07], [0.24, 0.03, 0.05], [0.62, 0.12, 0.05]]) {
             c.fillStyle = `rgba(255,255,255,${a})`;
@@ -146,6 +154,12 @@ function cabinetGlass(scene, key, x, y, w, h) {
 /** a dark table under it all and the mat (leather, or a merchant's green baize) */
 function deskMat(scene, key, x, y, w, h, { cloth = 'leather', bag = false } = {}) {
     const { width: W, height: H } = scene.scale;
+    const art = cloth === 'leather' && bag && w === 720 && h === 540 && grime(scene, 'desk_mat');
+    if (art) {                                        // the rotting workbench, the cracked mouldy mat and the satchel
+        panelBackdrop(scene, 'apprentice');
+        scene.add.image(x - 24, y - 24, art).setOrigin(0).setScale(2);
+        return;
+    }
     scene.add.image(0, 0, tex(scene, key, W, H, (c) => {
         c.fillStyle = '#1c130c'; c.fillRect(0, 0, W, H);
         const r = rng(21);
@@ -226,13 +240,13 @@ function drawTabs(scene, L, style, x, y, tabs, on, onPick) {
         const sel = i === on;
         const txt = L.add(scene.add.text(0, 0, t.label, style === 'cabinet'
             ? { fontFamily: SERIF, fontSize: '12px', color: '#2a1d10' }
-            : { fontFamily: SERIF, fontStyle: 'italic', fontSize: '13px', color: '#2a1d10' }).setOrigin(0.5));
-        const w = txt.width + 24, h = style === 'cabinet' ? 20 : 26;
+            : { fontFamily: LOOK.apprentice.HAND, fontSize: '16px', color: '#1d140b', padding: { x: 3, y: 2 } }).setOrigin(0.5));
+        const w = Math.ceil((txt.width + 24) / 2) * 2, h = style === 'cabinet' ? 20 : 26;
         const cx = tx + w / 2, cy = style === 'cabinet' ? y : y + (sel ? -4 : 0);
-        const bg = scene.add.rectangle(cx, cy, w, h, sel ? 0xf1e9d4 : (style === 'cabinet' ? 0x9c8f72 : 0xcdbb98))
-            .setStrokeStyle(1, 0x5a4a30);
+        const bg = style === 'desk'                    // a torn scrap (pixel art), the chosen one lighter
+            ? scene.add.image(cx, cy, scrapTex(scene, w, h, i, 11 + i, sel ? 1 : 0)).setScale(2).setTint(sel ? 0xffffff : 0xcfc4b0)
+            : scene.add.rectangle(cx, cy, w, h, sel ? 0xf1e9d4 : 0x9c8f72).setStrokeStyle(1, 0x5a4a30);
         L.c.addAt(bg, L.c.list.indexOf(txt));
-        if (style === 'desk' && !sel) bg.setRotation(i % 2 ? 0.03 : -0.03);
         txt.setPosition(cx, cy);
         if (t.badge) L.add(scene.add.circle(cx + w / 2 - 5, cy - h / 2 + 3, 5, 0xb0302a).setStrokeStyle(1, 0x501010));
         const z = L.add(scene.add.zone(cx, cy, w, h + 6).setInteractive({ useHandCursor: true }));
@@ -279,7 +293,8 @@ function pointerPicking(scene, st, redraw, hits, { hoverSound = true } = {}) {
 export function gridScreen(scene, style, spec) {
     const { width: W, height: H } = scene.scale;
     const T = TEXT[style];
-    scene.add.rectangle(0, 0, W, H, 0x0b0906, 0.86).setOrigin(0);
+    if (style === 'cabinet') panelBackdrop(scene, 'office');
+    else scene.add.rectangle(0, 0, W, H, 0x0b0906, 0.86).setOrigin(0);      // (deskMat lays the table over it)
     const st = { page: 0, sel: null, hover: null };
     let pageSize, slot, pageOf;
     const L = layer(scene, 2), tabsL = layer(scene, 2.5), det = layer(scene, 2.2);
@@ -308,7 +323,7 @@ export function gridScreen(scene, style, spec) {
             return { x: SLOTS[k].x + (r() - 0.5) * 40, y: SLOTS[k].y + (r() - 0.5) * 30, w: 120, h: 120, a: (r() - 0.5) * 0.36 };
         };
         st.frame = { MAT };
-        if (spec.title) scene.add.text(MAT.x + MAT.w - 34, MAT.y + MAT.h - 30, spec.title, { fontFamily: SERIF, fontStyle: 'italic', fontSize: '15px', color: 'rgba(240,215,180,0.75)' }).setOrigin(1, 0.5).setDepth(1);
+        if (spec.title) scene.add.text(MAT.x + MAT.w - 34, MAT.y + MAT.h - 30, spec.title, { fontFamily: LOOK.apprentice.HAND, fontSize: '18px', color: 'rgba(240,215,180,0.7)', padding: { x: 3, y: 2 } }).setOrigin(1, 0.5).setDepth(1);
     }
     pageOf = () => spec.items().slice(st.page * pageSize, (st.page + 1) * pageSize);
     const pages = () => Math.max(1, Math.ceil(spec.items().length / pageSize));
@@ -376,7 +391,8 @@ export function gridScreen(scene, style, spec) {
                 const { CW, CH } = st.frame;
                 L.add(shadowOf(spec.icon(it, s.x + 3, s.y - 10 + 4, 1), up ? 0.55 : 0.4));
                 L.add(spec.icon(it, s.x, s.y - 10 - (up ? 4 : 0), 1));
-                L.add(scene.add.rectangle(s.x, s.y + 46, CW - 16, 18, 0xe9dfc4).setStrokeStyle(1, 0x8a7655));
+                const lab = Math.round(CW) === 116 && grime(scene, `label_office_${k % 3}`);     // a stained paper strip, pinned
+                L.add(lab ? scene.add.image(s.x, s.y + 46, lab).setScale(2) : scene.add.rectangle(s.x, s.y + 46, CW - 16, 18, 0xe9dfc4).setStrokeStyle(1, 0x8a7655));
                 L.add(ellipsize(scene.add.text(s.x, s.y + 46, spec.name(it), T.label).setOrigin(0.5), CW - 22));
                 if (spec.price) {
                     const pt = L.add(scene.add.text(s.x + CW / 2 - 8, s.y - CH / 2 + 7, spec.price(it), { fontFamily: MONO, fontSize: '11px', color: spec.priceBad?.(it) ? '#ffb0a0' : '#2a1d08' }).setOrigin(1, 0).setDepth(1));

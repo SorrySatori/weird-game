@@ -83,6 +83,7 @@ for (const [i, s] of segs.entries()) {
         const y = `max(0,min(ih-ih/zoom,(${fx(cy0)}+${fx(cy1 - cy0)}*${p})*${UP}-ih/zoom/2))`;
         let chain = `[${idx}:v]trim=start_frame=${a}:end_frame=${a + frames},setpts=PTS-STARTPTS,` +
             `scale=${GW * UP}:${GH * UP}:flags=neighbor,` +
+
             `zoompan=z='${zoom}':x='${x}':y='${y}':d=1:s=${OW}x${OH}:fps=${FPS},setsar=1,format=yuv444p`;
         if (s.fadeIn) chain += `,fade=t=in:st=0:d=${s.fadeIn}`;
         graph.push(`${chain}[${label}b]`);
@@ -110,9 +111,20 @@ graph.push(`${chunks.map(c => `[${c}]`).join('')}concat=n=${chunks.length}:v=1:a
 
 graph.push(`[base]fade=t=out:st=${fx(END - FADE_OUT)}:d=${FADE_OUT},format=yuv420p[v]`);
 
-// ---- music ----
-const mi = addInput('-ss', String(MUSIC.start), '-t', fx(END), '-i', path.join(REPO, MUSIC.file));
-graph.push(`[${mi}:a]afade=t=in:st=0:d=${MUSIC.fadeIn},afade=t=out:st=${fx(END - MUSIC.fadeOut)}:d=${MUSIC.fadeOut}[a]`);
+// ---- music: one track, or a list of passages (a medley) mixed on the trailer's clock ----
+if (Array.isArray(MUSIC)) {
+    const parts = MUSIC.map((m, k) => {
+        const mi = addInput(...(m.loop ? ['-stream_loop', String(m.loop)] : []), '-ss', fx(m.from), '-t', fx(m.dur), '-i', path.join(REPO, m.file));
+        const ms = Math.round(m.at * 1000);
+        graph.push(`[${mi}:a]aresample=48000,aformat=channel_layouts=stereo,volume=${m.gain || 0}dB,` +
+            `afade=t=in:st=0:d=${m.fadeIn}:curve=${m.fadeInCurve || 'tri'},afade=t=out:st=${fx(m.dur - m.fadeOut)}:d=${m.fadeOut}:curve=${m.fadeOutCurve || 'tri'},adelay=${ms}|${ms}[m${k}]`);
+        return `[m${k}]`;
+    });
+    graph.push(`${parts.join('')}amix=inputs=${parts.length}:normalize=0:dropout_transition=0,alimiter=limit=0.891:attack=5:release=60:level=0,apad,atrim=end=${fx(END)}[a]`);
+} else {
+    const mi = addInput('-ss', String(MUSIC.start), '-t', fx(END), '-i', path.join(REPO, MUSIC.file));
+    graph.push(`[${mi}:a]afade=t=in:st=0:d=${MUSIC.fadeIn},afade=t=out:st=${fx(END - MUSIC.fadeOut)}:d=${MUSIC.fadeOut}[a]`);
+}
 
 const outFile = path.join(OUT, preview ? `preview-${cutName}.mp4` : cutFile);
 const scriptFile = path.join(OUT, `filter-${cutName}.txt`);

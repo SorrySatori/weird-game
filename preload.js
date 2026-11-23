@@ -223,6 +223,14 @@ try {
     // the end-of-demo card's "Wishlist on Steam" (utils/demo.js openStorePage); the URL is fixed in the main process
     openStore: () => ipcRenderer.send('app:openStore')
   });
+  // Save files on disk (electron-main.js "saves:*"; the folder Steam Cloud syncs). Synchronous like the rest of
+  // game-api.js; the saves are a few kB.
+  contextBridge.exposeInMainWorld('saveFiles', {
+    write: (slot, json) => ipcRenderer.sendSync('saves:write', slot, json),
+    read: (slot) => ipcRenderer.sendSync('saves:read', slot),
+    list: () => ipcRenderer.sendSync('saves:list'),
+    remove: (slot) => ipcRenderer.sendSync('saves:delete', slot)
+  });
 } catch (_) {
   // not running as an Electron preload script
 }

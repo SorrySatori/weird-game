@@ -31,7 +31,7 @@
  * text on the detail card, the empty text.
  */
 import { tex, rng, hash } from '../paperKit.js';
-import { LOOK, detailCard, markChosen, drawTabs, dragRails } from '../panelStyle.js';
+import { LOOK, detailCard, markChosen, drawTabs, dragRails, grime, panelBackdrop } from '../panelStyle.js';
 
 const MONO = 'Departure Mono', SERIF = 'Georgia';
 
@@ -287,6 +287,12 @@ function buildNotebook(scene, ctx) {
         area: { x: 18, y: 30, w: 214, h: 430 },
         railColor: L.MARK,
         backdrop() {
+            if (grime(scene, 'diary')) {                                  // the grubby old diary (tools/artgen/ui_grime.py)
+                panelBackdrop(scene, 'apprentice');
+                scene.add.image(0, 0, grime(scene, 'diary')).setOrigin(0).setScale(2).setDepth(0.5);
+                card = detailCard(scene, 'apprentice');
+                return;
+            }
             scene.add.image(0, 0, tex(scene, 'jn_nb_bg2', W, H, (c) => {
                 c.fillStyle = '#1b130d'; c.fillRect(0, 0, W, H);
                 const r = rng(4);
@@ -322,15 +328,15 @@ function buildNotebook(scene, ctx) {
         tabs(c, cats, cur) {
             // the open category written at the top of the left page, the sticky tabs down the notebook's left edge
             const head = cats.find(x => x.key === cur);
-            const h = add(c, scene.add.text(144, 34, head ? head.label : '', { ...T.title, fontSize: '38px' }));
+            const h = add(c, scene.add.text(144, 36, head ? head.label : '', { ...T.title, fontSize: '34px' }));
             add(c, scene.add.graphics().lineStyle(2, L.MARK, 0.8).lineBetween(142, h.y + h.height - 2, 142 + h.width + 24, h.y + h.height - 5));
             tabsVia(scene, 'apprentice', c, cats, cur, 8, 60, { vertical: true });
         },
         row(c, it, r, { sel, hov }) {
-            if (hov) add(c, scene.add.rectangle(r.x - 6, r.y + 5, r.w + 4, r.h - 8, 0xfff08a, 0.55).setOrigin(0));
-            const t = add(c, scene.add.text(r.x + 4, r.y + 16, it.title, { ...T.hand, fontSize: '23px', color: '#22407a' }).setOrigin(0, 0.5));
+            if (hov) add(c, scene.add.rectangle(r.x - 6, r.y + 5, r.w + 4, r.h - 8, 0x8a6a3a, 0.16).setOrigin(0));     // a grubby thumb
+            const t = add(c, scene.add.text(r.x + 4, r.y + 16, it.title, { ...T.hand, fontSize: '21px', color: '#1d150c' }).setOrigin(0, 0.5));
             ellipsize(t, r.w - 14);
-            ellipsize(add(c, scene.add.text(r.x + 6, r.y + 36, it.sub, { ...T.small, fontSize: '16px', color: it.kind === 'faction' ? L.LATER : '#5b6b85' }).setOrigin(0, 0.5)), r.w - 14);
+            ellipsize(add(c, scene.add.text(r.x + 6, r.y + 36, it.sub, { ...T.small, fontSize: '15px', color: it.kind === 'faction' ? L.LATER : '#6a5a44' }).setOrigin(0, 0.5)), r.w - 14);
             if (sel) add(c, markChosen(scene, 'apprentice', r.x + 4 + t.width / 2, r.y + 16, t.width + 12, 26));
         },
         detail(c, it, w) {
@@ -362,17 +368,17 @@ function buildNotebook(scene, ctx) {
             }
             return y;
         },
-        empty(c, text) { add(c, scene.add.text(148, 120, text, { ...T.hand, color: '#5b6b85', wordWrap: { width: 270 } })); },
+        empty(c, text) { add(c, scene.add.text(148, 120, text, { ...T.hand, color: '#6a5a44', wordWrap: { width: 270 } })); },
         heading(c, text, r) {
             // the strings are capitals: written by hand in sentence case
-            const t = add(c, scene.add.text(r.x, r.y + 18, text.charAt(0) + text.slice(1).toLowerCase(), { ...T.label, fontSize: '24px', color: '#8a3a2a' }).setOrigin(0, 0.5));
+            const t = add(c, scene.add.text(r.x, r.y + 18, text.charAt(0) + text.slice(1).toLowerCase(), { ...T.label, fontSize: '22px', color: '#7a2e22' }).setOrigin(0, 0.5));
             add(c, scene.add.graphics().lineStyle(1.5, L.MARK, 0.55).lineBetween(r.x + 4, r.y + 34, r.x + t.width - 6, r.y + 32));
         },
-        note(c, text, r) { add(c, scene.add.text(r.x + 4, r.y + 6, text, { ...T.small, color: '#5b6b85', wordWrap: { width: r.w - 10 } })); },
+        note(c, text, r) { add(c, scene.add.text(r.x + 4, r.y + 6, text, { ...T.small, color: '#6a5a44', wordWrap: { width: r.w - 10 } })); },
         pager(c, page, pages, turn) {
             // the page numbers at the bottom corners; "turn over" when there are more
-            add(c, scene.add.text(PG[0].x + 22, NB.y + NB.h - 26, String(page * 2 + 1), { ...T.small, color: '#7a8aa5' }).setOrigin(0.5));
-            add(c, scene.add.text(PG[1].x + PG[1].w - 22, NB.y + NB.h - 26, String(page * 2 + 2), { ...T.small, color: '#7a8aa5' }).setOrigin(0.5));
+            add(c, scene.add.text(PG[0].x + 22, NB.y + NB.h - 26, String(page * 2 + 1), { ...T.small, color: '#7a6a55' }).setOrigin(0.5));
+            add(c, scene.add.text(PG[1].x + PG[1].w - 22, NB.y + NB.h - 26, String(page * 2 + 2), { ...T.small, color: '#7a6a55' }).setOrigin(0.5));
             if (page > 0) add(c, scene.add.text(PG[0].x + 60, NB.y + NB.h - 26, `‹ ${S.turn.replace(' ›', '')}`, { ...T.small, color: L.MARK_CSS }).setOrigin(0, 0.5))
                 .setInteractive({ useHandCursor: true }).on('pointerdown', () => turn(-1));
             if (page < pages - 1) add(c, scene.add.text(PG[1].x + PG[1].w - 48, NB.y + NB.h - 26, S.turn, { ...T.small, color: L.MARK_CSS }).setOrigin(1, 0.5))

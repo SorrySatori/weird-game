@@ -1,0 +1,143 @@
+{
+  "_": "The noir release cut's narration (edit.js makeNoirCut, titles.py): the apprentice tells the case. Caption id -> text per language. A caption's time on screen follows its length (the longer of the two languages), so both cuts share one timing.",
+  "captions": {
+    "1a": {
+      "en": "In Upper Morkezela, time is measured by the digestions of a giant digestive tract they keep on display at the Townhall.",
+      "cs": "V Horní Morkezele se čas měří trávením obřího trávicího traktu, který tu mají vystavený na radnici."
+    },
+    "1b": {
+      "en": "This case was hard to swallow from the very first moment.",
+      "cs": "Tenhle případ mi ležel v žaludku od prvního okamžiku."
+    },
+    "2a": {
+      "en": "The Fungal Master handed me a case: find the Bishop.",
+      "cs": "Houbový Mistr mi zadal případ: najít Biskupku."
+    },
+    "2b": {
+      "en": "The fee, as always: experience.",
+      "cs": "Honorář jako vždycky. Zkušenosti."
+    },
+    "2c": {
+      "en": "You'll love it. It'll look great on your CV. Blah, blah, blah.",
+      "cs": "Bude tě to bavit. Dáš si to do cívíčka. A další kecy."
+    },
+    "3a": {
+      "en": "The cathedral guard wouldn't let me in. Said I'd better go look for the Bishop.",
+      "cs": "Strážce katedrály mě nepustil dál. Poradil mi, ať radši jdu hledat Biskupku."
+    },
+    "3b": {
+      "en": "That's why I came.",
+      "cs": "Kvůli ní jsem přišel."
+    },
+    "3c": {
+      "en": "Seriously, dude?",
+      "cs": "Jako vážně, kámo?"
+    },
+    "4a": {
+      "en": "I got chatting with the people in the queue at Shed 521. The clerk later said there were no people.",
+      "cs": "Ve frontě u Boudy 521 jsem se dal s lidmi do řeči. Úředník pak tvrdil, že tam žádní lidé nestáli."
+    },
+    "4b": {
+      "en": "Just the queue.",
+      "cs": "Jen fronta."
+    },
+    "5a": {
+      "en": "Ortolan, a board game designer, had his hands full.",
+      "cs": "Ortolan, návrhář deskovek, měl plné ruce práce."
+    },
+    "5b": {
+      "en": "So he applied for more.",
+      "cs": "Tak si zažádal o další."
+    },
+    "6a": {
+      "en": "Gnur offered me new lungs. I said no.",
+      "cs": "Gnur mi nabídl nové plíce. Odmítl jsem."
+    },
+    "6b": {
+      "en": "Then he took an interest in my old ones.",
+      "cs": "Pak se začal zajímat o ty staré."
+    },
+    "7a": {
+      "en": "Kloor's amber Oltrac lets you peek behind the veil of reality.",
+      "cs": "Jantarový Oltrac od Kloora prý dovolí nahlédnout za závoj skutečnosti."
+    },
+    "7b": {
+      "en": "I peeked.",
+      "cs": "Nahlédl jsem."
+    },
+    "7c": {
+      "en": "It's a mess back there.",
+      "cs": "Je tam bordel."
+    },
+    "8a": {
+      "en": "Zerren sold sounds sealed in glass.",
+      "cs": "Zerren prodávala zvuky zatavené ve skle."
+    },
+    "8b": {
+      "en": "I bought a squirrel that told me off. And I paid for it.",
+      "cs": "Koupil jsem si veverku, která mi vynadala. A ještě jsem za to zaplatil."
+    },
+    "9": {
+      "en": "Burning Bear Street was getting ready for the Burning Bear Festival.",
+      "cs": "Ulice Hořícího Medvěda se chystala na Festival pálení medvědů."
+    },
+    "10a": {
+      "en": "Edgar at the Screaming Cork is fairly bear-like.",
+      "cs": "Edgar ze Řvoucího korku je dost medvědovitý."
+    },
+    "10b": {
+      "en": "Lately he doesn't get out much.",
+      "cs": "Poslední dobou moc nevychází."
+    },
+    "11a": {
+      "en": "The God of Noise came here to die.",
+      "cs": "Bůh hluku sem kdysi přišel umřít."
+    },
+    "11b": {
+      "en": "The band Feral Toast won't let him rest in peace.",
+      "cs": "Kapela Feral Toast ho nenechává odpočívat v pokoji."
+    },
+    "12a": {
+      "en": "The only sane resident of this city…",
+      "cs": "Zdá se, že jediný příčetný obyvatel tohoto města…"
+    },
+    "12b": {
+      "en": "…seems to be the elevator.",
+      "cs": "…je výtah."
+    },
+    "13a": {
+      "en": "Every detective needs a partner.",
+      "cs": "Každý detektiv potřebuje parťáka."
+    },
+    "13b": {
+      "en": "Mine lives in my head, calls me boss and grows mushrooms in my eye socket.",
+      "cs": "Ten můj mi bydlí v hlavě, říká mi šéfe a v očním důlku si pěstuje houby."
+    },
+    "14a": {
+      "en": "Think no wicked thoughts, and you shall do no wicked deeds.",
+      "cs": "Nebudeš-li mít špatné myšlenky, nebudeš ani konat špatné skutky."
+    },
+    "14b": {
+      "en": "Mind you, wicked deeds are way more fun.",
+      "cs": "Nicméně se špatnými skutky si člověk užije víc srandy."
+    },
+    "15a": {
+      "en": "I haven't found the Bishop yet.",
+      "cs": "Biskupku jsem zatím nenašel."
+    },
+    "15b": {
+      "en": "But I've got a lead, a partner in my head and a squirrel that tells me off.",
+      "cs": "Mám ale stopu, parťáka v hlavě a veverku, co nadává."
+    },
+    "15c": {
+      "en": "Not a bad start.",
+      "cs": "Na začátek dobrý."
+    }
+  },
+  "cards": {
+    "cta": {
+      "en": ["FREE DEMO", "OUT NOW ON STEAM"],
+      "cs": ["DEMO ZDARMA", "NA STEAMU"]
+    }
+  }
+}

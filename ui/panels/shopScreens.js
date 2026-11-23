@@ -27,7 +27,7 @@
  * paper 2, items 3, detail texts 4, ui 5, the cursor zones 9.
  */
 import { tex, rng, fitHeight, SERIF, MONO } from '../paperKit.js';
-import { LOOK, detailCard, markChosen, drawTabs } from '../panelStyle.js';
+import { LOOK, detailCard, markChosen, drawTabs, grime, scrapTex } from '../panelStyle.js';
 
 const tr = (ctx, cs, en) => (ctx.lang === 'cs' ? cs : en);
 
@@ -187,6 +187,11 @@ function buildStall(scene, ctx) {
         pageSize: 12, cols: 4,
         moneyText: (api, m) => ctx.strings.balance(m),
         backdrop() {
+            if (grime(scene, 'stall')) {                                  // the rotting stall (tools/artgen/ui_grime.py)
+                scene.add.image(0, 0, grime(scene, 'stall')).setOrigin(0).setScale(2).setDepth(1);
+                card = detailCard(scene, 'apprentice');
+                return;
+            }
             scene.add.image(0, 0, tex(scene, 'sh_stall_bg2', W, H, (c) => {
                 const g = c.createLinearGradient(0, 0, 0, H);
                 g.addColorStop(0, '#1d1814'); g.addColorStop(1, '#0c0907');
@@ -252,8 +257,9 @@ function buildStall(scene, ctx) {
                 // the handwritten price tag on a string under the shelf
                 const bad = api.bad(it), tx = x + 22;
                 api.add('items', scene.add.line(0, 0, tx, sy + 12, tx, sy + 22, 0xd8c8a0).setOrigin(0));
-                const pt = scene.add.text(tx, sy + 32, `${ctx.price(it)}`, { ...T.label, fontSize: '19px', color: bad ? '#fff0e6' : LK.INK }).setOrigin(0.5).setRotation(0.06);
-                api.add('items', scene.add.rectangle(tx, sy + 32, Math.max(36, pt.width + 14), 21, bad ? LK.MARK : 0xe6d6b0).setStrokeStyle(1, 0x6a5030).setRotation(0.06));
+                const pt = scene.add.text(tx, sy + 32, `${ctx.price(it)}`, { ...T.label, fontSize: '18px', color: bad ? '#fff0e6' : LK.INK, padding: { x: 2, y: 2 } }).setOrigin(0.5);
+                const tw = Math.ceil(Math.max(36, pt.width + 14) / 2) * 2;      // a torn scrap of a tag (pixel art)
+                api.add('items', scene.add.image(tx, sy + 32, scrapTex(scene, tw, 22, 0, 30 + k, 1)).setScale(2).setTint(bad ? 0xc06050 : 0xffffff));
                 api.add('items', scene.add.circle(tx, sy + 24, 1.8, 0x3a2a1a));
                 api.add('items', pt);
                 api.hit('item', x, sy - 40, 148, 104, { it });
@@ -273,7 +279,7 @@ function buildStall(scene, ctx) {
 
             // the chalk price board
             const it = api.shown(), bcx = BOARD.x + BOARD.w / 2;
-            const chalk = (y, s, style) => api.add('detail', scene.add.text(bcx, y, s, { fontFamily: 'Caveat', fontSize: '20px', color: '#e8eee6', ...style }).setOrigin(0.5));
+            const chalk = (y, s, style) => api.add('detail', scene.add.text(bcx, y, s, { fontFamily: 'Mansalva', fontSize: '19px', color: '#e8eee6', ...style }).setOrigin(0.5));
             chalk(BOARD.y + 26, tr(ctx, api.isBuy() ? 'cena' : 'dáme ti', api.isBuy() ? 'price' : 'we pay'), { color: '#cfd8cf' });
             if (it) {
                 const bad = api.bad(it);

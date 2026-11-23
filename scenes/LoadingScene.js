@@ -1,6 +1,7 @@
 import { ITEM_ICONS } from '../utils/itemIcons.js';
 import { preloadRecordings } from '../utils/Recordings.js';
 import { UI_FONT, UI_SIZE } from '../utils/pixelFrame.js';
+import { GRIME_FILES } from '../ui/panelStyle.js';
 
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
@@ -13,6 +14,11 @@ export default class LoadingScene extends Phaser.Scene {
         this.load.font('Departure Mono', 'assets/fonts/DepartureMono-Regular.otf', 'opentype');
         // the apprentice's handwriting in the panels (ui/panelStyle.js; Caveat, OFL: assets/fonts/Caveat-OFL.txt)
         this.load.font('Caveat', 'assets/fonts/Caveat.ttf', 'truetype', { weight: '400 700' });
+        // the apprentice's grubby hand (Mynerve), spray paint on the quest plate (Sedgwick Ave Display), a paint marker
+        // (Mansalva); OFL: assets/fonts/*-OFL.txt
+        this.load.font('Mynerve', 'assets/fonts/Mynerve-Regular.ttf', 'truetype');
+        this.load.font('Sedgwick Ave Display', 'assets/fonts/SedgwickAveDisplay-Regular.ttf', 'truetype');
+        this.load.font('Mansalva', 'assets/fonts/Mansalva-Regular.ttf', 'truetype');
 
         // Load the Tempurra logo
         this.load.image('tempurraLogo', 'assets/images/ui/TempurraLogo.png');
@@ -33,6 +39,9 @@ export default class LoadingScene extends Phaser.Scene {
         // Oltrac drug-trip overlays (systems/EffectsSystem.js). Own *Fx keys: the item icons above own
         // grayOltrac / violetOltrac / amberOltrac, and the drug can be taken in any scene.
         ['gray', 'violet', 'amber'].forEach(c => this.load.image(`${c}OltracFx`, `assets/images/effects/${c}Oltrac.png`));
+
+        // The panels' weathered pixel art (tools/artgen/ui_grime.py; ui/panelStyle.js GRIME), shown at 2x
+        GRIME_FILES.forEach(n => this.load.image(`uiGrime_${n}`, `assets/images/ui/grime/${n}.png`));
 
         // Voxmarket sound ampules — playable from the inventory in any scene.
         preloadRecordings(this);

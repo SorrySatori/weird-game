@@ -13,6 +13,8 @@ node tools/trailer/build.mjs --preview   # quick 540p check → out/preview-stor
 node tools/trailer/build.mjs             # story cut → out/upper-morkezela-demo-trailer.mp4 (1080p60, H.264 20 Mbps + AAC, Steam spec)
 node tools/trailer/build.mjs --cut gameplay   # "10 tips for visiting Upper Morkezela" to Dr. Elphi's Lab → out/upper-morkezela-demo-trailer-gameplay.mp4
 node tools/trailer/gifs.mjs              # Steam description GIFs (616 px, textless, each < 5 MB) → out/gifs/
+node tools/trailer/build.mjs --cut noir      # the demo release trailer, a noir case told in captions → out/upper-morkezela-demo-noir.mp4
+node tools/trailer/build.mjs --cut noir_cs   # the same with Czech captions → out/upper-morkezela-demo-noir-czech.mp4
 ```
 
 `out/` is git-ignored.
@@ -36,3 +38,5 @@ node tools/trailer/gifs.mjs              # Steam description GIFs (616 px, textl
 - Gameplay shots (`g_*`) drive the real UI with a drawn cursor: `makeCursor()` dispatches DOM mouse events on the canvas, so hovers, dialog options, the shop, the inventory and click-to-walk behave as for a player. `script([[t, fn]])` times the steps. `toText()` and `toSprite()` find their target at run time (case-insensitive, inside containers), and `toSprite()` follows NPCs that walk.
 - `g_journal` is captured last, so the journal holds the real entries the other gameplay shots wrote. `after(ctx)` hooks undo state that would leak into later shots (Thorne-Still, the Oltrac effect).
 - The VS Code terminal exports `ELECTRON_RUN_AS_NODE`; `capture.sh` clears it.
+- The noir cut (the demo release): the apprentice tells the case like a tired noir detective, one dry joke per place. The narration lives in `noir.json` (EN + CZ; a no-break space keeps names like "Shed 521" on one line); `titles.py` renders it as subtitles with a soft dark pad, `edit.js` (`makeNoirCut`) gives each caption the time its longer language needs, puts the punchline after a beat and every cut on an attack of "Les" (guitar-les.mp3). The shots `nr_*` have no speech bubbles, so one capture serves both languages; It opens on the city (a long take, the camera easing back from the skyline). All its text is in one typewriter face, in capitals (`fonts/SpecialElite-Regular.ttf`, Apache 2.0; `NOIR_FONT` in titles.py). Music: "Les" under the case, a fade in the quiet tavern, the Feral Toast rehearsal on the band's punchline with a dead stop on the next cut, a moment of silence, then "Les" again, timed so the logo and the end card land on its last accents.
+- Python 3 for `onsets.py`: `python3 tools/trailer/onsets.py <track> <from> <to>` lists a recording's strong attacks (live takes without a fixed tempo).

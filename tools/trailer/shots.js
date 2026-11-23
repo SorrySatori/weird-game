@@ -248,6 +248,97 @@ export const SHOTS = [
     { id: 'courtyard', scene: 'ShedCourtyard', duration: 2.2, hud: 'hide' },
 ];
 
+// ---- the noir release cut (edit.js 'noir' / 'noir_cs'): the apprentice tells it in captions, so the shots have no speech
+// bubbles and the HUD is off, and one capture serves both languages. Long takes: the captions set the pace. ----
+
+SHOTS.push(
+    {
+        // the city a while on its own (edit.js eases back from the skyline), then the apprentice walks up to the Master
+        id: 'nr_city', scene: 'EntryScene', duration: 19,
+        setup(ctx) { place(ctx, 60); ctx.scene.priest.initialX = 60; ctx.scene.priest.play('idle', true); },
+        update(ctx) { if (ctx.frame === Math.round(5 * ctx.fps)) walk(ctx, 470, 18); },
+        hud: 'hide',
+    },
+    {
+        // the Master gives the case and heads off, still talking (the captions do the talking)
+        id: 'nr_thaal', scene: 'EntryScene', duration: 15,
+        setup(ctx) {
+            const s = ctx.scene;
+            s.tweens.killTweensOf(s.playerMovementSystem?.priestGlow ? [s.priest, s.playerMovementSystem.priestGlow] : s.priest);
+            place(ctx, 470); s.priest.setScale(1, 1); s.priest.play('idle', true);
+            s.priest.initialX = 470;
+        },
+        hud: 'hide',
+        update(ctx) { if (ctx.frame === Math.round(8.2 * ctx.fps)) ctx.scene.masterWalkAway(); },
+    },
+    { id: 'nr_sentinel', scene: 'CathedralEntrance', duration: 13, setup(ctx) { place(ctx, 180); walk(ctx, 330, 9); }, hud: 'hide' },
+    // along the queue, slowly
+    { id: 'nr_queue', scene: 'ShedRegistrationScene', duration: 14, setup(ctx) { place(ctx, 110); walk(ctx, 430, 16); }, hud: 'hide' },
+    { id: 'nr_ortolan', scene: 'ShedCourtyard', duration: 10, setup(ctx) { place(ctx, 420); }, hud: 'hide' },
+    {
+        id: 'nr_gnur', scene: 'Shed521Scene', duration: 10,
+        before(game) { setGrowth(game, 50); },
+        setup(ctx) {
+            const s = ctx.scene;
+            s.tweens.killTweensOf(s.gnur);
+            s.gnur.setPosition(470, 534).setFlipX(true).play('gnur_idle');
+            place(ctx, 330);
+        },
+        hud: 'hide',
+    },
+    { id: 'nr_kloor', scene: 'VoxMarket', duration: 9, setup(ctx) { place(ctx, 470); }, hud: 'hide' },
+    {
+        // behind the veil: the amber Oltrac takes hold
+        id: 'nr_oltrac', scene: 'ShedCourtyard', duration: 8, hud: 'hide',
+        setup(ctx) {
+            const fx = ctx.scene.effectsSystem;
+            ctx.keep.add(fx.effectsContainer);          // depth 5000, would otherwise go with the HUD
+            fx.startPsychedelicComments = () => {};     // the comments are text
+            place(ctx, 330);
+        },
+        update: script([[0.3, (c, ctx) => ctx.scene.effectsSystem.applyDrugEffect({ ...AMBER_OLTRAC })]]),
+        after(ctx) { ctx.scene.effectsSystem?.clearEffects(true); },
+    },
+    { id: 'nr_zerren', scene: 'VoxmarketMarketScene', duration: 12, setup(ctx) { place(ctx, 400); }, hud: 'hide' },
+    { id: 'nr_bears', scene: 'BurningBearStreetScene', duration: 9, setup(ctx) { place(ctx, 820); walk(ctx, 560, 10); }, hud: 'hide' },
+    { id: 'nr_edgar', scene: 'ScreamingCorkScene', duration: 10, setup(ctx) { place(ctx, 640); }, hud: 'hide' },
+    // the quiet tavern, then the band next door
+    { id: 'nr_corkin', scene: 'ScreamingCorkInteriorScene', duration: 8, setup(ctx) { place(ctx, 260); }, hud: 'hide' },
+    {
+        id: 'nr_feral', scene: 'ScreamingCorkClubScene', duration: 9,
+        async setup(ctx, { frame }) {
+            const s = ctx.scene;
+            await frame(false); // create()'s delayedCalls are only pending until the clock's next update
+            s.time.removeAllEvents(); // the welcome dialog
+            s.startPerformance();
+            s.priest?.setVisible(false);
+            s.playerMovementSystem?.priestGlow?.setVisible(false);
+        },
+        hud: 'hide',
+    },
+    {
+        id: 'nr_lift', scene: 'ScraperInteriorScene', duration: 10,
+        before(game) { setGrowth(game, 50); },
+        setup(ctx) { place(ctx, 200); walk(ctx, 380, 9); },
+        hud: 'hide',
+    },
+    {
+        // up to the corpse at the Crossroad, where the partner came from
+        id: 'nr_corpse', scene: 'CrossroadScene', duration: 12,
+        before(game) { setGrowth(game, 50); },
+        setup(ctx) { place(ctx, 90); walk(ctx, ctx.scene.corpseX - 110, 10); },
+        hud: 'hide',
+    },
+    { id: 'nr_growth', scene: 'Shed521Scene', duration: 9, before(game) { setGrowth(game, 100); }, setup(ctx) { place(ctx, 300); }, hud: 'hide' },
+    { id: 'nr_decay', scene: 'Shed521Scene', duration: 9, before(game) { setGrowth(game, 0); }, setup(ctx) { place(ctx, 300); }, hud: 'hide' },
+    {
+        id: 'nr_sky', scene: 'SkyshipBoardScene', duration: 13,
+        before(game) { setGrowth(game, 50); },
+        setup(ctx) { place(ctx, 260); walk(ctx, 430, 12); },
+        hud: 'hide',
+    },
+);
+
 // ---- Steam screenshots ----
 // Bubble lines come verbatim from the game's own dialogs (lang/cs/dialogs for Czech), trimmed the same way.
 const L = (byLang) => byLang[window.__cap?.args?.lang] ?? byLang.en;

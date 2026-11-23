@@ -27,7 +27,7 @@
  * ← / → or Tab the tabs, PgUp / PgDn the text; the wheel scrolls whatever it's over.
  */
 import { tex, rng, hash, put } from '../paperKit.js';
-import { LOOK, detailCard, markChosen, drawTabs, dragRails } from '../panelStyle.js';
+import { LOOK, detailCard, markChosen, drawTabs, dragRails, grime } from '../panelStyle.js';
 
 const MONO = 'Departure Mono', BEBAS = 'Bebas Neue';
 
@@ -236,7 +236,93 @@ const tabsOf = (scene, set, ctx, x, y) => (layer, switchTab) => drawTabs(scene, 
 // ---------------------------------------------------------------------------------------------------------------
 // the apprentice: Nástěnka, a corkboard of errand slips
 
+/** spray paint colours on the rusty plate, and how a sprayed word looks: soft overspray round a dark-edged core */
+const SPRAY = ['#ece6d3', '#e0533a', '#e8b83a', '#79c35e', '#5fb7c9', '#e27aa6'];
+const sprayStyle = (color, size) => ({ fontFamily: 'Sedgwick Ave Display', fontSize: `${size}px`, color, stroke: '#140d08', strokeThickness: 2,
+    shadow: { offsetX: 0, offsetY: 0, color, blur: 7, fill: true, stroke: false }, padding: { x: 6, y: 4 } });
+const markerStyle = (size, color = '#ddd6c2') => ({ fontFamily: 'Mansalva', fontSize: `${size}px`, color, stroke: '#140d08', strokeThickness: 3, padding: { x: 3, y: 2 } });
+
+/** a sprayed ring round a box: a rough loop, a softer overspray loop and a drip */
+function sprayRing(scene, cx, cy, w, h, color, seed, alpha = 1) {
+    const g = scene.add.graphics(), r = rng(seed), col = Phaser.Display.Color.HexStringToColor(color).color;
+    const loop = (lw, a, jit) => {
+        g.lineStyle(lw, col, a).beginPath();
+        for (let i = 0; i <= 64; i++) {
+            const t = i / 58 * Math.PI * 2 - 0.4, j = 1 + (r() - 0.5) * jit;
+            const x = cx + Math.cos(t) * w / 2 * j, y = cy + Math.sin(t) * h / 2 * j;
+            if (i) g.lineTo(x, y); else g.moveTo(x, y);
+        }
+        g.strokePath();
+    };
+    loop(12, 0.12 * alpha, 0.05); loop(5, 0.8 * alpha, 0.04);
+    g.fillStyle(col, 0.7 * alpha).fillRect(cx + w * 0.3, cy + h / 2 - 2, 2, 10 + r() * 14);
+    return g;
+}
+
+function buildPlate(scene, ctx) {
+    const { W, H } = ctx, w = words(ctx), A = LOOK.apprentice, T = A.text;
+    scene.add.image(0, 0, grime(scene, 'plate')).setOrigin(0).setScale(2).setDepth(0);
+    const card = detailCard(scene, 'apprentice');                    // the note, nailed to the plate
+    return questScreen(scene, ctx, {
+        list: { x: 40, y: 78, w: 716, h: 486, rowH: 160, cols: 3, gapX: 12, maskPad: 16, railGap: 6 },
+        card,
+        text: { x: 20, y: 28, w: card.w - 38, h: card.h - 50 },
+        rail: 0xddd6c2,
+        tabs: tabsOf(scene, 'apprentice', ctx, 44, 34),
+        row: (c, q, b, { on, hov }) => {
+            const r = rng(hash(q.key));
+            const color = q.done ? '#8f8a7a' : SPRAY[Math.floor(r() * SPRAY.length)];
+            const rot = (r() - 0.5) * 0.08, x0 = b.x + 12, y0 = b.y + 12;
+            const title = put(c, scene.add.text(x0, y0, q.title, { ...sprayStyle(color, 24), wordWrap: { width: b.w - 26 }, maxLines: 2 }).setRotation(rot));
+            title.setAlpha(hov || on ? 1 : 0.9);
+            const sub = put(c, scene.add.text(x0 + 4, y0 + title.height + 2, latest(q), { ...markerStyle(15), wordWrap: { width: b.w - (q.demo ? 48 : 30) }, maxLines: 2 }).setRotation(rot * 0.6));
+            if (q.done) {                                                // sprayed over: a strike and a tag
+                const g = put(c, scene.add.graphics());
+                g.lineStyle(4, 0x79c35e, 0.85).lineBetween(x0 - 2, y0 + 18, x0 + Math.min(b.w - 30, title.width), y0 + 14 + (r() - 0.5) * 6);
+                put(c, scene.add.text(b.x + b.w - 20, b.y + b.h - 18, w('HOTOVO', 'DONE'), sprayStyle('#79c35e', 22)).setOrigin(1, 1).setRotation(-0.18));
+            }
+            if (q.demo) cone(scene, c, b.x + b.w - 22, b.y + b.h - 14, 22);
+            if (on) put(c, sprayRing(scene, b.x + b.w / 2, b.y + b.h / 2 - 4, b.w - 4, b.h - 10, '#e0533a', hash(q.key) + 7));
+            else if (hov) put(c, sprayRing(scene, b.x + b.w / 2, b.y + b.h / 2 - 4, b.w - 4, b.h - 10, '#ece6d3', hash(q.key) + 7, 0.35));
+            void sub;
+        },
+        detailOf: (c, q, dw) => {
+            let y = 0;
+            const t = put(c, scene.add.text(0, y, q.title, { ...T.title, wordWrap: { width: dw } }));
+            y += t.height + 2;
+            put(c, scene.add.graphics().lineStyle(1.5, 0x8a3a2a, 0.7).lineBetween(0, y + 2, dw - 6, y));
+            y += 8;
+            if (q.done) {
+                put(c, scene.add.image(dw - 54, y + 20, stampTex(scene, w('SPLNĚNO', 'DONE'), '#2f7a3a', 108, 42, 5)).setRotation(-0.18));
+                y += 44;
+            }
+            const d = put(c, scene.add.text(0, y, q.description, { ...T.body, wordWrap: { width: dw } }));
+            y += d.height + 12;
+            if (q.demo) {
+                const n = put(c, scene.add.text(30, y, ctx.strings.demoNote, { ...T.body, color: '#b8601a', wordWrap: { width: dw - 32 } }));
+                cone(scene, c, 12, y + Math.max(24, n.height), 24);
+                y += Math.max(28, n.height) + 12;
+            }
+            if (q.updates.length) {
+                put(c, scene.add.text(0, y, progressLabel(ctx), { ...T.small, color: '#8a3a2a' }));
+                y += 24;
+                q.updates.forEach((u, i) => {
+                    const last = i === q.updates.length - 1 && !q.done;
+                    const line = scene.add.text(14, y, u, { ...T.later, wordWrap: { width: dw - 16 } });
+                    if (last) put(c, scene.add.rectangle(10, y + 3, Math.min(dw - 10, line.width + 8), line.height - 2, 0xd8c060, 0.35).setOrigin(0));
+                    put(c, scene.add.text(0, y, '•', { ...T.later }));
+                    put(c, line);
+                    y += line.height + 2;
+                });
+            }
+            return y + 6;
+        },
+        empty: (c, text) => put(c, scene.add.text(40 + 358, 220, text, { ...sprayStyle('#ece6d3', 30), align: 'center', wordWrap: { width: 460 } }).setOrigin(0.5).setRotation(-0.04))
+    });
+}
+
 function buildBoard(scene, ctx) {
+    if (grime(scene, 'plate')) return buildPlate(scene, ctx);
     const { W, H } = ctx, w = words(ctx), A = LOOK.apprentice, T = A.text;
     const SLIPS = ['#f3e9c8', '#f2cdc2', '#f3e39a', '#d3e8c9', '#cfe0ef', '#e7d6ee'];
     const PINS = [0xc0392b, 0x2e6fb0, 0x2f8a4a, 0xd4a017, 0x8e44ad];

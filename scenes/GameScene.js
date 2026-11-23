@@ -25,14 +25,16 @@ import { createHudButton, preloadHudButtons } from '../utils/hudButton.js';
 import { preloadMenuKit } from '../utils/menuKit.js';
 import SceneTransitionManager from '../utils/SceneTransitionManager.js';
 import { isDemoClosed, preloadDemoCones, sayDemoClosed } from '../utils/demo.js';
+import { DEMO_BUILD } from '../config/build.js';
 import { pixelEllipseTexture } from '../utils/pixelGrid.js';
 import { autoHoverAura } from '../utils/hoverAura.js';
 import { trackCharacterSheets } from '../utils/characterSheets.js';
 import { applySceneLight } from '../utils/sceneLight.js';
 import { drawPixelFrame, drawPixelTail, pixelPlate, snap, UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
-/** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Set to false for release. */
-const DEBUG_GD_KEYS = true;
+/** TEST ONLY: F7/F8/F9 force full Growth / full Decay / balanced and restart the scene. Off in the demo; set to false
+ *  for the full game's release too. */
+const DEBUG_GD_KEYS = !DEMO_BUILD;
 
 /** What the hint lantern costs: it outlines everything clickable in the scene until the player leaves it. */
 const HINT_COST = 5;
