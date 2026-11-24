@@ -915,12 +915,62 @@ def mycelium(w, h, rnd, starts, n=60, k=1.0):
     return m
 
 
+def colonies(w, h, rnd, centres, k=1.0, size=(8, 20)):
+    """mycelium as mould colonies: soft cottony patches, each many faint curling hyphae spreading from its middle,
+    summed so they build up into fuzz (dense in the middle, wispy at the rim): an L mask. Reads as something
+    growing, not as a spark or a bolt."""
+    m = Image.new('L', (w, h), 0)
+    for cx, cy, *_ in centres:
+        R = rnd.uniform(*size) * k
+        t = Image.new('L', (w, h), 0)
+        d = ImageDraw.Draw(t)
+        for _ in range(int(R / k * 2.2)):
+            a = rnd.uniform(0, 2 * math.pi)
+            r0 = rnd.uniform(0, R * 0.3)
+            x, y = cx + math.cos(a) * r0, cy + math.sin(a) * r0
+            turn, v = 0.0, rnd.randint(40, 85)
+            steps = int(rnd.uniform(0.5, 1.0) * R / (1.2 * k))
+            for i in range(steps):
+                turn = turn * 0.75 + (rnd.random() - 0.5) * 0.8
+                a += turn * 0.5
+                nx, ny = x + math.cos(a) * 1.2 * k, y + math.sin(a) * 1.2 * k
+                d.line([(x, y), (nx, ny)], fill=round(v * (1 - i / steps) ** 0.6), width=max(1, round(0.7 * k)))
+                x, y = nx, ny
+        core = Image.new('L', (w, h), 0)                    # the felted middle
+        ImageDraw.Draw(core).ellipse([cx - R * 0.35, cy - R * 0.3, cx + R * 0.35, cy + R * 0.3], fill=70)
+        m = ImageChops.add(m, ImageChops.add(t, core.filter(ImageFilter.GaussianBlur(R * 0.25))))
+    return m
+
+
+def along_cracks(paths, dx=0, dy=0, every=2):
+    """points along the cracks (x, y, the crack's direction there): where colonies() can take hold"""
+    out = []
+    for pts in paths:
+        for i in range(0, len(pts) - 1, every):
+            (x0, y0), (x1, y1) = pts[i], pts[i + 1]
+            out.append((x0 + dx, y0 + dy, math.atan2(y1 - y0, x1 - x0)))
+    return out
+
+
+def panel_edges(w, h, side=20, foot=64, fade=26):
+    """an L mask: the panel's left and right edges and its foot (the rows of text keep clear of the glow)"""
+    c = lambda v: max(0.0, min(1.0, v))
+    sides = hgrad(w, h, lambda t: max(c((side + fade - t * w) / fade), c((t * w - (w - side - fade)) / fade)))
+    return ImageChops.lighter(sides, vgrad(w, h, [(0, 0), ((h - foot - fade) / h, 0), ((h - foot) / h, 255), (1, 255)]))
+
+
 def jungle_band(w, h, seed, panel=False):
     rnd = random.Random(seed)
     img, paths = concrete(w, h, seed, cracks=6 if not panel else 8, moss=0.4)
     img = mul(img, vgrad(w, h, [(0, 190), (0.5, 175), (1, 80)]))
     starts = [p for pts in paths for p in pts[::4]]
-    myc = mycelium(w, h, rnd, starts, 70 if not panel else 100)
+    if panel:                                                 # tufts along the edges and the foot only
+        edges = panel_edges(w, h)
+        seeds = [(rnd.uniform(0, 12), rnd.uniform(20, h)) for _ in range(9)] + [(w - rnd.uniform(0, 12), rnd.uniform(20, h)) for _ in range(9)]
+        seeds += [(rnd.uniform(0, w), h - rnd.uniform(0, 40)) for _ in range(10)]
+        myc = ImageChops.multiply(colonies(w, h, rnd, seeds, size=(7, 15)), edges)
+    else:
+        myc = mycelium(w, h, rnd, starts, 70)
     over = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     ivy_curtain(over, rnd, w, 0, 26 if not panel else 40, 260)
     d = ImageDraw.Draw(over)
@@ -981,10 +1031,30 @@ def jungle_slab(seed):
     return rgba(img, a), Image.merge('RGBA', (Image.new('L', (w, h), 255),) * 3 + (ImageChops.multiply(myc, a),))
 
 
-def jungle_title(k=1.0, subtitle='A WEIRD GAME', demo=False):
+def jungle_ivy_end(seed, w=84, h=PLATE_H + 18):
+    """ivy grown over the left end of an entry's slab (a disabled entry: nobody has been this way); mirror it for the
+    right end. The slab sits centred in it, 9 px of room above and below for the leaves that spill over."""
+    rnd = random.Random(seed)
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for _ in range(7):                                        # stems creeping in from the end, thinning out
+        y0 = rnd.uniform(6, h - 6)
+        pts = snake(rnd, rnd.uniform(-4, 4), y0, rnd.uniform(-0.5, 0.5), rnd.randint(14, 34), 2.0, 0.14)
+        d.line(pts, fill=(30, 36, 20, 255), width=1)
+        for i, (x, y) in enumerate(pts):
+            if i % 2 == 0 and rnd.random() < 1.1 - x / w:       # dense at the end, sparse further in
+                ivy_leaf(d, x + rnd.uniform(-2, 2), y + rnd.uniform(-2, 2), rnd.uniform(6, 10), rnd.uniform(0, math.pi * 2),
+                         IVY[rnd.randrange(len(IVY))] + (255,))
+    sh = Image.new('RGBA', (w, h), (0, 0, 0, 0))                # a soft shadow under the leaves, on the slab
+    sh.putalpha(img.getchannel('A').filter(ImageFilter.GaussianBlur(2)).point(lambda v: v * 0.6))
+    return Image.alpha_composite(ImageChops.offset(sh, 1, 2), img)
+
+
+def jungle_title(k=1.0, subtitle='A WEIRD GAME', demo=False, live=False):
     """MORKEZELA as old shop-sign letters (Bungee) painted on a broken concrete lintel, peeling; UPPER glowing mint;
-    mycelium glowing out of the cracks, ivy over the top; the subtitle stencilled on its foot. k = px per menu px
-    (the menu draws it at 1, the store art bigger); demo: a small concrete plate with DEMO hanging under it."""
+    mycelium in fuzzy tufts along the cracks, ivy over the top; the subtitle stencilled on its foot. k = px per menu
+    px (the menu draws it at 1, the store art bigger); demo: a small concrete plate with DEMO hanging under it.
+    live (the menu): the mycelium baked in dimly, returned as a mask too (img, myc) for the menu to make it breathe."""
     K = lambda v: max(1, round(v * k))
     below = 46 if demo else 0
     w, h = round(TITLE_W * k), round((TITLE_H + below) * k)
@@ -1017,14 +1087,16 @@ def jungle_title(k=1.0, subtitle='A WEIRD GAME', demo=False):
     mu = text_mask((w, h), (w / 2, ly + 22 * k), 'UPPER', fu, spacing=11 * k)
     img.paste(MINT, (0, 0), mu)
     img = Image.alpha_composite(img, glow(mu, MINT, 3 * k, 0.5))
-    # mycelium glowing over the lintel, out of its cracks
-    starts = [(lx + x, ly + y) for pts in paths for x, y in pts[::3]]
-    myc = mycelium(w, h, rnd, starts, 40, k)
+    # mycelium in fuzzy tufts along the lintel's cracks, faint over the letters
+    seeds = along_cracks(paths, lx, ly, 3)
+    myc = colonies(w, h, rnd, [seeds[rnd.randrange(len(seeds))] for _ in range(16)], k)
     on_slab = Image.new('L', (w, h), 0)                                     # (the threads stay on the concrete)
     on_slab.paste(a, (lx, ly))
-    myc = ImageChops.multiply(myc, on_slab.filter(ImageFilter.MaxFilter(2 * K(3) + 1)))
-    img = Image.alpha_composite(img, glow(myc, MINT, 2.5 * k, 1.6))
-    img.paste((200, 255, 222), (0, 0), myc.point(lambda v: v * 0.7))
+    myc = ImageChops.multiply(myc, on_slab.filter(ImageFilter.MinFilter(2 * K(2) + 1)))
+    myc = ImageChops.multiply(myc, ImageChops.invert(m.filter(ImageFilter.MaxFilter(2 * K(2) + 1)).point(lambda v: v * 0.75)))
+    img = Image.alpha_composite(img, glow(myc, MINT, 5 * k, 0.9 if live else 1.4))    # a soft bloom round the mat
+    img = Image.alpha_composite(img, glow(myc, MINT, 1.5 * k, 0.5 if live else 0.8))
+    img.paste((180, 250, 210), (0, 0), myc.point(lambda v: v * (0.25 if live else 0.45)))
     # ivy over the top edge, hanging over the letters at the left and right
     over = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     ivy_curtain(over, rnd, w, ly + 2 * k, 7, 70, (lx, lx + 90 * k), k)
@@ -1055,7 +1127,7 @@ def jungle_title(k=1.0, subtitle='A WEIRD GAME', demo=False):
         dm = text_mask((w, h), (w / 2, py + ph / 2 + 1 * k), 'DEMO', font('Bungee.ttf', K(22)), spacing=3 * k)
         img = Image.alpha_composite(img, glow(dm, MINT, 4 * k, 0.9))
         img.paste((210, 255, 228), (0, 0), dm)
-    return img
+    return (img, myc) if live else img
 
 
 def build_jungle():
@@ -1069,7 +1141,11 @@ def build_jungle():
         slab, g = jungle_slab(600 + i)
         save(slab, s, f'plate{i}')
         save(g, s, f'plate{i}_glow')
-    save(jungle_title(), s, 'title')
+    save(jungle_ivy_end(701), s, 'ivy_l')
+    save(jungle_ivy_end(702).transpose(Image.FLIP_LEFT_RIGHT), s, 'ivy_r')
+    title, myc = jungle_title(live=True)
+    save(title, s, 'title')
+    save(Image.merge('RGBA', (Image.new('L', myc.size, 255),) * 3 + (myc,)), s, 'title_myc')
 
 
 # =====================================================================================================================

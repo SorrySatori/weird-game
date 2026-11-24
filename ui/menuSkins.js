@@ -116,7 +116,7 @@ function plateEntry(scene, K, nav, { item, i, RX, y, ROW, garden, at }, o) {
             K.pulseDown(scene, RX, y, garden, at);
         },
         enable: (on) => {
-            P.plate.setTint(on ? 0xffffff : 0x5a5a5a);
+            P.plate.setTint(on ? 0xffffff : (o.offTint ?? 0x5a5a5a));
             P.label.setColor(on ? o.labelColour : o.labelDim);
             o.enable?.(P, on);
         },
@@ -297,15 +297,15 @@ const jungle = {
     preload(scene) {
         loadFonts(scene, [['Bungee', 'Bungee.ttf'], ['Rubik', 'Rubik.ttf', { weight: '300 900' }]]);
         loadImages(scene, 'jungle', ['band', 'band_wide', 'panel', 'band_myc', 'band_wide_myc', 'panel_myc', 'rule', 'title',
-            ...[0, 1, 2, 3, 4].flatMap(i => ['plate' + i, `plate${i}_glow`])]);
+            'title_myc', 'ivy_l', 'ivy_r', ...[0, 1, 2, 3, 4].flatMap(i => ['plate' + i, `plate${i}_glow`])]);
     },
     rule(scene, K, x, h) {
         return cut(scene.add.image(x + K.RULE / 2, 0, key('jungle', 'rule')).setOrigin(0.5, 0), h);
     },
     /** the mycelium in the cracks, glowing and breathing */
-    breathe(scene, img) {
-        img.setTint(MINT).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.35);
-        scene.tweens.add({ targets: img, alpha: 0.85, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    breathe(scene, img, from = 0.35, to = 0.85, ms = 2600) {
+        img.setTint(MINT).setBlendMode(Phaser.BlendModes.ADD).setAlpha(from);
+        scene.tweens.add({ targets: img, alpha: to, duration: ms, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
         return img;
     },
     band(scene, K, { RX, H, depth }) {
@@ -320,9 +320,16 @@ const jungle = {
         return plateEntry(scene, K, nav, ctx, {
             skin: 'jungle', plate: (i) => 'plate' + (i % 5), glow: (i) => `plate${i % 5}_glow`, glowColour: MINT, side: 12, tb: 10,
             labelStyle: { fontFamily: 'Rubik', fontStyle: 'bold', fontSize: '18px', color: '#dfe2d2', stroke: '#0e120f', strokeThickness: 4 },
-            labelColour: '#dfe2d2', labelOn: '#b4ffd6', labelDim: '#5c625a',
+            // a disabled entry: the slab a shade darker, its label muted but readable, ivy grown over its ends
+            labelColour: '#dfe2d2', labelOn: '#b4ffd6', labelDim: '#8d9488', offTint: 0x6a6a6a,
             glowPulse: (g) => scene.tweens.add({ targets: g, alpha: { from: 0.45, to: 1 }, duration: 1300, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' }),
-            build(P, under, over) { sprouts(scene, K, P, [MINT, 0xe8fff0, 0x5fd6a0], MINT, over); },
+            build(P, under, over) {
+                sprouts(scene, K, P, [MINT, 0xe8fff0, 0x5fd6a0], MINT, over);
+                P.ivy = [scene.add.image(-P.PW / 2 - 3, 0, key('jungle', 'ivy_l')).setOrigin(0, 0.5),
+                    scene.add.image(P.PW / 2 + 3, 0, key('jungle', 'ivy_r')).setOrigin(1, 0.5)];
+                over.push(...P.ivy);
+            },
+            enable(P, on) { P.ivy.forEach(v => v.setVisible(!on)); },
             focus(P, on) { sproutsFocus(scene, P, on); },
             press(P) { ctx.puff.explode(14, ctx.RX / 2 + P.PW / 2 - 36, P.y - P.ROW / 2 - 6); }
         });
@@ -330,6 +337,8 @@ const jungle = {
     title(scene, K, x) {
         const d = K.DEPTH.title;
         scene.add.image(x, 6, key('jungle', 'title')).setOrigin(0.5, 0).setDepth(d);
+        // the mycelium tufts in the lintel's cracks, breathing slowly
+        this.breathe(scene, scene.add.image(x, 6, key('jungle', 'title_myc')).setOrigin(0.5, 0).setDepth(d + 0.01), 0.25, 0.9, 3400);
         K.sporeTex(scene);
         scene.add.particles(0, 0, 'mmSpore', {
             x: { min: x - 220, max: x + 220 }, y: { min: 30, max: 110 }, speedY: { min: -14, max: -5 }, speedX: { min: -5, max: 5 },
