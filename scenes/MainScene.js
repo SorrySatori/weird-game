@@ -5,13 +5,19 @@ import LanguageSystem from '../systems/LanguageSystem.js';
 import { preloadMenuKit, saveLabel, formatSaveDate } from '../utils/menuKit.js';
 import { getSetting, setSetting, isFullscreen } from '../systems/GameSettings.js';
 import { currentDialogStyle, cycleDialogStyle } from '../utils/dialogLayouts.js';
-import { preloadMainMenuBand, createMainMenuBand, createBandSettings, createBandLoad, createTopTitle } from '../ui/mainMenuBand.js';
+import { preloadMainMenuBand, createMainMenuBand, createBandSettings, createBandLoad, createTopTitle, MENU_THEMES, menuTrials, menuLayout } from '../ui/mainMenuBand.js';
 import { PaintingIdleFX } from '../ui/paintingIdleFX.js';
 import { PANEL_SETS, panelSet } from '../ui/panelStyle.js';
 
 const SLOTS_PER_PAGE = 6;
 const PANEL_W = 470;           // the Load / Settings panels sliding out of the band
 const TITLE_X = 457;           // the top title's centre on the painting (band.png px): between the spire and the Scraper
+// the menu's layout (menuLayout() 'center'): the painting across the whole screen, only the entries in the middle
+const CARD = { w: 264, y: 206, top: 26 };
+// the painting at night: dimmed, its light left in a few places (fractions of the painting: the
+// Egg Cathedral's shell, the green haze over the cemetery, the clock spider, the bear, Edgar; tools/storeart's POOLS)
+const NIGHT = { colour: '4,3,14', alpha: 0.5, pools: [[0.17, 0.40, 0.17, 0.30, 1.0], [0.55, 0.30, 0.16, 0.16, 0.55],
+    [0.92, 0.50, 0.07, 0.10, 0.7], [0.16, 0.82, 0.07, 0.14, 0.45], [0.89, 0.80, 0.06, 0.15, 0.45]] };
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -52,13 +58,18 @@ export default class MainScene extends Phaser.Scene {
         // gears wobble, each corner snapping on its own)
         this.cameras.main.setRoundPixels(false);
         // the painting whole, full height, on the right; the menu band fills the rest on the left
+        // (centred layout: the painting across the whole width, cut a little at the top and the foot)
+        const center = menuLayout() === 'center';
         const band = this.cache.json.get('menuPaintingLayers').band;
-        const scale = H / band.h;
+        const scale = center ? W / band.w : H / band.h;
         const bandW = Math.ceil(W - band.w * scale);
-        this.textures.get('menuPainting').setFilter(Phaser.Textures.FilterMode.LINEAR);     // it is scaled down
-        const bg = this.add.image(W - band.w * scale, 0, 'menuPainting').setOrigin(0).setScale(scale);
+        this.textures.get('menuPainting').setFilter(Phaser.Textures.FilterMode.LINEAR);     // it is scaled
+        const bg = center
+            ? this.add.image(0, Math.round((H - band.h * scale) * 0.45), 'menuPainting').setOrigin(0).setScale(scale)
+            : this.add.image(W - band.w * scale, 0, 'menuPainting').setOrigin(0).setScale(scale);
         this.createPaintingLife(bg);
         this.createAirship(bg);
+        this.createNight(bg);
         this.createAmbientSpores(W, H);
 
         const items = [
@@ -69,17 +80,22 @@ export default class MainScene extends Phaser.Scene {
         // Exit Game — only meaningful in the Electron build (a browser tab has nothing to quit).
         if (/Electron/i.test(navigator.userAgent)) items.push(['ui.menu.exitGame', () => this.exitGame()]);
         const hasSaves = this.saveSystem.listSaveFiles().length > 0;
-        createTopTitle(this, { x: bg.x + TITLE_X * scale, subtitle: this.i18n.t('ui.menu.subtitle') });
-        this.menu = createMainMenuBand(this, {
-            width: bandW,
-            items: items.map(([key, action]) => ({ label: this.i18n.t(key), action, enabled: !(key === 'ui.menu.loadGame' && !hasSaves) }))
-        });
+        createTopTitle(this, { x: center ? CX : bg.x + TITLE_X * scale, subtitle: this.i18n.t('ui.menu.subtitle') });
+        const menuItems = items.map(([key, action]) => ({ label: this.i18n.t(key), action, enabled: !(key === 'ui.menu.loadGame' && !hasSaves) }));
+        this.menu = center
+            ? createMainMenuBand(this, {
+                width: CARD.w, items: menuItems, top: CARD.top, height: CARD.top + items.length * 58 + 10, bare: true,
+                place: { x: Math.round(CX - CARD.w / 2), y: CARD.y, depth: 1.62 }      // (over the title, under a panel's shade)
+            })
+            : createMainMenuBand(this, { width: bandW, items: menuItems });
         this.mainNav = this.menu.nav;
         this.panelEntry = { load: 1, settings: 2 };
 
         const t = (key, vars) => this.i18n.t(key, vars);
+        // the panels slide out of the band; with the card in the middle they open in the middle over all of it, dimmed
+        const panelAt = center ? { x: Math.round(CX - PANEL_W / 2), w: PANEL_W, shadeAll: true } : { x: bandW, w: PANEL_W };
         this.panels = {
-            settings: createBandSettings(this, { x: bandW, w: PANEL_W, onClose: () => this.closePanel() }, {
+            settings: createBandSettings(this, { ...panelAt, onClose: () => this.closePanel() }, {
                 t, getSetting, setSetting, isFullscreen,
                 languages: this.langSystem.supportedLanguages,
                 language: () => this.langSystem.getLanguage(),
@@ -99,12 +115,27 @@ export default class MainScene extends Phaser.Scene {
                     setSetting('panelSet', PANEL_SETS[(i + dir + PANEL_SETS.length) % PANEL_SETS.length]);
                 }
             }),
-            load: createBandLoad(this, { x: bandW, w: PANEL_W, onClose: () => this.closePanel(), perPage: SLOTS_PER_PAGE }, {
+            load: createBandLoad(this, { ...panelAt, onClose: () => this.closePanel(), perPage: SLOTS_PER_PAGE }, {
                 t, list: () => this.saveList()
             })
         };
         this.openPanel = null;
         this.input.keyboard.on('keydown-ESC', () => this.closePanel());
+        // the trial looks (tools/menu_trials/README.md), only in a run from the sources: L cycles the menu's look
+        // (ui/mainMenuBand.js THEMES + ui/menuSkins.js), C the layout (band on the left / entries in the middle)
+        if (menuTrials()) {
+            this.input.keyboard.on('keydown-L', () => {
+                if (this.openPanel) return;
+                const i = MENU_THEMES.indexOf(getSetting('menuTrialTheme') || 'jungle');
+                setSetting('menuTrialTheme', MENU_THEMES[(i + 1) % MENU_THEMES.length]);
+                this.scene.restart();
+            });
+            this.input.keyboard.on('keydown-C', () => {
+                if (this.openPanel) return;
+                setSetting('menuTrialLayout', menuLayout() === 'center' ? 'band' : 'center');
+                this.scene.restart();
+            });
+        }
         if (data?.panel === 'settings') {
             if (data.translated) this.cameras.main.fadeIn(450, 0, 0, 0);
             this.togglePanel('settings', { slow: !!data.translated });
@@ -249,6 +280,41 @@ export default class MainScene extends Phaser.Scene {
             targets: clock, minutes: Math.round(clock.minutes) + 1, duration: 260, ease: 'Back.easeOut',
             onUpdate: () => { minute.angle = clock.minutes * 6; hour.angle = clock.minutes * 0.5; }
         }), [3000, 6000]);
+    }
+
+    /**
+     * Night over the painting (2026-11-24, the user found it too bright beside the dark menus): a dark veil,
+     * darker toward the edges, with the light left round a few things (NIGHT.pools). Over the painting's life, under
+     * the spores, the title and the menu.
+     */
+    createNight(bg) {
+        const W = this.scale.width, H = this.scale.height;
+        const pw = bg.displayWidth, ph = bg.displayHeight;
+        const key = `menuNight_${Math.round(bg.x)}_${Math.round(bg.y)}_${Math.round(pw)}`;
+        if (!this.textures.exists(key)) {
+            const tex = this.textures.createCanvas(key, W, H), c = tex.getContext();
+            c.fillStyle = `rgba(${NIGHT.colour},${NIGHT.alpha})`;
+            c.fillRect(0, 0, W, H);
+            const v = c.createRadialGradient(bg.x + pw * 0.5, bg.y + ph * 0.5, ph * 0.35, bg.x + pw * 0.5, bg.y + ph * 0.5, pw * 0.75);
+            v.addColorStop(0, `rgba(${NIGHT.colour},0)`);
+            v.addColorStop(1, `rgba(${NIGHT.colour},0.4)`);
+            c.fillStyle = v;
+            c.fillRect(0, 0, W, H);
+            c.globalCompositeOperation = 'destination-out';
+            for (const [fx, fy, rx, ry, k] of NIGHT.pools) {
+                c.save();
+                c.translate(bg.x + fx * pw, bg.y + fy * ph);
+                c.scale(rx * pw, ry * ph);
+                const g = c.createRadialGradient(0, 0, 0, 0, 0, 1);
+                g.addColorStop(0, `rgba(0,0,0,${0.8 * k})`);
+                g.addColorStop(1, 'rgba(0,0,0,0)');
+                c.fillStyle = g;
+                c.beginPath(); c.arc(0, 0, 1, 0, Math.PI * 2); c.fill();
+                c.restore();
+            }
+            tex.refresh();
+        }
+        this.add.image(0, 0, key).setOrigin(0).setDepth(1.4);
     }
 
     /** a few glowing spores drifting up through the painting */

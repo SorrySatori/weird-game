@@ -2,6 +2,7 @@ import { ITEM_ICONS } from '../utils/itemIcons.js';
 import { preloadRecordings } from '../utils/Recordings.js';
 import { UI_FONT, UI_SIZE } from '../utils/pixelFrame.js';
 import { GRIME_FILES } from '../ui/panelStyle.js';
+import { preloadMainMenuBand } from '../ui/mainMenuBand.js';
 
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
@@ -19,6 +20,8 @@ export default class LoadingScene extends Phaser.Scene {
         this.load.font('Mynerve', 'assets/fonts/Mynerve-Regular.ttf', 'truetype');
         this.load.font('Sedgwick Ave Display', 'assets/fonts/SedgwickAveDisplay-Regular.ttf', 'truetype');
         this.load.font('Mansalva', 'assets/fonts/Mansalva-Regular.ttf', 'truetype');
+        // the system UI's (the menu band: main menu, pause menu, settings, saves)
+        preloadMainMenuBand(this);
 
         // Load the Tempurra logo
         this.load.image('tempurraLogo', 'assets/images/ui/TempurraLogo.png');

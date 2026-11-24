@@ -11,7 +11,7 @@ import { getSetting, setSetting, isFullscreen } from '../systems/GameSettings.js
 import { currentDialogStyle, cycleDialogStyle } from '../utils/dialogLayouts.js';
 import { saveLabel, formatSaveDate } from '../utils/menuKit.js';
 import { PANEL_SETS, panelSet } from './panelStyle.js';
-import { createMainMenuBand, createBandSettings, createBandLoad, ACID } from './mainMenuBand.js';
+import { createMainMenuBand, createBandSettings, createBandLoad, ACID, bandHeadStyle, bandSmallStyle } from './mainMenuBand.js';
 
 const BAND_W = 320;                  // wider than the main menu's (no painting to make room for): the labels are longer
 const PANEL_W = 470;
@@ -44,13 +44,12 @@ export class PauseMenuScene extends Phaser.Scene {
         this.nav = this.band.nav;
         this.panelEntry = { save: 1, load: 2, settings: 3 };
         // the band's heading
-        const head = this.add.text(20, 30, t('ui.gameMenu.title'), { fontFamily: 'Bebas Neue', fontSize: '44px', color: '#ffffff', padding: { y: 4 } }).setDepth(2);
-        if (head.width > BAND_W - 44) head.setFontSize(Math.floor(44 * (BAND_W - 44) / head.width));
+        const head = this.add.text(20, 30, t('ui.gameMenu.title'), bandHeadStyle(44)).setDepth(2);   // (the band's theme)
+        const px = parseInt(head.style.fontSize, 10);
+        if (head.width > BAND_W - 44) head.setFontSize(Math.floor(px * (BAND_W - 44) / head.width));
         this.add.rectangle(20, head.y + head.height + 4, 30, 4, ACID).setOrigin(0, 0.5).setDepth(2);
         // the shortcuts, at the foot of the dimmed game
-        this.add.text(W - 16, H - 12, t('ui.gameMenu.shortcuts'), {
-            fontFamily: 'Space Grotesk', fontStyle: 'bold', fontSize: '11px', color: '#9a9a9a', letterSpacing: 1
-        }).setOrigin(1, 1).setDepth(1.6);
+        this.add.text(W - 16, H - 12, t('ui.gameMenu.shortcuts'), bandSmallStyle(11, '#9a9a9a')).setOrigin(1, 1).setDepth(1.6);
 
         const panel = { x: BAND_W, w: PANEL_W, onClose: () => this.closePanel() };
         this.panels = {

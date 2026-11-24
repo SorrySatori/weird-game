@@ -16,19 +16,108 @@
  * ←/→ (A/D) adjust a slider or a choice, ESC closes a panel (MainScene).
  *
  * Fonts: assets/fonts/BebasNeue.ttf, SpaceGrotesk.ttf (OFL, the licences next to them); both have full Czech.
+ *
+ * THE LOOK (picked 2026-11-24): the skin 'jungle' (Městská džungle, ui/menuSkins.js) with the entries alone in the
+ * middle of the painting (menuLayout() 'center'). The other looks below stay for a quick look back: in a run from the
+ * sources (not the packaged game, menuTrials()) MainScene's L key cycles them and C the layout, remembered in the
+ * settings 'menuTrialTheme' / 'menuTrialLayout'; stills of all of them: tools/menu_trials/README.md.
+ *
+ * The looks tried on 2026-11-24 ('menuTrialTheme'): 'brutal' (all of the above) or 'vitraz',
+ * the same layout dressed as the Egg Cathedral's stained glass, after the trial design Marti liked (tools/menu_trials):
+ * a dim glass band with a gold came for the rule, the entries as glass panes (amber / teal / rose / violet) that light
+ * up, the title on a violet glass plate (UnifrakturMaguntia + Cinzel, both OFL in assets/fonts), the garden's
+ * mushrooms in the glass colours. And 'glow', after the trial's Bioluminiscence: neon cyan and magenta on deep
+ * indigo, no panes, the entries glowing type (Comfortaa), the title MORKEZELA in Monoton, the rule a neon tube.
+ * Every create* reads the theme first (useTheme), so the pause menu follows it too. One display face for the title,
+ * one face for everything else, in every theme. And four skins drawn as art (ui/menuSkins.js, the art from
+ * tools/artgen/menu_skins.py): 'rust', 'biomech', 'jungle', 'crazy', 'tripe', 'panelak'.
  */
 import { MenuNav, playMenuSound } from '../utils/menuKit.js';
+import { getSetting } from '../systems/GameSettings.js';
+import { SKINS } from './menuSkins.js';
 
-export const ACID = 0xe6ff2e;
-const ACID_CSS = '#e6ff2e';
 export const RULE = 4;
 const DEPTH = { title: 1.6, shade: 1.65, panel: 1.7, band: 1.8, ui: 2 };   // the title under a panel's shade
-const LABEL = { fontFamily: 'Space Grotesk', fontStyle: 'bold', fontSize: '19px', color: '#ffffff', letterSpacing: 1 };
-const SMALL = { fontFamily: 'Space Grotesk', fontStyle: 'bold', fontSize: '11px', color: '#8f8f8f', letterSpacing: 4 };
 
+const css = (n) => '#' + n.toString(16).padStart(6, '0');
+// the looks: accent (rules, focus, gears), backgrounds, text colours, fonts, the garden's colours
+const THEMES = {
+    brutal: {
+        accent: 0xe6ff2e, bg: 0x000000, onFill: 0xe6ff2e, onText: '#000000', onIcon: 0x000000,
+        text: 0xffffff, dim: 0x505050, note: 0x8f8f8f, rowBand: 0x161616, track: 0x4a4a4a, off: 0x6a6a6a,
+        font: 'Space Grotesk', head: 'Bebas Neue', headBold: false, headScale: 1, labelPx: 19, rowPx: 16, smallSpacing: 4,
+        thread: 0xe6ff2e, garden: [0xe6ff2e], glow: 0xe6ff2e, spore: 0xe6ff2e, basket: 0xe6ff2e, mycena: 0xe6ff2e
+    },
+    vitraz: {
+        glass: true,
+        accent: 0xe2b448, bg: 0x17121f, onFill: 0x55308a, onText: '#ffd86b', onIcon: 0xffd86b,
+        text: 0xfff6dc, dim: 0x7a7286, note: 0xb5a9c7, rowBand: 0x2b2139, track: 0x4a4258, off: 0x6b6478,
+        font: 'Cinzel', head: 'Cinzel', headBold: true, headScale: 0.62, labelPx: 17, rowPx: 15, smallSpacing: 3,
+        thread: 0xb98fff, garden: [0xf0b23c, 0x3cb4aa, 0xd2577f, 0x9a6ad6], glow: 0xffc86a, spore: 0xffd86b,
+        basket: 0xd2577f, mycena: 0x5fd6c8
+    },
+    glow: {
+        neon: true,
+        accent: 0x5ef2ff, bg: 0x0d0826, onFill: 0x251b58, onText: '#9ffaff', onIcon: 0x5ef2ff,
+        text: 0xddd2ff, dim: 0x6b6294, note: 0xa497d6, rowBand: 0x1b1344, track: 0x3a3170, off: 0x5a5288,
+        font: 'Comfortaa', head: 'Comfortaa', headBold: true, headScale: 0.6, labelPx: 19, rowPx: 15, smallSpacing: 3,
+        thread: 0x5ef2ff, garden: [0x5ef2ff, 0xff4fd8, 0x9d7bff], glow: 0x5ef2ff, spore: 0x9ffaff,
+        basket: 0xff4fd8, mycena: 0x5ef2ff
+    },
+    // the skins drawn as art by tools/artgen/menu_skins.py (ui/menuSkins.js): jungle (the menu) + the other trials
+    ...Object.fromEntries(Object.entries(SKINS).map(([id, skin]) => [id, { ...skin.data, skin }]))
+};
+export const MENU_THEMES = Object.keys(THEMES);
+const MENU_LOOK = { theme: 'jungle', layout: 'center' };
+/** the trial looks can be switched to: a run from the sources (preload.js devBuild) or no Electron (a browser, tools/trailer) */
+export const menuTrials = () => !window.appControl || !!window.appControl.devBuild;
+const menuTheme = () => (menuTrials() && THEMES[getSetting('menuTrialTheme')] ? getSetting('menuTrialTheme') : MENU_LOOK.theme);
+/** 'center' (the entries alone in the middle of the painting) or 'band' (the trial band down the left edge) */
+export const menuLayout = () => (menuTrials() && getSetting('menuTrialLayout')) || MENU_LOOK.layout;
+let TH = THEMES[MENU_LOOK.theme];
+let THEME = MENU_LOOK.theme;
+export let ACID = TH.accent;          // the theme's accent (a live binding: pauseMenu.js reads it after useTheme)
+let ACID_CSS = css(ACID);
+let LABEL, SMALL, ROW_LABEL;
+
+/** read the theme setting into the module's colours and type styles; every create* calls it first */
+export function useTheme() {
+    THEME = menuTheme();
+    TH = THEMES[THEME];
+    ACID = TH.accent;
+    ACID_CSS = css(ACID);
+    const f = { fontFamily: TH.font, fontStyle: 'bold' };
+    LABEL = { ...f, fontSize: TH.labelPx + 'px', color: css(TH.text), letterSpacing: 1 };
+    SMALL = { ...f, fontSize: '11px', color: css(TH.note), letterSpacing: TH.smallSpacing };
+    ROW_LABEL = { ...f, fontSize: TH.rowPx + 'px', color: css(TH.text), letterSpacing: 1 };
+    return TH;
+}
+useTheme();
+
+/** a band heading, `px` = its size in Brutal's Bebas Neue (the theme scales it to its own face) */
+export function bandHeadStyle(px) {
+    return { fontFamily: TH.head, fontStyle: TH.headBold ? 'bold' : 'normal', fontSize: Math.round(px * TH.headScale) + 'px', color: css(TH.text), padding: { y: 4 } };
+}
+
+/** small print in the theme's face */
+export function bandSmallStyle(px, color) {
+    return { ...SMALL, fontSize: px + 'px', letterSpacing: 1, ...(color ? { color } : {}) };
+}
+
+/** the band's fonts (LoadingScene, so the pause menu has them in a game started from a save too; MainScene) */
 export function preloadMainMenuBand(scene) {
-    scene.load.font('Bebas Neue', 'assets/fonts/BebasNeue.ttf', 'truetype');
-    scene.load.font('Space Grotesk', 'assets/fonts/SpaceGrotesk.ttf', 'truetype', { weight: '300 700' });
+    useTheme();
+    TH.skin?.preload(scene);                      // only the look in use: L in MainScene restarts it, loading the next
+    const font = (family, file, desc) => {
+        if ([...document.fonts].some(f => f.family.replace(/"/g, '') === family && f.status === 'loaded')) return;
+        scene.load.font(family, 'assets/fonts/' + file, 'truetype', desc);
+    };
+    font('Bebas Neue', 'BebasNeue.ttf');
+    font('Space Grotesk', 'SpaceGrotesk.ttf', { weight: '300 700' });
+    font('Cinzel', 'Cinzel.ttf', { weight: '400 900' });
+    font('UnifrakturMaguntia', 'UnifrakturMaguntia.ttf');
+    font('Comfortaa', 'Comfortaa.ttf', { weight: '300 700' });
+    font('Monoton', 'Monoton.ttf');
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -203,6 +292,10 @@ function gearTitle(scene, x, y, w, depth) {
  * into the painting (chosen 2026-11-23 over a black card, a see-through card, frosted glass and a frame).
  */
 export function createTopTitle(scene, { x, subtitle }) {
+    const theme = useTheme();
+    if (theme.skin) return theme.skin.title(scene, K, x, subtitle);
+    if (theme.glass) return glassTitle(scene, x, subtitle);
+    if (theme.neon) return neonTitle(scene, x, subtitle);
     const TW = 262, PX = 26, PY = 16, TOP = 22;
     const w = TW + 2 * PX, x0 = Math.round(x - w / 2);
     const yU = TOP + PY;
@@ -212,32 +305,54 @@ export function createTopTitle(scene, { x, subtitle }) {
     scene.add.rectangle(x0 + PX, bottom + 13, 30, 4, ACID).setOrigin(0, 0.5).setDepth(DEPTH.title);
     scene.add.text(x0 + PX + 40, bottom + 13, subtitle.toUpperCase(), { ...SMALL, color: '#d8d8d8' }).setOrigin(0, 0.5).setDepth(DEPTH.title);
     const h = bottom + 13 + 6 + PY - TOP;
-    // the shade: a dark rectangle whose edges fade out (smoothstep over the outer third)
-    const key = tex(scene, 'mmSoftRect', 128, 128, (c, tw, th) => {
+    scene.add.image(x, TOP + h / 2, softRect(scene)).setDisplaySize(w + 110, h + 70).setAlpha(0.8).setDepth(DEPTH.title - 0.05);
+}
+
+/** a dark rectangle whose edges fade out (smoothstep over the outer third): the shade under a title (white: to tint) */
+function softRect(scene, white = false) {
+    return tex(scene, white ? 'mmSoftRectW' : 'mmSoftRect', 128, 128, (c, tw, th) => {
         const img = c.createImageData(tw, th);
         const ramp = (t) => { const u = Math.min(1, Math.min(t, 1 - t) / 0.34); return u * u * (3 - 2 * u); };
         for (let yy = 0; yy < th; yy++) for (let xx = 0; xx < tw; xx++) {
             const i = (yy * tw + xx) * 4;
-            img.data[i] = img.data[i + 1] = img.data[i + 2] = 0;
+            img.data[i] = img.data[i + 1] = img.data[i + 2] = white ? 255 : 0;
             img.data[i + 3] = Math.round(255 * ramp((xx + 0.5) / tw) * ramp((yy + 0.5) / th));
         }
         c.putImageData(img, 0, 0);
     });
-    scene.add.image(x, TOP + h / 2, key).setDisplaySize(w + 110, h + 70).setAlpha(0.8).setDepth(DEPTH.title - 0.05);
 }
 
 /**
- * @param {{ width: number, items: {label, action, enabled}[] }} opts
+ * The band down the screen's left edge (trial layout 'band'), or (menuLayout() 'center') a card in the middle of
+ * the screen: `height` shorter than the screen, `top` where the entries start, `place` {x, y, depth} where the card
+ * goes. Everything is built at 0, 0 as for the band, then gathered into a container at place; the card gets its rule
+ * on all four sides and a soft shadow round it.
+ * @param {{ width: number, items: {label, action, enabled}[], height?: number, top?: number, place?: {x, y, depth} }} opts
  * @returns {{ nav: MenuNav, entries, latch(i|null) }}
  */
-export function createMainMenuBand(scene, { width: BW, items }) {
-    const H = scene.scale.height;
+export function createMainMenuBand(scene, { width: BW, items, height, top: entriesTop = 120, place = null, bare = false }) {
+    useTheme();
+    const H = height ?? scene.scale.height;
     const RX = BW - RULE;                         // the rule's left edge; the entries run from 0 to it
     const nav = new MenuNav(scene);
-    const at = (o, d = DEPTH.ui) => o.setDepth(d);
+    const before = place ? new Set(scene.children.list) : null;
+    let wrap = null;                              // the card's container (things made later go into it too)
+    const at = (o, d = DEPTH.ui) => { o.setDepth(d); if (wrap) wrap.add(o); return o; };
 
-    at(scene.add.rectangle(0, 0, BW, H, 0x000000).setOrigin(0), DEPTH.band);
-    at(scene.add.rectangle(RX, 0, RULE, H, ACID).setOrigin(0), DEPTH.band + 0.05);
+    if (bare) {
+        // only the entries (the centred layout): no band, no rule, no garden
+    } else if (TH.skin) {
+        TH.skin.band(scene, K, { BW, RX, H, depth: DEPTH.band });
+    } else if (TH.glass) {
+        at(scene.add.image(0, 0, glassBandTex(scene, RX, H)).setOrigin(0), DEPTH.band);
+        came(scene, RX, H, DEPTH.band + 0.05);
+    } else if (TH.neon) {
+        at(scene.add.image(0, 0, neonBandTex(scene, RX, H)).setOrigin(0), DEPTH.band);
+        neonRule(scene, RX, H, DEPTH.band + 0.05);
+    } else {
+        at(scene.add.rectangle(0, 0, BW, H, 0x000000).setOrigin(0), DEPTH.band);
+        at(scene.add.rectangle(RX, 0, RULE, H, ACID).setOrigin(0), DEPTH.band + 0.05);
+    }
 
     // the mycelium: fine threads creeping off the rule into the band, breathing
     const myc = at(scene.add.graphics(), DEPTH.band + 0.02);
@@ -255,19 +370,27 @@ export function createMainMenuBand(scene, { width: BW, items }) {
         myc.strokePath();
         myc.fillCircle(x, y, 1.2);
     };
-    myc.lineStyle(1, ACID, 1).fillStyle(ACID, 1);
-    for (const [y0, dir] of [[40, 1], [120, -1], [200, 1], [290, 1], [330, -1], [420, 1], [470, -1], [560, -1]]) {
+    myc.lineStyle(1, TH.thread, 1).fillStyle(TH.thread, 1);
+    for (const [y0, dir] of [[40, 1], [120, -1], [200, 1], [290, 1], [330, -1], [420, 1], [470, -1], [560, -1]].filter(([y0]) => y0 < H - 40)) {
         thread(RX - 1, y0 + r() * 16, dir * Math.PI / 2 + dir * (0.25 + r() * 0.2), 40 + r() * 60, 0);
     }
     myc.setAlpha(0.3);
     scene.tweens.add({ targets: myc, alpha: 0.5, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    if (TH.glass) myc.setVisible(false);          // over the glass the threads read as cracks
+    if (TH.neon) { scene.tweens.killTweensOf(myc); myc.setAlpha(0.2); scene.tweens.add({ targets: myc, alpha: 0.38, duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' }); }
+    if (TH.skin) {
+        scene.tweens.killTweensOf(myc);
+        if (!TH.skin.myc) myc.setVisible(false);
+        else { myc.setAlpha(TH.skin.myc[0]); scene.tweens.add({ targets: myc, alpha: TH.skin.myc[1], duration: 2600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' }); }
+    }
 
     // the fungus garden at the foot, and the spores a click puffs out of the focused entry's mushrooms
-    const garden = createFungusGarden(scene, { RX, floorY: H - 4, depth: DEPTH.band + 0.05 });
+    const garden = bare ? { top: H, react() {}, bare: true } : createFungusGarden(scene, { RX, floorY: H - 4, depth: DEPTH.band + 0.05 });
+    if (bare) myc.setVisible(false);
     sporeTex(scene);
     const puff = at(scene.add.particles(0, 0, 'mmSpore', {
         emitting: false, speed: { min: 20, max: 70 }, angle: { min: 215, max: 325 }, lifespan: { min: 500, max: 900 },
-        scale: { start: 1.3, end: 0.3 }, alpha: { start: 1, end: 0 }, tint: ACID, gravityY: -10
+        scale: { start: 1.3, end: 0.3 }, alpha: { start: 1, end: 0 }, tint: TH.spore, gravityY: -10
     }), DEPTH.ui + 0.1);
 
     // the focused entry's gear spins
@@ -277,9 +400,12 @@ export function createMainMenuBand(scene, { width: BW, items }) {
     scene.events.once('shutdown', () => scene.events.off('update', update));
 
     // the entries
-    const ROW = 46, GAP = 12, top = 120;
+    const ROW = 46, GAP = 12, top = entriesTop;
     items.forEach((item, i) => {
         const y = top + i * (ROW + GAP) + ROW / 2;
+        if (TH.skin) { entries.push(TH.skin.entry(scene, K, nav, { item, i, RX, y, ROW, puff, garden, at })); return; }
+        if (TH.glass) { entries.push(glassEntry(scene, nav, { item, i, RX, y, ROW, puff, garden, at })); return; }
+        if (TH.neon) { entries.push(neonEntry(scene, nav, { item, i, RX, y, ROW, puff, garden, at })); return; }
         const e = { spin: 0 };
         let fill, label, shrooms, glow;
         const h = navEntry(scene, nav, RX / 2, y, RX, ROW, {
@@ -314,13 +440,7 @@ export function createMainMenuBand(scene, { width: BW, items }) {
             press: () => {
                 tween(scene, e.gear, { angle: e.gear.angle + 180, duration: 260 });
                 puff.explode(14, RX - 36, y - ROW / 2 - 6);
-                // a pulse runs down the rule into the garden, which stirs
-                const p = at(scene.add.image(RX + RULE / 2, y, glowTex(scene)).setTint(ACID).setBlendMode(Phaser.BlendModes.ADD)
-                    .setDisplaySize(26, 60), DEPTH.band + 0.06);
-                scene.tweens.add({ targets: p, y: garden.top, alpha: { from: 1, to: 0.3 }, duration: 380, ease: 'Cubic.easeIn', onComplete: () => {
-                    p.destroy();
-                    garden.react();
-                } });
+                pulseDown(scene, RX, y, garden, at);
             },
             enable: (on) => { label.setColor(on ? '#ffffff' : '#505050'); e.gear.setTint(on ? ACID : 0x3a3a3a); },
             action: item.action
@@ -330,6 +450,22 @@ export function createMainMenuBand(scene, { width: BW, items }) {
         e.handle = h;
         entries.push(e);
     });
+
+    if (place && bare) {
+        // the bare entries: only a soft dark haze under them, no edges, so they read over the painting
+        at(scene.add.image(BW / 2, H / 2, softRect(scene)).setDisplaySize(BW + 170, H + 120).setAlpha(0.55), DEPTH.band - 0.1);
+    } else if (place) {
+        // the card: the rule round all four sides (the top and bottom ones turned on their side), a shadow round it
+        const rule = (x, len, left = false) => TH.skin ? TH.skin.rule(scene, K, x, len, left) : TH.glass ? came(scene, x, len)
+            : TH.neon ? neonRule(scene, x, len) : scene.add.rectangle(x, 0, RULE, len, ACID).setOrigin(0);
+        at(rule(-RULE, H, true), DEPTH.band + 0.05);
+        for (const y of [0, H + RULE]) at(scene.add.container(-RULE, y, [rule(0, BW + RULE)]).setAngle(-90), DEPTH.band + 0.06);
+        at(scene.add.image(BW / 2, H / 2, softRect(scene)).setDisplaySize(BW + 110, H + 110).setAlpha(0.85), DEPTH.band - 0.1);
+    }
+    if (place) {
+        const made = scene.children.list.filter(o => !before.has(o)).sort((a, b) => a.depth - b.depth);
+        wrap = scene.add.container(place.x, place.y, made).setDepth(place.depth ?? DEPTH.band);
+    }
 
     let latched = null;
     return {
@@ -345,6 +481,12 @@ export function createMainMenuBand(scene, { width: BW, items }) {
     };
 }
 
+/** what a skin (ui/menuSkins.js) gets to build with */
+const K = {
+    navEntry, tex, glowTex, shroom, sporeTex, tween, pulseDown, softRect, rng, css, DEPTH, RULE,
+    get TH() { return TH; }, get ACID() { return ACID; }, get LABEL() { return LABEL; }
+};
+
 // ---------------------------------------------------------------------------------------------------------------
 // the fungus garden: real odd species, drawn flat in the band's colours
 
@@ -354,7 +496,7 @@ const FUNGI = {
     // Clathrus ruber, the basket stinkhorn: a hollow lattice ball on the cup it hatched from
     basket: { w: 46, h: 44, draw(c, w, h) {
         const cx = w / 2, cy = 20, rx = 20, ry = 19;
-        c.fillStyle = ACID_CSS; c.beginPath(); c.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); c.fill();
+        c.fillStyle = css(TH.basket); c.beginPath(); c.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); c.fill();
         c.globalCompositeOperation = 'destination-out';
         for (let row = -2; row <= 2; row++) for (let col = -3; col <= 3; col++) {
             const ox = col * 8.6 + (row % 2 ? 4.3 : 0), oy = row * 7.6, d = Math.hypot(ox / rx, oy / ry);
@@ -371,7 +513,7 @@ const FUNGI = {
     mycena: { w: 34, h: 46, draw(c, w, h) {
         [[6, 22, 4.5], [13, 38, 5.5], [20, 30, 4.8], [27, 42, 6], [31, 18, 3.6]].forEach(([x, hh, r]) => {
             c.fillStyle = BONE; c.fillRect(x - 0.75, h - hh + r * 0.6, 1.5, hh - r * 0.6);
-            c.fillStyle = ACID_CSS;
+            c.fillStyle = css(TH.mycena);
             c.beginPath(); c.moveTo(x - r, h - hh + r * 0.9); c.quadraticCurveTo(x, h - hh - r * 1.3, x + r, h - hh + r * 0.9); c.closePath(); c.fill();
         });
     } },
@@ -380,7 +522,7 @@ const FUNGI = {
 const FUNGUS_RES = 2;            // drawn at twice the size, shown scaled: crisp edges
 function fungus(scene, name) {
     const f = FUNGI[name];
-    return tex(scene, 'mmFungus_' + name, f.w * FUNGUS_RES, f.h * FUNGUS_RES, (c) => { c.scale(FUNGUS_RES, FUNGUS_RES); f.draw(c, f.w, f.h); });
+    return tex(scene, `mmFungus_${name}_${THEME}`, f.w * FUNGUS_RES, f.h * FUNGUS_RES, (c) => { c.scale(FUNGUS_RES, FUNGUS_RES); f.draw(c, f.w, f.h); });
 }
 
 /**
@@ -393,7 +535,7 @@ function createFungusGarden(scene, { RX, floorY, depth }) {
     const put = (name, x, sc, d = depth) =>
         scene.add.image(x, floorY, fungus(scene, name)).setOrigin(0.5, 1).setScale(sc / FUNGUS_RES).setDepth(d);
     const glowAt = (x, y, w, h, a0, a1) => {
-        const g = scene.add.image(x, y, glowTex(scene)).setTint(ACID).setBlendMode(Phaser.BlendModes.ADD)
+        const g = scene.add.image(x, y, glowTex(scene)).setTint(TH.glow).setBlendMode(Phaser.BlendModes.ADD)
             .setDisplaySize(w, h).setAlpha(a0).setDepth(depth - 0.01);
         scene.tweens.add({ targets: g, alpha: a1, duration: 2300, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
         return g;
@@ -410,16 +552,17 @@ function createFungusGarden(scene, { RX, floorY, depth }) {
     // the clump on the right
     const cx = RX - 55;                              // (by the rule, whatever the band's width)
     const cGlow = glowAt(cx + 10, floorY - 12, 90, 50, 0.25, 0.45);
-    [[-12, 0, 1.7], [3, 1, 1.35], [17, 0, 1.05], [30, 2, 1.4], [42, 1, 0.8]].forEach(([dx, kind, sc]) => {
-        scene.add.image(cx + dx, floorY, shroom(scene, kind)).setOrigin(0.5, 1).setScale(sc).setTint(ACID).setDepth(depth);
+    [[-12, 0, 1.7], [3, 1, 1.35], [17, 0, 1.05], [30, 2, 1.4], [42, 1, 0.8]].forEach(([dx, kind, sc], k) => {
+        scene.add.image(cx + dx, floorY, shroom(scene, kind)).setOrigin(0.5, 1).setScale(sc)
+            .setTint(TH.garden[k % TH.garden.length]).setDepth(depth);
     });
     scene.add.particles(0, 0, 'mmSpore', {
         x: { min: cx - 14, max: cx + 38 }, y: floorY - 16, speedY: { min: -22, max: -10 }, speedX: { min: -4, max: 4 },
-        lifespan: { min: 2600, max: 4200 }, frequency: 650, scale: { start: 1, end: 0.4 }, alpha: { start: 0.9, end: 0 }, tint: ACID
+        lifespan: { min: 2600, max: 4200 }, frequency: 650, scale: { start: 1, end: 0.4 }, alpha: { start: 0.9, end: 0 }, tint: TH.spore
     }).setDepth(depth + 0.01);
     const puff = scene.add.particles(0, 0, 'mmSpore', {
         emitting: false, speed: { min: 20, max: 70 }, angle: { min: 215, max: 325 }, lifespan: { min: 500, max: 900 },
-        scale: { start: 1.3, end: 0.3 }, alpha: { start: 1, end: 0 }, tint: ACID, gravityY: -10
+        scale: { start: 1.3, end: 0.3 }, alpha: { start: 1, end: 0 }, tint: TH.spore, gravityY: -10
     }).setDepth(depth + 0.01);
 
     const t0 = scene.time.now;
@@ -442,38 +585,314 @@ function createFungusGarden(scene, { RX, floorY, depth }) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------
+// Vitráž (TRIAL): stained glass after the Egg Cathedral's windows; the glass drawing comes from the trial design
+// (tools/menu_trials/menuDesigns_trial_backup.js glassPane / buildGlass)
+
+const LEAD = 0x17121f, LEAD_CSS = '#17121f';
+const GLASS = {
+    violet: [[107, 58, 160], [83, 44, 140], [128, 76, 178], [70, 40, 120]],
+    amber: [[240, 178, 60], [222, 150, 40], [250, 200, 90], [210, 130, 30]],
+    teal: [[42, 140, 140], [30, 118, 128], [60, 160, 150], [24, 100, 112]],
+    rose: [[201, 79, 124], [180, 60, 104], [220, 100, 140], [160, 50, 90]],
+    grey: [[110, 106, 116], [96, 92, 102], [124, 120, 130], [86, 82, 92]]
+};
+const GLASS_HUES = ['amber', 'teal', 'rose', 'violet'];
+const GLASS_GLOW = { amber: 0xffc65a, teal: 0x6fe6da, rose: 0xff8fb8, violet: 0xc39bff };
+
+/** a pointed (stretched hexagon) outline, w x h, its points `tip` px deep, as a function that makes the path */
+const pointed = (c, w, h, tip, inset = 4) => () => {
+    c.beginPath();
+    c.moveTo(inset, h / 2); c.lineTo(tip, inset); c.lineTo(w - tip, inset); c.lineTo(w - inset, h / 2);
+    c.lineTo(w - tip, h - inset); c.lineTo(tip, h - inset); c.closePath();
+};
+
+/**
+ * Glass: the shape filled with cells (nearest of `cells` seeds, each a colour of the palette, a little brighter or
+ * darker), lead between them and `lead` px of it round the edge; `light` = the glow through the middle, `dim` darkens.
+ */
+function glassPane(c, w, h, shape, palette, seed, cells, { light = 0.28, dim = 1, lead = 7 } = {}) {
+    const r = rng(seed);
+    const seeds = Array.from({ length: cells }, () => [r() * w, r() * h, palette[Math.floor(r() * palette.length)], 0.85 + r() * 0.3]);
+    const img = c.createImageData(w, h);
+    const owner = new Int16Array(w * h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        let best = 0, bd = 1e9;
+        for (let k = 0; k < seeds.length; k++) {
+            const dx = seeds[k][0] - x, dy = (seeds[k][1] - y) * 1.4, d = dx * dx + dy * dy;
+            if (d < bd) { bd = d; best = k; }
+        }
+        owner[y * w + x] = best;
+    }
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        const k = owner[y * w + x], i = (y * w + x) * 4;
+        const seam = (x > 0 && owner[y * w + x - 1] !== k) || (y > 0 && owner[(y - 1) * w + x] !== k)
+            || (x > 1 && owner[y * w + x - 2] !== k) || (y > 1 && owner[(y - 2) * w + x] !== k);
+        const [cr, cg, cb] = seeds[k][2], b = dim * seeds[k][3] * (0.92 + 0.16 * Math.sin(x * 0.07 + y * 0.11 + k));
+        img.data[i] = seam ? 23 : Math.min(255, cr * b);
+        img.data[i + 1] = seam ? 18 : Math.min(255, cg * b);
+        img.data[i + 2] = seam ? 31 : Math.min(255, cb * b);
+        img.data[i + 3] = 255;
+    }
+    const tmp = document.createElement('canvas');
+    tmp.width = w; tmp.height = h;
+    tmp.getContext('2d').putImageData(img, 0, 0);
+    c.save(); shape(); c.clip(); c.drawImage(tmp, 0, 0);
+    if (light) {                                    // the light coming through the middle
+        const g = c.createRadialGradient(w / 2, h * 0.35, 0, w / 2, h * 0.35, Math.max(w, h) * 0.6);
+        g.addColorStop(0, `rgba(255,255,230,${light})`); g.addColorStop(1, 'rgba(255,255,230,0)');
+        c.fillStyle = g; c.fillRect(0, 0, w, h);
+    }
+    c.restore();
+    if (lead) { shape(); c.strokeStyle = LEAD_CSS; c.lineWidth = lead; c.stroke(); }
+}
+
+/** the band itself: a window at dusk, dim glass in lead, darker toward the garden at its foot */
+function glassBandTex(scene, w, h) {
+    return tex(scene, `mmGlassBand_${w}_${h}`, w, h, (c) => {
+        c.fillStyle = LEAD_CSS; c.fillRect(0, 0, w, h);
+        const palette = [...GLASS.violet, ...GLASS.violet, ...GLASS.teal, GLASS.rose[0], GLASS.rose[3], GLASS.amber[3]];
+        glassPane(c, w, h, () => { c.beginPath(); c.rect(0, 0, w, h); }, palette, 77, Math.round(w * h / 2400), { light: 0, dim: 0.36, lead: 0 });
+        const g = c.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, 'rgba(23,18,31,0.1)'); g.addColorStop(0.7, 'rgba(23,18,31,0.3)'); g.addColorStop(1, 'rgba(23,18,31,0.9)');
+        c.fillStyle = g; c.fillRect(0, 0, w, h);
+    });
+}
+
+/** the rule as a came: lead with a gold core (a container at x, its children from 0 to RULE) */
+function came(scene, x, h, depth) {
+    const c = scene.add.container(x, 0, [
+        scene.add.rectangle(0, 0, RULE, h, LEAD).setOrigin(0),
+        scene.add.rectangle(1, 0, 2, h, ACID).setOrigin(0)
+    ]);
+    if (depth != null) c.setDepth(depth);
+    return c;
+}
+
+/**
+ * A main-menu entry as a glass pane in the band (its hue by position): focus lights it from behind and grows it a
+ * little, the label turns gold and mushrooms in the pane's colour sprout on its top edge; a click flashes the glass,
+ * puffs spores and sends a pulse down the came into the garden. Disabled = grey glass.
+ */
+function glassEntry(scene, nav, { item, i, RX, y, ROW, puff, garden, at }) {
+    const PW = RX - 22, hue = GLASS_HUES[i % GLASS_HUES.length];
+    const e = { spin: 0 };
+    let pane, grey, light, label, shrooms, glow;
+    const paneTex = (palette, name) => tex(scene, `mmGlassPane_${name}_${PW}_${ROW}_${i}`, PW, ROW + 4,
+        (c, w, h) => glassPane(c, w, h, pointed(c, w, h, 18), palette, 30 + i, 14, { lead: 5 }));
+    const h = navEntry(scene, nav, RX / 2, y, RX, ROW, {
+        build: (c) => {
+            pane = scene.add.image(0, 0, paneTex(GLASS[hue], hue));
+            grey = scene.add.image(0, 0, paneTex(GLASS.grey, 'grey')).setVisible(false);
+            light = scene.add.image(0, 0, pane.texture.key).setTintFill(0xffffff).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0);
+            label = scene.add.text(0, 0, item.label, { ...LABEL, stroke: LEAD_CSS, strokeThickness: 5, padding: { x: 4, y: 3 } }).setOrigin(0.5);
+            for (let fs = TH.labelPx; label.width > PW - 40 && fs > 12; fs--) label.setFontSize(fs - 1);   // a long label fits
+            glow = scene.add.image(PW / 2 - 34, -ROW / 2 - 4, glowTex(scene)).setTint(GLASS_GLOW[hue]).setBlendMode(Phaser.BlendModes.ADD)
+                .setDisplaySize(64, 30).setAlpha(0);
+            shrooms = [[-48, 1, 0.7], [-37, 0, 0.85], [-26, 2, 0.65]].map(([dx, kind, s]) =>
+                scene.add.image(PW / 2 + dx, -ROW / 2 + 3, shroom(scene, kind)).setOrigin(0.5, 1).setTint(GLASS_GLOW[hue]).setScale(0).setData('s', s));
+            c.add([glow, ...shrooms, pane, grey, light, label]);
+        },
+        focus: (on) => {
+            tween(scene, light, { alpha: on ? 0.26 : 0 });
+            label.setColor(on ? '#ffd86b' : css(TH.text));
+            tween(scene, label.parentContainer, { scale: on ? 1.04 : 1 });
+            shrooms.forEach((s, j) => {
+                scene.tweens.killTweensOf(s);
+                scene.tweens.add(on
+                    ? { targets: s, scale: s.getData('s'), duration: 260, delay: j * 55, ease: 'Back.easeOut' }
+                    : { targets: s, scale: 0, duration: 120, ease: 'Sine.easeIn' });
+            });
+            scene.tweens.killTweensOf(glow);
+            if (on) scene.tweens.add({ targets: glow, alpha: { from: 0.2, to: 0.6 }, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+            else glow.setAlpha(0);
+        },
+        press: () => {
+            tween(scene, light, { alpha: 0.6, yoyo: true, duration: 80 });
+            puff.explode(14, RX / 2 + PW / 2 - 36, y - ROW / 2 - 6);
+            pulseDown(scene, RX, y, garden, at);
+        },
+        enable: (on) => { pane.setVisible(on); grey.setVisible(!on); label.setColor(on ? css(TH.text) : css(TH.dim)); },
+        action: item.action
+    });
+    h.container.setDepth(DEPTH.ui);
+    h.setEnabled(item.enabled !== false);
+    e.handle = h;
+    return e;
+}
+
+/**
+ * The title on a violet glass plate, centred at x on top of the painting: U P P E R in Cinzel, Morkezela in gold
+ * blackletter (UnifrakturMaguntia), the subtitle on a lead strip across the plate's foot; a soft shade behind.
+ */
+function glassTitle(scene, x, subtitle) {
+    const PW = 452, PH = 104, TOP = 18, cy = TOP + PH / 2;
+    scene.add.image(x, cy + 6, softRect(scene)).setDisplaySize(PW + 90, PH + 70).setAlpha(0.75).setDepth(DEPTH.title - 0.05);
+    scene.add.image(x, cy, tex(scene, 'mmGlassTitle', PW, PH, (c, w, h) =>
+        glassPane(c, w, h, pointed(c, w, h, 34), GLASS.violet, 11, 40, { lead: 6 }))).setDepth(DEPTH.title - 0.01);
+    const at = (o) => o.setOrigin(0.5).setDepth(DEPTH.title);
+    at(scene.add.text(x, TOP + 20, 'U P P E R', { fontFamily: 'Cinzel', fontStyle: 'bold', fontSize: '13px', color: '#fbeec8', stroke: LEAD_CSS, strokeThickness: 4, padding: { x: 4, y: 3 } }));
+    at(scene.add.text(x, TOP + 58, 'Morkezela', { fontFamily: 'UnifrakturMaguntia', fontSize: '54px', color: '#ffcf5a', stroke: LEAD_CSS, strokeThickness: 7, padding: { x: 8, y: 6 } }));
+    const sub = at(scene.add.text(x, TOP + PH + 4, subtitle.toUpperCase(), { fontFamily: 'Cinzel', fontStyle: 'bold', fontSize: '10px', color: '#e8d9ff', letterSpacing: 2, padding: { x: 4, y: 3 } }));
+    scene.add.rectangle(x, sub.y, sub.width + 26, 20, LEAD).setDepth(DEPTH.title - 0.005);
+}
+
+/** a click's pulse runs down the rule into the garden at the band's foot, which stirs */
+function pulseDown(scene, RX, y, garden, at) {
+    if (garden.bare) return;                      // (no rule, no garden: the bare entries in the middle)
+    const p = at(scene.add.image(RX + RULE / 2, y, glowTex(scene)).setTint(ACID).setBlendMode(Phaser.BlendModes.ADD)
+        .setDisplaySize(24, 60), DEPTH.band + 0.06);
+    scene.tweens.add({ targets: p, y: garden.top, alpha: { from: 1, to: 0.3 }, duration: 380, ease: 'Cubic.easeIn', onComplete: () => {
+        p.destroy();
+        garden.react();
+    } });
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// Bioluminiscence (TRIAL): neon on deep indigo, after the trial design (menuDesigns_trial_backup.js buildGlow)
+
+const MAGENTA = 0xff4fd8, NEON_VIOLET = 0x9d7bff;
+
+/** the band: deep indigo, a little lighter at the top, near black at the garden */
+function neonBandTex(scene, w, h) {
+    return tex(scene, `mmNeonBand_${w}_${h}`, w, h, (c) => {
+        const g = c.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#191043'); g.addColorStop(0.55, '#0d0826'); g.addColorStop(1, '#040210');
+        c.fillStyle = g; c.fillRect(0, 0, w, h);
+    });
+}
+
+/** the rule as a neon tube: a pale core in a cyan halo that breathes (a container at x, the core from 0 to RULE) */
+function neonRule(scene, x, h, depth) {
+    const halo = scene.add.image(RULE / 2, 0, tex(scene, 'mmNeonHalo', 32, 4, (c, w, hh) => {
+        const g = c.createLinearGradient(0, 0, w, 0);
+        g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        c.fillStyle = g; c.fillRect(0, 0, w, hh);
+    })).setOrigin(0.5, 0).setDisplaySize(30, h).setTint(ACID).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.5);
+    const core = scene.add.rectangle(1, 0, 2, h, 0xc8fbff).setOrigin(0);
+    scene.tweens.add({ targets: halo, alpha: 0.8, duration: 2400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    const c = scene.add.container(x, 0, [halo, core]);
+    if (depth != null) c.setDepth(depth);
+    return c;
+}
+
+/**
+ * A main-menu entry as glowing type, no panel: focus turns its glow from violet to cyan and brighter, grows it,
+ * lights two pulsing spore dots beside it and sprouts neon mushrooms on its top edge; a click squeezes it, puffs
+ * spores and sends a pulse down the tube into the garden.
+ */
+function neonEntry(scene, nav, { item, i, RX, y, ROW, puff, garden, at }) {
+    const e = { spin: 0 };
+    let label, fx, dots, shrooms, glow;
+    const h = navEntry(scene, nav, RX / 2, y, RX, ROW, {
+        build: (c) => {
+            label = scene.add.text(0, 0, item.label, { ...LABEL, padding: { x: 14, y: 10 } }).setOrigin(0.5);
+            for (let fs = TH.labelPx; label.width - 28 > RX - 64 && fs > 12; fs--) label.setFontSize(fs - 1);
+            fx = label.preFX?.addGlow(NEON_VIOLET, 1.5, 0, false, 0.1, 10);
+            const half = (label.width - 28) / 2 + 14;
+            dots = [-half, half].map(x => scene.add.image(x, 0, glowTex(scene)).setDisplaySize(16, 16).setTint(ACID)
+                .setBlendMode(Phaser.BlendModes.ADD).setAlpha(0));
+            dots.forEach(d => d.setData('k', d.scaleX));
+            glow = scene.add.image(RX / 2 - 34, -ROW / 2 - 4, glowTex(scene)).setTint(MAGENTA).setBlendMode(Phaser.BlendModes.ADD)
+                .setDisplaySize(64, 30).setAlpha(0);
+            shrooms = [[-48, 1, 0.7, ACID], [-37, 0, 0.85, MAGENTA], [-26, 2, 0.65, NEON_VIOLET]].map(([dx, kind, s, col]) =>
+                scene.add.image(RX / 2 + dx, -ROW / 2 + 3, shroom(scene, kind)).setOrigin(0.5, 1).setTint(col).setScale(0).setData('s', s));
+            c.add([glow, ...shrooms, label, ...dots]);
+        },
+        focus: (on) => {
+            label.setColor(on ? '#9ffaff' : css(TH.text));
+            if (fx) { fx.color = on ? ACID : NEON_VIOLET; tween(scene, fx, { outerStrength: on ? 3 : 1.5 }); }
+            tween(scene, label.parentContainer, { scale: on ? 1.06 : 1 });
+            dots.forEach(d => {
+                scene.tweens.killTweensOf(d);
+                d.setAlpha(on ? 1 : 0).setScale(d.getData('k'));
+                if (on) scene.tweens.add({ targets: d, scale: d.getData('k') * 1.4, alpha: 0.5, duration: 600, yoyo: true, repeat: -1 });
+            });
+            shrooms.forEach((s, j) => {
+                scene.tweens.killTweensOf(s);
+                scene.tweens.add(on
+                    ? { targets: s, scale: s.getData('s'), duration: 260, delay: j * 55, ease: 'Back.easeOut' }
+                    : { targets: s, scale: 0, duration: 120, ease: 'Sine.easeIn' });
+            });
+            scene.tweens.killTweensOf(glow);
+            if (on) scene.tweens.add({ targets: glow, alpha: { from: 0.2, to: 0.6 }, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+            else glow.setAlpha(0);
+        },
+        press: () => {
+            tween(scene, label, { scale: 0.94, yoyo: true, duration: 70 });
+            puff.explode(14, RX - 40, y - ROW / 2 - 6);
+            pulseDown(scene, RX, y, garden, at);
+        },
+        enable: (on) => { label.setColor(on ? css(TH.text) : css(TH.dim)); if (fx) fx.outerStrength = on ? 1.5 : 0; },
+        action: item.action
+    });
+    h.container.setDepth(DEPTH.ui);
+    h.setEnabled(item.enabled !== false);
+    e.handle = h;
+    return e;
+}
+
+/**
+ * The title in neon over the painting's smoke, centred at x: U P P E R in magenta, MORKEZELA in cyan Monoton whose
+ * glow breathes, the subtitle in lower case; a soft indigo shade behind.
+ */
+function neonTitle(scene, x, subtitle) {
+    const TOP = 22, d = DEPTH.title;
+    const up = scene.add.text(x, TOP + 12, 'U P P E R', { fontFamily: 'Comfortaa', fontStyle: 'bold', fontSize: '13px', color: '#ff8fe6', padding: { x: 14, y: 12 } })
+        .setOrigin(0.5).setDepth(d);
+    up.preFX?.addGlow(MAGENTA, 2.5, 0, false, 0.1, 10);
+    // a near-white tube with the colour in its glow (as real neon), the glow kept low: Monoton's inline stripes blur
+    // into the painting's pale smoke when it blooms
+    const title = scene.add.text(x, TOP + 56, 'MORKEZELA', { fontFamily: 'Monoton', fontSize: '56px', color: '#e2fdff', padding: { x: 16, y: 14 } })
+        .setOrigin(0.5).setDepth(d);
+    if (title.width - 32 > 490) title.setFontSize(Math.floor(56 * 490 / (title.width - 32)));
+    const fx = title.preFX?.addGlow(ACID, 2.2, 0, false, 0.3, 12);   // (quality 0.3: at 0.1 the glow smeared in streaks)
+    if (fx) scene.tweens.add({ targets: fx, outerStrength: 3.4, duration: 2200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    scene.add.text(x, TOP + 104, subtitle.toLowerCase(), { fontFamily: 'Comfortaa', fontStyle: 'bold', fontSize: '13px', color: '#d8ceff', letterSpacing: 4, padding: { x: 4, y: 3 } })
+        .setOrigin(0.5).setDepth(d);
+    // the night behind it: a wide soft indigo shade and a darker core right under the letters
+    const shade = (w, h, a) => scene.add.image(x, TOP + 60, softRect(scene, true)).setTint(0x07041a).setDisplaySize(w, h).setAlpha(a).setDepth(d - 0.05);
+    shade(title.width + 150, 210, 0.9);
+    shade(title.width + 30, 120, 0.75);
+}
+
+// ---------------------------------------------------------------------------------------------------------------
 // the panels that slide out of the band
 
 /**
  * A black panel x..x+w, full height, sliding out from under the band; the painting beside it dims (a click there
  * closes it). Rows are added with the helpers below; contents go into panel.body (local coords, x from the left edge).
  */
-export function createBandPanel(scene, { x, w, title, onClose }) {
+export function createBandPanel(scene, { x, w, title, onClose, shadeAll = false }) {
+    useTheme();
     const W = scene.scale.width, H = scene.scale.height;
-    const shade = scene.add.rectangle(x, 0, W - x, H, 0x000000).setOrigin(0).setAlpha(0).setDepth(DEPTH.shade)
+    const shade = scene.add.rectangle(shadeAll ? 0 : x, 0, shadeAll ? W : W - x, H, 0x000000).setOrigin(0).setAlpha(0).setDepth(DEPTH.shade)
         .setVisible(false).setInteractive();
     shade.on('pointerdown', () => onClose?.());
     const body = scene.add.container(x, 0).setDepth(DEPTH.panel).setVisible(false);
-    body.add(scene.add.rectangle(0, 0, w, H, 0x000000).setOrigin(0).setInteractive());   // clicks on the panel stay here
-    body.add(scene.add.rectangle(w - RULE, 0, RULE, H, ACID).setOrigin(0));
-    const head = scene.add.text(28, 34, title, { fontFamily: 'Bebas Neue', fontSize: '62px', color: '#ffffff', padding: { y: 4 } });
+    body.add(scene.add.rectangle(0, 0, w, H, TH.bg).setOrigin(0).setInteractive());   // clicks on the panel stay here
+    if (TH.skin) body.add(TH.skin.panelBg(scene, K, w, H));
+    // (kept on top of the rows added later: a row's fill would cover the neon tube's halo)
+    const rule = TH.skin ? TH.skin.rule(scene, K, w - RULE, H) : TH.glass ? came(scene, w - RULE, H) : TH.neon ? neonRule(scene, w - RULE, H)
+        : scene.add.rectangle(w - RULE, 0, RULE, H, ACID).setOrigin(0);
+    body.add(rule);
+    const head = scene.add.text(28, TH.glass || TH.neon || TH.skin ? 44 : 34, title, bandHeadStyle(62));
     body.add(head);
     body.add(scene.add.rectangle(28, head.y + head.height + 6, 30, 4, ACID).setOrigin(0, 0.5));
     // a cross to close it (for the mouse; ESC and a click on the painting do too)
     const cross = scene.add.graphics();
     const drawCross = (col) => { cross.clear().lineStyle(3, col, 1).lineBetween(-9, -9, 9, 9).lineBetween(-9, 9, 9, -9); };
-    drawCross(0xffffff);
+    drawCross(TH.text);
     const cz = scene.add.zone(w - RULE - 34, 56, 40, 40).setInteractive({ useHandCursor: true });
     cross.setPosition(cz.x, cz.y);
     cz.on('pointerover', () => drawCross(ACID));
-    cz.on('pointerout', () => drawCross(0xffffff));
+    cz.on('pointerout', () => drawCross(TH.text));
     cz.on('pointerdown', (p, lx, ly, ev) => { ev?.stopPropagation(); playMenuSound(scene, 'clickSound'); onClose?.(); });
     body.add([cross, cz]);
 
     const nav = new MenuNav(scene);
     nav.active = false;
     const panel = {
-        body, nav, w, x, open: false,
+        body, nav, w, x, rule, open: false,
         /** slide out (slow: the gentler way, after the language changed and the menu came back translated) */
         show({ slow = false } = {}) {
             panel.open = true;
@@ -500,31 +919,30 @@ export function createBandPanel(scene, { x, w, title, onClose }) {
     return panel;
 }
 
-const ROW_LABEL = { fontFamily: 'Space Grotesk', fontStyle: 'bold', fontSize: '16px', color: '#ffffff', letterSpacing: 1 };
-
 /** a full-width button row in a panel (acid when focused); returns the nav handle */
 function panelButton(scene, panel, y, text, action, { sub = '' } = {}) {
     const RW = panel.w - RULE;
     let fill, label, small, g;
     const h = navEntry(scene, panel.nav, RW / 2, y, RW, 46, {
         build: (c) => {
-            fill = scene.add.rectangle(-RW / 2, 0, RW, 46, 0x000000).setOrigin(0, 0.5);
+            fill = scene.add.rectangle(-RW / 2, 0, RW, 46, TH.bg).setOrigin(0, 0.5).setFillStyle(TH.bg, TH.skin ? 0 : 1);
             g = scene.add.image(-RW / 2 + 32, 0, gear(scene, 8, 8, { hole: 0.32 })).setTint(ACID);
-            label = scene.add.text(-RW / 2 + 52, 0, text, { ...ROW_LABEL, fontSize: '17px' }).setOrigin(0, 0.5);
+            label = scene.add.text(-RW / 2 + 52, 0, text, { ...ROW_LABEL, fontSize: (TH.rowPx + 1) + 'px' }).setOrigin(0, 0.5);
             small = scene.add.text(RW / 2 - 28, 1, sub, { ...SMALL, letterSpacing: 1, fontSize: '12px' }).setOrigin(1, 0.5);
             c.add([fill, g, label, small]);
         },
         focus: (on) => {
-            fill.fillColor = on ? ACID : 0x000000;
-            label.setColor(on ? '#000000' : '#ffffff');
-            small.setColor(on ? '#000000' : '#8f8f8f');
-            g.setTint(on ? 0x000000 : ACID);
+            fill.setFillStyle(on ? TH.onFill : TH.bg, on ? (TH.skin ? 0.92 : 1) : (TH.skin ? 0 : 1));
+            label.setColor(on ? TH.onText : css(TH.text));
+            small.setColor(on ? TH.onText : css(TH.note));
+            g.setTint(on ? TH.onIcon : ACID);
             if (on) tween(scene, g, { angle: g.angle + 45, duration: 240, ease: 'Back.easeOut' });
         },
         press: () => tween(scene, g, { angle: g.angle + 180, duration: 260 }),
         action
     });
     panel.body.add(h.container);
+    panel.body.bringToTop(panel.rule);
     return h;
 }
 
@@ -537,7 +955,7 @@ function panelRow(scene, panel, y, text, control) {
     let band, tab, label;
     const h = navEntry(scene, panel.nav, RW / 2, y, RW, 46, {
         build: (c) => {
-            band = scene.add.rectangle(-RW / 2, 0, RW, 46, 0x161616).setOrigin(0, 0.5).setVisible(false);
+            band = scene.add.rectangle(-RW / 2, 0, RW, 46, TH.rowBand, TH.skin ? 0.85 : 1).setOrigin(0, 0.5).setVisible(false);
             tab = scene.add.rectangle(-RW / 2, 0, 6, 46, ACID).setOrigin(0, 0.5).setVisible(false);
             label = scene.add.text(-RW / 2 + 28, 0, text, ROW_LABEL).setOrigin(0, 0.5);
             c.add([band, tab, label]);
@@ -545,7 +963,7 @@ function panelRow(scene, panel, y, text, control) {
         },
         focus: (on) => {
             band.setVisible(on); tab.setVisible(on);
-            label.setColor(on ? ACID_CSS : '#ffffff');
+            label.setColor(on ? ACID_CSS : css(TH.text));
             control.focus?.(on);
         },
         delay: 0,
@@ -553,6 +971,7 @@ function panelRow(scene, panel, y, text, control) {
         adjust: (dir) => control.adjust?.(dir)
     });
     panel.body.add(h.container);
+    panel.body.bringToTop(panel.rule);
     return h;
 }
 
@@ -573,7 +992,7 @@ function slider(scene, panel, value, onChange) {
     return {
         build(c, a, b) {
             x0 = a + 6; x1 = b - 6;
-            track = scene.add.rectangle(x0, 0, x1 - x0, 2, 0x4a4a4a).setOrigin(0, 0.5);
+            track = scene.add.rectangle(x0, 0, x1 - x0, 2, TH.track).setOrigin(0, 0.5);
             fillBar = scene.add.rectangle(x0, 0, 0, 4, ACID).setOrigin(0, 0.5);
             knob = scene.add.image(x0, 0, gear(scene, 10, 8, { hole: 0.32 })).setTint(ACID);
             zone = scene.add.zone((x0 + x1) / 2, 0, x1 - x0 + 24, 40).setInteractive({ useHandCursor: true });
@@ -594,14 +1013,14 @@ function toggle(scene, value, onChange, words) {
     let box, knob, state, on = value, a;
     const place = () => {
         knob.x = a + (on ? 31 : 11);
-        knob.fillColor = on ? ACID : 0x6a6a6a;
+        knob.fillColor = on ? ACID : TH.off;
         state.setText(words(on));
     };
     const flip = () => { on = !on; place(); playMenuSound(scene, 'clickSound'); onChange(on); };
     return {
         build(c, x0) {
             a = x0;
-            box = scene.add.rectangle(a, 0, 42, 22).setOrigin(0, 0.5).setStrokeStyle(2, 0xffffff);
+            box = scene.add.rectangle(a, 0, 42, 22).setOrigin(0, 0.5).setStrokeStyle(2, TH.text);
             knob = scene.add.rectangle(a + 11, 0, 14, 14, ACID);
             state = scene.add.text(a + 56, 0, '', { ...SMALL, fontSize: '13px', letterSpacing: 1 }).setOrigin(0, 0.5);
             const z = scene.add.zone(a + 21, 0, 50, 34).setInteractive({ useHandCursor: true });
@@ -616,23 +1035,25 @@ function toggle(scene, value, onChange, words) {
 }
 
 /** ‹ value ›: arrows step through the choices (click them, or ←/→, or Enter for the next) */
-function chooser(scene, text, step) {
+function chooser(scene, label, step) {
+    // Cinzel's lowercase are small caps that smudge at this size (its h reads as II): capitals in the glass theme
+    const text = () => (TH.glass ? label().toUpperCase() : label());
     let val, left, right;
     const arrow = (x, dir) => {
-        const t = scene.add.triangle(x, 0, 0, -7, 0, 7, 10 * dir, 0, 0xffffff).setOrigin(dir > 0 ? 0 : 1, 0.5);
+        const t = scene.add.triangle(x, 0, 0, -7, 0, 7, 10 * dir, 0, TH.text).setOrigin(dir > 0 ? 0 : 1, 0.5);
         const z = scene.add.zone(x, 0, 30, 34).setInteractive({ useHandCursor: true });
         z.on('pointerover', () => t.setFillStyle(ACID));
-        z.on('pointerout', () => t.setFillStyle(0xffffff));
+        z.on('pointerout', () => t.setFillStyle(TH.text));
         z.on('pointerdown', (p, lx, ly, ev) => { ev?.stopPropagation(); playMenuSound(scene, 'clickSound'); step(dir); val?.setText(text()); });
         return [t, z];
     };
     return {
         build(c, a, b) {
             left = arrow(a + 4, -1); right = arrow(b - 4, 1);
-            val = scene.add.text((a + b) / 2, 0, text(), { ...ROW_LABEL, fontSize: '16px' }).setOrigin(0.5);
+            val = scene.add.text((a + b) / 2, 0, text(), ROW_LABEL).setOrigin(0.5);
             c.add([...left, ...right, val]);
         },
-        focus(on) { val.setColor(on ? ACID_CSS : '#ffffff'); },
+        focus(on) { val.setColor(on ? ACID_CSS : css(TH.text)); },
         activate() { playMenuSound(scene, 'clickSound'); step(1); val.setText(text()); },
         adjust(dir) { playMenuSound(scene, 'clickSound'); step(dir); val.setText(text()); },
         refresh() { val.setText(text()); }
@@ -644,8 +1065,8 @@ function chooser(scene, text, step) {
  * deps: { t, getSetting, setSetting, isFullscreen, languages: {code, name}[], language(), setLanguage(code),
  *         dialogStyle(), cycleDialogStyle(dir), panelSet(), cyclePanelSet(dir) }
  */
-export function createBandSettings(scene, { x, w, onClose }, deps) {
-    const panel = createBandPanel(scene, { x, w, title: deps.t('ui.settings.title'), onClose });
+export function createBandSettings(scene, { x, w, onClose, shadeAll }, deps) {
+    const panel = createBandPanel(scene, { x, w, title: deps.t('ui.settings.title'), onClose, shadeAll });
     const Y = [150, 200, 250, 300, 350, 400], CONFIRM = 476;
     const up = (s) => s.toUpperCase();
     const music = slider(scene, panel, deps.getSetting('music'), (v) => deps.setSetting('music', v));
@@ -688,9 +1109,9 @@ export function createBandSettings(scene, { x, w, onClose }, deps) {
  * the Load panel by default, the in-game Save panel with titleKey 'ui.saveLoad.saveTitle'.
  * list(): [{ name, date, onLoad }]  (onLoad: what a click on the row does)
  */
-export function createBandLoad(scene, { x, w, onClose, perPage = 6, titleKey = 'ui.saveLoad.loadTitle' }, { t, list }) {
-    const panel = createBandPanel(scene, { x, w, title: t(titleKey), onClose });
-    const none = scene.add.text(28, 170, t('ui.saveLoad.noSaves'), { ...ROW_LABEL, color: '#8f8f8f' }).setVisible(false);
+export function createBandLoad(scene, { x, w, onClose, perPage = 6, titleKey = 'ui.saveLoad.loadTitle', shadeAll }, { t, list }) {
+    const panel = createBandPanel(scene, { x, w, title: t(titleKey), onClose, shadeAll });
+    const none = scene.add.text(28, 170, t('ui.saveLoad.noSaves'), { ...ROW_LABEL, color: css(TH.note) }).setVisible(false);
     panel.body.add(none);
     let page = 0, rows = [];
     const populate = () => {

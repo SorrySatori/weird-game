@@ -221,7 +221,9 @@ try {
     setFullscreen: (on) => ipcRenderer.send('app:setFullscreen', !!on),
     isFullscreen: () => ipcRenderer.invoke('app:isFullscreen'),
     // the end-of-demo card's "Wishlist on Steam" (utils/demo.js openStorePage); the URL is fixed in the main process
-    openStore: () => ipcRenderer.send('app:openStore')
+    openStore: () => ipcRenderer.send('app:openStore'),
+    // a run from the sources, not the packaged game (electron-main.js additionalArguments): dev-only keys
+    devBuild: process.argv.includes('--weird-dev')
   });
   // Save files on disk (electron-main.js "saves:*"; the folder Steam Cloud syncs). Synchronous like the rest of
   // game-api.js; the saves are a few kB.

@@ -537,6 +537,16 @@ aseprite -b --script-param dir=<outdir> --script-param out=assets/aseprite \
 aseprite -b --script-param src=assets/aseprite --script-param dst=assets/images/ui/menu --script tools/artgen/menu_export.lua
 cp <outdir>/menu_*_glow.png <outdir>/menu_spore.png assets/images/ui/menu/    # the ADD glows come from the generator
 ```
+
+### Main-menu trial skins (2026-11-24)
+`menu_skins.py` draws more looks for the band menu (ui/mainMenuBand.js + ui/menuSkins.js): rust, biomech, jungle,
+crazy, tripe (the tripe fungus), panelak (a post-Soviet prefab tower; its windows in layout.json; the entries
+are built in JS from glass-block / girder / post tiles) (bands at 220 and 320 px, panels 470, rules, nine-slice plates, titles; crazy also eyes + a ransom-note title in
+pieces + layout.json). PIL only, ~7 s. `--preview` mocks the menu over the painting into out/menu_skins/.
+```
+python3 tools/artgen/menu_skins.py [rust|biomech|jungle|crazy|tripe|panelak ...] [--preview]   # -> assets/images/ui/menu/skins/<skin>/
+```
+Title-only fonts (Rubik Wet Paint, Rubik Microbe, Bungee Shade; OFL) are in `tools/artgen/fonts/`, not shipped.
 Journal + quest log (`ui/LedgerPanel.js`): `menu_panel_ledger` (+glow), `UI_MenuTab_68x20` (`klid` / `najeti` / `vybrana`),
 `UI_MenuCard_24x24` (nine-slice entry card, 7 px corners -- keep it flat, it is stretched), `UI_MenuRail_10x32` (scroll rail,
 nine-slice; the knob is `menu_knob`), `UI_MenuChevron_8x8` (quest open / closed). Inventory (`systems/inventory/InventorySystem.js`, same panel):

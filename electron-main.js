@@ -26,7 +26,9 @@ const createWindow = () => {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
-      devTools: DEV_MENU
+      devTools: DEV_MENU,
+      // a run from the sources (not the shipped game): the renderer turns on its dev-only keys (preload.js devBuild)
+      additionalArguments: app.isPackaged ? [] : ['--weird-dev']
     }
   });
 
