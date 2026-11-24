@@ -150,10 +150,14 @@ async function shoot() {
         scene.isTransitioning = true; // no edge exits or exit zones while the shot plays
         const hud = () => HUD[shot.hud](ctx);
         if (shot.hud) scene.sys.events.on('prerender', hud); // scene emitters outlive restarts: removed below
+        // the trailers show the places, not the demo's closed exits: no traffic cones (utils/demo.js)
+        const noCones = () => scene.children.list.forEach(o => { if (/^trafficCone/.test(o.texture?.key || '')) o.setVisible(false); });
+        scene.sys.events.on('prerender', noCones);
         await shot.setup?.(ctx, { wait, frame, until });
         scene.cameras.main.resetFX();
         await frame(false);
-        await cap.begin(shot.id);
+        // a shot that shows the game's text (shot.lang) is kept per language: <id>_cs.mkv next to the English <id>.mkv
+        await cap.begin(shot.lang && cap.args.lang !== 'en' ? `${shot.id}_${cap.args.lang}` : shot.id);
         const n = Math.round(shot.duration * FPS);
         for (let i = 0; i < n; i++) {
             ctx.frame = i;
@@ -163,6 +167,7 @@ async function shoot() {
         }
         await cap.end();
         scene.sys.events.off('prerender', hud);
+        scene.sys.events.off('prerender', noCones);
         shot.after?.(ctx);
     }
 }

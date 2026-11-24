@@ -101,7 +101,7 @@ function makeTipsCut() {
     tip(1, 2, [[3.5, { shot: 'g_gnur', in: 0.25, move: ui }], [2.5, { shot: 'ortolan', in: 0.6, move: ui }]]);
     tip(2, 3, [[7, { shot: 'g_kloor', in: 0.6, move: ui }]]);
     tip(3, 3.5, [[6, { shot: 'g_oltrac', in: 1.4, move: ui }]]);
-    tip(4, 3, [[5, { shot: 'g_journal', in: 0.4, move: ui }]]);
+    tip(4, 3, [[9.4, { shot: 'g_journal', in: 0.4, move: ui }]]);   // the journal, then the quest log
     tip(5, 2, [[1.75, { shot: 'cathedral', in: 0.5, move: push(534, 330, 1.02, 1.12) }],
         [1.75, { shot: 'scraper', in: 0.3, move: [[1.3, 533.5, 420], [1.3, 533.5, 280]] }],
         [1.5, { shot: 'voxmarket', in: 0.3, move: push(534, 320, 1, 1.1) }]]);
@@ -141,6 +141,7 @@ function makeTipsCut() {
  * Noise came here to die."), the Feral Toast rehearsal bursts in on the band's punchline and stops dead on the next cut;
  * after a moment of silence "Les" comes back on its last part, so the logo and the end card land on its final accents.
  */
+// UI beats (`ui: true`) use <shot>_cs.mkv in the Czech cut; `len` would give a caption-less segment its length.
 const NOIR = JSON.parse(fs.readFileSync(new URL('./noir.json', import.meta.url), 'utf8'));
 // strong attacks in guitar-les.mp3 (python3 tools/trailer/onsets.py assets/sounds/guitar-les.mp3 0 146, strength ≥ 0.6)
 const LES_ONSETS = [0.435,0.860,1.295,2.320,2.500,2.910,3.295,3.715,4.100,5.770,6.195,6.455,6.600,6.995,7.415,9.820,10.180,10.595,10.745,10.865,10.900,12.240,12.650,13.045,13.450,13.860,15.880,16.275,16.680,17.105,18.705,19.515,19.925,20.320,21.545,21.950,22.345,22.765,23.170,23.590,25.655,26.055,26.470,26.890,28.940,29.325,29.715,30.140,31.190,31.360,31.410,31.750,32.565,32.970,33.390,35.035,35.840,36.230,36.640,38.690,39.090,39.910,41.110,41.525,41.935,42.705,43.080,43.475,43.875,45.095,45.905,46.320,47.115,47.520,47.570,48.330,49.155,49.560,50.800,52.060,52.445,52.870,53.290,54.745,58.310,58.720,59.135,59.560,61.965,62.370,64.395,64.800,65.240,65.640,66.460,68.895,71.725,72.530,72.925,73.325,78.575,79.000,81.870,83.875,85.485,86.105,86.675,87.095,87.915,87.980,89.930,90.345,90.750,92.215,92.450,92.835,93.695,95.310,96.130,97.365,98.585,100.630,101.050,101.885,103.905,104.110,104.330,104.445,104.705,110.805,111.220,113.930,113.990,114.225,115.265,116.910,120.450,121.245,122.515,122.930,123.355,123.755,125.405,125.835,126.230,126.655,128.685,129.105,129.515,129.930,132.255,132.350,132.390,132.785,133.205,134.470,135.690,136.105,136.525,138.155,138.560,138.950,139.370,139.800,141.835,144.650];
@@ -155,13 +156,18 @@ function makeNoirCut(lang, file) {
         // the city first, the camera easing back from its skyline as the apprentice walks up to the Master
         { shot: 'nr_city', in: 0.3, move: [[1.35, 560, 225], [1.0, 533.5, 300]], fadeIn: 1.0, caps: ['1a', '1b'], beat: true, lead: 1.2 },
         { shot: 'nr_thaal', in: 0.3, move: push(545, 430, 1.4, 1.52), caps: ['2a', '2b', '2c'] },
+        // the UI beats (ui: the shot shows the game's text, captured per language): the quest log's forms, all PENDING
+        { shot: 'nr_cases', ui: true, in: 0.3, move: push(533, 300, 1, 1.04), caps: ['2d', '2e'], beat: true, lead: 1.2 },
         { shot: 'nr_sentinel', in: 0.3, move: push(534, 380, 1.02, 1.12), caps: ['3a', '3b', '3c'], beat: true },
         { shot: 'nr_queue', in: 0.3, move: push(534, 300, 1.02, 1.1), caps: ['4a', '4b'], beat: true },
         { shot: 'nr_ortolan', in: 0.3, move: push(510, 400, 1.04, 1.16), caps: ['5a', '5b', '5c'], beat: true },
         { shot: 'nr_gnur', in: 0.3, move: push(420, 420, 1.06, 1.18), caps: ['6a', '6b'], beat: true },
         { shot: 'nr_kloor', in: 0.4, move: push(600, 380, 1.04, 1.14), caps: ['7a'] },
-        { shot: 'nr_oltrac', in: 0.1, move: still, caps: ['7b', '7c'], beat: true, lead: 0.6 },
-        { shot: 'nr_zerren', in: 0.3, move: push(300, 380, 1.04, 1.14), caps: ['8a', '8b'] },
+        // the bag tipped out, the Amber Oltrac used (the click at 2.7 s), the effect takes hold
+        { shot: 'nr_bag', ui: true, in: 0.3, move: push(533, 300, 1, 1.03), caps: ['7b', '7c'], beat: true, lead: 2.75 },
+        { shot: 'nr_zerren', in: 0.3, move: push(300, 380, 1.04, 1.14), caps: ['8a'] },
+        // her catalogue: the squirrel picked, then BUY (at 4.6 s, under the caption's end)
+        { shot: 'nr_shop', ui: true, in: 0.3, move: push(533, 300, 1, 1.03), caps: ['8b'], lead: 1.1, tail: 0.5 },
         { shot: 'nr_bears', in: 0.3, move: push(534, 270, 1, 1.12), caps: ['9'] },
         { shot: 'nr_edgar', in: 0.3, move: push(320, 420, 1.06, 1.16), caps: ['10a', '10b'], beat: true },
         { shot: 'nr_corkin', in: 0.3, move: push(520, 360, 1.02, 1.08), caps: ['11a'], tail: 0.9 },   // the quiet
@@ -171,9 +177,12 @@ function makeNoirCut(lang, file) {
         { shot: 'nr_corpse', in: 0.3, move: push(330, 380, 1.02, 1.14), caps: ['13a', '13b'] },
         { shot: 'nr_growth', in: 0.3, move: push(400, 330, 1, 1.06), caps: ['14a'], tail: 0.2 },
         { shot: 'nr_decay', in: 0.3, move: push(400, 330, 1.06, 1.12), caps: ['14b'], lead: 0.2 },
-        { shot: 'nr_sky', in: 0.3, move: push(560, 420, 1.02, 1.12), caps: ['15a', '15b', '15c'], beat: true, tail: 0.6 },
+        // the diary: leafing through the people met
+        { shot: 'nr_diary', ui: true, in: 0.2, move: push(533, 300, 1, 1.03), caps: ['15a'], lead: 0.9, tail: 0.8 },
+        // on the deck: Captain Liris's greeting in Bubbles (over the heads), closed at 5.0 s, then the last captions
+        { shot: 'nr_sky_talk', ui: true, in: 0.2, move: push(560, 400, 1.02, 1.08), caps: ['15b', '15c'], beat: true, lead: 5.2, tail: 0.6 },
     ];
-    const length = (seg) => (seg.lead ?? LEAD) + seg.caps.reduce((n, id, i) => n + capLen(id) + (i ? (seg.beat && i === seg.caps.length - 1 ? BEAT : GAP) : 0), 0) + (seg.tail ?? TAIL);
+    const length = (seg) => seg.len ?? (seg.lead ?? LEAD) + seg.caps.reduce((n, id, i) => n + capLen(id) + (i ? (seg.beat && i === seg.caps.length - 1 ? BEAT : GAP) : 0), 0) + (seg.tail ?? TAIL);
     // a cut onto the nearest attack within reach (track time = trailer time + offset)
     const snap = (t, offset) => {
         const near = LES_ONSETS.map(o => o - offset).filter(o => Math.abs(o - t) <= 0.4).sort((a, b) => Math.abs(a - t) - Math.abs(b - t));
@@ -187,7 +196,8 @@ function makeNoirCut(lang, file) {
         const last = ends.pop();
         const cuts = [t0, ...ends.map(e => snap(e, offset)), last];
         list.forEach((seg, k) => {
-            const { caps, beat, lead, tail, ...shot } = seg;
+            const { caps, beat, lead, tail, len, ui, ...shot } = seg;
+            if (ui && lang !== 'en') shot.shot = `${shot.shot}_${lang}`;   // the Czech capture (shots.js `lang: true`)
             SEGMENTS.push({ ...shot, at: cuts[k] });
             let c = cuts[k] + (lead ?? LEAD);
             caps.forEach((id, i) => {

@@ -1,5 +1,6 @@
-import { setSetting } from '../../systems/GameSettings.js';
+import { setSetting, getSetting } from '../../systems/GameSettings.js';
 import { recordingItem } from '../../utils/Recordings.js';
+import { paperScene } from '../../ui/paperKit.js';
 
 // What happens in the game for each trailer shot. Every shot is captured to out/shots/<id>.mkv at the
 // game's native 1067×600; edit.js decides which part of it is used, the camera move and the titles.
@@ -19,10 +20,11 @@ export const SURVEY_SCENES = [
 const find = (scene, texKey) => scene.children.list.find(o => o.texture?.key === texKey);
 
 // HUD modes, applied by the director right before every render (so UI created mid-frame never flashes):
-/** 'hide' — cinematic: the HUD (depth ≥ 100) and hotspot labels go, except what the shot added itself. */
+/** 'hide' — cinematic: the HUD (depth ≥ 100) and hotspot labels go, except what the shot added itself (and the
+ * dialog, when the shot sets ctx.keepDialog). */
 function hideHud(ctx) {
     for (const o of ctx.scene.children.list) {
-        if (ctx.keep.has(o)) continue;
+        if (ctx.keep.has(o) || (ctx.keepDialog && o === ctx.scene.dialogBox)) continue;
         if (o.depth >= 100 || o.type === 'Text') o.setVisible(false);
     }
 }
@@ -339,6 +341,109 @@ SHOTS.push(
     },
 );
 
+// The noir cut's UI beats (2026-11-24): the real quest log, the inventory, the shop, the journal and a dialog in Bubbles, driven by
+// the cursor. They show the game's text, so they are captured per language (`lang: true`):
+//   capture.sh --only nr_cases,nr_bag,nr_shop,nr_diary,nr_sky_talk              → out/shots/<id>.mkv
+//   capture.sh --only nr_cases,nr_bag,nr_shop,nr_diary,nr_sky_talk --lang cs    → out/shots/<id>_cs.mkv
+SHOTS.push(
+    {
+        // the office look's quest log: Shed 521 forms, every one stamped PENDING ("my other unsolved cases")
+        id: 'nr_cases', scene: 'Shed521Scene', duration: 10, hud: 'hide', lang: true,
+        async setup(ctx, h) {
+            await panel(ctx, h, 'office', 'quests');
+            const ov = paperScene(ctx.game);
+            ov?.screen?.key('ArrowDown'); await h.wait(0.05);   // the second form chosen (the last one carries the demo's cone note)
+            ctx.cursor = makeCursor(ctx, 700, 560);
+        },
+        update: script([
+            [0.5, c => c.toText(L({ en: 'Find the Bishop', cs: 'Najít Biskupku' }), 650)],
+            [1.3, c => c.click()],
+            // down the pile, past the stamps
+            [4.0, c => c.moveTo(250, 255, 600)],
+            [4.9, c => c.moveTo(250, 300, 500)],
+            [5.7, c => c.moveTo(250, 345, 500)],
+            [6.5, c => c.moveTo(250, 390, 500)],
+        ]),
+    },
+    {
+        // the bag tipped out, the Amber Oltrac used from it: the effect takes hold
+        id: 'nr_bag', scene: 'ShedCourtyard', duration: 11, hud: 'hide', lang: true,
+        async setup(ctx, h) {
+            const fx = ctx.scene.effectsSystem;
+            ctx.keep.add(fx.effectsContainer);          // depth 5000, would otherwise go with the HUD
+            fx.startPsychedelicComments = () => {};     // the comments are text
+            place(ctx, 330);
+            await panel(ctx, h, 'apprentice', 'inventory');
+            ctx.cursor = makeCursor(ctx, 560, 470);
+        },
+        update: script([
+            [0.4, c => c.toSprite('amberOltrac', 650)],
+            [1.2, c => c.click()],
+            [2.0, c => c.toText(L({ en: 'Use', cs: 'Použít' }), 500, { exact: true })],
+            [2.7, c => c.click()],
+            [3.0, c => c.hide()],
+        ]),
+        after(ctx) { ctx.scene.effectsSystem?.clearEffects(true); },
+    },
+    {
+        // Zerren's catalogue (office look): the squirrel ordered and paid for
+        id: 'nr_shop', scene: 'VoxmarketMarketScene', duration: 9, hud: 'hide', lang: true,
+        async setup(ctx, h) {
+            const s = ctx.scene;
+            setSetting('panelSet', 'office');
+            stockUp(s);
+            const inv = s.registry.get('inventory');   // not owned yet, or the shop refuses a second one
+            s.registry.set('inventory', { ...inv, items: inv.items.filter(it => it.id !== 'ampule_squirrel') });
+            s.shopSystem.open();
+            await h.wait(0.5);
+            ctx.cursor = makeCursor(ctx, 640, 560);
+        },
+        update: script([
+            [0.4, c => c.toText(L({ en: 'Squirrel Scold', cs: 'Veverčí hubování' }), 650)],
+            [1.2, c => c.click()],
+            // the form's button (not the tab); the click lands on the caption's "and I paid for it": after it the
+            // catalogue closes up and the form turns to the next ampule, so the cut follows soon
+            [2.6, c => c.toText(L({ en: 'Buy', cs: 'Koupit' }), 550, { exact: true, pick: 'last' })],
+            [4.6, c => c.click()],
+        ]),
+    },
+    {
+        // the apprentice's diary: leafing through the people met (no Bishop among them)
+        id: 'nr_diary', scene: 'ScreamingCorkScene', duration: 8, hud: 'hide', lang: true,
+        async setup(ctx, h) { await panel(ctx, h, 'apprentice', 'journal'); ctx.cursor = makeCursor(ctx, 420, 560); },
+        update: script([
+            [0.3, c => c.toText('Gnur', 600, { exact: true })],
+            [1.0, c => c.click()],
+            [2.8, c => c.toText('Ortolan', 600)],
+            [3.5, c => c.click()],
+        ]),
+    },
+    {
+        // the end on the deck: Captain Liris greets the apprentice in Bubbles (plates over the heads, so the captions below
+        // stay clear); the dialog closes before the closing captions
+        id: 'nr_sky_talk', scene: 'SkyshipBoardScene', duration: 16, hud: 'hide', lang: true,
+        before(game) { setGrowth(game, 50); },
+        setup(ctx) {
+            ctx.prevDialogStyle = getSetting('dialogStyle');
+            setSetting('dialogStyle', 'bubbles');
+            place(ctx, 430);
+            ctx.keepDialog = true;
+            muteSymbionts(ctx);
+            ctx.cursor = makeCursor(ctx, 1000, 420);
+        },
+        update: script([
+            [0.3, (c, ctx) => dialog(ctx, L({ en: 'Captain Liris', cs: 'Kapitánka Liris' }),
+                L({ en: 'Ah, a visitor! Welcome aboard the Verdigrace. What brings you to my ship?',
+                    cs: 'Ach, návštěvník! Vítejte na palubě Verdigrace. Co vás přivádí na mou loď?' }),
+                [L({ en: 'How does this ship fly?', cs: 'Jak tahle loď létá?' }), L({ en: 'Where are you headed?', cs: 'Kam míříte?' }),
+                    L({ en: 'Is flying dangerous?', cs: 'Je létání nebezpečné?' })])],
+            [2.7, c => c.toText(L({ en: 'Is flying dangerous', cs: 'Je létání nebezpečné' }), 700)],
+            [5.0, (c, ctx) => { c.hide(); ctx.scene.hideDialog(); }],
+        ]),
+        after(ctx) { unmuteSymbionts(ctx); setSetting('dialogStyle', ctx.prevDialogStyle); },
+    },
+);
+
 // ---- Steam screenshots ----
 // Bubble lines come verbatim from the game's own dialogs (lang/cs/dialogs for Czech), trimmed the same way.
 const L = (byLang) => byLang[window.__cap?.args?.lang] ?? byLang.en;
@@ -392,7 +497,11 @@ export const STILLS = [
         },
     },
     // more places (2026-11-23)
-    { id: '09_burning_bear_street', scene: 'BurningBearStreetScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 640); } },
+    // (without the demo's traffic cones, so the shot serves the full game's page too)
+    { id: '09_burning_bear_street', scene: 'BurningBearStreetScene', at: 1.2, hud: 'quiet', setup(ctx) {
+        place(ctx, 640);
+        ctx.scene.children.list.filter(o => /^trafficCone/.test(o.texture?.key || '')).forEach(o => o.setVisible(false));
+    } },
     { id: '10_screaming_cork', scene: 'ScreamingCorkScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 700); } },
     { id: '11_elphi_studio', scene: 'ScraperAmbraScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 330); } },
     { id: '12_scraper_rooftop', scene: 'ScraperScene', at: 1.2, hud: 'quiet', setup(ctx) { place(ctx, 760); } },
@@ -409,7 +518,23 @@ export const STILLS = [
     { id: '22_journal_dossiers', scene: 'ScreamingCorkScene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'journal'); } },
     { id: '23_quests_forms', scene: 'Shed521Scene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'quests'); } },
     { id: '24_shop_catalogue', scene: 'VoxmarketMarketScene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'shop', 1); } },
-    { id: '25_main_menu', scene: 'MainScene', at: 2.5 },
+    // the menu as the game has it (jungle, entries in the middle): no trial look set
+    { id: '25_main_menu', scene: 'MainScene', at: 2.5, before: () => { setSetting('menuTrialTheme', null); setSetting('menuTrialLayout', null); } },
+    // the menu in every look tried on 2026-11-24 (ui/mainMenuBand.js, ui/menuSkins.js; tools/menu_trials/README.md),
+    // native size into out/stills: menu_<theme> (band), _center, _center_settings, _settings (the panel open), _pause
+    // (the ESC menu in a game scene). The trial settings stay set afterwards: 25_main_menu clears them.
+    ...['brutal', 'vitraz', 'glow', 'rust', 'biomech', 'jungle', 'crazy', 'tripe', 'panelak'].flatMap(theme => [
+        { id: `menu_${theme}`, scene: 'MainScene', at: 2.5, native: true, before: () => { setSetting('menuTrialTheme', theme); setSetting('menuTrialLayout', 'band'); },
+            setup: (ctx) => ctx.scene.menu?.focusEntry(0) },        // (the first entry focused: its lit look)
+        { id: `menu_${theme}_center`, scene: 'MainScene', at: 2.5, native: true, before: () => { setSetting('menuTrialTheme', theme); setSetting('menuTrialLayout', 'center'); },
+            setup: (ctx) => ctx.scene.menu?.focusEntry(0) },
+        { id: `menu_${theme}_center_settings`, scene: 'MainScene', data: { panel: 'settings' }, at: 2.5, native: true,
+            before: () => { setSetting('menuTrialTheme', theme); setSetting('menuTrialLayout', 'center'); } },
+        { id: `menu_${theme}_settings`, scene: 'MainScene', data: { panel: 'settings' }, at: 2.5, native: true,
+            before: () => { setSetting('menuTrialTheme', theme); setSetting('menuTrialLayout', 'band'); } },
+        { id: `menu_${theme}_pause`, scene: 'CrossroadScene', at: 2.5, native: true,
+            before: () => setSetting('menuTrialTheme', theme), setup: (ctx) => ctx.scene.gameMenu?.showMenu() }
+    ]),
 ];
 
 /**
@@ -525,12 +650,26 @@ function findSprite(scene, texKey) {
     return visit(scene.children.list, true);
 }
 
+/** The cursor draws in a scene of its own on top: the panels open in PaperScreenScene, above the game scene. */
+class TrailerCursorScene extends Phaser.Scene {
+    constructor() { super({ key: 'TrailerCursorScene' }); }
+    update() { const m = this.game.scene; if (m.getIndex('TrailerCursorScene') !== m.scenes.length - 1) m.bringToTop('TrailerCursorScene'); }
+}
+function cursorScene(game) {
+    const mgr = game.scene;
+    if (!mgr.getScene('TrailerCursorScene')) mgr.add('TrailerCursorScene', TrailerCursorScene, false);
+    mgr.start('TrailerCursorScene');           // fresh every shot: the director's enter() stops all scenes
+    mgr.bringToTop('TrailerCursorScene');
+    return mgr.getScene('TrailerCursorScene');
+}
+
 function makeCursor(ctx, x, y) {
-    const s = ctx.scene;
+    const s = ctx.scene, cs = cursorScene(ctx.game);
     cursorTexture(s);
     const canvas = ctx.game.canvas;
-    const img = s.add.image(x, y, 'trailerCursor').setOrigin(0, 0).setScrollFactor(0).setDepth(1e6);
-    ctx.keep.add(img);
+    const img = cs.add.image(x, y, 'trailerCursor').setOrigin(0, 0).setScrollFactor(0).setDepth(1e6);
+    // the open panel's scene (its texts and icons), else the game scene
+    const where = () => paperScene(ctx.game) || s;
     const mouse = (type, buttons = 0) => {
         const r = canvas.getBoundingClientRect();
         const cx = r.left + img.x * r.width / s.scale.width, cy = r.top + img.y * r.height / s.scale.height;
@@ -538,10 +677,12 @@ function makeCursor(ctx, x, y) {
     };
     mouse('mouseover');
     const cur = {
+        /** back on top (a panel that just opened brought its own scene up) */
+        raise() { ctx.game.scene.bringToTop('TrailerCursorScene'); },
         /** Glide to (tx, ty), or to target() re-read every frame so a walking NPC is still under the cursor on arrival. */
         moveTo(tx, ty, ms = 450, target = null) {
             const from = { x: img.x, y: img.y };
-            s.tweens.addCounter({
+            cs.tweens.addCounter({
                 from: 0, to: 1, duration: ms, ease: 'Sine.easeInOut',
                 onUpdate: (tw) => {
                     const k = tw.getValue();
@@ -553,23 +694,22 @@ function makeCursor(ctx, x, y) {
         },
         /** Point at a text: a little in from its left edge, vertically centred. pick: 'first' | 'last' (lowest on screen). */
         toText(needle, ms = 450, { exact = false, pick = 'first' } = {}) {
-            const hits = findTexts(s, needle, exact);
+            const hits = findTexts(where(), needle, exact);
             if (!hits.length) { window.__cap.log(`cursor: no text "${needle}"`); return; }
             const { b } = pick === 'last' ? hits[hits.length - 1] : hits[0];
             cur.moveTo(b.x + Math.min(b.width * 0.35, 70), b.centerY, ms);
         },
         toSprite(texKey, ms = 450, dy = 0) {
-            const o = findSprite(s, texKey);
+            const o = findSprite(where(), texKey);
             if (!o) { window.__cap.log(`cursor: no sprite "${texKey}"`); return; }
             cur.moveTo(0, 0, ms, () => { const b = o.getBounds(); return [b.centerX, b.centerY + dy]; });
         },
         hide() { img.setVisible(false); },
         click() {
             mouse('mousedown', 1);
-            const ring = s.add.circle(img.x, img.y, 3).setStrokeStyle(2, 0xe8e2cf, 1).setFillStyle().setScrollFactor(0).setDepth(1e6 - 1);
-            ctx.keep.add(ring);
-            s.tweens.add({ targets: ring, radius: 14, alpha: 0, duration: 320, onComplete: () => ring.destroy() });
-            s.time.delayedCall(70, () => mouse('mouseup'));
+            const ring = cs.add.circle(img.x, img.y, 3).setStrokeStyle(2, 0xe8e2cf, 1).setFillStyle().setScrollFactor(0).setDepth(1e6 - 1);
+            cs.tweens.add({ targets: ring, radius: 14, alpha: 0, duration: 320, onComplete: () => ring.destroy() });
+            cs.time.delayedCall(70, () => mouse('mouseup'));
         },
     };
     return cur;
@@ -579,7 +719,7 @@ function makeCursor(ctx, x, y) {
 function script(steps) {
     return (ctx) => {
         ctx.step ??= 0;
-        while (ctx.step < steps.length && steps[ctx.step][0] <= ctx.t + 1e-6) steps[ctx.step++][1](ctx.cursor, ctx);
+        while (ctx.step < steps.length && steps[ctx.step][0] <= ctx.t + 1e-6) { steps[ctx.step++][1](ctx.cursor, ctx); ctx.cursor?.raise(); }
     };
 }
 
@@ -602,7 +742,8 @@ SHOTS.push(
         setup(ctx) {
             const s = ctx.scene;
             s.tweens.killTweensOf(s.gnur); // he paces past the elevator zone, which would take the click
-            s.gnur.setPosition(640, s.gnur.y);
+            // stopped, he stands idle facing the apprentice (else his walk cycle runs on the spot, facing away)
+            s.gnur.setPosition(640, s.gnur.y).setFlipX(true).play('gnur_idle');
             place(ctx, 470);
             ctx.cursor = makeCursor(ctx, 860, 470);
         },
@@ -615,7 +756,7 @@ SHOTS.push(
     },
     {
         id: 'g_kloor', scene: 'VoxMarket', duration: 8.0, hud: 'quiet',
-        setup(ctx) { ctx.scene.addMoney(150, false); place(ctx, 640); ctx.cursor = makeCursor(ctx, 700, 420); },
+        setup(ctx) { setSetting('panelSet', 'apprentice'); ctx.scene.addMoney(150, false); place(ctx, 640); ctx.cursor = makeCursor(ctx, 700, 420); },
         update: script([
             [1.1, c => c.toSprite('kloor', 450, -30)],
             [1.65, c => c.click()],
@@ -623,10 +764,11 @@ SHOTS.push(
             [2.9, c => c.click()],
             [3.7, c => c.toText('Show me what you have', 400)],
             [4.2, c => c.click()],
-            // the shop panel (systems/items/ShopSystem.js): the Amber Oltrac's socket, then the Buy plaque on its card
-            [4.9, (c, ctx) => { const shop = ctx.scene.shopSystem, sl = shop.slots.find(x => x.item?.id === 'amberOltrac'); if (sl) c.moveTo(shop.container.x + sl.x, shop.container.y + sl.y, 450); }],
+            // the shop panel (the apprentice's stall, ui/panels/shopScreens.js): the Amber Oltrac, then Buy on its card
+            // (the card's button sits above the Buy / Sell tabs)
+            [4.9, c => c.toSprite('amberOltrac', 450)],
             [5.45, c => c.click()],
-            [6.1, (c, ctx) => { const shop = ctx.scene.shopSystem, b = shop.actionButton.img; c.moveTo(shop.container.x + b.x, shop.container.y + b.y, 400); }],
+            [6.1, c => c.toText('Buy', 400, { exact: true })],
             [6.6, c => c.click()],
         ]),
     },
@@ -634,6 +776,7 @@ SHOTS.push(
         id: 'g_oltrac', scene: 'ShedCourtyard', duration: 8.4, hud: 'quiet',
         setup(ctx) {
             const s = ctx.scene;
+            setSetting('panelSet', 'apprentice');
             s.addItemToInventory({ ...AMBER_OLTRAC });
             place(ctx, 160);
             ctx.cursor = makeCursor(ctx, 520, 420);
@@ -675,26 +818,23 @@ SHOTS.push(
         },
     },
     {
-        id: 'g_brainrot', scene: 'VoxmarketHallScene', duration: 7.0, hud: 'quiet',
-        before(game) { setGrowth(game, 35); },
+        // the demo has Brain Rot on Zerren (Hesh & Vell's option went with the parts the demo can't reach): asked who
+        // bought the plush toy she turns guarded, Thorne-Still's power dazes her
+        id: 'g_brainrot', scene: 'VoxmarketMarketScene', duration: 7.0, hud: 'quiet',
+        before(game) { setGrowth(game, 35); },            // Brain Rot bites only with Decay above 30
         setup(ctx) {
             const s = ctx.scene;
-            // the auction errand (from the Seldo quest) and a bonded Thorne-Still unlock the [Brain Rot] option
-            if (!s.hasJournalEntry('seldo_auction_errand')) {
-                s.addJournalEntry('seldo_auction_errand', 'Auction errand', 'Seldo sent me to the Voxmarket auction.', s.journalSystem.categories.EVENTS);
-            }
+            const qs = ctx.game.registry.get('questSystem');
+            if (!qs.getQuest?.('the_three_vestigels')) qs.addQuest('the_three_vestigels', 'the_three_vestigels', '');
             s.symbiontSystem.addSymbiont('thorne-still', { name: 'Thorne-Still', power: 0, ability: 'Brain Rot' });
             muteSymbionts(ctx);
-            place(ctx, 250);
+            place(ctx, 400);
             ctx.cursor = makeCursor(ctx, 760, 460);
         },
         update: script([
-            [0.8, c => c.toSprite('heshAndVell', 450, -30)],
-            [1.4, c => c.click()],
-            [2.2, c => c.toText('▼', 350, { pick: 'last' })],          // the [Brain Rot] option sits below the fold
-            [2.6, c => c.click()],
-            [3.0, c => c.toText('[Brain Rot]', 450)],
-            [3.6, c => c.click()],
+            [0.3, (c, ctx) => ctx.scene.showDialog('zerren_buyer_inquiry')],
+            [2.4, c => c.toText("Brain Rot", 500)],
+            [3.1, c => c.click()],
         ]),
         after(ctx) { unmuteSymbionts(ctx); ctx.scene.symbiontSystem?.removeSymbiont('thorne-still'); },
     },
@@ -710,10 +850,15 @@ SHOTS.push(
     },
     {
         // last: by now the other gameplay shots have filled the journal with their real entries
-        id: 'g_journal', scene: 'ScraperInteriorScene', duration: 6.8, hud: 'quiet',
+        // then closed, and the quest log opened from its HUD button
+        id: 'g_journal', scene: 'ScraperInteriorScene', duration: 10.4, hud: 'quiet',
         setup(ctx) {
+            setSetting('panelSet', 'apprentice');
             const f = ctx.game.registry.get('factionSystem');
             if (f) Object.keys(f.factions).forEach((k, i) => f.modifyReputation(k, [30, -20, 12][i] ?? 0));
+            // the errands an early player holds (as given, no steps)
+            const qs = ctx.game.registry.get('questSystem');
+            ['find_bishop', 'ortolan_arms', 'edgar_book', 'find_rust_choir'].forEach(id => { if (!qs.getQuest?.(id)) qs.addQuest(id, id, ''); });
             place(ctx, 300);
             ctx.cursor = makeCursor(ctx, 640, 320);
         },
@@ -724,6 +869,12 @@ SHOTS.push(
             [1.95, c => c.click()],
             [3.4, c => c.toText('Factions', 450, { exact: true })],
             [3.95, c => c.click()],
+            [5.4, (c, ctx) => c.moveTo(ctx.scene.scale.width - 18, 24, 450)],   // the panel's ×
+            [5.95, c => c.click()],
+            [6.5, c => c.moveTo(...HUD_BTN.quests, 450)],
+            [7.05, c => c.click()],
+            [7.9, c => c.toText('Find the Bishop', 450)],
+            [8.45, c => c.click()],
         ]),
     },
     {
