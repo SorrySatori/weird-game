@@ -10,38 +10,38 @@
  },
  "scraper_window_0": {
   "x": 832,
-  "y": 167
+  "y": 168
  },
  "scraper_window_1": {
   "x": 810,
-  "y": 249
+  "y": 247
  },
  "scraper_window_2": {
-  "x": 822,
-  "y": 360
+  "x": 823,
+  "y": 357
  },
  "scraper_window_3": {
-  "x": 788,
-  "y": 393
+  "x": 789,
+  "y": 392
  },
  "scraper_window_4": {
-  "x": 831,
+  "x": 832,
   "y": 425
  },
  "scraper_window_5": {
-  "x": 801,
+  "x": 803,
   "y": 232
  },
  "scraper_window_6": {
-  "x": 811,
+  "x": 812,
   "y": 268
  },
  "scraper_window_7": {
-  "x": 827,
+  "x": 828,
   "y": 264
  },
  "scraper_window_8": {
-  "x": 823,
+  "x": 824,
   "y": 306
  },
  "scraper_window_9": {
@@ -49,20 +49,20 @@
   "y": 326
  },
  "scraper_window_10": {
-  "x": 804,
+  "x": 805,
   "y": 386
  },
  "scraper_window_11": {
-  "x": 813,
+  "x": 814,
   "y": 412
  },
  "scraper_window_12": {
   "x": 797,
-  "y": 416
+  "y": 417
  },
  "scraper_window_13": {
-  "x": 826,
-  "y": 438
+  "x": 820,
+  "y": 430
  },
  "cathedral_violet": {
   "x": 124,
@@ -70,7 +70,7 @@
  },
  "cathedral_green": {
   "x": 125,
-  "y": 217
+  "y": 218
  },
  "cathedral_rose": {
   "x": 125,
@@ -78,7 +78,7 @@
  },
  "cathedral_cyan": {
   "x": 125,
-  "y": 217
+  "y": 218
  },
  "scraper_windows": [
   {

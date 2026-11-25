@@ -14,9 +14,10 @@ const PANEL_W = 470;           // the Load / Settings panels sliding out of the 
 const TITLE_X = 457;           // the top title's centre on the painting (band.png px): between the spire and the Scraper
 // the menu's layout (menuLayout() 'center'): the painting across the whole screen, only the entries in the middle
 const CARD = { w: 264, y: 206, top: 26 };
-// the painting at night: dimmed, its light left in a few places (fractions of the painting: the
-// Egg Cathedral's shell, the green haze over the cemetery, the clock spider, the bear, Edgar; tools/storeart's POOLS)
-const NIGHT = { colour: '4,3,14', alpha: 0.5, pools: [[0.17, 0.40, 0.17, 0.30, 1.0], [0.55, 0.30, 0.16, 0.16, 0.55],
+// the painting at night: only darker toward the edges now (alpha 0: Marti's repaint of 2026-11-25 is dark enough, the
+// 0.5 veil muddied it), its light left in a few places (fractions of the painting: the Egg Cathedral's shell, the
+// green haze over the cemetery, the clock spider, the bear, Edgar; tools/storeart's POOLS)
+const NIGHT = { colour: '4,3,14', alpha: 0, pools: [[0.17, 0.40, 0.17, 0.30, 1.0], [0.55, 0.30, 0.16, 0.16, 0.55],
     [0.92, 0.50, 0.07, 0.10, 0.7], [0.16, 0.82, 0.07, 0.14, 0.45], [0.89, 0.80, 0.06, 0.15, 0.45]] };
 
 export default class MainScene extends Phaser.Scene {
@@ -283,8 +284,9 @@ export default class MainScene extends Phaser.Scene {
     }
 
     /**
-     * Night over the painting (2026-11-24, the user found it too bright beside the dark menus): a dark veil,
-     * darker toward the edges, with the light left round a few things (NIGHT.pools). Over the painting's life, under
+     * Night over the painting (2026-11-24, the user found it too bright beside the dark menus): a dark veil
+     * (NIGHT.alpha, 0 since the darker repaint: just the vignette), darker toward the edges, with the light left round
+     * a few things (NIGHT.pools). Over the painting's life, under
      * the spores, the title and the menu.
      */
     createNight(bg) {

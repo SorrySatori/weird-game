@@ -1,6 +1,9 @@
 """The main menu's background from Marti's painting (straightened by menu_painting.py), and the bits that move on it.
 
-usage: menu_painting_band.py painting.png out_dir x0 x1 top bottom width
+usage: menu_painting_band.py painting.png out_dir x0 x1 top bottom width [ref.png]
+ref: an earlier, sharper photo of the painting laid onto the same pixels (menu_painting.py ... ref): the shapes (the
+airship's mask, the clock's hands, the Scraper's windows, the cathedral's light) are found on it, because a darker
+repaint photographed softer has no clean thresholds; the colours always come from painting.png.
 out_dir gets:
   band.png        the painting's x0..x1 / top..bottom scaled to `width` px wide (the whole painting at 1012: as large as
                   the full-screen menus showed it); the airship's spot is sky, the clock face has no hands. MainScene
@@ -25,6 +28,8 @@ src_p, out_dir = sys.argv[1:3]
 x0, x1, top, bottom, width = (int(v) for v in sys.argv[3:8])
 paint = Image.open(src_p).convert('RGB')
 W, H = paint.size
+geo = Image.open(sys.argv[8]).convert('RGB') if len(sys.argv) > 8 else paint      # where the shapes are found
+assert geo.size == paint.size, 'ref must be the same size as the painting'
 BOX = (1682, 318, 1930, 490)          # the airship with its fins and drips
 SCRAPER_RIGHT = 1660                  # the Scraper's right edge, left of the ship
 POLE = (1666, 378, 1684, 600)         # the thin dark pole left of the gondola
@@ -39,7 +44,7 @@ def L(expr, **ims):
 
 # 1. the airship's mask from its colours: green/teal (balloon, fins, drips) + the warm gondola, closed over the
 #    lattice lines; then its dark outline (only right next to it). PIL's hue runs 0-255: green ~85, teal ~120.
-h, s, v = paint.convert('HSV').split()
+h, s, v = geo.convert('HSV').split()
 gondola = Image.new('L', (W, H), 0)
 ImageDraw.Draw(gondola).ellipse((1730, 406, 1886, 470), fill=255)
 green = L(lambda e: ((e['h'] > 60) & (e['h'] < 150) & (e['s'] > 60)) * 255, h=h, s=s)
@@ -66,7 +71,7 @@ alpha = mask.filter(ImageFilter.GaussianBlur(0.7))
 hole = mask.filter(ImageFilter.MaxFilter(9))
 # the whole envelope, also the sky between the ropes and drips (it's tinted by them)
 ImageDraw.Draw(hole).polygon([(1704, 400), (1888, 400), (1880, 490), (1724, 490)], fill=255)
-dh, ds, dv = paint.convert('HSV').split()
+dh, ds, dv = geo.convert('HSV').split()
 ochre = L(lambda e: ((e['h'] >= 18) & (e['h'] <= 50) & (e['s'] > 60) & (e['v'] > 100)) * 255, h=dh, s=ds, v=dv)
 other = ochre.filter(ImageFilter.MaxFilter(5))
 ImageDraw.Draw(other).rectangle((0, 0, SCRAPER_RIGHT, H), fill=255)
@@ -144,17 +149,17 @@ bg = Image.composite(fill, paint, hole.filter(ImageFilter.GaussianBlur(5)))
 CLOCK_C, CLOCK_R = (1809, 700), 34          # the white face (inside the numerals' outer ends)
 PIVOT = (1809.5, 698.0)
 MINUTE_TIP, HOUR_TIP = (1784, 718), (1830.5, 724)     # it says about twenty to five
-lum = paint.convert('L')
+lum, glum = paint.convert('L'), geo.convert('L')        # the painting's lightness / the shapes'
 face = Image.new('L', (W, H), 0)
 ImageDraw.Draw(face).ellipse((CLOCK_C[0] - CLOCK_R, CLOCK_C[1] - CLOCK_R, CLOCK_C[0] + CLOCK_R, CLOCK_C[1] + CLOCK_R), fill=255)
-dark = ImageChops.multiply(lum.point(lambda t: 255 if t < 125 else 0), face)
+dark = ImageChops.multiply(glum.point(lambda t: 255 if t < 125 else 0), face)
 hands = dark.copy()
 ImageDraw.floodfill(hands, (round(PIVOT[0]), round(PIVOT[1]) + 2), 128, thresh=0)       # the V, not the numerals
 hands = hands.point(lambda t: 255 if t == 128 else 0)
 assert hands.getbbox(), 'the pivot is not on the hands'
 hands_wide = ImageChops.multiply(hands.filter(ImageFilter.MaxFilter(5)), face)
 face_known = ImageChops.multiply(ImageChops.multiply(face.filter(ImageFilter.MinFilter(5)), ImageChops.invert(hands_wide)),
-                                 lum.point(lambda t: 255 if t > 150 else 0))
+                                 glum.point(lambda t: 255 if t > 150 else 0))
 
 
 def normconv_small(img, known, radii=(8, 4, 2)):
@@ -273,14 +278,14 @@ def window(seed, lit=False):
     if lit:
         # a lit window has dark scribbles in its orange: its inside = the orange around the seed, closed over them
         box = (seed[0] - 22, seed[1] - 26, seed[0] + 22, seed[1] + 26)
-        hh, ss, vv = (c.crop(box) for c in paint.convert('HSV').split())
+        hh, ss, vv = (c.crop(box) for c in geo.convert('HSV').split())
         o = L(lambda e: ((e['h'] >= 10) & (e['h'] <= 32) & (e['s'] > 70) & (e['v'] > 130)) * 255, h=hh, s=ss, v=vv)
         o = o.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
         full = Image.new('L', (W, H), 0)
         full.paste(o, box[:2])
         return full
     # the frame: dark (< 75), thickened a pixel so its thin spots don't let the flood out; the inside grows back
-    frame = lum.crop((seed[0] - 30, seed[1] - 30, seed[0] + 30, seed[1] + 30)).point(lambda t: 255 if t < 75 else 0)
+    frame = glum.crop((seed[0] - 30, seed[1] - 30, seed[0] + 30, seed[1] + 30)).point(lambda t: 255 if t < 75 else 0)
     m = ImageChops.invert(frame.filter(ImageFilter.MaxFilter(3)))
     ImageDraw.floodfill(m, (30, 30), 128, thresh=0)
     m = m.point(lambda t: 255 if t == 128 else 0).filter(ImageFilter.MaxFilter(3))
@@ -313,7 +318,7 @@ for lit, seeds in ((True, LIT), (False, DARK)):
 
 # the cathedral's light (its three arched windows and the door) in other colours, to fade to now and then
 CATHEDRAL_LIGHTS = [(320, 405, 357, 470), (241, 560, 279, 630), (401, 555, 439, 626), (302, 690, 387, 818)]
-ch, cs, cv = paint.convert('HSV').split()
+ch, cs, cv = geo.convert('HSV').split()
 yellow = L(lambda e: ((e['h'] >= 18) & (e['h'] <= 55) & (e['s'] > 20) & (e['v'] > 120)) * 255, h=ch, s=cs, v=cv)
 lights = Image.new('L', (W, H), 0)
 for b_ in CATHEDRAL_LIGHTS:
