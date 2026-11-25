@@ -789,9 +789,10 @@ def crack_path(rnd, x, y, ang, n, step=2.5):
     return pts
 
 
-def concrete(w, h, seed, cracks=5, spall=True, moss=0.5, k=1.0):
+def concrete(w, h, seed, cracks=5, spall=True, moss=0.5, k=1.0, spall_at=((0.15, 0.5), (0.35, 0.6))):
     """a weathered concrete wall: aggregate, water stains, pitting, cracks (returned: their paths), a spalled patch
-    with rusty rebar, moss; k = px per menu px (the store art draws it bigger)"""
+    with rusty rebar (its corner somewhere in spall_at: x and y ranges, fractions of w, h), moss; k = px per menu px
+    (the store art draws it bigger)"""
     rnd = random.Random(seed)
     K = lambda v: max(1, round(v * k))
     img = gmap(noise(w, h, K(50), seed, 5, 0.55), CONCRETE)
@@ -817,7 +818,7 @@ def concrete(w, h, seed, cracks=5, spall=True, moss=0.5, k=1.0):
             d.line(br, fill=(10, 10, 10), width=K(1))
             paths.append(br)
     if spall:
-        sx, sy, sw, sh = rnd.uniform(0.15, 0.5) * w, rnd.uniform(0.35, 0.6) * h, rnd.uniform(50, 80), rnd.uniform(26, 40)
+        sx, sy, sw, sh = rnd.uniform(*spall_at[0]) * w, rnd.uniform(*spall_at[1]) * h, rnd.uniform(50, 80), rnd.uniform(26, 40)
         m = Image.new('L', (w, h), 0)
         pts = [(sx + sw / 2 + math.cos(a) * sw / 2 * rnd.uniform(0.7, 1.1), sy + sh / 2 + math.sin(a) * sh / 2 * rnd.uniform(0.6, 1.1))
                for a in [i * math.pi / 8 for i in range(16)]]
@@ -961,16 +962,19 @@ def panel_edges(w, h, side=20, foot=64, fade=26):
 
 def jungle_band(w, h, seed, panel=False):
     rnd = random.Random(seed)
-    img, paths = concrete(w, h, seed, cracks=6 if not panel else 8, moss=0.4)
+    # (a panel's spalled patch low down, behind the ferns: higher up it sat behind a row's arrows and read as a glitch)
+    img, paths = concrete(w, h, seed, cracks=6 if not panel else 8, moss=0.4,
+                          **({'spall_at': ((0.3, 0.55), (0.9, 0.92))} if panel else {}))
     img = mul(img, vgrad(w, h, [(0, 190), (0.5, 175), (1, 80)]))
-    starts = [p for pts in paths for p in pts[::4]]
     if panel:                                                 # tufts along the edges and the foot only
         edges = panel_edges(w, h)
         seeds = [(rnd.uniform(0, 12), rnd.uniform(20, h)) for _ in range(9)] + [(w - rnd.uniform(0, 12), rnd.uniform(20, h)) for _ in range(9)]
         seeds += [(rnd.uniform(0, w), h - rnd.uniform(0, 40)) for _ in range(10)]
         myc = ImageChops.multiply(colonies(w, h, rnd, seeds, size=(7, 15)), edges)
-    else:
-        myc = mycelium(w, h, rnd, starts, 70)
+    else:                                                     # mould colonies along the cracks, none behind the heading
+        seeds = along_cracks(paths, every=3)
+        myc = colonies(w, h, rnd, [seeds[rnd.randrange(len(seeds))] for _ in range(w // 14)], size=(8, 18))
+        myc = ImageChops.multiply(myc, vgrad(w, h, [(0, 0), (70 / h, 0), (110 / h, 255), (1, 255)]))
     over = Image.new('RGBA', (w, h), (0, 0, 0, 0))
     ivy_curtain(over, rnd, w, 0, 26 if not panel else 40, 260)
     d = ImageDraw.Draw(over)
@@ -1009,7 +1013,8 @@ def jungle_pipe(h, seed, w=20):
 
 
 def jungle_slab(seed):
-    """an entry: a cracked concrete slab, its corners chipped, moss on its top; + its mycelium as a glow mask"""
+    """an entry: a cracked concrete slab, its corners chipped, moss on its top; + its mycelium as a glow mask (mould
+    colonies along the cracks and the edges: thin threads read as sparks)"""
     w, h = PLATE_W, PLATE_H
     rnd = random.Random(seed)
     img, paths = concrete(w, h, seed, cracks=2, spall=False, moss=0.25)
@@ -1026,8 +1031,10 @@ def jungle_slab(seed):
     mt = threshold(noise(w, 10, 6, seed + 1, 3), 120, 30)
     mt = ImageChops.multiply(mt, vgrad(w, 10, [(0, 255), (1, 0)]))
     img.paste((54, 80, 34), (0, 0), mt)
-    starts = [p for pts in paths for p in pts[::3]] or [(w / 2, h / 2)]
-    myc = mycelium(w, h, rnd, starts + [(rnd.uniform(0, w), rnd.uniform(0, h)) for _ in range(6)], 22)
+    seeds = along_cracks(paths, every=3) or [(w / 2, h / 2)]
+    seeds = [seeds[rnd.randrange(len(seeds))] for _ in range(4)] + [(rnd.uniform(0, w), rnd.choice((4, h - 5))) for _ in range(3)]
+    # big and a little soft: small colonies on a slab this size came out as starbursts
+    myc = colonies(w, h, rnd, seeds, size=(13, 22)).filter(ImageFilter.GaussianBlur(1.2)).point(lambda v: min(255, v * 1.5))
     return rgba(img, a), Image.merge('RGBA', (Image.new('L', (w, h), 255),) * 3 + (ImageChops.multiply(myc, a),))
 
 

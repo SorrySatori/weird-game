@@ -520,6 +520,10 @@ export const STILLS = [
     { id: '24_shop_catalogue', scene: 'VoxmarketMarketScene', at: 1.2, hud: 'quiet', async setup(ctx, h) { await panel(ctx, h, 'office', 'shop', 1); } },
     // the menu as the game has it (jungle, entries in the middle): no trial look set
     { id: '25_main_menu', scene: 'MainScene', at: 2.5, before: () => { setSetting('menuTrialTheme', null); setSetting('menuTrialLayout', null); } },
+    // the end of the demo (utils/demo.js showDemoEnd) over a paused scene: the credits rolling (the names rising, then
+    // fading out under the title) and the end card
+    ...[['demo_credits', 'CreditsScene', 9], ['demo_credits_late', 'CreditsScene', 24], ['demo_end', 'DemoEndScene', 3]].map(([id, card, at]) => (
+        { id, scene: 'CrossroadScene', at, native: true, setup: (ctx) => { ctx.scene.scene.pause(); ctx.scene.scene.launch(card, { from: 'CrossroadScene' }); } })),
     // the menu in every look tried on 2026-11-24 (ui/mainMenuBand.js, ui/menuSkins.js; tools/menu_trials/README.md),
     // native size into out/stills: menu_<theme> (band), _center, _center_settings, _settings (the panel open), _pause
     // (the ESC menu in a game scene). The trial settings stay set afterwards: 25_main_menu clears them.

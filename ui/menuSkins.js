@@ -293,7 +293,7 @@ const jungle = {
         font: 'Rubik', head: 'Bungee', headBold: false, headScale: 0.6, labelPx: 18, rowPx: 16, smallSpacing: 3,
         thread: MINT, garden: [MINT, 0x5fd6a0, 0xe8fff0], glow: MINT, spore: 0xc8ffe0, basket: 0xd2577f, mycena: MINT
     },
-    myc: [0.2, 0.42],
+    myc: false,             // the band's own texture grows mould colonies; thin threads off the rule read as sparks
     preload(scene) {
         loadFonts(scene, [['Bungee', 'Bungee.ttf'], ['Rubik', 'Rubik.ttf', { weight: '300 900' }]]);
         loadImages(scene, 'jungle', ['band', 'band_wide', 'panel', 'band_myc', 'band_wide_myc', 'panel_myc', 'rule', 'title',
