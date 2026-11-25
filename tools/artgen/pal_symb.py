@@ -5,9 +5,9 @@ from common import hx, ramp, INK
 CORD   = ramp('#2a281e #4a4634 #77715a #a8a084 #d2ccb0')                    # mycelial cord
 HUSK   = ramp('#120e0a #1f1810 #2f2518 #433522 #5a482e #73603c #8f7a4e #ab9564')  # pod husk (open)
 DRY    = ramp('#100e0c #1c1915 #2a2620 #3a352c #4c463a #615a4a #7a7260')    # sealed, shrivelled pod
-CAV    = ramp('#07040a #100a16 #1a1022 #2a1a36 #3d2a4c')                    # pod cavity
-VEIN   = ramp('#143a22 #1f5a32 #3f8f5a #7fff8e')                            # bioluminescent veins
-LIP    = ramp('#2a1424 #4a2238 #6e3a4e #8e5464')                            # inner lip of the pod
+CAV    = ramp('#06070a #0b0f0c #111811 #182216 #212d1c')                    # pod cavity (dark moss)
+VEIN   = ramp('#13281e #1e3e2c #3a6e52 #7cc4a0')                            # veins (muted mint)
+LIP    = ramp('#24140c #3e2214 #5a341e #74482a')                            # inner lip of the pod (rust)
 WAX    = ramp('#3a0a0e #6e1420 #a8283a #d24a52')                            # registration seal
 
 BRUISE = ramp('#1e0f1c #35182f #52243f #723451 #934a62 #b86e7a #d898a0')    # Thorne-Still
