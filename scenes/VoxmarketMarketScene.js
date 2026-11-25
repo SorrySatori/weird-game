@@ -528,7 +528,7 @@ export default class VoxmarketMarketScene extends GameScene {
             questSystem.updateQuest('find_bishop', 'Zerren has a new item for sale: a Forgotten Elevator Button.', 'found_elevator_button');
             
             // Show a notification
-            this.showNotification(this.t('notifications.newItemAvailable', { item: this.t('shop.items.forgotten_elevator_button.name') }), 0x7fff8e);
+            this.showNotification(this.t('notifications.newItemAvailable', { item: this.t('items.forgotten_elevator_button.name') }), 0x7fff8e);
         }
     }
     

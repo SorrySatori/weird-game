@@ -38,6 +38,7 @@ const DEBUG_GD_KEYS = !DEMO_BUILD;
 
 /** What the hint lantern costs: it outlines everything clickable in the scene until the player leaves it. */
 const HINT_COST = 5;
+const QUEST_SPORES = 10;       // every finished quest feeds the spores a little (2026-11-25: was a silent +5)
 
 /** Corner notifications stack downward from here (below the HUD buttons' labels), this far apart. */
 const NOTICE_TOP = 104;
@@ -575,37 +576,46 @@ export default class GameScene extends Phaser.Scene {
             questSystem.setScene(this);
             this.registry.set('questSystem', questSystem);
             
-            // Add quest system event handlers
-            questSystem.on('questAdded', (questId, title) => {
-                this.showNotification(this.t('notifications.newQuest'));
-                // Show notification indicator on quest log button
+            // Add quest system event handlers. They are bound once, in the first scene, but must speak in the one
+            // the player is in now (questSystem.scene, set in every create below): the notices and the quest
+            // button's badge used to go to that first scene, unseen once the player had left it.
+            // (an update fired mid-transition, when the scene it was set to is shutting down or the next one is still
+            // being created: whichever GameScene runs, else the one being created)
+            const live = (x, ...states) => x instanceof GameScene && states.includes(x.sys.settings.status);
+            const { RUNNING, CREATING } = Phaser.Scenes;
+            const here = () => (live(questSystem.scene, RUNNING, CREATING) ? questSystem.scene
+                : this.game.scene.scenes.find(x => live(x, RUNNING)) || this.game.scene.scenes.find(x => live(x, CREATING)) || this);
+            const flagQuestLog = (s) => {
                 this.registry.set('hasUnreadQuestUpdates', true);
-                if (this.questLog && this.questLog.questNotificationIndicator) {
-                    this.questLog.questNotificationIndicator.setVisible(true);
-                }
+                s.questLog?.questNotificationIndicator?.setVisible(true);
+            };
+            questSystem.on('questAdded', () => {
+                const s = here();
+                s.showNotification(s.t('notifications.newQuest'));
+                flagQuestLog(s);
             });
-            
-            questSystem.on('questUpdated', (questId, title) => {
-                this.showNotification(this.t('notifications.questUpdated'));
-                // Show notification indicator on quest log button
-                this.registry.set('hasUnreadQuestUpdates', true);
-                if (this.questLog && this.questLog.questNotificationIndicator) {
-                    this.questLog.questNotificationIndicator.setVisible(true);
-                }
+
+            questSystem.on('questUpdated', () => {
+                const s = here();
+                s.showNotification(s.t('notifications.questUpdated'));
+                flagQuestLog(s);
             });
-            
-            questSystem.on('questCompleted', (questId, title) => {
-                this.showNotification(this.t('notifications.questCompleted'));
+
+            questSystem.on('questCompleted', () => {
+                const s = here();
+                s.showNotification(s.t('notifications.questCompleted'));
                 this.registry.set('autosavePending', true);   // saved by update() once the scene is calm (autosave())
-                this.modifySpores(5);
-                // Show notification indicator on quest log button
-                this.registry.set('hasUnreadQuestUpdates', true);
-                if (this.questLog && this.questLog.questNotificationIndicator) {
-                    this.questLog.questNotificationIndicator.setVisible(true);
-                }
+                // a few spores for it (said only when there was room for them)
+                const spores = this.registry.get('sporeSystem');
+                const before = spores?.getSporeLevel() ?? 0;
+                s.modifySpores(QUEST_SPORES);
+                const gained = (spores?.getSporeLevel() ?? 0) - before;
+                if (gained > 0) s.showNotification(s.t('notifications.questSpores', { n: gained }));
+                flagQuestLog(s);
             });
         }
         this.questSystem = this.registry.get('questSystem');
+        this.questSystem.setScene(this);              // (the quest notices show here now)
         this.questLog = new QuestLog(this, this.scale.width - 50, 50);
 
         // Initialize Faction system if not already initialized

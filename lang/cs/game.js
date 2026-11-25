@@ -168,6 +168,7 @@ export default {
         questUpdated: 'Úkol aktualizován',
         questCompleted: 'Úkol dokončen!',
         questFailed: 'Úkol selhal',
+        questSpores: 'Spory v tobě rostou. (+{n})',
         journalUpdated: 'Deník aktualizován',
         reputationChange: '{faction}: reputace {sign}{change}',
         moneyGain: '+{amount} dinárů',

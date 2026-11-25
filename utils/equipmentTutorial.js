@@ -131,6 +131,14 @@ export function runEquipmentTutorial(scene) {
             { label: T('Close & continue ▸', 'Zavřít a dál ▸'), primary: true, onClick: () => { if (openClose) { try { openClose(); } catch (e) { /* ignore */ } } openClose = null; i++; renderStep(); } },
             skipBtn,
         ]);
+        // The panel closed some other way (its key, ESC, its cross, another panel opened over it): the caption went
+        // with it, so that counts as "close & continue" -- otherwise the tutorial waited for a button that was gone
+        // and the game stayed locked
+        const gone = scene.time.addEvent({ delay: 150, loop: true, callback: () => {
+            if (step.isOpen()) return;
+            openClose = null; i++; renderStep();
+        } });
+        objs.push({ destroy: () => gone.remove() });
     };
     const renderStep = () => {
         clear();

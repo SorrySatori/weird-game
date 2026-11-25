@@ -7,6 +7,7 @@ import { canWeave, spendWeave } from '../utils/ulvarexEncounter.js';
 
 /** Spores for Ulvarex's mirage of the living core (a big weave: it has to fool Gnur's claws and ears too) */
 const MIRAGE_CORE_COST = 15;
+const GNUR_PAYS = 30;          // dinar for the core (the real one or Ulvarex's mirage), 2026-11-25
 
 export default class Shed521Scene extends GameScene {
     constructor() {
@@ -147,7 +148,7 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             complete_quest_mirage_end: {
-                text: "(Gnur turns the core over in his claws, listens to it hum and tucks it away somewhere inside his coat, humming along.)",
+                text: "(Gnur turns the core over in his claws, listens to it hum and tucks it away somewhere inside his coat, humming along. Then he tosses you thirty dinar.)",
                 options: [
                     { text: "Leave", key: 'leave', next: "end" }
                 ],
@@ -159,13 +160,14 @@ export default class Shed521Scene extends GameScene {
                         this.gdChoiceOnce('ulvarex_mirage_core', 3, 0);
                         this.questSystem.updateQuest('rust_reclamation', "Gnur got a living core Ulvarex wove out of a scrap of tin. The real one is still humming in its wall, and he told me what he knew about the Bishop.", 'core_illusion');
                         this.questSystem.completeQuest('rust_reclamation');
+                        this.addMoney(GNUR_PAYS);   // he pays for the core he thinks he has
                         this.questSystem.updateQuest('find_bishop', 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel. Then she headed to Scraper 1140 to meet Dr. Elphi.', 'bishop_location_scraper');
                         this.addJournalFact('gnur_meeting', 'mirage_core', "He walked off with a living core Ulvarex wove from a scrap of tin. A mirage doesn't last forever, though. One day he'll notice.");
                     }
                 }
             },
             complete_quest_end: {
-                text: "(Gnur returns to his work, humming a strange metallic tune.)",
+                text: "(Gnur tosses you thirty dinar without looking up.) For your trouble, mate.\n\n(He returns to his work, humming a strange metallic tune.)",
                 options: [
                     { text: "Leave", key: 'leave', next: "end" }
                 ],
@@ -182,7 +184,8 @@ export default class Shed521Scene extends GameScene {
                         // Complete rust_reclamation quest
                         this.questSystem.updateQuest('rust_reclamation', 'I have given Gnur the living core. He seems satisfied.', 'core_delivered');
                         this.questSystem.completeQuest('rust_reclamation');
-                        
+                        this.addMoney(GNUR_PAYS);
+
                         // Update find_bishop quest with new information
                         this.questSystem.updateQuest('find_bishop', 'The Bishop bought a pre-war lens from Gnur and paid with a Vestigel. Then she headed to Scraper 1140 to meet Dr. Elphi.', 'bishop_location_scraper');
                     }

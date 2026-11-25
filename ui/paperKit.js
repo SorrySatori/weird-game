@@ -497,7 +497,9 @@ let current = null;                                   // { owner } of the open s
 /** the running overlay, or null */
 export function paperScene(game) {
     const s = game.scene.getScene('PaperScreenScene');
-    return s && s.sys.isActive() && s.sys.settings.status === Phaser.Scenes.RUNNING ? s : null;
+    // (a screen being closed is no place for anything new: `current` lets go at once, the scene stops a frame later;
+    // the equipment tutorial drew its next caption, its last "Done" too, into the closing panel and got stuck)
+    return current && s && s.sys.isActive() && s.sys.settings.status === Phaser.Scenes.RUNNING ? s : null;
 }
 
 /**
@@ -509,8 +511,11 @@ export function openPaperScreen(owner) {
     if (current && current !== owner) { const prev = current; current = null; prev.paperClosed?.(); }
     current = owner;
     if (!mgr.getScene('PaperScreenScene')) mgr.add('PaperScreenScene', PaperScreenScene, false);
+    // (added inside a game step, e.g. Zerren's stall opening on a timer, the scene only exists from the next step on:
+    // getScene() is null for now, and launching it by key waits in the queue right behind the add; .sys of null froze
+    // the game)
     const overlay = mgr.getScene('PaperScreenScene');
-    if (overlay.sys.isActive()) overlay.scene.restart({ owner });
+    if (overlay?.sys.isActive()) overlay.scene.restart({ owner });
     else owner.scene.scene.launch('PaperScreenScene', { owner });
     owner.scene.scene.bringToTop('PaperScreenScene');
     if (!owner._paperShutdownHooked) {

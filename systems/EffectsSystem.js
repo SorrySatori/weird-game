@@ -78,8 +78,8 @@ export default class EffectsSystem {
                 this.currentDrugItem = activeEffect.item;
                 this.effectStartTime = activeEffect.startTime;
                 
-                // Apply the effect without resetting the timer
-                this.applyDrugEffectById(activeEffect.id, remainingTime);
+                // Apply the effect without resetting the timer (nor rolling the dose's spore swing again)
+                this.applyDrugEffectById(activeEffect.id, remainingTime, true);
             } else {
                 // Effect has expired, clear it from registry
                 this.scene.registry.remove('activeDrugEffect');
@@ -121,21 +121,22 @@ export default class EffectsSystem {
      * Apply a drug effect by its ID with specified duration
      * @param {string} effectId - The effect ID to apply
      * @param {number} duration - Duration in milliseconds
+     * @param {boolean} restored - the trip carried on into a new scene: the dose's spore swing was rolled already
      */
-    applyDrugEffectById(effectId, duration) {
+    applyDrugEffectById(effectId, duration, restored = false) {
         // Apply effect based on drug type
         switch(effectId) {
             case 'grayOltrac':
                 this.applyGrayOltracEffect();
-                this.applyGameplayEffect(effectId, 'mild');
+                this.applyGameplayEffect(effectId, 'mild', restored);
                 break;
             case 'violetOltrac':
                 this.applyVioletOltracEffect();
-                this.applyGameplayEffect(effectId, 'medium');
+                this.applyGameplayEffect(effectId, 'medium', restored);
                 break;
             case 'amberOltrac':
                 this.applyAmberOltracEffect();
-                this.applyGameplayEffect(effectId, 'intense');
+                this.applyGameplayEffect(effectId, 'intense', restored);
                 break;
             default:
                 console.warn(`No effect defined for effect ID: ${effectId}`);
@@ -494,15 +495,23 @@ export default class EffectsSystem {
      * Apply gameplay effects based on drug type
      * @param {string} drugId - The drug ID
      * @param {string} intensity - The intensity level (mild, medium, intense)
+     * @param {boolean} restored - a new scene mid-trip: only the fluctuations start again (the swing came with the dose;
+     *   rolling it in every room drained the spores, 100 to 2 in a few rooms)
      */
-    applyGameplayEffect(drugId, intensity) {
+    applyGameplayEffect(drugId, intensity, restored = false) {
         // Get the spore system if available
         const sporeSystem = this.scene.registry.get('sporeSystem');
         if (!sporeSystem) {
             console.warn('SporeSystem not found in registry, cannot apply gameplay effects');
             return;
         }
-        
+        const L = LanguageSystem.getInstance();
+        if (!restored) this.applyInitialSporeSwing(sporeSystem, drugId, L);
+        this.startSporeFluctuations(sporeSystem, intensity, L);
+    }
+
+    /** The dose's opening swing of spores, once per dose: random, either way, bigger for the stronger Oltracs. */
+    applyInitialSporeSwing(sporeSystem, drugId, L) {
         // Apply initial spore effect based on drug type - now with randomness
         let maxInitialChange = 0;
         switch(drugId) {
@@ -525,10 +534,12 @@ export default class EffectsSystem {
         console.log(`[EffectsSystem] Initial ${drugId} effect: ${initialEffect} spores`);
         
         // Show a notification about the spore change
-        const L = LanguageSystem.getInstance();
         const effectMessage = L.t(initialEffect > 0 ? 'drugs.sporesUp' : 'drugs.sporesDown', { n: initialEffect });
         this.scene.showNotification(effectMessage, '', '', 3000);
-        
+    }
+
+    /** Through the trip the spores keep drifting now and then (a scene's timers end with it: started again in each). */
+    startSporeFluctuations(sporeSystem, intensity, L) {
         // Set up interval for random spore fluctuations
         const intervalTime = intensity === 'intense' ? 15000 : 
                             intensity === 'medium' ? 25000 : 35000;

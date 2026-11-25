@@ -240,7 +240,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_testing_path: {
-                text: "Guessing and experimenting is how I stay alive. Most visitors lie. Some of them don't even know it.\\n\\nBut fine. Speak clearly. What do you want?",
+                text: "Guessing and experimenting is how I stay alive. Most visitors lie. Some of them don't even know it.\n\nBut fine. Speak clearly. What do you want?",
                 options: [
                     { text: "I'm looking for the Bishop.", key: 'im_looking_for_the_bishop', next: "dr_elphi_bishop_path" },
                     { text: "There's been a signal anomaly. A distress call.", key: 'theres_been_a_signal_anomaly', next: "dr_elphi_anomaly_path" }
@@ -270,7 +270,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
 
             dr_elphi_bishop_destination: {
-                text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\\n\\nThis time, though, I have a feeling that something has changed. She was... going out to the yard often, as if something there had caught her attention. When I asked her about it, she sounded evasive.",
+                text: "No. She never does. The Bishop moves in patterns only she understands. But she always returns to the Cathedral eventually.\n\nThis time, though, I have a feeling that something has changed. She was... going out to the yard often, as if something there had caught her attention. When I asked her about it, she sounded evasive.",
                 options: [
                     { text: "What was she avoiding?", key: 'what_was_she_avoiding', next: "dr_elphi_bishop_concerns" },
                     { text: "I'll go look for her there.", key: 'ill_go_look_for_her_there', next: "dr_elphi_exit" },

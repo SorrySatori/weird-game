@@ -177,7 +177,7 @@ export default {
         }
     },
     kloor_vestigels_complete: {
-        text: "Kloorovi se rozšíří oči, když mu ukážeš Vestigel. 'Neuvěřitelné! Opravdu jsi jeden našel!' Opatrně ho od tebe přebere a s fascinací ho zkoumá. 'Jak jsem slíbil, řeknu ti, co vím o Biskupce.'",
+        text: "Kloorovi se rozšíří oči, když mu ukážeš Vestigel. 'Neuvěřitelné! Opravdu jsi jeden našel!' Opatrně ho od tebe přebere a s fascinací ho zkoumá. 'Jak jsem slíbil, řeknu ti, co vím o Biskupce. A tady máš navíc dvacet dinárů. Takový nález si to zaslouží.'",
         options: {
             tell_me: "Řekněte mi"
         }

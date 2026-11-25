@@ -142,6 +142,7 @@ export default {
         questUpdated: 'Quest updated',
         questCompleted: 'Quest completed!',
         questFailed: 'Quest failed',
+        questSpores: 'The spores in you grow. (+{n})',
         journalUpdated: 'Journal updated',
         reputationChange: '{faction} Reputation: {sign}{change}',
         moneyGain: '+{amount} dinar',

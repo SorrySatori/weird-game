@@ -393,10 +393,10 @@ export default class ShedCourtyardScene extends GameScene {
     // Create a visual celebration effect for quest completion
     createCompletionEffect() {
         if (!this._ortolan) return;
-        // Create particles for celebration
-        const particles = this.add.particles('particle', {
-            x: this._ortolan.x,
-            y: this._ortolan.y - 50,
+        // A second of glowing spores bursting round him (Phaser 3.60+: x, y, texture, config; the old
+        // add.particles(texture, config) form threw, so this never showed until 2026-11-25)
+        const o = this._ortolan;
+        const particles = this.add.particles(o.x, o.y - o.displayHeight * 0.55, 'particle', {
             speed: { min: 50, max: 100 },
             angle: { min: 0, max: 360 },
             scale: { start: 0.5, end: 0 },
@@ -405,12 +405,11 @@ export default class ShedCourtyardScene extends GameScene {
             frequency: 50,
             quantity: 10,
             tint: [0x7fff8e, 0xffffff]
-        });
-        
-        // Stop emitting after 1 second
-        this.time.delayedCall(1000, () => {
-            particles.destroy();
-        });
+        }).setDepth(o.depth + 1);
+
+        // Stop emitting after 1 second; the last spores fade out before it goes
+        this.time.delayedCall(1000, () => particles.stop());
+        this.time.delayedCall(2100, () => particles.destroy());
     }
 
     showOrtholanDialog() {

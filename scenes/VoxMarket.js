@@ -7,6 +7,8 @@ import EffectsSystem from '../systems/EffectsSystem.js';
 import { applyGDBackground } from '../utils/GDProps.js';
 import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
+const KLOOR_PAYS = 20;         // dinar on top of the Bishop lead for the Vestigel, 2026-11-25
+
 export default class VoxMarket extends GameScene {
     constructor() {
         super({ key: 'VoxMarket' });
@@ -367,7 +369,7 @@ export default class VoxMarket extends GameScene {
             // complete and nothing replays the reveal, so leaving early used to lose the lead to Dr. Elphi.
             kloor_vestigels_complete: {
                 hideCloseOption: true,
-                text: "Kloor's eyes widen as you show him the Vestigel. 'Incredible! You actually found one!' He carefully takes it from you, examining it with fascination. 'As promised, I'll tell you what I know about the Bishop.'",
+                text: "Kloor's eyes widen as you show him the Vestigel. 'Incredible! You actually found one!' He carefully takes it from you, examining it with fascination. 'As promised, I'll tell you what I know about the Bishop. And here, twenty dinar on top. A find like this deserves it.'",
                 options: [
                     { text: "Tell me", key: 'tell_me', next: "kloor_bishop_reveal" }
                 ],
@@ -381,6 +383,7 @@ export default class VoxMarket extends GameScene {
                             'completed'
                         );
                         this.questSystem.completeQuest('the_three_vestigels');
+                        this.addMoney(KLOOR_PAYS);   // on top of the lead: a find like that deserves it
                         this.addJournalEntry(
                             'kloor_vestigel_exchange',
                             'Vestigel Exchange with Kloor',

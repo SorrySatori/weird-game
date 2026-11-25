@@ -38,7 +38,7 @@ export default {
         }
     },
     dr_elphi_bishop_path: {
-        text: "Biskupka? No, jdete pozdě. Chodila sem. Vlastně docela často. Vždycky kvůli simulacím, nikdy kvůli politice.\\n\\nMěla ráda hry založené spíš na příběhu. Imerzivní fikce, snová prostředí. Kardinálova hostina byla její oblíbená.\\n\\nKdy jsem ji viděla naposled? Před třemi tráveními, možná čtyřmi. Skončila sešnu a řekla, že možná ještě chvíli zůstane venku. Měla klíč od dvorku.\\n\\nNepřišlo mi na tom nic zvláštního. Působila... roztržitě. Víc než obvykle.",
+        text: "Biskupka? No, jdete pozdě. Chodila sem. Vlastně docela často. Vždycky kvůli simulacím, nikdy kvůli politice.\n\nMěla ráda hry založené spíš na příběhu. Imerzivní fikce, snová prostředí. Kardinálova hostina byla její oblíbená.\n\nKdy jsem ji viděla naposled? Před třemi tráveními, možná čtyřmi. Skončila sešnu a řekla, že možná ještě chvíli zůstane venku. Měla klíč od dvorku.\n\nNepřišlo mi na tom nic zvláštního. Působila... roztržitě. Víc než obvykle.",
         options: {
             whats_in_the_backyard: "Co je na dvorku?",
             did_she_say_where_she_was_going: "Řekla, kam jde?",
@@ -62,14 +62,14 @@ export default {
         }
     },
     dr_elphi_testing_path: {
-        text: "Hádání a experimentování mě drží naživu. Většina návštěvníků lže. Někteří o tom ani nevědí.\\n\\nAle dobrá. Mluvte jasně. Co potřebujete?",
+        text: "Hádání a experimentování mě drží naživu. Většina návštěvníků lže. Někteří o tom ani nevědí.\n\nAle dobrá. Mluvte jasně. Co potřebujete?",
         options: {
             im_looking_for_the_bishop: "Hledám Biskupku.",
             theres_been_a_signal_anomaly: "Došlo k anomálii v signálu. Někdo vyslal nouzové volání."
         }
     },
     dr_elphi_bishop_destination: {
-        text: "Ne. To nikdy. Biskupka dělá věci, kterým rozumí jen ona. Ale nakonec se vždycky vrátí do katedrály.\\n\\nTentokrát ale mám pocit, že se něco změnilo. Byla... chodila často na dvůr, jako by ji tam něco zaujalo. Když jsem se zeptala, zněla vyhýbavě.",
+        text: "Ne. To nikdy. Biskupka dělá věci, kterým rozumí jen ona. Ale nakonec se vždycky vrátí do katedrály.\n\nTentokrát ale mám pocit, že se něco změnilo. Byla... chodila často na dvůr, jako by ji tam něco zaujalo. Když jsem se zeptala, zněla vyhýbavě.",
         options: {
             what_was_she_avoiding: "Čemu se vyhýbala?",
             ill_go_look_for_her_there: "Půjdu ji tam hledat.",

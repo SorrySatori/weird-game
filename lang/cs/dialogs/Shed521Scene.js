@@ -85,13 +85,13 @@ export default {
         }
     },
     complete_quest_mirage_end: {
-        text: "(Gnur jádro obrací v pařátech, poslouchá, jak bzučí, a pak ho zastrčí někam do kabátu a brouká si s ním.)",
+        text: "(Gnur jádro obrací v pařátech, poslouchá, jak bzučí, a pak ho zastrčí někam do kabátu a brouká si s ním. Nakonec ti hodí třicet dinárů.)",
         options: {
             leave: "Odejít"
         }
     },
     complete_quest_end: {
-        text: "(Gnur se vrátí ke své práci, brouká si podivnou, skřípavou melodii.)",
+        text: "(Gnur ti, aniž by vzhlédl, hodí třicet dinárů.) Za tu námahu, kámo.\n\n(Vrátí se ke své práci a brouká si podivnou, skřípavou melodii.)",
         options: {
             leave: "Odejít"
         }
