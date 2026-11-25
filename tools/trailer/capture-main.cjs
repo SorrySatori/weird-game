@@ -1,7 +1,7 @@
 // Electron entry for the trailer capture. Opens capture.html in a hidden window and turns the frames the
 // director sends into one lossless clip per shot (out/shots/<id>.mkv) plus PNG stills (out/stills/).
 //
-//   node_modules/.bin/electron tools/trailer/capture-main.cjs [--survey|--screenshots|--dialogs] [--only id,id] [--fps 60] [--lang cs]
+//   node_modules/.bin/electron tools/trailer/capture-main.cjs [--survey|--screenshots|--dialogs|--test name] [--only id,id] [--fps 60] [--lang cs]
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const fs = require('fs');
@@ -21,6 +21,7 @@ const options = {
     only: opt('only', '') ? opt('only').split(',') : null,
     fps: Number(opt('fps', 60)),
     lang: opt('lang', 'en'),
+    test: opt('test', ''),       // --test <name>: run tools/trailer/tests/<name>.js instead of capturing
 };
 // Steam matches localized screenshots by a language suffix in the file name (foo_czech.png).
 const STEAM_LANG = { en: '', cs: '_czech' };

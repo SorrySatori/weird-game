@@ -1,6 +1,7 @@
 // Trailer director: runs inside capture.html, drives the game frame by frame on the virtual clock and
 // records the shots from shots.js. --survey instead saves a still + object dump of every demo scene,
-// --dialogs a still of sample conversations in every dialog style (out/stills/dialog_<case>_<style>.png).
+// --dialogs a still of sample conversations in every dialog style (out/stills/dialog_<case>_<style>.png),
+// --test <name> runs tools/trailer/tests/<name>.js (a check of the game, not a capture).
 import { SHOTS, STILLS, SURVEY_SCENES, HUD, DIALOG_CASES } from './shots.js';
 import { DIALOG_STYLES, cycleDialogStyle } from '../../utils/dialogLayouts.js';
 import { setSetting } from '../../systems/GameSettings.js';
@@ -200,7 +201,11 @@ async function screenshots() {
             const loading = game.scene.getScene('LoadingScene');
             return loading && loading.sys.settings.status >= Phaser.Scenes.CREATING;
         }, 120 * FPS, 'LoadingScene');
-        if (cap.args.survey) await survey();
+        if (cap.args.test) {
+            // a test (tools/trailer/tests/<name>.js): its default export gets the harness; a failed check is its own report
+            const test = await import(`./tests/${cap.args.test}.js`);
+            await test.default({ game, cap, enter, wait, frame, until, readPixels, describe });
+        } else if (cap.args.survey) await survey();
         else if (cap.args.screenshots) await screenshots();
         else if (cap.args.dialogs) await dialogs();
         else await shoot();
