@@ -5,7 +5,7 @@ import JournalSystem from '../systems/JournalSystem.js';
 import { composeBook, edgarReaction, newBookSeed, bookRoles, render, manifoldReaction } from '../utils/EdgarBook.js';
 import { canWeave, spendWeave } from '../utils/ulvarexEncounter.js';
 
-/** Spores for each of Ulvarex's small weaves for Edgar's book (a villain out of the smoke, a straw in his glass) */
+/** Spores for each of Ulvarex's small weaves for Edgar's book (a villain out of the street lamp's haze, a straw behind his ear) */
 const EDGAR_WEAVE_COST = 5;
 import { UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
@@ -256,6 +256,9 @@ export default class ScreamingCorkScene extends GameScene {
         // Computed here (the getter runs at show time) — assigning into `this.dialogContent.x.text`
         // from an onTrigger is lost, because every getter call builds a fresh object.
         const farewellGivesVestigel = !farewellDone && vestigelHuntOpen && vestigelDeal && !edgarVestigelGiven;
+        // The player only learns that Edgar has a vestigel from Zerren (VoxmarketMarketScene, 'found_eskola_lead');
+        // before that "I heard you might have one" has no source. (A bargain already struck: older saves.)
+        const knowsEdgarHasVestigel = vestigelDeal || !!vestigelQuest?.updates?.some(update => update.key === 'found_eskola_lead');
         const cs = LanguageSystem.getInstance?.().getLanguage?.() === 'cs';
         const lang = cs ? 'cs' : 'en';
         // Edgar's book (utils/EdgarBook.js): reactions read the draft, the payoff states the finished book.
@@ -283,8 +286,8 @@ export default class ScreamingCorkScene extends GameScene {
                     { text: "What are you doing here?", key: 'what_are_you_doing_here', next: "edgar_purpose" },
                     { text: "Tell me about yourself.", key: 'tell_me_about_yourself', next: "edgar_background" },
                     { text: "What is the Burning Bear Festival?", key: 'what_do_you_know_about_the_burning_bear_festival', next: "edgar_festival" },
-                    // Kloor's hunt is open and Edgar still has his vestigel
-                    ...(vestigelHuntOpen && !edgarVestigelGiven ? [
+                    // Kloor's hunt is open, Zerren named Edgar as the buyer, and Edgar still has his vestigel
+                    ...(vestigelHuntOpen && knowsEdgarHasVestigel && !edgarVestigelGiven ? [
                         { text: "I'm looking for a vestigel, I heard you might have one.", key: 'im_looking_for_a_vestigel_i_heard_you_might_have_o', next: "edgar_vestigel" }
                     ] : []),
                     // Only show book topics option if quest is active but not completed
@@ -491,12 +494,12 @@ export default class ScreamingCorkScene extends GameScene {
                     ...(ulvarexMuse && draft.villain !== 'manifold' ? [{ text: "[Ulvarex] Show Edgar a better villain.", key: 'ulvarex_edgar_villain', next: "edgar_book_villain_ulvarex" }] : []),
                 ]
             },
-            // Ulvarex walks Mr. Manifold out of the bar smoke; he replaces the villain the tone called for
+            // Ulvarex walks Mr. Manifold out of the haze around the street lamp; he replaces the villain the tone called for
             edgar_book_villain_ulvarex: {
                 hideCloseOption: true,
                 text: (cs
-                    ? '*Necháš Ulvarex vypůjčit si kouř nad barem. Vystoupí z něj pán v dobrém kabátě, kterému obličej nevydrží v klidu: chvíli bankéřův, chvíli babiččin, pak volavčí, pak tvůj. Ukloní se Edgarovi a je pryč.*\n\n'
-                    : '*You let Ulvarex borrow the smoke over the bar. Out of it steps a gentleman in a good coat whose face won\'t hold still: a banker\'s, a grandmother\'s, a heron\'s, yours. He bows to Edgar and is gone.*\n\n')
+                    ? '*Necháš Ulvarex vypůjčit si opar kolem pouliční lampy. Vystoupí z něj pán v dobrém kabátě, kterému obličej nevydrží v klidu: chvíli bankéřův, chvíli babiččin, pak volavčí, pak tvůj. Ukloní se Edgarovi a odkráčí ulicí pryč.*\n\n'
+                    : '*You let Ulvarex borrow the haze around the street lamp. Out of it steps a gentleman in a good coat whose face won\'t hold still: a banker\'s, a grandmother\'s, a heron\'s, yours. He bows to Edgar and strolls off down the street.*\n\n')
                     + (manifoldReaction(draft, lang) || ''),
                 options: [
                     { text: "Let's decide on the main protagonist", key: 'lets_decide_on_the_main_protagonist', next: "edgar_book_protagonist" }
@@ -532,7 +535,7 @@ export default class ScreamingCorkScene extends GameScene {
                 hideCloseOption: true,
                 // Ulvarex's ghost comes with a demonstration
                 text: (draft.protagonist === 'feeble ghost'
-                    ? (cs ? '*V Edgarově sklenici se objeví brčko, pak si to rozmyslí a zase vybledne.* ' : '*A drinking straw appears in Edgar\'s glass, then thinks better of it and fades.* ')
+                    ? (cs ? '*Edgarovi se za uchem objeví brčko, pak si to rozmyslí a zase vybledne.* ' : '*A drinking straw appears behind Edgar\'s ear, then thinks better of it and fades.* ')
                     : '') + (edgarReaction('protagonist', draft, lang) || "A fascinating choice!"),
                 options: [
                     { text: "Finally, let's choose a setting", key: 'finally_lets_choose_a_setting', next: "edgar_book_setting" }
@@ -566,8 +569,8 @@ export default class ScreamingCorkScene extends GameScene {
             edgar_book_completion: {
                 hideCloseOption: !farewellDone,
                 text: book ? (cs
-                    ? `*Edgar se dlouze zahledí do prázdna a pak plácne tlapou do stolu.* Mám to.\n\n„${book.fullTitle}“\n\n${book.blurb}`
-                    : `*Edgar stares into the middle distance for a long moment, then slaps a paw on the table.* I have it.\n\n"${book.fullTitle}"\n\n${book.blurb}`) : '',
+                    ? `*Edgar se dlouze zahledí do prázdna a pak se plácne tlapou do stehna.* Mám to.\n\n„${book.fullTitle}“\n\n${book.blurb}`
+                    : `*Edgar stares into the middle distance for a long moment, then slaps his thigh with a paw.* I have it.\n\n"${book.fullTitle}"\n\n${book.blurb}`) : '',
                 options: [
                     { text: "Read me the opening.", key: 'read_the_opening', next: "edgar_book_excerpt_opening" },
                     { text: "Make sure to credit me as co-author", key: 'make_sure_to_credit_me_as_coauthor', next: "edgar_book_coauthor" }
@@ -689,7 +692,7 @@ export default class ScreamingCorkScene extends GameScene {
             },
             edgar_jobs: {
         
-                text: "Bad timing, mostly. The Scraper took the Rust Choir and stopped being an official part of the city. No need for a janitor then. The other jobs... Well, being a mišutkenn doesn't help with job security in this city.",
+                text: "Bad timing, mostly. The Rust Choir took over the Scraper, and it stopped being an official part of the city. No need for a janitor then. The other jobs... Well, being a mišutkenn doesn't help with job security in this city.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "edgar_background" }
                 ]
@@ -734,7 +737,7 @@ export default class ScreamingCorkScene extends GameScene {
             // New vestigel dialog path
             edgar_vestigel: {
         
-                text: "A vestigel? Yes... I do have one. It's a peculiar object, a small, but apparently valuable token. It was hidden inside a plush toy. See, I rather bought it from a street vendor, when I saw it. Otherwise somebody would use it for that cursed festival. The vendor didn't know about the Vestigel, but she surprisingly refused to take it back, when I offered it to her. She said something about a professional honor, hmm...",
+                text: "A vestigel? Yes… I do have one. A peculiar little token, small but apparently valuable. It was hidden inside a plush toy. I bought that toy from a market vendor the moment I saw it, or somebody would have stuffed it into a bear for that cursed festival. Neither of us knew what was inside. When I found it and offered it back, she surprisingly refused. Said something about professional honour, hmm…",
                 options: [
                     // Use ternary to determine next dialog based on book quest completion status
                     { text: "I need it for an important purpose.", key: 'i_need_it_for_an_important_purpose', next: bookDone ? "edgar_vestigel_give_completed" : "edgar_vestigel_need" },
@@ -806,7 +809,7 @@ export default class ScreamingCorkScene extends GameScene {
             // New dialog for when player asks for vestigel after book is completed
             edgar_vestigel_give_completed: {
         
-                text: "Oh, you're interested in the vestigel? After all your help with my book, I'd be happy to give it to you. It's of more use to you than to me. Here, take it with my gratitude.",
+                text: "After all your help with my book? Of course you can have it. It's of more use to you than to me. Here, take it with my gratitude.",
                 options: [
                     { text: "Thank you, Edgar.", key: 'thank_you_edgar', next: "edgar_start" }
                 ],
@@ -908,7 +911,9 @@ export default class ScreamingCorkScene extends GameScene {
 
         // Examine: the tavern & the beat under its floorboards (sign/building, upper-center).
         this.createObservable(400, 235, 260, 130, () => {
-            if (this.hasJournalEntry('noise_god_insight') || this.hasJournalEntry('feral_toast_performance')) return this.t('observe.screaming_cork.knows_noise');
+            // only once the Noise God has been sensed: 'feral_toast_performance' is written the moment the set starts,
+            // the insight 15 s into it (ScreamingCorkClubScene.startPerformance)
+            if (this.hasJournalEntry('noise_god_insight')) return this.t('observe.screaming_cork.knows_noise');
             return this.t('observe.screaming_cork.default');
         }, { hint: this.t('observe.screaming_cork.hint') });
     }

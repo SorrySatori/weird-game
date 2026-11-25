@@ -8,6 +8,7 @@ export default {
     },
     dr_elphi_start: {
         text: {
+            after_bus: "*Zvedne oči od terminálu.* Zpátky ze dvorku? Vypadáte, jako byste viděl ducha.",
             lead_given: "Už zpátky? Dvorek nikam neutekl. Nebo jste se přišel podívat na moje helmy?",
             default: "Hm. Nejste objednaný. Ani označený. Budu hádat: někdo chce neurální ladění, konzultaci, nebo jste mě přišel zase varovat před „metafyzickým únikem“."
         },
@@ -16,6 +17,15 @@ export default {
             i_was_sent_to_investigate_an_anomaly_might_be_conn: "Poslali mě prošetřit anomálii. Možná souvisí s tímhle místem.",
             i_heard_you_design_dreambased_games: "Slyšel jsem, že navrhujete hry založené na snech.",
             ill_explain_if_you_stop_testing_me: "Vysvětlím vám to, když přestanete hádat.",
+            what_are_you_working_on_now: "Na čem teď pracujete?"
+        }
+    },
+    dr_elphi_more: {
+        text: "*Pohlédne zpátky k terminálu.* Ještě něco?",
+        options: {
+            im_looking_for_someone_the_bishop: "Někoho hledám. Biskupku.",
+            i_was_sent_to_investigate_an_anomaly_might_be_conn: "Poslali mě prošetřit anomálii. Možná souvisí s tímhle místem.",
+            i_heard_you_design_dreambased_games: "Slyšel jsem, že navrhujete hry založené na snech.",
             what_are_you_working_on_now: "Na čem teď pracujete?"
         }
     },
@@ -46,7 +56,7 @@ export default {
         }
     },
     dr_elphi_anomaly_path: {
-        text: "Jestli jde o nějakou anomálii, nemám s tím nic společného. Všechna testovací prostředí jsou dobře zabezpečená. V nejhorším případě nenaruší nic okolo.",
+        text: "Jestli jde o nějakou anomálii, nemám s tím nic společného. Všechna testovací prostředí jsou dobře zabezpečená. I v nejhorším případě nenaruší nic okolo.",
         options: {
             im_looking_for_the_bishop: "Hledám Biskupku.",
             the_bishop_came_here_to_play: "Biskupka sem chodila hrát."
@@ -84,7 +94,7 @@ export default {
         }
     },
     dr_elphi_backyard_info: {
-        text: "Je to starý nákladní dvůr. Opuštěný před desítkami let, když se stavěly nové linky. Teď je většinou zarostlý zvláštním mechem.\n\nBiskupka jím byla fascinovaná. Říkala, že má „mnemonické vlastnosti“. Ať už to znamená cokoli. Ti vaši lidé a jejich záhadná terminologie...",
+        text: "Je to starý dopravní dvůr.Opuštěný před desítkami let, když se stavěly nové linky. Teď je většinou zarostlý zvláštním mechem.\n\nBiskupka jím byla fascinovaná. Říkala, že má „mnemonické vlastnosti“. Ať už to znamená cokoli. Ti vaši lidé a jejich záhadná terminologie...",
         options: {
             ill_go_investigate: "Půjdu to prozkoumat.",
             is_it_dangerous: "Je to nebezpečné?"

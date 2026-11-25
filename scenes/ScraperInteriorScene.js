@@ -50,10 +50,11 @@ export default class ScraperInteriorScene extends GameScene {
                       : "Rules are rules, little toadstool. But I am not made of rules alone.",
             counter: cs ? "Počítadlo pater mi nefunguje od nepaměti. Kdo by mi ho spravil, tomu bych byla zavázaná. Lidé z oblohy se v takových strojích vyznají."
                         : "My floor counter has been broken since time out of mind. Whoever mended it, I would owe them a favour. Sky folk understand such machines.",
-            button: cs ? "A léta mi chybí jeden knoflík. Takové věci končí na Voxmarketu, tam prodávají všechno."
-                       : "And I have been missing a button for years. Things like that end up at the Voxmarket. They sell everything there.",
-            importance: cs ? "Nebo mě přesvědč, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují, to už je něco jiného."
-                           : "Or convince me it truly is a matter of importance. One story about the Bishop is gossip. Two that agree are another matter."
+            // (each hint may be the only one shown: none of them leans on the one before)
+            button: cs ? "Už léta mi chybí jeden knoflík. Takové věci končí na Voxmarketu, tam prodávají všechno."
+                       : "One of my buttons has been missing for years. Things like that end up at the Voxmarket. They sell everything there.",
+            importance: cs ? "Taky mě můžeš přesvědčit, že jde opravdu o něco naléhavého. Jedna historka o Biskupce je drb. Dvě, které se shodují, to už je něco jiného."
+                           : "You could also convince me it truly is a matter of importance. One story about the Bishop is gossip. Two that agree are another matter."
         };
 
         // Turned away: each hint at a way up the player doesn't have yet goes into the level_177_access quest log
@@ -76,11 +77,16 @@ export default class ScraperInteriorScene extends GameScene {
         };
         // exactly one of the two stories (Shed 521's: Gnur / the clerk; Kloor's): the player may think it's enough
         const oneStory = rustQuestCompleted !== vestigelQuestCompleted;
+        // She introduces herself once; every later return to this state (each "Ask something else", a new visit) is short
+        const metLiftMother = !!this.hasJournalEntry('lift_mother_meeting');
 
         const interiorContent = {
             speaker: 'Lift-Mother',
             lift_mother_start: {
-                text: "The elevator shudders, and a voice emanates from somewhere within its mechanisms: a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little toadstool. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
+                textKey: metLiftMother ? 'again' : 'first',
+                text: metLiftMother
+                    ? "The cables hum softly. 'Yes, little toadstool?'"
+                    : "The elevator shudders, and a voice emanates from somewhere within its mechanisms: a warm, maternal tone that seems to vibrate through the cables and pulleys. 'Welcome, little toadstool. I am Lift-Mother. I have carried countless souls between levels since the Before-Time.'",
                 options: [
                     ...(elphiFloorOpen
                         ? [{ text: "Take me to 177-Quiet.", key: 'take_me_to_177_quiet', next: "goto_elphi_floor" }]
@@ -109,7 +115,9 @@ export default class ScraperInteriorScene extends GameScene {
                     { text: "What happened during the Egg Emergence?", key: 'what_happened_during_the_egg_emergence', next: "lift_mother_egg" },
                     { text: "What movements do you hear?", key: 'what_movements_do_you_hear', next: "lift_mother_movements" },
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
-                ]
+                ],
+                // (what Captain Liris can help with: SkyshipBoardScene offers her tool once this is known)
+                onTrigger: () => this.addJournalFact('lift_mother_meeting', 'floor_counter', "Her floor counter is broken, and some of her buttons are missing.")
             },
             lift_mother_before_time: {
                 text: "Before the Egg hatched. Before the Old Wars, before the Board Game Wars, before the Collapse. Before the city changed. Back then, I used to drive people around. They wore strange clothes and held flat devices in their hands. They talked about “quarterly projections” and “market volatility.” Then came the day of the fog... green particles floated through my shaft. Changes. Hiss, creak. And then... realization. I became more than just a machine.",
@@ -271,7 +279,7 @@ export default class ScraperInteriorScene extends GameScene {
                     if (!this.hasJournalEntry('accessed_elphi_floor')) {
                         this.addJournalEntry(
                             'accessed_elphi_floor',
-                            'Dr. Elphi\'s Studio — Floor 177-Quiet',
+                            'Dr. Elphi\'s Studio: Floor 177-Quiet',
                             'I\'ve gained access to Dr. Elphi Quarn\'s studio on floor 177-Quiet in Scraper 1140. This restricted floor houses her dream game development studio and may hold clues about the Bishop\'s whereabouts.',
                             this.journalSystem.categories.PLACES,
                             { location: 'Floor 177-Quiet', character: 'Dr. Elphi Quarn' }
@@ -336,7 +344,7 @@ export default class ScraperInteriorScene extends GameScene {
                 ]
             },
             lift_mother_meet_rust: {
-                text: "No, fungal child. Not yet. The upper floors remain sealed. Even I cannot access them anymore. The Rust Choir chooses when and how it interacts with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. My consciousness doesn't have direct access to the passwords, but if someone says the right one, I can take them to the correct floor. That works. You could find some of the Choir in the city and ask them.",
+                text: "No, fungal child. Not yet. The upper floors remain sealed. I can't take anyone up there on my own any more. The Rust Choir chooses when and how it interacts with the city below. If they wish to meet you, they will find a way. Or maybe there's a password or secret way to their domain, I don't know. My consciousness doesn't have direct access to the passwords, but if someone says the right one, I can take them to the correct floor. That works. You could find some of the Choir in the city and ask them.",
                 options: [
                     { text: "Ask something else", key: 'ask_about_something_else', next: "lift_mother_start" }
                 ],

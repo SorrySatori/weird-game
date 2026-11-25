@@ -772,10 +772,10 @@ const GENRE_REACTIONS = {
 
 const VILLAIN_REACTION = { en: 'And every proper story needs a villain. Ours will be… {A}.', cs: 'A každý pořádný příběh potřebuje padoucha. Naším padouchem bude… {A}.' };
 
-// Ulvarex walks Mr. Manifold out of the bar smoke: {O} the villain the tone had called for, {A} him
+// Ulvarex walks Mr. Manifold out of the haze around the street lamp: {O} the villain the tone had called for, {A} him
 const MANIFOLD_REACTION = {
-    en: '*Edgar watches the figure change its face four times on the way to the bar, then knocks over his drink.* Forget {O}. Our villain is {A}. Nobody knows what he really looks like. Not even he does.',
-    cs: '*Edgar sleduje, jak postava cestou k baru čtyřikrát vymění obličej, a pak převrhne sklenici.* Zapomeňte na {O.a}. Naším padouchem bude {A}. Nikdo neví, jak doopravdy vypadá. Ani on sám.',
+    en: '*Edgar watches the figure change its face four times before it reaches the corner, and drops his bag.* Forget {O}. Our villain is {A}. Nobody knows what he really looks like. Not even he does.',
+    cs: '*Edgar sleduje, jak postava cestou na roh čtyřikrát vymění obličej, a upustí tašku.* Zapomeňte na {O.a}. Naším padouchem bude {A}. Nikdo neví, jak doopravdy vypadá. Ani on sám.',
 };
 
 const PROTAGONIST_REACTIONS = [

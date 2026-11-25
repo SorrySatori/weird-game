@@ -21,8 +21,8 @@ export default {
         },
         scraper: {
             hint: 'Scraper 1140',
-            default: "Nexicorp Tower, they used to call it. Now they call it Scraper and nobody knows all its floors.",
-            been_inside: "I've been up in it and I still don't know what to think about the Scraper. From out here it almost passes for architecture.",
+            default: "Scraper 1140. Nobody knows all its floors, they say. Not even the people who live in it.",
+            been_inside: "I've been inside and I still don't know what to think about the Scraper. From out here it almost passes for architecture.",
         },
         screaming_cork: {
             hint: 'The Screaming Cork',
@@ -33,6 +33,7 @@ export default {
             hint: 'The Voxmarket',
             default: "Every stall here sells something that used to be alive, and the vendors haggle in a dozen dialects. If a thing makes some sound in Upper Morkezela, someone at the Voxmarket has a price for it.",
             knows_vestigels: "Somewhere in this racket the alive-coins change hands: Vestigels, worth more than gold and stranger than economics itself. Kloor would give his teeth to study one.",
+            knows_vestigels_done: "Kloor finally has his Vestigel. I wonder what he's going to do with it.",
         },
         shed_pipes: {
             hint: 'Shed 521',
@@ -41,11 +42,11 @@ export default {
         skyship_board: {
             hint: 'The Skyship Board',
             default: "A cold wind is blowing aboard the airship Verdigrace, but the view is breathtaking. All around, strange devices are ticking away, though they don't seem to be mechanical in origin; they look as if they've been grown.",
-            knows: "I took the floor-counter from here. It's the one instrument honest enough to admit the Scraper has floors that shouldn't exist.",
+            knows: "Liris's calibration module came out of this ship's spares. Up here even the spare parts look grown rather than made.",
         },
         entry_panorama: {
             hint: 'Upper Morkezela',
-            default: "So we've finally made it to Upper Morkezela, the city of dead gods. Who knows what waits for us down there? From up here it almost looks peaceful: smoke from the chimneys, a train crawling over the viaduct and a green haze slowly swallowing the streets.",
+            default: "So we've finally made it to Upper Morkezela, the city of dead gods. Who knows what waits down there? From up here it almost looks peaceful: smoke from the chimneys, a train crawling over the viaduct and a green haze slowly swallowing the streets.",
         },
         entry_egg: {
             hint: 'The Egg Cathedral',

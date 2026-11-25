@@ -200,7 +200,7 @@ export default {
         }
     },
     registration_proxy: {
-        text: "„Registrace v zastoupení se nepřijímá. Žadatel se musí dostavit osobně. Nebo musíte mít formulář vystavený na jeho jméno.“",
+        text: "„Registrace v zastoupení jen na konkrétní formulář. Na který, o tom rozhodují Žádosti. Nejvyšší patro.“",
         options: { understood: "Rozumím." }
     },
     registration_extra_symbiont: {
@@ -232,7 +232,7 @@ export default {
         options: { continue: "Pokračovat" }
     },
     registration_success_artisan: {
-        text: "(Úředník s rozmachem orazítkuje Formulář o výjimce pro umělce.)\n\n„Schváleno. Formulář uděluje tvůrčí výjimku ze standardních omezení počtu končetin. Ortolan bude mít radost.“",
+        text: "(Úředník s rozmachem orazítkuje Formulář o výjimce pro umělce.)\n\n„Schváleno. Formulář uděluje tvůrčí výjimku ze standardních omezení počtu končetin. Žadatel bude mít radost. Ať už je to kdokoli.“",
         options: { thank_you: "Děkuji." }
     },
     registration_success_deformity: {

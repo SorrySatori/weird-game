@@ -32,7 +32,7 @@ export default class VoxmarketHallScene extends GameScene {
                 textKey: metTwins ? 'twins_start_no_auction_return' : 'twins_start_no_auction_first',
                 text: metTwins
                     ? `"Back again?" says Hesh, and Vell's lips trail half a beat behind. "No auction today, I'm afraid. The hall is dark, the lots locked away. Come back when the Voxmarket calls the next sale. You'll know when. Everyone does."`
-                    : `"The hall is closed for bidding," says Hesh. Vell forms the words a half-second behind, the echo unsettling in the empty room. "We are Hesh, and Vell. We conduct the auctions... when there are auctions. There is none today." Both twins tilt their heads in unison. "Come back when the Voxmarket calls a sale."`,
+                    : `"The hall is closed for bidding," says Hesh. Vell's lips shape the same words a half-second behind, without a sound, which is somehow worse in the empty room. "We are Hesh, and Vell. We conduct the auctions... when there are auctions. There is none today." Both twins tilt their heads in unison. "Come back when the Voxmarket calls a sale."`,
                 options: [
                     { text: "How does the auction work?", key: 'how_does_the_auction_work', next: "twins_auction_rules" },
                     { text: "Why do you do that, the delayed mouthing?", key: 'why_do_you_do_that_the_delayed_mouthing', next: "twins_echo" },
@@ -53,7 +53,7 @@ export default class VoxmarketHallScene extends GameScene {
 
             twins_auction_rules: {
                 speaker: 'Hesh & Vell',
-                text: `"The rules are simple," says Hesh. Vell's lips follow. "Lots are presented one by one. Bidding starts at the listed price. Raise your hand to bid. Highest bidder when we call 'Settled' wins the lot.\n\nPayment is immediate. Gold only: no barter, no vestigels, no promises. If you can't pay, you leave. If you cause a scene, you leave faster.\n\nThe pre-auction social period is just as important. Know your competition. Make friends. Or make them nervous."`,
+                text: `"The rules are simple," says Hesh. Vell's lips follow. "Lots are presented one by one. Bidding starts at the listed price. Raise your hand to bid. Highest bidder when we call 'Settled' wins the lot.\n\nPayment is immediate. Dinar only: no barter, no vestigels, no promises. If you can't pay, you leave. If you cause a scene, you leave faster.\n\nThe pre-auction social period is just as important. Know your competition. Make friends. Or make them nervous."`,
                 options: [
                     ...ulvarexSees,
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },

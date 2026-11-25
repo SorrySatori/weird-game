@@ -14,6 +14,17 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         this.shopSystem = null;
     }
 
+    /**
+     * Heliodor can only be asked about the Fermented Cap once the player has heard of it: Thaal's excuse in
+     * EntryScene's whyNot (recorded as a dialog topic 'topic:EntryScene:<option>>whyNot' by
+     * GameScene._dialogOptionTopic) or the last line of his equipment tutorial (onceFlag 'heard_fermented_cap').
+     */
+    heardOfFermentedCap() {
+        if ((this.registry.get('onceFlags') || []).includes('heard_fermented_cap')) return true;
+        const used = this.usedDialogOptions || new Map(this.registry.get('usedDialogOptions') || []);
+        return [...used.keys()].some(k => typeof k === 'string' && k.startsWith('topic:EntryScene:') && k.endsWith('>whyNot'));
+    }
+
     get dialogContent() {
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
         const hasRustFeastQuest = !!(this.questSystem && this.questSystem.getQuest('rust_feast') && !this.questSystem.getQuest('rust_feast').isComplete);
@@ -99,7 +110,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             ravla_ortolan: {
-                text: "Artisan's Exemption Form? For Ortolan? That game designer? Interesting. Those forms have special seals that are hard to duplicate. But... I might be able to help.",
+                text: "Ortolan? The game designer? Let me guess: the arms. That takes an Artisan's Exemption Form, and those have special seals that are hard to duplicate. But… I might be able to help.",
                 options: [
                     { text: "What would you need?", key: 'what_would_you_need', next: "ravla_ortolan_need" },
                     { text: "Ask something else", key: 'back', next: "ravla_start" }
@@ -154,8 +165,8 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 speaker: 'Narrator',
                 hideCloseOption: true,
                 textKey: permitBought ? 'bought' : 'sample',
-                text: "You let Ulvarex focus on the seal Ravla keeps on her desk to copy from. By the desk an inspector of the Ink Tribunal takes shape: grey cuffs, ink up to the wrists, a loupe screwed into one eye. Without a word he picks up "
-                    + (permitBought ? "Ortolan's permit from the pile" : "a sample permit from her pile") + " and holds it to the lamp.\n\n\"The cogwheel on this seal has eleven teeth. The real one has twelve,\" he says. \"The fish in the watermark swims upstream; ours have swum downstream since the reform. And this ink smells of beetroot.\" He lays the paper down and comes apart in a puff of orange light.",
+                text: "You let Ulvarex focus on the seal Ravla keeps on her desk to copy from. By the desk an inspector of the Ink Tribunal takes shape: grey cuffs, ink up to the wrists, a loupe screwed into one eye. Without a word he "
+                    + (permitBought ? "takes Ortolan's permit from your hand" : "picks up a sample permit from her pile") + " and holds it to the lamp.\n\n\"The cogwheel on this seal has eleven teeth. The real one has twelve,\" he says. \"The fish in the watermark swims upstream; ours have swum downstream since the reform. And this ink smells of beetroot.\" He lays the paper down and comes apart in a puff of orange light.",
                 options: [
                     { text: "Watch Ravla.", key: 'ravla_audit_watch', next: "ravla_audit_shaken" }
                 ],
@@ -174,7 +185,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                     + (!this._auditForOrtolan
                         ? "\"Everything I've sold this year comes back across this desk and gets done again. Properly.\" Only now does she look at you. \"And not a word about this to the Rust Choir.\""
                         : this._auditRefund
-                        ? "\"Ortolan gets a new one, done properly. And here's your fifty back. I don't charge twice for the same job.\""
+                        ? "\"Ortolan gets a new one, done properly. And here's your fifty back. I don't take money for botched work.\""
                         : "\"Ortolan's permit gets done properly. And this one's on the house.\""),
                 options: [
                     { text: "Thank you, Ravla.", key: 'ravla_audit_thanks', next: "closeDialog" }
@@ -289,15 +300,23 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             },
 
             // Heliodor dialog
+            // the first conversation ever gets the welcome; every later one (this visit or another) a "back again"
+            // (_heliodorGreeting is decided when he is clicked, so the hub keeps one text through a conversation)
             heliodor_start: {
                 speaker: 'Heliodor',
-                text: "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading. It's actually quite peaceful most nights.\"",
+                textKey: this._heliodorGreeting === 'return' ? 'return' : 'first',
+                text: this._heliodorGreeting === 'return'
+                    ? "Heliodor nods politely. \"Back again? Sit wherever you like. Most of us remember you.\""
+                    : "Heliodor nods politely. \"Welcome to the Screaming Cork. First time? The name's a bit misleading. It's actually quite peaceful most nights.\"",
                 options: [
                     { text: "Who are you?", key: 'who_are_you', next: "heliodor_who" },
                     { text: "Tell me about this place", key: 'tell_me_about_this_place', next: "heliodor_place" },
                     { text: "Heard any rumors lately?", key: 'heard_any_rumors_lately', next: "heliodor_rumors" },
                     { text: "What's that noise next door?", key: 'whats_that_noise_next_door', next: "heliodor_noise" },
-                    { text: "Do you know where the Fermented Cap tavern is?", key: 'do_you_know_where_the_fermented_cap_is', next: "heliodor_fermented_cap" },
+                    // only once the name has come up (Thaal's excuse or his tutorial): heardOfFermentedCap
+                    ...(this.heardOfFermentedCap() ? [
+                        { text: "Do you know where the Fermented Cap tavern is?", key: 'do_you_know_where_the_fermented_cap_is', next: "heliodor_fermented_cap" }
+                    ] : []),
                     {
                       text: "Do you have anything for sale?",
                       key: 'do_you_have_anything_for_sale',
@@ -553,6 +572,9 @@ export default class ScreamingCorkInteriorScene extends GameScene {
         
         this.heliodor.on('pointerdown', () => {
             if (this.dialogVisible) return;
+            // "First time?" only in the very first conversation with him (heliodor_start)
+            this._heliodorGreeting = (this.registry.get('onceFlags') || []).includes('heliodor_greeted') ? 'return' : 'first';
+            this.onceEver('heliodor_greeted', () => {});
             this.showDialog('heliodor_start');
         });
     }

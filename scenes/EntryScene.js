@@ -107,7 +107,8 @@ export default class EntryScene extends GameScene {
                     { text: "You're just avoiding work, aren't you?", key: 'youre_just_avoiding_work_arent_you', next: 'avoiding' },
                     taskHeard ? { text: "What should I tell the Bishop when I find her?", key: 'what_should_i_tell_the_bishop_when_i_find_her', next: 'tellBishop' } : askTask,
                     { text: "Tell me more about the city first.", key: 'tell_me_more_about_the_city_first', next: 'city' }
-                ]
+                ],
+                onTrigger: () => this.onceEver('heard_fermented_cap', () => {})   // (Heliodor can be asked about it now)
             },
             avoiding: {
                 hideCloseOption: true,
@@ -132,6 +133,17 @@ export default class EntryScene extends GameScene {
             farewell: {
                 hideCloseOption: true,
                 text: "Excellent! The Egg Cathedral is just to the east. And if anyone asks, tell them I'm engaged in VERY important spiritual communion that cannot be disturbed.\n\nBut heed a few things before you go, apprentice. Your actions have consequences: some will make the city grow, others make it rot and decay, and the city will look and treat you accordingly. And mind the spores up here: you have only ever breathed the thick, obedient air of Obazoba's temple, and under open sky they are a different beast. And should the city's symbionts that you've probably only read about ever take an interest in you, why not? They can open up possibilities you never imagined. But be careful. Well? Anything to ask before you go?",
+                options: [
+                    { text: "Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
+                    { text: "The spores? A different beast how?", key: 'the_spores_different_how', next: 'spores' },
+                    { text: "The symbionts. Tell me more.", key: 'the_symbionts_tell_me_more', next: 'symbionts' },
+                    { text: "Thank you, I have nothing more to ask. Glory to the Eternal Mushroom...", key: 'glory_to_the_eternal_mushroom', next: 'tutorialOffer' }
+                ]
+            },
+            // "Return to previous topic" from the send-off's topics: back to its options without replaying the whole speech
+            farewellHub: {
+                hideCloseOption: true,
+                text: "*He drums his fingers, one eye already on the road to the tavern.* Anything else before you go?",
                 options: [
                     { text: "Tell me more about the growth and decay.", key: 'wait_tell_me_more_about_the_growth_and_decay', next: 'growthDecay' },
                     { text: "The spores? A different beast how?", key: 'the_spores_different_how', next: 'spores' },
@@ -182,7 +194,7 @@ export default class EntryScene extends GameScene {
                 text: "Down in the temple the spores lie thick, quiet and obedient, like a god's breath gathered in the dark. It's all you've ever known. But out here, under open sky, they thin, they drift, and they get absolutely everywhere. You may find that this city holds creatures that feed on spores, or that would find all manner of uses for them. Some may try to buy them off you; some may help you out of a tight spot. Either way, go sparingly with the spores you carry, and keep an eye on your levels. They replenish slowly and with difficulty, though you may yet discover ways to hasten it.",
                 options: [
                     { text: "Things that feed on it? The symbionts?", key: 'things_that_feed_symbionts', next: 'symbionts' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewell' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewellHub' }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('spores_lore')) {
@@ -201,7 +213,7 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "And these spores you mentioned?", key: 'and_these_spores', next: 'spores' },
                     { text: "Tell me again about growth and decay.", key: 'tell_me_again_growth_decay', next: 'growthDecay' },
-                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewell' }
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'farewellHub' }
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('symbionts_lore')) {
@@ -280,7 +292,7 @@ export default class EntryScene extends GameScene {
                 text: "It's a crooked skyscraper that has turned into a vertical slum. Each floor is said to house a different caste, all sorts of strange characters drift in there, and so on. I'm afraid I don't know much about it, but I would be careful around this place.",
                 options: [
                     { text: "What is the Shed 521?", key: 'what_is_the_shed_512', next: 'shed512' },
-                    { text: "What is the Scraper 1140", key: 'what_is_the_scraper_1140', next: 'scraper1140' },
+                    { text: "What is the Voxmarket?", key: 'what_is_the_voxmarket', next: 'voxmarket' },
                     { text: "What is the Stomach Clock?", key: 'what_is_the_stomach_clock', next: 'stomachClock' },
                     { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
@@ -320,8 +332,9 @@ export default class EntryScene extends GameScene {
         // the topic states and hide the auto "Leave"/X, so the intro's mechanics blurb is never missed.
         // `close` keeps its X as the single deliberate exit (reached via farewell's "Glory" option).
         // BRIEFING states are excluded: while Thaal is still handing over the task, "I'll be on my way"
-        // makes no sense — the player hasn't been sent off yet.
-        const NO_LEAVE = new Set(['farewell', 'main', 'task', 'whyNot', 'avoiding', 'tutorialOffer']);
+        // makes no sense — the player hasn't been sent off yet. So are the send-off's own topics (only reachable
+        // from `farewell`): they lead back to `farewellHub`, and a leave option there would replay the whole speech.
+        const NO_LEAVE = new Set(['farewell', 'farewellHub', 'growthDecay', 'spores', 'symbionts', 'main', 'task', 'whyNot', 'avoiding', 'tutorialOffer']);
         for (const [id, st] of Object.entries(states)) {
             if (id === 'close' || !st || typeof st !== 'object' || !Array.isArray(st.options)) continue;
             st.hideCloseOption = true;

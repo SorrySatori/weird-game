@@ -37,7 +37,7 @@ export default {
         }
     },
     edgar_prejudice: {
-        text: "Historie. Pověry. Strach z toho, co je jiné. Vyberte si. Zakladatelé města vyhnali mé předky z Kopřivových hor. Teď nás jen... tolerují. V lepším případě.",
+        text: "Historie. Pověry. Strach z toho, co je jiné. Vyberte si. Zakladatelé města vyhnali mé předky z Rémaperské pahorkatiny. Teď nás jen... tolerují. V lepším případě.",
         options: {
             thats_unfortunate: "To je smutné.",
             back_to_other_topics: "Zeptej se na něco jiného"
@@ -246,7 +246,7 @@ export default {
         }
     },
     edgar_jobs: {
-        text: "Většinou byl problém se špatným načasováním. Škrabák převzal Rezavý chór a přestal být oficiální součástí města. Údržbář už nebyl potřeba. Ty ostatní práce... no, být mišutkennem tu moc s hledáním práce nepomáhá.",
+        text: "Většinou špatné načasování. Rezavý chór si zabral Škrabák a ten pak přestal oficiálně patřit k městu. Údržbáře už nikdo nepotřeboval. Ty ostatní práce... no, být mišutkennem tu moc s hledáním práce nepomáhá.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného"
         }
@@ -279,7 +279,7 @@ export default {
         }
     },
     edgar_vestigel: {
-        text: "Vestigel? Ano... jeden mi opravdu patří. Je to zvláštní předmět, malá, ale zjevně cenná mince. Byla schovaná uvnitř plyšáka. Vidíte, koupil jsem ten vestigel nevědomky od pouliční prodavačky. Jinak by někdo toho plyšáka použil na ten prokletý festival. Prodavačka o vestigelu taky nevěděla, ale překvapivě odmítla, abych jí ho vrátil. Říkala něco o profesionální cti, hmm...",
+        text: "Vestigel? Ano… jeden mám. Zvláštní věcička, malá, ale prý cenná. Byla schovaná v plyšákovi. Toho jsem koupil od jedné trhovkyně, hned jak jsem ho uviděl, jinak by ho někdo nacpal do medvěda na ten prokletý festival. Ani jeden z nás netušil, co je uvnitř. Když jsem ho našel a nabídl jí ho zpátky, kupodivu odmítla. Mluvila něco o profesionální cti, hmm…",
         options: {
             i_need_it_for_an_important_purpose: "Potřebuji ho na něco důležitého.",
             may_i_have_it: "Mohl byste mi ho dát?",
@@ -322,7 +322,7 @@ export default {
         }
     },
     edgar_vestigel_give_completed: {
-        text: "Aha, zajímá vás vestigel? Po tom všem, jak jste mi pomohl s mojí knihou, vám ho rád dám. Asi pro něj najdete lepší využití než já. Tady, vezměte si ho. Ještě jednou díky.",
+        text: "Po tom všem, jak jste mi pomohl s knihou? Samozřejmě, je váš. Vám se bude hodit víc než mně. Tady, vezměte si ho, a ještě jednou díky.",
         options: {
             thank_you_edgar: "Děkuji, Edgare."
         }

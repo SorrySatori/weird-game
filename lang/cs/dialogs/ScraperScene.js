@@ -37,7 +37,7 @@ export default {
         },
     },
     don_demo_view: {
-        text: "„Dívám se do oken. Na každé, které se rozsvítí, a na každé, které zhasne. O lidech se toho hodně dozvíš podle světel, která nechají svítit, a ještě víc podle těch, která zhasnou.“ Plamen se skloní k věži. „Tohle mimochodem nikdy nespí. Pamatuj si to, až půjdeš dovnitř.“",
+        text: "„Dívám se do oken. Na každé, které se rozsvítí, a na každé, které zhasne. O lidech se toho hodně dozvíš podle světel, která nechají svítit, a ještě víc podle těch, která zhasnou.“ Plamen se skloní k věži. „Tohle mimochodem nikdy nespí. Pamatuj si to, kdykoli budeš uvnitř.“",
         options: {
             don_demo_back: "Ještě něco.",
             don_demo_bye: "Musím jít.",

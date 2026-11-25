@@ -38,7 +38,7 @@ export default class ScreamingCorkClubScene extends GameScene {
             
             // Initial dialog when entering the club
             feral_welcome: {
-                text: "The band members of Feral Toast notice you entering the club. The lead guitarist nods in your direction. \"Hey there, fungal friend! We're about to start our rehearsal. Stick around for some mind-melting tunes!\"",
+                text: "The band members of Feral Toast lower their instruments for a moment. The lead guitarist nods in your direction. \"Hey there, fungal friend! Just catching our breath. Stick around, we're going again in a sec, and it's gonna melt your mind!\"",
                 options: [
                     { text: "I'd love to hear you play", key: 'id_love_to_hear_you_play', next: "feral_play" },
                     { text: "What kind of music do you play?", key: 'what_kind_of_music_do_you_play', next: "feral_style" },

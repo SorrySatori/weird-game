@@ -19,8 +19,8 @@ export default {
         },
         scraper: {
             hint: 'Škrabák 1140',
-            default: "Kdysi tomu říkali Nexicorp Tower. Teď mu všichni říkají Škrabák a nikdo nezná všechna patra.",
-            been_inside: "Byl jsem nahoře a vlastně pořád nevím, co si o Škrabáku myslet. Odsud to skoro vypadá jako architektura.",
+            default: "Škrabák 1140. Prý nikdo nezná všechna jeho patra, ani ti, kdo v něm bydlí.",
+            been_inside: "Už jsem byl uvnitř a pořád nevím, co si o Škrabáku myslet. Odsud to skoro vypadá jako architektura.",
         },
         screaming_cork: {
             hint: 'Řvoucí korek',
@@ -31,6 +31,7 @@ export default {
             hint: 'Voxmarket',
             default: "Každý stánek tady prodává něco, co kdysi žilo, a kupci smlouvají tuctem nářečí. Jestli něco v Horní Morkezele vydávalo zvuk, někdo na Voxmarketu ví, kolik to stojí.",
             knows_vestigels: "Někde v tomhle mumraji přecházejí z ruky do ruky živoucí mince: Vestigely, cennější než zlato a podivnější než ekonomika samotná. Kloor by prodal svoje zuby, aby si nějaký mohl prostudovat.",
+            knows_vestigels_done: "Kloor už svůj Vestigel má. Jsem zvědavý, co s ním provede.",
         },
         shed_pipes: {
             hint: 'Bouda 521',
@@ -39,11 +40,11 @@ export default {
         skyship_board: {
             hint: 'Paluba vzducholodi',
             default: "Na palubě vzducholodi Verdigrace fičí studený vítr, ale rozhled je dechberoucí. Kolem odtikávají podivné přístroje, které však zřejmě nejsou mechanického původu. Vypadají jako vypěstované.",
-            knows: "Tady jsem získal počítadlo pater. Je to jediný přístroj dost poctivý na to, aby přiznal, že Škrabák má patra, která by existovat neměla.",
+            knows: "Kalibrační modul od Liris pochází z lodních zásob. Tady nahoře vypadají vypěstovaně i náhradní díly.",
         },
         entry_panorama: {
             hint: 'Horní Morkezela',
-            default: "Tak jsme konečně dorazili do Horní Morkezely, města mrtvých bohů. Kdo ví, co nás tam dole čeká? Z téhle výšky to vypadá skoro poklidně: kouř z komínů, vláček, který se plazí po viaduktu, a zelený opar, co pomalu polyká ulice.",
+            default: "Tak jsme konečně dorazili do Horní Morkezely, města mrtvých bohů. Kdo ví, co tam dole čeká? Z téhle výšky to vypadá skoro poklidně: kouř z komínů, vláček, který se plazí po viaduktu, a zelený opar, co pomalu polyká ulice.",
         },
         entry_egg: {
             hint: 'Vaječná katedrála',

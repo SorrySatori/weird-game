@@ -59,12 +59,12 @@ export default {
     // `names`/`descriptions` = texty podle `variant` u předmětů, jejichž popis závisí na tom, jak je hráč získal.
     items: {
         // Zerreniny zvukové ampule (utils/Recordings.js)
-        ampule_squirrel: { name: 'Ampule: Veverčí hubování', description: 'Zatavená skleněná ampule, na dotek teplá. Přilož ji k uchu a malý stromolezec z dob před Vynořením ti přes staletí vyhubuje. Podle Zerren to zvíře dávno vyhynulo.' },
+        ampule_squirrel: { name: 'Ampule: Veverčí hubování', description: 'Zatavená skleněná ampule, na dotek teplá. Přilož ji k uchu a malý stromolezec z Předdoby ti přes staletí vyhubuje. Podle Zerren to zvíře dávno vyhynulo.' },
         ampule_purr: { name: 'Ampule: Spokojená kočka', description: 'Sedm vteřin kočičího předení na něčí hrudi. Nikdo na Voxmarketu neví na čí. Zerren si jednu nechává pro sebe a tu neprodá.' },
         ampule_liftmother: { name: "Ampule: První slovo Lift-Mother", description: "Údajně úplně první zvuk, který Lift-Mother vydala, když procitla: dlouhé skřípění a bublání, jako by se snažila dovolat někomu, kdo není doma. K ampuli patří osvědčení o pravosti, psané rukou. Rukou Zerren." },
         ampule_surrender_chord: { name: "Ampule: Akord kapitulace", description: "Zvuk, kterým skončily Staré války. Podle legendy ho v jediném okamžiku zahrály všechny válečné stroje na všech frontách a pak už odmítly udělat cokoli dalšího. Města druhý den ráno podepsala příměří a začal věk Ludarchů. Trvá půl vteřiny. Je to nejdražší půlvteřina na celém Voxmarketu." },
         ampule_burning_iceberg: { name: "Ampule: Hořící ledovec", description: "Nahráno toho jediného odpoledne Deskovkových válek, kdy jeden Ludarch rozhodl, že led je hořlavý. Do večera to pravidlo zrušili." },
-        ampule_mimic_bird: { name: "Ampule: Ptačí napodobitel", description: "Pták z dob před Vynořením, který napodoboval každý zvuk, jaký kdy zaslechl. Polovina nahrávky je ptačí zpěv. Tu druhou nikdo nechápe. Optimisté (a blázni) tvrdí, že se ji pták naučil z budoucnosti." },
+        ampule_mimic_bird: { name: "Ampule: Ptačí napodobitel", description: "Pták z Předdoby, který napodoboval každý zvuk, jaký kdy zaslechl. Polovina nahrávky je ptačí zpěv. Tu druhou nikdo nechápe. Optimisté (a blázni) tvrdí, že se ji pták naučil z budoucnosti." },
         ampule_old_train: { name: "Ampule: Vlak, který někam jel", description: "Vnitřek vlaku z Předdoby, který drnčí ke stanici vytištěné v jízdním řádu. V depu za Škrabákem se ještě pořád dají nalézt staré koleje. Co přesně znamenalo „včas“, si už nikdo nepamatuje." },
         ampule_unanswered_call: { name: "Ampule: Nepřijatý hovor", description: "Na doprovodném lístku stojí: Záznam jedné z nejstrašnějších věcí na světě: hovoru z neznámého čísla. Prý zaznamenán ještě ve staré Nexicorp Tower. Nepíše se tu, jestli ten telefon někdo nakonec zvedl." },
         ampule_first_ledger: { name: "Ampule: První kniha zápisů", description: "Šicí stroj ve sklepě Radnice sešívá vazbu úplně první knihy Inkoustového tribunálu. Tento historický moment ovšem zajímal tak leda úředníky, podle cedulky tu ampule leží už pěkně dlouho." },
@@ -241,8 +241,8 @@ export default {
 
     mood: {
         liris: {
-            growthDominant: "Vstupuješ na palubu a voníš po zeleném počasí. Kapradí rostoucí na palubě se k tobě naklání. Vítej.",
-            decayDominant: "Něco s tebou stoupá nahoru: hniloba ve větru. Drž to po větru dál od mé vzducholodě, buď tak laskav.",
+            growthDominant: "Vstupujete na palubu a voníte po zeleném počasí. Kapradí na palubě se k vám naklání.",
+            decayDominant: "Něco s vámi stoupá nahoru: hniloba ve větru. Držte ji laskavě po větru od mé vzducholodě.",
         },
         gnur: {
             growthDominant: "Cítím kolem tebe moc růstu. Kazí mi to zboží. Zelené věci se tady dole moc neprodávají.",

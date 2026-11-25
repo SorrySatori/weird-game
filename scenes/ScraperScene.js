@@ -66,7 +66,7 @@ export default class ScraperScene extends GameScene {
             don_demo_view: {
                 speaker: 'Don Girandole',
                 hideCloseOption: true,   // his own "I should go" leads to the goodbye
-                text: `"I watch the windows. Every one that lights up and every one that goes dark. You learn a lot about people from the lights they leave on, and more from the ones they put out." The flame dips toward the tower. "That one never sleeps, by the way. Remember that when you go inside."`,
+                text: `"I watch the windows. Every one that lights up and every one that goes dark. You learn a lot about people from the lights they leave on, and more from the ones they put out." The flame dips toward the tower. "That one never sleeps, by the way. Remember that whenever you're inside."`,
                 options: more,
             },
             don_demo_scraper: {

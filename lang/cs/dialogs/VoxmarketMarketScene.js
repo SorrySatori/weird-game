@@ -32,7 +32,7 @@ export default {
         }
     },
     zerren_ampules: {
-        text: "'Sklo si pamatuje, když se ho správně zeptáte.' Zvedne jednu proti světlu; uvnitř se cosi pohne jako lapená můra. 'Zvuk se do skla vtiskne, dokud je ještě měkké. Rozlomíte pečeť a je navždy pryč, tak to nedělejte. Stačí ji přiložit k uchu.' Opatrně ji položí zpátky. 'Většina mých je z dob před Vynořením. Hlavně zvířata. Lidé rádi poslouchají, jak zněl svět, když ještě neposlouchal zpátky.'",
+        text: "'Sklo si pamatuje, když se ho správně zeptáte.' Zvedne jednu proti světlu; uvnitř se cosi pohne jako lapená můra. 'Zvuk se do skla vtiskne, dokud je ještě měkké. Rozlomíte pečeť a je navždy pryč, tak to nedělejte. Stačí ji přiložit k uchu.' Opatrně ji položí zpátky. 'Většina mých je ještě z Předdoby. Hlavně zvířata. Lidé rádi poslouchají, jak zněl svět, když ještě neposlouchal zpátky.'",
         options: {
             show_me_what_you_have_for_sale: "Ukažte mi, co máte na prodej",
             back: "Zeptej se na něco jiného"
@@ -99,7 +99,7 @@ export default {
         }
     },
     zerren_bribe_attempt: {
-        text: "Nabídnete Zerren 50 dinárů za informaci.",
+        text: "Nabídneš Zerren 50 dinárů za informaci.",
         options: {
             confirm: "Potvrdit",
             back: "Zpět"
@@ -118,7 +118,7 @@ export default {
         }
     },
     zerren_persuade_attempt: {
-        text: "'Je to fakt důležité. Vestigel by mohl být v nesprávných rukou nebezpečný. Potřebuji ho najít pro bezpečnost všech v Horní Morkezele.' Zerren vypadá nejistě, pečlivě zvažuje vaše slova.",
+        text: "'Je to fakt důležité. Vestigel by mohl být v nesprávných rukou nebezpečný. Potřebuji ho najít pro bezpečnost všech v Horní Morkezele.' Zerren vypadá nejistě, pečlivě zvažuje tvoje slova.",
         options: {
             continue_persuading: "Pokračovat v přesvědčování"
         }
@@ -148,7 +148,10 @@ export default {
         }
     },
     zerren_quest_update: {
-        text: "'Doufám, že najdete, co hledáte. A prosím... pokud uvidíte Edgara, neříkejte, že jsem vám to řekla já. Váží si svého soukromí.' Zerren se vrátí k přerovnávání zboží, občas na tebe pohlédne.",
+        text: {
+            plain: "'Doufám, že najdete, co hledáte. A prosím... pokud uvidíte Edgara, neříkejte, že jsem vám to řekla já. Váží si svého soukromí.' Zerren se vrátí k přerovnávání zboží, občas na tebe pohlédne.",
+            dazed: "Zerren si promne spánky, zamumlá něco o vedru v hangáru a vrátí se k přerovnávání ampulí, jako by na tebe už zapomněla.",
+        },
         options: {
             leave: "Odejít"
         }

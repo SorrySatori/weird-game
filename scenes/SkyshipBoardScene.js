@@ -81,8 +81,9 @@ export default class SkyshipBoardScene extends GameScene {
         // Hover: the aura every character has (utils/hoverAura.js, automatic)
         
         // Add click interaction to show dialog
+        // the first time she introduces herself; after that a short re-greeting with the same topics
         this.captainLiris.on('pointerdown', () => {
-            this.showDialog('captainMain');
+            this.showDialog(this.hasJournalEntry('captain_liris_meeting') ? 'captainAgain' : 'captainMain');
         });
         
         // Add a name tag below the captain
@@ -118,7 +119,26 @@ export default class SkyshipBoardScene extends GameScene {
     get dialogContent() {
         // Combine parent dialog content with this scene's content
         const parentContent = super.dialogContent || {};
-        
+
+        // The broken floor counter comes up only once the player knows of it (the Lift-Mother's hint when she turns
+        // them away at 177-Quiet, or a 'floor_counter' fact on her journal entry) and hasn't got Liris's tool yet
+        const knowsCounter = !!this.questSystem?.getQuest('level_177_access')?.updates?.some(u => u.key === 'hint_floor_counter')
+            || !!this.journalSystem?.hasFact?.('lift_mother_meeting', 'floor_counter');
+        const hasTool = this.registry.get('fixed_floor_counter') === true || !!this.hasJournalEntry('floor_counter_tool');
+        // Her topics: the first greeting, the re-greeting and the "Ask something else" hub all offer the same ones
+        const lirisTopics = [
+            { text: 'How does this ship fly?', key: 'how_does_this_ship_fly', next: 'captainTechnology' },
+            { text: 'Where are you headed?', key: 'where_are_you_headed', next: 'captainDestination' },
+            { text: 'Tell me about yourself.', key: 'tell_me_about_yourself', next: 'captainAbout' },
+            { text: 'Is flying dangerous?', key: 'is_flying_dangerous', next: 'captainDanger' },
+            { text: 'What cargo do you carry?', key: 'what_cargo_do_you_carry', next: 'captainCargo' },
+            ...(this.hasJournalEntry('lift_mother_meeting') && knowsCounter && !hasTool ? [{
+                text: 'I need help with an elevator system.',
+                key: 'i_need_help_with_an_elevator_system',
+                next: 'captainElevator'
+            }] : []),
+        ];
+
         // Define this scene's dialog content
         const skyshipContent = {
             speaker: 'Captain Liris',
@@ -147,38 +167,7 @@ export default class SkyshipBoardScene extends GameScene {
             captainMain: {
                 moodNpc: 'liris',
                 text: "Ah, a visitor! Welcome aboard the Verdigrace. I'm Captain Liris, navigator of the aerial currents and keeper of this fine vessel. What brings you to my ship?",
-                options: [
-                    {
-                        text: 'How does this ship fly?',
-                        key: 'how_does_this_ship_fly',
-                        next: 'captainTechnology'
-                    },
-                    {
-                        text: 'Where are you headed?',
-                        key: 'where_are_you_headed',
-                        next: 'captainDestination'
-                    },
-                    {
-                        text: 'Tell me about yourself.',
-                        key: 'tell_me_about_yourself',
-                        next: 'captainAbout'
-                    },
-                    {
-                        text: 'Is flying dangerous?',
-                        key: 'is_flying_dangerous',
-                        next: 'captainDanger'
-                    },
-                    {
-                        text: 'What cargo do you carry?',
-                        key: 'what_cargo_do_you_carry',
-                        next: 'captainCargo'
-                    },
-                    ...(this.hasJournalEntry('lift_mother_meeting') ? [{
-                        text: 'I need help with an elevator system.',
-                        key: 'i_need_help_with_an_elevator_system',
-                        next: 'captainElevator'
-                    }] : []),
-                ],
+                options: lirisTopics,
                 onTrigger: () => {
                     // Add journal entry for meeting Captain Liris if not already added
                     if (!this.hasJournalEntry('captain_liris_meeting')) {
@@ -192,6 +181,17 @@ export default class SkyshipBoardScene extends GameScene {
                     }
                 }
             },
+            // Clicking her again once she has introduced herself
+            captainAgain: {
+                moodNpc: 'liris',
+                text: "Back again? Ask away.",
+                options: lirisTopics
+            },
+            // "Ask something else": back to her topics mid-conversation, without a second welcome
+            captainHub: {
+                text: "*Liris tests the wind with a wet finger.* Anything else you'd like to know?",
+                options: lirisTopics
+            },
             captainAbout: {
                 text: "I'm Captain Liris, master of this vessel, as I said. I'm on a mission for the Lumen Directorate, as usual.",
                 options: [
@@ -203,7 +203,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'other_topics',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ]
             },
@@ -213,7 +213,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'other_topics',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     },
                     {
                         text: "What is your mission?",
@@ -229,12 +229,12 @@ export default class SkyshipBoardScene extends GameScene {
                 onTrigger: () => this.once('captainAccord', () => this.modifyFactionReputation('LumenDirectorate', 10))
             },
             captainMission: {
-                text: "We are on a mission to search and gather rare specimens for the Lumen Directorate. But we are still waiting for more specs, so we don't mind that little ladder of yours.",
+                text: "We are on a mission to search and gather rare specimens for the Lumen Directorate. But we're still waiting for further orders, so we're not going anywhere, and that little ladder of yours doesn't bother us.",
                 options: [
                     {
                         text: 'Ask something else',
                         key: 'other_topics',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ],
                 onTrigger: () => {
@@ -247,7 +247,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'other_topics',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ],
                 onTrigger: () => {
@@ -264,7 +264,7 @@ export default class SkyshipBoardScene extends GameScene {
                 }
             },
             captainTechnology: {
-                text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant plants. They create microscopic gas pockets that give us lift. The organic sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty cycles now.",
+                text: "Fascinating, isn't it? The ship's hull is infused with a special strain of buoyant plants. They create microscopic gas pockets that give us lift. The organic sails catch the wind currents, and the rudder fungi respond to my commands through a symbiotic bond. I've been connected to this ship for over twenty years now.",
                 options: [
                     {
                         text: 'That sounds dangerous.',
@@ -274,7 +274,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'ask_something_else',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ]
             },
@@ -285,7 +285,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'other_topics',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ]
             },
@@ -300,7 +300,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'ask_something_else',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ],
                 onTrigger: () => {
@@ -317,7 +317,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'other_topics',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ]
             },
@@ -329,7 +329,7 @@ export default class SkyshipBoardScene extends GameScene {
                         key: 'thank_you_i_have_some_other_questions',
                         // the demo: once, Liris's aside that the Directorate can't be joined here yet
                         next: DEMO_BUILD && !this.questSystem?.getQuest('find_lumen_directorate')?.updates?.some(u => u.key === 'demo_not_yet')
-                            ? 'captainDirectorateDemo' : 'captainMain'
+                            ? 'captainDirectorateDemo' : 'captainHub'
                     }
                 ],
                 onTrigger: () => {
@@ -344,9 +344,9 @@ export default class SkyshipBoardScene extends GameScene {
             // DEMO_BUILD: the main square and the Directorate aren't in the demo -- Liris says so, in character, and the
             // quest log keeps it (like Ravla's aside about the Rust Feast)
             captainDirectorateDemo: {
-                text: "*Liris hesitates, then lowers her voice.* \"Before you go looking — you won't get there this time. The main square, the Directorate, half the city past it: none of it is open yet. A demo, the dockhands call this version of the city. I can't fly you to a district that hasn't been built.\" *She taps the rail.* \"Hold on to the idea, though. When the rest of the city opens, the Directorate will be there. And so will the Verdigrace.\"",
+                text: "*Liris hesitates, then lowers her voice.* \"Before you go looking, fair warning: you won't get there this time. The main square, the Directorate, half the city past it: none of it is open yet. A demo, the dockhands call this version of the city. I can't fly you to a district that hasn't been built.\" *She taps the rail.* \"Hold on to the idea, though. When the rest of the city opens, the Directorate will be there. And so will the Verdigrace.\"",
                 options: [
-                    { text: "I'll remember that.", key: 'ill_remember_that', next: 'captainMain' }
+                    { text: "I'll remember that.", key: 'ill_remember_that', next: 'captainHub' }
                 ],
                 onTrigger: () => {
                     this.questSystem.updateQuest('find_lumen_directorate', "Liris warned me the Directorate and the main square aren't open in this demo. Joining them will have to wait for the full game.", 'demo_not_yet');
@@ -363,20 +363,20 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'ask_something_else',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ],
                 onTrigger: () => {
-                    this.addJournalFact('captain_liris_meeting', 'cargo', "It carries rare spores, mycelia and symbiont strains — and information, which she calls its most valuable cargo.");
+                    this.addJournalFact('captain_liris_meeting', 'cargo', "It carries rare spores, mycelia and symbiont strains, and information too, which she calls its most valuable cargo.");
                 }
             },
             captainTrade: {
-                text: "Not at the moment, I'm afraid. We've just begun our journey and haven't collected any goods yet. Return after we've made our first circuit (perhaps in a few cycles) and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies for our return.",
+                text: "Not to you, I'm afraid. Every crate in my hold is already promised to the Directorate or the colonies. Come back once we've flown our circuit and I might have something unique for an intrepid explorer like yourself. Keep an eye on the skies.",
                 options: [
                     {
                         text: 'Ask something else',
                         key: 'other_topics',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ]
             },
@@ -392,7 +392,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Never mind, ask something else.',
                         key: 'never_mind_ask_something_else',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ]
             },
@@ -414,7 +414,7 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainToolExplanation: {
-                text: "It's a symbiotic interface that bridges old electronic systems with the newly developed lift's intelligent mind. The tool contains a specialized strain of communication micro drones that can translate between digital signals and brain-like impulses. You simply attach it to the counter's maintenance port, and it reestablishes the connection between the mechanical components and the building's new nervous system.",
+                text: "It's a symbiotic interface that bridges the old electronics with the mind the lift grew much later. Inside lives a strain of communication micro drones that translate between digital signals and brain-like impulses. Attach it to the counter's maintenance port and it reconnects the mechanical parts to the building's living nerves.",
                 options: [
                     {
                         text: 'Could I borrow this tool?',
@@ -424,7 +424,7 @@ export default class SkyshipBoardScene extends GameScene {
                     {
                         text: 'Ask something else',
                         key: 'ask_something_else',
-                        next: 'captainMain'
+                        next: 'captainHub'
                     }
                 ],
                 onTrigger: () => {

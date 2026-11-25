@@ -21,14 +21,14 @@ export default {
                 "Seventeen! Is anyone seventeen? ...Nobody is ever seventeen.",
                 "Take a number from the machine. If it's out of numbers, fill in a request for a number.",
                 "The Bureau of Shapes welcomes you in whatever shape you arrived in. Just don't change it while you're in line.",
-                "*Thump.* Received. Not approved. Received. Approvals are two floors up.",
+                "*Thump.* Received. No, just kidding. Whatever you came for, you'll have to stand in line first.",
             ],
         },
         floors_dozer: {
             name: 'Dozing applicant',
             lines: [
                 "Mm? Is it seventeen yet? Wake me at seventeen.",
-                "I came in to register one coral. Three more have grown since. I'll need new forms.",
+                "I came in to report that I've grown a small sea. Don't believe me? It's between my second and third lung.",
                 "Shh. I'm not asleep. I'm waiting with my eyes closed.",
             ],
         },
@@ -36,14 +36,14 @@ export default {
         floors_queue0: {
             name: 'First in line',
             lines: [
-                "I'm first. I've been first since spring. The door just hasn't noticed yet.",
+                "I'm first. I've been first since spring, and what good is it? The sign on the door says: *Do not knock*",
                 "Don't even try. The end of the line is over there, behind the orange hood.",
             ],
         },
         floors_queue1: {
             name: 'Applicant with forms',
             lines: [
-                "Form 7-B, another 7-B, and a form confirming I have two 7-Bs. I'm ready. I've been ready for weeks.",
+                "Form 7-B, another 7-B, and a form confirming I have two 7-Bs. I'm ready.",
                 "They say it takes seventeen forms just to request a new form. I counted eighteen. I'm here to report the eighteenth.",
             ],
         },
@@ -58,7 +58,7 @@ export default {
             name: 'Last in line',
             lines: [
                 "Are you in line? Then you're behind me. Best news I've had all week.",
-                "I don't know what this line is for. But nobody would stand here for nothing, would they?",
+                "I don't know what this line is for. But it's bound to be something great.",
             ],
         },
         // Shed521GateScene -- the boom barrier across the gate; the answer comes from the forms kiosk

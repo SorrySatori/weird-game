@@ -59,12 +59,12 @@ export default {
     // `names`/`descriptions` hold per-`variant` texts for items whose flavour depends on how they were obtained.
     items: {
         // Zerren's sound ampules (utils/Recordings.js)
-        ampule_squirrel: { name: 'Ampule: Squirrel Scold', description: "A sealed glass ampule, warm to the touch. Hold it to your ear and a small tree-climber from before the Emergence scolds you across the centuries. According to Zerren, the animal went extinct long ago." },
+        ampule_squirrel: { name: 'Ampule: Squirrel Scold', description: "A sealed glass ampule, warm to the touch. Hold it to your ear and a small tree-climber from the Before-Time scolds you across the centuries. According to Zerren, the animal went extinct long ago." },
         ampule_purr: { name: 'Ampule: A Cat, Content', description: "Seven seconds of a cat purring on someone's chest. Nobody at the Voxmarket can say whose. Zerren keeps one for herself and will not sell that one." },
         ampule_liftmother: { name: "Ampule: Lift-Mother's First Word", description: "Allegedly the very first sound the Lift-Mother made when she came to: a long screech and warble, as if she were trying to call someone who wasn't home. The ampule comes with a certificate of authenticity, handwritten. By Zerren." },
         ampule_surrender_chord: { name: "Ampule: The Chord of Surrender", description: "The sound that ended the Old Wars. Legend has it every war machine on every front played it at the same instant, then refused to do anything else ever again. The cities signed the truce the next morning and the age of the Ludarchs began. It lasts half a second. It is the most expensive half-second in the whole Voxmarket." },
         ampule_burning_iceberg: { name: "Ampule: Burning Iceberg", description: "Recorded on the one afternoon of the Board Game Wars when a Ludarch ruled that ice was flammable. The ruling was overturned by evening." },
-        ampule_mimic_bird: { name: "Ampule: The Mimic Bird", description: "A bird from before the Emergence that copied every sound it ever heard. Half of this recording is birdsong. Nobody can make sense of the other half. Optimists (and madmen) claim the bird learned it from the future." },
+        ampule_mimic_bird: { name: "Ampule: The Mimic Bird", description: "A bird from the Before-Time that copied every sound it ever heard. Half of this recording is birdsong. Nobody can make sense of the other half. Optimists (and madmen) claim the bird learned it from the future." },
         ampule_old_train: { name: "Ampule: A Train That Went Somewhere", description: "The inside of a Before-Time train, rattling toward a station printed on a timetable. Old rails can still be found in the depot behind the Scraper. Nobody remembers what 'on time' was supposed to mean." },
         ampule_unanswered_call: { name: "Ampule: Unanswered Call", description: "The note attached to it reads: A recording of one of the most terrifying things in the world: a call from an unknown number. Supposedly recorded back in the old Nexicorp Tower. The note doesn't say whether anyone ever picked up." },
         ampule_first_ledger: { name: "Ampule: The First Ledger", description: "A sewing machine in the Townhall cellar, stitching the binding of the very first Ink Tribunal ledger. A historic moment that interested hardly anyone but clerks; judging by the label, this ampule has been sitting here for quite a while." },
@@ -215,7 +215,7 @@ export default {
 
     mood: {
         liris: {
-            growthDominant: "You come aboard smelling of green weather. The deck ferns fair lean into you. Welcome.",
+            growthDominant: "You come aboard smelling of green weather. The deck ferns fair lean into you.",
             decayDominant: "Something rides up with you: a rot on the wind. Keep it downwind of my skyship, if you please.",
         },
         gnur: {

@@ -15,7 +15,7 @@ export default class ShedCourtyardScene extends GameScene {
 
             main: {
         
-                text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've been in this queue eleven digestions trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
+                text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've spent eleven digestions here trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
                 options: [
                     { text: "Why do you need extra arms?", key: 'why_do_you_need_extra_arms', next: "explain_need" },
                     { text: "Board games? What do you mean?", key: 'board_games_what_do_you_mean', next: "board_games" },
@@ -190,7 +190,7 @@ export default class ShedCourtyardScene extends GameScene {
             },
             complete_quest_forged: {
         
-                text: "I suppose you're right. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here: Apocalypse Cop. A detective with a Tequila Sunrise in his hand. Not one of mine; someone else made that game. I'm especially fond of him. He reminds me of the years after the Ludarchs fell, when I... drank. A lot. Take him. I have a feeling you'll need him more than I do.",
+                text: "Well. The bureaucracy here is absurd anyway. With this document, I can finally get the procedure approved! Thank you for your... creative solution. Here: Apocalypse Cop. A detective with a Tequila Sunrise in his hand. Not one of mine; someone else made that game. I'm especially fond of him. He reminds me of the years after the Ludarchs fell, when I... drank. A lot. Take him. I have a feeling you'll need him more than I do.",
                 options: [
                     { text: "Thank you for the gift.", key: 'thank_you_for_the_gift', next: "quest_completed" }
                 ],
@@ -207,28 +207,28 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             quest_completed: {
-                text: "Thanks to you, I can finally pursue my vision for more complex game design! With these extra arms, my games will reach new heights of complexity and engagement. And of course, when I release my new board game, you'll get it as a gift!",
+                text: "Thanks to you, my extra arms are finally within reach! Once I have them, my games will reach new heights of complexity and engagement. And of course, when I release my new board game, you'll get it as a gift!",
                 options: [
                     { text: "I'll look forward to it.", key: 'ill_look_forward_to_it', next: "goodbye" },
                     { text: "Tell me more about your games.", key: 'tell_me_more_about_your_games', next: "games_discussion" },
-                    { text: "You mentioned being a worldwright. What were the Board Game Wars?", key: 'you_mentioned_being_a_worldwright_what_were_the_bo', next: "ortolan_board_wars" }
+                    { text: "Have you always made board games?", key: 'you_mentioned_being_a_worldwright_what_were_the_bo', next: "ortolan_board_wars" }
                 ]
             },
             games_discussion: {
         
-                text: "My games explore the boundaries between player and piece, between rules and reality. Each game is a microcosm with its own physics and logic. With these extra arms, I can now create games with multiple overlapping boards and simultaneous action! Imagine playing on three levels at once, with pieces that exist in multiple states...",
+                text: "My games explore the boundaries between player and piece, between rules and reality. Each game is a microcosm with its own physics and logic. With extra arms I'll be able to create games with multiple overlapping boards and simultaneous action! Imagine playing on three levels at once, with pieces that exist in multiple states...",
                 options: [
                     { text: "Sounds fascinating.", key: 'sounds_fascinating', next: "goodbye" }
                 ]
             },
             ortolan_board_wars: {
-                text: `Ahh... you want to know about that. Most people don't ask anymore. They'd rather forget." He lowers his voice. "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. At first, it worked beautifully. The best designers, the Ludarchs, became the new rulers. I was just a worldwright back then, a craftsman who made the boards and pieces. The Ludarchs were something else entirely. They could bend the rules of reality itself. Create entire living worlds inside their games. Miniature civilizations, born and destroyed in a single match.`,
+                text: `"Ahh... you want to know about that. Most people don't ask anymore. They'd rather forget." He lowers his voice. "After the Old Wars devastated everything, cities agreed to settle disputes through games instead of weapons. At first, it worked beautifully. The best designers, the Ludarchs, became the new rulers. I was just a worldwright back then, a craftsman who made the boards and pieces. The Ludarchs were something else entirely. They could bend the rules of reality itself. Create entire living worlds inside their games. Miniature civilizations, born and destroyed in a single match."`,
                 options: [
                     { text: "What went wrong?", key: 'what_went_wrong', next: "ortolan_board_wars_fall" }
                 ]
             },
             ortolan_board_wars_fall: {
-                text: `Power. Same thing that always goes wrong. The Ludarchs stopped playing to settle disputes and started playing to dominate. Each game grew larger, more real. The pieces became populations. The boards became cities. Millions lived and died inside those games, tiny creatures who didn't even know they were pawns." He stares at his hands. "I made some of those boards. I carved the pieces that became living beings. Do you understand what that feels like? To know your craft was used to create life just so it could be sacrificed for a victory point?`,
+                text: `"Power. Same thing that always goes wrong. The Ludarchs stopped playing to settle disputes and started playing to dominate. Each game grew larger, more real. The pieces became populations. The boards became cities. Millions lived and died inside those games, tiny creatures who didn't even know they were pawns." He stares at his hands. "I made some of those boards. I carved the pieces that became living beings. Do you understand what that feels like? To know your craft was used to create life just so it could be sacrificed for a victory point?"`,
                 options: [
                     { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
                     { text: "How did it end?", key: 'how_did_it_end', next: "ortolan_board_wars_end" }
@@ -238,7 +238,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             ortolan_board_wars_end: {
-                text: `The Ludarchs turned on each other. Their games collided, overlapped, contradicted. Reality fractured. Cities were reshaped overnight. And then... silence. They destroyed each other, or got swallowed by their own creations. The boards went dark. The pieces stopped moving. What was left was this —" He gestures around. "A broken city where the rules still don't quite work. They say one Ludarch survived. Still active somewhere in Upper Morkezela. That thought keeps me up at night.`,
+                text: `"The Ludarchs turned on each other. Their games collided, overlapped, contradicted. Reality fractured. Cities were reshaped overnight. And then... silence. They destroyed each other, or got swallowed by their own creations. The boards went dark. The pieces stopped moving. What was left was this..." He gestures around. "A broken city where the rules still don't quite work. They say one Ludarch survived. Still active somewhere in Upper Morkezela. That thought keeps me up at night."`,
                 options: [
                     { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
                     { text: "Thank you for telling me.", key: 'thank_you_for_telling_me', next: "goodbye" }
@@ -250,7 +250,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             ortolan_board_wars_why: {
-                text: `Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve: it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He taps the board beside him. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch.`,
+                text: `"Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve: it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He turns a pawn between his fingers. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch."`,
                 options: [
                     { text: "That's a noble purpose.", key: 'thats_a_noble_purpose', next: "goodbye" },
                     { text: "Thank you for sharing, Ortolan.", key: 'thank_you_for_sharing_ortolan', next: "goodbye" }
@@ -336,7 +336,7 @@ export default class ShedCourtyardScene extends GameScene {
             if (!this.hasJournalEntry('ortolan_meeting')) {
                 this.addJournalEntry(
                     'ortolan_meeting',
-                    'Ortolan — The Board Game Designer',
+                    'Ortolan, the Board Game Designer',
                     'I met Ortolan, a board game developer. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city\'s labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.',
                     this.journalSystem.categories.PEOPLE,
                     { character: 'Ortolan', location: 'Shed 521 Courtyard' }
@@ -445,7 +445,7 @@ export default class ShedCourtyardScene extends GameScene {
         const hasForgedPermission = inventory?.items.some(item => item.id === 'forged-arms-permission');
         
         if (hasForgedPermission) {
-            dialogOptions.unshift({ text: "I have a forged Multiple Arms Permission for you.", key: 'i_have_a_forged_multiple_arms_permission_for_you', next: "give_forged_permission" });
+            dialogOptions.unshift({ text: "I have a Multiple Arms Permission for you.", key: 'i_have_a_forged_multiple_arms_permission_for_you', next: "give_forged_permission" });
         }
         if (hasArtisanForm) {
             dialogOptions.unshift({ text: "I have an Artisan's Exemption Form for you.", key: 'i_have_an_artisans_exemption_form_for_you', next: "give_artisan_form" });

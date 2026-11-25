@@ -59,7 +59,7 @@ export default {
         options: {
             ill_keep_working_on_it: "Pracuju na tom.",
             see_you_later: "Tak zatím.",
-            i_have_a_forged_multiple_arms_permission_for_you: "Mám pro vás padělané povolení na více rukou.",
+            i_have_a_forged_multiple_arms_permission_for_you: "Mám pro vás povolení na více rukou.",
             i_have_an_artisans_exemption_form_for_you: "Mám pro vás Formulář o výjimce pro umělce.",
             i_have_an_inherited_deformity_form_for_you: "Mám pro vás Formulář o zděděné deformitě.",
             i_have_a_special_dispensation_for_you: "Mám pro vás Zvláštní dispens.",
@@ -113,41 +113,41 @@ export default {
         }
     },
     complete_quest_forged: {
-        text: "Asi máte pravdu. Zdejší byrokracie je stejně absurdní. S tímhle dokumentem si konečně nechám ten zákrok schválit! Děkuju za vaše... kreativní řešení. Tady je Apocalypse Cop. Detektiv s drinkem Tequila Sunrise v ruce. Není ode mě, tu hru dělal někdo jiný. Mám ho obzvlášť rád. Připomíná mi období po pádu Ludarchů, kdy jsem... pil. Hodně. Vezměte si ho. Mám pocit, že ho budete potřebovat víc než já.",
+        text: "No nic. Zdejší byrokracie je stejně absurdní. S tímhle dokumentem si konečně nechám ten zákrok schválit! Děkuju za vaše... kreativní řešení. Tady je Apocalypse Cop. Detektiv s drinkem Tequila Sunrise v ruce. Není ode mě, tu hru dělal někdo jiný. Mám ho obzvlášť rád. Připomíná mi období po pádu Ludarchů, kdy jsem... pil. Hodně. Vezměte si ho. Mám pocit, že ho budete potřebovat víc než já.",
         options: { thank_you_for_the_gift: "Děkuji za dar." }
     },
     quest_completed: {
-        text: "Díky vám se konečně můžu věnovat své vizi složitějších her! S rukama navíc dosáhnou moje hry nové úrovně složitosti a zábavy. A samozřejmě, až vydám novou deskovku, dostanete ji jako dárek!",
+        text: "Díky vám mám ruce navíc konečně na dosah! Až je budu mít, dosáhnou moje hry úplně nové úrovně. A až vydám novou deskovku, dostanete ji samozřejmě jako dárek!",
         options: {
             ill_look_forward_to_it: "Budu se těšit.",
             tell_me_more_about_your_games: "Řekněte mi víc o svých hrách.",
-            you_mentioned_being_a_worldwright_what_were_the_bo: "Říkal jste, že jste byl světotvůrce. Co byly Deskovkové války?"
+            you_mentioned_being_a_worldwright_what_were_the_bo: "Děláte deskovky odjakživa?"
         }
     },
     games_discussion: {
-        text: "Moje hry zkoumají hranici mezi hráčem a figurkou, mezi pravidly a skutečností. Každá hra je mikrokosmos s vlastní fyzikou a logikou. S rukama navíc teď můžu tvořit hry s několika překrývajícími se hracími plány a současnými akcemi! Představte si hrát na třech úrovních zároveň, s figurkami, které existují ve více stavech najednou...",
+        text: "Moje hry zkoumají hranici mezi hráčem a figurkou, mezi pravidly a skutečností. Každá hra je mikrokosmos s vlastní fyzikou a logikou. S rukama navíc budu moct tvořit hry s několika překrývajícími se hracími plány a současnými akcemi! Představte si hrát na třech úrovních zároveň, s figurkami, které existují ve více stavech najednou...",
         options: { sounds_fascinating: "Zní to úchvatně." }
     },
     ortolan_board_wars: {
-        text: "Ach... takže o tom chcete slyšet. Většina lidí se už neptá. Radši by zapomněli.“ Ztiší hlas. „Když Staré války zpustošily všechno, města se dohodla, že spory budou řešit hrami místo zbraní. Zpočátku to fungovalo krásně. Nejlepší návrháři, Ludarchové, se stali novými vládci. Já byl tehdy jen světotvůrce, řemeslník, který vyráběl desky a figurky. Ludarchové byli něco úplně jiného. Dokázali ohýbat pravidla samotné skutečnosti. Vytvořili ve svých hrách celé živé světy. Miniaturní civilizace, zrozené a zničené během jediné partie.",
+        text: "„Ach... takže o tom chcete slyšet. Většina lidí se už neptá. Radši by zapomněli.“ Ztiší hlas. „Když Staré války zpustošily všechno, města se dohodla, že spory budou řešit hrami místo zbraní. Zpočátku to fungovalo krásně. Nejlepší návrháři, Ludarchové, se stali novými vládci. Já byl tehdy jen světotvůrce, řemeslník, který vyráběl desky a figurky. Ludarchové byli něco úplně jiného. Dokázali ohýbat pravidla samotné skutečnosti. Vytvořili ve svých hrách celé živé světy. Miniaturní civilizace, zrozené a zničené během jediné partie.“",
         options: { what_went_wrong: "Co se pokazilo?" }
     },
     ortolan_board_wars_fall: {
-        text: "Totéž, co se pokazí vždycky. Moc. Ludarchové přestali hrát, aby urovnali spory, a začali hrát, aby ovládali. Každá hra byla větší a skutečnější. Z figurek se stalo obyvatelstvo. Z herních plánů města. Uvnitř těch her žily a umíraly miliony drobných bytostí, které ani nevěděly, že jsou pěšáci.“ Zahledí se na své ruce. „Některé z těch her jsem vyrobil já. Vyřezal jsem figurky, které se staly živými bytostmi. Chápete, jaké to je? Vědět, že vaše řemeslo posloužilo ke stvoření života jen proto, aby ho někdo obětoval za jeden bod k vítězství?",
+        text: "„Totéž, co se pokazí vždycky. Moc. Ludarchové přestali hrát, aby urovnali spory, a začali hrát, aby ovládali. Každá hra byla větší a skutečnější. Z figurek se stalo obyvatelstvo. Z herních plánů města. Uvnitř těch her žily a umíraly miliony drobných bytostí, které ani nevěděly, že jsou pěšáci.“ Zahledí se na své ruce. „Některé z těch her jsem vyrobil já. Vyřezal jsem figurky, které se staly živými bytostmi. Chápete, jaké to je? Vědět, že vaše řemeslo posloužilo ke stvoření života jen proto, aby ho někdo obětoval za jeden bod k vítězství?“",
         options: {
             is_that_why_you_still_make_games: "Proto pořád děláte hry?",
             how_did_it_end: "Jak to skončilo?"
         }
     },
     ortolan_board_wars_end: {
-        text: "Ludarchové se obrátili proti sobě. Jejich hry se střetly, překryly, popřely. Skutečnost se roztříštila. Města se přes noc měnila k nepoznání. A pak... ticho. Zničili se navzájem, nebo je pohltily jejich vlastní výtvory. Desky potemněly. Figurky se přestaly hýbat. Zbylo tohle –“ Rozhlédne se kolem. „Rozbité město, kde pravidla pořád úplně nefungují. Říká se, že jeden Ludarch přežil. Že je pořád někde v Horní Morkezele. Tahle myšlenka mě budí v noci ze spaní.",
+        text: "„Ludarchové se obrátili proti sobě. Jejich hry se střetly, překryly, popřely. Skutečnost se roztříštila. Města se přes noc měnila k nepoznání. A pak... ticho. Zničili se navzájem, nebo je pohltily jejich vlastní výtvory. Desky potemněly. Figurky se přestaly hýbat. Zbylo tohle...“ Rozhlédne se kolem. „Rozbité město, kde pravidla pořád úplně nefungují. Říká se, že jeden Ludarch přežil. Že je pořád někde v Horní Morkezele. Tahle myšlenka mě budí v noci ze spaní.“",
         options: {
             is_that_why_you_still_make_games: "Proto pořád děláte hry?",
             thank_you_for_telling_me: "Děkuju, že jste mi to řekl."
         }
     },
     ortolan_board_wars_why: {
-        text: "Protože to někdo musí dělat správně.“ V očích má tichou, žhavou jistotu. „Ludarchové brali hry jako zbraně. Já je beru jako něco posvátného. Každé pravidlo, které napíšu, každá figurka, kterou vyřežu, to je slib. Že hra je poctivá. Že na hráčích záleží. Že nikdo nebude obětován za cizí vítězství.“ Poklepe na desku vedle sebe. „To je moje odpověď na ty války. Malé hry, poctivé hry. Kde hráči jsou bohové, ale pravidla jsou posvátná. V tom je rozdíl mezi mnou a Ludarchem.",
+        text: "„Protože to někdo musí dělat správně.“ V očích má tichou, žhavou jistotu. „Ludarchové brali hry jako zbraně. Já je beru jako něco posvátného. Každé pravidlo, které napíšu, každá figurka, kterou vyřežu, to je slib. Že hra je poctivá. Že na hráčích záleží. Že nikdo nebude obětován za cizí vítězství.“ Protočí mezi prsty figurku. „To je moje odpověď na ty války. Malé hry, poctivé hry. Kde hráči jsou bohové, ale pravidla jsou posvátná. V tom je rozdíl mezi mnou a Ludarchem.“",
         options: {
             thats_a_noble_purpose: "To je ušlechtilý cíl.",
             thank_you_for_sharing_ortolan: "Děkuju, že jste se se mnou podělil, Ortolane."

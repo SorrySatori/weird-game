@@ -64,7 +64,7 @@ export default {
         gate_barrier: {
             name: 'Závora',
             lines: [
-                "Dneska už máš smůlu, přijď zítra.",
+                "Dneska už máte smůlu, přijďte zítra.",
             ],
         },
     },

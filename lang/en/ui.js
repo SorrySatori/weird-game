@@ -179,7 +179,7 @@ export default {
             abandonedBus: 'Abandoned Bus',
             deadBishop: 'Dead Bishop',
             captainLiris: 'Captain Liris',
-            skyshipAbove: 'Looks like there is a skyship above the city...',
+            skyshipAbove: 'Right above the crossroads, hidden in the haze, hangs a skyship...',
         },
     },
 };

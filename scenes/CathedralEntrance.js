@@ -41,7 +41,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardWhen: {
-        text: "I have no idea. When the great Council says so. It could be a single digestion, it could be a hundred thousand. We stand guard until the Awakening.",
+        text: "I have no idea. When the cathedral council says so. It could be a single digestion, it could be a hundred thousand. We stand guard until the Awakening.",
                 options: [
                     { text: "The Awakening?", key: 'the_awakening', next: "templeGuardAwakening" },
                     { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
@@ -58,7 +58,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             speakWithSomeoneInside: {
-                text: "No summons have been issued. No minds may enter without resonance. Wait. Or seek for your Bishop. She's one of the Council, I am sure you know.",
+                text: "No summons have been issued. No minds may enter without resonance. Wait. Or seek out your Bishop. She sits on the cathedral council, as you surely know.",
                 options: [
                     { text: "I'm Master Thaal's apprentice. Surely I may pass.", key: 'im_a_master_thaals_apprentice_surely_i_may_pass', next: "iAmFungalApprentice" },
                     { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },
@@ -81,7 +81,7 @@ export default class CathedralEntrance extends GameScene {
                 ]
             },
             templeGuardShed521: {
-                text: "Its official name is the Bureau of Shapes. If you want to change your body shape, you'll need a certificate. This is where you can get that certificate. You'll find it right next to Voxmarket.",
+                text: "Its official name is the Bureau of Shapes. If you want to change your body's shape, you need a certificate, and that's where they issue it. You'll find it right next to the Voxmarket.",
                 options: [
                     { text: "Ask something else", key: 'ask_something_else', next: "templeGuardAskSomethingElse" },
                     { text: "Where can I find the Bishop?", key: 'where_can_i_find_the_bishop', next: "bishop_info" },

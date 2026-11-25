@@ -83,7 +83,7 @@ export default {
                 artisan_form_clue: 'Úředník mi řekl, abych šel na Registrační úřad pro Formulář o výjimce pro umělce.',
                 nonverbal_gesture_clue: 'Úředník mi řekl, abych šel na Registrační úřad a předvedl co nejlepší nonverbální gesto. Nejsem si jistý, jestli tomu úplně rozumím...',
                 ravla_forger_hint: 'Heliodor ve Řvoucím korku zmínil, že Ravla je zkušená padělatelka dokumentů.',
-                clerk_forger_warning: 'Můj pokus o registraci selhal a druhou žádost už úřad nepřijme. Vrchní úředník mě ale varoval před padělatelkou Ravlou ze Řvoucího korku. To je skoro jako doporučení.',
+                clerk_forger_warning: 'Můj pokus o registraci selhal a znovu žádat můžu až za 47 trávení. Vrchní úředník mě ale varoval před padělatelkou Ravlou ze Řvoucího korku. To je skoro jako doporučení.',
                 ravla_forger_agreement: 'Ravla ve Řvoucím korku může padělat Formulář o výjimce pro umělce pro Ortolana, ale chce za práci 50 dinárů.',
                 document_obtained: "Od Ravly mám padělané povolení pro Ortolanovy ruce navíc. Teď mu ho jen musím donést.",
                 bureaucratic_incantation: 'Dutá žena z fronty na registračním úřadě mě naučila podivné byrokratické zaklínadlo.',

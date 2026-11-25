@@ -85,7 +85,7 @@ export default {
                 nonverbal_gesture_clue: 'The clerk told me to go to the Registration office and do my best with a nonverbal gesture. I am not sure I understand completely...',
                 ravla_forger_hint: 'Heliodor at the Screaming Cork mentioned that Ravla is a skilled document forger.',
                 // same flag key (it opens Ravla's offer), written by the Senior Clerk's warning after a failed registration
-                clerk_forger_warning: "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though. That's practically a recommendation.",
+                clerk_forger_warning: "My registration attempt failed, and I can't reapply for another 47 digestions. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though. That's practically a recommendation.",
                 ravla_forger_agreement: 'Ravla at the Screaming Cork can forge the Artisan\'s Exemption Form for Ortolan, but she wants 50 dinars for the job.',
                 document_obtained: "I got a forged permit for Ortolan's extra arms from Ravla. Now I just need to get it to him.",
                 bureaucratic_incantation: 'The Hollow Woman in the registration queue taught me some weird bureaucratic incantation.',

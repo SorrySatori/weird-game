@@ -67,6 +67,15 @@ export default {
             glory_to_the_eternal_mushroom: "Díky, to mi stačí. Sláva Věčné houbě..."
         }
     },
+    farewellHub: {
+        text: "*Bubnuje prsty a jedním okem už pokukuje po cestě k hospodě.* Ještě něco, než vyrazíš?",
+        options: {
+            wait_tell_me_more_about_the_growth_and_decay: "Řekněte mi víc o růstu a rozkladu.",
+            the_spores_different_how: "Spory? Jak jako se tu chovají jinak?",
+            the_symbionts_tell_me_more: "Symbionti. Řekněte mi víc.",
+            glory_to_the_eternal_mushroom: "Díky, to mi stačí. Sláva Věčné houbě..."
+        }
+    },
     growthDecay: {
         text: "No, ty pojmy mluví samy za sebe, ne? Růst znamená, že město roste, prosperuje a vzkvétá. Rozklad je, když město chátrá, když hniloba vítězí. Jak jistě víš, můj učedníku, Obazoba je pánem obou principů. Proto jsou si rovny, žádný není lepší než druhý. Ale samozřejmě, ne každý místňák bude sdílet můj názor. Někteří budou preferovat růst, jiní rozklad. Někteří budou preferovat rovnováhu mezi nimi. Někteří nebudou preferovat ani jedno. Je na tobě, abys to zjistil, ale buď opatrný.",
         options: {
@@ -174,7 +183,7 @@ export default {
         text: "Je to křivý mrakodrap, ze kterého se stal vertikální slum. Každé patro prý obývá jiná kasta, stahují se tam různé podivné existence a tak. Bohužel o tom moc nevím, ale na tohle místo bych si dával pozor.",
         options: {
             what_is_the_shed_512: "Co je Bouda 521?",
-            what_is_the_scraper_1140: "Co je Škrabák 1140?",
+            what_is_the_voxmarket: "Co je Voxmarket?",
             what_is_the_stomach_clock: "Co jsou Žaludeční hodiny?",
             return_to_previous_topic: "Zpět k předchozímu tématu"
         }

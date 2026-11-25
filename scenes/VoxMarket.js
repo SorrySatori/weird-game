@@ -323,7 +323,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_vestigels_help: {
-                text: "'Really? That would be... useful.' Kloor's eyes narrow with suspicion, then he nods. 'If you can get me one of the Vestigels, I'll tell you everything I know about the Bishop's movements. Deal?'",
+                text: "'Really? That would be... useful.' Kloor's eyes narrow with suspicion, then he nods. 'If you can get me one of the Vestigels, I'll tell you everything I know about the Bishop. Deal?'",
                 options: [
                     { text: "Deal", key: 'deal', next: "kloor_vestigels_quest_start" },
                     { text: "I need to think about it", key: 'i_need_to_think_about_it', next: "kloor_start" }
@@ -349,7 +349,7 @@ export default class VoxMarket extends GameScene {
             },
             
             kloor_vestigels_quest_info: {
-                text: "'Here's what I know: Zerren has one Vestigel. She's usually in the Market area. That's the only one I've got a line on. The other two, nobody seems to know where they ended up. Get me Zerren's, and I'll tell you what you need to know about the Bishop.'",
+                text: "'Here's what I know: Zerren has, or had, a Vestigel. She's usually in the Market area. That's the only one I've got a line on. The other two, nobody seems to know where they ended up. Get me Zerren's, and I'll tell you what you need to know about the Bishop.'",
                 options: [
                     { text: "I'll find one for you", key: 'ill_find_one_for_you', next: "closeDialog" }
                 ]
@@ -516,7 +516,9 @@ export default class VoxMarket extends GameScene {
         
         // Examine: the market itself (upper-centre, clear of the priest spawn at x750).
         this.createObservable(360, 235, 240, 150, () => {
-            if (this.questSystem?.getQuest('the_three_vestigels')) return this.t('observe.voxmarket.knows_vestigels');
+            const vestigels = this.questSystem?.getQuest('the_three_vestigels');
+            if (vestigels?.isComplete) return this.t('observe.voxmarket.knows_vestigels_done');   // Kloor has his one now
+            if (vestigels) return this.t('observe.voxmarket.knows_vestigels');
             return this.t('observe.voxmarket.default');
         }, { hint: this.t('observe.voxmarket.hint') });
 

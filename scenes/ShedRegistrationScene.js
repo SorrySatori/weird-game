@@ -368,7 +368,8 @@ export default class ShedRegistrationScene extends GameScene {
                 text: "(The creature watches you intently. You name it the Sleepless Mime for yourself. Their rusting faceplate catches the dim light. They silently mimic your posture, then make a gesture with their hands, forming a cube shape like a die. They pantomime you holding it.)",
                 options: [
                     { text: "Hi, who are you? I used to play like this as well, when I was a kid.", key: 'hi_who_are_you_i_used_to_play_like_this_as_well_wh', next: "sleeplessMime_memory" },
-                    { text: "Err... Am I at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }
+                    // "my friend" is Ortolan: only once his arms quest is on (Registration can come first)
+                    ...(armsQuest && !armsQuest.isComplete ? [{ text: "Err... Am I at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }] : [])
                 ]
             },
             sleeplessMime_memory: {
@@ -719,14 +720,14 @@ export default class ShedRegistrationScene extends GameScene {
             registration_arms_redirect: {
                 text: "(The clerk doesn't even look up.)\n\n'Limbs. Additional. Registration does not decide which form a limb falls under. Applications does. Top floor, the door with the queue. Come back with the name of the form, and I will issue it.'",
                 options: [
-                    { text: "Applications first, then. Understood.", key: 'applications_first_understood', next: "registration_reconsider" }
+                    { text: "Applications first, then. Understood.", key: 'applications_first_understood', next: "seniorClerk_end" }   // he goes upstairs: no "let's start again"
                 ],
                 onTrigger: () => {
                     this.questSystem?.updateQuest('ortolan_arms', 'The Senior Clerk at Registration only issues the forms; which form Ortolan\'s arms need is decided at Applications, on the top floor of the Shed.', 'registration_sent_to_applications');
                 }
             },
             registration_proxy: {
-                text: "'Registration by proxy is not accepted. The applicant must appear in person, or you must hold a form issued in their name.'",
+                text: "'Registration by proxy only for a named form. Which form, Applications decides. Top floor.'",
                 options: [
                     { text: "Understood.", key: 'understood', next: "registration_reconsider" }
                 ]
@@ -820,7 +821,7 @@ export default class ShedRegistrationScene extends GameScene {
             },
             registration_success_artisan: {
         
-                text: "(The clerk stamps the Artisan's Exemption Form with a flourish.)\n\n'Approved. The form grants creative exemption from standard limb restrictions. Ortolan will be pleased.'",
+                text: "(The clerk stamps the Artisan's Exemption Form with a flourish.)\n\n'Approved. The form grants creative exemption from standard limb restrictions. The applicant will be pleased, whoever the applicant really is.'",
                 options: [
                     { text: "Thank you.", key: 'thank_you', next: "registration_complete_success" }
                 ],
@@ -962,7 +963,7 @@ export default class ShedRegistrationScene extends GameScene {
                         // offer at the Screaming Cork (ScreamingCorkInteriorScene, ravla_documents).
                         questSystem.updateQuest(
                             'ortolan_arms',
-                            "My registration attempt failed, and the office won't take a second application. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though. That's practically a recommendation.",
+                            "My registration attempt failed, and I can't reapply for another 47 digestions. The Senior Clerk did warn me off a forger called Ravla at the Screaming Cork, though. That's practically a recommendation.",
                             'ravla_forger_hint',
                             { textKey: 'clerk_forger_warning' }
                         );

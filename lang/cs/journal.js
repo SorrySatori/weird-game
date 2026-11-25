@@ -110,9 +110,12 @@ export default {
         lift_mother_meeting: {
             title: 'Lift-Mother',
             description: 'Uvnitř Škrabáku jsem narazil na nanejvýš neobvyklé vědomí: výtah, který si říká Lift-Mother. Její hlas se nesl kabely a strojovnou a mluvil s klidnou moudrostí někoho, kdo viděl nespočet životů procházet svými dveřmi. Prý jezdí od „Předdoby“, ať už to znamená cokoli, a vědomí v ní zřejmě vyrostlo za ta staletí, co vozí cestující mezi patry.',
+            facts: {
+                floor_counter: 'Nefunguje jí počítadlo pater a chybí jí i pár tlačítek.',
+            },
         },
         accessed_elphi_floor: {
-            title: 'Studio Dr. Elphi – patro 177-Tiché',
+            title: 'Studio Dr. Elphi: patro 177-Tiché',
             description: 'Získal jsem přístup do studia Dr. Elphi Quarn v patře 177-Tichém ve Škrabáku 1140. Na tomhle uzavřeném patře vyvíjí své snové hry a možná tu najdu stopy k tomu, kde je Biskupka.',
         },
         rust_choir_info: {
@@ -137,7 +140,7 @@ export default {
         },
         gnur_meeting: {
             title: "Gnur",
-            description: "V útrobách Boudy 521 jsem narazil na Gnura, postavu, jejíž hlas skřípe „jako rozbitý tranzistorák“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
+            description: "Před Boudou 521 jsem narazil na Gnura, postavu, jejíž hlas skřípe „jako rozbitý tranzistorák“. Zdá se, že obchoduje s tělesnými úpravami a dalšími pochybnými službami. Je na něm něco znepokojivého.",
             facts: {
                 rust_choir: "Za starých časů se staral o stroje, teď patří k Rezavému chóru. To naznačuje, že má se skrytou infrastrukturou a technikou města hlubší pletky, než by jeho ošuntělý zjev napovídal.",
                 mirage_core: "Odnesl si živé jádro, které mu Ulvarex upředla z kusu plechu. Jenže přelud nevydrží věčně. Jednou si toho všimne.",
@@ -154,7 +157,7 @@ export default {
             },
         },
         ortolan_meeting: {
-            title: 'Ortolan – návrhář deskových her',
+            title: 'Ortolan, návrhář deskových her',
             description: 'Setkal jsem se s Ortolanem, návrhářem deskových her. Ortolan navrhuje složité deskové hry a snaží se získat povolení na další pár rukou, aby se své vášni mohl věnovat lépe. Zdejší labyrint úředních postupů ho frustruje i unavuje, a přesto tváří v tvář absurdním předpisům vytrvává s jistým šarmem.',
         },
         board_games_war: {
@@ -203,7 +206,7 @@ export default {
             description: "Na palubě vzducholodi jsem potkal kapitánku Liris, impozantní postavu ve zdobené uniformě, která velí plavidlu jménem Verdigrace.",
             facts: {
                 routes: "Loď křižuje vzdušné obchodní trasy mezi vzdálenými osadami a výzkumnými stanicemi, kam ji větry pustí.",
-                cargo: "Vozí vzácné spory, mycelia a symbiotické kmeny – a zprávy, které kapitánka považuje za nejcennější náklad.",
+                cargo: "Vozí vzácné spory, mycelia a symbiotické kmeny, a k tomu zprávy, které kapitánka považuje za nejcennější náklad.",
             },
         },
         lumen_directorate_faction: {
@@ -226,7 +229,7 @@ export default {
             description: "Setkal jsem se s Edgarem Eskolou, medvědovitým štamgastem Řvoucího korku.",
             facts: {
                 misutkenn: "Je to mišutkenn. Většina lidí se prý jeho druhu vyhýbá, když to jde.",
-                exiled: "Zakladatelé města kdysi vyhnali jeho předky z jejich domoviny v horách a jeho druh je tu dodnes v lepším případě trpěn.",
+                exiled: "Zakladatelé města kdysi vyhnali jeho předky z Rémaperské pahorkatiny a jeho druh je tu dodnes v lepším případě trpěn.",
             },
         },
         edgar_aspiration: {

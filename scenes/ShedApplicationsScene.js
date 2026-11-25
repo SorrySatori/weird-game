@@ -72,7 +72,7 @@ export default class ShedApplicationsScene extends GameScene {
                 }
             },
             expose_gnur: {
-                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. And it is no relic, whatever people say. The Shed's entire energy supply depends on that core. Remove it and the lights go out in every department. (puts away papers) Please promise to not mess with the living core.",
+                text: "I knew it! Thanks for telling me. (smiles) The Rust Choir scum has no right to such technology. And it is no relic, whatever people say. The Shed's entire energy supply depends on that core. Remove it and sooner or later the lights go out in every department. (puts away papers) Please promise to not mess with the living core.",
                 options: [
                     { text: "I promise to leave it alone", key: 'i_promise_to_leave_it_alone', next: "promise_made" },
                     { text: "I'll think about it", key: 'ill_think_about_it', next: "no_promise" }
@@ -127,7 +127,7 @@ export default class ShedApplicationsScene extends GameScene {
             // After the player turned Gnur down: the Tribunal pays its friends back -- with the Bishop's visitor permit for
             // Dr. Elphi's floor, the same lead Gnur would have given (utils/bishopTrail.js)
             core_refused_thanks: {
-                text: "(The clerk sets down his stamp.) You turned Gnur down? (A thin smile.) The Ink Tribunal remembers its friends. You were asking after the Bishop, weren't you? (He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. Filed by the Bishop herself, stamped and countersigned. Wherever she went after that, she went there first.",
+                text: "(The clerk sets down his stamp.) You turned Gnur down? (A thin smile.) The Ink Tribunal remembers its friends. (You tell him you're looking for the Bishop. He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. Filed by the Bishop herself, stamped and countersigned. Wherever she went after that, she went there first.",
                 options: [
                     { text: "Thank you. That helps a lot.", key: 'thank_you_that_helps', next: "start" }
                 ],
@@ -135,7 +135,7 @@ export default class ShedApplicationsScene extends GameScene {
             },
             // Ulvarex, Gnur first: he went off with her mirage of the core, the real one still hums in its wall
             core_mirage_thanks: {
-                text: "(The clerk sets down his stamp.) Gnur walked off happy and the core is still humming in its wall? (A thin smile.) I won't ask how you managed it. The Ink Tribunal remembers its friends. You were asking after the Bishop, weren't you? (He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. Requested by the Bishop herself; it's stamped and countersigned. Wherever she went after that, she went there first.",
+                text: "(The clerk sets down his stamp.) Gnur walked off happy and the core is still humming in its wall? (A thin smile.) I won't ask how you managed it. The Ink Tribunal remembers its friends. (You tell him you're looking for the Bishop. He pulls a file from a drawer and runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. Requested by the Bishop herself; it's stamped and countersigned. Wherever she went after that, she went there first.",
                 options: [
                     { text: "Thank you. That helps a lot.", key: 'thank_you_that_helps', next: "start" }
                 ],
@@ -143,7 +143,7 @@ export default class ShedApplicationsScene extends GameScene {
             },
             // Ulvarex, the clerk first (Gnur's quest still open): the promise that Gnur only ever gets a mirage
             core_mirage_promise: {
-                text: "(The clerk peers at you over his glasses for a long moment.) A forgery. The Ink Tribunal disapproves of forgeries. Officially. (He opens a drawer.) Unofficially, though, I must say we are very glad the core came to no harm. Thank you. You were asking after the Bishop, weren't you? (He runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. The Bishop requested it in person; it's stamped and countersigned. Wherever she went after that, she most likely went there first. (He shuts the drawer.)",
+                text: "(The clerk peers at you over his glasses for a long moment.) A forgery. The Ink Tribunal disapproves of forgeries. Officially. (He opens a drawer.) Unofficially, though, I must say we are very glad the core will come to no harm. Thank you. (You tell him you're looking for the Bishop. He runs a finger down a page.) Here. A visitor's permit for Scraper 1140, floor 177-Quiet, Dr. Elphi Quarn's studio. The Bishop requested it in person; it's stamped and countersigned. Wherever she went after that, she most likely went there first. (He shuts the drawer.)",
                 options: [
                     { text: "You can count on it.", key: 'clerk_mirage_word', next: "start" }
                 ],
@@ -300,7 +300,10 @@ export default class ShedApplicationsScene extends GameScene {
                 });
             }
             // ...or will: once the clerk has warned about the core, the player can promise it, Gnur's quest still open
-            if (hasUlvarex(this) && coreQuest && !coreQuest.isComplete && livingCoreSettled
+            // and the core still in its wall (pulled out, it can't "come to no harm", and Gnur's mirage is gone too)
+            const coreInPack = !!this.registry.get('inventory')?.items?.some(item => item.id === 'living-core');
+            const coreStillInWall = !coreQuest?.updates?.some(u => ['core_taken_force', 'core_taken_careful'].includes(u.key)) && !coreInPack;
+            if (hasUlvarex(this) && coreQuest && !coreQuest.isComplete && livingCoreSettled && coreStillInWall
                 && questSystem.getQuest('find_bishop') && !clerkToldBishop(questSystem)) {
                 content.start.options.splice(1, 0, {
                     text: "[Ulvarex] Gnur won't get the real core. I'll only give him a mirage.",

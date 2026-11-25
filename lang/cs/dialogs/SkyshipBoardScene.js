@@ -2,6 +2,16 @@
  * Czech dialog translations for SkyshipBoardScene
  * Speaker: Captain Liris (Kapitánka Liris)
  */
+// Liris's topics: the first greeting, the re-greeting and the hub offer the same ones
+const lirisTopics = {
+    how_does_this_ship_fly: "Jak tahle loď létá?",
+    where_are_you_headed: "Kam míříte?",
+    tell_me_about_yourself: "Řekněte mi o sobě.",
+    is_flying_dangerous: "Je létání nebezpečné?",
+    what_cargo_do_you_carry: "Jaký náklad vezete?",
+    i_need_help_with_an_elevator_system: "Potřebuji pomoc s výtahovým systémem."
+};
+
 export default {
     _speakers: {
         'Captain Liris': 'Kapitánka Liris',
@@ -20,15 +30,16 @@ export default {
         }
     },
     captainMain: {
-        text: "Ach, návštěvník! Vítejte na palubě Verdigrace. Jsem kapitánka Liris, navigátorka vzdušnými proudy a majitelka tohoto krásného plavidla. Co vás přivádí na mou loď?",
-        options: {
-            how_does_this_ship_fly: "Jak tahle loď létá?",
-            where_are_you_headed: "Kam míříte?",
-            tell_me_about_yourself: "Řekněte mi o sobě.",
-            is_flying_dangerous: "Je létání nebezpečné?",
-            what_cargo_do_you_carry: "Jaký náklad vezete?",
-            i_need_help_with_an_elevator_system: "Potřebuji pomoc s výtahovým systémem."
-        }
+        text: "Ach, návštěvník! Vítejte na palubě Verdigrace. Jsem kapitánka Liris, navigátorka vzdušnými proudy a velitelka tohoto krásného plavidla. Co vás přivádí na mou loď?",
+        options: lirisTopics
+    },
+    captainAgain: {
+        text: "Zase vy? Tak se ptejte.",
+        options: lirisTopics
+    },
+    captainHub: {
+        text: "*Liris olízne prst a zkontroluje vítr.* Ještě něco byste chtěl vědět?",
+        options: lirisTopics
     },
     captainAbout: {
         text: "Jsem kapitánka Liris, velitelka tohoto plavidla, jak jsem řekla. Jsem na misi pro Direktorát, jako obvykle.",
@@ -46,7 +57,7 @@ export default {
         }
     },
     captainMission: {
-        text: "Naše mise má za cíl hledat a sbírat vzácné exempláře pro Direktorát. Ale stále čekáme na další specifikace, takže nám ten váš malý žebřík nevadí.",
+        text: "Naše mise má za cíl hledat a sbírat vzácné exempláře pro Direktorát. Ale pořád čekáme na další rozkazy, takže se nikam nehneme a ten váš žebříček nám nevadí.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
@@ -58,7 +69,7 @@ export default {
         }
     },
     captainTechnology: {
-        text: "Fascinující, že? Trup lodi je prosycen speciálním kmenem levitačních rostlin. Vytvářejí mikroskopické plynové kapsy, které nám dávají vztlak. Organické plachty zachycují vzdušné proudy a řídicí houby reagují na mé příkazy prostřednictvím symbiotického pouta. Jsem s touto lodí spojená už přes dvacet cyklů.",
+        text: "Fascinující, že? Trup lodi je prosycen speciálním kmenem levitačních rostlin. Vytvářejí mikroskopické plynové kapsy, které nám dávají vztlak. Organické plachty zachycují vzdušné proudy a řídicí houby reagují na mé příkazy prostřednictvím symbiotického pouta. Jsem s touto lodí spojená už přes dvacet let.",
         options: {
             that_sounds_dangerous: "To zní nebezpečně.",
             ask_something_else: "Zeptej se na něco jiného"
@@ -91,7 +102,7 @@ export default {
         }
     },
     captainDirectorateDemo: {
-        text: "*Liris zaváhá a ztiší hlas.* „Než se tam vydáte – tentokrát se tam nedostanete. Hlavní náměstí, Direktorát a půlka města za ním: nic z toho ještě není otevřené. Demo, říkají téhle verzi města přístavní dělníci. Do čtvrti, kterou ještě nikdo nepostavil, vás nedovezu.“ *Poklepe na zábradlí.* „Ale ten nápad si nechte. Až se zbytek města otevře, Direktorát tam bude. A Verdigrace taky.“",
+        text: "*Liris zaváhá a ztiší hlas.* „Než se tam vydáte, raději vás varuju: tentokrát se tam nedostanete. Hlavní náměstí, Direktorát a půlka města za ním: nic z toho ještě není otevřené. Demo, říkají téhle verzi města přístavní dělníci. Do čtvrti, kterou ještě nikdo nepostavil, vás nedovezu.“ *Poklepe na zábradlí.* „Ale ten nápad si nechte. Až se zbytek města otevře, Direktorát tam bude. A Verdigrace taky.“",
         options: {
             ill_remember_that: "Zapamatuju si to."
         }
@@ -104,7 +115,7 @@ export default {
         }
     },
     captainTrade: {
-        text: "Momentálně bohužel ne. Právě jsme začali naši cestu a ještě jsme nenasbírali žádné zboží. Vraťte se, až dokončíme první okruh (možná za pár cyklů), a mohla bych mít něco jedinečného pro tak odvážného průzkumníka, jako jste vy. Sledujte oblohu, až se budeme vracet.",
+        text: "Pro vás bohužel ne. Každá bedna v podpalubí už je slíbená Direktorátu nebo koloniím. Vraťte se, až obletíme svůj okruh, a možná pro tak odvážného průzkumníka, jako jste vy, budu mít něco jedinečného. Sledujte oblohu.",
         options: {
             other_topics: "Zeptej se na něco jiného"
         }
@@ -124,7 +135,7 @@ export default {
         }
     },
     captainToolExplanation: {
-        text: "Je to symbiotické rozhraní, které propojuje staré elektronické systémy s nově vyvinutou inteligentní myslí výtahu. Nástroj obsahuje specializovaný kmen komunikačních mikro dronů, kteří dokáží překládat mezi digitálními signály a mozkovými impulzy. Jednoduše ho připojíte k servisnímu portu počítadla a obnoví spojení mezi mechanickými součástmi a novým nervovým systémem budovy.",
+        text: "Je to symbiotické rozhraní, které propojuje starou elektroniku s myslí, která výtahu narostla až mnohem později. Uvnitř žije kmen komunikačních mikrodronů, kteří překládají mezi digitálními signály a mozkovými impulzy. Stačí ho připojit k servisnímu portu počítadla a znovu propojí mechanické součásti s živými nervy budovy.",
         options: {
             could_i_borrow_this_tool: "Mohl bych si ten nástroj půjčit?",
             ask_something_else: "Zeptej se na něco jiného"

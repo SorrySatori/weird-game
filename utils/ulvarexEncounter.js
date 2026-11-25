@@ -6,7 +6,8 @@
  * 1140 rooftop (ScraperScene), the Shed 521 gate yard by the barrier (Shed521GateScene) and the skyship deck
  * (SkyshipBoardScene). On a trip there the puddle shows a sunset instead of the grey sky, its sun opens as an eye
  * and the conversation starts by itself, once per trip; clicking the puddle afterwards (same trip) asks again.
- * Declined, or no free slot: she shows on a later trip. Bonded: never again.
+ * Declined, or no free slot: she shows on a later trip, and then greets him as someone she knows (ulvarex_again;
+ * met = the 'met_ulvarex' journal entry). Bonded: never again.
  *
  * A scene calls preloadUlvarexPuddle(this, site) in preload(), setupUlvarexEncounter(this, site) in create() and
  * spreads ulvarexDialog(this) into its dialogContent. Czech: lang/cs/dialogs/UlvarexEncounter.js (merged into those scenes in lang/cs/dialogs/index.js).
@@ -33,6 +34,9 @@ export function seeingTrip(scene) {
 }
 
 export const hasUlvarex = (scene) => !!scene.symbiontSystem?.hasSymbiont(ULVAREX_ID);
+
+/** He has spoken with her (her journal entry is written when she first speaks: ulvarex_reach). */
+const metUlvarex = (scene) => !!scene.hasJournalEntry?.('met_ulvarex');
 
 /** Ulvarex can weave right now: carried, awake (Decay ≤ 70) and `cost` spores at hand. */
 export const canWeave = (scene, cost = 0) => !!scene.symbiontSystem?.canWeave?.(cost);
@@ -123,7 +127,8 @@ export function setupUlvarexEncounter(scene, site) {
         event?.stopPropagation?.();
         if (!state.shown || scene.dialogVisible || scene.isInputBlocked?.() || hasUlvarex(scene)) return;
         label.setAlpha(0);
-        approach(() => talk('ulvarex_reconsider'));
+        // not met yet (he stepped back from her first look): she speaks up now, as she would have
+        approach(() => talk(metUlvarex(scene) ? 'ulvarex_reconsider' : 'ulvarex_reach'));
     });
 
     const state = { shown: false, sunset, glow, voice, zone, x, y, eyeOpen: false };
@@ -221,7 +226,8 @@ export function setupUlvarexEncounter(scene, site) {
         if (trip && state.shown && !state.talking && scene.registry.get(SEEN_KEY) !== trip.startTime
             && !scene.isInputBlocked?.() && !scene.isTransitioning && !scene.cutscene && sunset.alpha > 0.9) {
             scene.registry.set(SEEN_KEY, trip.startTime);
-            approach(() => talk('ulvarex_notice'));
+            // the first meeting once; on a later trip she knows him
+            approach(() => talk(metUlvarex(scene) ? 'ulvarex_again' : 'ulvarex_notice'));
         }
     } });
 }
@@ -305,8 +311,9 @@ export function ulvarexDialog(scene) {
         ulvarex_why: {
             speaker: 'Ulvarex',
             text: "\"I hitched a ride on a particularly convincing sunset, rained down with it over this city and ended up here, pressed into a film on the water. Embarrassing, really. For an entity of infinite creative potential, a puddle is a humbling address. And the only ones who can see me at all are people on Oltrac, or particularly sensitive individuals.\"",
+            // she hasn't said yet what she is or that she wants a host: ask that first (bonding comes up in ulvarex_what)
             options: [
-                { text: "What would bonding with you mean?", key: 'ulvarex_what_bond', next: 'ulvarex_bond' },
+                { text: "And what are you, exactly?", key: 'ulvarex_what_are_you', next: 'ulvarex_what' },
                 { text: "I'll leave you to your puddle.", key: 'ulvarex_leave_puddle', next: 'ulvarex_decline' },
             ],
         },
@@ -343,7 +350,7 @@ export function ulvarexDialog(scene) {
         },
         ulvarex_later: {
             speaker: 'Ulvarex',
-            text: "\"Take your time. I've been in this puddle for a few hundred digestions; I'll survive a few more. Just remember: without the Oltrac you probably won't even see me.\"",
+            text: "\"Take your time. I've been drifting from puddle to puddle for a few hundred digestions; I'll survive a few more. Just remember: without the Oltrac you probably won't even see me.\"",
             options: [
                 { text: "Leave.", key: 'ulvarex_leave', next: 'closeDialog' },
             ],
@@ -353,6 +360,18 @@ export function ulvarexDialog(scene) {
             text: "The sunset glow in the puddle is still burning. Ulvarex watches you.",
             options: [
                 yes("Alright, bond with me.", 'ulvarex_reconsider_yes'),
+                // (the talk may have ended before she ever offered it)
+                { text: "What would bonding with you mean?", key: 'ulvarex_what_bond', next: 'ulvarex_bond' },
+                { text: "Not yet.", key: 'ulvarex_not_yet', next: 'closeDialog' },
+            ],
+        },
+        // a later trip: they have met, so no first look and no introductions
+        ulvarex_again: {
+            speaker: 'Ulvarex',
+            text: "The puddle at your feet glows with an orange sunset again, and the sun in it opens into an eye. \"Oh, it's you. So, have you thought it over?\"",
+            options: [
+                yes("Alright, bond with me.", 'ulvarex_reconsider_yes'),
+                { text: "Remind me what bonding with you would mean.", key: 'ulvarex_remind_bond', next: 'ulvarex_bond' },
                 { text: "Not yet.", key: 'ulvarex_not_yet', next: 'closeDialog' },
             ],
         },

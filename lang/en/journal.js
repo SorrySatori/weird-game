@@ -112,9 +112,12 @@ export default {
         lift_mother_meeting: {
             title: 'The Lift-Mother',
             description: 'Within the Scraper building, I encountered a most unusual consciousness: an elevator calling itself the "Lift-Mother". Its voice resonated through the cables and machinery, speaking with the calm wisdom of something that has observed countless lives passing through its doors. It claims to have been operational since the "Before-Time", whatever that means, and seems to have developed sentience through centuries of carrying passengers between floors.',
+            facts: {
+                floor_counter: "Her floor counter is broken, and some of her buttons are missing.",
+            },
         },
         accessed_elphi_floor: {
-            title: "Dr. Elphi's Studio — Floor 177-Quiet",
+            title: "Dr. Elphi's Studio: Floor 177-Quiet",
             description: "I've gained access to Dr. Elphi Quarn's studio on floor 177-Quiet in Scraper 1140. This restricted floor houses her dream game development studio and may hold clues about the Bishop's whereabouts.",
         },
         rust_choir_info: {
@@ -139,7 +142,7 @@ export default {
         },
         gnur_meeting: {
             title: "Gnur",
-            description: "In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles \"like a broken transistor radio.\" He seems to be a dealer in body modifications and other questionable services. There's something unsettling about him.",
+            description: "Outside Shed 521, I ran into Gnur, a figure whose voice crackles \"like a broken transistor radio.\" He seems to be a dealer in body modifications and other questionable services. There's something unsettling about him.",
             facts: {
                 rust_choir: "He used to keep the machines running in the old days; now he is with the Rust Choir. That suggests a deeper involvement with the city's hidden infrastructures and technologies than his shabby appearance would suggest.",
                 mirage_core: "He walked off with a living core Ulvarex wove from a scrap of tin. A mirage doesn't last forever, though. One day he'll notice.",
@@ -156,7 +159,7 @@ export default {
             },
         },
         ortolan_meeting: {
-            title: 'Ortolan — The Board Game Designer',
+            title: 'Ortolan, the Board Game Designer',
             description: "I met Ortolan, a board game developer. Ortolan designs complex board games and seeks approval for additional arms to better pursue this passion. The being seems both frustrated by and resigned to the city's labyrinthine processes, yet maintains a charming persistence in the face of absurd regulations.",
         },
         board_games_war: {
@@ -205,7 +208,7 @@ export default {
             description: "Aboard the skyship, I met Captain Liris, an imposing figure in an ornate uniform who commands the vessel known as the Verdigrace.",
             facts: {
                 routes: "The ship travels the aerial trade routes between far-flung settlements and research outposts, wherever the winds allow.",
-                cargo: "It carries rare spores, mycelia and symbiont strains — and information, which she calls its most valuable cargo.",
+                cargo: "It carries rare spores, mycelia and symbiont strains, and information too, which she calls its most valuable cargo.",
             },
         },
         lumen_directorate_faction: {

@@ -30,6 +30,8 @@ export default class Shed521Scene extends GameScene {
         // (lie or expose branch: 'core_shed_energy') or made them promise to leave it ('promise_made').
         const canConfront = questOpen && (hasQuestUpdate('promise_made') || hasQuestUpdate('core_shed_energy'));
         const refusedGnur = hasQuestUpdate('quest_refused');
+        // the deal is done (the core, or Ulvarex's mirage of it, changed hands): he knows the player by now
+        const dealDone = !!quest?.isComplete && !refusedGnur;
         const hasLivingCore = !!inventory?.items?.some(item => item.id === 'living-core');
         const hasFindRustQuest = (this.questSystem && this.questSystem.getQuest('find_rust_choir') && !this.questSystem.getQuest('find_rust_choir').isComplete && !this.questSystem.getQuest('find_rust_choir').updates.some(update => update.key === 'talk_to_ravla'));
         // Ulvarex can spin him a living core out of a scrap of tin while the real one is still in its wall (Growth:
@@ -42,11 +44,13 @@ export default class Shed521Scene extends GameScene {
             speaker: 'Gnur',
             start: {
                 moodNpc: 'gnur',
-                // After the refusal he no longer greets the player as a stranger
-                textKey: refusedGnur ? 'refused' : 'default',
+                // After the refusal or the finished deal he no longer greets the player as a stranger
+                textKey: refusedGnur ? 'refused' : dealDone ? 'done' : 'default',
                 text: refusedGnur
-                    ? "(Gnur barely looks up.) Well, if it ain't the paper-pushers' little helper. Got some nerve crawlin' back down here.\nSay what you want, outsider, and make it quick."
-                    : "Another stray wanderin' down the veins of Shed 521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, his voice crackling like a broken transistor radio.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
+                    ? "(Gnur barely looks up.) Well, if it ain't the paper-pushers' little helper. Got some nerve showin' your face here again.\nSay what you want, outsider, and make it quick."
+                    : dealDone
+                    ? "(Gnur grins.) Well, if it ain't my little courier. The core's singin' sweet.\nWhat else you need, outsider?"
+                    : "Another stray wanderin' up to Shed 521...\nWhat're you lookin' for, outsider? Body upgrade? New lungs? Or just bad ideas?\nHe chuckles, his voice crackling like a broken transistor radio.\nSay your need. Maybe ol' Gnur's got a whisper to sell.",
                 options: [
                     { text: "Who are you exactly?", key: 'who_are_you_exactly', next: "background" },
                     // Confront Gnur once the clerk told the player what the core is for (quest still open)
@@ -60,7 +64,7 @@ export default class Shed521Scene extends GameScene {
                         this.addJournalEntry(
                             'gnur_meeting',
                             'Gnur',
-                            'In the guts of Shed 521, I encountered Gnur, a figure whose voice crackles "like a broken transistor radio." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him.',
+                            'Outside Shed 521, I ran into Gnur, a figure whose voice crackles "like a broken transistor radio." He seems to be a dealer in body modifications and other questionable services. There\'s something unsettling about him.',
                             this.journalSystem.categories.PEOPLE,
                             { character: 'Gnur', faction: 'Rust Choir', location: 'Shed 521' }
                         );
@@ -98,7 +102,7 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             bishop: {
-                text: "Ahhh, the shrouded one... yeah, she came down here, glimmer-eyed and restless. Wanted a lens: an optic from the old dream rigs, pre-war make. Only the Choir still digs those up. But info ain't free, friend.",
+                text: "Ahhh, the shrouded one... yeah, she came by, glimmer-eyed and restless. Wanted a lens: an optic from the old dream rigs, pre-war make. Only the Choir still digs those up. But info ain't free, friend.",
                 options: [
                     { text: "What do you want?", key: 'what_do_you_want', next: "rustReclamation" },
                     { text: "I can help you recover some old tech", key: 'i_can_help_you_recover_old_tech_carefully', next: "recoverTech" },
@@ -114,14 +118,14 @@ export default class Shed521Scene extends GameScene {
                 ]
             },
             rustReclamation: {
-                text: "Actually, there is something you can do for me. As a favor, I can tell you more about where I saw the bishop lately.",
+                text: "Actually, there is something you can do for me. In return, I can tell you more about where I saw the bishop lately.",
                 options: [
                     { text: "Ok, tell me more", key: 'ok_tell_me_more', next: "recoverTech" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
             },
             recoverTech: {
-                text: "Well, that's another story. Somewhere at Shed 521 there's an abandoned office, leading to unused tunnels. There's a derelict core I need.\n Find it, and maybe I'll find my memory about your Bishop friend.",
+                text: "Alright, listen. Somewhere at Shed 521 there's an abandoned office, leading to unused tunnels. There's a derelict core I need.\n Find it, and maybe I'll find my memory about your Bishop friend.",
                 options: [
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ]
@@ -137,7 +141,7 @@ export default class Shed521Scene extends GameScene {
             mirage_core_weave: {
                 speaker: 'Narrator',
                 hideCloseOption: true,
-                text: "You pick a twisted scrap of tin off the floor and close your hand around it. Behind your eyes Ulvarex stretches like a cat in the sun. \"Green. Warm. Humming like something alive. Leave it to me.\" When you open your hand, a living core pulses in it, exactly as you saw it in the wall, down to the low hum.",
+                text: "You pick a twisted scrap of tin off the floor and close your hand around it. Behind your eyes Ulvarex stretches like a cat in the sun. \"Green. Warm. Humming like something alive. Leave it to me.\" When you open your hand, a living core pulses in it, green and warm, humming low, as if it had just been prised out of a wall.",
                 options: [
                     { text: "Hand it to Gnur.", key: 'mirage_core_hand_over', next: "complete_quest" }
                 ],
@@ -202,10 +206,14 @@ export default class Shed521Scene extends GameScene {
             confront_about_lie: {
                 text: "(Gnur's expression darkens) What lies you talkin' about, mate? I need that core. Ain't no lie in that.",
                 options: [
-                    { text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", key: 'the_clerk_told_me_its_crucial_for_the_sheds_energy', next: "refuse_quest" },
-                    // Only a hand-over if the core is actually in the pack — otherwise complete_quest_end
-                    // logged "I have given Gnur the living core" and his Bishop tip without any delivery.
-                    { text: "Never mind, I'll still get it for you.", key: 'never_mind_ill_still_get_it_for_you', next: hasLivingCore ? "complete_quest" : "end" }
+                    // Not with the core already in the pack: the refusal would log "I refused to help Gnur steal
+                    // the living core" while the player carries it out of its wall.
+                    ...(hasLivingCore ? [] : [{ text: "The clerk told me it's crucial for the Shed's energy maintenance. I won't help you sabotage it.", key: 'the_clerk_told_me_its_crucial_for_the_sheds_energy', next: "refuse_quest" }]),
+                    // Only a hand-over if the core is actually in the pack (otherwise complete_quest_end
+                    // logged "I have given Gnur the living core" and his Bishop tip without any delivery)
+                    hasLivingCore
+                        ? { text: "Never mind. Here it is.", key: 'never_mind_here_it_is', next: "complete_quest" }
+                        : { text: "Never mind, I'll still get it for you.", key: 'never_mind_ill_still_get_it_for_you', next: "end" }
                 ],
                 onTrigger: () => {
                     this.addJournalFact('rust_choir_faction', 'any_means', "Their methods are questionable: Gnur still wants the living core, even though the clerk says Shed 521 depends on it. The Choir seems willing to get old tech by any means necessary.");

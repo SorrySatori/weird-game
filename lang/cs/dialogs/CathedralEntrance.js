@@ -36,7 +36,7 @@ export default {
         }
     },
     templeGuardWhen: {
-        text: "Nemám tušení. Až to velká Rada nařídí. Může to trvat jedno trávení, může to trvat sto tisíc. Stojíme na stráži až do Probuzení.",
+        text: "Nemám tušení. Až to katedrální rada nařídí. Může to trvat jedno trávení, může to trvat sto tisíc. Stojíme na stráži až do Probuzení.",
         options: {
             the_awakening: "Probuzení?",
             where_can_i_find_the_bishop: "Kde najdu Biskupku?",
@@ -51,7 +51,7 @@ export default {
         }
     },
     speakWithSomeoneInside: {
-        text: "Žádná předvolání nebyla vydána. Žádná mysl nesmí vstoupit bez rezonance. Čekej. Nebo hledej svou Biskupku. Je jednou z Rady, jak jistě víš.",
+        text: "Žádná předvolání nebyla vydána. Žádná mysl nesmí vstoupit bez rezonance. Čekej. Nebo vyhledej svou Biskupku. Zasedá přece v katedrální radě, to snad víš.",
         options: {
             im_a_master_thaals_apprentice_surely_i_may_pass: "Jsem učedník mistra Thaala. Já snad dovnitř jít můžu, ne?",
             where_can_i_find_the_bishop: "Kde najdu Biskupku?",
@@ -74,7 +74,7 @@ export default {
         }
     },
     templeGuardShed521: {
-        text: "Oficiálním jménem Úřad tvarů. Pokud chceš změnit svůj tělesný tvar, potřebuješ k tomu potvrzení. Toto je místo, kde takové potvrzení dostaneš. Najdeš ji hned vedle Voxmarketu.",
+        text: "Oficiálně se jmenuje Úřad tvarů. Kdo chce změnit tvar svého těla, potřebuje k tomu potvrzení, a to vydávají právě tam. Najdeš ho hned vedle Voxmarketu.",
         options: {
             ask_something_else: "Zeptej se na něco jiného",
             where_can_i_find_the_bishop: "Kde najdu Biskupku?"

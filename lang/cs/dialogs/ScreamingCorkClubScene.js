@@ -7,7 +7,7 @@ export default {
         'Feral Toast': 'Feral Toast',
     },
     feral_welcome: {
-        text: "Členové Feral Toast si všimnou, že jsi vešel do klubu. Kytaristka ti kývne na pozdrav. „Čau, houbovej kámo! Zrovna začínáme zkoušet. Zůstaň, bude to nářez, co ti rozseká mozek!“",
+        text: "Členové Feral Toast na chvíli odloží nástroje. Kytaristka ti kývne na pozdrav. „Čau, houbovej kámo! Dáváme si pauzu. Zůstaň, za chvilku jedeme znova a bude to nářez, co ti rozseká mozek!“",
         options: {
             id_love_to_hear_you_play: "Rád bych vás slyšel hrát",
             what_kind_of_music_do_you_play: "Jakou hudbu hrajete?",

@@ -46,7 +46,7 @@ export default {
         options: { back_to_other_topics: "Zeptej se na něco jiného" }
     },
     expose_gnur: {
-        text: "Já to věděl! Děkuji, že jste mi to řekl. (usměje se) Ta pakáž z Rezavého chóru nemá na takovou technologii žádné právo. A žádný relikt to není, ať si lidé říkají, co chtějí. Na tom jádru závisí veškeré zásobování Boudy energií. Vyjměte ho a ve všech odděleních zhasnou světla. (odloží papíry) Slibte mi prosím, že na živé jádro nebudete sahat.",
+        text: "Já to věděl! Děkuji, že jste mi to řekl. (usměje se) Ta pakáž z Rezavého chóru nemá na takovou technologii žádné právo. A žádný relikt to není, ať si lidé říkají, co chtějí. Na tom jádru závisí veškeré zásobování Boudy energií. Vyjměte ho a dřív nebo později zhasnou světla ve všech odděleních. (odloží papíry) Slibte mi prosím, že na živé jádro nebudete sahat.",
         options: {
             i_promise_to_leave_it_alone: "Slibuji, že ho nechám být",
             ill_think_about_it: "Rozmyslím si to"
@@ -61,17 +61,17 @@ export default {
         }
     },
     core_refused_thanks: {
-        text: "(Úředník odloží razítko.) Vy jste Gnurovi řekl ne? (Pousměje se.) Inkoustový tribunál na své přátele nezapomíná. Ptal jste se přece po Biskupce, ne? (Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Podala si ho Biskupka osobně, orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
+        text: "(Úředník odloží razítko.) Vy jste Gnurovi řekl ne? (Pousměje se.) Inkoustový tribunál na své přátele nezapomíná. (Řekneš mu, že hledáš Biskupku. Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Podala si ho Biskupka osobně, orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
         options: { thank_you_that_helps: "Děkuji. To mi hodně pomůže." }
     },
     // Ulvarex: Gnur odešel s přeludem jádra (to skutečné bzučí dál ve zdi)
     core_mirage_thanks: {
-        text: "(Úředník odloží razítko.) Gnur odešel spokojený a jádro přitom pořád bzučí ve zdi? (Pousměje se.) Nebudu se ptát, jak jste to dokázal. Inkoustový tribunál na své přátele nezapomíná. Ptal jste se přece po Biskupce, ne? (Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Požádala si o něj Biskupka osobně, je orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
+        text: "(Úředník odloží razítko.) Gnur odešel spokojený a jádro přitom pořád bzučí ve zdi? (Pousměje se.) Nebudu se ptát, jak jste to dokázal. Inkoustový tribunál na své přátele nezapomíná. (Řekneš mu, že hledáš Biskupku. Vytáhne ze šuplíku složku a přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Požádala si o něj Biskupka osobně, je orazítkované a s kontrasignací. Ať šla potom kamkoli, nejdřív šla tam.",
         options: { thank_you_that_helps: "Děkuji. To mi hodně pomůže." }
     },
     // Ulvarex: slib předem, Gnurův úkol ještě běží
     core_mirage_promise: {
-        text: "(Úředník si tě dlouho prohlíží přes brýle.) Padělek. Inkoustový tribunál padělky neschvaluje. Oficiálně. (Otevře šuplík.) Neoficiálně je ale třeba říct, že jsme velmi rádi, že jádro nepřišlo k úhoně. Díky. Ptal jste se po Biskupce, není to tak? (Přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Požádala o to Biskupka osobně, je to orazítkované a s kontrasignací. Ať šla potom kamkoli, nejspíše šla nejdříve tam. (Zasune šuplík.)",
+        text: "(Úředník si tě dlouho prohlíží přes brýle.) Padělek. Inkoustový tribunál padělky neschvaluje. Oficiálně. (Otevře šuplík.) Neoficiálně je ale třeba říct, že jsme velmi rádi, že jádro nepřijde k úhoně. Díky. (Řekneš mu, že hledáš Biskupku. Přejede prstem po stránce.) Tady. Povolení k návštěvě Škrabáku 1140, patro 177-Tiché, studio Dr. Elphi Quarn. Požádala o to Biskupka osobně, je to orazítkované a s kontrasignací. Ať šla potom kamkoli, nejspíše šla nejdříve tam. (Zasune šuplík.)",
         options: { clerk_mirage_word: "Spolehněte se." }
     },
     bishop_location: {

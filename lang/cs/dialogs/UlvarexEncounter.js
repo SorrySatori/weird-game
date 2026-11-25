@@ -32,7 +32,7 @@ export default {
     ulvarex_why: {
         text: "„Svezla jsem se na obzvlášť přesvědčivém západu slunce, spadla s ním v dešti na tohle město a skončila tady, vtisknutá do tenké blány na hladině. Trapné, vážně. Pro bytost s nekonečným tvůrčím potenciálem je kaluž dost ponižující adresa. A vidět mě můžou jen lidi na Oltracu nebo obzvlášť citliví jedinci.“",
         options: {
-            ulvarex_what_bond: "Co by znamenalo spojit se s tebou?",
+            ulvarex_what_are_you: "A co vlastně jsi zač?",
             ulvarex_leave_puddle: "Tak tě tu nechám, i s kaluží.",
         },
     },
@@ -62,7 +62,7 @@ export default {
         },
     },
     ulvarex_later: {
-        text: "„Dej si načas. Jsem v téhle kaluži už pár set trávení, pár navíc už přežiju. Jen nezapomeň: bez Oltracu mě asi ani neuvidíš.“",
+        text: "„Dej si načas. Po kalužích se potloukám už pár set trávení, pár navíc už přežiju. Jen nezapomeň: bez Oltracu mě asi ani neuvidíš.“",
         options: {
             ulvarex_leave: "Odejít.",
         },
@@ -71,6 +71,16 @@ export default {
         text: "Záře podobná západu slunce v kaluži pořád hoří. Ulvarex tě pozoruje.",
         options: {
             ulvarex_reconsider_yes: "Dobře, spoj se se mnou.",
+            ulvarex_what_bond: "Co by znamenalo spojit se s tebou?",
+            ulvarex_not_yet: "Ještě ne.",
+        },
+    },
+    // další trip: už se znají
+    ulvarex_again: {
+        text: "Kaluž u tvých nohou zase září oranžovým západem slunce a slunce v ní se otevře v oko. „Á, to jsi ty. Tak co, rozmyslel sis to?“",
+        options: {
+            ulvarex_reconsider_yes: "Dobře, spoj se se mnou.",
+            ulvarex_remind_bond: "Připomeň mi, co by to spojení znamenalo.",
             ulvarex_not_yet: "Ještě ne.",
         },
     },

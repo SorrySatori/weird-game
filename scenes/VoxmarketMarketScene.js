@@ -93,7 +93,7 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_ampules: {
-                text: "'Glass remembers, if you ask it right.' She holds one up to the light; something inside it stirs like a trapped moth. 'The sound is fixed into the glass while it's still soft. Break the seal and it's gone for good. So don't. Just hold it to your ear.' She sets it down with care. 'Most of mine are from before the Emergence. Animals, mostly. People like to hear what the world sounded like back when it wasn't listening back.'",
+                text: "'Glass remembers, if you ask it right.' She holds one up to the light; something inside it stirs like a trapped moth. 'The sound is fixed into the glass while it's still soft. Break the seal and it's gone for good. So don't. Just hold it to your ear.' She sets it down with care. 'Most of mine are from the Before-Time. Animals, mostly. People like to hear what the world sounded like back when it wasn't listening back.'",
                 options: [
                     { text: "Show me what you have for sale", key: 'show_me_what_you_have_for_sale', next: "zerren_shop" },
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
@@ -270,7 +270,7 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_bribe_success: {
                 text: "Zerren quickly pockets the coins. 'Well, for this kind of compensation, I suppose I can make an exception.' She leans in closer. 'It was Edgar Eskola who bought the toy. Eccentric collector. You'll usually find him around the Screaming Cork tavern.'",
                 options: [
-                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "zerren_quest_update" }
+                    { text: "Thank you for the information", key: 'thank_you_for_the_information', next: "zerren_quest_update", onSelect: () => { this._zerrenDazed = false; } }
                 ],
                 onTrigger: () => {
                     // Update the quest
@@ -297,9 +297,9 @@ export default class VoxmarketMarketScene extends GameScene {
             },
             
             zerren_persuade_success: {
-                text: "Zerren sighs, relenting. 'I suppose if it's that important... The buyer was Edgar Eskola. He's a collector of oddities with deep pockets. You'll find him around the Screaming Cork tavern. Very private person, though. Be careful how you approach him.'",
+                text: "Zerren sighs, relenting. 'I suppose if it's that important... The buyer was Edgar Eskola. He's a collector of oddities. You'll find him around the Screaming Cork tavern. Very private person, though. Be careful how you approach him.'",
                 options: [
-                    { text: "Thank you for understanding", key: 'thank_you_for_understanding', next: "zerren_quest_update" }
+                    { text: "Thank you for understanding", key: 'thank_you_for_understanding', next: "zerren_quest_update", onSelect: () => { this._zerrenDazed = false; } }
                 ],
                 onTrigger: () => {
                     // Update the quest
@@ -335,7 +335,8 @@ export default class VoxmarketMarketScene extends GameScene {
             zerren_thorne_still_success: {
                 text: "Zerren speaks in a distant voice, as if reciting a fact from memory rather than revealing a secret. 'Urggh... Edgar Eskola purchased the plush toy. Grrrr... You'll find him at the Screaming Cork. Collector of strange artifacts. Grrrr... ' She blinks, momentarily confused about what just happened.",
                 options: [
-                    { text: "Thank you for your help. Maybe take some rest, you don't look well.", key: 'thank_you_for_your_help_maybe_take_some_rest_you_d', next: "zerren_quest_update" }
+                    // dazed: she can't ask you to keep her name out of it (zerren_quest_update's 'dazed' variant)
+                    { text: "Thank you for your help. Maybe take some rest, you don't look well.", key: 'thank_you_for_your_help_maybe_take_some_rest_you_d', next: "zerren_quest_update", onSelect: () => { this._zerrenDazed = true; } }
                 ],
                 onTrigger: () => {
                     // Update the quest
@@ -347,8 +348,12 @@ export default class VoxmarketMarketScene extends GameScene {
                 }
             },
             
+            // after Brain Rot she is too dazed to know she told you anything (onSelect sets _zerrenDazed)
             zerren_quest_update: {
-                text: "'I hope you find what you're looking for. And please... if you see Edgar, don't mention I sent you. He values his privacy.' Zerren returns to arranging her merchandise, occasionally glancing in your direction.",
+                textKey: this._zerrenDazed ? 'dazed' : 'plain',
+                text: this._zerrenDazed
+                    ? "Zerren rubs her temples, mutters something about the heat in the hangar and goes back to arranging her ampules, as if she'd already forgotten you."
+                    : "'I hope you find what you're looking for. And please... if you see Edgar, don't mention I sent you. He values his privacy.' Zerren returns to arranging her merchandise, occasionally glancing in your direction.",
                 options: [
                     { text: "Leave", key: 'leave', next: "closeDialog" }
                 ],

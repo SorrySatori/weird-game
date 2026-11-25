@@ -48,7 +48,7 @@ export default {
         }
     },
     ravla_ortolan: {
-        text: "Formulář o výjimce pro umělce? Pro Ortolana? Toho návrháře her? Zajímavé. Ty formuláře mají zvláštní pečeti, které se špatně napodobují. Ale... možná bych mohla pomoct.",
+        text: "Ortolan? Ten návrhář her? Hádám, že jde o ty ruce. Na to je potřeba formulář o výjimce pro umělce a ty mají zvláštní pečeti, které se špatně napodobují. Ale… možná bych mohla pomoct.",
         options: {
             what_would_you_need: "Co bys potřebovala?",
             back: "Zeptej se na něco jiného"
@@ -67,7 +67,7 @@ export default {
     ravla_audit: {
         text: {
             sample: "Necháš Ulvarex zaměřit se na pečeť, kterou má Ravla položenou na stole jako předlohu. U stolu se zhmotní inspektor Inkoustového tribunálu: šedé manžety, inkoust až po zápěstí, v jednom oku zašroubovanou lupu. Beze slova vezme ze stohu jedno vzorové povolení a podrží ho proti lampě.\n\n„Ozubené kolečko na téhle pečeti má jedenáct zubů. To pravé jich má dvanáct,“ řekne. „Ryba ve vodoznaku plave proti proudu, ty naše plavou od reformy po proudu. A tenhle inkoust je cítit červenou řepou.“ Papír odloží a rozpadne se v obláčku oranžového světla.",
-            bought: "Necháš Ulvarex zaměřit se na pečeť, kterou má Ravla položenou na stole jako předlohu. U stolu se zhmotní inspektor Inkoustového tribunálu: šedé manžety, inkoust až po zápěstí, v jednom oku zašroubovanou lupu. Beze slova vezme ze stohu povolení pro Ortolana a podrží ho proti lampě.\n\n„Ozubené kolečko na téhle pečeti má jedenáct zubů. To pravé jich má dvanáct,“ řekne. „Ryba ve vodoznaku plave proti proudu, ty naše plavou od reformy po proudu. A tenhle inkoust je cítit červenou řepou.“ Papír odloží a rozpadne se v obláčku oranžového světla.",
+            bought: "Necháš Ulvarex zaměřit se na pečeť, kterou má Ravla položenou na stole jako předlohu. U stolu se zhmotní inspektor Inkoustového tribunálu: šedé manžety, inkoust až po zápěstí, v jednom oku zašroubovanou lupu. Beze slova ti vezme z ruky povolení pro Ortolana a podrží ho proti lampě.\n\n„Ozubené kolečko na téhle pečeti má jedenáct zubů. To pravé jich má dvanáct,“ řekne. „Ryba ve vodoznaku plave proti proudu, ty naše plavou od reformy po proudu. A tenhle inkoust je cítit červenou řepou.“ Papír odloží a rozpadne se v obláčku oranžového světla.",
         },
         options: {
             ravla_audit_watch: "Sledovat Ravlu.",
@@ -77,7 +77,7 @@ export default {
         text: {
             free: "Ravla zírá do prázdného vzduchu, kde inspektor stál, a pak na papír. Vezme ze stolu pravou pečeť a polohlasně počítá zuby. Pak je počítá znovu.\n\n„Dvanáct,“ řekne nakonec hodně potichu. „Tolik let tohle dělám.“ Nepodívá se na tebe. „To jsi byl ty, co? Nějaký trik. To je jedno. Měl pravdu.“ Smete papír do kamen a vytáhne čistý formulář. „Ortolanovo povolení udělám pořádně. A tohle jde na účet podniku.“",
             humbled: "Ravla zírá do prázdného vzduchu, kde inspektor stál, a pak na papír. Vezme ze stolu pravou pečeť a polohlasně počítá zuby. Pak je počítá znovu.\n\n„Dvanáct,“ řekne nakonec hodně potichu. „Tolik let tohle dělám.“ Nepodívá se na tebe. „To jsi byl ty, co? Nějaký trik. To je jedno. Měl pravdu.“ Smete papír do kamen a vytáhne čistý formulář. „Všechno, co jsem letos prodala, se mi vrátí na stůl a udělám to znovu. Pořádně.“ Teprve teď se na tebe podívá. „A Rezavému chóru o tom ani slovo.“",
-            refund: "Ravla zírá do prázdného vzduchu, kde inspektor stál, a pak na papír. Vezme ze stolu pravou pečeť a polohlasně počítá zuby. Pak je počítá znovu.\n\n„Dvanáct,“ řekne nakonec hodně potichu. „Tolik let tohle dělám.“ Nepodívá se na tebe. „To jsi byl ty, co? Nějaký trik. To je jedno. Měl pravdu.“ Smete papír do kamen a vytáhne čistý formulář. „Ortolan dostane nové, pořádně udělané. A tady máš svých padesát zpátky. Za stejnou práci si dvakrát neúčtuju.“",
+            refund: "Ravla zírá do prázdného vzduchu, kde inspektor stál, a pak na papír. Vezme ze stolu pravou pečeť a polohlasně počítá zuby. Pak je počítá znovu.\n\n„Dvanáct,“ řekne nakonec hodně potichu. „Tolik let tohle dělám.“ Nepodívá se na tebe. „To jsi byl ty, co? Nějaký trik. To je jedno. Měl pravdu.“ Smete papír do kamen a vytáhne čistý formulář. „Ortolan dostane nové, tentokrát pořádně. A tady máš svých padesát zpátky. Za zpackanou práci peníze neberu.“",
         },
         options: {
             ravla_audit_thanks: "Díky, Ravlo.",
@@ -153,7 +153,10 @@ export default {
         }
     },
     heliodor_start: {
-        text: "Heliodor zdvořile přikývne. „Vítejte ve Řvoucím korku. Poprvé? Ten název trochu klame, většinu večerů je tu docela klid.“",
+        text: {
+            first: "Heliodor zdvořile přikývne. „Vítejte ve Řvoucím korku. Poprvé? Ten název trochu klame, většinu večerů je tu docela klid.“",
+            return: "Heliodor zdvořile přikývne. „Zase u nás? Sedněte si, kam chcete. Většina z nás si vás pamatuje.“",
+        },
         options: {
             who_are_you: "Kdo jste?",
             tell_me_about_this_place: "Povězte mi o tomhle místě",

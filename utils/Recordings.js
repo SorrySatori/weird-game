@@ -16,7 +16,7 @@ export const RECORDINGS = [
         price: 10,
         tint: 0xf2c46b, // amber
         name: 'Ampule: Squirrel Scold',
-        description: "A sealed glass ampule, warm to the touch. Hold it to your ear and a small tree-climber from before the Emergence scolds you across the centuries. According to Zerren, the animal went extinct long ago.",
+        description: "A sealed glass ampule, warm to the touch. Hold it to your ear and a small tree-climber from the Before-Time scolds you across the centuries. According to Zerren, the animal went extinct long ago.",
     },
     {
         id: 'ampule_purr',
@@ -56,7 +56,7 @@ export const RECORDINGS = [
         price: 20,
         tint: 0xa8f08a,
         name: "Ampule: The Mimic Bird",
-        description: "A bird from before the Emergence that copied every sound it ever heard. Half of this recording is birdsong. Nobody can make sense of the other half. Optimists (and madmen) claim the bird learned it from the future.",
+        description: "A bird from the Before-Time that copied every sound it ever heard. Half of this recording is birdsong. Nobody can make sense of the other half. Optimists (and madmen) claim the bird learned it from the future.",
     },
     {
         id: 'ampule_old_train',

@@ -11,7 +11,8 @@ export default {
         text: {
             default: "Další zbloudilá duše se zatoulala k Boudě 521... Co hledáš, cizinče? Vylepšení těla? Nové plíce? Nebo jen špatné nápady? Uchechtne se a hlas mu skřípe jako rozbitý tranzistorák. Řekni, co potřebuješ. Možná má starý Gnur šuškandu na prodej.",
             waiting: "Prostě mi přines to živé jádro, pak si pokecáme.",
-            refused: "(Gnur sotva zvedne oči.) Ale hele, kamarádíček úředníčků. Ty máš teda drzost, lézt sem zase dolů.\nŘekni, co chceš, cizinče, a zkrať to."
+            refused: "(Gnur sotva zvedne oči.) Ale hele, kamarádíček úředníčků. Ty máš teda drzost, ukázat se tu znova.\nŘekni, co chceš, cizinče, a zkrať to.",
+            done: "(Gnur se zašklebí.) Ale, můj malej kurýr. Jádro zpívá jak slavík.\nCo dalšího potřebuješ, cizinče?"
         },
         options: {
             who_are_you_exactly: "Kdo přesně jsi?",
@@ -43,7 +44,7 @@ export default {
         }
     },
     bishop: {
-        text: "Aha, ta zahalená... jo, přišla sem dolů, byla nějaká neklidná a roztěkaná. Sháněla čočku. Optiku ze starých snových souprav, předválečnou. Takovou věc má dneska už jenom Chór. Ale informace nejsou zadarmo, příteli.",
+        text: "Aha, ta zahalená... jo, zastavila se tu, byla nějaká neklidná a roztěkaná. Sháněla čočku. Optiku ze starých snových souprav, předválečnou. Takovou věc má dneska už jenom Chór. Ale informace nejsou zadarmo, příteli.",
         options: {
             what_do_you_want: "Co chceš?",
             i_can_help_you_recover_old_tech_carefully: "Můžu ti pomoct získat nějakou starou technologii",
@@ -66,7 +67,7 @@ export default {
         }
     },
     recoverTech: {
-        text: "Tak to je jiná písnička. Někde v Boudě 521 je opuštěná kancelář vedoucí do nepoužívaných tunelů. Je tam zchátralé živoucí jádro, které potřebuju. Najdi ho a možná si vzpomenu na tvou přítelkyni biskupku.",
+        text: "Tak poslouchej. Někde v Boudě 521 je opuštěná kancelář vedoucí do nepoužívaných tunelů. Je tam zchátralé živoucí jádro, které potřebuju. Najdi ho a možná si vzpomenu na tvou přítelkyni biskupku.",
         options: {
             back_to_other_topics: "Zeptej se na něco jiného"
         }
@@ -79,7 +80,7 @@ export default {
     },
     // Ulvarex: přelud živého jádra z kusu plechu (skutečné zůstane ve zdi)
     mirage_core_weave: {
-        text: "Zvedneš ze země zkroucený kus plechu a sevřeš ho v dlani. Ulvarex se ti za očima protáhne jako kočka na sluníčku. „Zelené. Teplé. Bzučí jako něco živého. Nech to na mně.“ Když dlaň otevřeš, pulzuje v ní živé jádro, přesně takové, jaké jsi viděl ve zdi, i s tím tichým bzučením.",
+        text: "Zvedneš ze země zkroucený kus plechu a sevřeš ho v dlani. Ulvarex se ti za očima protáhne jako kočka na sluníčku. „Zelené. Teplé. Bzučí jako něco živého. Nech to na mně.“ Když dlaň otevřeš, pulzuje v ní živé jádro, zelené a teplé, a tiše bzučí, jako by ho někdo právě vylomil ze zdi.",
         options: {
             mirage_core_hand_over: "Podat ho Gnurovi."
         }
@@ -103,7 +104,8 @@ export default {
         text: "(Gnurův výraz potemní) O jakých lžích to mluvíš, kámo? Potřebuju to jádro. V tom žádná lež není.",
         options: {
             the_clerk_told_me_its_crucial_for_the_sheds_energy: "Úředník mi řekl, že je klíčové pro energetický chod Boudy. Nepomůžu vám ho sabotovat.",
-            never_mind_ill_still_get_it_for_you: "Nech to být, stejně ti ho přinesu."
+            never_mind_ill_still_get_it_for_you: "Nech to být, stejně ti ho přinesu.",
+            never_mind_here_it_is: "Nech to být. Tady ho máš."
         }
     },
     refuse_quest: {

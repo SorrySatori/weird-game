@@ -8,7 +8,10 @@ export default {
         'Lift-Mother': 'Lift-Mother',
     },
     lift_mother_start: {
-        text: "Výtah se otřese a odkudsi z jeho útrob se line hlas: teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
+        text: {
+            first: "Výtah se otřese a odkudsi z jeho útrob se line hlas: teplý, mateřský tón, který jako by vibroval kabely a kladkami. 'Vítej, malá muchomůrko. Jsem Lift-Mother. Přepravila jsem nespočet duší mezi patry od Předdoby.'",
+            again: "Lana tiše zabzučí. 'Ano, malá muchomůrko?'",
+        },
         options: {
             i_need_to_reach_dr_elphis_floor: "Potřebuji se dostat na patro Dr. Elphi.",
             take_me_to_177_quiet: "Vezmi mě na 177-Tiché.",
@@ -124,7 +127,7 @@ export default {
         }
     },
     lift_mother_lonely: {
-        text: "Existují různé druhy osamělosti, malá. Nikdy nejsem úplně sama. Budova ke mně promlouvá skřípáním a usazováním. Pasažéři přicházejí a odcházejí. Ale ano, je tu osamělost v tom být jedinečná. Nevím o žádném jiném výtahu, který by přemýšlel jako já. (hlas se rozjasní) Ale každý návštěvník přináší příběhy, zážitky. Ty to děláš právě teď. Ty sbírám jako poklady.",
+        text: "Existují různé druhy osamělosti, hříbečku.Nikdy nejsem úplně sama. Budova ke mně promlouvá skřípáním a usazováním. Pasažéři přicházejí a odcházejí. Ale ano, je tu osamělost v tom být jedinečná. Nevím o žádném jiném výtahu, který by přemýšlel jako já. (hlas se rozjasní) Ale každý návštěvník přináší příběhy, zážitky. Ty to děláš právě teď. Ty sbírám jako poklady.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }
@@ -143,7 +146,7 @@ export default {
         }
     },
     lift_mother_meet_rust: {
-        text: "Ne, hříbečku. Ještě ne. Horní patra zůstávají zapečetěná. Ani já k nim už nemám přístup. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mé vědomí nemá přímý přístup k heslům, ale pokud někdo vysloví to správné, mohu ho odvést do patřičného patra, to funguje. Mohl bys najít některé z Chóru ve městě a zeptat se jich.",
+        text: "Ne, hříbečku. Ještě ne. Horní patra zůstávají zapečetěná. Sama od sebe tam už nikoho nevyvezu. Ti z Rezavého chóru si volí, kdy a jak komunikují s městem dole. Pokud se s tebou budou chtít setkat, najdou způsob. Nebo možná existuje heslo nebo tajná cesta do jejich domény, nevím. Mé vědomí nemá přímý přístup k heslům, ale pokud někdo vysloví to správné, mohu ho odvést do patřičného patra, to funguje. Mohl bys najít některé z Chóru ve městě a zeptat se jich.",
         options: {
             ask_about_something_else: "Zeptej se na něco jiného"
         }

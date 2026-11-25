@@ -52,6 +52,12 @@ export default {
             continue: 'Pokračovat'
         }
     },
+    thorneNoSlot: {
+        text: '„Ale kámo, ty už jsi zadanej. Někdo se k tobě nastěhoval dřív než já.“ Thorne-Still zaleze zpátky do lebky. „Sežeň si další slot a vrať se. Já nikam neutíkám.“',
+        options: {
+            thorne_be_back: 'Vrátím se.'
+        }
+    },
     declineSymbiont: {
         text: '"Tvoje ztráta, kámo," šeptá symbiont. "Ale neboj, budu tady, kdybys mě potřeboval."',
         options: {

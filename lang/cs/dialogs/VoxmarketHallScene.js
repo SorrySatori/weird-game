@@ -11,7 +11,7 @@ export default {
     twins_start: {
         text: {
             twins_start_no_auction_return: `„Zase tady?" říká Hesh a Vellovy rty se opožďují o půl taktu. „Dnes žádná aukce, bohužel. Hala je temná, položky zamčené. Vraťte se, až Voxmarket vyhlásí další prodej. Poznáte to. Všichni to poznají."`,
-            twins_start_no_auction_first: `„Hala je pro dražbu uzavřená," říká Hesh. Vell formuje slova o půl sekundy pozadu, ozvěna zní v prázdné místnosti znepokojivě. „Jsme Hesh a Vell. Vedeme aukce... když nějaké jsou. Dnes žádná není." Obě dvojčata naklánějí hlavy naráz. „Vraťte se, až Voxmarket vyhlásí prodej."`,
+            twins_start_no_auction_first: `„Hala je pro dražbu uzavřená," říká Hesh. Vellovy rty tvarují stejná slova o půl sekundy později, úplně bez zvuku, což je v prázdné místnosti snad ještě horší. „Jsme Hesh a Vell. Vedeme aukce... když nějaké jsou. Dnes žádná není." Obě dvojčata naklánějí hlavy naráz. „Vraťte se, až Voxmarket vyhlásí prodej."`,
         },
         options: {
             how_does_the_auction_work: "Jak funguje aukce?",

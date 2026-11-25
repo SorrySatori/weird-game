@@ -150,6 +150,18 @@ export default class ScraperAmbraScene extends GameScene {
         // ("I'm looking for the Bishop", the anomaly, "stop guessing") would only loop back to that talk.
         const backyardLead = !!this.questSystem?.getQuest('find_bishop')?.updates?.some(u => u.key === 'check_shard_backyard')
             || !!this.hasItem('scraper_backyard_key');
+        // Back after the bus (the demo's "Keep exploring"): no more jokes about the backyard
+        const foundBishop = !!this.hasJournalEntry('found_dead_bishop');
+        // The talk's topics: the opener and the hub that every "something else" returns to (never the greeting again)
+        const topics = !backyardLead ? [
+            { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
+            { text: "I was sent to investigate an anomaly. Might be connected to this place.", key: 'i_was_sent_to_investigate_an_anomaly_might_be_conn', next: "dr_elphi_anomaly_path" },
+            { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" }
+        ] : [
+            { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" }
+        ];
+        // small talk, any time
+        const workTopic = { text: "What are you working on now?", key: 'what_are_you_working_on_now', next: "dr_elphi_work_skyship" };
 
         return {
             ...super.dialogContent,
@@ -159,21 +171,17 @@ export default class ScraperAmbraScene extends GameScene {
             // Dr. Elphi Quarn dialog tree
             dr_elphi_start: {
                 // textKey lets the CZ file pick the matching variant (the old lookup matched on the EN text itself).
-                textKey: backyardLead ? 'lead_given' : 'default',
-                text: backyardLead
+                textKey: foundBishop ? 'after_bus' : backyardLead ? 'lead_given' : 'default',
+                text: foundBishop
+                    ? "*She looks up from the terminal.* Back from the yard? You look like you've seen a ghost."
+                    : backyardLead
                     ? "Back already? The backyard hasn't gone anywhere. Or did you come to stare at my helmets?"
                     : "Hm. You're not scheduled. Not tagged either. Let me guess: someone wants a neural tuning, a performance consultation, or you've come to warn me about 'metaphysical leakage' again.",
                 options: [
-                    ...(!backyardLead ? [
-                        { text: "I'm looking for someone. The Bishop.", key: 'im_looking_for_someone_the_bishop', next: "dr_elphi_bishop_path" },
-                        { text: "I was sent to investigate an anomaly. Might be connected to this place.", key: 'i_was_sent_to_investigate_an_anomaly_might_be_conn', next: "dr_elphi_anomaly_path" },
-                        { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" },
-                        { text: "I'll explain if you stop guessing.", key: 'ill_explain_if_you_stop_testing_me', next: "dr_elphi_testing_path" }
-                    ] : [
-                        { text: "I heard you design dream-based games.", key: 'i_heard_you_design_dreambased_games', next: "dr_elphi_games_path" }
-                    ]),
-                    // small talk, any time
-                    { text: "What are you working on now?", key: 'what_are_you_working_on_now', next: "dr_elphi_work_skyship" },
+                    ...topics,
+                    // the answer to her guessing: only in the opener
+                    ...(!backyardLead ? [{ text: "I'll explain if you stop guessing.", key: 'ill_explain_if_you_stop_testing_me', next: "dr_elphi_testing_path" }] : []),
+                    workTopic,
                 ],
                 onTrigger: () => {
                     if (!this.hasJournalEntry('met_dr_elphi')) {
@@ -198,6 +206,12 @@ export default class ScraperAmbraScene extends GameScene {
                 }
             },
             
+            // back to the topics within one talk: she has greeted him already
+            dr_elphi_more: {
+                text: "*She glances back at her terminal.* Anything else?",
+                options: [...topics, workTopic]
+            },
+
             dr_elphi_bishop_path: {
                 text: "The Bishop? Well, you're late. She came here. Often, actually. Always for simulations. Never politics.\n\nShe preferred narrative-based games. Immersive fictions, drift environments. The Cardinal Feast was a favorite.\n\nLast I saw her? Three digestions ago, maybe four. She ended her session, said she might stay outside awhile. She had a key to the backyard.\n\nI didn't think much of it. She seemed… distracted. More than usual.",
                 options: [
@@ -218,7 +232,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_anomaly_path: {
-                text: "If this is some kind of anomaly, I have nothing to do with it. All test environments are well secured. In the worst-case scenario, it won't disrupt anything around it.",
+                text: "If this is some kind of anomaly, I have nothing to do with it. All test environments are well secured. Even in the worst case, it won't disrupt anything around it.",
                 options: [
                     { text: "I'm looking for the Bishop.", key: 'im_looking_for_the_bishop', next: "dr_elphi_bishop_path" },
                     { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" }
@@ -228,7 +242,7 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_games_path: {
                 text: "I make them. Dream architecture. Neurofiction. Post-sensory architecture.\n\nYou're standing in ARB Ambra. And no, the initials don't stand for anything. They just sound better that way.\n\nWhat did you hear exactly?",
                 options: backyardLead
-                    ? [{ text: "Ask something else.", key: 'ask_something_else_games', next: "dr_elphi_start" }]
+                    ? [{ text: "Ask something else.", key: 'ask_something_else_games', next: "dr_elphi_more" }]
                     : [
                         { text: "The Bishop came here to play.", key: 'the_bishop_came_here_to_play', next: "dr_elphi_bishop_path" },
                         { text: "Something went wrong. I'm following the trace.", key: 'something_went_wrong_im_following_the_trace', next: "dr_elphi_anomaly_path" },
@@ -262,7 +276,7 @@ export default class ScraperAmbraScene extends GameScene {
             dr_elphi_work_mox: {
                 text: "Some of them are Mox Igrixee's. Mox only fully exists in this dimension in odd weeks. Exactly the psychedelic energy I promised the journalists. Unfortunately, Mox recently discovered chocolate. Now it keeps breaking through into the dream: bulkheads, fittings, furniture. Some of it even takes the shape of living creatures.\n\nToday a pack of chocolate cats ran across the deck and started playing with the cabbages, and the captain crashed into the hen. *She sighs.* So I called it a day.",
                 options: [
-                    { text: "Good luck with the hen.", key: 'good_luck_with_the_hen', next: "dr_elphi_start" }
+                    { text: "Good luck with the hen.", key: 'good_luck_with_the_hen', next: "dr_elphi_more" }
                 ],
                 onTrigger: () => {
                     this.addJournalFact('met_dr_elphi', 'skyship_game', "She's building a colossal skyship for a new game, but her imaginators keep dreaming in a giant hen, conspiring cabbages and chocolate cats.");

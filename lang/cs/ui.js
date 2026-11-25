@@ -178,7 +178,7 @@ export default {
             abandonedBus: 'Opuštěný autobus',
             deadBishop: 'Mrtvá Biskupka',
             captainLiris: 'Kapitánka Liris',
-            skyshipAbove: 'Vypadá to, že nad městem visí vzducholoď...',
+            skyshipAbove: 'Přímo nad křižovatkou visí v oparu schovaná vzducholoď...',
         },
     },
 };

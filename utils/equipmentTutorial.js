@@ -143,6 +143,7 @@ export function runEquipmentTutorial(scene) {
     const renderStep = () => {
         clear();
         if (i >= steps.length) {
+            scene.onceEver?.('heard_fermented_cap', () => {});   // (Heliodor can be asked about it now)
             caption(finalText, 300, [{ label: T('Done', 'Hotovo'), primary: true, onClick: finish }]);
             return;
         }

@@ -208,7 +208,18 @@ export default class CrossroadScene extends GameScene {
         this.setupSkyshipTransition();
     }
 
+    /** A free symbiont slot (the bought one counts: SymbiontSystem reads the journal); as utils/ulvarexEncounter.js. */
+    hasFreeSymbiontSlot() {
+        const sys = this.symbiontSystem || this.registry.get('symbiontSystem');
+        if (!sys) return false;
+        sys.reconcileUnlockedSlotsFromJournal();
+        return sys.symbionts.size < sys.unlockedSlots;
+    }
+
     get dialogContent() {
+        // With every slot taken (e.g. Ulvarex came first) Thorne-Still can't move in: he says so and the corpse stays
+        // reconsiderable (no Decay, no 'accepted' journal entry, not used up)
+        const bondNext = this.hasFreeSymbiontSlot() ? 'acceptSymbiontConfirm' : 'thorneNoSlot';
         return {
             ...super.dialogContent,
             speaker: 'Giant Corpse',
@@ -250,7 +261,7 @@ export default class CrossroadScene extends GameScene {
                     {
                         text: 'Accept Thorne-Still as your symbiont',
                         key: 'accept_thornestill_as_your_symbiont',
-                        next: 'acceptSymbiontConfirm'
+                        next: bondNext
                     },
                     {
                         text: 'Plant spores in it instead (10 spores)',
@@ -287,7 +298,7 @@ export default class CrossroadScene extends GameScene {
                     {
                         text: 'Accept Thorne-Still as your symbiont',
                         key: 'accept_thornestill_as_your_symbiont',
-                        next: 'acceptSymbiontConfirm'
+                        next: bondNext
                     },
                     {
                         text: 'Decline',
@@ -315,6 +326,14 @@ export default class CrossroadScene extends GameScene {
                         key: 'continue',
                         next: 'closeDialogAndAcceptSymbiont'
                     }
+                ]
+            },
+            // No free slot: Thorne-Still stays in the skull and the corpse stays as it was (see bondNext above)
+            thorneNoSlot: {
+                speaker: 'Thorne-Still',
+                text: `"Oh, baby, you're already taken. Somebody moved in before me." Thorne-Still sinks back into the skull. "Get yourself another slot and come back. I'm not going anywhere."`,
+                options: [
+                    { text: "I'll be back.", key: 'thorne_be_back', next: 'closeDialog' }
                 ]
             },
             declineSymbiont: {
