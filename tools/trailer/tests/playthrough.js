@@ -1343,6 +1343,7 @@ export default async function playthrough({ game, cap, enter, wait, frame, until
             await still('ulvarex_roof');
             await pick('ulvarex_crouch', 'ulvarex_reach');
             await pick('ulvarex_why_puddle', 'ulvarex_why');
+            await pick('ulvarex_what_are_you', 'ulvarex_what');      // (bonding is asked about once she has offered it)
             await pick('ulvarex_what_bond', 'ulvarex_bond');
             await pick('ulvarex_bond_yes', 'ulvarex_accept');
             check(symbionts()?.hasSymbiont('ulvarex-borrowed-horizon'), 'Ulvarex bonded on the roof');
@@ -1562,7 +1563,7 @@ export default async function playthrough({ game, cap, enter, wait, frame, until
             await pick('what_are_you_working_on_now', 'dr_elphi_work_skyship');
             await pick('a_giant_hen', 'dr_elphi_work_captain');
             await pick('and_the_interiors', 'dr_elphi_work_mox');
-            await pick('good_luck_with_the_hen', 'dr_elphi_start');
+            await pick('good_luck_with_the_hen', 'dr_elphi_more');      // (back to her topics, no second greeting)
             await pick('i_was_sent_to_investigate_an_anomaly_might_be_conn', 'dr_elphi_anomaly_path');
             await pick('the_bishop_came_here_to_play', 'dr_elphi_bishop_path');
             await pick('whats_in_the_backyard', 'dr_elphi_backyard_info');
@@ -1604,6 +1605,9 @@ export default async function playthrough({ game, cap, enter, wait, frame, until
             const keys = rawOptions(s, 'lift_mother_start').map(o => o.key);
             check(!keys.includes('i_need_to_reach_dr_elphis_floor'), "no way to ask for Dr. Elphi's floor before any Bishop story", keys.join(', '));
             await pick('tell_me_about_this_building', 'lift_mother_building');
+            await pick('ask_about_something_else', 'lift_mother_start');
+            // (her broken floor counter: what Captain Liris can help with later)
+            await pick('can_you_take_me_to_other_floors', 'lift_mother_floors');
             await pick('ask_about_something_else', 'lift_mother_start');
             await closeDlg();
             check(hasJ('lift_mother_meeting'), 'journal: the Lift-Mother');
