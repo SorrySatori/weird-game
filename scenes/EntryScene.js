@@ -19,7 +19,7 @@ export default class EntryScene extends GameScene {
         const states = {
             speaker: 'Master Thaal',
             main: {
-                text: "Ah, my apprentice, there you are! *sigh* I've been waiting for you. Listen carefully, for I have an important task that requires... well, someone of your particular talents.",
+                text: "Well, here we are, my apprentice. *sigh* Listen carefully, for I have an important task that requires... well, someone of your particular talents.",
                 options: [
                     { text: "What task, Master?", key: 'what_task_master', next: 'task' },
                     { text: "Why can't you do it yourself?", key: 'why_cant_you_do_it_yourself', next: 'whyNot' }

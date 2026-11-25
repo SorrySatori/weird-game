@@ -243,7 +243,7 @@ export default class SceneTransitionManager {
     /**
      * An exit that isn't a door -- a street going on past the edge of the picture, a road into the distance -- as a
      * stretch of the scene that lights up on hover: a warm wash over the `points` polygon (canvas coords), soft at its
-     * edges, brightening toward `toward` ([x, y], where the way leads), with light flowing slowly that way, and the label
+     * edges, brightening toward `toward` ([x, y], where the way leads), and the label
      * at that end. No arrow, no circle. Clicking walks the priest to (walkX, walkY) and leaves for `target`.
      * `edge` ('left' | 'right'): the way leaves by that screen edge, so the arrow keys take it too.
      * @returns {Phaser.GameObjects.Zone}
@@ -261,7 +261,8 @@ export default class SceneTransitionManager {
             useHandCursor: true
         });
 
-        // the shared textures: a ramp (transparent → white along x) and a soft band (a bump of light)
+        // the shared texture: a ramp (faint → white along x). (A bump of light flowing along it went, 2026-11-25: the user
+        // saw it as a darker band flying about; the steady light stays.)
         const ensure = (key, w, h, draw) => {
             if (!sc.textures.exists(key)) { const t = sc.textures.createCanvas(key, w, h); draw(t.getContext(), w, h); t.refresh(); }
             return key;
@@ -269,11 +270,6 @@ export default class SceneTransitionManager {
         const ramp = ensure('exitRamp', 256, 4, (c, w, h) => {
             const g = c.createLinearGradient(0, 0, w, 0);
             g.addColorStop(0, 'rgba(255,255,255,0.18)'); g.addColorStop(0.5, 'rgba(255,255,255,0.55)'); g.addColorStop(1, 'rgba(255,255,255,1)');
-            c.fillStyle = g; c.fillRect(0, 0, w, h);
-        });
-        const band = ensure('exitBand', 128, 4, (c, w, h) => {
-            const g = c.createLinearGradient(0, 0, w, 0);
-            g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)');
             c.fillStyle = g; c.fillRect(0, 0, w, h);
         });
         // the stretch's own soft-edged mask (the polygon, blurred), once per shape
@@ -299,8 +295,6 @@ export default class SceneTransitionManager {
         const mid = at(0.5);
         const wash = sc.add.image(mid.x, mid.y, ramp).setDisplaySize(len, thick).setRotation(ang)
             .setTint(0xffb54a).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0).setDepth(depth).setMask(mask);
-        const flow = sc.add.image(mid.x, mid.y, band).setDisplaySize(len * 0.3, thick).setRotation(ang)
-            .setTint(0xffd27a).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0).setDepth(depth).setMask(mask);
 
         // the label at the far end (a side exit: by its edge, with a ‹ / › for the way)
         const text = sc.add.text(0, 0, '', {
@@ -317,31 +311,15 @@ export default class SceneTransitionManager {
         };
         placeLabel();
 
-        let flowTween = null;
-        const runFlow = () => {
-            const s0 = at(0.15), s1 = at(0.95);
-            flow.setPosition(s0.x, s0.y).setAlpha(0);
-            flowTween = sc.tweens.add({
-                targets: flow, x: s1.x, y: s1.y, duration: 1500, ease: 'Sine.easeIn',
-                onUpdate: (tw) => flow.setAlpha(0.4 * Math.sin(Math.PI * tw.progress)),
-                onComplete: () => { if (hovered) sc.time.delayedCall(250, () => { if (hovered) runFlow(); }); }
-            });
-        };
-        let hovered = false;
         zone.on('pointerover', () => {
-            hovered = true;
             placeLabel();
             sc.tweens.killTweensOf([wash, text]);
             sc.tweens.add({ targets: wash, alpha: 0.5, duration: 260, ease: 'Sine.easeOut' });
             sc.tweens.add({ targets: text, alpha: 1, duration: 180, ease: 'Sine.easeOut' });
-            flowTween?.stop();
-            runFlow();
         });
         zone.on('pointerout', () => {
-            hovered = false;
-            flowTween?.stop();
-            sc.tweens.killTweensOf([wash, text, flow]);
-            sc.tweens.add({ targets: [wash, flow, text], alpha: 0, duration: 220, ease: 'Sine.easeIn' });
+            sc.tweens.killTweensOf([wash, text]);
+            sc.tweens.add({ targets: [wash, text], alpha: 0, duration: 220, ease: 'Sine.easeIn' });
         });
         zone.on('pointerdown', (pointer, localX, localY, event) => {
             event.stopPropagation();
@@ -357,7 +335,7 @@ export default class SceneTransitionManager {
             }, zone, [by, by + bh]);
         }
         this.transitionElements.push({ zone, elements: { arrowContainer: wash, textContainer: text, tweens: [] } });
-        sc.events.once('shutdown', () => { flow.destroy(); mask.destroy?.(); });
+        sc.events.once('shutdown', () => { mask.destroy?.(); });
         return zone;
     }
 

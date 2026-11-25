@@ -7,7 +7,7 @@ export default {
         'Master Thaal': 'Mistr Thaal',
     },
     main: {
-        text: "Ach, můj učedníku, tady jsi! *povzdech* Čekal jsem na tebe. Poslouchej pozorně, mám pro tebe důležitý úkol, který vyžaduje... někoho s tvými zvláštními schopnostmi.",
+        text: "Tak jsme na místě, můj učedníku. *povzdech* Poslouchej pozorně, mám pro tebe důležitý úkol, který vyžaduje... někoho s tvými zvláštními schopnostmi.",
         options: {
             what_task_master: "Jaký úkol, Mistře?",
             why_cant_you_do_it_yourself: "Proč to nemůžete udělat sám?"
