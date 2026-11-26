@@ -135,6 +135,16 @@ export default {
             can_it_be_renewed: "Dá se nějak obnovit?",
             what_if_i_find_another_copy: "A co když seženu verzi, která ještě neexpirovala?",
             forget_the_form_what_else_can_i_offer: "Na formulář zapomeňte. Co jiného můžu nabídnout?",
+            where_i_come_from_years: "Trávení? Tam, odkud jsem, počítáme čas v letech.",
+            back_to_other_topics: "Zeptej se na něco jiného"
+        }
+    },
+    ortolan_years: {
+        text: "Roky. (Vysloví to, jako by říkal ‚plíseň‘.) Ty jsme přestali používat, když umřel Počtář. Ten formulář propadl před šesti tráveními. Ve vašich starých jednotkách je to asi týden. Na tomhle úřadě celá geologická éra.",
+        options: {
+            can_it_be_renewed: "Dá se nějak obnovit?",
+            what_if_i_find_another_copy: "A co když seženu verzi, která ještě neexpirovala?",
+            forget_the_form_what_else_can_i_offer: "Na formulář zapomeňte. Co jiného můžu nabídnout?",
             back_to_other_topics: "Zeptej se na něco jiného"
         }
     },

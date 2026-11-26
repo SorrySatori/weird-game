@@ -16,7 +16,27 @@ export default {
         options: {
             how_does_the_auction_work: "Jak funguje aukce?",
             why_do_you_do_that_the_delayed_mouthing: "Proč to děláte, to opožděné artikulování?",
+            how_much_would_you_get_for_me: "Kolik byste dostali za mě?",
             twins_ulvarex_lot: "[Ulvarex] Ukázat jim předmět, který má větší cenu než celá jejich síň.",
+        }
+    },
+
+    twins_appraise: {
+        text: "„Mladý učedník kultu Obazoby, jeden kus,“ řekne Hesh. Vellovy rty jdou o půl taktu za ním. „Cestou lehce opotřebovaný. Hábit cestovní, amulet svítící, spory uvnitř, množství neověřeno.“ Obě dvojčata si tě změří od hlavy k patě. „Vyvolávací cena padesát dinárů.“",
+        options: {
+            only_fifty: "Jen padesát?",
+        }
+    },
+    twins_appraise_god: {
+        text: "„Kněží a kultisti se prodávají špatně,“ řekne Hesh. „Nikdo si domů nechce tahat cizího boha. Pak vám tu umře, a kdo to bude uklízet?“",
+        options: {
+            obazoba_wont_die: "Obazoba neumře. Nemá ani tělo.",
+        }
+    },
+    twins_appraise_layers: {
+        text: "„To říkali všichni,“ řekne Hesh. Vell to po něm bezhlesně zopakuje, tentokrát se zpožděním skoro celou vteřinu. „Teď jejich bohové leží pod radnicí. Ve vrstvách.“",
+        options: {
+            i_have_other_questions: "Mám další otázky.",
         }
     },
 

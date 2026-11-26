@@ -11,7 +11,14 @@ export default {
         options: {
             id_love_to_hear_you_play: "Rád bych vás slyšel hrát",
             what_kind_of_music_do_you_play: "Jakou hudbu hrajete?",
-            who_are_you_all: "Kdo vlastně jste?"
+            who_are_you_all: "Kdo vlastně jste?",
+            dead_god_in_your_music: "Ve vaší hudbě je slyšet mrtvý bůh."
+        }
+    },
+    feral_noise_god: {
+        text: "„Bůh?“ Telka se podívá po kapele. „To bude Bass Player XL. Fakt nikdo neví, kdo to je.“ Bass Player XL k tomu nic neřekne.",
+        options: {
+            lets_hear_some_music: "Tak pojďte hrát!"
         }
     },
     feral_style: {

@@ -78,6 +78,20 @@ export default class VoxmarketMarketScene extends GameScene {
                 text: "'I'm Zerren, a collector and seller of curiosities from across the realms. Been trading here in Voxmarket a good two thousand digestions now. Sounds, mostly (sealed in glass so they keep), and whatever oddments wash up alongside them. Things you won't hear anywhere else.'",
                 options: [
                     { text: "What kind of sounds?", key: 'what_kind_of_trinkets', next: "zerren_selling" },
+                    { text: "Two thousand digestions? How many years is that?", key: 'two_thousand_digestions', next: "zerren_years" },
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
+                ]
+            },
+            // (review 19) she counts in digestions, he in years: a natural moment for "where are you from?"
+            zerren_years: {
+                text: "'Years? Nobody's counted in years here since the Tally-Keeper died. Three hundred digestions make roughly a year, so nearly seven.' She takes in your robe. 'Where are you from, that you still count in years?'",
+                options: [
+                    { text: "From the temple of Obazoba. It's underground, a few days' journey from here.", key: 'from_the_temple_of_obazoba', next: "zerren_temple_quiet" }
+                ]
+            },
+            zerren_temple_quiet: {
+                text: "'Underground?' She glances at her ampules. 'Then you must know a kind of quiet I can't get here for any money. If you ever manage to seal it in glass, I'll buy it. People would hold it to their ear to fall asleep.'",
+                options: [
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },
@@ -96,6 +110,20 @@ export default class VoxmarketMarketScene extends GameScene {
                 text: "'Glass remembers, if you ask it right.' She holds one up to the light; something inside it stirs like a trapped moth. 'The sound is fixed into the glass while it's still soft. Break the seal and it's gone for good. So don't. Just hold it to your ear.' She sets it down with care. 'Most of mine are from the Before-Time. Animals, mostly. People like to hear what the world sounded like back when it wasn't listening back.'",
                 options: [
                     { text: "Show me what you have for sale", key: 'show_me_what_you_have_for_sale', next: "zerren_shop" },
+                    { text: "No voices of gods? I hear plenty of them died here.", key: 'no_voices_of_gods', next: "zerren_gods_voices" },
+                    { text: "Ask something else", key: 'back', next: "zerren_start" }
+                ]
+            },
+            // (review 19) the dead gods, as a trader in sounds sees them
+            zerren_gods_voices: {
+                text: "'I had one once. All he did was beg for someone to believe in him. Nobody wanted it, so I swapped it for a squirrel.'",
+                options: [
+                    { text: "Obazoba would never beg. He doesn't even have a voice.", key: 'obazoba_would_never_beg', next: "zerren_no_voice" }
+                ]
+            },
+            zerren_no_voice: {
+                text: "'A god without a voice?' She shrugs. 'Commercially, that's of no interest to me.'",
+                options: [
                     { text: "Ask something else", key: 'back', next: "zerren_start" }
                 ]
             },

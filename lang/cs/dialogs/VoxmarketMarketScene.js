@@ -19,6 +19,19 @@ export default {
         text: "'Jsem Zerren, sběratelka a prodejkyně kuriozit z různých míst světa. Obchoduji tady na Voxmarketu už dobrých dva tisíce trávení. Hlavně zvuky, zatavené ve skle, aby vydržely, a k tomu všelijaké drobnosti, co se ke mně s nimi připlaví. Věci, které jinde neuslyšíte.'",
         options: {
             what_kind_of_trinkets: "Jaké zvuky?",
+            two_thousand_digestions: "Dva tisíce trávení? Kolik je to let?",
+            back: "Zeptej se na něco jiného"
+        }
+    },
+    zerren_years: {
+        text: "'Let? V letech tady nikdo nepočítá od té doby, co umřel Počtář. Tři sta trávení je zhruba rok, takže skoro sedm.' Prohlédne si tvůj hábit. 'Odkud jste, že ještě počítáte v letech?'",
+        options: {
+            from_the_temple_of_obazoba: "Z chrámu Obazoby. Je pod zemí, pár dní cesty odsud."
+        }
+    },
+    zerren_temple_quiet: {
+        text: "'Pod zemí?' Pohlédne na své ampule. 'Tak to musíte znát ticho, jaké tady neseženu za žádné peníze. Kdyby se vám ho někdy podařilo zavřít do skla, koupím ho. Lidi by si ho přikládali k uchu, aby mohli usnout.'",
+        options: {
             back: "Zeptej se na něco jiného"
         }
     },
@@ -35,6 +48,19 @@ export default {
         text: "'Sklo si pamatuje, když se ho správně zeptáte.' Zvedne jednu proti světlu; uvnitř se cosi pohne jako lapená můra. 'Zvuk se do skla vtiskne, dokud je ještě měkké. Rozlomíte pečeť a je navždy pryč, tak to nedělejte. Stačí ji přiložit k uchu.' Opatrně ji položí zpátky. 'Většina mých je ještě z Předdoby. Hlavně zvířata. Lidé rádi poslouchají, jak zněl svět, když ještě neposlouchal zpátky.'",
         options: {
             show_me_what_you_have_for_sale: "Ukažte mi, co máte na prodej",
+            no_voices_of_gods: "A hlasy bohů nemáte? Prý jich tu spousta umřela.",
+            back: "Zeptej se na něco jiného"
+        }
+    },
+    zerren_gods_voices: {
+        text: "'Jednou jsem jednoho měla. Celou dobu jen prosil, ať v něj někdo věří. Nikdo ho nechtěl, tak jsem ho vyměnila za veverku.'",
+        options: {
+            obazoba_would_never_beg: "Obazoba by nikdy neprosil. Nemá ani hlas."
+        }
+    },
+    zerren_no_voice: {
+        text: "'Bůh bez hlasu?' Pokrčí rameny. 'To je pro mě obchodně nezajímavé.'",
+        options: {
             back: "Zeptej se na něco jiného"
         }
     },

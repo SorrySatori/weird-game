@@ -43,6 +43,8 @@ export default class ScreamingCorkClubScene extends GameScene {
                     { text: "I'd love to hear you play", key: 'id_love_to_hear_you_play', next: "feral_play" },
                     { text: "What kind of music do you play?", key: 'what_kind_of_music_do_you_play', next: "feral_style" },
                     { text: "Who are you all?", key: 'who_are_you_all', next: "feral_intro" },
+                    ...(this.hasJournalEntry('noise_god_insight')
+                        ? [{ text: "There's a dead god in your music.", key: 'dead_god_in_your_music', next: "feral_noise_god" }] : []),
                 ],
                 // The welcome names the band (the tavern's place entry only hears it through the wall)
                 onTrigger: () => {
@@ -50,6 +52,14 @@ export default class ScreamingCorkClubScene extends GameScene {
                 }
             },
             
+            // (review 19) the band knows nothing of the Noise God (canon); nobody knows who Bass Player XL is
+            feral_noise_god: {
+                text: "\"A god?\" Telka glances round the band. \"That'll be Bass Player XL. Nobody really knows who he is.\" Bass Player XL says nothing to that.",
+                options: [
+                    { text: "Let's hear some music!", key: 'lets_hear_some_music', next: "feral_play" },
+                ]
+            },
+
             feral_style: {
                 text: "\"We call it 'ultranoise futurepunk': a blend of psychedelic noise with beats that don't exist... yet.\"",
                 options: [

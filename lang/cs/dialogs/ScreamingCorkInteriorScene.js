@@ -176,6 +176,19 @@ export default {
     heliodor_explain: {
         text: "Ano, jsme. Jsme kolonie mnoha tvorů. Pro jednoduchost ale vystupujeme jako Heliodor *Donjon* Vaalstran. Při představování je to snazší. Naše tělo tvoří celé společenství bytostí žijících v dokonalé symbióze, což se za barem hodí hned z několika důvodů. Každý symbiont má své nadání: jedni se věnují hostům, druzí vaří nebo míchají pití a další se starají o chod podniku. Další výhodou je, že pracujeme na směny: zatímco jedni pracují, druzí spí, takže nikdo není přetažený ani o rušných víkendech. Extrémní případ je Oorarabaz Zelenolící, vzácný organismus původem z Kopřivových hor, podobný hustému zelenému mechu, který prospí prakticky celý rok a budíme ho většinou jen na účetní uzávěrku.",
         options: {
+            something_grows_in_me_too: "Trochu vám rozumím. Ve mně taky něco roste.",
+            fascinating_but_i_have_other_questions: "Fascinující. Ale mám i jiné otázky."
+        }
+    },
+    heliodor_tenant: {
+        text: "Několik tváří se k tobě naráz otočí. „Opravdu? A kolik vás tam je?“",
+        options: {
+            just_me_and_the_fungus: "Jen já a houba. Roste ve mně pomalu, zevnitř, s každým rokem modliteb o kousek víc. Prý."
+        }
+    },
+    heliodor_tenant_reply: {
+        text: "„Jen houba a vy? To je skromné. My máme tři nájemníky jenom v levém lokti.“",
+        options: {
             fascinating_but_i_have_other_questions: "Fascinující. Ale mám i jiné otázky."
         }
     },

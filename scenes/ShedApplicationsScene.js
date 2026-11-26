@@ -234,6 +234,17 @@ export default class ShedApplicationsScene extends GameScene {
                     { text: "Can it be renewed somehow?", key: 'can_it_be_renewed', next: "ortolan_renew" },
                     { text: "What if I find a non-expired version?", key: 'what_if_i_find_another_copy', next: "ortolan_copy" },
                     { text: "Forget the form. What else can I offer?", key: 'forget_the_form_what_else_can_i_offer', next: "ortolan_offer" },
+                    { text: "Digestions? Where I come from, we measure time in years.", key: 'where_i_come_from_years', next: "ortolan_years" },
+                    { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
+                ],
+            },
+            // (review 19) he counts in years, the office in digestions
+            ortolan_years: {
+                text: "Years. (He says it the way other people say 'mildew'.) We stopped using those when the Tally-Keeper died. That form expired six digestions ago. In your old units, about a week. In this office, a geological era.",
+                options: [
+                    { text: "Can it be renewed somehow?", key: 'can_it_be_renewed', next: "ortolan_renew" },
+                    { text: "What if I find a non-expired version?", key: 'what_if_i_find_another_copy', next: "ortolan_copy" },
+                    { text: "Forget the form. What else can I offer?", key: 'forget_the_form_what_else_can_i_offer', next: "ortolan_offer" },
                     { text: "Ask something else", key: 'back_to_other_topics', next: "start" }
                 ],
             },

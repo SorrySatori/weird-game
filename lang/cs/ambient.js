@@ -11,6 +11,7 @@ export default {
                 "Do tohohle půjde všechno, čeho se chci zbavit. Flašky, moje básničky, co jsem napsal v osmnácti, a soused taky, jestli bude dál chrápat.",
                 "Letos ho nacpu tak, že bude hořet až do rána.",
                 "Hoř medvídku hoř, zlozvyky mé zboř, udělej svý brum brum, ať nezůstane žádný rum rum.",
+                "Hele, ty jsi kněz, ne? Požehnáš mi medvěda? Loni mi zhasnul, ještě než odbila půlnoc.",
             ],
         },
         // Shed521FloorsScene — the ground floor

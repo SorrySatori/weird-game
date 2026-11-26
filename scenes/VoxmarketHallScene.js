@@ -36,6 +36,7 @@ export default class VoxmarketHallScene extends GameScene {
                 options: [
                     { text: "How does the auction work?", key: 'how_does_the_auction_work', next: "twins_auction_rules" },
                     { text: "Why do you do that, the delayed mouthing?", key: 'why_do_you_do_that_the_delayed_mouthing', next: "twins_echo" },
+                    { text: "How much would you get for me?", key: 'how_much_would_you_get_for_me', next: "twins_appraise" },
                     ...(canMirageLot ? [{ text: "[Ulvarex] Show them a lot worth more than their whole hall.", key: 'twins_ulvarex_lot', next: "twins_ulvarex_offer" }] : []),
                 ],
                 onTrigger: () => {
@@ -56,6 +57,29 @@ export default class VoxmarketHallScene extends GameScene {
                 text: `"The rules are simple," says Hesh. Vell's lips follow. "Lots are presented one by one. Bidding starts at the listed price. Raise your hand to bid. Highest bidder when we call 'Settled' wins the lot.\n\nPayment is immediate. Dinar only: no barter, no vestigels, no promises. If you can't pay, you leave. If you cause a scene, you leave faster.\n\nThe pre-auction social period is just as important. Know your competition. Make friends. Or make them nervous."`,
                 options: [
                     ...ulvarexSees,
+                    { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },
+                ]
+            },
+
+            // (review 19) auctioneers see a lot in everything, the apprentice included
+            twins_appraise: {
+                speaker: 'Hesh & Vell',
+                text: `"A young apprentice of the Obazoba cult, one piece," says Hesh. Vell's lips trail half a beat behind. "Slightly worn from the road. Robe, travelling. Amulet, glowing. Spores, inside, quantity unverified." Both twins look you up and down. "Starting price fifty dinar."`,
+                options: [
+                    { text: "Only fifty?", key: 'only_fifty', next: "twins_appraise_god" },
+                ]
+            },
+            twins_appraise_god: {
+                speaker: 'Hesh & Vell',
+                text: `"Priests and cultists sell badly," says Hesh. "Nobody wants to drag a stranger's god home. Then he dies on you, and who's going to clean up?"`,
+                options: [
+                    { text: "Obazoba won't die. He hasn't even got a body.", key: 'obazoba_wont_die', next: "twins_appraise_layers" },
+                ]
+            },
+            twins_appraise_layers: {
+                speaker: 'Hesh & Vell',
+                text: `"They all said that," says Hesh. Vell mouths it after him, this time almost a full second late. "Now they lie under the Townhall. In layers."`,
+                options: [
                     { text: "I have other questions.", key: 'i_have_other_questions', next: "twins_start" },
                 ]
             },
