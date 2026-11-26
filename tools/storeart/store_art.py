@@ -727,6 +727,7 @@ def save_all(out, folder):
     # client (shortcut) icon: the same gear on a rounded black tile, 16..256 px
     icon(256, rounded=True).save(os.path.join(folder, 'shortcut_icon.ico'),
                                  sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
+    icon(512, rounded=True).save(os.path.join(folder, 'shortcut_icon_512.png'))   # (Steamworks takes a PNG too)
 
 
 def contact_sheet(out, folder):
