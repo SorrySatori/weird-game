@@ -165,6 +165,10 @@ export default class GameScene extends Phaser.Scene {
         // Symbiont HUD: 4 idle frames per symbiont (one row each) + the pods of the rosary
         this.load.spritesheet('symbionts', 'assets/images/ui/symbionts.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('symbiontPods', 'assets/images/ui/symbiont_pods.png', { frameWidth: 48, frameHeight: 58 });
+        // the spore gauge: a glass ampule in a bronze cradle (tools/artgen/spore_bar.py)
+        this.load.image('sporeBarFrame', 'assets/images/ui/spore_bar_frame.png');
+        this.load.spritesheet('sporeBarFill', 'assets/images/ui/spore_bar_fill.png', { frameWidth: 140, frameHeight: 12 });
+        this.load.image('sporeBarGlass', 'assets/images/ui/spore_bar_glass.png');
 
         // Fast-travel map background
         this.load.image('mapBg', 'assets/images/ui/map_color.png');   // the felt-tip coloured hand-drawn map (full game: tools/artgen/handmap.py)
@@ -644,7 +648,7 @@ export default class GameScene extends Phaser.Scene {
         // Initialize Effects System for drug effects and visual effects
         this.effectsSystem = new EffectsSystem(this);
         this.effectsSystem.init();
-        this.sporeBar = new SporeBar(this, 326, 10);   // even: on the 2x grid
+        this.sporeBar = new SporeBar(this, 322, 8);    // even: on the 2x grid (160 px wide, centred where the old one was)
         
         // Load saved data if this is a loaded save
         this.loadSavedData();

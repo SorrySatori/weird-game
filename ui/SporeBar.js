@@ -2,7 +2,13 @@ import LanguageSystem from '../systems/LanguageSystem.js';
 import { drawPixelFrame, UI_FONT, UI_SMALL } from '../utils/pixelFrame.js';
 
 let SPOREBAR_ID = 1;
-const FILL_W = 144;   // the fill at 100 %
+// A glass ampule lying in a weathered bronze cradle, the spore fluid inside (tools/artgen/spore_bar.py): moss-mint while
+// there are plenty, ochre when they run low, rust when they're nearly gone. Same palette as the G/D medallion.
+const W = 160, H = 24;
+const FILL = { x: 10, y: 6, w: 140, h: 12 };       // the tube's inside
+const STATES = [                                    // [from %, fill row, the meniscus' colour]
+    [50, 0, 0x9ad0a0], [25, 1, 0xb8a25c], [0, 2, 0xb06a3a],
+];
 export default class SporeBar {
 
     constructor(scene, x, y) {
@@ -13,35 +19,34 @@ export default class SporeBar {
         // Create container for the spore bar
         this.container = scene.add.container(x, y);
         
-        // The frame: a pixel plate on the 2x grid (utils/pixelFrame.js); `background` is only its hover area now
-        this.frame = scene.add.graphics();
-        drawPixelFrame(this.frame, 0, 0, 152, 20);
-        this.background = scene.add.rectangle(0, 0, 152, 20, 0x000000, 0).setOrigin(0, 0);
-        
-        // Create the fill bar (starts at 100%), inside the rim with a grid pixel of margin
-        this.fillBar = scene.add.rectangle(4, 4, FILL_W, 12, 0x7fff8e, 0.7);
-        this.fillBar.setOrigin(0, 0);
-        
-        // Create label
-        this.label = scene.add.text(76, 24, this.lang.t('sporeBar.label'), {
+        // The cradle and the empty tube, the fluid (cropped to the level), its edge, the glass's shine over it;
+        // `background` is only the hover area
+        this.frame = scene.add.image(0, 0, 'sporeBarFrame').setOrigin(0, 0);
+        this.background = scene.add.rectangle(0, 0, W, H, 0x000000, 0).setOrigin(0, 0);
+        this.fillBar = scene.add.sprite(FILL.x, FILL.y, 'sporeBarFill', 0).setOrigin(0, 0);
+        this.meniscus = scene.add.rectangle(FILL.x, FILL.y, 1, FILL.h, STATES[0][2], 0.55).setOrigin(0, 0);
+        this.glass = scene.add.image(0, 0, 'sporeBarGlass').setOrigin(0, 0);
+
+        // The label under it, the value on the glass
+        this.label = scene.add.text(W / 2, H + 4, this.lang.t('sporeBar.label'), {
             fontFamily: UI_FONT,
             fontSize: UI_SMALL,
-            fill: '#7fff8e',
+            fill: '#c2cfb0',
             align: 'center'
         });
         this.label.setOrigin(0.5, 0);
-        
-        // Create value text
-        this.valueText = scene.add.text(76, 10, '100%', {
+        this.valueText = scene.add.text(W / 2, H / 2, '100%', {
             fontFamily: UI_FONT,
             fontSize: UI_SMALL,
-            fill: '#ffffff',
+            fill: '#f2f0e4',
+            stroke: '#0a0f0c',
+            strokeThickness: 3,
             align: 'center'
         });
         this.valueText.setOrigin(0.5, 0.5);
-        
+
         // Add everything to the container
-        this.container.add([this.frame, this.background, this.fillBar, this.label, this.valueText]);
+        this.container.add([this.frame, this.background, this.fillBar, this.meniscus, this.glass, this.label, this.valueText]);
         
         // Set high depth to ensure it's always visible
         this.container.setDepth(1000).setScrollFactor(0);   // pinned to the screen like the rest of the HUD
@@ -117,22 +122,14 @@ export default class SporeBar {
         // Defensive: If UI elements are destroyed, do nothing
         if (!this.fillBar || !this.valueText) return;
         
-        // Update the fill bar width based on spore level
-        const fillWidth = Math.max(0, (currentSpores / maxSpores) * FILL_W);
-        this.fillBar.width = Math.round(fillWidth / 2) * 2;   // whole grid pixels
-        
-        // Update the text
-        const percentage = Math.round((currentSpores / maxSpores) * 100);
+        // The fluid up to the level (whole pixels), its colour by how much is left, a lighter edge where it ends
+        const ratio = Math.max(0, Math.min(1, currentSpores / maxSpores));
+        const w = Math.round(ratio * FILL.w);
+        const [, row, edge] = STATES.find(([from]) => ratio * 100 >= from) || STATES[STATES.length - 1];
+        this.fillBar.setFrame(row).setCrop(0, 0, w, FILL.h);
+        this.meniscus.setFillStyle(edge, 0.55).setPosition(FILL.x + w - 1, FILL.y).setVisible(w > 1 && w < FILL.w);
+
         this.valueText.setText(`${Math.round(currentSpores)}/${maxSpores}`);
-        
-        // Change color based on percentage
-        if (percentage < 25) {
-            this.fillBar.fillColor = 0xff3333; // Red when low
-        } else if (percentage < 50) {
-            this.fillBar.fillColor = 0xffaa33; // Orange when medium
-        } else {
-            this.fillBar.fillColor = 0x7fff8e; // Green when high
-        }
     }
     
     cleanup() {
@@ -148,6 +145,7 @@ export default class SporeBar {
         }
         // Null UI refs to help GC and avoid zombie calls
         this.fillBar = null;
+        this.meniscus = null;
         this.valueText = null;
         this.background = null;
         this.label = null;
