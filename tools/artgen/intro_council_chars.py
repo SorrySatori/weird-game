@@ -2,7 +2,7 @@
 
 Back row (128x176 frames, cut where the table's far edge hides them, sleeves + hands lying on the table top):
   Varhun  -- presiding; the left half of his face long since turned into a fungal organism; purple robe, gold stole,
-             a tiered bracket-fungus mitre.
+             a crown of crown-tipped coral fungus.
   Tynri   -- her eyes are two small yellow fruiting bodies; ivory robe under a lace veil ("veiled lady" stinkhorn),
              a dark bell cap.
   Rhull   -- the youngest, still mostly human; moss robe, a small button cap, keeps the minutes in a book.
@@ -174,6 +174,7 @@ def shade_hood_edge(f, cx, ocy, open_rx, open_ry, k):
     """thin lit rim along the bottom of the hood opening"""
     for a in range(20, 161, 4):
         x = cx + (open_rx + 2) * math.cos(math.radians(a)); y = ocy + (open_ry + 2) * math.sin(math.radians(a))
+        if f.part.get((int(round(x)), int(round(y)))) == 'beard': continue                        # (it read as a chin line)
         f.put(x, y, col(k, 5), 'hood')
 
 # ============================================================== back row
@@ -186,41 +187,37 @@ def back_fig(name):
     cut = lambda fx: back_edge_y(x0 + fx) - top
     return f, cut
 
-def ink_cap(f, cx, base_y, rx, height, drip, lean=-3):
-    """Varhun's crown: a young shaggy ink cap -- a tall cream bell with a tan crown and a shaggy silhouette, its rim
-    flaring, blackening and melting into ink that runs down onto the hood (growth and decay in one crown)"""
-    top = base_y - height
-    for y in range(top, base_y + 1):
-        t = (y - top) / height
-        hw = rx * (1 - (1 - t) ** 2.2) ** 0.5 * (1 - 0.06 * t)
-        if t > 0.2: hw += (nC(y * 3.1, 7) - 0.5) * 2.6                                      # shaggy silhouette
-        if t > 0.84: hw += (t - 0.84) / 0.16 * 4.5                                          # the rim flares as it melts
-        mx = cx + lean * (1 - t) ** 1.5
-        for x in range(int(mx - hw) - 1, int(mx + hw) + 2):
-            if abs(x - mx) > hw: continue
-            if t > 0.9 and (h32(x, 77) % 5 == 0) and y > base_y - 2: continue                  # frayed edge
-            u = max(-1.0, min(1.0, (x - mx) / max(1.0, hw)))
-            n = (u, -0.55 + 0.6 * t, math.sqrt(max(0.0, 1 - u * u)))
-            L = f.lit(n, 0.35)
-            if t > 0.88: f.put(x, y, col('R', 0.6 + (1.6 if abs(u) < 0.5 and (x + y) % 4 == 0 else 0)), 'ink'); continue
-            if t > 0.8: f.put(x, y, col('R', 2.4 + L * 1.6), 'ink'); continue
-            if t > 0.72: f.put(x, y, col('I', 2.6 + L * 2.4), 'cap'); continue
-            if t < 0.16: f.put(x, y, col('O', band(3.2 + 3.0 * L, x, y)), 'cap'); continue      # tan crown
-            v = 3.4 + 4.6 * L + (nB(x * 3, y * 0.4) - 0.5) * 1.0
-            if nF(x * 2.3 + 9, y * 1.9) > 0.8:                                                   # brown flakes, lit tip
-                f.put(x, y, col('O', 3.0 + L)); f.put(x, y - 1, col('C', min(8.6, v + 1.5)), 'cap'); continue
-            f.put(x, y, col('C', band(min(8.4, v), x, y)), 'cap')
-    # ink running down from the rim onto the hood
-    x0 = int(cx - rx - 4)
-    for i, ln in enumerate(drip):
-        x = x0 + i
-        if ln < 3 or (x, base_y) not in f.px: continue
-        for k in range(ln):
-            q = (x, base_y + 1 + k)
-            if f.part.get(q) in ('face', 'eye', 'glow', 'beard', 'hoodin'): break
-            f.put(x, base_y + 1 + k, col('R', 0.5), 'ink')
-            f.put(x - 1, base_y + 1 + k, col('I', 2.6), 'ink') if k < ln - 1 and f.part.get((x - 1, base_y + 1 + k)) == 'hood' else None
-        f.put(x, base_y + ln + 1, col('R', 3.0), 'ink')
+def crown_coral(f, cx, base_y, seed=7):
+    """Varhun's crown: a crown-tipped coral fungus growing out of the top of his hood, cream branches fanning out like a
+    candelabra, every fork a little cup, every tip a tiny crown of points; lit from the pool below"""
+    rnd = random.Random(seed)
+    def stroke(x0, y0, x1, y1, w0, w1):
+        n = int(max(abs(x1 - x0), abs(y1 - y0)) * 2) + 1
+        for i in range(n + 1):
+            t = i / n
+            x, y, w = x0 + (x1 - x0) * t, y0 + (y1 - y0) * t, (w0 + (w1 - w0) * t) / 2
+            for dx in range(int(-w) - 1, int(w) + 2):
+                if abs(dx) > w + 0.3: continue
+                u = dx / max(0.8, w)
+                v = 3.0 + 4.6 * f.lit((u, 0.35, math.sqrt(max(0.0, 1 - u * u))), 0.3) + (nB((x + dx) * 4, y * 2) - 0.5) * 0.8
+                f.put(x + dx, y, col('C', band(min(8.6, v), int(x + dx), int(y))), 'crown')
+    def tip(x, y):
+        for dx in (-2, -1, 0, 1, 2): f.put(x + dx, y, col('C', 8), 'crown')
+        for dx in (-2, 0, 2): f.put(x + dx, y - 1, col('O', 7), 'crown')                        # the little crown
+        f.put(x, y - 2, col('O', 8), 'crown')
+    def branch(x, y, ang, ln, w, depth):
+        x1, y1 = x + math.sin(ang) * ln, y - math.cos(ang) * ln
+        stroke(x, y, x1, y1, w, w * 0.8)
+        if depth == 0:
+            tip(round(x1), round(y1)); return
+        for dx in range(-int(w), int(w) + 1): f.put(x1 + dx, y1, col('C', 8), 'crown')              # the cup at the fork
+        kids = 3 if depth > 1 and rnd.random() < 0.55 else 2
+        spread = 0.38 + 0.1 * depth
+        for j in range(kids):
+            a = ang + spread * (j - (kids - 1) / 2) * (1.6 if kids == 2 else 1.1) + rnd.uniform(-0.08, 0.08)
+            branch(x1, y1, a * 0.92 + ang * 0.08, ln * rnd.uniform(0.6, 0.72), max(1.6, w * 0.7), depth - 1)
+    for a, ln in ((-0.95, 12), (-0.45, 15), (0.0, 17), (0.45, 15), (0.95, 12)):
+        branch(cx + a * 7, base_y + 4, a, ln, 5.5, 2)
 
 def draw_varhun(st):
     f, cut = back_fig('varhun')
@@ -293,7 +290,7 @@ def draw_varhun(st):
         for x in range(fcx - 3 + (y - my > 1), fcx + 2 - (y - my > 1)): f.put(x, y, col('X', 1), 'mouth')
     if m: f.put(fcx - 3, my + m, col('K', 2), 'mouth')
     shade_hood_edge(f, cx, hcy + 2, 15, 18, 'P')
-    ink_cap(f, cx, hcy - 20, 17, 48, [0, 0, 0, 3, 0, 9, 0, 0, 5, 0, 0, 0, 13, 0, 0, 4, 0, 0, 0, 0, 7, 0, 0, 11, 0, 0, 3, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0])
+    crown_coral(f, cx, hcy - 20)          # (2026-11-26: replaces the tall ink cap; the user wanted a grander crown)
     f.cut_below(cut)
     # sleeves and old hands on the table
     for sgn in (-1, 1):

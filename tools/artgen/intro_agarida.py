@@ -166,35 +166,49 @@ for i in range(220):
 
 # ------------------------------------------------------------------ 2. lesser mushrooms at depth (same anatomy, in the haze)
 def lesser(mx, base, cap_y, cw, sw, depth, lean=0.0, ring=False):
+    """a smaller mushroom of the same anatomy, seen from a little below: the cap first, then the stalk over the gills
+    it hangs in front of (seen from below, the stalk runs down across the far half of the underside from its middle;
+    only the near margin is in front of it), flaring a little where it meets the gills"""
     fog = depth
     key, dim = ('g', 0.0) if fog > 0.6 else ('C', 0.6)
-    for y in range(cap_y - 4, base):                                                         # stalk with a bulb
-        t = (y - cap_y) / max(1, base - cap_y)
-        hw = sw * (1 + 0.25 * t * t + 0.9 * math.exp(-((1 - t) / 0.08) ** 2))
-        mx_ = mx + lean * (1 - t) * (base - cap_y)
-        for x in range(int(mx_ - hw), int(mx_ + hw) + 1):
-            u = (x - mx_) / hw
-            v = 0.8 + 2.4 * max(0.0, -0.4 * u + 0.9 * math.sqrt(max(0.0, 1 - u * u))) - fog * 0.8 + (nB(x * 3, y * 0.3) - 0.5) * 0.6
-            v += math.exp(-(y - cap_y) / 16.0) * 1.6                                           # lit by its own gills
-            if ring and abs(y - cap_y - (base - cap_y) * 0.2) < 2: v += 1.0
-            put(x, y, col(key, band(max(0.3, v - dim), x, y)))
-    mx += lean * (base - cap_y)
-    prof = cap_model(cw, cw * 0.46, cw * 0.1, max(1.0, cw * 0.03), 0,
+    top_x = mx + lean * (base - cap_y)
+    Dd = cw * 0.1
+    prof = cap_model(cw, cw * 0.46, Dd, max(1.0, cw * 0.03), 0,
                      lambda a: 1 + 0.03 * math.sin(5 * a + cw) + 0.02 * math.sin(9 * a), lambda a: 0.0)
     st = 0.12
-    for (x, y), (t, surf, Yw, Z) in render_cap(mx, cap_y, cw, prof, st, step=1.0).items():
-        X = x + 0.5 - mx
+    ct = math.sqrt(1 - st * st)
+    cap = render_cap(top_x, cap_y, cw, prof, st, step=1.0)
+    for (x, y), (t, surf, Yw, Z) in cap.items():
+        X = x + 0.5 - top_x
         top, bot, rho, a = prof(X, Z)
         N = normal(prof, X, Z, surf)
         if surf == 0:
             d = max(0.0, dot(N, KEY))
             v = 0.8 + 3.6 * d - fog * 0.9 + (nB(x * 2, y * 2) - 0.5) * 0.5 + (nC(a * cw * 2 + 500, rho * 6) - 0.5) * 0.5
-            v += 1.2 * (1 - max(0.0, -N[1] * st + N[2] * math.sqrt(1 - st * st))) ** 3           # rim of haze
+            v += 1.2 * (1 - max(0.0, -N[1] * st + N[2] * ct)) ** 3                              # rim of haze
             put(x, y, col(key, band(max(0.3, v - dim), x, y)))
         else:
             g = (a / math.tau + 0.5) * cw * 1.6
             v = 1.4 + 1.6 * rho - fog * 1.0 + (0.9 if (g % 1) < 0.4 and rho > 0.3 else 0)
             put(x, y, col('M', v), glow=True)
+    apex = cap_y - Dd * ct                                                                   # where the stalk meets the gills
+    flare = max(2.0, sw * 1.4)
+    for y in range(int(apex), base):                                                         # stalk with a bulb
+        t = max(0.0, (y - cap_y) / max(1, base - cap_y))
+        hw = sw * (1 + 0.25 * t * t + 0.9 * math.exp(-((1 - t) / 0.08) ** 2)) * (1 + 0.5 * math.exp(-(y - apex) / flare))
+        mx_ = mx + lean * (1 - t) * (base - cap_y)
+        for x in range(int(mx_ - hw), int(mx_ + hw) + 1):
+            u = (x - mx_) / hw
+            c = cap.get((x, y))
+            if c is not None:                                                                # only where it's in front of the cap
+                Zs = math.sqrt(max(0.0, 1 - u * u)) * hw
+                Ys = (cap_y - y - Zs * st) / ct
+                if -Ys * st + Zs * ct <= c[0]:
+                    continue
+            v = 0.8 + 2.4 * max(0.0, -0.4 * u + 0.9 * math.sqrt(max(0.0, 1 - u * u))) - fog * 0.8 + (nB(x * 3, y * 0.3) - 0.5) * 0.6
+            v += math.exp(-(y - apex) / 16.0) * 1.6                                            # lit by its own gills
+            if ring and abs(y - cap_y - (base - cap_y) * 0.2) < 2: v += 1.0
+            put(x, y, col(key, band(max(0.3, v - dim), x, y)))
 for args in ((176, 872, 712, 34, 4, 0.85, 0.03), (896, 866, 700, 40, 5, 0.85, -0.02), (338, 884, 770, 24, 3, 0.9, 0.05),
              (736, 884, 760, 28, 3, 0.9, -0.04), (108, 905, 566, 100, 14, 0.5, 0.04, True), (982, 910, 604, 116, 16, 0.45, -0.03, True),
              (262, 930, 724, 58, 8, 0.3, -0.05), (838, 930, 708, 66, 9, 0.3, 0.04)):
