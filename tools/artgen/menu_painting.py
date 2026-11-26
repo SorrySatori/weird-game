@@ -1,6 +1,11 @@
 """Straighten a phone photo of Marti's menu painting into a flat 1960x1386 picture.
 
 usage: menu_painting.py photo.jpg painting.png [ref.png]
+       menu_painting.py --scan scan.jpg painting.png [ref.png]
+
+--scan: a flatbed scan (2026-11-26: A4 at 600 dpi, 4964x7020, from the PDF via `pdfimages -j`). A portrait scan is
+turned to landscape (the floor was on the left), the painted rectangle (the scanner leaves a white rim) is found per
+side, trimmed by the same INSET and resized; no tape, no lens: ref only lays it onto the old pixels.
 
 The photo bows a little (lens barrel distortion), so a single perspective transform leaves curved edges: the four
 painted edges are measured as polylines and a Coons patch maps them onto the rectangle (PIL MESH transform).
@@ -112,6 +117,8 @@ def register(ref, flat):
                 off = max(abs(e[0] - mx), abs(e[1] - my))
                 if off > 6 or (e[2] < 1.5 and off > 2.5):
                     e[0], e[1] = mx, my
+    shifts = sorted(max(abs(e[0]), abs(e[1])) for row in g for e in row)
+    print('registration: median shift', shifts[len(shifts) // 2], 'max', shifts[-1])
 
     def disp(x, y):
         fx, fy = min(max(x / STEP, 0), cols - 1.0001), min(max(y / STEP, 0), rows - 1.0001)
@@ -120,6 +127,64 @@ def register(ref, flat):
         return tuple((1 - u) * (1 - v) * g[r][c][k] + u * (1 - v) * g[r][c + 1][k]
                      + (1 - u) * v * g[r + 1][c][k] + u * v * g[r + 1][c + 1][k] for k in (0, 1))
     return disp
+
+
+def painted_box(im):
+    """the painted rectangle of a scan: per side, the median of where the paint starts (12 dark px in a row)"""
+    g = im.convert('L')
+    px, w, h = g.load(), g.width, g.height
+
+    def start(get, n):
+        run = 0
+        for i in range(n // 4):
+            run = run + 1 if get(i) < 200 else 0
+            if run >= 12:
+                return i - 11
+        return None
+
+    def side(get, n, across):
+        found = [v for v in (start(get(a), n) for a in range(across // 20, across - across // 20, across // 40))
+                 if v is not None]
+        return statistics.median(found)
+    left = side(lambda y: lambda i: px[i, y], w, h)
+    right = w - side(lambda y: lambda i: px[w - 1 - i, y], w, h)
+    top = side(lambda x: lambda i: px[x, i], h, w)
+    bottom = h - side(lambda x: lambda i: px[x, h - 1 - i], h, w)
+    return left, top, right, bottom
+
+
+def from_scan(scan, scale=1):
+    """the scan's painting at W x H (times scale: the store art takes it at 2x for the 3840 px hero)"""
+    if scan.height > scan.width:
+        scan = scan.transpose(Image.ROTATE_90)
+    l, t, r, b = painted_box(scan)
+    ix, iy = INSET * (r - l) / (W + 2 * INSET), INSET * (b - t) / (H + 2 * INSET)
+    print('painted', (l, t, r, b), 'inset', round(ix, 1), round(iy, 1))
+    return scan.resize((W * scale, H * scale), Image.LANCZOS, box=(l + ix, t + iy, r - ix, b - iy))
+
+
+def resample(flat, disp):
+    """flat taken through disp; near the edges the field may reach a little past them (the photo's corners were under
+    tape), so flat is padded with its own edge mirrored"""
+    P = 64
+    pad = Image.new('RGB', (W + 2 * P, H + 2 * P))
+    pad.paste(flat, (P, P))
+    for box, flip, at in (((0, 0, P, H), Image.FLIP_LEFT_RIGHT, (0, P)), ((W - P, 0, W, H), Image.FLIP_LEFT_RIGHT, (W + P, P))):
+        pad.paste(flat.crop(box).transpose(flip), at)
+    for box, at in (((0, P, W + 2 * P, 2 * P), (0, 0)), ((0, H, W + 2 * P, H + P), (0, H + P))):
+        pad.paste(pad.crop(box).transpose(Image.FLIP_TOP_BOTTOM), at)
+
+    def src(x, y):
+        dx, dy = disp(x, y)
+        return x + dx + P, y + dy + P
+    C = 14
+    mesh = []
+    for y in range(0, H, C):
+        for x in range(0, W, C):
+            x1, y1 = min(W, x + C), min(H, y + C)
+            quad = (src(x, y), src(x, y1), src(x1, y1), src(x1, y))
+            mesh.append(((x, y, x1, y1), tuple(c for p in quad for c in p)))
+    return pad.transform((W, H), Image.MESH, mesh, Image.BICUBIC)
 
 
 def untape(im):
@@ -147,7 +212,12 @@ def untape(im):
     return Image.composite(out, im, mask.filter(ImageFilter.GaussianBlur(1.5)))
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and sys.argv[1] == '--scan':
+    flat = from_scan(Image.open(sys.argv[2]).convert('RGB'))
+    if len(sys.argv) > 4:
+        flat = resample(flat, register(Image.open(sys.argv[4]), flat))
+    flat.save(sys.argv[3])
+elif __name__ == '__main__':
     photo = Image.open(sys.argv[1]).convert('RGB')
     flat = flatten(photo)
     if len(sys.argv) > 3:

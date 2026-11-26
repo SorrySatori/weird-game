@@ -12,9 +12,10 @@ as the game's menu has it (--theme below; the jungle lintel by default), in ever
        (-> out/glow/: neon MORKEZELA in Monoton, Comfortaa, on an indigo shade). The crops are the same; the title,
        the DEMO tag and the icons change.
 
---art: default tools/storeart/key_art.jpg = the painting flattened from the phone photo of 2026-11-23
-       (tools/artgen/menu_painting.py photo.jpg painting.png). A scan would serve the big formats better (the hero is
-       3840 wide, the photo gives 1960): run menu_painting.py on it, save it over key_art.jpg, check the crops below.
+--art: default tools/storeart/painting_scan.jpg = the scan of the finished painting (2026-11-26, A4 at 600 dpi, raw
+       and portrait): flattened here by tools/artgen/menu_painting.py from_scan at 3920 x 2772 (2x the menu's
+       1960 x 1386, so the 3840 px hero is sharp; not registered: the crops and POOLS are fractions). Any other image
+       (e.g. key_art.jpg = the phone photo of 2026-11-23, still the menu band's reference) is used as it is.
 --demo: the demo app's set (-> out/demo/): every capsule, the library capsule/header and the library logo carry an
        acid DEMO tag on the subtitle line (Steam: a demo's capsules / library assets must show it's a demo); the hero
        and the page background stay text-free.
@@ -34,7 +35,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFo
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 FONTS = os.path.join(ROOT, 'assets', 'fonts')
-KEY_ART = os.path.join(ROOT, 'tools', 'storeart', 'key_art.jpg')
+KEY_ART = os.path.join(ROOT, 'tools', 'storeart', 'painting_scan.jpg')
 SUBTITLE = 'A WEIRD GAME'
 
 ACID = (230, 255, 46, 255)          # ui/mainMenuBand.js ACID
@@ -358,7 +359,13 @@ def neon_title(width, subtitle=SUBTITLE, demo=False, shade=0.8, **_):
 
 # --- the art ----------------------------------------------------------------------------------------------------------
 def load_art(path=KEY_ART):
-    return Image.open(path).convert('RGB')
+    img = Image.open(path).convert('RGB')
+    if os.path.basename(path).startswith('painting_scan'):        # the raw scan: flattened first
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, 'tools', 'artgen'))
+        import menu_painting
+        img = menu_painting.from_scan(img, scale=2)
+    return img
 
 
 def extend_top(art, frac, fade=0.12):
@@ -613,8 +620,8 @@ def jungle_store_title(width, subtitle=SUBTITLE, demo=False, shade=0.8, **_):
 
 
 def icon_jungle(size, rounded=False):
-    """the title's gear cast in weathered concrete on a dark concrete tile, ivy over it, mycelium glowing out of its
-    cracks, three little glowing mushrooms on its rim"""
+    """the title's gear cast in weathered concrete on a dark concrete tile, ivy over it, mould colonies glowing on its
+    cracks (as the menu's slabs: thin threads read as sparks), three little glowing mushrooms on its rim"""
     ms = skins()
     S = size * SS
     k = S / 184 * 0.55
@@ -629,9 +636,17 @@ def icon_jungle(size, rounded=False):
     face, paths = ms.concrete(S, S, 72, cracks=4, spall=False, moss=0.35, k=k)
     face = ms.lit(face, ms.relief(gm, 3.0, S * 0.006))
     bg.paste(face, (0, 0), gm)
-    starts = [p for pts in paths for p in pts[::4] if gm.getpixel((int(min(S - 1, max(0, p[0]))), int(min(S - 1, max(0, p[1]))))) > 0]
-    myc = ms.mycelium(S, S, rnd, starts or [(cx, cy)], 26, k * 1.6)
-    myc = ImageChops.multiply(myc, gm.filter(ImageFilter.MaxFilter(9)))
+    on = lambda p: gm.getpixel((int(min(S - 1, max(0, p[0]))), int(min(S - 1, max(0, p[1]))))) > 0
+    seeds = [p for p in ms.along_cracks(paths, every=4) if on(p)]
+    # (the face has few cracks: the rest take hold on the rim, more of them on the shady lower left)
+    while len(seeds) < 40:
+        a, r = rnd.uniform(0.3, 2.9) + (rnd.random() < 0.6) * 1.2, rnd.uniform(0.62, 0.95) * ro
+        p = (cx + math.cos(a) * r, cy + math.sin(a) * r)
+        if on(p):
+            seeds.append(p)
+    myc = ms.colonies(S, S, rnd, [seeds[rnd.randrange(len(seeds))] for _ in range(14)], k * 1.6, size=(9, 17))
+    myc = myc.filter(ImageFilter.GaussianBlur(S * 0.002)).point(lambda v: min(255, v * 1.4))
+    myc = ImageChops.multiply(myc, gm.filter(ImageFilter.MinFilter(5)))
     bg.alpha_composite(ms.glow(myc, ms.MINT, S * 0.012, 1.6))
     bg.paste((200, 255, 222), (0, 0), myc.point(lambda v: v * 0.7))
     over = Image.new('RGBA', (S, S), (0, 0, 0, 0))

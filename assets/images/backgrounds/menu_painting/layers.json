@@ -14,34 +14,34 @@
  },
  "scraper_window_1": {
   "x": 810,
-  "y": 247
+  "y": 246
  },
  "scraper_window_2": {
-  "x": 823,
+  "x": 822,
   "y": 357
  },
  "scraper_window_3": {
-  "x": 789,
+  "x": 788,
   "y": 392
  },
  "scraper_window_4": {
-  "x": 832,
+  "x": 831,
   "y": 425
  },
  "scraper_window_5": {
-  "x": 803,
+  "x": 801,
   "y": 232
  },
  "scraper_window_6": {
-  "x": 812,
+  "x": 811,
   "y": 268
  },
  "scraper_window_7": {
-  "x": 828,
+  "x": 827,
   "y": 264
  },
  "scraper_window_8": {
-  "x": 824,
+  "x": 823,
   "y": 306
  },
  "scraper_window_9": {
@@ -49,11 +49,11 @@
   "y": 326
  },
  "scraper_window_10": {
-  "x": 805,
+  "x": 804,
   "y": 386
  },
  "scraper_window_11": {
-  "x": 814,
+  "x": 813,
   "y": 412
  },
  "scraper_window_12": {
@@ -69,16 +69,16 @@
   "y": 217
  },
  "cathedral_green": {
-  "x": 125,
-  "y": 218
+  "x": 124,
+  "y": 217
  },
  "cathedral_rose": {
-  "x": 125,
-  "y": 218
+  "x": 124,
+  "y": 217
  },
  "cathedral_cyan": {
-  "x": 125,
-  "y": 218
+  "x": 124,
+  "y": 217
  },
  "scraper_windows": [
   {

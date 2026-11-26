@@ -7,7 +7,7 @@ concrete lintel, a mint UPPER, ivy over the top edge, glowing mycelium in the cr
 
 ```sh
 python3 tools/storeart/store_art.py                        # → tools/storeart/out/ (git-ignored) + _contact_sheet.png
-python3 tools/storeart/store_art.py --art path/to/scan.png  # a new key art (a scan), same compositions
+python3 tools/storeart/store_art.py --art path/to/image.png # another key art, same compositions
 python3 tools/storeart/store_art.py --demo                 # the demo app's set → tools/storeart/out/demo/
 python3 tools/storeart/store_art.py --theme brutal [--demo]  # an earlier menu look → out/brutal/ (+ demo/)
 python3 tools/storeart/store_art.py --theme vitraz [--demo]  # → out/vitraz/ (+ demo/)
@@ -33,9 +33,11 @@ plate under it; the icon a concrete gear with ivy and glowing mushrooms). The cr
 are the same in all of them.
 `out/_themes_compare.png` puts the four side by side.
 
-`key_art.jpg` is the painting flattened from the phone photo of 2026-11-23 (`tools/artgen/menu_painting.py photo.jpg
-painting.png`, 1960×1386). The hero (3840 wide) is upscaled from it; a scan would make it sharper (flatten it the same
-way, save it over `key_art.jpg`, check the crops). Crops are boxes in fractions of the painting (`crop` in `build()`),
+The key art is the scan of the finished painting (`painting_scan.jpg`, 2026-11-26, A4 at 600 dpi, raw and portrait):
+`load_art()` flattens it with `tools/artgen/menu_painting.py` `from_scan` at 3920×2772 (twice the menu's 1960×1386), so
+the 3840 px hero is sharp. `key_art.jpg` (the phone photo of 2026-11-23, flattened) is no longer the store art; it stays
+as the menu band's reference (`menu_painting.py --scan ... key_art.jpg`, see tools/artgen/menu_painting_band.py).
+The previous set (from the photo) is in `out/_old_2026-11-24_photo/`. Crops are boxes in fractions of the painting (`crop` in `build()`),
 so another resolution keeps the compositions. The portrait capsules and the soundtrack cover add black above the
 painting (`extend_top`) so the title sits clear of the cathedral's spire.
 
@@ -54,7 +56,7 @@ text-free. Upload them to the demo app (5564540), not to the full game. The prev
 | `library_capsule_600x900.png` | Library → Capsule | |
 | `library_hero_3840x1240.png` | Library → Hero | no text allowed; keep the subject in the centred 860×380 safe area |
 | `library_logo_1280.png` | Library → Logo | transparent PNG; place it in the Steamworks preview tool |
-| `community_icon_184x184.jpg` | Community icon | the title's gear, white on black, acid mushrooms |
+| `community_icon_184x184.jpg` | Community icon | jungle: the title's gear in concrete, ivy, glowing mould colonies + mushrooms |
 | `shortcut_icon.ico` | Client icon (shortcut) | the same on a rounded black tile, 16–256 px |
 
 Rules (partner.steamgames.com/doc/store/assets, checked 2026-10-30): capsules hold the art and the game's title only —

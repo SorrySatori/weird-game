@@ -16,7 +16,11 @@ out_dir gets:
   clock_*.png     the town hall clock's hands (they turn about the pivot)
   layers.json     where everything goes, in band.png's pixels, + the list of files (MainScene.createPaintingLife)
 All the layers are resampled exactly like the band (PIL resize with a box), so at rest they sit on it pixel for pixel.
-The coordinates are for the 2026-11-23 photo of the finished painting.
+The coordinates are for the 2026-11-23 photo of the finished painting (tools/storeart/key_art.jpg); later sources are
+registered onto its pixels by menu_painting.py. Since 2026-11-26 the band comes from the scan:
+  menu_painting.py --scan tools/storeart/painting_scan.jpg painting.png tools/storeart/key_art.jpg
+  menu_painting_band.py painting.png assets/images/backgrounds/menu_painting 0 1960 0 1386 1012 tools/storeart/key_art.jpg
+(the shapes are still found on key_art.jpg: the scan is lighter, its window frames don't close at the photo's thresholds)
 """
 import json
 import math
