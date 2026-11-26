@@ -19,7 +19,14 @@ export default {
             tell_me_more_about_the_city: "Řekněte mi víc o městě.",
             who_are_the_gods: "Kdo jsou zdejší bohové?",
             tell_me_more_about_city_locations: "Řekněte mi o zajímavých místech ve městě.",
-            do_you_have_any_advice_for_me: "Máte pro mě nějakou radu?"
+            do_you_have_any_advice_for_me: "Máte pro mě nějakou radu?",
+            varhun_face: "Mistře, budu mít jednou taky takový obličej jako arcikněz Varhun?"
+        }
+    },
+    varhunFace: {
+        text: "Když se budeš pilně modlit a dožiješ se jeho let, možná. Musíš být trpělivý jako boltcovitka. Varhun na tom dělá šedesát let. A levou půlku obličeje si prý nemyje.",
+        options: {
+            return_to_previous_topic: "Zpět k předchozímu tématu"
         }
     },
     task: {
@@ -55,6 +62,7 @@ export default {
         options: {
             tell_me_more_about_the_city: "Řekněte mi víc o městě",
             who_are_the_gods: "Kdo jsou ti bohové?",
+            varhun_face: "Mistře, budu mít jednou taky takový obličej jako arcikněz Varhun?",
             ill_be_on_my_way: "Vyrazím na cestu"
         }
     },

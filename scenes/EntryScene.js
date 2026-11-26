@@ -88,7 +88,15 @@ export default class EntryScene extends GameScene {
                     { text: "Tell me more about the city.", key: 'tell_me_more_about_the_city', next: 'city' },
                     { text: "Who are the gods here?", key: 'who_are_the_gods', next: 'gods' },
                     { text: "Tell me about the city's locations.", key: 'tell_me_more_about_city_locations', next: 'locations' },
-                    { text: "Do you have any advice for me?", key: 'do_you_have_any_advice_for_me', next: 'advice' }
+                    { text: "Do you have any advice for me?", key: 'do_you_have_any_advice_for_me', next: 'advice' },
+                    { text: "Master, will I one day have a face like Archpriest Varhun's?", key: 'varhun_face', next: 'varhunFace' }
+                ]
+            },
+            // the apprentice's own fungus: it grows slowly, from the inside, with faith and the years (canon 2026-11-26)
+            varhunFace: {
+                text: "If you pray diligently and live to his age, perhaps. You must be as patient as a tripe fungus. Varhun has been at it for sixty years. And they say he never washes the left half of his face.",
+                options: [
+                    { text: "Return to previous topic", key: 'return_to_previous_topic', next: 'hub' }
                 ]
             },
             task: {
@@ -127,6 +135,7 @@ export default class EntryScene extends GameScene {
                 options: [
                     { text: "Tell me more about the city", key: 'tell_me_more_about_the_city', next: 'city' },
                     { text: "Who are the gods?", key: 'who_are_the_gods', next: 'gods' },
+                    { text: "Master, will I one day have a face like Archpriest Varhun's?", key: 'varhun_face', next: 'varhunFace' },
                     { text: "I'll be on my way", key: 'ill_be_on_my_way', next: 'farewell' }
                 ]
             },
