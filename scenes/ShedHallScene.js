@@ -83,6 +83,8 @@ export default class ShedHallScene extends GameScene {
         this.preloadMusic('shedLoop');
         this.load.image('hall-bg', 'assets/images/backgrounds/ShedHall.png');
         this.load.image('living-core', 'assets/images/characters/living-core.png');
+        // the core in the wall at the world's pixel size (the 128 px one at scale 0.5 had half-size pixels)
+        this.load.image('living-core-world', 'assets/images/characters/living-core-64.png');
     }
 
     create() {
@@ -106,8 +108,7 @@ export default class ShedHallScene extends GameScene {
         }
 
         // Add Living Core: in the iron socket fused into the back wall, right of the tunnel (canvas coords)
-        this._livingCore = this.add.sprite(683, 376, 'living-core');
-        this._livingCore.setScale(0.5);
+        this._livingCore = this.add.sprite(683, 376, 'living-core-world');
         this._livingCore.setInteractive({ useHandCursor: true });
         this._livingCore.on('pointerdown', () => this.showLivingCoreDialog());
 
