@@ -350,6 +350,7 @@ export default class VoxmarketMarketScene extends GameScene {
             
             // after Brain Rot she is too dazed to know she told you anything (onSelect sets _zerrenDazed)
             zerren_quest_update: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 textKey: this._zerrenDazed ? 'dazed' : 'plain',
                 text: this._zerrenDazed
                     ? "Zerren rubs her temples, mutters something about the heat in the hangar and goes back to arranging her ampules, as if she'd already forgotten you."

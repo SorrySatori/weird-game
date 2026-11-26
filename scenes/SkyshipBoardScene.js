@@ -433,6 +433,8 @@ export default class SkyshipBoardScene extends GameScene {
             },
             
             captainGivesTool: {
+            
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Of course you can! I always carry spares. You never know when you'll need to repair something mid-flight. Here, take this calibration module. It's simple to use: just attach it to the maintenance panel of the elevator system, and it will automatically recalibrate the floor counter. The drones inside will do all the work.",
                 options: [
                     {

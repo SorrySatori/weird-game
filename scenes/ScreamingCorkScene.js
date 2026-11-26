@@ -665,6 +665,8 @@ export default class ScreamingCorkScene extends GameScene {
             },
 
             edgar_book_farewell: {
+
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 textKey: farewellGivesVestigel ? 'vestigel' : 'plain',
                 text: farewellGivesVestigel
                     ? "I should get to work now. The ideas are flowing, and I don't want to lose them. Oh, and as promised, here's the vestigel. It's of more use to you than to me. Thank you again for your help. Feel free to check in on my progress sometime."

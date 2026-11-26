@@ -67,6 +67,8 @@ export default class ScreamingCorkClubScene extends GameScene {
             },
             
             feral_during: {
+            
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Telka shouts over the wall of sound without missing a chord. \"Not now, fungal friend! We're mid-set! Just listen!\"",
                 options: [
                     { text: "(Listen.)", key: 'listen', next: "closeDialog" }

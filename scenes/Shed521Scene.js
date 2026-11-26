@@ -152,6 +152,7 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             complete_quest_mirage_end: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "(Gnur turns the core over in his claws, listens to it hum and tucks it away somewhere inside his coat, humming along. Then he tosses you thirty dinar.)",
                 options: [
                     { text: "Leave", key: 'leave', next: "end" }
@@ -171,6 +172,7 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             complete_quest_end: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "(Gnur tosses you thirty dinar without looking up.) For your trouble, mate.\n\n(He returns to his work, humming a strange metallic tune.)",
                 options: [
                     { text: "Leave", key: 'leave', next: "end" }
@@ -204,6 +206,7 @@ export default class Shed521Scene extends GameScene {
             },
             // New dialog branch for confronting Gnur about lying
             confront_about_lie: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "(Gnur's expression darkens) What lies you talkin' about, mate? I need that core. Ain't no lie in that.",
                 options: [
                     // Not with the core already in the pack: the refusal would log "I refused to help Gnur steal
@@ -220,6 +223,7 @@ export default class Shed521Scene extends GameScene {
                 }
             },
             refuse_quest: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "(Gnur's eyes narrow to slits, a metallic growl escaping his throat)\n\nSo you've been talkin' to the paper-pushers, eh? Should've known better than to trust an outsider. Get out of my sight before I decide your lungs would make a fine addition to my collection.",
                 options: [
                     { text: "Leave", key: 'leave', next: "end" }

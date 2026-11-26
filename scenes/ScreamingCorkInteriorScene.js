@@ -126,6 +126,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 ]
             },
             ravla_check_money: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "",
                 options: [],
                 onShow: () => {
@@ -156,6 +157,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_forge_success: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Here you go. Perfect forgery, trust me. The official seals, the watermarks, even the special ink. All perfect. No one will question this. Just don't tell anyone where you got it.",
                 options: [
                     { text: "Thank you", key: 'thank_you', next: "closeDialog" }
@@ -179,6 +181,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_audit_shaken: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 speaker: 'Ravla',
                 textKey: !this._auditForOrtolan ? 'humbled' : this._auditRefund ? 'refund' : 'free',
                 text: "Ravla stares at the empty air where the inspector stood, then at the paper. She picks the real seal up off her desk and counts the teeth under her breath. Then she counts them again.\n\n\"Twelve,\" she says at last, very quietly. \"All these years I've been doing this.\" She doesn't look at you. \"That was you, wasn't it? Some trick. Doesn't matter. He was right.\" She sweeps the paper into the stove and pulls out a clean form. "
@@ -221,12 +224,14 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_not_enough_money: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "What are you trying to pull? You don't have 50 dinars. Come back when you have the money. I don't work for free.",
                 options: [
                     { text: "Sorry, I'll be back", key: 'sorry_ill_be_back', next: "closeDialog" }
                 ]
             },
             ravla_ortolan_agree: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Good. Bring the money, and I'll have it ready in no time. Just don't tell anyone where you got it.",
                 options: [
                     { text: "Deal", key: 'deal', next: "closeDialog" }
@@ -271,6 +276,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
             // DEMO_BUILD: the docks, the Delta and the rest of the task's places aren't in the demo -- Ravla says so, in character,
             // and the quest log keeps it; the task itself stays as a teaser for the full game
             ravla_rust_demo: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "*Ravla leans in and lowers her voice.* \"One more thing, just between us. The places you'd need for this (the docks, the Delta and a few more besides) aren't on any map yet. Not in this version of the city. A demo, they call it. I've forged a lot of things in my life, but I can't forge you a whole district.\" *She shrugs.* \"Keep the task anyway. When they finish building the rest of the city, come back. The Choir will be waiting, and Brukk never forgets a volunteer.\"",
                 options: [
                     { text: "I'll hold you to that.", key: 'ill_hold_you_to_that', next: "closeDialog" }
@@ -280,6 +286,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             ravla_rust_task: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "There's a small matter that needs attending to. You want to meet Brukk? Then feed the metal first. The machines are always hungry, go and prepare a feast for them. You will need oil, metal, and, most importantly, a redmass. Mix them together, bring it to me, and I'll arrange your meeting with Brukk.",
                 options: [
                     { text: "I'll get to work on it.", key: 'ill_get_to_work_on_it', next: rustTaskDone },
@@ -293,6 +300,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
 
             // --- Rust Feast delivery ---
             ravla_feast_missing: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Then don't waste my time. Come back when you have the oil, scrap metal, and a redmass. All three.",
                 options: [
                     { text: "I'll keep looking.", key: 'ill_keep_looking', next: "closeDialog" }
@@ -401,6 +409,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             openShop: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Take your time browsing. Quality goods at fair prices!",
                 options: [
                     {
@@ -426,6 +435,7 @@ export default class ScreamingCorkInteriorScene extends GameScene {
                 }
             },
             heliodorMerchandise: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "We have connections with traders from all over. Some items come from distant lands, others from local craftsmen. We pride ourselves on offering only the finest goods.",
                 options: [
                     {

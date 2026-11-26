@@ -316,6 +316,8 @@ export default class ScraperAmbraScene extends GameScene {
             },
             
             dr_elphi_exit: {
+            
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "I'm not hiding anything. If something happened to her, I didn't see it.\n\nBut you might.\n\nCome back if you find something. Here, take my key to the backyard.",
                 options: [
                     { text: "I'll check the backyard.", key: 'ill_check_the_backyard', next: "closeDialog" },
@@ -325,6 +327,7 @@ export default class ScraperAmbraScene extends GameScene {
             },
             // "Never mind" before she ever talked about the Bishop: no "if something happened to her"
             dr_elphi_exit_brief: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Suit yourself. If you're going to poke around anyway, poke around somewhere useful: the backyard. Here, take my key.\n\nCome back if you find something.",
                 options: [
                     { text: "I'll check the backyard.", key: 'ill_check_the_backyard', next: "closeDialog" },

@@ -14,6 +14,8 @@ export default class ShedCourtyardScene extends GameScene {
             speaker: 'Ortolan',
 
             main: {
+
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "Ah, another visitor to this bureaucratic nightmare... *sigh* I've spent eleven digestions here trying to get approval for an extra pair of arms. Do you know how hard it is to design complex board games with just two hands?",
                 options: [
@@ -24,6 +26,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             explain_need: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "Have you ever tried to playtest a complex strategy game by yourself? Moving pieces, managing resources, tracking multiple player states... It's a nightmare! With four arms, I could revolutionize solo playtesting. But the paperwork here... it's endless!",
                 options: [
@@ -32,6 +35,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             board_games: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "You have heard of a thing called a board game, haven't you? Well, I'm the best damn board game designer in this forsaken place. My games are nothing like the simple things for children you probably know; they provide a unique gameplay experience. With four arms, I could handle complex interactions and make more games more efficiently. But the bureaucracy... it's a nightmare!",
                 options: [
@@ -41,6 +45,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             who_are_you: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "I'm Ortolan Šmelc, a board game designer. I once served as a 'worldwright' during the era of the Board Game Wars. My creations are literally microcosmic games: wooden boards sprouting tiny sentient pieces, enacting dramas and politics. You might have heard some call me conservative, merely because I reject illusion-tech and mindplay; their makers are usually morally unstable. Players are gods, but rules are sacred.",
                 options: [
@@ -50,6 +55,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             divination_wars: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "Ah, yes... terrible times. Maybe you should ask a historian about that. Or I can tell you more, but first I need to get out of this bureaucratic nightmare.",
                 options: [
@@ -74,12 +80,14 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             accept_quest: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Thank you! With your help, I'm sure we can navigate this bureaucratic maze. Come back when you have any progress to report!",
                 options: [
                     { text: "I'll do my best.", key: 'ill_do_my_best', next: "goodbye" }
                 ]
             },
             quest_active: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Still stuck in bureaucratic limbo... But I'm hopeful with your help we can get through this maze of paperwork!",
                 options: [
                     { text: "I'll keep working on it.", key: 'ill_keep_working_on_it', next: "goodbye" },
@@ -207,6 +215,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             quest_completed: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "Thanks to you, my extra arms are finally within reach! Once I have them, my games will reach new heights of complexity and engagement. And of course, when I release my new board game, you'll get it as a gift!",
                 options: [
                     { text: "I'll look forward to it.", key: 'ill_look_forward_to_it', next: "goodbye" },
@@ -215,6 +224,7 @@ export default class ShedCourtyardScene extends GameScene {
                 ]
             },
             games_discussion: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "My games explore the boundaries between player and piece, between rules and reality. Each game is a microcosm with its own physics and logic. With extra arms I'll be able to create games with multiple overlapping boards and simultaneous action! Imagine playing on three levels at once, with pieces that exist in multiple states...",
                 options: [
@@ -238,6 +248,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             ortolan_board_wars_end: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: `"The Ludarchs turned on each other. Their games collided, overlapped, contradicted. Reality fractured. Cities were reshaped overnight. And then... silence. They destroyed each other, or got swallowed by their own creations. The boards went dark. The pieces stopped moving. What was left was this..." He gestures around. "A broken city where the rules still don't quite work. They say one Ludarch survived. Still active somewhere in Upper Morkezela. That thought keeps me up at night."`,
                 options: [
                     { text: "Is that why you still make games?", key: 'is_that_why_you_still_make_games', next: "ortolan_board_wars_why" },
@@ -250,6 +261,7 @@ export default class ShedCourtyardScene extends GameScene {
                 }
             },
             ortolan_board_wars_why: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: `"Because someone has to do it right." His eyes burn with quiet conviction. "The Ludarchs treated games as weapons. I treat them as sacred. Every rule I write, every piece I carve: it's a promise. That the game is fair. That the players matter. That no one gets sacrificed for someone else's victory." He turns a pawn between his fingers. "This is my answer to the wars. Small games, honest games. Where players are gods, but rules are sacred. That's the difference between a worldwright and a Ludarch."`,
                 options: [
                     { text: "That's a noble purpose.", key: 'thats_a_noble_purpose', next: "goodbye" },

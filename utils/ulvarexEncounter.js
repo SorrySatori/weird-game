@@ -274,6 +274,7 @@ export function ulvarexDialog(scene) {
     const yes = (text, key) => ({ text, key, next: bondNext });
     return {
         ulvarex_notice: {
+            hideCloseOption: true,      // (its own way out is enough: no second "I should go")
             speaker: 'Narrator',
             text: "The Oltrac's wild colours are still flickering before your eyes when you notice that the puddle at your feet doesn't reflect the grey sky but an orange sunset. Where would that come from? There's no sun in the sky. Then it dawns on you: it isn't a sunset at all, but an orange eye, staring straight at you.",
             options: [
@@ -335,6 +336,7 @@ export function ulvarexDialog(scene) {
             onTrigger: () => bondUlvarex(scene),
         },
         ulvarex_no_slot: {
+            hideCloseOption: true,      // (its own way out is enough: no second "I should go")
             speaker: 'Ulvarex',
             text: "The glow in the puddle dims. \"Oh. You're already occupied. Every corner of you has a tenant.\" She sizes you up like someone viewing a flat that's already let. \"The Registration office in Shed 521 sells extra room, I hear. Get yourself one more slot, take another trip, and look down. I'll probably be in some puddle or other.\"",
             options: [
@@ -342,6 +344,7 @@ export function ulvarexDialog(scene) {
             ],
         },
         ulvarex_decline: {
+            hideCloseOption: true,      // (its own way out is enough: no second "I should go")
             speaker: 'Ulvarex',
             text: "\"Suit yourself. I'll be here. Or in some other puddle, contemplating the nature of existence and self-reflection. If you change your mind, take another trip and look down.\"",
             options: [
@@ -349,6 +352,7 @@ export function ulvarexDialog(scene) {
             ],
         },
         ulvarex_later: {
+            hideCloseOption: true,      // (its own way out is enough: no second "I should go")
             speaker: 'Ulvarex',
             text: "\"Take your time. I've been drifting from puddle to puddle for a few hundred digestions; I'll survive a few more. Just remember: without the Oltrac you probably won't even see me.\"",
             options: [
@@ -356,6 +360,7 @@ export function ulvarexDialog(scene) {
             ],
         },
         ulvarex_reconsider: {
+            hideCloseOption: true,      // (its own way out is enough: no second "I should go")
             speaker: 'Narrator',
             text: "The sunset glow in the puddle is still burning. Ulvarex watches you.",
             options: [
@@ -367,6 +372,7 @@ export function ulvarexDialog(scene) {
         },
         // a later trip: they have met, so no first look and no introductions
         ulvarex_again: {
+            hideCloseOption: true,      // (its own way out is enough: no second "I should go")
             speaker: 'Ulvarex',
             text: "The puddle at your feet glows with an orange sunset again, and the sun in it opens into an eye. \"Oh, it's you. So, have you thought it over?\"",
             options: [

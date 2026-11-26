@@ -100,6 +100,7 @@ export default class VoxmarketHallScene extends GameScene {
                 }
             },
             twins_ulvarex_deal: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 speaker: 'Hesh & Vell',
                 text: `The twins exchange a look that lasts half a second longer than it should.\n\n"No tricks," says Hesh. "No tricks," says Vell, on delay, which makes it sound like a vow taken twice. "Every lot goes for a fair price. You have our word." "Both our words," Vell adds, which is something you rarely hear from Vell alone.\n\nHesh lifts the bell jar as if it might break. It won't. There is nothing there to break. But it will look real for a long, long time.`,
                 options: [

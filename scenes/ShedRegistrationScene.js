@@ -420,6 +420,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             sleeplessMime_end: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "(The Mime bows deeply, then fades away into the dreamlike atmosphere of the queue.)",
                 options: [
@@ -479,6 +480,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             vowelSeller_end: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "(The Vowel Seller nods and dissolves into a cloud of ash, his vials tinkling softly as he disappears.)",
                 options: [
@@ -541,6 +543,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             hollowWoman_end: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "(The Hollow Woman steps back, a faint smile on her stitched face. She starts to fade away, until nothing remains but the memory of her presence.)",
                 options: [
@@ -718,6 +721,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_arms_redirect: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "(The clerk doesn't even look up.)\n\n'Limbs. Additional. Registration does not decide which form a limb falls under. Applications does. Top floor, the door with the queue. Come back with the name of the form, and I will issue it.'",
                 options: [
                     { text: "Applications first, then. Understood.", key: 'applications_first_understood', next: "seniorClerk_end" }   // he goes upstairs: no "let's start again"
@@ -733,6 +737,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ]
             },
             registration_extra_symbiont: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "'Extra symbiont slot registration is not actually difficult. Just a form to fill out. And pay a registration fee of 50 dinar, of course.'",
                 options: [
                     { text: "I'll pay the fee and register for an extra slot.", key: 'ill_pay_the_fee_and_register_for_an_extra_slot', next: "registration_extra_symbiont_pay" },
@@ -790,6 +795,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_extra_symbiont_complete: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 textKey: this.registry.get('symbiont_slot_result') || 'success',
                 text: (() => {
                     const result = this.registry.get('symbiont_slot_result');
@@ -977,6 +983,7 @@ export default class ShedRegistrationScene extends GameScene {
                 }
             },
             registration_complete_success: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
@@ -984,6 +991,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
             },
             registration_complete_partial: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "(The Senior Clerk gestures to the door) The registration is complete. Please leave my office. Have a nice day.",
                 options: [
@@ -991,6 +999,7 @@ export default class ShedRegistrationScene extends GameScene {
                 ],
             },
             registration_complete_failure: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
         
                 text: "(The Senior Clerk gestures to the door) This matter is closed. Please leave my office.",
                 options: [

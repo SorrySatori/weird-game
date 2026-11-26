@@ -83,6 +83,7 @@ export default class ScraperInteriorScene extends GameScene {
         const interiorContent = {
             speaker: 'Lift-Mother',
             lift_mother_start: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 textKey: metLiftMother ? 'again' : 'first',
                 text: metLiftMother
                     ? "The cables hum softly. 'Yes, little toadstool?'"
@@ -289,6 +290,8 @@ export default class ScraperInteriorScene extends GameScene {
             },
             
             goto_elphi_floor: {
+            
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: "The elevator shudders and begins to move. Numbers flicker by at impossible speeds as you ascend to a floor that shouldn't exist. The doors open to reveal a corridor bathed in soft green light...",
                 options: [
                     // the ride is shown first; stepping out of the cabin takes you there

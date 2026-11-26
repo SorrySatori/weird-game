@@ -224,6 +224,7 @@ export default class CrossroadScene extends GameScene {
             ...super.dialogContent,
             speaker: 'Giant Corpse',
             corpseMain: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: `You find a strange, gigantic corpse. Its flesh seems to pulse with an otherworldly energy. It is clear that it's been here for a while, but surprisingly, it doesn't smell at all. What do you do?`,
                 onTrigger: (option) => this.sporeGate(option),
                 options: [
@@ -245,6 +246,7 @@ export default class CrossroadScene extends GameScene {
                 ]
             },
             corpseExhausted: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: `There is nothing more you can do with the old corpse. Its purpose has been fulfilled.`,
                 options: [
                     {
@@ -255,6 +257,7 @@ export default class CrossroadScene extends GameScene {
                 ]
             },
             corpseReconsider: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: `You approach the strange corpse again. From within, you hear a familiar voice: "Changed your mind, baby? I'm still here waiting for you."`,
                 onTrigger: (option) => this.sporeGate(option),
                 options: [
@@ -276,12 +279,14 @@ export default class CrossroadScene extends GameScene {
                 ]
             },
             notEnoughSpores: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: `You reach for your spores, but there aren't enough of them to seed something this large. You'd need at least ten.`,
                 options: [
                     { text: 'Step back.', key: 'not_enough_spores_back', next: 'closeDialog' }
                 ]
             },
             plantSpores: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: 'You carefully plant spores in the corpse. They immediately take root, spreading a network of luminescent mycelium through the dead flesh. This area will never be the same.',
                 options: [
                     {
@@ -319,6 +324,7 @@ export default class CrossroadScene extends GameScene {
                 }
             },
             acceptSymbiontConfirm: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 text: 'Thorne-Still merges with your being. It literally crawls into your stomach. You feel its calm presence in your mind, and with it comes the ability to perceive the threads of reality itself. You can now use the Brain Rot ability to make others confused, forgetful, or vulnerable to suggestion.',
                 options: [
                     {
@@ -330,6 +336,7 @@ export default class CrossroadScene extends GameScene {
             },
             // No free slot: Thorne-Still stays in the skull and the corpse stays as it was (see bondNext above)
             thorneNoSlot: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 speaker: 'Thorne-Still',
                 text: `"Oh, baby, you're already taken. Somebody moved in before me." Thorne-Still sinks back into the skull. "Get yourself another slot and come back. I'm not going anywhere."`,
                 options: [
@@ -337,6 +344,7 @@ export default class CrossroadScene extends GameScene {
                 ]
             },
             declineSymbiont: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
                 speaker: 'Thorne-Still',
                 text: `"Your loss, baby," whispers the symbiont. "But don't worry, I'll be here if you need me."`,
                 options: [

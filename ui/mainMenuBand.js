@@ -893,16 +893,25 @@ export function createBandPanel(scene, { x, w, title, onClose, shadeAll = false 
     nav.active = false;
     const panel = {
         body, nav, w, x, rule, open: false,
-        /** slide out (slow: the gentler way, after the language changed and the menu came back translated) */
+        /** slide out of the band, or (shadeAll: centred) appear in place (slow: the gentler way, after the language
+         *  changed and the menu came back translated) */
         show({ slow = false } = {}) {
             panel.open = true;
             scene.tweens.killTweensOf([body, shade]);
             body.setVisible(true);
             shade.setVisible(true);
-            body.x = x - w;
             const duration = slow ? 700 : 340;
-            scene.tweens.add({ targets: body, x, duration, ease: 'Sine.easeInOut' });
-            scene.tweens.add({ targets: shade, alpha: 0.6, duration, ease: 'Sine.easeInOut' });
+            if (shadeAll) {
+                // in the middle of the screen (the main menu's centred entries) it just appears there: a slide in from
+                // the left made no sense once the menu wasn't a band on the left any more (user, 2026-11-26)
+                body.x = x;
+                body.setAlpha(0);
+                scene.tweens.add({ targets: body, alpha: 1, duration: slow ? 450 : 180, ease: 'Sine.easeOut' });
+            } else {
+                body.x = x - w;
+                scene.tweens.add({ targets: body, x, duration, ease: 'Sine.easeInOut' });
+            }
+            scene.tweens.add({ targets: shade, alpha: 0.6, duration: shadeAll ? (slow ? 450 : 180) : duration, ease: 'Sine.easeInOut' });
             nav.active = true;
             if (nav.items.length) nav.focus(nav.items.find(it => it.enabled !== false) || null);
         },
@@ -912,8 +921,9 @@ export function createBandPanel(scene, { x, w, title, onClose, shadeAll = false 
             nav.items.forEach(it => it.setFocus(false));
             scene.tweens.killTweensOf([body, shade]);
             if (instant) { body.setVisible(false); shade.setVisible(false).setAlpha(0); return; }
-            scene.tweens.add({ targets: body, x: x - w, duration: 260, ease: 'Sine.easeInOut', onComplete: () => body.setVisible(false) });
-            scene.tweens.add({ targets: shade, alpha: 0, duration: 260, onComplete: () => shade.setVisible(false) });
+            if (shadeAll) scene.tweens.add({ targets: body, alpha: 0, duration: 150, ease: 'Sine.easeIn', onComplete: () => body.setVisible(false).setAlpha(1) });
+            else scene.tweens.add({ targets: body, x: x - w, duration: 260, ease: 'Sine.easeInOut', onComplete: () => body.setVisible(false) });
+            scene.tweens.add({ targets: shade, alpha: 0, duration: shadeAll ? 150 : 260, onComplete: () => shade.setVisible(false) });
         }
     };
     return panel;
