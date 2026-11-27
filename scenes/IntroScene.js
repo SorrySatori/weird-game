@@ -1,6 +1,6 @@
 // IntroScene — "The Myceliar Summons", the opening cutscene.
 //
-// Shot 1: Agarida, the cult's sacred giant mushroom (NOT the god — Obazoba has no body, he is an ideal). A tall
+// Shot 1: Agarida, the cult's sacred giant mushroom, Obazoba's shrine and avatar. A tall
 //         picture (1067×1000); the camera pans from the cap down to the temple at its foot while the narrator speaks.
 //         A pulse of light runs in along a root (from the direction of the city) and the camera rides it up the stalk;
 //         when it reaches the gills they flare and shed spores.

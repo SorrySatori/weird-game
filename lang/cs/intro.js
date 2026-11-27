@@ -1,6 +1,6 @@
 /**
  * Czech intro scene text – vyprávění a dialogy z úvodní scény.
- * `opening`: titulky k úvodnímu záběru na Agaridu (posvátnou houbu boha Obazoby, ne boha samotného); `dialogues[].who` určuje, která postava v síni mluví.
+ * `opening`: titulky k úvodnímu záběru na Agaridu (posvátnou houbu boha Obazoby, jeho svatyni a vtělení); `dialogues[].who` určuje, která postava v síni mluví.
  */
 export default {
     intro: {

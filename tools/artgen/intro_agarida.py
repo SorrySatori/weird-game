@@ -2,7 +2,7 @@
 earth. 1067x1000 -- taller than the screen; the scene pans from the cap down to the temple of the Highest Humenium
 Council at its foot.
 
-Agarida is NOT the god: Obazoba has no body, he is an ideal. Agarida is his shrine -- a colossal mushroom drawn with a
+Agarida is Obazoba's shrine and avatar -- a colossal mushroom drawn with a
 real mushroom's anatomy, seen from the cavern floor:
   * the cap is a ray-cast dome seen from below, so its surface pattern wraps round it and the gills show under the
     margin; half Growth (pale, fibrous, with brown parasol scales and a dark disc, a striate margin with veil tatters,

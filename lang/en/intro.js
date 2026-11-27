@@ -1,12 +1,12 @@
 /**
  * English intro scene text — cutscene narration + dialogue.
- * `opening`: captions over the opening shot of Agarida (Obazoba's sacred mushroom, not the god himself); `dialogues[].who` picks the speaker sprite in the chamber.
+ * `opening`: captions over the opening shot of Agarida (Obazoba's sacred mushroom, his shrine and avatar); `dialogues[].who` picks the speaker sprite in the chamber.
  */
 export default {
     intro: {
         opening: [
             'Deep beneath the earth, far beyond the borders of Upper Morkezela, grows Agarida, the sacred mushroom of the god Obazoba.',
-            'Obazoba himself has no body. He is the source of all life and all rot, an ideal no one has ever touched. Agarida is only his shrine. Yet the faithful say that through its mycelium, the whole world can be heard.',
+            'The faithful say Agarida is the shrine and avatar of Obazoba, the source of all life and all rot, and that through its mycelium the whole world can be heard. Others say it\'s just a really big mushroom. Like, really big.',
             'That night, a tremor ran through Agarida\'s mycelium: a cry for help, the kind heard once in a generation. Perhaps two.',
         ],
         dialogues: [
