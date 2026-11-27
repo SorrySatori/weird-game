@@ -310,7 +310,7 @@ export default class VoxMarket extends GameScene {
                 text: "'Where she went? Can't say. The Bishop moves in mysterious ways.' He smirks at his own joke. 'But what she was after here? Now that's the better question.'",
                 options: [
                     { text: "What was she after?", key: 'what_was_she_trading', next: "kloor_bishop_trading" },
-                    { text: "Ask something else", key: 'back', next: "kloor_bishop" }
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
                 ]
             },
             
