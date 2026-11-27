@@ -267,6 +267,11 @@ export default class CrossroadScene extends GameScene {
                         next: bondNext
                     },
                     {
+                        text: 'Whose head is this, anyway?',
+                        key: 'whose_head_is_this',
+                        next: 'thorneWhoseHead'
+                    },
+                    {
                         text: 'Plant spores in it instead (10 spores)',
                         key: 'plant_spores_in_it_instead',
                         next: 'plantSpores'
@@ -306,6 +311,11 @@ export default class CrossroadScene extends GameScene {
                         next: bondNext
                     },
                     {
+                        text: 'Whose head is this, anyway?',
+                        key: 'whose_head_is_this',
+                        next: 'thorneWhoseHead'
+                    },
+                    {
                         text: 'Decline',
                         key: 'decline',
                         next: 'declineSymbiont'
@@ -322,6 +332,24 @@ export default class CrossroadScene extends GameScene {
                         this.journalSystem.categories.EVENTS
                     );
                 }
+            },
+            // the demigod's story (canon 2026-10-03, WORLD_HISTORY: the Crossroad Demigod), told by the one living in his skull
+            thorneWhoseHead: {
+                hideCloseOption: true,      // (its own way out is enough: no second "I should go")
+                speaker: 'Thorne-Still',
+                text: `"This? Local royalty, baby. Son of Lietus Kika, the god who could never keep track of time. Daddy came here to die, and with his time all in a tangle he forgot to set the kid up with anything. So the kid set himself up: a throne and rule over the whole city. In the end people had enough. They lynched him and stuck him on a stake right here, so that any god who fancies playing king can take a good look. Demigods don't rot, so now he's a landmark. The locals are proud of him. And the acoustics in this skull? Fabulous."`,
+                options: [
+                    {
+                        text: 'Accept Thorne-Still as your symbiont',
+                        key: 'accept_thornestill_as_your_symbiont',
+                        next: bondNext
+                    },
+                    {
+                        text: 'Decline',
+                        key: 'decline',
+                        next: 'declineSymbiont'
+                    }
+                ]
             },
             acceptSymbiontConfirm: {
                 hideCloseOption: true,      // (its own way out is enough: no second "I should go")

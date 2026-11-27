@@ -812,7 +812,7 @@ export default class GameScene extends Phaser.Scene {
         // Localized copy (lang/*/game.js → symbionts.<id>.dialogs.<key>); the English on the system is the fallback.
         // A silenced symbiont answers with its 'silent' line whatever was asked.
         const L = LanguageSystem.getInstance();
-        const locKey = dialogContent.silent ? 'silent' : dialogKey;
+        const locKey = dialogContent.silent ? 'silent' : (dialogContent.locKey || dialogKey);
         const locText = L.str(`symbionts.${symbiontId}.dialogs.${locKey}.text`);
         const locOpts = L.t(`symbionts.${symbiontId}.dialogs.${locKey}.options`);
         const locName = L.str(`symbionts.${symbiontId}.name`);

@@ -16,6 +16,7 @@ export default {
             don_demo_view: "Co tady nahoře děláš?",
             don_demo_lamp: "...ty jsi mluvící lampa.",
             don_demo_scraper: "Odsud je na Škrabák pěkný výhled.",
+            don_demo_dead_gods: "Prý je tohle město mrtvých bohů.",
             don_demo_bye: "Musím jít.",
         },
     },
@@ -26,6 +27,7 @@ export default {
             don_demo_view: "Co tady nahoře děláš?",
             don_demo_lamp: "...ty jsi mluvící lampa.",
             don_demo_scraper: "Odsud je na Škrabák pěkný výhled.",
+            don_demo_dead_gods: "Prý je tohle město mrtvých bohů.",
             don_demo_bye: "Musím jít.",
         },
     },
@@ -57,6 +59,21 @@ export default {
             don_demo_back: "Ještě něco.",
             don_demo_bye: "Musím jít.",
         },
+    },
+    don_demo_dead_gods: {
+        text: "„Je. A pro lampy je to dobrej kšeft.“ Plamen se spokojeně zavlní. „Každej bůh, co sem přijde umřít, chce mít na cestě světlo.“ Potáhne z doutníku.",
+        options: {
+            don_demo_my_god: "Můj bůh sem umřít nepřijde.",
+            don_demo_back: "Ještě něco.",
+            don_demo_bye: "Musím jít."
+        }
+    },
+    don_demo_my_god: {
+        text: "„To říkal každej, příteli. Pod dlažbou tohohle města leží spousta bohů, co sem umřít nikdy nepřijdou.“ Potáhne z doutníku. „Ale neboj. Až ten tvůj přijde, posvítím mu na cestu.“",
+        options: {
+            don_demo_back: "Ještě něco.",
+            don_demo_bye: "Musím jít."
+        }
     },
     don_demo_farewell: {
         text: "„Tak jdi. A kdyby ses někde v tomhle městě všiml lampy, která se na tebe dívá o chvilku déle, než by měla, vyřiď jí, že ji Don pozdravuje.“",

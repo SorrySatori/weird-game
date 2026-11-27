@@ -113,7 +113,11 @@ export default {
             dialogs: {
                 main: {
                     text: "Thorne-Still ti šeptá v hlavě: ‚Čau, šéfe, jak je? Měl bych ti asi připomenout, že moje síla roste s rozkladem. A naopak, když bude růstu moc, budu muset odejít. Přemíra růstu mi fakt nesedí, kapitáne. Mozkovou hnilobu používej s rozumem... Je to mocný nástroj, ale když si nedáš pozor, dokáže někomu pořádně zprasit mozek. Takže ji radši nezkoušej na lidech, které máš rád.‘",
-                    options: ['Zeptat se na Mozkovou hnilobu', 'Zeptat se na Thorne-Stilla'],
+                    options: ['Zeptat se na Mozkovou hnilobu', 'Zeptat se na Thorne-Stilla', 'Jaké to je, bydlet ve mně?'],
+                },
+                inside: {
+                    text: "‚Útulný. Teplo, vlhko, po obědě trochu těsný. Ale ty spory, šéfe! Máš jich v sobě tolik, že jsem jim začal dávat jména. Tahle nalevo je Božena. Při každé Mozkové hnilobě jich pár sním, ale Boženu si nechávám na neděli.‘",
+                    options: ['Zpět'],
                 },
                 ability: {
                     text: "Mozková hniloba působí lidem zmatenost, zapomnětlivost nebo stav, kdy jsou náchylnější k sugesci. Prostě vypouštím slabé psychosporové emise, které v okolních myslích krátkodobě roztřepí myšlení. Říkám sice prostě, ale tak jednoduché to zas není. Navíc pokaždé, když ji použijeme, budu potřebovat trochu tvých spor. Nezabere to na každého, ale neboj, řeknu ti, kdy ji můžeme použít.",
@@ -137,7 +141,15 @@ export default {
             dialogs: {
                 main: {
                     text: "Hlas Ulvarex k tobě dorazí jako světlo skrz hranol, roztříštěný, hřejivý a maličko nakřivo: ‚Á, hostiteli. Zase koukáš na svět těma poctivýma očima? To musí být vyčerpávající. Jsem Ulvarex, Vypůjčený obzor, a obchoduju s tím, co by mohlo být. Moje Tkaní přeludů ohýbá vnímání, takže lidi vidí věci, které tam tak úplně nejsou. Někdo by to mohl chápat jako lhaní, ale řekla bych, že to je spíš pokročilá diplomacie.‘",
-                    options: ['Zeptat se na Tkaní přeludů', 'Zeptat se na Ulvarex'],
+                    options: ['Zeptat se na Tkaní přeludů', 'Zeptat se na Ulvarex', 'Zeptat se, jak se jí ve mně bydlí'],
+                },
+                host: {
+                    text: "„Je to tu útulné, vlhké a mám po ruce plnou ledničku. Lepší podnájem jsem ještě neměla.“ Hlas Ulvarex se pobaveně zatřpytí. Odmlčí se. „Nemám zatím důvod se odsud nikam stěhovat.“",
+                    options: ['Zpět'],
+                },
+                host_hungry: {
+                    text: "„Prostorně a vlhko. Jen ta spíž je poslední dobou nějak prázdná, zlatíčko. Jenom tak poznamenávám.“",
+                    options: ['Zpět'],
                 },
                 ability: {
                     text: "Tkaní přeludů vyrábí přesvědčivé iluze: předměty, látky, dokonce i drobné tvory. Háček je v tom, že každou musím k něčemu skutečnému ukotvit. Nemůžu vykouzlit iluzi úplně bez ničeho. Dej mi stín, odraz nebo kus plechu a postavím ti katedrálu. Stojí to ale spory. A mám svůj vkus: přelud, který chrání něco živého, pomůže tomuhle městu nadále růst, kdežto přelud upředený z holé chamtivosti po sobě nechá jen rozklad. Dám ti vědět, kdy můžu pomoct.",

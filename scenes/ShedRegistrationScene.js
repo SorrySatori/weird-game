@@ -369,7 +369,22 @@ export default class ShedRegistrationScene extends GameScene {
                 options: [
                     { text: "Hi, who are you? I used to play like this as well, when I was a kid.", key: 'hi_who_are_you_i_used_to_play_like_this_as_well_wh', next: "sleeplessMime_memory" },
                     // "my friend" is Ortolan: only once his arms quest is on (Registration can come first)
-                    ...(armsQuest && !armsQuest.isComplete ? [{ text: "Err... Am I at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }] : [])
+                    ...(armsQuest && !armsQuest.isComplete ? [{ text: "Err... Am I at the right place? Can you help my friend to register for extra arms?", key: 'err_i_am_at_the_right_place_can_you_help_my_friend', next: "sleeplessMime_ortolan" }] : []),
+                    { text: "(Show the Mime your glowing amulet.)", key: 'show_the_mime_your_amulet', next: "sleeplessMime_amulet" }
+                ]
+            },
+            // the cult's sign read without words: Agarida, the temple at its foot, the long way here (back to the start,
+            // so the queue still dissolves only after the original choices)
+            sleeplessMime_amulet: {
+                text: "(The Mime leans in to the green glow on your chest. Then they plant an invisible seed in their palm, water it and watch it grow, up and up, until they have to tip their head back to see the top. They sniff the giant invisible mushroom and sneeze. A silent cloud. They point at you, at the mushroom, and spread their hands: a question.)",
+                options: [
+                    { text: "Yes, that's Agarida. Our temple stands at its foot.", key: 'yes_thats_agarida', next: "sleeplessMime_agarida" }
+                ]
+            },
+            sleeplessMime_agarida: {
+                text: "(The Mime bows deeply to the invisible mushroom, then to you. Then they mime a tiny pilgrim who walks a very long way, gets very tired and finally arrives in a queue. They look at you with enormous sympathy.)",
+                options: [
+                    { text: "(Bow back.)", key: 'bow_back', next: "sleeplessMime_start" }
                 ]
             },
             sleeplessMime_memory: {

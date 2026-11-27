@@ -38,6 +38,10 @@ export default class VoxMarket extends GameScene {
                     { text: "Who are you?", key: 'who_are_you', next: "kloor_who" },
                     { text: "What are you selling?", key: 'what_are_you_selling', next: "kloor_selling" },
                     { text: "I want to sell you some spores.", key: 'i_want_to_sell_you_some_spores', next: "kloor_buy_spores" },
+                    // once he has said he buys spores for his Oltrac
+                    ...(this.journalSystem?.hasFact('kloor_venn_meeting', 'oltrac') ? [
+                        { text: "Why do you want my spores, of all things?", key: 'why_my_spores', next: "kloor_priest_spores" }
+                    ] : []),
                     ...(this.registry.get('questSystem')?.getQuest('find_bishop') ? [
                         { text: "Do you know anything about the Bishop?", key: 'do_you_know_anything_about_the_bishop', next: "kloor_bishop" }
                     ] : []),
@@ -69,6 +73,21 @@ export default class VoxMarket extends GameScene {
                 }
             },
             
+            // he knows the apprentice for one of the mushroom cult by the amulet; Growth does make richer Oltrac (sellSporesToKloor)
+            kloor_priest_spores: {
+                text: "'Because you're one of the mushroom god's lot, right? From that temple somewhere underground.' He nods at your chest. 'That green trinket gives you away, pal. I hear there's a mushroom growing in every one of you, and your spores are decent merchandise. Thing is, out here it also matters what's going on around you. When things around you grow, your spores tend to make Violet. When they rot, more like Gray.'",
+                options: [
+                    { text: "These spores are Obazoba's gift, not merchandise.", key: 'obazobas_gift', next: "kloor_priest_gift" },
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
+                ]
+            },
+            kloor_priest_gift: {
+                text: "'Gift, merchandise... Same thing at a market, pal. A gift's just merchandise nobody paid for.'",
+                options: [
+                    { text: "Ask something else", key: 'back', next: "kloor_start" }
+                ]
+            },
+
             kloor_who: {
                 text: "'The name's Kloor Venn. I'm a... pharmaceutical entrepreneur. I deal in specialized substances that expand the mind.' He taps his temple and grins.",
                 options: [

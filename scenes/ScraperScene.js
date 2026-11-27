@@ -32,6 +32,7 @@ export default class ScraperScene extends GameScene {
             { text: "...you're a talking lamp.", key: 'don_demo_lamp', next: 'don_demo_lamp' },
             // his hint at Ulvarex's puddle up here (utils/ulvarexEncounter.js), next to Kloor's; gone once she's bonded
             ...(hasUlvarex(this) ? [] : [{ text: "Quite a view of the Scraper from up here.", key: 'don_demo_scraper', next: 'don_demo_scraper' }]),
+            { text: "They say this is the city of dead gods.", key: 'don_demo_dead_gods', next: 'don_demo_dead_gods' },
             { text: "I should go.", key: 'don_demo_bye', next: 'don_demo_farewell' },
         ];
         const more = [
@@ -79,6 +80,19 @@ export default class ScraperScene extends GameScene {
                 speaker: 'Don Girandole',
                 hideCloseOption: true,   // his own "I should go" leads to the goodbye
                 text: `"And you're a talking pair of legs. We've all got our quirks, friend." The ember glows brighter, amused. "And don't stare. It's not polite to stare at a man's lamp."`,
+                options: more,
+            },
+            // the dying gods seen by a lamp, whose trade it is (he doesn't say where the lamps came from: canon 2026-11-26)
+            don_demo_dead_gods: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `"It is. And for lamps it's good business." The flame sways contentedly. "Every god who comes here to die wants a light on the way." A puff on the cigar.`,
+                options: [{ text: "My god will never come here to die.", key: 'don_demo_my_god', next: 'don_demo_my_god' }, ...more],
+            },
+            don_demo_my_god: {
+                speaker: 'Don Girandole',
+                hideCloseOption: true,   // his own "I should go" leads to the goodbye
+                text: `"They all said that, friend. Under the cobbles of this city lie plenty of gods who were never going to come here to die." He draws on the cigar. "But don't worry. When yours does, I'll light his way."`,
                 options: more,
             },
             don_demo_farewell: {

@@ -25,6 +25,7 @@ export default {
         text: 'Znovu se přiblížíš k podivné mrtvole. Zevnitř slyšíš povědomý hlas: "Změnil jsi názor, kámo? Pořád tu na tebe čekám."',
         options: {
             accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Stilla jako svého symbionta',
+            whose_head_is_this: 'Čí je vlastně tahle hlava?',
             plant_spores_in_it_instead: 'Místo toho do ní zasadit spory (10 spor)',
             leave_it_alone: 'Nechat ji být'
         }
@@ -41,6 +42,14 @@ export default {
     },
     acceptSymbiont: {
         text: 'Když rozřízneš hlavu mrtvoly, najdeš něco mimořádného: symbiotickou entitu, která si říká Thorne-Still. "Ahoj kámo, jsem Thorne-Still. Jak ti mohu dnes pomoci?" šeptá to podivným hlasem. "Možná bychom mohli sdílet cestu na nějaký čas? Co říkáš? Ta tvoje houba vypadá dost pohodlně."',
+        options: {
+            accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Stilla jako svého symbionta',
+            whose_head_is_this: 'Čí je vlastně tahle hlava?',
+            decline: 'Odmítnout'
+        }
+    },
+    thorneWhoseHead: {
+        text: '"Tahle? Místní šlechta, kámo. Syn Lietuse Kiky, boha, kterému se věčně pletl čas. Tatík sem přišel umřít, a jak to měl s časem pomotané, zapomněl klukovi cokoliv zařídit. Tak si kluk zařídil sám: trůn a vládu nad celým městem. Lidi toho nakonec měli dost. Zlynčovali ho a narazili tady na kůl, aby to viděl každý bůh, co by si chtěl hrát na vladaře. Polobozi nehnijou, takže je z něj teď pamětihodnost. Místní jsou na něj pyšní. A ta akustika v lebce, to je paráda."',
         options: {
             accept_thornestill_as_your_symbiont: 'Přijmout Thorne-Stilla jako svého symbionta',
             decline: 'Odmítnout'

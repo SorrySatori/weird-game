@@ -17,8 +17,17 @@ export default {
         text: "(Tvor tě upřeně pozoruje. V duchu si ho pojmenuješ Nevyspalý mim. Jeho rezavějící maska zachytává tlumené světlo. Mlčky napodobí tvůj postoj a pak rukama naznačí tvar krychle, jako hrací kostky. Předvádí, jak ji držíš v ruce.)",
         options: {
             hi_who_are_you_i_used_to_play_like_this_as_well_wh: "Ahoj, kdo jsi? Takhle jsem si taky hrával, když jsem byl malý.",
-            err_i_am_at_the_right_place_can_you_help_my_friend: "Ehm... jsem tu správně? Můžeš mému kamarádovi pomoct s registrací rukou navíc?"
+            err_i_am_at_the_right_place_can_you_help_my_friend: "Ehm... jsem tu správně? Můžeš mému kamarádovi pomoct s registrací rukou navíc?",
+            show_the_mime_your_amulet: "(Ukázat mimovi svůj svítící amulet.)"
         }
+    },
+    sleeplessMime_amulet: {
+        text: "(Mim se nakloní k zelené záři na tvé hrudi. Pak si do dlaně zasadí neviditelné semínko, zalije ho a dívá se, jak roste, výš a výš, až musí zaklonit hlavu, aby viděl na vršek. Přičichne k té obří neviditelné houbě a kýchne. Tichý oblak. Ukáže na tebe, na houbu a rozhodí rukama: otázka.)",
+        options: { yes_thats_agarida: "Ano, to je Agarida. Náš chrám stojí u její nohy." }
+    },
+    sleeplessMime_agarida: {
+        text: "(Mim se hluboce ukloní neviditelné houbě a potom tobě. Pak předvede malého poutníka, který jde strašně daleko, strašně se unaví a nakonec dorazí do fronty. Podívá se na tebe s obrovským soucitem.)",
+        options: { bow_back: "(Uklonit se mu taky.)" }
     },
     sleeplessMime_memory: {
         text: "(Mim nadšeně přikývne. Jeho ruce začnou ve vzduchu splétat vzor a vyvolávat přízračné herní figurky. Na okamžik cítíš, jak se propadáš do vzpomínky...)",

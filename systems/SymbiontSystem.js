@@ -2,6 +2,8 @@ import GrowthDecaySystem from './GrowthDecaySystem.js';
 
 /** Above this Decay Ulvarex's mirages unravel and she goes quiet (her abilities are unavailable meanwhile). */
 export const ULVAREX_SILENT_DECAY = 70;
+/** Below this many spores Ulvarex grumbles about the bare pantry when asked how she likes living in her host. */
+const ULVAREX_HUNGRY_SPORES = 30;
 
 export default class SymbiontSystem {
     constructor(scene) {
@@ -51,6 +53,13 @@ export default class SymbiontSystem {
                     options: [
                         { text: 'Ask about Brain Rot', next: 'ability' },
                         { text: 'Ask about Thorne-Still', next: 'about' },
+                        { text: "What's it like, living inside me?", next: 'inside' },
+                    ]
+                },
+                inside: {
+                    text: "'Cosy. Warm, damp, a bit cramped after lunch. But the spores, chief! You've got so many in here I've started naming them. That one on the left is Brenda. I eat a few every time we do Brain Rot, but Brenda I'm saving for Sunday.'",
+                    options: [
+                        { text: 'Back', next: 'main' }
                     ]
                 },
                 ability: {
@@ -73,6 +82,20 @@ export default class SymbiontSystem {
                     options: [
                         { text: 'Ask about Mirage Weave', next: 'ability' },
                         { text: 'Ask about Ulvarex', next: 'about' },
+                        { text: 'Ask how she likes living in you', next: 'host' },
+                    ]
+                },
+                host: {
+                    text: "\"Cosy, damp, and a full fridge within reach. Best lodgings I've ever had.\" Ulvarex's voice glimmers, amused. A pause. \"I see no reason to move out just yet.\"",
+                    options: [
+                        { text: 'Back', next: 'main' }
+                    ]
+                },
+                // `host` when the host runs low on spores (getSymbiontDialogContent swaps it in)
+                host_hungry: {
+                    text: "\"Roomy and damp. Only the pantry's been looking a bit bare lately, darling. I'm just mentioning it.\"",
+                    options: [
+                        { text: 'Back', next: 'main' }
                     ]
                 },
                 ability: {
@@ -368,6 +391,12 @@ export default class SymbiontSystem {
             return { ...crossDialog, speaker: crossDialog.speaker || symbiont.name };
         }
         
+        // Ulvarex feeds on spores: asked how she likes it in a host who is running low, she hints at the bare pantry
+        if (symbiontId === 'ulvarex-borrowed-horizon' && dialogKey === 'host'
+            && (this.scene?.registry?.get('sporeSystem')?.getSporeLevel() ?? 100) < ULVAREX_HUNGRY_SPORES) {
+            dialogKey = 'host_hungry';
+        }
+
         // Get specific dialog section
         const dialogContent = symbiontDialog[dialogKey];
         if (!dialogContent) {
@@ -376,7 +405,7 @@ export default class SymbiontSystem {
         }
         
         // Ensure the dialog content has a speaker (the symbiont's name)
-        const result = { ...dialogContent, options: [...dialogContent.options] };
+        const result = { ...dialogContent, options: [...dialogContent.options], locKey: dialogKey };
         if (!result.speaker) {
             result.speaker = symbiont.name;
         }

@@ -13,10 +13,24 @@ export default {
             who_are_you: "Kdo jste?",
             what_are_you_selling: "Co prodáváte?",
             i_want_to_sell_you_some_spores: "Chci vám prodat nějaké spory.",
+            why_my_spores: "Proč chcete zrovna moje spory?",
             do_you_know_anything_about_the_bishop: "Víte něco o Biskupce?",
             about_those_vestigels: "O Vestigelech...",
             i_have_a_vestigel_for_you: "Mám pro vás vestigel.",
             can_you_help_me_to_get_to_rust_choir_headquarters: "Můžete mi pomoct dostat se do centrály Rezavého chóru?"
+        }
+    },
+    kloor_priest_spores: {
+        text: "'Protože seš od toho houbovýho boha, ne? Z toho chrámu někde pod zemí.' Kývne k tvé hrudi. 'Ta zelená cetka tě prozradí, kámo. Slyšel jsem, že v každým z vás roste houba a vaše výtrusy jsou slušný zboží. Akorát že tady venku záleží i na tom, co se kolem tebe děje. Když kolem tebe věci rostou, bejvá z tvejch spor spíš Fialovej. Když hnijou, spíš Šedej.'",
+        options: {
+            obazobas_gift: "Ty spory jsou Obazobův dar, ne zboží.",
+            back: "Zeptej se na něco jiného"
+        }
+    },
+    kloor_priest_gift: {
+        text: "'Dar, zboží... Kámo, na trhu je to jedno a to samý. Dar je zboží, za který nikdo nezaplatil.'",
+        options: {
+            back: "Zeptej se na něco jiného"
         }
     },
     kloor_who: {
