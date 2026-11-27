@@ -123,6 +123,7 @@ async function dialogs() {
             for (const style of DIALOG_STYLES) {
                 if (style !== DIALOG_STYLES[0]) cycleDialogStyle(scene, 1);
                 await wait(0.3);
+                if (c.page) { scene._dialogPages?.show(c.page); await wait(0.1); }   // a long line turned to that page
                 const hits = [], walk = o => { if (o.type === 'Rectangle' && o.input?.enabled) hits.push(o); o.list?.forEach(walk); };
                 walk(scene.dialogBox);
                 hits[c.hover ?? 0]?.emit('pointerover');   // a reply under the pointer, to show the hover state

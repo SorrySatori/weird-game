@@ -10,7 +10,7 @@
  * Text is the UI font at 22 px and every plate sits on the UI layer's 2x grid.
  */
 import { UI_FONT, UI_SIZE, FRAME, drawPixelFrame, drawPixelTail } from './pixelFrame.js';
-import { commit, attachScroll, newBox, resolvePortraitTexture } from './dialogLayouts.js';
+import { commit, attachScroll, attachPages, newBox, resolvePortraitTexture } from './dialogLayouts.js';
 import { faceX } from './talk.js';
 
 const INK = '#c8e6d0', DIM = '#5f7a68', NAME = '#e8c46a', GOLD = 0xe8c46a, RIM = FRAME.rim;
@@ -212,8 +212,8 @@ export const STYLE_RENDERERS = {
             return g;
         };
 
-        // sizes: fixed widths with a gutter on the right for the scroll arrows; the line's plate as tall as the room over
-        // the speaker's head allows (a longer line scrolls)
+        // sizes: fixed widths with a gutter on the right for the arrows; the line's plate as tall as the room over the
+        // speaker's head allows (a longer line is read in pages: attachPages)
         const LW = 360, mw = 26, ARROWS = 16;
         const cw = even(LW + mw + 2 * PAD + ARROWS);
         const opts = choiceList(scene, box, 0, model, {
@@ -262,7 +262,7 @@ export const STYLE_RENDERERS = {
             }
             body.setPosition(even(lx + PAD), even(ly + PAD + (name ? 8 : 0)));
             box.add(body);
-            attachScroll(scene, body, body.height, { x: lx + PAD - 4, y: body.y, w: bw - PAD - 2, h: bodyH, arrowColor: NAME });
+            attachPages(scene, body, { x: lx + PAD - 4, y: body.y, w: bw - PAD - 2, h: bodyH, wrap: TW, lineSpacing: 4, color: NAME });
         }
         box.moveTo(plate(cx, cy, cw, ch, 0x5f8a6e, tailAt(cx, cw, cy, ch, p.x, p.top)), box.getIndex(opts.c));
         // the notices keep clear of both plates (with the name tab and the tails)
@@ -279,7 +279,7 @@ export const STYLE_RENDERERS = {
         const TOPBAR = 48, TX = 200, TW = 820, LINES = 5, LS = 4;
 
         // the bottom bar has one height for every line (it jumped with the text's length): room for the name and
-        // LINES lines, a longer line scrolls
+        // LINES lines, a longer line is read in pages (attachPages)
         const name = model.speaker ? txt(scene, TX, 0, model.speaker.toUpperCase(), '#8b928d') : null;
         const body = txt(scene, TX, 0, model.text, '#ecebe2', { wrap: TW, lineSpacing: LS });
         const probe = txt(scene, 0, 0, Array(LINES).fill('M').join('\n'), '#000', { lineSpacing: LS });
@@ -305,7 +305,7 @@ export const STYLE_RENDERERS = {
         if (name) { name.y = barTop + 22; bottom.add(name); }
         body.y = textTop;
         bottom.add(body);
-        attachScroll(scene, body, body.height, { x: TX - 8, y: textTop, w: TW + 40, h: fitLines(body, H - 20 - textTop, LS), arrowColor: NAME });
+        attachPages(scene, body, { x: TX - 8, y: textTop, w: TW + 40, h: fitLines(body, H - 20 - textTop, LS), wrap: TW, lineSpacing: LS, color: NAME });
 
         // the speaker's portrait left of the subtitle: their bust (a scene's tuned { zoom, top } bust if it has one, else
         // the figure's top at 2x), a small sprite whole; it moves as they do in the world. The text keeps its place

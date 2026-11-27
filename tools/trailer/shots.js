@@ -937,6 +937,9 @@ export const DIALOG_CASES = [
     { id: 'narrator', scene: 'ShedHallScene', state: 'main', x: 400 },
     { id: 'heliodor', scene: 'ScreamingCorkInteriorScene', state: 'heliodor_start', x: 90 },          // the bubbles met here
     { id: 'heliodor2', scene: 'ScreamingCorkInteriorScene', state: 'heliodor_fermented_cap', x: 90 }, // a long line
+    { id: 'thaal_long', scene: 'EntryScene', state: 'farewell', x: 300 },              // a line in pages (attachPages)
+    { id: 'thaal_long2', scene: 'EntryScene', state: 'farewell', x: 300, page: 1 },    // ... its 2nd page
+    { id: 'thaal_long3', scene: 'EntryScene', state: 'farewell', x: 300, page: 9 },    // ... its last page (no dots)
     { id: 'zerren', scene: 'VoxmarketMarketScene', state: 'zerren_start', x: 520 },   // her name tag vs her mouth
     { id: 'kloor', scene: 'VoxMarket', state: 'kloor_start', x: 300 },   // a wide figure that paces: the portrait holds still
     { id: 'settings', scene: 'MainScene', data: { panel: 'settings' }, menu: true },

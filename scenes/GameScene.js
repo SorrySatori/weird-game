@@ -2178,6 +2178,7 @@ export default class GameScene extends Phaser.Scene {
     clearDialogLayoutArtifacts() {
         if (this._dialogMasks) { this._dialogMasks.forEach(m => m.destroy()); this._dialogMasks = null; }
         if (this._dialogWheel) { this._dialogWheel.forEach(h => this.input.off('wheel', h)); this._dialogWheel = null; }
+        this._dialogPages = null;
     }
 
     /**

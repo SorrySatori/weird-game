@@ -116,6 +116,97 @@ export function attachScroll(scene, target, contentHeight, view) {
     return true;
 }
 
+/**
+ * A line too long for its view, read in pages instead of scrolled (the user's idea, 2026-11-27: a page at a time reads
+ * calmer than a scrolling text). The text is cut into pages that end where a sentence does (a sentence longer than a page
+ * by lines); a page that has more after it ends in a
+ * blinking "..." (click it or anywhere on the text: the next page), ▲/▼ at the view's right edge turn back and forth (the
+ * unavailable one dimmed),
+ * the wheel over the text turns pages too. When paging, the text wraps a little narrower so the dots always fit after
+ * the page's last line; the view (the plate, the bar) keeps its size.
+ * view: { x, y, w, h, wrap, lineSpacing?, color? (the dots and arrows) }. Returns true when it pages.
+ */
+export function attachPages(scene, body, view) {
+    if (body.height <= view.h) return false;   // fits: one page
+    const ls = view.lineSpacing ?? 4;
+    const DOTS = '...', color = view.color || '#e8c46a';
+    const font = { fontFamily: body.style.fontFamily, fontSize: body.style.fontSize };
+    const probe = scene.add.text(0, 0, DOTS, font).setVisible(false);
+    const dotsW = Math.ceil(probe.width) + 10;
+    body.setWordWrapWidth(view.wrap - dotsW);
+    const full = body.text;
+    const lines = body.getWrappedText();
+    const step = (body.height + ls) / Math.max(1, lines.length);
+    const per = Math.max(1, Math.floor((view.h + ls) / step));
+    const count = t => body.getWrappedText(t).length;
+    // pages end where a sentence does (a page reads as a whole); a sentence longer than a page is cut by lines
+    const pages = [];
+    let cur = '';
+    const flush = () => { if (cur.trim()) pages.push(cur.trim()); cur = ''; };
+    const sentences = full.match(/[^.!?…\n]*(?:[.!?…]+["“”'‘’)\]]*|\n+|$)\s*/g).filter(t => t.length);
+    for (const sen of sentences) {
+        const cand = cur + sen;
+        if (count(cand.trim()) <= per) { cur = cand; continue; }
+        flush();
+        if (count(sen.trim()) <= per) { cur = sen.replace(/^\s+/, ''); continue; }
+        const ln = body.getWrappedText(sen.trim());                      // too long for one page: by lines
+        for (let i = 0; i < ln.length; i += per) {
+            const part = ln.slice(i, i + per).join(' ');
+            if (i + per < ln.length) pages.push(part.trim()); else cur = part + ' ';
+        }
+    }
+    flush();
+    if (pages.length < 2) { probe.destroy(); body.setWordWrapWidth(view.wrap); return false; }
+
+    const parent = body.parentContainer || scene.dialogBox;
+    const dots = scene.add.text(0, 0, DOTS, { ...font, fill: color }).setInteractive({ useHandCursor: true });
+    parent.add(dots);
+    const blink = scene.tweens.add({ targets: dots, alpha: { from: 1, to: 0.35 }, duration: 650, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    dots.once('destroy', () => blink.remove());
+    const arrow = (glyph, ay) => {
+        const a = scene.add.text(view.x + view.w - 10, ay, glyph, { fontSize: '16px', fill: color }).setOrigin(0.5);
+        a.setInteractive({ useHandCursor: true });
+        a.on('pointerover', () => { if (a.input?.enabled) a.setAlpha(1); });
+        a.on('pointerout', () => { if (a.input?.enabled) a.setAlpha(0.75); });
+        parent.add(a);
+        return a;
+    };
+    const up = arrow('▲', view.y + 10), down = arrow('▼', view.y + view.h - 10);
+
+    let page = 0;
+    const show = i => {
+        page = Phaser.Math.Clamp(i, 0, pages.length - 1);
+        body.setText(pages[page]);
+        const more = page < pages.length - 1;
+        dots.setVisible(more);
+        if (more) {
+            const ln = body.getWrappedText();
+            probe.setText(ln[ln.length - 1].trimEnd());
+            dots.setPosition(Math.round((body.x + probe.width + 12) / 2) * 2, body.y + Math.round((ln.length - 1) * step));
+        }
+        for (const [a, on] of [[up, page > 0], [down, more]]) {
+            if (on) a.setInteractive({ useHandCursor: true }).setAlpha(0.75);
+            else a.disableInteractive().setAlpha(0.25);
+        }
+        if (more) body.setInteractive({ useHandCursor: true }); else body.disableInteractive();   // (its new size)
+    };
+    dots.on('pointerdown', () => show(page + 1));
+    body.on('pointerdown', () => show(page + 1));                    // a click anywhere on the text turns the page too
+    up.on('pointerdown', () => show(page - 1));
+    down.on('pointerdown', () => show(page + 1));
+    const handler = (pointer, objs, dx, dy) => {
+        if (!scene.dialogVisible) return;
+        if (pointer.x < view.x || pointer.x > view.x + view.w || pointer.y < view.y || pointer.y > view.y + view.h) return;
+        show(page + (dy > 0 ? 1 : -1));
+    };
+    scene.input.on('wheel', handler);
+    (scene._dialogWheel = scene._dialogWheel || []).push(handler);
+    body.once('destroy', () => probe.destroy());
+    scene._dialogPages = { count: pages.length, show, get page() { return page; } };   // (tests)
+    show(0);
+    return true;
+}
+
 /** New empty dialog container at the top depth. */
 export function newBox(scene) {
     // pinned to the screen, so a scene can move its camera under an open dialog (the bus frames the Bishop above the
