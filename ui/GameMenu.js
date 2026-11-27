@@ -22,6 +22,12 @@ export default class GameMenu {
         this.setupKeyboardControls();
         // the menu's scene goes with this one (scene instances are re-used)
         this.scene.events.once('shutdown', () => { if (this.visible) this.hideMenu(); });
+        // the language was changed in the menu: the game was re-made in it, the menu comes back where it was
+        const reopen = scene.registry.get('reopenGameMenu');
+        if (reopen) {
+            scene.registry.remove('reopenGameMenu');
+            scene.time.delayedCall(30, () => this.showMenu({ panel: reopen, translated: true }));
+        }
     }
 
     /**
@@ -81,7 +87,7 @@ export default class GameMenu {
     /**
      * Show the menu
      */
-    showMenu() {
+    showMenu(opts = {}) {
         // Don't show menu if dialog is visible
         if (this.scene.dialogVisible) return;
         this.visible = true;
@@ -89,7 +95,7 @@ export default class GameMenu {
         this.ensureSaveSystem().catch(() => {});
         const mgr = this.scene.game.scene;
         if (!mgr.getScene('PauseMenuScene')) mgr.add('PauseMenuScene', PauseMenuScene, false);
-        this.scene.scene.launch('PauseMenuScene', { menu: this });
+        this.scene.scene.launch('PauseMenuScene', { menu: this, ...opts });
         this.scene.scene.bringToTop('PauseMenuScene');
         // Don't pause the scene as it can cause issues -- the menu's scene swallows clicks and the movement system
         // ignores keys while the menu is open (PlayerMovementSystem.isInteractingWithUI)

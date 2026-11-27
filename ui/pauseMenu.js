@@ -20,7 +20,7 @@ const SAVE_SLOTS_MIN = 18;           // the Save panel offers at least three pag
 export class PauseMenuScene extends Phaser.Scene {
     constructor() { super({ key: 'PauseMenuScene' }); }
 
-    create({ menu }) {
+    create({ menu, panel: reopen, translated }) {
         this.menu = menu;                                  // ui/GameMenu.js
         const game = menu.scene, lang = LanguageSystem.getInstance();
         const t = (key, vars) => lang.t(key, vars);
@@ -57,7 +57,19 @@ export class PauseMenuScene extends Phaser.Scene {
                 t, getSetting, setSetting, isFullscreen,
                 languages: lang.supportedLanguages,
                 language: () => lang.getLanguage(),
-                setLanguage: (code) => { lang.setLanguage(code); menu.hideMenu(); game.scene.restart(); },   // the game re-made in the new language
+                // as in the main menu: fade out, the game re-made in the new language, the menu back with the settings
+                // sliding gently out (GameMenu reopens it after the restart)
+                setLanguage: (code) => {
+                    lang.setLanguage(code);
+                    this.nav.active = false;
+                    if (this.panels.settings.panel.nav) this.panels.settings.panel.nav.active = false;
+                    this.cameras.main.fadeOut(260, 0, 0, 0);
+                    this.cameras.main.once('camerafadeoutcomplete', () => {
+                        game.registry.set('reopenGameMenu', 'settings');
+                        menu.hideMenu();
+                        game.scene.restart();
+                    });
+                },
                 dialogStyle: () => currentDialogStyle(),
                 cycleDialogStyle: (dir) => cycleDialogStyle(game, dir),
                 panelSet,
@@ -71,6 +83,10 @@ export class PauseMenuScene extends Phaser.Scene {
         };
         this.openPanel = null;
         this.armed = null;
+        if (reopen === 'settings') {                       // back after a language change
+            if (translated) this.cameras.main.fadeIn(450, 0, 0, 0);
+            this.togglePanel('settings', { slow: !!translated });
+        }
     }
 
     /** the Save panel's rows: numbered slots (empty ones too); a used slot armed for overwriting says so */
@@ -109,7 +125,7 @@ export class PauseMenuScene extends Phaser.Scene {
         }));
     }
 
-    togglePanel(name) {
+    togglePanel(name, { slow = false } = {}) {
         if (this.openPanel === name) { this.closePanel(); return; }
         if (this.openPanel) this.panels[this.openPanel].panel.hide(true);
         this.openPanel = name;
@@ -117,7 +133,7 @@ export class PauseMenuScene extends Phaser.Scene {
         this.nav.active = false;
         this.band.latch(this.panelEntry[name]);
         const p = this.panels[name];
-        if (name === 'settings') { p.panel.show(); p.refresh(); } else p.show();
+        if (name === 'settings') { p.panel.show({ slow }); p.refresh(); } else p.show();
     }
 
     closePanel() {
